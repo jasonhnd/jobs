@@ -47,6 +47,8 @@ import {
   deriveClientId,
   shouldSendMpHit,
   buildMpPayload,
+  classifyGeoReferral,
+  attachPageViewParams,
 } from './src/lib/middleware-helpers.js';
 import { clientIpFromRequest } from './src/lib/api-security.js';
 import { fetchWithTimeout } from './src/lib/http-client.js';
@@ -61,105 +63,9 @@ export const config = {
   matcher: '/((?!api|_vercel|_astro|data\\.|.*\\.(?:png|jpg|jpeg|gif|svg|webp|avif|ico|css|js|mjs|json|xml|txt|woff2?|ttf|otf|map)$).*)',
 };
 
-type GeoReferralParams = {
-  readonly geo_referrer_engine: string;
-  readonly geo_referrer_bucket: string;
-  readonly geo_referrer_host: string;
-  readonly geo_landing_family: string;
-  readonly geo_citation_candidate: string;
-};
-
-function landingFamily(pathname: string): string {
-  if (/^\/\d{1,3}$/.test(pathname)) return 'occupation';
-  if (pathname === '/answers' || pathname.startsWith('/answers/')) return 'answers';
-  if (pathname === '/q' || pathname.startsWith('/q/')) return 'qa';
-  if (pathname === '/sectors' || pathname.startsWith('/sectors/')) return 'sector';
-  if (pathname === '/rankings' || pathname.startsWith('/rankings/')) return 'ranking';
-  if (pathname === '/compare' || pathname.startsWith('/compare/')) return 'compare';
-  if (pathname === '/standard') return 'standard';
-  if (pathname === '/methodology') return 'methodology';
-  if (pathname === '/map') return 'map';
-  return 'other';
-}
-
-function isGoogleHost(host: string): boolean {
-  return /^(?:[a-z0-9-]+\.)*google\.[a-z.]+$/.test(host);
-}
-
-function classifyGeoReferral(pageUrl: URL, referer: string): GeoReferralParams {
-  const refUrl = referer ? (() => {
-    try {
-      return new URL(referer);
-    } catch {
-      return null;
-    }
-  })() : null;
-
-  const refHost = refUrl?.hostname.toLowerCase().replace(/^www\./, '') ?? '';
-  const family = landingFamily(pageUrl.pathname);
-  const citableLanding = ['answers', 'qa', 'sector', 'ranking', 'compare', 'standard', 'methodology'].includes(family);
-
-  let engine = 'direct';
-  let bucket = 'direct';
-
-  if (refHost) {
-    const sameSite = refHost === pageUrl.hostname.toLowerCase().replace(/^www\./, '')
-      || refHost.endsWith('.mirai-shigoto.com');
-
-    if (sameSite) {
-      engine = 'internal';
-      bucket = 'internal';
-    } else if (refHost === 'perplexity.ai') {
-      engine = 'perplexity';
-      bucket = 'ai_engine';
-    } else if (refHost === 'chatgpt.com' || refHost === 'chat.openai.com') {
-      engine = 'chatgpt_search';
-      bucket = 'ai_engine';
-    } else if (refHost === 'gemini.google.com' || refHost === 'bard.google.com') {
-      engine = 'gemini';
-      bucket = 'ai_engine';
-    } else if (refHost === 'copilot.microsoft.com' || (refHost === 'bing.com' && refUrl?.pathname.startsWith('/chat'))) {
-      engine = 'bing_copilot';
-      bucket = 'ai_engine';
-    } else if (refHost === 'claude.ai') {
-      engine = 'claude';
-      bucket = 'ai_engine';
-    } else if (refHost === 'you.com' || refHost === 'phind.com' || refHost === 'komo.ai' || refHost === 'andisearch.com') {
-      engine = refHost.replace(/\./g, '_');
-      bucket = 'ai_engine';
-    } else if (isGoogleHost(refHost)) {
-      engine = 'google_search';
-      bucket = 'search';
-    } else if (refHost === 'bing.com' || refHost.endsWith('.bing.com')) {
-      engine = 'bing_search';
-      bucket = 'search';
-    } else {
-      engine = 'other_external';
-      bucket = 'external';
-    }
-  }
-
-  const citationCandidate = bucket === 'ai_engine' || (bucket === 'search' && citableLanding);
-
-  return {
-    geo_referrer_engine: engine,
-    geo_referrer_bucket: bucket,
-    geo_referrer_host: refHost || '(direct)',
-    geo_landing_family: family,
-    geo_citation_candidate: citationCandidate ? 'true' : 'false',
-  };
-}
-
-function attachPageViewParams(payload: unknown, params: GeoReferralParams): void {
-  if (!payload || typeof payload !== 'object') return;
-  const events = (payload as { events?: Array<{ params?: Record<string, unknown> }> }).events;
-  const pageView = events?.[0];
-  if (!pageView?.params) return;
-  Object.assign(pageView.params, params);
-}
-
 // Pure helpers (BOT_UA_RE, deriveClientId, shouldSendMpHit,
-// buildMpPayload) live in src/lib/middleware-helpers.ts so they're
+// buildMpPayload, classifyGeoReferral) live in
+// src/lib/middleware-helpers.ts so they're
 // unit-testable without spinning up the Edge runtime. This file is the
 // I/O wrapper: read headers + env → call helpers → POST via waitUntil.
 

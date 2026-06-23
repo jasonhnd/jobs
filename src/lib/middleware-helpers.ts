@@ -8,7 +8,7 @@
  * itself is the I/O wrapper: read headers + env → call these pure
  * helpers → POST to GA4 via `context.waitUntil`.
  *
- * Three concerns covered here:
+ * Four concerns covered here:
  *
  *   1. Bot UA detection (`BOT_UA_RE`, `isBotUserAgent`) — skip
  *      server-side measurement for known crawlers so they don't
@@ -22,6 +22,10 @@
  *      env + UA + Accept + URL pathname filters into one pure
  *      boolean. Side-effect-free; the middleware just calls
  *      `context.waitUntil(...)` when this returns true.
+ *
+ *   4. GEO referral classification (`classifyGeoReferral`) — tags
+ *      page_view events with the search / AI referral baseline fields
+ *      used by downstream citation analysis.
  *
  * No I/O happens here. No `fetch`, no env reads (env values are passed
  * in by the caller), no `console.warn`.
@@ -215,4 +219,101 @@ export function buildMpPayload(input: MpPayloadInput): unknown {
     ip_override: input.clientIp,
     user_agent: input.userAgent,
   };
+}
+
+export interface GeoReferralParams {
+  readonly geo_referrer_engine: string;
+  readonly geo_referrer_bucket: string;
+  readonly geo_referrer_host: string;
+  readonly geo_landing_family: string;
+  readonly geo_citation_candidate: string;
+}
+
+export function landingFamily(pathname: string): string {
+  if (/^\/\d{1,3}$/.test(pathname)) return 'occupation';
+  if (pathname === '/answers' || pathname.startsWith('/answers/')) return 'answers';
+  if (pathname === '/q' || pathname.startsWith('/q/')) return 'qa';
+  if (pathname === '/sectors' || pathname.startsWith('/sectors/')) return 'sector';
+  if (pathname === '/rankings' || pathname.startsWith('/rankings/')) return 'ranking';
+  if (pathname === '/compare' || pathname.startsWith('/compare/')) return 'compare';
+  if (pathname === '/standard') return 'standard';
+  if (pathname === '/methodology') return 'methodology';
+  if (pathname === '/map') return 'map';
+  return 'other';
+}
+
+export function isGoogleHost(host: string): boolean {
+  return /^google\.[a-z.]+$/.test(host);
+}
+
+export function classifyGeoReferral(pageUrl: URL, referer: string): GeoReferralParams {
+  const refUrl = referer ? (() => {
+    try {
+      return new URL(referer);
+    } catch {
+      return null;
+    }
+  })() : null;
+
+  const refHost = refUrl?.hostname.toLowerCase().replace(/^www\./, '') ?? '';
+  const family = landingFamily(pageUrl.pathname);
+  const citableLanding = ['answers', 'qa', 'sector', 'ranking', 'compare', 'standard', 'methodology'].includes(family);
+
+  let engine = 'direct';
+  let bucket = 'direct';
+
+  if (refHost) {
+    const sameSite = refHost === pageUrl.hostname.toLowerCase().replace(/^www\./, '')
+      || refHost.endsWith('.mirai-shigoto.com');
+
+    if (sameSite) {
+      engine = 'internal';
+      bucket = 'internal';
+    } else if (refHost === 'perplexity.ai') {
+      engine = 'perplexity';
+      bucket = 'ai_engine';
+    } else if (refHost === 'chatgpt.com' || refHost === 'chat.openai.com') {
+      engine = 'chatgpt_search';
+      bucket = 'ai_engine';
+    } else if (refHost === 'gemini.google.com' || refHost === 'bard.google.com') {
+      engine = 'gemini';
+      bucket = 'ai_engine';
+    } else if (refHost === 'copilot.microsoft.com' || (refHost === 'bing.com' && refUrl?.pathname.startsWith('/chat'))) {
+      engine = 'bing_copilot';
+      bucket = 'ai_engine';
+    } else if (refHost === 'claude.ai') {
+      engine = 'claude';
+      bucket = 'ai_engine';
+    } else if (refHost === 'you.com' || refHost === 'phind.com' || refHost === 'komo.ai' || refHost === 'andisearch.com') {
+      engine = refHost.replace(/\./g, '_');
+      bucket = 'ai_engine';
+    } else if (isGoogleHost(refHost)) {
+      engine = 'google_search';
+      bucket = 'search';
+    } else if (refHost === 'bing.com' || refHost.endsWith('.bing.com')) {
+      engine = 'bing_search';
+      bucket = 'search';
+    } else {
+      engine = 'other_external';
+      bucket = 'external';
+    }
+  }
+
+  const citationCandidate = bucket === 'ai_engine' || (bucket === 'search' && citableLanding);
+
+  return {
+    geo_referrer_engine: engine,
+    geo_referrer_bucket: bucket,
+    geo_referrer_host: refHost || '(direct)',
+    geo_landing_family: family,
+    geo_citation_candidate: citationCandidate ? 'true' : 'false',
+  };
+}
+
+export function attachPageViewParams(payload: unknown, params: GeoReferralParams): void {
+  if (!payload || typeof payload !== 'object') return;
+  const events = (payload as { events?: Array<{ params?: Record<string, unknown> }> }).events;
+  const pageView = events?.[0];
+  if (!pageView?.params) return;
+  pageView.params = { ...pageView.params, ...params };
 }
