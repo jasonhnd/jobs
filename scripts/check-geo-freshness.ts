@@ -28,6 +28,10 @@ import { QA_ITEMS, selectExamples } from '../src/views/qa-meta.js';
 import { buildRankings, loadOccupationsFromGraph } from '../src/views/ranking.js';
 
 const ROOT = process.cwd();
+const GEO_ASTRO_PAGES = [
+  'src/pages/standard.astro',
+  'src/pages/methodology.astro',
+] as const;
 
 function readText(rel: string): string {
   return readFileSync(join(ROOT, rel), 'utf-8').replace(/\r\n/g, '\n');
@@ -71,6 +75,7 @@ function assertNoStaleOrPlaceholders(rel: string): void {
     '__SCORE_',
     '__GEO_',
     'Claude Opus 4.8',
+    'Opus 4.8',
     'claude-opus-4-8',
     '2026-05-30',
     'version": "0.5.0"',
@@ -78,6 +83,30 @@ function assertNoStaleOrPlaceholders(rel: string): void {
   for (const token of forbidden) {
     if (text.includes(token)) {
       fail(`${rel} contains stale token ${JSON.stringify(token)}`);
+    }
+  }
+}
+
+function assertFreshGeoAstroPages(): void {
+  const forbidden = [
+    '__SCORE_',
+    '__GEO_',
+    'claude-opus-4-8',
+    'version": "0.5.0"',
+  ];
+  for (const rel of GEO_ASTRO_PAGES) {
+    if (rel.replace(/\\/g, '/').startsWith('src/pages/yearly/')) continue;
+    const text = readText(rel);
+    if (!text.includes('SCORE_ATTRIBUTION.modelDisplay')) {
+      fail(`${rel} must derive the current scoring model from SCORE_ATTRIBUTION.modelDisplay`);
+    }
+    if (!text.includes('SCORE_ATTRIBUTION.runDate')) {
+      fail(`${rel} must derive the current scoring date from SCORE_ATTRIBUTION.runDate`);
+    }
+    for (const token of forbidden) {
+      if (text.includes(token)) {
+        fail(`${rel} contains stale token ${JSON.stringify(token)}`);
+      }
     }
   }
 }
@@ -209,6 +238,7 @@ async function main(): Promise<void> {
   assertNoStaleOrPlaceholders('public/llms.txt');
   assertNoStaleOrPlaceholders('public/llms-full.txt');
   assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json');
+  assertFreshGeoAstroPages();
 
   await assertRenderedFactBlocks(facts);
 
