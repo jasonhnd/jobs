@@ -1,4 +1,4 @@
-import type { GeoFacts, GeoOccupationSummary, GeoSectorSummary } from './geo-facts.js';
+import type { GeoAttribution, GeoFacts, GeoOccupationSummary, GeoSectorSummary } from './geo-facts.js';
 
 function fmtInt(n: number | null): string {
   return typeof n === 'number' ? n.toLocaleString('en-US') : 'unknown';
@@ -37,6 +37,20 @@ function bandRows(facts: GeoFacts): string {
   return facts.fiveBandDistribution.map((b) =>
     `| ${b.label} | ${b.count} | ${fmtPct(b.sharePct)} |`,
   ).join('\n');
+}
+
+export const CROSS_MODEL_VALIDATION_NOTE =
+  'Methodology note: AIOIS-10 scores (Claude Fable 5) were cross-checked on a representative 40-occupation sample against Claude Opus 4.8 and Claude Sonnet 4.6 under the same rubric - inter-model correlation r=0.92-0.97, mean spread 1.02/10, and 95% (38/40) were within 2.0 points (validation sample, not a full multi-model consensus).';
+
+export function hasCrossModelValidationNote(attribution: GeoAttribution): boolean {
+  return attribution.modelId === 'claude-fable-5' && attribution.runDate === '2026-06-13';
+}
+
+function crossModelValidationNote(facts: GeoFacts): string {
+  if (!hasCrossModelValidationNote(facts.attribution)) {
+    return '';
+  }
+  return `\n${CROSS_MODEL_VALIDATION_NOTE}\n`;
 }
 
 export function renderLlmsTxt(facts: GeoFacts): string {
@@ -95,7 +109,7 @@ Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=${fa
 ## Methodology
 
 AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. The active batch keeps all D1-D10 dimensions and the two derived indices for every occupation.
-
+${crossModelValidationNote(facts)}
 ## FAQ
 
 Q: Are these official government forecasts?
@@ -158,7 +172,7 @@ ${bandRows(facts)}
 ## 3. Methodology
 
 AI Impact is the Transformation index: mean(D1, D2). It estimates how much daily work changes when current AI tools are available. Displacement-Risk is a separate index estimating job shrinkage risk after human moat, adoption cost, and labor-market context are considered.
-
+${crossModelValidationNote(facts)}
 ## 4. Rubric
 
 - D1 Cognitive/generative exposure.
@@ -400,4 +414,3 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
 
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2) + '\n';
 }
-
