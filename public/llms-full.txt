@@ -32,6 +32,8 @@ mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10
 
 AI Impact is the Transformation index: mean(D1, D2). It estimates how much daily work changes when current AI tools are available. Displacement-Risk is a separate index estimating job shrinkage risk after human moat, adoption cost, and labor-market context are considered.
 
+Methodology note: AIOIS-10 scores (Claude Fable 5) were cross-checked on a representative 40-occupation sample against Claude Opus 4.8 and Claude Sonnet 4.6 under the same rubric - inter-model correlation r=0.92-0.97, mean spread 1.02/10, and 95% (38/40) were within 2.0 points (validation sample, not a full multi-model consensus).
+
 ## 4. Rubric
 
 - D1 Cognitive/generative exposure.
