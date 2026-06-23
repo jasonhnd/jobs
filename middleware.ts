@@ -47,6 +47,8 @@ import {
   deriveClientId,
   shouldSendMpHit,
   buildMpPayload,
+  classifyGeoReferral,
+  attachPageViewParams,
 } from './src/lib/middleware-helpers.js';
 import { clientIpFromRequest } from './src/lib/api-security.js';
 import { fetchWithTimeout } from './src/lib/http-client.js';
@@ -62,7 +64,8 @@ export const config = {
 };
 
 // Pure helpers (BOT_UA_RE, deriveClientId, shouldSendMpHit,
-// buildMpPayload) live in src/lib/middleware-helpers.ts so they're
+// buildMpPayload, classifyGeoReferral) live in
+// src/lib/middleware-helpers.ts so they're
 // unit-testable without spinning up the Edge runtime. This file is the
 // I/O wrapper: read headers + env → call helpers → POST via waitUntil.
 
@@ -124,6 +127,7 @@ export default function middleware(request: Request, context: RequestContext): R
     clientIp,
     userAgent: ua,
   });
+  attachPageViewParams(payload, classifyGeoReferral(url, referer));
 
   // Fire and forget. `context.waitUntil` keeps the Edge runtime alive
   // long enough for the POST to complete in the background AFTER the

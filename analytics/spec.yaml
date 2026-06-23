@@ -81,6 +81,17 @@ trackers:
       - GA4_MP_API_SECRET
     endpoints:
       - https://www.google-analytics.com/mp/collect
+    page_view_params:
+      - page_referrer
+      - ssrc
+      - geo_referrer_engine
+      - geo_referrer_bucket
+      - geo_referrer_host
+      - geo_landing_family
+      - geo_citation_candidate
+    notes:
+      - GEO-E attribution is attached server-side in middleware.ts so AI-engine referrals are still visible when browser-side gtag is blocked.
+      - Google AI Overview has no stable dedicated referrer; use `geo_citation_candidate=true` on Google Search referrals to citable landing families as the candidate segment, not as exact proof.
     wired_in:
       - middleware.ts
 
@@ -556,6 +567,31 @@ event_scoped_dimensions:
   - parameter_name: system_pref
     display_name: System Color Preference
     description: Browser-reported `prefers-color-scheme` at the moment of the toggle (light / dark).
+
+  # ---- GEO-E server-side citation / AI-referrer params ----
+  - parameter_name: ssrc
+    display_name: Server Source
+    description: Source marker for Measurement Protocol page_view hits. `mw` means the hit came from Vercel Edge middleware.
+
+  - parameter_name: geo_referrer_engine
+    display_name: GEO Referrer Engine
+    description: Normalized inbound engine/source from the HTTP Referer. Values include perplexity, chatgpt_search, gemini, bing_copilot, claude, google_search, bing_search, internal, direct, other_external.
+
+  - parameter_name: geo_referrer_bucket
+    display_name: GEO Referrer Bucket
+    description: Coarse source bucket for GEO reporting. Values - ai_engine, search, internal, direct, external.
+
+  - parameter_name: geo_referrer_host
+    display_name: GEO Referrer Host
+    description: Normalized referring hostname only, with no path or query. Used for off-site mention and citation drilldowns.
+
+  - parameter_name: geo_landing_family
+    display_name: GEO Landing Family
+    description: Landing page family for citation analysis. Values - occupation, answers, qa, sector, ranking, compare, standard, methodology, map, other.
+
+  - parameter_name: geo_citation_candidate
+    display_name: GEO Citation Candidate
+    description: String boolean. true for exact AI-engine referrals, plus Google/Bing Search referrals to citable landing families where AI Overview-style citation is plausible but not directly provable.
 
   # ---- /map page params (Design-Mobile.md §4.8) ----
   - parameter_name: referrer
