@@ -14,7 +14,7 @@ import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
 // every new UTC day. See ai-adoption.ts for the data-derived equivalent.
-const pageLastUpdated = '2026-06-13';
+const pageLastUpdated = '2026-06-22';
 
 const VECTORS: [string, string][] = [
   ['skills（スキル）', '39 指標 0–5。読解・批判的思考・プログラミング・判断など。'],
@@ -39,6 +39,41 @@ const BANDS: { sc: string; n: number; ex: string; why: string }[] = [
   { sc: '9 前後', n: 9, ex: 'データ入力', why: 'ほぼすべてが AI で片づく（最高は 9.5）' },
 ];
 
+const ACADEMIC_CITATIONS = [
+  {
+    '@type': 'ScholarlyArticle',
+    name: 'The Future of Employment: How Susceptible Are Jobs to Computerisation?',
+    author: [
+      { '@type': 'Person', name: 'Carl Benedikt Frey' },
+      { '@type': 'Person', name: 'Michael A. Osborne' },
+    ],
+    datePublished: '2013',
+    url: 'https://www.oxfordmartin.ox.ac.uk/publications/the-future-of-employment',
+  },
+  {
+    '@type': 'ScholarlyArticle',
+    name: 'GPTs are GPTs: An Early Look at the Labor Market Impact Potential of Large Language Models',
+    author: [
+      { '@type': 'Person', name: 'Tyna Eloundou' },
+      { '@type': 'Person', name: 'Sam Manning' },
+      { '@type': 'Person', name: 'Pamela Mishkin' },
+      { '@type': 'Person', name: 'Daniel Rock' },
+    ],
+    datePublished: '2023-03-17',
+    url: 'https://arxiv.org/abs/2303.10130',
+  },
+  {
+    '@type': 'ScholarlyArticle',
+    name: 'Automation and New Tasks: How Technology Displaces and Reinstates Labor',
+    author: [
+      { '@type': 'Person', name: 'Daron Acemoglu' },
+      { '@type': 'Person', name: 'Pascual Restrepo' },
+    ],
+    datePublished: '2019',
+    url: 'https://www.aeaweb.org/articles?id=10.1257/jep.33.2.3',
+  },
+];
+
 const jsonLd = `{
   "@context": "https://schema.org",
   "@graph": [
@@ -61,6 +96,8 @@ const jsonLd = `{
       "@id": "https://mirai-shigoto.com/methodology#techarticle",
       "headline": "データの整理と評価プロセス — AIOIS-10 採点方法",
       "description": "556 職業のデータをどう整理し、AIOIS-10 標準で ${SCORE_ATTRIBUTION.modelDisplay} がどう採点したか。データソース、LLM 全次元判定、指数の式、スコア帯の代表例、校正、限界。",
+      "abstract": "This methodology page explains how mirai-shigoto.com converts public Japanese occupation data into AIOIS-10 scores. It positions the method against occupation-level automation susceptibility, GPT task exposure, and task-based displacement/reinstatement research.",
+      "keywords": ["AIOIS-10", "methodology", "AI occupational impact", "LLM exposure", "automation", "Japan occupation data"],
       "url": "https://mirai-shigoto.com/methodology",
       "inLanguage": "ja",
       "datePublished": "2026-05-30",
@@ -69,6 +106,7 @@ const jsonLd = `{
       "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
       "mainEntityOfPage": { "@id": "https://mirai-shigoto.com/methodology#webpage" },
       "about": { "@type": "DefinedTermSet", "name": "AIOIS-10" },
+      "citation": ${JSON.stringify(ACADEMIC_CITATIONS)},
       "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
     },
     {
@@ -124,6 +162,7 @@ const jsonLd = `{
 
     <h2><span class="num">3.</span>評価プロセス（AIOIS-10 の適用）</h2>
     <p>ただの統計でも、ただの勘でもありません。<strong>AIOIS-10 の 10 次元すべてを AI（言語モデル）が職務記述から判定し、2 つの指数は決まった式で算出</strong>します。Eloundou ら（2023）が GPT-4 に「O*NET の作業を AI がどこまでできるか」を判定させた手法の系譜で、判定対象を 10 次元に広げたものです。</p>
+    <p>研究上の近い参照点は、Frey &amp; Osborne (2013) の職業単位の computerisation susceptibility、Eloundou et al. (2023) の GPT/LLM task exposure、Acemoglu &amp; Restrepo (2019) の displacement / reinstatement のタスク枠組みです。AIOIS-10 は exposure だけで終わらせず、D3〜D7 の human moat、D8 の導入費用対効果、D9 の日本固有の需給・制度摩擦を通して、変化の大きさと仕事が減るリスクを別々に出します。</p>
     <div class="steps">
       <div class="step-item"><div class="t">AI が判定：D1〜D10</div><div class="d">{SCORE_ATTRIBUTION.modelDisplay} が各職業の職務記述（概要・仕事内容・労働条件）を読み、AI 到達度・定型反復・身体現場・判断責任・対人・創造・資格の壁・費用対効果・需給制度・雇用の将来性の 10 次元を 0〜10 で判定。<a href="/standard">AIOIS-10 標準</a>を正典とする凍結プロンプトを全職業に同一適用する。</div></div>
       <div class="step-item"><div class="t">式で出す：2 つの指数</div><div class="d">変化の大きさ ＝ D1 と D2 の平均。仕事が減るリスク ＝ AI 到達度 ×（1 − 人間の強み/10）× 広がりやすさ。式は <a href="/standard">AIOIS-10 標準</a> のまま固定で、採点モデルは式を変更できない。トップ指標「AI 影響」は変化の大きさ。</div></div>
