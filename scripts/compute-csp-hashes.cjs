@@ -54,6 +54,15 @@ const VERCEL_JSON = path.join(ROOT, 'vercel.json');
 
 const args = process.argv.slice(2);
 const CHECK_ONLY = args.includes('--check');
+const CSP_ENV_GATED_INLINE_SCRIPT_VARS = [
+  'PUBLIC_GA4_MEASUREMENT_ID',
+  'PUBLIC_X_PIXEL_ID',
+  'PUBLIC_META_PIXEL_ID',
+];
+
+function missingCspInlineScriptEnv() {
+  return CSP_ENV_GATED_INLINE_SCRIPT_VARS.filter((name) => !process.env[name]);
+}
 
 if (!fs.existsSync(DIST)) {
   console.error(
@@ -260,6 +269,16 @@ const updated = newCsp !== csp;
 
 if (CHECK_ONLY) {
   if (updated) {
+    const missingEnv = missingCspInlineScriptEnv();
+    if (missingEnv.length > 0) {
+      console.warn(
+        '[compute-csp-hashes] SKIP - CSP --check needs the full PUBLIC_* build env ' +
+          'because analytics inline scripts are env-gated.\n' +
+          `  Missing: ${missingEnv.join(', ')}\n` +
+          '  Run `bun run build` and `bun run verify:gates` with the Vercel PUBLIC_* env to enforce CSP drift.',
+      );
+      process.exit(0);
+    }
     console.error(
       '[compute-csp-hashes] DRIFT — vercel.json CSP script-src does not match\n' +
         '  hashes of inline scripts in dist-astro/.\n' +
