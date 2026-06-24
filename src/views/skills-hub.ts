@@ -13,6 +13,7 @@ import { SKILL_META, type SkillSlug, type SkillMeta } from './skills-meta.js';
 import {
   loadSkillRanking as _loadSkillRanking,
   loadTreemapSummary as _loadTreemap,
+  type SkillRankingFile,
 } from '../page-data/projection-loaders.js';
 
 const TOP_N = 30;
@@ -62,11 +63,9 @@ export interface SkillsBundle {
 // ─── Loaders (2026-05-17 R2: delegated to page-data) ─────────
 
 import {
-  type SkillRankingFileShape,
   type TreemapRecordSummary,
 } from '../lib/projection-schemas.js';
 
-type SkillRankingFile = SkillRankingFileShape;
 type TreemapRecord = TreemapRecordSummary;
 
 let _treemapCache: Map<number, TreemapRecord> | null = null;
@@ -79,7 +78,7 @@ function loadTreemapMap(): Map<number, TreemapRecord> {
 }
 
 function loadSkillRanking(ipdKey: string): SkillRankingFile {
-  return _loadSkillRanking(ipdKey) as unknown as SkillRankingFile;
+  return _loadSkillRanking(ipdKey);
 }
 
 // ─── Helpers ──────────────────────────────────────────────────

@@ -17,7 +17,6 @@
 // Templates themselves stay in api/og.tsx so satori JSX + Edge runtime
 // boundary lives in one place.
 
-import { z } from "zod";
 import {
   DetailFileSchema,
   SectorRecordSchema,
@@ -76,7 +75,6 @@ export const DetailRecordSchema = DetailFileSchema.pick({
   ai_risk: true,
   stats: true,
 });
-export type DetailRecord = z.infer<typeof DetailRecordSchema>;
 
 /**
  * Shape of `/data.sectors.json` — used by the sector-card branch.
@@ -96,8 +94,6 @@ export type DetailRecord = z.infer<typeof DetailRecordSchema>;
  * api/og.tsx is Edge-compatible.
  */
 export { SectorRecordSchema, SectorsProjectionSchema };
-export type SectorRecord = z.infer<typeof SectorRecordSchema>;
-export type SectorsProjection = z.infer<typeof SectorsProjectionSchema>;
 
 /** Per-page template config consumed by `renderGenericCard`. */
 export interface GenericCardConfig {

@@ -318,25 +318,6 @@ export interface RankingsHubCard {
   readonly count: number;
 }
 
-export function renderRankingsHubCards(cards: ReadonlyArray<RankingsHubCard>): SafeHtml {
-  return cards.map((c) => renderHubCardLi(c)).join('') as SafeHtml;
-}
-
-// Internal helper — single <li> for one hub card. Shared by both the
-// flat renderRankingsHubCards (back-compat) and the grouped
-// renderRankingsHubGroups (RA-128) so layout stays in sync.
-function renderHubCardLi(c: RankingsHubCard): string {
-  const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
-  return (
-    `<li><a href="/rankings/${c.slug}">` +
-    `<span class="rr-title">${escapeHtml(c.name)}</span>` +
-    `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
-    `${previewHtml}` +
-    `<span class="rr-count">${c.count} 職業</span>` +
-    `</a></li>`
-  );
-}
-
 // ─── RA-128: grouped hub-card renderer with sticky chip nav ──────────
 //
 // Renders the 39 hub cards into 6 thematic sections, each anchored with
@@ -380,7 +361,19 @@ export function renderRankingsHubGroups(
 
   const sections = groups
     .map((g) => {
-      const lis = g.cards.map((c) => renderHubCardLi(c)).join('');
+      const lis = g.cards
+        .map((c) => {
+          const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
+          return (
+            `<li><a href="/rankings/${escapeHtml(c.slug)}">` +
+            `<span class="rr-title">${escapeHtml(c.name)}</span>` +
+            `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
+            `${previewHtml}` +
+            `<span class="rr-count">${c.count} 職業</span>` +
+            `</a></li>`
+          );
+        })
+        .join('');
       return (
         `<section class="ranking-group" id="grp-${escapeHtml(g.key)}" data-group="${escapeHtml(g.key)}">` +
         `<h3 class="ranking-group-title">${escapeHtml(g.label_ja)}</h3>` +
@@ -402,14 +395,6 @@ export function renderRankingsHubStats(stats: ReadonlyArray<readonly [string, st
   return `<dl class="stats">${stats
     .map(([l, v]) => `<div><dt>${escapeHtml(l)}</dt><dd>${escapeHtml(v)}</dd></div>`)
     .join('')}</dl>` as SafeHtml;
-}
-
-// Insights items are pre-rendered SafeHtml from views/ranking.ts (sector
-// names are escaped at the source). Do NOT re-escape here.
-export function renderRankingsHubInsights(insights: ReadonlyArray<string>): SafeHtml {
-  if (insights.length === 0) return '' as SafeHtml;
-  const items = insights.map((h) => `<li>${h}</li>`).join('');
-  return `<section class="insights" aria-label="データから見える傾向"><h2>データから見える傾向</h2><ul>${items}</ul></section>` as SafeHtml;
 }
 
 // ─── RA-137: insights infographic — 5 screenshot-ready cards ──────────
