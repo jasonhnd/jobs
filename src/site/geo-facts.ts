@@ -1,6 +1,7 @@
 import { fmean, fsum } from '../data/lib/fsum.js';
 import { bankerRound } from '../data/lib/banker-round.js';
 import { riskBand } from '../data/lib/bands.js';
+import { z } from 'zod';
 
 export interface GeoAttribution {
   readonly modelId: string;
@@ -9,17 +10,23 @@ export interface GeoAttribution {
   readonly standardLabel: string;
 }
 
-export interface GeoTreemapRow {
-  readonly id: number;
-  readonly name_ja: string;
-  readonly salary?: number | null;
-  readonly ai_risk: number | null;
-  readonly workers: number | null;
-  readonly recruit_ratio?: number | null;
-  readonly demand_band?: string | null;
-  readonly sector_id: string | null;
-  readonly sector_ja: string | null;
-}
+export const GeoTreemapRowSchema = z
+  .object({
+    id: z.number().int(),
+    name_ja: z.string(),
+    salary: z.number().nullable().optional(),
+    ai_risk: z.number().nullable(),
+    workers: z.number().nullable(),
+    recruit_ratio: z.number().nullable().optional(),
+    demand_band: z.string().nullable().optional(),
+    sector_id: z.string().nullable(),
+    sector_ja: z.string().nullable(),
+  })
+  .passthrough();
+
+export const GeoTreemapRowsSchema = z.array(GeoTreemapRowSchema);
+
+export type GeoTreemapRow = z.infer<typeof GeoTreemapRowSchema>;
 
 export interface GeoScoreEntry {
   readonly ai_risk: number;
@@ -65,6 +72,7 @@ export interface GeoSectorSummary {
   readonly id: string;
   readonly nameJa: string;
   readonly occupationCount: number;
+  readonly meanAiImpactRaw: number;
   readonly meanAiImpact: number;
   readonly totalWorkforce: number;
 }
@@ -243,13 +251,17 @@ export function computeGeoFacts(
     sectors.set(row.sector_id, current);
   }
   const sectorsByMeanImpact = [...sectors.entries()]
-    .map(([id, sector]) => ({
-      id,
-      nameJa: sector.nameJa,
-      occupationCount: sector.risks.length,
-      meanAiImpact: round2(fmean(sector.risks)),
-      totalWorkforce: bankerRound(fsum(sector.workforce), 0),
-    }))
+    .map(([id, sector]) => {
+      const meanAiImpactRaw = fmean(sector.risks);
+      return {
+        id,
+        nameJa: sector.nameJa,
+        occupationCount: sector.risks.length,
+        meanAiImpactRaw,
+        meanAiImpact: round2(meanAiImpactRaw),
+        totalWorkforce: bankerRound(fsum(sector.workforce), 0),
+      };
+    })
     .sort((a, b) => (b.meanAiImpact - a.meanAiImpact) || a.id.localeCompare(b.id));
 
   return {

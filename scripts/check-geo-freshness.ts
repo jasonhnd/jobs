@@ -7,11 +7,11 @@ import { loadGraph } from '../src/graph/index.js';
 import { SCORE_ATTRIBUTION } from '../src/site/score-attribution.js';
 import {
   computeGeoFacts,
+  GeoTreemapRowsSchema,
   pickLatestGeoScoreRun,
   type GeoFacts,
   type GeoAttribution,
   type GeoScoreEntry,
-  type GeoTreemapRow,
 } from '../src/site/geo-facts.js';
 import {
   CROSS_MODEL_VALIDATION_NOTE,
@@ -271,7 +271,7 @@ async function main(): Promise<void> {
     fail(`SCORE_ATTRIBUTION date ${SCORE_ATTRIBUTION.runDate} != active score run ${activeRun.run.run_date}`);
   }
 
-  const treemapRows = JSON.parse(readText('public/data.treemap.json')) as GeoTreemapRow[];
+  const treemapRows = GeoTreemapRowsSchema.parse(JSON.parse(readText('public/data.treemap.json')));
   const attribution: GeoAttribution = {
     modelId: SCORE_ATTRIBUTION.modelId,
     modelDisplay: SCORE_ATTRIBUTION.modelDisplay,
