@@ -5,10 +5,10 @@ import type { Indexes } from '../data/lib/indexes.js';
 import { formatModelDisplay } from './score-attribution.js';
 import {
   computeGeoFacts,
+  GeoTreemapRowsSchema,
   pickLatestGeoScoreRun,
   type GeoAttribution,
   type GeoScoreEntry,
-  type GeoTreemapRow,
 } from './geo-facts.js';
 import {
   renderHomeJsonLd,
@@ -43,7 +43,7 @@ export async function buildGeoSurfaces(
   repoRoot = process.cwd(),
 ): Promise<GeoSurfaceBuildResult> {
   const treemapPath = join(distRoot, 'data.treemap.json');
-  const treemapRows = JSON.parse(await readFile(treemapPath, 'utf-8')) as GeoTreemapRow[];
+  const treemapRows = GeoTreemapRowsSchema.parse(JSON.parse(await readFile(treemapPath, 'utf-8')));
   const scoreRuns = [...indexes.runsByModel.values()].flat();
   const activeRun = pickLatestGeoScoreRun(scoreRuns);
   const attribution: GeoAttribution = {
@@ -67,4 +67,3 @@ export async function buildGeoSurfaces(
     summary: `model=${facts.attribution.modelId} date=${facts.attribution.runDate} rows=${facts.occupationCount}`,
   };
 }
-

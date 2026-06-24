@@ -20,6 +20,7 @@ import { riskClass } from '../lib/risk.js';
 import { fmtInt, safeMean } from '../lib/num.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { OCCUPATION_COUNT } from '../site/config.js';
+import { AI_FACT_CSS } from '../lib/ai-fact-css.js';
 
 // Re-exports so page importers (which previously pulled these from
 // views/genre-hub) have one stop for HTML-rendering primitives.
@@ -374,7 +375,7 @@ import { CANONICAL_HUB_CSS } from '../lib/canonical/hub';
 
 const HUB_PAGE_SPECIFIC_CSS = `
 .intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
-.ai-fact{margin:0 0 24px;padding:18px 20px;background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;font-size:1rem;line-height:1.85;color:var(--fg)}
+${AI_FACT_CSS}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:32px 0}
 .stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
 .stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}

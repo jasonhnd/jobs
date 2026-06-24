@@ -16,6 +16,7 @@
  */
 
 import { CANONICAL_SECTOR_CSS } from '@/lib/canonical/sector';
+import { AI_FACT_CSS } from '@/lib/ai-fact-css';
 
 const SECTOR_PAGE_SPECIFIC_CSS = `
 .top-banner{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 16px;font-size:.85rem;color:var(--fg2);display:flex;gap:12px;align-items:center;justify-content:center}
@@ -26,7 +27,7 @@ const SECTOR_PAGE_SPECIFIC_CSS = `
 .stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
 .stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg)}
-.ai-fact{margin:0 0 24px;padding:18px 20px;background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;font-size:1rem;line-height:1.85;color:var(--fg)}
+${AI_FACT_CSS}
 .top-list{list-style:none;display:grid;gap:8px}
 .top-list li{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:16px}
 .top-list a{color:var(--fg);text-decoration:none;font-weight:500}

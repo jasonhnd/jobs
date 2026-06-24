@@ -85,8 +85,8 @@ const geoFacts: GeoFacts = {
   topImpactOccupations: [],
   bottomImpactOccupations: [],
   sectorsByMeanImpact: [
-    { id: 'it', nameJa: 'IT', occupationCount: 2, meanAiImpact: 8.1, totalWorkforce: 1600 },
-    { id: 'iryo', nameJa: '医療', occupationCount: 2, meanAiImpact: 2.75, totalWorkforce: 400 },
+    { id: 'it', nameJa: 'IT', occupationCount: 2, meanAiImpactRaw: 8.1, meanAiImpact: 8.1, totalWorkforce: 1600 },
+    { id: 'iryo', nameJa: '医療', occupationCount: 2, meanAiImpactRaw: 2.75, meanAiImpact: 2.75, totalWorkforce: 400 },
   ],
 };
 
