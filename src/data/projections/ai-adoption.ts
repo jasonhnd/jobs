@@ -7,71 +7,93 @@
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { z } from 'zod';
 import { nowIso } from '../../lib/now.js';
 
-export type Confidence = 'high' | 'medium' | 'low';
+const ConfidenceSchema = z.enum(['high', 'medium', 'low']);
+const LayerIdSchema = z.enum(['N_dev', 'N_pro', 'N_free', 'N_passive', 'N_unreached']);
+
+const ObservationSchema = z
+  .object({
+    id: z.string(),
+    metric: z.string(),
+    entity: z.string(),
+    value: z.number(),
+    unit: z.string(),
+    period: z.string(),
+    as_of_date: z.string(),
+    published_at: z.string(),
+    source_key: z.string(),
+    source_name: z.string(),
+    source_url: z.string(),
+    collection_method: z.string(),
+    confidence: ConfidenceSchema,
+    stale_after_days: z.number(),
+    used_by: z.array(z.string()),
+    note: z.string(),
+    unique_user_factor: z.number().optional(),
+    availability_rate: z.number().optional(),
+    activation_rate: z.number().optional(),
+  })
+  .strict();
+
+const SourceDefSchema = z
+  .object({
+    label: z.string(),
+    type: z.string(),
+    default_frequency: z.string(),
+    default_confidence: ConfidenceSchema,
+    stale_after_days: z.number(),
+  })
+  .strict();
+
+const ParameterDefSchema = z
+  .object({
+    value: z.number(),
+    label_ja: z.string(),
+    rationale_ja: z.string(),
+  })
+  .strict();
+
+const AssumptionsSchema = z
+  .object({
+    model_version: z.string(),
+    period: z.string(),
+    primary_denominator_metric: z.string(),
+    auxiliary_denominator_metric: z.string(),
+    parameters: z.record(z.string(), ParameterDefSchema),
+  })
+  .strict();
+
+const ModelLayerSchema = z
+  .object({
+    id: LayerIdSchema,
+    label_ja: z.string(),
+    short_label_ja: z.string(),
+    formula_ja: z.string(),
+    rationale_ja: z.string(),
+    risk_ja: z.string(),
+    color: z.string(),
+  })
+  .strict();
+
+const ModelDefinitionSchema = z
+  .object({
+    title_ja: z.string(),
+    subtitle_ja: z.string(),
+    layers: z.array(ModelLayerSchema),
+  })
+  .strict();
+
+export type Confidence = z.infer<typeof ConfidenceSchema>;
 export type FreshnessStatus = 'fresh' | 'review_needed' | 'stale';
-export type LayerId = 'N_dev' | 'N_pro' | 'N_free' | 'N_passive' | 'N_unreached';
-
-export interface Observation {
-  id: string;
-  metric: string;
-  entity: string;
-  value: number;
-  unit: string;
-  period: string;
-  as_of_date: string;
-  published_at: string;
-  source_key: string;
-  source_name: string;
-  source_url: string;
-  collection_method: string;
-  confidence: Confidence;
-  stale_after_days: number;
-  used_by: string[];
-  note: string;
-  unique_user_factor?: number;
-  availability_rate?: number;
-  activation_rate?: number;
-}
-
-export interface SourceDef {
-  label: string;
-  type: string;
-  default_frequency: string;
-  default_confidence: Confidence;
-  stale_after_days: number;
-}
-
-export interface ParameterDef {
-  value: number;
-  label_ja: string;
-  rationale_ja: string;
-}
-
-export interface Assumptions {
-  model_version: string;
-  period: string;
-  primary_denominator_metric: string;
-  auxiliary_denominator_metric: string;
-  parameters: Record<string, ParameterDef>;
-}
-
-export interface ModelLayer {
-  id: LayerId;
-  label_ja: string;
-  short_label_ja: string;
-  formula_ja: string;
-  rationale_ja: string;
-  risk_ja: string;
-  color: string;
-}
-
-export interface ModelDefinition {
-  title_ja: string;
-  subtitle_ja: string;
-  layers: ModelLayer[];
-}
+export type LayerId = z.infer<typeof LayerIdSchema>;
+export type Observation = z.infer<typeof ObservationSchema>;
+export type SourceDef = z.infer<typeof SourceDefSchema>;
+export type ParameterDef = z.infer<typeof ParameterDefSchema>;
+export type Assumptions = z.infer<typeof AssumptionsSchema>;
+export type ModelLayer = z.infer<typeof ModelLayerSchema>;
+export type ModelDefinition = z.infer<typeof ModelDefinitionSchema>;
 
 interface AiAdoptionBuildResult {
   files: string[];
@@ -93,9 +115,9 @@ function dataPath(name: string): string {
   return join(process.cwd(), 'data', 'ai-adoption', name);
 }
 
-async function readJson<T>(name: string): Promise<T> {
+async function readJson<T>(name: string, schema: z.ZodType<T>): Promise<T> {
   const raw = await readFile(dataPath(name), 'utf-8');
-  return JSON.parse(raw) as T;
+  return schema.parse(JSON.parse(raw));
 }
 
 function assertFiniteNumber(value: number, label: string): number {
@@ -459,10 +481,10 @@ export function buildAiAdoptionPayload(input: AiAdoptionPayloadInput) {
 
 export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuildResult> {
   const [observations, sources, assumptions, model] = await Promise.all([
-    readJson<Observation[]>('observations.json'),
-    readJson<Record<string, SourceDef>>('sources.json'),
-    readJson<Assumptions>('assumptions.json'),
-    readJson<ModelDefinition>('model.json'),
+    readJson('observations.json', z.array(ObservationSchema)),
+    readJson('sources.json', z.record(z.string(), SourceDefSchema)),
+    readJson('assumptions.json', AssumptionsSchema),
+    readJson('model.json', ModelDefinitionSchema),
   ]);
   const payload = buildAiAdoptionPayload({
     observations,

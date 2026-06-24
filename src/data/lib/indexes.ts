@@ -161,6 +161,7 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
         ai_risk: entry.ai_risk,
         rationale_ja: entry.rationale_ja,
         confidence: entry.confidence,
+        aiois: entry.aiois ?? null,
       });
     }
   }
