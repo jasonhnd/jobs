@@ -20,13 +20,14 @@ export interface SalaryRankings {
 export function buildSalaryRankings(
   occs: Occupation[],
   scored: Occupation[],
+  limit = TOP_N,
 ): SalaryRankings {
   // 5. Salary (pure)
   const bySalary = byKeyDesc(
     occs.filter((o) => o.salary),
     (o) => o.salary,
     (o) => o.id,
-  ).slice(0, TOP_N);
+  ).slice(0, limit);
   const meanSalaryTop = safeMean(bySalary, 'salary');
 
   // 6. Entry salary
@@ -34,20 +35,20 @@ export function buildSalaryRankings(
     occs.filter((o) => o.recruit_wage),
     (o) => o.recruit_wage,
     (o) => o.id,
-  ).slice(0, TOP_N);
+  ).slice(0, limit);
   const meanEntry = safeMean(byEntry, 'recruit_wage');
 
   // 27. 高年収 × 高需要
   const highSalaryHighDemand = scored
     .filter((o) => o.salary && (DEMAND_SCORE[o.demand_band ?? ''] ?? 0) >= 3)
     .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || (DEMAND_SCORE[b.demand_band ?? ''] ?? 0) - (DEMAND_SCORE[a.demand_band ?? ''] ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 28. 初任給が高い × 若手活躍
   const highSalaryYoungEntry = occs
     .filter((o) => o.recruit_wage && o.average_age && o.average_age <= 40)
     .sort((a, b) => (b.recruit_wage ?? 0) - (a.recruit_wage ?? 0) || (a.average_age ?? 999) - (b.average_age ?? 999))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   const entries: Array<[string, RankingResult]> = [
     ['salary', {
