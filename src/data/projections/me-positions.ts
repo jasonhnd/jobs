@@ -87,6 +87,33 @@ export interface MePositionsBuildResult {
   rankingCount: number;
 }
 
+export function computeJobRankingPosition(
+  jobId: number,
+  topRank: number | null,
+  topTotal: number,
+  fullUniverse: readonly number[],
+): JobRankingPosition {
+  const universeSize = fullUniverse.length;
+  const fullIdx = fullUniverse.indexOf(jobId);
+  const outOfUniverse = fullIdx === -1 ? null : fullIdx + 1;
+  // Percentile is computed against the per-slug FILTERED universe size,
+  // not the global 556 — otherwise filtered rankings (e.g.
+  // regulated-protected with ~80 jobs) would report a misleadingly
+  // optimistic "top X%". See C1 fix.
+  const percentile =
+    outOfUniverse === null || universeSize === 0
+      ? null
+      : Math.round(((outOfUniverse / universeSize) * 100) * 10) / 10;
+
+  return {
+    rank: topRank,
+    total: topTotal,
+    outOfUniverse,
+    universeSize,
+    percentile,
+  };
+}
+
 // ───────────────────────────────────────────────────────────────────
 // Per-ranking "ranker" — produces the FULL sorted+filtered universe.
 // `items` is sliced to TOP-N before consumption; .indexOf() against the
@@ -587,25 +614,13 @@ export async function buildMePositions(
     for (const slug of Object.keys(RANKERS) as RankingSlug[]) {
       const topMap = topRankBySlug.get(slug);
       const full = canonicalFullBySlug.get(slug)!;
-      const universeSize = full.length;
       const topRank = topMap?.get(jobId) ?? null;
-      const fullIdx = full.indexOf(jobId);
-      const outOfUniverse = fullIdx === -1 ? null : fullIdx + 1;
-      // Percentile is computed against the per-slug FILTERED universe size,
-      // not the global 556 — otherwise filtered rankings (e.g.
-      // regulated-protected with ~80 jobs) would report a misleadingly
-      // optimistic "top X%". See C1 fix.
-      const percentile =
-        outOfUniverse === null || universeSize === 0
-          ? null
-          : Math.round(((outOfUniverse / universeSize) * 100) * 10) / 10;
-      inRankings[slug] = {
-        rank: topRank,
-        total: topTotalBySlug.get(slug) ?? 0,
-        outOfUniverse,
-        universeSize,
-        percentile,
-      };
+      inRankings[slug] = computeJobRankingPosition(
+        jobId,
+        topRank,
+        topTotalBySlug.get(slug) ?? 0,
+        full,
+      );
     }
     positions[String(jobId)] = {
       jobId,
