@@ -7,6 +7,7 @@ import { escapeHtml } from '@/templates/Ranking';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
 import { buildRankingsSlugBindings } from './_rankings-bindings';
 import { suggestEscapeRoutes, renderEscapeRouteSection } from '@/views/escape-routes';
+import { AI_FACT_CSS } from '@/lib/ai-fact-css';
 
 const HIGH_RISK_SLUGS = new Set(['ai-risk-high', 'ai-replaced-soon', 'ai-at-risk-but-paid']);
 
@@ -62,7 +63,7 @@ h1 .accent{color:var(--accent-deep)}
 .stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
 .stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
-.ai-fact{margin:0 0 24px;padding:18px 20px;background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;font-size:1rem;line-height:1.85;color:var(--fg)}
+${AI_FACT_CSS}
 section{margin:48px 0}
 h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 .rank-list{list-style:none;counter-reset:rank}
