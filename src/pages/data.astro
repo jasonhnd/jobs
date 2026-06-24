@@ -12,6 +12,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import { OCCUPATION_COUNT } from '@/site/config';
 
 const pageLastUpdated = '2026-06-05';
 const SITE = 'https://mirai-shigoto.com';
@@ -22,9 +23,9 @@ interface Endpoint {
   shape: string;
 }
 const ENDPOINTS: Endpoint[] = [
-  { path: '/data.treemap.json', desc: '556 職業の AIOIS-10 スコア・ラベル・treemap グリッド（主要データ）', shape: 'JSON' },
+  { path: '/data.treemap.json', desc: `${OCCUPATION_COUNT.SCORED} 職業の AIOIS-10 スコア・ラベル・treemap グリッド（主要データ）`, shape: 'JSON' },
   { path: '/data.treemap.meta.json', desc: '上記のメタ情報（件数・生成日）', shape: 'JSON' },
-  { path: '/data.detail/{id}.json', desc: '1 職業の全詳細（id は 4 桁ゼロ埋め、例 /data.detail/0156.json）', shape: 'JSON × 556' },
+  { path: '/data.detail/{id}.json', desc: '1 職業の全詳細（id は 4 桁ゼロ埋め、例 /data.detail/0156.json）', shape: `JSON × ${OCCUPATION_COUNT.SCORED}` },
   { path: '/data.search.json', desc: '全文検索インデックス（名称・別名・説明をトークン化）', shape: 'JSON' },
   { path: '/data.sectors.json', desc: '16 セクター定義（hue・ラベル・所属職業）', shape: 'JSON' },
   { path: '/data.labels/{dim}.json', desc: '7 次元（skills / knowledge / abilities ほか）のグローバルラベル', shape: 'JSON × 7' },
@@ -51,10 +52,10 @@ const jsonLd = JSON.stringify({
     {
       '@type': 'WebPage',
       '@id': `${SITE}/data#webpage`,
-      name: '公開データセット — 556 職業 × AIOIS-10',
+      name: `公開データセット — ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10`,
       url: `${SITE}/data`,
       description:
-        '日本の 556 職業 × AIOIS-10 スコアのオープンデータ（MIT ライセンス）。開発者・研究者・AI エージェント向けの JSON エンドポイント一覧。',
+        `日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアのオープンデータ（MIT ライセンス）。開発者・研究者・AI エージェント向けの JSON エンドポイント一覧。`,
       inLanguage: 'ja',
       isPartOf: { '@id': `${SITE}/#website` },
       datePublished: '2026-06-05',
@@ -67,9 +68,9 @@ const jsonLd = JSON.stringify({
     {
       '@type': 'Dataset',
       '@id': `${SITE}/data#downloads`,
-      name: 'Japan 556 Occupations × AIOIS-10 — open JSON endpoints',
+      name: `Japan ${OCCUPATION_COUNT.SCORED} Occupations × AIOIS-10 — open JSON endpoints`,
       description:
-        'Machine-readable JSON for all 556 Japanese occupations scored on the AIOIS-10 standard (Transformation + Displacement indices + D1–D10), plus sectors, skills, RIASEC, transfer paths and labour statistics.',
+        `Machine-readable JSON for all ${OCCUPATION_COUNT.SCORED} Japanese occupations scored on the AIOIS-10 standard (Transformation + Displacement indices + D1–D10), plus sectors, skills, RIASEC, transfer paths and labour statistics.`,
       url: `${SITE}/data`,
       inLanguage: 'ja',
       isAccessibleForFree: true,
@@ -90,12 +91,12 @@ const jsonLd = JSON.stringify({
 }, null, 2);
 ---
 <BaseLayout
-  title="公開データセット — 556 職業 × AIOIS-10（MIT ライセンス）| 未来の仕事"
-  description="日本の 556 職業 × AIOIS-10 スコアをオープンデータ（MIT）で公開。treemap・detail・search・sectors・skills など JSON エンドポイント一覧。開発者・研究者・AI エージェント向け。"
+  title={`公開データセット — ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10（MIT ライセンス）| 未来の仕事`}
+  description={`日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアをオープンデータ（MIT）で公開。treemap・detail・search・sectors・skills など JSON エンドポイント一覧。開発者・研究者・AI エージェント向け。`}
   canonical="https://mirai-shigoto.com/data"
-  keywords="オープンデータ, データセット, AIOIS-10, JSON, API, 556 職業, MIT, open data, dataset, 機械可読"
-  ogTitle="公開データセット — 556 職業 × AIOIS-10"
-  ogDescription="日本の 556 職業 × AIOIS-10 スコアを MIT ライセンスの JSON で公開。開発者・研究者・AI エージェント向けのエンドポイント一覧。"
+  keywords={`オープンデータ, データセット, AIOIS-10, JSON, API, ${OCCUPATION_COUNT.SCORED} 職業, MIT, open data, dataset, 機械可読`}
+  ogTitle={`公開データセット — ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10`}
+  ogDescription={`日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアを MIT ライセンスの JSON で公開。開発者・研究者・AI エージェント向けのエンドポイント一覧。`}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={CANONICAL_DOC_CSS} />
@@ -110,7 +111,7 @@ const jsonLd = JSON.stringify({
     <header id="content">
       <h1><span class="accent">公開データセット</span></h1>
       <p class="lead">
-        本サイトの全データ —— 556 の日本の職業を <a href="/standard">AIOIS-10</a> 標準で採点したスコア（変化の大きさ・仕事が減るリスク + 10 次元）と、労働統計・スキル・セクター ——
+        本サイトの全データ —— {OCCUPATION_COUNT.SCORED} の日本の職業を <a href="/standard">AIOIS-10</a> 標準で採点したスコア（変化の大きさ・仕事が減るリスク + 10 次元）と、労働統計・スキル・セクター ——
         を <strong>MIT ライセンス</strong>の構造化 JSON として公開しています。開発者・研究者・AI エージェントが自由に利用できます。
       </p>
     </header>

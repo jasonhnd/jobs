@@ -30,6 +30,7 @@ import { buildWorkConditionsRankings } from './rankings/work-conditions.js';
 import { buildEmploymentRankings } from './rankings/employment.js';
 import { buildEducationRankings } from './rankings/education.js';
 import { buildIntentRankings } from './rankings/intent.js';
+import { OCCUPATION_COUNT } from '../../site/config.js';
 
 export interface BuildRankingsOptions {
   /**
@@ -87,7 +88,7 @@ export function buildRankings(
 
   // ─── Hub data ────────────────────────────────────────────────────────
   const globalStats: Array<readonly [string, string]> = [
-    ['総職業数', '556'],
+    ['総職業数', `${OCCUPATION_COUNT.SCORED}`],
     ['全体平均 AI 影響', `${allMeanRisk.toFixed(1)} / 10`],
     ['全体平均年収', `${Math.trunc(allMeanSalary)} 万円`],
     ['総就業者数', `${Math.round(allWorkers / 10000)} 万人`],

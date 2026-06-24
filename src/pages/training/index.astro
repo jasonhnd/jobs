@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { OCCUPATION_COUNT } from '@/site/config';
 import { TRAINING_CONFIGS } from '@/views/genre-configs';
 import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
 import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
@@ -31,7 +32,7 @@ const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>習熟期間から探す</span></nav>
     <header id="content">
       <h1><span class="accent">習熟期間から職業を探す</span></h1>
-      <p class="sub">入職後 <strong>{n} 段階</strong> の習熟期間別に 556 職業を分類</p>
+      <p class="sub">入職後 <strong>{n} 段階</strong> の習熟期間別に {OCCUPATION_COUNT.SCORED} 職業を分類</p>
       <p class="intro">入職後すぐ一人前になれる職業から、生涯修行型の職人まで、習熟期間で職業を分類しました。自分のキャリア時間軸に合った職業を探せます。</p>
     </header>
     <section><h2>習熟期間 {n} 分類</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
