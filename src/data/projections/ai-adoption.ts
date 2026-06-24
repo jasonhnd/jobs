@@ -9,11 +9,11 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { nowIso } from '../../lib/now.js';
 
-type Confidence = 'high' | 'medium' | 'low';
-type FreshnessStatus = 'fresh' | 'review_needed' | 'stale';
-type LayerId = 'N_dev' | 'N_pro' | 'N_free' | 'N_passive' | 'N_unreached';
+export type Confidence = 'high' | 'medium' | 'low';
+export type FreshnessStatus = 'fresh' | 'review_needed' | 'stale';
+export type LayerId = 'N_dev' | 'N_pro' | 'N_free' | 'N_passive' | 'N_unreached';
 
-interface Observation {
+export interface Observation {
   id: string;
   metric: string;
   entity: string;
@@ -35,7 +35,7 @@ interface Observation {
   activation_rate?: number;
 }
 
-interface SourceDef {
+export interface SourceDef {
   label: string;
   type: string;
   default_frequency: string;
@@ -43,13 +43,13 @@ interface SourceDef {
   stale_after_days: number;
 }
 
-interface ParameterDef {
+export interface ParameterDef {
   value: number;
   label_ja: string;
   rationale_ja: string;
 }
 
-interface Assumptions {
+export interface Assumptions {
   model_version: string;
   period: string;
   primary_denominator_metric: string;
@@ -57,7 +57,7 @@ interface Assumptions {
   parameters: Record<string, ParameterDef>;
 }
 
-interface ModelLayer {
+export interface ModelLayer {
   id: LayerId;
   label_ja: string;
   short_label_ja: string;
@@ -67,7 +67,7 @@ interface ModelLayer {
   color: string;
 }
 
-interface ModelDefinition {
+export interface ModelDefinition {
   title_ja: string;
   subtitle_ja: string;
   layers: ModelLayer[];
@@ -76,6 +76,14 @@ interface ModelDefinition {
 interface AiAdoptionBuildResult {
   files: string[];
   rows: number;
+}
+
+export interface AiAdoptionPayloadInput {
+  observations: Observation[];
+  sources: Record<string, SourceDef>;
+  assumptions: Assumptions;
+  model: ModelDefinition;
+  generatedAt?: string;
 }
 
 // Display text (title/subtitle/layer labels/formula/rationale/risk) lives in
@@ -182,16 +190,11 @@ function derivedValue(o: Observation, assumptions: Assumptions): number {
   return o.value;
 }
 
-export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuildResult> {
-  const [observations, sources, assumptions, model] = await Promise.all([
-    readJson<Observation[]>('observations.json'),
-    readJson<Record<string, SourceDef>>('sources.json'),
-    readJson<Assumptions>('assumptions.json'),
-    readJson<ModelDefinition>('model.json'),
-  ]);
+export function buildAiAdoptionPayload(input: AiAdoptionPayloadInput) {
+  const { observations, sources, assumptions, model } = input;
   const displayModel = model;
 
-  const generatedAt = nowIso();
+  const generatedAt = input.generatedAt ?? nowIso();
   const now = new Date(generatedAt);
 
   // `updated_at` is the freshest underlying observation date (content-derived),
@@ -451,7 +454,25 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
     trend,
   };
 
+  return payload;
+}
+
+export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuildResult> {
+  const [observations, sources, assumptions, model] = await Promise.all([
+    readJson<Observation[]>('observations.json'),
+    readJson<Record<string, SourceDef>>('sources.json'),
+    readJson<Assumptions>('assumptions.json'),
+    readJson<ModelDefinition>('model.json'),
+  ]);
+  const payload = buildAiAdoptionPayload({
+    observations,
+    sources,
+    assumptions,
+    model,
+    generatedAt: nowIso(),
+  });
+
   const outPath = join(distRoot, 'data.ai-adoption.json');
   await writeFile(outPath, JSON.stringify(payload, null, 2) + '\n', 'utf-8');
-  return { files: [outPath], rows: layers.length };
+  return { files: [outPath], rows: payload.layers.length };
 }
