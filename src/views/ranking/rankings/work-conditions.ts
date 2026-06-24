@@ -21,29 +21,32 @@ export interface WorkConditionsRankings {
   entries: Array<[string, RankingResult]>;
 }
 
-export function buildWorkConditionsRankings(occs: Occupation[]): WorkConditionsRankings {
+export function buildWorkConditionsRankings(
+  occs: Occupation[],
+  limit = TOP_N,
+): WorkConditionsRankings {
   // 8. Short hours
   const byHours = byKeyAsc(
     occs.filter((o) => o.monthly_hours),
     (o) => o.monthly_hours,
     (o) => o.id,
-  ).slice(0, TOP_N);
+  ).slice(0, limit);
   const meanHours = safeMean(byHours, 'monthly_hours');
 
   // 13. 月労働時間が長い (monthly_hours desc)
-  const byHoursLong = byKeyDesc(occs.filter((o) => o.monthly_hours), (o) => o.monthly_hours, (o) => o.id).slice(0, TOP_N);
+  const byHoursLong = byKeyDesc(occs.filter((o) => o.monthly_hours), (o) => o.monthly_hours, (o) => o.id).slice(0, limit);
   const meanHoursLong = safeMean(byHoursLong, 'monthly_hours');
 
   // 10. 時給ランキング (派生: recruit_wage / 160h、円)
-  const byHourly = byKeyDesc(occs.filter((o) => o.hourly_wage), (o) => o.hourly_wage, (o) => o.id).slice(0, TOP_N);
+  const byHourly = byKeyDesc(occs.filter((o) => o.hourly_wage), (o) => o.hourly_wage, (o) => o.id).slice(0, limit);
   const meanHourly = safeMean(byHourly, 'hourly_wage');
 
   // 11. 求人倍率 (recruit_ratio desc)
-  const byRecruitRatio = byKeyDesc(occs.filter((o) => o.recruit_ratio !== null), (o) => o.recruit_ratio, (o) => o.id).slice(0, TOP_N);
+  const byRecruitRatio = byKeyDesc(occs.filter((o) => o.recruit_ratio !== null), (o) => o.recruit_ratio, (o) => o.id).slice(0, limit);
   const meanRecruitRatio = safeMean(byRecruitRatio, 'recruit_ratio');
 
   // 14. 求人倍率が低い (recruit_ratio asc, 買い手市場)
-  const byRecruitLow = byKeyAsc(occs.filter((o) => o.recruit_ratio !== null), (o) => o.recruit_ratio, (o) => o.id).slice(0, TOP_N);
+  const byRecruitLow = byKeyAsc(occs.filter((o) => o.recruit_ratio !== null), (o) => o.recruit_ratio, (o) => o.id).slice(0, limit);
   const meanRecruitLow = safeMean(byRecruitLow, 'recruit_ratio');
 
   // 9. High demand
@@ -59,7 +62,7 @@ export function buildWorkConditionsRankings(occs: Occupation[]): WorkConditionsR
       if (ss !== 0) return ss;
       return a.id - b.id;
     })
-    .slice(0, TOP_N);
+    .slice(0, limit);
   const hotCount = byDemand.filter((o) => o.demand_band === 'hot').length;
   const warmCount = byDemand.filter((o) => o.demand_band === 'warm').length;
 

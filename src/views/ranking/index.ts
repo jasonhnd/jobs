@@ -12,7 +12,7 @@
  *   - Constants: TOP_N, DEMAND_SCORE, DEMAND_JA, ALL_RANKINGS
  *   - Helpers:   safeMean, fmtInt (re-export from lib/num)
  *   - Editorial: FAQS (re-export from ranking-copy)
- *   - Builders:  buildRankings(loader), loadOccupationsFromGraph(graph)
+ *   - Builders:  buildRankings(loader, options?), loadOccupationsFromGraph(graph)
  */
 
 export {
@@ -40,5 +40,5 @@ export { fmtInt } from '../../lib/num.js';
 // from this module path).
 export { FAQS } from '../ranking-copy.js';
 
-export { buildRankings } from './build.js';
+export { buildRankings, type BuildRankingsOptions } from './build.js';
 export { loadOccupationsFromGraph } from './loaders.js';

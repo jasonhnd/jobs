@@ -21,36 +21,37 @@ export interface EducationRankings {
 export function buildEducationRankings(
   occs: Occupation[],
   scored: Occupation[],
+  limit = TOP_N,
 ): EducationRankings {
   // 31. 高卒で就ける (高卒比率 30%+ で sort)
   const highSchoolOk = occs
     .filter((o) => eduPct(o, EDU.highSchool) >= 30)
     .sort((a, b) => eduPct(b, '高卒') - eduPct(a, '高卒') || (b.salary ?? 0) - (a.salary ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 32. 大卒以上が中心 (大卒比率 50%+)
   const universityRequired = occs
     .filter((o) => eduPct(o, EDU.university) >= 50)
     .sort((a, b) => eduPct(b, '大卒') - eduPct(a, '大卒') || (b.salary ?? 0) - (a.salary ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 33. 大学院卒中心 (大学院卒 = 修士+博士 30%+)
   const graduateSchoolRequired = occs
     .filter((o) => gradPct(o) >= 30)
     .sort((a, b) => gradPct(b) - gradPct(a) || (b.salary ?? 0) - (a.salary ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 29. 国家資格必須
   const licenseRequired = occs
     .filter((o) => o.certs.length >= 1)
     .sort((a, b) => b.certs.length - a.certs.length || (b.salary ?? 0) - (a.salary ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 30. 無資格で就ける × AI 安全
   const noLicenseRequired = scored
     .filter((o) => o.certs.length === 0 && (o.ai_risk ?? 999) <= 5)
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.salary ?? 0) - (a.salary ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   const entries: Array<[string, RankingResult]> = [
     ['high-school-ok', {

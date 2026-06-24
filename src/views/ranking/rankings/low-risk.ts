@@ -17,9 +17,10 @@ export interface LowRiskRankings {
 export function buildLowRiskRankings(
   scored: Occupation[],
   withSalary: Occupation[],
+  limit = TOP_N,
 ): LowRiskRankings {
   // 2. AI risk low — sort ai_risk asc, id asc
-  const aiLow = byKeyAsc(scored, (o) => o.ai_risk, (o) => o.id).slice(0, TOP_N);
+  const aiLow = byKeyAsc(scored, (o) => o.ai_risk, (o) => o.id).slice(0, limit);
   const meanLow = safeMean(aiLow, 'ai_risk');
 
   // 3. Salary x safe — filter ai_risk<=5, sort -salary then ai_risk then id
@@ -34,7 +35,7 @@ export function buildLowRiskRankings(
       if (ra !== rb) return ra - rb;
       return a.id - b.id;
     })
-    .slice(0, TOP_N);
+    .slice(0, limit);
   const meanSalarySS = safeMean(salarySafe, 'salary');
   const meanRiskSS = safeMean(salarySafe, 'ai_risk');
 

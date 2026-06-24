@@ -16,6 +16,7 @@ import {
   type RankingSlug,
   type RankingResult,
   type RankingGroupKey,
+  TOP_N,
   DEMAND_JA,
   RANKING_GROUPS,
 } from './config.js';
@@ -30,6 +31,15 @@ import { buildEmploymentRankings } from './rankings/employment.js';
 import { buildEducationRankings } from './rankings/education.js';
 import { buildIntentRankings } from './rankings/intent.js';
 
+export interface BuildRankingsOptions {
+  /**
+   * Max items returned per ranking. The default keeps the public TOP-N page
+   * contract; data projections can pass Infinity to inspect the full sorted
+   * ranking universe without changing page output.
+   */
+  limit?: number;
+}
+
 /**
  * `loader` lets callers inject a graph-based Occupation producer instead
  * of the default treemap.json + data.detail/* reader. Step 5 of the
@@ -38,7 +48,9 @@ import { buildIntentRankings } from './rankings/intent.js';
  */
 export function buildRankings(
   loader: () => Occupation[],
+  options: BuildRankingsOptions = {},
 ): RankingsBundle {
+  const limit = options.limit ?? TOP_N;
   const occs = loader();
   const scored = occs.filter((o) => o.ai_risk !== null);
   const withSalary = occs.filter((o) => o.salary && o.ai_risk !== null);
@@ -48,14 +60,14 @@ export function buildRankings(
   const allWorkers = occs.reduce((s, o) => s + (o.workers ?? 0), 0);
 
   // Theme builders — each owns its filter/sort logic + result objects.
-  const highRisk = buildHighRiskRankings(scored);
-  const lowRisk = buildLowRiskRankings(scored, withSalary);
-  const salary = buildSalaryRankings(occs, scored);
-  const workforce = buildWorkforceRankings(occs, scored);
-  const workConditions = buildWorkConditionsRankings(occs);
-  const employment = buildEmploymentRankings(occs, scored);
-  const education = buildEducationRankings(occs, scored);
-  const intent = buildIntentRankings(scored);
+  const highRisk = buildHighRiskRankings(scored, limit);
+  const lowRisk = buildLowRiskRankings(scored, withSalary, limit);
+  const salary = buildSalaryRankings(occs, scored, limit);
+  const workforce = buildWorkforceRankings(occs, scored, limit);
+  const workConditions = buildWorkConditionsRankings(occs, limit);
+  const employment = buildEmploymentRankings(occs, scored, limit);
+  const education = buildEducationRankings(occs, scored, limit);
+  const intent = buildIntentRankings(scored, limit);
 
   // ─── Assemble results map (slug → RankingResult) ──────────────────────
   const results = new Map<RankingSlug, RankingResult>();

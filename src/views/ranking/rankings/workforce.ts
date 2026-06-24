@@ -20,12 +20,13 @@ export interface WorkforceRankings {
 export function buildWorkforceRankings(
   occs: Occupation[],
   scored: Occupation[],
+  limit = TOP_N,
 ): WorkforceRankings {
   // 4. Workers
   const byWorkers = byKeyDesc(
     occs.filter((o) => o.workers),
     (o) => o.workers,
-  ).slice(0, TOP_N);
+  ).slice(0, limit);
   const totalWorkersTop = byWorkers.reduce((s, o) => s + (o.workers ?? 0), 0);
 
   // 7. Young workforce
@@ -33,18 +34,18 @@ export function buildWorkforceRankings(
     occs.filter((o) => o.average_age),
     (o) => o.average_age,
     (o) => o.id,
-  ).slice(0, TOP_N);
+  ).slice(0, limit);
   const meanAgeYoung = safeMean(byYoung, 'average_age');
 
   // 12. シニア中心 (average_age desc)
-  const byAging = byKeyDesc(occs.filter((o) => o.average_age), (o) => o.average_age, (o) => o.id).slice(0, TOP_N);
+  const byAging = byKeyDesc(occs.filter((o) => o.average_age), (o) => o.average_age, (o) => o.id).slice(0, limit);
   const meanAgeAging = safeMean(byAging, 'average_age');
 
   // 37. 大規模就業 × AI 安全 (workers desc among low-AI)
   const largeWorkforceStable = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && o.workers && o.workers >= 50000)
     .sort((a, b) => (b.workers ?? 0) - (a.workers ?? 0) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   const entries: Array<[string, RankingResult]> = [
     ['workers', {

@@ -20,18 +20,19 @@ export interface EmploymentRankings {
 export function buildEmploymentRankings(
   occs: Occupation[],
   scored: Occupation[],
+  limit = TOP_N,
 ): EmploymentRankings {
   // 20. AI 安全 × 正規雇用率高
   const aiStableEmployment = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && empPct(o, EMP.regular) >= 60)
     .sort((a, b) => empPct(b, EMP.regular) - empPct(a, EMP.regular) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 35. フリーランス向き (自営、フリーランス比率 20%+)
   const freelanceFriendly = occs
     .filter((o) => empPct(o, EMP.selfEmployedFreelance) >= 20)
     .sort((a, b) => empPct(b, EMP.selfEmployedFreelance) - empPct(a, EMP.selfEmployedFreelance) || (b.salary ?? 0) - (a.salary ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 36. 独立・開業が典型 (経営層 + 自営、フリーランス >= 30%)
   const selfEmployedTypical = occs
@@ -40,13 +41,13 @@ export function buildEmploymentRankings(
       (empPct(b, EMP.selfEmployedFreelance) + empPct(b, EMP.executive)) -
       (empPct(a, EMP.selfEmployedFreelance) + empPct(a, EMP.executive))
       || (b.salary ?? 0) - (a.salary ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 34. 公的機関・公務員系
   const publicSector = occs
     .filter((o) => inSectorSet(o, PUBLIC_SECTORS))
     .sort((a, b) => (b.workers ?? 0) - (a.workers ?? 0) || a.id - b.id)
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   const entries: Array<[string, RankingResult]> = [
     ['ai-stable-employment', {
