@@ -24,6 +24,8 @@ const oneDecimalScore = z
     message: 'must have at most one decimal place',
   });
 
+const AIOIS_INDEX_TOLERANCE = 0.05 + 1e-9;
+
 /**
  * AIOIS-10 profile — the 10 orthogonal dimensions (D1–D10) plus the two derived
  * indices, per docs/AIOIS-10.md. Present on batches scored under the AIOIS-10
@@ -37,7 +39,17 @@ export const Aiois10Schema = z
     transformation: oneDecimalScore, // mean(D1,D2) — "how much AI reshapes the work"
     displacement: oneDecimalScore, // replacement / contraction risk
   })
-  .strict();
+  .strict()
+  .superRefine((value, ctx) => {
+    const expected = (value.d1 + value.d2) / 2;
+    if (Math.abs(value.transformation - expected) > AIOIS_INDEX_TOLERANCE) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['transformation'],
+        message: `must equal mean(d1,d2) within ±0.05 (expected ${expected.toFixed(2)})`,
+      });
+    }
+  });
 
 export type Aiois10 = z.infer<typeof Aiois10Schema>;
 

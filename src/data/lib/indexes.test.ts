@@ -50,6 +50,14 @@ test('buildIndexes: latestScoreByOcc is a subset of occById', async () => {
   }
 });
 
+test('buildIndexes: carries AIOIS profile into score history and latest score', async () => {
+  const { indexes } = await buildIndexes();
+  const history = indexes.historyByOcc.get(1);
+  assert.ok(history, 'occupation #1 should have score history');
+  assert.ok(history.some((entry) => entry.aiois != null), 'history should preserve AIOIS profile');
+  assert.ok(indexes.latestScoreByOcc.get(1)?.aiois, 'latest score should preserve AIOIS profile');
+});
+
 test('buildIndexes: history is sorted by date ascending', async () => {
   const { indexes } = await buildIndexes();
   for (const [occId, hist] of indexes.historyByOcc) {

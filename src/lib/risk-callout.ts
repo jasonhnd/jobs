@@ -4,13 +4,13 @@
  * detail page.
  *
  * Extracted from src/pages/[id].astro (`oneLineText`).
- * Five-band lookup based on the integer AI-risk score:
+ * Five-band lookup based on the decimal AI-risk score:
  *
  *   null   → AI 影響度未評価。
- *   0..3   → 低 AI 影響。専門性と判断が必要な業務が中心で、当面は安定。
- *   4..6   → AI 影響度は中程度。業務の一部が AI 補助に移行する見込み。
- *   7..8   → AI 影響度が高い。業務再設計や転職方向の検討が早めに必要。
- *   9..10  → 定型業務が中心。AI による自動化候補が多く、今すぐ転職方向を考えるレベル。
+ *   0.0 <= score < 4.0  → 低 AI 影響。専門性と判断が必要な業務が中心で、当面は安定。
+ *   4.0 <= score < 7.0  → AI 影響度は中程度。業務の一部が AI 補助に移行する見込み。
+ *   7.0 <= score < 9.0  → AI 影響度が高い。業務再設計や転職方向の検討が早めに必要。
+ *   9.0 <= score <= 10 → 定型業務が中心。AI による自動化候補が多く、今すぐ転職方向を考えるレベル。
  *
  * The phrasing is part of the SEO copy contract (rendered in
  * <body> and reachable via screenshots of representative pages).
