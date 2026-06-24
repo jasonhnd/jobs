@@ -4,11 +4,11 @@ import { ScoreRunSchema, type ScoreRun } from '../data/schema/index.js';
 import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
 import {
   computeGeoFacts,
+  GeoTreemapRowsSchema,
   pickLatestGeoScoreRun,
   type GeoAttribution,
   type GeoFacts,
   type GeoScoreEntry,
-  type GeoTreemapRow,
 } from '../site/geo-facts.js';
 
 const ROOT = process.cwd();
@@ -52,7 +52,7 @@ export function loadGeoFacts(): GeoFacts {
       `geo-facts-loader: SCORE_ATTRIBUTION date ${SCORE_ATTRIBUTION.runDate} != active score run ${activeRun.run.run_date}`,
     );
   }
-  const treemapRows = JSON.parse(readText('public/data.treemap.json')) as GeoTreemapRow[];
+  const treemapRows = GeoTreemapRowsSchema.parse(JSON.parse(readText('public/data.treemap.json')));
   const attribution: GeoAttribution = {
     modelId: SCORE_ATTRIBUTION.modelId,
     modelDisplay: SCORE_ATTRIBUTION.modelDisplay,

@@ -144,6 +144,10 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
   // ── Identity + path consts ──
   const sid = String(sector.id);
   const nameLoc = sector.nameJa;
+  const geoSector = geoFacts.sectorsByMeanImpact.find((candidate) => candidate.id === sid);
+  if (!geoSector) {
+    throw new Error(`sector-bindings: missing GEO sector summary for ${sid}`);
+  }
   const descIntro = sector.descriptionJa ?? '';
   const canonical = `${SITE_ORIGIN}/sectors/${sid}`;
   const ogImage = `${SITE_ORIGIN}/api/og?sector=${sid}`;
@@ -151,8 +155,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
 
   // ── Stat aggregates ──
   const workforceTotal = occs.reduce((s, o) => s + (o.workers || 0), 0);
-  const risks = occs.map((o) => o.aiRisk).filter((x): x is number => x !== null && x !== undefined);
-  const meanRisk: number | null = risks.length ? risks.reduce((a, b) => a + b, 0) / risks.length : null;
+  const meanRisk: number | null = geoSector.meanAiImpactRaw;
 
   // ── Sort/slice variants used by SEO + listings + JSON-LD ──
   const sortedByWorkers = [...occs].sort((a, b) => {
