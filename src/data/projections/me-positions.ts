@@ -27,9 +27,9 @@
  * src/views/ranking/rankings/*.ts exactly (verified against the full ranking
  * universe).
  * Keep the two in sync if either changes — a build-time drift guard in
- * buildMePositions() (RA-135) now asserts the local RANKERS' full member set
- * and order match the canonical buildRankings() output for every slug and
- * fails the build on divergence.
+ * buildMePositions() (RA-135) now asks buildRankings() for each ranking's full
+ * universe and asserts the local RANKERS' full member set and order match it
+ * for every slug, failing the build on divergence.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -38,7 +38,6 @@ import {
   buildRankings,
   loadOccupationsFromGraph,
   DEMAND_SCORE,
-  TOP_N,
   type Occupation,
   type RankingSlug,
 } from '../../views/ranking/index.js';
@@ -414,49 +413,22 @@ const RANKERS: Record<RankingSlug, Ranker> = {
       ),
 };
 
-function isOccupationArray(value: unknown): value is Occupation[] {
-  return (
-    Array.isArray(value) &&
-    value.every(
-      (item) =>
-        item !== null &&
-        typeof item === 'object' &&
-        typeof (item as Partial<Occupation>).id === 'number',
-    )
-  );
-}
-
 /**
- * Ask the canonical ranking builders for their full sorted universes without
- * changing their public TOP-N contract. The ranking modules all apply the
- * final publication slice as `.slice(0, TOP_N)` on Occupation arrays, so this
- * temporary patch makes only that terminal slice return the whole array.
+ * Ask the canonical ranking builders for their full sorted universes through
+ * buildRankings' explicit projection-only limit option. Public ranking pages
+ * still use the default TOP_N contract.
  */
 function buildCanonicalFullRankings(allOccs: Occupation[]): Map<RankingSlug, number[]> {
-  const originalSlice = Array.prototype.slice;
-  const patchedSlice = function patchedSlice<T>(
-    this: T[],
-    start?: number,
-    end?: number,
-  ): T[] {
-    if (start === 0 && end === TOP_N && isOccupationArray(this)) {
-      return originalSlice.call(this, start) as T[];
-    }
-    return originalSlice.call(this, start, end) as T[];
-  } as typeof Array.prototype.slice;
-
-  Array.prototype.slice = patchedSlice;
-  try {
-    const { results } = buildRankings(() => allOccs);
-    return new Map(
-      Array.from(results, ([slug, result]) => [
-        slug,
-        result.items.map((o) => o.id),
-      ]),
-    );
-  } finally {
-    Array.prototype.slice = originalSlice;
-  }
+  const { results } = buildRankings(
+    () => allOccs,
+    { limit: Number.POSITIVE_INFINITY },
+  );
+  return new Map(
+    Array.from(results, ([slug, result]) => [
+      slug,
+      result.items.map((o) => o.id),
+    ]),
+  );
 }
 
 function findDuplicate(ids: readonly number[]): number | null {
@@ -559,8 +531,8 @@ export async function buildMePositions(
 
   // Pre-compute the FULL sorted-and-filtered list for every ranking from
   // both sources:
-  //   - canonicalFullBySlug comes directly from buildRankings(), with only
-  //     the publication TOP-N slice bypassed, and drives outOfUniverse.
+  //   - canonicalFullBySlug comes directly from buildRankings(), using its
+  //     explicit full-universe limit option, and drives outOfUniverse.
   //   - localFullBySlug is the hand-maintained mirror retained as a drift
   //     guard so future canonical ranking edits fail loudly if RANKERS are
   //     not updated in lockstep.

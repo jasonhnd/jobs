@@ -30,54 +30,57 @@ export interface IntentRankings {
   entries: Array<[string, RankingResult]>;
 }
 
-export function buildIntentRankings(scored: Occupation[]): IntentRankings {
+export function buildIntentRankings(
+  scored: Occupation[],
+  limit = TOP_N,
+): IntentRankings {
   // 21. 高需要 × AI 安全
   const aiSafeHighDemand = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && (DEMAND_SCORE[o.demand_band ?? ''] ?? 0) >= 3)
     .sort((a, b) => (DEMAND_SCORE[b.demand_band ?? ''] ?? 0) - (DEMAND_SCORE[a.demand_band ?? ''] ?? 0) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 22. 低労働時間 × AI 安全
   const aiSafeShortHours = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && o.monthly_hours)
     .sort((a, b) => (a.monthly_hours ?? 9999) - (b.monthly_hours ?? 9999) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 23. 若手中心 × AI 安全
   const aiSafeYoung = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && o.average_age)
     .sort((a, b) => (a.average_age ?? 999) - (b.average_age ?? 999) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 24. 無資格 × AI 安全
   const aiSafeNoLicense = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && o.certs.length === 0)
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.salary ?? 0) - (a.salary ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 25. 身体性 × AI 安全
   const aiSafePhysical = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && inSectorSet(o, PHYSICAL_SECTORS))
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.workers ?? 0) - (a.workers ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 26. 対人 × AI 安全
   const aiSafeInterpersonal = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && inSectorSet(o, INTERPERSONAL_SECTORS))
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.workers ?? 0) - (a.workers ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 38. 規制で守られた職業 (certs >= 2 + ai_risk <= 5)
   const regulatedProtected = scored
     .filter((o) => o.certs.length >= 2 && (o.ai_risk ?? 999) <= 5)
     .sort((a, b) => b.certs.length - a.certs.length || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 39. 低ストレス安定職 (short hours + low AI)
   const lowStressStable = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && o.monthly_hours && o.monthly_hours <= 165)
     .sort((a, b) => (a.monthly_hours ?? 999) - (b.monthly_hours ?? 999) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   const entries: Array<[string, RankingResult]> = [
     ['ai-safe-high-demand', {

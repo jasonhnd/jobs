@@ -23,3 +23,13 @@ test('me-positions drift guard catches membership drift beyond TOP_N', () => {
     /RANKER universe membership drift.*35 is missing locally/,
   );
 });
+
+test('me-positions drift guard catches size drift beyond TOP_N', () => {
+  const canonical = Array.from({ length: 35 }, (_value, i) => i + 1);
+  const local = canonical.slice(0, 34);
+
+  assert.throws(
+    () => assertRankingUniverseMatches('test-ranking', canonical, local),
+    /RANKER universe size drift.*canonical=35 local=34/,
+  );
+});

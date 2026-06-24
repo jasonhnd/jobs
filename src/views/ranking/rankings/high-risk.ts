@@ -24,9 +24,10 @@ export interface HighRiskRankings {
 
 export function buildHighRiskRankings(
   scored: Occupation[],
+  limit = TOP_N,
 ): HighRiskRankings {
   // 1. AI risk high — sort -ai_risk, id asc
-  const aiHigh = byKeyDesc(scored, (o) => o.ai_risk, (o) => o.id).slice(0, TOP_N);
+  const aiHigh = byKeyDesc(scored, (o) => o.ai_risk, (o) => o.id).slice(0, limit);
   const meanHigh = safeMean(aiHigh, 'ai_risk');
 
   // 15. AI 置き換えが進行中 (ai_risk >= 8 desc, workers as tie)
@@ -42,14 +43,14 @@ export function buildHighRiskRankings(
       if (aRisk !== bRisk) return bRisk - aRisk;
       return (b.workers ?? 0) - (a.workers ?? 0);
     })
-    .slice(0, TOP_N);
+    .slice(0, limit);
   const meanAiReplaced = safeMean(aiReplacedSoon, 'ai_risk');
 
   // 16. 伝統技能で AI に強い (ai_risk <= 3 + craft sectors)
   const aiResistantCraft = scored
     .filter((o) => (o.ai_risk ?? 999) <= 3 && inSectorSet(o, CRAFT_SECTORS))
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || a.id - b.id)
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 17. AI リスク高 × 高年収
   const aiAtRiskPaid = scored
@@ -59,19 +60,19 @@ export function buildHighRiskRankings(
       if (sa !== sb) return sa - sb;
       return (b.ai_risk ?? 0) - (a.ai_risk ?? 0);
     })
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 18. AI で補強される (ai_risk 4-6, sort by salary desc)
   const aiAugmented = scored
     .filter((o) => (o.ai_risk ?? -1) >= 4 && (o.ai_risk ?? -1) <= 6)
     .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || a.id - b.id)
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   // 19. AI を使いこなす側 (sector=it + ai_risk >= 5)
   const aiFrontier = scored
     .filter((o) => o.sector_id === 'it' && (o.ai_risk ?? 0) >= 5)
     .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || a.id - b.id)
-    .slice(0, TOP_N);
+    .slice(0, limit);
 
   const entries: Array<[string, RankingResult]> = [
     ['ai-risk-high', {
