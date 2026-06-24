@@ -27,11 +27,12 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { OCCUPATION_COUNT } from '@/site/config';
 
 const canonical = 'https://mirai-shigoto.com/me';
 const title = '自分の現在地｜全 39 ランキングでの位置を確認 - 未来の仕事';
 const seoDesc =
-  '職業を入力するだけで、AI 影響度・年収・就業者数・労働時間など 39 のランキングであなたの仕事が日本のどこにいるかを瞬時に確認。全 556 職業の中での位置と業種内の類似職を提示。';
+  `職業を入力するだけで、AI 影響度・年収・就業者数・労働時間など 39 のランキングであなたの仕事が日本のどこにいるかを瞬時に確認。全 ${OCCUPATION_COUNT.SCORED} 職業の中での位置と業種内の類似職を提示。`;
 
 const ME_INLINE_JS = readFileSync(
   join(process.cwd(), 'src', 'pages', '_me-inline.js'),

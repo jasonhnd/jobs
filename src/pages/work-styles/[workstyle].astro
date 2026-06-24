@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { OCCUPATION_COUNT } from '@/site/config';
 import { loadGraph } from '@/graph';
 import { GENRE_HUB_CSS } from '@/templates/Hub';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
@@ -23,7 +24,7 @@ const b = buildGenreSlugBindings({
   result, graph: await loadGraph(),
   genrePath: 'work-styles', genreLabel: '働き方から探す', ogParam: 'workstyle',
   allConfigs: WORK_STYLES_CONFIGS, crossHubKey: 'work-styles',
-  subTemplate: (s, n) => `<strong>${s}</strong> が中心の職業 TOP ${n}（全 556 職業中）`,
+  subTemplate: (s, n) => `<strong>${s}</strong> が中心の職業 TOP ${n}（全 ${OCCUPATION_COUNT.SCORED} 職業中）`,
   seoDescTemplate: (s, n, d) => `${s}が中心の職業 TOP ${n}。${d.slice(0, 80)}…`,
   titleTemplate: (t, n) => `${t}｜TOP ${n}・AI 影響度付き | 未来の仕事`,
   relatedHeading: '他の働き方',

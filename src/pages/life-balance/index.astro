@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { OCCUPATION_COUNT } from '@/site/config';
 import { LIFE_BALANCE_CONFIGS } from '@/views/genre-configs';
 import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
 import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
@@ -31,7 +32,7 @@ const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>ライフバランスから探す</span></nav>
     <header id="content">
       <h1><span class="accent">ライフバランスから職業を探す</span></h1>
-      <p class="sub">ライフ条件 <strong>{n} 軸</strong> で 556 職業を整理</p>
+      <p class="sub">ライフ条件 <strong>{n} 軸</strong> で {OCCUPATION_COUNT.SCORED} 職業を整理</p>
       <p class="intro">育児・介護・健康・精神負担・趣味・シニア活躍との両立など、ライフステージ別に向く職業を一覧。労働時間・AI 影響度を組み合わせて、長く続けやすい仕事を探せます。</p>
     </header>
     <section><h2>ライフバランス {n} 軸</h2><ul class="genre-cards" set:html={cardsHtml} /></section>

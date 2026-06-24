@@ -23,13 +23,14 @@ export interface ExploreRoute {
 }
 
 import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { OCCUPATION_COUNT } from '../site/config.js';
 
 export const EXPLORE_ROUTES: ReadonlyArray<ExploreRoute> = [
   {
     slug: 'by-industry',
     short_ja: '業種で探す',
     title_ja: '業種から職業を探す',
-    description_ja: '日本の 556 職業を 16 業種で分類。各業種の AI 影響度や代表職業を確認できる。',
+    description_ja: `日本の ${OCCUPATION_COUNT.SCORED} 職業を 16 業種で分類。各業種の AI 影響度や代表職業を確認できる。`,
     intro_ja: '医療・福祉・教育・建設・IT・事務・販売・サービスなど、16 の業種別に職業を整理。各業種には TOP 5 ランキング・全職業一覧・FAQ・パターン観察を含みます。',
     genres: [
       { path: 'sectors', label: '16 業種一覧', desc: '医療・福祉・建設・IT・事務など 16 業種の職業群' },

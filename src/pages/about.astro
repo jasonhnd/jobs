@@ -10,6 +10,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS, heatBg } from '@/lib/canonical/doc';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import { OCCUPATION_COUNT } from '@/site/config';
 
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
@@ -32,7 +33,7 @@ const GLOSSARY: { t: string; en: string; d: string }[] = [
   { t: '有効求人倍率', en: 'Effective Recruit Ratio', d: '1 人の求職者あたり何件の求人があるかを表す比率。1.0 超で売り手市場（人手不足傾向）、1.0 未満で買い手市場。' },
   { t: 'セクター', en: 'Sector', d: '本サイトの 16 業界分類。職業を理解しやすい単位でグループ化（医療・福祉・教育・建設・IT 等）。' },
   { t: 'RIASEC', en: 'Holland Code', d: 'John Holland 提唱の職業興味 6 類型：R（現実的）／ I（研究的）／ A（芸術的）／ S（社会的）／ E（企業的）／ C（慣習的）。' },
-  { t: 'IPD', en: '職業情報データベース v7.00', d: 'JILPT が公開する職業情報データベース。本サイトのソースデータの一つ。556 職業 × 数百項目の構造化データ。' },
+  { t: 'IPD', en: '職業情報データベース v7.00', d: `JILPT が公開する職業情報データベース。本サイトのソースデータの一つ。${OCCUPATION_COUNT.SCORED} 職業 × 数百項目の構造化データ。` },
   { t: 'Transfer Path', en: '転職候補', d: '各職業から「同じ業界＋より AI 影響度が低い」候補職業を cosine 類似度で抽出した転換マップ。各職業ページに 3 候補を表示。' },
   { t: 'Top-N', en: '上位スキル/知識/能力', d: '各職業の IPD スコアが高い順に上位 N 項目を抽出したリスト。スキル 10／知識 5／能力 5 がデフォルト。' },
   { t: '業務独占資格', en: 'Exclusive License', d: '法律で「資格保有者しかできない」と定められた業務範囲がある資格。医師・看護師・薬剤師・弁護士・公認会計士など。最も入りにくい高い壁。' },
@@ -153,7 +154,7 @@ const jsonLd = `{
       </details>
       <details>
         <summary>自分の職業がリストに見つかりません。</summary>
-        <p>本サイトは厚労省 jobtag の 556 職業を採用しています。新しい職種（プロンプトエンジニア、AI 倫理担当など）はまだ含まれていません。<strong>既存の最も近い職業</strong>を参考にしてください。</p>
+        <p>本サイトは厚労省 jobtag の {OCCUPATION_COUNT.SCORED} 職業を採用しています。新しい職種（プロンプトエンジニア、AI 倫理担当など）はまだ含まれていません。<strong>既存の最も近い職業</strong>を参考にしてください。</p>
       </details>
     </div>
 

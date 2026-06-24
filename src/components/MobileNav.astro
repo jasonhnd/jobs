@@ -24,6 +24,7 @@
  *
  * Hidden on desktop via canonical-css.ts media query.
  */
+import { OCCUPATION_COUNT } from '@/site/config';
 ---
 <header class="mob-topbar" aria-label="モバイルサイトヘッダー">
   <a href="/" class="mob-topbar-brand" aria-label="未来の仕事 — トップへ">
@@ -68,7 +69,7 @@
         </a>
         <a href="/map" class="mob-drawer-item">
           <span class="mob-drawer-label">職業マップ</span>
-          <span class="mob-drawer-meta">556 職業の俯瞰</span>
+          <span class="mob-drawer-meta">{OCCUPATION_COUNT.SCORED} 職業の俯瞰</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
         <a href="/sectors" class="mob-drawer-item">

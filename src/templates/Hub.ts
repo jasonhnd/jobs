@@ -19,6 +19,7 @@ import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass } from '../lib/risk.js';
 import { fmtInt, safeMean } from '../lib/num.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
+import { OCCUPATION_COUNT } from '../site/config.js';
 
 // Re-exports so page importers (which previously pulled these from
 // views/genre-hub) have one stop for HTML-rendering primitives.
@@ -327,7 +328,7 @@ export function renderExploreOtherRoutes(
 
 export function renderExploreIndexJsonLd(): string {
   const canonical = 'https://mirai-shigoto.com/explore';
-  const seoDesc = '日本 556 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。';
+  const seoDesc = `日本 ${OCCUPATION_COUNT.SCORED} 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。`;
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [

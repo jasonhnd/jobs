@@ -10,6 +10,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS, heatBg } from '@/lib/canonical/doc';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import { OCCUPATION_COUNT } from '@/site/config';
 
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
@@ -82,7 +83,7 @@ const jsonLd = `{
       "@id": "https://mirai-shigoto.com/methodology#webpage",
       "name": "データの整理と評価プロセス — mirai-shigoto.com",
       "url": "https://mirai-shigoto.com/methodology",
-      "description": "556 職業の O*NET 型ベクトルと日本の労働統計をどう整理し、AIOIS-10 標準でどう採点したか。データソース、ベクトルエンジン、LLM 判定、スコア帯の代表例、校正、限界。",
+      "description": "${OCCUPATION_COUNT.SCORED} 職業の O*NET 型ベクトルと日本の労働統計をどう整理し、AIOIS-10 標準でどう採点したか。データソース、ベクトルエンジン、LLM 判定、スコア帯の代表例、校正、限界。",
       "inLanguage": ["ja"],
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
       "datePublished": "2026-05-30",
@@ -95,7 +96,7 @@ const jsonLd = `{
       "@type": "TechArticle",
       "@id": "https://mirai-shigoto.com/methodology#techarticle",
       "headline": "データの整理と評価プロセス — AIOIS-10 採点方法",
-      "description": "556 職業のデータをどう整理し、AIOIS-10 標準で ${SCORE_ATTRIBUTION.modelDisplay} がどう採点したか。データソース、LLM 全次元判定、指数の式、スコア帯の代表例、校正、限界。",
+      "description": "${OCCUPATION_COUNT.SCORED} 職業のデータをどう整理し、AIOIS-10 標準で ${SCORE_ATTRIBUTION.modelDisplay} がどう採点したか。データソース、LLM 全次元判定、指数の式、スコア帯の代表例、校正、限界。",
       "abstract": "This methodology page explains how mirai-shigoto.com converts public Japanese occupation data into AIOIS-10 scores. It positions the method against occupation-level automation susceptibility, GPT task exposure, and task-based displacement/reinstatement research. A representative 40-occupation cross-model validation found Transformation correlations of r=0.92-0.97 and 38/40 occupations within 2.0 points, as an external-consistency check rather than full consensus scoring.",
       "keywords": ["AIOIS-10", "methodology", "AI occupational impact", "LLM exposure", "automation", "Japan occupation data"],
       "url": "https://mirai-shigoto.com/methodology",
@@ -122,11 +123,11 @@ const jsonLd = `{
 ---
 <BaseLayout
   title="データの整理と評価プロセス — mirai-shigoto.com"
-  description={`556 職業のデータをどう整理し、AIOIS-10 標準でどう採点したか。データソース、${SCORE_ATTRIBUTION.modelDisplay} 全次元判定、指数の式、スコア帯の代表例、校正、限界。`}
+  description={`${OCCUPATION_COUNT.SCORED} 職業のデータをどう整理し、AIOIS-10 標準でどう採点したか。データソース、${SCORE_ATTRIBUTION.modelDisplay} 全次元判定、指数の式、スコア帯の代表例、校正、限界。`}
   canonical="https://mirai-shigoto.com/methodology"
   keywords={`評価方法, データ整理, データソース, AIOIS-10, O*NET, 職業情報データベース, jobtag, JILPT, 有効求人倍率, ${SCORE_ATTRIBUTION.modelDisplay}, 校正, スコア帯, 限界`}
   ogTitle="データの整理と評価プロセス — mirai-shigoto.com"
-  ogDescription="556 職業データをどう整理し、AIOIS-10 標準でどう採点したか。データソース＋ベクトルエンジン＋LLM 判定＋校正。"
+  ogDescription={`${OCCUPATION_COUNT.SCORED} 職業データをどう整理し、AIOIS-10 標準でどう採点したか。データソース＋ベクトルエンジン＋LLM 判定＋校正。`}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={CANONICAL_DOC_CSS} />
@@ -135,7 +136,7 @@ const jsonLd = `{
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>評価プロセス</span></nav>
 
     <h1>データの整理と<span class="accent">評価プロセス</span></h1>
-    <p class="subtitle">556 職業をどう整え、AIOIS-10 標準でどう採点したか</p>
+    <p class="subtitle">{OCCUPATION_COUNT.SCORED} 職業をどう整え、AIOIS-10 標準でどう採点したか</p>
     <p class="meta-line">最終更新 {pageLastUpdated} ・ 採点 {SCORE_ATTRIBUTION.modelDisplay}（{SCORE_ATTRIBUTION.runDate}）</p>
 
     <p class="lead">
@@ -147,7 +148,7 @@ const jsonLd = `{
       <div class="src-row"><span class="src-label">職業マスタ</span><span><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a></span></div>
       <div class="src-row"><span class="src-label">著作権者</span><span>独立行政法人 労働政策研究・研修機構（<strong>JILPT</strong>）「職業情報データベース（IPD）」</span></div>
       <div class="src-row"><span class="src-label">バージョン</span><span><strong>v7.00</strong>（2026-03-17 公開・2026-05-03 公式 XLSX 取得）</span></div>
-      <div class="src-row"><span class="src-label">職業数</span><span><strong>556 職業</strong>（就業者数・年収データつき、うち 4 職業は推定値）</span></div>
+      <div class="src-row"><span class="src-label">職業数</span><span><strong>{OCCUPATION_COUNT.SCORED} 職業</strong>（就業者数・年収データつき、うち 4 職業は推定値）</span></div>
       <div class="src-row"><span class="src-label">労働統計</span><span>年収・就業者数・労働時間・平均年齢・<strong>有効求人倍率</strong>（賃金構造基本統計調査／労働力調査／ハローワーク求人統計。jobtag 簡易版より集計）</span></div>
       <div class="src-row"><span class="src-label">AI 影響スコア</span><span>本サイト独自分析（{SCORE_ATTRIBUTION.modelDisplay} 採点、{SCORE_ATTRIBUTION.runDate}、AIOIS-10 v1.0）</span></div>
       <div class="src-row"><span class="src-label">利用条件</span><span>job tag 利用規約 第 9 条により、職業解説・数値情報の編集・加工・再集計等の二次利用が可能。本サイトは合法的な二次利用です。</span></div>
@@ -188,21 +189,21 @@ const jsonLd = `{
     </div>
 
     <h2><span class="num">5.</span>校正と検証</h2>
-    <p>新しいモデルでの再採点は、いきなり全量を置きかえません。まず<strong>代表 40 職業</strong>（高・中・低の各帯、現場・知識・対人・管理の各タイプを網羅し、データ入力・翻訳者・会計士・プログラマー・経営者・外科医・看護師・介護員・林業ほかの校正例を含む）で試験採点し、前回 batch との drift（平均のずれ・帯の移動・順位変動）を監査・人手レビューしてから全量に進みます。今回（{SCORE_ATTRIBUTION.modelDisplay}、{SCORE_ATTRIBUTION.runDate} 採点）の全量 556 職業は、前回（Claude Opus 4.8、2026-05-30）比で変化の大きさの平均差 <strong>−0.07</strong>。スコア履歴は追記のみで、過去の batch はすべて保存されています。</p>
+    <p>新しいモデルでの再採点は、いきなり全量を置きかえません。まず<strong>代表 40 職業</strong>（高・中・低の各帯、現場・知識・対人・管理の各タイプを網羅し、データ入力・翻訳者・会計士・プログラマー・経営者・外科医・看護師・介護員・林業ほかの校正例を含む）で試験採点し、前回 batch との drift（平均のずれ・帯の移動・順位変動）を監査・人手レビューしてから全量に進みます。今回（{SCORE_ATTRIBUTION.modelDisplay}、{SCORE_ATTRIBUTION.runDate} 採点）の全量 {OCCUPATION_COUNT.SCORED} 職業は、前回（Claude Opus 4.8、2026-05-30）比で変化の大きさの平均差 <strong>−0.07</strong>。スコア履歴は追記のみで、過去の batch はすべて保存されています。</p>
     <div class="callout">
-      <strong>結果の分布</strong>：556 職業の変化の大きさは平均 4.2。身体・現場の仕事が低く、頭脳・事務の仕事が中〜高、定型デジタル作業（データ入力・文字起こし・各種事務）が最上位。仕事が減るリスクは、日本の人手不足（高い有効求人倍率）に守られ、多くの仕事で低く出ます。
+      <strong>結果の分布</strong>：{OCCUPATION_COUNT.SCORED} 職業の変化の大きさは平均 4.2。身体・現場の仕事が低く、頭脳・事務の仕事が中〜高、定型デジタル作業（データ入力・文字起こし・各種事務）が最上位。仕事が減るリスクは、日本の人手不足（高い有効求人倍率）に守られ、多くの仕事で低く出ます。
     </div>
 
     <h2>クロスモデル検証（外部整合性）</h2>
     <p>本サイトの AIOIS-10 スコアは Claude Fable 5 による判定だが、妥当性を確かめるため、代表 40 職業について Claude Opus 4.8 と Claude Sonnet 4.6 にも同一の AIOIS-10 ルーブリックで独立に（既存スコアを見せずに）採点させ、一致度を測定した。結果、3 モデルの「変化の大きさ」指数はモデル間相関 r=0.92〜0.97、平均の開きは約 1.0/10、95%（38/40 職業）が 2 点以内で一致した。Fable 5 のスコアとの平均絶対差は Opus 4.8 で 0.6、Sonnet 4.6 で 0.6 点で、Fable 5 は他 2 モデルのほぼ中央に位置し系統的な偏りは見られなかった。</p>
-    <p>限界：本検証は代表 40 職業（全 556 ではない）に対するもので、Opus/Sonnet は Claude Code 上、Fable 5 は本番バッチで採点（ルーブリックは同一）。本番スコアに多モデル consensus を採用したものではなく、単一モデルスコアの外部整合性チェックである。</p>
+    <p>限界：本検証は代表 40 職業（全 {OCCUPATION_COUNT.SCORED} ではない）に対するもので、Opus/Sonnet は Claude Code 上、Fable 5 は本番バッチで採点（ルーブリックは同一）。本番スコアに多モデル consensus を採用したものではなく、単一モデルスコアの外部整合性チェックである。</p>
 
     <h2><span class="num">6.</span>本手法の限界</h2>
     <ul>
       <li><strong>AI の判断を含みます</strong>。10 次元の判定は {SCORE_ATTRIBUTION.modelDisplay} 一台によるもの。別の AI・別の時点なら ±1〜2 ずれることがあります（モデル更新時は前回 batch との drift を監査します）。</li>
       <li><strong>統計検証はしていません</strong>。人間専門家との一致率は未測定。「実証研究」ではなく「校正済みの見立て」です。</li>
       <li><strong>単一時点のスナップショット</strong>（{SCORE_ATTRIBUTION.runDate}、現行 AI フロンティア）。能力進化で賞味期限は約 1 年。</li>
-      <li><strong>556 職業のみ</strong>。jobtag 未収録の新興職種（プロンプトエンジニア等）は対象外。</li>
+      <li><strong>{OCCUPATION_COUNT.SCORED} 職業のみ</strong>。jobtag 未収録の新興職種（プロンプトエンジニア等）は対象外。</li>
       <li><strong>日本版です</strong>。D9 は日本の労働市場（有効求人倍率）前提。海外の同名職には当てはめないでください。</li>
       <li><strong>個別の業務差を反映できない</strong>。同じ「医師」でも科目で実態は大きく異なります。</li>
     </ul>

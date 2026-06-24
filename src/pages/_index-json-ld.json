@@ -14,7 +14,7 @@
       "logo": "https://mirai-shigoto.com/api/og?page=home",
       "email": "info@mirai-shigoto.com",
       "foundingDate": "2026",
-      "description": "ZKSC operates mirai-shigoto.com, an independent analysis of 556 Japanese occupations and AI impact.",
+      "description": "ZKSC operates mirai-shigoto.com, an independent analysis of __OCCUPATION_COUNT_SCORED__ Japanese occupations and AI impact.",
       "knowsAbout": [
         "Japanese labor market",
         "AI occupational impact",
@@ -38,7 +38,7 @@
       "url": "https://mirai-shigoto.com/",
       "name": "未来の仕事",
       "alternateName": "Japan Jobs x AI Impact Map",
-      "description": "Independent map of 556 Japanese occupations scored for AI Impact under AIOIS-10.",
+      "description": "Independent map of __OCCUPATION_COUNT_SCORED__ Japanese occupations scored for AI Impact under AIOIS-10.",
       "inLanguage": [
         "ja"
       ],
@@ -72,9 +72,9 @@
     {
       "@type": "Dataset",
       "@id": "https://mirai-shigoto.com/#dataset",
-      "name": "Japan 556 Occupations x AI Impact",
+      "name": "Japan __OCCUPATION_COUNT_SCORED__ Occupations x AI Impact",
       "alternateName": "日本の職業 AI 影響度マップ",
-      "description": "556 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by Claude Fable 5. Mean AI Impact 4.18/10; mean Displacement-Risk 1.89/10.",
+      "description": "__OCCUPATION_COUNT_SCORED__ Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by Claude Fable 5. Mean AI Impact 4.18/10; mean Displacement-Risk 1.89/10.",
       "url": "https://mirai-shigoto.com/",
       "creator": {
         "@id": "https://mirai-shigoto.com/#organization"
@@ -148,7 +148,7 @@
     {
       "@type": "ItemList",
       "@id": "https://mirai-shigoto.com/#top-findings",
-      "name": "Notable findings - Japan 556 occupations x AI Impact",
+      "name": "Notable findings - Japan __OCCUPATION_COUNT_SCORED__ occupations x AI Impact",
       "description": "Generated from the active Claude Fable 5 2026-06-13 score batch.",
       "itemListOrder": "https://schema.org/ItemListUnordered",
       "numberOfItems": 5,
@@ -195,7 +195,7 @@
           "name": "mirai-shigoto.com とは？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "厚生労働省 jobtag と JILPT の公開データをもとに、日本の 556 職業を Claude Fable 5 による AI 影響度スコアで可視化した独立分析サイトです。"
+            "text": "厚生労働省 jobtag と JILPT の公開データをもとに、日本の __OCCUPATION_COUNT_SCORED__ 職業を Claude Fable 5 による AI 影響度スコアで可視化した独立分析サイトです。"
           }
         },
         {

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { OCCUPATION_COUNT } from '@/site/config';
 import { ABILITIES_CONFIGS } from '@/views/genre-configs';
 import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
 import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
@@ -31,7 +32,7 @@ const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>能力から探す</span></nav>
     <header id="content">
       <h1><span class="accent">能力から職業を探す</span></h1>
-      <p class="sub">IPD <strong>52 能力軸</strong> から reader value の高い {n} を hub 化、556 職業を整理</p>
+      <p class="sub">IPD <strong>52 能力軸</strong> から reader value の高い {n} を hub 化、{OCCUPATION_COUNT.SCORED} 職業を整理</p>
       <p class="intro">身体能力・認知能力・感覚処理など、自分の強みとなる能力から、それが活きる職業を探せます。各能力の説明と TOP 30 職業を AI 影響度・年収と共に確認。</p>
     </header>
     <section><h2>主要 {n} 能力</h2><ul class="genre-cards" set:html={cardsHtml} /></section>

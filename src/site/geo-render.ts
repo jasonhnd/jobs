@@ -42,6 +42,8 @@ function bandRows(facts: GeoFacts): string {
 export const CROSS_MODEL_VALIDATION_NOTE =
   'Methodology note: AIOIS-10 scores (Claude Fable 5) were cross-checked on a representative 40-occupation sample against Claude Opus 4.8 and Claude Sonnet 4.6 under the same rubric - inter-model correlation r=0.92-0.97, mean spread 1.02/10, and 95% (38/40) were within 2.0 points (validation sample, not a full multi-model consensus).';
 
+const HOME_OCCUPATION_COUNT_PLACEHOLDER = '__OCCUPATION_COUNT_SCORED__';
+
 export function hasCrossModelValidationNote(attribution: GeoAttribution): boolean {
   return attribution.modelId === 'claude-fable-5' && attribution.runDate === '2026-06-13';
 }
@@ -248,6 +250,7 @@ This site is independent and unofficial. It does not represent MHLW, jobtag, or 
 export function renderHomeJsonLd(facts: GeoFacts): string {
   const site = 'https://mirai-shigoto.com';
   const { attribution } = facts;
+  const occupationCount = HOME_OCCUPATION_COUNT_PLACEHOLDER;
   const graph = [
     {
       '@type': 'Organization',
@@ -259,7 +262,7 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
       logo: `${site}/api/og?page=home`,
       email: 'info@mirai-shigoto.com',
       foundingDate: '2026',
-      description: `ZKSC operates mirai-shigoto.com, an independent analysis of ${facts.occupationCount} Japanese occupations and AI impact.`,
+      description: `ZKSC operates mirai-shigoto.com, an independent analysis of ${occupationCount} Japanese occupations and AI impact.`,
       knowsAbout: [
         'Japanese labor market',
         'AI occupational impact',
@@ -276,7 +279,7 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
       url: `${site}/`,
       name: '未来の仕事',
       alternateName: 'Japan Jobs x AI Impact Map',
-      description: `Independent map of ${facts.occupationCount} Japanese occupations scored for AI Impact under ${attribution.standardLabel}.`,
+      description: `Independent map of ${occupationCount} Japanese occupations scored for AI Impact under ${attribution.standardLabel}.`,
       inLanguage: ['ja'],
       creator: { '@id': `${site}/#organization` },
       publisher: { '@id': `${site}/#organization` },
@@ -300,9 +303,9 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
     {
       '@type': 'Dataset',
       '@id': `${site}/#dataset`,
-      name: `Japan ${facts.occupationCount} Occupations x AI Impact`,
+      name: `Japan ${occupationCount} Occupations x AI Impact`,
       alternateName: '日本の職業 AI 影響度マップ',
-      description: `${facts.occupationCount} Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by ${attribution.modelDisplay}. Mean AI Impact ${fmtMean(facts.meanAiImpact)}/10; mean Displacement-Risk ${fmtMean(facts.meanDisplacementRisk)}/10.`,
+      description: `${occupationCount} Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by ${attribution.modelDisplay}. Mean AI Impact ${fmtMean(facts.meanAiImpact)}/10; mean Displacement-Risk ${fmtMean(facts.meanDisplacementRisk)}/10.`,
       url: `${site}/`,
       creator: { '@id': `${site}/#organization` },
       publisher: { '@id': `${site}/#organization` },
@@ -342,7 +345,7 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
     {
       '@type': 'ItemList',
       '@id': `${site}/#top-findings`,
-      name: `Notable findings - Japan ${facts.occupationCount} occupations x AI Impact`,
+      name: `Notable findings - Japan ${occupationCount} occupations x AI Impact`,
       description: `Generated from the active ${attribution.modelDisplay} ${attribution.runDate} score batch.`,
       itemListOrder: 'https://schema.org/ItemListUnordered',
       numberOfItems: 5,
@@ -389,7 +392,7 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
           name: 'mirai-shigoto.com とは？',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: `厚生労働省 jobtag と JILPT の公開データをもとに、日本の ${facts.occupationCount} 職業を ${attribution.modelDisplay} による AI 影響度スコアで可視化した独立分析サイトです。`,
+            text: `厚生労働省 jobtag と JILPT の公開データをもとに、日本の ${occupationCount} 職業を ${attribution.modelDisplay} による AI 影響度スコアで可視化した独立分析サイトです。`,
           },
         },
         {

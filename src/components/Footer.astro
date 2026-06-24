@@ -141,10 +141,18 @@ const { iso, display } = formatJst(buildTime);
     footer.dataset.shareWired = '1';
 
     var COPY_TOAST = 'コピーしました';
-    // FALLBACK_TEXT must mirror SHARE_FALLBACK_TEXT in this file's frontmatter
-    // (kept in sync via OCCUPATION_COUNT.SCORED; see src/site/config.ts).
-    var FALLBACK_TEXT = '日本 556 職業への AI 影響を 0〜10 で可視化したマップ。あなたの仕事は？';
+    // FALLBACK_TEXT must mirror SHARE_FALLBACK_TEXT in this file's frontmatter.
+    var fallbackTextLink = footer.querySelector('.share-btn[data-platform="x"]');
+    var FALLBACK_TEXT = SHARE_FALLBACK_TEXT_FROM_LINK(fallbackTextLink);
 
+    function SHARE_FALLBACK_TEXT_FROM_LINK(link) {
+      try {
+        if (!link || !link.href) return '';
+        return new URL(link.href).searchParams.get('text') || '';
+      } catch (err) {
+        return '';
+      }
+    }
     function shareText() {
       // Prefer page-specific og:description (set per-page in BaseLayout).
       var og = document.querySelector('meta[property="og:description"]');

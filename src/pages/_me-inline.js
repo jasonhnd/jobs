@@ -314,7 +314,8 @@
       var rankings = positionsData.rankings;
       // Sort: in-TOP first (asc by rank), then by outOfUniverse asc (圏外 included).
       var rows = rankings.map(function (r) {
-        var p = pos.inRankings[r.slug] || { rank: null, total: 0, outOfUniverse: null, universeSize: 556, percentile: null };
+        var fallbackUniverse = positionsData.meta && positionsData.meta.universe_size ? positionsData.meta.universe_size : 0;
+        var p = pos.inRankings[r.slug] || { rank: null, total: 0, outOfUniverse: null, universeSize: fallbackUniverse, percentile: null };
         return { meta: r, pos: p };
       });
       rows.sort(function (a, b) {
@@ -375,11 +376,7 @@
         var universe = row.pos.universeSize;
         var rank = row.pos.outOfUniverse;
         var pct = row.pos.percentile;
-        if (universe === 556) {
-          detail.textContent = '全 556 中 ' + rank + ' 位 (上位 ' + pct + '%)';
-        } else {
-          detail.textContent = '対象 ' + universe + ' 中 ' + rank + ' 位 (上位 ' + pct + '%)';
-        }
+        detail.textContent = '全 ' + universe + ' 中 ' + rank + ' 位 (上位 ' + pct + '%)';
       } else {
         detail.textContent = '対象外';
       }
@@ -515,4 +512,3 @@
       init();
     }
   })();
-  

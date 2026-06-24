@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { OCCUPATION_COUNT } from '@/site/config';
 import { loadGraph } from '@/graph';
 import { GENRE_HUB_CSS } from '@/templates/Hub';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
@@ -23,7 +24,7 @@ const b = buildGenreSlugBindings({
   result, graph: await loadGraph(),
   genrePath: 'education', genreLabel: '学歴から探す', ogParam: 'education',
   allConfigs: EDUCATION_CONFIGS, crossHubKey: 'education',
-  subTemplate: (s, n) => `<strong>${s}</strong>で目指せる職業 TOP ${n}（全 556 職業中）`,
+  subTemplate: (s, n) => `<strong>${s}</strong>で目指せる職業 TOP ${n}（全 ${OCCUPATION_COUNT.SCORED} 職業中）`,
   seoDescTemplate: (s, n, d) => `${s}で目指せる職業 TOP ${n}。${d.slice(0, 80)}…`,
   relatedHeading: '他の学歴',
 });

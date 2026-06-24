@@ -13,6 +13,7 @@ import { buildInterests } from '@/views/interests';
 import { renderHubJsonLd, renderInterestsHubCards } from '@/templates/InterestHub';
 import { loadGraph } from '@/graph';
 import { makeHollandLoaderFromGraph, makeInterestsTreemapFromGraph } from '@/views/interest';
+import { OCCUPATION_COUNT } from '@/site/config';
 
 const graph = await loadGraph();
 const { hub } = buildInterests({
@@ -20,11 +21,11 @@ const { hub } = buildInterests({
   treemap: makeInterestsTreemapFromGraph(graph),
 });
 const canonical = 'https://mirai-shigoto.com/interests';
-const title = '興味タイプから職業を探す｜RIASEC 6 分類で日本の 556 職業を整理 | 未来の仕事';
+const title = `興味タイプから職業を探す｜RIASEC 6 分類で日本の ${OCCUPATION_COUNT.SCORED} 職業を整理 | 未来の仕事`;
 const seoDesc =
-  'RIASEC (Holland Code) 興味タイプ 6 分類で日本の 556 職業を整理。' +
+  `RIASEC (Holland Code) 興味タイプ 6 分類で日本の ${OCCUPATION_COUNT.SCORED} 職業を整理。` +
   '現実的・研究的・芸術的・社会的・企業的・慣習的の各タイプにおすすめの職業 TOP 30 を AI 影響度・年収と共に一覧。';
-const keywords = 'RIASEC, ホランドコード, 適職診断, 興味タイプ, 職業選び, 556 職業';
+const keywords = `RIASEC, ホランドコード, 適職診断, 興味タイプ, 職業選び, ${OCCUPATION_COUNT.SCORED} 職業`;
 
 const cardsHtml = renderInterestsHubCards(hub.cards);
 const jsonLd = renderHubJsonLd();
@@ -79,7 +80,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 
     <header id="content">
       <h1><span class="accent">興味タイプから職業を探す</span></h1>
-      <p class="sub">RIASEC (Holland Code) <strong>6 分類</strong> で日本の 556 職業を整理</p>
+      <p class="sub">RIASEC (Holland Code) <strong>6 分類</strong> で日本の {OCCUPATION_COUNT.SCORED} 職業を整理</p>
       <p class="intro">
         John Holland が提唱した職業興味の 6 類型 (RIASEC) で、自分の興味・性格に合いそうな職業群を探せます。
         各タイプの説明を読み、TOP 30 職業を AI 影響度・年収と共に一覧で確認してください。

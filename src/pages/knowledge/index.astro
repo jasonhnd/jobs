@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { OCCUPATION_COUNT } from '@/site/config';
 import { KNOWLEDGE_CONFIGS } from '@/views/genre-configs';
 import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
 import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
@@ -31,7 +32,7 @@ const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>知識から探す</span></nav>
     <header id="content">
       <h1><span class="accent">知識から職業を探す</span></h1>
-      <p class="sub">IPD <strong>33 知識領域</strong> から主要 {n} を hub 化、556 職業を整理</p>
+      <p class="sub">IPD <strong>33 知識領域</strong> から主要 {n} を hub 化、{OCCUPATION_COUNT.SCORED} 職業を整理</p>
       <p class="intro">専門知識領域から、それを活かす職業を探せます。生産・顧客サービス・機械・医学・数学などの代表的知識領域別に、TOP 30 職業を一覧。</p>
     </header>
     <section><h2>主要 {n} 知識領域</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
