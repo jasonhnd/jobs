@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-06-21T13:59:46.391Z",
-  "gitCommit": "b66c10513d7b0bf3c4c845dbe50e1dfe974b7dac",
-  "gitBranch": "issue-13-occupation-qa",
+  "capturedAt": "2026-06-25T05:55:26.886Z",
+  "gitCommit": "50bea9333d40b7b16aaa4c09740a387b51dc527e",
+  "gitBranch": "perf/p0-self-host-fonts",
   "distFileCount": 825,
   "urlCount": 825,
   "dataFileCount": 607,

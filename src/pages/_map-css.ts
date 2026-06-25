@@ -37,7 +37,7 @@ export const MAP_PAGE_CSS = `
       --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
       --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
       --border: rgba(36, 30, 24, 0.10);
-      --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+      --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
       --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
       --h-head: 48px; --h-search: 56px; --h-chips: 52px;
     }
