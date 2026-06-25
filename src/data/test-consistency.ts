@@ -27,6 +27,16 @@ const TREEMAP_REQUIRED_KEYS = new Set([
   'url',
 ]);
 
+const TOP10_REQUIRED_KEYS = new Set([
+  'id',
+  'name_ja',
+  'name_en',
+  'ai_risk',
+  'ai_rationale_ja',
+  'workers',
+  'salary',
+]);
+
 const RISK_TIERS = ['low', 'mid', 'high'] as const;
 const JAPAN_WORKFORCE_LIMIT = 70_000_000;
 const MIN_OCCUPATIONS_PER_SECTOR = 5;
@@ -67,12 +77,13 @@ function relPath(p: string): string {
 }
 
 async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void> {
-  // All 12 projection families produced by src/data/build.ts. A missing
+  // Planned public projection files produced by src/data/build.ts. A missing
   // file here means a projection silently failed to write, which the build
   // step itself does not currently detect.
   const requiredFiles = [
     'data.treemap.json',
     'data.treemap.meta.json',
+    'data.top10.json',
     'data.search.json',
     'data.sectors.json',
     'data.review_queue.json',
@@ -269,6 +280,77 @@ async function checkTreemap(distRoot: string, r: Report): Promise<unknown[]> {
     }
   }
   return data;
+}
+
+async function checkTop10(distRoot: string, r: Report): Promise<void> {
+  const f = join(distRoot, 'data.top10.json');
+  if (!existsSync(f)) return;
+  let data: unknown;
+  try {
+    data = await loadJson(f);
+  } catch (err) {
+    r.fail(`data.top10.json is invalid JSON: ${(err as Error).message}`);
+    return;
+  }
+
+  if (!Array.isArray(data)) {
+    r.fail(`data.top10.json must be a top-level array (got ${typeof data})`);
+    return;
+  }
+  if (data.length !== 10) {
+    r.fail(`data.top10.json must contain exactly 10 records (got ${data.length})`);
+  }
+
+  let previous: { risk: number; id: number } | null = null;
+  for (let i = 0; i < data.length; i += 1) {
+    const rec = data[i] as Record<string, unknown>;
+    if (!rec || typeof rec !== 'object') {
+      r.fail(`top10[${i}] is not an object`);
+      continue;
+    }
+
+    const missing: string[] = [];
+    for (const k of TOP10_REQUIRED_KEYS) {
+      if (!(k in rec)) missing.push(k);
+    }
+    if (missing.length > 0) {
+      r.fail(`top10[${i}] missing required keys: ${missing.sort().join(', ')}`);
+    }
+
+    const id = rec.id;
+    const risk = rec.ai_risk;
+    if (typeof id !== 'number') r.fail(`top10[${i}].id must be number`);
+    if (typeof rec.name_ja !== 'string' || rec.name_ja.length === 0) {
+      r.fail(`top10[${i}].name_ja empty/non-string`);
+    }
+    if (rec.name_en !== null && typeof rec.name_en !== 'string') {
+      r.fail(`top10[${i}].name_en must be null-or-string`);
+    }
+    if (typeof risk !== 'number' || risk < 0 || risk > 10) {
+      r.fail(`top10[${i}].ai_risk out of range/non-number: ${risk}`);
+    }
+    if (typeof rec.ai_rationale_ja !== 'string' || rec.ai_rationale_ja.length === 0) {
+      r.fail(`top10[${i}].ai_rationale_ja empty/non-string`);
+    }
+    if (rec.workers !== null && typeof rec.workers !== 'number') {
+      r.fail(`top10[${i}].workers must be null-or-number`);
+    }
+    if (rec.salary !== null && typeof rec.salary !== 'number') {
+      r.fail(`top10[${i}].salary must be null-or-number`);
+    }
+
+    if (typeof id === 'number' && typeof risk === 'number') {
+      const current = { risk, id };
+      if (previous && (
+        current.risk > previous.risk ||
+        (current.risk === previous.risk && current.id < previous.id)
+      )) {
+        r.fail(`top10 ordering drift at index ${i}: ai_risk desc, id asc tie-break expected`);
+      }
+      previous = current;
+    }
+  }
+  r.note(`top10: ${data.length} records`);
 }
 
 async function checkSearch(distRoot: string, r: Report, expectedCount: number): Promise<void> {
@@ -514,6 +596,7 @@ async function main(): Promise<void> {
 
   await checkPlannedFilesExist(distRoot, r);
   const treemapRecords = await checkTreemap(distRoot, r);
+  await checkTop10(distRoot, r);
 
   // Source occupation count
   const occDir = join(REPO, 'data', 'occupations');

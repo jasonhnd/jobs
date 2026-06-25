@@ -2,8 +2,9 @@
  * data.treemap.json projection — per docs/DATA_ARCHITECTURE.md §6.1.
  *
  * Status: Implemented
- * Consumer: index.html (desktop + mobile treemap canvas + per-tile tooltip),
+ * Consumer: index.html desktop treemap canvas + per-tile tooltip,
  *           mobile-web ② 職業マップ + ⑦ ランキング (sector grouping + bands).
+ *           Homepage mobile TOP10 uses the slim data.top10.json projection.
  * Shape:    array of objects (one per occupation) — top-level array for drop-in
  *           compatibility with legacy data.json.
  *

@@ -77,7 +77,7 @@ Karpathy の「政府職業データ × LLM スコア」という構造は継承
 2. **プロンプト** — AIOIS-10 v1.0 の定義 + 入力バンドル + 構造化出力指示（JSON: `ai_risk`, `rationale_ja`, `confidence`, `aiois: { d1...d10, transformation, displacement }`。本サイトは日本語専用）。
 3. **モデル** — Claude Fable 5（`claude-fable-5`）。現行の active score run は 2026-06-13 です。AIOIS-10 run では、別モデルへの silent fallback は行いません。
 4. **出力** — モデルの AIOIS-10 スコア + 理由文、職業ごとにキャッシュ。再実行時は既出力の職業はスキップ。
-5. **集約** — `npm run build:data`（`src/data/build.ts`）が IPD ソースデータ + AI スコア + 統計を結合し、`public/` 下に 12 個の projection family を出力（treemap / detail / search / labels / sectors / profile5 / transfer_paths / holland / featured / score_history / tasks / skills）。フロントエンドは `/data.treemap.json` を読み込みます。
+5. **集約** — `npm run build:data`（`src/data/build.ts`）が IPD ソースデータ + AI スコア + 統計を結合し、`public/` 下に projection family を出力（treemap / top10 / detail / search / labels / sectors / profile5 / transfer_paths / holland / skills / GEO surfaces など）。ホームページはデスクトップで `/data.treemap.json` を遅延読み込みし、モバイル TOP 10 は軽量な `/data.top10.json` を読み込みます。
 
 各理由文は 1〜3 文で、*なぜそのスコアになったか* — 業務のどの部分が現時点の LLM でこなせそうか、どの部分が難しそうか — を簡潔に説明します。
 
@@ -109,7 +109,7 @@ Karpathy の「政府職業データ × LLM スコア」という構造は継承
 
 ## ビルドパイプライン
 
-TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データを取り込み、Claude Fable 5 が AIOIS-10 で生成した AI 影響度 / 仕事が減るリスクと結合し、Zod スキーマ（`src/data/schema/*.ts`）で検証した上で、`dist/` 配下に 12 個の projection family を書き出します。続いて Astro が `src/pages/` を静的レンダリングし、結果の `dist-astro/` を Vercel がデプロイします。パイプライン全体は `npm run build`（= `npm run build:data && astro build`）で実行できます。
+TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データを取り込み、Claude Fable 5 が AIOIS-10 で生成した AI 影響度 / 仕事が減るリスクと結合し、Zod スキーマ（`src/data/schema/*.ts`）で検証した上で、`public/` 配下に projection family を書き出します。続いて Astro が `src/pages/` を静的レンダリングし、結果の `dist-astro/` を Vercel がデプロイします。パイプライン全体は `npm run build`（= `npm run build:data && astro build`）で実行できます。
 
 ---
 

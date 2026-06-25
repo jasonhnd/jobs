@@ -16,6 +16,13 @@
       let lastTapTime = 0;
       let keyboardIdx = -1;
       let percentiles = {};
+      const MOBILE_TOP10_MEDIA = "(max-width: 768px)";
+      const TREEMAP_DATA_URL = "data.treemap.json";
+      const MOBILE_TOP10_DATA_URL = "data.top10.json";
+      const mobileViewport = window.matchMedia(MOBILE_TOP10_MEDIA);
+      let treemapDataPromise = null;
+      let mobileTop10Promise = null;
+      let treemapObserver = null;
       const canvas = document.getElementById("treemap");
       if (!canvas) {
         // If the treemap canvas was removed from the template, bail out
@@ -992,7 +999,7 @@
       // Reads ?q=... from URL, then either:
       //   - exact name match → redirect to /<id> (best UX from Google search box)
       //   - partial match    → pre-fill all hero search inputs + trigger autocomplete
-      // Called from the data.treemap.json .then() so `data` is guaranteed populated.
+      // Called after desktop treemap data loads so `data` is guaranteed populated.
       function handleSearchActionQuery() {
         const params = new URLSearchParams(window.location.search);
         const query = (params.get("q") || "").trim();
@@ -1608,15 +1615,15 @@
       }
 
       // v1.2.x: render mobile-only TOP 10 horizontal-swipe carousel.
-      // Pulls top-10 by ai_risk desc from the loaded `data` array (treemap projection).
+      // Pulls a slim pre-ranked payload from data.top10.json so mobile never
+      // downloads the full treemap projection for this carousel.
       // Visible only at ≤768px (CSS media query). v1.4.0: JA-only.
-      function renderMobileTop10() {
+      function renderMobileTop10(records) {
         const track = document.getElementById("mTop10Track");
         const section = document.getElementById("mTop10");
-        if (!track || !section || !data.length) return;
-        const top10 = [...data]
+        if (!track || !section || !Array.isArray(records) || !records.length) return;
+        const top10 = records
           .filter(d => d.ai_risk != null)
-          .sort((a, b) => b.ai_risk - a.ai_risk)
           .slice(0, 10);
         if (top10.length === 0) return;
         const tag = "大きく変わる仕事";
@@ -1684,60 +1691,133 @@
         }
       }
 
-      fetch("data.treemap.json", { credentials: "omit" })
-        .then(r => {
-          if (!r.ok) throw new Error("HTTP " + r.status);
-          return r.json();
-        })
-        .then(d => {
-          data = d;
-          percentiles = computePercentiles(data);
-          const ls = document.getElementById("loadingState");
-          if (ls) ls.remove();
-          canvas.style.visibility = "visible";
-          // Defer the __OCCUPATION_COUNT_SCORED__-item screen-reader fallback list until the browser is idle.
-          // It's only consumed by assistive tech and never visible — but rendering it inline
-          // adds ~__OCCUPATION_COUNT_SCORED__ DOM nodes that triple Style & Layout time on initial paint.
-          const fb = document.getElementById("canvasFallback");
-          if (fb) {
-            const renderFallback = () => {
-              fb.innerHTML = data.slice(0, __OCCUPATION_COUNT_SCORED__).map(d =>
-                `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${Number(d.ai_risk) || 0}/10</a></li>`
-              ).join("");
-            };
-            if ("requestIdleCallback" in window) {
-              requestIdleCallback(renderFallback, { timeout: 3000 });
-            } else {
-              setTimeout(renderFallback, 1500);
+      function fetchJson(url) {
+        return fetch(url, { credentials: "omit" })
+          .then(r => {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+          });
+      }
+
+      function loadMobileTop10() {
+        if (mobileTop10Promise) return mobileTop10Promise;
+        mobileTop10Promise = fetchJson(MOBILE_TOP10_DATA_URL)
+          .then(rows => {
+            renderMobileTop10(rows);
+            return rows;
+          })
+          .catch(() => {
+            const section = document.getElementById("mTop10");
+            if (section) section.hidden = true;
+            return [];
+          });
+        return mobileTop10Promise;
+      }
+
+      function loadTreemapData() {
+        if (mobileViewport.matches) return Promise.resolve(null);
+        if (treemapDataPromise) return treemapDataPromise;
+        treemapDataPromise = fetchJson(TREEMAP_DATA_URL)
+          .then(d => {
+            data = d;
+            percentiles = computePercentiles(data);
+            const ls = document.getElementById("loadingState");
+            if (ls) ls.remove();
+            canvas.style.visibility = "visible";
+            // Defer the __OCCUPATION_COUNT_SCORED__-item screen-reader fallback list until the browser is idle.
+            // It's only consumed by assistive tech and never visible — but rendering it inline
+            // adds ~__OCCUPATION_COUNT_SCORED__ DOM nodes that triple Style & Layout time on initial paint.
+            const fb = document.getElementById("canvasFallback");
+            if (fb) {
+              const renderFallback = () => {
+                fb.innerHTML = data.slice(0, __OCCUPATION_COUNT_SCORED__).map(d =>
+                  `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${Number(d.ai_risk) || 0}/10</a></li>`
+                ).join("");
+              };
+              if ("requestIdleCallback" in window) {
+                requestIdleCallback(renderFallback, { timeout: 3000 });
+              } else {
+                setTimeout(renderFallback, 1500);
+              }
             }
+            // v1.4.0: site is JA-only. Initial render uses the JA strings already
+            // baked into the markup; no language toggle needed.
+            updateStats();
+            updateDimensionHint();
+            drawGradientLegend();
+            resize();
+            // Apply hash deep-link if present
+            if (location.hash) setTimeout(applyHash, 50);
+            // Schema.org SearchAction — handle ?q=... from sitelinks search box,
+            // social shares, or direct URL access. Runs after desktop treemap
+            // data is loaded so exact-match redirect can resolve immediately.
+            handleSearchActionQuery();
+            // GA4 map_loaded — typed signal that initial render finished. Lets
+            // dashboards split sessions by device + occupation count without
+            // relying on auto page_view (which fires before data.json arrives).
+            if (window.gtag) {
+              const _vw = window.innerWidth;
+              const _device = _vw < 768 ? "mobile" : (_vw < 1024 ? "tablet" : "desktop");
+              gtag("event", "map_loaded", {
+                language: "ja",
+                device_category: _device,
+                tile_count: data.length,
+              });
+            }
+            return data;
+          })
+          .catch(showError);
+        return treemapDataPromise;
+      }
+
+      function disconnectTreemapObserver() {
+        if (treemapObserver) {
+          treemapObserver.disconnect();
+          treemapObserver = null;
+        }
+      }
+
+      function observeTreemapCanvas() {
+        if (mobileViewport.matches || treemapDataPromise || treemapObserver) return;
+        if (!("IntersectionObserver" in window)) {
+          loadTreemapData();
+          return;
+        }
+        treemapObserver = new IntersectionObserver(entries => {
+          const visible = entries.some(entry => entry.isIntersecting);
+          if (!visible || mobileViewport.matches) return;
+          disconnectTreemapObserver();
+          loadTreemapData();
+        }, { rootMargin: "0px", threshold: 0.01 });
+        treemapObserver.observe(canvas);
+      }
+
+      function initHomeDataLoading() {
+        if (mobileViewport.matches) {
+          loadMobileTop10();
+        } else {
+          observeTreemapCanvas();
+          if (location.hash || new URLSearchParams(window.location.search).has("q")) {
+            canvas.scrollIntoView({ behavior: "auto", block: "center" });
           }
-          // v1.4.0: site is JA-only. Initial render uses the JA strings already
-          // baked into the markup; no language toggle needed.
-          updateStats();
-          updateDimensionHint();
-          drawGradientLegend();
-          resize();
-          renderMobileTop10();   // v1.2.x: TOP 10 carousel (mobile only via CSS @media)
-          // Apply hash deep-link if present
-          if (location.hash) setTimeout(applyHash, 50);
-          // Schema.org SearchAction — handle ?q=... from sitelinks search box,
-          // social shares, or direct URL access. Runs after data is loaded so
-          // exact-match redirect can resolve immediately.
-          handleSearchActionQuery();
-          // GA4 map_loaded — typed signal that initial render finished. Lets
-          // dashboards split sessions by device + occupation count without
-          // relying on auto page_view (which fires before data.json arrives).
-          if (window.gtag) {
-            const _vw = window.innerWidth;
-            const _device = _vw < 768 ? "mobile" : (_vw < 1024 ? "tablet" : "desktop");
-            gtag("event", "map_loaded", {
-              language: "ja",
-              device_category: _device,
-              tile_count: data.length,
-            });
+        }
+
+        const onViewportChange = event => {
+          if (event.matches) {
+            disconnectTreemapObserver();
+            loadMobileTop10();
+          } else {
+            observeTreemapCanvas();
           }
-        })
-        .catch(showError);
+        };
+        if (mobileViewport.addEventListener) {
+          mobileViewport.addEventListener("change", onViewportChange);
+        } else if (mobileViewport.addListener) {
+          mobileViewport.addListener(onViewportChange);
+        }
+      }
+
+      initHomeDataLoading();
 
       // ---- Theme toggle (light/dark) ----
       (function themeToggle() {

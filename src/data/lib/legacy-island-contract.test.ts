@@ -15,7 +15,8 @@
  * real users at runtime.
  *
  * Contracts pinned:
- *   - /data.treemap.json  — fetched by map.astro AND index-source.html
+ *   - /data.treemap.json  — fetched by map.astro AND desktop index-source.html
+ *   - /data.top10.json    — fetched by index-source.html mobile TOP10
  *   - /data.search.json   — fetched by map.astro for the search box
  *   - /data.sectors.json  — fetched by map.astro for the chip rail
  *
@@ -64,6 +65,42 @@ describe('legacy island runtime data contract', () => {
       // Sector fields are required for chip filtering (no null).
       assert.equal(typeof r.sector_id, 'string', `record[${idx}].sector_id is string`);
       assert.equal(typeof r.sector_ja, 'string', `record[${idx}].sector_ja is string`);
+    }
+  });
+
+  test('/data.top10.json — fields the homepage mobile TOP10 reads', () => {
+    const arr = loadJson<unknown[]>('data.top10.json');
+    assert.ok(Array.isArray(arr), 'top10.json must be an array');
+    assert.equal(arr.length, 10, `expected 10 records (got ${arr.length})`);
+
+    let prev: { risk: number; id: number } | null = null;
+    for (const [idx, raw] of arr.entries()) {
+      const r = raw as Record<string, unknown>;
+      assert.equal(typeof r.id, 'number', `record[${idx}].id is number`);
+      assert.equal(typeof r.name_ja, 'string', `record[${idx}].name_ja is string`);
+      assert.ok(
+        r.name_en === null || typeof r.name_en === 'string',
+        `record[${idx}].name_en null-or-string`,
+      );
+      assert.equal(typeof r.ai_risk, 'number', `record[${idx}].ai_risk is number`);
+      assert.equal(typeof r.ai_rationale_ja, 'string', `record[${idx}].ai_rationale_ja is string`);
+      assert.ok(
+        r.workers === null || typeof r.workers === 'number',
+        `record[${idx}].workers null-or-number`,
+      );
+      assert.ok(
+        r.salary === null || typeof r.salary === 'number',
+        `record[${idx}].salary null-or-number`,
+      );
+
+      const cur = { risk: r.ai_risk as number, id: r.id as number };
+      if (prev) {
+        assert.ok(
+          cur.risk < prev.risk || (cur.risk === prev.risk && cur.id > prev.id),
+          `record[${idx}] sorted by ai_risk desc, id asc`,
+        );
+      }
+      prev = cur;
     }
   });
 

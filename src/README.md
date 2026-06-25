@@ -9,7 +9,7 @@ src/
 ├── data/
 │   ├── schema/              # Zod スキーマ — データ形状の正典
 │   ├── lib/                 # bands / score-strategy / sector-resolver / indexes / now / fsum / banker-round / rankings
-│   ├── projections/         # build.ts が public/data.* に書き出す 12 projection
+│   ├── projections/         # build.ts が public/data.* に書き出す projection
 │   ├── build.ts             # TS-ETL オーケストレータ (`npm run build:data`)
 │   ├── import-ipd.ts        # IPD xlsx → data/occupations/*.json
 │   └── test-consistency.ts  # L3 projection の sanity check (`npm run test:consistency`)

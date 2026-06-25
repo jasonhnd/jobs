@@ -1,7 +1,7 @@
 /**
  * TS ETL orchestrator — entry point for `npm run build:data`.
  *
- * Loads + validates source data, runs all 12 projections, writes them to
+ * Loads + validates source data, runs the public projections, writes them to
  * `public/` (Astro's publicDir; Astro then copies the whole publicDir into
  * `dist-astro/` during `astro build`).
  *
@@ -35,6 +35,7 @@ import { buildProfile5 } from './projections/profile5.js';
 import { buildSearch } from './projections/search.js';
 import { buildSectors } from './projections/sectors.js';
 import { buildSkills } from './projections/skills.js';
+import { buildTop10 } from './projections/top10.js';
 import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
 import { buildAiAdoption } from './projections/ai-adoption.js';
@@ -237,6 +238,11 @@ async function main(): Promise<void> {
 
     runs.push(await runProjection('treemap', async () => {
       const r = await buildTreemap(indexes, STAGE_DIST);
+      return { files: r.files, summary: `rows=${r.rows}` };
+    }));
+
+    runs.push(await runProjection('top10', async () => {
+      const r = await buildTop10(indexes, STAGE_DIST);
       return { files: r.files, summary: `rows=${r.rows}` };
     }));
 
