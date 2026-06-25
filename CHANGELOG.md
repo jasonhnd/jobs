@@ -10,6 +10,56 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+## [1.6.0] — 2026-06-24 — GEO AI-citation optimization, cross-model validation, quality hardening
+
+### Added (GEO-D2-B cross-model validation - 2026-06-24, Issue #15)
+
+- Validated the published Claude Fable 5 AIOIS-10 scores against blind re-scores by
+  Claude Opus 4.8 and Claude Sonnet 4.6 on a deterministic 40-occupation
+  representative sample under the same AIOIS-10 rubric. Inter-model Transformation
+  correlation r=0.92–0.97, mean spread 1.0/10, 38/40 within 2.0 points; Fable 5 sits
+  near the centre with no systematic bias. Archived under
+  `data/validation/issue-15-d2b/`, published as a methodology "cross-model
+  validation" section plus a citable note in `llms.txt`/`llms-full.txt` (scoped to
+  the active batch). Headline scores unchanged — this is an external-consistency
+  check, not a full per-occupation multi-model consensus.
+
+### Added (GEO-D1 academic citation anchoring - 2026-06-22, Issue #14)
+
+- Added `ScholarlyArticle` citations (Frey & Osborne 2013, Eloundou et al. 2023,
+  Acemoglu & Restrepo 2019) and a complete 10-term AIOIS-10 `DefinedTermSet` to the
+  standard / methodology JSON-LD, corrected the standard-page scoring examples to the
+  canonical Fable 5 values, and extended the freshness gate to those pages via a
+  positive `SCORE_ATTRIBUTION` assertion (no blanket date/model token bans).
+
+### Added (GEO-E citation measurement loop - 2026-06-22, Issue #11)
+
+- Server-side Edge middleware classifies referrals (AI engine / search / internal /
+  direct) and attaches `geo_*` parameters to the GA4 `page_view`, with an
+  AI-Overview candidate segment for citable landing families. Documented the
+  baseline and GA4 custom dimensions (`analytics/spec.yaml`), and added a GEO
+  observation runbook (`analytics/geo-observation-sop.md`, Issue #47).
+
+### Changed (GEO finishing - 2026-06-22, Issue #37)
+
+- Listed `/answers` in the `llms.txt` Pages section (generator + generated artifact)
+  and added a `speakable` selector to the `/answers` index JSON-LD.
+
+### Added (Quality hardening, audit N1–N11 - 2026-06-23/24, Issues #17–26)
+
+- Consistency: sectors index reuses the canonical risk helpers (#17); ~92 hard-coded
+  "556" occupation counts now derive from `OCCUPATION_COUNT.SCORED`, including
+  homepage JSON-LD / inline JS and `/me` (#19).
+- Tests: calculation-level coverage for the ai-adoption / me-positions / ranking ETL
+  (#20) and pure helpers (#21).
+- CI: `check:page-class` and `check:csp-hashes` (`--check`) wired into `verify:gates`,
+  auto-guarding CSP-hash drift in the full-env build (#22); analytics tracker docs (#23).
+- Robustness / cleanup: me-positions universe drift guard now covers the full ranking
+  universe through a clean `buildRankings` `limit` option (#24); dead-code removal,
+  AIOIS `transformation == mean(d1,d2)` ±0.05 refine, Zod / type fixes (#25);
+  `map`/`me` inline scripts extracted (#26); treemap Zod, `.ai-fact` CSS dedup, and
+  sector-mean unification (#25 follow-up).
+
 ### Changed (GEO-C occupation AI replacement answers - 2026-06-21, Issue #13)
 
 - Verified that existing occupation detail pages already substantively answer
