@@ -1,6 +1,6 @@
 {
   "name": "mirai-shigoto",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "private": true,
   "description": "Static site + Vercel Edge Functions for mirai-shigoto.com (TypeScript ETL + Astro).",
   "type": "module",
