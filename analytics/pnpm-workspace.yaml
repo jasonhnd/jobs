@@ -1,3 +1,5 @@
 # 2026-05-17 CODE-003 fix: removed `${HOME}/dev-cache/...` paths
 # (same rationale as repo-root pnpm-workspace.yaml). Defaults to
 # pnpm's OS-conventional per-user store.
+overrides:
+  qs: ^6.15.3
