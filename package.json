@@ -47,6 +47,7 @@
     "@types/node": "^22.10.0",
     "@types/react": "^18.3.12",
     "exceljs": "^4.4.0",
+    "fontkitten": "1.0.3",
     "subset-font": "^2.5.0",
     "typescript": "^6.0.3"
   },
