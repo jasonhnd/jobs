@@ -45,7 +45,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import yaml from "js-yaml";
+import * as yaml from "js-yaml";
 import { google } from "googleapis";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -137,7 +137,9 @@ async function discoverProperties(admin) {
 async function syncCustomDimensions(admin, propertyId, dimensions, scope) {
   const parent = `properties/${propertyId}`;
   log("info", `Syncing ${dimensions.length} ${scope} custom dimensions…`);
-  const existingRes = await admin.properties.customDimensions.list({ parent, pageSize: 200 });
+  const existingRes = DRY_RUN
+    ? { data: { customDimensions: [] } }
+    : await admin.properties.customDimensions.list({ parent, pageSize: 200 });
   const existing = existingRes.data.customDimensions || [];
   // Index existing by parameterName + scope
   const byKey = new Map(existing.map(d => [`${d.parameterName}|${d.scope}`, d]));
@@ -174,10 +176,12 @@ async function syncCustomDimensions(admin, propertyId, dimensions, scope) {
 async function syncKeyEvents(admin, propertyId, keyEventNames) {
   const parent = `properties/${propertyId}`;
   log("info", `Syncing ${keyEventNames.length} key events…`);
-  const existingRes = await admin.properties.keyEvents.list({ parent, pageSize: 200 }).catch(async () => {
-    // Older API path (conversionEvents) — fallback
-    return admin.properties.conversionEvents.list({ parent, pageSize: 200 });
-  });
+  const existingRes = DRY_RUN
+    ? { data: { keyEvents: [] } }
+    : await admin.properties.keyEvents.list({ parent, pageSize: 200 }).catch(async () => {
+        // Older API path (conversionEvents) — fallback
+        return admin.properties.conversionEvents.list({ parent, pageSize: 200 });
+      });
   const existing = existingRes.data.keyEvents || existingRes.data.conversionEvents || [];
   const byName = new Map(existing.map(e => [e.eventName, e]));
 
@@ -214,26 +218,30 @@ async function syncKeyEvents(admin, propertyId, keyEventNames) {
 
 async function main() {
   const spec = loadSpec();
-  const auth = getAuthClient();
-  const admin = google.analyticsadmin({ version: "v1beta", auth });
 
   if (DISCOVER) {
+    const auth = getAuthClient();
+    const admin = google.analyticsadmin({ version: "v1beta", auth });
     await discoverProperties(admin);
     return;
   }
 
   const propertyId = process.env.GA4_PROPERTY_ID;
-  if (!propertyId) {
+  if (!propertyId && !DRY_RUN) {
     throw new Error(
       "Missing env var GA4_PROPERTY_ID. Run with --discover to list available properties.",
     );
   }
-  if (!/^\d+$/.test(propertyId)) {
+  if (propertyId && !/^\d+$/.test(propertyId)) {
     throw new Error(`GA4_PROPERTY_ID must be numeric (e.g., 501234567); got: ${propertyId}`);
   }
 
-  log("info", `Target property: properties/${propertyId}`);
-  if (DRY_RUN) log("info", "DRY RUN — no API writes will be made");
+  log("info", propertyId ? `Target property: properties/${propertyId}` : "Target property: dry-run only");
+  if (DRY_RUN) log("info", "DRY RUN — no authentication, API reads, or API writes will be made");
+
+  const admin = DRY_RUN
+    ? null
+    : google.analyticsadmin({ version: "v1beta", auth: getAuthClient() });
 
   // Accumulate per-step failures so partial sync surfaces a non-zero exit
   // code at the end instead of being lost in the log scroll.
