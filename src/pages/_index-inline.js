@@ -19,9 +19,11 @@
       const MOBILE_TOP10_MEDIA = "(max-width: 768px)";
       const TREEMAP_DATA_URL = "data.treemap.json";
       const MOBILE_TOP10_DATA_URL = "data.top10.json";
+      const SEARCH_DATA_URL = "data.search.json";
       const mobileViewport = window.matchMedia(MOBILE_TOP10_MEDIA);
       let treemapDataPromise = null;
       let mobileTop10Promise = null;
+      let searchIndexPromise = null;
       let treemapObserver = null;
       const canvas = document.getElementById("treemap");
       if (!canvas) {
@@ -995,15 +997,108 @@
         return limit ? matches.slice(0, limit) : matches;
       }
 
+      function getSearchActionQuery() {
+        const params = new URLSearchParams(window.location.search);
+        return (params.get("q") || "").trim();
+      }
+
+      function prefillSearchInputs(query) {
+        // Partial / no match → pre-fill all 3 hero inputs (only the visible one
+        // is seen; the other two are hidden but exist in the DOM).
+        ["searchInputDesktop", "searchInputMobile", "searchInput"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.value = query;
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        });
+
+        // Focus the visible one based on viewport.
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        const target = isMobile
+          ? document.getElementById("searchInputMobile")
+          : document.getElementById("searchInputDesktop");
+        if (target) {
+          try { target.focus({ preventScroll: true }); } catch (e) { target.focus(); }
+        }
+      }
+
+      function trackSearchActionLanded(query, matchCount) {
+        if (window.gtag) gtag("event", "search_action_landed", {
+          query: query.slice(0, 100),
+          match_count: matchCount,
+          language: "ja"
+        });
+      }
+
+      function prefillSearchActionQuery(query, matchCount) {
+        prefillSearchInputs(query);
+        trackSearchActionLanded(query, matchCount);
+      }
+
+      function normalizedSearchText(value) {
+        return String(value || "").trim().toLowerCase();
+      }
+
+      function collectSearchDocumentNames(doc) {
+        const names = [];
+        ["name_ja", "name_en", "title_ja", "title_en"].forEach(key => {
+          if (typeof doc[key] === "string") names.push(doc[key]);
+        });
+        ["aliases_ja", "aliases_en"].forEach(key => {
+          if (Array.isArray(doc[key])) {
+            doc[key].forEach(v => {
+              if (typeof v === "string") names.push(v);
+            });
+          }
+        });
+        return names;
+      }
+
+      function findExactSearchIndexMatch(query, docs) {
+        const q = normalizedSearchText(query);
+        if (!q) return null;
+        for (const doc of docs) {
+          if (!doc || typeof doc !== "object" || doc.id == null) continue;
+          const names = collectSearchDocumentNames(doc);
+          if (names.some(name => normalizedSearchText(name) === q)) return doc;
+        }
+        return null;
+      }
+
+      function loadSearchIndexForSearchAction() {
+        if (searchIndexPromise) return searchIndexPromise;
+        searchIndexPromise = fetchJson(SEARCH_DATA_URL).then(payload => {
+          if (Array.isArray(payload)) return payload;
+          if (payload && Array.isArray(payload.documents)) return payload.documents;
+          return [];
+        });
+        return searchIndexPromise;
+      }
+
+      function redirectSearchActionMatch(query, rec) {
+        if (window.gtag) gtag("event", "search_action_redirect", {
+          query: query.slice(0, 100),
+          occupation_id: rec.id,
+          language: "ja"
+        });
+        window.location.replace(occUrl(rec));
+      }
+
       // Schema.org SearchAction handler — matches WebSite#potentialAction.
       // Reads ?q=... from URL, then either:
       //   - exact name match → redirect to /<id> (best UX from Google search box)
       //   - partial match    → pre-fill all hero search inputs + trigger autocomplete
-      // Called after desktop treemap data loads so `data` is guaranteed populated.
+      // Desktop calls this after treemap data loads so exact-match redirect can
+      // reuse `data`. Mobile uses the search index path below and never fetches
+      // data.treemap.json for this URL handling.
       function handleSearchActionQuery() {
-        const params = new URLSearchParams(window.location.search);
-        const query = (params.get("q") || "").trim();
-        if (!query || !data.length) return;
+        const query = getSearchActionQuery();
+        if (!query) return;
+        if (!data.length) {
+          prefillSearchActionQuery(query, 0);
+          return;
+        }
 
         const matches = rankMatches(query, 5);
         if (matches.length > 0) {
@@ -1013,40 +1108,33 @@
           const q = query.toLowerCase();
           // Exact match → redirect (use replace so the back button skips this hop)
           if (topNameJa === q || topNameEn === q) {
-            if (window.gtag) gtag("event", "search_action_redirect", {
-              query: query.slice(0, 100),
-              occupation_id: top.id,
-              language: "ja"
-            });
-            window.location.replace(occUrl(top));
+            redirectSearchActionMatch(query, top);
             return;
           }
         }
 
-        // Partial / no match → pre-fill all 3 hero inputs (only the visible one
-        // is seen; the other two are hidden but exist in the DOM)
-        ["searchInputDesktop", "searchInputMobile", "searchInput"].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) {
-            el.value = query;
-            el.dispatchEvent(new Event("input", { bubbles: true }));
-          }
-        });
+        prefillSearchActionQuery(query, matches.length);
+      }
 
-        // Focus the visible one based on viewport
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        const target = isMobile
-          ? document.getElementById("searchInputMobile")
-          : document.getElementById("searchInputDesktop");
-        if (target) {
-          try { target.focus({ preventScroll: true }); } catch (e) { target.focus(); }
-        }
+      function handleMobileSearchActionQuery() {
+        const query = getSearchActionQuery();
+        if (!query) return Promise.resolve(null);
+        prefillSearchInputs(query);
 
-        if (window.gtag) gtag("event", "search_action_landed", {
-          query: query.slice(0, 100),
-          match_count: matches.length,
-          language: "ja"
-        });
+        return loadSearchIndexForSearchAction()
+          .then(docs => {
+            const exact = findExactSearchIndexMatch(query, docs);
+            if (exact) {
+              redirectSearchActionMatch(query, exact);
+              return exact;
+            }
+            trackSearchActionLanded(query, 0);
+            return null;
+          })
+          .catch(() => {
+            trackSearchActionLanded(query, 0);
+            return null;
+          });
       }
 
       // Chip click — direct nav (covers BOTH desktop-hero-chips and mobile-hero-chips).
@@ -1794,7 +1882,10 @@
 
       function initHomeDataLoading() {
         if (mobileViewport.matches) {
-          loadMobileTop10();
+          const mobileTop10 = loadMobileTop10();
+          if (location.hash || getSearchActionQuery()) {
+            mobileTop10.then(() => handleMobileSearchActionQuery());
+          }
         } else {
           observeTreemapCanvas();
           if (location.hash || new URLSearchParams(window.location.search).has("q")) {
@@ -1805,7 +1896,10 @@
         const onViewportChange = event => {
           if (event.matches) {
             disconnectTreemapObserver();
-            loadMobileTop10();
+            const mobileTop10 = loadMobileTop10();
+            if (location.hash || getSearchActionQuery()) {
+              mobileTop10.then(() => handleMobileSearchActionQuery());
+            }
           } else {
             observeTreemapCanvas();
           }

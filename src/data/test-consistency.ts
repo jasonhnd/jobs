@@ -282,7 +282,11 @@ async function checkTreemap(distRoot: string, r: Report): Promise<unknown[]> {
   return data;
 }
 
-async function checkTop10(distRoot: string, r: Report): Promise<void> {
+async function checkTop10(
+  distRoot: string,
+  r: Report,
+  treemapRecords: unknown[] = [],
+): Promise<void> {
   const f = join(distRoot, 'data.top10.json');
   if (!existsSync(f)) return;
   let data: unknown;
@@ -348,6 +352,54 @@ async function checkTop10(distRoot: string, r: Report): Promise<void> {
         r.fail(`top10 ordering drift at index ${i}: ai_risk desc, id asc tie-break expected`);
       }
       previous = current;
+    }
+  }
+
+  if (treemapRecords.length > 0) {
+    const treemapRows = treemapRecords.filter((rec): rec is Record<string, unknown> => (
+      rec != null &&
+      typeof rec === 'object' &&
+      typeof (rec as Record<string, unknown>).id === 'number' &&
+      typeof (rec as Record<string, unknown>).ai_risk === 'number'
+    ));
+    const treemapById = new Map<number, Record<string, unknown>>();
+    for (const rec of treemapRows) {
+      treemapById.set(rec.id as number, rec);
+    }
+
+    const expectedIds = [...treemapRows]
+      .sort((a, b) => (
+        ((b.ai_risk as number) - (a.ai_risk as number)) ||
+        ((a.id as number) - (b.id as number))
+      ))
+      .slice(0, 10)
+      .map(rec => rec.id as number);
+    const actualIds = data
+      .map(rec => (rec as Record<string, unknown>).id)
+      .filter((id): id is number => typeof id === 'number');
+
+    if (
+      actualIds.length !== expectedIds.length ||
+      actualIds.some((id, idx) => id !== expectedIds[idx])
+    ) {
+      r.fail(
+        `data.top10.json ids drift from treemap top10: expected [${expectedIds.join(', ')}], got [${actualIds.join(', ')}]`,
+      );
+    }
+
+    for (let i = 0; i < data.length; i += 1) {
+      const rec = data[i] as Record<string, unknown>;
+      const id = rec.id;
+      const risk = rec.ai_risk;
+      if (typeof id !== 'number' || typeof risk !== 'number') continue;
+      const treemapRec = treemapById.get(id);
+      if (!treemapRec) {
+        r.fail(`top10[${i}] id=${id} is missing from data.treemap.json`);
+        continue;
+      }
+      if (treemapRec.ai_risk !== risk) {
+        r.fail(`top10[${i}] id=${id} ai_risk ${risk} != treemap ai_risk ${treemapRec.ai_risk}`);
+      }
     }
   }
   r.note(`top10: ${data.length} records`);
@@ -596,7 +648,7 @@ async function main(): Promise<void> {
 
   await checkPlannedFilesExist(distRoot, r);
   const treemapRecords = await checkTreemap(distRoot, r);
-  await checkTop10(distRoot, r);
+  await checkTop10(distRoot, r, treemapRecords);
 
   // Source occupation count
   const occDir = join(REPO, 'data', 'occupations');
