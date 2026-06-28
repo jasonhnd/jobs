@@ -31,6 +31,7 @@ export default defineConfig({
   output: 'static',
   outDir: './dist-astro',
   trailingSlash: 'never',
+  compressHTML: false,
   build: {
     format: 'file',
   },
