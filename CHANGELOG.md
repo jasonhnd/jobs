@@ -10,6 +10,31 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+## [1.7.0] — 2026-06-29 — Runtime & dependency modernization (Node 24, React 19, Astro 7)
+
+### Changed
+
+- **Runtime → Node 24.** Moved to Vercel's current default LTS (`.nvmrc` 24, `engines.node` `24.x`)
+  and aligned `@types/node` to 24.x (#70).
+- **Astro 6 → 7** — Vite 7 → 8, the Rust HTML compiler, esbuild 0.28. HTML compression is kept on
+  (`compressHTML: true`); no template, CSP-hash, or SEO-baseline changes were required (#69).
+- **React 18 → 19** for the `@vercel/og` Edge image renderer — the only React consumer (no client-side
+  React, no `@astrojs/react`). No renderer code changes were needed under `@types/react@19` (#68).
+- Dev/test dependency refresh: `@playwright/test` 1.61.1 and `@axe-core/playwright` 4.12.1 (#71); the
+  `analytics/` setup workspace (`googleapis` 173, `js-yaml` 5, `pnpm` 11.9) (#72); and the security-floor
+  overrides `uuid` 14 / `tmp` 0.2.7, verified against an exceljs export smoke-check (#74).
+
+### Fixed
+
+- Occupation-detail `.aio-note` links are now distinguishable without colour (persistent underline),
+  fixing the axe `link-in-text-block` / WCAG 1.4.1 violation that the axe 4.12 upgrade surfaced (#78).
+- The local e2e server (`scripts/e2e-server.cjs`) now mirrors `vercel.json`'s `/ja/*` redirects, so the
+  Playwright suite no longer 404s on legacy `/ja/...` paths (#79).
+
+### Docs
+
+- Rewrote the GEO observation runbook (`analytics/geo-observation-sop.md`) in English.
+
 ## [1.6.0] — 2026-06-24 — GEO AI-citation optimization, cross-model validation, quality hardening
 
 ### Added (GEO-D2-B cross-model validation - 2026-06-24, Issue #15)
