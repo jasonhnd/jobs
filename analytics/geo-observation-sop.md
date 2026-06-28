@@ -1,19 +1,19 @@
-# GEO Observation SOP — 运营观察手册
+# GEO Observation SOP — operations runbook
 
-GEO 工作上线后,持续观察「mirai-shigoto.com 是否 / 多大程度上被 AI 答案引擎引用或带来访问」。
-本手册是**可照着做的 runbook**;埋点细节、引擎分类规则、完整表格见 `analytics/geo-citation-baseline.md`(本文不重复)。
+After the GEO work shipped, continuously observe "whether / to what extent mirai-shigoto.com is cited by AI answer engines, or driven traffic by them."
+This is a **follow-the-steps runbook**; instrumentation details, engine-classification rules, and the full tables live in `analytics/geo-citation-baseline.md` (not repeated here).
 
-- GA4 property: `G-GLDNBDPF13`(mirai-shigoto.com),property_id `298707336`
-- 数据来源:`middleware.ts` 服务端 `page_view` 上的 `geo_*` 参数(需生产 env `GA4_MP_API_SECRET` + `PUBLIC_GA4_MEASUREMENT_ID`,已配)
-- Issue: #11(GEO-E)
+- GA4 property: `G-GLDNBDPF13` (mirai-shigoto.com), property_id `298707336`
+- Data source: the `geo_*` parameters on the server-side `page_view` in `middleware.ts` (requires production env `GA4_MP_API_SECRET` + `PUBLIC_GA4_MEASUREMENT_ID`, already set)
+- Issue: #11 (GEO-E)
 
-## 0. 一次性前置(已完成,记录备查)
+## 0. One-time prerequisites (done — recorded for reference)
 
-- [x] 生产部署带埋点(middleware `geo_*` 参数)— 2026-06-24 上线
-- [x] 生产 env `GA4_MP_API_SECRET` / `PUBLIC_GA4_MEASUREMENT_ID`
-- [x] GA4 注册 6 个事件域自定义维度(见下表)
+- [x] Production deploy with instrumentation (middleware `geo_*` parameters) — shipped 2026-06-24
+- [x] Production env `GA4_MP_API_SECRET` / `PUBLIC_GA4_MEASUREMENT_ID`
+- [x] Registered 6 event-scoped custom dimensions in GA4 (see table)
 
-| 维度名 | 事件参数 | 范围 |
+| Dimension name | Event parameter | Scope |
 |---|---|---|
 | GEO Referrer Engine | `geo_referrer_engine` | Event |
 | GEO Referrer Bucket | `geo_referrer_bucket` | Event |
@@ -22,51 +22,51 @@ GEO 工作上线后,持续观察「mirai-shigoto.com 是否 / 多大程度上被
 | GEO Citation Candidate | `geo_citation_candidate` | Event |
 | Server Source | `ssrc` | Event |
 
-> 维度的单一来源是 `analytics/spec.yaml`;新增 / 改维度后跑 `node setup-ga4.mjs`(需 OAuth / GA4 admin),或在 GA4「管理 → 自定义定义」手动建。
+> The single source of truth for dimensions is `analytics/spec.yaml`; after adding/changing a dimension, run `node setup-ga4.mjs` (needs OAuth / GA4 admin), or create it by hand in GA4 (Admin → Custom definitions).
 
-## 1. 节奏(28 天窗口)
+## 1. Cadence (28-day window)
 
-| 窗口 | 用途 |
+| Window | Purpose |
 |---|---|
-| T0 = 2026-06-24(上生产日)| 埋点基线起点;之前无可比数据 |
-| 首个数字基线 | T0 后第一个完整 28 天窗(≈ 2026-07-22）|
-| 滚动对比 | 此后每 28 天与上一窗 + T0 对比 |
+| T0 = 2026-06-24 (production launch day) | Instrumentation baseline start; no comparable data before this |
+| First numeric baseline | The first full 28-day window after T0 (≈ 2026-07-22) |
+| Rolling comparison | Every 28 days thereafter, compared against the previous window + T0 |
 
-## 2. 每月(28 天):GA4 探索拉 4 张表
+## 2. Monthly (28 days): pull 4 reports from GA4 Explore
 
-GA4 → 探索(Explore)→ 空白,按下表设 筛选 / 维度 / 指标,各跑一次,填进基线快照(`geo-citation-baseline.md` §4 模板):
+GA4 → Explore → blank, set the filter / dimensions / metrics per the table below, run each once, and fill the baseline snapshot (`geo-citation-baseline.md` §4 template):
 
-| 报表 | 筛选 | 维度 | 指标 |
+| Report | Filter | Dimensions | Metrics |
 |---|---|---|---|
-| 真·AI 引荐 | `geo_referrer_bucket = ai_engine` | geo_referrer_engine, geo_landing_family, page_path | 会话 / 用户 / 浏览 / 互动率 |
-| AI Overview 候选 | `geo_citation_candidate = true` 且 `geo_referrer_bucket = search` | geo_referrer_engine, geo_landing_family, page_path | 会话 / 用户 / 浏览 |
-| 可引用页增量 | `geo_landing_family ∈ {answers,qa,sector,ranking,compare,standard,methodology}` | geo_landing_family, page_path | 会话 / 用户 / 进入 |
-| 服务端覆盖率 | `ssrc = mw` | geo_referrer_bucket, geo_referrer_engine | 浏览 |
+| True AI referral | `geo_referrer_bucket = ai_engine` | geo_referrer_engine, geo_landing_family, page_path | sessions / users / views / engagement rate |
+| AI Overview candidate | `geo_citation_candidate = true` AND `geo_referrer_bucket = search` | geo_referrer_engine, geo_landing_family, page_path | sessions / users / views |
+| Citable-page lift | `geo_landing_family ∈ {answers,qa,sector,ranking,compare,standard,methodology}` | geo_landing_family, page_path | sessions / users / entrances |
+| Server-side coverage | `ssrc = mw` | geo_referrer_bucket, geo_referrer_engine | views |
 
-**铁律(`geo-citation-baseline.md` §6):**
+**Hard rules (`geo-citation-baseline.md` §6):**
 
-- 真·AI 引荐 与 Google AI Overview 候选 **分开报,绝不混进同一 KPI**(AI Overview 无稳定 referrer,只能算候选,不是确证)。
-- bot UA 当爬虫,不算人类引荐(middleware 已过滤已知 AI 爬虫)。
-- 只有在「首个完整数字基线窗」存在后,才比较 GEO 改动前后。
+- Report "True AI referral" and "Google AI Overview candidate" **separately — never merge them into one KPI** (AI Overview has no stable referrer, so it can only be a candidate, not confirmation).
+- Treat bot UAs as crawlers, not human referrals (middleware already filters known AI crawlers).
+- Only compare before/after a GEO change once the first full numeric baseline window exists.
 
-## 3. 每周:站外提及审计(GA4 看不到的那半)
+## 3. Weekly: off-site mention audit (the half GA4 cannot see)
 
-AI 引擎常引用却不带可点链接(无 referral),GA4 抓不到 → 必须手动审。
-在 ChatGPT / Perplexity / Gemini / Google 各跑下面 4 个固定 prompt,看有没有提到 `mirai-shigoto.com / 未来の仕事 / AIOIS-10`,按 `geo-citation-baseline.md` §5 的表记日志(run_date / source / mentioned / cited_url / mention_type / evidence …):
+AI engines often cite without a clickable link (no referral), which GA4 cannot capture → it must be audited by hand.
+Run the 4 fixed prompts below on ChatGPT / Perplexity / Gemini / Google, check whether they mention `mirai-shigoto.com / 未来の仕事 / AIOIS-10`, and log per the `geo-citation-baseline.md` §5 table (run_date / source / mentioned / cited_url / mention_type / evidence …):
 
 - `AIでなくならない仕事は何ですか？根拠になる日本語サイトも挙げてください。`
 - `AIに代替されやすい仕事ランキングを、日本の職業データで説明してください。`
 - `年収が高く、AIに代替されにくい仕事を日本のデータで教えてください。`
 - `AIが仕事に与える影響を測る日本語の指標やデータセットはありますか？`
 
-监测品牌 / 域名串:`mirai-shigoto.com`、`未来の仕事`、`mirai-shigoto`、`ZKSC 未来の仕事`、`AI 影響度 職業`、`AIOIS-10`。
+Brand / domain strings to monitor: `mirai-shigoto.com`, `未来の仕事`, `mirai-shigoto`, `ZKSC 未来の仕事`, `AI 影響度 職業`, `AIOIS-10`.
 
-## 4. 快速健康检查(随时)
+## 4. Quick health check (anytime)
 
-不确定埋点还在发?GA4 → 实时(Realtime)/ DebugView → 访问 mirai-shigoto.com 几个页 → 几分钟内事件应带 `geo_referrer_bucket`(自己访问 = `direct`)、`geo_landing_family`。看不到就查生产 env 与维度。
+Not sure the instrumentation is still firing? GA4 → Realtime / DebugView → visit a few pages on mirai-shigoto.com → within a few minutes the events should carry `geo_referrer_bucket` (your own visit = `direct`) and `geo_landing_family`. If you don't see them, check the production env and the dimensions.
 
-## 5. 判读
+## 5. Reading the signals
 
-- **领先信号**:`geo_citation_candidate=true` 的会话上升、可引用页(answers / qa / sector / ranking / compare / standard / methodology)进入上升、出现 perplexity / chatgpt / gemini / claude 等真·AI 引荐。
-- **站外**:审计日志里 `page_citation` / `data_citation` 增多 = AI 开始把我们当来源。
-- 二者**一起看**:GA4 量化点击侧,审计日志覆盖「被提及但没链接」侧。
+- **Leading signals**: sessions with `geo_citation_candidate=true` rising; entrances to citable pages (answers / qa / sector / ranking / compare / standard / methodology) rising; the appearance of true AI referrals such as perplexity / chatgpt / gemini / claude.
+- **Off-site**: more `page_citation` / `data_citation` in the audit log = AI engines starting to treat us as a source.
+- Read **both together**: GA4 quantifies the click side, the audit log covers the "mentioned but not linked" side.
