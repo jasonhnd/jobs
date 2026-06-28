@@ -220,8 +220,8 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .aio-val{font-family:var(--font-sans);font-weight:700;font-size:0.74rem;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums}
     .aio-note{margin-top:12px;font-size:0.72rem;color:var(--ink-3);line-height:1.7}
     .aio-note .aio-tag{margin:0 1px 0 4px}
-    .aio-note a{color:var(--accent);text-decoration:none}
-    .aio-note a:hover{text-decoration:underline}
+    .aio-note a{color:var(--accent);text-decoration:underline;text-decoration-thickness:0.06em;text-underline-offset:0.16em}
+    .aio-note a:hover{text-decoration-thickness:0.08em}
 `;
 
 export const ID_PAGE_CSS = CANONICAL_DETAIL_CSS + DETAIL_PAGE_SPECIFIC_CSS + `
