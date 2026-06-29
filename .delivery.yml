@@ -1,0 +1,61 @@
+version: 1
+adapters:
+  work_items: github      # Work items are GitHub issues.
+  workspace: git-worktree # Work happens in git worktrees.
+  conductor: codex-cli    # Transparency only: the human session that conducts.
+  worker: codex           # Default worker provider.
+  vcs: github             # GitHub hosts PRs and checks.
+  verifier: claude        # Should differ from worker; provider registry key.
+  gate: human-merge       # Humans choose what merges.
+worker:
+  # Optional. Absent = inherit the worker provider's global config. loopcoder never sets this on its own.
+  # model:
+  # Optional. Absent = inherit the worker provider's global config. loopcoder never sets this on its own.
+  # reasoning_effort:
+  base_branch: preview
+  command_hint: "implement the issue per its merged design doc; run typecheck + build + verify:gates + bun test; keep the repo English/Japanese only (no Chinese); commit"
+# verifier:
+#   # Optional. Absent = inherit the verifier provider's global config. loopcoder never sets this on its own.
+#   # model:
+#   # Optional. Absent = inherit the verifier provider's global config. loopcoder never sets this on its own.
+#   # reasoning_effort:
+# resilience:
+#   worker:
+#     # Optional. Absent = 15; expected worker heartbeat cadence in seconds.
+#     heartbeat_interval_seconds: 15
+#     # Optional. Absent = 120; mark progress stale after this many seconds without phase or log growth.
+#     stale_after_seconds: 120
+#     # Optional. Absent = 300; classify hung after stale progress or stale sidecar with no live process.
+#     hung_after_seconds: 300
+#     # Optional. Absent = 3; maximum attempts before blocking for a human decision.
+#     max_attempts: 3
+#     # Optional. Absent = [10, 30, 120]; retry backoff schedule between attempts.
+#     retry_backoff_seconds: [10, 30, 120]
+ci:
+  checks:
+    - Vercel
+  # Optional. Absent = no local test command gate.
+  # tests:
+  #   - go test ./...
+  # Optional. Absent = no local typecheck command gate.
+  # typecheck:
+  #   - go vet ./...
+  # Optional. Absent = no local build command gate.
+  # build:
+  #   - go build ./...
+# verification:
+#   # Optional. Absent = true for loopcoder code PRs.
+#   spec_required: true
+#   # Optional. Absent = 3.
+#   max_fix_passes: 3
+#   browser:
+#     # Optional. auto|always|never; absent = auto.
+#     enabled: auto
+#     # Optional. Changed-path patterns that trigger browser verification in auto mode.
+#     globs:
+#       - web/**
+#       - app/**
+#       - "**/*.css"
+#       - "**/*.tsx"
+report:
+  channel: chat
