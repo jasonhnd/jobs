@@ -48,7 +48,7 @@ Non-goals:
 
 Constraints:
 
-- 100% static runtime. All quiz scoring, occupation lookup, result rendering, and share-link construction must work with prebuilt static assets and browser JavaScript.
+- 100% static product runtime. All quiz scoring, occupation lookup, result rendering, and share-link construction must work with prebuilt static assets and browser JavaScript. The only runtime function allowed in P1 is the existing stateless `/api/og` Edge renderer for social-card images; it receives display parameters and does not compute, store, or personalize diagnostic results.
 - Rigor over entertainment. The test can be light, but it must not contradict AIOIS-10, occupation data, or the site's model-output disclaimers.
 - The diagnostic must preserve AIOIS-10's separation between Transformation and Displacement-Risk. Work type is a classification lens, not a new risk score.
 - The diagnostic must be JA only in UI copy, meta copy, share copy, and result copy.
@@ -136,6 +136,8 @@ Gap classes:
 
 Priority:
 
+Rules are evaluated in priority order; first match wins. This priority list is part of the contract because 3 of the 64 self x job code pairs satisfy both the `hidden_strength` and `hidden_risk` table rules when the table is read without priority.
+
 1. If aligned on 2 or 3 axes, return `aligned`, except for aligned `RDK` with high Transformation, where the result may show `aligned + watch`.
 2. If not aligned and the mismatch includes underused `C`, `P`, or `B` from the self code, return `hidden_strength`.
 3. Otherwise return `hidden_risk`.
@@ -158,6 +160,7 @@ Distribution guardrails:
 - No type may represent less than 3% of the 556 scored occupations.
 - No type may represent more than 35% of the 556 scored occupations.
 - If a type falls outside the range, DIAG-1 must adjust axis tie-breaks or threshold smoothing, then record the resulting distribution in this document or in a linked generated calibration note.
+- The known tight cell is `CDB`: on the real Fable 5 data it is about 2.5%, just under the 3% floor. DIAG-1 must smooth that cell via deterministic tie-breaks or threshold adjustments while keeping exact medians pending DIAG-1.
 
 Current status:
 
@@ -172,7 +175,7 @@ Rarity framing:
 
 ## 9. Architecture: 100% Static, No Backend
 
-The diagnostic must be static at runtime. It may use browser JavaScript and prebuilt JSON, but it must not require server scoring, a database, a session store, or a runtime LLM call.
+The diagnostic product must be static at runtime. It may use browser JavaScript and prebuilt JSON, but it must not require server scoring, a database, a session store, or a runtime LLM call. The existing `/api/og` Vercel Edge function is an allowed stateless rendering endpoint for social-card images; it must remain parameter-driven and must not become a scoring, persistence, or saved-result backend.
 
 | Concern | Live/backend version | Static MVP version |
 | --- | --- | --- |
@@ -180,49 +183,55 @@ The diagnostic must be static at runtime. It may use browser JavaScript and preb
 | Occupation verdict | Server computes occupation type on request. | Build step precomputes occupation work-type codes into static JSON. |
 | Result rendering | Personalized server-rendered page. | Static route renders shell; browser enhances with query/hash state. |
 | Share links | Saved result ID in database. | URL carries `self`, `job`, and `gap` parameters or omits job for privacy. |
-| Result images | Dynamic OG render per result. | Use generic or 8 prebuilt static type OG images; no result-specific OG in MVP. |
+| Result images | Saved-result image generated from database state. | Existing stateless `/api/og` Edge function renders per-result cards from URL parameters, for example `/api/og?worktype=CPK&gap=hidden_strength`. |
 | Analytics | Server event stream tied to user account. | Existing client analytics events only, with no answer payload beyond aggregate type/gap labels. |
 | Premium report | Generated and stored server-side. | Deferred to P2 backend; not part of static MVP. |
 
+Shared static data and copy contract for DIAG-2/3/4/5:
+
+- `public/data.worktypes.json`: emitted by DIAG-1 with `{ thresholds, types, occupations }`. It contains thresholds, per-type meta, and per-occupation records `{ code, typeId, exposure, rarityPct }`.
+- `src/site/worktype-copy.ts`: JA copy module from DIAG-9 for public labels, questions, type anchors, gap copy, and share copy.
+
 Recommended route shape for DIAG implementation:
 
-- `/worktype`: static quiz and landing surface.
-- `/worktype/[code]`: 8 static type anchor pages for `CPB`, `CPK`, `CDB`, `CDK`, `RPB`, `RPK`, `RDB`, `RDK`.
-- Query parameters may add selected occupation context, for example `/worktype/CPK?job=0133`.
+- `/gyakuten`: static front door and 8-type overview surface for `CPB`, `CPK`, `CDB`, `CDK`, `RPB`, `RPK`, `RDB`, `RDK`.
+- `/shindan`: static quiz and result surface.
+- Query parameters may add selected occupation and result context, for example `/shindan?self=CPK&job=0133&gap=hidden_strength`.
 - Query-specific results must not be added to sitemap.
 
 ## 10. Per-Page Modification Plan
 
 | Surface | Current | Change | Type | Backend |
 | --- | --- | --- | --- | --- |
-| `/worktype` | Does not exist. | Add static quiz shell, question flow, occupation picker, and result handoff. | New static page | No |
-| `/worktype/[code]` | Does not exist. | Add 8 static type anchor pages with type copy, representative occupations, and optional client-enhanced gap block. | New static pages | No |
+| `/shindan` | Does not exist. | Add static quiz shell, question flow, occupation picker, and result handoff. | New static page | No |
+| `/gyakuten` | Does not exist. | Add static front door with 8 type anchors, type copy, representative occupations, and handoff into `/shindan`. | New static page | No |
 | `/` | Homepage routes readers to map/search and existing content. | Add a restrained `仕事タイプ診断` entry point near existing search or CTA area. | Copy/link update | No |
-| `/map` | Interactive occupation treemap with search and `診断` search button. | Add optional link from selected occupation sheet to start diagnostic with `job=<id>`. | Link/client update | No |
-| `/me` | Static self-positioning tool based on selected occupation. | Add cross-link to diagnostic using the selected occupation ID; do not merge `/me` and diagnostic logic. | Link/client update | No |
-| Occupation detail `/{id}` | Shows AIOIS-10, stats, transfer paths, FAQ, JSON-LD. | Add static badge for occupation work type and link to `/worktype/<jobCode>?job=<id>`. | Static data/render update | No |
+| `/map` | Interactive occupation treemap with search and `診断` search button. | Add optional link from selected occupation sheet to `/shindan?job=<id>`. | Link/client update | No |
+| `/me` | Static self-positioning tool based on selected occupation. | Add cross-link to `/shindan?job=<id>`; do not merge `/me` and diagnostic logic. | Link/client update | No |
+| Occupation detail `/{id}` | Shows AIOIS-10, stats, transfer paths, FAQ, JSON-LD. | Add static badge for occupation work type and link to `/shindan?job=<id>`. | Static data/render update | No |
 | `/rankings` and `/rankings/[type]` | Ranking hubs and ranking detail pages. | Add light entry cards where relevant, especially high-transformation routine/data pages. | Copy/link update | No |
 | `/compare` and `/compare/[pair]` | Occupation comparison surfaces. | Optionally show each occupation's work type once DIAG data exists. | Static data/render update | No |
 | `/standard` | AIOIS-10 definition. | Add no diagnostic-specific content in P1; link only if needed after launch. | Deferred docs/copy | No |
 | `/methodology` and `/data` | Explain scoring and public data. | Document work-type derived data only after DIAG-1 creates the data artifact. | Docs/copy update | No |
-| `sitemap.xml` and SEO baselines | Current route set excludes diagnostic pages. | Include `/worktype` and 8 type pages only; exclude personalized query states. | Generated static update | No |
+| `sitemap.xml` and SEO baselines | Current route set excludes diagnostic pages. | Include `/shindan` and `/gyakuten` only; exclude personalized query states. | Generated static update | No |
 
 ## 11. Phasing
 
 P0 data:
 
-- Define question data, type data, and derived occupation work-type data.
+- Define question data and type metadata, with public JA copy owned by `src/site/worktype-copy.ts`.
+- Emit `public/data.worktypes.json` with thresholds, per-type meta, and per-occupation `{ code, typeId, exposure, rarityPct }` records for DIAG-2/3/4/5.
 - Implement DIAG-1 calibration over active AIOIS-10 scores.
 - Record medians, type distribution, and guardrail results.
 - Keep data generation deterministic and covered by tests.
 
 P1 static MVP:
 
-- Add `/worktype` and 8 `/worktype/[code]` pages.
+- Add `/shindan` and `/gyakuten` pages.
 - Add client-only quiz scoring and result rendering.
 - Add occupation picker using existing static search or a narrowed diagnostic lookup.
 - Add self x job gap block.
-- Add share mechanics, static type OG assets, sitemap entries, SEO baseline updates, CSP hashes, and page-class coverage.
+- Add share mechanics, parameter-driven `/api/og` result share cards, sitemap entries, SEO baseline updates, CSP hashes, and page-class coverage.
 - Add light links from homepage, map, `/me`, and occupation detail pages.
 
 P2 deferred backend:
@@ -232,7 +241,6 @@ P2 deferred backend:
 - Email capture tied to report delivery.
 - Saved result history.
 - CRM or affiliate tracking beyond ordinary static outbound links.
-- Result-specific server-rendered OG images.
 
 P2 must not be smuggled into P1. If it becomes necessary, create a new issue with backend scope, data retention rules, privacy review, and verification gates.
 
@@ -247,9 +255,9 @@ Share goals:
 
 MVP share URL formats:
 
-- Type only: `/worktype/CPK`
-- Type plus occupation context: `/worktype/CPK?job=0133`
-- Type plus explicit gap state: `/worktype/CPK?job=0133&gap=hidden_strength`
+- Type only: `/shindan?self=CPK`
+- Type plus occupation context: `/shindan?self=CPK&job=0133`
+- Type plus explicit gap state: `/shindan?self=CPK&job=0133&gap=hidden_strength`
 
 The URL must not include the 9 raw answers. If answer-level reconstruction is needed for debugging, it stays local only and is not shared.
 
@@ -260,10 +268,10 @@ Share UI:
 - Provide X and LINE text links only if they can be generated without backend calls.
 - Share copy must include the type name and one short Japanese anchor line, not fear-first risk language.
 
-Static OG:
+Stateless OG:
 
-- P1 should prefer generic `/worktype` or 8 prebuilt type OG images.
-- Result-specific OG images are deferred to P2 because they require dynamic generation or a build explosion.
+- P1 uses the existing stateless `/api/og` Vercel Edge function for per-result share cards. DIAG-5 should add `worktype` and `gap` dispatch, for example `/api/og?worktype=CPK&gap=hidden_strength`; `job=0133` may be included only to display occupation context, not raw answers.
+- The Edge function must remain parameter-driven and stateless: no saved result ID, database, session, backend scoring, or runtime LLM call.
 
 Analytics:
 
@@ -309,7 +317,7 @@ Future DIAG implementation gates:
 
 SEO and static-route gates:
 
-- Add `/worktype` and the 8 type pages to sitemap only after implementation.
+- Add `/shindan` and `/gyakuten` to sitemap only after implementation.
 - Re-record SEO baseline with `bun run capture:seo-baseline` when indexable pages are added.
 - Verify intentional baseline drift with `bun run check:seo-baseline`.
 - Ensure JSON-LD page classes pass `verify:jsonld` through `verify:gates`.
