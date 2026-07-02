@@ -59,9 +59,35 @@ const CSP_ENV_GATED_INLINE_SCRIPT_VARS = [
   'PUBLIC_X_PIXEL_ID',
   'PUBLIC_META_PIXEL_ID',
 ];
+// These are the env-gated analytics inline-script hashes that must ALWAYS
+// appear in script-src even when PUBLIC_* analytics env is absent at build
+// time. Regenerate via a full-PUBLIC_*-env `bun run build` if the analytics
+// inline scripts change.
+const CSP_ANALYTICS_FALLBACK_HASHES = [
+  "'sha256-eHy/AzR1WfYwPnGUyDj2+s5HQUPRCeQHbobwS3Zp2Ws='",
+  "'sha256-mEjXucpUExIz3nx3AizABlBEO3RXLDXVXIkrpe7XvPk='",
+  "'sha256-rMk6BYbivudkhnerx/Rk2lI++sOY2uBxHPARDHh/Tpk='",
+];
 
 function missingCspInlineScriptEnv() {
   return CSP_ENV_GATED_INLINE_SCRIPT_VARS.filter((name) => !process.env[name]);
+}
+
+function scriptSrcTokens(cspValue) {
+  const scriptSrc = cspValue
+    .split(';')
+    .map((s) => s.trim())
+    .find((dir) => dir.startsWith('script-src '));
+  return scriptSrc ? scriptSrc.split(/\s+/).slice(1) : [];
+}
+
+function hashTokens(tokens) {
+  return tokens.filter(
+    (token) =>
+      token.startsWith("'sha256-") ||
+      token.startsWith("'sha384-") ||
+      token.startsWith("'sha512-"),
+  );
 }
 
 if (!fs.existsSync(DIST)) {
@@ -205,7 +231,8 @@ for (const file of files) {
   for (const body of extractInlineStyles(html)) collectInto(uniqueStyleBodies, body, file);
 }
 
-const hashes = [...uniqueBodies.values()].map((e) => `'sha256-${e.hash}'`);
+const computedHashes = [...uniqueBodies.values()].map((e) => `'sha256-${e.hash}'`);
+const hashes = [...new Set([...computedHashes, ...CSP_ANALYTICS_FALLBACK_HASHES])];
 const styleHashes = [...uniqueStyleBodies.values()].map((e) => `'sha256-${e.hash}'`);
 
 if (hashes.length === 0 && styleHashes.length === 0) {
@@ -234,6 +261,24 @@ if (!cspEntry) {
 }
 
 const csp = cspEntry.value;
+const missingEnv = missingCspInlineScriptEnv();
+const allCspInlineScriptEnvPresent = missingEnv.length === 0;
+
+if (allCspInlineScriptEnvPresent) {
+  const computedHashSet = new Set(computedHashes);
+  const missingFallbackHashes = CSP_ANALYTICS_FALLBACK_HASHES.filter(
+    (hash) => !computedHashSet.has(hash),
+  );
+  if (missingFallbackHashes.length > 0) {
+    console.warn(
+      '[compute-csp-hashes] WARN - analytics CSP fallback manifest may be stale.\n' +
+        '  These manifest hash(es) were not found in a full-PUBLIC_*-env build:\n' +
+        '  ' +
+        missingFallbackHashes.join('\n  ') +
+        '\n  Regenerate CSP_ANALYTICS_FALLBACK_HASHES if the analytics inline scripts changed.',
+    );
+  }
+}
 
 // Rebuild script-src with `'self'` + computed hashes + the existing host
 // allowlist (everything in script-src that starts with https:// is kept
@@ -269,12 +314,24 @@ const updated = newCsp !== csp;
 
 if (CHECK_ONLY) {
   if (updated) {
-    const missingEnv = missingCspInlineScriptEnv();
-    if (missingEnv.length > 0) {
+    const foundHashes = new Set(hashTokens(scriptSrcTokens(csp)));
+    const expectedHashes = new Set(hashTokens(scriptSrcTokens(newCsp)));
+    const missingExpectedHashes = [...expectedHashes].filter((hash) => !foundHashes.has(hash));
+    const extraFoundHashes = [...foundHashes].filter((hash) => !expectedHashes.has(hash));
+    const fallbackHashesMissingFromCsp = CSP_ANALYTICS_FALLBACK_HASHES.filter(
+      (hash) => !foundHashes.has(hash),
+    );
+    if (
+      missingEnv.length > 0 &&
+      missingExpectedHashes.length === 0 &&
+      extraFoundHashes.length > 0 &&
+      fallbackHashesMissingFromCsp.length === 0
+    ) {
       console.warn(
-        '[compute-csp-hashes] SKIP - CSP --check needs the full PUBLIC_* build env ' +
-          'because analytics inline scripts are env-gated.\n' +
+        '[compute-csp-hashes] SKIP - CSP --check found existing script hash(es) ' +
+          'that cannot be verified without the full PUBLIC_* build env.\n' +
           `  Missing: ${missingEnv.join(', ')}\n` +
+          `  Unverified existing hash(es): ${extraFoundHashes.join(', ')}\n` +
           '  Run `bun run build` and `bun run verify:gates` with the Vercel PUBLIC_* env to enforce CSP drift.',
       );
       process.exit(0);
