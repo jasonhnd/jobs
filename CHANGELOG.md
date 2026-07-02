@@ -10,6 +10,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Added
+
+- Added a build-time AIOIS-10 movers block to `/rankings`, comparing the active
+  Claude Fable 5 2026-06-13 batch against the comparable Claude Opus 4.8
+  2026-05-30 baseline, plus `?me=<id>` self-highlighting for mover rows (#65).
+
 ## [1.7.0] — 2026-06-29 — Runtime & dependency modernization (Node 24, React 19, Astro 7)
 
 ### Changed

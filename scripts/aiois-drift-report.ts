@@ -19,6 +19,7 @@
  */
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 // ───── Pure, testable core ─────
 
@@ -255,7 +256,7 @@ interface RawBatch {
 }
 
 if (import.meta.main) {
-  const ROOT = resolve(import.meta.dir, '..');
+  const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
   const OCC_DIR = join(ROOT, 'data', 'occupations');
   const fail = (m: string): never => {
     console.error(`[aiois-drift-report] FAIL — ${m}`);
