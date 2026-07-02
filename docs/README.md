@@ -7,6 +7,7 @@
 - [`WORKFLOW.md`](WORKFLOW.md) — Issue-first / docs-first の開発順序。非自明な変更はここに従う。
 - [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md) — データソース、グラフ、projection、丸め、スコア選択、整合性ゲート。
 - [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md) — AIOIS-10 score batch の追加手順。Issue #9 の Fable 5 pilot → drift → full run → preview gate もここを正典にする。
+- [`WORKTYPE_DIAGNOSTIC.md`](WORKTYPE_DIAGNOSTIC.md) — Canonical design for `仕事タイプ診断` and the DIAG-1..9 implementation scope.
 - [`AIOIS-10.md`](AIOIS-10.md) — AIOIS-10 v1.0 の開発者向け入口。公開ページ `/standard` と score batch / prompt の橋渡し。
 - [`architecture.md`](architecture.md) — `src/data` / `src/graph` / `src/views` / `src/templates` / `src/pages` の層境界。
 - [`SEO_OG_BASELINE.md`](SEO_OG_BASELINE.md) — sitemap、JSON-LD、OG/Twitter meta、baseline 更新手順。
