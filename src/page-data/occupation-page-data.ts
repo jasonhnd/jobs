@@ -63,6 +63,10 @@ export interface OccupationPageDataset {
   /** Array-serialized Map<occId, RankingHit[]>. Map can't cross the
    *  getStaticPaths → component boundary in Astro, so we serialize. */
   readonly rankingHitsArr: Array<[number, Array<RankingHitView>]>;
+  /** Array-serialized Map<occId, RankingHit[]> for the full AI-impact
+   *  universe rank shown in the detail-page hero. Kept separate from
+   *  rankingHitsArr so related hubs still mean "appears in a TOP30 ranking". */
+  readonly riskRankHitsArr: Array<[number, Array<RankingHitView>]>;
   /** Array-serialized Map<occId, SameRiskNeighbor[]> (Phase C
    *  cross-sector same-risk neighbors, capped at 5). */
   readonly sameRiskArr: Array<[number, Array<SameRiskNeighborView>]>;
@@ -76,6 +80,8 @@ const RELATED_COUNT_DEFAULT = 5;
 const RELATED_CLOSE_RISK_QUOTA = 3;
 /** Maximum AI-risk distance counted as "close". */
 const RELATED_CLOSE_RISK_TOLERANCE = 1;
+/** Ranking slug used for the full-universe detail hero rank. */
+const AI_RISK_HIGH_RANKING_SLUG = 'ai-risk-high';
 
 /**
  * Load + adapt every detail file, sort by id, and pre-compute the
@@ -125,6 +131,8 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
     ]);
   }
 
+  const riskRankHitsArr = buildFullAiRiskRankHits(allRecs);
+
   // Same-risk-neighbor map (Phase C: cross-sector, symmetric, capped at top 5).
   const sameRiskInputs = allRecs.map((r) => ({
     id: r.id,
@@ -141,7 +149,23 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
     sameRiskArr.push([occId, neighbors.slice(0, SAME_RISK_TOP_N)]);
   }
 
-  return { allRecs, nameLookup, rankingHitsArr, sameRiskArr };
+  return { allRecs, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr };
+}
+
+function buildFullAiRiskRankHits(
+  allRecs: ReadonlyArray<Rec>,
+): Array<[number, Array<RankingHitView>]> {
+  return allRecs
+    .filter((r) => r.ai_risk !== null)
+    .sort((a, b) => {
+      const riskDiff = (b.ai_risk ?? -Infinity) - (a.ai_risk ?? -Infinity);
+      if (riskDiff !== 0) return riskDiff;
+      return a.id - b.id;
+    })
+    .map((r, idx) => [
+      r.id,
+      [{ slug: AI_RISK_HIGH_RANKING_SLUG, rank: idx + 1 }],
+    ]);
 }
 
 /** HTML fragments for the spoke-hubs and same-risk-neighbors

@@ -1,35 +1,129 @@
 ---
 /**
- * src/pages/_RiskCard.astro — risk-score badge + one-line
- * callout, rendered directly under the page header.
+ * src/pages/_RiskCard.astro — occupation work-type verdict card.
  *
- * Bundles the two adjacent inline DOM blocks that lived in the
- * page body:
- *   <div class="risk-card {riskClass}">…</div>
- *   <div class="one-line">{oneLineText}</div>
- *
- * Output bytes preserved verbatim (the SEO baseline diff covers
- * this section across all 821 pages).
+ * The hero no longer renders a whole-occupation "risk verdict". It leads
+ * with the DIAG work-type family and keeps AIOIS-10 Transformation /
+ * Displacement-Risk as a separate grounding overlay.
  *
  * Page-local sibling (Astro `_`-prefix → not routed).
  */
 
+import type { WorktypeHeroBinding } from './_id-bindings';
+
 interface Props {
+  readonly id: number;
+  readonly nameJa: string;
   readonly riskClass: string;
   readonly riskColor?: string;
   readonly riskNumDisp: number | string;
-  readonly rationale: string;
-  readonly oneLineText: string;
+  readonly aioisTransformation: number | null;
+  readonly aioisDisplacement: number | null;
+  readonly rankInUniverse: number | null;
+  readonly rankUniverseTotal: number;
+  readonly prevDelta: number | null;
+  readonly aioisModelDisclaimer: string;
+  readonly worktype: WorktypeHeroBinding;
 }
 
-const { riskClass, riskColor, riskNumDisp, rationale, oneLineText } = Astro.props;
----
-<div class={`risk-card ${riskClass}`}>
-  <div>
-    <div class="risk-label">AI 影響</div>
-    <div class="risk-num" style={riskColor ? `color:${riskColor}` : undefined}>{riskNumDisp}<small> / 10</small></div>
-  </div>
-  <div class="risk-rationale">{rationale}</div>
-</div>
+const {
+  id,
+  nameJa,
+  riskClass,
+  riskColor,
+  riskNumDisp,
+  aioisTransformation,
+  aioisDisplacement,
+  rankInUniverse,
+  rankUniverseTotal,
+  prevDelta,
+  aioisModelDisclaimer,
+  worktype,
+} = Astro.props;
 
-<div class="one-line">{oneLineText}</div>
+const fmtScore = (score: number | null): string =>
+  score === null ? '—' : score.toFixed(1).replace(/\.0$/, '');
+
+const fmtDelta = (delta: number): string => {
+  const sign = delta > 0 ? '+' : '';
+  return `${sign}${delta.toFixed(1).replace(/\.0$/, '')}`;
+};
+
+const deltaClass =
+  prevDelta === null ? '' : prevDelta > 0 ? 'delta-up' : prevDelta < 0 ? 'delta-down' : 'delta-flat';
+const shareTitle = `${nameJa}のAI働き方診断`;
+const ogHref = `/api/og?id=${id}`;
+---
+<section
+  class={`risk-card verdict-card ${riskClass}`}
+  aria-labelledby="worktype-verdict-title"
+  data-worktype-code={worktype.worktypeFamilyCode}
+  data-worktype-family-id={worktype.worktypeFamilyId}
+>
+  <div class="verdict-main">
+    <div class="verdict-copy">
+      <p class="verdict-kicker">AI働き方診断 · この職業のタイプ</p>
+      <div class="verdict-title-row">
+        <span class="worktype-code">{worktype.worktypeFamilyCode}</span>
+        <h2 id="worktype-verdict-title">{worktype.worktypeFamilyName}</h2>
+      </div>
+      <p class="verdict-lede">{worktype.worktypeIdentity}</p>
+      <div class="verdict-task-grid" aria-label="AIで変わる作業と今できる一手">
+        <div class="verdict-task">
+          <span>AIが補助しやすい</span>
+          <p>{worktype.worktypeAiRelation}</p>
+        </div>
+        <div class="verdict-task">
+          <span>人が残る価値</span>
+          <p>{worktype.worktypeHumanValue}</p>
+        </div>
+        <div class="verdict-task">
+          <span>今できる一手</span>
+          <p>{worktype.worktypeNextStep}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="verdict-side" aria-label="AIOIS-10 指標">
+      <div class="aiois-score-grid">
+        <div class="aiois-score primary">
+          <span class="score-label">変化の大きさ</span>
+          <span class="score-num" style={riskColor ? `color:${riskColor}` : undefined}>{fmtScore(aioisTransformation)}<small>/10</small></span>
+          <span class="score-sub">AIで変わりやすい作業</span>
+        </div>
+        <div class="aiois-score">
+          <span class="score-label">仕事が減るリスク</span>
+          <span class="score-num">{fmtScore(aioisDisplacement)}<small>/10</small></span>
+          <span class="score-sub">AIOIS-10 別指標</span>
+        </div>
+      </div>
+
+      <div class="verdict-meta">
+        {rankInUniverse !== null && (
+          <span class="verdict-rank">{rankUniverseTotal}職中 第{rankInUniverse}位</span>
+        )}
+        {prevDelta !== null && (
+          <span class={`verdict-delta ${deltaClass}`}>先月比 {fmtDelta(prevDelta)}</span>
+        )}
+      </div>
+
+      <p class="verdict-disclaimer">{aioisModelDisclaimer}</p>
+      <a
+        class="verdict-share"
+        href={ogHref}
+        target="_blank"
+        rel="noopener"
+        data-page-share-trigger
+        data-share-title={shareTitle}
+        aria-label={`${nameJa}のAI働き方診断カードを共有`}
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2 8 6h3v8h2V6h3l-4-4Zm-7 7v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-3v2h3v11H7V9h3V7H7c-1.1 0-2 .9-2 2Z" />
+        </svg>
+        <span>シェア</span>
+      </a>
+    </div>
+  </div>
+  <p class="verdict-one-line">{worktype.worktypeOneLine}</p>
+  <span class="risk-num" hidden>{riskNumDisp}<small> / 10</small></span>
+</section>
