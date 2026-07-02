@@ -9,10 +9,11 @@ import Footer from '@/components/Footer.astro';
 import { buildRankings } from '@/views/ranking';
 import {
   renderHubJsonLd, renderRankingsHubGroups, renderRankingsHubStats,
-  renderInsightCards,
+  renderInsightCards, renderRankingsMovers,
 } from '@/templates/Ranking';
 import { loadGraph } from '@/graph';
 import { loadOccupationsFromGraph } from '@/views/ranking';
+import { loadRankingMovers } from '@/page-data/ranking-movers';
 import { OCCUPATION_COUNT } from '@/site/config';
 
 const graph = await loadGraph();
@@ -25,6 +26,7 @@ const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収�
 const groupsHtml = renderRankingsHubGroups(hub.groups);
 const gsHtml = renderRankingsHubStats(hub.globalStats);
 const insightsHtml = renderInsightCards(hub.insights);
+const moversHtml = renderRankingsMovers(loadRankingMovers(graph));
 const jsonLd = renderHubJsonLd();
 ---
 <BaseLayout
@@ -83,6 +85,25 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .highlights{margin:24px 0}
 .highlights ul{list-style:none;display:flex;flex-direction:column;gap:8px}
 .highlights li{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);padding:10px 16px;border-radius:0 6px 6px 0;font-size:.9rem;color:var(--fg);min-height:47px;display:flex;align-items:center}
+.movers-section{margin:40px 0}
+.movers-note{font-size:.84rem;color:var(--fg2);margin:-8px 0 16px}
+.mover-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.mover-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px}
+.mover-card h3{font-family:var(--font-serif);font-size:1rem;font-weight:600;color:var(--fg);margin:0 0 12px;line-height:1.35}
+.mover-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin:0;padding:0}
+.mover-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:start;background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:6px;padding:10px 12px;min-height:64px;transition:border-color 120ms,background 120ms,box-shadow 120ms}
+.mover-row:hover{border-color:var(--accent)}
+.mover-up{border-left-color:var(--accent-deep)}
+.mover-down{border-left-color:var(--fg3)}
+.mover-name{min-width:0;color:var(--fg);font-weight:500;text-decoration:none;font-size:.9rem;line-height:1.45}
+.mover-name:hover{color:var(--accent-deep);text-decoration:underline}
+.mover-delta{font-variant-numeric:tabular-nums;font-weight:700;font-size:.86rem;white-space:nowrap}
+.mover-delta.up{color:var(--accent-deep)}
+.mover-delta.down{color:var(--fg2)}
+.mover-values{grid-column:1 / -1;color:var(--fg2);font-size:.78rem;font-variant-numeric:tabular-nums}
+.mover-row.is-me{border-color:var(--accent);border-left-color:var(--accent);background:rgba(217,107,61,0.08);box-shadow:0 0 0 2px rgba(217,107,61,0.12)}
+.mover-row.is-me .mover-name::after{content:"あなた";display:inline-block;margin-left:8px;padding:1px 7px;border-radius:999px;background:var(--accent-deep);color:#fff;font-size:.68rem;font-family:var(--font-sans);font-weight:600;vertical-align:1px}
+.mover-row.is-family:not(.is-me){border-color:rgba(72,112,95,0.4);background:rgba(72,112,95,0.06)}
 .sector-chart{margin:24px 0}
 .sc-title{font-size:.85rem;color:var(--fg2);margin-bottom:10px;font-weight:500}
 .sb-row{display:grid;grid-template-columns:110px 1fr 44px;gap:8px;align-items:center;margin-bottom:5px;font-size:.8rem}
@@ -158,6 +179,8 @@ footer .footer-meta .nowrap{white-space:nowrap}
 
     <Fragment set:html={gsHtml} />
 
+    <Fragment set:html={moversHtml} />
+
     <section aria-label="ランキング一覧">
       <h2>ランキング一覧</h2>
       <Fragment set:html={groupsHtml} />
@@ -190,6 +213,109 @@ footer .footer-meta .nowrap{white-space:nowrap}
     }
   }, { rootMargin: '-30% 0% -60% 0%' });
   groups.forEach(function (g) { obs.observe(g); });
+})();
+  </script>
+  <script is:inline>
+(function(){
+  var rows = document.querySelectorAll('.mover-row[data-occ-id]');
+  if (!rows.length) return;
+
+  var ids = {};
+  var families = {};
+
+  function addId(value) {
+    if (value === null || value === undefined || value === '') return;
+    var n = parseInt(String(value), 10);
+    if (isFinite(n) && n > 0) ids[String(n)] = true;
+  }
+
+  function addFamily(value) {
+    if (typeof value !== 'string') return;
+    var code = value.trim();
+    if (!/^[A-Za-z0-9_-]{1,48}$/.test(code)) return;
+    families[code] = true;
+  }
+
+  function walkSaved(value, depth) {
+    if (depth > 4 || value === null || value === undefined) return;
+    if (typeof value === 'number' || typeof value === 'string') {
+      addId(value);
+      return;
+    }
+    if (Array.isArray(value)) {
+      for (var i = 0; i < value.length; i++) walkSaved(value[i], depth + 1);
+      return;
+    }
+    if (typeof value !== 'object') return;
+
+    addId(value.occupationId);
+    addId(value.occupation_id);
+    addId(value.occId);
+    addId(value.jobId);
+    addId(value.job_id);
+    addId(value.id);
+    addFamily(value.familyCode);
+    addFamily(value.family_code);
+    addFamily(value.family);
+    addFamily(value.sectorId);
+    addFamily(value.sector_id);
+
+    var nested = ['result', 'diagnosis', 'profile', 'selected', 'occupation'];
+    for (var j = 0; j < nested.length; j++) {
+      if (Object.prototype.hasOwnProperty.call(value, nested[j])) {
+        walkSaved(value[nested[j]], depth + 1);
+      }
+    }
+  }
+
+  function inspectStorageValue(raw) {
+    if (!raw) return;
+    try {
+      walkSaved(JSON.parse(raw), 0);
+    } catch (e) {
+      walkSaved(raw, 0);
+    }
+  }
+
+  try {
+    var params = new URLSearchParams(location.search);
+    addId(params.get('me'));
+    addId(params.get('id'));
+    addId(params.get('occ'));
+    addId(params.get('occupation'));
+  } catch (e) {}
+
+  try {
+    var knownKeys = [
+      'ai-workstyle-result',
+      'ai_workstyle_result',
+      'mirai-shigoto:diagnosis',
+      'miraiShigotoDiagnosis',
+      'ai-shigoto-result',
+      'AI働き方診断'
+    ];
+    var seen = {};
+    for (var k = 0; k < knownKeys.length; k++) {
+      seen[knownKeys[k]] = true;
+      inspectStorageValue(localStorage.getItem(knownKeys[k]));
+    }
+    for (var s = 0; s < localStorage.length; s++) {
+      var key = localStorage.key(s);
+      if (!key || seen[key]) continue;
+      if (!/(diagnos|workstyle|働き方|shigoto|mirai)/i.test(key)) continue;
+      inspectStorageValue(localStorage.getItem(key));
+    }
+  } catch (e) {}
+
+  rows.forEach(function(row){
+    var occId = row.getAttribute('data-occ-id') || '';
+    var family = row.getAttribute('data-family-code') || '';
+    if (ids[occId]) {
+      row.classList.add('is-me');
+    } else if (family && families[family]) {
+      row.classList.add('is-family');
+    }
+  });
 })();
   </script>
   <script is:inline>
