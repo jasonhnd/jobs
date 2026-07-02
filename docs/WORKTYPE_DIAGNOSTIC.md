@@ -72,13 +72,13 @@ The public diagnostic uses three reader-friendly axes. Each axis maps to AIOIS-1
 
 Occupation verdicts must not use AIOIS Transformation or Displacement-Risk directly as type labels. Those indices remain separate overlays shown alongside the type.
 
-DIAG-1 must compute normalized axis scores across the active 556 scored occupations:
+DIAG-1 computes normalized axis scores across the active 556 scored occupations:
 
 - A1 occupation score: normalized D6 minus normalized D2, with D1 used only as a supporting exposure note.
 - A2 occupation score: normalized D5 plus 0.5 x normalized D4 minus normalized D1.
 - A3 occupation score: normalized D3 minus the mean of normalized D1, D4, and D6.
 
-Exact threshold values and any tie-break adjustments are pending DIAG-1.
+Exact threshold values and tie-break/smoothing adjustments are recorded in section 8 and emitted in `public/data.worktypes.json`.
 
 ## 5. The 9-Question Test + Scoring To Family + Variant
 
@@ -106,8 +106,12 @@ Scoring to the family code:
 Scoring to the variant (the flavor layer):
 
 - The per-axis margin (a decisive 3-0 sweep vs a 2-1 lean) is retained, not just the winning pole.
-- The margin pattern places the reader into one of the family's named variants (section 6). DIAG-1 defines the exact margin -> variant mapping; it is pending DIAG-1.
-- Because 9 questions yield only a 3-0 / 2-1 margin per axis, DIAG-1 may recommend extending to 12 questions (4 per axis) if cleaner variant separation is needed. The MVP target is 9-12; keep it short to protect completion.
+- The margin key is ordered A1/A2/A3, for example `3-0/2-1/2-1`.
+- DIAG-1 maps all 8 margin patterns per family into exactly 3 machine variants:
+  - `2-1/2-1/2-1` -> `<code>-balance`
+  - `3-0/3-0/3-0` -> `<code>-sweep`
+  - the other 6 mixed patterns -> `<code>-mixed`
+- DIAG-1 keeps the MVP at 9 questions. A 12-question version is not required for the 3-bucket variant separation; revisit only if DIAG-2 user testing shows the mixed bucket needs finer separation.
 
 The result page must show the axis breakdown before the narrative label so readers can see why the code was assigned.
 
@@ -141,10 +145,13 @@ Worked variant example (one family; DIAG-9 produces all ~24):
 
 - `CDK` `AI共創パイロット` family -> `攻め型: AI先駆けハッカー` / `バランス型: 共創アーキテクト` / `職人型: 深掘りリサーチャー`. The variant reflects how decisively the reader swept the AI-exposed poles versus leaned the human poles within the family.
 
-Variant assignment, count, and rarity (pending DIAG-1):
+Variant assignment, count, and rarity:
 
-- DIAG-1 defines the exact margin -> variant mapping and confirms roughly 3 variants per family (about 24 total).
-- Family-level rarity percentage is the primary shareable figure, derived from the occupation distribution (static; section 8). Variant-level rarity, if shown, is derived from the occupation axis-margin distribution within the family; whether it is statistically sound to display per variant is DIAG-1's call.
+DIAG-1 result:
+
+- Each family has 3 machine variants, for 24 total IDs: `<code>-balance`, `<code>-mixed`, and `<code>-sweep`.
+- The mapping covers all 8 possible 9-question margin patterns per family. All-lean maps to balance, all-sweep maps to sweep, and every mixed decisive/lean pattern maps to mixed.
+- Family-level rarity percentage remains the only displayed rarity. Variant-level rarity is not emitted or displayed in P1 because variants are quiz-margin flavors, not occupation-distribution buckets.
 
 ## 7. Signature Feature: Self x Job Gap
 
@@ -172,7 +179,7 @@ Rules are evaluated in priority order; first match wins. This priority list is p
 2. If not aligned and the mismatch includes underused `C`, `P`, or `B` from the self code, return `hidden_strength`.
 3. Otherwise return `hidden_risk`.
 
-DIAG-1 must define the high-transformation threshold for the `RDK` watch rule; the exact value is pending DIAG-1.
+DIAG-1 sets the high-transformation threshold for the `RDK` aligned-watch rule at AIOIS Transformation >= 7.0. This is a separate overlay for gap copy; it is not used to assign work-type families.
 
 ## 8. Calibration
 
@@ -180,30 +187,56 @@ Calibration has two targets: stable occupation classification and honest public 
 
 Occupation threshold method (family level):
 
-- Use median split per axis over the active 556 scored occupations.
+- Normalize each AIOIS input dimension with a population z-score over the active 556 scored occupations, then use a median split per axis.
 - Compute continuous A1, A2, and A3 occupation scores from normalized AIOIS-10 dimensions as defined in section 4.
 - Assign each occupation to the high-side pole above the median and the low-side pole below the median.
-- If an axis score equals the median, DIAG-1 must use a deterministic tie-break based on the strongest raw AIOIS dimension for that axis.
+- Initial exact median ties use a deterministic strongest-raw-dimension rule:
+  - A1: D6 >= D2 -> `C`, otherwise `R`.
+  - A2: max(D5, D4) >= D1 -> `P`, otherwise `D`.
+  - A3: D3 >= max(D1, D4, D6) -> `B`, otherwise `K`.
+- Guardrail smoothing may then move nearest-boundary occupations into an underfloor family; this adjustment is recorded in `public/data.worktypes.json`.
+
+Final DIAG-1 medians:
+
+| Axis | Median threshold |
+| --- | ---: |
+| A1 | `0.014326239300082574` |
+| A2 | `-0.09651669498337728` |
+| A3 | `0.20040179106832906` |
 
 Distribution guardrails (family level):
 
 - No family may represent less than 3% of the 556 scored occupations.
 - No family may represent more than 35% of the 556 scored occupations.
-- If a family falls outside the range, DIAG-1 must adjust axis tie-breaks or threshold smoothing, then record the resulting distribution in this document or in a linked generated calibration note.
-- The known tight cell is `CDB`: on the real Fable 5 data it is about 2.5%, just under the 3% floor. DIAG-1 must smooth that cell via deterministic tie-breaks or threshold adjustments while keeping exact medians pending DIAG-1.
+- If a family falls outside the range, DIAG-1 adjusts deterministic nearest-boundary smoothing and records the resulting distribution.
+- The known tight cell was `CDB`: raw median/tie-break assignment produced 14 occupations (2.5%). DIAG-1 smoothing moves occupation IDs 212, 344, and 306 from `CPB` to `CDB` along the A2 boundary, producing 17 occupations (3.1%).
+
+Final DIAG-1 family distribution:
+
+| Code | Family ID | Raw count | Raw pct | Final count | Final pct |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `CPB` | `hands-on-creator` | 79 | 14.2 | 76 | 13.7 |
+| `CPK` | `empathy-strategist` | 106 | 19.1 | 106 | 19.1 |
+| `CDB` | `maker-designer` | 14 | 2.5 | 17 | 3.1 |
+| `CDK` | `ai-cocreation-pilot` | 79 | 14.2 | 79 | 14.2 |
+| `RPB` | `field-care-master` | 74 | 13.3 | 74 | 13.3 |
+| `RPK` | `workflow-coordinator` | 20 | 3.6 | 20 | 3.6 |
+| `RDB` | `field-flow-master` | 111 | 20.0 | 111 | 20.0 |
+| `RDK` | `ai-automator` | 73 | 13.1 | 73 | 13.1 |
 
 Rarity figures (static, data-derived):
 
 - Family rarity percentage is computed from the occupation distribution (the share of the 556 occupations in that family) and is fixed at build time. There is no live taker counter in P1 (no backend).
 - This static figure is what the result and share card display as the rarity flex (for example `このタイプは全体の約7%`). It must be framed as a neutral distribution fact, not a status (section 13).
-- Variant calibration (the margin -> variant mapping and any per-variant rarity) is pending DIAG-1.
+- Variant calibration is resolved by DIAG-1: margin mapping is emitted, and per-variant rarity is not displayed in P1.
 
 Current status:
 
-- Exact medians: pending DIAG-1.
-- Family distribution table: pending DIAG-1.
-- Variant mapping and distribution: pending DIAG-1.
-- Tie-break rules after distribution audit: pending DIAG-1.
+- Exact medians: resolved by DIAG-1 and emitted in `public/data.worktypes.json.thresholds`.
+- Family distribution table: resolved by DIAG-1 and emitted in `families`.
+- Variant mapping: resolved by DIAG-1 and emitted in `variants`; DIAG-9 owns final names/copy.
+- Variant rarity: do not display in P1.
+- Tie-break and smoothing rules: resolved by DIAG-1 and emitted in `calibration`.
 
 Rarity framing:
 
@@ -359,7 +392,7 @@ Required disclaimer concept in Japanese:
 Issue #58 verification:
 
 - Human review confirms all 15 sections are present.
-- Human review confirms no unfinished markers remain except explicit `pending DIAG-1`.
+- Human review confirms no unintended unfinished markers remain.
 - Human review confirms `docs/README.md` indexes this document.
 - Human review confirms docs-only changes.
 
@@ -390,12 +423,10 @@ CSP gates:
 
 DIAG-1 thresholds and variants:
 
-- Exact A1, A2, and A3 occupation medians are pending DIAG-1.
-- Tie-break rules after distribution audit are pending DIAG-1.
-- The high-transformation threshold for the `RDK` aligned-watch case is pending DIAG-1.
-- The final 8-family occupation distribution table is pending DIAG-1.
-- The margin -> variant mapping (~3 variants per family, ~24 total) and any per-variant rarity are pending DIAG-1.
-- Whether to extend the test from 9 to 12 questions for cleaner variant separation is pending DIAG-1.
+- Resolved by DIAG-1: exact A1/A2/A3 medians, tie-break rules, guardrail smoothing, high-transformation `RDK` watch threshold, final 8-family occupation distribution, and the margin -> variant machine mapping.
+- Resolved by DIAG-1: do not display per-variant rarity in P1.
+- Resolved by DIAG-1: keep the MVP at 9 questions; 12 questions are deferred unless DIAG-2 testing shows a real need.
+- Still owned by DIAG-9: final family and variant names, one-liners, and public JA copy.
 
 Type visual direction:
 

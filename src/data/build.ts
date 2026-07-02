@@ -1,7 +1,7 @@
 /**
  * TS ETL orchestrator — entry point for `npm run build:data`.
  *
- * Loads + validates source data, runs all 12 projections, writes them to
+ * Loads + validates source data, runs all 13 projections, writes them to
  * `public/` (Astro's publicDir; Astro then copies the whole publicDir into
  * `dist-astro/` during `astro build`).
  *
@@ -38,6 +38,7 @@ import { buildSkills } from './projections/skills.js';
 import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
 import { buildAiAdoption } from './projections/ai-adoption.js';
+import { buildWorktypes } from './projections/worktypes.js';
 import { formatModelDisplay } from '../site/score-attribution.js';
 import { buildGeoSurfaces } from '../site/geo-build.js';
 // Removed in Step 12 (dead projection cleanup, 2026-05-13):
@@ -232,6 +233,14 @@ async function main(): Promise<void> {
       return {
         files: r.files,
         summary: `occupations=${r.occupations} axes=${r.axes.length}`,
+      };
+    }));
+
+    runs.push(await runProjection('worktypes', async () => {
+      const r = await buildWorktypes(indexes, STAGE_DIST);
+      return {
+        files: r.files,
+        summary: `occupations=${r.occupations} families=${r.families} adjustments=${r.adjustments}`,
       };
     }));
 

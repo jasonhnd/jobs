@@ -67,7 +67,7 @@ function relPath(p: string): string {
 }
 
 async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void> {
-  // All 12 projection families produced by src/data/build.ts. A missing
+  // All 13 projection families produced by src/data/build.ts. A missing
   // file here means a projection silently failed to write, which the build
   // step itself does not currently detect.
   const requiredFiles = [
@@ -77,6 +77,7 @@ async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void
     'data.sectors.json',
     'data.review_queue.json',
     'data.profile5.json',
+    'data.worktypes.json',
     'data.transfer_paths.json',
     'data.holland.json',
     'data.labels/ja.json',
@@ -539,6 +540,7 @@ async function main(): Promise<void> {
   // an empty / malformed file" regressions.
   await checkNonEmptyJsonShape(distRoot, 'data.holland.json', 'rows', r);
   await checkNonEmptyJsonShape(distRoot, 'data.profile5.json', 'profiles', r);
+  await checkNonEmptyJsonShape(distRoot, 'data.worktypes.json', 'occupations', r);
   await checkNonEmptyJsonShape(distRoot, 'data.transfer_paths.json', 'paths', r);
   await checkPerOccupationDir(distRoot, 'data.skills', 30, r);
   // Step 12 removed: data.featured.json (dead projection),
