@@ -397,6 +397,86 @@ export function renderRankingsHubStats(stats: ReadonlyArray<readonly [string, st
     .join('')}</dl>` as SafeHtml;
 }
 
+// ─── rankings/index movers renderer ───────────────────────────────
+
+export interface RankingsMoverView {
+  readonly id: number;
+  readonly name: string;
+  readonly base: number;
+  readonly current: number;
+  readonly delta: number;
+  readonly familyCode: string | null;
+}
+
+export interface RankingsMoversView {
+  readonly meta: {
+    readonly baseline: {
+      readonly model: string;
+      readonly date: string;
+      readonly scoreCount: number;
+    };
+    readonly candidate: {
+      readonly model: string;
+      readonly date: string;
+      readonly scoreCount: number;
+    };
+    readonly comparedCount: number;
+  };
+  readonly transformation: {
+    readonly up: readonly RankingsMoverView[];
+    readonly down: readonly RankingsMoverView[];
+  };
+  readonly displacement: {
+    readonly up: readonly RankingsMoverView[];
+    readonly down: readonly RankingsMoverView[];
+  };
+}
+
+const f1 = (n: number): string => n.toFixed(1);
+const signed1 = (n: number): string => `${n >= 0 ? '+' : ''}${n.toFixed(1)}`;
+
+function renderMoverList(
+  title: string,
+  rows: readonly RankingsMoverView[],
+  direction: 'up' | 'down',
+): string {
+  const lis = rows.map((row) => (
+    `<li class="mover-row mover-${direction}" data-occ-id="${row.id}" ` +
+    `data-family-code="${escapeHtml(row.familyCode ?? '')}">` +
+    `<a class="mover-name" href="/${row.id}">${escapeHtml(row.name)}</a>` +
+    `<span class="mover-delta ${direction}">${signed1(row.delta)}</span>` +
+    `<span class="mover-values">${f1(row.base)} → ${f1(row.current)}</span>` +
+    `</li>`
+  )).join('');
+
+  return (
+    `<article class="mover-card">` +
+    `<h3>${escapeHtml(title)}</h3>` +
+    `<ol class="mover-list">${lis}</ol>` +
+    `</article>`
+  );
+}
+
+export function renderRankingsMovers(movers: RankingsMoversView): SafeHtml {
+  const note =
+    `${movers.meta.baseline.date} ${movers.meta.baseline.model} → ` +
+    `${movers.meta.candidate.date} ${movers.meta.candidate.model}、` +
+    `共通 ${movers.meta.comparedCount} 職業`;
+
+  return (
+    `<section class="movers-section" aria-label="今月の急上昇・急降下">` +
+    `<h2>今月の急上昇・急降下</h2>` +
+    `<p class="movers-note">AIOIS-10 先月比：${escapeHtml(note)}</p>` +
+    `<div class="mover-grid">` +
+    `${renderMoverList('変化指数が上がった職業', movers.transformation.up, 'up')}` +
+    `${renderMoverList('変化指数が下がった職業', movers.transformation.down, 'down')}` +
+    `${renderMoverList('代替リスクが上がった職業', movers.displacement.up, 'up')}` +
+    `${renderMoverList('代替リスクが下がった職業', movers.displacement.down, 'down')}` +
+    `</div>` +
+    `</section>`
+  ) as SafeHtml;
+}
+
 // ─── RA-137: insights infographic — 5 screenshot-ready cards ──────────
 //
 // renderInsightCards() replaces the old text-only list with a 5-card
