@@ -21,6 +21,7 @@ import {
   DetailFileSchema,
   SectorRecordSchema,
   SectorsProjectionSchema,
+  WorktypesProjectionSchema,
 } from "./projection-schemas.js";
 
 // ─── Risk / hue palettes ──────────────────────────────────────────────────
@@ -94,6 +95,13 @@ export const DetailRecordSchema = DetailFileSchema.pick({
  * api/og.tsx is Edge-compatible.
  */
 export { SectorRecordSchema, SectorsProjectionSchema };
+
+/**
+ * Shape of `/data.worktypes.json` — used by the worktype diagnostic OG
+ * card. The renderer needs the data-backed family rarity percentage and
+ * optional job worktype context; public copy stays in src/site/worktype-copy.ts.
+ */
+export { WorktypesProjectionSchema };
 
 /** Per-page template config consumed by `renderGenericCard`. */
 export interface GenericCardConfig {

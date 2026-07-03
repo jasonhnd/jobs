@@ -104,6 +104,47 @@ export const SectorsProjectionSchema = z
   })
   .passthrough();
 
+// ─── Worktype diagnostic projection (public/data.worktypes.json) ───────
+
+export const WorktypeFamilyCodeSchema = z.enum([
+  'CPB',
+  'CPK',
+  'CDB',
+  'CDK',
+  'RPB',
+  'RPK',
+  'RDB',
+  'RDK',
+]);
+
+const WorktypeFamilyRecordSchema = z
+  .object({
+    familyId: z.string(),
+    count: z.number().int().min(0),
+    pct: z.number().min(0).max(100),
+  })
+  .passthrough();
+
+const WorktypeOccupationRecordSchema = z
+  .object({
+    code: WorktypeFamilyCodeSchema,
+    familyId: z.string(),
+    exposure: z.number().int().min(0).max(3),
+    rarityPct: z.number().min(0).max(100),
+  })
+  .passthrough();
+
+export const WorktypesProjectionSchema = z
+  .object({
+    schema_version: z.literal('1.0'),
+    families: z.record(WorktypeFamilyCodeSchema, WorktypeFamilyRecordSchema),
+    variants: z.record(WorktypeFamilyCodeSchema, z.record(z.string(), z.string())),
+    occupations: z.record(z.string().regex(/^\d+$/), WorktypeOccupationRecordSchema),
+  })
+  .passthrough();
+
+export type WorktypesProjectionShape = z.infer<typeof WorktypesProjectionSchema>;
+
 // ─── Source sector definition (data/sectors/sectors.ja-en.json) ───────
 
 const SectorDefSchema = z

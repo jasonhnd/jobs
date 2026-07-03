@@ -10,6 +10,8 @@
 //                                         — generic page card (text-only)
 // GET /api/og?ranking=<slug>              — ranking detail card (text-only, 9 slugs)
 // GET /api/og?route=<slug>                — explore route card (text-only, 7 slugs)
+// GET /api/og?worktype=<family>&variant=<variant>[&shape=square]
+//                                         — AI働き方診断 result card
 //   (interest / skill / compare families are also text-only — see og-dispatch.ts)
 //
 //   Unrenderable input (unknown slug / bad id / no param) never 400s —
@@ -62,6 +64,7 @@ import { renderGenericOgCard } from "../src/lib/og-renderers/generic.js";
 import { renderMapOgCard } from "../src/lib/og-renderers/map.js";
 import { renderSectorOgCard } from "../src/lib/og-renderers/sector.js";
 import { renderOccupationOgCard } from "../src/lib/og-renderers/occupation.js";
+import { renderWorktypeOgCard } from "../src/lib/og-renderers/worktype.js";
 
 export const config = {
   runtime: "edge",
@@ -116,5 +119,7 @@ async function renderHandler(req: Request): Promise<Response> {
       return renderSectorOgCard(url, decision.id);
     case "render-occupation":
       return renderOccupationOgCard(url, decision.id);
+    case "render-worktype":
+      return renderWorktypeOgCard(url, decision);
   }
 }

@@ -30,8 +30,17 @@ import {
   SKILL_CARDS,
   COMPARE_CARDS,
   EXPLORE_CARDS,
+  WORKTYPE_CARDS,
+  type WorktypeCardConfig,
 } from '../views/og-cards.js';
 import { type GenericCardConfig } from './og-helpers.js';
+import {
+  GAP,
+  VARIANT_IDS_BY_FAMILY,
+  type FamilyCode,
+  type GapKind,
+  type WorktypeVariantId,
+} from '../site/worktype-copy.js';
 
 /**
  * Per-card-family lookup table. Bundled as one record so callers
@@ -45,6 +54,7 @@ export interface CardCatalog {
   readonly skill: Readonly<Record<string, GenericCardConfig>>;
   readonly compare: Readonly<Record<string, GenericCardConfig>>;
   readonly route: Readonly<Record<string, GenericCardConfig>>;
+  readonly worktype: Readonly<Record<FamilyCode, WorktypeCardConfig>>;
 }
 
 export const PRODUCTION_CATALOG: CardCatalog = {
@@ -54,7 +64,10 @@ export const PRODUCTION_CATALOG: CardCatalog = {
   skill: SKILL_CARDS,
   compare: COMPARE_CARDS,
   route: EXPLORE_CARDS,
+  worktype: WORKTYPE_CARDS,
 };
+
+export type WorktypeOgShape = 'square' | 'wide';
 
 /**
  * Dispatch decision returned by `decideDispatch`. The Edge entry
@@ -63,6 +76,7 @@ export const PRODUCTION_CATALOG: CardCatalog = {
  *   - `render-generic`    → renderGenericOgCard(decision.config)
  *   - `render-sector`     → renderSectorOgCard(url, decision.id)
  *   - `render-occupation` → renderOccupationOgCard(url, decision.id)
+ *   - `render-worktype`   → renderWorktypeOgCard(url, decision)
  *
  * There is intentionally NO `bad-request` kind: the endpoint must
  * never hard-fail a social card. Any unrenderable input degrades to
@@ -80,7 +94,15 @@ export type DispatchDecision =
   | { kind: 'render-map' }
   | { kind: 'render-generic'; config: GenericCardConfig }
   | { kind: 'render-sector'; id: string }
-  | { kind: 'render-occupation'; id: string };
+  | { kind: 'render-occupation'; id: string }
+  | {
+      kind: 'render-worktype';
+      family: FamilyCode;
+      variant: WorktypeVariantId;
+      gap?: GapKind;
+      job?: string;
+      shape: WorktypeOgShape;
+    };
 
 /**
  * Decide which renderer to invoke given a request URL. Pure
@@ -100,6 +122,7 @@ export function decideDispatch(
   const skillParam = url.searchParams.get('skill');
   const compareParam = url.searchParams.get('compare');
   const routeParam = url.searchParams.get('route');
+  const worktypeParam = url.searchParams.get('worktype');
 
   // Safety net (2026-06-03): the endpoint must never hard-fail a social
   // card. Any input we cannot render — an unknown slug in a known
@@ -140,6 +163,26 @@ export function decideDispatch(
   if (compareParam) return generic(catalog.compare, compareParam);
   if (routeParam) return generic(catalog.route, routeParam);
 
+  if (worktypeParam) {
+    const family = normalizeFamily(worktypeParam, catalog.worktype);
+    if (!family) return homeCard();
+    const decision: Extract<DispatchDecision, { kind: 'render-worktype' }> = {
+      kind: 'render-worktype',
+      family,
+      variant: normalizeVariant(family, url.searchParams.get('variant')),
+      shape: normalizeShape(
+        url.searchParams.get('shape') ??
+        url.searchParams.get('size') ??
+        url.searchParams.get('format'),
+      ),
+    };
+    const gap = normalizeGap(url.searchParams.get('gap'));
+    const job = normalizeJob(url.searchParams.get('job'));
+    if (gap) decision.gap = gap;
+    if (job) decision.job = job;
+    return decision;
+  }
+
   // Sector cards consume URL.origin downstream; just forward the param.
   // Shape validation + 404 is the renderer's job (sector.ts checks
   // `/^[a-z_]+$/` and lets upstream 404 propagate).
@@ -156,4 +199,36 @@ export function decideDispatch(
   }
 
   return homeCard();
+}
+
+function normalizeFamily(
+  value: string,
+  worktypeCards: Readonly<Record<FamilyCode, WorktypeCardConfig>>,
+): FamilyCode | null {
+  // Use Object.hasOwn, NOT the `in` operator: `in` also matches inherited
+  // Object.prototype keys (constructor, toString, __proto__, valueOf, …), so
+  // `?worktype=constructor` would bypass validation as a fake FamilyCode and
+  // crash downstream (normalizeVariant `.includes` on Object) instead of
+  // degrading to the HOME card. hasOwn only matches own enumerable/defined keys.
+  return Object.hasOwn(worktypeCards, value) ? (value as FamilyCode) : null;
+}
+
+function normalizeVariant(family: FamilyCode, value: string | null): WorktypeVariantId {
+  const allowed: readonly string[] = VARIANT_IDS_BY_FAMILY[family];
+  if (value && allowed.includes(value)) return value as WorktypeVariantId;
+  return VARIANT_IDS_BY_FAMILY[family][0] as WorktypeVariantId;
+}
+
+function normalizeGap(value: string | null): GapKind | undefined {
+  // Object.hasOwn (not `in`) — same prototype-chain guard as normalizeFamily:
+  // `?gap=constructor`/`toString`/`__proto__` must not pass as a fake GapKind.
+  return value && Object.hasOwn(GAP, value) ? (value as GapKind) : undefined;
+}
+
+function normalizeJob(value: string | null): string | undefined {
+  return value && /^\d{1,4}$/.test(value) ? value : undefined;
+}
+
+function normalizeShape(value: string | null): WorktypeOgShape {
+  return value === 'square' || value === '1080' || value === '1080x1080' ? 'square' : 'wide';
 }
