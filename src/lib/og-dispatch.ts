@@ -205,7 +205,12 @@ function normalizeFamily(
   value: string,
   worktypeCards: Readonly<Record<FamilyCode, WorktypeCardConfig>>,
 ): FamilyCode | null {
-  return value in worktypeCards ? (value as FamilyCode) : null;
+  // Use Object.hasOwn, NOT the `in` operator: `in` also matches inherited
+  // Object.prototype keys (constructor, toString, __proto__, valueOf, …), so
+  // `?worktype=constructor` would bypass validation as a fake FamilyCode and
+  // crash downstream (normalizeVariant `.includes` on Object) instead of
+  // degrading to the HOME card. hasOwn only matches own enumerable/defined keys.
+  return Object.hasOwn(worktypeCards, value) ? (value as FamilyCode) : null;
 }
 
 function normalizeVariant(family: FamilyCode, value: string | null): WorktypeVariantId {
@@ -215,7 +220,9 @@ function normalizeVariant(family: FamilyCode, value: string | null): WorktypeVar
 }
 
 function normalizeGap(value: string | null): GapKind | undefined {
-  return value && value in GAP ? (value as GapKind) : undefined;
+  // Object.hasOwn (not `in`) — same prototype-chain guard as normalizeFamily:
+  // `?gap=constructor`/`toString`/`__proto__` must not pass as a fake GapKind.
+  return value && Object.hasOwn(GAP, value) ? (value as GapKind) : undefined;
 }
 
 function normalizeJob(value: string | null): string | undefined {

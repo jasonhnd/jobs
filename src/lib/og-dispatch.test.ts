@@ -211,6 +211,17 @@ describe('decideDispatch — worktype branch', () => {
     assertHomeFallback(d);
   });
 
+  test('?worktype=<Object.prototype key> → HOME fallback (no `in` bypass)', () => {
+    // Guards the Object.hasOwn fix in normalizeFamily: the `in` operator would
+    // match inherited keys (constructor/toString/__proto__/…), letting a crafted
+    // param pass as a fake FamilyCode and crash the renderer (or serve a garbage
+    // card with 200) instead of degrading to the HOME safety-net card.
+    for (const evil of ['constructor', 'toString', 'hasOwnProperty', 'valueOf', '__proto__']) {
+      assertHomeFallback(decideDispatch(url(`?worktype=${evil}`), STUB_CATALOG));
+      assertHomeFallback(decideDispatch(url(`?worktype=${evil}&variant=hacker`), STUB_CATALOG));
+    }
+  });
+
   test('?worktype=CPK&variant=<invalid> → family default variant', () => {
     const d = decideDispatch(url('?worktype=CPK&variant=hacker'), STUB_CATALOG);
     assert.equal(d.kind, 'render-worktype');
@@ -249,6 +260,15 @@ describe('decideDispatch — worktype branch', () => {
       variant: 'researcher',
       shape: 'wide',
     });
+  });
+
+  test('gap=<Object.prototype key> is omitted (no `in` bypass)', () => {
+    // Guards the Object.hasOwn fix in normalizeGap.
+    for (const evil of ['constructor', 'toString', '__proto__']) {
+      const d = decideDispatch(url(`?worktype=CDK&variant=hacker&gap=${evil}`), STUB_CATALOG);
+      assert.equal(d.kind, 'render-worktype');
+      assert.equal((d as { gap?: string }).gap, undefined);
+    }
   });
 
   test('shape=square resolves the square worktype card', () => {
