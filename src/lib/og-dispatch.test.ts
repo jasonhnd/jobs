@@ -23,11 +23,12 @@
  *   7.  ?skill=<known/unknown>   → render-generic / HOME fallback
  *   8.  ?compare=<known/unknown> → render-generic / HOME fallback
  *   9.  ?route=<known/unknown>   → render-generic / HOME fallback  (NEW family)
- *  10.  ?sector=<id>             → render-sector (id forwarded raw; validation
+ *  10.  ?worktype=<family>       → render-worktype (family + variant result card)
+ *  11.  ?sector=<id>             → render-sector (id forwarded raw; validation
  *                                   is the renderer's job)
- *  11.  ?id=<digits>             → render-occupation
- *  12.  ?id=<non-digit/overflow> → render-generic (HOME fallback)
- *  13.  (no recognized params)   → render-generic (HOME fallback)
+ *  12.  ?id=<digits>             → render-occupation
+ *  13.  ?id=<non-digit/overflow> → render-generic (HOME fallback)
+ *  14.  (no recognized params)   → render-generic (HOME fallback)
  *
  * Precedence tests verify that the order in the dispatcher matches
  * the documented param-precedence — e.g. `?page=map&id=156` resolves
@@ -44,6 +45,8 @@ import {
   type DispatchDecision,
 } from './og-dispatch.js';
 import { type GenericCardConfig } from './og-helpers.js';
+import { WORKTYPE_CARDS } from '../views/og-cards.js';
+import { VARIANT_IDS_BY_FAMILY } from '../site/worktype-copy.js';
 
 /** Minimal in-memory card config — used as every NON-home catalog value
  *  so tests can assert object-identity (catalog returns THIS config). */
@@ -69,6 +72,7 @@ const STUB_CATALOG: CardCatalog = {
   skill: { 'critical-thinking': STUB_CONFIG, programming: STUB_CONFIG },
   compare: { 'kango-vs-helper': STUB_CONFIG },
   route: { 'by-industry': STUB_CONFIG, 'find-your-fit': STUB_CONFIG },
+  worktype: WORKTYPE_CARDS,
 };
 
 function url(query: string): URL {
@@ -191,6 +195,101 @@ describe('decideDispatch — sector branch', () => {
   });
 });
 
+describe('decideDispatch — worktype branch', () => {
+  test('?worktype=CDK&variant=hacker → render-worktype with default wide shape', () => {
+    const d = decideDispatch(url('?worktype=CDK&variant=hacker'), STUB_CATALOG);
+    assert.deepEqual(d, {
+      kind: 'render-worktype',
+      family: 'CDK',
+      variant: 'hacker',
+      shape: 'wide',
+    });
+  });
+
+  test('?worktype=<invalid> → HOME fallback', () => {
+    const d = decideDispatch(url('?worktype=ZZZ&variant=hacker'), STUB_CATALOG);
+    assertHomeFallback(d);
+  });
+
+  test('?worktype=<Object.prototype key> → HOME fallback (no `in` bypass)', () => {
+    // Guards the Object.hasOwn fix in normalizeFamily: the `in` operator would
+    // match inherited keys (constructor/toString/__proto__/…), letting a crafted
+    // param pass as a fake FamilyCode and crash the renderer (or serve a garbage
+    // card with 200) instead of degrading to the HOME safety-net card.
+    for (const evil of ['constructor', 'toString', 'hasOwnProperty', 'valueOf', '__proto__']) {
+      assertHomeFallback(decideDispatch(url(`?worktype=${evil}`), STUB_CATALOG));
+      assertHomeFallback(decideDispatch(url(`?worktype=${evil}&variant=hacker`), STUB_CATALOG));
+    }
+  });
+
+  test('?worktype=CPK&variant=<invalid> → family default variant', () => {
+    const d = decideDispatch(url('?worktype=CPK&variant=hacker'), STUB_CATALOG);
+    assert.equal(d.kind, 'render-worktype');
+    assert.equal((d as { variant: string }).variant, VARIANT_IDS_BY_FAMILY.CPK[0]);
+  });
+
+  test('?worktype=RDB without variant → family default variant', () => {
+    const d = decideDispatch(url('?worktype=RDB'), STUB_CATALOG);
+    assert.equal(d.kind, 'render-worktype');
+    assert.equal((d as { variant: string }).variant, VARIANT_IDS_BY_FAMILY.RDB[0]);
+  });
+
+  test('gap and job parse through when valid', () => {
+    const d = decideDispatch(
+      url('?worktype=CDK&variant=architect&gap=hidden_risk&job=133'),
+      STUB_CATALOG,
+    );
+    assert.deepEqual(d, {
+      kind: 'render-worktype',
+      family: 'CDK',
+      variant: 'architect',
+      gap: 'hidden_risk',
+      job: '133',
+      shape: 'wide',
+    });
+  });
+
+  test('invalid gap and job are omitted, preserving the base card', () => {
+    const d = decideDispatch(
+      url('?worktype=CDK&variant=researcher&gap=nope&job=10001'),
+      STUB_CATALOG,
+    );
+    assert.deepEqual(d, {
+      kind: 'render-worktype',
+      family: 'CDK',
+      variant: 'researcher',
+      shape: 'wide',
+    });
+  });
+
+  test('gap=<Object.prototype key> is omitted (no `in` bypass)', () => {
+    // Guards the Object.hasOwn fix in normalizeGap.
+    for (const evil of ['constructor', 'toString', '__proto__']) {
+      const d = decideDispatch(url(`?worktype=CDK&variant=hacker&gap=${evil}`), STUB_CATALOG);
+      assert.equal(d.kind, 'render-worktype');
+      assert.equal((d as { gap?: string }).gap, undefined);
+    }
+  });
+
+  test('shape=square resolves the square worktype card', () => {
+    const d = decideDispatch(url('?worktype=CDK&variant=hacker&shape=square'), STUB_CATALOG);
+    assert.equal(d.kind, 'render-worktype');
+    assert.equal((d as { shape: string }).shape, 'square');
+  });
+
+  test('shape=wide resolves the wide worktype card', () => {
+    const d = decideDispatch(url('?worktype=CDK&variant=hacker&shape=wide'), STUB_CATALOG);
+    assert.equal(d.kind, 'render-worktype');
+    assert.equal((d as { shape: string }).shape, 'wide');
+  });
+
+  test('size=1080 resolves the square worktype card alias', () => {
+    const d = decideDispatch(url('?worktype=CDK&variant=hacker&size=1080'), STUB_CATALOG);
+    assert.equal(d.kind, 'render-worktype');
+    assert.equal((d as { shape: string }).shape, 'square');
+  });
+});
+
 describe('decideDispatch — occupation branch', () => {
   test('?id=156 → render-occupation', () => {
     const d = decideDispatch(url('?id=156'), STUB_CATALOG);
@@ -260,6 +359,16 @@ describe('decideDispatch — param precedence', () => {
     assertCard(d, STUB_CONFIG);
   });
 
+  test('worktype beats sector and id when worktype is valid', () => {
+    const d = decideDispatch(url('?worktype=CDK&variant=hacker&sector=iryo&id=156'), STUB_CATALOG);
+    assert.equal(d.kind, 'render-worktype');
+  });
+
+  test('invalid worktype falls back to home instead of sector/id', () => {
+    const d = decideDispatch(url('?worktype=BAD&sector=iryo&id=156'), STUB_CATALOG);
+    assertHomeFallback(d);
+  });
+
   test('sector beats id', () => {
     const d = decideDispatch(url('?sector=iryo&id=156'), STUB_CATALOG);
     assert.deepEqual(d, { kind: 'render-sector', id: 'iryo' });
@@ -303,6 +412,12 @@ describe('decideDispatch — PRODUCTION_CATALOG wiring smoke', () => {
     }
   });
 
+  test('PRODUCTION_CATALOG.worktype contains the 8 diagnostic families', () => {
+    for (const code of ['CPB', 'CPK', 'CDB', 'CDK', 'RPB', 'RPK', 'RDB', 'RDK']) {
+      assert.ok(code in PRODUCTION_CATALOG.worktype, `worktype catalog missing "${code}"`);
+    }
+  });
+
   test('production ?route=by-industry resolves to a real card (not the fallback)', () => {
     const d = decideDispatch(url('?route=by-industry'));
     assert.equal(d.kind, 'render-generic');
@@ -328,7 +443,8 @@ describe('decideDispatch — type discipline', () => {
       'render-generic',
       'render-sector',
       'render-occupation',
+      'render-worktype',
     ];
-    assert.equal(KNOWN_KINDS.length, 4, 'expected 4 dispatch kinds');
+    assert.equal(KNOWN_KINDS.length, 5, 'expected 5 dispatch kinds');
   });
 });

@@ -32,6 +32,32 @@ import { COMPARE_META } from './compare-meta.js';
 import { EXPLORE_ROUTES } from './explore-routes.js';
 import type { GenericCardConfig } from '../lib/og-helpers.js';
 import { OCCUPATION_COUNT } from '../site/config.js';
+import type { FamilyCode } from '../site/worktype-copy.js';
+
+export interface WorktypeCardConfig {
+  readonly character: string;
+  readonly accent: string;
+  readonly glyphSet: string;
+}
+
+/**
+ * DIAG-5 visual identity layer for AI働き方診断 share cards.
+ *
+ * Textual result copy (family/variant names, one-liners, gap copy, rarity
+ * wording, share hooks) remains in src/site/worktype-copy.ts; data-backed
+ * rarity remains in public/data.worktypes.json. This table is only the
+ * per-family visual accent needed by the OG renderer.
+ */
+export const WORKTYPE_CARDS = {
+  CPB: { character: '創', accent: '#D96B3D', glyphSet: '創 CPB' },
+  CPK: { character: '共', accent: '#8D6E63', glyphSet: '共 CPK' },
+  CDB: { character: '造', accent: '#D4A749', glyphSet: '造 CDB' },
+  CDK: { character: '知', accent: '#4E8FA8', glyphSet: '知 CDK' },
+  RPB: { character: '支', accent: '#6E9B89', glyphSet: '支 RPB' },
+  RPK: { character: '段', accent: '#B26D3D', glyphSet: '段 RPK' },
+  RDB: { character: '流', accent: '#5F8F6B', glyphSet: '流 RDB' },
+  RDK: { character: '自', accent: '#7A6F5E', glyphSet: '自 RDK' },
+} as const satisfies Record<FamilyCode, WorktypeCardConfig>;
 
 /** Static page + tool variants — homepage, legal, hub indexes, yearly,
  *  about/methodology/glossary/aiadoption/etc. */
