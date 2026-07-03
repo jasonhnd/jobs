@@ -1,0 +1,256 @@
+---
+/**
+ * shindan.astro — /shindan AI働き方診断.
+ *
+ * Static page shell; client-side scoring and result rendering live in
+ * _shindan.js as a byte-stable inline script for CSP hashing.
+ */
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { SHINDAN_CSS } from './_shindan-css';
+import {
+  DISCLAIMER,
+  FAMILIES,
+  LABELS,
+  QUESTIONS,
+  RARITY,
+  SHARE,
+  VARIANTS,
+  VARIANT_BUCKETS_BY_FAMILY,
+} from '@/site/worktype-copy';
+import { OCCUPATION_COUNT } from '@/site/config';
+
+const canonical = 'https://mirai-shigoto.com/shindan';
+const title = 'AI働き方診断｜9問でわかるあなたの働き方タイプ - 未来の仕事';
+const seoDesc =
+  '9問の働き方診断で、AI時代のあなたのタイプを家族名とバリアントで表示。職業データ全体での静的な分布、軸の内訳、代表職業、共有リンクまでブラウザだけで完結します。';
+const keywords = 'AI働き方診断, 仕事タイプ, 適職, AI時代, 働き方, 職業データ';
+
+const SHINDAN_INLINE_JS = readFileSync(
+  join(process.cwd(), 'src', 'pages', '_shindan.js'),
+  'utf-8',
+);
+
+function safeJsonForScript(value: unknown): string {
+  const text = JSON.stringify(value) ?? 'null';
+  return text
+    .replace(/<\//g, '<\\/')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
+const copyJson = safeJsonForScript({
+  questions: QUESTIONS,
+  families: FAMILIES,
+  variants: VARIANTS,
+  variantBuckets: VARIANT_BUCKETS_BY_FAMILY,
+  share: SHARE,
+  labels: LABELS,
+  rarity: RARITY,
+  disclaimer: DISCLAIMER,
+});
+
+const jsonLd = safeJsonForScript({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      name: title,
+      url: canonical,
+      description: seoDesc,
+      inLanguage: 'ja',
+      isPartOf: { '@id': 'https://mirai-shigoto.com/#website' },
+      about: { '@id': 'https://mirai-shigoto.com/#organization' },
+      publisher: { '@id': 'https://mirai-shigoto.com/#organization' },
+      datePublished: '2026-07-03',
+      dateModified: '2026-07-03',
+      breadcrumb: { '@id': `${canonical}#breadcrumb` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonical}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: 'https://mirai-shigoto.com/' },
+        { '@type': 'ListItem', position: 2, name: 'AI働き方診断', item: canonical },
+      ],
+    },
+  ],
+});
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  canonical={canonical}
+  keywords={keywords}
+  ogTitle={title}
+  ogDescription={seoDesc}
+  ogImage="https://mirai-shigoto.com/api/og?page=shindan"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <link rel="preload" href="/data.worktypes.json" as="fetch" slot="head" />
+  <link rel="preload" href="/data.treemap.json" as="fetch" slot="head" />
+  <style slot="head" set:html={SHINDAN_CSS} />
+
+  <div id="wrapper">
+    <nav class="shindan-crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <span>AI働き方診断</span>
+    </nav>
+
+    <header class="shindan-hero" id="content">
+      <div>
+        <p class="shindan-kicker">{LABELS.featureName}</p>
+        <h1>AI時代の<span class="accent">働き方タイプ</span>を9問で見る</h1>
+        <p class="shindan-lead">
+          仕事の好みを3軸で見て、8つの家族タイプと24のバリアントに分けます。結果は性格の固定判定ではなく、職業データを見に行くための入口です。
+        </p>
+      </div>
+      <aside class="shindan-proof" aria-label="診断の前提">
+        <span><strong>9</strong>問</span>
+        <span><strong>3</strong>軸</span>
+        <span><strong>{OCCUPATION_COUNT.SCORED}</strong>職業データ</span>
+      </aside>
+    </header>
+
+    <script id="shindanCopy" type="application/json" set:html={copyJson}></script>
+
+    <div class="shindan-layout">
+      <section class="shindan-panel" id="shindanQuiz" aria-labelledby="shindanQuizHeading">
+        <h2 id="shindanQuizHeading">あなたに近いほうを選んでください</h2>
+        <p class="sub">どちらが正解というものではありません。今の働き方の好みに近い選択肢を選んでください。</p>
+        <p class="shindan-status" id="shindanStatus" aria-live="polite"></p>
+
+        <div class="shindan-progress" aria-hidden="true">
+          <div class="shindan-progress-track"><span class="shindan-progress-fill" id="shindanProgressFill"></span></div>
+          <span class="shindan-progress-text" id="shindanProgressText">0 / 9</span>
+        </div>
+
+        <form id="shindanForm" autocomplete="off">
+          {QUESTIONS.map((q, i) => (
+            <fieldset
+              class="shindan-question"
+              data-axis={q.axis}
+              data-reverse={String(q.reverse)}
+            >
+              <legend>
+                <span class="shindan-question-meta">Q{i + 1}</span>
+                {q.left} / {q.right}
+              </legend>
+              <div class="shindan-choice-row">
+                <label class="shindan-choice">
+                  <input
+                    type="radio"
+                    name={`shindan-q${i}`}
+                    value="left"
+                    data-pole={q.leftPole}
+                  />
+                  <span class="shindan-choice-text">{q.left}</span>
+                </label>
+                <label class="shindan-choice">
+                  <input
+                    type="radio"
+                    name={`shindan-q${i}`}
+                    value="right"
+                    data-pole={q.rightPole}
+                  />
+                  <span class="shindan-choice-text">{q.right}</span>
+                </label>
+              </div>
+            </fieldset>
+          ))}
+
+          <div class="shindan-actions">
+            <button class="shindan-primary" type="submit" id="shindanSubmit" disabled>結果を見る</button>
+            <button class="shindan-secondary" type="reset">選び直す</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="shindan-side" aria-label="診断の説明">
+        <div class="shindan-side-note">
+          <strong>結果は家族 + バリアントです</strong>
+          家族タイプがデータの土台で、バリアントは9問の強弱から出る味付けです。代表職業と割合は家族タイプ単位で表示します。
+        </div>
+        <div class="shindan-side-note">
+          <strong>AIで変わる仕事を、次の一手に変える</strong>
+          高い・低いの序列ではなく、AIに任せやすい部分と人が持つ価値を見分けるための診断です。
+        </div>
+      </aside>
+    </div>
+
+    <section class="shindan-result" id="shindanResult" aria-live="polite" hidden>
+      <div class="shindan-result-card" id="shindanResultCard">
+        <div class="shindan-result-head">
+          <div>
+            <p class="shindan-result-label" id="shindanResultLabel">あなたのタイプ</p>
+            <h2 class="shindan-result-name">
+              <span id="shindanFamilyName"></span>
+              <span id="shindanVariantName"></span>
+            </h2>
+          </div>
+          <span class="shindan-code" id="shindanResultCode"></span>
+        </div>
+
+        <div class="shindan-result-body">
+          <p class="shindan-identity" id="shindanIdentity"></p>
+          <p class="shindan-identity" id="shindanVariantCatch"></p>
+
+          <dl class="shindan-copy-grid">
+            <div>
+              <dt>強み</dt>
+              <dd id="shindanStrengths"></dd>
+            </div>
+            <div>
+              <dt>AIとの関係</dt>
+              <dd id="shindanAiRelation"></dd>
+            </div>
+            <div>
+              <dt>次の一手</dt>
+              <dd id="shindanNextStep"></dd>
+            </div>
+          </dl>
+
+          <div class="shindan-axis-list" id="shindanAxisList" aria-label="3軸の内訳"></div>
+          <p class="shindan-rarity" id="shindanRarity"></p>
+
+          <div class="shindan-occupations">
+            <h3>代表的な職業</h3>
+            <ul class="shindan-occ-list" id="shindanOccupations"></ul>
+          </div>
+
+          <p class="shindan-disclaimer">{DISCLAIMER}</p>
+        </div>
+      </div>
+
+      <div class="shindan-share" aria-labelledby="shindanShareHeading">
+        <h3 id="shindanShareHeading">結果をシェア</h3>
+        <p class="shindan-share-hook">
+          <span class="shindan-trophy" aria-hidden="true">🏆</span>
+          <span><strong id="shindanShareHook">あなたの同僚は何タイプ?</strong>この結果リンクを送ると、相手も自分のタイプを試せます。</span>
+        </p>
+        <p class="shindan-consent">{SHARE.xConsent}</p>
+        <div class="shindan-share-row">
+          <a class="shindan-share-btn" data-platform="x" id="shindanShareX" href="https://x.com/intent/post" target="_blank" rel="noopener">Xで共有</a>
+          <a class="shindan-share-btn" data-platform="line" id="shindanShareLine" href="https://line.me/R/msg/text/" target="_blank" rel="noopener">LINEで送る</a>
+          <button class="shindan-share-btn" data-platform="native" id="shindanShareNative" type="button" hidden>共有</button>
+          <button class="shindan-share-btn" data-platform="copy" id="shindanShareCopy" type="button">{SHARE.copyLinkCta}</button>
+          <a class="shindan-og-link" id="shindanOgLink" href="/api/og?worktype=CPK&variant=mentor&gap=aligned" target="_blank" rel="noopener">カード画像を開く</a>
+          <span class="shindan-toast" id="shindanShareToast" aria-live="polite"></span>
+        </div>
+      </div>
+
+      <div class="shindan-actions">
+        <button class="shindan-secondary" type="button" id="shindanRetake">もう一度診断する</button>
+      </div>
+    </section>
+
+    <Footer />
+  </div>
+
+  <script slot="bodyEnd" is:inline set:html={SHINDAN_INLINE_JS} />
+</BaseLayout>

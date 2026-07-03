@@ -30,6 +30,7 @@ const SRC_DIR = path.join(PROJECT_ROOT, 'src');
 const EXCEPTIONS = new Set([
   'src/pages/_index-css.ts',
   'src/pages/_map-css.ts',
+  'src/pages/_shindan-css.ts',
   // canonical-css.ts と canonical/*.ts は token / class CSS の正典そのもの
   'src/lib/canonical-css.ts',
   'src/lib/canonical/detail.ts',

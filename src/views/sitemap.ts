@@ -154,6 +154,7 @@ export function buildSitemapEntries(
   // (2026-06-03 SEO audit). Weekly because the per-job position changes
   // whenever an occupation's scores or salary updates.
   entries.push(entry(`${SITE_ORIGIN}/me`, lastmods.content, 'weekly', '0.7'));
+  entries.push(entry(`${SITE_ORIGIN}/shindan`, lastmods.content, 'weekly', '0.7'));
 
   // Legal / static pages
   entries.push(entry(`${SITE_ORIGIN}/privacy`, lastmods.privacy, 'yearly', '0.3'));
