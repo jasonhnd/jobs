@@ -162,6 +162,21 @@ export const VARIANT_IDS_BY_FAMILY = {
   readonly [Code in FamilyCode]: readonly WorktypeVariantId<Code>[];
 };
 
+export type WorktypeVariantBucket = 'balance' | 'mixed' | 'sweep';
+
+export const VARIANT_BUCKETS_BY_FAMILY = {
+  CPB: { balance: 'atelier', mixed: 'touch', sweep: 'spark' },
+  CPK: { balance: 'mentor', mixed: 'story', sweep: 'framer' },
+  CDB: { balance: 'craftmap', mixed: 'constraint', sweep: 'prototype' },
+  CDK: { balance: 'architect', mixed: 'researcher', sweep: 'hacker' },
+  RPB: { balance: 'steady', mixed: 'hospitality', sweep: 'care' },
+  RPK: { balance: 'router', mixed: 'mediator', sweep: 'operator' },
+  RDB: { balance: 'inspector', mixed: 'kaizen', sweep: 'flow' },
+  RDK: { balance: 'optimizer', mixed: 'auditor', sweep: 'automation' },
+} as const satisfies {
+  readonly [Code in FamilyCode]: Readonly<Record<WorktypeVariantBucket, WorktypeVariantId<Code>>>;
+};
+
 export const VARIANTS = {
   CPB: {
     atelier: {

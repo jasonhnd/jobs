@@ -784,6 +784,7 @@
 /sectors/senmon
 /sectors/service
 /sectors/shigyo
+/shindan
 /skills
 /skills/coordination
 /skills/critical-thinking
