@@ -7,7 +7,7 @@
  *
  *   1. **Display state** — riskStr / riskClass / 12-field
  *      buildOccupationDisplay output, ctxH2/howH2/condH2 headings,
- *      SEO + OG meta, pickRiskOneLineCallout copy, share text.
+ *      SEO + OG meta, work-type verdict copy, share text.
  *
  *   2. **Section HTML** — every Rec → SafeHtml adapter
  *      (renderOccupationMetaRow / ProfileRadar / Topn / Faq /
@@ -25,20 +25,27 @@
  *  Page-local sibling (`_`-prefix → not routed).
  */
 
+import { join } from 'node:path';
 import { escapeHtml, unsafeReviewedHtml, type SafeHtml } from '@/lib/safe-html';
 import { formatParagraphs } from '@/lib/format-paragraphs';
 import { jaUrl } from '@/lib/urls';
-import { pickRiskOneLineCallout } from '@/lib/risk-callout';
 import {
   buildOccupationGeoFactSummary,
   renderAiFactParagraph,
 } from '@/lib/ai-fact-summary';
 import { loadGeoFacts } from '@/page-data/geo-facts-loader';
+import { strictReadJson } from '@/lib/strict-load';
 import { buildOccupationSeo } from '@/views/occupation-seo';
 import {
   buildOccupationDisplay,
   type OccupationDisplay,
 } from '@/views/occupation-display';
+import {
+  WorktypesDataSchema,
+  type WorktypesData,
+} from '@/data/schema/worktypes';
+import { FAMILIES } from '@/site/worktype-copy';
+import { OCCUPATION_COUNT } from '@/site/config';
 import { renderProseSection } from '@/templates/ProseSection';
 import { renderLegacyRelated } from '@/templates/LegacyRelated';
 import {
@@ -56,11 +63,47 @@ import {
 import type { Rec } from '@/views/occupation-detail';
 
 const DESC_TRUNCATE = 240;
+const WORKTYPES_PATH = join(process.cwd(), 'public', 'data.worktypes.json');
+const AI_RISK_HIGH_RANKING_SLUG = 'ai-risk-high';
+const AIOIS_MODEL_DISCLAIMER =
+  'AIOIS-10はモデル出力の目安で、統計的な将来予測や適職保証ではありません。';
+
+let worktypesCache: WorktypesData | null = null;
+
+function loadWorktypesData(): WorktypesData {
+  if (!worktypesCache) {
+    worktypesCache = strictReadJson(
+      WORKTYPES_PATH,
+      WorktypesDataSchema,
+      'id-bindings.worktypes',
+    );
+  }
+  return worktypesCache;
+}
+
+export interface IdPageRankingHit {
+  readonly slug: string;
+  readonly rank: number;
+}
+
+export interface WorktypeHeroBinding {
+  readonly worktypeFamilyCode: string;
+  readonly worktypeFamilyId: string;
+  readonly worktypeFamilyName: string;
+  readonly worktypeIdentity: string;
+  readonly worktypeAiRelation: string;
+  readonly worktypeHumanValue: string;
+  readonly worktypeNextStep: string;
+  readonly worktypeOneLine: string;
+  readonly worktypeRarityPct: number | null;
+}
 
 export interface IdPageBindingsInput {
   readonly rec: Rec;
   readonly related: ReadonlyArray<Rec>;
   readonly nameLookup: Record<number, string>;
+  readonly rankingHitsByOcc?: ReadonlyMap<number, ReadonlyArray<IdPageRankingHit>>;
+  readonly prevDelta?: number | null;
   readonly datePublished: string;
   readonly dateModified: string;
 }
@@ -75,9 +118,15 @@ export interface IdPageBindings extends OccupationDisplay {
   readonly canonical: string;
   readonly nameJa: string;
   readonly risk: number | null;
+  readonly aioisTransformation: number | null;
+  readonly aioisDisplacement: number | null;
   readonly mhlwUrl: string;
   readonly rationale: string;
-  readonly oneLineText: string;
+  readonly rankInUniverse: number | null;
+  readonly rankUniverseTotal: number;
+  readonly prevDelta: number | null;
+  readonly aioisModelDisclaimer: string;
+  readonly worktype: WorktypeHeroBinding;
   /** Citable fact block — number-dense, attributed lead paragraph (Phase 1,
    *  docs/SEO_GEO_STRATEGY.md). Empty SafeHtml when unscored. */
   readonly aiFactHtml: SafeHtml;
@@ -117,8 +166,34 @@ export interface IdPageBindings extends OccupationDisplay {
   readonly riskTierJs: 'high' | 'mid' | 'low';
 }
 
+function buildWorktypeHeroBinding(id: number): WorktypeHeroBinding {
+  const data = loadWorktypesData();
+  const record = data.occupations[String(id)];
+  if (!record) {
+    throw new Error(`[id-bindings.worktypes] occupation ${id} missing from data.worktypes.json`);
+  }
+  const family = FAMILIES[record.code];
+  return {
+    worktypeFamilyCode: record.code,
+    worktypeFamilyId: record.familyId,
+    worktypeFamilyName: family.name,
+    worktypeIdentity: family.identity,
+    worktypeAiRelation: family.aiRelation,
+    worktypeHumanValue: family.strengths,
+    worktypeNextStep: family.empowerment,
+    worktypeOneLine: family.share,
+    worktypeRarityPct: record.rarityPct ?? data.families[record.code]?.pct ?? null,
+  };
+}
+
+function rankFromHits(
+  hits: ReadonlyArray<IdPageRankingHit> | undefined,
+): number | null {
+  return hits?.find((hit) => hit.slug === AI_RISK_HIGH_RANKING_SLUG)?.rank ?? null;
+}
+
 export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings {
-  const { rec, related, nameLookup, datePublished, dateModified } = input;
+  const { rec, related, nameLookup, rankingHitsByOcc, datePublished, dateModified } = input;
   const geoFacts = loadGeoFacts();
 
   // ─── Field extraction ──────────────────────────────────────
@@ -157,8 +232,15 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     workers,
     aliasesJa: aliases,
   });
-  const oneLineText = pickRiskOneLineCallout(risk);
   const rationale = rationaleJa || descJa;
+  const worktype = buildWorktypeHeroBinding(id);
+  const geoOccupation = geoFacts.occupations.find((occupation) => occupation.id === id) ?? null;
+  const rankInUniverse =
+    rankFromHits(rankingHitsByOcc?.get(id)) ?? geoOccupation?.aiImpactRank ?? null;
+  const rankUniverseTotal = geoFacts.occupationCount || OCCUPATION_COUNT.SCORED;
+  const aioisTransformation = rec.aiois?.transformation ?? risk;
+  const aioisDisplacement = rec.aiois?.displacement ?? null;
+  const prevDelta = input.prevDelta ?? null;
 
   // Citable fact block (Phase 1) — number-dense, attributed lead paragraph.
   const aiFactHtml = renderAiFactParagraph(buildOccupationGeoFactSummary({ facts: geoFacts, occupationId: id }));
@@ -221,9 +303,15 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     canonical,
     nameJa,
     risk,
+    aioisTransformation,
+    aioisDisplacement,
     mhlwUrl,
     rationale,
-    oneLineText,
+    rankInUniverse,
+    rankUniverseTotal,
+    prevDelta,
+    aioisModelDisclaimer: AIOIS_MODEL_DISCLAIMER,
+    worktype,
     aiFactHtml,
     title: seo.title,
     seoDesc: seo.description,
