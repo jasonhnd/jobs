@@ -19,18 +19,17 @@ worker:
 #   # model:
 #   # Optional. Absent = inherit the verifier provider's global config. loopcoder never sets this on its own.
 #   # reasoning_effort:
-# resilience:
-#   worker:
-#     # Optional. Absent = 15; expected worker heartbeat cadence in seconds.
-#     heartbeat_interval_seconds: 15
-#     # Optional. Absent = 120; mark progress stale after this many seconds without phase or log growth.
-#     stale_after_seconds: 120
-#     # Optional. Absent = 300; classify hung after stale progress or stale sidecar with no live process.
-#     hung_after_seconds: 300
-#     # Optional. Absent = 3; maximum attempts before blocking for a human decision.
-#     max_attempts: 3
-#     # Optional. Absent = [10, 30, 120]; retry backoff schedule between attempts.
-#     retry_backoff_seconds: [10, 30, 120]
+resilience:
+  worker:
+    heartbeat_interval_seconds: 15
+    # Raised from the default 120. Workers here run long silent phases (astro
+    # build, font subsetting, Playwright browser smoke tests) with no log growth;
+    # the 120s default reaped a completed DIAG worker mid browser-smoke as "stall".
+    stale_after_seconds: 600
+    # Raised from the default 300 to match the longer stale window above.
+    hung_after_seconds: 1800
+    max_attempts: 3
+    retry_backoff_seconds: [10, 30, 120]
 ci:
   checks:
     - Vercel
