@@ -8,7 +8,7 @@
  *     ここでは再宣言しない (Design.md §18.3 に違反するため)
  *
  * 本ファイルが定義する **Detail-page-only** な部分:
- *   .meta-row, .risk-card, .one-line, .ai-risk-detail, dl.stats,
+ *   .meta-row, .risk-card, .verdict-card, .ai-risk-detail, dl.stats,
  *   section.{context,how-to-become,working-conditions}, .radar-wrap,
  *   .topn-block, .transfer-card, .faq-item, .org-cert-grid, .map-back-link
  *
@@ -31,20 +31,45 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .meta-row .band-mid,.meta-row .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
     .meta-row .band-high,.meta-row .band-hot{background:rgba(217,107,61,0.18);color:var(--orange-hot)}
 
-    /* Risk badge (was .risk-card — now compact inline pill style) */
-    .risk-card{display:inline-flex;align-items:baseline;gap:8px;padding:12px 16px;background:var(--paper);border:1px solid rgba(201,90,58,0.3);border-radius:14px;margin:0 0 14px;box-shadow:0 4px 14px rgba(201,90,58,0.08)}
-    .risk-card > div{display:contents}
-    .risk-card .risk-label{display:none}
-    .risk-card .risk-num{font-size:2.4rem;font-weight:900;color:var(--red);letter-spacing:-0.04em;line-height:1}
-    @media (min-width:900px){.risk-card{padding:18px 22px}.risk-card .risk-num{font-size:3.2rem}}
-    .risk-card .risk-num small{font-size:0.34em;color:var(--ink-2);font-weight:600;margin-left:4px}
-    .risk-card .risk-rationale{display:none}
-    /* risk-num digit color is set inline per exact score (continuous gradient) — see src/views/occupation-display.ts riskColor */
-
-    /* One-line callout (NEW in v2) */
-    .one-line{margin:0 0 16px;padding:13px 16px;background:var(--orange-soft);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;font-size:0.92rem;line-height:1.6;color:var(--ink);font-weight:500}
-    @media (min-width:900px){.one-line{font-size:1rem;padding:16px 18px}}
-    .one-line b{color:var(--orange-hot);font-weight:800}
+    /* Work-type verdict card (DIAG-4) */
+    .risk-card.verdict-card{display:block;margin:0 0 18px;padding:18px;background:var(--paper);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 10px 28px rgba(120,80,30,0.07)}
+    @media (min-width:900px){.risk-card.verdict-card{padding:26px 30px;margin-bottom:22px}}
+    .verdict-main{display:grid;grid-template-columns:1fr;gap:18px;align-items:stretch}
+    @media (min-width:900px){.verdict-main{grid-template-columns:minmax(0,1.45fr) minmax(280px,0.85fr);gap:26px}}
+    .verdict-copy{min-width:0}
+    .verdict-kicker{margin:0 0 9px;font-size:0.72rem;line-height:1.2;color:var(--ink-3);font-weight:700;letter-spacing:0;text-transform:uppercase}
+    .verdict-title-row{display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;margin:0 0 10px}
+    .worktype-code{display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:30px;padding:0 10px;border-radius:999px;background:var(--cream-2);border:1px solid var(--line-strong);color:var(--orange-hot);font-family:var(--font-sans);font-size:0.82rem;font-weight:900;letter-spacing:0}
+    .verdict-card h2{font-family:var(--font-serif);font-size:1.42rem;line-height:1.2;margin:0;color:var(--ink);font-weight:800;letter-spacing:0}
+    @media (min-width:900px){.verdict-card h2{font-size:1.9rem}}
+    .verdict-lede{font-family:var(--font-serif);font-size:0.98rem;line-height:1.8;color:var(--ink);margin:0 0 16px}
+    @media (min-width:900px){.verdict-lede{font-size:1.07rem;line-height:1.9}}
+    .verdict-task-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:0}
+    @media (min-width:720px){.verdict-task-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}}
+    .verdict-task{min-width:0;padding:12px 13px;background:var(--cream);border:1px solid rgba(0,0,0,0.04);border-radius:8px}
+    .verdict-task span{display:block;margin:0 0 6px;font-size:0.7rem;line-height:1.25;color:var(--green-deep);font-weight:800;letter-spacing:0}
+    .verdict-task p{margin:0;font-size:0.82rem;line-height:1.65;color:var(--ink-2)}
+    @media (min-width:900px){.verdict-task{padding:14px 15px}.verdict-task p{font-size:0.88rem;line-height:1.7}}
+    .verdict-side{display:flex;flex-direction:column;gap:12px;min-width:0;padding:14px;background:var(--cream-2);border:1px solid var(--line-strong);border-radius:8px}
+    @media (min-width:900px){.verdict-side{padding:18px}}
+    .aiois-score-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .aiois-score{min-width:0;background:var(--paper);border:1px solid rgba(0,0,0,0.05);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:4px}
+    .aiois-score.primary{border-left:4px solid var(--orange-hot)}
+    .score-label{font-size:0.68rem;line-height:1.25;color:var(--ink-3);font-weight:800;letter-spacing:0}
+    .score-num{font-family:var(--font-sans);font-size:2rem;font-weight:900;line-height:1;letter-spacing:0;color:var(--ink);font-variant-numeric:tabular-nums}
+    .score-num small{font-size:0.32em;font-weight:600;color:var(--ink-3);margin-left:3px}
+    .score-sub{font-size:0.7rem;line-height:1.35;color:var(--ink-3)}
+    .verdict-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .verdict-rank,.verdict-delta{display:inline-flex;align-items:center;min-height:28px;padding:5px 10px;border-radius:999px;background:var(--paper);border:1px solid rgba(0,0,0,0.05);font-size:0.76rem;line-height:1.2;font-weight:800;color:var(--ink)}
+    .verdict-delta.delta-up{color:var(--orange-hot)}
+    .verdict-delta.delta-down{color:var(--green-deep)}
+    .verdict-delta.delta-flat{color:var(--ink-3)}
+    .verdict-disclaimer{margin:0;font-size:0.72rem;line-height:1.65;color:var(--ink-3)}
+    .verdict-share{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:9px 14px;border-radius:999px;background:var(--ink);color:var(--paper);text-decoration:none;font-size:0.84rem;font-weight:800;transition:background 150ms ease,transform 150ms ease}
+    .verdict-share svg{width:17px;height:17px;fill:currentColor}
+    .verdict-share:hover,.verdict-share:focus-visible{background:var(--orange-hot);color:#fff;text-decoration:none;transform:translateY(-1px);outline:none}
+    .verdict-one-line{margin:14px 0 0;padding:12px 14px;background:var(--orange-soft);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;font-size:0.88rem;line-height:1.65;color:var(--ink);font-weight:700}
+    @media (min-width:900px){.verdict-one-line{margin-top:18px;font-size:0.94rem;padding:14px 16px}}
 
     /* Citable fact block (Phase 1, SEO_GEO_STRATEGY.md) — the number-dense,
        attributed lead paragraph AI answer engines can quote verbatim. */

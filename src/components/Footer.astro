@@ -255,6 +255,33 @@ const { iso, display } = formatJst(buildTime);
         });
       }
     }
+
+    // Hero-level share triggers reuse the same URL/text helpers as the
+    // footer controls. The trigger href is a static OG-image fallback.
+    document.querySelectorAll('[data-page-share-trigger]').forEach(function (trigger) {
+      if (trigger.dataset.shareWired === '1') return;
+      trigger.dataset.shareWired = '1';
+      trigger.addEventListener('click', async function (e) {
+        e.preventDefault();
+        var fallback = trigger.getAttribute('href') || shareUrl('direct', 'copylink');
+        var title = trigger.getAttribute('data-share-title') || document.title;
+        if (typeof navigator.share === 'function') {
+          try {
+            await navigator.share({
+              title: title,
+              text: shareText(),
+              url: shareUrl('native', 'share_api')
+            });
+            track('native');
+            return;
+          } catch (err) {
+            return;
+          }
+        }
+        popOpen(fallback);
+        track('og_image');
+      });
+    });
   })();
 
   // ── CODE-012 CSP hardening (2026-05-17) ─────────────────────────────────

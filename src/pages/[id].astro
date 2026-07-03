@@ -45,7 +45,7 @@ export async function getStaticPaths() {
   const { buildOccupationPageData, pickRelatedOccupations } = await import(
     '@/page-data/occupation-page-data'
   );
-  const { allRecs, nameLookup, rankingHitsArr, sameRiskArr } = await buildOccupationPageData();
+  const { allRecs, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr } = await buildOccupationPageData();
 
   return allRecs.map((rec) => ({
     params: { id: String(rec.id) },
@@ -54,6 +54,7 @@ export async function getStaticPaths() {
       related: pickRelatedOccupations(rec, allRecs),
       nameLookup,
       rankingHitsArr,
+      riskRankHitsArr,
       sameRiskArr,
     },
   }));
@@ -66,10 +67,11 @@ interface PageProps {
   related: Rec[];
   nameLookup: Record<number, string>;
   rankingHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
+  riskRankHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
   sameRiskArr: Array<[number, SpokeNeighbor[]]>;
 }
 
-const { rec, related, nameLookup, rankingHitsArr, sameRiskArr } =
+const { rec, related, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr } =
   Astro.props as PageProps;
 
 const { loadGraph } = await import('@/graph');
@@ -82,11 +84,13 @@ const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
 
 const bindings = buildIdPageBindings({
   rec, related, nameLookup,
+  rankingHitsByOcc: new Map(riskRankHitsArr),
   datePublished: DATE_PUBLISHED,
   dateModified: DATE_MODIFIED,
 });
 const {
-  id, canonical, nameJa, risk, mhlwUrl, rationale, oneLineText, aiFactHtml,
+  id, canonical, nameJa, risk, aioisTransformation, aioisDisplacement, mhlwUrl,
+  rankInUniverse, rankUniverseTotal, prevDelta, aioisModelDisclaimer, worktype, aiFactHtml,
   title, seoDesc, ogTitle, ogDesc, keywords,
   ctxH2, ctxHtml,
   metaRowHtml, aiRiskDetailHtml, aioisHtml, profileHtml, topnHtml, faqHtml,
@@ -124,7 +128,20 @@ const {
       <Fragment set:html={metaRowHtml} />
     </header>
 
-    <RiskCard {riskClass} {riskColor} {riskNumDisp} {rationale} {oneLineText} />
+    <RiskCard
+      {id}
+      {nameJa}
+      {riskClass}
+      {riskColor}
+      {riskNumDisp}
+      {aioisTransformation}
+      {aioisDisplacement}
+      {rankInUniverse}
+      {rankUniverseTotal}
+      {prevDelta}
+      {aioisModelDisclaimer}
+      {worktype}
+    />
 
     <Fragment set:html={aiFactHtml} />
 
