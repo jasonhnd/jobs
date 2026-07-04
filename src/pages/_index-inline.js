@@ -151,6 +151,12 @@
       function escapeHtml(s) {
         return String(s == null ? "" : s).replace(/[<>&"']/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
       }
+      function homeOccupationCount() {
+        if (Array.isArray(data) && data.length) return String(data.length);
+        const meta = document.querySelector('meta[name="description"]');
+        const m = meta && meta.content ? meta.content.match(/日本\s+([0-9,]+)\s+職業/) : null;
+        return m ? m[1] : "全";
+      }
       // Theme detection — used by treemap palette + canvas bg.
       function isLightThemeNow() {
         const explicit = document.documentElement.getAttribute("data-theme");
@@ -762,7 +768,7 @@
           blocks.push(statBlock(
             L.uniDegree[lang],
             avgUni.toFixed(1) + "%",
-            "__OCCUPATION_COUNT_SCORED__ 職業の平均"
+            homeOccupationCount() + " 職業の平均"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(counts)));
           blocks.push(statBlockHTML(
@@ -1701,7 +1707,7 @@
           const fb = document.getElementById("canvasFallback");
           if (fb) {
             const renderFallback = () => {
-              fb.innerHTML = data.slice(0, __OCCUPATION_COUNT_SCORED__).map(d =>
+              fb.innerHTML = data.map(d =>
                 `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${Number(d.ai_risk) || 0}/10</a></li>`
               ).join("");
             };
@@ -1792,12 +1798,11 @@
         footer.dataset.shareWired = "1";
 
         const COPY_TOAST = "コピーしました";
-        const FALLBACK_TEXT = "日本 __OCCUPATION_COUNT_SCORED__ 職業への AI 影響を 0〜10 で可視化したマップ。あなたの仕事は？";
 
         function shareText() {
           const og = document.querySelector('meta[property="og:description"]');
           if (og && og.content && og.content.length < 240) return og.content;
-          return FALLBACK_TEXT;
+          return "日本 " + homeOccupationCount() + " 職業への AI 影響を 0〜10 で可視化したマップ。あなたの仕事は？";
         }
         function shareUrl(source, medium) {
           const u = new URL(window.location.href);

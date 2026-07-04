@@ -17,7 +17,7 @@
  *     treemap canvas / hub sections.
  *   - The JSON-LD `@graph` schema in `_index-json-ld.json` (Organization +
  *     WebSite + Dataset + ItemList + FAQPage).
- *   - The ~1880-line inline JS in `_index-inline.js` (treemap canvas,
+ *   - The hashed deferred JS asset from `_index-inline.js` (treemap canvas,
  *     tooltip, mobile drawer toggle, I18N, share-button wiring).
  *   - The home-only `<link rel="preload" href="/data.treemap.json">` so
  *     the treemap canvas can render at LCP.
@@ -28,8 +28,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { OCCUPATION_COUNT } from '@/site/config';
-import { INDEX_CSS } from './_index-css';
-import { HOME_BODY_HTML, HOME_JSON_LD, HOME_INLINE_JS } from './_index-bindings';
+import HOME_INDEX_CSS_URL from './_index.css?url';
+import HOME_INDEX_JS_URL from './_index-inline.js?url';
+import { INDEX_CRITICAL_CSS } from './_index-css';
+import { HOME_BODY_HTML, HOME_JSON_LD } from './_index-bindings';
 
 const TITLE = `AIの時代でも、あなたらしい働き方を。— 未来の仕事 / ${OCCUPATION_COUNT.SCORED} 職業の AI 影響マップ`;
 const DESCRIPTION = `AIの時代でも、あなたらしい働き方を見つける。日本 ${OCCUPATION_COUNT.SCORED} 職業を AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。`;
@@ -63,10 +65,12 @@ const OG_IMAGE_ALT = `未来の仕事 — AIの時代でも、あなたらしい
   <meta property="og:image:alt" content={OG_IMAGE_ALT} slot="head" />
   <meta name="twitter:image:alt" content={OG_IMAGE_ALT} slot="head" />
 
-  {/* Homepage inline CSS — ~2200 lines that style the hero / KPI band /
-      treemap / hub sections. Kept inline (slotted into <head>) so the
-      first paint doesn't wait on an extra CSS round-trip. */}
-  <style slot="head" set:html={INDEX_CSS} />
+  {/* Homepage CSS split: keep the above-the-fold hero / KPI / mobile preview
+      critical path inline, then load the full stylesheet as a hashed Vite
+      asset so repeat navigations can reuse the cache. */}
+  <style slot="head" set:html={INDEX_CRITICAL_CSS} />
+  <link rel="preload" href={HOME_INDEX_CSS_URL} as="style" slot="head" />
+  <link rel="stylesheet" href={HOME_INDEX_CSS_URL} slot="head" />
 
   {/* Home body content — `<div id="wrapper">…</div>` with hero, KPI band,
       treemap canvas, sectors / rankings / deep hub sections, me-cta strip. */}
@@ -89,10 +93,10 @@ const OG_IMAGE_ALT = `未来の仕事 — AIの時代でも、あなたらしい
     </a>
   </div>
 
-  {/* Homepage-specific inline JS — treemap canvas rendering, tooltip wiring,
+  {/* Homepage-specific deferred JS — treemap canvas rendering, tooltip wiring,
       mobile drawer toggle, I18N labels, share-button click handlers (the
       share-button section has a `footer.dataset.shareWired === '1'` guard
       that coexists safely with Footer.astro's wiring — whichever runs first
       sets the flag). */}
-  <script is:inline slot="bodyEnd" set:html={HOME_INLINE_JS} />
+  <script is:inline defer src={HOME_INDEX_JS_URL} slot="bodyEnd"></script>
 </BaseLayout>

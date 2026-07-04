@@ -14,10 +14,11 @@
  *     `jsonLd` slot so AI search engines (ChatGPT, Claude, Perplexity,
  *     Gemini) still pick it up.
  *   • _index-inline.js — the ~1880 lines of home-specific JS (treemap
- *     canvas + tooltip + mobile drawer + I18N + share buttons). Slotted
- *     into BaseLayout's `bodyEnd` slot. The share-button wiring has a
- *     `footer.dataset.shareWired === '1'` guard so it coexists safely
- *     with Footer.astro's identical wiring (whichever runs first wins).
+ *     canvas + tooltip + mobile drawer + I18N + share buttons). Imported
+ *     by `index.astro` as a Vite `?url` asset so it ships as a hashed,
+ *     deferred file instead of inline HTML. Runtime copy that needs the
+ *     occupation count derives it from loaded data or page meta instead of
+ *     this build-time placeholder pass.
  *
  * Architecture-doc exception (§3.1): fs reads in page-layer code. Mirrors
  * the existing _map-css.ts pattern — at build time only.
@@ -39,10 +40,5 @@ export const HOME_BODY_HTML: string = readFileSync(
 
 export const HOME_JSON_LD: string = readFileSync(
   join(PAGES, '_index-json-ld.json'),
-  'utf-8',
-).replaceAll('__OCCUPATION_COUNT_SCORED__', String(OCCUPATION_COUNT.SCORED));
-
-export const HOME_INLINE_JS: string = readFileSync(
-  join(PAGES, '_index-inline.js'),
   'utf-8',
 ).replaceAll('__OCCUPATION_COUNT_SCORED__', String(OCCUPATION_COUNT.SCORED));
