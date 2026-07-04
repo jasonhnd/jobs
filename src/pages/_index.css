@@ -1204,6 +1204,115 @@
         color: var(--accent);
         outline: none;
       }
+      /* ============ Homepage diagnostic entry band (VIRALITY-1) ============ */
+      .home-entry-band {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 22px;
+        margin: 0 -28px 32px;
+        padding: 22px 28px;
+        background: var(--bg3);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .home-entry-copy {
+        min-width: 0;
+        flex: 1 1 auto;
+      }
+      .home-entry-kicker {
+        margin: 0 0 6px;
+        color: var(--accent-deep);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+      .home-entry-copy h2 {
+        margin: 0 0 7px;
+        color: var(--fg);
+        font-family: var(--font-serif);
+        font-size: 1.45rem !important;
+        font-weight: 700 !important;
+        line-height: 1.35 !important;
+        letter-spacing: 0;
+      }
+      .home-entry-copy p:not(.home-entry-kicker) {
+        margin: 0;
+        color: var(--fg2);
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+      .home-entry-actions {
+        display: flex;
+        flex: 0 0 auto;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+      .home-entry-primary,
+      .home-entry-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-size: 0.92rem;
+        font-weight: 700;
+        line-height: 1.2;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: border-color 150ms ease, color 150ms ease, background 150ms ease, transform 120ms ease;
+      }
+      .home-entry-primary {
+        background: var(--accent);
+        color: #fff;
+        border: 1px solid var(--accent);
+      }
+      .home-entry-secondary {
+        background: var(--bg2);
+        color: var(--accent-deep);
+        border: 1px solid var(--border);
+      }
+      .home-entry-primary:hover,
+      .home-entry-secondary:hover {
+        transform: translateY(-1px);
+        text-decoration: none;
+      }
+      .home-entry-primary:hover {
+        background: var(--accent-deep);
+        border-color: var(--accent-deep);
+        color: #fff;
+      }
+      .home-entry-secondary:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      @media (max-width: 768px) {
+        .home-entry-band {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 14px;
+          margin: 10px -16px 22px;
+          padding: 18px 16px;
+        }
+        .home-entry-copy h2 {
+          font-size: 1.28rem !important;
+        }
+        .home-entry-actions {
+          width: 100%;
+          justify-content: flex-start;
+        }
+      }
+      @media (max-width: 420px) {
+        .home-entry-actions {
+          flex-direction: column;
+        }
+        .home-entry-primary,
+        .home-entry-secondary {
+          width: 100%;
+        }
+      }
       /* Search suggest dropdown — appears below input while typing */
       .search-suggest {
         position: absolute;
@@ -1396,6 +1505,7 @@
         header { display: contents; }
         header h1 { order: -5; }
         .mobile-hero { display: block; order: -4; }
+        .home-entry-band { order: -3; }
         .m-top10 { order: -3; }        /* TOP 10 carousel */
         .m-map-preview { order: -2; }  /* preview card → /map */
         /* Embedded treemap and its chrome — all replaced by the preview card. */
@@ -1918,8 +2028,8 @@
       }
       /* ============ Home CTA row: rankings tool + X follow (Stage 1) ============ */
       /* Rankings tool (.me-cta-strip, a global card) + the X-follow button laid
-         out side by side; stacks on mobile. Replaces the old stacked
-         data-summary / follow-section / me-cta-strip trio. */
+         out side by side; stacks on mobile. The diagnostic CTA now lives in the
+         first-screen .home-entry-band instead of this lower hub area. */
       .home-cta-row {
         display: flex;
         gap: 16px;
