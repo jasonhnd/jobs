@@ -19,6 +19,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 - Added a build-time AIOIS-10 movers block to `/rankings`, comparing the active
   Claude Fable 5 2026-06-13 batch against the comparable Claude Opus 4.8
   2026-05-30 baseline, plus `?me=<id>` self-highlighting for mover rows (#65).
+- Extended `/shindan` with a client-only self x job gap picker and verdict
+  using family-code comparison plus transfer-path links. SEO baseline drift is
+  intentional because the result page gains the job-gap anchors (#61).
 - Replaced the occupation detail hero's legacy single-score risk card with an
   `AI働き方診断` work-type verdict card: family label/copy, AIOIS-10
   Transformation + Displacement-Risk, full-universe rank, optional delta slot,
