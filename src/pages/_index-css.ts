@@ -1942,10 +1942,10 @@ export const INDEX_CSS = String.raw`      *,
       @media (max-width: 768px) {
         .hub-deep { padding: 22px 16px; }
       }
-      /* ============ Home CTA row: rankings tool + X follow (Stage 1) ============ */
-      /* Rankings tool (.me-cta-strip, a global card) + the X-follow button laid
-         out side by side; stacks on mobile. Replaces the old stacked
-         data-summary / follow-section / me-cta-strip trio. */
+      /* ============ Home CTA row: diagnosis + rankings tool + X follow ============ */
+      /* Diagnosis entry + rankings tool (.me-cta-strip, a global card) + the
+         X-follow button laid out side by side; stacks on mobile. Replaces the
+         old stacked data-summary / follow-section / me-cta-strip trio. */
       .home-cta-row {
         display: flex;
         gap: 16px;
