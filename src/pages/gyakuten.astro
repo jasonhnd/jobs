@@ -1,0 +1,311 @@
+---
+/**
+ * gyakuten.astro — /gyakuten AI働き方診断 front door.
+ *
+ * Static, build-time rendered guide to the 8 worktype families and the
+ * 24 collectible variants. It consumes DIAG-1 generated data and DIAG-9 copy;
+ * it does not author diagnostic data or run client-side scoring.
+ */
+import { join } from 'node:path';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { GYAKUTEN_CSS } from './_gyakuten-css';
+import { strictReadJson } from '@/lib/strict-load';
+import { TreemapFileSummarySchema, type TreemapRecordSummary } from '@/lib/projection-schemas';
+import { WorktypesDataSchema, type WorktypeFamilyCode } from '@/data/schema/worktypes';
+import {
+  DISCLAIMER,
+  FAMILIES,
+  FAMILY_CODES,
+  VARIANTS,
+  VARIANT_IDS_BY_FAMILY,
+} from '@/site/worktype-copy';
+
+const canonical = 'https://mirai-shigoto.com/gyakuten';
+const title = 'AI働き方診断 図鑑｜8家族と24タイプを見る - 未来の仕事';
+const seoDesc =
+  'AI働き方診断の8家族と24バリアントを一覧できる図鑑ページ。家族ごとのAIとの関係、次の一手、代表職業、職業データ全体での静的な分布を確認できます。';
+const keywords = 'AI働き方診断, 仕事タイプ, 図鑑, 働き方, AI時代, 職業データ';
+
+const WORKTYPES_PATH = join(process.cwd(), 'public', 'data.worktypes.json');
+const TREEMAP_PATH = join(process.cwd(), 'public', 'data.treemap.json');
+const REPRESENTATIVE_OCCUPATION_COUNT = 4;
+
+const worktypes = strictReadJson(WORKTYPES_PATH, WorktypesDataSchema, 'gyakuten.worktypes');
+const treemapRows = strictReadJson(TREEMAP_PATH, TreemapFileSummarySchema, 'gyakuten.treemap');
+const treemapById = new Map(treemapRows.map((row) => [String(row.id), row]));
+
+interface RepresentativeOccupation {
+  readonly id: number;
+  readonly name: string;
+  readonly workers: number | null;
+}
+
+interface VariantView {
+  readonly id: string;
+  readonly name: string;
+  readonly catch: string;
+}
+
+interface FamilyView {
+  readonly code: WorktypeFamilyCode;
+  readonly name: string;
+  readonly share: string;
+  readonly aiRelation: string;
+  readonly empowerment: string;
+  readonly rarityText: string;
+  readonly occupations: RepresentativeOccupation[];
+  readonly variants: VariantView[];
+}
+
+const occupationsByFamily: Record<WorktypeFamilyCode, RepresentativeOccupation[]> = {
+  CPB: [],
+  CPK: [],
+  CDB: [],
+  CDK: [],
+  RPB: [],
+  RPK: [],
+  RDB: [],
+  RDK: [],
+};
+
+for (const [id, record] of Object.entries(worktypes.occupations)) {
+  const row = treemapById.get(id);
+  if (!row) continue;
+  occupationsByFamily[record.code].push({
+    id: Number(id),
+    name: treemapName(row),
+    workers: typeof row.workers === 'number' ? row.workers : null,
+  });
+}
+
+for (const code of FAMILY_CODES) {
+  occupationsByFamily[code].sort((a, b) => (b.workers ?? -1) - (a.workers ?? -1) || a.id - b.id);
+}
+
+const familyViews: FamilyView[] = FAMILY_CODES.map((code) => {
+  const family = FAMILIES[code];
+  const familyMeta = worktypes.families[code];
+  const variantCopy = VARIANTS[code] as Record<string, { name: string; catch: string }>;
+  return {
+    code,
+    name: family.name,
+    share: family.share,
+    aiRelation: family.aiRelation,
+    empowerment: family.empowerment,
+    rarityText: familyMeta ? `全体の約${familyMeta.pct.toFixed(1)}%` : '全体比は確認中',
+    occupations: occupationsByFamily[code].slice(0, REPRESENTATIVE_OCCUPATION_COUNT),
+    variants: VARIANT_IDS_BY_FAMILY[code].map((variantId) => {
+      const variant = variantCopy[variantId]!;
+      return { id: variantId, name: variant.name, catch: variant.catch };
+    }),
+  };
+});
+
+const variantCount = familyViews.reduce((sum, family) => sum + family.variants.length, 0);
+const occupationCount = Object.keys(worktypes.occupations).length;
+
+const familyPairs = [
+  ['CPB', 'CPK'],
+  ['CDB', 'CDK'],
+  ['RPB', 'RPK'],
+  ['RDB', 'RDK'],
+  ['CPK', 'RDK'],
+  ['CDK', 'RPB'],
+] as const satisfies ReadonlyArray<readonly [WorktypeFamilyCode, WorktypeFamilyCode]>;
+
+const pairViews = familyPairs.map(([left, right]) => ({
+  title: `${FAMILIES[left].name} × ${FAMILIES[right].name}`,
+  description: `${FAMILIES[left].share} / ${FAMILIES[right].share}`,
+}));
+
+function treemapName(row: TreemapRecordSummary): string {
+  const name = row.name_ja;
+  return typeof name === 'string' && name.length > 0 ? name : `職業 ${row.id}`;
+}
+
+function formatWorkers(value: number | null): string {
+  if (value === null) return '就業者数不明';
+  if (value >= 10000) {
+    const unit = value / 10000;
+    const text = unit >= 10 ? unit.toFixed(0) : unit.toFixed(1);
+    return `約${text}万人`;
+  }
+  return `約${Math.round(value).toLocaleString('ja-JP')}人`;
+}
+
+function safeJsonForScript(value: unknown): string {
+  const text = JSON.stringify(value) ?? 'null';
+  return text
+    .replace(/<\//g, '<\\/')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
+const jsonLd = safeJsonForScript({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      name: title,
+      url: canonical,
+      description: seoDesc,
+      inLanguage: 'ja',
+      isPartOf: { '@id': 'https://mirai-shigoto.com/#website' },
+      about: { '@id': 'https://mirai-shigoto.com/#organization' },
+      publisher: { '@id': 'https://mirai-shigoto.com/#organization' },
+      datePublished: '2026-07-04',
+      dateModified: '2026-07-04',
+      breadcrumb: { '@id': `${canonical}#breadcrumb` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonical}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: 'https://mirai-shigoto.com/' },
+        { '@type': 'ListItem', position: 2, name: 'AI働き方診断 図鑑', item: canonical },
+      ],
+    },
+  ],
+});
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  canonical={canonical}
+  keywords={keywords}
+  ogTitle={title}
+  ogDescription={seoDesc}
+  ogImage="https://mirai-shigoto.com/api/og?page=gyakuten"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GYAKUTEN_CSS} />
+
+  <div id="wrapper">
+    <nav class="gyakuten-crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <span>AI働き方診断 図鑑</span>
+    </nav>
+
+    <header class="gyakuten-hero" id="content">
+      <div>
+        <p class="gyakuten-kicker">AI働き方診断 図鑑</p>
+        <h1>8つの家族と<span class="accent">24タイプ</span>から、自分の働き方を探す</h1>
+        <p class="gyakuten-lead">
+          AI時代の働き方を、8つの家族タイプと24のバリアントで眺める入口です。家族タイプは職業データに基づく土台、バリアントは診断結果で開くコレクションです。
+        </p>
+        <div class="gyakuten-hero-actions">
+          <a class="gyakuten-primary" href="/shindan">診断を受ける</a>
+          <a class="gyakuten-secondary" href="#zukan">図鑑を見る</a>
+        </div>
+      </div>
+      <aside class="gyakuten-proof" aria-label="診断図鑑の前提">
+        <span><strong>{familyViews.length}</strong>家族タイプ</span>
+        <span><strong>{variantCount}</strong>バリアント</span>
+        <span><strong>{occupationCount}</strong>職業データ</span>
+      </aside>
+    </header>
+
+    <section class="gyakuten-section" aria-labelledby="familiesHeading">
+      <div class="gyakuten-section-head">
+        <h2 id="familiesHeading">8家族の全体マップ</h2>
+        <p>割合と代表職業は家族単位の分布です。珍しさは序列ではなく、職業データ全体での静的な分布として読んでください。</p>
+      </div>
+
+      <div class="family-grid">
+        {familyViews.map((family) => (
+          <article class={`family-card family-${family.code.toLowerCase()}`} aria-labelledby={`family-${family.code}`}>
+            <div class="family-card-head">
+              <div>
+                <h3 id={`family-${family.code}`}>{family.name}</h3>
+                <p class="family-share">{family.share}</p>
+              </div>
+              <span class="family-code">{family.code}</span>
+            </div>
+            <span class="family-rarity">{family.rarityText}</span>
+            <dl class="family-copy-grid">
+              <div>
+                <dt>AIとの関係</dt>
+                <dd>{family.aiRelation}</dd>
+              </div>
+              <div>
+                <dt>次の一手</dt>
+                <dd>{family.empowerment}</dd>
+              </div>
+            </dl>
+            <div class="family-occ">
+              <h4>代表職業</h4>
+              <ul class="family-occ-list">
+                {family.occupations.map((occupation) => (
+                  <li>
+                    <a href={`/${occupation.id}`}>
+                      <span>{occupation.name}</span>
+                      <small>{formatWorkers(occupation.workers)}</small>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="gyakuten-section" id="zukan" aria-labelledby="zukanHeading">
+      <div class="gyakuten-section-head">
+        <h2 id="zukanHeading">24タイプ 図鑑</h2>
+        <p>まだ解放されていないタイプは灰色のままです。診断を受けると、自分の家族タイプとバリアントがひとつ開きます。</p>
+      </div>
+
+      <div class="zukan">
+        {familyViews.map((family) => (
+          <section class="zukan-family" aria-labelledby={`zukan-${family.code}`}>
+            <div class={`zukan-family-head family-${family.code.toLowerCase()}`}>
+              <h3 id={`zukan-${family.code}`}>{family.name}</h3>
+              <p>{family.code} / {family.rarityText}</p>
+            </div>
+            <div class="variant-grid">
+              {family.variants.map((variant) => (
+                <article class={`variant-card family-${family.code.toLowerCase()}`} aria-label={`${variant.name} 未解放`}>
+                  <span class="variant-status">未解放</span>
+                  <h4>{variant.name}</h4>
+                  <p>{variant.catch}</p>
+                  <p class="variant-lock">まだあなたのものではない</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+
+    <section class="gyakuten-section" aria-labelledby="pairsHeading">
+      <div class="gyakuten-section-head">
+        <h2 id="pairsHeading">家族単位の相性</h2>
+        <p>相性は家族単位の見方です。バリアントごとの優劣や統計ではなく、持ち味を並べて比べるための入口です。</p>
+      </div>
+      <div class="pair-grid">
+        {pairViews.map((pair) => (
+          <article class="pair-card">
+            <h3>{pair.title}</h3>
+            <p>{pair.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="final-cta" aria-labelledby="ctaHeading">
+      <div>
+        <h2 id="ctaHeading">あなたの1タイプを開く</h2>
+        <p>図鑑の中で、どれが自分のタイプかは9問で確認できます。結果は家族タイプ、バリアント、代表職業、共有リンクまでブラウザだけで表示します。</p>
+      </div>
+      <a class="gyakuten-primary" href="/shindan">診断を受ける</a>
+    </section>
+
+    <p class="gyakuten-note">{DISCLAIMER}</p>
+
+    <Footer />
+  </div>
+</BaseLayout>
