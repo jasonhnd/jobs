@@ -34,9 +34,8 @@ a:hover{color:var(--accent);text-decoration:underline}
 .gyakuten-section-head p{max-width:58ch;margin:0;color:var(--fg2);font-size:.9rem;line-height:1.7}
 .family-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .family-card{--family-accent:var(--accent);--family-soft:rgba(217,107,61,.08);background:var(--bg2);border:1px solid var(--border);border-top:4px solid var(--family-accent);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
-.family-card-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:start}
+.family-card-head{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:start}
 .family-card h3{font-family:var(--font-serif);font-size:1.15rem;font-weight:700;line-height:1.35;letter-spacing:0;margin:0;color:var(--fg)}
-.family-code{display:inline-flex;align-items:center;justify-content:center;min-width:58px;min-height:38px;border-radius:7px;background:var(--family-accent);color:#fff;font-weight:800;letter-spacing:.04em;font-size:.86rem}
 .family-share{margin:4px 0 0;color:var(--fg2);font-size:.9rem;line-height:1.65}
 .family-rarity{display:inline-flex;width:max-content;padding:5px 11px;border-radius:999px;background:var(--family-soft);border:1px solid color-mix(in srgb,var(--family-accent) 34%,transparent);color:var(--fg);font-size:.82rem;font-variant-numeric:tabular-nums}
 .family-copy-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}

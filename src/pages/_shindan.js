@@ -37,7 +37,6 @@
     var $resultLabel = document.getElementById('shindanResultLabel');
     var $familyName = document.getElementById('shindanFamilyName');
     var $variantName = document.getElementById('shindanVariantName');
-    var $resultCode = document.getElementById('shindanResultCode');
     var $identity = document.getElementById('shindanIdentity');
     var $variantCatch = document.getElementById('shindanVariantCatch');
     var $strengths = document.getElementById('shindanStrengths');
@@ -46,7 +45,6 @@
     var $axisList = document.getElementById('shindanAxisList');
     var $rarity = document.getElementById('shindanRarity');
     var $occupations = document.getElementById('shindanOccupations');
-    var $gapSelfCode = document.getElementById('shindanGapSelfCode');
     var $gapForm = document.getElementById('shindanGapForm');
     var $jobInput = document.getElementById('shindanJobInput');
     var $jobListbox = document.getElementById('shindanJobListbox');
@@ -427,7 +425,6 @@
       var url = new URL('/api/og', location.origin);
       url.searchParams.set('worktype', result.code);
       url.searchParams.set('variant', result.variantId);
-      url.searchParams.set('gap', 'aligned');
       return url.toString();
     }
 
@@ -460,7 +457,6 @@
       $resultLabel.textContent = options && options.restored ? '前回のタイプ' : copy.labels.personalType;
       $familyName.textContent = family.name;
       $variantName.textContent = variant.name;
-      $resultCode.textContent = result.code;
       $identity.textContent = family.identity;
       $variantCatch.textContent = variant.catch;
       $strengths.textContent = family.strengths;
@@ -513,13 +509,14 @@
         poles.className = 'shindan-axis-poles';
         var left = document.createElement('span');
         var right = document.createElement('span');
-        left.textContent = axis.leftPole + ' ' + axis.leftLabel;
-        right.textContent = axis.rightPole + ' ' + axis.rightLabel;
+        left.textContent = axis.leftLabel;
+        right.textContent = axis.rightLabel;
         poles.appendChild(left);
         poles.appendChild(right);
         var trackEl = document.createElement('div');
         trackEl.className = 'shindan-axis-track';
-        trackEl.setAttribute('aria-label', axis.exposedPole + ' 方向 ' + axis.exposedPct + '%');
+        var exposedLabel = axis.exposedPole === axis.leftPole ? axis.leftLabel : axis.rightLabel;
+        trackEl.setAttribute('aria-label', exposedLabel + ' 方向 ' + axis.exposedPct + '%');
         var fill = document.createElement('span');
         fill.className = 'shindan-axis-fill';
         fill.style.width = axis.exposedPct + '%';
@@ -529,7 +526,9 @@
 
         var margin = document.createElement('div');
         margin.className = 'shindan-axis-margin';
-        margin.textContent = axis.winner + ' ' + axis.winCount + ' - ' + axis.loser + ' ' + axis.loseCount;
+        var winnerLabel = axis.winner === axis.leftPole ? axis.leftLabel : axis.rightLabel;
+        var loserLabel = axis.loser === axis.leftPole ? axis.leftLabel : axis.rightLabel;
+        margin.textContent = winnerLabel + ' ' + axis.winCount + ' - ' + loserLabel + ' ' + axis.loseCount;
 
         row.appendChild(name);
         row.appendChild(meter);
@@ -659,7 +658,7 @@
         var sector = document.createElement('div');
         sector.className = 'shindan-job-sector';
         var record = worktypes && worktypes.occupations ? worktypes.occupations[String(doc.id)] : null;
-        sector.textContent = record ? '職業タイプ ' + record.code : '';
+        sector.textContent = record ? '職業タイプ ' + familyNameForCode(record.code) : '';
         text.appendChild(name);
         text.appendChild(sector);
 
@@ -741,8 +740,12 @@
       return doc && doc.title_ja ? doc.title_ja : '職業 ' + jobId;
     }
 
+    function familyNameForCode(code) {
+      var family = copy && copy.families ? copy.families[code] : null;
+      return family && family.name ? family.name : '';
+    }
+
     function resetGapResult() {
-      if ($gapSelfCode && currentResult) $gapSelfCode.textContent = currentResult.code;
       if ($gapResult) $gapResult.hidden = true;
       if ($gapTransfers) $gapTransfers.replaceChildren();
       if ($jobInput) $jobInput.value = '';
@@ -784,8 +787,10 @@
         action: ''
       };
       var meterPct = Math.round((gap.gapAxes / 3) * 100);
+      var selfFamilyName = familyNameForCode(gap.selfCode);
+      var jobFamilyName = familyNameForCode(gap.jobCode);
       var meta = [
-        (copy.labels && copy.labels.occupationType ? copy.labels.occupationType : 'この職業のタイプ') + ' ' + record.code,
+        (copy.labels && copy.labels.occupationType ? copy.labels.occupationType : 'この職業のタイプ') + ' ' + jobFamilyName,
         'AI 影響度 ' + formatRisk(doc.ai_risk),
         'AIに渡しやすい軸 ' + record.exposure + '/3'
       ];
@@ -797,7 +802,7 @@
       if ($gapJobName) $gapJobName.textContent = jobTitle(doc, gap.jobId);
       if ($gapJobMeta) $gapJobMeta.textContent = meta.join(' / ');
       if ($gapBadge) $gapBadge.textContent = gapCopy.label;
-      if ($gapCodes) $gapCodes.textContent = gap.selfCode + ' -> ' + gap.jobCode;
+      if ($gapCodes) $gapCodes.textContent = 'あなた ' + selfFamilyName + ' / 職業 ' + jobFamilyName;
       if ($gapMeterText) $gapMeterText.textContent = 'ギャップ ' + gap.gapAxes + '/3軸';
       if ($gapMeterFill) $gapMeterFill.style.width = meterPct + '%';
       if ($gapReading) $gapReading.textContent = gapCopy.reading;
@@ -892,10 +897,11 @@
 
     function renderShare(result, variant) {
       var resultUrl = canonicalResultUrl(result);
-      var hook = challengeHook(result.code, result.variantId);
-      var template = copy.share.textTemplate || '#AI働き方診断 私は【{タイプ名}】でした！ {リンク}';
+      var hook = variant.name + '：' + variant.catch;
+      var template = copy.share.textTemplate || '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}';
       var shareText = template
         .replace('{タイプ名}', variant.name)
+        .replace('{一言}', variant.catch)
         .replace('{リンク}', resultUrl);
       var xUrl = 'https://x.com/intent/post?text=' + encodeURIComponent(shareText);
       var lineUrl = 'https://line.me/R/msg/text/?' + encodeURIComponent(shareText);
@@ -912,12 +918,6 @@
       } else {
         $shareNative.hidden = true;
       }
-    }
-
-    function challengeHook(code, variantId) {
-      var hooks = copy.share.challengeHooks || ['あなたの同僚は何タイプ?'];
-      var index = (code.charCodeAt(0) + variantId.length) % hooks.length;
-      return hooks[index] || hooks[0];
     }
 
     function copyResultLink() {
@@ -938,9 +938,12 @@
     function nativeShare() {
       if (!currentResult || typeof navigator.share !== 'function') return;
       var variant = copy.variants[currentResult.code][currentResult.variantId];
-      var text = (copy.share.textTemplate || '#AI働き方診断 私は【{タイプ名}】でした！ {リンク}')
+      var text = (copy.share.textTemplate || '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}')
         .replace('{タイプ名}', variant.name)
-        .replace(' {リンク}', '');
+        .replace('{一言}', variant.catch)
+        .replace(' {リンク}', '')
+        .replace('{リンク}', '')
+        .trim();
       navigator.share({
         title: copy.labels.featureName,
         text: text,

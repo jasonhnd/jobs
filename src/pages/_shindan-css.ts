@@ -66,12 +66,11 @@ button,input{font:inherit}
 .shindan-result{margin-top:28px}
 .shindan-result[hidden]{display:none}
 .shindan-result-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--shindan-radius);overflow:hidden}
-.shindan-result-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:start;padding:24px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--shindan-soft),transparent)}
+.shindan-result-head{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start;padding:24px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--shindan-soft),transparent)}
 .shindan-result-label{font-size:.78rem;letter-spacing:.08em;color:var(--accent-deep);font-weight:700;margin:0 0 8px}
 .shindan-result-name{font-family:var(--font-serif);font-size:clamp(1.45rem,1.1rem + 1.4vw,2rem);font-weight:700;line-height:1.25;margin:0;color:var(--fg)}
 .shindan-result-name>span:first-child{display:block;color:var(--fg);font-size:1em}
 .shindan-result-name>span+span{display:block;color:var(--accent);font-size:.78em;margin-top:4px}
-.shindan-code{display:inline-flex;align-items:center;justify-content:center;min-width:70px;min-height:44px;border-radius:7px;background:var(--accent-deep);color:#fff;font-weight:800;letter-spacing:.08em}
 .shindan-result-body{padding:22px 24px 24px}
 .shindan-identity{margin:0 0 16px;font-size:1rem;line-height:1.8;color:var(--fg)}
 .shindan-copy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0 22px}
@@ -95,7 +94,6 @@ button,input{font:inherit}
 .shindan-gap{margin:22px 0 0;padding:18px;border:1px solid var(--border);border-radius:var(--shindan-radius);background:var(--bg)}
 .shindan-gap-head{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:12px}
 .shindan-gap-head h3{font-family:var(--font-serif);font-size:1rem;font-weight:600;margin:0;color:var(--fg)}
-.shindan-gap-code{display:inline-flex;align-items:center;justify-content:center;min-width:54px;min-height:32px;border-radius:6px;background:var(--shindan-soft);border:1px solid rgba(217,107,61,.32);color:var(--accent-deep);font-size:.78rem;font-weight:800;letter-spacing:.08em}
 .shindan-job-search{position:relative;margin:0 0 12px}
 .shindan-job-input{width:100%;height:46px;padding:0 16px 0 42px;background:var(--bg2);color:var(--fg);border:1px solid var(--border);border-radius:999px;font-size:.95rem;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237A6F5E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>");background-repeat:no-repeat;background-position:15px center}
 .shindan-job-input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-color:var(--accent)}
