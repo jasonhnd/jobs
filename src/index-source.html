@@ -763,11 +763,16 @@
 
       <hr class="hub-section-divider" aria-hidden="true">
 
-      <!-- Home CTA row (2026-05-31): the rankings tool + the X-follow CTA sit
-           side by side (stack on mobile). The old boxed data-attribution strip
-           was removed — its 出典 / model attribution now lives once in the
-           global footer (Footer.astro, data-driven via score-attribution). -->
+      <!-- Home CTA row (2026-05-31): diagnosis entry + rankings tool + the
+           X-follow CTA sit side by side (stack on mobile). The old boxed
+           data-attribution strip was removed — its 出典 / model attribution
+           now lives once in the global footer (Footer.astro, data-driven via
+           score-attribution). -->
       <div class="home-cta-row">
+        <aside class="me-cta-strip" aria-label="AI働き方診断">
+          <p><strong>AI時代、あなたはどう働くタイプ?</strong> 30秒で診断。結果カードを共有して、同僚や友人と働き方タイプを比べられます。</p>
+          <a href="/shindan">AI働き方診断をはじめる →</a>
+        </aside>
         <aside class="me-cta-strip" aria-label="自分の現在地ツール">
           <p>あなたの職業は、__OCCUPATION_COUNT_SCORED__ 職業の中でどこに立っていますか？<strong>39 ランキング</strong>での位置を一覧表示。</p>
           <a href="/me">自分の現在地を確認 →</a>

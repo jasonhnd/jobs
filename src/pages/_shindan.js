@@ -4,8 +4,11 @@
 
     var WORKTYPES_URL = '/data.worktypes.json';
     var TREEMAP_URL = '/data.treemap.json';
+    var SEARCH_URL = '/data.search.json';
+    var TRANSFER_PATHS_URL = '/data.transfer_paths.json';
     var FETCH_TIMEOUT_MS = 10000;
     var LOCAL_KEY = 'shindan:lastResult:v1';
+    var GAP_LOCAL_KEY = 'shindan:jobGap:v1';
 
     var AXES = [
       { key: 'A1', dataKey: 'a1', leftPole: 'C', rightPole: 'R', exposedPole: 'R', label: '創造 / 定型', leftLabel: '創造', rightLabel: '定型' },
@@ -43,6 +46,22 @@
     var $axisList = document.getElementById('shindanAxisList');
     var $rarity = document.getElementById('shindanRarity');
     var $occupations = document.getElementById('shindanOccupations');
+    var $gapSelfCode = document.getElementById('shindanGapSelfCode');
+    var $gapForm = document.getElementById('shindanGapForm');
+    var $jobInput = document.getElementById('shindanJobInput');
+    var $jobListbox = document.getElementById('shindanJobListbox');
+    var $jobAnnounce = document.getElementById('shindanJobAnnounce');
+    var $gapResult = document.getElementById('shindanGapResult');
+    var $gapJobName = document.getElementById('shindanGapJobName');
+    var $gapJobMeta = document.getElementById('shindanGapJobMeta');
+    var $gapBadge = document.getElementById('shindanGapBadge');
+    var $gapCodes = document.getElementById('shindanGapCodes');
+    var $gapMeterText = document.getElementById('shindanGapMeterText');
+    var $gapMeterFill = document.getElementById('shindanGapMeterFill');
+    var $gapReading = document.getElementById('shindanGapReading');
+    var $gapAction = document.getElementById('shindanGapAction');
+    var $gapDetailLink = document.getElementById('shindanGapDetailLink');
+    var $gapTransfers = document.getElementById('shindanGapTransfers');
     var $shareHook = document.getElementById('shindanShareHook');
     var $shareX = document.getElementById('shindanShareX');
     var $shareLine = document.getElementById('shindanShareLine');
@@ -55,8 +74,14 @@
     var copy = null;
     var worktypes = null;
     var treemap = null;
+    var searchDocs = null;
+    var searchById = {};
+    var transferPaths = null;
     var dataReady = false;
     var currentResult = null;
+    var focusedJobIdx = -1;
+    var jobSearchDebounce = null;
+    var jobSearchSeq = 0;
 
     function hasOwn(obj, key) {
       return Object.prototype.hasOwnProperty.call(obj, key);
@@ -154,6 +179,36 @@
         dataReady = true;
         updateProgress();
       });
+    }
+
+    function loadSearchIndex() {
+      if (searchDocs) return Promise.resolve(searchDocs);
+      return fetchWithTimeout(SEARCH_URL, FETCH_TIMEOUT_MS).then(function (json) {
+        searchDocs = json && Array.isArray(json.documents) ? json.documents : [];
+        searchById = {};
+        for (var i = 0; i < searchDocs.length; i += 1) {
+          searchById[String(searchDocs[i].id)] = searchDocs[i];
+        }
+        return searchDocs;
+      });
+    }
+
+    function loadTransferPaths() {
+      if (transferPaths) return Promise.resolve(transferPaths);
+      return fetchWithTimeout(TRANSFER_PATHS_URL, FETCH_TIMEOUT_MS).then(function (json) {
+        transferPaths = json && json.paths ? json.paths : {};
+        return transferPaths;
+      }).catch(function () {
+        transferPaths = {};
+        return transferPaths;
+      });
+    }
+
+    function riskBand(value) {
+      if (value == null || isNaN(value)) return 'mid';
+      if (value < 4.0) return 'low';
+      if (value < 7.0) return 'mid';
+      return 'high';
     }
 
     function scoreAnswers() {
@@ -353,6 +408,8 @@
       var url = new URL(location.href);
       url.searchParams.set('self', result.code);
       url.searchParams.set('variant', result.variantId);
+      url.searchParams.delete('job');
+      url.searchParams.delete('gap');
       var next = url.pathname + '?' + url.searchParams.toString();
       if (next !== location.pathname + location.search) {
         history.replaceState(null, '', next);
@@ -413,8 +470,10 @@
 
       renderAxes(result.axes);
       renderOccupations(result.code);
+      resetGapResult();
       renderShare(result, variant);
       updateShareMeta(result);
+      restoreGapForResult(result);
       if (!(options && options.skipScroll)) {
         $result.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -509,6 +568,317 @@
         empty.textContent = '代表職業データを読み込めませんでした。';
         $occupations.appendChild(empty);
       }
+    }
+
+    function rankMatches(q) {
+      q = String(q || '').trim().toLowerCase();
+      if (!q || !searchDocs) return [];
+      var exact = [];
+      var starts = [];
+      var contains = [];
+      for (var i = 0; i < searchDocs.length; i += 1) {
+        var d = searchDocs[i];
+        var hay = String(d.title_ja || '').toLowerCase();
+        var aliases = Array.isArray(d.aliases_ja) ? d.aliases_ja : [];
+        var all = [hay];
+        for (var a = 0; a < aliases.length; a += 1) {
+          all.push(String(aliases[a] || '').toLowerCase());
+        }
+        var hit = false;
+        var isExact = false;
+        var isStart = false;
+        for (var k = 0; k < all.length; k += 1) {
+          var field = all[k];
+          if (field === q) {
+            isExact = true;
+            hit = true;
+            break;
+          }
+          if (field.indexOf(q) === 0) {
+            isStart = true;
+            hit = true;
+          } else if (field.indexOf(q) >= 0) {
+            hit = true;
+          }
+        }
+        if (!hit) continue;
+        if (isExact) exact.push(d);
+        else if (isStart) starts.push(d);
+        else contains.push(d);
+      }
+      var lenAsc = function (a, b) {
+        return String(a.title_ja || '').length - String(b.title_ja || '').length;
+      };
+      return exact.concat(starts.sort(lenAsc), contains.sort(lenAsc)).slice(0, 8);
+    }
+
+    function closeJobListbox() {
+      if (!$jobListbox || !$jobInput) return;
+      $jobListbox.setAttribute('data-open', 'false');
+      $jobInput.setAttribute('aria-expanded', 'false');
+      $jobInput.removeAttribute('aria-activedescendant');
+      focusedJobIdx = -1;
+    }
+
+    function updateFocusedJobRow() {
+      if (!$jobListbox || !$jobInput) return;
+      var items = $jobListbox.querySelectorAll('li');
+      items.forEach(function (li, index) {
+        if (index === focusedJobIdx) {
+          li.classList.add('focused');
+          li.setAttribute('aria-selected', 'true');
+          $jobInput.setAttribute('aria-activedescendant', li.id);
+        } else {
+          li.classList.remove('focused');
+          li.setAttribute('aria-selected', 'false');
+        }
+      });
+      if (focusedJobIdx < 0) {
+        $jobInput.removeAttribute('aria-activedescendant');
+      }
+    }
+
+    function renderJobSuggest(matches) {
+      if (!$jobListbox || !$jobInput) return;
+      $jobListbox.replaceChildren();
+      if (!matches.length) {
+        closeJobListbox();
+        if ($jobAnnounce) $jobAnnounce.textContent = '候補なし';
+        return;
+      }
+      matches.forEach(function (doc) {
+        var li = document.createElement('li');
+        li.setAttribute('role', 'option');
+        li.id = 'shindanJobOpt-' + doc.id;
+        li.dataset.id = String(doc.id);
+
+        var text = document.createElement('div');
+        var name = document.createElement('span');
+        name.className = 'shindan-job-name';
+        name.textContent = doc.title_ja || ('職業 ' + doc.id);
+        var sector = document.createElement('div');
+        sector.className = 'shindan-job-sector';
+        var record = worktypes && worktypes.occupations ? worktypes.occupations[String(doc.id)] : null;
+        sector.textContent = record ? '職業タイプ ' + record.code : '';
+        text.appendChild(name);
+        text.appendChild(sector);
+
+        var pill = document.createElement('span');
+        pill.className = 'shindan-job-pill ' + riskBand(doc.ai_risk);
+        pill.textContent = 'AI ' + (doc.ai_risk != null ? doc.ai_risk : '?') + '/10';
+
+        li.appendChild(text);
+        li.appendChild(pill);
+        $jobListbox.appendChild(li);
+      });
+      $jobListbox.setAttribute('data-open', 'true');
+      $jobInput.setAttribute('aria-expanded', 'true');
+      focusedJobIdx = 0;
+      updateFocusedJobRow();
+      if ($jobAnnounce) $jobAnnounce.textContent = matches.length + ' 件の結果';
+    }
+
+    function computeGap(selfCode, jobCode) {
+      var matches = 0;
+      var underusedSelfPole = false;
+      var mismatchLabels = [];
+      for (var i = 0; i < AXES.length; i += 1) {
+        var axis = AXES[i];
+        var selfPole = selfCode.charAt(i);
+        var jobPole = jobCode.charAt(i);
+        if (selfPole === jobPole) {
+          matches += 1;
+        } else {
+          mismatchLabels.push(axis.label);
+          if (selfPole === axis.leftPole) underusedSelfPole = true;
+        }
+      }
+
+      var kind = 'hidden_risk';
+      if (matches >= 2) {
+        kind = 'aligned';
+      } else if (underusedSelfPole) {
+        kind = 'hidden_strength';
+      }
+
+      return {
+        kind: kind,
+        matches: matches,
+        gapAxes: 3 - matches,
+        mismatchLabels: mismatchLabels
+      };
+    }
+
+    function gapFromStorage(selfCode) {
+      try {
+        var raw = localStorage.getItem(GAP_LOCAL_KEY);
+        if (!raw) return null;
+        var parsed = JSON.parse(raw);
+        if (!parsed || parsed.selfCode !== selfCode || !parsed.jobId) return null;
+        return parseInt(parsed.jobId, 10);
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function persistGap(gap) {
+      try {
+        localStorage.setItem(GAP_LOCAL_KEY, JSON.stringify({
+          selfCode: gap.selfCode,
+          jobId: gap.jobId,
+          gap: gap.kind,
+          savedAt: new Date().toISOString()
+        }));
+      } catch (err) {}
+    }
+
+    function formatRisk(value) {
+      if (value == null || isNaN(value)) return '不明';
+      return value + '/10';
+    }
+
+    function jobTitle(doc, jobId) {
+      return doc && doc.title_ja ? doc.title_ja : '職業 ' + jobId;
+    }
+
+    function resetGapResult() {
+      if ($gapSelfCode && currentResult) $gapSelfCode.textContent = currentResult.code;
+      if ($gapResult) $gapResult.hidden = true;
+      if ($gapTransfers) $gapTransfers.replaceChildren();
+      if ($jobInput) $jobInput.value = '';
+      if ($jobAnnounce) $jobAnnounce.textContent = '';
+      closeJobListbox();
+    }
+
+    function renderTransferCandidates(jobId) {
+      if (!$gapTransfers) return;
+      $gapTransfers.replaceChildren();
+      var entry = transferPaths && transferPaths[String(jobId)];
+      var candidates = entry && Array.isArray(entry.candidates) ? entry.candidates : [];
+      if (!candidates.length) {
+        var empty = document.createElement('span');
+        empty.className = 'shindan-transfer-empty';
+        empty.textContent = '近い職業データを読み込めませんでした。';
+        $gapTransfers.appendChild(empty);
+        return;
+      }
+      candidates.slice(0, 5).forEach(function (candidate) {
+        var id = String(candidate.id);
+        var doc = searchById[id];
+        var a = document.createElement('a');
+        a.href = '/' + id;
+        var name = document.createElement('span');
+        name.textContent = candidate.title_ja || jobTitle(doc, id);
+        var meta = document.createElement('small');
+        meta.textContent = 'AI ' + formatRisk(candidate.ai_risk);
+        a.appendChild(name);
+        a.appendChild(meta);
+        $gapTransfers.appendChild(a);
+      });
+    }
+
+    function renderGap(gap, doc, record) {
+      var gapCopy = copy.gap && copy.gap[gap.kind] ? copy.gap[gap.kind] : {
+        label: gap.kind,
+        reading: '',
+        action: ''
+      };
+      var meterPct = Math.round((gap.gapAxes / 3) * 100);
+      var meta = [
+        (copy.labels && copy.labels.occupationType ? copy.labels.occupationType : 'この職業のタイプ') + ' ' + record.code,
+        'AI 影響度 ' + formatRisk(doc.ai_risk),
+        'AIに渡しやすい軸 ' + record.exposure + '/3'
+      ];
+
+      if ($gapResult) {
+        $gapResult.hidden = false;
+        $gapResult.dataset.gap = gap.kind;
+      }
+      if ($gapJobName) $gapJobName.textContent = jobTitle(doc, gap.jobId);
+      if ($gapJobMeta) $gapJobMeta.textContent = meta.join(' / ');
+      if ($gapBadge) $gapBadge.textContent = gapCopy.label;
+      if ($gapCodes) $gapCodes.textContent = gap.selfCode + ' -> ' + gap.jobCode;
+      if ($gapMeterText) $gapMeterText.textContent = 'ギャップ ' + gap.gapAxes + '/3軸';
+      if ($gapMeterFill) $gapMeterFill.style.width = meterPct + '%';
+      if ($gapReading) $gapReading.textContent = gapCopy.reading;
+      if ($gapAction) $gapAction.textContent = gapCopy.action;
+      if ($gapDetailLink) $gapDetailLink.href = '/' + gap.jobId;
+      renderTransferCandidates(gap.jobId);
+      if ($jobAnnounce) {
+        $jobAnnounce.textContent = jobTitle(doc, gap.jobId) + ' とのギャップを表示しました';
+      }
+    }
+
+    function updateGapUrl(gap) {
+      if (!currentResult) return;
+      var url = new URL(location.href);
+      url.searchParams.set('self', currentResult.code);
+      url.searchParams.set('variant', currentResult.variantId);
+      url.searchParams.set('job', String(gap.jobId));
+      url.searchParams.set('gap', gap.kind);
+      var next = url.pathname + '?' + url.searchParams.toString();
+      if (next !== location.pathname + location.search) {
+        history.replaceState(null, '', next);
+      }
+    }
+
+    function selectGapJob(jobId, options) {
+      if (!currentResult || !worktypes || !jobId || isNaN(jobId)) return;
+      Promise.all([loadSearchIndex(), loadTransferPaths()]).then(function () {
+        var id = String(jobId);
+        var doc = searchById[id];
+        var record = worktypes.occupations[id];
+        if (!doc || !record || !record.code) {
+          if ($jobAnnounce) $jobAnnounce.textContent = '職業タイプを読み込めませんでした';
+          return;
+        }
+        var computed = computeGap(currentResult.code, record.code);
+        var gap = {
+          selfCode: currentResult.code,
+          jobId: id,
+          jobCode: record.code,
+          kind: computed.kind,
+          matches: computed.matches,
+          gapAxes: computed.gapAxes,
+          mismatchLabels: computed.mismatchLabels
+        };
+        closeJobListbox();
+        if ($jobInput) $jobInput.value = jobTitle(doc, id);
+        renderGap(gap, doc, record);
+        persistGap(gap);
+        if (!(options && options.restored) || options.updateUrl) {
+          updateGapUrl(gap);
+        }
+        if (!(options && options.restored)) {
+          track('shindan_gap_select_job', {
+            family_code: gap.selfCode,
+            job_id: parseInt(id, 10),
+            job_code: gap.jobCode,
+            gap: gap.kind
+          });
+        }
+      }).catch(function () {
+        if ($jobAnnounce) $jobAnnounce.textContent = '職業データの読み込みに失敗しました';
+      });
+    }
+
+    function readUrlJobId() {
+      var params = new URLSearchParams(location.search);
+      var raw = params.get('job') || params.get('id');
+      if (!raw) return null;
+      var id = parseInt(raw, 10);
+      return isNaN(id) ? null : id;
+    }
+
+    function restoreGapForResult(result) {
+      var urlJobId = readUrlJobId();
+      if (urlJobId) {
+        selectGapJob(urlJobId, { restored: true, updateUrl: true });
+        return;
+      }
+      var storedJobId = gapFromStorage(result.code);
+      if (!storedJobId) return;
+      selectGapJob(storedJobId, { restored: true });
     }
 
     function formatWorkers(value) {
@@ -607,12 +977,91 @@
       renderResult(result);
     }
 
+    function wireGapEvents() {
+      if (!$gapForm || !$jobInput || !$jobListbox) return;
+
+      $jobInput.addEventListener('input', function () {
+        if (jobSearchDebounce) clearTimeout(jobSearchDebounce);
+        var q = $jobInput.value;
+        if (!q.trim()) {
+          jobSearchSeq += 1;
+          closeJobListbox();
+          if ($jobAnnounce) $jobAnnounce.textContent = '';
+          return;
+        }
+        var seq = ++jobSearchSeq;
+        jobSearchDebounce = setTimeout(function () {
+          loadSearchIndex().then(function () {
+            if (seq !== jobSearchSeq) return;
+            renderJobSuggest(rankMatches($jobInput.value));
+          }).catch(function () {
+            if ($jobAnnounce) $jobAnnounce.textContent = '検索データの読み込みに失敗しました';
+          });
+        }, 80);
+      });
+
+      $jobInput.addEventListener('keydown', function (e) {
+        var items = $jobListbox.querySelectorAll('li');
+        if (e.key === 'ArrowDown') {
+          if (!items.length) {
+            if ($jobInput.value.trim()) {
+              loadSearchIndex().then(function () {
+                renderJobSuggest(rankMatches($jobInput.value));
+              });
+            }
+            e.preventDefault();
+            return;
+          }
+          e.preventDefault();
+          focusedJobIdx = (focusedJobIdx + 1) % items.length;
+          updateFocusedJobRow();
+        } else if (e.key === 'ArrowUp') {
+          if (!items.length) return;
+          e.preventDefault();
+          focusedJobIdx = (focusedJobIdx - 1 + items.length) % items.length;
+          updateFocusedJobRow();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          if (items.length && focusedJobIdx >= 0) {
+            var selected = items[focusedJobIdx];
+            if (selected) selectGapJob(parseInt(selected.dataset.id, 10));
+          }
+        } else if (e.key === 'Escape') {
+          closeJobListbox();
+        }
+      });
+
+      $gapForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var items = $jobListbox.querySelectorAll('li');
+        var pick = items[focusedJobIdx >= 0 ? focusedJobIdx : 0];
+        if (pick) selectGapJob(parseInt(pick.dataset.id, 10));
+      });
+
+      $jobListbox.addEventListener('click', function (e) {
+        var li = e.target.closest('li[data-id]');
+        if (!li) return;
+        selectGapJob(parseInt(li.dataset.id, 10));
+      });
+
+      $jobInput.addEventListener('blur', function () {
+        setTimeout(closeJobListbox, 150);
+      });
+      $jobInput.addEventListener('focus', function () {
+        if ($jobInput.value.trim() && $jobListbox.children.length > 0) {
+          $jobListbox.setAttribute('data-open', 'true');
+          $jobInput.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+
     function wireEvents() {
       $form.addEventListener('change', updateProgress);
       $form.addEventListener('reset', function () {
         setTimeout(updateProgress, 0);
       });
       $form.addEventListener('submit', handleSubmit);
+      wireGapEvents();
       $shareCopy.addEventListener('click', function (e) {
         e.preventDefault();
         copyResultLink();

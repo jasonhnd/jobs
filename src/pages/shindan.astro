@@ -13,6 +13,7 @@ import { SHINDAN_CSS } from './_shindan-css';
 import {
   DISCLAIMER,
   FAMILIES,
+  GAP,
   LABELS,
   QUESTIONS,
   RARITY,
@@ -47,6 +48,7 @@ const copyJson = safeJsonForScript({
   variants: VARIANTS,
   variantBuckets: VARIANT_BUCKETS_BY_FAMILY,
   share: SHARE,
+  gap: GAP,
   labels: LABELS,
   rarity: RARITY,
   disclaimer: DISCLAIMER,
@@ -93,6 +95,8 @@ const jsonLd = safeJsonForScript({
 
   <link rel="preload" href="/data.worktypes.json" as="fetch" slot="head" />
   <link rel="preload" href="/data.treemap.json" as="fetch" slot="head" />
+  <link rel="preload" href="/data.search.json" as="fetch" slot="head" />
+  <link rel="preload" href="/data.transfer_paths.json" as="fetch" slot="head" />
   <style slot="head" set:html={SHINDAN_CSS} />
 
   <div id="wrapper">
@@ -222,6 +226,66 @@ const jsonLd = safeJsonForScript({
             <h3>代表的な職業</h3>
             <ul class="shindan-occ-list" id="shindanOccupations"></ul>
           </div>
+
+          <section class="shindan-gap" aria-labelledby="shindanGapHeading">
+            <div class="shindan-gap-head">
+              <div>
+                <p class="shindan-result-label">{LABELS.gap}</p>
+                <h3 id="shindanGapHeading">気になる職業と比べる</h3>
+              </div>
+              <span class="shindan-gap-code" id="shindanGapSelfCode"></span>
+            </div>
+
+            <form class="shindan-job-search" id="shindanGapForm" role="search" autocomplete="off">
+              <label class="sr-only" for="shindanJobInput">職業を検索</label>
+              <input
+                type="search"
+                class="shindan-job-input"
+                id="shindanJobInput"
+                placeholder="職業名を入力 (例: 看護師、エンジニア)"
+                aria-label="職業を検索"
+                aria-autocomplete="list"
+                aria-controls="shindanJobListbox"
+                aria-expanded="false"
+                role="combobox"
+              />
+              <ul
+                class="shindan-job-listbox"
+                id="shindanJobListbox"
+                role="listbox"
+                aria-label="検索候補"
+              ></ul>
+            </form>
+            <p class="sr-only" id="shindanJobAnnounce" aria-live="polite" aria-atomic="true"></p>
+
+            <div class="shindan-gap-card" id="shindanGapResult" data-gap="aligned" hidden>
+              <div class="shindan-gap-summary">
+                <div>
+                  <p class="shindan-gap-job" id="shindanGapJobName"></p>
+                  <p class="shindan-gap-meta" id="shindanGapJobMeta"></p>
+                </div>
+                <span class="shindan-gap-badge" id="shindanGapBadge"></span>
+              </div>
+
+              <div class="shindan-gap-meter" aria-label="家族コードのギャップ">
+                <div class="shindan-gap-meter-top">
+                  <span id="shindanGapCodes"></span>
+                  <span id="shindanGapMeterText"></span>
+                </div>
+                <div class="shindan-gap-track"><span id="shindanGapMeterFill"></span></div>
+              </div>
+
+              <p class="shindan-gap-reading" id="shindanGapReading"></p>
+              <p class="shindan-gap-action" id="shindanGapAction"></p>
+              <div class="shindan-gap-links">
+                <a class="shindan-primary" id="shindanGapDetailLink" href="/">職業ページを見る</a>
+                <div class="shindan-transfer">
+                  <h4>近い職業も比べる</h4>
+                  <div class="shindan-transfer-list" id="shindanGapTransfers"></div>
+                </div>
+              </div>
+            </div>
+          </section>
 
           <p class="shindan-disclaimer">{DISCLAIMER}</p>
         </div>
