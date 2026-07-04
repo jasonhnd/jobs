@@ -1701,15 +1701,26 @@
           const ls = document.getElementById("loadingState");
           if (ls) ls.remove();
           canvas.style.visibility = "visible";
-          // Defer the __OCCUPATION_COUNT_SCORED__-item screen-reader fallback list until the browser is idle.
-          // It's only consumed by assistive tech and never visible — but rendering it inline
-          // adds ~__OCCUPATION_COUNT_SCORED__ DOM nodes that triple Style & Layout time on initial paint.
+          // Defer a capped screen-reader fallback list until the browser is idle.
+          // The full accessible list remains available on /map via its list-view toggle.
           const fb = document.getElementById("canvasFallback");
           if (fb) {
+            const SR_FALLBACK_LIMIT = 120;
             const renderFallback = () => {
-              fb.innerHTML = data.map(d =>
+              const rows = data.slice(0, SR_FALLBACK_LIMIT);
+              const total = data.length || homeOccupationCount();
+              const fullListLink = total > rows.length
+                ? `<li><a href="/map">全${total}職業をリスト表示で開く</a></li>`
+                : "";
+              fb.setAttribute(
+                "aria-label",
+                total > rows.length
+                  ? `職業一覧（主な${rows.length}件。全職業は職業マップのリスト表示で確認できます）`
+                  : "職業一覧",
+              );
+              fb.innerHTML = rows.map(d =>
                 `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${Number(d.ai_risk) || 0}/10</a></li>`
-              ).join("");
+              ).join("") + fullListLink;
             };
             if ("requestIdleCallback" in window) {
               requestIdleCallback(renderFallback, { timeout: 3000 });

@@ -124,6 +124,8 @@ TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データ�
 | アナリティクス | Cloudflare WA、GA4、Vercel WA、Vercel Speed Insights（[仕様](analytics/spec.yaml)） |
 | SEO | `robots.txt`、`sitemap.xml`、[`/llms.txt`](https://mirai-shigoto.com/llms.txt)、Schema.org 構造化データ |
 
+キャッシュポリシーは `vercel.json` で管理します。Astro が生成する fingerprint 付き静的アセット（`/_astro/*`）と将来のローカルフォント（`/fonts/*`）は `Cache-Control: public, max-age=31536000, immutable`、頻繁に更新される projection JSON / sitemap / robots / llms は短めの `max-age` + CDN `s-maxage` を明示します。
+
 ---
 
 ## 免責事項
