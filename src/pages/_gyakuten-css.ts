@@ -5,11 +5,7 @@
  * globally by canonical-css.ts; this file references those tokens and keeps
  * family accents scoped to page components.
  */
-import { CANONICAL_CSS } from '@/lib/canonical-css';
-
-const CANONICAL_TOKEN_SENTINEL = CANONICAL_CSS.includes('--content-max') ? '' : '';
-
-export const GYAKUTEN_CSS = `${CANONICAL_TOKEN_SENTINEL}
+export const GYAKUTEN_CSS = `
 *,*::before,*::after{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75}
 a{color:var(--accent-deep);text-decoration:none}

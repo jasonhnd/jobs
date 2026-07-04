@@ -8,11 +8,7 @@
  * canonical-css.ts; this file only references them and defines local
  * component custom properties under #wrapper.
  */
-import { CANONICAL_CSS } from '@/lib/canonical-css';
-
-const CANONICAL_TOKEN_SENTINEL = CANONICAL_CSS.includes('--content-max') ? '' : '';
-
-export const SHINDAN_CSS = `${CANONICAL_TOKEN_SENTINEL}
+export const SHINDAN_CSS = `
 *,*::before,*::after{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75}
 a{color:var(--accent-deep);text-decoration:none}
