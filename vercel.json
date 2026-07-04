@@ -20,15 +20,21 @@
       ]
     },
     {
-      "source": "/data.treemap.json",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600" }
-      ]
-    },
-    {
       "source": "/_astro/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/data.treemap.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600" }
       ]
     },
     {

@@ -48,25 +48,35 @@ const CONTENT_TYPES = {
   '.woff': 'font/woff',
 };
 
-// Mirror the global response headers Vercel applies (vercel.json → the
-// `headers` rule whose source is "/(.*)"), so header-level e2e assertions
-// (CSP allow-list, no unsafe-inline, etc.) see what production actually
-// serves. Plain http-server sent none of these, so those tests could never
-// pass locally.
-function loadVercelGlobalHeaders() {
+// Mirror the response headers Vercel applies from vercel.json, so
+// header-level e2e assertions (CSP allow-list, immutable asset cache policy,
+// etc.) see what production actually serves. Plain http-server sent none of
+// these, so those tests could never pass locally.
+function loadVercelHeaderRules() {
   try {
     const cfg = JSON.parse(fs.readFileSync(VERCEL_JSON, 'utf8'));
-    const rule = (cfg.headers || []).find((h) => h.source === '/(.*)');
-    const out = {};
-    if (rule && Array.isArray(rule.headers)) {
-      for (const { key, value } of rule.headers) out[key] = value;
-    }
-    return out;
+    return (cfg.headers || [])
+      .filter((rule) => typeof rule.source === 'string' && Array.isArray(rule.headers))
+      .map((rule) => ({
+        source: rule.source,
+        regex: new RegExp(`^${rule.source}$`),
+        headers: rule.headers,
+      }));
   } catch {
-    return {};
+    return [];
   }
 }
-const GLOBAL_HEADERS = loadVercelGlobalHeaders();
+const HEADER_RULES = loadVercelHeaderRules();
+
+function headersForRequest(rawPath) {
+  const { urlPath } = parseRequestUrl(rawPath);
+  const out = {};
+  for (const rule of HEADER_RULES) {
+    if (!rule.regex.test(urlPath)) continue;
+    for (const { key, value } of rule.headers) out[key] = value;
+  }
+  return out;
+}
 
 function escapeRegexChar(char) {
   return char.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
@@ -176,9 +186,10 @@ function resolveFile(rawPath) {
 }
 
 const server = http.createServer((req, res) => {
+  const responseHeaders = headersForRequest(req.url || '/');
   const redirect = resolveRedirect(req.url || '/');
   if (redirect) {
-    res.writeHead(redirect.statusCode, { Location: redirect.location, ...GLOBAL_HEADERS });
+    res.writeHead(redirect.statusCode, { Location: redirect.location, ...responseHeaders });
     res.end();
     return;
   }
@@ -188,17 +199,17 @@ const server = http.createServer((req, res) => {
   if (!file) {
     const notFoundPage = path.join(ROOT, '404.html');
     if (fs.existsSync(notFoundPage)) {
-      res.writeHead(404, { 'content-type': CONTENT_TYPES['.html'], ...GLOBAL_HEADERS });
+      res.writeHead(404, { 'content-type': CONTENT_TYPES['.html'], ...responseHeaders });
       fs.createReadStream(notFoundPage).pipe(res);
       return;
     }
-    res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' });
+    res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8', ...responseHeaders });
     res.end('Not found');
     return;
   }
 
   const type = CONTENT_TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream';
-  res.writeHead(200, { 'content-type': type, ...GLOBAL_HEADERS });
+  res.writeHead(200, { 'content-type': type, ...responseHeaders });
   fs.createReadStream(file).pipe(res);
 });
 
