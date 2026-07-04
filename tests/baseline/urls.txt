@@ -632,6 +632,7 @@
 /explore/compare
 /explore/find-your-fit
 /explore/methodology-trust
+/gyakuten
 /interests
 /interests/artistic
 /interests/conventional

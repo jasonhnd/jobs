@@ -155,6 +155,7 @@ export function buildSitemapEntries(
   // whenever an occupation's scores or salary updates.
   entries.push(entry(`${SITE_ORIGIN}/me`, lastmods.content, 'weekly', '0.7'));
   entries.push(entry(`${SITE_ORIGIN}/shindan`, lastmods.content, 'weekly', '0.7'));
+  entries.push(entry(`${SITE_ORIGIN}/gyakuten`, lastmods.content, 'weekly', '0.7'));
 
   // Legal / static pages
   entries.push(entry(`${SITE_ORIGIN}/privacy`, lastmods.privacy, 'yearly', '0.3'));

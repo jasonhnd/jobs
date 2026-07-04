@@ -12,6 +12,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Added
 
+- Added `/gyakuten`, the static AI働き方診断 front door and 図鑑: 8 work-type
+  family cards, 24 locked variant cards, family-level representative jobs and
+  rarity, family-level 相性, and `/shindan` CTAs. SEO baseline drift is
+  intentional because the route is now indexable and listed in the sitemap (#64).
 - Added a build-time AIOIS-10 movers block to `/rankings`, comparing the active
   Claude Fable 5 2026-06-13 batch against the comparable Claude Opus 4.8
   2026-05-30 baseline, plus `?me=<id>` self-highlighting for mover rows (#65).
