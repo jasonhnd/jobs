@@ -39,7 +39,6 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .verdict-copy{min-width:0}
     .verdict-kicker{margin:0 0 9px;font-size:0.72rem;line-height:1.2;color:var(--ink-3);font-weight:700;letter-spacing:0;text-transform:uppercase}
     .verdict-title-row{display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;margin:0 0 10px}
-    .worktype-code{display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:30px;padding:0 10px;border-radius:999px;background:var(--cream-2);border:1px solid var(--line-strong);color:var(--orange-hot);font-family:var(--font-sans);font-size:0.82rem;font-weight:900;letter-spacing:0}
     .verdict-card h2{font-family:var(--font-serif);font-size:1.42rem;line-height:1.2;margin:0;color:var(--ink);font-weight:800;letter-spacing:0}
     @media (min-width:900px){.verdict-card h2{font-size:1.9rem}}
     .verdict-lede{font-family:var(--font-serif);font-size:0.98rem;line-height:1.8;color:var(--ink);margin:0 0 16px}

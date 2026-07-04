@@ -27,7 +27,6 @@ import {
   FAMILIES,
   GAP,
   LABELS,
-  RARITY,
   SHARE,
   VARIANTS,
   VARIANT_IDS_BY_FAMILY,
@@ -86,27 +85,22 @@ export async function renderWorktypeOgCard(
   }
 
   const projection = worktypesParsed.data;
-  const familyCopy = FAMILIES[input.family];
   const variantCopy = resolveVariantCopy(input.family, input.variant);
   const visual = WORKTYPE_CARDS[input.family];
   const accent = visual.accent;
-  const rarityLabel = rarityCopy(projection, input.family);
-  const challengeHook = challengeCopy(input.family, input.variant);
+  const sharePrompt = SHARE.challengeHooks[0] ?? 'あなたの1枚もめくってみる?';
   const gapLine = input.gap ? GAP[input.gap].label : '';
   const jobContext = input.job ? await fetchJobContext(url, input.job, projection) : null;
   const contextLine = contextCopy(input.gap, gapLine, jobContext);
-  const featureLabel = `${LABELS.featureName} · ${input.family}`;
-  const familyLabel = `${familyCopy.name} (${input.family})`;
-  const introLabel = `${variantCopy.name}です`;
+  const featureLabel = LABELS.featureName;
+  const introLabel = variantCopy.name;
 
   const subsetText = [
     visual.glyphSet,
     featureLabel,
-    familyLabel,
     introLabel,
     variantCopy.catch,
-    rarityLabel,
-    challengeHook,
+    sharePrompt,
     contextLine,
     DISCLAIMER,
     FOOTER_LEFT,
@@ -125,23 +119,19 @@ export async function renderWorktypeOgCard(
     isSquare
       ? renderSquareCard({
           accent,
-          challengeHook,
           contextLine,
-          familyLabel,
           featureLabel,
           introLabel,
-          rarityLabel,
+          sharePrompt,
           variantCopy,
           visual,
         })
       : renderWideCard({
           accent,
-          challengeHook,
           contextLine,
-          familyLabel,
           featureLabel,
           introLabel,
-          rarityLabel,
+          sharePrompt,
           variantCopy,
           visual,
         }),
@@ -160,12 +150,10 @@ export async function renderWorktypeOgCard(
 
 interface CardLayoutData {
   readonly accent: string;
-  readonly challengeHook: string;
   readonly contextLine: string;
-  readonly familyLabel: string;
   readonly featureLabel: string;
   readonly introLabel: string;
-  readonly rarityLabel: string;
+  readonly sharePrompt: string;
   readonly variantCopy: WorktypeVariant;
   readonly visual: { readonly character: string; readonly accent: string; readonly glyphSet: string };
 }
@@ -202,21 +190,8 @@ function renderWideCard(data: CardLayoutData): ReactElement {
           {
             style: {
               display: 'flex',
-              color: COLORS.muted,
-              fontSize: '30px',
-              fontWeight: 800,
-              lineHeight: 1.2,
-            },
-          },
-          data.familyLabel,
-        ),
-        h(
-          'div',
-          {
-            style: {
-              display: 'flex',
               fontFamily: 'NotoSerifJP',
-              fontSize: '68px',
+              fontSize: '74px',
               fontWeight: 600,
               lineHeight: 1.12,
               color: COLORS.ink,
@@ -241,7 +216,6 @@ function renderWideCard(data: CardLayoutData): ReactElement {
         h(
           'div',
           { style: { display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' } },
-          chip(data.rarityLabel, data.accent),
           chip(SHARE.hashtag, COLORS.muted),
         ),
         data.contextLine ? contextPill(data.contextLine, data.accent) : null,
@@ -261,7 +235,7 @@ function renderWideCard(data: CardLayoutData): ReactElement {
       ),
     ),
     footer([
-      h('span', { style: { display: 'flex', color: data.accent, fontWeight: 800 } }, data.challengeHook),
+      h('span', { style: { display: 'flex', color: data.accent, fontWeight: 800 } }, data.sharePrompt),
       h('span', { style: { display: 'flex' } }, FOOTER_LEFT),
     ]),
   ]);
@@ -286,19 +260,6 @@ function renderSquareCard(data: CardLayoutData): ReactElement {
       },
       labelText(data.featureLabel, data.accent, 28),
       characterBlock(data.visual.character, data.accent, 330, 190),
-      h(
-        'div',
-        {
-          style: {
-            display: 'flex',
-            color: COLORS.muted,
-            fontSize: '30px',
-            fontWeight: 800,
-            lineHeight: 1.25,
-          },
-        },
-        data.familyLabel,
-      ),
       h(
         'div',
         {
@@ -330,7 +291,6 @@ function renderSquareCard(data: CardLayoutData): ReactElement {
       h(
         'div',
         { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' } },
-        chip(data.rarityLabel, data.accent),
         chip(SHARE.hashtag, COLORS.muted),
       ),
       data.contextLine ? contextPill(data.contextLine, data.accent) : null,
@@ -348,7 +308,7 @@ function renderSquareCard(data: CardLayoutData): ReactElement {
       ),
     ),
     footer([
-      h('span', { style: { display: 'flex', color: data.accent, fontWeight: 800 } }, data.challengeHook),
+      h('span', { style: { display: 'flex', color: data.accent, fontWeight: 800 } }, data.sharePrompt),
       h('span', { style: { display: 'flex' } }, FOOTER_LEFT),
     ]),
   ]);
@@ -447,17 +407,6 @@ function contextPill(text: string, accent: string): ReactElement {
 function resolveVariantCopy(family: FamilyCode, variant: WorktypeVariantId): WorktypeVariant {
   const variants = VARIANTS[family] as Record<string, WorktypeVariant>;
   return variants[variant] ?? variants[VARIANT_IDS_BY_FAMILY[family][0]!]!;
-}
-
-function rarityCopy(projection: WorktypesProjectionShape, family: FamilyCode): string {
-  const pct = projection.families[family]?.pct;
-  if (typeof pct !== 'number') return RARITY.pending;
-  return RARITY.familyTemplate.replace('{割合}', pct.toFixed(1));
-}
-
-function challengeCopy(family: FamilyCode, variant: WorktypeVariantId): string {
-  const index = (family.charCodeAt(0) + variant.length) % SHARE.challengeHooks.length;
-  return SHARE.challengeHooks[index] ?? SHARE.challengeHooks[0];
 }
 
 function contextCopy(gap: GapKind | undefined, gapLine: string, job: JobContext | null): string {

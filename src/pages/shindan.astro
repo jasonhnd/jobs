@@ -111,7 +111,7 @@ const jsonLd = safeJsonForScript({
         <p class="shindan-kicker">{LABELS.featureName}</p>
         <h1>AI時代の<span class="accent">働き方タイプ</span>を9問で見る</h1>
         <p class="shindan-lead">
-          仕事の好みを3軸で見て、8つの家族タイプと24のバリアントに分けます。結果は性格の固定判定ではなく、職業データを見に行くための入口です。
+          9問であなたの「働き方タイプ」が1枚に。AI時代、あなたの強みがいちばん活きる仕事はどこか、いっしょに見つけにいきましょう。
         </p>
       </div>
       <aside class="shindan-proof" aria-label="診断の前提">
@@ -177,12 +177,12 @@ const jsonLd = safeJsonForScript({
 
       <aside class="shindan-side" aria-label="診断の説明">
         <div class="shindan-side-note">
-          <strong>結果は家族 + バリアントです</strong>
-          家族タイプがデータの土台で、バリアントは9問の強弱から出る味付けです。代表職業と割合は家族タイプ単位で表示します。
+          <strong>結果はあなたの1枚です</strong>
+          名前とひと言で、いまの働き方の持ち味を見られます。近い職業も、そのまま比べられます。
         </div>
         <div class="shindan-side-note">
           <strong>AIで変わる仕事を、次の一手に変える</strong>
-          高い・低いの序列ではなく、AIに任せやすい部分と人が持つ価値を見分けるための診断です。
+          高い・低いの序列ではなく、AIに任せやすい部分と、あなたが残す価値を見つけるための診断です。
         </div>
       </aside>
     </div>
@@ -197,7 +197,6 @@ const jsonLd = safeJsonForScript({
               <span id="shindanVariantName"></span>
             </h2>
           </div>
-          <span class="shindan-code" id="shindanResultCode"></span>
         </div>
 
         <div class="shindan-result-body">
@@ -233,7 +232,6 @@ const jsonLd = safeJsonForScript({
                 <p class="shindan-result-label">{LABELS.gap}</p>
                 <h3 id="shindanGapHeading">気になる職業と比べる</h3>
               </div>
-              <span class="shindan-gap-code" id="shindanGapSelfCode"></span>
             </div>
 
             <form class="shindan-job-search" id="shindanGapForm" role="search" autocomplete="off">
@@ -267,7 +265,7 @@ const jsonLd = safeJsonForScript({
                 <span class="shindan-gap-badge" id="shindanGapBadge"></span>
               </div>
 
-              <div class="shindan-gap-meter" aria-label="家族コードのギャップ">
+              <div class="shindan-gap-meter" aria-label="働き方の近さ">
                 <div class="shindan-gap-meter-top">
                   <span id="shindanGapCodes"></span>
                   <span id="shindanGapMeterText"></span>
@@ -303,7 +301,7 @@ const jsonLd = safeJsonForScript({
           <a class="shindan-share-btn" data-platform="line" id="shindanShareLine" href="https://line.me/R/msg/text/" target="_blank" rel="noopener">LINEで送る</a>
           <button class="shindan-share-btn" data-platform="native" id="shindanShareNative" type="button" hidden>共有</button>
           <button class="shindan-share-btn" data-platform="copy" id="shindanShareCopy" type="button">{SHARE.copyLinkCta}</button>
-          <a class="shindan-og-link" id="shindanOgLink" href="/api/og?worktype=CPK&variant=mentor&gap=aligned" target="_blank" rel="noopener">カード画像を開く</a>
+          <a class="shindan-og-link" id="shindanOgLink" href="/api/og?page=shindan" target="_blank" rel="noopener">カード画像を開く</a>
           <span class="shindan-toast" id="shindanShareToast" aria-live="polite"></span>
         </div>
       </div>

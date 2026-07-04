@@ -49,14 +49,14 @@ export interface WorktypeCardConfig {
  * per-family visual accent needed by the OG renderer.
  */
 export const WORKTYPE_CARDS = {
-  CPB: { character: '創', accent: '#D96B3D', glyphSet: '創 CPB' },
-  CPK: { character: '共', accent: '#8D6E63', glyphSet: '共 CPK' },
-  CDB: { character: '造', accent: '#D4A749', glyphSet: '造 CDB' },
-  CDK: { character: '知', accent: '#4E8FA8', glyphSet: '知 CDK' },
-  RPB: { character: '支', accent: '#6E9B89', glyphSet: '支 RPB' },
-  RPK: { character: '段', accent: '#B26D3D', glyphSet: '段 RPK' },
-  RDB: { character: '流', accent: '#5F8F6B', glyphSet: '流 RDB' },
-  RDK: { character: '自', accent: '#7A6F5E', glyphSet: '自 RDK' },
+  CPB: { character: '創', accent: '#D96B3D', glyphSet: '創' },
+  CPK: { character: '共', accent: '#8D6E63', glyphSet: '共' },
+  CDB: { character: '造', accent: '#D4A749', glyphSet: '造' },
+  CDK: { character: '知', accent: '#4E8FA8', glyphSet: '知' },
+  RPB: { character: '支', accent: '#6E9B89', glyphSet: '支' },
+  RPK: { character: '段', accent: '#B26D3D', glyphSet: '段' },
+  RDB: { character: '流', accent: '#5F8F6B', glyphSet: '流' },
+  RDK: { character: '自', accent: '#7A6F5E', glyphSet: '自' },
 } as const satisfies Record<FamilyCode, WorktypeCardConfig>;
 
 /** Static page + tool variants — homepage, legal, hub indexes, yearly,
@@ -135,8 +135,8 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   'yearly-next-decade': { eyebrow: 'NEXT 10 YEARS',  title: '今後 10 年の職業展望',    subtitle: '2030 年代の予測' },
   explore:          { eyebrow: 'EXPLORE · 7 入口',   title: '探す方法',                subtitle: '7 つの入口から職業を整理' },
   me:               { eyebrow: 'ME · 自分の現在地',  title: '自分の現在地',            subtitle: '職業を入力 → 全 39 ランキングでの位置・業種内の類似職を瞬時に表示' },
-  shindan:          { eyebrow: 'AI働き方診断 · 9 QUESTIONS', title: 'AI時代の働き方タイプ診断', subtitle: '9問で家族タイプとバリアントを表示。結果はそのままシェアできます' },
-  gyakuten:         { eyebrow: 'AI働き方診断 · 図鑑', title: '8家族と24タイプを見る', subtitle: '家族タイプ、代表職業、未解放バリアントから診断へ進む入口' },
+  shindan:          { eyebrow: 'AI働き方診断 · 9問', title: 'AI時代の働き方タイプ診断', subtitle: '9問であなたの働き方タイプを表示。結果はそのままシェアできます' },
+  gyakuten:         { eyebrow: 'AI働き方診断 · 図鑑', title: '8家族と24タイプを見る', subtitle: '家族タイプ、代表職業、未解放タイプを見ながら、あなたの1枚を探せます' },
   aiadoption:       { eyebrow: 'AI ADOPTION · 世界の AI 利用率', title: '世界で AI を使う人は何人？', subtitle: '深く使う/有料/無料/端末でふれる/未利用の 5 層で世界人口を分解' },
 };
 
