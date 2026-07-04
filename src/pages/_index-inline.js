@@ -363,7 +363,7 @@
           const isDimmed = dimmedIds && !dimmedIds.has(r.id);
           // Hover/select indication is handled by the #tileHighlight overlay,
           // not by per-tile alpha differential — that way hover changes don't
-          // require redrawing all __OCCUPATION_COUNT_SCORED__ tiles. Keep theme- and dim-based alpha only.
+          // require redrawing all tiles. Keep theme- and dim-based alpha only.
           // Match /map's flat opaque tiles. Original had alpha 0.95/0.62 to
           // softly blend tiles into cream/dark canvas, but that diluted the
           // discrete palette into muddy mid-tones absent from /map.
