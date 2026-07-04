@@ -136,6 +136,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   explore:          { eyebrow: 'EXPLORE · 7 入口',   title: '探す方法',                subtitle: '7 つの入口から職業を整理' },
   me:               { eyebrow: 'ME · 自分の現在地',  title: '自分の現在地',            subtitle: '職業を入力 → 全 39 ランキングでの位置・業種内の類似職を瞬時に表示' },
   shindan:          { eyebrow: 'AI働き方診断 · 9 QUESTIONS', title: 'AI時代の働き方タイプ診断', subtitle: '9問で家族タイプとバリアントを表示。結果はそのままシェアできます' },
+  gyakuten:         { eyebrow: 'AI働き方診断 · 図鑑', title: '8家族と24タイプを見る', subtitle: '家族タイプ、代表職業、未解放バリアントから診断へ進む入口' },
   aiadoption:       { eyebrow: 'AI ADOPTION · 世界の AI 利用率', title: '世界で AI を使う人は何人？', subtitle: '深く使う/有料/無料/端末でふれる/未利用の 5 層で世界人口を分解' },
 };
 
