@@ -46,6 +46,18 @@
           </div>
         </section>
 
+        <section class="home-entry-band" aria-labelledby="home-entry-title">
+          <div class="home-entry-copy">
+            <p class="home-entry-kicker">AI働き方診断</p>
+            <h2 id="home-entry-title">あなたは、AIの時代に「どう働くタイプ」？</h2>
+            <p>9問・30秒。あなたの1枚を見つけて、同僚とめくり合おう。</p>
+          </div>
+          <div class="home-entry-actions">
+            <a class="home-entry-primary" href="/shindan">診断をはじめる <span aria-hidden="true">→</span></a>
+            <a class="home-entry-secondary" href="/gyakuten">図鑑を見る</a>
+          </div>
+        </section>
+
         <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now, refreshed to the active AIOIS-10 batch (claude-fable-5, 2026-06-13): __OCCUPATION_COUNT_SCORED__ occupations, 5,456 万 employed, mean Transformation 4.2, 76.4 兆 yen wages at impact ≥ 5. Distribution by nearest-integer bucket of ai_risk (round→{0–2}=1-2, {3,4}=3-4, {5,6}=5-6, {7,8}=7-8, {9,10}=9-10): 72 / 314 / 136 / 33 / 1 (total __OCCUPATION_COUNT_SCORED__). Percentages 13/56/24/6/1 sum to 100 (the single 9-10 occupation is shown as 1% for visibility). The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
         <!-- TODO(RA-145): wire __OCCUPATION_COUNT_SCORED__ / 5,456 / 76.4 + the distribution to OCCUPATION_COUNT.SCORED + a build-time aggregate over the active score batch (same placeholder-substitution pattern as the homepage JSON-LD in _index-bindings.ts), so these numbers follow score-batch upgrades automatically instead of being hand-updated. -->
         <section class="home-kpi-band" aria-label="日本の労働市場全体">
@@ -763,16 +775,12 @@
 
       <hr class="hub-section-divider" aria-hidden="true">
 
-      <!-- Home CTA row (2026-05-31): diagnosis entry + rankings tool + the
-           X-follow CTA sit side by side (stack on mobile). The old boxed
+      <!-- Home CTA row (2026-05-31): rankings tool + the X-follow CTA sit
+           side by side (stack on mobile). The old boxed
            data-attribution strip was removed — its 出典 / model attribution
            now lives once in the global footer (Footer.astro, data-driven via
            score-attribution). -->
       <div class="home-cta-row">
-        <aside class="me-cta-strip" aria-label="AI働き方診断">
-          <p><strong>AI時代、あなたはどう働くタイプ?</strong> 30秒で診断。結果カードを共有して、同僚や友人と働き方タイプを比べられます。</p>
-          <a href="/shindan">AI働き方診断をはじめる →</a>
-        </aside>
         <aside class="me-cta-strip" aria-label="自分の現在地ツール">
           <p>あなたの職業は、__OCCUPATION_COUNT_SCORED__ 職業の中でどこに立っていますか？<strong>39 ランキング</strong>での位置を一覧表示。</p>
           <a href="/me">自分の現在地を確認 →</a>
