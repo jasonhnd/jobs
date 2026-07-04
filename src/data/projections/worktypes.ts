@@ -57,14 +57,14 @@ const HIGH_TRANSFORMATION_WATCH_THRESHOLD = 7.0;
 const EPS = 1e-12;
 
 const FAMILY_IDS: Record<FamilyCode, string> = {
-  CPB: 'hands-on-creator',
-  CPK: 'empathy-strategist',
-  CDB: 'maker-designer',
-  CDK: 'ai-cocreation-pilot',
-  RPB: 'field-care-master',
-  RPK: 'workflow-coordinator',
-  RDB: 'field-flow-master',
-  RDK: 'ai-automator',
+  CPB: 'fureai-creator',
+  CPK: 'yorisoi-guide',
+  CDB: 'monozukuri-designer',
+  CDK: 'ai-ninin-sankyaku',
+  RPB: 'soba-supporter',
+  RPK: 'dantori-caretaker',
+  RDB: 'genba-runner',
+  RDK: 'tedobashi-jouzu',
 };
 
 const MARGIN_VALUES = ['2-1', '3-0'] as const;

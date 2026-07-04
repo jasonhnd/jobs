@@ -45,6 +45,7 @@ interface VariantView {
   readonly id: string;
   readonly name: string;
   readonly catch: string;
+  readonly lockLabel: string;
 }
 
 interface FamilyView {
@@ -69,6 +70,33 @@ const occupationsByFamily: Record<WorktypeFamilyCode, RepresentativeOccupation[]
   RDK: [],
 };
 
+const LOCKED_VARIANT_LABELS = [
+  '？ 診断でめくる',
+  'まだ見ぬ1枚',
+  '解放待ち',
+  'あなたの図鑑に眠る',
+  'めくるまで内緒',
+  '次のカード候補',
+  '未発見タイプ',
+  '診断後に開きます',
+  '白紙のカード',
+  'これから出会う1枚',
+  'ロック中',
+  '図鑑の奥に待機中',
+  '結果でひらく',
+  'まだ伏せ札',
+  '発見待ち',
+  'あなたの番を待つ',
+  'めくるチャンスあり',
+  '未解放の働き方',
+  '次に光るかも',
+  '診断で会いにいく',
+  '隠れカード',
+  'まだ物語の前',
+  '開封待ち',
+  '9問の先で解放',
+] as const;
+
 for (const [id, record] of Object.entries(worktypes.occupations)) {
   const row = treemapById.get(id);
   if (!row) continue;
@@ -82,6 +110,8 @@ for (const [id, record] of Object.entries(worktypes.occupations)) {
 for (const code of FAMILY_CODES) {
   occupationsByFamily[code].sort((a, b) => (b.workers ?? -1) - (a.workers ?? -1) || a.id - b.id);
 }
+
+let lockedLabelIndex = 0;
 
 const familyViews: FamilyView[] = FAMILY_CODES.map((code) => {
   const family = FAMILIES[code];
@@ -97,7 +127,9 @@ const familyViews: FamilyView[] = FAMILY_CODES.map((code) => {
     occupations: occupationsByFamily[code].slice(0, REPRESENTATIVE_OCCUPATION_COUNT),
     variants: VARIANT_IDS_BY_FAMILY[code].map((variantId) => {
       const variant = variantCopy[variantId]!;
-      return { id: variantId, name: variant.name, catch: variant.catch };
+      const lockLabel = LOCKED_VARIANT_LABELS[lockedLabelIndex % LOCKED_VARIANT_LABELS.length]!;
+      lockedLabelIndex += 1;
+      return { id: variantId, name: variant.name, catch: variant.catch, lockLabel };
     }),
   };
 });
@@ -194,7 +226,7 @@ const jsonLd = safeJsonForScript({
         <p class="gyakuten-kicker">AI働き方診断 図鑑</p>
         <h1>8つの家族と<span class="accent">24タイプ</span>から、自分の働き方を探す</h1>
         <p class="gyakuten-lead">
-          AI時代の働き方を、8つの家族タイプと24のバリアントで眺める入口です。家族タイプは職業データに基づく土台、バリアントは診断結果で開くコレクションです。
+          AI時代、人はどんな働き方に分かれるんだろう。8家族24タイプの図鑑です。あなたの1枚は、9問の診断でめくれます。
         </p>
         <div class="gyakuten-hero-actions">
           <a class="gyakuten-primary" href="/shindan">診断を受ける</a>
@@ -222,7 +254,6 @@ const jsonLd = safeJsonForScript({
                 <h3 id={`family-${family.code}`}>{family.name}</h3>
                 <p class="family-share">{family.share}</p>
               </div>
-              <span class="family-code">{family.code}</span>
             </div>
             <span class="family-rarity">{family.rarityText}</span>
             <dl class="family-copy-grid">
@@ -264,15 +295,15 @@ const jsonLd = safeJsonForScript({
           <section class="zukan-family" aria-labelledby={`zukan-${family.code}`}>
             <div class={`zukan-family-head family-${family.code.toLowerCase()}`}>
               <h3 id={`zukan-${family.code}`}>{family.name}</h3>
-              <p>{family.code} / {family.rarityText}</p>
+              <p>{family.rarityText}</p>
             </div>
             <div class="variant-grid">
               {family.variants.map((variant) => (
-                <article class={`variant-card family-${family.code.toLowerCase()}`} aria-label={`${variant.name} 未解放`}>
+                <article class={`variant-card family-${family.code.toLowerCase()}`} aria-label={`${variant.name} ${variant.lockLabel}`}>
                   <span class="variant-status">未解放</span>
                   <h4>{variant.name}</h4>
                   <p>{variant.catch}</p>
-                  <p class="variant-lock">まだあなたのものではない</p>
+                  <p class="variant-lock">{variant.lockLabel}</p>
                 </article>
               ))}
             </div>
@@ -284,7 +315,7 @@ const jsonLd = safeJsonForScript({
     <section class="gyakuten-section" aria-labelledby="pairsHeading">
       <div class="gyakuten-section-head">
         <h2 id="pairsHeading">家族単位の相性</h2>
-        <p>相性は家族単位の見方です。バリアントごとの優劣や統計ではなく、持ち味を並べて比べるための入口です。</p>
+        <p>相性は家族単位の見方です。バリアントごとの優劣や統計ではなく、持ち味を並べて比べるためのヒントとして読んでください。</p>
       </div>
       <div class="pair-grid">
         {pairViews.map((pair) => (
@@ -299,7 +330,7 @@ const jsonLd = safeJsonForScript({
     <section class="final-cta" aria-labelledby="ctaHeading">
       <div>
         <h2 id="ctaHeading">あなたの1タイプを開く</h2>
-        <p>図鑑の中で、どれが自分のタイプかは9問で確認できます。結果は家族タイプ、バリアント、代表職業、共有リンクまでブラウザだけで表示します。</p>
+        <p>図鑑の中で、あなたの1枚はどれでしょう。9問でめくって、近い仕事やシェア用のカードまで見にいきましょう。</p>
       </div>
       <a class="gyakuten-primary" href="/shindan">診断を受ける</a>
     </section>
