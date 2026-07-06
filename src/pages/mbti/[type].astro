@@ -1,0 +1,104 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { MBTI_PAGE_CSS } from '../_mbti-css';
+import { buildPhase1MbtiStaticPaths, type MbtiPageView } from '@/views/mbti-page';
+
+export async function getStaticPaths() {
+  const graph = await loadGraph();
+  return buildPhase1MbtiStaticPaths(graph);
+}
+
+const { page } = Astro.props as { page: MbtiPageView };
+const { content } = page;
+
+function formatScore(score: number | null): string {
+  if (score === null) return '—';
+  return score.toFixed(1).replace(/\.0$/, '');
+}
+---
+<BaseLayout
+  title={page.title}
+  description={page.description}
+  canonical={page.canonical}
+  ogTitle={page.title}
+  ogDescription={page.description}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={page.jsonLd} />
+  <style slot="head" set:html={MBTI_PAGE_CSS} />
+
+  <div class="mbti-page">
+    <nav class="mbti-crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">日本の職業 AI 影響マップ</a>
+      <span aria-hidden="true">›</span>
+      <span>MBTIタイプ x AI時代の働き方</span>
+      <span aria-hidden="true">›</span>
+      <span>{content.label}</span>
+    </nav>
+
+    <header class="mbti-hero">
+      <p class="mbti-kicker">MBTIタイプ x AI時代の働き方</p>
+      <div class="mbti-label-row">
+        <h1>{content.knownTypeFraming.h1Ja}</h1>
+        <span class="mbti-label">{content.commonNameJa}</span>
+      </div>
+      <p class="mbti-lead">{content.knownTypeFraming.introJa}</p>
+      <p class="mbti-guardrail">{content.knownTypeFraming.guardrailJa}</p>
+    </header>
+
+    <section class="mbti-section" aria-labelledby="mbtiEditorialHeading">
+      <div class="mbti-section-head">
+        <h2 id="mbtiEditorialHeading">{content.editorial.headingJa}</h2>
+      </div>
+      <div class="mbti-editorial">
+        {content.editorial.paragraphsJa.map((paragraph) => (
+          <article class="mbti-editorial-card">
+            <p>{paragraph}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="mbti-section" aria-labelledby="mbtiOccupationsHeading">
+      <div class="mbti-section-head">
+        <h2 id="mbtiOccupationsHeading">このタイプの関心と重なりやすい職業</h2>
+        <p>職業例はランキングや判定ではなく、仕事内容とAI影響度を見比べるための入口です。</p>
+      </div>
+      <div class="mbti-occupation-grid">
+        {page.occupations.map((occupation) => (
+          <article class="mbti-occupation">
+            <div class="mbti-occupation-head">
+              <div>
+                <h3 class="mbti-occupation-title">
+                  <a href={`/${occupation.id}`}>{occupation.nameJa}</a>
+                </h3>
+                {occupation.sectorJa && <span class="mbti-sector">{occupation.sectorJa}</span>}
+              </div>
+              <div class="mbti-score" aria-label={`AIOIS-10 変化指数 ${formatScore(occupation.transformation)} /10`}>
+                <span>変化の大きさ</span>
+                <strong>{formatScore(occupation.transformation)}<small>/10</small></strong>
+              </div>
+            </div>
+            <p class="mbti-card-reason">{occupation.reasonJa}</p>
+            <div class="mbti-card-meta" aria-label="AIOIS-10 指標">
+              <span class="mbti-chip">AIOIS-10 変化指数</span>
+              <span class="mbti-chip">仕事が減るリスク {formatScore(occupation.displacement)}/10</span>
+            </div>
+            <p class="mbti-caveat">{page.aioisCaveatJa}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="mbti-cta" aria-labelledby="mbtiCtaHeading">
+      <h2 id="mbtiCtaHeading">あなた自身の働き方タイプも見る</h2>
+      <p>MBTIは入口です。仕事で何を大事にしたいかは、9問の働き方診断で別の角度から見てみましょう。</p>
+      <a class="mbti-cta-link" href="/shindan">9問でAI時代の働き方タイプを見てみる</a>
+    </section>
+
+    <p class="mbti-page-guardrail">{page.pageGuardrailJa}</p>
+
+    <Footer />
+  </div>
+</BaseLayout>
