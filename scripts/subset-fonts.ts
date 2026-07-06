@@ -383,11 +383,9 @@ function writeFontStylesheet(assets: readonly FontAsset[]): FontStylesheet {
 }
 
 function writeFontManifest(assets: readonly FontAsset[], stylesheet: FontStylesheet): void {
-  writeFileSync(
-    join(FONTS_OUT_DIR, 'manifest.json'),
-    `${JSON.stringify({ generated_by: 'scripts/subset-fonts.ts', stylesheet, assets }, null, 2)}\n`,
-    'utf-8',
-  );
+  const json = `${JSON.stringify({ generated_by: 'scripts/subset-fonts.ts', stylesheet, assets }, null, 2)}\n`;
+  const hash = createHash('sha256').update(json).digest('hex').slice(0, 12);
+  writeFileSync(join(FONTS_OUT_DIR, `manifest.${hash}.json`), json, 'utf-8');
 }
 
 function fontFaceCss(assets: readonly FontAsset[]): string {
