@@ -18,7 +18,7 @@
         --accent-deep: #48705F;  /* sage deep — heading on warm */
         --border: rgba(36, 30, 24, 0.10);
         --shadow-card: 0 1px 0 rgba(36, 30, 24, 0.04), 0 8px 24px -12px rgba(36, 30, 24, 0.10);
-        --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+        --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
         --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
       }
       /* Both prefers-color-scheme variants and explicit data-theme overrides resolve to the same Direction C palette — single theme by design. */

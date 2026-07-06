@@ -83,7 +83,7 @@ export const CANONICAL_CSS = `
   --accent-2: #6E9B89;
   --accent-deep: #48705F;
   --border: rgba(36, 30, 24, 0.10);
-  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+  --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
   /* 第 3 層 — AI-impact (risk) color scale. SINGLE source for every surface
      (map tiles, sector nav, distribution bar, risk pills, search, OG cards,
@@ -271,7 +271,7 @@ html body h1,
 html body h2,
 html body h3,
 html body h4 {
-  font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+  font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   color: var(--fg);
   letter-spacing: -0.005em;
 }
@@ -598,7 +598,7 @@ html body nav.top-nav .top-nav-brand {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+  font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   font-weight: 600;
   font-size: 1rem;
   color: var(--fg);
@@ -698,7 +698,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+    font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
     font-size: 1rem;
     font-weight: 600;
     color: var(--fg);
@@ -807,7 +807,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     display: flex;
     align-items: center;
     gap: 9px;
-    font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif !important;
+    font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif !important;
     font-size: 1.05rem !important;
     font-weight: 700 !important;
     line-height: 1.35 !important;
