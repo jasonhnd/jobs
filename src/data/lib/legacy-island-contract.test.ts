@@ -15,7 +15,8 @@
  * real users at runtime.
  *
  * Contracts pinned:
- *   - /data.treemap.json  — fetched by map.astro AND index-source.html
+ *   - /data.treemap.json  — fetched by map.astro and the desktop homepage treemap
+ *   - /data.top10.json    — fetched by the mobile homepage TOP 10 carousel
  *   - /data.search.json   — fetched by map.astro for the search box
  *   - /data.sectors.json  — fetched by map.astro for the chip rail
  *
@@ -64,6 +65,22 @@ describe('legacy island runtime data contract', () => {
       // Sector fields are required for chip filtering (no null).
       assert.equal(typeof r.sector_id, 'string', `record[${idx}].sector_id is string`);
       assert.equal(typeof r.sector_ja, 'string', `record[${idx}].sector_ja is string`);
+    }
+  });
+
+  test('/data.top10.json — fields the mobile homepage TOP 10 carousel reads', () => {
+    const arr = loadJson<unknown[]>('data.top10.json');
+    assert.ok(Array.isArray(arr), 'top10.json must be an array');
+    assert.equal(arr.length, 10, `expected exactly 10 records (got ${arr.length})`);
+
+    for (const [idx, recAny] of arr.entries()) {
+      const r = recAny as Record<string, unknown>;
+      assert.equal(typeof r.id, 'number', `record[${idx}].id is number`);
+      assert.equal(typeof r.name_ja, 'string', `record[${idx}].name_ja is string`);
+      assert.ok(r.salary === null || typeof r.salary === 'number', `record[${idx}].salary null-or-number`);
+      assert.ok(r.workers === null || typeof r.workers === 'number', `record[${idx}].workers null-or-number`);
+      assert.equal(typeof r.ai_risk, 'number', `record[${idx}].ai_risk is number`);
+      assert.equal(typeof r.ai_rationale_ja, 'string', `record[${idx}].ai_rationale_ja is string`);
     }
   });
 
