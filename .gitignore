@@ -97,13 +97,3 @@ analytics/dashboards.md
 # Local-only preview / scratch HTML files. Names starting with `_` are draft.
 _*.html
 
-# docs/ — 2026-05-30: policy reverted to LOCAL-ONLY (user decision —
-# 開発ドキュメントは GitHub に上げない). Files stay on disk but are untracked
-# (`git rm -r --cached docs/` applied at the same commit).
-#
-# History of the back-and-forth:
-#   - 2026-05-13: docs/* local-only (WIP / 非公開ドラフト期).
-#   - 2026-05-14: flipped to git-sync ALL docs ("コードと等しい契約").
-#   - 2026-05-30: reverted to local-only — docs are not published to GitHub.
-docs/
-
