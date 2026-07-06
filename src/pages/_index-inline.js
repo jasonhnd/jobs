@@ -7,6 +7,8 @@
       let layer = "ai_risk";
       let palette = "redgreen"; // or "viridis"
       let data = [];
+      let searchData = [];
+      let searchDataPromise = null;
       let rects = [];
       let hovered = null;
       let searchQuery = "";
@@ -823,9 +825,12 @@
         });
         document.querySelectorAll("#layerToggle button").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        updateStats();
         updateDimensionHint();
-        drawGradientLegend(); draw();
+        if (data.length) {
+          updateStats();
+          drawGradientLegend();
+          draw();
+        }
         updateHash();
       });
 
@@ -842,7 +847,10 @@
           palette: palette,
           language: lang,
         });
-        drawGradientLegend(); draw();
+        if (data.length) {
+          drawGradientLegend();
+          draw();
+        }
       });
       // Restore palette preference
       try {
@@ -955,9 +963,54 @@
         "看護師": "看護師"
       };
 
+      function normalizeSearchDoc(rec) {
+        if (!rec) return null;
+        return {
+          id: rec.id,
+          name_ja: rec.name_ja || rec.title_ja || "",
+          name_en: rec.name_en || "",
+          aliases_ja: Array.isArray(rec.aliases_ja) ? rec.aliases_ja : [],
+          ai_risk: rec.ai_risk != null ? rec.ai_risk : null,
+          salary: rec.salary != null ? rec.salary : null,
+          workers: rec.workers != null ? rec.workers : null,
+        };
+      }
+
+      function searchRows() {
+        return searchData.length ? searchData : data;
+      }
+
+      function ensureSearchData() {
+        if (searchRows().length) return Promise.resolve(searchRows());
+        if (searchDataPromise) return searchDataPromise;
+        searchDataPromise = fetch("data.search.json", { credentials: "omit" })
+          .then(r => {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+          })
+          .then(payload => {
+            const docs = payload && Array.isArray(payload.documents) ? payload.documents : [];
+            searchData = docs.map(normalizeSearchDoc).filter(Boolean);
+            return searchData;
+          })
+          .catch(err => {
+            searchDataPromise = null;
+            throw err;
+          });
+        return searchDataPromise;
+      }
+
       function findJobByName(name) {
         if (!name) return null;
-        return data.find(d => (d.name_ja || "") === name || (d.name_en || "") === name) || null;
+        return searchRows().find(d =>
+          (d.name_ja || "") === name ||
+          (d.name_en || "") === name ||
+          (Array.isArray(d.aliases_ja) && d.aliases_ja.includes(name))
+        ) || null;
+      }
+
+      function findJobById(id) {
+        return searchRows().find(d => d.id === id) || null;
       }
 
       function navigateToJob(rec, source) {
@@ -978,10 +1031,12 @@
       // Within each tier sort by name length asc (shorter = more specific).
       function rankMatches(query, limit) {
         const q = (query || "").trim().toLowerCase();
-        if (!q || !data.length) return [];
-        const matches = data.filter(d =>
+        const rows = searchRows();
+        if (!q || !rows.length) return [];
+        const matches = rows.filter(d =>
           (d.name_ja || "").toLowerCase().includes(q) ||
-          (d.name_en || "").toLowerCase().includes(q)
+          (d.name_en || "").toLowerCase().includes(q) ||
+          (Array.isArray(d.aliases_ja) && d.aliases_ja.some(a => (a || "").toLowerCase().includes(q)))
         );
         matches.sort((a, b) => {
           const an = (a.name_ja || "").toLowerCase();
@@ -998,11 +1053,20 @@
       // Reads ?q=... from URL, then either:
       //   - exact name match → redirect to /<id> (best UX from Google search box)
       //   - partial match    → pre-fill all hero search inputs + trigger autocomplete
-      // Called from the data.treemap.json .then() so `data` is guaranteed populated.
+      // Loads the lightweight search projection on demand so the desktop treemap
+      // payload can stay deferred until the canvas is near the viewport.
       function handleSearchActionQuery() {
         const params = new URLSearchParams(window.location.search);
         const query = (params.get("q") || "").trim();
-        if (!query || !data.length) return;
+        if (!query) return;
+        if (!searchRows().length) {
+          ensureSearchData()
+            .then(handleSearchActionQuery)
+            .catch(err => {
+              if (typeof console !== "undefined") console.warn("[search] data.search.json failed:", err);
+            });
+          return;
+        }
 
         const matches = rankMatches(query, 5);
         if (matches.length > 0) {
@@ -1050,9 +1114,17 @@
 
       // Chip click — direct nav (covers BOTH desktop-hero-chips and mobile-hero-chips).
       document.querySelectorAll(".desktop-hero-chips button, .mobile-hero-chips button").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", async () => {
           const label = btn.dataset.chip || btn.textContent.trim();
           const targetName = CHIP_TO_JOB[label] || label;
+          try {
+            await ensureSearchData();
+          } catch (err) {
+            const nr = document.getElementById("searchNoResult");
+            if (nr) nr.classList.add("visible");
+            if (typeof console !== "undefined") console.warn("[search] data.search.json failed:", err);
+            return;
+          }
           let rec = findJobByName(targetName);
           if (!rec) {
             // Fallback: substring match → first ranked result.
@@ -1073,7 +1145,7 @@
       function wireSearchSubmit(formId, inputId) {
         const form = document.getElementById(formId);
         if (!form) return;
-        form.addEventListener("submit", (e) => {
+        form.addEventListener("submit", async (e) => {
           e.preventDefault();
           const inp = document.getElementById(inputId);
           const q = inp ? inp.value.trim() : "";
@@ -1082,6 +1154,13 @@
           // P0-A: form submit = clear navigate-intent, regardless of whether a
           // match exists. "Submitted but no match" is a real funnel step.
           fireSearchIntent("submit", q);
+          try {
+            await ensureSearchData();
+          } catch (err) {
+            if (noResultEl) noResultEl.classList.add("visible");
+            if (typeof console !== "undefined") console.warn("[search] data.search.json failed:", err);
+            return;
+          }
           const matches = rankMatches(q, 1);
           if (matches.length === 0) {
             if (noResultEl) noResultEl.classList.add("visible");
@@ -1175,6 +1254,18 @@
           try { inputEl.setAttribute("aria-expanded", open ? "true" : "false"); } catch (e) {}
         }
         function render(q) {
+          const rawQuery = q || "";
+          const trimmed = rawQuery.trim();
+          if (trimmed && !searchRows().length) {
+            ensureSearchData()
+              .then(() => {
+                if (inputEl.value.trim() === trimmed) render(inputEl.value);
+              })
+              .catch(err => {
+                if (typeof console !== "undefined") console.warn("[search] data.search.json failed:", err);
+              });
+            return;
+          }
           const matches = rankMatches(q, 8);
           if (matches.length === 0) {
             suggestEl.classList.remove("visible");
@@ -1255,7 +1346,7 @@
             // P0-B: focusedIdx now defaults to 0 on render(), so Enter works immediately.
             fireSearchIntent("submit", inputEl.value);
             const id = parseInt(items[focusedIdx].dataset.jobId, 10);
-            const rec = data.find(d => d.id === id);
+            const rec = findJobById(id);
             if (rec) navigateToJob(rec, "suggest_keyboard");
           } else if (e.key === "Escape") {
             suggestEl.classList.remove("visible");
@@ -1278,7 +1369,7 @@
           // P0-A: click/tap on a suggestion = strongest commit-intent signal.
           fireSearchIntent("click", inputEl.value);
           const id = parseInt(li.dataset.jobId, 10);
-          const rec = data.find(d => d.id === id);
+          const rec = findJobById(id);
           if (rec) navigateToJob(rec, "suggest_click");
         };
         suggestEl.addEventListener("mousedown", selectFromEvent);
@@ -1315,7 +1406,7 @@
           e.preventDefault();
           fireSearchIntent("click", inputEl.value);
           const id = parseInt(li.dataset.jobId, 10);
-          const rec = data.find(d => d.id === id);
+          const rec = findJobById(id);
           if (rec) navigateToJob(rec, "suggest_click");
         });
 
@@ -1614,16 +1705,13 @@
       }
 
       // v1.2.x: render mobile-only TOP 10 horizontal-swipe carousel.
-      // Pulls top-10 by ai_risk desc from the loaded `data` array (treemap projection).
+      // Uses the slim data.top10.json payload; the full treemap projection is
+      // desktop-only and loaded after the canvas approaches the viewport.
       // Visible only at ≤768px (CSS media query). v1.4.0: JA-only.
-      function renderMobileTop10() {
+      function renderMobileTop10(top10) {
         const track = document.getElementById("mTop10Track");
         const section = document.getElementById("mTop10");
-        if (!track || !section || !data.length) return;
-        const top10 = [...data]
-          .filter(d => d.ai_risk != null)
-          .sort((a, b) => b.ai_risk - a.ai_risk)
-          .slice(0, 10);
+        if (!track || !section || !Array.isArray(top10) || !top10.length) return;
         if (top10.length === 0) return;
         const tag = "大きく変わる仕事";
         const wLabel = "就業者";
@@ -1690,71 +1778,139 @@
         }
       }
 
-      fetch("data.treemap.json", { credentials: "omit" })
-        .then(r => {
-          if (!r.ok) throw new Error("HTTP " + r.status);
-          return r.json();
-        })
-        .then(d => {
-          data = d;
-          percentiles = computePercentiles(data);
-          const ls = document.getElementById("loadingState");
-          if (ls) ls.remove();
-          canvas.style.visibility = "visible";
-          // Defer a capped screen-reader fallback list until the browser is idle.
-          // The full accessible list remains available on /map via its list-view toggle.
-          const fb = document.getElementById("canvasFallback");
-          if (fb) {
-            const SR_FALLBACK_LIMIT = 120;
-            const renderFallback = () => {
-              const rows = data.slice(0, SR_FALLBACK_LIMIT);
-              const total = data.length || homeOccupationCount();
-              const fullListLink = total > rows.length
-                ? `<li><a href="/map">全${total}職業をリスト表示で開く</a></li>`
-                : "";
-              fb.setAttribute(
-                "aria-label",
-                total > rows.length
-                  ? `職業一覧（主な${rows.length}件。全職業は職業マップのリスト表示で確認できます）`
-                  : "職業一覧",
-              );
-              fb.innerHTML = rows.map(d =>
-                `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${Number(d.ai_risk) || 0}/10</a></li>`
-              ).join("") + fullListLink;
-            };
-            if ("requestIdleCallback" in window) {
-              requestIdleCallback(renderFallback, { timeout: 3000 });
-            } else {
-              setTimeout(renderFallback, 1500);
-            }
+      function isDesktopTreemapViewport() {
+        return window.matchMedia("(min-width: 769px)").matches;
+      }
+
+      let desktopTreemapLoadPromise = null;
+      let desktopTreemapObserver = null;
+      let mobileTop10LoadPromise = null;
+
+      function finishDesktopTreemapLoad(rows) {
+        data = Array.isArray(rows) ? rows : [];
+        percentiles = computePercentiles(data);
+        const ls = document.getElementById("loadingState");
+        if (ls) ls.remove();
+        canvas.style.visibility = "visible";
+        // Defer a capped screen-reader fallback list until the browser is idle.
+        // The full accessible list remains available on /map via its list-view toggle.
+        const fb = document.getElementById("canvasFallback");
+        if (fb) {
+          const SR_FALLBACK_LIMIT = 120;
+          const renderFallback = () => {
+            const rows = data.slice(0, SR_FALLBACK_LIMIT);
+            const total = data.length || homeOccupationCount();
+            const fullListLink = total > rows.length
+              ? `<li><a href="/map">全${total}職業をリスト表示で開く</a></li>`
+              : "";
+            fb.setAttribute(
+              "aria-label",
+              total > rows.length
+                ? `職業一覧（主な${rows.length}件。全職業は職業マップのリスト表示で確認できます）`
+                : "職業一覧",
+            );
+            fb.innerHTML = rows.map(d =>
+              `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${Number(d.ai_risk) || 0}/10</a></li>`
+            ).join("") + fullListLink;
+          };
+          if ("requestIdleCallback" in window) {
+            requestIdleCallback(renderFallback, { timeout: 3000 });
+          } else {
+            setTimeout(renderFallback, 1500);
           }
-          // v1.4.0: site is JA-only. Initial render uses the JA strings already
-          // baked into the markup; no language toggle needed.
-          updateStats();
-          updateDimensionHint();
-          drawGradientLegend();
-          resize();
-          renderMobileTop10();   // v1.2.x: TOP 10 carousel (mobile only via CSS @media)
-          // Apply hash deep-link if present
-          if (location.hash) setTimeout(applyHash, 50);
-          // Schema.org SearchAction — handle ?q=... from sitelinks search box,
-          // social shares, or direct URL access. Runs after data is loaded so
-          // exact-match redirect can resolve immediately.
-          handleSearchActionQuery();
-          // GA4 map_loaded — typed signal that initial render finished. Lets
-          // dashboards split sessions by device + occupation count without
-          // relying on auto page_view (which fires before data.json arrives).
-          if (window.gtag) {
-            const _vw = window.innerWidth;
-            const _device = _vw < 768 ? "mobile" : (_vw < 1024 ? "tablet" : "desktop");
-            gtag("event", "map_loaded", {
-              language: "ja",
-              device_category: _device,
-              tile_count: data.length,
-            });
+        }
+        // v1.4.0: site is JA-only. Initial render uses the JA strings already
+        // baked into the markup; no language toggle needed.
+        updateStats();
+        updateDimensionHint();
+        drawGradientLegend();
+        resize();
+        // Apply hash deep-link if present
+        if (location.hash) setTimeout(applyHash, 50);
+        // GA4 map_loaded — typed signal that initial render finished. Lets
+        // dashboards split sessions by device + occupation count without
+        // relying on auto page_view (which fires before data.json arrives).
+        if (window.gtag) {
+          const _vw = window.innerWidth;
+          const _device = _vw < 768 ? "mobile" : (_vw < 1024 ? "tablet" : "desktop");
+          gtag("event", "map_loaded", {
+            language: "ja",
+            device_category: _device,
+            tile_count: data.length,
+          });
+        }
+      }
+
+      function loadDesktopTreemap() {
+        if (!isDesktopTreemapViewport()) return null;
+        if (desktopTreemapLoadPromise) return desktopTreemapLoadPromise;
+        desktopTreemapLoadPromise = fetch("data.treemap.json", { credentials: "omit" })
+          .then(r => {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+          })
+          .then(finishDesktopTreemapLoad)
+          .catch(err => {
+            desktopTreemapLoadPromise = null;
+            showError(err);
+          });
+        return desktopTreemapLoadPromise;
+      }
+
+      function observeDesktopTreemap() {
+        if (!isDesktopTreemapViewport() || desktopTreemapLoadPromise || desktopTreemapObserver) return;
+        const start = () => {
+          if (desktopTreemapObserver) {
+            desktopTreemapObserver.disconnect();
+            desktopTreemapObserver = null;
           }
-        })
-        .catch(showError);
+          loadDesktopTreemap();
+        };
+        if (!("IntersectionObserver" in window)) {
+          start();
+          return;
+        }
+        desktopTreemapObserver = new IntersectionObserver(entries => {
+          if (entries.some(entry => entry.isIntersecting)) start();
+        }, { rootMargin: "160px 0px", threshold: 0.01 });
+        desktopTreemapObserver.observe(canvas);
+      }
+
+      function loadMobileTop10() {
+        if (isDesktopTreemapViewport()) return null;
+        if (mobileTop10LoadPromise) return mobileTop10LoadPromise;
+        mobileTop10LoadPromise = fetch("data.top10.json", { credentials: "omit" })
+          .then(r => {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+          })
+          .then(renderMobileTop10)
+          .catch(err => {
+            mobileTop10LoadPromise = null;
+            if (typeof console !== "undefined") console.warn("[top10] data.top10.json failed:", err);
+          });
+        return mobileTop10LoadPromise;
+      }
+
+      const treemapViewportMq = window.matchMedia("(min-width: 769px)");
+      if (isDesktopTreemapViewport()) observeDesktopTreemap();
+      else loadMobileTop10();
+      if (treemapViewportMq.addEventListener) {
+        treemapViewportMq.addEventListener("change", event => {
+          if (event.matches) observeDesktopTreemap();
+          else loadMobileTop10();
+        });
+      } else if (treemapViewportMq.addListener) {
+        treemapViewportMq.addListener(event => {
+          if (event.matches) observeDesktopTreemap();
+          else loadMobileTop10();
+        });
+      }
+
+      // Schema.org SearchAction — handle ?q=... from sitelinks search box,
+      // social shares, or direct URL access. Uses data.search.json on demand
+      // instead of forcing the full treemap projection onto the critical path.
+      handleSearchActionQuery();
 
       // ---- Theme toggle (light/dark) ----
       (function themeToggle() {

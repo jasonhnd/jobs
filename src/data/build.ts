@@ -246,7 +246,7 @@ async function main(): Promise<void> {
 
     runs.push(await runProjection('treemap', async () => {
       const r = await buildTreemap(indexes, STAGE_DIST);
-      return { files: r.files, summary: `rows=${r.rows}` };
+      return { files: r.files, summary: `rows=${r.rows} top10=${r.top10Rows}` };
     }));
 
     runs.push(await runProjection('ai-adoption', async () => {

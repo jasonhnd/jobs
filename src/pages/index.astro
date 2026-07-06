@@ -17,10 +17,12 @@
  *     treemap canvas / hub sections.
  *   - The JSON-LD `@graph` schema in `_index-json-ld.json` (Organization +
  *     WebSite + Dataset + ItemList + FAQPage).
- *   - The hashed deferred JS asset from `_index-inline.js` (treemap canvas,
- *     tooltip, mobile drawer toggle, I18N, share-button wiring).
- *   - The home-only `<link rel="preload" href="/data.treemap.json">` so
- *     the treemap canvas can render at LCP.
+ *   - The hashed deferred JS asset from `_index-inline.js` (desktop treemap
+ *     canvas, mobile TOP 10 carousel, tooltip, mobile drawer toggle, I18N,
+ *     share-button wiring).
+ *   - No home-only preload for `/data.treemap.json`; `_index-inline.js`
+ *     fetches/parses/draws the full treemap only after the desktop canvas
+ *     approaches the viewport.
  *   - Extended OG image meta (`og:image:type`, `og:image:alt`,
  *     `twitter:image:alt`) that BaseLayout's prop-driven block doesn't
  *     emit by default.
@@ -51,12 +53,6 @@ const OG_IMAGE_ALT = `未来の仕事 — AIの時代でも、あなたらしい
   ogImage={OG_IMAGE}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={HOME_JSON_LD} />
-
-  {/* Home-specific head additions. Desktop preloads /data.treemap.json so
-      the canvas can render at LCP; mobile (≤768px) shows a static preview
-      card instead (Design-Mobile.md §4.2) — gated via the media query so
-      the 80 KB+ fetch doesn't happen on viewports that won't use it. */}
-  <link rel="preload" href="/data.treemap.json" as="fetch" crossorigin="anonymous" media="(min-width: 769px)" slot="head" />
 
   {/* Extended OG image meta — BaseLayout emits og:image + og:image:width/height
       but not these extras. */}
