@@ -602,6 +602,7 @@ data.skills/technology_design.json
 data.skills/time_management.json
 data.skills/troubleshooting.json
 data.skills/writing.json
+data.top10.json
 data.transfer_paths.json
 data.treemap.json
 data.treemap.meta.json

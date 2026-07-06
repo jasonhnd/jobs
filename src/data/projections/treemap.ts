@@ -2,10 +2,12 @@
  * data.treemap.json projection — per docs/DATA_ARCHITECTURE.md §6.1.
  *
  * Status: Implemented
- * Consumer: index.html (desktop + mobile treemap canvas + per-tile tooltip),
- *           mobile-web ② 職業マップ + ⑦ ランキング (sector grouping + bands).
- * Shape:    array of objects (one per occupation) — top-level array for drop-in
- *           compatibility with legacy data.json.
+ * Consumer: homepage desktop treemap canvas + per-tile tooltip, homepage
+ *           mobile TOP 10 via data.top10.json, mobile-web ② 職業マップ
+ *           + ⑦ ランキング (sector grouping + bands).
+ * Shape:    data.treemap.json is an array of objects (one per occupation) for
+ *           legacy data.json compatibility. data.top10.json is a 10-row subset
+ *           with only the mobile carousel fields.
  *
  * Filtering:
  *   Emit only occupations that have BOTH stats_legacy and a latest AI score.
@@ -29,6 +31,39 @@ import {
 export interface TreemapBuildResult {
   files: string[];
   rows: number;
+  top10Rows: number;
+}
+
+interface TreemapRecord {
+  id: number;
+  name_ja: string;
+  salary: number | null;
+  workers: number | null;
+  hours: number | null;
+  age: number | null;
+  recruit_wage: number | null;
+  recruit_ratio: number | null;
+  hourly_wage: null;
+  ai_risk: number | null;
+  ai_rationale_ja: string;
+  education_pct: Record<string, number> | null;
+  employment_type: Record<string, number> | null;
+  sector_id: string | null;
+  sector_ja: string | null;
+  hue: string | null;
+  risk_band: string | null;
+  workforce_band: string | null;
+  demand_band: string | null;
+  url: string;
+}
+
+interface Top10Record {
+  id: number;
+  name_ja: string;
+  salary: number | null;
+  workers: number | null;
+  ai_risk: number | null;
+  ai_rationale_ja: string;
 }
 
 /** Convert {en_key: 0.0-1.0} → {ja_key: 0-100}, dropping keys not in mapping. */
@@ -53,7 +88,7 @@ export async function buildTreemap(
   const sectorById = new Map<string, (typeof indexes.sectors)[number]>();
   for (const s of indexes.sectors) sectorById.set(s.id, s);
 
-  const records: unknown[] = [];
+  const records: TreemapRecord[] = [];
   const sortedIds = [...indexes.occById.keys()].sort((a, b) => a - b);
 
   for (const occId of sortedIds) {
@@ -107,11 +142,35 @@ export async function buildTreemap(
     'utf-8',
   );
 
+  const top10 = records
+    .filter((rec) => rec.ai_risk != null)
+    .sort((a, b) => {
+      const riskDiff = (b.ai_risk ?? -Infinity) - (a.ai_risk ?? -Infinity);
+      return riskDiff !== 0 ? riskDiff : a.id - b.id;
+    })
+    .slice(0, 10)
+    .map((rec): Top10Record => ({
+      id: rec.id,
+      name_ja: rec.name_ja,
+      salary: rec.salary,
+      workers: rec.workers,
+      ai_risk: rec.ai_risk,
+      ai_rationale_ja: rec.ai_rationale_ja,
+    }));
+
+  const top10Path = join(distRoot, 'data.top10.json');
+  await writeFile(
+    top10Path,
+    JSON.stringify(top10) + '\n',
+    'utf-8',
+  );
+
   const metaPath = join(distRoot, 'data.treemap.meta.json');
   const meta = {
     schema_version: '2.0',
     generated_at: nowIso(),
     record_count: records.length,
+    top10_count: top10.length,
     filter: 'occupations with stats_legacy AND latest ai score',
   };
   await writeFile(
@@ -120,5 +179,5 @@ export async function buildTreemap(
     'utf-8',
   );
 
-  return { files: [dataPath, metaPath], rows: records.length };
+  return { files: [dataPath, top10Path, metaPath], rows: records.length, top10Rows: top10.length };
 }

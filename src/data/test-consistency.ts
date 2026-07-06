@@ -72,6 +72,7 @@ async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void
   // step itself does not currently detect.
   const requiredFiles = [
     'data.treemap.json',
+    'data.top10.json',
     'data.treemap.meta.json',
     'data.search.json',
     'data.sectors.json',
@@ -270,6 +271,72 @@ async function checkTreemap(distRoot: string, r: Report): Promise<unknown[]> {
     }
   }
   return data;
+}
+
+async function checkTop10(
+  distRoot: string,
+  treemapRecords: unknown[],
+  r: Report,
+): Promise<void> {
+  const f = join(distRoot, 'data.top10.json');
+  if (!existsSync(f)) return;
+
+  let data: unknown;
+  try {
+    data = await loadJson(f);
+  } catch (err) {
+    r.fail(`data.top10.json is invalid JSON: ${(err as Error).message}`);
+    return;
+  }
+
+  if (!Array.isArray(data)) {
+    r.fail(`data.top10.json must be a top-level array (got ${typeof data})`);
+    return;
+  }
+  if (data.length !== 10) {
+    r.fail(`data.top10.json must contain exactly 10 records (got ${data.length})`);
+  }
+
+  const expectedIds = treemapRecords
+    .map((rec) => rec as Record<string, unknown>)
+    .filter((rec) => typeof rec.ai_risk === 'number')
+    .sort((a, b) => {
+      const riskDiff = (b.ai_risk as number) - (a.ai_risk as number);
+      return riskDiff !== 0 ? riskDiff : (a.id as number) - (b.id as number);
+    })
+    .slice(0, 10)
+    .map((rec) => rec.id as number);
+
+  const seenIds = new Set<number>();
+  const actualIds: number[] = [];
+  const requiredKeys = ['id', 'name_ja', 'salary', 'workers', 'ai_risk', 'ai_rationale_ja'];
+  for (let i = 0; i < data.length; i += 1) {
+    const rec = data[i] as Record<string, unknown>;
+    if (!rec || typeof rec !== 'object') {
+      r.fail(`top10[${i}] is not an object`);
+      continue;
+    }
+    for (const k of requiredKeys) {
+      if (!(k in rec)) r.fail(`top10[${i}] missing required key: ${k}`);
+    }
+    if (typeof rec.id !== 'number') r.fail(`top10[${i}].id is not a number`);
+    if (typeof rec.name_ja !== 'string' || rec.name_ja.length === 0) {
+      r.fail(`top10[${i}].name_ja empty/non-string`);
+    }
+    if (rec.ai_risk == null || typeof rec.ai_risk !== 'number') {
+      r.fail(`top10[${i}].ai_risk must be a number`);
+    }
+    if (typeof rec.id === 'number') {
+      if (seenIds.has(rec.id)) r.fail(`duplicate id in top10: ${rec.id}`);
+      seenIds.add(rec.id);
+      actualIds.push(rec.id);
+    }
+  }
+
+  if (expectedIds.length === 10 && actualIds.join(',') !== expectedIds.join(',')) {
+    r.fail(`data.top10.json ids ${actualIds.join(',')} != treemap top10 ${expectedIds.join(',')}`);
+  }
+  r.note(`top10: ${data.length} records`);
 }
 
 async function checkSearch(distRoot: string, r: Report, expectedCount: number): Promise<void> {
@@ -515,6 +582,7 @@ async function main(): Promise<void> {
 
   await checkPlannedFilesExist(distRoot, r);
   const treemapRecords = await checkTreemap(distRoot, r);
+  await checkTop10(distRoot, treemapRecords, r);
 
   // Source occupation count
   const occDir = join(REPO, 'data', 'occupations');

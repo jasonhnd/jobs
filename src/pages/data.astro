@@ -14,7 +14,7 @@ import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 import { OCCUPATION_COUNT } from '@/site/config';
 
-const pageLastUpdated = '2026-06-05';
+const pageLastUpdated = '2026-07-06';
 const SITE = 'https://mirai-shigoto.com';
 
 interface Endpoint {
@@ -24,6 +24,7 @@ interface Endpoint {
 }
 const ENDPOINTS: Endpoint[] = [
   { path: '/data.treemap.json', desc: `${OCCUPATION_COUNT.SCORED} 職業の AIOIS-10 スコア・ラベル・treemap グリッド（主要データ）`, shape: 'JSON' },
+  { path: '/data.top10.json', desc: 'ホーム画面モバイル TOP 10 用の軽量 AI 影響度ランキング', shape: 'JSON' },
   { path: '/data.treemap.meta.json', desc: '上記のメタ情報（件数・生成日）', shape: 'JSON' },
   { path: '/data.detail/{id}.json', desc: '1 職業の全詳細（id は 4 桁ゼロ埋め、例 /data.detail/0156.json）', shape: `JSON × ${OCCUPATION_COUNT.SCORED}` },
   { path: '/data.search.json', desc: '全文検索インデックス（名称・別名・説明をトークン化）', shape: 'JSON' },
