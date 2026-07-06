@@ -109,7 +109,9 @@ Karpathy の「政府職業データ × LLM スコア」という構造は継承
 
 ## ビルドパイプライン
 
-TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データを取り込み、Claude Fable 5 が AIOIS-10 で生成した AI 影響度 / 仕事が減るリスクと結合し、Zod スキーマ（`src/data/schema/*.ts`）で検証した上で、`dist/` 配下に 12 個の projection family を書き出します。続いて Astro が `src/pages/` を静的レンダリングし、結果の `dist-astro/` を Vercel がデプロイします。パイプライン全体は `bun run build`（= `bun run build:data && astro build`）で実行できます。
+TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データを取り込み、Claude Fable 5 が AIOIS-10 で生成した AI 影響度 / 仕事が減るリスクと結合し、Zod スキーマ（`src/data/schema/*.ts`）で検証した上で、`dist/` 配下に 12 個の projection family を書き出します。続いて Astro が `src/pages/` を静的レンダリングし、結果の `dist-astro/` を Vercel がデプロイします。パイプライン全体は `bun run build` で実行できます。
+
+フォントは Google Fonts から実行時に読み込まず、`assets/fonts-src/` に vendoring した Noto Serif JP / Plus Jakarta Sans の TTF を元にします。`astro build` 後に `scripts/subset-fonts.ts` が `dist-astro/**/*.html` の表示テキストを走査し、必要な glyph だけを content-hashed WOFF2 と `@font-face` CSS として `dist-astro/fonts/` に出力します。見出しは Noto Serif JP を優先し、subset にない文字は Hiragino / Yu Mincho に per-glyph fallback します。
 
 ---
 
@@ -124,7 +126,7 @@ TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データ�
 | アナリティクス | Cloudflare WA、GA4、Vercel WA、Vercel Speed Insights（[仕様](analytics/spec.yaml)） |
 | SEO | `robots.txt`、`sitemap.xml`、[`/llms.txt`](https://mirai-shigoto.com/llms.txt)、Schema.org 構造化データ |
 
-キャッシュポリシーは `vercel.json` で管理します。Astro が生成する fingerprint 付き静的アセット（`/_astro/*`）と将来のローカルフォント（`/fonts/*`）は `Cache-Control: public, max-age=31536000, immutable`、頻繁に更新される projection JSON / sitemap / robots / llms は短めの `max-age` + CDN `s-maxage` を明示します。
+キャッシュポリシーは `vercel.json` で管理します。Astro が生成する fingerprint 付き静的アセット（`/_astro/*`）と build-time subset フォント（`/fonts/*`）は `Cache-Control: public, max-age=31536000, immutable`、頻繁に更新される projection JSON / sitemap / robots / llms は短めの `max-age` + CDN `s-maxage` を明示します。
 
 ---
 
@@ -151,6 +153,7 @@ jobs/
 │   ├── data/               # TypeScript ETL（build.ts + projections + schemas）
 │   └── lib/                # サイト全体のユーティリティ（canonical-css など）
 ├── api/                    # Vercel Edge Function（OG 画像、登録、フィードバック）
+├── assets/fonts-src/       # OFL font sources used by build-time WOFF2 subsetting
 ├── analytics/              # GA4 計測スペック + 同期スクリプト
 ├── data/                   # ソースデータ（職業別 JSON、スコア、ラベル、セクター）
 ├── dist/                   # ビルド済み projection + SEO 静的（Astro publicDir）
@@ -210,6 +213,8 @@ GitHub Issues と Pull Request を歓迎します：
 [MIT](LICENSE) © 2026 mirai-shigoto.com
 
 MIT ライセンスは本リポジトリ内のソースコードに適用されます。土台となる厚労省 job tag のデータは厚生労働省が独自の利用条件で公開しています — 一次データの利用条件は <https://shigoto.mhlw.go.jp/User/> をご確認ください。
+
+`assets/fonts-src/` に vendoring している Noto Serif JP と Plus Jakarta Sans、および build 時に生成される WOFF2 subset は SIL Open Font License 1.1 で配布されます。各 family の `OFL.txt` を source TTF と一緒に保持してください。
 
 ---
 

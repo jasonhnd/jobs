@@ -19,3 +19,10 @@
 - 仕様や受け入れ条件が未確定のまま実装しない。まず GitHub Issue に目的、範囲、文書影響、検証方法を書く。
 - `CHANGELOG.md` はリリース履歴。設計判断や運用手順の本文は `docs/` に置き、CHANGELOG から参照する。
 - 古いファイル名を参照するコードコメントが多いため、`DATA_ARCHITECTURE.md` と `architecture.md` は互換入口として維持する。
+
+## フォントパイプライン
+
+- Source fonts live under `assets/fonts-src/` with each upstream `OFL.txt`.
+- `bun run build` runs `astro build`, then `scripts/subset-fonts.ts`, then the rendered-output gates and CSP hash rewrite.
+- The subsetter scans `dist-astro/**/*.html`, emits content-hashed WOFF2 files plus `@font-face` CSS under `dist-astro/fonts/`, and replaces the `<!-- self-hosted-font-assets -->` marker in `BaseLayout.astro` output with the preload and stylesheet links.
+- Do not commit generated `dist-astro/fonts/*`; the immutable `/fonts/(.*)` cache header in `vercel.json` relies on content hashes.
