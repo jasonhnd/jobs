@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-07-04T13:22:48.379Z",
-  "gitCommit": "be1bc3b9e99631735c420e2c266add358bb534ca",
-  "gitBranch": "loop/issue-103",
-  "distFileCount": 827,
-  "urlCount": 827,
+  "capturedAt": "2026-07-06T04:30:56.842Z",
+  "gitCommit": "b6162f8c00101130bcbc9db32f2bf0e7bc22b50c",
+  "gitBranch": "loop/issue-109",
+  "distFileCount": 832,
+  "urlCount": 832,
   "dataFileCount": 608,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }
