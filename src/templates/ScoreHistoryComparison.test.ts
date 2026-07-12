@@ -38,6 +38,7 @@ describe('renderScoreHistoryComparison', () => {
     const html = renderScoreHistoryComparison([threeRuns[2]!, threeRuns[0]!, threeRuns[1]!]);
 
     assert.ok(html.includes('AI 影響スコアの履歴'));
+    assert.ok(html.includes('<a href="/models">モデル比較を見る</a>'));
     assert.ok(html.includes('2026年4月25日'));
     assert.ok(html.includes('2026年5月30日'));
     assert.ok(html.includes('2026年6月13日'));

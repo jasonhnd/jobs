@@ -90,8 +90,7 @@ export function renderScoreHistoryComparison(
     `<section class="score-history" aria-labelledby="score-history-h2">` +
     `<h2 id="score-history-h2">${escapeHtml(H2)}</h2>` +
     `<p class="score-history-note">AI 影響スコアは、異なるAIモデルが異なる日付で同じ基準にもとづき評価した結果です。` +
-    // TODO(#121): /models が入ったら、このリンク先を /models に切り替える。
-    `<a href="/methodology">調べ方を見る</a></p>` +
+    `<a href="/models">モデル比較を見る</a></p>` +
     `<div class="score-history-table-wrap" tabindex="0" aria-label="スコア履歴の表を横にスクロール">` +
     `<table class="score-history-table">` +
     `<thead><tr><th scope="col">モデル</th><th scope="col">採点日</th><th scope="col">変化の大きさ</th><th scope="col">現行との差</th></tr></thead>` +
