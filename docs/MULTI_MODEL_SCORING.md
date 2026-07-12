@@ -77,7 +77,7 @@ GPT データが無くても既存 3 バッチ（opus-4-7 / opus-4-8 / fable-5�
 
 ### 2c-deep. `/models` deep-dive addendum
 
-目的は「モデル差を読める材料」を増やすことであり、スコア選択や正典化の規則は変えない。`pickLatestScore` は引き続き最新 `run_date` 規則のまま、`score_history` projection は引き続き `rationale_ja` を持たない。UI copy は既存 `/models` と同じく日本語のみ。
+目的は「モデル差を読める材料」を増やすことであり、スコア選択や正典化の規則は変えない。`pickLatestScore` は引き続き最新 `run_date` 規則のまま、`score_history` projection は引き続き `rationale_ja` を持たない。UI copy は既存 `/models` と同じく日本語のみ。`/models` は職業 detail page と揃えるため user-facing label set を使い、formal standard names は `/standard` のみに置く。
 
 #### 1. Per-dimension drift table（D1-D10）
 
@@ -91,7 +91,7 @@ Columns:
 |---|---|
 | `pair` | `{baseline modelDisplay}（{baseline date}）→ {candidate modelDisplay}（{candidate date}）` |
 | `dimension` | `D1` ... `D10` |
-| `dimension_ja` | 固定 label: D1 `認知・生成暴露`, D2 `定型・手続き暴露`, D3 `身体・現場性`, D4 `判断・責任`, D5 `対人・情動知性`, D6 `創造・独自知性`, D7 `規制・安全障壁`, D8 `経済実装性`, D9 `制度・労働市場`, D10 `雇用の将来性` |
+| `dimension_ja` | `src/templates/Aiois10Profile.ts` の user-facing D1–D10 label constants（職業 detail page と同じ表示名）から取得する。ここで別の固定 label list は持たない |
 | `baseline_mean` | baseline の comparable occupations における当該 dimension 平均、2 桁表示 |
 | `candidate_mean` | candidate の comparable occupations における当該 dimension 平均、2 桁表示 |
 | `drift` | `candidate_mean - baseline_mean`。`computeDriftReport().dimDrift[index]` と一致させる |
@@ -118,7 +118,7 @@ Templates:
 | `drift > 0` | `{candidateModel} は {baselineModel} より「{dimension_ja}（{dimension}）」を{degree}重く見ています（{drift:+0.00}）。` |
 | `drift < 0` | `{candidateModel} は {baselineModel} より「{dimension_ja}（{dimension}）」を{degree}軽く見ています（{drift:-0.00}）。` |
 
-Example shape: `Fable 5 は Opus 4.8 より「身体・現場性（D3）」を大きく重く見ています（+0.96）。` この文も実データから閾値を満たした場合だけ出す。
+Example shape: `Fable 5 は Opus 4.8 より「体・現場の仕事（D3）」を大きく重く見ています（+0.96）。` この文も実データから閾値を満たした場合だけ出す。
 
 #### 3. Rationale side-by-side
 
