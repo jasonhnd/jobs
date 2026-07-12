@@ -26,7 +26,7 @@ export interface Aiois10ProfileInput {
 }
 
 type Role = 'drv' | 'moat' | 'mod';
-const DIMS: ReadonlyArray<{ key: keyof Aiois10ProfileInput; code: string; ja: string; role: Role; tag: string }> = [
+export const AIOIS10_DIMENSIONS = [
   { key: 'd1', code: 'D1', ja: '頭脳・情報の仕事', role: 'drv', tag: '▲' },
   { key: 'd2', code: 'D2', ja: '決まった手順のくり返し', role: 'drv', tag: '▲' },
   { key: 'd3', code: 'D3', ja: '体・現場の仕事', role: 'moat', tag: '■' },
@@ -37,7 +37,9 @@ const DIMS: ReadonlyArray<{ key: keyof Aiois10ProfileInput; code: string; ja: st
   { key: 'd8', code: 'D8', ja: '自動化が安く済むか', role: 'mod', tag: '◐' },
   { key: 'd9', code: 'D9', ja: '人手不足・制度の影響', role: 'mod', tag: '◐' },
   { key: 'd10', code: 'D10', ja: 'これから仕事は増えるか', role: 'drv', tag: '▲' },
-];
+] as const satisfies ReadonlyArray<{ key: keyof Aiois10ProfileInput; code: string; ja: string; role: Role; tag: string }>;
+
+const DIMS = AIOIS10_DIMENSIONS;
 
 const pct = (v: number): number => Math.max(0, Math.min(100, Math.round(v * 10)));
 

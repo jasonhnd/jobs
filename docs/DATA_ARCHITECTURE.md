@@ -21,6 +21,7 @@
 - `data.profile5.json` — 5 軸 radar profile。graph layer でも同じ計算を持つ。
 - `data.transfer_paths.json` — sector 内のより安全な転職候補。
 - `data.score_history.json` — multi-model comparison 用の per-occupation score history。model/date と transformation/displacement/D1-D10 の数値のみを持ち、`rationale_ja` は含めない。
+- `data.models_deep.json` — `/models` deep-dive 用の build-time rationale payload。最新の comparable AIOIS-10 pair と上位 8 件の横並び rationale だけを持ち、Astro build が HTML に inline する。browser から fetch しない。
 - `data.skills/*`, `data.holland.json`, `data.labels/ja.json` — hub 系ページの入力。
 - `data.ai-adoption.json` — `/aiadoption` dashboard。
 - `data.me-positions.json` — `/me` self-positioning tool。全職業 × 全 ranking の位置を持つ。

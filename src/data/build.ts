@@ -34,6 +34,7 @@ import { buildMePositions } from './projections/me-positions.js';
 import { buildProfile5 } from './projections/profile5.js';
 import { buildSearch } from './projections/search.js';
 import { buildScoreHistory } from './projections/score-history.js';
+import { buildModelsDeep } from './projections/models-deep.js';
 import { buildSectors } from './projections/sectors.js';
 import { buildSkills } from './projections/skills.js';
 import { buildTransferPaths } from './projections/transfer_paths.js';
@@ -276,6 +277,11 @@ async function main(): Promise<void> {
     runs.push(await runProjection('score-history', async () => {
       const r = await buildScoreHistory(indexes, STAGE_DIST);
       return { files: r.files, summary: `occupations=${r.occupations} entries=${r.entries}` };
+    }));
+
+    runs.push(await runProjection('models-deep', async () => {
+      const r = await buildModelsDeep(indexes, STAGE_DIST);
+      return { files: r.files, summary: `pairs=${r.pairs} bytes=${r.bytes}` };
     }));
 
     runs.push(await runProjection('skills', async () => {

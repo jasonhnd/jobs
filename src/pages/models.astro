@@ -1,18 +1,27 @@
 ---
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { loadGraph } from '@/graph';
 import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
+import { ModelsDeepProjectionSchema } from '@/lib/projection-schemas';
 import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
+import { AIOIS10_DIMENSIONS } from '@/templates/Aiois10Profile';
 import {
-  AIOIS_DIM_LABELS,
   buildModelsPageModelFromGraph,
   formatFixed,
   formatSigned,
 } from '@/views/models';
 
 const graph = await loadGraph();
-const page = buildModelsPageModelFromGraph(graph, OCCUPATION_COUNT.TOTAL);
+const AIOIS_DIM_LABELS = AIOIS10_DIMENSIONS.map((dim) => dim.code);
+const page = buildModelsPageModelFromGraph(graph, OCCUPATION_COUNT.TOTAL, AIOIS10_DIMENSIONS);
+if (page.charts && page.charts.inlineHtmlBytes > 20_000) {
+  throw new Error(`/models inline SVG + fallback exceeds 20 KB: ${page.charts.inlineHtmlBytes} bytes`);
+}
+const modelsDeepRaw = await readFile(join(process.cwd(), 'public', 'data.models_deep.json'), 'utf-8');
+const modelsDeep = ModelsDeepProjectionSchema.parse(JSON.parse(modelsDeepRaw));
 const pageLastUpdated = page.canonical.date;
 const pageTitle = 'モデル比較 — AIOIS-10 採点バッチ差分 | 未来の仕事';
 const pageDescription =
@@ -70,9 +79,19 @@ const localCss = `
 .delta-up{color:var(--risk-3);font-variant-numeric:tabular-nums;white-space:nowrap}
 .delta-down{color:var(--green-deep);font-variant-numeric:tabular-nums;white-space:nowrap}
 .delta-flat{color:var(--fg2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.note-list{margin:12px 0 24px;padding:0;display:grid;gap:8px;list-style:none}
+.note-list li{border:1px solid var(--border);border-left:3px solid var(--accent-deep);border-radius:7px;background:var(--bg2);padding:10px 13px;line-height:1.75}
+.rationale-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:760px}
+.rationale-card{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:13px 15px}
+.rationale-card h4{margin:0 0 8px;font-size:.9rem;color:var(--accent-deep)}
+.rationale-card p{margin:0;color:var(--fg2);font-size:.88rem;line-height:1.75}
+.models-svg-wrap{margin:14px 0 8px}
+.models-svg{display:block;width:100%;max-width:960px;height:auto;border:1px solid var(--border);border-radius:8px}
+.svg-fallback{margin:0 0 24px;color:var(--fg2);font-size:.88rem;line-height:1.7}
 @media(max-width:760px){
   .pair-stats{grid-template-columns:1fr 1fr}
   .models-table,.band-matrix{min-width:720px}
+  .rationale-grid{min-width:720px}
 }
 `;
 
@@ -217,7 +236,113 @@ function deltaClass(n: number): string {
     </section>
 
     <section class="doc-prose">
-      <h2><span class="num">4.</span>方法論メモ</h2>
+      <h2><span class="num">4.</span>D1〜D10 の drift</h2>
+      {page.driftPairs.map((pair) => (
+        <div class="pair-block">
+          <h3 class="pair-title">{pair.base.modelDisplay}（{pair.base.date}）→ {pair.candidate.modelDisplay}（{pair.candidate.date}）</h3>
+          <div class="wrap-x models-wide models-scroll" tabindex="0" role="region" aria-label={`${pair.base.modelDisplay}から${pair.candidate.modelDisplay}へのD1からD10のdriftテーブル`}>
+            <table class="ex models-table">
+              <thead>
+                <tr>
+                  <th>dimension</th>
+                  <th>表示名</th>
+                  <th>前回平均</th>
+                  <th>今回平均</th>
+                  <th>drift</th>
+                  <th>|drift| 平均</th>
+                  <th>n</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pair.dimensionRows.map((row) => (
+                  <tr>
+                    <td><code>{row.dimension}</code></td>
+                    <td>{row.dimensionJa}</td>
+                    <td class="num">{row.baselineMean.toFixed(2)}</td>
+                    <td class="num">{row.candidateMean.toFixed(2)}</td>
+                    <td class={deltaClass(row.drift)}>{formatSigned(row.drift)}</td>
+                    <td class="num">{row.meanAbsDrift.toFixed(2)}</td>
+                    <td class="num">{row.n}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <section class="doc-prose">
+      <h2><span class="num">5.</span>モデル傾向メモ</h2>
+      {page.driftPairs.map((pair) => (
+        <div class="pair-block">
+          <h3 class="pair-title">{pair.base.modelDisplay}（{pair.base.date}）→ {pair.candidate.modelDisplay}（{pair.candidate.date}）</h3>
+          <ul class="note-list">
+            {pair.tendencyNotes.map((note) => <li>{note}</li>)}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <section>
+      <h2><span class="num">6.</span>rationale 横並び</h2>
+      {modelsDeep.latest_pair && (
+        <p>
+          最新 2 つの AIOIS-10 バッチ（{modelsDeep.latest_pair.baseline.modelDisplay} → {modelsDeep.latest_pair.candidate.modelDisplay}）で、
+          「変化の大きさ」の差が大きく、両方の rationale がある職業を並べています。
+        </p>
+      )}
+      <div class="wrap-x models-wide models-scroll" tabindex="0" role="region" aria-label="rationale横並びテーブル">
+        <table class="ex models-table">
+          <thead>
+            <tr>
+              <th>職業</th>
+              <th>前回</th>
+              <th>今回</th>
+              <th>差分</th>
+              <th>rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            {modelsDeep.rationale_pairs.map((row) => (
+              <tr>
+                <td><a href={row.href}>{row.title_ja}</a></td>
+                <td class="num">{row.baseline_transformation.toFixed(1)}</td>
+                <td class="num">{row.candidate_transformation.toFixed(1)}</td>
+                <td class={deltaClass(row.drift)}>{formatSigned(row.drift)}</td>
+                <td>
+                  <div class="rationale-grid">
+                    <div class="rationale-card">
+                      <h4>{modelsDeep.latest_pair?.baseline.modelDisplay ?? '前回'}</h4>
+                      <p>{row.baseline_rationale_ja}</p>
+                    </div>
+                    <div class="rationale-card">
+                      <h4>{modelsDeep.latest_pair?.candidate.modelDisplay ?? '今回'}</h4>
+                      <p>{row.candidate_rationale_ja}</p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {page.charts && (
+      <section class="doc-prose">
+        <h2><span class="num">7.</span>分布チャート</h2>
+        <h3 class="pair-title">変化の大きさの分布</h3>
+        <div class="models-svg-wrap" set:html={page.charts.histogram.svg} />
+        <p class="svg-fallback">{page.charts.histogram.fallback}</p>
+        <h3 class="pair-title">前回と今回の散布図</h3>
+        <div class="models-svg-wrap" set:html={page.charts.scatter.svg} />
+        <p class="svg-fallback">{page.charts.scatter.fallback}</p>
+      </section>
+    )}
+
+    <section class="doc-prose">
+      <h2><span class="num">8.</span>方法論メモ</h2>
       <p>
         現在の正典バッチは <strong>{page.canonical.modelDisplay}（{page.canonical.date}）</strong>です。
         ルールは単純で、全職業の現在値には「最新の実行日」のバッチを採用します。採点基準は

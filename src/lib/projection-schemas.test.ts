@@ -24,6 +24,7 @@ import {
   SectorsSourceFileSchema,
   SkillRankingFileSchema,
   HollandFileSchema,
+  ModelsDeepProjectionSchema,
   ScoreHistoryProjectionSchema,
   TreemapRecordSummarySchema,
   TreemapFileSummarySchema,
@@ -307,6 +308,55 @@ describe('ScoreHistoryProjectionSchema — public/data.score_history.json', () =
           dims: { d1: 5.2, d2: 7.2, d3: 1, d4: 2, d5: 3, d6: 4, d7: 5, d8: 6, d9: 7 },
         },
       ],
+    });
+    assert.equal(r.success, false);
+  });
+});
+
+describe('ModelsDeepProjectionSchema — public/data.models_deep.json', () => {
+  test('valid latest pair and rationale rows parse', () => {
+    const r = ModelsDeepProjectionSchema.safeParse({
+      latest_pair: {
+        baseline: { model: 'claude-opus-4-8', modelDisplay: 'Claude Opus 4.8', date: '2026-05-30' },
+        candidate: { model: 'claude-fable-5', modelDisplay: 'Claude Fable 5', date: '2026-06-13' },
+      },
+      rationale_pairs: [{
+        id: 123,
+        title_ja: '職業名',
+        href: '/123',
+        baseline_transformation: 4.2,
+        candidate_transformation: 5.4,
+        drift: 1.2,
+        baseline_rationale_ja: '前回 batch の rationale_ja。',
+        candidate_rationale_ja: '今回 batch の rationale_ja。',
+      }],
+    });
+    assert.equal(r.success, true);
+  });
+
+  test('allows no latest pair when fewer than two AIOIS batches exist', () => {
+    const r = ModelsDeepProjectionSchema.safeParse({
+      latest_pair: null,
+      rationale_pairs: [],
+    });
+    assert.equal(r.success, true);
+  });
+
+  test('rejects extra fields and more than eight rationale rows', () => {
+    const row = {
+      id: 1,
+      title_ja: '職業名',
+      href: '/1',
+      baseline_transformation: 1,
+      candidate_transformation: 2,
+      drift: 1,
+      baseline_rationale_ja: 'a',
+      candidate_rationale_ja: 'b',
+    };
+    const r = ModelsDeepProjectionSchema.safeParse({
+      latest_pair: null,
+      rationale_pairs: Array.from({ length: 9 }, (_, i) => ({ ...row, id: i + 1, href: `/${i + 1}` })),
+      extra: true,
     });
     assert.equal(r.success, false);
   });

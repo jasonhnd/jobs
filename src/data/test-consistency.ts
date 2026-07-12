@@ -15,7 +15,7 @@ import { existsSync, readdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { riskBand } from './lib/bands.js';
-import { ScoreHistoryProjectionSchema } from '../lib/projection-schemas.js';
+import { ModelsDeepProjectionSchema, ScoreHistoryProjectionSchema } from '../lib/projection-schemas.js';
 
 const REPO = process.cwd();
 
@@ -82,6 +82,7 @@ async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void
     'data.worktypes.json',
     'data.transfer_paths.json',
     'data.score_history.json',
+    'data.models_deep.json',
     'data.holland.json',
     'data.labels/ja.json',
     // Removed in Step 12: data.featured.json (dead projection).
@@ -573,6 +574,54 @@ async function checkScoreHistory(
   r.note(`score_history: ${actualIds.size} occupations, ${entries} entries`);
 }
 
+async function checkModelsDeep(distRoot: string, r: Report): Promise<void> {
+  const f = join(distRoot, 'data.models_deep.json');
+  if (!existsSync(f)) return;
+
+  let raw = '';
+  let data: unknown;
+  try {
+    raw = await readFile(f, 'utf-8');
+    data = JSON.parse(raw);
+  } catch (err) {
+    r.fail(`data.models_deep.json invalid JSON: ${(err as Error).message}`);
+    return;
+  }
+
+  const bytes = new TextEncoder().encode(raw.trimEnd()).length;
+  if (bytes > 30_000) {
+    r.fail(`data.models_deep.json exceeds 30 KB (${bytes} bytes)`);
+  }
+
+  const parsed = ModelsDeepProjectionSchema.safeParse(data);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    r.fail(
+      `data.models_deep.json schema invalid: ${issue ? `${issue.path.join('.')} ${issue.message}` : parsed.error.message}`,
+    );
+    return;
+  }
+
+  const seen = new Set<number>();
+  for (const [idx, pair] of parsed.data.rationale_pairs.entries()) {
+    if (seen.has(pair.id)) {
+      r.fail(`data.models_deep.json rationale_pairs[${idx}] duplicates id ${pair.id}`);
+    }
+    seen.add(pair.id);
+    if (!pair.baseline_rationale_ja || !pair.candidate_rationale_ja) {
+      r.fail(`data.models_deep.json rationale_pairs[${idx}] has missing rationale`);
+    }
+    if (new TextEncoder().encode(pair.baseline_rationale_ja).length > 500) {
+      r.fail(`data.models_deep.json rationale_pairs[${idx}].baseline_rationale_ja exceeds 500 bytes`);
+    }
+    if (new TextEncoder().encode(pair.candidate_rationale_ja).length > 500) {
+      r.fail(`data.models_deep.json rationale_pairs[${idx}].candidate_rationale_ja exceeds 500 bytes`);
+    }
+  }
+
+  r.note(`models_deep: ${parsed.data.rationale_pairs.length} rationale pairs, ${bytes} bytes`);
+}
+
 function checkTreemapV110(
   records: unknown[],
   sectorIds: Set<string> | null,
@@ -673,6 +722,7 @@ async function main(): Promise<void> {
   await checkDetailFiles(distRoot, r, allOccIds);
   await checkLabels(distRoot, r);
   await checkScoreHistory(distRoot, r, allOccIds);
+  await checkModelsDeep(distRoot, r);
 
   const sectorIds = await checkSectors(distRoot, r);
   await checkReviewQueue(distRoot, r);

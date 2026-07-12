@@ -180,6 +180,44 @@ export const ScoreHistoryProjectionSchema = z.record(
 
 export type ScoreHistoryProjectionShape = z.infer<typeof ScoreHistoryProjectionSchema>;
 
+// ─── /models deep-dive rationale payload (public/data.models_deep.json) ──
+
+const ModelsDeepBatchSchema = z
+  .object({
+    model: z.string(),
+    modelDisplay: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  })
+  .strict();
+
+const ModelsDeepRationalePairSchema = z
+  .object({
+    id: z.number().int(),
+    title_ja: z.string(),
+    href: z.string().regex(/^\/\d+$/),
+    baseline_transformation: z.number(),
+    candidate_transformation: z.number(),
+    drift: z.number(),
+    baseline_rationale_ja: z.string(),
+    candidate_rationale_ja: z.string(),
+  })
+  .strict();
+
+export const ModelsDeepProjectionSchema = z
+  .object({
+    latest_pair: z
+      .object({
+        baseline: ModelsDeepBatchSchema,
+        candidate: ModelsDeepBatchSchema,
+      })
+      .strict()
+      .nullable(),
+    rationale_pairs: z.array(ModelsDeepRationalePairSchema).max(8),
+  })
+  .strict();
+
+export type ModelsDeepProjectionShape = z.infer<typeof ModelsDeepProjectionSchema>;
+
 // ─── Source sector definition (data/sectors/sectors.ja-en.json) ───────
 
 const SectorDefSchema = z
