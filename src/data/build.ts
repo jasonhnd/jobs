@@ -1,7 +1,7 @@
 /**
  * TS ETL orchestrator — entry point for `npm run build:data`.
  *
- * Loads + validates source data, runs all 13 projections, writes them to
+ * Loads + validates source data, runs all 14 projections, writes them to
  * `public/` (Astro's publicDir; Astro then copies the whole publicDir into
  * `dist-astro/` during `astro build`).
  *
@@ -33,6 +33,7 @@ import { buildLabels } from './projections/labels.js';
 import { buildMePositions } from './projections/me-positions.js';
 import { buildProfile5 } from './projections/profile5.js';
 import { buildSearch } from './projections/search.js';
+import { buildScoreHistory } from './projections/score-history.js';
 import { buildSectors } from './projections/sectors.js';
 import { buildSkills } from './projections/skills.js';
 import { buildTransferPaths } from './projections/transfer_paths.js';
@@ -43,13 +44,11 @@ import { formatModelDisplay } from '../site/score-attribution.js';
 import { buildGeoSurfaces } from '../site/geo-build.js';
 // Removed in Step 12 (dead projection cleanup, 2026-05-13):
 //   - buildFeatured / data.featured.json  (no runtime consumer)
-//   - buildScoreHistory / data.score_history.json  (no runtime consumer)
 //   - buildTasks / data.tasks/*.json  (no runtime consumer; the
 //     556-file per-occupation tasks dump cost ~1.2 MB build output
 //     and ~1.5s pipeline time for an output nobody reads)
-// All three were "future projections" placeholders. test-consistency
-// schema checks for these outputs were removed together. If a future
-// feature needs them, restore from git history.
+// The score_history projection was restored for multi-model comparison in
+// 2026-07; tasks / featured remain removed.
 
 const REPO_ROOT = process.cwd();
 
@@ -273,9 +272,12 @@ async function main(): Promise<void> {
     }));
 
     // ───── "Future" projections (mirror Python --enable-future order).
-    //       After Step 12 cleanup only skills + holland remain — both
-    //       are read by sector/hub pages. tasks / featured / score_history
-    //       were removed. ─────
+    //       After Step 12 cleanup tasks / featured remain removed. ─────
+    runs.push(await runProjection('score-history', async () => {
+      const r = await buildScoreHistory(indexes, STAGE_DIST);
+      return { files: r.files, summary: `occupations=${r.occupations} entries=${r.entries}` };
+    }));
+
     runs.push(await runProjection('skills', async () => {
       const r = await buildSkills(indexes, STAGE_DIST);
       return { files: [r.dir, r.indexFile], summary: `skill_files=${r.skillFiles}` };

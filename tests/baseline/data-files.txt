@@ -560,6 +560,7 @@ data.labels/ja.json
 data.me-positions.json
 data.profile5.json
 data.review_queue.json
+data.score_history.json
 data.search.json
 data.sectors.json
 data.skills/_index.json

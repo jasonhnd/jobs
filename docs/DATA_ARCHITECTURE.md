@@ -20,11 +20,12 @@
 - `data.sectors.json` / `data.review_queue.json` — sector hub と mapping review。
 - `data.profile5.json` — 5 軸 radar profile。graph layer でも同じ計算を持つ。
 - `data.transfer_paths.json` — sector 内のより安全な転職候補。
+- `data.score_history.json` — multi-model comparison 用の per-occupation score history。model/date と transformation/displacement/D1-D10 の数値のみを持ち、`rationale_ja` は含めない。
 - `data.skills/*`, `data.holland.json`, `data.labels/ja.json` — hub 系ページの入力。
 - `data.ai-adoption.json` — `/aiadoption` dashboard。
 - `data.me-positions.json` — `/me` self-positioning tool。全職業 × 全 ranking の位置を持つ。
 
-古い `data.featured.json`, `data.score_history.json`, `data.tasks/*` は runtime consumer がないため削除済み。復活させる場合は Issue で consumer、schema、検証を先に定義する。
+古い `data.featured.json`, `data.tasks/*`, `data.score-history/*` は runtime consumer がないため削除済み。`data.score_history.json` は multi-model comparison のため 2026-07 に単一 JSON projection として復活した。
 
 ## 数値契約
 

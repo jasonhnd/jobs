@@ -24,6 +24,7 @@ import {
   SectorsSourceFileSchema,
   SkillRankingFileSchema,
   HollandFileSchema,
+  ScoreHistoryProjectionSchema,
   TreemapRecordSummarySchema,
   TreemapFileSummarySchema,
 } from './projection-schemas.js';
@@ -251,6 +252,61 @@ describe('HollandFileSchema — public/data.holland.json', () => {
     const r = HollandFileSchema.safeParse({
       cols: ['a'],
       rows: [[true]],
+    });
+    assert.equal(r.success, false);
+  });
+});
+
+describe('ScoreHistoryProjectionSchema — public/data.score_history.json', () => {
+  test('valid legacy and AIOIS history entries parse', () => {
+    const r = ScoreHistoryProjectionSchema.safeParse({
+      '1': [
+        {
+          model: 'claude-opus-4-7',
+          date: '2026-04-25',
+          transformation: 5.5,
+          displacement: null,
+          dims: null,
+        },
+        {
+          model: 'claude-fable-5',
+          date: '2026-06-13',
+          transformation: 6.2,
+          displacement: 3.1,
+          dims: { d1: 5.2, d2: 7.2, d3: 1, d4: 2, d5: 3, d6: 4, d7: 5, d8: 6, d9: 7, d10: 4 },
+        },
+      ],
+    });
+    assert.equal(r.success, true);
+  });
+
+  test('rejects rationale_ja and other extra fields', () => {
+    const r = ScoreHistoryProjectionSchema.safeParse({
+      '1': [
+        {
+          model: 'claude-opus-4-7',
+          date: '2026-04-25',
+          transformation: 5.5,
+          displacement: null,
+          dims: null,
+          rationale_ja: 'must not ship',
+        },
+      ],
+    });
+    assert.equal(r.success, false);
+  });
+
+  test('requires all ten AIOIS dimension fields', () => {
+    const r = ScoreHistoryProjectionSchema.safeParse({
+      '1': [
+        {
+          model: 'claude-fable-5',
+          date: '2026-06-13',
+          transformation: 6.2,
+          displacement: 3.1,
+          dims: { d1: 5.2, d2: 7.2, d3: 1, d4: 2, d5: 3, d6: 4, d7: 5, d8: 6, d9: 7 },
+        },
+      ],
     });
     assert.equal(r.success, false);
   });
