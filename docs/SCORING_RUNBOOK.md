@@ -91,6 +91,90 @@ Hard requirements:
 - `ai_risk === aiois.transformation` でなければならない。
 - extra field は schema / assembler で fail させる。
 
+## GPT-5.6-SOL / Codex-CLI scoring
+
+This section is the Codex CLI path for `mms-5-prep` / Issue #141 and the gated GPT 5.6 SOL execution in Issue #126. It is added alongside the Fable 5 / Issue #9 path above; it does not replace the Fable 5 runbook.
+
+Scope and boundary:
+
+- Runner: `scripts/run-scoring-codex.ts`.
+- Model: `gpt-5.6-sol` (runner default). Provider: OpenAI.
+- Auth: locally logged-in Codex CLI subscription. Do not use or commit an OpenAI API key for this path.
+- Frozen prompt: `data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md`.
+- Prompt version: `AIOIS-10-v1.0-gpt-5.6-sol`.
+- Baseline for drift: `data/scores/occupations_claude-fable-5_2026-06-13.json` (latest AIOIS-10 batch), not Opus 4.8.
+- Artifacts before full approval stay under `.cache/scoring/`; pilot/candidate artifacts must not be written to `data/scores/`.
+- The full 556 batch may enter `data/scores/` only after owner approval. Adding it flips `pickLatestScore()` site-wide because the latest `run_date` becomes canonical.
+- `scripts/run-scoring-codex.ts` is a LOCAL dev tool. Never wire it into `build`, `verify:gates`, CI, deploy commands, or `vercel.json`.
+
+Methodology continuity:
+
+GPT 5.6 SOL uses the same AIOIS-10 v1.0 output contract as Fable 5: strict JSONL, full `aiois.d1` through `aiois.d10`, `transformation`, `displacement`, and `ai_risk === aiois.transformation`. The formulas and field contract are unchanged, so `assemble:scores`, `check:score-batch`, `aiois-drift-report.ts`, and ETL need no contract changes.
+
+The Codex runner consumes the prompt as a rubric only: `buildPrompt(rubric, occ)` appends the per-occupation extract and the runner's JSON output schema. The frozen prompt must not include occupation data, baseline scores, expected drift, or any alternate schema that conflicts with the runner.
+
+Runner flags:
+
+- `--prompt-file <path>`: required rubric file.
+- `--out <path>`: raw JSONL destination; pilot output should be under `.cache/scoring/`.
+- `--model <id>`: optional; default is `gpt-5.6-sol`.
+- `--concurrency <n>`: default 2, capped at max 4.
+- `--ids 1,2,3`: score only selected IDs.
+- `--limit N`: score the first N pending occupations after filtering.
+- `--resume`: skip IDs already present in the output JSONL and append remaining rows.
+
+Pilot setup (30-50 occupations):
+
+```bash
+bun scripts/make-pilot-sample.ts \
+  --size 40 \
+  --chunk 5 \
+  --baseline data/scores/occupations_claude-fable-5_2026-06-13.json \
+  --out .cache/scoring/issue-126/pilot
+```
+
+Pilot scoring via local Codex CLI:
+
+```bash
+bun scripts/run-scoring-codex.ts \
+  --prompt-file data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md \
+  --out .cache/scoring/issue-126/pilot/raw_gpt-5.6-sol_2026-07-12.jsonl \
+  --model gpt-5.6-sol \
+  --ids "$(jq -r '.ids | join(",")' .cache/scoring/issue-126/pilot/sample.json)" \
+  --concurrency 2
+```
+
+For interrupted pilot/full runs, rerun the same command with `--resume`. Do not switch models after a failure. Model unavailable, refusal, tool failure, malformed JSON, missing AIOIS fields, bad decimals, formula mismatch, duplicate ID, or unknown ID are explicit errors to fix/retry with the same model; never silently fallback or invent a default score.
+
+Pilot assemble/check/drift:
+
+```bash
+bun run assemble:scores \
+  --mode aiois \
+  --model gpt-5.6-sol \
+  --date 2026-07-12 \
+  --prompt-version AIOIS-10-v1.0-gpt-5.6-sol \
+  --prompt-file data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md \
+  --in .cache/scoring/issue-126/pilot/raw_gpt-5.6-sol_2026-07-12.jsonl \
+  --out .cache/scoring/issue-126/pilot/occupations_gpt-5.6-sol_2026-07-12_pilot.json \
+  --run-id issue-126-pilot-2026-07-12
+
+bun run check:score-batch .cache/scoring/issue-126/pilot/occupations_gpt-5.6-sol_2026-07-12_pilot.json
+
+bun scripts/aiois-drift-report.ts \
+  --baseline data/scores/occupations_claude-fable-5_2026-06-13.json \
+  --candidate .cache/scoring/issue-126/pilot/occupations_gpt-5.6-sol_2026-07-12_pilot.json \
+  --out .cache/scoring/issue-126/pilot/drift_claude-fable-5_vs_gpt-5.6-sol_2026-07-12.md
+```
+
+Full run gate:
+
+- Owner reviews the frozen prompt and this runbook section before merge.
+- Owner separately approves any pilot scoring run because it consumes local Codex subscription quota.
+- Owner reviews pilot artifacts and drift report before any 556-occupation full run.
+- The approved full run writes raw/audit artifacts under `.cache/scoring/` first, then assembles one append-only batch at `data/scores/occupations_gpt-5.6-sol_<YYYY-MM-DD>.json`.
+- Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun test`. The landing PR must acknowledge that `pickLatestScore()` flips all public projections/pages to GPT 5.6 SOL.
+
 ## Prompt requirements
 
 Fable 5 prompt は、新規ファイルとして追加する。既存 Opus prompt を上書きしない。
