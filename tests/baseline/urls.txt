@@ -675,11 +675,6 @@
 /life-balance/mental-health-friendly
 /life-balance/senior-friendly
 /map
-/mbti/enfp
-/mbti/infj
-/mbti/infp
-/mbti/isfp
-/mbti/istp
 /me
 /methodology
 /privacy

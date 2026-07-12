@@ -36,7 +36,6 @@ import { LICENSE_HUBS } from './licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';
 import { EXPLORE_ROUTES } from './explore-routes.js';
 import { GEO_ANSWER_TOPIC_CONFIGS } from './geo-answer-topics.js';
-import { PHASE1_MBTI_SLUGS } from './mbti-content.js';
 import type { KnowledgeGraph } from '@/graph';
 
 const SITE_ORIGIN = 'https://mirai-shigoto.com';
@@ -157,11 +156,6 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/me`, lastmods.content, 'weekly', '0.7'));
   entries.push(entry(`${SITE_ORIGIN}/shindan`, lastmods.content, 'weekly', '0.7'));
   entries.push(entry(`${SITE_ORIGIN}/gyakuten`, lastmods.content, 'weekly', '0.7'));
-
-  // MBTI editorial phase 1: only the five merged high-search JA pages.
-  for (const slug of PHASE1_MBTI_SLUGS) {
-    entries.push(entry(`${SITE_ORIGIN}/mbti/${slug}`, lastmods.content, 'weekly', '0.6'));
-  }
 
   // Legal / static pages
   entries.push(entry(`${SITE_ORIGIN}/privacy`, lastmods.privacy, 'yearly', '0.3'));
