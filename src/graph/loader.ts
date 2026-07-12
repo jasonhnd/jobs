@@ -71,7 +71,6 @@ import {
 
 import type {
   AiRiskScore,
-  Aiois10,
   DimensionLabel,
   HueBand,
   KnowledgeGraph,
@@ -84,6 +83,7 @@ import type {
   OccupationWorkCharacteristicEdge,
   OccupationWorkValueEdge,
   SectorNode,
+  ScoreHistoryEntry,
   WeightedEdge,
 } from './types.js';
 
@@ -132,7 +132,8 @@ async function buildGraph(): Promise<KnowledgeGraph> {
   // 2. Per-occupation auxiliaries: id-keyed maps for O(1) join.
   const translationsById = mapById(translations);
   const statsById = mapById(stats);
-  const latestScoreByOcc = computeLatestScores(scoreRuns);
+  const scoreHistoryByOcc = computeScoreHistory(scoreRuns);
+  const latestScoreByOcc = computeLatestScores(scoreHistoryByOcc);
 
   // 3. Build the OccupationNode map.
   const occupationsMap = new Map<OccupationId, OccupationNode>();
@@ -258,6 +259,7 @@ async function buildGraph(): Promise<KnowledgeGraph> {
   // 8. Assemble the graph with closure-captured indexes.
   const graph: KnowledgeGraph = {
     occupations: occupationsMap,
+    scoreHistoryByOcc,
     sectors: sectorsMap,
     skills,
     knowledge,
@@ -374,42 +376,52 @@ function mapById<T extends { id: number }>(items: readonly T[]): Map<number, T> 
   return m;
 }
 
-interface RawScoreHist {
-  model: string;
-  date: string;
-  ai_risk: number;
-  rationale_ja: string;
-  confidence?: number | null;
-  aiois?: Aiois10 | null;
-}
-
-function computeLatestScores(runs: readonly ScoreRun[]): Map<number, AiRiskScore> {
-  const history = new Map<number, RawScoreHist[]>();
+function computeScoreHistory(runs: readonly ScoreRun[]): ReadonlyMap<OccupationId, readonly ScoreHistoryEntry[]> {
+  const history = new Map<OccupationId, ScoreHistoryEntry[]>();
   for (const run of runs) {
     if (run.scope !== 'occupations') continue;
     for (const [occIdStr, entry] of Object.entries(run.scores)) {
       const occId = Number.parseInt(occIdStr, 10);
       if (!Number.isFinite(occId)) continue; // bad key — surfaced by data-validation, ignore here
-      let bucket = history.get(occId);
+      const graphId = asOccupationId(occId);
+      let bucket = history.get(graphId);
       if (!bucket) {
         bucket = [];
-        history.set(occId, bucket);
+        history.set(graphId, bucket);
       }
       bucket.push({
         model: run.scorer.model,
         date: run.run.run_date,
-        ai_risk: entry.ai_risk,
-        rationale_ja: entry.rationale_ja,
-        confidence: entry.confidence,
-        aiois: entry.aiois ?? null,
+        transformation: entry.ai_risk,
+        rationaleJa: entry.rationale_ja,
+        displacement: entry.aiois?.displacement ?? null,
+        confidence: entry.confidence ?? null,
+        dims: entry.aiois ?? null,
       });
     }
   }
+  const frozen = new Map<OccupationId, readonly ScoreHistoryEntry[]>();
+  for (const [occId, hist] of history) {
+    frozen.set(
+      occId,
+      Object.freeze([...hist].sort((a, b) => a.date.localeCompare(b.date))),
+    );
+  }
+  return frozen;
+}
+
+function computeLatestScores(history: ReadonlyMap<OccupationId, readonly ScoreHistoryEntry[]>): Map<number, AiRiskScore> {
   const latest = new Map<number, AiRiskScore>();
   for (const [occId, hist] of history) {
-    hist.sort((a, b) => a.date.localeCompare(b.date));
-    const pick = pickLatestScore(hist);
-    latest.set(occId, {
+    const pick = pickLatestScore(hist.map((entry) => ({
+      model: entry.model,
+      date: entry.date,
+      ai_risk: entry.transformation,
+      rationale_ja: entry.rationaleJa,
+      confidence: entry.confidence,
+      aiois: entry.dims,
+    })));
+    latest.set(Number(occId), {
       score: pick.ai_risk,
       rationaleJa: pick.rationale_ja,
       confidence: pick.confidence ?? null,

@@ -80,6 +80,19 @@ export interface AiRiskScore {
   readonly aiois: Aiois10 | null;
 }
 
+export interface ScoreHistoryEntry {
+  /** Model name (e.g., "claude-fable-5"). */
+  readonly model: string;
+  /** ISO date YYYY-MM-DD of the scoring run. */
+  readonly date: string;
+  /** Headline score. On AIOIS batches this equals `aiois.transformation`. */
+  readonly transformation: number;
+  readonly rationaleJa: string;
+  readonly displacement: number | null;
+  readonly dims: Aiois10 | null;
+  readonly confidence: number | null;
+}
+
 export interface OccupationClassifications {
   readonly mhlwMain: string | null;
   readonly mhlwAll: readonly string[];
@@ -185,6 +198,7 @@ export type OccupationWorkActivityEdge       = WeightedEdge<OccupationId, WorkAc
 export interface KnowledgeGraph {
   // Node maps
   readonly occupations:         ReadonlyMap<OccupationId, OccupationNode>;
+  readonly scoreHistoryByOcc:   ReadonlyMap<OccupationId, readonly ScoreHistoryEntry[]>;
   readonly sectors:             ReadonlyMap<SectorId, SectorNode>;
   readonly skills:              ReadonlyMap<SkillId, SkillNode>;
   readonly knowledge:           ReadonlyMap<KnowledgeId, KnowledgeNode>;
