@@ -17,8 +17,9 @@
  * Output JSONL (one line per occupation): {id, ai_risk, rationale_ja, confidence}
  * → next: bun run assemble:scores --in raw-scores.jsonl …
  */
-import { readFileSync, readdirSync, writeFileSync, appendFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, appendFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { loadOccupationExtracts } from './scoring-occupation.js';
 
 const ROOT = resolve(import.meta.dir, '..');
 const OCC_DIR = join(ROOT, 'data', 'occupations');
@@ -53,31 +54,7 @@ const outPath = resolve(args['out'] ?? join(ROOT, 'raw-scores.jsonl'));
 if (!existsSync(promptFile)) fail(`prompt file not found: ${promptFile}`);
 const rubric = readFileSync(promptFile, 'utf8');
 
-// ---- occupation extraction (compact; NOT the full ~200-line source file) ----
-interface OccExtract {
-  readonly id: number;
-  readonly text: string;
-}
-function extractOcc(raw: Record<string, any>): OccExtract {
-  const d = (raw.description ?? {}) as Record<string, string | undefined>;
-  const aliases = Array.isArray(raw.aliases_ja) ? (raw.aliases_ja as string[]) : [];
-  const text = [
-    `職業ID: ${raw.id}`,
-    `名称: ${raw.title_ja ?? ''}`,
-    aliases.length ? `別名: ${aliases.join('、')}` : '',
-    d.summary_ja ? `概要: ${d.summary_ja}` : '',
-    d.what_it_is_ja ? `仕事内容:\n${d.what_it_is_ja}` : '',
-    d.working_conditions_ja ? `労働条件:\n${d.working_conditions_ja}` : '',
-  ]
-    .filter(Boolean)
-    .join('\n');
-  return { id: Number(raw.id), text };
-}
-
-const allOccs: OccExtract[] = readdirSync(OCC_DIR)
-  .filter((f) => f.endsWith('.json'))
-  .sort()
-  .map((f) => extractOcc(JSON.parse(readFileSync(join(OCC_DIR, f), 'utf8')) as Record<string, any>));
+const allOccs = loadOccupationExtracts(OCC_DIR);
 
 // ---- filters: --ids / --resume / --limit ----
 let occs = allOccs;
