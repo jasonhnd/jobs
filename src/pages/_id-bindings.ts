@@ -49,6 +49,10 @@ import { OCCUPATION_COUNT } from '@/site/config';
 import { renderProseSection } from '@/templates/ProseSection';
 import { renderLegacyRelated } from '@/templates/LegacyRelated';
 import {
+  renderScoreHistoryComparison,
+  type ScoreHistoryComparisonEntry,
+} from '@/templates/ScoreHistoryComparison';
+import {
   makeOccupationDefinitionFromRec,
   renderOccupationMetaRow,
   renderOccupationProfileRadar,
@@ -103,6 +107,7 @@ export interface IdPageBindingsInput {
   readonly related: ReadonlyArray<Rec>;
   readonly nameLookup: Record<number, string>;
   readonly rankingHitsByOcc?: ReadonlyMap<number, ReadonlyArray<IdPageRankingHit>>;
+  readonly scoreHistory?: ReadonlyArray<ScoreHistoryComparisonEntry>;
   readonly prevDelta?: number | null;
   readonly datePublished: string;
   readonly dateModified: string;
@@ -146,6 +151,7 @@ export interface IdPageBindings extends OccupationDisplay {
 
   // Pre-rendered section HTML (one per template).
   readonly metaRowHtml: SafeHtml;
+  readonly scoreHistoryHtml: SafeHtml;
   readonly aiRiskDetailHtml: SafeHtml;
   readonly aioisHtml: SafeHtml;
   readonly profileHtml: SafeHtml;
@@ -270,6 +276,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     bodyText: longCondJa,
   });
   const metaRowHtml = renderOccupationMetaRow(rec);
+  const scoreHistoryHtml = renderScoreHistoryComparison(input.scoreHistory ?? []);
   const aiRiskDetailHtml = renderOccupationAiRiskDetail(rec);
   const aioisHtml = renderOccupationAiois10(rec);
   const profileHtml = renderOccupationProfileRadar(rec);
@@ -323,6 +330,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     condH2,
     ctxHtml,
     metaRowHtml,
+    scoreHistoryHtml,
     aiRiskDetailHtml,
     aioisHtml,
     profileHtml,
