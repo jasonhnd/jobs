@@ -77,6 +77,8 @@ GPT データが無くても既存 3 バッチ（opus-4-7 / opus-4-8 / fable-5�
 
 ### 2c-deep. `/models` deep-dive addendum
 
+> Superseded: 2c-deep の実装 PR #136 は owner preview review 後に withdrawn（未 merge）。統計 dashboard 方向ではなく訪問者向け特集ページへ設計を切り替えるため、本節は設計履歴として残し、実装対象は後続の **2c-v2** に置き換える。
+
 目的は「モデル差を読める材料」を増やすことであり、スコア選択や正典化の規則は変えない。`pickLatestScore` は引き続き最新 `run_date` 規則のまま、`score_history` projection は引き続き `rationale_ja` を持たない。UI copy は既存 `/models` と同じく日本語のみ。`/models` は職業 detail page と揃えるため user-facing label set を使い、formal standard names は `/standard` のみに置く。
 
 #### 1. Per-dimension drift table（D1-D10）
@@ -177,6 +179,136 @@ Rendering constraints:
 - SVG viewBox は responsive。desktop は幅 100%、最大 960px、mobile は横スクロールではなく縮尺維持で読めるサイズにする。
 - Axis labels と legend は日本語。legend は color だけに依存せず、text label（低 / 中 / 高、batch 名）を併記する。
 - SVG と fallback を合わせた追加 HTML は 20 KB 以内を目安にし、`data.models_deep.json` とは別に追加 network request を発生させない。
+
+### 2c-v2. `/models` 再設計 — 訪問者向け特集ページ
+
+`/models` は統計 dashboard ではなく、一般訪問者が「AI の職業判断は信用できるのか」を読むための magazine-style feature page とする。Positioning copy は **「AIモデルは、あなたの仕事をどう見ているか」**。3 つの AI モデルが 556 職業を採点したら、どこで一致し、どこで割れたかを、統計表ではなく職業ごとの story と quote で見せる。
+
+Target reader は、自分の仕事や近い職業について AI の見方がどれだけ安定しているかを知りたい site visitor。説明の軸は「AI の判断には personality があり、同じ職業でもモデルによって見え方が変わる」。operator 向けの drift analysis は `scripts/aiois-drift-report.ts` に残し、`/models` 本体では詳細統計を読ませない。
+
+#### Page structure（上から下まで 6 parts 固定）
+
+1. **Hero / 導入**
+   - Hook copy を先に置く。例: `556 の職業を、3 つの AI モデルがそれぞれ採点した。結果は同じではなかった。`
+   - 続けて 1 short paragraph だけ置き、読者への意味を説明する。AI の判断には personality があり、同じ occupation でも score が大きく変わることがある、という文脈に限定する。
+   - Hero 内に平均値、drift 値、D1–D10、histogram 等の統計要素は置かない。
+
+2. **登場モデル**
+   - `data/scores/` にある scoring batch ごとに 1 profile card を出す。現時点は Opus 4.7 / Opus 4.8 / Fable 5。`gpt-5.6-sol` batch が入庫したら、batch file 追加だけで新 card が増える。
+   - Card fields:
+
+| Field | 表示 |
+|---|---|
+| `modelDisplay` | 読者向けモデル名（例: `Opus 4.8`、`Fable 5`） |
+| `run_date` | 実行日 |
+| `covered_count` | 対象職業数 |
+| `personality_sentence` | drift aggregate から選ぶ、読者向け日本語 1 文 |
+
+   - `personality_sentence` は data-informed selection で選ぶが、本文は計算テンプレートで生成しない。実装時は小さな checked-in config（例: `src/content/model-personality.ja.json`）に owner-reviewed の固定日本語文を置き、projection build は sentence id だけを選ぶ。
+   - Selection rule: comparable AIOIS-10 adjacent pair から D1–D10 の aggregate drift を計算し、当該 model が candidate の場合は `candidate - baseline`、baseline の場合は次 pair の符号を反転して、その model らしさとして扱う。複数 pair が使える model は最新 adjacent pair を優先する。
+   - Sentence driver は `abs(drift)` descending で 1 dimension を選ぶ。`abs(drift) >= 0.75` は strong、`0.50 <= abs(drift) < 0.75` は moderate。閾値未満なら neutral fallback sentence を使う。tie は dimension order ascending。
+   - Config key は `{model, dimension, direction, strength}` または fallback を持つが、body copy には `D1`...`D10` code、drift value、`+0.96` のような内部数値を出さない。例文 shape: `現場仕事の変化を、他のモデルよりも重く見る傾向があります。`
+
+3. **意見が一致した職業 / 割れた職業**
+   - Contrast block として、全 comparable models が近く一致した occupation 約 3 件と、core story へ進む divergent intro を並べる。
+   - Selection は最新 comparable AIOIS-10 pair に固定する。Consensus は `abs(dT)` ascending の上位 3 件、tie は `id` ascending。Divergent intro は同じ pair の `abs(dT)` descending を参照し、次 section の story cards へつなぐ。
+   - 各 occupation name は `/{id}` の detail page に link する。ここでも raw table や per-dimension 値は出さない。
+
+4. **分かれた職業のストーリー（core）**
+   - 3–5 件の curated story cards を出す。Default は最新 comparable AIOIS-10 pair の `abs(dT)` descending、tie は `id` ascending。
+   - Card fields:
+
+| Field | 表示 |
+|---|---|
+| `title_ja` / `href` | 職業名。`/{id}` へ link |
+| score comparison | 2 model の transformation score を静的に比較する paired score bars。CSS または inline SVG のみ、client JS なし |
+| `baseline_rationale_ja` | baseline batch の `rationale_ja` を verbatim quote として表示 |
+| `candidate_rationale_ja` | candidate batch の `rationale_ja` を verbatim quote として表示 |
+| `editorial_sentence` | なぜ split したかを 1 文で読むための owner-reviewed 固定日本語 copy |
+
+   - Quote layout は magazine quote として扱い、表形式の side-by-side table にはしない。`rationale_ja` は改稿・要約せず、projection に入った文字列をそのまま表示する。
+   - `editorial_sentence` も computed prose ではない。実装時は checked-in config（例: `src/content/model-story-overrides.ja.json`）に occupation id ごとの固定文を置き、PR preview で owner review を受ける。
+   - Curated override は小さな checked-in config で定義する。Config は `pinned_ids`（表示順を固定する ids）と `replace_ids`（自動上位から除外し、指定 id を入れる ids）を持つ。
+   - Precedence: `pinned_ids` を先頭に置き、次に `replace_ids`、最後に automatic top `abs(dT)` rows を足して 3–5 件にする。同じ id は最初の出現だけ採用する。
+   - Fallback: override id が最新 pair で non-comparable、`rationale_ja` 欠損、occupation graph 欠損のいずれかになった場合は build warning を出してその id を除外し、automatic top rows で穴埋めする。3 件未満になる場合は build を fail させる。
+
+5. **CTA — 「あなたの職業では？」**
+   - `/models` では search / filter UI を持たない。読者を occupation detail page と diagnostic へ送る funnel にする。
+   - Copy は「あなたの職業では？」を軸にし、detail page の `score_history` block（mms-3）が職業単位の full comparison を担うことを明示する。
+   - `score_history` の no-rationale rule は維持する。比較理由文は `/models` の story projection と既存 detail projection の責務であり、`score_history` に混ぜない。
+
+6. **データについて（footer note）**
+   - 1–2 lines max。表示するのは batch dates と methodology の所在だけ。
+   - 例: `このページは 2026-05-xx / 2026-05-30 / 2026-06-13 の採点バッチをもとにしています。採点方法は /methodology と /standard を参照してください。`
+   - Methodology section、集計の読み方、operator 向け drift 解説はここに置かない。
+
+#### Removed from `/models`
+
+2c-v2 の `/models` から以下は明示的に削除する。必要な分析は operator tool として `scripts/aiois-drift-report.ts` に残す。
+
+- Batch-to-batch drift statistics table
+- D1–D10 per-dimension drift table
+- Template tendency notes
+- Rationale side-by-side table
+- Transformation histogram
+- Before/after scatter
+- Methodology section
+
+#### Data channel
+
+2c-v2 は build-time projection を使う。PR #136 branch の `src/data/projections/models-deep.ts` は starting point として流用してよいが、payload と page surface は本節の visitor-facing contract に合わせて作り直す。
+
+Projection は latest comparable pair、consensus rows、story-card payload（score bars に必要な数値、両 batch の verbatim `rationale_ja`、editorial sentence id）を持つ。Astro build が projection を読み、必要 payload を `/models` HTML に non-pretty JSON として inline する。Browser から projection JSON を fetch しない。
+
+Projection contract（build artifact name は実装時に決めてよいが、内容は 30 KB 以下）:
+
+```json
+{
+  "generated_at": "2026-07-12T00:00:00.000Z",
+  "latest_pair": {
+    "baseline": { "model": "claude-opus-4-8", "modelDisplay": "Opus 4.8", "date": "2026-05-30" },
+    "candidate": { "model": "claude-fable-5", "modelDisplay": "Fable 5", "date": "2026-06-13" },
+    "compared_count": 556
+  },
+  "model_cards": [
+    {
+      "model": "claude-fable-5",
+      "modelDisplay": "Fable 5",
+      "date": "2026-06-13",
+      "covered_count": 556,
+      "personality_sentence_id": "fable5_d3_positive_strong"
+    }
+  ],
+  "consensus": [
+    { "id": 123, "title_ja": "職業名", "href": "/123", "delta_t": 0.02 }
+  ],
+  "stories": [
+    {
+      "id": 456,
+      "title_ja": "職業名",
+      "href": "/456",
+      "baseline_transformation": 4.2,
+      "candidate_transformation": 5.4,
+      "baseline_rationale_ja": "前回 batch の rationale_ja。",
+      "candidate_rationale_ja": "今回 batch の rationale_ja。",
+      "editorial_sentence_id": "456_latest_pair_split"
+    }
+  ]
+}
+```
+
+Payload bound: inline JSON は pretty-print しない。Projection 全体は **30 KB 以下**を gate にする。30 KB を超える場合は表示対象 field を削る。`score_history` は引き続き `rationale_ja` を持たず、`pickLatestScore` / canonical score selection は変更しない。
+
+#### Rendering / copy constraints
+
+| Constraint | Rule |
+|---|---|
+| Copy language | Page body は日本語のみ。Model slug、internal code、raw metric label を読者本文に出さない |
+| Client runtime | `/models` は zero client-side JS。Hydration、client fetch、interactive chart library は使わない |
+| Layout | 既存 design tokens と 1080 layout width に合わせる |
+| Visual quality | Editorial anti-template quality を優先する。Hierarchy、quote blocks、paired score bars を使い、raw tables で読ませない |
+| Extensibility | `gpt-5.6-sol` batch 入庫時、batch file 追加だけで new model card と latest-pair recalculation が走る。Page code の手修正は不要 |
+| Approval gate | Doc PR merge 前に conductor review と owner approval を必須にする。2c-v2 code 実装は本 doc merge 後の `mms-4c-code` で別 dispatch |
 
 ## リスクとトレードオフ（記録）
 
