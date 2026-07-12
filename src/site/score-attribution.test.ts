@@ -22,6 +22,9 @@ describe('formatModelDisplay', () => {
   test('claude-opus-4-7 → Claude Opus 4.7', () => {
     assert.equal(formatModelDisplay('claude-opus-4-7'), 'Claude Opus 4.7');
   });
+  test('gpt-5.6-sol → GPT 5.6 SOL', () => {
+    assert.equal(formatModelDisplay('gpt-5.6-sol'), 'GPT 5.6 SOL');
+  });
   test('word-only id degrades gracefully', () => {
     assert.equal(formatModelDisplay('claude-fable'), 'Claude Fable');
   });

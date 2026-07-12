@@ -70,6 +70,27 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .verdict-one-line{margin:14px 0 0;padding:12px 14px;background:var(--orange-soft);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;font-size:0.88rem;line-height:1.65;color:var(--ink);font-weight:700}
     @media (min-width:900px){.verdict-one-line{margin-top:18px;font-size:0.94rem;padding:14px 16px}}
 
+    /* Multi-model score history (mms-3) */
+    section.score-history{margin-top:18px}
+    section.score-history > h2{margin-bottom:8px}
+    .score-history-note{max-width:var(--content-max);margin:0 0 12px;font-size:0.82rem;line-height:1.7;color:var(--ink-3)}
+    @media (min-width:900px){.score-history-note{margin-left:auto;margin-right:auto;font-size:0.9rem}}
+    .score-history-note a{color:var(--accent);text-decoration:underline;text-decoration-thickness:0.06em;text-underline-offset:0.16em}
+    .score-history-note a:hover{text-decoration-thickness:0.08em}
+    .score-history-table-wrap{max-width:var(--content-max);overflow-x:auto;background:var(--paper);border:1px solid var(--line-strong);border-radius:12px;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
+    @media (min-width:900px){.score-history-table-wrap{margin-left:auto;margin-right:auto}}
+    .score-history-table{width:100%;min-width:560px;border-collapse:collapse;font-size:0.8rem;font-variant-numeric:tabular-nums}
+    @media (min-width:900px){.score-history-table{font-size:0.88rem}}
+    .score-history-table th,.score-history-table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+    @media (min-width:900px){.score-history-table th,.score-history-table td{padding:12px 16px}}
+    .score-history-table th{background:var(--cream-2);color:var(--ink-3);font-size:0.72rem;line-height:1.3;font-weight:800}
+    .score-history-table tbody tr:last-child td{border-bottom:none}
+    .score-history-table tbody tr.is-current{background:rgba(217,107,61,0.06)}
+    .score-history-table .sh-model{font-weight:800;color:var(--ink)}
+    .score-history-table .sh-num,.score-history-table .sh-delta{font-family:var(--font-sans);font-weight:900;color:var(--ink)}
+    .score-history-table .sh-num span{font-size:0.72em;font-weight:600;color:var(--ink-3);margin-left:2px}
+    .score-history-badge{display:inline-flex;align-items:center;min-height:22px;margin-left:8px;padding:3px 8px;border-radius:999px;background:var(--orange-soft);color:var(--orange-hot);font-size:0.68rem;line-height:1;font-weight:900;white-space:nowrap}
+
     /* Citable fact block (Phase 1, SEO_GEO_STRATEGY.md) — the number-dense,
        attributed lead paragraph AI answer engines can quote verbatim. */
     .ai-fact{margin:0 0 18px;padding:16px 18px;background:var(--paper);border:1px solid var(--line-strong);border-left:4px solid var(--red);border-radius:0 12px 12px 0;font-size:0.96rem;line-height:1.85;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}

@@ -25,6 +25,7 @@ import JobtagAnchor from './_JobtagAnchor.astro';
 import { buildIdPageBindings } from './_id-bindings';
 import { ID_PAGE_CSS } from './_id-css';
 import type { Rec } from '@/views/occupation-detail';
+import type { ScoreHistoryView } from '@/page-data/occupation-page-data';
 import { type SpokeNeighbor } from '@/views/spoke-spoke-graph';
 import { CONTENT_DATE } from '@/lib/_content-date';
 
@@ -45,7 +46,8 @@ export async function getStaticPaths() {
   const { buildOccupationPageData, pickRelatedOccupations } = await import(
     '@/page-data/occupation-page-data'
   );
-  const { allRecs, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr } = await buildOccupationPageData();
+  const pageData = await buildOccupationPageData();
+  const { allRecs, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr, scoreHistoryArr } = pageData;
 
   return allRecs.map((rec) => ({
     params: { id: String(rec.id) },
@@ -56,6 +58,7 @@ export async function getStaticPaths() {
       rankingHitsArr,
       riskRankHitsArr,
       sameRiskArr,
+      scoreHistoryArr,
     },
   }));
 }
@@ -69,9 +72,10 @@ interface PageProps {
   rankingHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
   riskRankHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
   sameRiskArr: Array<[number, SpokeNeighbor[]]>;
+  scoreHistoryArr: Array<[number, ScoreHistoryView[]]>;
 }
 
-const { rec, related, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr } =
+const { rec, related, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr, scoreHistoryArr } =
   Astro.props as PageProps;
 
 const { loadGraph } = await import('@/graph');
@@ -85,6 +89,7 @@ const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
 const bindings = buildIdPageBindings({
   rec, related, nameLookup,
   rankingHitsByOcc: new Map(riskRankHitsArr),
+  scoreHistory: new Map(scoreHistoryArr).get(rec.id) ?? [],
   datePublished: DATE_PUBLISHED,
   dateModified: DATE_MODIFIED,
 });
@@ -93,7 +98,7 @@ const {
   rankInUniverse, rankUniverseTotal, prevDelta, aioisModelDisclaimer, worktype, aiFactHtml,
   title, seoDesc, ogTitle, ogDesc, keywords,
   ctxH2, ctxHtml,
-  metaRowHtml, aiRiskDetailHtml, aioisHtml, profileHtml, topnHtml, faqHtml,
+  metaRowHtml, scoreHistoryHtml, aiRiskDetailHtml, aioisHtml, profileHtml, topnHtml, faqHtml,
   transferHtml, orgsCertsHtml, howSection, condSection,
   legacyRelatedHtml,
   riskClass, riskColor, riskNumDisp, recruitDisp, hourlyDisp,
@@ -142,6 +147,8 @@ const {
       {aioisModelDisclaimer}
       {worktype}
     />
+
+    <Fragment set:html={scoreHistoryHtml} />
 
     <Fragment set:html={aiFactHtml} />
 

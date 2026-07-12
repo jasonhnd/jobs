@@ -53,6 +53,15 @@ export interface RankingHitView {
   readonly rank: number;
 }
 
+/** One score-history row for a single occupation detail page. */
+export interface ScoreHistoryView {
+  readonly model: string;
+  readonly date: string;
+  readonly transformation: number;
+  readonly displacement: number | null;
+  readonly dims: Record<string, number> | null;
+}
+
 /** Bundle of page-level data prep needed by [id].astro's
  *  getStaticPaths → component pipeline. */
 export interface OccupationPageDataset {
@@ -70,6 +79,8 @@ export interface OccupationPageDataset {
   /** Array-serialized Map<occId, SameRiskNeighbor[]> (Phase C
    *  cross-sector same-risk neighbors, capped at 5). */
   readonly sameRiskArr: Array<[number, Array<SameRiskNeighborView>]>;
+  /** Array-serialized Map<occId, ScoreHistoryView[]> from public/data.score_history.json. */
+  readonly scoreHistoryArr: Array<[number, Array<ScoreHistoryView>]>;
 }
 
 /** How many same-risk neighbors to keep per occupation (Phase C). */
@@ -98,6 +109,7 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
   const { buildRankings, loadOccupationsFromGraph } = await import('@/views/ranking');
   const { buildRankingHitsByOcc } = await import('@/views/spoke-hub-graph');
   const { buildSameRiskNeighbors } = await import('@/views/spoke-spoke-graph');
+  const { loadScoreHistory } = await import('@/page-data/projection-loaders');
 
   const graph = await loadGraph();
   const allRecs: Rec[] = [];
@@ -149,7 +161,22 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
     sameRiskArr.push([occId, neighbors.slice(0, SAME_RISK_TOP_N)]);
   }
 
-  return { allRecs, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr };
+  const scoreHistoryProjection = loadScoreHistory();
+  const scoreHistoryArr: Array<[number, Array<ScoreHistoryView>]> = [];
+  for (const [occId, history] of Object.entries(scoreHistoryProjection)) {
+    scoreHistoryArr.push([
+      Number.parseInt(occId, 10),
+      history.map((entry) => ({
+        model: entry.model,
+        date: entry.date,
+        transformation: entry.transformation,
+        displacement: entry.displacement,
+        dims: entry.dims,
+      })),
+    ]);
+  }
+
+  return { allRecs, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr, scoreHistoryArr };
 }
 
 function buildFullAiRiskRankHits(

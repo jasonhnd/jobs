@@ -19,7 +19,11 @@
  */
 import { join } from 'node:path';
 import { strictReadJson, strictReaddir } from '../lib/strict-load.js';
-import { DetailFileSchema } from '../lib/projection-schemas.js';
+import {
+  DetailFileSchema,
+  ScoreHistoryProjectionSchema,
+  type ScoreHistoryProjectionShape,
+} from '../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
@@ -183,4 +187,18 @@ export function loadSkillRanking(ipdKey: string): SkillRankingFile {
   ) as SkillRankingFile;
   _skillCache.set(ipdKey, data);
   return data;
+}
+
+// ─── Multi-model score history loader (occupation detail page) ───────
+
+let _scoreHistoryCache: ScoreHistoryProjectionShape | null = null;
+
+export function loadScoreHistory(): ScoreHistoryProjectionShape {
+  if (_scoreHistoryCache) return _scoreHistoryCache;
+  _scoreHistoryCache = strictReadJson(
+    join(PUBLIC_DIR, 'data.score_history.json'),
+    ScoreHistoryProjectionSchema,
+    'projection-loaders.score-history',
+  ) as ScoreHistoryProjectionShape;
+  return _scoreHistoryCache;
 }

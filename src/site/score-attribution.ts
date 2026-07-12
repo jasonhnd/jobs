@@ -28,19 +28,30 @@ export interface ScoreAttribution {
 }
 
 /**
- * "claude-opus-4-8" → "Claude Opus 4.8"; "claude-fable-5" → "Claude Fable 5".
- * Word tokens are capitalized in order; numeric tokens join into a trailing
- * dotted version. Unknown shapes degrade gracefully (never throws).
+ * "claude-opus-4-8" → "Claude Opus 4.8"; "gpt-5.6-sol" → "GPT 5.6 SOL".
+ * Trailing numeric tokens join into a dotted version. Numeric tokens that
+ * appear before later word tokens stay in place. Unknown shapes degrade
+ * gracefully (never throws).
  */
 export function formatModelDisplay(modelId: string): string {
-  const words: string[] = [];
-  const nums: string[] = [];
-  for (const token of modelId.split('-')) {
-    if (token === '') continue;
-    if (/^\d+$/.test(token)) nums.push(token);
-    else words.push(token.charAt(0).toUpperCase() + token.slice(1));
+  const tokens = modelId.split('-').filter(Boolean);
+  const firstNumeric = tokens.findIndex((token) => /^\d+(?:\.\d+)?$/.test(token));
+  if (
+    firstNumeric >= 0 &&
+    tokens.slice(firstNumeric).every((token) => /^\d+(?:\.\d+)?$/.test(token))
+  ) {
+    return [
+      ...tokens.slice(0, firstNumeric).map(displayModelToken),
+      tokens.slice(firstNumeric).join('.'),
+    ].filter(Boolean).join(' ');
   }
-  return [...words, nums.join('.')].filter(Boolean).join(' ');
+  return tokens.map(displayModelToken).join(' ');
+}
+
+function displayModelToken(token: string): string {
+  if (token.toLowerCase() === 'gpt') return 'GPT';
+  if (token.toLowerCase() === 'sol') return 'SOL';
+  return token.charAt(0).toUpperCase() + token.slice(1);
 }
 
 export interface BatchMetaForAttribution {
