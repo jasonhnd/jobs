@@ -180,6 +180,65 @@ export const ScoreHistoryProjectionSchema = z.record(
 
 export type ScoreHistoryProjectionShape = z.infer<typeof ScoreHistoryProjectionSchema>;
 
+// ─── /models magazine feature projection (public/data.models_deep.json) ───
+
+const ModelsDeepPairBatchSchema = z
+  .object({
+    model: z.string(),
+    modelDisplay: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  })
+  .strict();
+
+const ModelsDeepModelCardSchema = z
+  .object({
+    model: z.string(),
+    modelDisplay: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    covered_count: z.number().int().min(0),
+    personality_sentence_id: z.string(),
+  })
+  .strict();
+
+const ModelsDeepConsensusSchema = z
+  .object({
+    id: z.number().int(),
+    title_ja: z.string(),
+    href: z.string().regex(/^\/\d+$/),
+  })
+  .strict();
+
+const ModelsDeepStorySchema = z
+  .object({
+    id: z.number().int(),
+    title_ja: z.string(),
+    href: z.string().regex(/^\/\d+$/),
+    baseline_transformation: z.number(),
+    candidate_transformation: z.number(),
+    baseline_rationale_ja: z.string().min(1),
+    candidate_rationale_ja: z.string().min(1),
+    editorial_sentence_id: z.string(),
+  })
+  .strict();
+
+export const ModelsDeepProjectionSchema = z
+  .object({
+    generated_at: z.string(),
+    latest_pair: z
+      .object({
+        baseline: ModelsDeepPairBatchSchema,
+        candidate: ModelsDeepPairBatchSchema,
+        compared_count: z.number().int().min(1),
+      })
+      .strict(),
+    model_cards: z.array(ModelsDeepModelCardSchema).min(1),
+    consensus: z.array(ModelsDeepConsensusSchema).length(3),
+    stories: z.array(ModelsDeepStorySchema).min(3).max(5),
+  })
+  .strict();
+
+export type ModelsDeepProjectionShape = z.infer<typeof ModelsDeepProjectionSchema>;
+
 // ─── Source sector definition (data/sectors/sectors.ja-en.json) ───────
 
 const SectorDefSchema = z

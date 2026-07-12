@@ -21,11 +21,14 @@
 - `data.profile5.json` — 5 軸 radar profile。graph layer でも同じ計算を持つ。
 - `data.transfer_paths.json` — sector 内のより安全な転職候補。
 - `data.score_history.json` — multi-model comparison 用の per-occupation score history。model/date と transformation/displacement/D1-D10 の数値のみを持ち、`rationale_ja` は含めない。
+- `data.models_deep.json` — `/models` feature page 用の compact projection。最新 comparable pair、モデルカードの personality sentence id、一致職業、3〜5 件の story card（選抜された両 batch の `rationale_ja` 原文と editorial sentence id）だけを持つ。30KB 以下、browser fetch なしで HTML に inline する。
 - `data.skills/*`, `data.holland.json`, `data.labels/ja.json` — hub 系ページの入力。
 - `data.ai-adoption.json` — `/aiadoption` dashboard。
 - `data.me-positions.json` — `/me` self-positioning tool。全職業 × 全 ranking の位置を持つ。
 
 古い `data.featured.json`, `data.tasks/*`, `data.score-history/*` は runtime consumer がないため削除済み。`data.score_history.json` は multi-model comparison のため 2026-07 に単一 JSON projection として復活した。
+
+`data.models_deep.json` は `/models` の visitor-facing magazine page 専用で、`score_history` の no-rationale rule を破らないための小さな例外 projection。職業 detail の full history とは別に、ページに出す story 分だけ `rationale_ja` を原文で持つ。本文 copy は `src/content/model-personality.ja.json` と `src/content/model-story-overrides.ja.json` が owner-reviewed surface で、projection は sentence id を選ぶだけにする。
 
 ## 数値契約
 

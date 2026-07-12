@@ -1,90 +1,95 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { buildModelsPageModel, type ModelsPageInput } from './models.js';
-import type { ScoreHistoryEntry } from '@/graph';
+import {
+  buildModelsFeaturePageModel,
+  formatModelScore,
+  scoreBarWidth,
+  type ModelsDeepProjection,
+} from './models.js';
 
-const dims = (base: number) => ({
-  d1: base,
-  d2: base,
-  d3: base,
-  d4: base,
-  d5: base,
-  d6: base,
-  d7: base,
-  d8: base,
-  d9: base,
-  d10: base,
-  transformation: base,
-  displacement: base / 2,
-});
+const projection: ModelsDeepProjection = {
+  generated_at: '2026-07-12T00:00:00.000Z',
+  latest_pair: {
+    baseline: { model: 'claude-opus-4-8', modelDisplay: 'Opus 4.8', date: '2026-05-30' },
+    candidate: { model: 'claude-fable-5', modelDisplay: 'Fable 5', date: '2026-06-13' },
+    compared_count: 2,
+  },
+  model_cards: [
+    {
+      model: 'claude-fable-5',
+      modelDisplay: 'Fable 5',
+      date: '2026-06-13',
+      covered_count: 2,
+      personality_sentence_id: 'fable',
+    },
+  ],
+  consensus: [
+    { id: 1, title_ja: '職業A', href: '/1' },
+    { id: 2, title_ja: '職業B', href: '/2' },
+    { id: 3, title_ja: '職業C', href: '/3' },
+  ],
+  stories: [
+    {
+      id: 4,
+      title_ja: '職業D',
+      href: '/4',
+      baseline_transformation: 4.2,
+      candidate_transformation: 7.5,
+      baseline_rationale_ja: '前回の理由',
+      candidate_rationale_ja: '今回の理由',
+      editorial_sentence_id: 'story',
+    },
+    {
+      id: 5,
+      title_ja: '職業E',
+      href: '/5',
+      baseline_transformation: 2,
+      candidate_transformation: 6,
+      baseline_rationale_ja: '前回の理由',
+      candidate_rationale_ja: '今回の理由',
+      editorial_sentence_id: 'story',
+    },
+    {
+      id: 6,
+      title_ja: '職業F',
+      href: '/6',
+      baseline_transformation: 3,
+      candidate_transformation: 8,
+      baseline_rationale_ja: '前回の理由',
+      candidate_rationale_ja: '今回の理由',
+      editorial_sentence_id: 'story',
+    },
+  ],
+};
 
-function entry(
-  model: string,
-  date: string,
-  transformation: number,
-  displacement: number | null,
-): ScoreHistoryEntry {
-  return {
-    model,
-    date,
-    transformation,
-    rationaleJa: '',
-    displacement,
-    dims: displacement == null ? null : dims(transformation),
-    confidence: 0.8,
-  };
-}
+describe('models feature view model', () => {
+  test('hydrates copy IDs and keeps compact escaped projection JSON', () => {
+    const page = buildModelsFeaturePageModel(
+      projection,
+      { sentences: { fable: '固定文です。' } },
+      { editorial_sentences: { story: '編集文です。' } },
+    );
 
-function fixture(withFourthBatch = false): ModelsPageInput {
-  const occ1 = [
-    entry('claude-opus-4-7', '2026-04-25', 5.0, null),
-    entry('claude-opus-4-8', '2026-05-30', 6.0, 2.0),
-    entry('claude-fable-5', '2026-06-13', 7.0, 3.0),
-  ];
-  const occ2 = [
-    entry('claude-opus-4-7', '2026-04-25', 4.0, null),
-    entry('claude-opus-4-8', '2026-05-30', 3.0, 1.0),
-    entry('claude-fable-5', '2026-06-13', 2.0, 0.5),
-  ];
-  if (withFourthBatch) {
-    occ1.push(entry('gpt-5.6-sol', '2026-07-01', 8.0, 4.0));
-    occ2.push(entry('gpt-5.6-sol', '2026-07-01', 1.0, 0.2));
-  }
-  return {
-    historyByOcc: new Map([
-      [1, occ1],
-      [2, occ2],
-    ]),
-    titlesByOcc: new Map([
-      [1, '職業A'],
-      [2, '職業B'],
-    ]),
-    totalOccupations: 2,
-  };
-}
-
-describe('buildModelsPageModel', () => {
-  test('groups batches, marks latest run date as canonical, and excludes legacy from drift pairs', () => {
-    const model = buildModelsPageModel(fixture());
-    assert.deepEqual(model.batches.map((b) => b.model), [
-      'claude-opus-4-7',
-      'claude-opus-4-8',
-      'claude-fable-5',
-    ]);
-    assert.equal(model.canonical.model, 'claude-fable-5');
-    assert.equal(model.batches[0]!.meanDisplacement, null);
-    assert.equal(model.driftPairs.length, 1);
-    assert.equal(model.driftPairs[0]!.report.comparedCount, 2);
-    assert.equal(model.driftPairs[0]!.report.meanDriftT, 0);
+    assert.equal(page.pageLastUpdated, '2026-06-13');
+    assert.equal(page.batchDatesText, '2026-06-13');
+    assert.equal(page.modelCards[0]!.personality_sentence, '固定文です。');
+    assert.equal(page.stories[0]!.editorial_sentence, '編集文です。');
+    assert.equal(page.projectionJson.includes('\n'), false);
+    assert.equal(page.projectionJson.includes('<'), false);
   });
 
-  test('a fourth AIOIS batch extends summaries and drift pairs without code changes', () => {
-    const model = buildModelsPageModel(fixture(true));
-    assert.equal(model.batches.length, 4);
-    assert.equal(model.canonical.model, 'gpt-5.6-sol');
-    assert.equal(model.driftPairs.length, 2);
-    assert.equal(model.latestPair?.candidate.model, 'gpt-5.6-sol');
-    assert.deepEqual(model.largestDivergences.map((row) => row.id), [1, 2]);
+  test('fails when checked-in copy is missing', () => {
+    assert.throws(
+      () => buildModelsFeaturePageModel(projection, { sentences: {} }, { editorial_sentences: { story: '編集文です。' } }),
+      /personality copy missing/,
+    );
+  });
+
+  test('formats static score bars', () => {
+    assert.equal(formatModelScore(4), '4.0');
+    assert.equal(scoreBarWidth(7.52), '75%');
+    assert.equal(scoreBarWidth(11), '100%');
+    assert.equal(scoreBarWidth(-1), '0%');
   });
 });
