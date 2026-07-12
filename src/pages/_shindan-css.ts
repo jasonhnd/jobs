@@ -63,12 +63,6 @@ button,input{font:inherit}
 .shindan-side{position:sticky;top:76px;display:grid;gap:14px}
 .shindan-side-note{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);border-radius:var(--shindan-radius);padding:16px;color:var(--fg2);font-size:.86rem;line-height:1.7}
 .shindan-side-note strong{display:block;color:var(--fg);margin-bottom:4px}
-.shindan-mbti-entry p{margin:0 0 12px;color:var(--fg2)}
-.shindan-mbti-list{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--border)}
-.shindan-mbti-list a{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);color:var(--fg);text-decoration:none}
-.shindan-mbti-list a:hover{color:var(--accent-deep);text-decoration:none}
-.shindan-mbti-list span{font-weight:800;letter-spacing:0}
-.shindan-mbti-list small{color:var(--fg2);font-size:.78rem;white-space:nowrap}
 .shindan-result{margin-top:28px}
 .shindan-result[hidden]{display:none}
 .shindan-result-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--shindan-radius);overflow:hidden}

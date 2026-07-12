@@ -10,7 +10,6 @@ import { join } from 'node:path';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { SHINDAN_CSS } from './_shindan-css';
-import { PHASE1_MBTI_CONTENT } from '@/views/mbti-content';
 import {
   DISCLAIMER,
   FAMILIES,
@@ -29,11 +28,6 @@ const title = 'AI働き方診断｜9問でわかるあなたの働き方タイ�
 const seoDesc =
   '9問の働き方診断で、AI時代のあなたのタイプを家族名とバリアントで表示。職業データ全体での静的な分布、軸の内訳、代表職業、共有リンクまでブラウザだけで完結します。';
 const keywords = 'AI働き方診断, 仕事タイプ, 適職, AI時代, 働き方, 職業データ';
-const mbtiEntryLinks = PHASE1_MBTI_CONTENT.map(({ label, commonNameJa, slug }) => ({
-  href: `/mbti/${slug}`,
-  label,
-  commonNameJa,
-}));
 
 const SHINDAN_INLINE_JS = readFileSync(
   join(process.cwd(), 'src', 'pages', '_shindan.js'),
@@ -189,20 +183,6 @@ const jsonLd = safeJsonForScript({
         <div class="shindan-side-note">
           <strong>AIで変わる仕事を、次の一手に変える</strong>
           高い・低いの序列ではなく、AIに任せやすい部分と、あなたが残す価値を見つけるための診断です。
-        </div>
-        <div class="shindan-side-note shindan-mbti-entry">
-          <strong>MBTIタイプから見る</strong>
-          <p>知っているタイプがある人は、職業データでAI時代の働き方を先に確認できます。</p>
-          <ul class="shindan-mbti-list" aria-label="MBTIタイプ別の入口">
-            {mbtiEntryLinks.map((type) => (
-              <li>
-                <a href={type.href}>
-                  <span>{type.label}</span>
-                  <small>{type.commonNameJa}</small>
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
       </aside>
     </div>

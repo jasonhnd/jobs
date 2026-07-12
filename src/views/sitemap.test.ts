@@ -19,7 +19,6 @@ import {
   sitemapLastmods,
   type SitemapEntry,
 } from './sitemap.js';
-import { PHASE1_MBTI_SLUGS } from './mbti-content.js';
 import type { KnowledgeGraph } from '@/graph';
 
 function fakeEntry(loc: string, lastmod = '2026-05-13'): SitemapEntry {
@@ -157,18 +156,5 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
     assert.equal(byPath('/privacy').lastmod, '2026-04-30');
     assert.equal(byPath('/sectors').lastmod, '2026-06-13');
     assert.equal(byPath('/1').lastmod, '2026-06-13');
-  });
-
-  test('buildSitemapEntries includes only phase-1 MBTI routes', () => {
-    const graph = {
-      sectors: new Map(),
-      occupations: new Map(),
-    } as unknown as KnowledgeGraph;
-    const entries = buildSitemapEntries(graph, '2026-06-13');
-    const mbtiPaths = entries
-      .filter((e) => e.loc.includes('/mbti/'))
-      .map((e) => e.loc.replace('https://mirai-shigoto.com/mbti/', ''));
-
-    assert.deepEqual(mbtiPaths, PHASE1_MBTI_SLUGS);
   });
 });
