@@ -26,6 +26,7 @@ export type {
   OccupationStats,
   OccupationClassifications,
   OccupationDescription,
+  ScoreHistoryEntry,
   DimensionLabel,
   // Edge types
   WeightedEdge,

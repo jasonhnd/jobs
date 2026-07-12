@@ -53,6 +53,7 @@ export interface SitemapLastmods {
   readonly about: string;
   readonly standard: string;
   readonly methodology: string;
+  readonly models: string;
   readonly data: string;
   readonly compliance: string;
   readonly yearly: string;
@@ -88,6 +89,7 @@ export function sitemapLastmods(graph: KnowledgeGraph, fallback: string): Sitema
     about: content,
     standard: content,
     methodology: content,
+    models: content,
     data: content,
     compliance: content,
     yearly: content,
@@ -102,6 +104,7 @@ function normalizeLastmods(lastmods: string | SitemapLastmods): SitemapLastmods 
     about: lastmods,
     standard: lastmods,
     methodology: lastmods,
+    models: lastmods,
     data: lastmods,
     compliance: lastmods,
     yearly: lastmods,
@@ -162,6 +165,7 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/about`, lastmods.about, 'monthly', '0.5'));
   entries.push(entry(`${SITE_ORIGIN}/standard`, lastmods.standard, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/methodology`, lastmods.methodology, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/models`, lastmods.models, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/data`, lastmods.data, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/compliance`, lastmods.compliance, 'monthly', '0.4'));
 

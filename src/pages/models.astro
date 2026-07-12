@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
+import {
+  AIOIS_DIM_LABELS,
+  buildModelsPageModelFromGraph,
+  formatFixed,
+  formatSigned,
+} from '@/views/models';
+
+const graph = await loadGraph();
+const page = buildModelsPageModelFromGraph(graph, OCCUPATION_COUNT.TOTAL);
+const pageLastUpdated = page.canonical.date;
+const pageTitle = 'モデル比較 — AIOIS-10 採点バッチ差分 | 未来の仕事';
+const pageDescription =
+  'AIOIS-10 の採点バッチを横断比較。モデルごとの平均値、連続バッチ間の drift、変化が大きい職業、正典バッチの決め方をまとめます。';
+
+const bandLabels = {
+  low: '低',
+  mid: '中',
+  high: '高',
+} as const;
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${siteConfig.origin}/models#webpage`,
+      name: 'モデル比較 — AIOIS-10 採点バッチ差分',
+      url: `${siteConfig.origin}/models`,
+      description: pageDescription,
+      inLanguage: 'ja',
+      isPartOf: { '@id': `${siteConfig.origin}/#website` },
+      datePublished: '2026-07-12',
+      dateModified: pageLastUpdated,
+      breadcrumb: { '@id': `${siteConfig.origin}/models#breadcrumb` },
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '.lead'] },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${siteConfig.origin}/models#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: `${siteConfig.origin}/` },
+        { '@type': 'ListItem', position: 2, name: 'モデル比較', item: `${siteConfig.origin}/models` },
+      ],
+    },
+  ],
+}, null, 2);
+
+const localCss = `
+.models-wide{max-width:100%;margin-top:22px}
+.models-scroll:focus{outline:2px solid var(--accent);outline-offset:3px}
+.models-table{min-width:860px}
+.models-table th,.models-table td{vertical-align:top}
+.models-table td:first-child,.models-table th:first-child{min-width:170px}
+.models-table .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.models-table .dims{font-size:.74rem;line-height:1.55;color:var(--fg2);min-width:230px}
+.badge-current{display:inline-flex;align-items:center;margin-left:8px;padding:2px 8px;border:1px solid rgba(72,112,95,.45);border-radius:999px;background:rgba(72,112,95,.1);color:var(--green-deep);font-size:.72rem;font-weight:700}
+.pair-block{margin:18px 0 28px}
+.pair-title{font-family:var(--font-serif);font-weight:600;color:var(--fg);margin:0 0 8px;font-size:1rem}
+.pair-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:10px 0 12px;max-width:920px}
+.pair-stat{border:1px solid var(--border);background:var(--bg2);border-radius:8px;padding:10px 12px}
+.pair-stat span{display:block;color:var(--fg2);font-size:.74rem}
+.pair-stat strong{display:block;font-size:1rem;font-variant-numeric:tabular-nums}
+.band-matrix{max-width:520px;min-width:420px}
+.delta-up{color:var(--risk-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.delta-down{color:var(--green-deep);font-variant-numeric:tabular-nums;white-space:nowrap}
+.delta-flat{color:var(--fg2);font-variant-numeric:tabular-nums;white-space:nowrap}
+@media(max-width:760px){
+  .pair-stats{grid-template-columns:1fr 1fr}
+  .models-table,.band-matrix{min-width:720px}
+}
+`;
+
+function deltaClass(n: number): string {
+  if (n > 0) return 'delta-up';
+  if (n < 0) return 'delta-down';
+  return 'delta-flat';
+}
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={`${siteConfig.origin}/models`}
+  keywords="AIOIS-10, モデル比較, AI 影響スコア, 採点バッチ, drift, 職業, Claude"
+  ogTitle="モデル比較 — AIOIS-10 採点バッチ差分"
+  ogDescription={pageDescription}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={`${CANONICAL_DOC_CSS}\n${localCss}`} />
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">日本の職業 AI 影響マップ</a>
+      <span aria-hidden="true">›</span>
+      <span>モデル比較</span>
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent">モデル比較</span></h1>
+      <p class="subtitle">採点バッチごとの平均値と、連続する AIOIS-10 バッチ間の差分</p>
+      <p class="meta-line">最終更新 {pageLastUpdated} ・ 正典 {page.canonical.modelDisplay}</p>
+      <p class="lead">
+        本ページは、保存済みの採点バッチを横断して「モデルがどこで違うか」を見るための静的レポートです。
+        集計は <a href="/standard">AIOIS-10</a> の 2 指数と D1〜D10 を使い、連続する AIOIS-10 バッチの drift を同じ計算で比較します。
+      </p>
+    </header>
+
+    <section>
+      <h2><span class="num">1.</span>モデル別サマリー</h2>
+      <div class="wrap-x models-wide models-scroll" tabindex="0" role="region" aria-label="モデル別サマリーテーブル">
+        <table class="ex models-table">
+          <thead>
+            <tr>
+              <th>モデル</th>
+              <th>実行日</th>
+              <th>カバレッジ</th>
+              <th>変化の大きさ 平均</th>
+              <th>仕事が減るリスク 平均</th>
+              <th>D1〜D10 平均</th>
+            </tr>
+          </thead>
+          <tbody>
+            {page.batches.map((batch) => (
+              <tr>
+                <td>
+                  <strong>{batch.modelDisplay}</strong>
+                  {batch.isCanonical && <span class="badge-current">正典</span>}
+                  <br /><code>{batch.model}</code>
+                </td>
+                <td class="num">{batch.date}</td>
+                <td class="num">{batch.coverage}/{batch.total}</td>
+                <td class="num">{formatFixed(batch.meanTransformation)}</td>
+                <td class="num">{formatFixed(batch.meanDisplacement)}</td>
+                <td class="dims">
+                  {batch.dimMeans
+                    ? batch.dimMeans.map((v, i) => `${AIOIS_DIM_LABELS[i]} ${v.toFixed(2)}`).join(' / ')
+                    : 'AIOIS-10 次元なし'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="num">2.</span>バッチ間 drift</h2>
+      {page.driftPairs.map((pair) => (
+        <div class="pair-block">
+          <h3 class="pair-title">{pair.base.modelDisplay}（{pair.base.date}）→ {pair.candidate.modelDisplay}（{pair.candidate.date}）</h3>
+          <div class="pair-stats">
+            <div class="pair-stat"><span>共通職業</span><strong>{pair.report.comparedCount}</strong></div>
+            <div class="pair-stat"><span>変化の大きさ drift</span><strong>{formatSigned(pair.report.meanDriftT)}</strong></div>
+            <div class="pair-stat"><span>|drift| 平均</span><strong>{formatFixed(pair.report.meanAbsDriftT)}</strong></div>
+            <div class="pair-stat"><span>帯をまたいだ職業</span><strong>{pair.report.bandCrossCount}</strong></div>
+          </div>
+          <div class="wrap-x models-scroll" tabindex="0" role="region" aria-label={`${pair.base.modelDisplay}から${pair.candidate.modelDisplay}への帯移動テーブル`}>
+            <table class="ex band-matrix">
+              <thead>
+                <tr><th>前 → 後</th><th>低</th><th>中</th><th>高</th></tr>
+              </thead>
+              <tbody>
+                {(['low', 'mid', 'high'] as const).map((from) => (
+                  <tr>
+                    <td>{bandLabels[from]}</td>
+                    <td class="num">{pair.report.bandMatrix[from].low}</td>
+                    <td class="num">{pair.report.bandMatrix[from].mid}</td>
+                    <td class="num">{pair.report.bandMatrix[from].high}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <section>
+      <h2><span class="num">3.</span>差が大きい職業</h2>
+      {page.latestPair && (
+        <p>
+          最新 2 つの AIOIS-10 バッチ（{page.latestPair.base.modelDisplay} → {page.latestPair.candidate.modelDisplay}）で、
+          「変化の大きさ」の差が大きい順に並べています。
+        </p>
+      )}
+      <div class="wrap-x models-wide models-scroll" tabindex="0" role="region" aria-label="差が大きい職業テーブル">
+        <table class="ex models-table">
+          <thead>
+            <tr>
+              <th>職業</th>
+              <th>前回</th>
+              <th>今回</th>
+              <th>差分</th>
+              <th>帯</th>
+              <th>順位</th>
+            </tr>
+          </thead>
+          <tbody>
+            {page.largestDivergences.map((row) => (
+              <tr>
+                <td><a href={`/${row.id}`}>{row.title}</a></td>
+                <td class="num">{row.baseT.toFixed(1)}</td>
+                <td class="num">{row.candT.toFixed(1)}</td>
+                <td class={deltaClass(row.dT)}>{formatSigned(row.dT)}</td>
+                <td>{bandLabels[row.baseBand]} → {bandLabels[row.candBand]}</td>
+                <td class="num">{row.baseRank} → {row.candRank}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="doc-prose">
+      <h2><span class="num">4.</span>方法論メモ</h2>
+      <p>
+        現在の正典バッチは <strong>{page.canonical.modelDisplay}（{page.canonical.date}）</strong>です。
+        ルールは単純で、全職業の現在値には「最新の実行日」のバッチを採用します。採点基準は
+        <a href="/standard">AIOIS-10 標準</a>、データ整理と評価プロセスは <a href="/methodology">評価プロセス</a> にまとめています。
+      </p>
+      <p>
+        旧バッチの Claude Opus 4.7 は単一軸スコアで、AIOIS-10 の D1〜D10 と仕事が減るリスクを持ちません。
+        そのため、D1〜D10 平均とバッチ間 drift の計算からは除外しています。
+      </p>
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

@@ -36,6 +36,7 @@ const ENDPOINTS: Endpoint[] = [
   { path: '/data.transfer_paths.json', desc: '職業間の転職パス推薦（スキル重複ベース）', shape: 'JSON' },
   { path: '/data.ai-adoption.json', desc: 'AI 採用率ダッシュボード（/aiadoption）の層別データ', shape: 'JSON' },
   { path: '/data.me-positions.json', desc: '各ランキングでの職業ごとの順位', shape: 'JSON' },
+  { path: '/data.score_history.json', desc: '採点バッチ履歴（/models のモデル比較に使用）', shape: 'JSON' },
 ];
 
 const distribution = ENDPOINTS
@@ -149,7 +150,8 @@ const jsonLd = JSON.stringify({
       <h2>スコアの定義</h2>
       <p>
         各スコアの意味・算出方法は <a href="/standard">AIOIS-10 標準</a>（10 次元と 2 指数の定義）と
-        <a href="/methodology">評価プロセス</a>（データ整理と採点手順）を参照してください。
+        <a href="/methodology">評価プロセス</a>（データ整理と採点手順）を参照してください。採点バッチ間の差分は
+        <a href="/models">モデル比較</a>で確認できます。
       </p>
     </section>
 
