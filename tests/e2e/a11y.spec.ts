@@ -43,6 +43,7 @@ const PAGES: ReadonlyArray<{ url: string; name: string }> = [
   { url: '/ja/compare',                  name: 'compare hub index' },
   { url: '/ja/q/ai-de-kienai',           name: 'Q&A item' },
   { url: '/privacy',                     name: 'privacy legal page' },
+  { url: '/models',                      name: 'models comparison page' },
 ];
 
 // Rules we intentionally skip:
