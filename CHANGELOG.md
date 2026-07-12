@@ -12,6 +12,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Added
 
+- Restored `public/data.score_history.json` as a single-file multi-model score
+  history projection for comparison UI work. SEO baseline data-file drift is
+  intentional because the public data endpoint is newly emitted (#123).
 - Added `/gyakuten`, the static AI働き方診断 front door and 図鑑: 8 work-type
   family cards, 24 locked variant cards, family-level representative jobs and
   rarity, family-level 相性, and `/shindan` CTAs. SEO baseline drift is

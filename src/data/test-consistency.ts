@@ -15,6 +15,7 @@ import { existsSync, readdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { riskBand } from './lib/bands.js';
+import { ScoreHistoryProjectionSchema } from '../lib/projection-schemas.js';
 
 const REPO = process.cwd();
 
@@ -80,6 +81,7 @@ async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void
     'data.profile5.json',
     'data.worktypes.json',
     'data.transfer_paths.json',
+    'data.score_history.json',
     'data.holland.json',
     'data.labels/ja.json',
     // Removed in Step 12: data.featured.json (dead projection).
@@ -88,7 +90,7 @@ async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void
     'data.detail',         // 556 per-occupation files
     'data.skills',         // 39 per-skill files + index
     // Removed in Step 12: data.tasks (556 dead files) and
-    // data.score-history (552 dead files) — both projections deleted.
+    // data.score-history (old 552-file directory).
   ];
   for (const f of requiredFiles) {
     const p = join(distRoot, f);
@@ -499,6 +501,78 @@ async function checkReviewQueue(distRoot: string, r: Report): Promise<void> {
   if (ambig > 0) r.warn(`${ambig} occupation(s) ambiguous`);
 }
 
+function containsForbiddenKey(value: unknown, forbiddenKey: string): boolean {
+  if (Array.isArray(value)) {
+    return value.some((item) => containsForbiddenKey(item, forbiddenKey));
+  }
+  if (value && typeof value === 'object') {
+    for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
+      if (key === forbiddenKey) return true;
+      if (containsForbiddenKey(child, forbiddenKey)) return true;
+    }
+  }
+  return false;
+}
+
+async function checkScoreHistory(
+  distRoot: string,
+  r: Report,
+  expectedIds: Set<number>,
+): Promise<void> {
+  const f = join(distRoot, 'data.score_history.json');
+  if (!existsSync(f)) return;
+
+  let data: unknown;
+  try {
+    data = await loadJson(f);
+  } catch (err) {
+    r.fail(`data.score_history.json invalid JSON: ${(err as Error).message}`);
+    return;
+  }
+
+  const parsed = ScoreHistoryProjectionSchema.safeParse(data);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    r.fail(
+      `data.score_history.json schema invalid: ${issue ? `${issue.path.join('.')} ${issue.message}` : parsed.error.message}`,
+    );
+    return;
+  }
+
+  if (containsForbiddenKey(parsed.data, 'rationale_ja')) {
+    r.fail('data.score_history.json must not contain rationale_ja');
+  }
+
+  const actualIds = new Set(Object.keys(parsed.data).map((id) => Number.parseInt(id, 10)));
+  if (actualIds.size !== expectedIds.size) {
+    r.fail(`data.score_history.json key count (${actualIds.size}) != total source occupations (${expectedIds.size})`);
+  }
+  const missing: number[] = [];
+  for (const id of expectedIds) if (!actualIds.has(id)) missing.push(id);
+  const extra: number[] = [];
+  for (const id of actualIds) if (!expectedIds.has(id)) extra.push(id);
+  if (missing.length > 0) r.fail(`data.score_history.json missing ids: ${missing.slice(0, 5).join(', ')}`);
+  if (extra.length > 0) r.fail(`data.score_history.json has unknown ids: ${extra.slice(0, 5).join(', ')}`);
+
+  let entries = 0;
+  for (const [occId, history] of Object.entries(parsed.data)) {
+    entries += history.length;
+    for (let i = 1; i < history.length; i += 1) {
+      if (history[i - 1]!.date > history[i]!.date) {
+        r.fail(`data.score_history.json id=${occId} entries are not ordered by date ascending`);
+        break;
+      }
+    }
+    for (const [idx, entry] of history.entries()) {
+      if (entry.dims != null && Object.keys(entry.dims).length !== 10) {
+        r.fail(`data.score_history.json id=${occId}[${idx}] dims must have all 10 dimensions`);
+      }
+    }
+  }
+
+  r.note(`score_history: ${actualIds.size} occupations, ${entries} entries`);
+}
+
 function checkTreemapV110(
   records: unknown[],
   sectorIds: Set<string> | null,
@@ -598,6 +672,7 @@ async function main(): Promise<void> {
   await checkSearch(distRoot, r, allOccIds.size);
   await checkDetailFiles(distRoot, r, allOccIds);
   await checkLabels(distRoot, r);
+  await checkScoreHistory(distRoot, r, allOccIds);
 
   const sectorIds = await checkSectors(distRoot, r);
   await checkReviewQueue(distRoot, r);
@@ -612,7 +687,7 @@ async function main(): Promise<void> {
   await checkNonEmptyJsonShape(distRoot, 'data.transfer_paths.json', 'paths', r);
   await checkPerOccupationDir(distRoot, 'data.skills', 30, r);
   // Step 12 removed: data.featured.json (dead projection),
-  // data.tasks (556 dead files), data.score-history (552 dead files).
+  // data.tasks (556 dead files), data.score-history (old 552-file dir).
 
   // Cross-projection invariants — every id referenced by the search /
   // transfer_paths projections must point at an occupation that

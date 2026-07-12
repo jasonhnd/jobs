@@ -145,6 +145,41 @@ export const WorktypesProjectionSchema = z
 
 export type WorktypesProjectionShape = z.infer<typeof WorktypesProjectionSchema>;
 
+// ─── Multi-model score history (public/data.score_history.json) ───────
+
+const ScoreHistoryDimsSchema = z
+  .object({
+    d1: z.number(), d2: z.number(), d3: z.number(), d4: z.number(), d5: z.number(),
+    d6: z.number(), d7: z.number(), d8: z.number(), d9: z.number(), d10: z.number(),
+  })
+  .strict();
+
+export const ScoreHistoryEntrySchema = z
+  .object({
+    model: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    transformation: z.number(),
+    displacement: z.number().nullable(),
+    dims: ScoreHistoryDimsSchema.nullable(),
+  })
+  .strict()
+  .superRefine((entry, ctx) => {
+    if ((entry.displacement === null) !== (entry.dims === null)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['dims'],
+        message: 'displacement and dims must be null together for legacy entries',
+      });
+    }
+  });
+
+export const ScoreHistoryProjectionSchema = z.record(
+  z.string().regex(/^\d+$/),
+  z.array(ScoreHistoryEntrySchema).min(1),
+);
+
+export type ScoreHistoryProjectionShape = z.infer<typeof ScoreHistoryProjectionSchema>;
+
 // ─── Source sector definition (data/sectors/sectors.ja-en.json) ───────
 
 const SectorDefSchema = z
