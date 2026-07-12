@@ -15,7 +15,7 @@ import { existsSync, readdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { riskBand } from './lib/bands.js';
-import { ScoreHistoryProjectionSchema } from '../lib/projection-schemas.js';
+import { ModelsDeepProjectionSchema, ScoreHistoryProjectionSchema } from '../lib/projection-schemas.js';
 
 const REPO = process.cwd();
 
@@ -31,6 +31,7 @@ const TREEMAP_REQUIRED_KEYS = new Set([
 const RISK_TIERS = ['low', 'mid', 'high'] as const;
 const JAPAN_WORKFORCE_LIMIT = 70_000_000;
 const MIN_OCCUPATIONS_PER_SECTOR = 5;
+const MODELS_DEEP_MAX_BYTES = 30 * 1024;
 
 const VALID_HUE = new Set(['safe', 'mid', 'warm', 'risk']);
 const VALID_RISK_BAND = new Set(['low', 'mid', 'high', null]);
@@ -82,6 +83,7 @@ async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void
     'data.worktypes.json',
     'data.transfer_paths.json',
     'data.score_history.json',
+    'data.models_deep.json',
     'data.holland.json',
     'data.labels/ja.json',
     // Removed in Step 12: data.featured.json (dead projection).
@@ -573,6 +575,55 @@ async function checkScoreHistory(
   r.note(`score_history: ${actualIds.size} occupations, ${entries} entries`);
 }
 
+async function checkModelsDeep(
+  distRoot: string,
+  r: Report,
+  expectedIds: Set<number>,
+): Promise<void> {
+  const f = join(distRoot, 'data.models_deep.json');
+  if (!existsSync(f)) return;
+
+  const bytes = statSync(f).size;
+  if (bytes > MODELS_DEEP_MAX_BYTES) {
+    r.fail(`data.models_deep.json is ${bytes} bytes, expected <= ${MODELS_DEEP_MAX_BYTES}`);
+  }
+
+  let data: unknown;
+  try {
+    data = await loadJson(f);
+  } catch (err) {
+    r.fail(`data.models_deep.json invalid JSON: ${(err as Error).message}`);
+    return;
+  }
+
+  const parsed = ModelsDeepProjectionSchema.safeParse(data);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    r.fail(
+      `data.models_deep.json schema invalid: ${issue ? `${issue.path.join('.')} ${issue.message}` : parsed.error.message}`,
+    );
+    return;
+  }
+
+  const referencedIds = [
+    ...parsed.data.consensus.map((row) => row.id),
+    ...parsed.data.stories.map((story) => story.id),
+  ];
+  for (const id of referencedIds) {
+    if (!expectedIds.has(id)) {
+      r.fail(`data.models_deep.json references unknown occupation id: ${id}`);
+    }
+  }
+
+  if (new Set(parsed.data.stories.map((story) => story.id)).size !== parsed.data.stories.length) {
+    r.fail('data.models_deep.json stories contain duplicate occupation ids');
+  }
+
+  r.note(
+    `models_deep: cards=${parsed.data.model_cards.length} consensus=${parsed.data.consensus.length} stories=${parsed.data.stories.length} bytes=${bytes}`,
+  );
+}
+
 function checkTreemapV110(
   records: unknown[],
   sectorIds: Set<string> | null,
@@ -673,6 +724,7 @@ async function main(): Promise<void> {
   await checkDetailFiles(distRoot, r, allOccIds);
   await checkLabels(distRoot, r);
   await checkScoreHistory(distRoot, r, allOccIds);
+  await checkModelsDeep(distRoot, r, allOccIds);
 
   const sectorIds = await checkSectors(distRoot, r);
   await checkReviewQueue(distRoot, r);

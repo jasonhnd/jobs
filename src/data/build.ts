@@ -31,6 +31,7 @@ import { buildDetail } from './projections/detail.js';
 import { buildHolland } from './projections/holland.js';
 import { buildLabels } from './projections/labels.js';
 import { buildMePositions } from './projections/me-positions.js';
+import { buildModelsDeep } from './projections/models-deep.js';
 import { buildProfile5 } from './projections/profile5.js';
 import { buildSearch } from './projections/search.js';
 import { buildScoreHistory } from './projections/score-history.js';
@@ -276,6 +277,14 @@ async function main(): Promise<void> {
     runs.push(await runProjection('score-history', async () => {
       const r = await buildScoreHistory(indexes, STAGE_DIST);
       return { files: r.files, summary: `occupations=${r.occupations} entries=${r.entries}` };
+    }));
+
+    runs.push(await runProjection('models-deep', async () => {
+      const r = await buildModelsDeep(indexes, STAGE_DIST);
+      return {
+        files: r.files,
+        summary: `cards=${r.modelCards} consensus=${r.consensus} stories=${r.stories} bytes=${r.bytes}`,
+      };
     }));
 
     runs.push(await runProjection('skills', async () => {
