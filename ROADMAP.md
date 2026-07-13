@@ -17,9 +17,63 @@ site-wide canonical on `preview` (#146, batch `occupations_gpt-5.6-sol_2026-07-1
 mean transformation ~4.89). Preview validated + owner-approved. `main` (production)
 push is the owner's manual `git push origin preview:main`.
 
-Next active work = the parked /models v2 design debt below (mms-4d). The
-minimal pre-land page-guard (de-hardcode counts + pair-key copy fallback) already
-shipped in #144; mms-4d is the full visitor-facing rework. Doc-first as usual.
+Next active work = **mms-4d**: /models information-architecture v3 = a hub +
+per-model pages, folding in the mms-4c design debt. Owner-designed 2026-07-13.
+The minimal pre-land page-guard (de-hardcode counts + pair-key copy fallback)
+already shipped in #144. Doc-first; owner reviews the design doc, then each
+code PR's Vercel preview, before merge.
+
+Agreed IA:
+- **`/models` (hub)**: visitor magazine treatment of the CURRENT canonical
+  model + consensus/divergent stories + a full-model roster/timeline, each
+  model linking to its own page. This is where mms-4c's "latest featured,
+  others collapse" resolves — "others" collapse to links.
+- **`/models/{slug}` (per-model data page, NEW)**: one rich page per batch,
+  auto-generated via getStaticPaths (new batch → new page, no hand-authoring
+  of data). Slug = model id minus the `claude-` prefix (claude-opus-4-8 →
+  `opus-4-8`; gpt-5.6-sol → `gpt-5.6-sol`). Content: model profile
+  (display name / provider / run date / coverage) + band distribution
+  (histogram + mean) + that model's highest/lowest occupations by
+  transformation + drift vs its predecessor batch + links to occupation
+  detail pages. All 4 models incl. current GPT get a page. Zero client JS,
+  Japanese only, SEO + JSON-LD + breadcrumb. This is the new home for the
+  statistics depth removed from /models in mms-4c.
+
+```yaml
+- id: mms-4d-doc
+  title: Design — /models IA v3 (hub + per-model pages)
+  scope: >
+    One design doc (docs/MULTI_MODEL_SCORING.md, supersede/extend 2c-v2):
+    (1) /models hub structure; (2) /models/{slug} per-model page spec —
+    slug scheme (strip claude- prefix + a slug<->model helper), getStaticPaths
+    auto-generation from data/scores/, content blocks (profile, distribution
+    histogram, top/bottom occupations, drift-vs-predecessor, occupation
+    links), build-time projection contract, SEO/JSON-LD/breadcrumb, zero JS;
+    (3) fold the 6 mms-4c design-debt items (see Design decisions below).
+    Owner reviews before merge. No code.
+  depends_on: []
+
+- id: mms-4d-code-a
+  title: /models/{slug} per-model data pages (implement first)
+  scope: >
+    Add src/pages/models/[model].astro with getStaticPaths over the batches,
+    a model<->slug helper, and the per-model projection. Rich data page per
+    the merged doc. Regenerate baselines; a11y/SEO/internal-link/JSON-LD gates
+    green. Merge gate: owner approves the rendered PR preview.
+  depends_on:
+    - mms-4d-doc
+
+- id: mms-4d-code-b
+  title: /models hub rework (visual realign + roster + CJK)
+  scope: >
+    Rebuild /models per the merged doc: realign to the main visitor-page
+    visual language (not CANONICAL_DOC_CSS), current-model magazine feature +
+    full-model roster/timeline linking to the per-model pages, CJK line-break
+    fixes, name unification, detail-page score-history <details> collapse.
+    Regenerate baselines; gates green. Merge gate: owner approves preview.
+  depends_on:
+    - mms-4d-code-a
+```
 
 ### Done — GPT 5.6 SOL scoring (mms-5, closed 2026-07-13)
 
@@ -31,11 +85,11 @@ shipped in #144; mms-4d is the full visitor-facing rework. Doc-first as usual.
   tests updated (score-history 3→4 batches, models-deep latest pair, worktypes
   pinned %, ai-fact-summary attribution).
 
-## Parked — /models v2 design debt (2026-07-12, deferred behind GPT 5.6)
+### Design decisions folded into mms-4d-doc (from mms-4c debt, 2026-07-12)
 
-After mms-4c shipped (#140), the owner flagged that /models v2 still reads
-wrong. Confirmed against code; fix folded into a future mms-4d rework once
-GPT 5.6 scoring is done. Agreed design decisions:
+These 6 were confirmed against code after mms-4c (#140). All fold into the
+mms-4d design doc (hub = items 1,2,4,5; per-model pages absorb the removed
+statistics; item 3 already shipped in #144; item 6 is the detail-page fix).
 
 1. **Visual system**: /models uses CANONICAL_DOC_CSS (the formal doc-page
    stylesheet, serif-heavy) — reads like /standard, not like the main
@@ -61,16 +115,3 @@ GPT 5.6 scoring is done. Agreed design decisions:
    `<details>` (zero JS), so 556 pages don't each grow an N-row table.
 ```
 
-## Pending — gated operations (not dispatchable)
-
-```yaml
-- id: mms-5-exec
-  title: Execute gpt-5.6-sol scoring (issue #126)
-  scope: >
-    Pilot 30-50 occupations -> drift report -> owner approval -> full 556
-    batch into data/scores/. Consumes Codex CLI subscription quota and runs
-    for hours on the operator machine; each run starts only on an explicit
-    owner go-ahead. Landing the full batch flips the site-wide canonical
-    score to gpt-5.6-sol.
-  depends_on: []
-```
