@@ -189,6 +189,7 @@ export function parseScoreLines(lines: readonly string[], mode: ParseMode): Pars
 
 export interface BatchMeta {
   readonly model: string;
+  readonly modelProvider: string;
   readonly date: string;
   readonly promptVersion: string;
   readonly promptFile: string;
@@ -204,6 +205,15 @@ export interface BatchMeta {
   readonly scoringMethod: string;
 }
 
+/** Infer the model provider from a model id prefix. Override with --provider. */
+export function inferProvider(model: string): string {
+  const m = model.toLowerCase();
+  if (m.startsWith('gpt') || m.startsWith('o1') || m.startsWith('o3')) return 'openai';
+  if (m.startsWith('claude')) return 'anthropic';
+  if (m.startsWith('gemini')) return 'google';
+  return 'anthropic';
+}
+
 /** Assemble the full ScoreRun object (validate separately via ScoreRunSchema). */
 export function assembleBatch(scores: Record<string, ScoreEntry>, meta: BatchMeta): unknown {
   return {
@@ -211,7 +221,7 @@ export function assembleBatch(scores: Record<string, ScoreEntry>, meta: BatchMet
     scope: 'occupations',
     scorer: {
       model: meta.model,
-      model_provider: 'anthropic',
+      model_provider: meta.modelProvider,
       model_temperature: null,
       scoring_method: meta.scoringMethod,
     },
@@ -262,6 +272,8 @@ if (import.meta.main) {
   if (modeArg !== 'aiois' && modeArg !== 'legacy') fail(`--mode must be "aiois" or "legacy", got "${modeArg}"`);
   const mode: ParseMode = modeArg;
   const model = need('model');
+  // Provider: explicit --provider wins; else infer from the model id prefix.
+  const provider = args['provider'] ?? inferProvider(model);
   const date = need('date');
   const promptVersion = need('prompt-version');
   const promptFile = args['prompt-file'] ?? 'data/prompts/prompt.ja.md';
@@ -331,6 +343,7 @@ if (import.meta.main) {
 
   const batch = assembleBatch(scores, {
     model,
+    modelProvider: provider,
     date,
     promptVersion,
     promptFile,
