@@ -18,7 +18,7 @@
  * Do NOT edit by hand — the next `build:data` will overwrite it.
  */
 export const SCORE_ATTRIBUTION_DATA = {
-  modelId: 'claude-fable-5',
-  modelDisplay: 'Claude Fable 5',
-  runDate: '2026-06-13',
+  modelId: 'gpt-5.6-sol',
+  modelDisplay: 'GPT 5.6 SOL',
+  runDate: '2026-07-12',
 } as const;

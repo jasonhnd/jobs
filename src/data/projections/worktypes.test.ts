@@ -106,9 +106,9 @@ describe('worktypes projection', () => {
       assert.ok(family.pct >= 3, `${code} below floor: ${family.pct}`);
       assert.ok(family.pct <= 35, `${code} above ceiling: ${family.pct}`);
     }
-    assert.equal(payload.calibration.raw_distribution.CDB.pct, 2.5);
+    assert.equal(payload.calibration.raw_distribution.CDB.pct, 2.3);
     assert.equal(payload.families.CDB.pct, 3.1);
-    assert.equal(payload.calibration.smoothing.adjustments.length, 3);
+    assert.equal(payload.calibration.smoothing.adjustments.length, 4);
   });
 
   test('thresholds match the computed axis medians', async () => {
