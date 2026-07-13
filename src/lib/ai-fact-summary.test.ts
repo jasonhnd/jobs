@@ -141,7 +141,7 @@ describe('buildAiFactSummary', () => {
   test('always ends with the source attribution', () => {
     assert.ok(
       buildAiFactSummary(base).endsWith(
-        '（出典：厚生労働省 jobtag ＋ AIOIS-10、Claude Fable 5、2026年5月）',
+        '（出典：厚生労働省 jobtag ＋ AIOIS-10、GPT 5.6 SOL、2026年5月）',
       ),
     );
   });

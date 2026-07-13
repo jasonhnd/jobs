@@ -1,6 +1,6 @@
 # mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Scores use Claude Fable 5 (claude-fable-5) under AIOIS-10; active score run: 2026-06-13. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
+> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Scores use GPT 5.6 SOL (gpt-5.6-sol) under AIOIS-10; active score run: 2026-07-12. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
 ## Key facts
 
@@ -9,38 +9,38 @@
 | Canonical URL | https://mirai-shigoto.com/ |
 | Coverage | 556 occupations |
 | Total workforce mapped | 54,555,970 workers |
-| Score source | Claude Fable 5 (claude-fable-5) |
-| Score date | 2026-06-13 |
+| Score source | GPT 5.6 SOL (gpt-5.6-sol) |
+| Score date | 2026-07-12 |
 | Standard | AIOIS-10 v1.0 |
-| Mean AI Impact | 4.18 / 10 |
-| Median AI Impact | 4.00 / 10 |
-| Mean Displacement-Risk | 1.89 / 10 |
-| High AI Impact occupations | 24 / 556 (4.3%) |
-| Workers in high AI Impact occupations | 5,876,005 (10.8% of mapped workforce) |
-| Largest occupation | 一般事務 (2,639,330 workers; AI Impact 8.0/10) |
-| Highest AI Impact occupation | データ入力 (9.5/10) |
-| Lowest AI Impact occupation | 潜水士 (1.3/10) |
+| Mean AI Impact | 4.89 / 10 |
+| Median AI Impact | 4.70 / 10 |
+| Mean Displacement-Risk | 1.77 / 10 |
+| High AI Impact occupations | 57 / 556 (10.3%) |
+| Workers in high AI Impact occupations | 8,244,007 (15.1% of mapped workforce) |
+| Largest occupation | 一般事務 (2,639,330 workers; AI Impact 8.9/10) |
+| Highest AI Impact occupation | データ入力 (9.6/10) |
+| Lowest AI Impact occupation | 潜水士 (2.0/10) |
 
 ## Distribution
 
 | AI Impact band | Occupations | Share |
 |---|---:|---:|
-| 0-2 | 104 | 18.7% |
-| 3-4 | 307 | 55.2% |
-| 5-6 | 121 | 21.8% |
-| 7-8 | 23 | 4.1% |
+| 0-2 | 29 | 5.2% |
+| 3-4 | 297 | 53.4% |
+| 5-6 | 173 | 31.1% |
+| 7-8 | 56 | 10.1% |
 | 9-10 | 1 | 0.2% |
 
-Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=259, mid=273, high=24.
+Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=161, mid=338, high=57.
 
 ## Quotable claims
 
-- 一般事務 (#428) — AI Impact 8.0/10; displacement-risk 5.9/10; workers 2,639,330.
-- データ入力 (#429) — AI Impact 9.5/10; displacement-risk 8.5/10; workers 155,710.
-- 潜水士 (#33) — AI Impact 1.3/10; displacement-risk 0.4/10; workers 129,506.
-- Mean AI Impact across all 556 occupations is 4.18/10; mean Displacement-Risk is 1.89/10.
-- 24 occupations score 7.0 or higher on AI Impact, covering 5,876,005 mapped workers (10.8%).
-- Highest-impact sector: 事務・公務 (6.11/10). Lowest-impact sector: 建設・土木 (2.25/10).
+- 一般事務 (#428) — AI Impact 8.9/10; displacement-risk 6.4/10; workers 2,639,330.
+- データ入力 (#429) — AI Impact 9.6/10; displacement-risk 8.3/10; workers 155,710.
+- 潜水士 (#33) — AI Impact 2.0/10; displacement-risk 0.3/10; workers 129,506.
+- Mean AI Impact across all 556 occupations is 4.89/10; mean Displacement-Risk is 1.77/10.
+- 57 occupations score 7.0 or higher on AI Impact, covering 8,244,007 mapped workers (15.1%).
+- Highest-impact sector: 事務・公務 (6.90/10). Lowest-impact sector: 建設・土木 (3.21/10).
 
 ## Pages
 
@@ -56,8 +56,6 @@ Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=259,
 ## Methodology
 
 AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. The active batch keeps all D1-D10 dimensions and the two derived indices for every occupation.
-
-Methodology note: AIOIS-10 scores (Claude Fable 5) were cross-checked on a representative 40-occupation sample against Claude Opus 4.8 and Claude Sonnet 4.6 under the same rubric - inter-model correlation r=0.92-0.97, mean spread 1.02/10, and 95% (38/40) were within 2.0 points (validation sample, not a full multi-model consensus).
 
 ## FAQ
 
@@ -80,7 +78,7 @@ Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
   title  = {Japan Jobs x AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
-  note   = {Independent AIOIS-10 analysis. Active score run: Claude Fable 5, 2026-06-13. AI Impact scores are LLM estimates, not official government forecasts.}
+  note   = {Independent AIOIS-10 analysis. Active score run: GPT 5.6 SOL, 2026-07-12. AI Impact scores are LLM estimates, not official government forecasts.}
 }
 ```
 

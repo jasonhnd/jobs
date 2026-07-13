@@ -50,8 +50,8 @@
       },
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
-      "datePublished": "2026-06-13",
-      "dateModified": "2026-06-13",
+      "datePublished": "2026-07-12",
+      "dateModified": "2026-07-12",
       "speakable": {
         "@type": "SpeakableSpecification",
         "cssSelector": [
@@ -74,7 +74,7 @@
       "@id": "https://mirai-shigoto.com/#dataset",
       "name": "Japan __OCCUPATION_COUNT_SCORED__ Occupations x AI Impact",
       "alternateName": "日本の職業 AI 影響度マップ",
-      "description": "__OCCUPATION_COUNT_SCORED__ Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by Claude Fable 5. Mean AI Impact 4.18/10; mean Displacement-Risk 1.89/10.",
+      "description": "__OCCUPATION_COUNT_SCORED__ Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by GPT 5.6 SOL. Mean AI Impact 4.89/10; mean Displacement-Risk 1.77/10.",
       "url": "https://mirai-shigoto.com/",
       "creator": {
         "@id": "https://mirai-shigoto.com/#organization"
@@ -84,9 +84,9 @@
       },
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
-      "datePublished": "2026-06-13",
-      "dateModified": "2026-06-13",
-      "version": "claude-fable-5:2026-06-13",
+      "datePublished": "2026-07-12",
+      "dateModified": "2026-07-12",
+      "version": "gpt-5.6-sol:2026-07-12",
       "keywords": [
         "AI",
         "labor market",
@@ -101,7 +101,7 @@
         "name": "Japan"
       },
       "temporalCoverage": "2025/2026",
-      "measurementTechnique": "Scored with AIOIS-10 v1.0. Active model: Claude Fable 5.",
+      "measurementTechnique": "Scored with AIOIS-10 v1.0. Active model: GPT 5.6 SOL.",
       "citation": [
         "MHLW jobtag: https://shigoto.mhlw.go.jp/User/",
         "JILPT occupation database: https://www.jil.go.jp/"
@@ -149,7 +149,7 @@
       "@type": "ItemList",
       "@id": "https://mirai-shigoto.com/#top-findings",
       "name": "Notable findings - Japan __OCCUPATION_COUNT_SCORED__ occupations x AI Impact",
-      "description": "Generated from the active Claude Fable 5 2026-06-13 score batch.",
+      "description": "Generated from the active GPT 5.6 SOL 2026-07-12 score batch.",
       "itemListOrder": "https://schema.org/ItemListUnordered",
       "numberOfItems": 5,
       "itemListElement": [
@@ -157,31 +157,31 @@
           "@type": "ListItem",
           "position": 1,
           "name": "一般事務",
-          "description": "一般事務 is the largest mapped occupation with 2,639,330 workers and AI Impact 8.0/10."
+          "description": "一般事務 is the largest mapped occupation with 2,639,330 workers and AI Impact 8.9/10."
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "データ入力",
-          "description": "データ入力 has the highest AI Impact at 9.5/10."
+          "description": "データ入力 has the highest AI Impact at 9.6/10."
         },
         {
           "@type": "ListItem",
           "position": 3,
           "name": "潜水士",
-          "description": "潜水士 has the lowest AI Impact at 1.3/10."
+          "description": "潜水士 has the lowest AI Impact at 2.0/10."
         },
         {
           "@type": "ListItem",
           "position": 4,
           "name": "High AI Impact workforce share",
-          "description": "24 occupations score 7.0 or higher, covering 5,876,005 workers (10.8% of mapped workforce)."
+          "description": "57 occupations score 7.0 or higher, covering 8,244,007 workers (15.1% of mapped workforce)."
         },
         {
           "@type": "ListItem",
           "position": 5,
           "name": "Mean AI Impact",
-          "description": "Mean AI Impact is 4.18/10; mean Displacement-Risk is 1.89/10."
+          "description": "Mean AI Impact is 4.89/10; mean Displacement-Risk is 1.77/10."
         }
       ]
     },
@@ -195,7 +195,7 @@
           "name": "mirai-shigoto.com とは？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "厚生労働省 jobtag と JILPT の公開データをもとに、日本の __OCCUPATION_COUNT_SCORED__ 職業を Claude Fable 5 による AI 影響度スコアで可視化した独立分析サイトです。"
+            "text": "厚生労働省 jobtag と JILPT の公開データをもとに、日本の __OCCUPATION_COUNT_SCORED__ 職業を GPT 5.6 SOL による AI 影響度スコアで可視化した独立分析サイトです。"
           }
         },
         {
@@ -211,7 +211,7 @@
           "name": "現在の採点モデルと日付は？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "現在の公開データは Claude Fable 5（2026-06-13）による AIOIS-10 v1.0 採点です。"
+            "text": "現在の公開データは GPT 5.6 SOL（2026-07-12）による AIOIS-10 v1.0 採点です。"
           }
         }
       ]
