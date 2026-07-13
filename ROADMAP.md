@@ -10,57 +10,26 @@ Fields:
 - depends_on: List of work unit ids that must finish first; use [] when none.
 -->
 
-## Active — GPT 5.6 SOL scoring (2026-07-12)
+## Active — /models v2 design-debt rework (mms-4d), next up (2026-07-13)
 
-Owner reprioritized: run the GPT 5.6 SOL scoring FIRST, /models v2 rework
-AFTER. mms-4c (v2 magazine page) shipped in #140 but the owner then flagged
-design debt (see Parked block below); the full rework is deferred.
+GPT 5.6 SOL scoring (mms-5) is DONE — the full 556 batch landed as the
+site-wide canonical on `preview` (#146, batch `occupations_gpt-5.6-sol_2026-07-12`,
+mean transformation ~4.89). Preview validated + owner-approved. `main` (production)
+push is the owner's manual `git push origin preview:main`.
 
-Immediate track: execute #126 scoring, gated per `docs/SCORING_RUNBOOK.md`.
-Prerequisite discovered: there is NO frozen GPT 5.6 SOL prompt yet, and the
-runbook only documents the Fable-5 / in-agent path — the Codex CLI path
-(`scripts/run-scoring-codex.ts`, built in #122) is undocumented. So Phase 1
-is a doc/prompt PR (no scoring quota), owner-reviewed, before any pilot.
+Next active work = the parked /models v2 design debt below (mms-4d). The
+minimal pre-land page-guard (de-hardcode counts + pair-key copy fallback) already
+shipped in #144; mms-4d is the full visitor-facing rework. Doc-first as usual.
 
-```yaml
-- id: mms-5-prep
-  title: GPT 5.6 SOL frozen prompt + runbook Codex section (doc/prompt only)
-  scope: >
-    Author data/prompts/<date>_gpt-5.6-sol-aiois10.ja.md by faithfully
-    porting the frozen Fable-5 prompt (2026-06-13_claude-fable-5-aiois10.ja.md)
-    to gpt-5.6-sol: same AIOIS-10 v1.0 output contract (strict JSONL, full
-    d1..d10 + transformation + displacement, ai_risk === transformation,
-    0-10 one-decimal, silent-fallback + anchoring forbidden), swap model id
-    / provider (openai) / date / prompt-version (AIOIS-10-v1.0-gpt-5.6-sol).
-    Add a GPT-5.6-SOL / Codex-CLI scoring section to docs/SCORING_RUNBOOK.md
-    (baseline = latest AIOIS-10 batch claude-fable-5 2026-06-13; runner =
-    run-scoring-codex.ts; pilot artifacts under .cache/scoring/). Doc/prompt
-    only — NO scoring run, no data/scores change. Owner reviews before merge.
-  depends_on: []
+### Done — GPT 5.6 SOL scoring (mms-5, closed 2026-07-13)
 
-- id: mms-5-exec-pilot
-  title: GPT 5.6 SOL pilot (30-50) → drift report (gated, quota)
-  scope: >
-    make-pilot-sample (baseline Fable 5) → run-scoring-codex pilot →
-    assemble --mode aiois → check → aiois-drift-report vs Fable 5. Artifacts
-    only under .cache/scoring/, never data/scores/. Burns Codex quota; starts
-    only on an explicit owner go-ahead. Owner reviews the drift report.
-  depends_on:
-    - mms-5-prep
-
-- id: mms-5-exec-full
-  title: GPT 5.6 SOL full 556 batch + pre-land page patch (gated, quota)
-  scope: >
-    After pilot approval: full 556 run into
-    data/scores/occupations_gpt-5.6-sol_<date>.json (append-only). BEFORE the
-    batch lands, ship a minimal /models patch (de-hardcode 3つの/556 counts +
-    pair-key the story/personality copy with safe generic fallback) so the
-    live page never misstates model count or shows stale-pair copy when the
-    latest pair advances to Fable 5 → GPT 5.6. Landing flips pickLatestScore
-    site-wide. Each run starts only on explicit owner go-ahead.
-  depends_on:
-    - mms-5-exec-pilot
-```
+- mms-5-prep (#141/#142): frozen GPT prompt `data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md` + runbook Codex section.
+- mms-5-exec-pilot (#126): 40-occ pilot, drift +0.48T, owner-approved.
+- mms-5-exec-full (#126/#146): full 556 (+0.72T vs Fable 5, coherent), landed canonical.
+- Along the way fixed `assemble-scores.ts` hardcoded `model_provider:'anthropic'`
+  → added `--provider` + `inferProvider()` (gpt→openai). 5 canonical-flip fixture
+  tests updated (score-history 3→4 batches, models-deep latest pair, worktypes
+  pinned %, ai-fact-summary attribution).
 
 ## Parked — /models v2 design debt (2026-07-12, deferred behind GPT 5.6)
 
