@@ -39,16 +39,17 @@ describe('renderScoreHistoryComparison', () => {
 
     assert.ok(html.includes('AI 影響スコアの履歴'));
     assert.ok(html.includes('<a href="/models">モデル比較を見る</a>'));
+    assert.ok(html.includes('<details class="score-history-details">'));
+    assert.ok(html.includes('<summary>過去のモデル履歴 2件</summary>'));
     assert.ok(html.includes('2026年4月25日'));
     assert.ok(html.includes('2026年5月30日'));
     assert.ok(html.includes('2026年6月13日'));
-    assert.ok(
-      html.indexOf('Claude Opus 4.7') < html.indexOf('Claude Opus 4.8') &&
-        html.indexOf('Claude Opus 4.8') < html.indexOf('Claude Fable 5'),
-    );
-    assert.ok(html.includes('Claude Fable 5<span class="score-history-badge">現行スコア</span>'));
+    assert.ok(html.indexOf('Claude Opus 4.7') < html.indexOf('Claude Opus 4.8'));
+    assert.ok(html.includes('<a class="score-history-current-model" href="/models/fable-5">Claude Fable 5</a>'));
+    assert.ok(html.includes('<a href="/models/opus-4-7">Claude Opus 4.7</a>'));
+    assert.ok(html.includes('<a href="/models/opus-4-8">Claude Opus 4.8</a>'));
     assert.ok(html.includes('<td class="sh-delta">+4</td>'));
-    assert.ok(html.includes('<td class="sh-delta">±0</td>'));
+    assert.ok(!html.includes('<td class="sh-delta">±0</td>'));
   });
 
   test('newer future run automatically becomes current', () => {
@@ -63,15 +64,23 @@ describe('renderScoreHistoryComparison', () => {
       },
     ]);
 
-    assert.ok(html.includes('GPT 5.6 SOL<span class="score-history-badge">現行スコア</span>'));
-    assert.ok(!html.includes('Claude Fable 5<span class="score-history-badge">現行スコア</span>'));
+    assert.ok(html.includes('<a class="score-history-current-model" href="/models/gpt-5.6-sol">GPT 5.6 SOL</a>'));
+    assert.ok(!html.includes('<a class="score-history-current-model" href="/models/fable-5">Claude Fable 5</a>'));
     assert.ok(html.includes('<td class="sh-delta">-1</td>'));
   });
 
   test('missing legacy run renders remaining rows without an error state', () => {
     const html = renderScoreHistoryComparison(threeRuns.slice(1));
-    assert.equal((html.match(/<tr/g) ?? []).length, 3); // header row + 2 body rows
+    assert.equal((html.match(/<tr/g) ?? []).length, 2); // header row + 1 historical body row
     assert.ok(!html.includes('Claude Opus 4.7'));
     assert.ok(!html.includes('データなし'));
+  });
+
+  test('single current score does not render an empty disclosure', () => {
+    const html = renderScoreHistoryComparison([threeRuns[2]!]);
+
+    assert.ok(html.includes('<a class="score-history-current-model" href="/models/fable-5">Claude Fable 5</a>'));
+    assert.ok(!html.includes('<details'));
+    assert.ok(!html.includes('<table'));
   });
 });
