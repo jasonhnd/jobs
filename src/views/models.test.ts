@@ -73,17 +73,74 @@ describe('models feature view model', () => {
 
     assert.equal(page.pageLastUpdated, '2026-06-13');
     assert.equal(page.batchDatesText, '2026-06-13');
+    assert.equal(page.modelCount, 1);
     assert.equal(page.modelCards[0]!.personality_sentence, '固定文です。');
     assert.equal(page.stories[0]!.editorial_sentence, '編集文です。');
     assert.equal(page.projectionJson.includes('\n'), false);
     assert.equal(page.projectionJson.includes('<'), false);
   });
 
-  test('fails when checked-in copy is missing', () => {
-    assert.throws(
-      () => buildModelsFeaturePageModel(projection, { sentences: {} }, { editorial_sentences: { story: '編集文です。' } }),
-      /personality copy missing/,
+  test('falls back when curated copy IDs are missing', () => {
+    const missingCopyProjection: ModelsDeepProjection = {
+      ...projection,
+      model_cards: [
+        {
+          ...projection.model_cards[0]!,
+          personality_sentence_id: 'future_model_d9_positive_strong',
+        },
+      ],
+      stories: projection.stories.map((story) => ({
+        ...story,
+        editorial_sentence_id: `${story.id}_latest_pair_split`,
+      })),
+    };
+
+    const page = buildModelsFeaturePageModel(
+      missingCopyProjection,
+      {
+        sentences: {
+          default_neutral: '中庸な既定文です。',
+          default_d9_positive_strong: '汎用の強い既定文です。',
+        },
+      },
+      {
+        editorial_sentences: {
+          default_latest_pair_split: '汎用の編集文です。',
+        },
+      },
     );
+
+    assert.equal(page.modelCards[0]!.personality_sentence, '汎用の強い既定文です。');
+    assert.equal(page.stories[0]!.editorial_sentence, '汎用の編集文です。');
+  });
+
+  test('derives model count from projection cards', () => {
+    const twoCardProjection: ModelsDeepProjection = {
+      ...projection,
+      model_cards: [
+        ...projection.model_cards,
+        {
+          model: 'gpt-5.6-sol',
+          modelDisplay: 'GPT 5.6 SOL',
+          date: '2026-07-20',
+          covered_count: 2,
+          personality_sentence_id: 'gpt_5_6_sol_neutral',
+        },
+      ],
+    };
+
+    const page = buildModelsFeaturePageModel(
+      twoCardProjection,
+      {
+        sentences: {
+          fable: '固定文です。',
+          default_neutral: '中庸な既定文です。',
+        },
+      },
+      { editorial_sentences: { story: '編集文です。' } },
+    );
+
+    assert.equal(page.modelCount, twoCardProjection.model_cards.length);
   });
 
   test('formats static score bars', () => {
