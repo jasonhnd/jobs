@@ -182,6 +182,8 @@ Rendering constraints:
 
 ### 2c-v2. `/models` 再設計 — 訪問者向け特集ページ
 
+> Superseded: 2c-v2 は mms-4c の実装履歴として残す。`/models` を訪問者向け特集ページに寄せる判断は継承するが、モデル数が増えたため、最新モデルだけを feature し、全モデルを roster から `/models/{slug}` へ送る **2c-v3** を実装対象とする。
+
 `/models` は統計 dashboard ではなく、一般訪問者が「AI の職業判断は信用できるのか」を読むための magazine-style feature page とする。Positioning copy は **「AIモデルは、あなたの仕事をどう見ているか」**。3 つの AI モデルが 556 職業を採点したら、どこで一致し、どこで割れたかを、統計表ではなく職業ごとの story と quote で見せる。
 
 Target reader は、自分の仕事や近い職業について AI の見方がどれだけ安定しているかを知りたい site visitor。説明の軸は「AI の判断には personality があり、同じ職業でもモデルによって見え方が変わる」。operator 向けの drift analysis は `scripts/aiois-drift-report.ts` に残し、`/models` 本体では詳細統計を読ませない。
@@ -309,6 +311,190 @@ Payload bound: inline JSON は pretty-print しない。Projection 全体は **3
 | Visual quality | Editorial anti-template quality を優先する。Hierarchy、quote blocks、paired score bars を使い、raw tables で読ませない |
 | Extensibility | `gpt-5.6-sol` batch 入庫時、batch file 追加だけで new model card と latest-pair recalculation が走る。Page code の手修正は不要 |
 | Approval gate | Doc PR merge 前に conductor review と owner approval を必須にする。2c-v2 code 実装は本 doc merge 後の `mms-4c-code` で別 dispatch |
+
+### 2c-v3. `/models` 情報設計 — hub + モデル別ページ
+
+2c-v3 は 2026-07-13 時点の実装対象。mms-4c で `/models` から外した統計の深さを、hub ではなくモデル別ページへ移す。`/models` は current canonical model を入口にする visitor magazine、`/models/{slug}` は batch ごとの static data page として分担する。
+
+現時点の batch は 4 件で、すべて roster と per-model page に出る。
+
+| `scorer.model` | slug / URL | 表示名 | run date |
+|---|---|---|---|
+| `claude-opus-4-7` | `opus-4-7` / `/models/opus-4-7` | Claude Opus 4.7 | `2026-04-25` |
+| `claude-opus-4-8` | `opus-4-8` / `/models/opus-4-8` | Claude Opus 4.8 | `2026-05-30` |
+| `claude-fable-5` | `fable-5` / `/models/fable-5` | Claude Fable 5 | `2026-06-13` |
+| `gpt-5.6-sol` | `gpt-5.6-sol` / `/models/gpt-5.6-sol` | GPT 5.6 SOL | `2026-07-12` |
+
+#### A. `/models` hub（visitor magazine）
+
+Hub は「AIモデルは、あなたの仕事をどう見ているか」を継続するが、本文の主役は **current canonical model**（`pickLatestScore()` と同じ最新 `run_date`。現時点は `gpt-5.6-sol`）に寄せる。
+
+1. **Hero / current model feature**
+   - 最新 canonical model の display name、run date、対象職業数を出す。
+   - 2c-v2 の良い部分（magazine treatment、consensus / divergent occupation stories、quote と paired score bars）は残す。
+   - 「3 つの AI モデル」のような固定数 copy は使わず、batch count と occupation count から生成する。
+
+2. **Consensus / divergent stories**
+   - 最新 comparable adjacent pair から、近く一致した職業と大きく割れた職業を story として見せる。
+   - Hub では reader-facing story に徹し、histogram、D1–D10 table、drift dump は置かない。詳細統計への導線は `/models/{slug}` に移す。
+
+3. **Full-model roster / timeline**
+   - `data/scores/` の全 occupations batch を run date ascending で並べる。10–20 models でも page body が伸びすぎない compact entry にする。
+   - 各 entry は `modelDisplay`、run date、covered count、読者向け personality 1 文を持ち、必ず `/models/{slug}` へ link する。
+   - 2c-v2 / mms-4c の「latest を featured、others を collapse」は、この roster link に置き換える。collapse されたモデルの詳細は hidden table ではなくモデル別ページで読む。
+
+4. **CTA / data note**
+   - CTA は occupation detail page と diagnostic へ送る。「あなたの職業では？」を軸にする。
+   - Footer data note は batch dates と methodology pointer だけにする。本文で operator 向け drift 解説をしない。
+
+#### B. `/models/{slug}` per-model data page（NEW）
+
+Route は `src/pages/models/[model].astro`。`getStaticPaths` は `data/scores/` の occupations batch から batch meta を作り、各 batch を `{ params: { model: modelSlug(modelId) }, props: { modelId, batchMeta } }` として返す。新 batch が `data/scores/` に入れば、手書き data block を追加せずに page が増える。
+
+未知 slug は 404。`getStaticPaths` に存在しない path は Astro の static route として生成されない。page 内でも `modelIdFromSlug(Astro.params.model, knownModelIds)` が `null` の場合は 404 にする。
+
+#### Slug helper contract
+
+Helper は `src/site/score-attribution.ts` に追加する（既存の `formatModelDisplay()` と同じ model id の public formatting 層）。後で projection-only helper が必要になっても、この file の contract を正にする。
+
+```ts
+export function modelSlug(modelId: string): string;
+export function modelIdFromSlug(
+  slug: string,
+  knownModelIds: readonly string[],
+): string | null;
+```
+
+Rules:
+
+- `modelSlug(modelId)` は `modelId` が `claude-` で始まる場合だけ先頭 prefix を 1 回除く。それ以外はそのまま返す。例: `claude-opus-4-8` → `opus-4-8`、`gpt-5.6-sol` → `gpt-5.6-sol`。
+- Helper は lower-case ASCII model id を前提にし、`/`、空文字、空白を含む `modelId` は `modelSlug()` が throw する。
+- `modelIdFromSlug(slug, knownModelIds)` は `knownModelIds.map(modelSlug)` から逆引きし、一意に一致した model id だけを返す。未知 slug、重複 slug、invalid slug は throw せず `null`。
+- Round-trip invariant: `knownModelIds` の全要素について `modelIdFromSlug(modelSlug(id), knownModelIds) === id`。この invariant が壊れる batch が追加された場合は build fail。
+- 逆引きで `claude-` を機械的に足す fallback は禁止。`gpt-5.6-sol` のように provider prefix を持たない model id があるため、必ず known batch list から解決する。
+
+#### Page content blocks
+
+全 block は build-time data から作る。client-side JS、hydration、client fetch は使わない。Chart は static inline SVG / CSS のみで、SVG 直後に text fallback を置く。
+
+1. **Profile header**
+   - `modelDisplay`、provider、run date、covered occupations、`prompt.prompt_version`、methodology pointer（`/methodology` と `/standard`）を出す。
+   - `scorer.scoring_method` は長文をそのまま出さず、methodology pointer に逃がす。
+
+2. **Distribution**
+   - `riskBand`: low `< 4.0`、mid `4.0–6.9`、high `>= 7.0` の count と percentage。
+   - mean transformation（小数 1 桁）と、必要なら median を text fallback に出す。
+   - Histogram は transformation `0.0–10.0`、bucket width `0.5`、20 bins。inline SVG は `role="img"`、日本語 `<title>` / `<desc>`、legend text を持つ。
+
+3. **Highest / lowest occupations**
+   - N = 10。Highest は transformation desc、tie は id asc。Lowest は transformation asc、tie は id asc。
+   - 各 row は title、transformation、band、`/{id}` link を持つ。
+   - `rationale_ja` は出さない。理由文の掲載は hub story projection と detail page の正典 rationale の責務で、`score_history` の no-rationale rule を破らない。
+
+4. **Drift vs predecessor**
+   - predecessor は run date が当該 batch より前の直近 occupations batch。同日 tie がある場合は model id asc で安定化する。
+   - `computeDriftReport()` を再利用し、別式を作らない。表示は reader-language summary にする。
+   - 出す値は mean ΔT、biggest movers N = 5（`abs(dT)` desc、tie id asc）、band crossings の代表 N = 5（crossing severity desc、tie id asc）まで。
+   - Earliest batch は predecessor がないため、「baseline / first batch」として、比較ではなく初回 batch note を表示する。
+
+5. **Neighbour links**
+   - `/models` hub へ戻る link。
+   - run date order の prev / next model page link。存在しない側は出さない。
+   - Page 内の occupation row はすべて `/{id}` に link する。
+
+#### Per-model projection contract
+
+`/models/{slug}` は models_deep-style の build-time projection を読む。実装名は `public/data.models_by_model.json` とし、Astro build は該当 slug の payload だけを HTML に inline する。Browser は projection JSON を fetch しない。
+
+Per-page inline payload は minified JSON で **24 KB 以下**を gate にする。超過時は field を削るか N を見直す。`rationale_ja` は含めない。`score_history` は引き続き numbers + model/date only、`pickLatestScore` は変更しない。
+
+Shape:
+
+```json
+{
+  "generated_at": "2026-07-13T00:00:00.000Z",
+  "models": {
+    "gpt-5.6-sol": {
+      "slug": "gpt-5.6-sol",
+      "model": "gpt-5.6-sol",
+      "modelDisplay": "GPT 5.6 SOL",
+      "provider": "openai",
+      "date": "2026-07-12",
+      "covered_count": 556,
+      "prompt_version": "AIOIS-10-v1.0",
+      "distribution": {
+        "mean_transformation": 4.9,
+        "bands": {
+          "low": { "count": 120, "pct": 21.6 },
+          "mid": { "count": 360, "pct": 64.7 },
+          "high": { "count": 76, "pct": 13.7 }
+        },
+        "histogram": [{ "from": 0, "to": 0.5, "count": 0 }]
+      },
+      "highest": [{ "id": 123, "title_ja": "職業名", "href": "/123", "transformation": 8.8, "band": "high" }],
+      "lowest": [{ "id": 456, "title_ja": "職業名", "href": "/456", "transformation": 1.2, "band": "low" }],
+      "drift": {
+        "predecessor": { "model": "claude-fable-5", "modelDisplay": "Claude Fable 5", "date": "2026-06-13", "slug": "fable-5" },
+        "compared_count": 556,
+        "mean_delta_t": 0.72,
+        "movers": [{ "id": 789, "title_ja": "職業名", "href": "/789", "delta_t": 1.4, "from": 4.1, "to": 5.5 }],
+        "band_crossings": [{ "id": 111, "title_ja": "職業名", "href": "/111", "from_band": "mid", "to_band": "high" }]
+      },
+      "nav": {
+        "prev": { "slug": "fable-5", "modelDisplay": "Claude Fable 5" },
+        "next": null
+      }
+    }
+  }
+}
+```
+
+Earliest batch の `drift` は `{ "baseline": true, "note_id": "first_batch" }` とし、UI は比較 table ではなく baseline note を出す。
+
+#### SEO / structured data / breadcrumb
+
+- Title: `{modelDisplay} のAI職業スコア分布 | モデル比較 | 未来の仕事`
+- Description: `{modelDisplay}（{run_date}）が採点した日本の職業{covered_count}件のAI影響度分布、上位・下位職業、前回モデルからの変化。`
+- Canonical: `${siteConfig.origin}/models/{slug}`。OG title / description も同じ日本語 surface。
+- JSON-LD は `WebPage` を基本にし、統計 payload を強く出す場合だけ `Dataset` を併用する。どちらも `inLanguage: "ja"`、`isPartOf`、`dateModified`、`breadcrumb` を持つ。
+- Breadcrumb は `日本の職業 AI 影響マップ › モデル比較 › {modelDisplay}`。`/models` の nav label、footer link、detail-page score-history link も **「モデル比較」** に統一する。H1 は editorial hook のままでよい。
+
+#### Folded mms-4c decisions
+
+1. **Visual system**
+   - `/models` と `/models/{slug}` は main visitor-page visual language を使う。`CANONICAL_DOC_CSS` を土台にしない。
+   - Sans-dominant、既存 palette / layout width、8px 以下の card radius、職業 detail page と同じ link / CTA 感を優先する。
+
+2. **Model scaling**
+   - Hub は current canonical model と latest pair stories を feature し、全モデルは roster / timeline で `/models/{slug}` へ送る。
+   - 10–20 models になっても hub に full historical statistics を積まない。
+
+3. **Batch-landing lifecycle**
+   - #144 で shipped 済みの rule を継続する。Data landing は append-only で安全に行い、新 latest pair 用の curated copy が未用意でも pair-key fallback の generic copy を出す。
+   - 古い pair 専用の手書き copy を新 pair に誤表示しない。Curation は品質 follow-up であり、batch landing blocker にしない。
+
+4. **Discoverability / naming**
+   - `/models` は owner 方針どおり footer-only。Top nav には増やさない。
+   - 統一 label は **「モデル比較」**。Footer、breadcrumb、occupation detail の score-history link、per-model page の back link で揃える。
+
+5. **CJK line-break**
+   - 両 surface の日本語本文には `line-break: strict` を使う。
+   - 見出し、button、compact roster、breadcrumb は `overflow-wrap: anywhere` を必要箇所に限定して使い、通常本文は `word-break: keep-all` を基本にする。
+   - 英数字 slug / model id が長い箇所は inline code ではなく label 表示を優先し、必要な data note だけ折り返しを許す。
+
+6. **Detail-page score-history**
+   - N models で各 occupation page が肥大化しないよう、detail page は current score を prominent に表示し、古い履歴は native `<details>` に入れる。Zero JS。
+   - 各 history row は該当する `/models/{slug}` へ link する。`score_history` projection は no-rationale のまま、per-model page が統計深掘りの landing になる。
+
+#### Rendering / merge gate
+
+| Constraint | Rule |
+|---|---|
+| Copy language | Page body は日本語のみ。Internal code は table / data note 以外に出さない |
+| Client runtime | Hub / per-model pages とも zero client-side JS。Hydration、client fetch、interactive chart library は使わない |
+| Data source | Batch meta と scores は `data/scores/` 由来。Current canonical 判定は `pickLatestScore()` と同じ最新 `run_date` 規則 |
+| Extensibility | 新 batch 追加だけで roster entry と `/models/{slug}` が増える。未知 slug は 404 |
+| Approval gate | Doc PR merge 前に conductor review と owner approval を必須にする。Code 実装は本 doc merge 後の `mms-4d-code-a` / `mms-4d-code-b` で別 dispatch |
 
 ## リスクとトレードオフ（記録）
 
