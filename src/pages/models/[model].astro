@@ -95,7 +95,7 @@ const jsonLd = JSON.stringify({
       inLanguage: 'ja',
       isPartOf: { '@id': `${siteConfig.origin}/#website` },
       datePublished: page.date,
-      dateModified: projection.generated_at,
+      dateModified: page.date,
       breadcrumb: { '@id': `${canonical}#breadcrumb` },
     },
     {
@@ -105,7 +105,7 @@ const jsonLd = JSON.stringify({
       description: pageDescription,
       inLanguage: 'ja',
       isPartOf: { '@id': `${canonical}#webpage` },
-      dateModified: projection.generated_at,
+      dateModified: page.date,
       temporalCoverage: page.date,
       creator: { '@type': 'Organization', name: siteConfig.siteName },
     },
