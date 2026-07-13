@@ -5,12 +5,20 @@ import { strict as assert } from 'node:assert';
 import {
   SCORE_ATTRIBUTION,
   formatModelDisplay,
+  modelIdFromSlug,
+  modelSlug,
   pickAttributionBatch,
   type BatchMetaForAttribution,
 } from './score-attribution.js';
 
 const meta = (model: string, runDate: string, hasAiois = true, scope = 'occupations'): BatchMetaForAttribution =>
   ({ scope, model, runDate, hasAiois });
+const currentModelIds = [
+  'claude-opus-4-7',
+  'claude-opus-4-8',
+  'claude-fable-5',
+  'gpt-5.6-sol',
+] as const;
 
 describe('formatModelDisplay', () => {
   test('claude-opus-4-8 → Claude Opus 4.8', () => {
@@ -58,6 +66,36 @@ describe('pickAttributionBatch', () => {
 
   test('throws when no occupations batch exists', () => {
     assert.throws(() => pickAttributionBatch([meta('x', '2026-01-01', true, 'tasks')]));
+  });
+});
+
+describe('modelSlug and modelIdFromSlug', () => {
+  test('maps current model ids to public slugs', () => {
+    assert.deepEqual(
+      currentModelIds.map(modelSlug),
+      ['opus-4-7', 'opus-4-8', 'fable-5', 'gpt-5.6-sol'],
+    );
+  });
+
+  test('round-trips all current model ids through the known batch list', () => {
+    for (const modelId of currentModelIds) {
+      assert.equal(modelIdFromSlug(modelSlug(modelId), currentModelIds), modelId);
+    }
+  });
+
+  test('unknown, duplicate, and invalid slugs resolve to null', () => {
+    assert.equal(modelIdFromSlug('unknown-model', currentModelIds), null);
+    assert.equal(modelIdFromSlug('opus-4-8', ['claude-opus-4-8', 'opus-4-8']), null);
+    assert.equal(modelIdFromSlug('', currentModelIds), null);
+    assert.equal(modelIdFromSlug('bad slug', currentModelIds), null);
+    assert.equal(modelIdFromSlug('bad/slug', currentModelIds), null);
+  });
+
+  test('modelSlug throws on empty, slash, or whitespace model ids', () => {
+    assert.throws(() => modelSlug(''), /invalid model id/);
+    assert.throws(() => modelSlug('claude/opus-4-8'), /invalid model id/);
+    assert.throws(() => modelSlug('claude opus-4-8'), /invalid model id/);
+    assert.throws(() => modelSlug('claude-opus-4-8\n'), /invalid model id/);
   });
 });
 

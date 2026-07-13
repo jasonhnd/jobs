@@ -12,6 +12,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Added
 
+- Added `/models/{slug}` static per-model data pages for all score batches,
+  backed by `public/data.models_by_model.json` with no `rationale_ja` and a
+  24KB per-page inline payload gate. SEO baseline URL/data-file drift is
+  intentional because four model detail pages and one public projection are
+  newly emitted (#149).
 - Restored `public/data.score_history.json` as a single-file multi-model score
   history projection for comparison UI work. SEO baseline data-file drift is
   intentional because the public data endpoint is newly emitted (#123).

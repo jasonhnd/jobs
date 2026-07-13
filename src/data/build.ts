@@ -31,6 +31,7 @@ import { buildDetail } from './projections/detail.js';
 import { buildHolland } from './projections/holland.js';
 import { buildLabels } from './projections/labels.js';
 import { buildMePositions } from './projections/me-positions.js';
+import { buildModelsByModel } from './projections/models-by-model.js';
 import { buildModelsDeep } from './projections/models-deep.js';
 import { buildProfile5 } from './projections/profile5.js';
 import { buildSearch } from './projections/search.js';
@@ -284,6 +285,14 @@ async function main(): Promise<void> {
       return {
         files: r.files,
         summary: `cards=${r.modelCards} consensus=${r.consensus} stories=${r.stories} bytes=${r.bytes}`,
+      };
+    }));
+
+    runs.push(await runProjection('models-by-model', async () => {
+      const r = await buildModelsByModel(indexes, STAGE_DIST);
+      return {
+        files: r.files,
+        summary: `models=${r.models} max_page_bytes=${r.maxPageBytes}`,
       };
     }));
 

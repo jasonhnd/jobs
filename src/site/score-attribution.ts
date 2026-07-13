@@ -48,6 +48,46 @@ export function formatModelDisplay(modelId: string): string {
   return tokens.map(displayModelToken).join(' ');
 }
 
+function assertValidModelToken(value: string, label: string): void {
+  if (value.length === 0 || value.includes('/') || /\s/.test(value)) {
+    throw new Error(`score-attribution: invalid ${label}: ${JSON.stringify(value)}`);
+  }
+}
+
+/**
+ * Public URL slug for a scorer model id. Only the leading `claude-` provider
+ * prefix is hidden; every other model id is already the public slug.
+ */
+export function modelSlug(modelId: string): string {
+  assertValidModelToken(modelId, 'model id');
+  return modelId.startsWith('claude-') ? modelId.slice('claude-'.length) : modelId;
+}
+
+/**
+ * Reverse lookup for model slugs. Unknown, invalid, or non-unique slugs return
+ * null; callers must not infer a provider prefix mechanically.
+ */
+export function modelIdFromSlug(
+  slug: string,
+  knownModelIds: readonly string[],
+): string | null {
+  try {
+    assertValidModelToken(slug, 'model slug');
+  } catch {
+    return null;
+  }
+
+  const matches: string[] = [];
+  for (const modelId of knownModelIds) {
+    try {
+      if (modelSlug(modelId) === slug) matches.push(modelId);
+    } catch {
+      return null;
+    }
+  }
+  return matches.length === 1 ? matches[0]! : null;
+}
+
 function displayModelToken(token: string): string {
   if (token.toLowerCase() === 'gpt') return 'GPT';
   if (token.toLowerCase() === 'sol') return 'SOL';
