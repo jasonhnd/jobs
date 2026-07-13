@@ -14,6 +14,7 @@ export interface ModelsFeaturePageModel {
   readonly projectionJson: string;
   readonly pageLastUpdated: string;
   readonly batchDatesText: string;
+  readonly modelCount: number;
   readonly latestPair: ModelsDeepProjection['latest_pair'];
   readonly modelCards: ReadonlyArray<ModelsDeepProjection['model_cards'][number] & {
     readonly personality_sentence: string;
@@ -30,6 +31,32 @@ function requireCopy(copy: Readonly<Record<string, string>>, id: string, label: 
     throw new Error(`/models ${label} copy missing id: ${id}`);
   }
   return sentence;
+}
+
+function genericPersonalityFallbackId(id: string): string | null {
+  const match = id.match(/(?:^|_)((?:d[1-9]|d10)_(?:positive|negative)_(?:strong|moderate))$/);
+  return match ? `default_${match[1]}` : null;
+}
+
+function optionalCopy(copy: Readonly<Record<string, string>>, id: string): string | null {
+  return copy[id] || null;
+}
+
+function personalityCopyWithFallback(copy: Readonly<Record<string, string>>, id: string): string {
+  const curatedSentence = optionalCopy(copy, id);
+  if (curatedSentence) return curatedSentence;
+
+  const genericId = genericPersonalityFallbackId(id);
+  if (genericId) {
+    const genericSentence = optionalCopy(copy, genericId);
+    if (genericSentence) return genericSentence;
+  }
+
+  return requireCopy(copy, 'default_neutral', 'personality fallback');
+}
+
+function editorialCopyWithFallback(copy: Readonly<Record<string, string>>, id: string): string {
+  return optionalCopy(copy, id) ?? requireCopy(copy, 'default_latest_pair_split', 'editorial fallback');
 }
 
 function escapeInlineJson(json: string): string {
@@ -51,15 +78,16 @@ export function buildModelsFeaturePageModel(
     projectionJson: escapeInlineJson(JSON.stringify(projection)),
     pageLastUpdated: projection.latest_pair.candidate.date,
     batchDatesText: dates.join(' / '),
+    modelCount: projection.model_cards.length,
     latestPair: projection.latest_pair,
     modelCards: projection.model_cards.map((card) => ({
       ...card,
-      personality_sentence: requireCopy(personalityCopy.sentences, card.personality_sentence_id, 'personality'),
+      personality_sentence: personalityCopyWithFallback(personalityCopy.sentences, card.personality_sentence_id),
     })),
     consensus: projection.consensus,
     stories: projection.stories.map((story) => ({
       ...story,
-      editorial_sentence: requireCopy(storyCopy.editorial_sentences, story.editorial_sentence_id, 'editorial'),
+      editorial_sentence: editorialCopyWithFallback(storyCopy.editorial_sentences, story.editorial_sentence_id),
     })),
   };
 }
