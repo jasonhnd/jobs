@@ -239,6 +239,134 @@ export const ModelsDeepProjectionSchema = z
 
 export type ModelsDeepProjectionShape = z.infer<typeof ModelsDeepProjectionSchema>;
 
+// ─── /models/{slug} per-model projection (public/data.models_by_model.json) ───
+
+const ModelsByModelBandLabelSchema = z.enum(['low', 'mid', 'high']);
+
+const ModelsByModelBandSummarySchema = z
+  .object({
+    count: z.number().int().min(0),
+    pct: z.number().min(0).max(100),
+  })
+  .strict();
+
+const ModelsByModelHistogramBinSchema = z
+  .object({
+    from: z.number().min(0).max(10),
+    to: z.number().min(0).max(10),
+    count: z.number().int().min(0),
+  })
+  .strict();
+
+const ModelsByModelOccupationRowSchema = z
+  .object({
+    id: z.number().int(),
+    title_ja: z.string(),
+    href: z.string().regex(/^\/\d+$/),
+    transformation: z.number().min(0).max(10),
+    band: ModelsByModelBandLabelSchema,
+  })
+  .strict();
+
+const ModelsByModelNavTargetSchema = z
+  .object({
+    slug: z.string(),
+    modelDisplay: z.string(),
+  })
+  .strict();
+
+const ModelsByModelPredecessorSchema = z
+  .object({
+    model: z.string(),
+    modelDisplay: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    slug: z.string(),
+  })
+  .strict();
+
+const ModelsByModelDriftSchema = z.union([
+  z
+    .object({
+      baseline: z.literal(true),
+      note_id: z.literal('first_batch'),
+    })
+    .strict(),
+  z
+    .object({
+      predecessor: ModelsByModelPredecessorSchema,
+      compared_count: z.number().int().min(0),
+      mean_delta_t: z.number(),
+      movers: z.array(
+        z
+          .object({
+            id: z.number().int(),
+            title_ja: z.string(),
+            href: z.string().regex(/^\/\d+$/),
+            delta_t: z.number(),
+            from: z.number().min(0).max(10),
+            to: z.number().min(0).max(10),
+          })
+          .strict(),
+      ).max(5),
+      band_crossings: z.array(
+        z
+          .object({
+            id: z.number().int(),
+            title_ja: z.string(),
+            href: z.string().regex(/^\/\d+$/),
+            from_band: ModelsByModelBandLabelSchema,
+            to_band: ModelsByModelBandLabelSchema,
+          })
+          .strict(),
+      ).max(5),
+    })
+    .strict(),
+]);
+
+const ModelsByModelRecordSchema = z
+  .object({
+    slug: z.string(),
+    model: z.string(),
+    modelDisplay: z.string(),
+    provider: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    covered_count: z.number().int().min(0),
+    prompt_version: z.string(),
+    distribution: z
+      .object({
+        mean_transformation: z.number().min(0).max(10),
+        median_transformation: z.number().min(0).max(10),
+        bands: z
+          .object({
+            low: ModelsByModelBandSummarySchema,
+            mid: ModelsByModelBandSummarySchema,
+            high: ModelsByModelBandSummarySchema,
+          })
+          .strict(),
+        histogram: z.array(ModelsByModelHistogramBinSchema).length(20),
+      })
+      .strict(),
+    highest: z.array(ModelsByModelOccupationRowSchema).max(10),
+    lowest: z.array(ModelsByModelOccupationRowSchema).max(10),
+    drift: ModelsByModelDriftSchema,
+    nav: z
+      .object({
+        prev: ModelsByModelNavTargetSchema.nullable(),
+        next: ModelsByModelNavTargetSchema.nullable(),
+      })
+      .strict(),
+  })
+  .strict();
+
+export const ModelsByModelProjectionSchema = z
+  .object({
+    generated_at: z.string(),
+    models: z.record(z.string(), ModelsByModelRecordSchema),
+  })
+  .strict();
+
+export type ModelsByModelProjectionShape = z.infer<typeof ModelsByModelProjectionSchema>;
+
 // ─── Source sector definition (data/sectors/sectors.ja-en.json) ───────
 
 const SectorDefSchema = z

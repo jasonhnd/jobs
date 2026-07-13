@@ -15,7 +15,11 @@ import { existsSync, readdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { riskBand } from './lib/bands.js';
-import { ModelsDeepProjectionSchema, ScoreHistoryProjectionSchema } from '../lib/projection-schemas.js';
+import {
+  ModelsByModelProjectionSchema,
+  ModelsDeepProjectionSchema,
+  ScoreHistoryProjectionSchema,
+} from '../lib/projection-schemas.js';
 
 const REPO = process.cwd();
 
@@ -32,6 +36,7 @@ const RISK_TIERS = ['low', 'mid', 'high'] as const;
 const JAPAN_WORKFORCE_LIMIT = 70_000_000;
 const MIN_OCCUPATIONS_PER_SECTOR = 5;
 const MODELS_DEEP_MAX_BYTES = 30 * 1024;
+const MODELS_BY_MODEL_PAGE_MAX_BYTES = 24 * 1024;
 
 const VALID_HUE = new Set(['safe', 'mid', 'warm', 'risk']);
 const VALID_RISK_BAND = new Set(['low', 'mid', 'high', null]);
@@ -84,6 +89,7 @@ async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void
     'data.transfer_paths.json',
     'data.score_history.json',
     'data.models_deep.json',
+    'data.models_by_model.json',
     'data.holland.json',
     'data.labels/ja.json',
     // Removed in Step 12: data.featured.json (dead projection).
@@ -624,6 +630,66 @@ async function checkModelsDeep(
   );
 }
 
+async function checkModelsByModel(
+  distRoot: string,
+  r: Report,
+  expectedIds: Set<number>,
+): Promise<void> {
+  const f = join(distRoot, 'data.models_by_model.json');
+  if (!existsSync(f)) return;
+
+  let data: unknown;
+  try {
+    data = await loadJson(f);
+  } catch (err) {
+    r.fail(`data.models_by_model.json invalid JSON: ${(err as Error).message}`);
+    return;
+  }
+
+  const parsed = ModelsByModelProjectionSchema.safeParse(data);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    r.fail(
+      `data.models_by_model.json schema invalid: ${issue ? `${issue.path.join('.')} ${issue.message}` : parsed.error.message}`,
+    );
+    return;
+  }
+
+  if (containsForbiddenKey(parsed.data, 'rationale_ja')) {
+    r.fail('data.models_by_model.json must not contain rationale_ja');
+  }
+
+  let maxPageBytes = 0;
+  for (const [slug, model] of Object.entries(parsed.data.models)) {
+    const pageBytes = Buffer.byteLength(JSON.stringify(model), 'utf-8');
+    maxPageBytes = Math.max(maxPageBytes, pageBytes);
+    if (pageBytes > MODELS_BY_MODEL_PAGE_MAX_BYTES) {
+      r.fail(`data.models_by_model.json ${slug} page payload is ${pageBytes} bytes, expected <= ${MODELS_BY_MODEL_PAGE_MAX_BYTES}`);
+    }
+    if (model.slug !== slug) {
+      r.fail(`data.models_by_model.json key ${slug} does not match inner slug ${model.slug}`);
+    }
+    const histogramCount = model.distribution.histogram.reduce((sum, bin) => sum + bin.count, 0);
+    if (histogramCount !== model.covered_count) {
+      r.fail(`data.models_by_model.json ${slug} histogram count ${histogramCount} != covered_count ${model.covered_count}`);
+    }
+    for (const row of [...model.highest, ...model.lowest]) {
+      if (!expectedIds.has(row.id)) {
+        r.fail(`data.models_by_model.json ${slug} references unknown occupation id: ${row.id}`);
+      }
+    }
+    if (!('baseline' in model.drift)) {
+      for (const row of [...model.drift.movers, ...model.drift.band_crossings]) {
+        if (!expectedIds.has(row.id)) {
+          r.fail(`data.models_by_model.json ${slug} drift references unknown occupation id: ${row.id}`);
+        }
+      }
+    }
+  }
+
+  r.note(`models_by_model: models=${Object.keys(parsed.data.models).length} max_page_bytes=${maxPageBytes}`);
+}
+
 function checkTreemapV110(
   records: unknown[],
   sectorIds: Set<string> | null,
@@ -725,6 +791,7 @@ async function main(): Promise<void> {
   await checkLabels(distRoot, r);
   await checkScoreHistory(distRoot, r, allOccIds);
   await checkModelsDeep(distRoot, r, allOccIds);
+  await checkModelsByModel(distRoot, r, allOccIds);
 
   const sectorIds = await checkSectors(distRoot, r);
   await checkReviewQueue(distRoot, r);
