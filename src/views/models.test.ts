@@ -17,6 +17,13 @@ const projection: ModelsDeepProjection = {
   },
   model_cards: [
     {
+      model: 'claude-opus-4-8',
+      modelDisplay: 'Opus 4.8',
+      date: '2026-05-30',
+      covered_count: 2,
+      personality_sentence_id: 'opus',
+    },
+    {
       model: 'claude-fable-5',
       modelDisplay: 'Fable 5',
       date: '2026-06-13',
@@ -67,14 +74,18 @@ describe('models feature view model', () => {
   test('hydrates copy IDs and keeps compact escaped projection JSON', () => {
     const page = buildModelsFeaturePageModel(
       projection,
-      { sentences: { fable: '固定文です。' } },
+      { sentences: { opus: '前回文です。', fable: '固定文です。' } },
       { editorial_sentences: { story: '編集文です。' } },
     );
 
     assert.equal(page.pageLastUpdated, '2026-06-13');
-    assert.equal(page.batchDatesText, '2026-06-13');
-    assert.equal(page.modelCount, 1);
-    assert.equal(page.modelCards[0]!.personality_sentence, '固定文です。');
+    assert.equal(page.batchDatesText, '2026-05-30 / 2026-06-13');
+    assert.equal(page.modelCount, 2);
+    assert.equal(page.currentModel.model, 'claude-fable-5');
+    assert.equal(page.currentModel.href, '/models/fable-5');
+    assert.equal(page.dateRangeText, '2026-05-30 から 2026-06-13');
+    assert.equal(page.coverageRangeText, '2職業');
+    assert.equal(page.modelCards[1]!.personality_sentence, '固定文です。');
     assert.equal(page.stories[0]!.editorial_sentence, '編集文です。');
     assert.equal(page.projectionJson.includes('\n'), false);
     assert.equal(page.projectionJson.includes('<'), false);
@@ -114,7 +125,7 @@ describe('models feature view model', () => {
     assert.equal(page.stories[0]!.editorial_sentence, '汎用の編集文です。');
   });
 
-  test('derives model count from projection cards', () => {
+  test('derives model count and roster links from projection cards', () => {
     const twoCardProjection: ModelsDeepProjection = {
       ...projection,
       model_cards: [
@@ -133,6 +144,7 @@ describe('models feature view model', () => {
       twoCardProjection,
       {
         sentences: {
+          opus: '前回文です。',
           fable: '固定文です。',
           default_neutral: '中庸な既定文です。',
         },
@@ -141,6 +153,61 @@ describe('models feature view model', () => {
     );
 
     assert.equal(page.modelCount, twoCardProjection.model_cards.length);
+    assert.deepEqual(
+      page.modelRoster.map((card) => [card.model, card.href]),
+      [
+        ['claude-opus-4-8', '/models/opus-4-8'],
+        ['claude-fable-5', '/models/fable-5'],
+        ['gpt-5.6-sol', '/models/gpt-5.6-sol'],
+      ],
+    );
+    assert.equal(page.currentModel.href, '/models/gpt-5.6-sol');
+  });
+
+  test('derives the current four model page links from model ids', () => {
+    const fourModelProjection: ModelsDeepProjection = {
+      ...projection,
+      model_cards: [
+        {
+          model: 'claude-opus-4-7',
+          modelDisplay: 'Opus 4.7',
+          date: '2026-04-25',
+          covered_count: 552,
+          personality_sentence_id: 'default_neutral',
+        },
+        {
+          model: 'claude-opus-4-8',
+          modelDisplay: 'Opus 4.8',
+          date: '2026-05-30',
+          covered_count: 556,
+          personality_sentence_id: 'default_neutral',
+        },
+        {
+          model: 'claude-fable-5',
+          modelDisplay: 'Fable 5',
+          date: '2026-06-13',
+          covered_count: 556,
+          personality_sentence_id: 'default_neutral',
+        },
+        {
+          model: 'gpt-5.6-sol',
+          modelDisplay: 'GPT 5.6 SOL',
+          date: '2026-07-12',
+          covered_count: 556,
+          personality_sentence_id: 'default_neutral',
+        },
+      ],
+    };
+    const page = buildModelsFeaturePageModel(
+      fourModelProjection,
+      { sentences: { default_neutral: '中庸な既定文です。' } },
+      { editorial_sentences: { story: '編集文です。' } },
+    );
+
+    assert.deepEqual(
+      page.modelRoster.map((card) => card.href),
+      ['/models/opus-4-7', '/models/opus-4-8', '/models/fable-5', '/models/gpt-5.6-sol'],
+    );
   });
 
   test('formats static score bars', () => {

@@ -3,8 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
-import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
-import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
+import { siteConfig } from '@/site/config';
 import {
   buildModelsFeaturePageModel,
   formatModelScore,
@@ -19,9 +18,9 @@ const page = buildModelsFeaturePageModel(projection, personalityCopy, storyCopy)
 
 const pageTitle = 'AIモデルは、あなたの仕事をどう見ているか | 未来の仕事';
 const modelCountText = `${page.modelCount}つのAIモデル`;
-const occupationCountText = `${OCCUPATION_COUNT.SCORED}職業`;
+const occupationCountText = `${page.currentModel.covered_count}職業`;
 const pageDescription =
-  `${modelCountText}が${occupationCountText}を採点した結果から、判断が一致した職業と大きく分かれた職業をストーリーで読む特集ページです。`;
+  `${modelCountText}が${occupationCountText}を採点した結果から、現行モデルと判断が一致した職業・大きく分かれた職業を読むモデル比較ページです。`;
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -44,46 +43,65 @@ const jsonLd = JSON.stringify({
       '@id': `${siteConfig.origin}/models#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: `${siteConfig.origin}/` },
-        { '@type': 'ListItem', position: 2, name: 'モデル特集', item: `${siteConfig.origin}/models` },
+        { '@type': 'ListItem', position: 2, name: 'モデル比較', item: `${siteConfig.origin}/models` },
       ],
     },
   ],
 });
 
 const localCss = `
-.models-feature{max-width:1080px}
-.models-hero{padding:34px 0 24px;border-bottom:1px solid var(--border)}
-.models-kicker{margin:0 0 14px;color:var(--accent);font-weight:700;font-size:.86rem;letter-spacing:0}
-.models-hero h1{max-width:820px;margin:0;font-family:var(--font-serif);font-size:clamp(2.35rem,4.8vw,4.55rem);line-height:1.08;letter-spacing:0;color:var(--fg)}
-.models-hero .hook{max-width:760px;margin:22px 0 0;font-family:var(--font-serif);font-size:clamp(1.18rem,2vw,1.55rem);line-height:1.65;color:var(--fg)}
-.models-hero .lead{max-width:720px;margin:16px 0 0;color:var(--fg2);font-size:1rem;line-height:1.9}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75;line-break:strict}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+.models-feature{max-width:1120px;margin:0 auto;padding:32px 20px 80px}
+.crumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 26px;color:var(--fg2);font-size:.86rem;line-height:1.5;overflow-wrap:anywhere}
+.crumb a{color:var(--fg2);text-decoration:none}
+.crumb a:hover{color:var(--accent);text-decoration:underline}
+.crumb span[aria-hidden]{color:var(--fg3)}
+.models-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,360px);gap:28px;align-items:end;padding:18px 0 32px;border-bottom:1px solid var(--border)}
+.models-kicker{margin:0 0 12px;color:var(--accent-deep);font-weight:800;font-size:.84rem;letter-spacing:0}
+.models-hero h1{max-width:820px;margin:0;font-size:clamp(2rem,4.6vw,4.2rem);font-weight:800;line-height:1.1;letter-spacing:0;color:var(--fg);overflow-wrap:anywhere}
+.models-hero .hook{max-width:780px;margin:20px 0 0;font-size:clamp(1.06rem,2vw,1.35rem);line-height:1.75;color:var(--fg);word-break:keep-all}
+.models-hero .lead{max-width:740px;margin:14px 0 0;color:var(--fg2);font-size:1rem;line-height:1.9;word-break:keep-all}
+.current-model-card{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px;box-shadow:0 1px 0 rgba(0,0,0,.03),0 12px 28px rgba(120,80,30,.06)}
+.current-label{margin:0 0 10px;color:var(--fg2);font-size:.78rem;font-weight:800}
+.current-model-card h2{margin:0;font-size:1.45rem;line-height:1.25;overflow-wrap:anywhere}
+.current-model-card dl{display:grid;grid-template-columns:88px 1fr;gap:9px 12px;margin:14px 0 0}
+.current-model-card dt{color:var(--fg2);font-size:.78rem}
+.current-model-card dd{margin:0;font-weight:800;overflow-wrap:anywhere}
+.current-model-card p{margin:14px 0 0;color:var(--fg2);line-height:1.75;word-break:keep-all}
+.current-model-link{display:inline-flex;align-items:center;justify-content:center;min-height:40px;margin-top:16px;border:1px solid var(--fg);border-radius:6px;padding:0 13px;background:var(--fg);color:var(--bg);font-weight:800;text-decoration:none;overflow-wrap:anywhere}
+.current-model-link:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .feature-section{padding:38px 0;border-bottom:1px solid var(--border)}
-.feature-section h2{margin:0 0 18px;font-family:var(--font-serif);font-size:clamp(1.65rem,3vw,2.3rem);line-height:1.25;color:var(--fg)}
-.section-intro{max-width:700px;margin:0 0 22px;color:var(--fg2);line-height:1.9}
-.model-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.model-card{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px;min-height:196px;display:flex;flex-direction:column;gap:12px}
-.model-card h3{margin:0;font-family:var(--font-serif);font-size:1.4rem;line-height:1.25}
-.model-meta{display:flex;flex-wrap:wrap;gap:8px;color:var(--fg2);font-size:.86rem}
-.model-meta span{border:1px solid rgba(92,82,60,.22);border-radius:999px;padding:4px 9px;background:var(--bg)}
-.model-card p{margin:auto 0 0;line-height:1.8}
+.feature-section h2{margin:0 0 16px;font-size:clamp(1.5rem,2.8vw,2.2rem);line-height:1.25;color:var(--fg);overflow-wrap:anywhere}
+.section-intro{max-width:760px;margin:0 0 22px;color:var(--fg2);line-height:1.9;word-break:keep-all}
+.roster-list{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:10px}
+.roster-link{display:grid;grid-template-columns:118px minmax(0,1fr) auto;gap:14px;align-items:center;border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:14px 16px;color:var(--fg);text-decoration:none}
+.roster-link:hover,.roster-link:focus-visible{border-color:var(--accent);box-shadow:0 8px 20px rgba(217,107,61,.08);outline:none;text-decoration:none}
+.roster-date{font-weight:900;font-variant-numeric:tabular-nums;color:var(--accent-deep);overflow-wrap:anywhere}
+.roster-main{min-width:0}
+.roster-main strong{display:block;font-size:1.05rem;line-height:1.3;overflow-wrap:anywhere}
+.roster-main span{display:block;margin-top:4px;color:var(--fg2);font-size:.9rem;line-height:1.6;word-break:keep-all}
+.roster-count{white-space:nowrap;color:var(--fg2);font-size:.86rem;font-weight:800}
 .contrast{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:22px;align-items:stretch}
 .contrast-panel{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:20px}
-.contrast-panel h3{margin:0 0 12px;font-family:var(--font-serif);font-size:1.28rem}
+.contrast-panel h3{margin:0 0 12px;font-size:1.18rem;line-height:1.35;overflow-wrap:anywhere}
 .consensus-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.consensus-list a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(92,82,60,.16);font-weight:700;text-decoration:none;color:var(--fg)}
+.consensus-list a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(92,82,60,.16);font-weight:800;text-decoration:none;color:var(--fg);overflow-wrap:anywhere}
 .consensus-list li:last-child a{border-bottom:0}
 .arrow{color:var(--accent);font-size:1.15rem}
-.contrast-copy{margin:0;color:var(--fg2);line-height:1.9}
+.contrast-copy{margin:0;color:var(--fg2);line-height:1.9;word-break:keep-all}
 .contrast-copy strong{color:var(--fg)}
 .story-list{display:grid;gap:22px}
 .story-card{border:1px solid var(--border);border-radius:8px;background:linear-gradient(180deg,var(--bg2),var(--bg));padding:24px}
 .story-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
-.story-head h3{margin:0;font-family:var(--font-serif);font-size:clamp(1.35rem,2.4vw,1.85rem);line-height:1.3}
+.story-head h3{margin:0;font-size:clamp(1.3rem,2.4vw,1.8rem);line-height:1.3;overflow-wrap:anywhere}
 .story-head a{color:var(--fg);text-decoration-thickness:1px;text-underline-offset:4px}
-.story-note{max-width:520px;margin:4px 0 0;color:var(--fg2);line-height:1.75}
+.story-note{max-width:560px;margin:4px 0 0;color:var(--fg2);line-height:1.75;word-break:keep-all}
 .score-bars{display:grid;gap:10px;margin:18px 0 20px}
 .score-row{display:grid;grid-template-columns:110px minmax(0,1fr) 46px;gap:12px;align-items:center}
-.score-row span:first-child{font-weight:700;color:var(--fg2);font-size:.9rem}
+.score-row span:first-child{font-weight:800;color:var(--fg2);font-size:.9rem;overflow-wrap:anywhere}
 .score-track{height:12px;border-radius:999px;background:rgba(92,82,60,.14);overflow:hidden}
 .score-fill{display:block;height:100%;border-radius:999px;background:var(--accent)}
 .score-row:nth-child(2) .score-fill{background:var(--green-deep)}
@@ -92,24 +110,30 @@ const localCss = `
 .quote-block{margin:0;border-left:4px solid var(--accent);padding:2px 0 2px 16px}
 .quote-block:nth-child(2){border-left-color:var(--green-deep)}
 .quote-block figcaption{font-weight:700;margin-bottom:8px;color:var(--fg)}
-.quote-block blockquote{margin:0;color:var(--fg);font-family:var(--font-serif);font-size:1.02rem;line-height:1.9}
+.quote-block blockquote{margin:0;color:var(--fg);font-size:1rem;line-height:1.9;word-break:keep-all}
 .cta-band{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;background:var(--fg);color:var(--bg);border-radius:8px;padding:24px}
 .cta-band h2{margin:0 0 8px;color:var(--bg)}
-.cta-band p{margin:0;line-height:1.75;color:rgba(255,255,255,.82)}
+.cta-band p{margin:0;line-height:1.75;color:rgba(255,255,255,.82);word-break:keep-all}
 .cta-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
-.cta-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;border-radius:999px;padding:0 16px;font-weight:700;text-decoration:none}
+.cta-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;border-radius:6px;padding:0 16px;font-weight:800;text-decoration:none;overflow-wrap:anywhere}
 .cta-primary{background:var(--bg);color:var(--fg)}
 .cta-secondary{border:1px solid rgba(255,255,255,.45);color:var(--bg)}
 .data-note{padding:26px 0;color:var(--fg2);font-size:.92rem;line-height:1.8}
-.data-note p{margin:0}
+.data-note p{margin:0;word-break:keep-all}
 @media(max-width:880px){
-  .model-grid,.contrast,.quote-grid,.cta-band{grid-template-columns:1fr}
+  .models-hero,.contrast,.quote-grid,.cta-band{grid-template-columns:1fr}
   .cta-actions{justify-content:flex-start}
 }
+@media(max-width:720px){
+  .roster-link{grid-template-columns:1fr;gap:7px}
+  .roster-count{white-space:normal}
+}
 @media(max-width:560px){
+  .models-feature{padding:22px 16px 64px}
   .story-card{padding:18px}
   .story-head{display:block}
   .score-row{grid-template-columns:88px minmax(0,1fr) 42px}
+  .current-model-card dl{grid-template-columns:1fr}
 }
 `;
 ---
@@ -122,38 +146,56 @@ const localCss = `
   ogDescription={pageDescription}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
-  <style slot="head" set:html={`${CANONICAL_DOC_CSS}\n${localCss}`} />
+  <style slot="head" set:html={localCss} />
 
   <div id="wrapper" class="models-feature">
     <nav class="crumb" aria-label="パンくずリスト">
       <a href="/" rel="up">日本の職業 AI 影響マップ</a>
       <span aria-hidden="true">›</span>
-      <span>モデル特集</span>
+      <span>モデル比較</span>
     </nav>
 
     <header id="content" class="models-hero">
-      <p class="models-kicker">モデル特集</p>
-      <h1>AIモデルは、あなたの仕事をどう見ているか</h1>
-      <p class="hook">{OCCUPATION_COUNT.SCORED}の職業を、{modelCountText}がそれぞれ採点した。結果は同じではなかった。</p>
-      <p class="lead">
-        AIの判断には、それぞれの見方があります。同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。
-      </p>
+      <div>
+        <p class="models-kicker">モデル比較</p>
+        <h1>AIモデルは、あなたの仕事をどう見ているか</h1>
+        <p class="hook">{occupationCountText}を、{modelCountText}がそれぞれ採点した。結果は同じではなかった。</p>
+        <p class="lead">
+          AIの判断には、それぞれの見方があります。同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。
+        </p>
+      </div>
+      <aside class="current-model-card" aria-labelledby="current-model-title">
+        <p class="current-label">現行モデル</p>
+        <h2 id="current-model-title">{page.currentModel.modelDisplay}</h2>
+        <dl>
+          <dt>採点日</dt><dd>{page.currentModel.date}</dd>
+          <dt>対象職業</dt><dd>{page.currentModel.covered_count}件</dd>
+          <dt>履歴</dt><dd>{page.modelCount}モデル</dd>
+        </dl>
+        <p>{page.currentModel.personality_sentence}</p>
+        <a class="current-model-link" href={page.currentModel.href}>このモデルの分布を見る</a>
+      </aside>
     </header>
 
-    <section class="feature-section" aria-labelledby="models-cast">
-      <h2 id="models-cast">登場モデル</h2>
-      <div class="model-grid">
-        {page.modelCards.map((card) => (
-          <article class="model-card">
-            <h3>{card.modelDisplay}</h3>
-            <div class="model-meta">
-              <span>{card.date}</span>
-              <span>{card.covered_count}職業</span>
-            </div>
-            <p>{card.personality_sentence}</p>
-          </article>
+    <section class="feature-section" aria-labelledby="models-roster">
+      <h2 id="models-roster">モデル履歴</h2>
+      <p class="section-intro">
+        {page.dateRangeText}までの採点バッチを、採点日の古い順に並べています。新しい採点バッチが追加されると、この一覧とモデル別ページも自動で増えます。
+      </p>
+      <ol class="roster-list">
+        {page.modelRoster.map((card) => (
+          <li>
+            <a class="roster-link" href={card.href}>
+              <span class="roster-date">{card.date}</span>
+              <span class="roster-main">
+                <strong>{card.modelDisplay}</strong>
+                <span>{card.personality_sentence}</span>
+              </span>
+              <span class="roster-count">{card.covered_count}職業</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
 
     <section class="feature-section" aria-labelledby="models-contrast">
@@ -237,7 +279,7 @@ const localCss = `
 
     <section class="data-note" aria-label="データについて">
       <p>
-        このページは {page.batchDatesText} の採点バッチをもとにしています。採点方法は <a href="/methodology">評価プロセス</a> と <a href="/standard">AIOIS-10 標準</a> を参照してください。
+        このページは {page.batchDatesText} の採点バッチをもとにしています。各バッチの対象範囲は {page.coverageRangeText} です。採点方法は <a href="/methodology">評価プロセス</a> と <a href="/standard">AIOIS-10 標準</a> を参照してください。
       </p>
     </section>
 

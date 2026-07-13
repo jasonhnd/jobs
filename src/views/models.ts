@@ -1,4 +1,5 @@
 import { ModelsDeepProjectionSchema, type ModelsDeepProjectionShape } from '@/lib/projection-schemas';
+import { modelSlug } from '@/site/score-attribution';
 
 export type ModelsDeepProjection = ModelsDeepProjectionShape;
 
@@ -16,14 +17,22 @@ export interface ModelsFeaturePageModel {
   readonly batchDatesText: string;
   readonly modelCount: number;
   readonly latestPair: ModelsDeepProjection['latest_pair'];
-  readonly modelCards: ReadonlyArray<ModelsDeepProjection['model_cards'][number] & {
-    readonly personality_sentence: string;
-  }>;
+  readonly currentModel: ModelsFeatureModelCard;
+  readonly modelCards: ReadonlyArray<ModelsFeatureModelCard>;
+  readonly modelRoster: ReadonlyArray<ModelsFeatureModelCard>;
+  readonly dateRangeText: string;
+  readonly coverageRangeText: string;
   readonly consensus: ModelsDeepProjection['consensus'];
   readonly stories: ReadonlyArray<ModelsDeepProjection['stories'][number] & {
     readonly editorial_sentence: string;
   }>;
 }
+
+export type ModelsFeatureModelCard = ModelsDeepProjection['model_cards'][number] & {
+  readonly slug: string;
+  readonly href: string;
+  readonly personality_sentence: string;
+};
 
 function requireCopy(copy: Readonly<Record<string, string>>, id: string, label: string): string {
   const sentence = copy[id];
@@ -72,18 +81,36 @@ export function buildModelsFeaturePageModel(
   storyCopy: ModelStoryCopy,
 ): ModelsFeaturePageModel {
   const projection = ModelsDeepProjectionSchema.parse(rawProjection);
-  const dates = projection.model_cards.map((card) => card.date);
+  const modelCards = projection.model_cards.map((card) => {
+    const slug = modelSlug(card.model);
+    return {
+      ...card,
+      slug,
+      href: `/models/${slug}`,
+      personality_sentence: personalityCopyWithFallback(personalityCopy.sentences, card.personality_sentence_id),
+    };
+  });
+  const modelRoster = [...modelCards].sort((a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model));
+  const currentModel = modelRoster[modelRoster.length - 1];
+  if (!currentModel) {
+    throw new Error('/models projection has no model cards');
+  }
+  const dates = modelRoster.map((card) => card.date);
+  const coverages = modelRoster.map((card) => card.covered_count);
 
   return {
     projectionJson: escapeInlineJson(JSON.stringify(projection)),
-    pageLastUpdated: projection.latest_pair.candidate.date,
+    pageLastUpdated: currentModel.date,
     batchDatesText: dates.join(' / '),
-    modelCount: projection.model_cards.length,
+    modelCount: modelRoster.length,
     latestPair: projection.latest_pair,
-    modelCards: projection.model_cards.map((card) => ({
-      ...card,
-      personality_sentence: personalityCopyWithFallback(personalityCopy.sentences, card.personality_sentence_id),
-    })),
+    currentModel,
+    modelCards,
+    modelRoster,
+    dateRangeText: dates.length === 1 ? dates[0]! : `${dates[0]} から ${dates[dates.length - 1]}`,
+    coverageRangeText: coverages.length === 1 || Math.min(...coverages) === Math.max(...coverages)
+      ? `${currentModel.covered_count}職業`
+      : `${Math.min(...coverages)}から${Math.max(...coverages)}職業`,
     consensus: projection.consensus,
     stories: projection.stories.map((story) => ({
       ...story,
