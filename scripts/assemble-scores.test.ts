@@ -2,11 +2,12 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { parseScoreLines, assembleBatch, type BatchMeta } from './assemble-scores.js';
+import { parseScoreLines, assembleBatch, inferProvider, type BatchMeta } from './assemble-scores.js';
 import { ScoreRunSchema } from '../src/data/schema/score-run.js';
 
 const META: BatchMeta = {
   model: 'claude-opus-4-8',
+  modelProvider: 'anthropic',
   date: '2026-06-01',
   promptVersion: '2.0',
   promptFile: 'data/prompts/x.ja.md',
@@ -190,7 +191,26 @@ describe('parseScoreLines (aiois mode)', () => {
   });
 });
 
+describe('inferProvider', () => {
+  test('gpt models → openai, claude → anthropic, gemini → google, default anthropic', () => {
+    assert.equal(inferProvider('gpt-5.6-sol'), 'openai');
+    assert.equal(inferProvider('claude-fable-5'), 'anthropic');
+    assert.equal(inferProvider('gemini-2.5-pro'), 'google');
+    assert.equal(inferProvider('something-else'), 'anthropic');
+  });
+});
+
 describe('assembleBatch', () => {
+  test('model_provider comes from meta, not hardcoded anthropic', () => {
+    const { scores } = parseScoreLines(['{"id":1,"ai_risk":6.9,"rationale_ja":"理由","confidence":0.8}'], 'legacy');
+    const parsed = ScoreRunSchema.safeParse(assembleBatch(scores, { ...META, model: 'gpt-5.6-sol', modelProvider: 'openai' }));
+    assert.ok(parsed.success, parsed.success ? '' : JSON.stringify(parsed.error.issues));
+    if (parsed.success) {
+      assert.equal(parsed.data.scorer.model, 'gpt-5.6-sol');
+      assert.equal(parsed.data.scorer.model_provider, 'openai');
+    }
+  });
+
   test('legacy scores → object passes ScoreRunSchema (schema_version 2.1)', () => {
     const { scores } = parseScoreLines(['{"id":1,"ai_risk":6.9,"rationale_ja":"理由","confidence":0.8}'], 'legacy');
     const parsed = ScoreRunSchema.safeParse(assembleBatch(scores, META));

@@ -4,7 +4,7 @@ Extended GEO companion to https://mirai-shigoto.com/llms.txt. This file is gener
 
 ## 1. Summary
 
-mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10 v1.0. The active scoring batch is Claude Fable 5 (claude-fable-5), run date 2026-06-13. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
+mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10 v1.0. The active scoring batch is GPT 5.6 SOL (gpt-5.6-sol), run date 2026-07-12. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
 
 ## 2. Dataset
 
@@ -12,27 +12,25 @@ mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10
 |---|---|
 | Occupations | 556 |
 | Workforce mapped | 54,555,970 |
-| Mean AI Impact | 4.18 / 10 |
-| Median AI Impact | 4.00 / 10 |
-| Mean Displacement-Risk | 1.89 / 10 |
-| Low / mid / high risk-band counts | 259 / 273 / 24 |
-| High-impact workforce | 5,876,005 (10.8%) |
+| Mean AI Impact | 4.89 / 10 |
+| Median AI Impact | 4.70 / 10 |
+| Mean Displacement-Risk | 1.77 / 10 |
+| Low / mid / high risk-band counts | 161 / 338 / 57 |
+| High-impact workforce | 8,244,007 (15.1%) |
 
 ### AI Impact distribution
 
 | Band | Occupations | Share |
 |---|---:|---:|
-| 0-2 | 104 | 18.7% |
-| 3-4 | 307 | 55.2% |
-| 5-6 | 121 | 21.8% |
-| 7-8 | 23 | 4.1% |
+| 0-2 | 29 | 5.2% |
+| 3-4 | 297 | 53.4% |
+| 5-6 | 173 | 31.1% |
+| 7-8 | 56 | 10.1% |
 | 9-10 | 1 | 0.2% |
 
 ## 3. Methodology
 
 AI Impact is the Transformation index: mean(D1, D2). It estimates how much daily work changes when current AI tools are available. Displacement-Risk is a separate index estimating job shrinkage risk after human moat, adoption cost, and labor-market context are considered.
-
-Methodology note: AIOIS-10 scores (Claude Fable 5) were cross-checked on a representative 40-occupation sample against Claude Opus 4.8 and Claude Sonnet 4.6 under the same rubric - inter-model correlation r=0.92-0.97, mean spread 1.02/10, and 95% (38/40) were within 2.0 points (validation sample, not a full multi-model consensus).
 
 ## 4. Rubric
 
@@ -51,80 +49,80 @@ Methodology note: AIOIS-10 scores (Claude Fable 5) were cross-checked on a repre
 
 | Sector ID | Sector | Occupations | Mean AI Impact | Workforce |
 |---|---|---:|---:|---:|
-| jimu | 事務・公務 | 57 | 6.11 | 11,534,069 |
-| it | IT・通信 | 22 | 5.55 | 1,551,228 |
-| creative | クリエイティブ・メディア | 37 | 4.75 | 778,380 |
-| shigyo | 士業・経営・コンサル | 63 | 4.72 | 1,820,677 |
-| hanbai | 販売・営業 | 41 | 4.29 | 6,616,467 |
-| senmon | 専門・技術 | 51 | 4.14 | 1,561,033 |
-| seizo | 製造・職人 | 59 | 3.85 | 4,537,008 |
-| keiseki | 軽作業・清掃 | 16 | 3.73 | 3,518,776 |
-| iryo | 医療・保健 | 36 | 3.61 | 3,409,451 |
-| maint | 設備・保守 | 49 | 3.60 | 4,598,159 |
-| kyoiku | 教育・指導 | 20 | 3.59 | 2,610,464 |
-| fukushi | 福祉・介護 | 15 | 3.45 | 2,188,687 |
-| service | サービス・接客 | 41 | 3.40 | 4,488,395 |
-| hoan | 保安・公安 | 15 | 3.21 | 1,104,199 |
-| noringyo | 農林・水産 | 14 | 3.08 | 1,847,992 |
-| kensetu | 建設・土木 | 20 | 2.25 | 2,390,985 |
+| jimu | 事務・公務 | 57 | 6.90 | 11,534,069 |
+| it | IT・通信 | 22 | 6.59 | 1,551,228 |
+| shigyo | 士業・経営・コンサル | 63 | 5.55 | 1,820,677 |
+| creative | クリエイティブ・メディア | 37 | 5.39 | 778,380 |
+| hanbai | 販売・営業 | 41 | 5.05 | 6,616,467 |
+| senmon | 専門・技術 | 51 | 5.04 | 1,561,033 |
+| seizo | 製造・職人 | 59 | 4.50 | 4,537,008 |
+| keiseki | 軽作業・清掃 | 16 | 4.46 | 3,518,776 |
+| maint | 設備・保守 | 49 | 4.28 | 4,598,159 |
+| kyoiku | 教育・指導 | 20 | 4.19 | 2,610,464 |
+| fukushi | 福祉・介護 | 15 | 4.16 | 2,188,687 |
+| iryo | 医療・保健 | 36 | 4.12 | 3,409,451 |
+| service | サービス・接客 | 41 | 3.90 | 4,488,395 |
+| noringyo | 農林・水産 | 14 | 3.67 | 1,847,992 |
+| hoan | 保安・公安 | 15 | 3.59 | 1,104,199 |
+| kensetu | 建設・土木 | 20 | 3.21 | 2,390,985 |
 
 ## 6. Highest AI Impact occupations
 
 | Rank | Occupation | AI Impact | Displacement-Risk | Workers |
 |---:|---|---:|---:|---:|
-| 1 | データ入力 | 9.5 | 8.5 | 155,710 |
-| 2 | 通信販売受付事務 | 8.3 | 6.1 | 146,270 |
-| 3 | 速記者、音声反訳者 | 8.3 | 6.3 | 9,971 |
-| 4 | 一般事務 | 8.0 | 5.9 | 2,639,330 |
-| 5 | 医療事務 | 8.0 | 5.0 | 120,576 |
-| 6 | デバッグ作業 | 7.9 | 5.6 | 48,720 |
-| 7 | 翻訳者 | 7.9 | 6.0 | 15,065 |
-| 8 | 調剤薬局事務 | 7.8 | 4.8 | 120,576 |
-| 9 | 経理事務 | 7.5 | 5.2 | 507,867 |
-| 10 | 銀行等窓口事務 | 7.5 | 4.7 | 507,867 |
-| 11 | コールセンターオペレーター | 7.5 | 5.4 | 146,270 |
-| 12 | ネット通販の運営 | 7.5 | 4.8 | 120,576 |
-| 13 | プログラマー | 7.5 | 5.4 | 48,720 |
-| 14 | ヘルプデスク（IT） | 7.4 | 4.5 | 25,925 |
-| 15 | 生産・工程管理事務 | 7.3 | 4.4 | 292,325 |
-| 16 | CADオペレーター | 7.3 | 5.1 | 289,300 |
-| 17 | 税理士 | 7.3 | 3.0 | 63,850 |
-| 18 | タクシー配車オペレーター | 7.3 | 5.3 | 43,566 |
-| 19 | 検針員 | 7.3 | 5.3 | 34,250 |
-| 20 | 出荷・受荷事務 | 7.0 | 4.4 | 292,325 |
+| 1 | データ入力 | 9.6 | 8.3 | 155,710 |
+| 2 | 一般事務 | 8.9 | 6.4 | 2,639,330 |
+| 3 | 通信販売受付事務 | 8.9 | 6.6 | 146,270 |
+| 4 | 速記者、音声反訳者 | 8.9 | 5.8 | 9,971 |
+| 5 | タクシー配車オペレーター | 8.8 | 5.9 | 43,566 |
+| 6 | 経理事務 | 8.7 | 5.6 | 507,867 |
+| 7 | 翻訳者 | 8.5 | 5.5 | 15,065 |
+| 8 | 医療事務 | 8.3 | 4.9 | 120,576 |
+| 9 | 営業事務 | 8.2 | 5.5 | 174,488 |
+| 10 | コールセンターオペレーター | 8.2 | 5.3 | 146,270 |
+| 11 | 診療情報管理士 | 8.2 | 4.1 | 120,576 |
+| 12 | 貿易事務 | 8.1 | 4.6 | 174,488 |
+| 13 | パラリーガル（弁護士補助職） | 8.1 | 4.4 | 120,576 |
+| 14 | 調剤薬局事務 | 8.1 | 4.5 | 120,576 |
+| 15 | 介護事務 | 8.1 | 4.6 | 120,576 |
+| 16 | プログラマー | 8.1 | 4.5 | 48,720 |
+| 17 | 人事事務 | 8.0 | 4.1 | 264,332 |
+| 18 | ネット通販の運営 | 8.0 | 4.4 | 120,576 |
+| 19 | 製版オペレーター、DTPオペレーター | 7.9 | 5.3 | 60,233 |
+| 20 | 学校事務 | 7.7 | 4.2 | 120,576 |
 
 ## 7. Lowest AI Impact occupations
 
 | Rank | Occupation | AI Impact | Displacement-Risk | Workers |
 |---:|---|---:|---:|---:|
-| 1 | 潜水士 | 1.3 | 0.4 | 129,506 |
-| 2 | 花火師 | 1.5 | 0.3 | 43,928 |
-| 3 | ベビーシッター | 1.5 | 0.3 | 13,570 |
-| 4 | 建設・土木作業員 | 1.8 | 0.7 | 228,450 |
-| 5 | 配管工 | 1.8 | 0.6 | 220,720 |
-| 6 | 防水工 | 1.8 | 0.7 | 129,506 |
-| 7 | 送電線工事 | 1.8 | 0.6 | 47,430 |
-| 8 | 報道カメラマン | 1.8 | 0.6 | 23,057 |
-| 9 | はり師・きゅう師 | 1.9 | 0.5 | 39,403 |
-| 10 | 電気工事士 | 2.0 | 0.6 | 379,510 |
-| 11 | 美容師 | 2.0 | 0.5 | 175,530 |
-| 12 | 保温工事 | 2.0 | 0.8 | 129,506 |
-| 13 | 汎用金属工作機械工（旋盤工、ボール盤工等） | 2.0 | 0.9 | 76,070 |
-| 14 | 消防官 | 2.0 | 0.4 | 74,290 |
-| 15 | 救急救命士 | 2.0 | 0.3 | 74,290 |
-| 16 | 漆器製造 | 2.0 | 0.9 | 71,828 |
-| 17 | 左官 | 2.0 | 0.8 | 59,890 |
-| 18 | とび | 2.0 | 0.7 | 55,970 |
-| 19 | 解体工 | 2.0 | 0.7 | 55,970 |
-| 20 | 児童指導員 | 2.0 | 0.4 | 44,392 |
+| 1 | 潜水士 | 2.0 | 0.3 | 129,506 |
+| 2 | 消防官 | 2.0 | 0.2 | 74,290 |
+| 3 | アウトドアインストラクター | 2.2 | 0.4 | 60,235 |
+| 4 | 美容師 | 2.4 | 0.4 | 175,530 |
+| 5 | メイクアップアーティスト | 2.4 | 0.6 | 175,530 |
+| 6 | 送電線工事 | 2.4 | 0.5 | 47,430 |
+| 7 | オーケストラ奏者（団員） | 2.4 | 0.7 | 26,080 |
+| 8 | スクールカウンセラー | 2.4 | 0.6 | 9,971 |
+| 9 | ベビーシッター | 2.5 | 0.4 | 13,570 |
+| 10 | 調教師 | 2.6 | 0.5 | 9,971 |
+| 11 | ソムリエ | 2.7 | 0.8 | 126,717 |
+| 12 | 沿岸漁業従事者 | 2.7 | 0.9 | 66,470 |
+| 13 | アロマセラピスト | 2.7 | 0.9 | 65,227 |
+| 14 | とび | 2.7 | 0.6 | 55,970 |
+| 15 | 解体工 | 2.7 | 0.7 | 55,970 |
+| 16 | はり師・きゅう師 | 2.7 | 0.5 | 39,403 |
+| 17 | 林業作業 | 2.7 | 0.8 | 17,480 |
+| 18 | すし職人 | 2.8 | 0.9 | 227,809 |
+| 19 | 自動車板金塗装 | 2.8 | 0.8 | 188,035 |
+| 20 | 助産師 | 2.8 | 0.3 | 27,550 |
 
 ## 8. Frequently asked questions
 
 Q: Which occupation is most exposed to AI?
-A: データ入力 has the highest AI Impact in the active batch at 9.5/10.
+A: データ入力 has the highest AI Impact in the active batch at 9.6/10.
 
 Q: Which occupation is least exposed to AI?
-A: 潜水士 has the lowest AI Impact in the active batch at 1.3/10.
+A: 潜水士 has the lowest AI Impact in the active batch at 2.0/10.
 
 Q: How should high AI Impact be interpreted?
 A: It means the work is strongly reshaped by AI. It does not by itself mean the occupation disappears.
@@ -149,7 +147,7 @@ Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
   title  = {Japan Jobs x AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
-  note   = {Independent AIOIS-10 analysis. Active score run: Claude Fable 5, 2026-06-13. AI Impact scores are LLM estimates, not official government forecasts.}
+  note   = {Independent AIOIS-10 analysis. Active score run: GPT 5.6 SOL, 2026-07-12. AI Impact scores are LLM estimates, not official government forecasts.}
 }
 ```
 
