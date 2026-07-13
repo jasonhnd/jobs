@@ -1,0 +1,354 @@
+---
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { ModelsByModelProjectionSchema, type ModelsByModelProjectionShape } from '@/lib/projection-schemas';
+import { siteConfig } from '@/site/config';
+import { modelIdFromSlug } from '@/site/score-attribution';
+import { loadModelBatchMetas, type ModelBatchMeta } from './_model-route-data';
+
+type ModelPageRecord = ModelsByModelProjectionShape['models'][string];
+
+interface Props {
+  readonly modelId: string;
+  readonly batchMeta: ModelBatchMeta;
+}
+
+export async function getStaticPaths() {
+  const metas = await loadModelBatchMetas();
+  const knownModelIds = metas.map((meta) => meta.model);
+  for (const meta of metas) {
+    if (modelIdFromSlug(meta.slug, knownModelIds) !== meta.model) {
+      throw new Error(`/models/${meta.slug} slug round-trip failed for ${meta.model}`);
+    }
+  }
+  return metas.map((batchMeta) => ({
+    params: { model: batchMeta.slug },
+    props: { modelId: batchMeta.model, batchMeta },
+  }));
+}
+
+const { modelId, batchMeta } = Astro.props as Props;
+const requestedSlug = Astro.params.model ?? '';
+const batchMetas = await loadModelBatchMetas();
+const knownModelIds = batchMetas.map((meta) => meta.model);
+const resolvedModelId = modelIdFromSlug(requestedSlug, knownModelIds);
+if (resolvedModelId === null || resolvedModelId !== modelId || batchMeta.model !== modelId) {
+  Astro.response.status = 404;
+  throw new Error(`/models/${requestedSlug} is not a known model page`);
+}
+
+const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_by_model.json'), 'utf-8');
+const projection = ModelsByModelProjectionSchema.parse(JSON.parse(projectionRaw));
+const page = projection.models[requestedSlug];
+if (!page || page.model !== modelId) {
+  Astro.response.status = 404;
+  throw new Error(`/models/${requestedSlug} is missing from data.models_by_model.json`);
+}
+
+const pageTitle = `${page.modelDisplay} のAI職業スコア分布 | モデル比較 | 未来の仕事`;
+const pageDescription =
+  `${page.modelDisplay}（${page.date}）が採点した日本の職業${page.covered_count}件のAI影響度分布、上位・下位職業、前回モデルからの変化。`;
+const canonical = `${siteConfig.origin}/models/${page.slug}`;
+const inlinePayload = JSON.stringify(page)
+  .replace(/</g, '\\u003c')
+  .replace(/\u2028/g, '\\u2028')
+  .replace(/\u2029/g, '\\u2029');
+
+const bandLabel = (band: 'low' | 'mid' | 'high'): string => {
+  if (band === 'low') return '低';
+  if (band === 'mid') return '中';
+  return '高';
+};
+const scoreText = (value: number): string => value.toFixed(1);
+const signedScore = (value: number): string => {
+  if (value > 0) return `+${value.toFixed(1)}`;
+  return value.toFixed(1);
+};
+
+const histogramWidth = 720;
+const histogramHeight = 260;
+const chartTop = 26;
+const chartLeft = 34;
+const chartRight = 16;
+const chartBottom = 42;
+const plotWidth = histogramWidth - chartLeft - chartRight;
+const plotHeight = histogramHeight - chartTop - chartBottom;
+const maxBin = Math.max(1, ...page.distribution.histogram.map((bin) => bin.count));
+const barGap = 3;
+const barWidth = plotWidth / page.distribution.histogram.length - barGap;
+
+const driftSummary = 'baseline' in page.drift
+  ? `${page.modelDisplay} はこのデータ系列の最初の採点バッチです。前回モデルとの比較ではなく、以後の変化を見るための基準点として扱います。`
+  : `${page.modelDisplay} は ${page.drift.predecessor.modelDisplay}（${page.drift.predecessor.date}）と比べて、平均変化指数が ${signedScore(page.drift.mean_delta_t)} ポイント動きました。共通して比較できた職業は ${page.drift.compared_count} 件です。`;
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      name: pageTitle,
+      url: canonical,
+      description: pageDescription,
+      inLanguage: 'ja',
+      isPartOf: { '@id': `${siteConfig.origin}/#website` },
+      datePublished: page.date,
+      dateModified: projection.generated_at,
+      breadcrumb: { '@id': `${canonical}#breadcrumb` },
+    },
+    {
+      '@type': 'Dataset',
+      '@id': `${canonical}#dataset`,
+      name: `${page.modelDisplay} AI職業スコア分布`,
+      description: pageDescription,
+      inLanguage: 'ja',
+      isPartOf: { '@id': `${canonical}#webpage` },
+      dateModified: projection.generated_at,
+      temporalCoverage: page.date,
+      creator: { '@type': 'Organization', name: siteConfig.siteName },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonical}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: `${siteConfig.origin}/` },
+        { '@type': 'ListItem', position: 2, name: 'モデル比較', item: `${siteConfig.origin}/models` },
+        { '@type': 'ListItem', position: 3, name: page.modelDisplay, item: canonical },
+      ],
+    },
+  ],
+});
+
+const localCss = `
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:16px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.7;line-break:strict}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+#wrapper{max-width:1120px;margin:0 auto;padding:32px 20px 80px}
+.crumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 26px;color:var(--fg2);font-size:.86rem;line-height:1.5;overflow-wrap:anywhere}
+.crumb a{color:var(--fg2);text-decoration:none}
+.crumb a:hover{color:var(--accent);text-decoration:underline}
+.crumb span[aria-hidden]{color:var(--fg3)}
+.model-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:28px;align-items:end;padding:18px 0 30px;border-bottom:1px solid var(--border)}
+.eyebrow{margin:0 0 12px;color:var(--accent-deep);font-weight:700;font-size:.84rem}
+h1{margin:0;font-size:clamp(2rem,4.5vw,4rem);font-weight:700;line-height:1.12;letter-spacing:0;color:var(--fg);overflow-wrap:anywhere}
+.lead{max-width:720px;margin:18px 0 0;color:var(--fg2);font-size:1.02rem;line-height:1.9;word-break:keep-all}
+.profile-box{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px}
+.profile-box dl{display:grid;grid-template-columns:104px 1fr;gap:10px 14px;margin:0}
+.profile-box dt{color:var(--fg2);font-size:.8rem}
+.profile-box dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+.profile-links{margin:16px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.profile-links a,.nav-links a,.back-link{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid var(--border);border-radius:6px;padding:0 12px;background:var(--bg);font-weight:700;text-decoration:none;color:var(--fg)}
+.profile-links a:hover,.nav-links a:hover,.back-link:hover{border-color:var(--accent);color:var(--accent)}
+.section{padding:38px 0;border-bottom:1px solid var(--border)}
+.section h2{margin:0 0 16px;font-size:1.45rem;line-height:1.3;color:var(--fg);letter-spacing:0}
+.section-intro{max-width:760px;margin:0 0 22px;color:var(--fg2);line-height:1.9;word-break:keep-all}
+.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 24px}
+.stat{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:14px;min-width:0}
+.stat dt{margin:0 0 6px;color:var(--fg2);font-size:.78rem}
+.stat dd{margin:0;font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.histogram-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:12px}
+.histogram{display:block;min-width:680px;width:100%;height:auto}
+.histogram text{font-family:var(--font-sans);fill:var(--fg2);font-size:12px}
+.histogram .axis{stroke:var(--border)}
+.histogram .bar{fill:var(--accent)}
+.fallback{margin:14px 0 0;color:var(--fg2);font-size:.92rem}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.rank-card{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px}
+.rank-card h3{margin:0 0 12px;font-size:1.05rem}
+.rank-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rank-list li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(92,82,60,.16)}
+.rank-list li:last-child{border-bottom:0}
+.rank-no{color:var(--fg3);font-variant-numeric:tabular-nums;font-weight:700;text-align:right}
+.rank-title{font-weight:700;min-width:0;overflow-wrap:anywhere;text-decoration:none;color:var(--fg)}
+.rank-title:hover{color:var(--accent);text-decoration:underline}
+.score-pill,.band-pill{display:inline-flex;align-items:center;justify-content:center;min-height:26px;border-radius:999px;padding:0 10px;font-size:.78rem;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.score-pill{background:var(--bg);border:1px solid var(--border);color:var(--fg)}
+.band-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
+.band-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
+.band-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
+.drift-panel{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:20px}
+.drift-panel p{margin:0;color:var(--fg2);line-height:1.9}
+.drift-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.mini-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.mini-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:baseline;border-bottom:1px solid rgba(92,82,60,.16);padding:8px 0}
+.mini-list li:last-child{border-bottom:0}
+.mini-list a{font-weight:700;color:var(--fg);overflow-wrap:anywhere}
+.delta{font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent-deep)}
+.nav-links{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+template{display:none}
+@media(max-width:860px){
+  .model-hero,.two-col,.drift-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  #wrapper{padding:22px 16px 64px}
+  .profile-box dl{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr}
+  .rank-list li{grid-template-columns:24px minmax(0,1fr);align-items:start}
+  .rank-list .score-pill{grid-column:2}
+}
+`;
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  keywords="AIモデル,モデル比較,AI職業スコア,AIOIS-10"
+  ogTitle={pageTitle}
+  ogDescription={pageDescription}
+  ogType="article"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={localCss} />
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">日本の職業 AI 影響マップ</a>
+      <span aria-hidden="true">›</span>
+      <a href="/models" rel="up">モデル比較</a>
+      <span aria-hidden="true">›</span>
+      <span>{page.modelDisplay}</span>
+    </nav>
+
+    <header class="model-hero" id="content">
+      <div>
+        <p class="eyebrow">モデル比較</p>
+        <h1>{page.modelDisplay} のAI職業スコア分布</h1>
+        <p class="lead">
+          {page.modelDisplay} が {page.covered_count} 件の職業をどう採点したかを、分布、上位・下位職業、前回モデルからの変化で確認します。
+        </p>
+      </div>
+      <aside class="profile-box" aria-label="モデル概要">
+        <dl>
+          <dt>提供元</dt><dd>{page.provider}</dd>
+          <dt>採点日</dt><dd>{page.date}</dd>
+          <dt>対象職業</dt><dd>{page.covered_count} 件</dd>
+          <dt>プロンプト</dt><dd>{page.prompt_version}</dd>
+        </dl>
+        <div class="profile-links">
+          <a href="/methodology">評価プロセス</a>
+          <a href="/standard">AIOIS-10 標準</a>
+        </div>
+      </aside>
+    </header>
+
+    <section class="section" aria-labelledby="distribution">
+      <h2 id="distribution">スコア分布</h2>
+      <p class="section-intro">
+        変化指数は 0 から 10 の範囲で、低は 4.0 未満、中は 4.0 以上 7.0 未満、高は 7.0 以上です。
+      </p>
+      <dl class="stats-grid">
+        <div class="stat"><dt>平均変化指数</dt><dd>{scoreText(page.distribution.mean_transformation)}</dd></div>
+        <div class="stat"><dt>中央値</dt><dd>{scoreText(page.distribution.median_transformation)}</dd></div>
+        <div class="stat"><dt>高リスク帯</dt><dd>{page.distribution.bands.high.count} 件</dd></div>
+        <div class="stat"><dt>中リスク帯</dt><dd>{page.distribution.bands.mid.count} 件</dd></div>
+      </dl>
+      <div class="histogram-wrap">
+        <svg
+          class="histogram"
+          viewBox={`0 0 ${histogramWidth} ${histogramHeight}`}
+          role="img"
+          aria-labelledby={`hist-title-${page.slug} hist-desc-${page.slug}`}
+        >
+          <title id={`hist-title-${page.slug}`}>{page.modelDisplay} の変化指数ヒストグラム</title>
+          <desc id={`hist-desc-${page.slug}`}>0 から 10 までを 0.5 刻みで分けた職業数の分布です。</desc>
+          <line class="axis" x1={chartLeft} y1={chartTop + plotHeight} x2={chartLeft + plotWidth} y2={chartTop + plotHeight}></line>
+          <line class="axis" x1={chartLeft} y1={chartTop} x2={chartLeft} y2={chartTop + plotHeight}></line>
+          {page.distribution.histogram.map((bin, i) => {
+            const height = (bin.count / maxBin) * plotHeight;
+            const x = chartLeft + i * (plotWidth / page.distribution.histogram.length) + barGap / 2;
+            const y = chartTop + plotHeight - height;
+            return <rect class="bar" x={x} y={y} width={barWidth} height={height} rx="2"><title>{bin.from.toFixed(1)}-{bin.to.toFixed(1)}: {bin.count} 件</title></rect>;
+          })}
+          <text x={chartLeft} y={histogramHeight - 12}>0</text>
+          <text x={chartLeft + plotWidth / 2 - 8} y={histogramHeight - 12}>5</text>
+          <text x={chartLeft + plotWidth - 18} y={histogramHeight - 12}>10</text>
+          <text x={chartLeft + 2} y={18}>職業数</text>
+          <text x={chartLeft + plotWidth - 126} y={18}>凡例: 0.5刻みの分布</text>
+        </svg>
+      </div>
+      <p class="fallback">
+        低リスク帯 {page.distribution.bands.low.count} 件（{page.distribution.bands.low.pct.toFixed(1)}%）、
+        中リスク帯 {page.distribution.bands.mid.count} 件（{page.distribution.bands.mid.pct.toFixed(1)}%）、
+        高リスク帯 {page.distribution.bands.high.count} 件（{page.distribution.bands.high.pct.toFixed(1)}%）。
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="extremes">
+      <h2 id="extremes">上位・下位の職業</h2>
+      <div class="two-col">
+        <article class="rank-card">
+          <h3>変化指数が高い職業</h3>
+          <ol class="rank-list">
+            {page.highest.map((row, index) => (
+              <li>
+                <span class="rank-no">{index + 1}</span>
+                <a class="rank-title" href={row.href}>{row.title_ja}</a>
+                <span class="score-pill">{scoreText(row.transformation)} / {bandLabel(row.band)}</span>
+              </li>
+            ))}
+          </ol>
+        </article>
+        <article class="rank-card">
+          <h3>変化指数が低い職業</h3>
+          <ol class="rank-list">
+            {page.lowest.map((row, index) => (
+              <li>
+                <span class="rank-no">{index + 1}</span>
+                <a class="rank-title" href={row.href}>{row.title_ja}</a>
+                <span class="score-pill">{scoreText(row.transformation)} / {bandLabel(row.band)}</span>
+              </li>
+            ))}
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="drift">
+      <h2 id="drift">前回モデルからの変化</h2>
+      <div class="drift-panel">
+        <p>{driftSummary}</p>
+        {!('baseline' in page.drift) && (
+          <div class="drift-grid">
+            <div>
+              <h3>動きが大きい職業</h3>
+              <ul class="mini-list">
+                {page.drift.movers.map((row) => (
+                  <li><a href={row.href}>{row.title_ja}</a><span class="delta">{signedScore(row.delta_t)}</span></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>リスク帯をまたいだ職業</h3>
+              <ul class="mini-list">
+                {page.drift.band_crossings.map((row) => (
+                  <li>
+                    <a href={row.href}>{row.title_ja}</a>
+                    <span class="delta">{bandLabel(row.from_band)} → {bandLabel(row.to_band)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="neighbours">
+      <h2 id="neighbours">ほかのモデルを見る</h2>
+      <nav class="nav-links" aria-label="モデルページ">
+        <a class="back-link" href="/models">モデル比較へ戻る</a>
+        {page.nav.prev && <a href={`/models/${page.nav.prev.slug}`}>前のモデル: {page.nav.prev.modelDisplay}</a>}
+        {page.nav.next && <a href={`/models/${page.nav.next.slug}`}>次のモデル: {page.nav.next.modelDisplay}</a>}
+      </nav>
+    </section>
+
+    <template id="model-page-payload" set:html={inlinePayload}></template>
+
+    <Footer />
+  </div>
+</BaseLayout>
