@@ -1,5 +1,5 @@
 import { ModelsDeepProjectionSchema, type ModelsDeepProjectionShape } from '@/lib/projection-schemas';
-import { modelSlug } from '@/site/score-attribution';
+import { formatModelDisplay, modelSlug } from '@/site/score-attribution';
 
 export type ModelsDeepProjection = ModelsDeepProjectionShape;
 
@@ -75,6 +75,36 @@ function escapeInlineJson(json: string): string {
     .replace(/\u2029/g, '\\u2029');
 }
 
+function canonicalPairBatch(
+  batch: ModelsDeepProjection['latest_pair']['baseline'],
+): ModelsDeepProjection['latest_pair']['baseline'] {
+  return {
+    ...batch,
+    modelDisplay: formatModelDisplay(batch.model),
+  };
+}
+
+export function formatJapaneseDate(date: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+  if (!match) return date;
+  return `${match[1]}年${Number(match[2])}月${Number(match[3])}日`;
+}
+
+export function formatProviderDisplay(provider: string): string {
+  const trimmed = provider.trim();
+  const providers: Readonly<Record<string, string>> = {
+    anthropic: 'Anthropic',
+    openai: 'OpenAI',
+  };
+  return providers[trimmed.toLowerCase()] ?? trimmed;
+}
+
+export function formatEvaluationStandard(promptVersion: string): string {
+  return /^AIOIS-10[-\s]?v?1\.0/i.test(promptVersion)
+    ? 'AIOIS-10 v1.0'
+    : promptVersion;
+}
+
 export function buildModelsFeaturePageModel(
   rawProjection: unknown,
   personalityCopy: ModelPersonalityCopy,
@@ -85,6 +115,7 @@ export function buildModelsFeaturePageModel(
     const slug = modelSlug(card.model);
     return {
       ...card,
+      modelDisplay: formatModelDisplay(card.model),
       slug,
       href: `/models/${slug}`,
       personality_sentence: personalityCopyWithFallback(personalityCopy.sentences, card.personality_sentence_id),
@@ -103,7 +134,11 @@ export function buildModelsFeaturePageModel(
     pageLastUpdated: currentModel.date,
     batchDatesText: dates.join(' / '),
     modelCount: modelRoster.length,
-    latestPair: projection.latest_pair,
+    latestPair: {
+      ...projection.latest_pair,
+      baseline: canonicalPairBatch(projection.latest_pair.baseline),
+      candidate: canonicalPairBatch(projection.latest_pair.candidate),
+    },
     currentModel,
     modelCards,
     modelRoster,

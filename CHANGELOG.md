@@ -37,6 +37,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   rendered occupation pages because each hero gains the verdict anchors and
   `/api/og?id=<id>` share href (#62).
 
+### Fixed
+
+- Corrected `/models` and `/models/{slug}` visitor-facing typography, headings,
+  model/provider/standard labels, responsive story cards, and no-table score
+  history. SEO/OG/JSON-LD baseline drift is intentional because the public model
+  page titles and metadata now use the corrected `AIモデル比較` and
+  `{modelDisplay} の職業スコア` semantics (#153).
+
 ## [1.7.0] — 2026-06-29 — Runtime & dependency modernization (Node 24, React 19, Astro 7)
 
 ### Changed

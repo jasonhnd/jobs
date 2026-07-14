@@ -1,6 +1,6 @@
 /**
  * src/templates/ScoreHistoryComparison.ts — per-occupation multi-model
- * score history table for the detail page.
+ * score history comparison for the detail page.
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
@@ -14,7 +14,7 @@ export interface ScoreHistoryComparisonEntry {
   readonly dims: Record<string, number> | null;
 }
 
-const H2 = 'AI 影響スコアの履歴';
+const H2 = 'モデル比較';
 
 function formatScore(value: number): string {
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
@@ -76,26 +76,26 @@ export function renderScoreHistoryComparison(
   });
   const older = sorted.filter((entry) => !isCurrentEntry(entry, current));
 
-  let rows = '';
+  let items = '';
   for (const entry of older) {
-    rows +=
-      `<tr>` +
-      `<td class="sh-model"><a href="${escapeHtml(modelHref(entry))}">${escapeHtml(formatModelDisplay(entry.model))}</a></td>` +
-      `<td>${escapeHtml(formatDate(entry.date))}</td>` +
-      `<td class="sh-num">${escapeHtml(formatScore(entry.transformation))}<span>/10</span></td>` +
-      `<td class="sh-delta">${escapeHtml(formatDelta(entry.transformation - currentScore))}</td>` +
-      `</tr>`;
+    items +=
+      `<li class="score-history-item">` +
+      `<div class="score-history-item-model">` +
+      `<span>モデル</span>` +
+      `<a href="${escapeHtml(modelHref(entry))}">${escapeHtml(formatModelDisplay(entry.model))}</a>` +
+      `</div>` +
+      `<dl class="score-history-item-facts">` +
+      `<div><dt>採点日</dt><dd>${escapeHtml(formatDate(entry.date))}</dd></div>` +
+      `<div><dt>変化指数</dt><dd class="sh-num">${escapeHtml(formatScore(entry.transformation))}<span>/10</span></dd></div>` +
+      `<div><dt>現行モデルとの差</dt><dd class="sh-delta">${escapeHtml(formatDelta(entry.transformation - currentScore))}</dd></div>` +
+      `</dl>` +
+      `</li>`;
   }
   const details = older.length > 0
     ? (
       `<details class="score-history-details">` +
-      `<summary>過去のモデル履歴 ${older.length}件</summary>` +
-      `<div class="score-history-table-wrap" tabindex="0" aria-label="過去のスコア履歴の表を横にスクロール">` +
-      `<table class="score-history-table">` +
-      `<thead><tr><th scope="col">モデル</th><th scope="col">採点日</th><th scope="col">変化の大きさ</th><th scope="col">現行との差</th></tr></thead>` +
-      `<tbody>${rows}</tbody>` +
-      `</table>` +
-      `</div>` +
+      `<summary>これまでのモデルを表示（${older.length}件）</summary>` +
+      `<ol class="score-history-list">${items}</ol>` +
       `</details>`
     )
     : '';
@@ -104,7 +104,7 @@ export function renderScoreHistoryComparison(
     `<section class="score-history" aria-labelledby="score-history-h2">` +
     `<h2 id="score-history-h2">${escapeHtml(H2)}</h2>` +
     `<p class="score-history-note">AI 影響スコアは、異なるAIモデルが異なる日付で同じ基準にもとづき評価した結果です。` +
-    `<a href="/models">モデル比較を見る</a></p>` +
+    `<a href="/models">全モデルを見る</a></p>` +
     `<div class="score-history-current" aria-label="現行スコア">` +
     `<div>` +
     `<span class="score-history-current-label">現行スコア</span>` +
