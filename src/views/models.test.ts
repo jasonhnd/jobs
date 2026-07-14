@@ -3,7 +3,10 @@ import { strict as assert } from 'node:assert';
 
 import {
   buildModelsFeaturePageModel,
+  formatEvaluationStandard,
+  formatJapaneseDate,
   formatModelScore,
+  formatProviderDisplay,
   scoreBarWidth,
   type ModelsDeepProjection,
 } from './models.js';
@@ -82,7 +85,10 @@ describe('models feature view model', () => {
     assert.equal(page.batchDatesText, '2026-05-30 / 2026-06-13');
     assert.equal(page.modelCount, 2);
     assert.equal(page.currentModel.model, 'claude-fable-5');
+    assert.equal(page.currentModel.modelDisplay, 'Claude Fable 5');
     assert.equal(page.currentModel.href, '/models/fable-5');
+    assert.equal(page.latestPair.baseline.modelDisplay, 'Claude Opus 4.8');
+    assert.equal(page.latestPair.candidate.modelDisplay, 'Claude Fable 5');
     assert.equal(page.dateRangeText, '2026-05-30 から 2026-06-13');
     assert.equal(page.coverageRangeText, '2職業');
     assert.equal(page.modelCards[1]!.personality_sentence, '固定文です。');
@@ -205,9 +211,21 @@ describe('models feature view model', () => {
     );
 
     assert.deepEqual(
-      page.modelRoster.map((card) => card.href),
-      ['/models/opus-4-7', '/models/opus-4-8', '/models/fable-5', '/models/gpt-5.6-sol'],
+      page.modelRoster.map((card) => [card.modelDisplay, card.href]),
+      [
+        ['Claude Opus 4.7', '/models/opus-4-7'],
+        ['Claude Opus 4.8', '/models/opus-4-8'],
+        ['Claude Fable 5', '/models/fable-5'],
+        ['GPT 5.6 SOL', '/models/gpt-5.6-sol'],
+      ],
     );
+  });
+
+  test('formats public model metadata for visitor pages', () => {
+    assert.equal(formatProviderDisplay('openai'), 'OpenAI');
+    assert.equal(formatProviderDisplay('anthropic'), 'Anthropic');
+    assert.equal(formatJapaneseDate('2026-07-12'), '2026年7月12日');
+    assert.equal(formatEvaluationStandard('AIOIS-10-v1.0-gpt-5.6-sol'), 'AIOIS-10 v1.0');
   });
 
   test('formats static score bars', () => {

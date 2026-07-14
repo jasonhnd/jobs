@@ -5,7 +5,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { ModelsByModelProjectionSchema, type ModelsByModelProjectionShape } from '@/lib/projection-schemas';
 import { siteConfig } from '@/site/config';
-import { modelIdFromSlug } from '@/site/score-attribution';
+import { formatModelDisplay, modelIdFromSlug } from '@/site/score-attribution';
+import { formatEvaluationStandard, formatJapaneseDate, formatProviderDisplay } from '@/views/models';
 import { loadModelBatchMetas, type ModelBatchMeta } from './_model-route-data';
 
 type ModelPageRecord = ModelsByModelProjectionShape['models'][string];
@@ -47,9 +48,20 @@ if (!page || page.model !== modelId) {
   throw new Error(`/models/${requestedSlug} is missing from data.models_by_model.json`);
 }
 
-const pageTitle = `${page.modelDisplay} のAI職業スコア分布 | モデル比較 | 未来の仕事`;
+const modelDisplay = formatModelDisplay(page.model);
+const providerDisplay = formatProviderDisplay(page.provider);
+const scoringDate = formatJapaneseDate(page.date);
+const standardDisplay = formatEvaluationStandard(page.prompt_version);
+const prevModelDisplay = page.nav.prev
+  ? formatModelDisplay(modelIdFromSlug(page.nav.prev.slug, knownModelIds) ?? page.nav.prev.modelDisplay)
+  : null;
+const nextModelDisplay = page.nav.next
+  ? formatModelDisplay(modelIdFromSlug(page.nav.next.slug, knownModelIds) ?? page.nav.next.modelDisplay)
+  : null;
+
+const pageTitle = `${modelDisplay} の職業スコア | モデル比較 | 未来の仕事`;
 const pageDescription =
-  `${page.modelDisplay}（${page.date}）が採点した日本の職業${page.covered_count}件のAI影響度分布、上位・下位職業、前回モデルからの変化。`;
+  `${modelDisplay}（${scoringDate}）が採点した日本の職業${page.covered_count}件のAI影響度分布、上位・下位職業、前回モデルからの変化。`;
 const canonical = `${siteConfig.origin}/models/${page.slug}`;
 const inlinePayload = JSON.stringify(page)
   .replace(/</g, '\\u003c')
@@ -80,8 +92,8 @@ const barGap = 3;
 const barWidth = plotWidth / page.distribution.histogram.length - barGap;
 
 const driftSummary = 'baseline' in page.drift
-  ? `${page.modelDisplay} はこのデータ系列の最初の採点バッチです。前回モデルとの比較ではなく、以後の変化を見るための基準点として扱います。`
-  : `${page.modelDisplay} は ${page.drift.predecessor.modelDisplay}（${page.drift.predecessor.date}）と比べて、平均変化指数が ${signedScore(page.drift.mean_delta_t)} ポイント動きました。共通して比較できた職業は ${page.drift.compared_count} 件です。`;
+  ? `${modelDisplay} はこのデータ系列の最初の採点です。前回モデルとの比較ではなく、以後の変化を見るための基準点として扱います。`
+  : `${modelDisplay} は ${formatModelDisplay(page.drift.predecessor.model)}（${formatJapaneseDate(page.drift.predecessor.date)}）と比べて、平均変化指数が ${signedScore(page.drift.mean_delta_t)} ポイント動きました。共通して比較できた職業は ${page.drift.compared_count} 件です。`;
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -101,7 +113,7 @@ const jsonLd = JSON.stringify({
     {
       '@type': 'Dataset',
       '@id': `${canonical}#dataset`,
-      name: `${page.modelDisplay} AI職業スコア分布`,
+      name: `${modelDisplay} の職業スコア`,
       description: pageDescription,
       inLanguage: 'ja',
       isPartOf: { '@id': `${canonical}#webpage` },
@@ -115,7 +127,7 @@ const jsonLd = JSON.stringify({
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: `${siteConfig.origin}/` },
         { '@type': 'ListItem', position: 2, name: 'モデル比較', item: `${siteConfig.origin}/models` },
-        { '@type': 'ListItem', position: 3, name: page.modelDisplay, item: canonical },
+        { '@type': 'ListItem', position: 3, name: modelDisplay, item: canonical },
       ],
     },
   ],
@@ -124,7 +136,10 @@ const jsonLd = JSON.stringify({
 const localCss = `
 *,*::before,*::after{box-sizing:border-box}
 html{font-size:16px}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.7;line-break:strict}
+html body.models-surface{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.7;line-break:strict}
+html body #wrapper h1,
+html body #wrapper h2,
+html body #wrapper h3{font-family:var(--font-sans)}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
 a:hover{color:var(--accent)}
 #wrapper{max-width:1120px;margin:0 auto;padding:32px 20px 80px}
@@ -134,18 +149,18 @@ a:hover{color:var(--accent)}
 .crumb span[aria-hidden]{color:var(--fg3)}
 .model-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:28px;align-items:end;padding:18px 0 30px;border-bottom:1px solid var(--border)}
 .eyebrow{margin:0 0 12px;color:var(--accent-deep);font-weight:700;font-size:.84rem}
-h1{margin:0;font-size:clamp(2rem,4.5vw,4rem);font-weight:700;line-height:1.12;letter-spacing:0;color:var(--fg);overflow-wrap:anywhere}
-.lead{max-width:720px;margin:18px 0 0;color:var(--fg2);font-size:1.02rem;line-height:1.9;word-break:keep-all}
+h1{margin:0;font-size:clamp(2rem,4.5vw,4rem);font-weight:700;line-height:1.12;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break:normal}
+.lead{max-width:720px;margin:18px 0 0;color:var(--fg2);font-size:1.02rem;line-height:1.9;overflow-wrap:break-word;word-break:normal}
 .profile-box{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px}
 .profile-box dl{display:grid;grid-template-columns:104px 1fr;gap:10px 14px;margin:0}
 .profile-box dt{color:var(--fg2);font-size:.8rem}
-.profile-box dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+.profile-box dd{margin:0;font-weight:700;overflow-wrap:break-word;word-break:normal}
 .profile-links{margin:16px 0 0;display:flex;flex-wrap:wrap;gap:10px}
 .profile-links a,.nav-links a,.back-link{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid var(--border);border-radius:6px;padding:0 12px;background:var(--bg);font-weight:700;text-decoration:none;color:var(--fg)}
 .profile-links a:hover,.nav-links a:hover,.back-link:hover{border-color:var(--accent);color:var(--accent)}
 .section{padding:38px 0;border-bottom:1px solid var(--border)}
-.section h2{margin:0 0 16px;font-size:1.45rem;line-height:1.3;color:var(--fg);letter-spacing:0}
-.section-intro{max-width:760px;margin:0 0 22px;color:var(--fg2);line-height:1.9;word-break:keep-all}
+.section h2{margin:0 0 16px;font-size:1.45rem;line-height:1.3;color:var(--fg);letter-spacing:0;overflow-wrap:break-word;word-break:normal}
+.section-intro{max-width:760px;margin:0 0 22px;color:var(--fg2);line-height:1.9;overflow-wrap:break-word;word-break:normal}
 .stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 24px}
 .stat{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:14px;min-width:0}
 .stat dt{margin:0 0 6px;color:var(--fg2);font-size:.78rem}
@@ -201,6 +216,7 @@ template{display:none}
   ogTitle={pageTitle}
   ogDescription={pageDescription}
   ogType="article"
+  bodyClass="models-surface"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={localCss} />
@@ -211,23 +227,23 @@ template{display:none}
       <span aria-hidden="true">›</span>
       <a href="/models" rel="up">モデル比較</a>
       <span aria-hidden="true">›</span>
-      <span>{page.modelDisplay}</span>
+      <span>{modelDisplay}</span>
     </nav>
 
     <header class="model-hero" id="content">
       <div>
         <p class="eyebrow">モデル比較</p>
-        <h1>{page.modelDisplay} のAI職業スコア分布</h1>
+        <h1>{modelDisplay} の職業スコア</h1>
         <p class="lead">
-          {page.modelDisplay} が {page.covered_count} 件の職業をどう採点したかを、分布、上位・下位職業、前回モデルからの変化で確認します。
+          {modelDisplay} が {page.covered_count} 件の職業をどう採点したかを、分布、上位・下位職業、前回モデルからの変化で確認します。
         </p>
       </div>
       <aside class="profile-box" aria-label="モデル概要">
         <dl>
-          <dt>提供元</dt><dd>{page.provider}</dd>
-          <dt>採点日</dt><dd>{page.date}</dd>
+          <dt>提供元</dt><dd>{providerDisplay}</dd>
+          <dt>採点日</dt><dd>{scoringDate}</dd>
           <dt>対象職業</dt><dd>{page.covered_count} 件</dd>
-          <dt>プロンプト</dt><dd>{page.prompt_version}</dd>
+          <dt>評価基準</dt><dd>{standardDisplay}</dd>
         </dl>
         <div class="profile-links">
           <a href="/methodology">評価プロセス</a>
@@ -254,7 +270,7 @@ template{display:none}
           role="img"
           aria-labelledby={`hist-title-${page.slug} hist-desc-${page.slug}`}
         >
-          <title id={`hist-title-${page.slug}`}>{page.modelDisplay} の変化指数ヒストグラム</title>
+          <title id={`hist-title-${page.slug}`}>{modelDisplay} の変化指数ヒストグラム</title>
           <desc id={`hist-desc-${page.slug}`}>0 から 10 までを 0.5 刻みで分けた職業数の分布です。</desc>
           <line class="axis" x1={chartLeft} y1={chartTop + plotHeight} x2={chartLeft + plotWidth} y2={chartTop + plotHeight}></line>
           <line class="axis" x1={chartLeft} y1={chartTop} x2={chartLeft} y2={chartTop + plotHeight}></line>
@@ -342,8 +358,8 @@ template{display:none}
       <h2 id="neighbours">ほかのモデルを見る</h2>
       <nav class="nav-links" aria-label="モデルページ">
         <a class="back-link" href="/models">モデル比較へ戻る</a>
-        {page.nav.prev && <a href={`/models/${page.nav.prev.slug}`}>前のモデル: {page.nav.prev.modelDisplay}</a>}
-        {page.nav.next && <a href={`/models/${page.nav.next.slug}`}>次のモデル: {page.nav.next.modelDisplay}</a>}
+        {page.nav.prev && <a href={`/models/${page.nav.prev.slug}`}>前のモデル: {prevModelDisplay}</a>}
+        {page.nav.next && <a href={`/models/${page.nav.next.slug}`}>次のモデル: {nextModelDisplay}</a>}
       </nav>
     </section>
 
