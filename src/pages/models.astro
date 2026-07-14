@@ -52,8 +52,10 @@ const jsonLd = JSON.stringify({
 
 const localCss = `
 *,*::before,*::after{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75;line-break:strict}
-h1,h2,h3{font-family:var(--font-sans)}
+html body.models-surface{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75;line-break:strict}
+html body .models-feature h1,
+html body .models-feature h2,
+html body .models-feature h3{font-family:var(--font-sans)}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
 a:hover{color:var(--accent)}
 .models-feature{max-width:1120px;margin:0 auto;padding:32px 20px 80px}
@@ -150,6 +152,7 @@ a:hover{color:var(--accent)}
   keywords="AIモデル, 職業, AI影響, 未来の仕事"
   ogTitle="AIモデル比較"
   ogDescription={pageDescription}
+  bodyClass="models-surface"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={localCss} />
