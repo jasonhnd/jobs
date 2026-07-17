@@ -102,6 +102,49 @@
       },
       "temporalCoverage": "2025/2026",
       "measurementTechnique": "Scored with AIOIS-10 v1.0. Active model: GPT 5.6 SOL.",
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Mapped occupation count",
+          "value": 556
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Mapped workforce",
+          "value": 54555970,
+          "unitText": "people"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Mean AI Impact",
+          "value": 4.894964028776978,
+          "minValue": 0,
+          "maxValue": 10
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Mean Displacement-Risk",
+          "value": 1.7723021582733813,
+          "minValue": 0,
+          "maxValue": 10
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Occupations with AI Impact >= 5",
+          "value": 230
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Annual wages with AI Impact >= 5",
+          "value": 124.94984404200001,
+          "unitText": "trillion JPY"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Rounded AI Impact five-band distribution",
+          "value": "0-2:8 (2%), 3-4:215 (39%), 5-6:247 (44%), 7-8:79 (14%), 9-10:7 (1%)"
+        }
+      ],
       "citation": [
         "MHLW jobtag: https://shigoto.mhlw.go.jp/User/",
         "JILPT occupation database: https://www.jil.go.jp/"
@@ -174,8 +217,8 @@
         {
           "@type": "ListItem",
           "position": 4,
-          "name": "High AI Impact workforce share",
-          "description": "57 occupations score 7.0 or higher, covering 8,244,007 workers (15.1% of mapped workforce)."
+          "name": "Occupations and wages at AI Impact >= 5",
+          "description": "230 occupations score 5.0 or higher, representing 124.949844 trillion yen in annual wages."
         },
         {
           "@type": "ListItem",

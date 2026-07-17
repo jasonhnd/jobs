@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-17T07:41:09.694Z",
-  "gitCommit": "542089238e389b859546250f0addb5b38a49a135",
-  "gitBranch": "fix/issue-159-model-comparability",
+  "capturedAt": "2026-07-17T07:49:37.020Z",
+  "gitCommit": "7bcaac1e6db74e4b801c1d4fc5b588cc935fad62",
+  "gitBranch": "fix/issue-158-active-batch-facts",
   "distFileCount": 833,
   "urlCount": 833,
   "dataFileCount": 612,

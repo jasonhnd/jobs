@@ -4,23 +4,17 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { buildGeoSurfaces } from './geo-build.js';
+import { bindHomeFacts } from './home-facts-render.js';
+import { buildMethodologyBatchView } from './methodology-facts.js';
 import {
   computeGeoFacts,
   pickLatestGeoScoreRun,
   summarizeGeoOccupationIds,
-  type GeoAttribution,
   type GeoScoreEntry,
   type GeoScoreRunLike,
   type GeoTreemapRow,
 } from './geo-facts.js';
 import { renderHomeJsonLd, renderLlmsFullTxt, renderLlmsTxt } from './geo-render.js';
-
-const attribution: GeoAttribution = {
-  modelId: 'claude-fable-5',
-  modelDisplay: 'Claude Fable 5',
-  runDate: '2026-06-13',
-  standardLabel: 'AIOIS-10',
-};
 
 const rows: GeoTreemapRow[] = [
   { id: 1, name_ja: 'A', salary: 410, ai_risk: 1.5, workers: 100, recruit_ratio: 1.1, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1' },
@@ -36,12 +30,27 @@ const scores = new Map<number, GeoScoreEntry>([
   [4, { ai_risk: 9.2, aiois: { displacement: 8.0 } }],
 ]);
 
+function scoreRun(
+  date: string,
+  model: string,
+  entries: ReadonlyMap<number, GeoScoreEntry> = scores,
+): GeoScoreRunLike {
+  return {
+    scope: 'occupations',
+    scorer: { model },
+    run: { run_date: date },
+    scores: Object.fromEntries([...entries].map(([id, entry]) => [String(id), entry])),
+  };
+}
+
 describe('computeGeoFacts', () => {
   test('computes means, risk bands, workforce share, and top/bottom rows', () => {
-    const facts = computeGeoFacts(rows, scores, attribution);
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
 
+    assert.equal(facts.attribution.modelDisplay, 'Claude Fable 5');
     assert.equal(facts.occupationCount, 4);
     assert.equal(facts.totalWorkforce, 2000);
+    assert.equal(facts.meanAiImpactRaw, 5.425);
     assert.equal(facts.meanAiImpact, 5.42);
     assert.equal(facts.medianAiImpact, 5.5);
     assert.equal(facts.meanDisplacementRisk, 3.12);
@@ -49,6 +58,9 @@ describe('computeGeoFacts', () => {
       facts.fiveBandDistribution.map((b) => [b.key, b.count]),
       [['0-2', 1], ['3-4', 1], ['5-6', 0], ['7-8', 1], ['9-10', 1]],
     );
+    assert.equal(facts.fiveBandDistribution.reduce((sum, band) => sum + band.sharePct, 0), 100);
+    assert.equal(facts.highImpactCount, 2);
+    assert.equal(facts.highImpactAnnualWagesTrillion, 0.01066);
     assert.equal(facts.lowRiskCount, 1);
     assert.equal(facts.midRiskCount, 1);
     assert.equal(facts.highRiskCount, 2);
@@ -67,7 +79,7 @@ describe('computeGeoFacts', () => {
   });
 
   test('summarizes a page occupation subset from GeoFacts using the same rounding', () => {
-    const facts = computeGeoFacts(rows, scores, attribution);
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
     const summary = summarizeGeoOccupationIds(facts, [3, 4, 4, 1]);
 
     assert.equal(summary.occupationCount, 3);
@@ -82,7 +94,42 @@ describe('computeGeoFacts', () => {
   test('fails when the active score batch lacks displacement for a row', () => {
     const incomplete = new Map(scores);
     incomplete.set(1, { ai_risk: 1.5 });
-    assert.throws(() => computeGeoFacts(rows, incomplete, attribution), /expected displacement/);
+    assert.throws(
+      () => computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5', incomplete)]),
+      /expected displacement/,
+    );
+  });
+
+  test('canonical batch flip updates homepage, methodology, and JSON-LD together', async () => {
+    const nextScores = new Map<number, GeoScoreEntry>([
+      [1, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
+      [2, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
+      [3, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
+      [4, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
+    ]);
+    const oldCanonical = computeGeoFacts(rows, [
+      scoreRun('2026-07-02', 'claude-fable-5'),
+      scoreRun('2026-07-01', 'gpt-next-6', nextScores),
+    ]);
+    const newCanonical = computeGeoFacts(rows, [
+      scoreRun('2026-07-01', 'claude-fable-5'),
+      scoreRun('2026-07-02', 'gpt-next-6', nextScores),
+    ]);
+    const template = await readFile(join(process.cwd(), 'src', 'index-source.html'), 'utf-8');
+    const oldHome = bindHomeFacts(template, oldCanonical);
+    const newHome = bindHomeFacts(template, newCanonical);
+    const oldMethodology = buildMethodologyBatchView(oldCanonical);
+    const newMethodology = buildMethodologyBatchView(newCanonical);
+    const oldJsonLd = renderHomeJsonLd(oldCanonical);
+    const newJsonLd = renderHomeJsonLd(newCanonical);
+
+    assert.notEqual(oldHome, newHome);
+    assert.match(newHome, /5\.0<small>\/10<\/small>/);
+    assert.match(newHome, /影響≥5・4職業/);
+    assert.notEqual(oldMethodology.comparisonJa, newMethodology.comparisonJa);
+    assert.equal(newMethodology.currentModelDisplay, 'GPT Next 6');
+    assert.notEqual(oldJsonLd, newJsonLd);
+    assert.match(newJsonLd, /gpt-next-6:2026-07-02/);
   });
 });
 
@@ -114,7 +161,7 @@ describe('pickLatestGeoScoreRun', () => {
 
 describe('geo renderers', () => {
   test('llms surfaces and JSON-LD render active attribution and no placeholders', () => {
-    const facts = computeGeoFacts(rows, scores, attribution);
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
     const llms = renderLlmsTxt(facts);
     const llmsFull = renderLlmsFullTxt(facts);
     const jsonld = renderHomeJsonLd(facts);
@@ -142,12 +189,7 @@ describe('buildGeoSurfaces', () => {
       await mkdir(join(repoRoot, 'src', 'pages'), { recursive: true });
       await writeFile(join(distRoot, 'data.treemap.json'), JSON.stringify(rows), 'utf-8');
 
-      const fakeRun: GeoScoreRunLike = {
-        scope: 'occupations',
-        scorer: { model: 'claude-next-6' },
-        run: { run_date: '2026-07-01' },
-        scores: Object.fromEntries(scores.entries()),
-      };
+      const fakeRun = scoreRun('2026-07-01', 'claude-next-6');
       await buildGeoSurfaces(
         { runsByModel: new Map([['claude-next-6', [fakeRun]]]) } as unknown as Parameters<typeof buildGeoSurfaces>[0],
         distRoot,

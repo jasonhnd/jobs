@@ -74,6 +74,8 @@ export function renderLlmsTxt(facts: GeoFacts): string {
 | Mean AI Impact | ${fmtMean(facts.meanAiImpact)} / 10 |
 | Median AI Impact | ${fmtMean(facts.medianAiImpact)} / 10 |
 | Mean Displacement-Risk | ${fmtMean(facts.meanDisplacementRisk)} / 10 |
+| Occupations at AI Impact >= ${facts.highImpactThreshold} | ${facts.highImpactCount} |
+| Annual wages in occupations at AI Impact >= ${facts.highImpactThreshold} | ${facts.highImpactAnnualWagesTrillion.toFixed(6)} trillion yen |
 | High AI Impact occupations | ${facts.highRiskCount} / ${facts.occupationCount} (${fmtPct(facts.highRiskOccupationSharePct)}) |
 | Workers in high AI Impact occupations | ${fmtInt(facts.highRiskWorkforce)} (${fmtPct(facts.highRiskWorkforceSharePct)} of mapped workforce) |
 | Largest occupation | ${facts.largestOccupation.nameJa} (${fmtInt(facts.largestOccupation.workers)} workers; AI Impact ${fmtScore(facts.largestOccupation.aiImpact)}/10) |
@@ -162,6 +164,8 @@ mirai-shigoto.com maps ${facts.occupationCount} Japanese occupations against AI 
 | Mean AI Impact | ${fmtMean(facts.meanAiImpact)} / 10 |
 | Median AI Impact | ${fmtMean(facts.medianAiImpact)} / 10 |
 | Mean Displacement-Risk | ${fmtMean(facts.meanDisplacementRisk)} / 10 |
+| Occupations at AI Impact >= ${facts.highImpactThreshold} | ${facts.highImpactCount} |
+| Annual wages at AI Impact >= ${facts.highImpactThreshold} | ${facts.highImpactAnnualWagesTrillion.toFixed(6)} trillion yen |
 | Low / mid / high risk-band counts | ${facts.lowRiskCount} / ${facts.midRiskCount} / ${facts.highRiskCount} |
 | High-impact workforce | ${fmtInt(facts.highRiskWorkforce)} (${fmtPct(facts.highRiskWorkforceSharePct)}) |
 
@@ -251,6 +255,9 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
   const site = 'https://mirai-shigoto.com';
   const { attribution } = facts;
   const occupationCount = HOME_OCCUPATION_COUNT_PLACEHOLDER;
+  const fiveBandSummary = facts.fiveBandDistribution
+    .map((band) => `${band.key}:${band.count} (${band.sharePct}%)`)
+    .join(', ');
   const graph = [
     {
       '@type': 'Organization',
@@ -318,6 +325,15 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
       spatialCoverage: { '@type': 'Place', name: 'Japan' },
       temporalCoverage: '2025/2026',
       measurementTechnique: `Scored with ${attribution.standardLabel} v1.0. Active model: ${attribution.modelDisplay}.`,
+      additionalProperty: [
+        { '@type': 'PropertyValue', name: 'Mapped occupation count', value: facts.occupationCount },
+        { '@type': 'PropertyValue', name: 'Mapped workforce', value: facts.totalWorkforce, unitText: 'people' },
+        { '@type': 'PropertyValue', name: 'Mean AI Impact', value: facts.meanAiImpactRaw, minValue: 0, maxValue: 10 },
+        { '@type': 'PropertyValue', name: 'Mean Displacement-Risk', value: facts.meanDisplacementRiskRaw, minValue: 0, maxValue: 10 },
+        { '@type': 'PropertyValue', name: `Occupations with AI Impact >= ${facts.highImpactThreshold}`, value: facts.highImpactCount },
+        { '@type': 'PropertyValue', name: `Annual wages with AI Impact >= ${facts.highImpactThreshold}`, value: facts.highImpactAnnualWagesTrillion, unitText: 'trillion JPY' },
+        { '@type': 'PropertyValue', name: 'Rounded AI Impact five-band distribution', value: fiveBandSummary },
+      ],
       citation: [
         'MHLW jobtag: https://shigoto.mhlw.go.jp/User/',
         'JILPT occupation database: https://www.jil.go.jp/',
@@ -371,8 +387,8 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
         {
           '@type': 'ListItem',
           position: 4,
-          name: 'High AI Impact workforce share',
-          description: `${facts.highRiskCount} occupations score 7.0 or higher, covering ${fmtInt(facts.highRiskWorkforce)} workers (${fmtPct(facts.highRiskWorkforceSharePct)} of mapped workforce).`,
+          name: `Occupations and wages at AI Impact >= ${facts.highImpactThreshold}`,
+          description: `${facts.highImpactCount} occupations score ${facts.highImpactThreshold}.0 or higher, representing ${facts.highImpactAnnualWagesTrillion.toFixed(6)} trillion yen in annual wages.`,
         },
         {
           '@type': 'ListItem',
