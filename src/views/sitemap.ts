@@ -37,6 +37,7 @@ import { QA_ITEMS } from './qa-meta.js';
 import { EXPLORE_ROUTES } from './explore-routes.js';
 import { GEO_ANSWER_TOPIC_CONFIGS } from './geo-answer-topics.js';
 import type { KnowledgeGraph } from '@/graph';
+import { occupationPath } from '@/lib/urls';
 
 const SITE_ORIGIN = 'https://mirai-shigoto.com';
 
@@ -261,7 +262,7 @@ export function buildSitemapEntries(
 
   // Per-occupation detail pages
   for (const id of occupationIds) {
-    entries.push(entry(`${SITE_ORIGIN}/${id}`, lastmods.content, 'weekly', '0.6'));
+    entries.push(entry(`${SITE_ORIGIN}${occupationPath(id)}`, lastmods.content, 'weekly', '0.6'));
   }
 
   return entries;

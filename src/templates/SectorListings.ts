@@ -20,6 +20,7 @@
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { fmtInt } from '../lib/num.js';
 import { riskClass } from '../lib/risk.js';
+import { occupationPath } from '../lib/urls.js';
 
 /** One row in a top-list or full-list. */
 export interface SectorListOccupation {
@@ -50,7 +51,7 @@ function listItem(
   const scoreStr = riskScoreText(occ.aiRisk);
   const band = riskClass(occ.aiRisk);
   const link =
-    `<a href="/${occ.id}">` +
+    `<a href="${occupationPath(occ.id)}">` +
     `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>` +
     `${escapeHtml(titleStr)}` +
     `</a>`;

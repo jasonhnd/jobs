@@ -221,6 +221,7 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
   }
   const scriptSrc = directives.get('script-src') ?? '';
   const connectSrc = directives.get('connect-src') ?? '';
+  const frameSrc = directives.get('frame-src') ?? '';
 
   for (const origin of REQUIRED_IN_SCRIPT_SRC) {
     expect(
@@ -234,6 +235,7 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
       `connect-src missing required analytics origin: ${origin}\nGot: ${connectSrc}`,
     ).toBe(true);
   }
+  expect(frameSrc.trim(), `frame-src must block all third-party frames\nGot: ${frameSrc}`).toBe("'none'");
 });
 
 // ─── CODE-012: script-src must NOT contain 'unsafe-inline' ─────────────────

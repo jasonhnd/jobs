@@ -5,7 +5,7 @@
 User-agent: *
 # Rule order is intentional: legacy crawlers that implement RFC-original
 # FIRST-MATCH semantics will see `Disallow: /api/` before the catch-all
-# `Allow: /` and correctly block `/api/feedback` and `/api/subscribe`.
+# `Allow: /` and correctly block private or future API routes.
 # Modern crawlers (Google/Bing/Yandex per RFC 9309) use MOST-SPECIFIC match
 # and reach `Allow: /api/og` for the OG endpoint either way.
 Disallow: /api/

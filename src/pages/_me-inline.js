@@ -8,6 +8,10 @@
     var FETCH_TIMEOUT_MS = 10000;
     var INITIAL_RANKS_SHOWN = 8;
 
+    function occupationPath(id) {
+      return Number(id) === 404 ? '/occupations/404' : '/' + id;
+    }
+
     var $form = document.getElementById('meForm');
     var $input = document.getElementById('meInput');
     var $listbox = document.getElementById('meListbox');
@@ -376,7 +380,8 @@
         var universe = row.pos.universeSize;
         var rank = row.pos.outOfUniverse;
         var pct = row.pos.percentile;
-        detail.textContent = '全 ' + universe + ' 中 ' + rank + ' 位 (上位 ' + pct + '%)';
+        var universeLabel = row.meta.universe_scope === 'all' ? '全 ' : '対象 ';
+        detail.textContent = universeLabel + universe + ' 中 ' + rank + ' 位 (上位 ' + pct + '%)';
       } else {
         detail.textContent = '対象外';
       }
@@ -456,7 +461,7 @@
       for (var k = 0; k < shown.length; k++) {
         var r2 = shown[k];
         var a = document.createElement('a');
-        a.href = '/' + r2.id;
+        a.href = occupationPath(r2.id);
         var nm = document.createElement('span');
         nm.textContent = r2.name_ja;
         var meta = document.createElement('span');

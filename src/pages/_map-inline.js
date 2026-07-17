@@ -7,6 +7,10 @@
     var SEARCH_URL = '/data.search.json';
     var FETCH_TIMEOUT_MS = 10000;
 
+    function occupationPath(id) {
+      return Number(id) === 404 ? '/occupations/404' : '/' + id;
+    }
+
     var allRecords = [];
     var sectorMeta = [];
     var sectorOrder = [];
@@ -79,7 +83,8 @@
       return {
         sector: p.get('sector') || 'all',
         sort:   p.get('sort')   || 'ai_risk_desc',
-        job:    p.get('job') ? parseInt(p.get('job'), 10) : null
+        job:    p.get('job') ? parseInt(p.get('job'), 10) : null,
+        view:   p.get('view') === 'list' ? 'list' : 'map'
       };
     }
     function writeUrlState() {
@@ -87,6 +92,7 @@
       if (currentSector !== 'all') p.set('sector', currentSector);
       if (currentSort !== 'ai_risk_desc') p.set('sort', currentSort);
       if (openJobId != null) p.set('job', String(openJobId));
+      if (listMode) p.set('view', 'list');
       var qs = p.toString();
       var newPath = location.pathname + (qs ? '?' + qs : '');
       if (newPath !== location.pathname + location.search) {
@@ -385,7 +391,7 @@
       $sheetRisk.textContent = riskLabel(r.ai_risk || 0);
       $sheetSalary.textContent = fmtSalary(r.salary);
       $sheetWorkers.textContent = fmtWorkers(r.workers);
-      $sheetCta.href = '/' + r.id;
+      $sheetCta.href = occupationPath(r.id);
       lastSheetTrigger = trigger || document.activeElement;
       $sheet.hidden = false;
       requestAnimationFrame(function () {
@@ -598,6 +604,7 @@
       setTimeout(function () { $suggest.classList.remove('open'); }, 150);
     });
     $searchInput.addEventListener('keydown', function (e) {
+      if (e.isComposing || e.keyCode === 229) return;
       var items = $suggest.querySelectorAll('li');
       if (!items.length) return;
       var idx = -1;
@@ -613,25 +620,27 @@
       } else if (e.key === 'Enter') {
         e.preventDefault();
         var sel = items[idx >= 0 ? idx : 0];
-        if (sel) location.href = '/' + sel.dataset.id;
+        if (sel) location.href = occupationPath(sel.dataset.id);
       }
     });
     $searchForm.addEventListener('submit', function (e) {
       e.preventDefault();
       var items = $suggest.querySelectorAll('li');
       var first = items[0];
-      if (first) location.href = '/' + first.dataset.id;
+      if (first) location.href = occupationPath(first.dataset.id);
     });
     $suggest.addEventListener('click', function (e) {
       var li = e.target.closest('li[data-id]');
       if (!li) return;
-      location.href = '/' + li.dataset.id;
+      location.href = occupationPath(li.dataset.id);
     });
 
     function init() {
       var s = readUrlState();
       currentSector = s.sector;
       currentSort = s.sort;
+      listMode = s.view === 'list';
+      syncViewToggleState();
       if (s.sort && $sort) $sort.value = s.sort;
 
       Promise.all([
@@ -696,6 +705,11 @@
     // representation that's friendlier for screen readers / keyboard users.
     var $viewToggle = document.getElementById('viewToggle');
     var listMode = false;
+    function syncViewToggleState() {
+      $viewToggle.setAttribute('aria-pressed', listMode ? 'true' : 'false');
+      $viewToggle.setAttribute('aria-label', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
+      $viewToggle.setAttribute('title', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
+    }
     function renderList() {
       // Same atomic-swap contract as renderMap — see Design-Mobile.md
       // §4.4.1. Build the new ordered-list tree off-DOM, attach via a
@@ -718,7 +732,7 @@
         recs.forEach(function (r) {
           var li = document.createElement('li');
           var a = document.createElement('a');
-          a.href = '/' + r.id;
+          a.href = occupationPath(r.id);
           a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
           var sw = document.createElement('span');
           sw.className = 'swatch';
@@ -749,10 +763,9 @@
     renderMap = function () { if (listMode) renderList(); else _origRenderMap(); };
     $viewToggle.addEventListener('click', function () {
       listMode = !listMode;
-      $viewToggle.setAttribute('aria-pressed', listMode ? 'true' : 'false');
-      $viewToggle.setAttribute('aria-label', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
-      $viewToggle.setAttribute('title', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
+      syncViewToggleState();
       applyView();
+      writeUrlState();
     });
 
     // ── Bottom sheet drag-to-dismiss (Design-Mobile.md §4.5 D3=A) ─────────
@@ -842,4 +855,3 @@
       init();
     }
   })();
-  

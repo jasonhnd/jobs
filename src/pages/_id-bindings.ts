@@ -34,6 +34,7 @@ import {
   renderAiFactParagraph,
 } from '@/lib/ai-fact-summary';
 import { loadGeoFacts } from '@/page-data/geo-facts-loader';
+import { findGeoOccupation, type GeoFacts } from '@/site/geo-facts';
 import { strictReadJson } from '@/lib/strict-load';
 import { buildOccupationSeo } from '@/views/occupation-seo';
 import {
@@ -68,7 +69,6 @@ import type { Rec } from '@/views/occupation-detail';
 
 const DESC_TRUNCATE = 240;
 const WORKTYPES_PATH = join(process.cwd(), 'public', 'data.worktypes.json');
-const AI_RISK_HIGH_RANKING_SLUG = 'ai-risk-high';
 const AIOIS_MODEL_DISCLAIMER =
   'AIOIS-10はモデル出力の目安で、統計的な将来予測や適職保証ではありません。';
 
@@ -83,11 +83,6 @@ function loadWorktypesData(): WorktypesData {
     );
   }
   return worktypesCache;
-}
-
-export interface IdPageRankingHit {
-  readonly slug: string;
-  readonly rank: number;
 }
 
 export interface WorktypeHeroBinding {
@@ -106,7 +101,6 @@ export interface IdPageBindingsInput {
   readonly rec: Rec;
   readonly related: ReadonlyArray<Rec>;
   readonly nameLookup: Record<number, string>;
-  readonly rankingHitsByOcc?: ReadonlyMap<number, ReadonlyArray<IdPageRankingHit>>;
   readonly scoreHistory?: ReadonlyArray<ScoreHistoryComparisonEntry>;
   readonly prevDelta?: number | null;
   readonly datePublished: string;
@@ -172,6 +166,10 @@ export interface IdPageBindings extends OccupationDisplay {
   readonly riskTierJs: 'high' | 'mid' | 'low';
 }
 
+export function canonicalOccupationRank(facts: GeoFacts, occupationId: number): number | null {
+  return findGeoOccupation(facts, occupationId)?.aiImpactRank ?? null;
+}
+
 function buildWorktypeHeroBinding(id: number): WorktypeHeroBinding {
   const data = loadWorktypesData();
   const record = data.occupations[String(id)];
@@ -192,14 +190,8 @@ function buildWorktypeHeroBinding(id: number): WorktypeHeroBinding {
   };
 }
 
-function rankFromHits(
-  hits: ReadonlyArray<IdPageRankingHit> | undefined,
-): number | null {
-  return hits?.find((hit) => hit.slug === AI_RISK_HIGH_RANKING_SLUG)?.rank ?? null;
-}
-
 export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings {
-  const { rec, related, nameLookup, rankingHitsByOcc, datePublished, dateModified } = input;
+  const { rec, related, nameLookup, datePublished, dateModified } = input;
   const geoFacts = loadGeoFacts();
 
   // ─── Field extraction ──────────────────────────────────────
@@ -240,9 +232,9 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   });
   const rationale = rationaleJa || descJa;
   const worktype = buildWorktypeHeroBinding(id);
-  const geoOccupation = geoFacts.occupations.find((occupation) => occupation.id === id) ?? null;
-  const rankInUniverse =
-    rankFromHits(rankingHitsByOcc?.get(id)) ?? geoOccupation?.aiImpactRank ?? null;
+  // Hero, FAQ, JSON-LD, and GEO surfaces share this canonical rank.
+  // loadGeoFacts applies the documented risk/workforce/id comparator.
+  const rankInUniverse = canonicalOccupationRank(geoFacts, id);
   const rankUniverseTotal = geoFacts.occupationCount || OCCUPATION_COUNT.SCORED;
   const aioisTransformation = rec.aiois?.transformation ?? risk;
   const aioisDisplacement = rec.aiois?.displacement ?? null;

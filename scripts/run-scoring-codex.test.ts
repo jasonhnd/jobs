@@ -6,6 +6,8 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 
 import {
+  assertCodexModelSupport,
+  buildCodexExecArgs,
   buildRunName,
   codexExecSupportsModel,
   completedIdsFromJsonl,
@@ -96,6 +98,71 @@ describe('response validation', () => {
     assert.equal(codexExecSupportsModel('  -m, --model <MODEL>\\n          Model the agent should use'), true);
     assert.equal(codexExecSupportsModel('Usage: codex exec [OPTIONS] [PROMPT]'), false);
   });
+
+  test('fails model preflight on probe errors, non-zero exits, and missing --model support', () => {
+    const command = ['codex', 'exec', '--help'] as const;
+    assert.throws(
+      () => assertCodexModelSupport({ command, status: null, stdout: '', stderr: '', error: 'ENOENT' }),
+      /ENOENT/,
+    );
+    assert.throws(
+      () => assertCodexModelSupport({ command, status: 2, stdout: '', stderr: 'bad option', error: null }),
+      /status 2.*bad option/,
+    );
+    assert.throws(
+      () =>
+        assertCodexModelSupport({
+          command,
+          status: 0,
+          stdout: 'Usage: codex exec [OPTIONS] [PROMPT]',
+          stderr: '',
+          error: null,
+        }),
+      /upgrade Codex/,
+    );
+    assert.doesNotThrow(() =>
+      assertCodexModelSupport({
+        command,
+        status: 0,
+        stdout: '  -m, --model <MODEL>\\n          Model the agent should use',
+        stderr: '',
+        error: null,
+      }),
+    );
+  });
+
+  test('builds every Codex invocation with the explicit requested model', () => {
+    const args = buildCodexExecArgs({
+      cwd: '/repo',
+      model: 'gpt-5.6-sol',
+      outputSchemaPath: '/repo/schema.json',
+      outputLastMessagePath: '/repo/last.txt',
+    });
+    assert.deepEqual(args.slice(-3), ['--model', 'gpt-5.6-sol', '-']);
+    assert.equal(args.filter((arg) => arg === '--model').length, 1);
+  });
+
+  test('rejects explicit provider/model errors and all-zero placeholders', () => {
+    assert.throws(
+      () => validateAndNormalizeResponse('Requested model gpt-5.6-sol is unavailable', 1),
+      /upstream error\/refusal/,
+    );
+    const zeroAiois = Object.fromEntries(Object.keys(AIOIS).map((key) => [key, 0]));
+    assert.throws(
+      () =>
+        validateAndNormalizeResponse(
+          JSON.stringify({
+            id: 1,
+            ai_risk: 0,
+            rationale_ja: '採点結果を生成できませんでした。',
+            confidence: 0,
+            aiois: zeroAiois,
+          }),
+          1,
+        ),
+      /all-zero placeholder/,
+    );
+  });
 });
 
 describe('resume filtering', () => {
@@ -131,7 +198,7 @@ describe('retry/failure accounting', () => {
       const result = await scoreOccupationWithRetries(
         { id: 7, text: '職業ID: 7' },
         'rubric',
-        { cwd: dir, model: 'gpt-5.6-sol', supportsModel: true, outputSchemaPath: join(dir, 'schema.json'), tmpDir, rawDir },
+        { cwd: dir, model: 'gpt-5.6-sol', outputSchemaPath: join(dir, 'schema.json'), tmpDir, rawDir },
         executor,
         async () => {},
       );
@@ -160,7 +227,7 @@ describe('retry/failure accounting', () => {
       const result = await scoreOccupationWithRetries(
         { id: 9, text: '職業ID: 9' },
         'rubric',
-        { cwd: dir, model: 'gpt-5.6-sol', supportsModel: true, outputSchemaPath: join(dir, 'schema.json'), tmpDir, rawDir },
+        { cwd: dir, model: 'gpt-5.6-sol', outputSchemaPath: join(dir, 'schema.json'), tmpDir, rawDir },
         executor,
         async () => {},
       );
@@ -168,6 +235,65 @@ describe('retry/failure accounting', () => {
       assert.equal(calls, 3);
       assert.equal(result.failures.length, 3);
       assert.match(result.failures[2]!.message, /ai_risk/);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  test('retries an explicit model-unavailable response and records the rejection reason', async () => {
+    const dir = makeTmp();
+    try {
+      const rawDir = join(dir, 'raw');
+      const tmpDir = join(dir, 'tmp');
+      mkdirSync(tmpDir, { recursive: true });
+      let calls = 0;
+      const executor: CodexExecutor = async () => {
+        calls += 1;
+        return {
+          exitCode: 0,
+          stdout: '',
+          stderr: '',
+          rawText: calls === 1 ? 'Requested model gpt-5.6-sol is unavailable' : JSON.stringify(validScore(11)),
+        };
+      };
+      const result = await scoreOccupationWithRetries(
+        { id: 11, text: '職業ID: 11' },
+        'rubric',
+        { cwd: dir, model: 'gpt-5.6-sol', outputSchemaPath: join(dir, 'schema.json'), tmpDir, rawDir },
+        executor,
+        async () => {},
+      );
+      assert.equal(result.ok, true);
+      assert.equal(calls, 2);
+      assert.match(readFileSync(join(rawDir, '11.failures.jsonl'), 'utf8'), /upstream error\/refusal/);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  test('exhausts retries for provider errors without accepting a placeholder score', async () => {
+    const dir = makeTmp();
+    try {
+      const rawDir = join(dir, 'raw');
+      const tmpDir = join(dir, 'tmp');
+      mkdirSync(tmpDir, { recursive: true });
+      let calls = 0;
+      const executor: CodexExecutor = async () => {
+        calls += 1;
+        return { exitCode: 0, stdout: '', stderr: '', rawText: 'Provider error: requested model is unavailable' };
+      };
+      const result = await scoreOccupationWithRetries(
+        { id: 12, text: '職業ID: 12' },
+        'rubric',
+        { cwd: dir, model: 'gpt-5.6-sol', outputSchemaPath: join(dir, 'schema.json'), tmpDir, rawDir },
+        executor,
+        async () => {},
+      );
+      assert.equal(result.ok, false);
+      assert.equal(calls, 3);
+      assert.equal(result.failures.length, 3);
+      assert.match(result.failures[2]!.message, /upstream error\/refusal/);
+      assert.equal(readFileSync(join(rawDir, '12.failures.jsonl'), 'utf8').trim().split('\n').length, 3);
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

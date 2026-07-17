@@ -41,6 +41,7 @@
 // and reads occupation names + aliases from graph.occupations instead of
 // scanning public/data.detail/*.json.
 import type { KnowledgeGraph } from '@/graph';
+import { occupationPath } from '../lib/urls.js';
 
 // ─── Stop list: terms that are commonly non-occupation in context ────────
 //
@@ -100,13 +101,13 @@ export function buildLinkRegistry(graph: KnowledgeGraph): LinkRegistry {
     const id = Number(occId);
     patterns.push({
       pattern: name,
-      target: { href: `/${id}`, name, kind: 'occupation' },
+      target: { href: occupationPath(id), name, kind: 'occupation' },
     });
     for (const a of occ.aliasesJa) {
       if (!a || a === name) continue;
       patterns.push({
         pattern: a,
-        target: { href: `/${id}`, name, kind: 'occupation', aliases: [a] },
+        target: { href: occupationPath(id), name, kind: 'occupation', aliases: [a] },
       });
     }
   }

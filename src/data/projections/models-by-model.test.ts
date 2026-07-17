@@ -31,10 +31,37 @@ describe('models-by-model projection', () => {
     const slugs = Object.keys(payload.models);
 
     assert.deepEqual(slugs, ['opus-4-7', 'opus-4-8', 'fable-5', 'gpt-5.6-sol']);
-    assert.ok('baseline' in payload.models['opus-4-7']!.drift);
+    assert.deepEqual(
+      slugs.map((slug) => payload.models[slug]!.covered_count),
+      [552, 556, 556, 556],
+    );
     assert.equal(payload.models['opus-4-8']!.nav.prev?.slug, 'opus-4-7');
     assert.equal(payload.models['gpt-5.6-sol']!.nav.prev?.slug, 'fable-5');
     assert.equal(payload.models['gpt-5.6-sol']!.nav.next, null);
+  });
+
+  test('compares only compatible AIOIS batches and never synthesizes legacy profiles', async () => {
+    const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
+    const legacy = payload.models['opus-4-7']!;
+    const firstAiois = payload.models['opus-4-8']!;
+    const fable = payload.models['fable-5']!;
+    const latest = payload.models['gpt-5.6-sol']!;
+
+    assert.deepEqual(legacy.drift, { baseline: true, note_id: 'legacy_batch' });
+    assert.deepEqual(firstAiois.drift, { baseline: true, note_id: 'first_aiois_batch' });
+    assert.equal(containsKey(legacy, 'dims'), false);
+    assert.equal(containsKey(legacy, 'displacement'), false);
+
+    assert.equal('baseline' in fable.drift, false);
+    if (!('baseline' in fable.drift)) {
+      assert.equal(fable.drift.predecessor.model, 'claude-opus-4-8');
+      assert.equal(fable.drift.compared_count, 556);
+    }
+    assert.equal('baseline' in latest.drift, false);
+    if (!('baseline' in latest.drift)) {
+      assert.equal(latest.drift.predecessor.model, 'claude-fable-5');
+      assert.equal(latest.drift.compared_count, 556);
+    }
   });
 
   test('keeps distribution, lists, drift, and payload-size contracts', async () => {

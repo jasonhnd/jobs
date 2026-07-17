@@ -113,6 +113,10 @@ GPT 5.6 SOL uses the same AIOIS-10 v1.0 output contract as Fable 5: strict JSONL
 
 The Codex runner consumes the prompt as a rubric only: `buildPrompt(rubric, occ)` appends the per-occupation extract and the runner's JSON output schema. The frozen prompt must not include occupation data, baseline scores, expected drift, or any alternate schema that conflicts with the runner.
 
+Before touching the output JSONL or creating audit directories, the runner executes `codex exec --help` and requires the installed CLI to advertise `--model <MODEL>`. A failed probe or a CLI without explicit model selection is fatal: upgrade Codex and rerun. The runner never omits `--model` and never falls back to the local default model while labeling output with the requested model ID.
+
+Explicit model-unavailable/provider-error/refusal responses and synthetic confidence-0 all-zero placeholders are rejected and retried. Raw responses remain under the run's `raw/` directory, with machine-readable rejection reasons in the adjacent `*.failures.jsonl` audit file; none of those responses may enter the output JSONL.
+
 Runner flags:
 
 - `--prompt-file <path>`: required rubric file.
@@ -173,7 +177,7 @@ Full run gate:
 - Owner separately approves any pilot scoring run because it consumes local Codex subscription quota.
 - Owner reviews pilot artifacts and drift report before any 556-occupation full run.
 - The approved full run writes raw/audit artifacts under `.cache/scoring/` first, then assembles one append-only batch at `data/scores/occupations_gpt-5.6-sol_<YYYY-MM-DD>.json`.
-- Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun test`. The landing PR must acknowledge that `pickLatestScore()` flips all public projections/pages to GPT 5.6 SOL.
+- Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun run test`. The landing PR must acknowledge that `pickLatestScore()` flips all public projections/pages to GPT 5.6 SOL.
 
 ## Prompt requirements
 
@@ -214,7 +218,7 @@ Issue #9 の採点は、Anthropic API ではなく **claude-fable-5 セッショ
 
 Methodology delta（drift 解釈の前提）:
 
-現行 Opus 4.8 batch の D2–D10 は O*NET 型ベクトル＋日本の労働統計からの決定的計算であり、LLM 判断は D1（と欠損ベクトル職の moat profile）に限られていた（batch metadata の `scoring_method` 参照）。Issue #9 の Fable 5 run は **D1–D10 全次元をモデルの意味判断で採点**する（Issue 本文の Required output structure / Prompt 要件に従う）。したがって drift は「モデル差」と「方式差（vector engine → semantic judgment）」の合成である。drift report と manual review はこの前提で読み、pilot 報告には D2–D10 の系統的シフトを明記して Jason の判断を仰ぐ。
+現行 Opus 4.8 batch の D2–D10 は O*NET 型ベクトル＋日本の労働統計からの決定的計算であり、LLM 判断は D1（と欠損ベクトル職の moat profile）に限られていた。Issue #9 の Fable 5 run は **D1–D10 全次元をモデルの意味判断で採点**する（Issue 本文の Required output structure / Prompt 要件に従う）。したがって、この Opus 4.8 → Fable 5 pair の drift は「モデル差」と「方式差（vector engine → semantic judgment）」の合成である。各 batch は機械可読な `scorer.scoring_method_id` を記録し、drift report は比較 pair の id が異なる場合だけ方式差を注記する。Fable 5 → GPT 5.6 のように両方が `aiois-semantic-judgment` の pair へ、この歴史的 caveat を引き継がない。
 
 ## Scoring phases
 

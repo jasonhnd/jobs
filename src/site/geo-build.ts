@@ -1,14 +1,9 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { ScoreRun } from '../data/schema/index.js';
 import type { Indexes } from '../data/lib/indexes.js';
-import { formatModelDisplay } from './score-attribution.js';
 import {
   computeGeoFacts,
   GeoTreemapRowsSchema,
-  pickLatestGeoScoreRun,
-  type GeoAttribution,
-  type GeoScoreEntry,
 } from './geo-facts.js';
 import {
   renderHomeJsonLd,
@@ -28,15 +23,6 @@ async function writeIfChanged(path: string, content: string): Promise<void> {
   }
 }
 
-function scoreMapFromRun(run: ScoreRun): Map<number, GeoScoreEntry> {
-  const out = new Map<number, GeoScoreEntry>();
-  for (const [idRaw, entry] of Object.entries(run.scores)) {
-    const id = Number.parseInt(idRaw, 10);
-    if (Number.isFinite(id)) out.set(id, entry);
-  }
-  return out;
-}
-
 export async function buildGeoSurfaces(
   indexes: Indexes,
   distRoot: string,
@@ -45,14 +31,7 @@ export async function buildGeoSurfaces(
   const treemapPath = join(distRoot, 'data.treemap.json');
   const treemapRows = GeoTreemapRowsSchema.parse(JSON.parse(await readFile(treemapPath, 'utf-8')));
   const scoreRuns = [...indexes.runsByModel.values()].flat();
-  const activeRun = pickLatestGeoScoreRun(scoreRuns);
-  const attribution: GeoAttribution = {
-    modelId: activeRun.scorer.model,
-    modelDisplay: formatModelDisplay(activeRun.scorer.model),
-    runDate: activeRun.run.run_date,
-    standardLabel: 'AIOIS-10',
-  };
-  const facts = computeGeoFacts(treemapRows, scoreMapFromRun(activeRun), attribution);
+  const facts = computeGeoFacts(treemapRows, scoreRuns);
 
   const llmsPath = join(distRoot, 'llms.txt');
   const llmsFullPath = join(distRoot, 'llms-full.txt');

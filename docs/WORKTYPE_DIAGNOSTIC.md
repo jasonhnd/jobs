@@ -46,7 +46,8 @@ Japanese product strings:
 Non-goals:
 
 - No clinical, psychological, aptitude-test, hiring, or employee-screening claim.
-- No account system, saved history, team dashboard, paid report, CRM integration, or email capture in the static MVP.
+- No account system, saved history, team dashboard, paid report, CRM integration,
+  or email capture anywhere in the product flow.
 - No backend scoring, database, LLM call, server session, or personalized server-rendered result.
 - No English UI in the public product surface. The diagnostic is JA only.
 - No fear-first positioning such as "your job will disappear" or "AI will replace you." No "loser" / doom result tier; every result is framed as a role, not a verdict.
@@ -168,16 +169,17 @@ Gap classes:
 | Class | Rule | Public meaning | Copy stance |
 | --- | --- | --- | --- |
 | `aligned` | `selfCode` and `jobCode` match on at least 2 axes. | The occupation uses the reader's natural work pattern. | Affirm fit, then show how AI changes tasks inside that fit. |
-| `hidden_strength` | At least 1 mismatch where `selfCode` has `C`, `P`, or `B` and `jobCode` has the opposite pole. | The reader may have a strength the current or target occupation underuses. | Suggest adjacent occupations and role redesign paths that use the underused axis. |
+| `hidden_strength` | At least 1 mismatch where `selfCode` has `C`, `P`, or `B` and `jobCode` has the opposite pole, unless the hidden-risk threshold below is also met. | The reader may have a strength the current or target occupation underuses. | Name only the underused `C`, `P`, or `B` axes present in the personal result, then suggest adjacent occupations and role redesign paths that use them. |
 | `hidden_risk` | At least 2 mismatches where the occupation needs `C`, `P`, or `B` but `selfCode` leans `R`, `D`, or `K`, or the reader is aligned with a high-transformation `RDK` occupation. | The reader may be relying on a pattern that the occupation does not reward enough, or that AI is reshaping quickly. | Use action-oriented language: practice, add judgment, add human contact, or move toward adjacent occupations. |
 
 Priority:
 
-Rules are evaluated in priority order; first match wins. This priority list is part of the contract because 3 of the 64 self x job code pairs satisfy both the `hidden_strength` and `hidden_risk` table rules when the table is read without priority.
+Rules are evaluated in priority order; first match wins. This priority list is part of the contract because 3 of the 64 self x job code pairs contain both an underused personal strength and at least 2 occupation-required human-side mismatches. The risk threshold takes precedence in those mixed cases.
 
 1. If aligned on 2 or 3 axes, return `aligned`, except for aligned `RDK` with high Transformation, where the result may show `aligned + watch`.
-2. If not aligned and the mismatch includes underused `C`, `P`, or `B` from the self code, return `hidden_strength`.
-3. Otherwise return `hidden_risk`.
+2. If not aligned and at least 2 mismatch axes have occupation-side `C`, `P`, or `B` against personal-side `R`, `D`, or `K`, return `hidden_risk`.
+3. Otherwise, if a mismatch includes underused `C`, `P`, or `B` from the self code, return `hidden_strength` and name only those underused axes in the reading.
+4. Otherwise return `hidden_risk` as a defensive fallback for invalid or future pole combinations.
 
 DIAG-1 sets the high-transformation threshold for the `RDK` aligned-watch rule at AIOIS Transformation >= 7.0. This is a separate overlay for gap copy; it is not used to assign work-type families.
 
@@ -306,15 +308,17 @@ P1 static MVP (DIAG-2/3/4/5/6/7/8):
 - Add the active-spread engine (section 12): per-result deep-linked surfaces, pre-rendered `/api/og` share cards, one-tap pre-filled X share with the `#AI働き方診断` hashtag and consent line, the compare/同僚 loop, sitemap entries, SEO baseline updates, CSP hashes, and page-class coverage.
 - Add light links from homepage, map, `/me`, and occupation detail pages.
 
-P2 deferred backend:
+Out of scope:
 
-- Premium report generation.
-- Team or organization aggregate reports.
-- Email capture tied to report delivery.
+- Premium report generation and team or organization aggregate reports.
+- Email capture or report delivery.
 - Saved result history and any live taker counter.
 - CRM or affiliate tracking beyond ordinary static outbound links.
 
-P2 must not be smuggled into P1. If it becomes necessary, create a new issue with backend scope, data retention rules, privacy review, and verification gates.
+These are not a deferred phase. Do not add them to P1 or provision supporting
+backend infrastructure unless a future explicit owner decision changes the
+product boundary and a separate issue defines data retention, privacy, and
+verification requirements.
 
 ## 12. Distribution & Share Mechanics
 
@@ -353,7 +357,9 @@ Compare / 相性 loop (viewer -> new taker):
 
 Friction reduction (ranked by impact):
 
-- No login; instant on-screen result; one question per screen; the share button is the primary CTA directly below the result; mobile-first; no name/email capture before the result; one-tap save image.
+- No login; instant on-screen result; one question per screen; the share button
+  is the primary CTA directly below the result; mobile-first; no name/email
+  collection anywhere in the flow; one-tap save image.
 
 Privacy:
 
@@ -437,6 +443,6 @@ Type visual direction:
 
 Premium report:
 
-- Premium report generation is P2 only.
-- It needs a separate issue covering data retention, payment or affiliate flow, email delivery, report format, privacy copy, and backend verification.
-- P1 must not collect email addresses or store diagnostic results for a future premium report unless that backend scope is explicitly approved.
+- Premium report generation and email delivery are not planned product scope.
+- P1 must not collect email addresses or store diagnostic results for a future
+  report.

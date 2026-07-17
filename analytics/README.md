@@ -9,13 +9,15 @@ mirai-shigoto.com の GA4 計測設定の正典:
 | `oauth-init.mjs` | 一回限りの OAuth フロー — Google ログインを refresh token に交換する |
 | `package.json` | 依存: `googleapis`、`js-yaml` |
 
-`spec.yaml` を編集した後、`npm run setup` を再実行して GA4 に同期する。
+`spec.yaml` を編集した後、リポジトリルートから
+`GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup`
+を再実行して GA4 に同期する。
 
 ## 認証: 2 つの経路、OAuth ユーザー認証情報が推奨
 
 `setup-ga4.mjs` は 2 つの認証経路をサポートし、以下の順で試す:
 
-1. **OAuth ユーザー認証情報**(`~/.config/mirai-shigoto/oauth-token.json`)— ログイン済の人間(あなた)として動き、既に持っている GA4 admin アクセスを継承する。**推奨**。クロス組織 / 個人アカウント構成で service-account メールが GA4 から「このメールアドレスに対応する Google アカウントはありません」(英語ロケールでは "This email address does not have a Google Account") として拒否される既知問題を回避できる。一回だけ `npm run oauth-init` で設定(下記「OAuth クイックスタート」参照)、その後はすべて非対話で実行できる
+1. **OAuth ユーザー認証情報**(`~/.config/mirai-shigoto/oauth-token.json`)— ログイン済の人間(あなた)として動き、既に持っている GA4 admin アクセスを継承する。**推奨**。クロス組織 / 個人アカウント構成で service-account メールが GA4 から「このメールアドレスに対応する Google アカウントはありません」(英語ロケールでは "This email address does not have a Google Account") として拒否される既知問題を回避できる。一回だけ `corepack pnpm@11.9.0 --dir analytics run oauth-init` で設定(下記「OAuth クイックスタート」参照)、その後はすべて非対話で実行できる
 
 2. **Service account JSON**(`GOOGLE_APPLICATION_CREDENTIALS` env var)— ヒトの OAuth フローが適さない CI / 共有環境向けのフォールバック。GA4 アカウントの Admin → Account Access Management で service-account メールにアクセス許可を付与する必要がある。**実際に必要でない限りこの経路は使わない**
 
@@ -46,9 +48,8 @@ chmod 600 ~/.config/mirai-shigoto/oauth-client.json
 ### 3. 一回限りの OAuth フローを実行
 
 ```bash
-cd analytics
-npm install            # 未実行なら
-npm run oauth-init
+corepack pnpm@11.9.0 --dir analytics install --frozen-lockfile
+corepack pnpm@11.9.0 --dir analytics run oauth-init
 ```
 
 これによりブラウザが Google の OAuth 同意ページに開く。「Advanced → Go to mirai-shigoto-cli (unsafe)」をクリックして未検証アプリ警告を超え、GA4 を持つ Google アカウントでサインインし、`analytics.edit` スコープを許可する。ブラウザに「✓ Authentication successful」が表示される。スクリプトが refresh token を `~/.config/mirai-shigoto/oauth-token.json`(perms 600)に書き、終了する。
@@ -56,12 +57,12 @@ npm run oauth-init
 ### 4. property を発見して spec を適用
 
 ```bash
-npm run discover                                    # property_id を一覧
-GA4_PROPERTY_ID=298707336 npm run setup:dry         # 変更プレビュー
-GA4_PROPERTY_ID=298707336 npm run setup             # 適用
+corepack pnpm@11.9.0 --dir analytics run discover
+GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup:dry
+GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup
 ```
 
-最初の成功実行後、その後の `npm run setup` はすべて非対話で動く(refresh token は自動更新される)。
+最初の成功実行後、その後の `corepack pnpm@11.9.0 --dir analytics run setup` はすべて非対話で動く(refresh token は自動更新される)。
 
 ---
 
@@ -124,8 +125,7 @@ https://analytics.google.com を開く → ⚙️ Admin → property `mirai-shig
 ### 6. Node 依存をインストール
 
 ```bash
-cd analytics
-npm install
+corepack pnpm@11.9.0 --dir analytics install --frozen-lockfile
 ```
 
 `googleapis` と `js-yaml` を `analytics/node_modules`(gitignored)に取り込む。
@@ -134,7 +134,7 @@ npm install
 
 ```bash
 GOOGLE_APPLICATION_CREDENTIALS=~/.config/mirai-shigoto/ga4-admin-sa.json \
-  npm run discover
+  corepack pnpm@11.9.0 --dir analytics run discover
 ```
 
 出力例:
@@ -152,34 +152,31 @@ Account: ZKSC_KK  (name=accountSummaries/12345)
 
 ```bash
 GOOGLE_APPLICATION_CREDENTIALS=~/.config/mirai-shigoto/ga4-admin-sa.json \
-GA4_PROPERTY_ID=501234567 \
-  npm run setup:dry
+GA4_PROPERTY_ID=298707336 \
+  corepack pnpm@11.9.0 --dir analytics run setup:dry
 ```
 
 問題なければ:
 
 ```bash
 GOOGLE_APPLICATION_CREDENTIALS=~/.config/mirai-shigoto/ga4-admin-sa.json \
-GA4_PROPERTY_ID=501234567 \
-  npm run setup
+GA4_PROPERTY_ID=298707336 \
+  corepack pnpm@11.9.0 --dir analytics run setup
 ```
 
 出力:
 
 ```
 [12:00:01]    Target property: properties/501234567
-[12:00:01]    Syncing 16 event custom dimensions…
+[12:00:01]    Syncing event custom dimensions…
 [12:00:01] +  created event dimension: occupation_id
 [12:00:02] +  created event dimension: occupation_name_ja
 ...
-[12:00:18]    Syncing 4 user custom dimensions…
+[12:00:18]    Syncing user custom dimensions…
 [12:00:18] +  created user dimension: language_preference
 ...
-[12:00:24]    Syncing 4 key events…
-[12:00:24] +  marked as key event: email_submit_modal
-[12:00:25] +  marked as key event: email_submit_header
-[12:00:25] +  marked as key event: feedback_submit
-[12:00:26] +  marked as key event: report_cta_click
+[12:00:24]    Syncing key events…
+[12:00:24] +  marked as key event: occupation_tile_click
 [12:00:26]    Done. Audiences and data retention must be set manually in dashboard.
 ```
 
@@ -201,37 +198,32 @@ Admin → Data Streams → Web → stream クリック → 「Enhanced measureme
 
 ### Audiences
 
-`spec.yaml` の `audiences_manual:` 配下に 5 つの audience が記載されている。各々を以下で作成:
+`spec.yaml` の `audiences_manual:` 配下に audience が記載されている。各々を以下で作成:
 
 Admin → Audiences → **New audience** → Custom(または template)。
 
 | Audience | フィルタ |
 | --- | --- |
-| Subscribed | Event count `email_submit_modal` ≥ 1 OR `email_submit_header` ≥ 1、duration 540 日 |
-| Engaged but unconverted | `occupation_modal_open` ≥ 1 AND `email_submit_modal` = 0 AND `email_submit_header` = 0、duration 30 日 |
-| B2B signal | Event `feedback_submit`、parameter `selected_options` が `b2b_hr` OR `b2b_training` を含む、duration 540 日 |
 | High-intent occupations | Event `occupation_modal_open` で `risk_tier` = `high`、duration 90 日 |
 | Returning visitors | 28 日窓内で Event count `session_start` ≥ 2、duration 28 日 |
 
-(B2B signal は custom dimension `selected_options` の存在が必要 — 上記 step 8 後に存在する)
-
-### Funnel exploration: Modal conversion funnel
+### Funnel exploration: Navigation funnel
 
 Explore → New → Funnel exploration。ステップ:
 
 1. `page_view`
 2. `occupation_tile_click`
-3. `occupation_modal_open`
-4. `report_cta_click`
-5. `email_submit_modal`
+3. `job_search_intent`
+4. `job_search_navigate`
+5. `result_view`
 
-「Modal funnel」として保存。6 週間の OPC 検証に最も重要なチャート。
+「Navigation funnel」として保存。
 
 ---
 
 ## spec 適用後
 
-1. spec はバージョン管理下にある。将来の schema 変更は `spec.yaml` + `npm run setup` 経由、ダッシュボードクリックではない
+1. spec はバージョン管理下にある。将来の schema 変更は `spec.yaml` + `corepack pnpm@11.9.0 --dir analytics run setup` 経由、ダッシュボードクリックではない
 2. 実際の `gtag('event', ...)` 呼び出しはクライアントサイド `index.html` で実行される(別タスクで処理 — OPC plan の `Phase 0 D5` 参照)
 3. これらのイベント呼び出しが追加されるまで dimension は空のまま(データが流れない)。それで OK — まず schema、次にデータ
 

@@ -1,5 +1,5 @@
 /**
- * ScoreRun v2.0 schema — per docs/DATA_ARCHITECTURE.md §2.3.1.
+ * ScoreRun v2.2 schema — per docs/DATA_ARCHITECTURE.md §2.3.1.
  *
  * Source data file: data/scores/<scope>_<model-slug>_<run-date>.json
  *   - scope ∈ {occupations, tasks}
@@ -61,17 +61,37 @@ export const ScoreEntrySchema = z
     confidence: z.number().min(0).max(1).nullish(),
     aiois: Aiois10Schema.nullish(),
   })
-  .strict();
+  .strict()
+  .superRefine((value, ctx) => {
+    if (value.aiois != null && value.ai_risk !== value.aiois.transformation) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['ai_risk'],
+        message: `must equal aiois.transformation (${value.aiois.transformation})`,
+      });
+    }
+  });
 
 export type ScoreEntry = z.infer<typeof ScoreEntrySchema>;
 
 /** Which model did the scoring. */
+export const ScoringMethodIdSchema = z.enum([
+  'legacy-single-axis',
+  'aiois-vector-semantic-hybrid',
+  'aiois-semantic-judgment',
+]);
+
+export type ScoringMethodId = z.infer<typeof ScoringMethodIdSchema>;
+
 export const ScorerSchema = z
   .object({
     model: z.string(), // e.g., "claude-opus-4-7"
     model_provider: z.string(), // e.g., "anthropic"
     model_temperature: z.number().min(0).max(2).nullish(),
     scoring_method: z.string(), // e.g., "single-pass per occupation"
+    // Stable machine-readable methodology identity. Human prose above may
+    // change without silently changing drift-report interpretation.
+    scoring_method_id: ScoringMethodIdSchema,
   })
   .strict();
 
@@ -116,7 +136,7 @@ export type PromptMeta = z.infer<typeof PromptMetaSchema>;
 /** A complete AI scoring run record. */
 export const ScoreRunSchema = z
   .object({
-    schema_version: z.string().default('2.1'),
+    schema_version: z.string().default('2.2'),
     scope: z.enum(['occupations', 'tasks']),
     scorer: ScorerSchema,
     run: RunMetaSchema,

@@ -2,8 +2,10 @@
 /**
  * shindan.astro — /shindan AI働き方診断.
  *
- * Static page shell; client-side scoring and result rendering live in
- * _shindan.js as a byte-stable inline script for CSP hashing.
+ * Static generic shell; client-side scoring and result rendering live in
+ * _shindan.js as a byte-stable inline script for CSP hashing. Result queries
+ * are conditionally rewritten to the Edge share renderer so no-JS crawlers
+ * receive state-specific metadata while users keep the same /shindan URL.
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

@@ -62,11 +62,24 @@ const OG_IMAGE_ALT = `未来の仕事 — AIの時代でも、あなたらしい
   <meta name="twitter:image:alt" content={OG_IMAGE_ALT} slot="head" />
 
   {/* Homepage CSS split: keep the above-the-fold hero / KPI / mobile preview
-      critical path inline, then load the full stylesheet as a hashed Vite
-      asset so repeat navigations can reuse the cache. */}
+      critical path inline, then preload the full hashed Vite asset without
+      making it render-blocking. The static activation script switches the
+      already-fetched preload to a stylesheet; noscript preserves the full
+      page when JavaScript is disabled. */}
   <style slot="head" set:html={INDEX_CRITICAL_CSS} />
-  <link rel="preload" href={HOME_INDEX_CSS_URL} as="style" slot="head" />
-  <link rel="stylesheet" href={HOME_INDEX_CSS_URL} slot="head" />
+  <link id="home-full-stylesheet" rel="preload" href={HOME_INDEX_CSS_URL} as="style" slot="head" />
+  <script is:inline slot="head">
+    (function () {
+      var sheet = document.getElementById('home-full-stylesheet');
+      if (!sheet) return;
+      sheet.addEventListener('load', function () {
+        sheet.rel = 'stylesheet';
+      }, { once: true });
+    })();
+  </script>
+  <noscript slot="head">
+    <link rel="stylesheet" href={HOME_INDEX_CSS_URL} />
+  </noscript>
 
   {/* Home body content — `<div id="wrapper">…</div>` with hero, KPI band,
       treemap canvas, sectors / rankings / deep hub sections, me-cta strip. */}

@@ -1,6 +1,18 @@
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { assertRankingUniverseMatches, computeJobRankingPosition } from './me-positions.js';
+import {
+  assertRankingUniverseMatches,
+  computeJobRankingPosition,
+  rankingUniverseScope,
+} from './me-positions.js';
+
+test('me-positions labels whole-catalogue and eligible-subset universes explicitly', () => {
+  assert.equal(rankingUniverseScope('ai-risk-high'), 'all');
+  assert.equal(rankingUniverseScope('ai-risk-low'), 'all');
+  assert.equal(rankingUniverseScope('salary-safe'), 'eligible');
+  assert.equal(rankingUniverseScope('license-required'), 'eligible');
+  assert.equal(rankingUniverseScope('public-sector'), 'eligible');
+});
 
 test('me-positions computes percentile against the filtered per-slug universe', () => {
   // Arrange

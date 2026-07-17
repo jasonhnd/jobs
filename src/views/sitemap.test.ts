@@ -158,4 +158,16 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
     assert.equal(byPath('/sectors').lastmod, '2026-06-13');
     assert.equal(byPath('/1').lastmod, '2026-06-13');
   });
+
+  test('sends occupation 404 to its collision-free canonical', () => {
+    const graph = {
+      sectors: new Map(),
+      occupations: new Map([[404, { aiRisk: { date: '2026-06-13' } }]]),
+    } as unknown as KnowledgeGraph;
+    const entries = buildSitemapEntries(graph, '2026-06-13');
+    const locations = entries.map((entry) => entry.loc);
+
+    assert.ok(locations.includes('https://mirai-shigoto.com/occupations/404'));
+    assert.ok(!locations.includes('https://mirai-shigoto.com/404'));
+  });
 });

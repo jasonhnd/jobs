@@ -1,4 +1,5 @@
 import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
+import { occupationPath } from '../lib/urls.js';
 
 const SITE = 'https://mirai-shigoto.com';
 const TOP_N = 30;
@@ -111,9 +112,9 @@ function renderItemList(items: readonly GeoOccupationSummary[]) {
   return items.map((occupation, index) => ({
     '@type': 'ListItem',
     position: index + 1,
-    url: `${SITE}/${occupation.id}`,
+    url: `${SITE}${occupationPath(occupation.id)}`,
     name: occupation.nameJa,
-    item: { '@id': `${SITE}/${occupation.id}#occupation` },
+    item: { '@id': `${SITE}${occupationPath(occupation.id)}#occupation` },
   }));
 }
 

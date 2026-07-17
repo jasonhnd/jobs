@@ -13,7 +13,7 @@ worker:
   # Optional. Absent = inherit the worker provider's global config. loopcoder never sets this on its own.
   # reasoning_effort:
   base_branch: preview
-  command_hint: "implement the issue per its merged design doc; run typecheck + build + verify:gates + bun test; keep the repo English/Japanese only (no Chinese); commit"
+  command_hint: "implement the issue per its merged design doc; run bun run test + bun run typecheck + bun run build + bun run verify:gates; keep the repo English/Japanese only (no Chinese); commit"
 # verifier:
 #   # Optional. Absent = inherit the verifier provider's global config. loopcoder never sets this on its own.
 #   # model:
@@ -33,15 +33,16 @@ resilience:
 ci:
   checks:
     - Vercel
-  # Optional. Absent = no local test command gate.
-  # tests:
-  #   - go test ./...
-  # Optional. Absent = no local typecheck command gate.
-  # typecheck:
-  #   - go vet ./...
-  # Optional. Absent = no local build command gate.
-  # build:
-  #   - go build ./...
+    # Exact `gh pr checks --json name` value. GitHub's UI groups this under
+    # the workflow label as `CI / quality`, but Loopcoder matches `name`.
+    - quality
+  tests:
+    - bun run test
+  typecheck:
+    - bun run typecheck
+  build:
+    - bun run build
+    - bun run verify:gates
 # verification:
 #   # Optional. Absent = true for loopcoder code PRs.
 #   spec_required: true

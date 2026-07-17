@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { loadGraph } from '@/graph';
 import { buildSectorsIndexBindings, fmtInt, riskClass } from './_sectors-index-bindings';
+import { occupationPath } from '@/lib/urls';
 
 const b = buildSectorsIndexBindings(await loadGraph());
 ---
@@ -152,7 +153,7 @@ section.faq{margin:48px 0}
                   {samples.map((e, i) => (
                     <>
                       {i > 0 && <span class="sc-sep" aria-hidden="true">・</span>}
-                      <a class="sc-sample-link" href={`/${e.id}`}>{e.titleJa}</a>
+                      <a class="sc-sample-link" href={occupationPath(e.id)}>{e.titleJa}</a>
                     </>
                   ))}
                 </p>

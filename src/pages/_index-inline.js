@@ -80,11 +80,11 @@
       const MARGIN = 4, GAP = 1;
       const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
 
-      // Build the per-occupation URL. v1.4.0: JA-only.
-      // Mirrors src/pages/[id].astro URL shape (writes ja/<id>.html).
+      // Build the per-occupation URL. v1.4.0: JA-only. Keep the ID 404
+      // exception aligned with src/lib/urls.ts for this inline client script.
       function occUrl(rec) {
         if (!rec || rec.id == null) return "/";
-        return "/" + rec.id;
+        return Number(rec.id) === 404 ? "/occupations/404" : "/" + rec.id;
       }
       // Fire occupation_tile_click for any path that opens a per-occupation page
       // from the treemap (canvas click, touch tap, keyboard Enter). source lets
@@ -864,7 +864,7 @@
       } catch(e) {}
 
       // ---- Search filter ----
-      function applyFilter(query) {
+      function applyFilter(query, deferDraw) {
         searchQuery = query.trim().toLowerCase();
         let matchCount = 0;
         if (!searchQuery) {
@@ -879,10 +879,13 @@
           matchCount = matches.length;
           document.getElementById("searchCount").textContent = I18N.searchHits[lang](matches.length);
         }
-        draw();
+        if (!deferDraw) draw();
         return matchCount;
       }
       let searchDebounce = null;
+      // Preserve the latest value even while the deferred treemap payload is
+      // still in flight. finishDesktopTreemapLoad reapplies this exact value.
+      let pendingSearchQuery = "";
       // Separate, longer debounce so job_search_typed fires once per pause-in-typing
       // instead of once per keystroke. 800 ms is the threshold treated as "user stopped".
       let searchAnalyticsDebounce = null;
@@ -929,6 +932,7 @@
       searchInputs.forEach(inp => {
         inp.addEventListener("input", e => {
           const v = e.target.value;
+          pendingSearchQuery = v;
           searchInputs.forEach(other => { if (other !== inp) other.value = v; });
           clearTimeout(searchDebounce);
           searchDebounce = setTimeout(() => applyFilter(v), 100);
@@ -1323,6 +1327,7 @@
           }, 150);
         });
         inputEl.addEventListener("keydown", (e) => {
+          if (e.isComposing || e.keyCode === 229) return;
           if (!suggestEl.classList.contains("visible")) return;
           // P0-C: only data-job-id items are navigable. Skip the .ss-hint row.
           const items = suggestEl.querySelectorAll("li[data-job-id]");
@@ -1736,7 +1741,7 @@
           const rationaleRaw = rec.ai_rationale_ja || "";
           const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
           const sValue = fmtSalary(rec.salary);
-          const href = "/" + Number(rec.id);
+          const href = occUrl(rec);
           return (
             '<a class="m-top10-card" role="listitem" href="' + href + '">' +
               '<span class="m-top10-card-rank">' + rank + " 位" + '</span>' +
@@ -1801,7 +1806,7 @@
             const rows = data.slice(0, SR_FALLBACK_LIMIT);
             const total = data.length || homeOccupationCount();
             const fullListLink = total > rows.length
-              ? `<li><a href="/map">全${total}職業をリスト表示で開く</a></li>`
+              ? `<li><a href="/map?view=list">全${total}職業をリスト表示で開く</a></li>`
               : "";
             fb.setAttribute(
               "aria-label",
@@ -1824,6 +1829,10 @@
         updateStats();
         updateDimensionHint();
         drawGradientLegend();
+        // Resolve a query entered before rows arrived without waiting for a
+        // second keystroke. Defer drawing until resize performs the final
+        // layout, but update the matching set/count from the latest value now.
+        applyFilter(pendingSearchQuery, true);
         resize();
         // Apply hash deep-link if present
         if (location.hash) setTimeout(applyHash, 50);

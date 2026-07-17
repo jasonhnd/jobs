@@ -1,6 +1,10 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { Aiois10Schema } from './score-run.js';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { loadJsonFile } from '../loaders.js';
+import { Aiois10Schema, ScoreEntrySchema, ScoreRunSchema } from './score-run.js';
 
 const baseAiois = {
   d1: 4.8,
@@ -40,5 +44,101 @@ describe('Aiois10Schema', () => {
     if (!parsed.success) {
       assert.deepEqual(parsed.error.issues[0]?.path, ['transformation']);
     }
+  });
+});
+
+const validEntry = {
+  ai_risk: 4.6,
+  rationale_ja: '情報処理は変化するが、現場判断が残る。',
+  confidence: 0.8,
+  aiois: baseAiois,
+};
+
+function scoreRunWith(entry: unknown) {
+  return {
+    schema_version: '2.2',
+    scope: 'occupations',
+    scorer: {
+      model: 'fixture-model',
+      model_provider: 'fixture-provider',
+      model_temperature: null,
+      scoring_method: 'fixture',
+      scoring_method_id: 'aiois-semantic-judgment',
+    },
+    run: {
+      run_date: '2026-07-17',
+      run_id: 'score-invariant-fixture',
+      duration_minutes: null,
+      operator: null,
+    },
+    input: {
+      input_data_version: 'fixture',
+      input_data_sha256: null,
+      occupation_count_scored: 1,
+      occupation_count_skipped: 0,
+    },
+    prompt: {
+      prompt_version: 'fixture',
+      prompt_file: 'fixture.md',
+      prompt_sha256: null,
+      rubric_source: 'fixture',
+    },
+    anchors: {},
+    caveat: 'fixture',
+    scores: { '42': entry },
+  };
+}
+
+describe('ScoreEntrySchema AIOIS headline invariant', () => {
+  test('accepts equal ai_risk and AIOIS Transformation values', () => {
+    assert.equal(ScoreEntrySchema.safeParse(validEntry).success, true);
+    assert.equal(ScoreRunSchema.safeParse(scoreRunWith(validEntry)).success, true);
+  });
+
+  test('preserves legacy entries with no AIOIS profile', () => {
+    const legacy = { ...validEntry, ai_risk: 6.2, aiois: null };
+    assert.equal(ScoreEntrySchema.safeParse(legacy).success, true);
+    assert.equal(ScoreRunSchema.safeParse(scoreRunWith(legacy)).success, true);
+  });
+
+  test('rejects a mismatched headline at the occupation-key path', () => {
+    const parsed = ScoreRunSchema.safeParse(scoreRunWith({ ...validEntry, ai_risk: 4.5 }));
+    assert.equal(parsed.success, false);
+    if (!parsed.success) {
+      assert.deepEqual(parsed.error.issues[0]?.path, ['scores', '42', 'ai_risk']);
+      assert.match(parsed.error.issues[0]?.message ?? '', /aiois\.transformation \(4\.6\)/);
+    }
+  });
+
+  test('loader diagnostics identify both the source file and occupation key', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'score-run-invariant-'));
+    const file = join(dir, 'occupations_fixture_2026-07-17.json');
+    try {
+      writeFileSync(file, JSON.stringify(scoreRunWith({ ...validEntry, ai_risk: 4.5 })));
+      const result = await loadJsonFile(file, ScoreRunSchema);
+      assert.equal(result.data, null);
+      assert.equal(result.error?.file, file);
+      assert.match(result.error?.message ?? '', /scores\.42\.ai_risk/);
+      assert.match(result.error?.message ?? '', /aiois\.transformation/);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+});
+
+describe('ScoreRunSchema scoring methodology metadata', () => {
+  test('requires a supported machine-readable scoring method id', () => {
+    const valid = scoreRunWith(validEntry);
+    assert.equal(ScoreRunSchema.safeParse(valid).success, true);
+
+    const { scoring_method_id: _missing, ...scorerWithoutId } = valid.scorer;
+    assert.equal(ScoreRunSchema.safeParse({ ...valid, scorer: scorerWithoutId }).success, false);
+    assert.equal(
+      ScoreRunSchema.safeParse({
+        ...valid,
+        scorer: { ...valid.scorer, scoring_method_id: 'inferred-from-prose' },
+      }).success,
+      false,
+    );
   });
 });

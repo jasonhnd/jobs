@@ -67,6 +67,8 @@ const REQUIRED_CONNECT_SRC_ORIGINS = [
   'https://connect.facebook.net',
 ];
 
+const REQUIRED_FRAME_SRC_ORIGINS = [];
+
 // ─── 2. PUBLIC_* env vars the codebase reads at build time ────────────────
 
 /** Files (relative to repo root) that may reference PUBLIC_* env. */
@@ -136,6 +138,7 @@ function checkDirective(directiveName, requiredOrigins) {
 
 checkDirective('script-src', REQUIRED_SCRIPT_SRC_ORIGINS);
 checkDirective('connect-src', REQUIRED_CONNECT_SRC_ORIGINS);
+checkDirective('frame-src', REQUIRED_FRAME_SRC_ORIGINS);
 
 // ─── Step B.5: CODE-012 — script-src must NOT include 'unsafe-inline' ─────
 // Inline scripts are pinned by SHA-256 hashes computed in
@@ -219,6 +222,7 @@ if (violations.length > 0) {
 const checks = [
   `${REQUIRED_SCRIPT_SRC_ORIGINS.length} script-src origins ok`,
   `${REQUIRED_CONNECT_SRC_ORIGINS.length} connect-src origins ok`,
+  `${REQUIRED_FRAME_SRC_ORIGINS.length} frame-src origins ok`,
   `${publicEnvReferenced.size} PUBLIC_* env vars documented`,
 ];
 console.log(`[check-analytics-config] OK — ${checks.join(', ')}.`);

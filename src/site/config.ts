@@ -5,9 +5,8 @@
  * that used to live in src/lib/urls.ts (SITE_ORIGIN) and
  * src/layouts/BaseLayout.astro (lang / og:site_name / og:locale /
  * default OG image). Moving them here defends against the same
- * class of regression captured in the
- * `feedback_pii_audit_surface` memory: operator-name / X-handle
- * fixes used to span 8+ surfaces and got missed.
+ * class of regression seen in earlier operator-name / X-handle
+ * fixes, which used to span 8+ surfaces and were easy to miss.
  *
  * Multi-locale is NOT a goal — the user explicitly does not plan
  * other-language variants. The point of this module is consistency

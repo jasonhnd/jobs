@@ -1,11 +1,12 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "2.2",
   "scope": "occupations",
   "scorer": {
     "model": "claude-opus-4-7",
     "model_provider": "anthropic",
     "model_temperature": null,
-    "scoring_method": "single-pass per occupation"
+    "scoring_method": "single-pass per occupation",
+    "scoring_method_id": "legacy-single-axis"
   },
   "run": {
     "run_date": "2026-04-25",

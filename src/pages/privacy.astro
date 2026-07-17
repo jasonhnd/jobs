@@ -16,14 +16,14 @@ const jsonLd = `{
       "@id": "https://mirai-shigoto.com/privacy#webpage",
       "name": "プライバシーポリシー — mirai-shigoto.com",
       "url": "https://mirai-shigoto.com/privacy",
-      "description": "mirai-shigoto.com のプライバシーポリシー — 運営者、収集情報、第三者サービス（Google / Cloudflare / Vercel / Resend）、Cookie、保持期間、利用者の権利、お問い合わせ。",
+      "description": "mirai-shigoto.com のプライバシーポリシー — 運営者、収集情報、第三者サービス（Google / Cloudflare / Vercel / 廃止済みフォームの履歴データを保管する Resend）、Cookie、保持期間、利用者の権利、お問い合わせ。",
       "inLanguage": ["ja"],
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
       "about": { "@id": "https://mirai-shigoto.com/#organization" },
       "author": { "@id": "https://mirai-shigoto.com/#person" },
       "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
       "datePublished": "2026-04-30",
-      "dateModified": "2026-04-30",
+      "dateModified": "2026-07-17",
       "primaryImageOfPage": "https://mirai-shigoto.com/api/og?page=privacy",
       "breadcrumb": { "@id": "https://mirai-shigoto.com/privacy#breadcrumb" },
       "speakable": {
@@ -59,7 +59,7 @@ const jsonLd = `{
   keywords="未来の仕事, プライバシーポリシー, 個人情報保護, Cookie, 第三者提供, GA4, Cloudflare, Vercel, Resend, 利用者の権利, APPI, GDPR, mirai shigoto, privacy policy, data handling"
   ogImage="https://mirai-shigoto.com/api/og?page=privacy"
   ogTitle="プライバシーポリシー — mirai-shigoto.com"
-  ogDescription="mirai-shigoto.com のプライバシーポリシー。収集情報、利用目的、第三者提供（GA4 / Cloudflare / Vercel / Resend）、Cookie、保持期間、利用者の権利、お問い合わせ。"
+  ogDescription="mirai-shigoto.com のプライバシーポリシー。収集情報、利用目的、第三者提供（GA4 / Cloudflare / Vercel / 廃止済みフォームの履歴データを保管する Resend）、Cookie、保持期間、利用者の権利、お問い合わせ。"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
 
@@ -254,7 +254,7 @@ const jsonLd = `{
       mirai-shigoto.com — 日本の職業 AI 影響マップ（非公式・独自分析）
     </p>
     <p class="meta-line">
-      最終更新：2026-04-30 ・ バージョン 1.0
+      最終更新：2026-07-17 ・ バージョン 1.1
     </p>
 
     <!-- 1 ----------------------------------------------------------- -->
@@ -271,24 +271,17 @@ const jsonLd = `{
     </h2>
 
     <h3>
-      2.1 アクセス解析（自動収集）
+      アクセス解析（自動収集）
     </h3>
     <p>
       本サイトは、利用状況の把握とサイト改善のため、以下のアクセス解析サービスを利用しています。これらのサービスは IP アドレス、参照元 URL、ブラウザ情報、ページ閲覧履歴等を収集します。<strong>個人を直接特定する情報（氏名・住所等）は収集しません。</strong>
     </p>
 
     <h3>
-      2.2 メールアドレス（任意提供）
+      廃止済みフォームの履歴データ
     </h3>
     <p>
-      月次レポートの登録フォームに入力された場合のみ、メールアドレスを収集します。職業ごとの詳細レポート希望フォームに入力された場合、登録時に閲覧していた職業 ID も併せて記録します。
-    </p>
-
-    <h3>
-      2.3 フィードバック（任意提供）
-    </h3>
-    <p>
-      フィードバックフォームに入力された選択肢、自由記述、および任意で添えられたメールアドレスを収集します。メールアドレスは任意項目で、未入力の場合は匿名で受け付けます。
+      本サイトは 2026 年 7 月 17 日付でメール登録・フィードバックのフォームと API を廃止し、現在はこれらの情報を新規収集・配信していません。廃止前に当該 API へ送信されたメールアドレスやフィードバックが存在する場合は、削除作業が完了するまで Resend に保管される可能性があります。これらを新たな配信やマーケティングには利用しません。
     </p>
 
     <!-- 3 ----------------------------------------------------------- -->
@@ -303,10 +296,7 @@ const jsonLd = `{
         <strong>アクセス解析</strong>：利用状況の把握、コンテンツ改善、サイトパフォーマンス最適化。
       </li>
       <li>
-        <strong>メールアドレス</strong>：月次レポートおよび本サイトの更新通知の送信。職業 ID と紐づけて、関連性の高い情報の提供に利用する場合があります。
-      </li>
-      <li>
-        <strong>フィードバック</strong>：本サイトおよび将来のレポート内容の改善。集計された結果を匿名で公表する場合があります。
+        <strong>廃止済みフォームの履歴データ</strong>：本人からの開示・削除請求への対応、および安全な削除作業にのみ利用します。
       </li>
     </ul>
     <p>
@@ -345,7 +335,7 @@ const jsonLd = `{
       <div class="third-party-row">
         <div class="name">Resend Inc.</div>
         <div class="role">
-          メール配信（登録メールアドレスの保管・配信）
+          廃止済みフォームの履歴データ保管（新規収集・配信なし、削除作業中）
         </div>
         <div><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">policy ↗</a></div>
       </div>
@@ -378,13 +368,10 @@ const jsonLd = `{
     </h2>
     <ul>
       <li>
-        <strong>メールアドレス</strong>：登録から配信停止までの期間 + 配信停止後 30 日間（監査・誤操作対応のため）。30 日経過後は速やかに削除します。
-      </li>
-      <li>
         <strong>アクセス解析データ</strong>：14 ヶ月（Google Analytics 4 のデフォルト保持期間）。
       </li>
       <li>
-        <strong>フィードバック</strong>：匿名フィードバックは無期限保管（個人を特定できないため）。メール付きフィードバックは利用者の削除依頼に従って削除します。
+        <strong>廃止済みフォームの履歴データ</strong>：本番環境での機能廃止から 30 日以内に、当該フォーム専用と確認できたデータを削除します。削除請求を受けた場合は、それより前でも本人確認後に対応します。
       </li>
     </ul>
 
@@ -401,9 +388,6 @@ const jsonLd = `{
       </li>
       <li>
         <strong>訂正・削除請求</strong>：誤った情報の訂正、または情報の削除を求める権利。
-      </li>
-      <li>
-        <strong>配信停止</strong>：受信したすべてのメールに含まれる配信停止リンクから、いつでも配信を停止できます。
       </li>
       <li>
         <strong>苦情申立</strong>：日本の個人情報保護委員会等の監督機関への苦情申立権。
@@ -432,6 +416,9 @@ const jsonLd = `{
       変更履歴
     </h2>
     <ul>
+      <li>
+        <strong>2026-07-17 v1.1</strong>：メール登録・フィードバック機能の廃止を反映し、新規収集の終了と履歴データの削除方針を明記。
+      </li>
       <li>
         <strong>2026-04-30 v1.0</strong>：初版公開。
       </li>

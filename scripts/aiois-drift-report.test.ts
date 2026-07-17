@@ -111,11 +111,31 @@ describe('riskBand / renderDriftMarkdown', () => {
       candModel: 'claude-fable-5',
       candDate: '2026-06-13',
       rankThreshold: 10,
+      baseMethodId: 'aiois-vector-semantic-hybrid',
+      candMethodId: 'aiois-semantic-judgment',
     });
     assert.ok(md.includes('## Summary'));
     assert.ok(md.includes('## D1–D10 平均 drift'));
     assert.ok(md.includes('## Band movement'));
     assert.ok(md.includes('Manual review list'));
     assert.ok(md.includes('| 1 | 甲 |'));
+    assert.ok(md.includes('D2–D10 vector engine'));
+    assert.ok(md.includes('評価方式の変更'));
+  });
+
+  test('same-method Fable 5 → GPT 5.6 report has no historical vector caveat', () => {
+    const md = renderDriftMarkdown(rep, {
+      baseModel: 'claude-fable-5',
+      baseDate: '2026-06-13',
+      candModel: 'gpt-5.6-sol',
+      candDate: '2026-07-12',
+      rankThreshold: 10,
+      baseMethodId: 'aiois-semantic-judgment',
+      candMethodId: 'aiois-semantic-judgment',
+    });
+
+    assert.ok(md.includes('両バッチとも AIOIS semantic judgment'));
+    assert.ok(md.includes('評価方式の変更は含まれません'));
+    assert.equal(/vector engine/i.test(md), false);
   });
 });

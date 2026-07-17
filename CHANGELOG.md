@@ -2,7 +2,7 @@
 
 mirai-shigoto.com — full per-release notes at <https://github.com/jasonhnd/jobs/releases>
 
-Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemVer.
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 > Pre-0.6.0 detailed entries are preserved in [`docs/CHANGELOG-archive.md`](docs/CHANGELOG-archive.md).
 
@@ -10,40 +10,94 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+## [1.8.0] — 2026-07-17 — AI work-style diagnostic, GPT-5.6 model comparison, and product hardening
+
 ### Added
 
-- Added `/models/{slug}` static per-model data pages for all score batches,
-  backed by `public/data.models_by_model.json` with no `rationale_ja` and a
-  24KB per-page inline payload gate. SEO baseline URL/data-file drift is
-  intentional because four model detail pages and one public projection are
-  newly emitted (#149).
-- Restored `public/data.score_history.json` as a single-file multi-model score
-  history projection for comparison UI work. SEO baseline data-file drift is
-  intentional because the public data endpoint is newly emitted (#123).
-- Added `/gyakuten`, the static AI働き方診断 front door and 図鑑: 8 work-type
-  family cards, 24 locked variant cards, family-level representative jobs and
-  rarity, family-level 相性, and `/shindan` CTAs. SEO baseline drift is
-  intentional because the route is now indexable and listed in the sitemap (#64).
-- Added a build-time AIOIS-10 movers block to `/rankings`, comparing the active
-  Claude Fable 5 2026-06-13 batch against the comparable Claude Opus 4.8
-  2026-05-30 baseline, plus `?me=<id>` self-highlighting for mover rows (#65).
-- Extended `/shindan` with a client-only self x job gap picker and verdict
-  using family-code comparison plus transfer-path links. SEO baseline drift is
-  intentional because the result page gains the job-gap anchors (#61).
-- Replaced the occupation detail hero's legacy single-score risk card with an
-  `AI働き方診断` work-type verdict card: family label/copy, AIOIS-10
-  Transformation + Displacement-Risk, full-universe rank, optional delta slot,
-  and an OG/Web Share trigger. SEO baseline drift is intentional on the
-  rendered occupation pages because each hero gains the verdict anchors and
-  `/api/og?id=<id>` share href (#62).
+- Added the `AI働き方診断` product line: an eight-family and 24-variant
+  work-type projection, calibrated rarity, Japanese identity/copy, and a
+  nine-question `/shindan` experience with shareable results (#60, #67).
+- Added self-versus-occupation gap analysis, transfer-path guidance, an
+  occupation-detail verdict card, work-type OG/Web Share cards, the `/gyakuten`
+  illustrated front door, and first-screen navigation/home entry points
+  (#61, #62, #64, #102).
+- Added build-time AIOIS-10 ranking movers with comparable-batch deltas and
+  `?me=<id>` self-highlighting (#65).
+- Added the multi-model scoring system: a frozen GPT-5.6 SOL prompt, Codex CLI
+  runner and provider-aware assembly; a four-batch score-history projection;
+  occupation comparison blocks; the `/models` hub; and static
+  `/models/{slug}` pages backed by a rationale-free public projection
+  (#122, #123, #124, #125, #141, #149, #151).
+- Landed the full 556-occupation GPT-5.6 SOL batch as the deterministic active
+  site-wide score source, with its prompt, provider, model, and scoring date
+  preserved in repository data and public attribution (#126, #146).
+- Added repository-owned CI, documentation-link and occupation-route gates,
+  contributor instructions, and the reviewable `preview` → `main` production
+  promotion policy (#173, #174).
+
+### Changed
+
+- Reframed the diagnostic around warm public names and visitor-facing copy,
+  removed internal axis codes from public identity, and unified its navigation,
+  result, gap, and share contracts (#101, #105, #106).
+- Reworked `/models` into a visitor-facing model-comparison feature with a
+  discoverable roster, per-model stories, responsive score history, corrected
+  Japanese typography, and explicit AIOIS compatibility boundaries
+  (#137, #139, #147, #148, #149, #150, #151, #152, #153).
+- Derived homepage, methodology, README, JSON-LD, model, and workforce facts
+  from the active score batch instead of historical or hard-coded values
+  (#143, #158).
+- Split non-critical homepage CSS and JavaScript into cacheable assets,
+  self-hosted subsetted Noto Serif JP and Plus Jakarta Sans, lazy-loaded the
+  desktop treemap, introduced a slim mobile dataset, added immutable asset/data
+  cache policies, and deferred the full homepage stylesheet without removing
+  the no-JavaScript fallback (#49, #50, #97, #99, #168).
+- Upgraded the repository's `tsc` CLI to native TypeScript 7.0 while retaining
+  TypeScript 6 under the `typescript` package name solely as Vercel's temporary
+  programmatic-API compatibility layer (#118).
+
+### Removed
+
+- Retired the previously shipped `/api/feedback` and `/api/subscribe` endpoints
+  and removed the pre-production footer forms, Resend delivery, Turnstile, and
+  form-only rate-limit configuration. The owner decided these capabilities are
+  not part of the current product or the v1.8.0 release (#202).
 
 ### Fixed
 
-- Corrected `/models` and `/models/{slug}` visitor-facing typography, headings,
-  model/provider/standard labels, responsive story cards, and no-table score
-  history. SEO/OG/JSON-LD baseline drift is intentional because the public model
-  page titles and metadata now use the corrected `AIモデル比較` and
-  `{modelDisplay} の職業スコア` semantics (#153).
+- Preserved environment-gated analytics hashes during ordinary builds and made
+  CSP hash verification fail closed on missing or mismatched rendered input
+  (#89, #169).
+- Made model selection and score assembly fail closed on unverified provenance,
+  error-shaped output, provider mismatch, and AIOIS headline/transformation
+  inequality (#160, #161).
+- Limited model drift and editorial comparisons to compatible AIOIS batches,
+  exposed true per-batch coverage, and kept legacy non-AIOIS runs discoverable
+  without synthesizing unavailable dimensions (#159, #162).
+- Moved occupation ID 404 (`内科医`) to `/occupations/404` while preserving
+  `/404` as the noindex error document, and added one canonical route-ownership
+  gate for URL producers, redirects, sitemap, and JSON-LD (#157).
+- Corrected mixed diagnostic gaps to prioritize displacement risk and aligned
+  hidden-strength copy with the selected family (#163).
+- Made `/shindan` result, address-bar, X, LINE, copy, native-share, and OG URLs
+  carry the exact three-axis margins and validated occupation context; crawlers
+  receive server-rendered noindex share metadata and server-recomputed gaps
+  (#164).
+- Unified ranking scope, tie-breaking, occupation AI rank, and predecessor
+  wording; preserved IME composition, queued filters, deep links, and accessible
+  fallback-list state across search interactions (#165, #166).
+- Corrected GA4 dimension limits and setup validation, documented zero-padded
+  AI-discovery detail URLs, restored missing developer-doc links, and added a
+  local documentation-link gate (#167, #170, #173).
+- Made the rendered-homepage CSS contract runnable from a clean checkout before
+  the build step, allowing the new repository CI workflow to gate real PRs
+  consistently (#174).
+
+### Development-only / not shipped
+
+- The experimental MBTI phase-1 content, `/mbti/{type}` routes, sitemap entries,
+  and funnel links were added on `preview` and then fully reverted before this
+  release. Version 1.8.0 does not publish an MBTI route surface (#127).
 
 ## [1.7.0] — 2026-06-29 — Runtime & dependency modernization (Node 24, React 19, Astro 7)
 
@@ -1172,7 +1226,8 @@ genuine no-ops are documented under "Decisions" below.
   bytes exceed the cap and throws `BodyTooLargeError`.
 - **Subscribe error leak**: `api/subscribe.js` no longer echoes Resend's
   `errBody.message` to clients on 502 — third-party error strings could
-  leak audience ids. Full detail still goes to server logs.
+  leak audience ids. At this release, full detail still went to server logs;
+  that historical behavior was removed in #200.
 
 ### Changed
 
@@ -1517,7 +1572,10 @@ ETL is gone; Vercel deploys static `dist-astro/` from `npm run build`.
 
 ---
 
-## [Unreleased]
+## Historical unversioned notes — between 1.3.0 and 1.5.0
+
+> These notes were previously mislabeled as `[Unreleased]`. They are retained
+> verbatim because no matching v1.4.0 Git tag or GitHub release exists.
 
 ### `llms.txt` + `llms-full.txt` — feat: layered GEO header for AI citation rate
 
@@ -2902,10 +2960,24 @@ Pre-visualization scaffolding: bilingual placeholder, jobtag scrape pipeline, ma
 
 ## Versioning policy
 
-Pre-1.0: minor versions for substantive changes (features OR breaking changes), patch for fixes only. Cadence is intentionally fast while the product shape is still being explored. Detailed per-release notes preserved in [GitHub Releases](https://github.com/jasonhnd/jobs/releases).
+This repository follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html):
+
+- **Major** versions change or remove an existing public URL, data, API, or
+  compatibility contract in a backward-incompatible way.
+- **Minor** versions add backward-compatible product surfaces, routes, data,
+  models, or capabilities.
+- **Patch** versions contain backward-compatible correctness, security,
+  documentation, dependency, or operational fixes without a new product
+  surface.
+
+The root package version, changelog entry, Git tag, verified production commit,
+and GitHub release must agree. Detailed notes are preserved in
+[GitHub Releases](https://github.com/jasonhnd/jobs/releases).
 
 ---
 
-[Unreleased]: https://github.com/jasonhnd/jobs/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/jasonhnd/jobs/compare/v1.8.0...HEAD
+[1.8.0]: https://github.com/jasonhnd/jobs/compare/v1.7.0...v1.8.0
+[1.7.0]: https://github.com/jasonhnd/jobs/releases/tag/v1.7.0
 [0.6.0]: https://github.com/jasonhnd/jobs/releases/tag/v0.6.0
 [0.5.0]: https://github.com/jasonhnd/jobs/releases/tag/v0.5.0

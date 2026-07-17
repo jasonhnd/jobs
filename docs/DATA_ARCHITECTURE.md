@@ -21,6 +21,11 @@
 - `data.profile5.json` — 5 軸 radar profile。graph layer でも同じ計算を持つ。
 - `data.transfer_paths.json` — sector 内のより安全な転職候補。
 - `data.score_history.json` — multi-model comparison 用の per-occupation score history。model/date と transformation/displacement/D1-D10 の数値のみを持ち、`rationale_ja` は含めない。
+
+Occupation detail canonicals normally use `/{id}`. ID `404` is reserved by
+the custom not-found document, so that occupation uses `/occupations/404`.
+`src/lib/urls.ts` is the only source of truth for this mapping; URL producers
+must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `data.models_deep.json` — `/models` feature page 用の compact projection。最新 comparable pair、モデルカードの personality sentence id、一致職業、3〜5 件の story card（選抜された両 batch の `rationale_ja` 原文と editorial sentence id）だけを持つ。30KB 以下、browser fetch なしで HTML に inline する。
 - `data.models_by_model.json` — `/models/{slug}` per-model data page 用の projection。各 score batch の profile、変化指数分布、上位・下位職業、前回 batch との差分、prev/next nav を持つ。`rationale_ja` は含めず、Astro は該当 model payload だけを HTML に inline する。1 page payload は 24KB 以下。
 - `data.skills/*`, `data.holland.json`, `data.labels/ja.json` — hub 系ページの入力。
@@ -29,7 +34,7 @@
 
 古い `data.featured.json`, `data.tasks/*`, `data.score-history/*` は runtime consumer がないため削除済み。`data.score_history.json` は multi-model comparison のため 2026-07 に単一 JSON projection として復活した。
 
-`data.models_deep.json` は `/models` の visitor-facing magazine page 専用で、`score_history` の no-rationale rule を破らないための小さな例外 projection。職業 detail の full history とは別に、ページに出す story 分だけ `rationale_ja` を原文で持つ。本文 copy は `src/content/model-personality.ja.json` と `src/content/model-story-overrides.ja.json` が owner-reviewed surface で、projection は sentence id を選ぶだけにする。
+`data.models_deep.json` は `/models` の visitor-facing magazine page 専用で、`score_history` の no-rationale rule を破らないための小さな例外 projection。職業 detail の full history とは別に、ページに出す story 分だけ `rationale_ja` を原文で持つ。本文 copy は `src/content/model-personality.ja.json` と `src/content/model-story-overrides.ja.json` が owner-reviewed surface で、projection は sentence id を選ぶだけにする。職業別 editorial sentence id は baseline/candidate の model と run date を両方含む exact-pair key とし、未 review の pair では必ず `default_latest_pair_split` に fallback する。
 
 `data.models_by_model.json` は batch ごとの static data page 専用で、`data/scores/` に occupations batch が追加されると `/models/{slug}` が自動生成される。slug は `src/site/score-attribution.ts` の `modelSlug()` / `modelIdFromSlug()` を正典とし、known batch list で一意に逆引きできない場合は build fail にする。drift は `src/graph/aiois-drift.ts` の `computeDriftReport()` を使い、page には reader-facing summary、movers 5 件、band crossing 5 件だけを出す。
 
@@ -42,6 +47,9 @@
 - education / employment percentage は graph/ranking/detail 間で同じ 1 桁 banker rounding を使う。
 
 ## スコア選択
+
+- ScoreRun v2.2 は `scorer.scoring_method_id` を必須とする。値は `legacy-single-axis`、`aiois-vector-semantic-hybrid`、`aiois-semantic-judgment` のいずれかで、説明文の `scorer.scoring_method` から推測しない。
+- drift report は比較する 2 batch の `scoring_method_id` だけを方法差の根拠にする。同じ id の pair には方法変更を帰属させない。
 
 - `src/graph/score-strategy.ts` の `pickLatestScore()` が「現在スコア」の正典。
 - 通常は `date` が最新の score entry を採用する。

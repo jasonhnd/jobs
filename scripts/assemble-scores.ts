@@ -17,6 +17,7 @@
  *     [--run-id occ_2026-06-01_v1] [--operator name] \
  *     [--input-data-version occupations_2026-06] \
  *     [--anchors anchors.json] [--caveat caveat.txt] [--scoring-method "…"]
+ *     [--scoring-method-id aiois-semantic-judgment]
  *
  * Input JSONL — one line per occupation (Japanese-only site — rationale_ja only):
  *   legacy: {"id":1,"ai_risk":6.9,"rationale_ja":"…","confidence":0.8}
@@ -31,7 +32,13 @@
 import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, resolve } from 'node:path';
-import { ScoreRunSchema, type Aiois10, type ScoreEntry } from '../src/data/schema/score-run.js';
+import {
+  ScoreRunSchema,
+  ScoringMethodIdSchema,
+  type Aiois10,
+  type ScoreEntry,
+  type ScoringMethodId,
+} from '../src/data/schema/score-run.js';
 
 // ───── Pure, testable core ─────
 
@@ -203,6 +210,7 @@ export interface BatchMeta {
   readonly occupationCountScored: number;
   readonly occupationCountSkipped: number;
   readonly scoringMethod: string;
+  readonly scoringMethodId: ScoringMethodId;
 }
 
 /** Infer the model provider from a model id prefix. Override with --provider. */
@@ -217,13 +225,14 @@ export function inferProvider(model: string): string {
 /** Assemble the full ScoreRun object (validate separately via ScoreRunSchema). */
 export function assembleBatch(scores: Record<string, ScoreEntry>, meta: BatchMeta): unknown {
   return {
-    schema_version: '2.1',
+    schema_version: '2.2',
     scope: 'occupations',
     scorer: {
       model: meta.model,
       model_provider: meta.modelProvider,
       model_temperature: null,
       scoring_method: meta.scoringMethod,
+      scoring_method_id: meta.scoringMethodId,
     },
     run: { run_date: meta.date, run_id: meta.runId, duration_minutes: null, operator: meta.operator },
     input: {
@@ -341,6 +350,13 @@ if (import.meta.main) {
   if (!anchors) fail('no anchors (pass --anchors or have an existing batch to carry from)');
   if (!caveat) fail('no caveat (pass --caveat or have an existing batch to carry from)');
 
+  const scoringMethodIdResult = ScoringMethodIdSchema.safeParse(
+    args['scoring-method-id'] ?? (mode === 'aiois' ? 'aiois-semantic-judgment' : 'legacy-single-axis'),
+  );
+  if (!scoringMethodIdResult.success) {
+    fail(`--scoring-method-id must be one of: ${ScoringMethodIdSchema.options.join(', ')}`);
+  }
+
   const batch = assembleBatch(scores, {
     model,
     modelProvider: provider,
@@ -361,6 +377,7 @@ if (import.meta.main) {
       (mode === 'aiois'
         ? 'AIOIS-10 v1.0: in-session single-pass per occupation; model-judged D1–D10, indices per /standard formulas (re-validated)'
         : 'single-pass per occupation'),
+    scoringMethodId: scoringMethodIdResult.data,
   });
 
   const parsed = ScoreRunSchema.safeParse(batch);

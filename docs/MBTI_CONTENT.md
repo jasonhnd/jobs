@@ -209,7 +209,7 @@ placement service, or employment decision.
 
 The phase-1 implementation PR must run or update the relevant gates:
 
-- `bun test` for any content/schema helper,
+- `bun run test` for content/schema helpers,
 - `bun run check:page-class`,
 - `bun scripts/verify-jsonld.cjs` after build output exists,
 - internal-link verification,

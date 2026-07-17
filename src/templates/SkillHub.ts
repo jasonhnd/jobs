@@ -18,6 +18,7 @@ import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
+import { occupationPath } from '../lib/urls.js';
 
 // Re-export escapeHtml so pages can import it from the template entrypoint.
 export { escapeHtml };
@@ -48,7 +49,7 @@ export function renderSkillItem(o: SkillOccupation, shortJa: string): SafeHtml {
   return (
     `<li>` +
     `<div class="rl-main">` +
-    `<a class="rl-name" href="/${o.id}">${escapeHtml(title)}</a>` +
+    `<a class="rl-name" href="${occupationPath(o.id)}">${escapeHtml(title)}</a>` +
     `${sectorHtml}` +
     `</div>` +
     `<div class="rl-stats">${stats.join('')}</div>` +
@@ -94,7 +95,7 @@ export function renderJsonLd(
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}/${o.id}`,
+    url: `${SITE}${occupationPath(o.id)}`,
     name: o.name_ja || `#${o.id}`,
   }));
 

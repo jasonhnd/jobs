@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-07-14T01:06:30.197Z",
-  "gitCommit": "9faf63b9405e454ec37b20be839e2fc869a4207f",
-  "gitBranch": "loop/issue-153",
-  "distFileCount": 832,
-  "urlCount": 832,
+  "capturedAt": "2026-07-17T10:26:07.259Z",
+  "gitCommit": "7d4588b38d22a23f54211a5d0ffdcca86c2fb4c3",
+  "gitBranch": "chore/issue-202-retire-resend-turnstile",
+  "distFileCount": 833,
+  "urlCount": 833,
   "dataFileCount": 612,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }
