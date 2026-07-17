@@ -1,6 +1,6 @@
 ---
 /**
- * [id].astro — per-occupation detail page (JA only), one HTML per
+ * [...id].astro — per-occupation detail page (JA only), one HTML per
  * occupation generated statically via getStaticPaths() from the
  * knowledge graph (see src/page-data/occupation-page-data).
  *
@@ -28,6 +28,7 @@ import type { Rec } from '@/views/occupation-detail';
 import type { ScoreHistoryView } from '@/page-data/occupation-page-data';
 import { type SpokeNeighbor } from '@/views/spoke-spoke-graph';
 import { CONTENT_DATE } from '@/lib/_content-date';
+import { occupationPath } from '@/lib/urls';
 
 // Schema.org dates. DATE_PUBLISHED is page-internal versioning (set once when
 // the family of pages was published). DATE_MODIFIED is derived at build time
@@ -40,6 +41,8 @@ const DATE_MODIFIED = CONTENT_DATE;
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 //
 // URL params are NOT zero-padded — legacy URLs are /1, /162, /584.
+// The rest parameter allows the reserved ID 404 to render at
+// /occupations/404 while /404 remains the custom not-found document.
 // The detail-JSON filename `data.detail/{padded}.json` IS zero-padded;
 // padding lives inside the JSON load step, not in routing.
 export async function getStaticPaths() {
@@ -50,7 +53,7 @@ export async function getStaticPaths() {
   const { allRecs, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr, scoreHistoryArr } = pageData;
 
   return allRecs.map((rec) => ({
-    params: { id: String(rec.id) },
+    params: { id: occupationPath(rec.id).slice(1) },
     props: {
       rec,
       related: pickRelatedOccupations(rec, allRecs),

@@ -10,6 +10,7 @@ import type { KnowledgeGraph } from '@/graph';
 import type { CareerPersona } from '@/views/careers-meta.js';
 import { CAREER_PERSONAS } from '@/views/careers-meta.js';
 import type { GenreOccupation, DetailFileMin } from '@/views/genre-hub.js';
+import { occupationPath } from '@/lib/urls';
 
 /**
  * Match-and-score pipeline used in getStaticPaths. Kept here so the page
@@ -121,7 +122,7 @@ export function buildCareerBindings(input: CareerBindingsInput): CareerBindings 
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}/${o.id}`,
+    url: `${SITE}${occupationPath(o.id)}`,
     name: o.name_ja,
   }));
   const jsonLd = JSON.stringify({

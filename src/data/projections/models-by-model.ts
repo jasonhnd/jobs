@@ -14,6 +14,7 @@ import {
   type DriftReport,
 } from '../../graph/aiois-drift.js';
 import { ModelsByModelProjectionSchema, type ModelsByModelProjectionShape } from '../../lib/projection-schemas.js';
+import { occupationPath } from '../../lib/urls.js';
 import { formatModelDisplay, modelIdFromSlug, modelSlug } from '../../site/score-attribution.js';
 import type { ScoreRun } from '../schema/index.js';
 import type { ScoreEntry } from '../schema/score-run.js';
@@ -168,7 +169,7 @@ function toOccupationRow(row: OccupationScoreRow): OccupationRow {
   return {
     id: row.id,
     title_ja: row.title,
-    href: `/${row.id}`,
+    href: occupationPath(row.id),
     transformation: row.transformation,
     band: riskBand(row.transformation),
   };
@@ -265,7 +266,7 @@ function driftFor(
       .map((row) => ({
         id: row.id,
         title_ja: row.title,
-        href: `/${row.id}`,
+        href: occupationPath(row.id),
         delta_t: round1(row.dT),
         from: row.baseT,
         to: row.candT,
@@ -277,7 +278,7 @@ function driftFor(
       .map((row) => ({
         id: row.id,
         title_ja: row.title,
-        href: `/${row.id}`,
+        href: occupationPath(row.id),
         from_band: row.baseBand,
         to_band: row.candBand,
       })),

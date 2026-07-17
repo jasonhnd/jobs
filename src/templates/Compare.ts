@@ -14,6 +14,7 @@ import type { CompareSide, CompareResult } from '../views/compare-hub.js';
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass } from '../lib/risk.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
+import { occupationPath } from '../lib/urls.js';
 
 export { escapeHtml };
 export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
@@ -26,13 +27,13 @@ export function renderCompareHero(a: CompareSide, b: CompareSide): SafeHtml {
   return (
     `<div class="versus-hero">` +
     `<div class="vh-side">` +
-    `<a href="/${a.id}" class="vh-name">${escapeHtml(a.name_ja)}</a>` +
+    `<a href="${occupationPath(a.id)}" class="vh-name">${escapeHtml(a.name_ja)}</a>` +
     `<span class="risk-pill ${aBand}">AI 影響 ${escapeHtml(aRiskStr)}</span>` +
     (a.sector_ja ? `<span class="vh-sector">${escapeHtml(a.sector_ja)}</span>` : '') +
     `</div>` +
     `<div class="vh-vs"><span>VS</span></div>` +
     `<div class="vh-side">` +
-    `<a href="/${b.id}" class="vh-name">${escapeHtml(b.name_ja)}</a>` +
+    `<a href="${occupationPath(b.id)}" class="vh-name">${escapeHtml(b.name_ja)}</a>` +
     `<span class="risk-pill ${bBand}">AI 影響 ${escapeHtml(bRiskStr)}</span>` +
     (b.sector_ja ? `<span class="vh-sector">${escapeHtml(b.sector_ja)}</span>` : '') +
     `</div>` +
@@ -156,8 +157,8 @@ export function renderJsonLd(
       isPartOf: { '@id': `${canonical}#webpage` },
       articleSection: '比較',
       about: [
-        { '@type': 'Thing', name: a.name_ja, url: `${SITE}/${a.id}` },
-        { '@type': 'Thing', name: b.name_ja, url: `${SITE}/${b.id}` },
+        { '@type': 'Thing', name: a.name_ja, url: `${SITE}${occupationPath(a.id)}` },
+        { '@type': 'Thing', name: b.name_ja, url: `${SITE}${occupationPath(b.id)}` },
       ],
     },
     {
