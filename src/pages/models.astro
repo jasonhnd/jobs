@@ -19,9 +19,9 @@ const page = buildModelsFeaturePageModel(projection, personalityCopy, storyCopy)
 
 const pageTitle = 'AIモデル比較 | 未来の仕事';
 const modelCountText = `${page.modelCount}つのAIモデル`;
-const occupationCountText = `${page.currentModel.covered_count}職業`;
+const occupationCoverageText = page.coverageRangeText;
 const pageDescription =
-  `${modelCountText}が${occupationCountText}を採点した結果から、現行モデルと判断が一致した職業・大きく分かれた職業を読むモデル比較ページです。`;
+  `${modelCountText}による、各回${occupationCoverageText}の採点結果から、現行モデルと判断が一致した職業・大きく分かれた職業を読むモデル比較ページです。`;
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -170,7 +170,7 @@ a:hover{color:var(--accent)}
         <h1>AIモデル比較</h1>
         <p class="hook">AIモデルは、あなたの仕事をどう見ているか。</p>
         <p class="lead">
-          {occupationCountText}を、{modelCountText}がそれぞれ採点しました。AIの判断にはそれぞれの見方があり、同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。
+          これまで{modelCountText}による採点を公開し、各回の対象は{occupationCoverageText}です。AIの判断にはそれぞれの見方があり、同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。
         </p>
       </div>
       <aside class="current-model-card" aria-labelledby="current-model-title">
@@ -222,7 +222,7 @@ a:hover{color:var(--accent)}
         <div class="contrast-panel">
           <h3>見方が大きく分かれた職業</h3>
           <p class="contrast-copy">
-            最新の比較では、<strong>{page.latestPair.baseline.modelDisplay}</strong> と <strong>{page.latestPair.candidate.modelDisplay}</strong> が、いくつかの職業をまったく違う角度から見ています。
+            最新の比較では、<strong>{page.latestPair.baseline.modelDisplay}</strong> と <strong>{page.latestPair.candidate.modelDisplay}</strong> の共通する {page.latestPair.compared_count} 職業を比べ、いくつかの職業をまったく違う角度から見ています。
             次のカードでは、差が大きかった職業を、両モデルの理由文そのままと一緒に読みます。
           </p>
         </div>

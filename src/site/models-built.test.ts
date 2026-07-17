@@ -98,6 +98,10 @@ describe('/models built page contract', () => {
     assert.match(visible, /Claude Opus 4\.8/);
     assert.match(visible, /Claude Fable 5/);
     assert.match(visible, /GPT 5\.6 SOL/);
+    assert.match(visible, /各回の対象は552〜556職業/);
+    assert.match(visible, /共通する 556 職業を比べ/);
+    assert.equal(/556職業を、4つのAIモデルがそれぞれ採点/.test(visible), false);
+    assert.match(html, /4つのAIモデルによる、各回552〜556職業の採点結果/);
   });
 
   test('emits scoped heading typography that beats the canonical serif heading rule', () => {
@@ -119,6 +123,28 @@ describe('/models built page contract', () => {
     assert.match(visible, /<dt>評価基準<\/dt><dd>AIOIS-10 v1\.0<\/dd>/);
     assert.match(visible, /2026年7月12日/);
     assert.equal(/プロンプト|AIOIS-10-v1\.0-gpt-5\.6-sol/.test(visible), false);
+  });
+
+  test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
+    const legacyPath = builtModelDetailPath('opus-4-7');
+    const firstAioisPath = builtModelDetailPath('opus-4-8');
+    const fablePath = builtModelDetailPath('fable-5');
+    const latestPath = builtModelDetailPath('gpt-5.6-sol');
+    if (!legacyPath || !firstAioisPath || !fablePath || !latestPath) return;
+
+    const legacy = visibleHtml(readFileSync(legacyPath, 'utf-8'));
+    const firstAiois = visibleHtml(readFileSync(firstAioisPath, 'utf-8'));
+    const fable = visibleHtml(readFileSync(fablePath, 'utf-8'));
+    const latest = visibleHtml(readFileSync(latestPath, 'utf-8'));
+
+    assert.match(legacy, /AIOIS-10 導入前の旧方式スコア/);
+    assert.match(legacy, /D1〜D10 や置換指数を補完せず/);
+    assert.match(firstAiois, /AIOIS-10 系列で最初の採点/);
+    assert.match(firstAiois, /比較可能な前回モデルがない/);
+    assert.match(fable, /Claude Opus 4\.8（2026年5月30日）と比べて/);
+    assert.match(fable, /共通して比較できた職業は 556 件/);
+    assert.match(latest, /Claude Fable 5（2026年6月13日）と比べて/);
+    assert.match(latest, /共通して比較できた職業は 556 件/);
   });
 
   test('emits scoped model detail heading typography that beats the canonical serif heading rule', () => {
