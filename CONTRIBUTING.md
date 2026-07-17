@@ -7,7 +7,7 @@ Issue と Pull Request を歓迎します。非自明な変更は、実装前に
 1. 最新の `preview` から topic branch を作る。
 2. 変更と必要なテスト・文書を同じ branch に含める。
 3. `preview` を base に PR を作り、関連 Issue を `Closes #...` でリンクする。
-4. Repository checks の rollout 完了後は `CI / quality` と `Vercel` を通し、review conversation をすべて解決してから human merge を行う。
+4. Repository checks の rollout 完了後は `quality`（GitHub UI では `CI / quality`）と `Vercel` を通し、review conversation をすべて解決してから human merge を行う。
 
 通常の変更を `main` へ直接送らないでください。`main` は production branch であり、`preview → main` の promotion PR だけを受け付けます。
 
