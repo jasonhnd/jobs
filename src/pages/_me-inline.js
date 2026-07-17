@@ -380,7 +380,8 @@
         var universe = row.pos.universeSize;
         var rank = row.pos.outOfUniverse;
         var pct = row.pos.percentile;
-        detail.textContent = '全 ' + universe + ' 中 ' + rank + ' 位 (上位 ' + pct + '%)';
+        var universeLabel = row.meta.universe_scope === 'all' ? '全 ' : '対象 ';
+        detail.textContent = universeLabel + universe + ' 中 ' + rank + ' 位 (上位 ' + pct + '%)';
       } else {
         detail.textContent = '対象外';
       }

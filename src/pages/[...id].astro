@@ -50,7 +50,7 @@ export async function getStaticPaths() {
     '@/page-data/occupation-page-data'
   );
   const pageData = await buildOccupationPageData();
-  const { allRecs, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr, scoreHistoryArr } = pageData;
+  const { allRecs, nameLookup, rankingHitsArr, sameRiskArr, scoreHistoryArr } = pageData;
 
   return allRecs.map((rec) => ({
     params: { id: occupationPath(rec.id).slice(1) },
@@ -59,7 +59,6 @@ export async function getStaticPaths() {
       related: pickRelatedOccupations(rec, allRecs),
       nameLookup,
       rankingHitsArr,
-      riskRankHitsArr,
       sameRiskArr,
       scoreHistoryArr,
     },
@@ -73,12 +72,11 @@ interface PageProps {
   related: Rec[];
   nameLookup: Record<number, string>;
   rankingHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
-  riskRankHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
   sameRiskArr: Array<[number, SpokeNeighbor[]]>;
   scoreHistoryArr: Array<[number, ScoreHistoryView[]]>;
 }
 
-const { rec, related, nameLookup, rankingHitsArr, riskRankHitsArr, sameRiskArr, scoreHistoryArr } =
+const { rec, related, nameLookup, rankingHitsArr, sameRiskArr, scoreHistoryArr } =
   Astro.props as PageProps;
 
 const { loadGraph } = await import('@/graph');
@@ -91,7 +89,6 @@ const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
 
 const bindings = buildIdPageBindings({
   rec, related, nameLookup,
-  rankingHitsByOcc: new Map(riskRankHitsArr),
   scoreHistory: new Map(scoreHistoryArr).get(rec.id) ?? [],
   datePublished: DATE_PUBLISHED,
   dateModified: DATE_MODIFIED,

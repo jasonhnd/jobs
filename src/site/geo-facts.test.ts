@@ -7,6 +7,7 @@ import { buildGeoSurfaces } from './geo-build.js';
 import { bindHomeFacts } from './home-facts-render.js';
 import { buildMethodologyBatchView } from './methodology-facts.js';
 import {
+  compareAiImpactDesc,
   computeGeoFacts,
   pickLatestGeoScoreRun,
   summarizeGeoOccupationIds,
@@ -44,6 +45,16 @@ function scoreRun(
 }
 
 describe('computeGeoFacts', () => {
+  test('uses workforce then occupation id as deterministic risk tie-breakers', () => {
+    const tied: GeoTreemapRow[] = [
+      { id: 3, name_ja: 'C', ai_risk: 7, workers: 100, sector_id: null, sector_ja: null },
+      { id: 2, name_ja: 'B', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
+      { id: 1, name_ja: 'A', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
+    ];
+
+    assert.deepEqual(tied.sort(compareAiImpactDesc).map((row) => row.id), [1, 2, 3]);
+  });
+
   test('computes means, risk bands, workforce share, and top/bottom rows', () => {
     const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
 
