@@ -12,6 +12,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Added
 
+- Added an accessible Japanese feedback form to the shared site footer, backed
+  by `/api/feedback` with allow-listed option keys, occupation context,
+  honeypot and Turnstile forwarding, explicit delivery/retry states, and
+  PII-safe `feedback_submit` analytics. Internal-link/anchor baseline drift is
+  intentional because every footer now includes the form, its privacy link,
+  labels, instructions, and live status region (#171).
 - Added `/models/{slug}` static per-model data pages for all score batches,
   backed by `public/data.models_by_model.json` with no `rationale_ja` and a
   24KB per-page inline payload gate. SEO baseline URL/data-file drift is

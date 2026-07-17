@@ -353,8 +353,9 @@ events:
       - { name: freetext_length, type: int, desc: "Char count of free-text answer (text itself NOT logged)" }
       - { name: has_email, type: string, desc: "true | false (whether user attached email)" }
       - { name: language, type: string }
+      - { name: success, type: string, desc: "true | false after the request completes" }
+      - { name: error_reason, type: string, desc: "none on success; stable API/client error code on failure" }
     conversion: true   # QI 8 — highest unit value
-    unimplemented: planned   # api/feedback.js endpoint exists but no UI form calls it yet
 
   # ---- Sharing ----
   # `share_x_click` was per-platform — replaced 2026-05-02 by the unified

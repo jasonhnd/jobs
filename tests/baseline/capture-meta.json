@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-17T07:49:37.020Z",
-  "gitCommit": "7bcaac1e6db74e4b801c1d4fc5b588cc935fad62",
-  "gitBranch": "fix/issue-158-active-batch-facts",
+  "capturedAt": "2026-07-17T08:08:30.127Z",
+  "gitCommit": "f87501a75bf99b433b332e79db9ebc43adb0800a",
+  "gitBranch": "feat/issue-171-feedback-form",
   "distFileCount": 833,
   "urlCount": 833,
   "dataFileCount": 612,
