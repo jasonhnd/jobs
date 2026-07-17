@@ -115,9 +115,16 @@ export interface CodexScoringArgs {
 export interface CodexExecOptions {
   readonly cwd: string;
   readonly model: string;
-  readonly supportsModel: boolean;
   readonly outputSchemaPath: string;
   readonly outputLastMessagePath: string;
+}
+
+export interface CodexModelProbeResult {
+  readonly command: readonly string[];
+  readonly status: number | null;
+  readonly stdout: string;
+  readonly stderr: string;
+  readonly error: string | null;
 }
 
 export interface CodexExecResult {
@@ -268,6 +275,10 @@ export function extractJsonObject(raw: string): string {
 }
 
 export function validateAndNormalizeResponse(raw: string, expectedId: number): CodexScore {
+  const reportedError = explicitScoringError(raw);
+  if (reportedError) {
+    throw new Error(`scoring response reported an upstream error/refusal: ${reportedError}`);
+  }
   const jsonText = extractJsonObject(raw);
   let parsed: unknown;
   try {
@@ -283,7 +294,46 @@ export function validateAndNormalizeResponse(raw: string, expectedId: number): C
   if (result.data.id !== expectedId) {
     throw new Error(`id mismatch: expected ${expectedId}, got ${result.data.id}`);
   }
+  if (isSyntheticZeroPlaceholder(result.data)) {
+    throw new Error('scoring response is a synthetic all-zero placeholder');
+  }
   return result.data;
+}
+
+const EXPLICIT_SCORING_ERROR_PATTERNS: readonly RegExp[] = [
+  /\b(?:requested\s+)?model\b.{0,80}\b(?:unavailable|not\s+available|not\s+found|unsupported|does\s+not\s+exist|cannot\s+be\s+used)\b/i,
+  /\b(?:provider|upstream|inference|service)\b.{0,80}\b(?:error|failed|failure|unavailable|overloaded)\b/i,
+  /\b(?:i\s+cannot|i\s+can't|i\s+am\s+unable|i'm\s+unable|cannot\s+comply|refus(?:e|al|ed|ing))\b/i,
+  /(?:指定|要求).{0,24}モデル.{0,40}(?:利用できません|見つかりません|対応していません)/,
+  /(?:プロバイダ|上流|推論|サービス).{0,40}(?:エラー|失敗|利用できません)/,
+];
+
+export function explicitScoringError(raw: string): string | null {
+  const compact = raw.replace(/\s+/g, ' ').trim();
+  for (const pattern of EXPLICIT_SCORING_ERROR_PATTERNS) {
+    const match = compact.match(pattern);
+    if (match) return match[0].slice(0, 200);
+  }
+  return null;
+}
+
+export function isSyntheticZeroPlaceholder(score: CodexScore): boolean {
+  const values = [
+    score.ai_risk,
+    score.aiois.d1,
+    score.aiois.d2,
+    score.aiois.d3,
+    score.aiois.d4,
+    score.aiois.d5,
+    score.aiois.d6,
+    score.aiois.d7,
+    score.aiois.d8,
+    score.aiois.d9,
+    score.aiois.d10,
+    score.aiois.transformation,
+    score.aiois.displacement,
+  ];
+  return score.confidence === 0 && values.every((value) => value === 0);
 }
 
 export function scoreToJsonLine(score: CodexScore): string {
@@ -358,6 +408,7 @@ export async function scoreOccupationWithRetries(
     } catch (err) {
       const message = (err as Error).message;
       failures.push({ attempt, message });
+      saveAttemptFailure(options.rawDir, occ.id, attempt, message);
       const transient = isTransientCliError(`${message}\n${raw}`);
       const delay = retryDelayMs(attempt, transient);
       if (attempt < MAX_ATTEMPTS && delay > 0) await sleep(delay);
@@ -381,31 +432,62 @@ export function saveRawResponse(rawDir: string, id: number, attempt: number, raw
   appendFileSync(path, body);
 }
 
+export function saveAttemptFailure(rawDir: string, id: number, attempt: number, message: string): void {
+  mkdirSync(rawDir, { recursive: true });
+  appendFileSync(join(rawDir, `${id}.failures.jsonl`), `${JSON.stringify({ attempt, message })}\n`);
+}
+
 export function codexExecSupportsModel(helpText: string): boolean {
   return /(?:^|\n)\s*-m,\s*--model\s+<MODEL>|(?:^|\n)\s*--model\s+<MODEL>/m.test(helpText);
 }
 
-export function detectCodexModelSupport(): boolean {
+export function probeCodexModelSupport(): CodexModelProbeResult {
   const res = spawnSync('codex', ['exec', '--help'], { encoding: 'utf8' });
-  return res.status === 0 && codexExecSupportsModel(`${res.stdout}\n${res.stderr}`);
+  return {
+    command: ['codex', 'exec', '--help'],
+    status: res.status,
+    stdout: res.stdout ?? '',
+    stderr: res.stderr ?? '',
+    error: res.error?.message ?? null,
+  };
+}
+
+export function assertCodexModelSupport(probe: CodexModelProbeResult): void {
+  if (probe.error) {
+    throw new Error(`unable to run ${probe.command.join(' ')}: ${probe.error}`);
+  }
+  if (probe.status !== 0) {
+    const detail = (probe.stderr || probe.stdout).trim();
+    throw new Error(
+      `${probe.command.join(' ')} exited with status ${String(probe.status)}` + (detail ? `: ${detail}` : ''),
+    );
+  }
+  if (!codexExecSupportsModel(`${probe.stdout}\n${probe.stderr}`)) {
+    throw new Error('installed Codex CLI does not advertise codex exec --model <MODEL>; upgrade Codex before scoring');
+  }
+}
+
+export function buildCodexExecArgs(options: CodexExecOptions): string[] {
+  return [
+    'exec',
+    '--ephemeral',
+    '--cd',
+    options.cwd,
+    '--color',
+    'never',
+    '--output-schema',
+    options.outputSchemaPath,
+    '--output-last-message',
+    options.outputLastMessagePath,
+    '--model',
+    options.model,
+    '-',
+  ];
 }
 
 export const runCodexExec: CodexExecutor = (prompt, options) =>
   new Promise((resolveExec) => {
-    const cmd = [
-      'exec',
-      '--ephemeral',
-      '--cd',
-      options.cwd,
-      '--color',
-      'never',
-      '--output-schema',
-      options.outputSchemaPath,
-      '--output-last-message',
-      options.outputLastMessagePath,
-    ];
-    if (options.supportsModel) cmd.push('--model', options.model);
-    cmd.push('-');
+    const cmd = buildCodexExecArgs(options);
 
     const child = spawn('codex', cmd, { cwd: options.cwd, stdio: ['pipe', 'pipe', 'pipe'] });
     let stdout = '';
@@ -455,6 +537,13 @@ if (import.meta.main) {
     fail((err as Error).message);
   }
 
+  const modelProbe = probeCodexModelSupport();
+  try {
+    assertCodexModelSupport(modelProbe);
+  } catch (err) {
+    fail((err as Error).message);
+  }
+
   if (!existsSync(args.promptFile)) fail(`prompt file not found: ${args.promptFile}`);
   const rubric = readFileSync(args.promptFile, 'utf8');
   const completed = args.resume && existsSync(args.outPath) ? completedIdsFromJsonl(readFileSync(args.outPath, 'utf8')) : new Set<number>();
@@ -469,13 +558,24 @@ if (import.meta.main) {
   mkdirSync(tmpDir, { recursive: true });
   const outputSchemaPath = join(runDir, 'codex-score.schema.json');
   writeFileSync(outputSchemaPath, `${JSON.stringify(CODEX_OUTPUT_JSON_SCHEMA, null, 2)}\n`);
+  writeFileSync(
+    join(runDir, 'codex-model-preflight.json'),
+    `${JSON.stringify(
+      {
+        command: modelProbe.command,
+        status: modelProbe.status,
+        requested_model: args.model,
+        explicit_model_flag: true,
+      },
+      null,
+      2,
+    )}\n`,
+  );
 
-  const supportsModel = detectCodexModelSupport();
   console.log(
     `[run-scoring-codex] ${occs.length} occupations · model=${args.model}` +
       ` · concurrency=${args.concurrency} · run=${args.runName}`,
   );
-  if (!supportsModel) console.log('  codex exec --model not supported by this CLI; model recorded in logs only.');
   if (completed.size) console.log(`  resume: skipping ${completed.size} completed id(s) from ${args.outPath}`);
   console.log(`  raw audit: ${rawDir}`);
 
@@ -485,7 +585,7 @@ if (import.meta.main) {
     const result = await scoreOccupationWithRetries(
       occ,
       rubric,
-      { cwd: ROOT, model: args.model, supportsModel, outputSchemaPath, tmpDir, rawDir },
+      { cwd: ROOT, model: args.model, outputSchemaPath, tmpDir, rawDir },
       runCodexExec,
     );
     if (result.ok) {

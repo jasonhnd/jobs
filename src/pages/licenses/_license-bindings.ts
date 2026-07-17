@@ -6,6 +6,7 @@ import type { KnowledgeGraph } from '@/graph';
 import type { LicenseHub } from '@/views/licenses-meta.js';
 import { LICENSE_HUBS } from '@/views/licenses-meta.js';
 import type { GenreOccupation, DetailFileMin } from '@/views/genre-hub.js';
+import { occupationPath } from '@/lib/urls';
 
 /**
  * Match-and-rank pipeline for getStaticPaths — kept here so the page
@@ -119,7 +120,7 @@ export function buildLicenseBindings(input: LicenseBindingsInput): LicenseBindin
     .map((h) => `<li><a href="/licenses/${h.slug}"><span class="rg-name">${escapeHtml(h.short_ja)}</span><span class="rg-desc">${escapeHtml(h.description_ja.slice(0, 60))}…</span></a></li>`)
     .join('') + '</ul>';
 
-  const itemList = items.map((o, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/${o.id}`, name: o.name_ja }));
+  const itemList = items.map((o, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}${occupationPath(o.id)}`, name: o.name_ja }));
   const jsonLd = JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [

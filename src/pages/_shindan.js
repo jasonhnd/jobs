@@ -10,6 +10,10 @@
     var LOCAL_KEY = 'shindan:lastResult:v1';
     var GAP_LOCAL_KEY = 'shindan:jobGap:v1';
 
+    function occupationPath(id) {
+      return Number(id) === 404 ? '/occupations/404' : '/' + id;
+    }
+
     var AXES = [
       { key: 'A1', dataKey: 'a1', leftPole: 'C', rightPole: 'R', exposedPole: 'R', label: '創造 / 定型', leftLabel: '創造', rightLabel: '定型', strengthLabel: '創造性' },
       { key: 'A2', dataKey: 'a2', leftPole: 'P', rightPole: 'D', exposedPole: 'D', label: '人 / データ', leftLabel: '人', rightLabel: 'データ', strengthLabel: '対人感覚' },
@@ -552,7 +556,7 @@
       rows.slice(0, 6).forEach(function (item) {
         var li = document.createElement('li');
         var a = document.createElement('a');
-        a.href = '/' + item.id;
+        a.href = occupationPath(item.id);
         var name = document.createElement('span');
         name.textContent = item.name_ja || ('職業 ' + item.id);
         var meta = document.createElement('small');
@@ -786,7 +790,7 @@
         var id = String(candidate.id);
         var doc = searchById[id];
         var a = document.createElement('a');
-        a.href = '/' + id;
+        a.href = occupationPath(id);
         var name = document.createElement('span');
         name.textContent = candidate.title_ja || jobTitle(doc, id);
         var meta = document.createElement('small');
@@ -824,7 +828,7 @@
       if ($gapMeterFill) $gapMeterFill.style.width = meterPct + '%';
       if ($gapReading) $gapReading.textContent = gapReadingFor(gapCopy, gap);
       if ($gapAction) $gapAction.textContent = gapCopy.action;
-      if ($gapDetailLink) $gapDetailLink.href = '/' + gap.jobId;
+      if ($gapDetailLink) $gapDetailLink.href = occupationPath(gap.jobId);
       renderTransferCandidates(gap.jobId);
       if ($jobAnnounce) {
         $jobAnnounce.textContent = jobTitle(doc, gap.jobId) + ' とのギャップを表示しました';
