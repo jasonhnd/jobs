@@ -1027,6 +1027,7 @@
       });
 
       $jobInput.addEventListener('keydown', function (e) {
+        if (e.isComposing || e.keyCode === 229) return;
         var items = $jobListbox.querySelectorAll('li');
         if (e.key === 'ArrowDown') {
           if (!items.length) {
