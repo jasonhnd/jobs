@@ -31,10 +31,12 @@
 //      only a stable endpoint, HTTP status (when available), and internal code.
 //   7. Per-IP rate limit (Upstash Redis REST) — 5 POST per 5 minutes.
 //      Tighter than feedback (10/5min) because subscribe is opt-in and
-//      should happen ≤1 time per legitimate user. Degrades gracefully
-//      when UPSTASH_REDIS_REST_URL/TOKEN env unset.
+//      should happen ≤1 time per legitimate user. Missing/malformed
+//      configuration fails closed in production and is skipped only in
+//      preview/development; upstream errors default closed in production.
 //   8. Cloudflare Turnstile — verified server-side when
-//      TURNSTILE_SECRET_KEY env is set. Degrades gracefully when missing.
+//      TURNSTILE_SECRET_KEY env is set. A missing secret fails closed in
+//      production and is skipped only in preview/development.
 
 import {
   makeOriginGate,
