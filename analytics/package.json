@@ -8,7 +8,8 @@
     "oauth-init": "node oauth-init.mjs",
     "discover": "node setup-ga4.mjs --discover",
     "setup": "node setup-ga4.mjs",
-    "setup:dry": "node setup-ga4.mjs --dry-run"
+    "setup:dry": "node setup-ga4.mjs --dry-run",
+    "test": "node --test ga4-spec-validation.test.mjs"
   },
   "dependencies": {
     "googleapis": "^173",
