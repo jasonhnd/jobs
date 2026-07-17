@@ -51,6 +51,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   D1–D10 or displacement values, Opus 4.8 is the first AIOIS baseline, and
   later pages show their exact predecessor and common-row count. SEO, OG,
   JSON-LD, and Opus 4.8 internal-link baseline drift is intentional (#159).
+- Removed the homepage full CSS bundle from the render-blocking path by
+  preloading and activating its hashed Vite asset after download, while
+  preserving a `<noscript>` stylesheet fallback and balanced critical CSS for
+  the hero, TOP 10 carousel, KPI band, and mobile preview. The homepage SEO
+  baseline link drift is intentional because of that no-JavaScript fallback
+  (#168).
 - Moved occupation ID 404 (`内科医`) to the collision-free canonical
   `/occupations/404` while preserving `/404` as the custom noindex error
   document. All occupation URL producers, legacy redirects, and route gates
