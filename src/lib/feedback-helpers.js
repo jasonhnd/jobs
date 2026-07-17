@@ -59,8 +59,15 @@ export const KNOWN_OPTIONS = Object.freeze(new Set([
   'other',
 ]));
 
-/** Streaming body-cap for /api/feedback (matches api/feedback.js). */
-export const MAX_BODY_BYTES = 8 * 1024;
+/**
+ * Streaming body-cap for /api/feedback (matches api/feedback.js).
+ *
+ * The accepted field maxima can legitimately exceed 8 KiB once 2,000
+ * Japanese characters, an RFC-sized email address, every option key, and a
+ * Turnstile token are serialized as UTF-8 JSON. Keep the transport ceiling
+ * above that valid envelope while still bounding abusive request bodies.
+ */
+export const MAX_BODY_BYTES = 16 * 1024;
 
 /** Free-text response clip length (per-field cap, before serialization). */
 export const MAX_FREETEXT_LEN = 2000;

@@ -45,6 +45,8 @@ const REQUIRED_SCRIPT_SRC_ORIGINS = [
   'https://static.ads-twitter.com',
   // Meta (Facebook/Instagram) Pixel — fbevents.js
   'https://connect.facebook.net',
+  // Cloudflare Turnstile challenge widget used by FeedbackForm.astro
+  'https://challenges.cloudflare.com',
 ];
 
 const REQUIRED_CONNECT_SRC_ORIGINS = [
@@ -67,11 +69,17 @@ const REQUIRED_CONNECT_SRC_ORIGINS = [
   'https://connect.facebook.net',
 ];
 
+const REQUIRED_FRAME_SRC_ORIGINS = [
+  // Turnstile renders its verification challenge in a Cloudflare iframe.
+  'https://challenges.cloudflare.com',
+];
+
 // ─── 2. PUBLIC_* env vars the codebase reads at build time ────────────────
 
 /** Files (relative to repo root) that may reference PUBLIC_* env. */
 const ENV_SCAN_FILES = [
   'src/layouts/BaseLayout.astro',
+  'src/components/FeedbackForm.astro',
   // 2026-05-18 (RA-??): src/index-source.html was previously scanned because
   // the homepage bypassed BaseLayout and inlined its own analytics + env
   // hardcodes. After the BaseLayout migration, index-source.html is now
@@ -136,6 +144,7 @@ function checkDirective(directiveName, requiredOrigins) {
 
 checkDirective('script-src', REQUIRED_SCRIPT_SRC_ORIGINS);
 checkDirective('connect-src', REQUIRED_CONNECT_SRC_ORIGINS);
+checkDirective('frame-src', REQUIRED_FRAME_SRC_ORIGINS);
 
 // ─── Step B.5: CODE-012 — script-src must NOT include 'unsafe-inline' ─────
 // Inline scripts are pinned by SHA-256 hashes computed in
@@ -219,6 +228,7 @@ if (violations.length > 0) {
 const checks = [
   `${REQUIRED_SCRIPT_SRC_ORIGINS.length} script-src origins ok`,
   `${REQUIRED_CONNECT_SRC_ORIGINS.length} connect-src origins ok`,
+  `${REQUIRED_FRAME_SRC_ORIGINS.length} frame-src origins ok`,
   `${publicEnvReferenced.size} PUBLIC_* env vars documented`,
 ];
 console.log(`[check-analytics-config] OK — ${checks.join(', ')}.`);
