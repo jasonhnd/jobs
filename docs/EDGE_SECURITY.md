@@ -1,27 +1,15 @@
 # Edge Security
 
-対象は `api/*`、`middleware.ts`、OG 画像生成 (`api/og.tsx` と `src/lib/og-*`)。Edge runtime は外部入力を受けるため、preview convenience より fail-safe な境界を優先する。
+対象は `middleware.ts`、OG 画像生成 (`api/og.tsx` と `src/lib/og-*`)、診断結果共有 (`api/shindan-share.ts` と関連 helper)。Edge runtime は外部入力を受けるため、preview convenience より fail-safe な境界を優先する。
 
-## Origin / Referer gate
+## Client IP
 
-`src/lib/api-security.js` の `makeOriginGate()` が POST endpoint の origin check 正典。
+`src/lib/middleware-helpers.ts` の `clientIpFromRequest()` が GA4 geolocation 用の client IP 抽出の正典。
 
-- `Origin` が存在し allowlist にある場合だけ通す。
-- `Origin` が存在して hostile な場合は、`Referer` が allowlist に見えても拒否する。
-- `Origin` がない場合のみ、parsed `Referer` origin へ fallback する。
-- prefix match は禁止。必ず `URL(...).origin` と allowlist の完全一致で見る。
-
-## Production fail-closed
-
-`VERCEL_ENV === "production"` のときだけ production とみなす。
-
-- Upstash rate limit と Turnstile は production で missing config / upstream failure を fail-closed にする。
-- Preview/dev/test は local 開発を壊さないため fail-open できる。
-- override env はテストで固定されているため、挙動変更時は `src/lib/api-security.test.ts` も更新する。
-
-## Body size
-
-`readBodyText(req, capBytes)` は stream を読みながら累積 byte 数で cap する。`content-length` は信用しない。
+- Vercel が設定する `x-real-ip`、`x-vercel-forwarded-for` を優先する。
+- raw `x-forwarded-for` は fallback とし、client が偽装できる first hop ではなく last hop を使う。
+- usable な header がない場合は `anonymous` を返し、middleware は空の `ip_override` に変換する。
+- IP はアクセス制御の境界には使わない。
 
 ## OG data fetch
 

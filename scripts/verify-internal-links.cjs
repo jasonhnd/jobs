@@ -36,7 +36,6 @@ const SITE = 'https://mirai-shigoto.com';
 // Hrefs allowed to point at routes we don't emit (proxied / API).
 const HREF_PREFIX_ALLOWLIST = [
   '/api/og',   // OG endpoint (Vercel Edge function, served by api/og.tsx).
-  '/api/feedback', // Feedback form endpoint (Vercel Edge function, api/feedback.js).
   '/data.',    // Static JSON dumps under public/data.*.json (build artifacts).
 ];
 

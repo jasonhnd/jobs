@@ -49,8 +49,8 @@ import {
   buildMpPayload,
   classifyGeoReferral,
   attachPageViewParams,
+  clientIpFromRequest,
 } from './src/lib/middleware-helpers.js';
-import { clientIpFromRequest } from './src/lib/api-security.js';
 import { fetchWithTimeout } from './src/lib/http-client.js';
 import { shindanShareRewriteTarget } from './src/lib/shindan-share-route.js';
 
@@ -112,9 +112,8 @@ export default function middleware(request: Request, context: RequestContext): R
   // client setting their own X-Forwarded-For header. GA4's
   // ip_override field accepts a client IP for geolocation; safer
   // to feed it the infrastructure-trusted value.
-  const clientIp = clientIpFromRequest(request) === 'anonymous'
-    ? ''
-    : clientIpFromRequest(request);
+  const resolvedClientIp = clientIpFromRequest(request);
+  const clientIp = resolvedClientIp === 'anonymous' ? '' : resolvedClientIp;
 
   // 2026-05-17 H17 hardening: GA4 Measurement Protocol REQUIRES
   // measurement_id + api_secret as query string params per Google's
