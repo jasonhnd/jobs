@@ -218,7 +218,7 @@ Issue #9 の採点は、Anthropic API ではなく **claude-fable-5 セッショ
 
 Methodology delta（drift 解釈の前提）:
 
-現行 Opus 4.8 batch の D2–D10 は O*NET 型ベクトル＋日本の労働統計からの決定的計算であり、LLM 判断は D1（と欠損ベクトル職の moat profile）に限られていた（batch metadata の `scoring_method` 参照）。Issue #9 の Fable 5 run は **D1–D10 全次元をモデルの意味判断で採点**する（Issue 本文の Required output structure / Prompt 要件に従う）。したがって drift は「モデル差」と「方式差（vector engine → semantic judgment）」の合成である。drift report と manual review はこの前提で読み、pilot 報告には D2–D10 の系統的シフトを明記して Jason の判断を仰ぐ。
+現行 Opus 4.8 batch の D2–D10 は O*NET 型ベクトル＋日本の労働統計からの決定的計算であり、LLM 判断は D1（と欠損ベクトル職の moat profile）に限られていた。Issue #9 の Fable 5 run は **D1–D10 全次元をモデルの意味判断で採点**する（Issue 本文の Required output structure / Prompt 要件に従う）。したがって、この Opus 4.8 → Fable 5 pair の drift は「モデル差」と「方式差（vector engine → semantic judgment）」の合成である。各 batch は機械可読な `scorer.scoring_method_id` を記録し、drift report は比較 pair の id が異なる場合だけ方式差を注記する。Fable 5 → GPT 5.6 のように両方が `aiois-semantic-judgment` の pair へ、この歴史的 caveat を引き継がない。
 
 ## Scoring phases
 

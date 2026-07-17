@@ -8,6 +8,7 @@ import {
   resolveStoryIdsForTest,
   selectAutomaticStoryIdsForTest,
   selectConsensusRowsForTest,
+  selectEditorialSentenceIdForTest,
   selectPersonalitySentenceIdForTest,
   selectStoryIdsForTest,
 } from './models-deep.js';
@@ -47,6 +48,32 @@ function row(id: number, dT: number): DriftRow {
 }
 
 describe('models-deep projection', () => {
+  test('selects reviewed editorial copy only for the exact model and date pair', () => {
+    const reviewedPair = {
+      baseline: { model: 'claude-opus-4-8', date: '2026-05-30' },
+      candidate: { model: 'claude-fable-5', date: '2026-06-13' },
+    };
+    const exactId = '239__claude-opus-4-8@2026-05-30__claude-fable-5@2026-06-13';
+    const available = new Set([exactId, 'default_latest_pair_split']);
+
+    assert.equal(selectEditorialSentenceIdForTest(239, reviewedPair, available), exactId);
+    assert.equal(
+      selectEditorialSentenceIdForTest(239, {
+        baseline: reviewedPair.candidate,
+        candidate: { model: 'gpt-5.6-sol', date: '2026-07-12' },
+      }, available),
+      'default_latest_pair_split',
+    );
+    assert.equal(
+      selectEditorialSentenceIdForTest(239, {
+        ...reviewedPair,
+        candidate: { ...reviewedPair.candidate, date: '2026-06-14' },
+      }, available),
+      'default_latest_pair_split',
+      'a re-run of the same model must not reuse prose from another batch date',
+    );
+  });
+
   test('selects personality sentence IDs by thresholds, sign, fallback, and dimension tie order', () => {
     const ids = new Set([
       'default_neutral',
@@ -125,6 +152,10 @@ describe('models-deep projection', () => {
     assert.equal(payload.model_cards.length, 4);
     assert.equal(payload.stories.length, 5);
     assert.deepEqual(payload.stories.slice(0, 3).map((story) => story.id), [239, 398, 74]);
+    assert.ok(
+      payload.stories.every((story) => story.editorial_sentence_id === 'default_latest_pair_split'),
+      'the current Fable 5 → GPT 5.6 pair has no reviewed occupation-specific prose',
+    );
     assert.ok(payload.stories.every((story) => story.baseline_rationale_ja.length > 0));
     assert.ok(payload.stories.every((story) => story.candidate_rationale_ja.length > 0));
     assert.ok(modelsDeepPayloadBytes(payload) <= 30 * 1024);

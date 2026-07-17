@@ -56,13 +56,14 @@ const validEntry = {
 
 function scoreRunWith(entry: unknown) {
   return {
-    schema_version: '2.1',
+    schema_version: '2.2',
     scope: 'occupations',
     scorer: {
       model: 'fixture-model',
       model_provider: 'fixture-provider',
       model_temperature: null,
       scoring_method: 'fixture',
+      scoring_method_id: 'aiois-semantic-judgment',
     },
     run: {
       run_date: '2026-07-17',
@@ -122,5 +123,22 @@ describe('ScoreEntrySchema AIOIS headline invariant', () => {
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
+  });
+});
+
+describe('ScoreRunSchema scoring methodology metadata', () => {
+  test('requires a supported machine-readable scoring method id', () => {
+    const valid = scoreRunWith(validEntry);
+    assert.equal(ScoreRunSchema.safeParse(valid).success, true);
+
+    const { scoring_method_id: _missing, ...scorerWithoutId } = valid.scorer;
+    assert.equal(ScoreRunSchema.safeParse({ ...valid, scorer: scorerWithoutId }).success, false);
+    assert.equal(
+      ScoreRunSchema.safeParse({
+        ...valid,
+        scorer: { ...valid.scorer, scoring_method_id: 'inferred-from-prose' },
+      }).success,
+      false,
+    );
   });
 });

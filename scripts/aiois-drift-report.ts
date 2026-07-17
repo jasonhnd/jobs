@@ -30,6 +30,10 @@ export {
   type DriftRow,
 } from '../src/graph/aiois-drift.js';
 import { computeDriftReport, type AioisScore, type DriftReport, type DriftRow } from '../src/graph/aiois-drift.js';
+import {
+  ScoringMethodIdSchema,
+  type ScoringMethodId,
+} from '../src/data/schema/score-run.js';
 
 // ───── Markdown rendering ─────
 
@@ -57,6 +61,29 @@ export interface DriftMeta {
   readonly candModel: string;
   readonly candDate: string;
   readonly rankThreshold: number;
+  readonly baseMethodId: ScoringMethodId;
+  readonly candMethodId: ScoringMethodId;
+}
+
+const METHOD_LABELS: Readonly<Record<ScoringMethodId, string>> = {
+  'legacy-single-axis': 'legacy single-axis judgment',
+  'aiois-vector-semantic-hybrid': 'AIOIS hybrid (D1 semantic judgment; D2–D10 vector engine)',
+  'aiois-semantic-judgment': 'AIOIS semantic judgment (model-judged D1–D10)',
+};
+
+function methodologyNote(meta: DriftMeta): string {
+  const baseLabel = METHOD_LABELS[meta.baseMethodId];
+  const candLabel = METHOD_LABELS[meta.candMethodId];
+  if (meta.baseMethodId === meta.candMethodId) {
+    return (
+      `> 評価方式: 両バッチとも ${baseLabel}。` +
+      'この比較に評価方式の変更は含まれません。'
+    );
+  }
+  return (
+    `> 評価方式の変更: baseline は ${baseLabel}、candidate は ${candLabel}。\n` +
+    '> Drift はモデル差と、このバッチ metadata に明記された方式差の合成です。'
+  );
 }
 
 export function renderDriftMarkdown(rep: DriftReport, meta: DriftMeta): string {
@@ -66,8 +93,7 @@ export function renderDriftMarkdown(rep: DriftReport, meta: DriftMeta): string {
 
   return `# AIOIS-10 drift report — ${meta.baseModel} (${meta.baseDate}) vs ${meta.candModel} (${meta.candDate})
 
-> Drift は「モデル差」と「方式差（baseline D2–D10: vector engine / candidate: semantic judgment）」の合成である
-> （docs/SCORING_RUNBOOK.md §Execution mechanism）。
+${methodologyNote(meta)}
 
 ## Summary
 
@@ -107,7 +133,7 @@ ${rep.rows.map(rowLine).join('\n')}
 // ───── CLI wrapper (only runs when executed directly) ─────
 
 interface RawBatch {
-  scorer?: { model?: string };
+  scorer?: { model?: string; scoring_method_id?: string };
   run?: { run_date?: string };
   scores?: Record<
     string,
@@ -126,6 +152,10 @@ if (import.meta.main) {
     console.error(`[aiois-drift-report] FAIL — ${m}`);
     process.exit(1);
   };
+  const parseMethodId = (value: unknown, label: string): ScoringMethodId => {
+    const parsed = ScoringMethodIdSchema.safeParse(value);
+    return parsed.success ? parsed.data : fail(`${label}: missing or invalid scorer.scoring_method_id`);
+  };
 
   const args: Record<string, string> = {};
   const argv = process.argv.slice(2);
@@ -143,9 +173,13 @@ if (import.meta.main) {
   const outPath = resolve(ROOT, args['out'] ?? fail('missing --out'));
   const lowConfidence = Number.parseFloat(args['low-confidence'] ?? '0.7');
 
-  const loadBatch = (path: string, label: string): { batch: RawBatch; scores: Map<number, AioisScore> } => {
+  const loadBatch = (
+    path: string,
+    label: string,
+  ): { batch: RawBatch; scores: Map<number, AioisScore>; methodId: ScoringMethodId } => {
     const batch = JSON.parse(readFileSync(path, 'utf8')) as RawBatch;
     if (!batch.scores || !batch.run?.run_date || !batch.scorer?.model) fail(`${label}: missing scores/run/scorer`);
+    const methodId = parseMethodId(batch.scorer?.scoring_method_id, label);
     const scores = new Map<number, AioisScore>();
     for (const [k, v] of Object.entries(batch.scores!)) {
       const a = v.aiois;
@@ -158,7 +192,11 @@ if (import.meta.main) {
         confidence: v.confidence ?? null,
       });
     }
-    return { batch, scores };
+    return {
+      batch,
+      scores,
+      methodId,
+    };
   };
 
   const base = loadBatch(baselinePath, 'baseline');
@@ -180,6 +218,8 @@ if (import.meta.main) {
     candModel: cand.batch.scorer!.model!,
     candDate: cand.batch.run!.run_date!,
     rankThreshold,
+    baseMethodId: base.methodId,
+    candMethodId: cand.methodId,
   });
 
   mkdirSync(dirname(outPath), { recursive: true });
