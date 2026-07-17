@@ -66,7 +66,7 @@ export function buildScoreHistoryPayload(indexes: Indexes): ScoreHistoryPayload 
       return {
         model: entry.model,
         date: entry.date,
-        transformation: entry.ai_risk,
+        transformation: entry.aiois.transformation,
         displacement: entry.aiois.displacement,
         dims: dimsFromAiois(entry.aiois),
       };

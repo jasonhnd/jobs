@@ -61,7 +61,16 @@ export const ScoreEntrySchema = z
     confidence: z.number().min(0).max(1).nullish(),
     aiois: Aiois10Schema.nullish(),
   })
-  .strict();
+  .strict()
+  .superRefine((value, ctx) => {
+    if (value.aiois != null && value.ai_risk !== value.aiois.transformation) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['ai_risk'],
+        message: `must equal aiois.transformation (${value.aiois.transformation})`,
+      });
+    }
+  });
 
 export type ScoreEntry = z.infer<typeof ScoreEntrySchema>;
 
