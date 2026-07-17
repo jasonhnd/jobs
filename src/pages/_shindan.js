@@ -81,6 +81,7 @@
     var transferPaths = null;
     var dataReady = false;
     var currentResult = null;
+    var currentGap = null;
     var focusedJobIdx = -1;
     var jobSearchDebounce = null;
     var jobSearchSeq = 0;
@@ -319,6 +320,10 @@
       return '2-1/2-1/2-1';
     }
 
+    function validAxesPattern(value) {
+      return typeof value === 'string' && /^(?:2-1|3-0)\/(?:2-1|3-0)\/(?:2-1|3-0)$/.test(value);
+    }
+
     function axesFromCodePattern(code, pattern) {
       var parts = pattern.split('/');
       var axes = [];
@@ -361,10 +366,22 @@
       }
       var code = (params.get('self') || '').toUpperCase();
       if (!hasOwn(copy.families, code) || !hasOwn(worktypes.families, code)) return null;
-      var variantId = normalizeVariant(code, params.get('variant'));
-      if (!variantId) return null;
-      var bucket = bucketForVariant(code, variantId);
-      var pattern = patternForBucket(bucket);
+      var variantId = params.get('variant');
+      if (!variantId || !hasOwn(copy.variants[code] || {}, variantId)) return null;
+      var pattern = params.get('axes');
+      var bucket;
+      if (pattern) {
+        if (!validAxesPattern(pattern)) return null;
+        var resolvedMachineVariant = worktypes.variants[code] && worktypes.variants[code][pattern];
+        if (!resolvedMachineVariant) return null;
+        bucket = bucketFromMachine(resolvedMachineVariant);
+        if (variantFromBucket(code, bucket) !== variantId) return null;
+      } else {
+        // Legacy result links did not carry exact axes. Keep them usable with
+        // the old bucket default; every newly emitted URL includes `axes`.
+        bucket = bucketForVariant(code, variantId);
+        pattern = patternForBucket(bucket);
+      }
       var machineVariant = worktypes.variants[code] && worktypes.variants[code][pattern] || '';
       return {
         code: code,
@@ -382,17 +399,24 @@
         var raw = localStorage.getItem(LOCAL_KEY);
         if (!raw) return null;
         var parsed = JSON.parse(raw);
-        if (!parsed || !hasOwn(copy.families, parsed.code)) return null;
-        var variantId = normalizeVariant(parsed.code, parsed.variantId);
+        if (!parsed || !hasOwn(copy.families, parsed.code) || !hasOwn(worktypes.families, parsed.code)) return null;
+        var legacyVariantId = normalizeVariant(parsed.code, parsed.variantId);
+        if (!legacyVariantId) return null;
+        var pattern = validAxesPattern(parsed.pattern)
+          ? parsed.pattern
+          : patternForBucket(bucketForVariant(parsed.code, legacyVariantId));
+        var machineVariant = worktypes.variants[parsed.code] && worktypes.variants[parsed.code][pattern];
+        if (!machineVariant) return null;
+        var bucket = bucketFromMachine(machineVariant);
+        var variantId = variantFromBucket(parsed.code, bucket);
         if (!variantId) return null;
-        var pattern = parsed.pattern || patternForBucket(bucketForVariant(parsed.code, variantId));
         return {
           code: parsed.code,
           pattern: pattern,
-          machineVariant: parsed.machineVariant || '',
-          bucket: parsed.bucket || bucketForVariant(parsed.code, variantId),
+          machineVariant: machineVariant,
+          bucket: bucket,
           variantId: variantId,
-          axes: Array.isArray(parsed.axes) && parsed.axes.length === 3 ? parsed.axes : axesFromCodePattern(parsed.code, pattern),
+          axes: axesFromCodePattern(parsed.code, pattern),
           savedAt: parsed.savedAt || ''
         };
       } catch (err) {
@@ -406,45 +430,54 @@
       } catch (err) {}
     }
 
-    function updateUrl(result) {
-      var url = new URL(location.href);
-      url.searchParams.set('self', result.code);
-      url.searchParams.set('variant', result.variantId);
-      url.searchParams.delete('job');
-      url.searchParams.delete('gap');
-      var next = url.pathname + '?' + url.searchParams.toString();
+    function resultStateParams(result, gap, familyParam) {
+      var params = new URLSearchParams();
+      params.set(familyParam || 'self', result.code);
+      params.set('variant', result.variantId);
+      params.set('axes', result.pattern);
+      if (gap && gap.jobId && gap.kind) {
+        params.set('job', String(gap.jobId));
+        params.set('gap', gap.kind);
+      }
+      return params;
+    }
+
+    function updateUrl(result, gap) {
+      var params = resultStateParams(result, gap, 'self');
+      var next = '/shindan?' + params.toString();
       if (next !== location.pathname + location.search) {
         history.replaceState(null, '', next);
       }
     }
 
-    function canonicalResultUrl(result) {
-      var url = new URL(location.pathname, location.origin);
-      url.searchParams.set('self', result.code);
-      url.searchParams.set('variant', result.variantId);
+    function canonicalResultUrl(result, gap) {
+      var url = new URL('/shindan', location.origin);
+      url.search = resultStateParams(result, gap, 'self').toString();
       return url.toString();
     }
 
-    function ogImageUrl(result) {
+    function ogImageUrl(result, gap) {
       var url = new URL('/api/og', location.origin);
-      url.searchParams.set('worktype', result.code);
-      url.searchParams.set('variant', result.variantId);
+      url.search = resultStateParams(result, gap, 'worktype').toString();
       return url.toString();
     }
 
-    function updateShareMeta(result) {
-      var image = ogImageUrl(result);
+    function updateShareMeta(result, gap) {
+      var image = ogImageUrl(result, gap);
+      var resultUrl = canonicalResultUrl(result, gap);
       var metas = [
-        document.querySelector('meta[property="og:image"]'),
-        document.querySelector('meta[name="twitter:image"]')
+        [document.querySelector('meta[property="og:url"]'), resultUrl],
+        [document.querySelector('meta[property="og:image"]'), image],
+        [document.querySelector('meta[name="twitter:image"]'), image]
       ];
-      metas.forEach(function (meta) {
-        if (meta) meta.setAttribute('content', image);
+      metas.forEach(function (entry) {
+        if (entry[0]) entry[0].setAttribute('content', entry[1]);
       });
     }
 
     function renderResult(result, options) {
       currentResult = result;
+      currentGap = null;
       var family = copy.families[result.code];
       var variant = copy.variants[result.code] && copy.variants[result.code][result.variantId];
       var familyMeta = worktypes.families[result.code];
@@ -471,8 +504,8 @@
       renderAxes(result.axes);
       renderOccupations(result.code);
       resetGapResult();
-      renderShare(result, variant);
-      updateShareMeta(result);
+      renderShare(result, variant, null);
+      updateShareMeta(result, null);
       restoreGapForResult(result);
       if (!(options && options.skipScroll)) {
         $result.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -767,6 +800,7 @@
     }
 
     function resetGapResult() {
+      currentGap = null;
       if ($gapResult) $gapResult.hidden = true;
       if ($gapTransfers) $gapTransfers.replaceChildren();
       if ($jobInput) $jobInput.value = '';
@@ -837,15 +871,15 @@
 
     function updateGapUrl(gap) {
       if (!currentResult) return;
-      var url = new URL(location.href);
-      url.searchParams.set('self', currentResult.code);
-      url.searchParams.set('variant', currentResult.variantId);
-      url.searchParams.set('job', String(gap.jobId));
-      url.searchParams.set('gap', gap.kind);
-      var next = url.pathname + '?' + url.searchParams.toString();
-      if (next !== location.pathname + location.search) {
-        history.replaceState(null, '', next);
-      }
+      updateUrl(currentResult, gap);
+    }
+
+    function refreshShareState() {
+      if (!currentResult) return;
+      var variant = copy.variants[currentResult.code] && copy.variants[currentResult.code][currentResult.variantId];
+      if (!variant) return;
+      renderShare(currentResult, variant, currentGap);
+      updateShareMeta(currentResult, currentGap);
     }
 
     function selectGapJob(jobId, options) {
@@ -856,6 +890,9 @@
         var record = worktypes.occupations[id];
         if (!doc || !record || !record.code) {
           if ($jobAnnounce) $jobAnnounce.textContent = '職業タイプを読み込めませんでした';
+          currentGap = null;
+          updateUrl(currentResult, null);
+          refreshShareState();
           return;
         }
         var computed = computeGap(currentResult.code, record.code);
@@ -872,11 +909,11 @@
         };
         closeJobListbox();
         if ($jobInput) $jobInput.value = jobTitle(doc, id);
+        currentGap = gap;
         renderGap(gap, doc, record);
         persistGap(gap);
-        if (!(options && options.restored) || options.updateUrl) {
-          updateGapUrl(gap);
-        }
+        updateGapUrl(gap);
+        refreshShareState();
         if (!(options && options.restored)) {
           track('shindan_gap_select_job', {
             family_code: gap.selfCode,
@@ -892,21 +929,31 @@
 
     function readUrlJobId() {
       var params = new URLSearchParams(location.search);
-      var raw = params.get('job') || params.get('id');
-      if (!raw) return null;
+      var raw = params.get('job');
+      if (!raw || !/^\d{1,4}$/.test(raw)) return null;
       var id = parseInt(raw, 10);
-      return isNaN(id) ? null : id;
+      return id > 0 ? id : null;
     }
 
     function restoreGapForResult(result) {
+      var params = new URLSearchParams(location.search);
+      var hasUrlContext = params.has('job') || params.has('gap') || params.has('id');
       var urlJobId = readUrlJobId();
       if (urlJobId) {
         selectGapJob(urlJobId, { restored: true, updateUrl: true });
         return;
       }
+      if (hasUrlContext) {
+        updateUrl(result, null);
+        refreshShareState();
+        return;
+      }
       var storedJobId = gapFromStorage(result.code);
-      if (!storedJobId) return;
-      selectGapJob(storedJobId, { restored: true });
+      if (!storedJobId) {
+        updateUrl(result, null);
+        return;
+      }
+      selectGapJob(storedJobId, { restored: true, updateUrl: true });
     }
 
     function formatWorkers(value) {
@@ -918,8 +965,8 @@
       return Math.round(value).toLocaleString('ja-JP') + '人';
     }
 
-    function renderShare(result, variant) {
-      var resultUrl = canonicalResultUrl(result);
+    function renderShare(result, variant, gap) {
+      var resultUrl = canonicalResultUrl(result, gap);
       var hook = variant.name + '：' + variant.catch;
       var template = copy.share.textTemplate || '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}';
       var shareText = template
@@ -928,7 +975,7 @@
         .replace('{リンク}', resultUrl);
       var xUrl = 'https://x.com/intent/post?text=' + encodeURIComponent(shareText);
       var lineUrl = 'https://line.me/R/msg/text/?' + encodeURIComponent(shareText);
-      var imageUrl = ogImageUrl(result);
+      var imageUrl = ogImageUrl(result, gap);
 
       $shareHook.textContent = hook;
       $shareX.href = xUrl;
@@ -945,7 +992,7 @@
 
     function copyResultLink() {
       if (!currentResult) return;
-      var url = canonicalResultUrl(currentResult);
+      var url = canonicalResultUrl(currentResult, currentGap);
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(function () {
           toast('コピーしました');
@@ -970,7 +1017,7 @@
       navigator.share({
         title: copy.labels.featureName,
         text: text,
-        url: canonicalResultUrl(currentResult)
+        url: canonicalResultUrl(currentResult, currentGap)
       }).then(function () {
         track('shindan_share_click', { platform: 'native', family_code: currentResult.code, variant_id: currentResult.variantId });
       }).catch(function () {});
@@ -999,7 +1046,8 @@
         return;
       }
       persistResult(result);
-      updateUrl(result);
+      currentGap = null;
+      updateUrl(result, null);
       renderResult(result);
     }
 
@@ -1138,6 +1186,9 @@
     if (typeof window !== 'undefined' && window.__SHINDAN_TEST_HOOKS__) {
       window.__SHINDAN_TEST_HOOKS__.computeGap = computeGap;
       window.__SHINDAN_TEST_HOOKS__.gapReadingFor = gapReadingFor;
+      window.__SHINDAN_TEST_HOOKS__.validAxesPattern = validAxesPattern;
+      window.__SHINDAN_TEST_HOOKS__.axesFromCodePattern = axesFromCodePattern;
+      window.__SHINDAN_TEST_HOOKS__.resultStateParams = resultStateParams;
     }
 
     if (document.readyState === 'loading') {
