@@ -25,7 +25,7 @@
 
 import { fmtInt } from '../lib/num.js';
 import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
-import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
+import { findGeoOccupation, type GeoFacts } from '../site/geo-facts.js';
 
 /** Narrow shape — only the Rec fields buildOccupationFaqs reads. */
 export interface OccupationFaqsInput {
@@ -67,18 +67,15 @@ function fmtScore2(n: number): string {
   return n.toFixed(2);
 }
 
-function findGeoOccupation(input: OccupationFaqsInput): GeoOccupationSummary | null {
-  if (input.id === undefined || !input.geoFacts) return null;
-  return input.geoFacts.occupations.find((occupation) => occupation.id === input.id) ?? null;
-}
-
 export function buildOccupationFaqs(
   input: OccupationFaqsInput,
 ): readonly OccupationFaqItem[] {
   const { nameJa, salaryMan, workers, recruitRatio, aiRisk, aiRationaleJa, howToBecomeJa, skillsTop10 } =
     input;
-  const geoOccupation = findGeoOccupation(input);
   const geoFacts = input.geoFacts;
+  const geoOccupation = input.id === undefined || !geoFacts
+    ? null
+    : findGeoOccupation(geoFacts, input.id);
   const name = nameJa || '';
   const rationale = aiRationaleJa.trim().replace(/。$/, '').trim();
   const factAiRisk = geoOccupation?.aiImpact ?? aiRisk;
