@@ -19,6 +19,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Added
 
+- Restored the shared page-bottom monthly-report signup card backed by
+  `/api/subscribe`, with informed privacy copy, occupation context, honeypot
+  and Turnstile forwarding, non-submitting no-JavaScript fallback, explicit
+  validation/delivery/retry states, and PII-free `email_submit_header`
+  analytics. Production Resend audience verification remains a controlled
+  post-release gate documented in `docs/newsletter-production-smoke.md` (#172).
 - Added an accessible Japanese feedback form to the shared site footer, backed
   by `/api/feedback` with allow-listed option keys, occupation context,
   honeypot and Turnstile forwarding, explicit delivery/retry states, and

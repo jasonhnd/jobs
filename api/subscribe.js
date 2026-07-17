@@ -1,6 +1,6 @@
 // api/subscribe.js — Vercel Edge Function: write subscriber to Resend audience.
 //
-// POST { email, lang, occupation_id?, source, htmlfield }
+// POST { email, lang, occupation_id?, source, htmlfield, cf-turnstile-response? }
 //
 //   email          required, validated server-side (RFC-ish)
 //   lang           "ja" | "en" — picks audience
@@ -9,6 +9,8 @@
 //   source         "modal_t2" | "header_t1" | string — stored as `last_name`
 //   htmlfield      honeypot. Bots fill it; real users never see it. Filled =
 //                  silent success (don't tip the bot off, don't write a contact).
+//   cf-turnstile-response  optional client token; required when the production
+//                  TURNSTILE_SECRET_KEY is configured.
 //
 // Env vars (set on Vercel; the Resend marketplace integration auto-injects API key):
 //   RESEND_API_KEY           — auto-injected

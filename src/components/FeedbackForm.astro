@@ -48,7 +48,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? 
 
       {TURNSTILE_SITE_KEY && (
         <div class="feedback-turnstile">
-          <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-language="ja" data-theme="auto"></div>
+          <div id="feedback-turnstile" class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-language="ja" data-theme="auto"></div>
         </div>
       )}
 
@@ -63,10 +63,6 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? 
     </form>
   </details>
 </section>
-
-{TURNSTILE_SITE_KEY && (
-  <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
-)}
 
 <script>
   import {
@@ -91,14 +87,14 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? 
     let pending = false;
 
     const resetTurnstile = (): void => {
-      if (!root.querySelector('.cf-turnstile')) return;
+      if (!root.querySelector('#feedback-turnstile')) return;
       const turnstileApi = (window as GtagWindow).turnstile;
       if (typeof turnstileApi?.reset !== 'function') return;
       try {
         // Turnstile tokens are single-use. A server response consumes the
         // token even when downstream email delivery fails, so every retry
         // must start with a newly generated challenge token.
-        turnstileApi.reset('.cf-turnstile');
+        turnstileApi.reset('#feedback-turnstile');
       } catch { /* the next submit will surface turnstile_failed */ }
     };
 

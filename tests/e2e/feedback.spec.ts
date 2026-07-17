@@ -47,8 +47,8 @@ test('feedback form submits the endpoint contract once and emits no PII to GA4',
   await page.evaluate(() => {
     const form = document.querySelector<HTMLFormElement>('[data-feedback-form]');
     if (!form) throw new Error('feedback form missing');
-    if (!document.querySelector('.cf-turnstile')) {
-      form.insertAdjacentHTML('beforeend', '<div class="cf-turnstile"></div>');
+    if (!document.querySelector('#feedback-turnstile')) {
+      form.insertAdjacentHTML('beforeend', '<div id="feedback-turnstile" class="cf-turnstile"></div>');
     }
     const token = document.createElement('input');
     token.type = 'hidden';
@@ -93,7 +93,7 @@ test('feedback form submits the endpoint contract once and emits no PII to GA4',
 
   expect(await page.evaluate(() => (
     window as unknown as { __turnstileResetCalls: string[] }
-  ).__turnstileResetCalls)).toEqual(['.cf-turnstile']);
+  ).__turnstileResetCalls)).toEqual(['#feedback-turnstile']);
 
   const events = await capturedEvents(page);
   expect(events).toEqual([['event', 'feedback_submit', {

@@ -26,6 +26,12 @@ function visibleHtml(html: string): string {
     .replace(/<script[\s\S]*?<\/script>/g, '');
 }
 
+function withoutSharedFooterRuntime(html: string): string {
+  return html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, (script) => (
+    /\/api\/(?:feedback|subscribe)/.test(script) ? '' : script
+  ));
+}
+
 function styleCss(html: string): string {
   return Array.from(html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g), (match) => match[1] ?? '').join('\n');
 }
@@ -85,9 +91,10 @@ describe('/models built page contract', () => {
     if (htmlPath == null) return;
     const html = readFileSync(htmlPath, 'utf-8');
     const visible = visibleHtml(html);
+    const modelRuntime = withoutSharedFooterRuntime(html);
 
     assert.match(html, /<template id="models-projection">/);
-    assert.equal(/fetch\s*\(/.test(html), false);
+    assert.equal(/fetch\s*\(/.test(modelRuntime), false);
     assert.equal(/data\.models_deep\.json/.test(html), false);
     assert.equal(/<table\b/i.test(visible), false);
     assert.equal(/\bD(?:[1-9]|10)\b|D1[〜-]D10|drift/i.test(visible), false);
