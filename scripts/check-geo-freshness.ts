@@ -90,6 +90,42 @@ function assertNoStaleOrPlaceholders(rel: string, options: { allowValidationMode
   }
 }
 
+function assertDocumentedDetailProjectionExamples(): void {
+  const discoveryFiles = ['public/llms.txt', 'public/llms-full.txt'] as const;
+  const ambiguousDetailPattern = /data\.detail\/(?:<id>|\{id\})\.json/i;
+  const concreteDetailPattern = /https:\/\/mirai-shigoto\.com\/data\.detail\/(\d{4})\.json/g;
+
+  for (const rel of discoveryFiles) {
+    const text = readText(rel);
+    if (!text.includes('detail IDs are zero-padded to four digits')) {
+      fail(`${rel} must document the four-digit zero-padding rule for per-occupation detail IDs`);
+    }
+    if (ambiguousDetailPattern.test(text)) {
+      fail(`${rel} contains an ambiguous per-occupation detail URL placeholder`);
+    }
+
+    const exampleIds = [...text.matchAll(concreteDetailPattern)].map((match) => match[1]!);
+    if (exampleIds.length === 0) {
+      fail(`${rel} must include at least one concrete per-occupation detail URL`);
+    }
+
+    for (const paddedId of new Set(exampleIds)) {
+      for (const outputRoot of ['public', 'dist-astro'] as const) {
+        const exampleRel = `${outputRoot}/data.detail/${paddedId}.json`;
+        let parsed: { id?: unknown };
+        try {
+          parsed = JSON.parse(readText(exampleRel)) as { id?: unknown };
+        } catch {
+          fail(`${rel} documents ${paddedId}.json, but ${exampleRel} is missing or invalid`);
+        }
+        if (parsed.id !== Number.parseInt(paddedId, 10)) {
+          fail(`${exampleRel} id does not match its documented zero-padded filename`);
+        }
+      }
+    }
+  }
+}
+
 function assertFreshGeoAstroPages(): void {
   const forbidden = [
     '__SCORE_',
@@ -287,6 +323,7 @@ async function main(): Promise<void> {
   assertNoStaleOrPlaceholders('public/llms.txt', { allowValidationModelNames: true });
   assertNoStaleOrPlaceholders('public/llms-full.txt', { allowValidationModelNames: true });
   assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json');
+  assertDocumentedDetailProjectionExamples();
   assertFreshGeoAstroPages();
   assertCrossModelValidationArchive();
   if (hasCrossModelValidationNote(attribution)) {

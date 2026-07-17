@@ -135,7 +135,7 @@ A: No. They are independent LLM estimates produced under AIOIS-10, not governmen
 - MHLW jobtag occupation data: https://shigoto.mhlw.go.jp/User/
 - JILPT occupation database/IPD data: https://www.jil.go.jp/
 - Public compact dataset: https://mirai-shigoto.com/data.treemap.json
-- Per-occupation detail: https://mirai-shigoto.com/data.detail/<id>.json
+- Per-occupation detail IDs are zero-padded to four digits; for example, occupation #1 is https://mirai-shigoto.com/data.detail/0001.json
 
 ## 10. How to cite
 
