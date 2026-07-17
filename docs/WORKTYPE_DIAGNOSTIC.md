@@ -168,16 +168,17 @@ Gap classes:
 | Class | Rule | Public meaning | Copy stance |
 | --- | --- | --- | --- |
 | `aligned` | `selfCode` and `jobCode` match on at least 2 axes. | The occupation uses the reader's natural work pattern. | Affirm fit, then show how AI changes tasks inside that fit. |
-| `hidden_strength` | At least 1 mismatch where `selfCode` has `C`, `P`, or `B` and `jobCode` has the opposite pole. | The reader may have a strength the current or target occupation underuses. | Suggest adjacent occupations and role redesign paths that use the underused axis. |
+| `hidden_strength` | At least 1 mismatch where `selfCode` has `C`, `P`, or `B` and `jobCode` has the opposite pole, unless the hidden-risk threshold below is also met. | The reader may have a strength the current or target occupation underuses. | Name only the underused `C`, `P`, or `B` axes present in the personal result, then suggest adjacent occupations and role redesign paths that use them. |
 | `hidden_risk` | At least 2 mismatches where the occupation needs `C`, `P`, or `B` but `selfCode` leans `R`, `D`, or `K`, or the reader is aligned with a high-transformation `RDK` occupation. | The reader may be relying on a pattern that the occupation does not reward enough, or that AI is reshaping quickly. | Use action-oriented language: practice, add judgment, add human contact, or move toward adjacent occupations. |
 
 Priority:
 
-Rules are evaluated in priority order; first match wins. This priority list is part of the contract because 3 of the 64 self x job code pairs satisfy both the `hidden_strength` and `hidden_risk` table rules when the table is read without priority.
+Rules are evaluated in priority order; first match wins. This priority list is part of the contract because 3 of the 64 self x job code pairs contain both an underused personal strength and at least 2 occupation-required human-side mismatches. The risk threshold takes precedence in those mixed cases.
 
 1. If aligned on 2 or 3 axes, return `aligned`, except for aligned `RDK` with high Transformation, where the result may show `aligned + watch`.
-2. If not aligned and the mismatch includes underused `C`, `P`, or `B` from the self code, return `hidden_strength`.
-3. Otherwise return `hidden_risk`.
+2. If not aligned and at least 2 mismatch axes have occupation-side `C`, `P`, or `B` against personal-side `R`, `D`, or `K`, return `hidden_risk`.
+3. Otherwise, if a mismatch includes underused `C`, `P`, or `B` from the self code, return `hidden_strength` and name only those underused axes in the reading.
+4. Otherwise return `hidden_risk` as a defensive fallback for invalid or future pole combinations.
 
 DIAG-1 sets the high-transformation threshold for the `RDK` aligned-watch rule at AIOIS Transformation >= 7.0. This is a separate overlay for gap copy; it is not used to assign work-type families.
 
