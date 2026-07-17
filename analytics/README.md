@@ -168,18 +168,15 @@ GA4_PROPERTY_ID=298707336 \
 
 ```
 [12:00:01]    Target property: properties/501234567
-[12:00:01]    Syncing 16 event custom dimensions…
+[12:00:01]    Syncing event custom dimensions…
 [12:00:01] +  created event dimension: occupation_id
 [12:00:02] +  created event dimension: occupation_name_ja
 ...
-[12:00:18]    Syncing 4 user custom dimensions…
+[12:00:18]    Syncing user custom dimensions…
 [12:00:18] +  created user dimension: language_preference
 ...
-[12:00:24]    Syncing 4 key events…
-[12:00:24] +  marked as key event: email_submit_modal
-[12:00:25] +  marked as key event: email_submit_header
-[12:00:25] +  marked as key event: feedback_submit
-[12:00:26] +  marked as key event: report_cta_click
+[12:00:24]    Syncing key events…
+[12:00:24] +  marked as key event: occupation_tile_click
 [12:00:26]    Done. Audiences and data retention must be set manually in dashboard.
 ```
 
@@ -201,31 +198,26 @@ Admin → Data Streams → Web → stream クリック → 「Enhanced measureme
 
 ### Audiences
 
-`spec.yaml` の `audiences_manual:` 配下に 5 つの audience が記載されている。各々を以下で作成:
+`spec.yaml` の `audiences_manual:` 配下に audience が記載されている。各々を以下で作成:
 
 Admin → Audiences → **New audience** → Custom(または template)。
 
 | Audience | フィルタ |
 | --- | --- |
-| Subscribed | Event count `email_submit_modal` ≥ 1 OR `email_submit_header` ≥ 1、duration 540 日 |
-| Engaged but unconverted | `occupation_modal_open` ≥ 1 AND `email_submit_modal` = 0 AND `email_submit_header` = 0、duration 30 日 |
-| B2B signal | Event `feedback_submit`、parameter `selected_options` または `selected_options_extra` が `b2b_hr` OR `b2b_training` を含む、duration 540 日 |
 | High-intent occupations | Event `occupation_modal_open` で `risk_tier` = `high`、duration 90 日 |
 | Returning visitors | 28 日窓内で Event count `session_start` ≥ 2、duration 28 日 |
 
-(B2B signal は custom dimensions `selected_options` / `selected_options_extra` の存在が必要 — 上記 step 8 後に存在する)
-
-### Funnel exploration: Modal conversion funnel
+### Funnel exploration: Navigation funnel
 
 Explore → New → Funnel exploration。ステップ:
 
 1. `page_view`
 2. `occupation_tile_click`
-3. `occupation_modal_open`
-4. `report_cta_click`
-5. `email_submit_modal`
+3. `job_search_intent`
+4. `job_search_navigate`
+5. `result_view`
 
-「Modal funnel」として保存。6 週間の OPC 検証に最も重要なチャート。
+「Navigation funnel」として保存。
 
 ---
 

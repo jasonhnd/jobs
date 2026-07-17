@@ -1,14 +1,14 @@
 // src/lib/http-client.js — `fetch` wrapped in an AbortController-backed
 // timeout. Exists because the platform `fetch` has no built-in timeout
-// option, and a stalled upstream (Upstash, Cloudflare Turnstile, Resend,
-// GA4 MP) would otherwise wedge the Edge function until Vercel's
+// option, and a stalled GA4 Measurement Protocol upstream would otherwise
+// wedge the Edge function until Vercel's
 // per-invocation cap (default 25s for Edge). That delay is paid by the
-// user-visible form submit. (Audit CODE-007.)
+// invocation completes. (Audit CODE-007.)
 //
 // Lives under src/lib/ — not api/ — because Vercel auto-routes every
 // file under api/ as an HTTP endpoint, and we do NOT want this to be
 // reachable over HTTP. JS-only (not TS) so Edge runtime imports work
-// without a build step, matching api-security.js / feedback-helpers.js.
+// without a build step, matching the Edge entry points that import it.
 //
 // Pure I/O wrapper — no module-level state. AbortController is built
 // into the Edge runtime and modern Node; zero new dependencies.

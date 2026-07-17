@@ -13,12 +13,17 @@ import {
   isSuspectPath,
   isConsentRejected,
   deriveClientId,
+  clientIpFromRequest,
   shouldSendMpHit,
   buildMpPayload,
   landingFamily,
   isGoogleHost,
   classifyGeoReferral,
 } from './middleware-helpers.js';
+
+function requestWithHeaders(headers: Record<string, string>): Request {
+  return new Request('https://mirai-shigoto.com/', { headers });
+}
 
 describe('isBotUserAgent — BOT_UA_RE coverage', () => {
   test('matches the canonical search-engine crawlers', () => {
@@ -137,6 +142,40 @@ describe('deriveClientId — _ga cookie parsing', () => {
     // Falls back to pseudo-id, NOT the _gid value.
     assert.match(id, /^\d+\.\d+$/);
     assert.notEqual(id, '1.1');
+  });
+});
+
+describe('clientIpFromRequest — infrastructure-safe precedence', () => {
+  test('prefers x-real-ip over forwarded chains', () => {
+    const request = requestWithHeaders({
+      'x-real-ip': '203.0.113.42',
+      'x-vercel-forwarded-for': '198.51.100.7, 192.0.2.1',
+      'x-forwarded-for': '1.2.3.4, 5.6.7.8',
+    });
+    assert.equal(clientIpFromRequest(request), '203.0.113.42');
+  });
+
+  test('uses the last Vercel-controlled hop before raw XFF', () => {
+    const request = requestWithHeaders({
+      'x-vercel-forwarded-for': '198.51.100.7, 203.0.113.42',
+      'x-forwarded-for': '1.2.3.4, 5.6.7.8',
+    });
+    assert.equal(clientIpFromRequest(request), '203.0.113.42');
+  });
+
+  test('uses the last raw XFF hop and trims whitespace', () => {
+    const request = requestWithHeaders({
+      'x-forwarded-for': ' 203.0.113.42, 198.51.100.7, 192.0.2.1 ',
+    });
+    assert.equal(clientIpFromRequest(request), '192.0.2.1');
+  });
+
+  test('returns anonymous when no usable IP header exists', () => {
+    assert.equal(clientIpFromRequest(requestWithHeaders({})), 'anonymous');
+    assert.equal(
+      clientIpFromRequest(requestWithHeaders({ 'x-forwarded-for': ' , ' })),
+      'anonymous',
+    );
   });
 });
 

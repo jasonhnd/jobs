@@ -46,7 +46,8 @@ Japanese product strings:
 Non-goals:
 
 - No clinical, psychological, aptitude-test, hiring, or employee-screening claim.
-- No account system, saved history, team dashboard, paid report, CRM integration, or email capture in the static MVP.
+- No account system, saved history, team dashboard, paid report, CRM integration,
+  or email capture anywhere in the product flow.
 - No backend scoring, database, LLM call, server session, or personalized server-rendered result.
 - No English UI in the public product surface. The diagnostic is JA only.
 - No fear-first positioning such as "your job will disappear" or "AI will replace you." No "loser" / doom result tier; every result is framed as a role, not a verdict.
@@ -307,15 +308,17 @@ P1 static MVP (DIAG-2/3/4/5/6/7/8):
 - Add the active-spread engine (section 12): per-result deep-linked surfaces, pre-rendered `/api/og` share cards, one-tap pre-filled X share with the `#AI働き方診断` hashtag and consent line, the compare/同僚 loop, sitemap entries, SEO baseline updates, CSP hashes, and page-class coverage.
 - Add light links from homepage, map, `/me`, and occupation detail pages.
 
-P2 deferred backend:
+Out of scope:
 
-- Premium report generation.
-- Team or organization aggregate reports.
-- Email capture tied to report delivery.
+- Premium report generation and team or organization aggregate reports.
+- Email capture or report delivery.
 - Saved result history and any live taker counter.
 - CRM or affiliate tracking beyond ordinary static outbound links.
 
-P2 must not be smuggled into P1. If it becomes necessary, create a new issue with backend scope, data retention rules, privacy review, and verification gates.
+These are not a deferred phase. Do not add them to P1 or provision supporting
+backend infrastructure unless a future explicit owner decision changes the
+product boundary and a separate issue defines data retention, privacy, and
+verification requirements.
 
 ## 12. Distribution & Share Mechanics
 
@@ -354,7 +357,9 @@ Compare / 相性 loop (viewer -> new taker):
 
 Friction reduction (ranked by impact):
 
-- No login; instant on-screen result; one question per screen; the share button is the primary CTA directly below the result; mobile-first; no name/email capture before the result; one-tap save image.
+- No login; instant on-screen result; one question per screen; the share button
+  is the primary CTA directly below the result; mobile-first; no name/email
+  collection anywhere in the flow; one-tap save image.
 
 Privacy:
 
@@ -438,6 +443,6 @@ Type visual direction:
 
 Premium report:
 
-- Premium report generation is P2 only.
-- It needs a separate issue covering data retention, payment or affiliate flow, email delivery, report format, privacy copy, and backend verification.
-- P1 must not collect email addresses or store diagnostic results for a future premium report unless that backend scope is explicitly approved.
+- Premium report generation and email delivery are not planned product scope.
+- P1 must not collect email addresses or store diagnostic results for a future
+  report.
