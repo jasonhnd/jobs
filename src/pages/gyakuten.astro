@@ -13,6 +13,7 @@ import { GYAKUTEN_CSS } from './_gyakuten-css';
 import { strictReadJson } from '@/lib/strict-load';
 import { TreemapFileSummarySchema, type TreemapRecordSummary } from '@/lib/projection-schemas';
 import { WorktypesDataSchema, type WorktypeFamilyCode } from '@/data/schema/worktypes';
+import { occupationPath } from '@/lib/urls';
 import {
   DISCLAIMER,
   FAMILIES,
@@ -271,7 +272,7 @@ const jsonLd = safeJsonForScript({
               <ul class="family-occ-list">
                 {family.occupations.map((occupation) => (
                   <li>
-                    <a href={`/${occupation.id}`}>
+                    <a href={occupationPath(occupation.id)}>
                       <span>{occupation.name}</span>
                       <small>{formatWorkers(occupation.workers)}</small>
                     </a>

@@ -17,6 +17,7 @@
  */
 
 import type { KnowledgeGraph } from '@/graph';
+import { occupationPath } from '@/lib/urls';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -74,7 +75,7 @@ export function renderImageSitemapXml(
   const blocks = entries.map((o) => {
     const title = `${o.title} — AI影響 ${o.score}/10`;
     return `  <url>
-    <loc>${escapeXml(`${SITE}/${o.id}`)}</loc>
+    <loc>${escapeXml(`${SITE}${occupationPath(o.id)}`)}</loc>
     <image:image>
       <image:loc>${escapeXml(`${SITE}/api/og?id=${o.id}`)}</image:loc>
       <image:title>${escapeXml(title)}</image:title>

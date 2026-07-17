@@ -9,6 +9,7 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { computeDriftReport, type AioisScore, type DriftReport, type DriftRow } from '../../graph/aiois-drift.js';
 import { ModelsDeepProjectionSchema } from '../../lib/projection-schemas.js';
+import { occupationPath } from '../../lib/urls.js';
 import { formatModelDisplay } from '../../site/score-attribution.js';
 import type { Aiois10 } from '../../graph/types.js';
 import type { ScoreHistEntry } from '../../graph/score-strategy.js';
@@ -198,7 +199,7 @@ function consensusRows(latestPair: PairSummary): ModelsDeepProjection['consensus
     .map((row) => ({
       id: row.id,
       title_ja: row.title,
-      href: `/${row.id}`,
+      href: occupationPath(row.id),
     }));
 }
 
@@ -255,7 +256,7 @@ function storyRows(indexes: Indexes, latestPair: PairSummary): ModelsDeepProject
     stories.push({
       id: candidate.row.id,
       title_ja: candidate.row.title,
-      href: `/${candidate.row.id}`,
+      href: occupationPath(candidate.row.id),
       baseline_transformation: candidate.row.baseT,
       candidate_transformation: candidate.row.candT,
       baseline_rationale_ja: candidate.baselineEntry.rationale_ja,

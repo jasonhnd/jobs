@@ -20,6 +20,8 @@
  * `<script type="application/ld+json">`.
  */
 
+import { occupationPath } from '../lib/urls.js';
+
 // ─── Internal Schema.org types ───────────────────────────────
 
 interface JsonLdListItem {
@@ -143,7 +145,7 @@ export function renderSectorJsonLd(input: SectorJsonLdInput): string {
   const itemListElement: JsonLdListItem[] = occupations.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${siteOrigin}/${o.id}`,
+    url: `${siteOrigin}${occupationPath(o.id)}`,
     name: o.titleJa || `#${o.id}`,
   }));
 

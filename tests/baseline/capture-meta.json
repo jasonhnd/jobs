@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-07-14T01:06:30.197Z",
-  "gitCommit": "9faf63b9405e454ec37b20be839e2fc869a4207f",
-  "gitBranch": "loop/issue-153",
-  "distFileCount": 832,
-  "urlCount": 832,
+  "capturedAt": "2026-07-17T07:28:31.872Z",
+  "gitCommit": "adc35960bfcedfe33c87dd532b6a9217c95813c1",
+  "gitBranch": "fix/issue-157-route-collision",
+  "distFileCount": 833,
+  "urlCount": 833,
   "dataFileCount": 612,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

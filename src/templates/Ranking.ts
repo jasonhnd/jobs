@@ -20,6 +20,7 @@ import { riskClass as riskBand } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 import { OCCUPATION_COUNT } from '../site/config.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
+import { occupationPath } from '../lib/urls.js';
 
 // Local mirror of views/rankings.ts:safeMean — takes occupation objects +
 // numeric key, returns the mean over non-null values. Templates can't import
@@ -104,7 +105,7 @@ export function renderRankItem(
   return (
     `<li>` +
     `<div class="rl-main">` +
-    `<a class="rl-name" href="/${o.id}">${escapeHtml(title)}</a>` +
+    `<a class="rl-name" href="${occupationPath(o.id)}">${escapeHtml(title)}</a>` +
     `${sectorHtml}` +
     `</div>` +
     `<div class="rl-stats">${statsParts.join('')}</div>` +
@@ -231,7 +232,7 @@ export function renderJsonLd(
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}/${o.id}`,
+    url: `${SITE}${occupationPath(o.id)}`,
     name: o.title_ja ?? `#${o.id}`,
   }));
 
@@ -443,7 +444,7 @@ function renderMoverList(
   const lis = rows.map((row) => (
     `<li class="mover-row mover-${direction}" data-occ-id="${row.id}" ` +
     `data-family-code="${escapeHtml(row.familyCode ?? '')}">` +
-    `<a class="mover-name" href="/${row.id}">${escapeHtml(row.name)}</a>` +
+    `<a class="mover-name" href="${occupationPath(row.id)}">${escapeHtml(row.name)}</a>` +
     `<span class="mover-delta ${direction}">${signed1(row.delta)}</span>` +
     `<span class="mover-values">${f1(row.base)} → ${f1(row.current)}</span>` +
     `</li>`

@@ -14,6 +14,7 @@ import { escapeHtml } from '@/templates/Hub.js';
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import type { GeoFacts } from '@/site/geo-facts';
+import { occupationPath } from '@/lib/urls';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -41,7 +42,7 @@ function renderExampleList(examples: ReadonlyArray<DetailFileMin>): string {
     const band = ai === null || ai === undefined ? 'mid' : ai <= 3 ? 'low' : ai <= 6 ? 'mid' : 'high';
     const sec = d.sector?.ja ?? '';
     const salary = d.stats?.salary_man_yen;
-    return `<li><div class="rl-main"><a class="rl-name" href="/${d.id}">${escapeHtml(name)}</a>` +
+    return `<li><div class="rl-main"><a class="rl-name" href="${occupationPath(d.id)}">${escapeHtml(name)}</a>` +
       (sec ? `<span class="rl-sector">${escapeHtml(sec)}</span>` : '') +
       `</div><div class="rl-stats"><span class="risk-pill ${band}">${aiStr}</span>` +
       (salary ? `<span class="rl-salary">${Math.trunc(salary)}万円</span>` : '') +

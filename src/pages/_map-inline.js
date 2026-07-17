@@ -7,6 +7,10 @@
     var SEARCH_URL = '/data.search.json';
     var FETCH_TIMEOUT_MS = 10000;
 
+    function occupationPath(id) {
+      return Number(id) === 404 ? '/occupations/404' : '/' + id;
+    }
+
     var allRecords = [];
     var sectorMeta = [];
     var sectorOrder = [];
@@ -385,7 +389,7 @@
       $sheetRisk.textContent = riskLabel(r.ai_risk || 0);
       $sheetSalary.textContent = fmtSalary(r.salary);
       $sheetWorkers.textContent = fmtWorkers(r.workers);
-      $sheetCta.href = '/' + r.id;
+      $sheetCta.href = occupationPath(r.id);
       lastSheetTrigger = trigger || document.activeElement;
       $sheet.hidden = false;
       requestAnimationFrame(function () {
@@ -613,19 +617,19 @@
       } else if (e.key === 'Enter') {
         e.preventDefault();
         var sel = items[idx >= 0 ? idx : 0];
-        if (sel) location.href = '/' + sel.dataset.id;
+        if (sel) location.href = occupationPath(sel.dataset.id);
       }
     });
     $searchForm.addEventListener('submit', function (e) {
       e.preventDefault();
       var items = $suggest.querySelectorAll('li');
       var first = items[0];
-      if (first) location.href = '/' + first.dataset.id;
+      if (first) location.href = occupationPath(first.dataset.id);
     });
     $suggest.addEventListener('click', function (e) {
       var li = e.target.closest('li[data-id]');
       if (!li) return;
-      location.href = '/' + li.dataset.id;
+      location.href = occupationPath(li.dataset.id);
     });
 
     function init() {
@@ -718,7 +722,7 @@
         recs.forEach(function (r) {
           var li = document.createElement('li');
           var a = document.createElement('a');
-          a.href = '/' + r.id;
+          a.href = occupationPath(r.id);
           a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
           var sw = document.createElement('span');
           sw.className = 'swatch';
@@ -842,4 +846,3 @@
       init();
     }
   })();
-  

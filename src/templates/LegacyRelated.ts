@@ -24,6 +24,7 @@
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
+import { occupationPath } from '../lib/urls.js';
 
 /** One related-occupation row. */
 export interface LegacyRelatedItem {
@@ -40,8 +41,6 @@ export interface LegacyRelatedInput {
 }
 
 const H2 = '類似する職業';
-const REL_PATH = '/';
-
 export function renderLegacyRelated(input: LegacyRelatedInput): SafeHtml {
   if (input.suppress || input.related.length === 0) return '' as SafeHtml;
 
@@ -51,7 +50,7 @@ export function renderLegacyRelated(input: LegacyRelatedInput): SafeHtml {
     const riskStr = r.aiRisk !== null ? `${r.aiRisk}/10` : '—';
     items +=
       `<li>` +
-      `<a class="r-name" href="${REL_PATH}${r.id}">${escapeHtml(name)}</a>` +
+      `<a class="r-name" href="${occupationPath(r.id)}">${escapeHtml(name)}</a>` +
       `<span class="r-risk">AI 影響 ${escapeHtml(riskStr)}</span>` +
       `</li>`;
     items += '\n          ';

@@ -8,6 +8,10 @@
     var FETCH_TIMEOUT_MS = 10000;
     var INITIAL_RANKS_SHOWN = 8;
 
+    function occupationPath(id) {
+      return Number(id) === 404 ? '/occupations/404' : '/' + id;
+    }
+
     var $form = document.getElementById('meForm');
     var $input = document.getElementById('meInput');
     var $listbox = document.getElementById('meListbox');
@@ -456,7 +460,7 @@
       for (var k = 0; k < shown.length; k++) {
         var r2 = shown[k];
         var a = document.createElement('a');
-        a.href = '/' + r2.id;
+        a.href = occupationPath(r2.id);
         var nm = document.createElement('span');
         nm.textContent = r2.name_ja;
         var meta = document.createElement('span');

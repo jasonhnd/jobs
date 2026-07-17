@@ -39,6 +39,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Fixed
 
+- Moved occupation ID 404 (`内科医`) to the collision-free canonical
+  `/occupations/404` while preserving `/404` as the custom noindex error
+  document. All occupation URL producers, legacy redirects, and route gates
+  now share and verify that mapping. SEO baseline URL, sitemap, JSON-LD, and
+  internal-link drift is intentional (#157).
 - Corrected `/models` and `/models/{slug}` visitor-facing typography, headings,
   model/provider/standard labels, responsive story cards, and no-table score
   history. SEO/OG/JSON-LD baseline drift is intentional because the public model

@@ -21,6 +21,11 @@
 - `data.profile5.json` — 5 軸 radar profile。graph layer でも同じ計算を持つ。
 - `data.transfer_paths.json` — sector 内のより安全な転職候補。
 - `data.score_history.json` — multi-model comparison 用の per-occupation score history。model/date と transformation/displacement/D1-D10 の数値のみを持ち、`rationale_ja` は含めない。
+
+Occupation detail canonicals normally use `/{id}`. ID `404` is reserved by
+the custom not-found document, so that occupation uses `/occupations/404`.
+`src/lib/urls.ts` is the only source of truth for this mapping; URL producers
+must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `data.models_deep.json` — `/models` feature page 用の compact projection。最新 comparable pair、モデルカードの personality sentence id、一致職業、3〜5 件の story card（選抜された両 batch の `rationale_ja` 原文と editorial sentence id）だけを持つ。30KB 以下、browser fetch なしで HTML に inline する。
 - `data.models_by_model.json` — `/models/{slug}` per-model data page 用の projection。各 score batch の profile、変化指数分布、上位・下位職業、前回 batch との差分、prev/next nav を持つ。`rationale_ja` は含めず、Astro は該当 model payload だけを HTML に inline する。1 page payload は 24KB 以下。
 - `data.skills/*`, `data.holland.json`, `data.labels/ja.json` — hub 系ページの入力。
