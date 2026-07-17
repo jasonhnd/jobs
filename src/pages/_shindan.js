@@ -11,9 +11,9 @@
     var GAP_LOCAL_KEY = 'shindan:jobGap:v1';
 
     var AXES = [
-      { key: 'A1', dataKey: 'a1', leftPole: 'C', rightPole: 'R', exposedPole: 'R', label: '創造 / 定型', leftLabel: '創造', rightLabel: '定型' },
-      { key: 'A2', dataKey: 'a2', leftPole: 'P', rightPole: 'D', exposedPole: 'D', label: '人 / データ', leftLabel: '人', rightLabel: 'データ' },
-      { key: 'A3', dataKey: 'a3', leftPole: 'B', rightPole: 'K', exposedPole: 'K', label: '身体 / 知識', leftLabel: '身体', rightLabel: '知識' }
+      { key: 'A1', dataKey: 'a1', leftPole: 'C', rightPole: 'R', exposedPole: 'R', label: '創造 / 定型', leftLabel: '創造', rightLabel: '定型', strengthLabel: '創造性' },
+      { key: 'A2', dataKey: 'a2', leftPole: 'P', rightPole: 'D', exposedPole: 'D', label: '人 / データ', leftLabel: '人', rightLabel: 'データ', strengthLabel: '対人感覚' },
+      { key: 'A3', dataKey: 'a3', leftPole: 'B', rightPole: 'K', exposedPole: 'K', label: '身体 / 知識', leftLabel: '身体', rightLabel: '知識', strengthLabel: '現場感' }
     ];
 
     var FAMILY_COLORS = {
@@ -679,8 +679,9 @@
 
     function computeGap(selfCode, jobCode) {
       var matches = 0;
-      var underusedSelfPole = false;
       var mismatchLabels = [];
+      var underusedStrengthLabels = [];
+      var riskMismatchLabels = [];
       for (var i = 0; i < AXES.length; i += 1) {
         var axis = AXES[i];
         var selfPole = selfCode.charAt(i);
@@ -689,14 +690,20 @@
           matches += 1;
         } else {
           mismatchLabels.push(axis.label);
-          if (selfPole === axis.leftPole) underusedSelfPole = true;
+          if (selfPole === axis.leftPole && jobPole === axis.rightPole) {
+            underusedStrengthLabels.push(axis.strengthLabel);
+          } else if (selfPole === axis.rightPole && jobPole === axis.leftPole) {
+            riskMismatchLabels.push(axis.label);
+          }
         }
       }
 
       var kind = 'hidden_risk';
       if (matches >= 2) {
         kind = 'aligned';
-      } else if (underusedSelfPole) {
+      } else if (riskMismatchLabels.length >= 2) {
+        kind = 'hidden_risk';
+      } else if (underusedStrengthLabels.length > 0) {
         kind = 'hidden_strength';
       }
 
@@ -704,8 +711,18 @@
         kind: kind,
         matches: matches,
         gapAxes: 3 - matches,
-        mismatchLabels: mismatchLabels
+        mismatchLabels: mismatchLabels,
+        underusedStrengthLabels: underusedStrengthLabels,
+        riskMismatchLabels: riskMismatchLabels
       };
+    }
+
+    function gapReadingFor(gapCopy, gap) {
+      if (gap.kind !== 'hidden_strength') return gapCopy.reading;
+      var strengths = gap.underusedStrengthLabels && gap.underusedStrengthLabels.length
+        ? gap.underusedStrengthLabels.join('・')
+        : '自然に使っている働き方';
+      return gapCopy.reading.replace('{strengths}', strengths);
     }
 
     function gapFromStorage(selfCode) {
@@ -805,7 +822,7 @@
       if ($gapCodes) $gapCodes.textContent = 'あなた ' + selfFamilyName + ' / 職業 ' + jobFamilyName;
       if ($gapMeterText) $gapMeterText.textContent = 'ギャップ ' + gap.gapAxes + '/3軸';
       if ($gapMeterFill) $gapMeterFill.style.width = meterPct + '%';
-      if ($gapReading) $gapReading.textContent = gapCopy.reading;
+      if ($gapReading) $gapReading.textContent = gapReadingFor(gapCopy, gap);
       if ($gapAction) $gapAction.textContent = gapCopy.action;
       if ($gapDetailLink) $gapDetailLink.href = '/' + gap.jobId;
       renderTransferCandidates(gap.jobId);
@@ -845,7 +862,9 @@
           kind: computed.kind,
           matches: computed.matches,
           gapAxes: computed.gapAxes,
-          mismatchLabels: computed.mismatchLabels
+          mismatchLabels: computed.mismatchLabels,
+          underusedStrengthLabels: computed.underusedStrengthLabels,
+          riskMismatchLabels: computed.riskMismatchLabels
         };
         closeJobListbox();
         if ($jobInput) $jobInput.value = jobTitle(doc, id);
@@ -1109,6 +1128,11 @@
         setStatus('データの読み込みに失敗しました。時間をおいて再読み込みしてください。', true);
         if ($submit) $submit.disabled = true;
       });
+    }
+
+    if (typeof window !== 'undefined' && window.__SHINDAN_TEST_HOOKS__) {
+      window.__SHINDAN_TEST_HOOKS__.computeGap = computeGap;
+      window.__SHINDAN_TEST_HOOKS__.gapReadingFor = gapReadingFor;
     }
 
     if (document.readyState === 'loading') {
