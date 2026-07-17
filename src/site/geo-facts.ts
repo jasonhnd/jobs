@@ -110,6 +110,13 @@ export interface GeoOccupationGroupSummary {
   readonly lowestImpactOccupation: GeoOccupationSummary | null;
 }
 
+export function findGeoOccupation(
+  facts: GeoFacts,
+  occupationId: number,
+): GeoOccupationSummary | null {
+  return facts.occupations.find((occupation) => occupation.id === occupationId) ?? null;
+}
+
 const FIVE_BANDS = [
   { key: '0-2', label: '0-2', min: 0, maxExclusive: 3 },
   { key: '3-4', label: '3-4', min: 3, maxExclusive: 5 },
@@ -159,6 +166,15 @@ function requireOne<T>(items: readonly T[], label: string): T {
   const first = items[0];
   if (first === undefined) throw new Error(`geo-facts: no ${label}`);
   return first;
+}
+
+/** Canonical whole-catalogue AI-impact ranking comparator. */
+export function compareAiImpactDesc(a: GeoTreemapRow, b: GeoTreemapRow): number {
+  return (
+    (b.ai_risk! - a.ai_risk!) ||
+    ((b.workers ?? 0) - (a.workers ?? 0)) ||
+    (a.id - b.id)
+  );
 }
 
 export function pickLatestGeoScoreRun<T extends GeoScoreRunLike>(runs: Iterable<T>): T {
@@ -217,11 +233,7 @@ export function computeGeoFacts(
   const midRiskCount = scoredRows.filter((row) => riskBand(row.ai_risk) === 'mid').length;
   const highRiskCount = highRiskRows.length;
 
-  const byImpactDesc = [...scoredRows].sort((a, b) =>
-    (b.ai_risk! - a.ai_risk!) ||
-    ((b.workers ?? 0) - (a.workers ?? 0)) ||
-    (a.id - b.id),
-  );
+  const byImpactDesc = [...scoredRows].sort(compareAiImpactDesc);
   const rankById = new Map<number, number>();
   byImpactDesc.forEach((row, index) => rankById.set(row.id, index + 1));
   const byImpactAsc = [...scoredRows].sort((a, b) =>

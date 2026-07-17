@@ -9,6 +9,14 @@
 
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
+import { canonicalOccupationRank } from '../pages/_id-bindings.js';
+import { buildOccupationFaqTuples } from '../pages/_id-renderers.js';
+import {
+  computeGeoFacts,
+  type GeoAttribution,
+  type GeoScoreEntry,
+  type GeoTreemapRow,
+} from '../site/geo-facts.js';
 import { pickRelatedOccupations } from './occupation-page-data.js';
 import type { Rec } from '@/views/occupation-detail';
 
@@ -153,4 +161,31 @@ describe('pickRelatedOccupations', () => {
       [12, 11],
     );
   });
+});
+
+test('occupation hero and FAQ share the canonical tied-score rank', () => {
+  const rows: GeoTreemapRow[] = [
+    { id: 3, name_ja: 'occ-3', ai_risk: 7, workers: 100, sector_id: null, sector_ja: null },
+    { id: 2, name_ja: 'occ-2', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
+    { id: 1, name_ja: 'occ-1', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
+  ];
+  const scores = new Map<number, GeoScoreEntry>(
+    rows.map((row) => [row.id, { ai_risk: 7, aiois: { displacement: 2 } }]),
+  );
+  const attribution: GeoAttribution = {
+    modelId: 'test-model',
+    modelDisplay: 'Test Model',
+    runDate: '2026-01-01',
+    standardLabel: 'AIOIS-10',
+  };
+  const geoFacts = computeGeoFacts(rows, scores, attribution);
+
+  for (const [id, expectedRank] of [[1, 1], [2, 2], [3, 3]] as const) {
+    const rec = fakeRec(id, 7);
+    const heroRank = canonicalOccupationRank(geoFacts, id);
+    const faqText = buildOccupationFaqTuples(rec, geoFacts).flat().join(' ');
+
+    assert.equal(heroRank, expectedRank, `hero rank for ${id}`);
+    assert.match(faqText, new RegExp(`全3職業中${expectedRank}位`), `FAQ rank for ${id}`);
+  }
 });
