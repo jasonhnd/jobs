@@ -1,6 +1,7 @@
 import { fmean, fsum } from '../data/lib/fsum.js';
 import { bankerRound } from '../data/lib/banker-round.js';
 import { riskBand } from '../data/lib/bands.js';
+import { formatModelDisplay } from './score-attribution.js';
 import { z } from 'zod';
 
 export interface GeoAttribution {
@@ -32,6 +33,7 @@ export interface GeoScoreEntry {
   readonly ai_risk: number;
   readonly confidence?: number | null;
   readonly aiois?: {
+    readonly transformation?: number | null;
     readonly displacement?: number | null;
   } | null;
 }
@@ -52,6 +54,12 @@ export interface GeoBand {
   readonly label: string;
   readonly count: number;
   readonly sharePct: number;
+}
+
+export interface GeoBatchAttribution {
+  readonly modelId: string;
+  readonly modelDisplay: string;
+  readonly runDate: string;
 }
 
 export interface GeoOccupationSummary {
@@ -79,12 +87,24 @@ export interface GeoSectorSummary {
 
 export interface GeoFacts {
   readonly attribution: GeoAttribution;
+  readonly predecessor: GeoBatchAttribution | null;
+  readonly predecessorComparedCount: number;
   readonly occupationCount: number;
   readonly totalWorkforce: number;
+  /** Unrounded active-batch mean; presentation layers choose their precision. */
+  readonly meanAiImpactRaw: number;
   readonly meanAiImpact: number;
   readonly medianAiImpact: number;
+  /** Unrounded active-batch mean; presentation layers choose their precision. */
+  readonly meanDisplacementRiskRaw: number;
   readonly meanDisplacementRisk: number;
+  /** Active mean Transformation minus the immediately preceding batch mean. */
+  readonly meanAiImpactDeltaFromPredecessor: number | null;
   readonly fiveBandDistribution: readonly GeoBand[];
+  readonly highImpactThreshold: 5;
+  readonly highImpactCount: number;
+  /** Sum(salary in man-yen * workers), converted to trillion yen. */
+  readonly highImpactAnnualWagesTrillion: number;
   readonly lowRiskCount: number;
   readonly midRiskCount: number;
   readonly highRiskCount: number;
@@ -118,12 +138,14 @@ export function findGeoOccupation(
 }
 
 const FIVE_BANDS = [
-  { key: '0-2', label: '0-2', min: 0, maxExclusive: 3 },
-  { key: '3-4', label: '3-4', min: 3, maxExclusive: 5 },
-  { key: '5-6', label: '5-6', min: 5, maxExclusive: 7 },
-  { key: '7-8', label: '7-8', min: 7, maxExclusive: 9 },
-  { key: '9-10', label: '9-10', min: 9, maxExclusive: 11 },
+  { key: '0-2', label: '0-2' },
+  { key: '3-4', label: '3-4' },
+  { key: '5-6', label: '5-6' },
+  { key: '7-8', label: '7-8' },
+  { key: '9-10', label: '9-10' },
 ] as const;
+
+const HIGH_IMPACT_THRESHOLD = 5 as const;
 
 function round2(n: number): number {
   return bankerRound(n, 2);
@@ -132,6 +154,48 @@ function round2(n: number): number {
 function roundPct(n: number, total: number): number {
   if (total === 0) return 0;
   return bankerRound((n / total) * 100, 1);
+}
+
+/**
+ * Apportion whole percentages with the Hamilton/largest-remainder method.
+ * Ties resolve by band order, so non-empty distributions always sum to 100
+ * without hand-written exceptions for tiny bands.
+ */
+function apportionWholePercent(counts: readonly number[]): number[] {
+  const total = fsum(counts);
+  if (total === 0) return counts.map(() => 0);
+  const raw = counts.map((count) => (count / total) * 100);
+  const result = raw.map(Math.floor);
+  const remaining = 100 - fsum(result);
+  const order = raw
+    .map((value, index) => ({ index, remainder: value - Math.floor(value) }))
+    .sort((a, b) => (b.remainder - a.remainder) || (a.index - b.index));
+  for (let i = 0; i < remaining; i += 1) {
+    result[order[i]!.index]! += 1;
+  }
+  return result;
+}
+
+function fiveBandIndex(score: number): number {
+  const rounded = Math.max(0, Math.min(10, Math.round(score)));
+  if (rounded <= 2) return 0;
+  if (rounded <= 4) return 1;
+  if (rounded <= 6) return 2;
+  if (rounded <= 8) return 3;
+  return 4;
+}
+
+function transformation(entry: GeoScoreEntry): number {
+  return entry.aiois?.transformation ?? entry.ai_risk;
+}
+
+function scoreMapFromRun(run: GeoScoreRunLike): Map<number, GeoScoreEntry> {
+  const out = new Map<number, GeoScoreEntry>();
+  for (const [idRaw, entry] of Object.entries(run.scores)) {
+    const id = Number.parseInt(idRaw, 10);
+    if (Number.isFinite(id)) out.set(id, entry);
+  }
+  return out;
 }
 
 function median(values: readonly number[]): number {
@@ -197,16 +261,44 @@ export function pickLatestGeoScoreRun<T extends GeoScoreRunLike>(runs: Iterable<
   return chosen;
 }
 
+function pickPredecessorGeoScoreRun<T extends GeoScoreRunLike>(
+  activeRun: T,
+  runs: readonly T[],
+): T | null {
+  const candidates = runs.filter((run) =>
+    run.scope === 'occupations' && run.run.run_date < activeRun.run.run_date,
+  );
+  return candidates.length === 0 ? null : pickLatestGeoScoreRun(candidates);
+}
+
 export function computeGeoFacts(
   rows: readonly GeoTreemapRow[],
-  scoresById: ReadonlyMap<number, GeoScoreEntry>,
-  attribution: GeoAttribution,
+  scoreRuns: Iterable<GeoScoreRunLike>,
 ): GeoFacts {
-  const scoredRows = rows.filter((row) => typeof row.ai_risk === 'number');
+  const runs = [...scoreRuns];
+  const activeRun = pickLatestGeoScoreRun(runs);
+  const predecessorRun = pickPredecessorGeoScoreRun(activeRun, runs);
+  const scoresById = scoreMapFromRun(activeRun);
+  const attribution: GeoAttribution = {
+    modelId: activeRun.scorer.model,
+    modelDisplay: formatModelDisplay(activeRun.scorer.model),
+    runDate: activeRun.run.run_date,
+    standardLabel: 'AIOIS-10',
+  };
+  // The treemap carries labor metadata. Scores always come from the selected
+  // active run so a stale per-row ai_risk cannot create a mixed-batch aggregate.
+  const scoredRows = rows.flatMap((row) => {
+    const score = scoresById.get(row.id);
+    return score ? [{ ...row, ai_risk: transformation(score) }] : [];
+  });
   if (scoredRows.length === 0) throw new Error('geo-facts: treemap has no scored rows');
 
   const risks = scoredRows.map((row) => row.ai_risk as number);
-  const totalWorkforce = fsum(rows.map((row) => row.workers ?? 0));
+  const totalWorkforce = fsum(scoredRows.map((row) => row.workers ?? 0));
+  const highImpactRows = scoredRows.filter((row) => row.ai_risk! >= HIGH_IMPACT_THRESHOLD);
+  const highImpactAnnualWagesTrillion = fsum(highImpactRows.map((row) =>
+    (row.salary ?? 0) * (row.workers ?? 0),
+  )) / 1e8;
   const highRiskRows = scoredRows.filter((row) => riskBand(row.ai_risk) === 'high');
   const highRiskWorkforce = fsum(highRiskRows.map((row) => row.workers ?? 0));
 
@@ -219,15 +311,31 @@ export function computeGeoFacts(
     );
   }
 
-  const fiveBandDistribution = FIVE_BANDS.map((band) => {
-    const count = risks.filter((r) => r >= band.min && r < band.maxExclusive).length;
+  const fiveBandCounts = FIVE_BANDS.map((_, index) =>
+    risks.filter((risk) => fiveBandIndex(risk) === index).length,
+  );
+  const fiveBandShares = apportionWholePercent(fiveBandCounts);
+  const fiveBandDistribution = FIVE_BANDS.map((band, index) => {
+    const count = fiveBandCounts[index]!;
     return {
       key: band.key,
       label: band.label,
       count,
-      sharePct: roundPct(count, risks.length),
+      sharePct: fiveBandShares[index]!,
     };
   });
+
+  const predecessorScores = predecessorRun ? scoreMapFromRun(predecessorRun) : null;
+  const predecessorDeltas = predecessorScores
+    ? [...scoresById.entries()]
+      .sort(([a], [b]) => a - b)
+      .flatMap(([id, score]) => {
+        const previous = predecessorScores.get(id);
+        return previous ? [transformation(score) - transformation(previous)] : [];
+      })
+    : [];
+  const meanAiImpactRaw = fmean(risks);
+  const meanDisplacementRiskRaw = fmean(displacementValues);
 
   const lowRiskCount = scoredRows.filter((row) => riskBand(row.ai_risk) === 'low').length;
   const midRiskCount = scoredRows.filter((row) => riskBand(row.ai_risk) === 'mid').length;
@@ -241,7 +349,7 @@ export function computeGeoFacts(
     ((b.workers ?? 0) - (a.workers ?? 0)) ||
     (a.id - b.id),
   );
-  const byWorkforceDesc = [...rows].sort((a, b) =>
+  const byWorkforceDesc = [...scoredRows].sort((a, b) =>
     ((b.workers ?? 0) - (a.workers ?? 0)) ||
     ((b.ai_risk ?? 0) - (a.ai_risk ?? 0)) ||
     (a.id - b.id),
@@ -278,12 +386,25 @@ export function computeGeoFacts(
 
   return {
     attribution,
+    predecessor: predecessorRun ? {
+      modelId: predecessorRun.scorer.model,
+      modelDisplay: formatModelDisplay(predecessorRun.scorer.model),
+      runDate: predecessorRun.run.run_date,
+    } : null,
+    predecessorComparedCount: predecessorDeltas.length,
     occupationCount: scoredRows.length,
     totalWorkforce: bankerRound(totalWorkforce, 0),
-    meanAiImpact: round2(fmean(risks)),
+    meanAiImpactRaw,
+    meanAiImpact: round2(meanAiImpactRaw),
     medianAiImpact: round2(median(risks)),
-    meanDisplacementRisk: round2(fmean(displacementValues)),
+    meanDisplacementRiskRaw,
+    meanDisplacementRisk: round2(meanDisplacementRiskRaw),
+    meanAiImpactDeltaFromPredecessor:
+      predecessorDeltas.length > 0 ? fmean(predecessorDeltas) : null,
     fiveBandDistribution,
+    highImpactThreshold: HIGH_IMPACT_THRESHOLD,
+    highImpactCount: highImpactRows.length,
+    highImpactAnnualWagesTrillion,
     lowRiskCount,
     midRiskCount,
     highRiskCount,

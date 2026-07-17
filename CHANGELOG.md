@@ -50,6 +50,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   document. All occupation URL producers, legacy redirects, and route gates
   now share and verify that mapping. SEO baseline URL, sitemap, JSON-LD, and
   internal-link drift is intentional (#157).
+- Unified the homepage KPI band, homepage JSON-LD, methodology current/predecessor
+  comparison, and README attribution around the deterministic active score batch.
+  The active GPT 5.6 SOL aggregate now drives workforce, mean Transformation and
+  Displacement-Risk, rounded five-band distribution, and impact>=5 annual wages;
+  the 40-occupation Fable validation is explicitly historical. Homepage and
+  methodology JSON-LD baseline drift is intentional (#158).
 - Corrected `/models` and `/models/{slug}` visitor-facing typography, headings,
   model/provider/standard labels, responsive story cards, and no-table score
   history. SEO/OG/JSON-LD baseline drift is intentional because the public model
