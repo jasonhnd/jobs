@@ -37,13 +37,14 @@ function run(
     };
   }
   return {
-    schema_version: '2.1',
+    schema_version: '2.2',
     scope: 'occupations',
     scorer: {
       model,
       model_provider: 'fixture',
       model_temperature: null,
       scoring_method: 'fixture',
+      scoring_method_id: 'aiois-semantic-judgment',
     },
     run: {
       run_date: date,
