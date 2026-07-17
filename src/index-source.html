@@ -58,22 +58,23 @@
           </div>
         </section>
 
-        <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now, refreshed to the active AIOIS-10 batch (claude-fable-5, 2026-06-13): __OCCUPATION_COUNT_SCORED__ occupations, 5,456 万 employed, mean Transformation 4.2, 76.4 兆 yen wages at impact ≥ 5. Distribution by nearest-integer bucket of ai_risk (round→{0–2}=1-2, {3,4}=3-4, {5,6}=5-6, {7,8}=7-8, {9,10}=9-10): 72 / 314 / 136 / 33 / 1 (total __OCCUPATION_COUNT_SCORED__). Percentages 13/56/24/6/1 sum to 100 (the single 9-10 occupation is shown as 1% for visibility). The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
-        <!-- TODO(RA-145): wire __OCCUPATION_COUNT_SCORED__ / 5,456 / 76.4 + the distribution to OCCUPATION_COUNT.SCORED + a build-time aggregate over the active score batch (same placeholder-substitution pattern as the homepage JSON-LD in _index-bindings.ts), so these numbers follow score-batch upgrades automatically instead of being hand-updated. -->
+        <!-- Active-batch KPI values are bound at build time from GeoFacts in
+             _index-bindings.ts. Band percentages use deterministic largest-
+             remainder apportionment and therefore sum to exactly 100. -->
         <section class="home-kpi-band" aria-label="日本の労働市場全体">
           <ul class="kpi-row">
             <li><strong>__OCCUPATION_COUNT_SCORED__</strong><span>職業</span></li>
-            <li><strong>5,456<small>万</small></strong><span>就業者</span></li>
-            <li><strong>4.2<small>/10</small></strong><span>平均 AI 影響</span></li>
-            <li><strong>76.4<small>兆</small></strong><span>高リスク賃金<small class="kpi-meta">影響≥5</small></span></li>
+            <li><strong>__ACTIVE_BATCH_WORKFORCE_MAN__<small>万</small></strong><span>就業者</span></li>
+            <li><strong>__ACTIVE_BATCH_MEAN_AI_IMPACT__<small>/10</small></strong><span>平均 AI 影響</span></li>
+            <li><strong>__ACTIVE_BATCH_HIGH_IMPACT_WAGES_TRILLION__<small>兆</small></strong><span>高影響職業の賃金<small class="kpi-meta">影響≥5・__ACTIVE_BATCH_HIGH_IMPACT_COUNT__職業</small></span></li>
           </ul>
           <p class="risk-distribution-label">AI 影響度の分布（全 __OCCUPATION_COUNT_SCORED__ 職業）</p>
           <ul class="risk-distribution" role="list">
-            <li data-band="1-2" style="--w:13%" aria-label="影響度 1-2 低 72 職業 13%"><span class="rd-fill"></span><span class="rd-text"><strong>低</strong> 72 職業 <small>13%</small></span></li>
-            <li data-band="3-4" style="--w:56%" aria-label="影響度 3-4 中低 314 職業 56%"><span class="rd-fill"></span><span class="rd-text"><strong>中低</strong> 314 <small>56%</small></span></li>
-            <li data-band="5-6" style="--w:24%" aria-label="影響度 5-6 中 136 職業 24%"><span class="rd-fill"></span><span class="rd-text"><strong>中</strong> 136 <small>24%</small></span></li>
-            <li data-band="7-8" style="--w:6%" aria-label="影響度 7-8 高 33 職業 6%"><span class="rd-fill"></span><span class="rd-text"><strong>高</strong> 33 <small>6%</small></span></li>
-            <li data-band="9-10" style="--w:1%" aria-label="影響度 9-10 最高 1 職業 1%"><span class="rd-fill"></span><span class="rd-text"><strong>最高</strong> 1 <small>1%</small></span></li>
+            <li data-band="0-2" style="--w:__ACTIVE_BATCH_BAND_0_2_PCT__%" aria-label="影響度 0-2 低 __ACTIVE_BATCH_BAND_0_2_COUNT__ 職業 __ACTIVE_BATCH_BAND_0_2_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>低</strong> __ACTIVE_BATCH_BAND_0_2_COUNT__ 職業 <small>__ACTIVE_BATCH_BAND_0_2_PCT__%</small></span></li>
+            <li data-band="3-4" style="--w:__ACTIVE_BATCH_BAND_3_4_PCT__%" aria-label="影響度 3-4 中低 __ACTIVE_BATCH_BAND_3_4_COUNT__ 職業 __ACTIVE_BATCH_BAND_3_4_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>中低</strong> __ACTIVE_BATCH_BAND_3_4_COUNT__ <small>__ACTIVE_BATCH_BAND_3_4_PCT__%</small></span></li>
+            <li data-band="5-6" style="--w:__ACTIVE_BATCH_BAND_5_6_PCT__%" aria-label="影響度 5-6 中 __ACTIVE_BATCH_BAND_5_6_COUNT__ 職業 __ACTIVE_BATCH_BAND_5_6_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>中</strong> __ACTIVE_BATCH_BAND_5_6_COUNT__ <small>__ACTIVE_BATCH_BAND_5_6_PCT__%</small></span></li>
+            <li data-band="7-8" style="--w:__ACTIVE_BATCH_BAND_7_8_PCT__%" aria-label="影響度 7-8 高 __ACTIVE_BATCH_BAND_7_8_COUNT__ 職業 __ACTIVE_BATCH_BAND_7_8_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>高</strong> __ACTIVE_BATCH_BAND_7_8_COUNT__ <small>__ACTIVE_BATCH_BAND_7_8_PCT__%</small></span></li>
+            <li data-band="9-10" style="--w:__ACTIVE_BATCH_BAND_9_10_PCT__%" aria-label="影響度 9-10 最高 __ACTIVE_BATCH_BAND_9_10_COUNT__ 職業 __ACTIVE_BATCH_BAND_9_10_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>最高</strong> __ACTIVE_BATCH_BAND_9_10_COUNT__ <small>__ACTIVE_BATCH_BAND_9_10_PCT__%</small></span></li>
           </ul>
         </section>
 

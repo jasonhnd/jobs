@@ -1,11 +1,12 @@
 {
-  "schema_version": "2.1",
+  "schema_version": "2.2",
   "scope": "occupations",
   "scorer": {
     "model": "claude-fable-5",
     "model_provider": "anthropic",
     "model_temperature": null,
-    "scoring_method": "AIOIS-10 v1.0: in-session single-pass per occupation; model-judged D1–D10, indices per /standard formulas (re-validated)"
+    "scoring_method": "AIOIS-10 v1.0: in-session single-pass per occupation; model-judged D1–D10, indices per /standard formulas (re-validated)",
+    "scoring_method_id": "aiois-semantic-judgment"
   },
   "run": {
     "run_date": "2026-06-13",

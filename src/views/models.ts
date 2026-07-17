@@ -1,5 +1,9 @@
 import { ModelsDeepProjectionSchema, type ModelsDeepProjectionShape } from '@/lib/projection-schemas';
 import { formatModelDisplay, modelSlug } from '@/site/score-attribution';
+import {
+  DEFAULT_MODEL_STORY_EDITORIAL_ID,
+  modelStoryEditorialSentenceId,
+} from '@/site/model-editorial';
 
 export type ModelsDeepProjection = ModelsDeepProjectionShape;
 
@@ -64,8 +68,17 @@ function personalityCopyWithFallback(copy: Readonly<Record<string, string>>, id:
   return requireCopy(copy, 'default_neutral', 'personality fallback');
 }
 
-function editorialCopyWithFallback(copy: Readonly<Record<string, string>>, id: string): string {
-  return optionalCopy(copy, id) ?? requireCopy(copy, 'default_latest_pair_split', 'editorial fallback');
+function editorialCopyWithFallback(
+  copy: Readonly<Record<string, string>>,
+  story: ModelsDeepProjection['stories'][number],
+  pair: ModelsDeepProjection['latest_pair'],
+): string {
+  const exactPairId = modelStoryEditorialSentenceId(story.id, pair);
+  if (story.editorial_sentence_id === exactPairId) {
+    const curated = optionalCopy(copy, exactPairId);
+    if (curated) return curated;
+  }
+  return requireCopy(copy, DEFAULT_MODEL_STORY_EDITORIAL_ID, 'editorial fallback');
 }
 
 function escapeInlineJson(json: string): string {
@@ -145,11 +158,11 @@ export function buildModelsFeaturePageModel(
     dateRangeText: dates.length === 1 ? dates[0]! : `${dates[0]} から ${dates[dates.length - 1]}`,
     coverageRangeText: coverages.length === 1 || Math.min(...coverages) === Math.max(...coverages)
       ? `${currentModel.covered_count}職業`
-      : `${Math.min(...coverages)}から${Math.max(...coverages)}職業`,
+      : `${Math.min(...coverages)}〜${Math.max(...coverages)}職業`,
     consensus: projection.consensus,
     stories: projection.stories.map((story) => ({
       ...story,
-      editorial_sentence: editorialCopyWithFallback(storyCopy.editorial_sentences, story.editorial_sentence_id),
+      editorial_sentence: editorialCopyWithFallback(storyCopy.editorial_sentences, story, projection.latest_pair),
     })),
   };
 }

@@ -1,11 +1,12 @@
 /**
  * src/lib/og-renderers/worktype.ts — render AI働き方診断 result share cards.
  *
- * The result identity is family + variant. The renderer stays stateless:
- * URL params select the already-computed display identity, while
- * /data.worktypes.json supplies only the static family rarity and optional
- * occupation context. No quiz answers, saved result id, backend scoring, or
- * runtime LLM are involved.
+ * The result identity is family + variant + exact aggregate margins. The
+ * renderer stays stateless: validated URL params select the already-computed
+ * display identity, while /data.worktypes.json supplies the static family
+ * rarity and optional occupation context. Any displayed gap is recomputed
+ * from that projection rather than trusted from the URL. No quiz answers,
+ * saved result id, backend scoring, or runtime LLM are involved.
  *
  * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader for
  * dependencies. See _frame.ts for the shared OG renderer convention.
@@ -45,6 +46,7 @@ import {
 } from './_frame.js';
 import type { WorktypeOgShape } from '../og-dispatch.js';
 import type { WorktypesProjectionShape } from '../projection-schemas.js';
+import { classifyShindanGap } from '../../site/shindan-result-state.js';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
@@ -58,8 +60,9 @@ interface WorktypeRenderInput {
   readonly shape: WorktypeOgShape;
 }
 
-interface JobContext {
+export interface WorktypeJobContext {
   readonly title: string;
+  readonly worktypeCode: FamilyCode;
   readonly worktypeName?: string;
 }
 
@@ -89,10 +92,13 @@ export async function renderWorktypeOgCard(
   const visual = WORKTYPE_CARDS[input.family];
   const accent = visual.accent;
   const sharePrompt = SHARE.challengeHooks[0] ?? 'あなたの1枚もめくってみる?';
-  const gapLine = input.gap ? GAP[input.gap].label : '';
   const jobContext = input.job ? await fetchJobContext(url, input.job, projection) : null;
-  const contextLine = contextCopy(input.gap, gapLine, jobContext);
-  const featureLabel = LABELS.featureName;
+  const computedGap = jobContext
+    ? classifyShindanGap(input.family, jobContext.worktypeCode).kind
+    : undefined;
+  const gapLine = computedGap ? GAP[computedGap].label : '';
+  const contextLine = buildWorktypeContextCopy(computedGap, gapLine, jobContext);
+  const featureLabel = buildWorktypeFeatureLabel(input.family);
   const introLabel = variantCopy.name;
 
   const subsetText = [
@@ -409,7 +415,15 @@ function resolveVariantCopy(family: FamilyCode, variant: WorktypeVariantId): Wor
   return variants[variant] ?? variants[VARIANT_IDS_BY_FAMILY[family][0]!]!;
 }
 
-function contextCopy(gap: GapKind | undefined, gapLine: string, job: JobContext | null): string {
+export function buildWorktypeFeatureLabel(family: FamilyCode): string {
+  return `${LABELS.featureName} / ${FAMILIES[family].name}`;
+}
+
+export function buildWorktypeContextCopy(
+  gap: GapKind | undefined,
+  gapLine: string,
+  job: WorktypeJobContext | null,
+): string {
   if (!gap && !job) return '';
   const parts: string[] = [];
   if (job) {
@@ -423,7 +437,7 @@ async function fetchJobContext(
   url: URL,
   jobId: string,
   projection: WorktypesProjectionShape,
-): Promise<JobContext | null> {
+): Promise<WorktypeJobContext | null> {
   let paddedId: string;
   try {
     paddedId = padId(jobId);
@@ -443,9 +457,11 @@ async function fetchJobContext(
   if (!title) return null;
 
   const worktypeRecord = projection.occupations[String(Number(jobId))];
+  if (!worktypeRecord) return null;
   return {
     title,
-    worktypeName: worktypeRecord ? FAMILIES[worktypeRecord.code].name : undefined,
+    worktypeCode: worktypeRecord.code,
+    worktypeName: FAMILIES[worktypeRecord.code].name,
   };
 }
 

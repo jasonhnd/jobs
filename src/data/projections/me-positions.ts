@@ -65,6 +65,22 @@ export interface JobRankingPosition {
   percentile: number | null;
 }
 
+export type RankingUniverseScope = 'all' | 'eligible';
+
+/**
+ * Rankings that order every scored occupation without an eligibility filter.
+ * All other rankings must describe their denominator as the eligible/target
+ * universe, even when the current fixture happens to have complete data.
+ */
+const ALL_OCCUPATION_UNIVERSE_SLUGS: ReadonlySet<RankingSlug> = new Set([
+  'ai-risk-high',
+  'ai-risk-low',
+]);
+
+export function rankingUniverseScope(slug: RankingSlug): RankingUniverseScope {
+  return ALL_OCCUPATION_UNIVERSE_SLUGS.has(slug) ? 'all' : 'eligible';
+}
+
 export interface JobSummary {
   sectorJa: string;
   sectorId: string;
@@ -641,11 +657,12 @@ export async function buildMePositions(
     slug: m.slug,
     name_ja: m.name_ja,
     description_ja: m.description_ja,
+    universe_scope: rankingUniverseScope(m.slug),
   }));
 
   const payload = {
     meta: {
-      schema_version: '1.0',
+      schema_version: '1.1',
       generated_at: nowIso(),
       record_count: Object.keys(positions).length,
       ranking_count: Object.keys(RANKERS).length,

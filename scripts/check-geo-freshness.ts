@@ -10,9 +10,9 @@ import {
   GeoTreemapRowsSchema,
   pickLatestGeoScoreRun,
   type GeoFacts,
-  type GeoAttribution,
-  type GeoScoreEntry,
 } from '../src/site/geo-facts.js';
+import { bindHomeFacts, buildHomeKpiView } from '../src/site/home-facts-render.js';
+import { buildMethodologyBatchView } from '../src/site/methodology-facts.js';
 import {
   CROSS_MODEL_VALIDATION_NOTE,
   hasCrossModelValidationNote,
@@ -54,15 +54,6 @@ function loadScoreRuns(): ScoreRun[] {
   return runs;
 }
 
-function scoreMapFromRun(run: ScoreRun): Map<number, GeoScoreEntry> {
-  const out = new Map<number, GeoScoreEntry>();
-  for (const [idRaw, entry] of Object.entries(run.scores)) {
-    const id = Number.parseInt(idRaw, 10);
-    if (Number.isFinite(id)) out.set(id, entry);
-  }
-  return out;
-}
-
 function assertExact(rel: string, expected: string): void {
   const got = readText(rel);
   const normalizedExpected = expected.replace(/\r\n/g, '\n');
@@ -90,27 +81,108 @@ function assertNoStaleOrPlaceholders(rel: string, options: { allowValidationMode
   }
 }
 
+function assertDocumentedDetailProjectionExamples(): void {
+  const discoveryFiles = ['public/llms.txt', 'public/llms-full.txt'] as const;
+  const ambiguousDetailPattern = /data\.detail\/(?:<id>|\{id\})\.json/i;
+  const concreteDetailPattern = /https:\/\/mirai-shigoto\.com\/data\.detail\/(\d{4})\.json/g;
+
+  for (const rel of discoveryFiles) {
+    const text = readText(rel);
+    if (!text.includes('detail IDs are zero-padded to four digits')) {
+      fail(`${rel} must document the four-digit zero-padding rule for per-occupation detail IDs`);
+    }
+    if (ambiguousDetailPattern.test(text)) {
+      fail(`${rel} contains an ambiguous per-occupation detail URL placeholder`);
+    }
+
+    const exampleIds = [...text.matchAll(concreteDetailPattern)].map((match) => match[1]!);
+    if (exampleIds.length === 0) {
+      fail(`${rel} must include at least one concrete per-occupation detail URL`);
+    }
+
+    for (const paddedId of new Set(exampleIds)) {
+      for (const outputRoot of ['public', 'dist-astro'] as const) {
+        const exampleRel = `${outputRoot}/data.detail/${paddedId}.json`;
+        let parsed: { id?: unknown };
+        try {
+          parsed = JSON.parse(readText(exampleRel)) as { id?: unknown };
+        } catch {
+          fail(`${rel} documents ${paddedId}.json, but ${exampleRel} is missing or invalid`);
+        }
+        if (parsed.id !== Number.parseInt(paddedId, 10)) {
+          fail(`${exampleRel} id does not match its documented zero-padded filename`);
+        }
+      }
+    }
+  }
+}
+
 function assertFreshGeoAstroPages(): void {
   const forbidden = [
     '__SCORE_',
     '__GEO_',
     'claude-opus-4-8',
     'version": "0.5.0"',
+    '変化の大きさの平均差 <strong>−0.07</strong>',
   ];
   for (const rel of GEO_ASTRO_PAGES) {
     if (rel.replace(/\\/g, '/').startsWith('src/pages/yearly/')) continue;
     const text = readText(rel);
-    if (!text.includes('SCORE_ATTRIBUTION.modelDisplay')) {
-      fail(`${rel} must derive the current scoring model from SCORE_ATTRIBUTION.modelDisplay`);
+    const derivesModel = text.includes('SCORE_ATTRIBUTION.modelDisplay') ||
+      text.includes('batchView.currentModelDisplay');
+    const derivesDate = text.includes('SCORE_ATTRIBUTION.runDate') ||
+      text.includes('batchView.currentRunDate');
+    if (!derivesModel) {
+      fail(`${rel} must derive the current scoring model from the active-batch aggregate`);
     }
-    if (!text.includes('SCORE_ATTRIBUTION.runDate')) {
-      fail(`${rel} must derive the current scoring date from SCORE_ATTRIBUTION.runDate`);
+    if (!derivesDate) {
+      fail(`${rel} must derive the current scoring date from the active-batch aggregate`);
     }
     for (const token of forbidden) {
       if (text.includes(token)) {
         fail(`${rel} contains stale token ${JSON.stringify(token)}`);
       }
     }
+  }
+}
+
+function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
+  const source = readText('src/index-source.html');
+  const rendered = bindHomeFacts(source, facts);
+  const view = buildHomeKpiView(facts);
+  if (/__ACTIVE_BATCH_[A-Z0-9_]+__/.test(rendered)) {
+    fail('homepage active-batch placeholders were not fully resolved');
+  }
+  if (facts.fiveBandDistribution.reduce((sum, band) => sum + band.sharePct, 0) !== 100) {
+    fail('homepage five-band percentages must sum to exactly 100');
+  }
+  for (const expected of [
+    `${view.workforceMan}<small>万</small>`,
+    `${view.meanAiImpact}<small>/10</small>`,
+    `${view.highImpactWagesTrillion}<small>兆</small>`,
+    `影響≥${facts.highImpactThreshold}・${view.highImpactCount}職業`,
+  ]) {
+    if (!rendered.includes(expected)) fail(`homepage active-batch rendering is missing ${expected}`);
+    assertContains('dist-astro/index.html', expected);
+  }
+
+  const methodology = buildMethodologyBatchView(facts);
+  assertContains('dist-astro/methodology.html', methodology.currentModelDisplay);
+  assertContains('dist-astro/methodology.html', methodology.meanAiImpact);
+
+  const readme = readText('README.md');
+  const staleCurrentClaims = [
+    'Claude Fable 5 が AIOIS-10 で採点した',
+    '現行の active score run は 2026-06-13',
+    'with Claude Fable 5-scored',
+    'AIOIS-10 scores use Claude Fable 5',
+    'AIOIS-10 v1.0 に基づく現行スコアリングに使用している LLM',
+  ];
+  for (const claim of staleCurrentClaims) {
+    if (readme.includes(claim)) fail(`README.md contains stale current-model claim ${JSON.stringify(claim)}`);
+  }
+  if (!readme.includes('これは Fable predecessor の外部整合性チェック')) {
+    fail('README.md must scope the Fable 40-occupation validation as historical predecessor evidence');
   }
 }
 
@@ -263,7 +335,8 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  const activeRun = pickLatestGeoScoreRun(loadScoreRuns());
+  const scoreRuns = loadScoreRuns();
+  const activeRun = pickLatestGeoScoreRun(scoreRuns);
   if (SCORE_ATTRIBUTION.modelId !== activeRun.scorer.model) {
     fail(`SCORE_ATTRIBUTION model ${SCORE_ATTRIBUTION.modelId} != active score run ${activeRun.scorer.model}`);
   }
@@ -272,13 +345,7 @@ async function main(): Promise<void> {
   }
 
   const treemapRows = GeoTreemapRowsSchema.parse(JSON.parse(readText('public/data.treemap.json')));
-  const attribution: GeoAttribution = {
-    modelId: SCORE_ATTRIBUTION.modelId,
-    modelDisplay: SCORE_ATTRIBUTION.modelDisplay,
-    runDate: SCORE_ATTRIBUTION.runDate,
-    standardLabel: SCORE_ATTRIBUTION.standardLabel,
-  };
-  const facts = computeGeoFacts(treemapRows, scoreMapFromRun(activeRun), attribution);
+  const facts = computeGeoFacts(treemapRows, scoreRuns);
 
   assertExact('public/llms.txt', renderLlmsTxt(facts));
   assertExact('public/llms-full.txt', renderLlmsFullTxt(facts));
@@ -287,9 +354,11 @@ async function main(): Promise<void> {
   assertNoStaleOrPlaceholders('public/llms.txt', { allowValidationModelNames: true });
   assertNoStaleOrPlaceholders('public/llms-full.txt', { allowValidationModelNames: true });
   assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json');
+  assertDocumentedDetailProjectionExamples();
   assertFreshGeoAstroPages();
+  assertHomeAndReadmeConsistency(facts);
   assertCrossModelValidationArchive();
-  if (hasCrossModelValidationNote(attribution)) {
+  if (hasCrossModelValidationNote(facts.attribution)) {
     assertContainsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
     assertContainsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
   }

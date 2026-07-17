@@ -49,7 +49,10 @@ describe('score-history projection', () => {
       '2026-06-13',
       '2026-07-12',
     ]);
-    assert.deepEqual(history.map((entry) => entry.transformation), sourceHistory.map((entry) => entry.ai_risk));
+    assert.deepEqual(
+      history.map((entry) => entry.transformation),
+      sourceHistory.map((entry) => entry.aiois?.transformation ?? entry.ai_risk),
+    );
   });
 
   test('legacy entries use null AIOIS fields while AIOIS entries expose all ten dims', async () => {
@@ -69,6 +72,29 @@ describe('score-history projection', () => {
   test('does not expose rationale_ja anywhere', async () => {
     const { payload } = await fixture();
     assert.equal(JSON.stringify(payload).includes('rationale_ja'), false);
+  });
+
+  test('uses the AIOIS Transformation field for AIOIS projection rows', () => {
+    const sourceEntry = {
+      model: 'fixture-model',
+      date: '2026-07-17',
+      ai_risk: 4.5,
+      rationale_ja: 'fixture',
+      confidence: 0.8,
+      aiois: {
+        d1: 4.8, d2: 4.4, d3: 5, d4: 6.5, d5: 5.8,
+        d6: 3, d7: 4.2, d8: 3.6, d9: 2.8, d10: 3.5,
+        transformation: 4.6,
+        displacement: 1.7,
+      },
+    };
+    const indexes = {
+      latestScoreByOcc: new Map([[42, sourceEntry]]),
+      historyByOcc: new Map([[42, [sourceEntry]]]),
+    } as unknown as Indexes;
+
+    const payload = buildScoreHistoryPayload(indexes);
+    assert.equal(payload['42']?.[0]?.transformation, 4.6);
   });
 
   test('entries are ordered by run date ascending for every occupation', async () => {

@@ -242,6 +242,9 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
         d.textContent = s == null ? '' : String(s);
         return d.innerHTML;
       }
+      function occupationPath(id) {
+        return Number(id) === 404 ? '/occupations/404' : '/' + id;
+      }
       function riskBand(score) {
         if (score == null) return 'mid';
         if (score < 4.0) return 'low';
@@ -485,7 +488,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
         // Fallback: send to occupation A detail with ?vs=bId hint;
         // the bookmarkable ?a&b URL pattern was rarely used and is
         // dropped in favour of preset hub navigation.
-        location.href = '/' + aId + '/';
+        location.href = occupationPath(aId);
       });
 
       fetch('/data.sectors.json').then(function (r) { return r.json(); }).then(function (sd) {

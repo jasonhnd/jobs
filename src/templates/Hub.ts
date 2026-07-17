@@ -21,6 +21,7 @@ import { fmtInt, safeMean } from '../lib/num.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { OCCUPATION_COUNT } from '../site/config.js';
 import { AI_FACT_CSS } from '../lib/ai-fact-css.js';
+import { occupationPath } from '../lib/urls.js';
 
 // Re-exports so page importers (which previously pulled these from
 // views/genre-hub) have one stop for HTML-rendering primitives.
@@ -45,7 +46,7 @@ export function renderRankItem(o: GenreOccupation, shortJa: string): SafeHtml {
   return (
     `<li>` +
     `<div class="rl-main">` +
-    `<a class="rl-name" href="/${o.id}">${escapeHtml(title)}</a>` +
+    `<a class="rl-name" href="${occupationPath(o.id)}">${escapeHtml(title)}</a>` +
     `${sectorHtml}` +
     `</div>` +
     `<div class="rl-stats">${stats.join('')}</div>` +
@@ -71,7 +72,7 @@ export function renderGenreJsonLd(
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}/${o.id}`,
+    url: `${SITE}${occupationPath(o.id)}`,
     name: o.name_ja || `#${o.id}`,
   }));
   const graph: unknown[] = [
@@ -218,7 +219,7 @@ export function renderGenreIndexSpotlight(occs: ReadonlyArray<GenreOccupation>):
       const riskStr = o.ai_risk !== null ? `${o.ai_risk}/10` : '—';
       const salaryStr = o.salary !== null ? `${Math.trunc(o.salary)} 万円` : '—';
       return (
-        `<li><a href="/${o.id}">` +
+        `<li><a href="${occupationPath(o.id)}">` +
         `<span class="gsp-name">${escapeHtml(o.name_ja)}</span>` +
         `<span class="gsp-meta">` +
         `<span class="risk-pill ${band}">AI ${escapeHtml(riskStr)}</span>` +
