@@ -35,7 +35,11 @@ export async function renderShindanShareResponse(
       headers: { Accept: 'application/json' },
     }).catch(() => null);
     if (worktypesResponse?.ok) {
-      const parsed = WorktypesProjectionSchema.safeParse(await worktypesResponse.json());
+      // Occupation context is optional. A truncated/corrupt projection must
+      // degrade to the already-validated base result instead of rejecting the
+      // Edge request and turning every job-bearing share URL into a 500.
+      const worktypesRaw: unknown = await worktypesResponse.json().catch(() => null);
+      const parsed = WorktypesProjectionSchema.safeParse(worktypesRaw);
       if (parsed.success) {
         state = addShindanOccupationContext(
           baseState,

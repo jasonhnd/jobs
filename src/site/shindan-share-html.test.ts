@@ -71,6 +71,34 @@ describe('crawler-rendered shindan share HTML', () => {
     assert.match(html, /<meta name="robots" content="noindex, follow">/);
   });
 
+  test('malformed worktypes JSON falls back to the validated base result', async () => {
+    for (const malformedBody of ['{', '{"occupations":']) {
+      const malformedFixture: typeof fetch = async (input) => {
+        const url = new URL(String(input));
+        if (url.pathname === '/shindan') {
+          return new Response(BASE_HTML, { headers: { 'Content-Type': 'text/html' } });
+        }
+        if (url.pathname === '/data.worktypes.json') {
+          return new Response(malformedBody, {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+        return new Response('not found', { status: 404 });
+      };
+      const response = await renderShindanShareResponse(new Request(
+        'https://mirai-shigoto.com/shindan?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=3&gap=aligned',
+      ), malformedFixture);
+      const html = await response.text();
+      const expectedBaseImage = 'https://mirai-shigoto.com/api/og?worktype=RPK&amp;variant=mediator&amp;axes=3-0%2F2-1%2F2-1';
+
+      assert.equal(response.status, 200, malformedBody);
+      assert.ok(html.includes(`<meta property="og:image" content="${expectedBaseImage}">`));
+      assert.ok(html.includes(`<meta name="twitter:image" content="${expectedBaseImage}">`));
+      assert.doesNotMatch(html, /(?:job|gap)=/);
+    }
+  });
+
   test('routing middleware only rewrites result queries and preserves their state', () => {
     assert.equal(shindanShareRewriteTarget(new URL('https://mirai-shigoto.com/shindan')), null);
     assert.equal(shindanShareRewriteTarget(new URL('https://mirai-shigoto.com/about?self=RPK')), null);
