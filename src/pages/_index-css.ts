@@ -7,7 +7,8 @@
  *
  * Build-time injection: `index.astro` keeps only `INDEX_CRITICAL_CSS` inline
  * in `<head>` for the above-the-fold hero / KPI / mobile map-preview surface.
- * The rest of `_index.css` is loaded through a normal stylesheet link.
+ * The rest of `_index.css` is preloaded and activated after its download, with
+ * a normal stylesheet link inside `<noscript>` for no-JavaScript browsers.
  *
  * Byte-identity contract: this intentionally changes the rendered homepage
  * HTML byte stream. Recapture `tests/baseline/` after a build before running
@@ -26,9 +27,9 @@ const END = '__END__';
 
 export const INDEX_CSS: string = readFileSync(INDEX_CSS_PATH, 'utf-8');
 
-type CssRange = readonly [start: string, end: string];
+type CssRange = readonly [start: string, end: string, suffix?: string];
 
-function cssSlice([start, end]: CssRange): string {
+function cssSlice([start, end, suffix = '']: CssRange): string {
   const from = INDEX_CSS.indexOf(start);
   if (from < 0) {
     throw new Error(`INDEX_CRITICAL_CSS start marker not found: ${start}`);
@@ -37,12 +38,15 @@ function cssSlice([start, end]: CssRange): string {
   if (to < 0) {
     throw new Error(`INDEX_CRITICAL_CSS end marker not found: ${end}`);
   }
-  return INDEX_CSS.slice(from, to);
+  return INDEX_CSS.slice(from, to) + suffix;
 }
 
 const CRITICAL_CSS_RANGES: readonly CssRange[] = [
   // Reset, theme tokens, and typography needed before the stylesheet arrives.
   ['      *,', '      /* ═══════════ v1.2.x mobile TOP 10'],
+  // The horizontal TOP 10 carousel precedes the mobile map preview; without
+  // these rules its cards stack vertically and collapse when full CSS arrives.
+  ['      /* ═══════════ v1.2.x mobile TOP 10', '      /* ═══════════ Mobile Map Preview'],
   // Mobile first viewport shows the static map preview before the full map UI.
   ['      /* ═══════════ Mobile Map Preview', '      /* Phase 7: legacy .m-topbar removed.'],
   // Homepage wrapper and legacy banner only; explanatory/content blocks are deferred.
@@ -56,8 +60,13 @@ const CRITICAL_CSS_RANGES: readonly CssRange[] = [
   ],
   // Mobile hero base styles.
   ['      /* ============ Mobile Hero', '      @media (max-width: 768px) {\n        #wrapper'],
-  // Mobile first-viewport ordering and hidden embedded-map chrome.
-  ['      @media (max-width: 768px) {\n        #wrapper', '        /* stats-panel already hidden by earlier rule'],
+  // Mobile first-viewport ordering and hidden embedded-map chrome. The source
+  // media query continues with deferred rules, so close this extracted slice.
+  [
+    '      @media (max-width: 768px) {\n        #wrapper',
+    '        /* stats-panel already hidden by earlier rule',
+    '\n      }',
+  ],
   // Above-the-fold labor-market KPI band. It appears late in the source CSS.
   ['      /* RA-135', END],
 ];
