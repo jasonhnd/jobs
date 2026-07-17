@@ -41,6 +41,7 @@ import {
   type GapKind,
   type WorktypeVariantId,
 } from '../site/worktype-copy.js';
+import { parseShindanBaseState } from '../site/shindan-result-state.js';
 
 /**
  * Per-card-family lookup table. Bundled as one record so callers
@@ -99,6 +100,7 @@ export type DispatchDecision =
       kind: 'render-worktype';
       family: FamilyCode;
       variant: WorktypeVariantId;
+      axes?: string;
       gap?: GapKind;
       job?: string;
       shape: WorktypeOgShape;
@@ -166,20 +168,37 @@ export function decideDispatch(
   if (worktypeParam) {
     const family = normalizeFamily(worktypeParam, catalog.worktype);
     if (!family) return homeCard();
+    const axesParam = url.searchParams.get('axes');
+    const parsedState = axesParam
+      ? parseShindanBaseState(url.searchParams, 'worktype')
+      : null;
+    if (axesParam && !parsedState) return homeCard();
+    const variant = parsedState?.variant ?? normalizeVariant(family, url.searchParams.get('variant'));
+    if (!variant) return homeCard();
     const decision: Extract<DispatchDecision, { kind: 'render-worktype' }> = {
       kind: 'render-worktype',
       family,
-      variant: normalizeVariant(family, url.searchParams.get('variant')),
+      variant,
       shape: normalizeShape(
         url.searchParams.get('shape') ??
         url.searchParams.get('size') ??
         url.searchParams.get('format'),
       ),
     };
-    const gap = normalizeGap(url.searchParams.get('gap'));
-    const job = normalizeJob(url.searchParams.get('job'));
-    if (gap) decision.gap = gap;
-    if (job) decision.job = job;
+    if (parsedState) decision.axes = parsedState.axes;
+
+    const gapRaw = url.searchParams.get('gap');
+    const jobRaw = url.searchParams.get('job');
+    const gap = normalizeGap(gapRaw);
+    const job = normalizeJob(jobRaw);
+    const invalidContext =
+      (gapRaw !== null && !gap) ||
+      (jobRaw !== null && !job) ||
+      (gapRaw !== null && jobRaw === null);
+    if (!invalidContext && job) {
+      decision.job = job;
+      if (gap) decision.gap = gap;
+    }
     return decision;
   }
 
@@ -213,10 +232,10 @@ function normalizeFamily(
   return Object.hasOwn(worktypeCards, value) ? (value as FamilyCode) : null;
 }
 
-function normalizeVariant(family: FamilyCode, value: string | null): WorktypeVariantId {
+function normalizeVariant(family: FamilyCode, value: string | null): WorktypeVariantId | null {
   const allowed: readonly string[] = VARIANT_IDS_BY_FAMILY[family];
   if (value && allowed.includes(value)) return value as WorktypeVariantId;
-  return VARIANT_IDS_BY_FAMILY[family][0] as WorktypeVariantId;
+  return value ? null : VARIANT_IDS_BY_FAMILY[family][0] as WorktypeVariantId;
 }
 
 function normalizeGap(value: string | null): GapKind | undefined {

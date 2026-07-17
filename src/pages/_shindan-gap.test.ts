@@ -4,6 +4,7 @@ import { describe, test } from 'node:test';
 import { runInNewContext } from 'node:vm';
 
 import { GAP } from '../site/worktype-copy.js';
+import { classifyShindanGap } from '../site/shindan-result-state.js';
 
 type GapKind = 'aligned' | 'hidden_strength' | 'hidden_risk';
 
@@ -84,6 +85,18 @@ describe('shindan gap classification', () => {
   test('keeps aligned results, including RDK x RDK, classified as aligned', () => {
     assert.equal(hooks.computeGap('CPB', 'CPK').kind, 'aligned');
     assert.equal(hooks.computeGap('RDK', 'RDK').kind, 'aligned');
+  });
+
+  test('browser and server share the same gap verdict for every family pair', () => {
+    for (const selfCode of FAMILY_CODES) {
+      for (const jobCode of FAMILY_CODES) {
+        assert.equal(
+          hooks.computeGap(selfCode, jobCode).kind,
+          classifyShindanGap(selfCode, jobCode).kind,
+          `${selfCode} x ${jobCode}`,
+        );
+      }
+    }
   });
 });
 

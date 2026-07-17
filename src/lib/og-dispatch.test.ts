@@ -222,10 +222,9 @@ describe('decideDispatch — worktype branch', () => {
     }
   });
 
-  test('?worktype=CPK&variant=<invalid> → family default variant', () => {
+  test('?worktype=CPK&variant=<invalid> → HOME fallback', () => {
     const d = decideDispatch(url('?worktype=CPK&variant=hacker'), STUB_CATALOG);
-    assert.equal(d.kind, 'render-worktype');
-    assert.equal((d as { variant: string }).variant, VARIANT_IDS_BY_FAMILY.CPK[0]);
+    assertHomeFallback(d);
   });
 
   test('?worktype=RDB without variant → family default variant', () => {
@@ -236,13 +235,14 @@ describe('decideDispatch — worktype branch', () => {
 
   test('gap and job parse through when valid', () => {
     const d = decideDispatch(
-      url('?worktype=CDK&variant=architect&gap=hidden_risk&job=133'),
+      url('?worktype=CDK&variant=architect&axes=2-1%2F2-1%2F2-1&gap=hidden_risk&job=133'),
       STUB_CATALOG,
     );
     assert.deepEqual(d, {
       kind: 'render-worktype',
       family: 'CDK',
       variant: 'architect',
+      axes: '2-1/2-1/2-1',
       gap: 'hidden_risk',
       job: '133',
       shape: 'wide',
@@ -269,6 +269,31 @@ describe('decideDispatch — worktype branch', () => {
       assert.equal(d.kind, 'render-worktype');
       assert.equal((d as { gap?: string }).gap, undefined);
     }
+  });
+
+  test('exact mixed axes pass through with the matching variant', () => {
+    const d = decideDispatch(
+      url('?worktype=CDK&variant=researcher&axes=3-0%2F2-1%2F3-0'),
+      STUB_CATALOG,
+    );
+    assert.deepEqual(d, {
+      kind: 'render-worktype',
+      family: 'CDK',
+      variant: 'researcher',
+      axes: '3-0/2-1/3-0',
+      shape: 'wide',
+    });
+  });
+
+  test('invalid axes or an axes/variant mismatch degrades to HOME', () => {
+    assertHomeFallback(decideDispatch(
+      url('?worktype=CDK&variant=researcher&axes=answers'),
+      STUB_CATALOG,
+    ));
+    assertHomeFallback(decideDispatch(
+      url('?worktype=CDK&variant=hacker&axes=3-0%2F2-1%2F3-0'),
+      STUB_CATALOG,
+    ));
   });
 
   test('shape=square resolves the square worktype card', () => {

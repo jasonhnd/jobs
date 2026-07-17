@@ -10,7 +10,8 @@
 //                                         — generic page card (text-only)
 // GET /api/og?ranking=<slug>              — ranking detail card (text-only, 9 slugs)
 // GET /api/og?route=<slug>                — explore route card (text-only, 7 slugs)
-// GET /api/og?worktype=<family>&variant=<variant>[&shape=square]
+// GET /api/og?worktype=<family>&variant=<variant>&axes=<margins>
+//                  [&job=<id>&gap=<kind>][&shape=square]
 //                                         — AI働き方診断 result card
 //   (interest / skill / compare families are also text-only — see og-dispatch.ts)
 //

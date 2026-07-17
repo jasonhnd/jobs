@@ -42,7 +42,7 @@
  * 5xx, no client-visible effect. Only the server-side measurement
  * is skipped.
  */
-import { next, type RequestContext } from '@vercel/edge';
+import { next, rewrite, type RequestContext } from '@vercel/edge';
 import {
   deriveClientId,
   shouldSendMpHit,
@@ -52,6 +52,7 @@ import {
 } from './src/lib/middleware-helpers.js';
 import { clientIpFromRequest } from './src/lib/api-security.js';
 import { fetchWithTimeout } from './src/lib/http-client.js';
+import { shindanShareRewriteTarget } from './src/lib/shindan-share-route.js';
 
 export const config = {
   // Match user-facing HTML routes. Skip:
@@ -77,6 +78,15 @@ export default function middleware(request: Request, context: RequestContext): R
   const accept = request.headers.get('accept') ?? '';
   const url = new URL(request.url);
   const cookieHeader = request.headers.get('cookie');
+  const shareTarget = shindanShareRewriteTarget(url);
+  const routeResponse = shareTarget ? rewrite(shareTarget) : next();
+
+  // The share renderer fetches the generic static shell from this deployment.
+  // That internal request is not a visitor page view and must not double-count
+  // the original result URL in GA4.
+  if (request.headers.get('x-shindan-shell-fetch') === '1') {
+    return routeResponse;
+  }
 
   if (!shouldSendMpHit({
     measurementId,
@@ -86,7 +96,7 @@ export default function middleware(request: Request, context: RequestContext): R
     pathname: url.pathname,
     cookieHeader,
   })) {
-    return next();
+    return routeResponse;
   }
 
   // Type-narrow: shouldSendMpHit guarantees these are defined on the
@@ -161,5 +171,5 @@ export default function middleware(request: Request, context: RequestContext): R
       }),
   );
 
-  return next();
+  return routeResponse;
 }
