@@ -61,8 +61,9 @@ const CSP_ENV_GATED_INLINE_SCRIPT_VARS = [
 ];
 // These are the env-gated analytics inline-script hashes that must ALWAYS
 // appear in script-src even when PUBLIC_* analytics env is absent at build
-// time. Regenerate via a full-PUBLIC_*-env `bun run build` if the analytics
-// inline scripts change.
+// time. A full-PUBLIC_*-env `bun run build` verifies that every manifest hash
+// is still emitted and fails closed if the analytics inline scripts changed;
+// update this list as part of that source change.
 const CSP_ANALYTICS_FALLBACK_HASHES = [
   "'sha256-eHy/AzR1WfYwPnGUyDj2+s5HQUPRCeQHbobwS3Zp2Ws='",
   "'sha256-mEjXucpUExIz3nx3AizABlBEO3RXLDXVXIkrpe7XvPk='",
@@ -154,18 +155,26 @@ function extractInlineScripts(html) {
   while ((cm = COMMENT_RE.exec(html)) !== null) {
     commentRanges.push([cm.index, cm.index + cm[0].length]);
   }
-  const inComment = (pos) => {
+  const commentRangeAt = (pos) => {
     for (const [s, e] of commentRanges) {
-      if (pos >= s && pos < e) return true;
+      if (pos >= s && pos < e) return [s, e];
     }
-    return false;
+    return null;
   };
 
   const blocks = [];
   let m;
   SCRIPT_RE.lastIndex = 0;
   while ((m = SCRIPT_RE.exec(html)) !== null) {
-    if (inComment(m.index)) continue;
+    const containingComment = commentRangeAt(m.index);
+    if (containingComment) {
+      // A comment may mention an opening `<script>` without a matching
+      // `</script>`. In that case the regex consumes through the next REAL
+      // script's closing tag. Resume at the end of the comment instead of at
+      // the end of that false match so the real script is still discovered.
+      SCRIPT_RE.lastIndex = containingComment[1];
+      continue;
+    }
     const attrs = m[1] || '';
     const body = m[2] || '';
     // Skip external scripts — they're already covered by the host
@@ -189,18 +198,22 @@ function extractInlineStyles(html) {
   while ((cm = COMMENT_RE.exec(html)) !== null) {
     commentRanges.push([cm.index, cm.index + cm[0].length]);
   }
-  const inComment = (pos) => {
+  const commentRangeAt = (pos) => {
     for (const [s, e] of commentRanges) {
-      if (pos >= s && pos < e) return true;
+      if (pos >= s && pos < e) return [s, e];
     }
-    return false;
+    return null;
   };
 
   const blocks = [];
   let m;
   STYLE_RE.lastIndex = 0;
   while ((m = STYLE_RE.exec(html)) !== null) {
-    if (inComment(m.index)) continue;
+    const containingComment = commentRangeAt(m.index);
+    if (containingComment) {
+      STYLE_RE.lastIndex = containingComment[1];
+      continue;
+    }
     const body = m[2] || '';
     blocks.push(body);
   }
@@ -270,13 +283,14 @@ if (allCspInlineScriptEnvPresent) {
     (hash) => !computedHashSet.has(hash),
   );
   if (missingFallbackHashes.length > 0) {
-    console.warn(
-      '[compute-csp-hashes] WARN - analytics CSP fallback manifest may be stale.\n' +
+    console.error(
+      '[compute-csp-hashes] FAIL — analytics CSP fallback manifest is stale.\n' +
         '  These manifest hash(es) were not found in a full-PUBLIC_*-env build:\n' +
         '  ' +
         missingFallbackHashes.join('\n  ') +
         '\n  Regenerate CSP_ANALYTICS_FALLBACK_HASHES if the analytics inline scripts changed.',
     );
+    process.exit(1);
   }
 }
 
@@ -318,29 +332,25 @@ if (CHECK_ONLY) {
     const expectedHashes = new Set(hashTokens(scriptSrcTokens(newCsp)));
     const missingExpectedHashes = [...expectedHashes].filter((hash) => !foundHashes.has(hash));
     const extraFoundHashes = [...foundHashes].filter((hash) => !expectedHashes.has(hash));
-    const fallbackHashesMissingFromCsp = CSP_ANALYTICS_FALLBACK_HASHES.filter(
-      (hash) => !foundHashes.has(hash),
-    );
-    if (
-      missingEnv.length > 0 &&
-      missingExpectedHashes.length === 0 &&
-      extraFoundHashes.length > 0 &&
-      fallbackHashesMissingFromCsp.length === 0
-    ) {
-      console.warn(
-        '[compute-csp-hashes] SKIP - CSP --check found existing script hash(es) ' +
-          'that cannot be verified without the full PUBLIC_* build env.\n' +
-          `  Missing: ${missingEnv.join(', ')}\n` +
-          `  Unverified existing hash(es): ${extraFoundHashes.join(', ')}\n` +
-          '  Run `bun run build` and `bun run verify:gates` with the Vercel PUBLIC_* env to enforce CSP drift.',
-      );
-      process.exit(0);
-    }
     console.error(
       '[compute-csp-hashes] DRIFT — vercel.json CSP script-src does not match\n' +
         '  hashes of inline scripts in dist-astro/.\n' +
         '  Re-run `node scripts/compute-csp-hashes.cjs` to regenerate.',
     );
+    if (missingExpectedHashes.length > 0) {
+      console.error('\nMissing expected hash(es):\n  ' + missingExpectedHashes.join('\n  '));
+    }
+    if (extraFoundHashes.length > 0) {
+      console.error('\nStale/extra hash(es):\n  ' + extraFoundHashes.join('\n  '));
+    }
+    if (missingEnv.length > 0) {
+      console.error(
+        '\nAnalytics env absent: ' +
+          missingEnv.join(', ') +
+          '. The committed analytics fallback manifest is already included in the expected set; ' +
+          'no other hash drift is allowed.',
+      );
+    }
     console.error('\nExpected (computed from dist-astro/):');
     console.error('  ' + newCsp);
     console.error('\nFound (in vercel.json):');
