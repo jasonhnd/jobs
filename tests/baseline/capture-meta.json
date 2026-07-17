@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-17T10:26:07.259Z",
-  "gitCommit": "7d4588b38d22a23f54211a5d0ffdcca86c2fb4c3",
-  "gitBranch": "chore/issue-202-retire-resend-turnstile",
+  "capturedAt": "2026-07-17T10:59:38.370Z",
+  "gitCommit": "e295bd8e01fd0e8283b2902680150f846dbaf7bb",
+  "gitBranch": "docs/issue-204-privacy-cleanup",
   "distFileCount": 833,
   "urlCount": 833,
   "dataFileCount": 612,
