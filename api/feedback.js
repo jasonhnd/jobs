@@ -26,8 +26,9 @@
 // secret returns HTTP 403, while missing RESEND_API_KEY / FEEDBACK_TO_EMAIL or
 // a Resend delivery failure returns HTTP 503. Preview/development may skip a
 // missing Turnstile secret and returns an explicit HTTP 202 non-delivery result
-// when delivery configuration is absent or Resend fails. Every diagnostic is
-// PII-safe and redacted; a 202 non-delivery response is not a delivered success.
+// when delivery configuration is absent or Resend fails. Structured fallback
+// summaries are PII-safe and redacted; the separately logged Resend error body
+// must not be treated as PII-free. A 202 response is not a delivered success.
 //
 // Defense in depth (current):
 //   1. CORS — only mirai-shigoto.com + localhost dev ports.

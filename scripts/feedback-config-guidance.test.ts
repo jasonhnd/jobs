@@ -67,7 +67,11 @@ describe('feedback production configuration guidance', () => {
       feedback,
       /Production .* fails closed: missing Turnstile secret returns HTTP 403, while missing RESEND_API_KEY \/ FEEDBACK_TO_EMAIL or a Resend delivery failure returns HTTP 503.*Preview\/development.*HTTP 202 non-delivery result/,
     );
-    assert.match(feedback, /a 202 non-delivery response is not a delivered success/i);
+    assert.match(
+      feedback,
+      /Structured fallback summaries are PII-safe and redacted; the separately logged Resend error body must not be treated as PII-free/,
+    );
+    assert.match(feedback, /A 202 response is not a delivered success/);
   });
 
   test('stays aligned with the existing fail-closed runtime branches', () => {
@@ -90,6 +94,7 @@ describe('feedback production configuration guidance', () => {
       /frontend stays unblocked/i,
       /show ["']submit accepted["']/i,
       /Default is fail-open — a vendor outage/i,
+      /Every diagnostic is\s+PII-safe and redacted/i,
     ]) {
       assert.doesNotMatch(operatorGuidance, stale);
     }
