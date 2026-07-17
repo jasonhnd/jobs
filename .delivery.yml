@@ -33,7 +33,7 @@ resilience:
 ci:
   checks:
     - Vercel
-    # Add CI / quality after GitHub Actions is enabled and the workflow has completed successfully once.
+    - CI / quality
   tests:
     - bun run test
   typecheck:

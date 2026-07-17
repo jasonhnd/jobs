@@ -54,6 +54,9 @@ jobs:
       - name: Build production output
         run: bun run build
 
+      - name: Verify rendered homepage CSS contract
+        run: bun test scripts/home-css-loading.test.ts
+
       - name: Run repository gates
         run: bun run verify:gates
 
