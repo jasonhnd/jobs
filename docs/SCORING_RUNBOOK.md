@@ -113,6 +113,10 @@ GPT 5.6 SOL uses the same AIOIS-10 v1.0 output contract as Fable 5: strict JSONL
 
 The Codex runner consumes the prompt as a rubric only: `buildPrompt(rubric, occ)` appends the per-occupation extract and the runner's JSON output schema. The frozen prompt must not include occupation data, baseline scores, expected drift, or any alternate schema that conflicts with the runner.
 
+Before touching the output JSONL or creating audit directories, the runner executes `codex exec --help` and requires the installed CLI to advertise `--model <MODEL>`. A failed probe or a CLI without explicit model selection is fatal: upgrade Codex and rerun. The runner never omits `--model` and never falls back to the local default model while labeling output with the requested model ID.
+
+Explicit model-unavailable/provider-error/refusal responses and synthetic confidence-0 all-zero placeholders are rejected and retried. Raw responses remain under the run's `raw/` directory, with machine-readable rejection reasons in the adjacent `*.failures.jsonl` audit file; none of those responses may enter the output JSONL.
+
 Runner flags:
 
 - `--prompt-file <path>`: required rubric file.
