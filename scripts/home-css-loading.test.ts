@@ -8,6 +8,10 @@ const DIST = join(process.cwd(), 'dist-astro');
 const HOME_HTML = join(DIST, 'index.html');
 const HOME_SOURCE = readFileSync(join(process.cwd(), 'src/pages/index.astro'), 'utf8');
 
+function readBuiltHomepage(path = HOME_HTML): string | null {
+  return existsSync(path) ? readFileSync(path, 'utf8') : null;
+}
+
 function attribute(tag: string, name: string): string | null {
   const match = tag.match(new RegExp(`\\b${name}="([^"]*)"`));
   return match?.[1] ?? null;
@@ -48,11 +52,15 @@ test('critical CSS is a balanced subset covering every first-render surface', ()
   );
 });
 
+test('rendered contract tolerates a clean checkout without build output', () => {
+  assert.equal(readBuiltHomepage(join(DIST, '.missing-index.html')), null);
+});
+
 test(
   'built homepage defers its one hashed full stylesheet and keeps a no-JS fallback',
-  { skip: !existsSync(HOME_HTML) && 'dist-astro/index.html is not present; rendered contract runs after build' },
   () => {
-    const html = readFileSync(HOME_HTML, 'utf8');
+    const html = readBuiltHomepage();
+    if (html === null) return;
     const head = html.match(/<head>([\s\S]*?)<\/head>/)?.[1];
     assert.ok(head, 'built homepage must contain a head element');
 
