@@ -27,7 +27,8 @@
 //   4. Honeypot field (htmlfield) — silently drops obvious bot traffic.
 //   5. Resend 409 idempotency — duplicates resolve to success without rewrites.
 //   6. Resend errors are NOT echoed to the client — third-party error strings
-//      could leak audience ids or internal config. Server logs the detail.
+//      could leak contact data or internal config. Server diagnostics contain
+//      only a stable endpoint, HTTP status (when available), and internal code.
 //   7. Per-IP rate limit (Upstash Redis REST) — 5 POST per 5 minutes.
 //      Tighter than feedback (10/5min) because subscribe is opt-in and
 //      should happen ≤1 time per legitimate user. Degrades gracefully
@@ -196,7 +197,9 @@ export default async function handler(req) {
       return json({ ok: true }, { headers: cors });
     }
 
-    // Try to read error detail (Resend returns { name, message, statusCode })
+    // Parse the response only in memory for the existing idempotency contract
+    // (Resend returns { name, message, statusCode }). Never log this object or
+    // its message: validation errors can echo the submitted contact address.
     const errBody = await r.json().catch(() => ({}));
     const msg = String(errBody.message || errBody.name || "").toLowerCase();
 
@@ -210,13 +213,20 @@ export default async function handler(req) {
       return json({ ok: true, alreadySubscribed: true }, { headers: cors });
     }
 
-    // Log the full Resend response server-side, but never echo `errBody.message`
-    // to the client — third-party error strings can leak audience ids or
-    // internal config to attackers probing the endpoint.
-    console.error("[subscribe] Resend error", { status: r.status, body: errBody });
+    console.error("[subscribe] Resend failure", {
+      endpoint: "contacts",
+      status: r.status,
+      code: "subscribe_failed",
+    });
     return json({ error: "subscribe_failed" }, { status: 502, headers: cors });
-  } catch (err) {
-    console.error("[subscribe] handler error", err);
+  } catch {
+    // Fetch/parse exceptions can include arbitrary upstream messages. Emit
+    // stable metadata only; keep the existing client response unchanged.
+    console.error("[subscribe] Resend failure", {
+      endpoint: "contacts",
+      status: null,
+      code: "server_error",
+    });
     return json({ error: "server_error" }, { status: 500, headers: cors });
   }
 }
