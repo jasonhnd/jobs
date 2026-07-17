@@ -13,7 +13,7 @@ import {
   type GeoScoreRunLike,
   type GeoTreemapRow,
 } from './geo-facts.js';
-import { renderHomeJsonLd, renderLlmsTxt } from './geo-render.js';
+import { renderHomeJsonLd, renderLlmsFullTxt, renderLlmsTxt } from './geo-render.js';
 
 const attribution: GeoAttribution = {
   modelId: 'claude-fable-5',
@@ -113,14 +113,20 @@ describe('pickLatestGeoScoreRun', () => {
 });
 
 describe('geo renderers', () => {
-  test('llms and JSON-LD render active attribution and no placeholders', () => {
+  test('llms surfaces and JSON-LD render active attribution and no placeholders', () => {
     const facts = computeGeoFacts(rows, scores, attribution);
     const llms = renderLlmsTxt(facts);
+    const llmsFull = renderLlmsFullTxt(facts);
     const jsonld = renderHomeJsonLd(facts);
 
     assert.match(llms, /Claude Fable 5/);
     assert.match(llms, /2026-06-13/);
     assert.doesNotMatch(llms, /__SCORE_/);
+    for (const [name, rendered] of [['llms.txt', llms], ['llms-full.txt', llmsFull]] as const) {
+      assert.match(rendered, /detail IDs are zero-padded to four digits/, name);
+      assert.match(rendered, /https:\/\/mirai-shigoto\.com\/data\.detail\/0001\.json/, name);
+      assert.doesNotMatch(rendered, /data\.detail\/(?:<id>|\{id\})\.json/i, name);
+    }
 
     const parsed = JSON.parse(jsonld) as { '@graph': Array<{ '@type': string; dateModified?: string }> };
     assert.equal(parsed['@graph'].find((n) => n['@type'] === 'WebSite')!.dateModified, '2026-06-13');
