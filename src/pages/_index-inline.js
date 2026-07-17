@@ -80,11 +80,11 @@
       const MARGIN = 4, GAP = 1;
       const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
 
-      // Build the per-occupation URL. v1.4.0: JA-only.
-      // Mirrors src/pages/[id].astro URL shape (writes ja/<id>.html).
+      // Build the per-occupation URL. v1.4.0: JA-only. Keep the ID 404
+      // exception aligned with src/lib/urls.ts for this inline client script.
       function occUrl(rec) {
         if (!rec || rec.id == null) return "/";
-        return "/" + rec.id;
+        return Number(rec.id) === 404 ? "/occupations/404" : "/" + rec.id;
       }
       // Fire occupation_tile_click for any path that opens a per-occupation page
       // from the treemap (canvas click, touch tap, keyboard Enter). source lets
@@ -1736,7 +1736,7 @@
           const rationaleRaw = rec.ai_rationale_ja || "";
           const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
           const sValue = fmtSalary(rec.salary);
-          const href = "/" + Number(rec.id);
+          const href = occUrl(rec);
           return (
             '<a class="m-top10-card" role="listitem" href="' + href + '">' +
               '<span class="m-top10-card-rank">' + rank + " 位" + '</span>' +

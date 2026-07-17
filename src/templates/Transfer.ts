@@ -17,6 +17,7 @@
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
+import { occupationPath } from '../lib/urls.js';
 
 /** One candidate row. `name` is pre-resolved by the caller. */
 export interface TransferCard {
@@ -37,7 +38,7 @@ export function renderTransfer(cards: ReadonlyArray<TransferCard>): SafeHtml {
 
   let cardsHtml = '';
   for (const c of cards) {
-    const href = `/${c.id}`;
+    const href = occupationPath(c.id);
     const riskStr = c.aiRisk !== null && c.aiRisk !== undefined ? `${c.aiRisk}/10` : '—';
     const riskLabel = `AI 影響 ${riskStr}`;
     const simLabel =
