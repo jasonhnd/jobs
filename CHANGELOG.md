@@ -20,7 +20,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   payload, and selected keys are losslessly split across GA4-safe chunks.
   Internal-link/anchor baseline drift is intentional because every footer now
   includes the form, its privacy link, labels, instructions, and live status
-  region (#171).
+  region; the follow-up baseline removes the native `/api/feedback` form action
+  so a missing client bundle cannot submit an incompatible encoded request
+  (#171).
 - Added `/models/{slug}` static per-model data pages for all score batches,
   backed by `public/data.models_by_model.json` with no `rationale_ja` and a
   24KB per-page inline payload gate. SEO baseline URL/data-file drift is
