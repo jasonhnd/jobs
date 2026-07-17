@@ -48,6 +48,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Fixed
 
+- Made `/shindan` result links carry the exact three-axis margins and optional
+  validated occupation context. Address-bar, X, LINE, copy, native-share, and
+  OG-card URLs now share one state contract; result-query HTML emits crawler-
+  visible, noindex OG/Twitter metadata and recomputes job gaps server-side
+  instead of trusting query input (#164).
 - Corrected `/models` coverage copy and metadata to report the true per-batch
   552–556 occupation range. Model drift now compares only rows from compatible
   AIOIS-10 batches: legacy Opus 4.7 remains discoverable without synthesized
