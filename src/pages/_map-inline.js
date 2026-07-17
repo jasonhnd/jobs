@@ -83,7 +83,8 @@
       return {
         sector: p.get('sector') || 'all',
         sort:   p.get('sort')   || 'ai_risk_desc',
-        job:    p.get('job') ? parseInt(p.get('job'), 10) : null
+        job:    p.get('job') ? parseInt(p.get('job'), 10) : null,
+        view:   p.get('view') === 'list' ? 'list' : 'map'
       };
     }
     function writeUrlState() {
@@ -91,6 +92,7 @@
       if (currentSector !== 'all') p.set('sector', currentSector);
       if (currentSort !== 'ai_risk_desc') p.set('sort', currentSort);
       if (openJobId != null) p.set('job', String(openJobId));
+      if (listMode) p.set('view', 'list');
       var qs = p.toString();
       var newPath = location.pathname + (qs ? '?' + qs : '');
       if (newPath !== location.pathname + location.search) {
@@ -602,6 +604,7 @@
       setTimeout(function () { $suggest.classList.remove('open'); }, 150);
     });
     $searchInput.addEventListener('keydown', function (e) {
+      if (e.isComposing || e.keyCode === 229) return;
       var items = $suggest.querySelectorAll('li');
       if (!items.length) return;
       var idx = -1;
@@ -636,6 +639,8 @@
       var s = readUrlState();
       currentSector = s.sector;
       currentSort = s.sort;
+      listMode = s.view === 'list';
+      syncViewToggleState();
       if (s.sort && $sort) $sort.value = s.sort;
 
       Promise.all([
@@ -700,6 +705,11 @@
     // representation that's friendlier for screen readers / keyboard users.
     var $viewToggle = document.getElementById('viewToggle');
     var listMode = false;
+    function syncViewToggleState() {
+      $viewToggle.setAttribute('aria-pressed', listMode ? 'true' : 'false');
+      $viewToggle.setAttribute('aria-label', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
+      $viewToggle.setAttribute('title', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
+    }
     function renderList() {
       // Same atomic-swap contract as renderMap — see Design-Mobile.md
       // §4.4.1. Build the new ordered-list tree off-DOM, attach via a
@@ -753,10 +763,9 @@
     renderMap = function () { if (listMode) renderList(); else _origRenderMap(); };
     $viewToggle.addEventListener('click', function () {
       listMode = !listMode;
-      $viewToggle.setAttribute('aria-pressed', listMode ? 'true' : 'false');
-      $viewToggle.setAttribute('aria-label', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
-      $viewToggle.setAttribute('title', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
+      syncViewToggleState();
       applyView();
+      writeUrlState();
     });
 
     // ── Bottom sheet drag-to-dismiss (Design-Mobile.md §4.5 D3=A) ─────────
