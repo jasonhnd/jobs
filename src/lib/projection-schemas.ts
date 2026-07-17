@@ -288,7 +288,7 @@ const ModelsByModelDriftSchema = z.union([
   z
     .object({
       baseline: z.literal(true),
-      note_id: z.literal('first_batch'),
+      note_id: z.enum(['legacy_batch', 'first_aiois_batch']),
     })
     .strict(),
   z

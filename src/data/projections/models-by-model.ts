@@ -192,24 +192,23 @@ function lowest(rows: readonly OccupationScoreRow[]): OccupationRow[] {
 function toAioisScoreMap(batch: BatchSummary): Map<number, AioisScore> {
   const out = new Map<number, AioisScore>();
   for (const row of batch.rows) {
-    const dims = row.score.aiois
-      ? [
-        row.score.aiois.d1,
-        row.score.aiois.d2,
-        row.score.aiois.d3,
-        row.score.aiois.d4,
-        row.score.aiois.d5,
-        row.score.aiois.d6,
-        row.score.aiois.d7,
-        row.score.aiois.d8,
-        row.score.aiois.d9,
-        row.score.aiois.d10,
-      ]
-      : Array.from({ length: 10 }, () => row.transformation);
+    const aiois = row.score.aiois;
+    if (!aiois) continue;
     out.set(row.id, {
-      aiRisk: row.transformation,
-      displacement: row.score.aiois?.displacement ?? row.transformation,
-      dims,
+      aiRisk: aiois.transformation,
+      displacement: aiois.displacement,
+      dims: [
+        aiois.d1,
+        aiois.d2,
+        aiois.d3,
+        aiois.d4,
+        aiois.d5,
+        aiois.d6,
+        aiois.d7,
+        aiois.d8,
+        aiois.d9,
+        aiois.d10,
+      ],
       confidence: row.score.confidence ?? null,
     });
   }
@@ -217,13 +216,21 @@ function toAioisScoreMap(batch: BatchSummary): Map<number, AioisScore> {
 }
 
 function predecessorFor(batch: BatchSummary, batches: readonly BatchSummary[]): BatchSummary | null {
-  const earlierDates = batches
+  const candidateScores = toAioisScoreMap(batch);
+  if (candidateScores.size === 0) return null;
+
+  const comparableEarlier = batches
     .filter((candidate) => candidate.date < batch.date)
+    .filter((candidate) => {
+      const predecessorScores = toAioisScoreMap(candidate);
+      return [...candidateScores.keys()].some((id) => predecessorScores.has(id));
+    });
+  const earlierDates = comparableEarlier
     .map((candidate) => candidate.date)
     .sort();
   const date = earlierDates[earlierDates.length - 1];
   if (!date) return null;
-  return batches
+  return comparableEarlier
     .filter((candidate) => candidate.date === date)
     .sort((a, b) => a.model.localeCompare(b.model))[0] ?? null;
 }
@@ -238,12 +245,16 @@ function driftFor(
   batches: readonly BatchSummary[],
   titles: ReadonlyMap<number, string>,
 ): DriftRecord {
-  const predecessor = predecessorFor(batch, batches);
-  if (!predecessor) {
-    return { baseline: true, note_id: 'first_batch' };
+  const candidateScores = toAioisScoreMap(batch);
+  if (candidateScores.size === 0) {
+    return { baseline: true, note_id: 'legacy_batch' };
   }
 
-  const candidateScores = toAioisScoreMap(batch);
+  const predecessor = predecessorFor(batch, batches);
+  if (!predecessor) {
+    return { baseline: true, note_id: 'first_aiois_batch' };
+  }
+
   const predecessorScores = toAioisScoreMap(predecessor);
   const commonCount = [...candidateScores.keys()].filter((id) => predecessorScores.has(id)).length;
   const report: DriftReport = computeDriftReport(predecessorScores, candidateScores, titles, {

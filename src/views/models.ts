@@ -145,7 +145,7 @@ export function buildModelsFeaturePageModel(
     dateRangeText: dates.length === 1 ? dates[0]! : `${dates[0]} から ${dates[dates.length - 1]}`,
     coverageRangeText: coverages.length === 1 || Math.min(...coverages) === Math.max(...coverages)
       ? `${currentModel.covered_count}職業`
-      : `${Math.min(...coverages)}から${Math.max(...coverages)}職業`,
+      : `${Math.min(...coverages)}〜${Math.max(...coverages)}職業`,
     consensus: projection.consensus,
     stories: projection.stories.map((story) => ({
       ...story,
