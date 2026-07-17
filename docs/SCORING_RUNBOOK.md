@@ -177,7 +177,7 @@ Full run gate:
 - Owner separately approves any pilot scoring run because it consumes local Codex subscription quota.
 - Owner reviews pilot artifacts and drift report before any 556-occupation full run.
 - The approved full run writes raw/audit artifacts under `.cache/scoring/` first, then assembles one append-only batch at `data/scores/occupations_gpt-5.6-sol_<YYYY-MM-DD>.json`.
-- Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun test`. The landing PR must acknowledge that `pickLatestScore()` flips all public projections/pages to GPT 5.6 SOL.
+- Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun run test`. The landing PR must acknowledge that `pickLatestScore()` flips all public projections/pages to GPT 5.6 SOL.
 
 ## Prompt requirements
 

@@ -206,6 +206,8 @@ GitHub Issues と Pull Request を歓迎します：
 - **PR** — バグ修正、新しい色レイヤー、アクセシビリティ改善。
 - **スコアへの異議** — 特定職業のスコアが大きく間違っていると感じた場合は、Issue で：職業名、現在のスコア、提案するスコア、*理由*（モデルが過大 or 過小評価していると思う業務内容）を添えてください。バッチでレビューします。
 
+開発 branch、必須チェック、`preview → main` の production promotion は [CONTRIBUTING.md](CONTRIBUTING.md) と [開発ワークフロー](docs/WORKFLOW.md) を参照してください。
+
 ---
 
 ## ライセンス
