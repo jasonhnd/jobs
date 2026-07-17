@@ -16,7 +16,7 @@ const jsonLd = `{
       "@id": "https://mirai-shigoto.com/privacy#webpage",
       "name": "プライバシーポリシー — mirai-shigoto.com",
       "url": "https://mirai-shigoto.com/privacy",
-      "description": "mirai-shigoto.com のプライバシーポリシー — 運営者、収集情報、第三者サービス（Google / Cloudflare / Vercel / 廃止済みフォームの履歴データを保管する Resend）、Cookie、保持期間、利用者の権利、お問い合わせ。",
+      "description": "mirai-shigoto.com のプライバシーポリシー — 運営者、収集情報、第三者サービス（Google / Cloudflare / Vercel）、Cookie、保持期間、利用者の権利、お問い合わせ。",
       "inLanguage": ["ja"],
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
       "about": { "@id": "https://mirai-shigoto.com/#organization" },
@@ -56,10 +56,10 @@ const jsonLd = `{
   title="プライバシーポリシー — mirai-shigoto.com"
   description="mirai-shigoto.com のプライバシーポリシー。収集する情報、利用目的、第三者提供、Cookie、保持期間、利用者の権利、お問い合わせ。"
   canonical="https://mirai-shigoto.com/privacy"
-  keywords="未来の仕事, プライバシーポリシー, 個人情報保護, Cookie, 第三者提供, GA4, Cloudflare, Vercel, Resend, 利用者の権利, APPI, GDPR, mirai shigoto, privacy policy, data handling"
+  keywords="未来の仕事, プライバシーポリシー, 個人情報保護, Cookie, 第三者提供, GA4, Cloudflare, Vercel, 利用者の権利, APPI, GDPR, mirai shigoto, privacy policy, data handling"
   ogImage="https://mirai-shigoto.com/api/og?page=privacy"
   ogTitle="プライバシーポリシー — mirai-shigoto.com"
-  ogDescription="mirai-shigoto.com のプライバシーポリシー。収集情報、利用目的、第三者提供（GA4 / Cloudflare / Vercel / 廃止済みフォームの履歴データを保管する Resend）、Cookie、保持期間、利用者の権利、お問い合わせ。"
+  ogDescription="mirai-shigoto.com のプライバシーポリシー。収集情報、利用目的、第三者提供（GA4 / Cloudflare / Vercel）、Cookie、保持期間、利用者の権利、お問い合わせ。"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
 
@@ -254,7 +254,7 @@ const jsonLd = `{
       mirai-shigoto.com — 日本の職業 AI 影響マップ（非公式・独自分析）
     </p>
     <p class="meta-line">
-      最終更新：2026-07-17 ・ バージョン 1.1
+      最終更新：2026-07-17 ・ バージョン 1.2
     </p>
 
     <!-- 1 ----------------------------------------------------------- -->
@@ -278,10 +278,10 @@ const jsonLd = `{
     </p>
 
     <h3>
-      廃止済みフォームの履歴データ
+      廃止済みメール機能
     </h3>
     <p>
-      本サイトは 2026 年 7 月 17 日付でメール登録・フィードバックのフォームと API を廃止し、現在はこれらの情報を新規収集・配信していません。廃止前に当該 API へ送信されたメールアドレスやフィードバックが存在する場合は、削除作業が完了するまで Resend に保管される可能性があります。これらを新たな配信やマーケティングには利用しません。
+      本サイトは 2026 年 7 月 17 日付でメール登録・フィードバックのフォームと API を廃止しました。関連する履歴データと専用の外部設定も同日中に削除済みであり、現在はこれらの情報を新規収集・配信・保管していません。
     </p>
 
     <!-- 3 ----------------------------------------------------------- -->
@@ -294,9 +294,6 @@ const jsonLd = `{
     <ul>
       <li>
         <strong>アクセス解析</strong>：利用状況の把握、コンテンツ改善、サイトパフォーマンス最適化。
-      </li>
-      <li>
-        <strong>廃止済みフォームの履歴データ</strong>：本人からの開示・削除請求への対応、および安全な削除作業にのみ利用します。
       </li>
     </ul>
     <p>
@@ -332,13 +329,6 @@ const jsonLd = `{
         </div>
         <div><a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">policy ↗</a></div>
       </div>
-      <div class="third-party-row">
-        <div class="name">Resend Inc.</div>
-        <div class="role">
-          廃止済みフォームの履歴データ保管（新規収集・配信なし、削除作業中）
-        </div>
-        <div><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">policy ↗</a></div>
-      </div>
     </div>
 
     <!-- 5 ----------------------------------------------------------- -->
@@ -369,9 +359,6 @@ const jsonLd = `{
     <ul>
       <li>
         <strong>アクセス解析データ</strong>：14 ヶ月（Google Analytics 4 のデフォルト保持期間）。
-      </li>
-      <li>
-        <strong>廃止済みフォームの履歴データ</strong>：本番環境での機能廃止から 30 日以内に、当該フォーム専用と確認できたデータを削除します。削除請求を受けた場合は、それより前でも本人確認後に対応します。
       </li>
     </ul>
 
@@ -416,6 +403,9 @@ const jsonLd = `{
       変更履歴
     </h2>
     <ul>
+      <li>
+        <strong>2026-07-17 v1.2</strong>：廃止済みメール機能の履歴データと専用外部設定の削除完了を反映。
+      </li>
       <li>
         <strong>2026-07-17 v1.1</strong>：メール登録・フィードバック機能の廃止を反映し、新規収集の終了と履歴データの削除方針を明記。
       </li>
