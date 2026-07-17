@@ -23,13 +23,13 @@ Server-side `page_view` hits from `middleware.ts` now attach these parameters:
 | `ssrc` | Measurement Protocol source marker. `mw` means Vercel Edge middleware. |
 
 The corresponding GA4 event-scoped custom dimensions are declared in
-`analytics/spec.yaml`. Apply them from the analytics package with Node:
+`analytics/spec.yaml`. From the repository root, install the locked analytics
+dependencies, preview the validated spec, and then apply it:
 
 ```bash
-cd analytics
-npm install
-GA4_PROPERTY_ID=<property_id> npm run setup:dry
-GA4_PROPERTY_ID=<property_id> npm run setup
+corepack pnpm@11.9.0 --dir analytics install --frozen-lockfile
+GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup:dry
+GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup
 ```
 
 ## 2. Engine Classification

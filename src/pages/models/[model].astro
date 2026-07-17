@@ -58,10 +58,17 @@ const prevModelDisplay = page.nav.prev
 const nextModelDisplay = page.nav.next
   ? formatModelDisplay(modelIdFromSlug(page.nav.next.slug, knownModelIds) ?? page.nav.next.modelDisplay)
   : null;
+const isBaseline = 'baseline' in page.drift;
+const isLegacyBatch = isBaseline && page.drift.note_id === 'legacy_batch';
 
 const pageTitle = `${modelDisplay} の職業スコア | モデル比較 | 未来の仕事`;
+const comparisonDescription = isLegacyBatch
+  ? '旧方式スコアとして公開し、AIOIS-10モデル間比較の対象には含めません。'
+  : isBaseline
+    ? 'AIOIS-10系列の最初の基準点で、比較可能な前回モデルはありません。'
+    : `前回の${formatModelDisplay(page.drift.predecessor.model)}との変化も掲載しています。`;
 const pageDescription =
-  `${modelDisplay}（${scoringDate}）が採点した日本の職業${page.covered_count}件のAI影響度分布、上位・下位職業、前回モデルからの変化。`;
+  `${modelDisplay}（${scoringDate}）が採点した日本の職業${page.covered_count}件のAI影響度分布と上位・下位職業。${comparisonDescription}`;
 const canonical = `${siteConfig.origin}/models/${page.slug}`;
 const inlinePayload = JSON.stringify(page)
   .replace(/</g, '\\u003c')
@@ -91,8 +98,10 @@ const maxBin = Math.max(1, ...page.distribution.histogram.map((bin) => bin.count
 const barGap = 3;
 const barWidth = plotWidth / page.distribution.histogram.length - barGap;
 
-const driftSummary = 'baseline' in page.drift
-  ? `${modelDisplay} はこのデータ系列の最初の採点です。前回モデルとの比較ではなく、以後の変化を見るための基準点として扱います。`
+const driftSummary = isLegacyBatch
+  ? `${modelDisplay} は AIOIS-10 導入前の旧方式スコアです。記録として公開していますが、D1〜D10 や置換指数を補完せず、AIOIS-10 モデル間比較の対象には含めません。`
+  : isBaseline
+    ? `${modelDisplay} は AIOIS-10 系列で最初の採点です。比較可能な前回モデルがないため、以後の変化を見るための基準点として扱います。`
   : `${modelDisplay} は ${formatModelDisplay(page.drift.predecessor.model)}（${formatJapaneseDate(page.drift.predecessor.date)}）と比べて、平均変化指数が ${signedScore(page.drift.mean_delta_t)} ポイント動きました。共通して比較できた職業は ${page.drift.compared_count} 件です。`;
 
 const jsonLd = JSON.stringify({
@@ -235,7 +244,7 @@ template{display:none}
         <p class="eyebrow">モデル比較</p>
         <h1>{modelDisplay} の職業スコア</h1>
         <p class="lead">
-          {modelDisplay} が {page.covered_count} 件の職業をどう採点したかを、分布、上位・下位職業、前回モデルからの変化で確認します。
+          {modelDisplay} が {page.covered_count} 件の職業をどう採点したかを、分布と上位・下位職業で確認します。{comparisonDescription}
         </p>
       </div>
       <aside class="profile-box" aria-label="モデル概要">
@@ -325,7 +334,7 @@ template{display:none}
     </section>
 
     <section class="section" aria-labelledby="drift">
-      <h2 id="drift">前回モデルからの変化</h2>
+      <h2 id="drift">{isBaseline ? 'モデル間比較について' : '前回モデルからの変化'}</h2>
       <div class="drift-panel">
         <p>{driftSummary}</p>
         {!('baseline' in page.drift) && (

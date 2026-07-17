@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Hosting: Vercel](https://img.shields.io/badge/hosting-Vercel%20(hnd1)-000)](https://vercel.com)
 
-![Japan Jobs × AI Impact — 厚労省 jobtag/JILPT IPD に基づく日本の 556 職業の treemap に AIOIS-10 の AI 影響度と仕事が減るリスクを重ねた可視化サイト](og.png)
+![Japan Jobs × AI Impact — 厚労省 jobtag/JILPT IPD に基づく日本の 556 職業の treemap に AIOIS-10 の AI 影響度と仕事が減るリスクを重ねた可視化サイト](https://mirai-shigoto.com/api/og?page=home)
 
 厚生労働省の **職業情報提供サイト（job tag）** / JILPT IPD v7.00 に登録されている **556 の日本の職業** について、年収・学歴・就業者数・将来性などの構造化データに加えて、**Claude Fable 5 が AIOIS-10 で採点した AI 影響度（Transformation）と仕事が減るリスク（Displacement-Risk）**、およびその理由を重ねた可視化サイトです。UI は日本語で、国内の読者を対象としています。
 
