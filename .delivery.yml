@@ -33,7 +33,9 @@ resilience:
 ci:
   checks:
     - Vercel
-    - CI / quality
+    # Exact `gh pr checks --json name` value. GitHub's UI groups this under
+    # the workflow label as `CI / quality`, but Loopcoder matches `name`.
+    - quality
   tests:
     - bun run test
   typecheck:
