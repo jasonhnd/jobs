@@ -39,6 +39,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Fixed
 
+- Corrected `/models` coverage copy and metadata to report the true per-batch
+  552–556 occupation range. Model drift now compares only rows from compatible
+  AIOIS-10 batches: legacy Opus 4.7 remains discoverable without synthesized
+  D1–D10 or displacement values, Opus 4.8 is the first AIOIS baseline, and
+  later pages show their exact predecessor and common-row count. SEO, OG,
+  JSON-LD, and Opus 4.8 internal-link baseline drift is intentional (#159).
 - Moved occupation ID 404 (`内科医`) to the collision-free canonical
   `/occupations/404` while preserving `/404` as the custom noindex error
   document. All occupation URL producers, legacy redirects, and route gates

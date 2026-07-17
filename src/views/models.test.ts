@@ -219,6 +219,8 @@ describe('models feature view model', () => {
         ['GPT 5.6 SOL', '/models/gpt-5.6-sol'],
       ],
     );
+    assert.deepEqual(page.modelRoster.map((card) => card.covered_count), [552, 556, 556, 556]);
+    assert.equal(page.coverageRangeText, '552〜556職業');
   });
 
   test('formats public model metadata for visitor pages', () => {
