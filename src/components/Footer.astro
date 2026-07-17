@@ -10,9 +10,11 @@
  */
 import { CANONICAL_CSS } from '../lib/canonical-css.ts';
 import FeedbackForm from './FeedbackForm.astro';
+import NewsletterSignup from './NewsletterSignup.astro';
 import { siteConfig, OCCUPATION_COUNT } from '@/site/config';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 const buildTime = new Date();
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 
 // Server-side default share URLs. The client JS still overwrites href with
 // the *current* page URL + UTM params on click, but having a real URL in
@@ -49,7 +51,11 @@ function formatJst(d: Date): { iso: string; display: string } {
 const { iso, display } = formatJst(buildTime);
 ---
 <footer class="site-footer">
+  <NewsletterSignup />
   <FeedbackForm />
+  {TURNSTILE_SITE_KEY && (
+    <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+  )}
   <div class="share-divider">このページをシェア</div>
   <div class="share-row" role="group" aria-label="このページを共有">
     <a class="share-btn" data-platform="x" href={SHARE_DEFAULT_HREFS.x} target="_blank" rel="noopener" aria-label="X (Twitter) で共有">

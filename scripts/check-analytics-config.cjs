@@ -45,7 +45,7 @@ const REQUIRED_SCRIPT_SRC_ORIGINS = [
   'https://static.ads-twitter.com',
   // Meta (Facebook/Instagram) Pixel — fbevents.js
   'https://connect.facebook.net',
-  // Cloudflare Turnstile challenge widget used by FeedbackForm.astro
+  // Cloudflare Turnstile challenge widget shared by the footer forms
   'https://challenges.cloudflare.com',
 ];
 
@@ -80,6 +80,7 @@ const REQUIRED_FRAME_SRC_ORIGINS = [
 const ENV_SCAN_FILES = [
   'src/layouts/BaseLayout.astro',
   'src/components/FeedbackForm.astro',
+  'src/components/NewsletterSignup.astro',
   // 2026-05-18 (RA-??): src/index-source.html was previously scanned because
   // the homepage bypassed BaseLayout and inlined its own analytics + env
   // hardcodes. After the BaseLayout migration, index-source.html is now

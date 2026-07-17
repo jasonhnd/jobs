@@ -338,12 +338,13 @@ events:
   # modal-specific risk_tier semantics no longer apply.
   - name: email_submit_header
     description: Email submitted from the page-bottom generic newsletter card (T1 in OPC plan).
+    # The email address is sent only to `/api/subscribe`; GA4 receives these
+    # bounded outcome fields and never receives the address itself.
     params:
       - { name: language, type: string }
       - { name: success, type: string }
       - { name: error_reason, type: string }
     conversion: true   # QI 3
-    unimplemented: planned   # newsletter card not yet on the page; spec entry kept so we don't forget the QI when it lands
 
   # ---- Feedback ----
   - name: feedback_submit
@@ -654,13 +655,12 @@ key_events:
   - job_search_intent       # user engaged with autocomplete (KPI #1, real CTR denominator since 2026-05-06)
   - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
   - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
-  - email_submit_header     # newsletter card submit (QI 3); spec entry exists, UI not yet wired (unimplemented:planned)
+  - email_submit_header     # shared page-bottom newsletter card submit (QI 3)
   # — Conversion: occupation page → operator inbox —
   - feedback_submit         # QI 8 (feedback + tagging)
   # NOTE: `email_submit_modal` and `report_cta_click` were removed in 2026-05-02
-  # along with the modal itself. `email_submit_header` is still in events: but
-  # marked `unimplemented: planned` — promote it back here when the newsletter
-  # card lands on the page. `job_search_submit` was renamed to `job_search_typed`
+  # along with the modal itself. `email_submit_header` is now emitted by the
+  # shared page-bottom newsletter card. `job_search_submit` was renamed to `job_search_typed`
   # and demoted from key_events on 2026-05-06 (see events: section).
 
 # ----------------------------------------------------------------------

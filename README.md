@@ -128,6 +128,8 @@ TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データ�
 
 キャッシュポリシーは `vercel.json` で管理します。Astro が生成する fingerprint 付き静的アセット（`/_astro/*`）と build-time subset フォント（`/fonts/*`）は `Cache-Control: public, max-age=31536000, immutable`、頻繁に更新される projection JSON / sitemap / robots / llms は短めの `max-age` + CDN `s-maxage` を明示します。
 
+共有フッターの月次レポート登録フォームは `/api/subscribe` を呼び出し、メールアドレスを Resend audience に保存します。GA4 の `email_submit_header` には成否・エラー理由・言語だけを送り、メールアドレスは送りません。本番 audience の確認手順は [`docs/newsletter-production-smoke.md`](docs/newsletter-production-smoke.md) に記載しています。
+
 ---
 
 ## 免責事項
