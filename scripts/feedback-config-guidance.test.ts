@@ -6,6 +6,7 @@ import { describe, test } from 'node:test';
 const ROOT = process.cwd();
 const ENV_GUIDANCE = readFileSync(join(ROOT, '.env.example'), 'utf8');
 const FEEDBACK_SOURCE = readFileSync(join(ROOT, 'api/feedback.js'), 'utf8');
+const SUBSCRIBE_SOURCE = readFileSync(join(ROOT, 'api/subscribe.js'), 'utf8');
 const SECURITY_SOURCE = readFileSync(join(ROOT, 'src/lib/api-security.js'), 'utf8');
 
 function compact(value: string): string {
@@ -69,9 +70,19 @@ describe('feedback production configuration guidance', () => {
     );
     assert.match(
       feedback,
-      /Only structured configuration\/non-delivery fallback summaries are PII-safe and redacted; raw upstream logging is tracked separately in #200/,
+      /Structured fallback summaries contain only bounded metadata; Resend failures log only a stable endpoint, HTTP status .* and internal code/,
     );
     assert.match(feedback, /A 202 response is not a delivered success/);
+
+    const subscribe = compact(SUBSCRIBE_SOURCE);
+    assert.match(
+      subscribe,
+      /Missing\/malformed configuration fails closed in production and is skipped only in preview\/development; upstream errors default closed in production/,
+    );
+    assert.match(
+      subscribe,
+      /A missing secret fails closed in production and is skipped only in preview\/development/,
+    );
   });
 
   test('stays aligned with the existing fail-closed runtime branches', () => {
@@ -86,7 +97,7 @@ describe('feedback production configuration guidance', () => {
   });
 
   test('rejects the previous unqualified degrade-open wording', () => {
-    const operatorGuidance = `${ENV_GUIDANCE}\n${FEEDBACK_SOURCE}`;
+    const operatorGuidance = `${ENV_GUIDANCE}\n${FEEDBACK_SOURCE}\n${SUBSCRIBE_SOURCE}`;
     for (const stale of [
       /When unset, feedback is logged\s+but not emailed/i,
       /When TURNSTILE_SECRET_KEY is unset, verification is skipped\s+entirely/i,
@@ -95,6 +106,8 @@ describe('feedback production configuration guidance', () => {
       /show ["']submit accepted["']/i,
       /Default is fail-open — a vendor outage/i,
       /Every diagnostic is\s+PII-safe and redacted/i,
+      /Degrades gracefully\s+when UPSTASH_REDIS_REST_URL\/TOKEN env unset/i,
+      /Degrades gracefully when missing/i,
     ]) {
       assert.doesNotMatch(operatorGuidance, stale);
     }

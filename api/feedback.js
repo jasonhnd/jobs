@@ -26,10 +26,10 @@
 // secret returns HTTP 403, while missing RESEND_API_KEY / FEEDBACK_TO_EMAIL or
 // a Resend delivery failure returns HTTP 503. Preview/development may skip a
 // missing Turnstile secret and returns an explicit HTTP 202 non-delivery result
-// when delivery configuration is absent or Resend fails. Only structured
-// configuration/non-delivery fallback summaries are PII-safe and redacted;
-// raw upstream logging is tracked separately in #200. A 202 response is not a
-// delivered success.
+// when delivery configuration is absent or Resend fails. Structured fallback
+// summaries contain only bounded metadata; Resend failures log only a stable
+// endpoint, HTTP status (when available), and internal code. A 202 response is
+// not a delivered success.
 //
 // Defense in depth (current):
 //   1. CORS — only mirai-shigoto.com + localhost dev ports.
@@ -205,13 +205,13 @@ export default async function handler(req) {
 
   if (!apiKey || !toEmail) {
     // Record a redacted diagnostic in every environment. Production then
-    // returns 503; preview/dev returns 202 with `delivered: false`. PII
-    // (email + freetext + UA + referer) is NEVER written — only counts and
-    // structural flags. (Audit CODE-002.)
+    // returns 503; preview/dev returns 202 with `delivered: false`. Raw email,
+    // freetext, occupation, UA, and referer values are NEVER written — only
+    // bounded counts and structural flags. (Audit CODE-002.)
     console.log("[feedback]", JSON.stringify({
       ts: payload.timestamp,
       lang: payload.lang,
-      occ: payload.occupation_id,
+      has_occupation: !!payload.occupation_id,
       options: payload.options,
       has_email: !!payload.email,
       freetext_length: payload.freetext.length,
@@ -271,11 +271,17 @@ export default async function handler(req) {
       return json({ ok: true, delivered: true }, { headers: cors });
     }
 
-    const errBody = await r.json().catch(() => ({}));
-    console.error("[feedback] Resend send error", { status: r.status, body: errBody });
+    // Never log the upstream response body: Resend validation errors can echo
+    // recipient, sender, reply-to, or submitted free text. The stable metadata
+    // below is sufficient for alerting without crossing the PII boundary.
+    console.error("[feedback] Resend failure", {
+      endpoint: "emails",
+      status: r.status,
+      code: "feedback_delivery_failed",
+    });
     // PII-safe redacted summary on delivery failure. (Audit CODE-002.)
     console.log("[feedback]", JSON.stringify({
-      ts: payload.timestamp, lang: payload.lang, occ: payload.occupation_id,
+      ts: payload.timestamp, lang: payload.lang, has_occupation: !!payload.occupation_id,
       options: payload.options, has_email: !!payload.email,
       freetext_length: payload.freetext.length,
       ua_hash: shortHash(payload.user_agent || ""),
@@ -295,14 +301,20 @@ export default async function handler(req) {
       { ok: true, delivered: false, warn: "delivery_failed" },
       { status: 202, headers: cors },
     );
-  } catch (err) {
-    console.error("[feedback] handler error", err);
+  } catch {
+    // Network/timeout exceptions can carry arbitrary third-party messages.
+    // Keep the diagnostic bounded just like non-2xx Resend responses.
+    console.error("[feedback] Resend failure", {
+      endpoint: "emails",
+      status: null,
+      code: "feedback_delivery_failed",
+    });
     console.log("[feedback]", JSON.stringify({
-      ts: payload.timestamp, lang: payload.lang, occ: payload.occupation_id,
+      ts: payload.timestamp, lang: payload.lang, has_occupation: !!payload.occupation_id,
       options: payload.options, has_email: !!payload.email,
       freetext_length: payload.freetext.length,
       ua_hash: shortHash(payload.user_agent || ""),
-      delivery: "error", err_name: (err && err.name) || "unknown",
+      delivery: "error", failure_code: "feedback_delivery_failed",
     }));
     if (inProd) {
       // CODE-006: surface exception (incl. timeout AbortError) with

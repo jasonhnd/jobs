@@ -63,6 +63,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Fixed
 
+- Redacted Resend failure diagnostics for feedback and newsletter submissions:
+  raw upstream bodies, messages, email addresses, and free text no longer reach
+  server logs, while bounded endpoint/status/internal-code metadata and all
+  existing client response and delivery semantics remain intact (#200).
 - Aligned feedback, Turnstile, and rate-limit operator guidance with the
   existing environment-specific runtime contract: production configuration
   and upstream failures default fail-closed, while preview/development retains
@@ -1230,7 +1234,8 @@ genuine no-ops are documented under "Decisions" below.
   bytes exceed the cap and throws `BodyTooLargeError`.
 - **Subscribe error leak**: `api/subscribe.js` no longer echoes Resend's
   `errBody.message` to clients on 502 — third-party error strings could
-  leak audience ids. Full detail still goes to server logs.
+  leak audience ids. At this release, full detail still went to server logs;
+  that historical behavior was removed in #200.
 
 ### Changed
 
