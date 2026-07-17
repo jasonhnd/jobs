@@ -13,8 +13,8 @@ import { canonicalOccupationRank } from '../pages/_id-bindings.js';
 import { buildOccupationFaqTuples } from '../pages/_id-renderers.js';
 import {
   computeGeoFacts,
-  type GeoAttribution,
   type GeoScoreEntry,
+  type GeoScoreRunLike,
   type GeoTreemapRow,
 } from '../site/geo-facts.js';
 import { pickRelatedOccupations } from './occupation-page-data.js';
@@ -172,13 +172,13 @@ test('occupation hero and FAQ share the canonical tied-score rank', () => {
   const scores = new Map<number, GeoScoreEntry>(
     rows.map((row) => [row.id, { ai_risk: 7, aiois: { displacement: 2 } }]),
   );
-  const attribution: GeoAttribution = {
-    modelId: 'test-model',
-    modelDisplay: 'Test Model',
-    runDate: '2026-01-01',
-    standardLabel: 'AIOIS-10',
+  const scoreRun: GeoScoreRunLike = {
+    scope: 'occupations',
+    scorer: { model: 'test-model' },
+    run: { run_date: '2026-01-01' },
+    scores: Object.fromEntries([...scores].map(([id, entry]) => [String(id), entry])),
   };
-  const geoFacts = computeGeoFacts(rows, scores, attribution);
+  const geoFacts = computeGeoFacts(rows, [scoreRun]);
 
   for (const [id, expectedRank] of [[1, 1], [2, 2], [3, 3]] as const) {
     const rec = fakeRec(id, 7);
