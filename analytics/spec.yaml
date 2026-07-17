@@ -349,12 +349,14 @@ events:
   - name: feedback_submit
     description: User submitted the bottom-of-page feedback form.
     params:
-      - { name: selected_options, type: string, desc: "Comma-joined option keys (b2c_career,b2b_hr,...)" }
+      - { name: selected_options, type: string, desc: "First comma-joined option-key chunk (max 100 chars)" }
+      - { name: selected_options_extra, type: string, desc: "Overflow option-key chunk (max 100 chars; empty when unused)" }
       - { name: freetext_length, type: int, desc: "Char count of free-text answer (text itself NOT logged)" }
       - { name: has_email, type: string, desc: "true | false (whether user attached email)" }
       - { name: language, type: string }
+      - { name: success, type: string, desc: "true | false after the request completes" }
+      - { name: error_reason, type: string, desc: "none on success; stable API/client error code on failure" }
     conversion: true   # QI 8 — highest unit value
-    unimplemented: planned   # api/feedback.js endpoint exists but no UI form calls it yet
 
   # ---- Sharing ----
   # `share_x_click` was per-platform — replaced 2026-05-02 by the unified
@@ -484,7 +486,11 @@ event_scoped_dimensions:
 
   - parameter_name: selected_options
     display_name: Feedback Selected Options
-    description: Comma-joined feedback option keys.
+    description: First comma-joined feedback option-key chunk, bounded to 100 characters.
+
+  - parameter_name: selected_options_extra
+    display_name: Feedback Selected Options Extra
+    description: Overflow feedback option-key chunk when all selected keys do not fit in the first value.
 
   - parameter_name: has_email
     display_name: Feedback Has Email
@@ -677,7 +683,7 @@ audiences_manual:
 
   - name: B2B signal
     description: Submitted feedback that includes a B2B option.
-    filter: "feedback_submit where selected_options contains 'b2b_hr' OR 'b2b_training'"
+    filter: "feedback_submit where either selected_options chunk contains 'b2b_hr' OR 'b2b_training'"
     membership_duration_days: 540
 
   - name: High-intent occupations

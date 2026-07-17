@@ -28,7 +28,7 @@
 //   2. Origin/Referer 403 — server-side enforcement, parses Referer via `URL`
 //      and compares on `.origin` (no startsWith) so `evil-mirai-shigoto.com`
 //      and `mirai-shigoto.com.evil.com` can't impersonate the real origin.
-//   3. Body cap (8 KB) — STREAMING enforcement; aborts read once the cumulative
+//   3. Body cap (16 KB) — STREAMING enforcement; aborts read once the cumulative
 //      byte count exceeds the cap. Doesn't rely on the advisory content-length.
 //   4. Honeypot field (htmlfield) — silently drops obvious bot traffic.
 //   5. Allow-listed option keys — rejects unknown values.
