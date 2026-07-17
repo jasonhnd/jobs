@@ -121,7 +121,7 @@ Q: Does high AI Impact mean the job disappears?
 A: No. AI Impact measures work reshaping. Use Displacement-Risk for job shrinkage risk.
 
 Q: Where can the data be checked?
-A: Use https://mirai-shigoto.com/data.treemap.json for compact rows and /data.detail/<id>.json for per-occupation detail.
+A: Use https://mirai-shigoto.com/data.treemap.json for compact rows. Per-occupation detail IDs are zero-padded to four digits; for example, occupation #1 is https://mirai-shigoto.com/data.detail/0001.json.
 
 ## How to cite
 
@@ -225,7 +225,7 @@ A: No. They are independent LLM estimates produced under ${attribution.standardL
 - MHLW jobtag occupation data: https://shigoto.mhlw.go.jp/User/
 - JILPT occupation database/IPD data: https://www.jil.go.jp/
 - Public compact dataset: https://mirai-shigoto.com/data.treemap.json
-- Per-occupation detail: https://mirai-shigoto.com/data.detail/<id>.json
+- Per-occupation detail IDs are zero-padded to four digits; for example, occupation #1 is https://mirai-shigoto.com/data.detail/0001.json
 
 ## 10. How to cite
 
