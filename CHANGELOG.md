@@ -10,6 +10,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Changed
+
+- Reconciled the privacy policy after deleting the retired email forms' three
+  historical contacts, two jobs-only Resend segments, Vercel bindings, and
+  dedicated rate-limit store; Resend is no longer an active processor for the
+  site (#204).
+
 ## [1.8.0] — 2026-07-17 — AI work-style diagnostic, GPT-5.6 model comparison, and product hardening
 
 ### Added
