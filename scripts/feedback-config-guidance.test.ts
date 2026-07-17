@@ -16,7 +16,7 @@ function compact(value: string): string {
 }
 
 describe('feedback production configuration guidance', () => {
-  test('lists every required production value and the optional sender override', () => {
+  test('lists every production release value and the optional sender override', () => {
     for (const name of [
       'PUBLIC_TURNSTILE_SITE_KEY',
       'TURNSTILE_SECRET_KEY',
@@ -28,11 +28,23 @@ describe('feedback production configuration guidance', () => {
       assert.match(FEEDBACK_SOURCE, new RegExp(`//\\s+${name}\\s+—`), `${name} must stay in the endpoint header`);
     }
 
-    const env = compact(ENV_GUIDANCE);
-    assert.match(env, /Production feedback release requirements \(all except FROM are required\)/);
-    assert.match(env, /PUBLIC_TURNSTILE_SITE_KEY — renders the browser challenge widget/);
-    assert.match(env, /TURNSTILE_SECRET_KEY — verifies its token in the Edge Function/);
-    assert.match(env, /FEEDBACK_FROM_EMAIL — optional sender override/);
+    const checklistMatch = ENV_GUIDANCE.match(
+      /# Production feedback release requirements[\s\S]*?# Missing required[\s\S]*?sections below\./,
+    );
+    assert.ok(checklistMatch, 'production release checklist must stay present');
+    const checklist = compact(checklistMatch[0]);
+    assert.match(checklist, /Production feedback release requirements \(all except FROM are required\)/);
+    for (const name of [
+      'PUBLIC_TURNSTILE_SITE_KEY',
+      'TURNSTILE_SECRET_KEY',
+      'UPSTASH_REDIS_REST_URL',
+      'UPSTASH_REDIS_REST_TOKEN',
+      'RESEND_API_KEY',
+      'FEEDBACK_TO_EMAIL',
+    ]) {
+      assert.match(checklist, new RegExp(`${name} —`), `${name} must stay in the release checklist`);
+    }
+    assert.match(checklist, /FEEDBACK_FROM_EMAIL — optional sender override/);
   });
 
   test('pins production failures and preview or development non-delivery behavior', () => {
