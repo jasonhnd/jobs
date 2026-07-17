@@ -63,6 +63,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ### Fixed
 
+- Aligned feedback, Turnstile, and rate-limit operator guidance with the
+  existing environment-specific runtime contract: production configuration
+  and upstream failures default fail-closed, while preview/development retains
+  explicit non-delivery or skipped-verification paths. The production feedback
+  checklist now distinguishes required public/server values from the optional
+  sender override; runtime behavior is unchanged (#197).
 - Made `/shindan` result links carry the exact three-axis margins and optional
   validated occupation context. Address-bar, X, LINE, copy, native-share, and
   OG-card URLs now share one state contract; result-query HTML emits crawler-
