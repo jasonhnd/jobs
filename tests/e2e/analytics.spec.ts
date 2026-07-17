@@ -200,6 +200,7 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
     'google-analytics.com',
     'va.vercel-scripts.com',
     'static.ads-twitter.com',
+    'challenges.cloudflare.com',
   ];
   const REQUIRED_IN_CONNECT_SRC = [
     'https://cloudflareinsights.com',
@@ -221,6 +222,7 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
   }
   const scriptSrc = directives.get('script-src') ?? '';
   const connectSrc = directives.get('connect-src') ?? '';
+  const frameSrc = directives.get('frame-src') ?? '';
 
   for (const origin of REQUIRED_IN_SCRIPT_SRC) {
     expect(
@@ -234,6 +236,10 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
       `connect-src missing required analytics origin: ${origin}\nGot: ${connectSrc}`,
     ).toBe(true);
   }
+  expect(
+    frameSrc.includes('challenges.cloudflare.com'),
+    `frame-src missing Cloudflare Turnstile origin\nGot: ${frameSrc}`,
+  ).toBe(true);
 });
 
 // ─── CODE-012: script-src must NOT contain 'unsafe-inline' ─────────────────
