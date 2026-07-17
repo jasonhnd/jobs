@@ -21,7 +21,7 @@
  *   7. setup-ga4.mjs uses that refresh_token automatically on every run —
  *      no further interaction needed.
  *
- * Run once. After that, `npm run discover` / `npm run setup` work
+ * Run once. After that, the analytics package's `discover` / `setup` scripts work
  * non-interactively.
  */
 
@@ -179,7 +179,7 @@ fs.writeFileSync(
 log(`✓ Saved OAuth refresh token: ${TOKEN_FILE}`);
 log(`  Permissions: 0600 (owner-only read)`);
 log("");
-log("Setup complete. Now you can run:");
-log("  npm run discover   # list your GA4 properties");
-log("  npm run setup:dry  # preview spec changes");
-log("  npm run setup      # apply spec to GA4");
+log("Setup complete. From the repository root, run:");
+log("  corepack pnpm@11.9.0 --dir analytics run discover   # list GA4 properties");
+log("  GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup:dry");
+log("  GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup");

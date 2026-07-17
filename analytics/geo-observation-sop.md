@@ -22,7 +22,17 @@ This is a **follow-the-steps runbook**; instrumentation details, engine-classifi
 | GEO Citation Candidate | `geo_citation_candidate` | Event |
 | Server Source | `ssrc` | Event |
 
-> The single source of truth for dimensions is `analytics/spec.yaml`; after adding/changing a dimension, run `node setup-ga4.mjs` (needs OAuth / GA4 admin), or create it by hand in GA4 (Admin → Custom definitions).
+The single source of truth for dimensions is `analytics/spec.yaml`. From the
+repository root, validate and preview every change before applying it (the
+apply step needs OAuth / GA4 admin):
+
+```bash
+corepack pnpm@11.9.0 --dir analytics install --frozen-lockfile
+GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup:dry
+GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup
+```
+
+Alternatively, create the definition by hand in GA4 (Admin → Custom definitions).
 
 ## 1. Cadence (28-day window)
 

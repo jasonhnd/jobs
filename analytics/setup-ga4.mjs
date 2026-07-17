@@ -17,11 +17,11 @@
  *      switch to the OAuth user-credential path (#1).
  *
  * Usage:
- *   # Once OAuth has been initialized:
- *   GA4_PROPERTY_ID=123456789 node analytics/setup-ga4.mjs
+ *   # From the repository root, once OAuth has been initialized:
+ *   GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup
  *
  *   # Or just discover what properties you can access:
- *   node analytics/setup-ga4.mjs --discover
+ *   corepack pnpm@11.9.0 --dir analytics run discover
  *
  * What it does:
  *   1. Lists existing custom dimensions on the property
@@ -47,6 +47,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as yaml from "js-yaml";
 import { google } from "googleapis";
+import { validateCustomDimensionSpec } from "./ga4-spec-validation.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SPEC_PATH = path.join(__dirname, "spec.yaml");
@@ -71,8 +72,15 @@ function loadSpec() {
   const spec = yaml.load(raw);
   // Sanity checks
   if (!Array.isArray(spec.events)) throw new Error("spec.events must be an array");
-  if (!Array.isArray(spec.event_scoped_dimensions)) throw new Error("spec.event_scoped_dimensions must be an array");
-  if (!Array.isArray(spec.user_scoped_dimensions)) throw new Error("spec.user_scoped_dimensions must be an array");
+  // Validate the local spec against the GA4 Admin API before property lookup,
+  // authentication, API reads, or writes. Dry-run and real sync share this
+  // exact fail-fast path.
+  validateCustomDimensionSpec(spec);
+  log(
+    "ok",
+    `Validated ${spec.event_scoped_dimensions.length + spec.user_scoped_dimensions.length} ` +
+      "custom dimensions against GA4 Admin API limits",
+  );
   // Cross-check: every dimension's parameter_name should appear in some event
   const eventParams = new Set();
   for (const ev of spec.events) {
