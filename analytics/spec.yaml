@@ -331,33 +331,8 @@ events:
       - { name: language, type: string }
     conversion: false   # informational, not a primary conversion goal
 
-  # ---- Email capture ----
-  # `email_submit_modal` — REMOVED 2026-05-02 along with the modal itself.
-  # When per-occupation pages add their own subscribe form, register a new
-  # event (e.g. `email_submit_occ`) rather than reviving this one — the
-  # modal-specific risk_tier semantics no longer apply.
-  - name: email_submit_header
-    description: Email submitted from the page-bottom generic newsletter card (T1 in OPC plan).
-    # The email address is sent only to `/api/subscribe`; GA4 receives these
-    # bounded outcome fields and never receives the address itself.
-    params:
-      - { name: language, type: string }
-      - { name: success, type: string }
-      - { name: error_reason, type: string }
-    conversion: true   # QI 3
-
-  # ---- Feedback ----
-  - name: feedback_submit
-    description: User submitted the bottom-of-page feedback form.
-    params:
-      - { name: selected_options, type: string, desc: "First comma-joined option-key chunk (max 100 chars)" }
-      - { name: selected_options_extra, type: string, desc: "Overflow option-key chunk (max 100 chars; empty when unused)" }
-      - { name: freetext_length, type: int, desc: "Char count of free-text answer (text itself NOT logged)" }
-      - { name: has_email, type: string, desc: "true | false (whether user attached email)" }
-      - { name: language, type: string }
-      - { name: success, type: string, desc: "true | false after the request completes" }
-      - { name: error_reason, type: string, desc: "none on success; stable API/client error code on failure" }
-    conversion: true   # QI 8 — highest unit value
+  # Email capture and feedback delivery were retired under #202. Historical
+  # data remains in GA4, but this active spec no longer syncs their schema.
 
   # ---- Sharing ----
   # `share_x_click` was per-platform — replaced 2026-05-02 by the unified
@@ -485,22 +460,6 @@ event_scoped_dimensions:
   # which was deleted 2026-05-02. The dimensions still exist on the live GA4
   # property to preserve historical data; we just don't sync them anymore.
 
-  - parameter_name: selected_options
-    display_name: Feedback Selected Options
-    description: First comma-joined feedback option-key chunk, bounded to 100 characters.
-
-  - parameter_name: selected_options_extra
-    display_name: Feedback Selected Options Extra
-    description: Overflow feedback option-key chunk when all selected keys do not fit in the first value.
-
-  - parameter_name: has_email
-    display_name: Feedback Has Email
-    description: Whether the feedback form included an email.
-
-  - parameter_name: error_reason
-    display_name: Submit Error Reason
-    description: Error code when an email/feedback submit failed.
-
   # `from_modal` — REMOVED 2026-05-06 from spec. Was a parameter on the old
   # `jobtag_outbound_click` event when both modal-path and per-page-path
   # existed; v1.4.0 removed the modal entirely and the param was dropped
@@ -545,14 +504,6 @@ event_scoped_dimensions:
 
   # `time_open_ms` — REMOVED 2026-05-06 from spec (same reason as
   # open_method / close_method above). Live GA4 dimension preserved for history.
-
-  - parameter_name: freetext_length
-    display_name: Feedback Freetext Length
-    description: Character count of the free-text feedback field. The text itself is NOT logged (PII risk) — only the length, as a proxy for thoughtfulness.
-
-  - parameter_name: success
-    display_name: Submit Success
-    description: Whether the submit succeeded (true/false).
 
   - parameter_name: palette
     display_name: Color Palette
@@ -630,18 +581,6 @@ user_scoped_dimensions:
     display_name: Language Preference
     description: User's language at time of first session (ja / en).
 
-  - parameter_name: is_subscribed
-    display_name: Is Subscribed
-    description: Whether the user has ever submitted an email (true/false).
-
-  - parameter_name: subscribed_occupation_id
-    display_name: Subscribed Occupation ID
-    description: Occupation_id captured at the moment of email submit (if any).
-
-  - parameter_name: has_submitted_feedback
-    display_name: Has Submitted Feedback
-    description: Whether the user has ever submitted a feedback form (true/false).
-
 # ----------------------------------------------------------------------
 # Key Events (formerly "conversions")
 # ----------------------------------------------------------------------
@@ -655,13 +594,8 @@ key_events:
   - job_search_intent       # user engaged with autocomplete (KPI #1, real CTR denominator since 2026-05-06)
   - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
   - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
-  - email_submit_header     # shared page-bottom newsletter card submit (QI 3)
-  # — Conversion: occupation page → operator inbox —
-  - feedback_submit         # QI 8 (feedback + tagging)
-  # NOTE: `email_submit_modal` and `report_cta_click` were removed in 2026-05-02
-  # along with the modal itself. `email_submit_header` is now emitted by the
-  # shared page-bottom newsletter card. `job_search_submit` was renamed to `job_search_typed`
-  # and demoted from key_events on 2026-05-06 (see events: section).
+  # `job_search_submit` was renamed to `job_search_typed` and demoted from
+  # key_events on 2026-05-06 (see events: section).
 
 # ----------------------------------------------------------------------
 # Audiences — created MANUALLY in the GA4 dashboard
@@ -671,21 +605,6 @@ key_events:
 # This block documents what to create and the rough filter logic.
 
 audiences_manual:
-  - name: Subscribed
-    description: User has submitted an email at least once.
-    filter: "event_count of (email_submit_modal OR email_submit_header) >= 1"
-    membership_duration_days: 540  # max in GA4
-
-  - name: Engaged but unconverted
-    description: Opened modal but never submitted email (in last 30 days).
-    filter: "occupation_modal_open >= 1 AND email_submit_modal = 0 AND email_submit_header = 0"
-    membership_duration_days: 30
-
-  - name: B2B signal
-    description: Submitted feedback that includes a B2B option.
-    filter: "feedback_submit where either selected_options chunk contains 'b2b_hr' OR 'b2b_training'"
-    membership_duration_days: 540
-
   - name: High-intent occupations
     description: Opened a high-risk modal (proxy for high anxiety).
     filter: "occupation_modal_open where risk_tier = 'high'"

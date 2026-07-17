@@ -64,7 +64,6 @@ Vercel project → Settings → Environment Variables で設定する。analytic
 | `PUBLIC_META_PIXEL_ID` | Preview + Production | no | BaseLayout クライアント | Meta Pixel ID。`fbq('init')` + `PageView` は cookie banner で拒否されていない場合のみ fire |
 | `PUBLIC_GOOGLE_ADS_ID` | Production | no | BaseLayout クライアント | 形式: `AW-XXXXXXXXX`。GA4 と同じ `gtag.js` を共有するため、`PUBLIC_GA4_MEASUREMENT_ID` が未設定の build では inert |
 | `GA4_MP_API_SECRET` | Production | **yes** | middleware.ts | GA4 → Admin → Data Streams → Web stream → Measurement Protocol API secrets → Create で発行。サーバー専用 — `PUBLIC_` prefix なし |
-| `RESEND_API_KEY`、`RESEND_AUDIENCE_ID_*`、`FEEDBACK_*` | Production | yes | api/* エンドポイント | analytics 無関係。`.env.example` にドキュメント済 |
 | `GA4_PROPERTY_ID`、`GOOGLE_APPLICATION_CREDENTIALS` | local | yes | `analytics/setup-ga4.mjs` | オペレーター側 GA4 admin セットアップのみ、ランタイム不要 |
 
 env が欠落している場合、対応するトラッカーは静かにスルーする — 5xx もクライアント可視エラーも出ない。これは意図的: fork / preview はデフォルトで未設定。Production deploy は必須 env をすべて設定すること。

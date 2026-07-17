@@ -8,7 +8,7 @@
  * itself is the I/O wrapper: read headers + env → call these pure
  * helpers → POST to GA4 via `context.waitUntil`.
  *
- * Four concerns covered here:
+ * Five concerns covered here:
  *
  *   1. Bot UA detection (`BOT_UA_RE`, `isBotUserAgent`) — skip
  *      server-side measurement for known crawlers so they don't
@@ -26,6 +26,9 @@
  *   4. GEO referral classification (`classifyGeoReferral`) — tags
  *      page_view events with the search / AI referral baseline fields
  *      used by downstream citation analysis.
+ *
+ *   5. Client-IP extraction (`clientIpFromRequest`) — prefers Vercel-set
+ *      headers and never trusts the first raw X-Forwarded-For hop.
  *
  * No I/O happens here. No `fetch`, no env reads (env values are passed
  * in by the caller), no `console.warn`.
@@ -130,6 +133,30 @@ export function deriveClientId(cookieHeader: string | null): string {
   const ts = Math.floor(Date.now() / 1000);
   const rand = Math.floor(Math.random() * 1_000_000_000);
   return `${rand}.${ts}`;
+}
+
+/**
+ * Extract the best available client IP for GA4 geolocation.
+ *
+ * Vercel-controlled headers take priority. Raw X-Forwarded-For is only a
+ * fallback, and its last hop is used so a client-supplied first hop cannot
+ * spoof the value. `anonymous` keeps the missing-value contract explicit;
+ * middleware.ts converts it to an empty GA4 `ip_override`.
+ */
+export function clientIpFromRequest(req: Pick<Request, 'headers'>): string {
+  const xRealIp = req.headers.get('x-real-ip');
+  if (xRealIp?.trim()) return xRealIp.trim();
+
+  const xVercelXff = req.headers.get('x-vercel-forwarded-for');
+  if (xVercelXff?.trim()) {
+    const hops = xVercelXff.split(',').map((hop) => hop.trim()).filter(Boolean);
+    if (hops.length > 0) return hops[hops.length - 1]!;
+  }
+
+  const xff = req.headers.get('x-forwarded-for');
+  if (!xff) return 'anonymous';
+  const hops = xff.split(',').map((hop) => hop.trim()).filter(Boolean);
+  return hops.length > 0 ? hops[hops.length - 1]! : 'anonymous';
 }
 
 /** Inputs that decide whether the middleware fires a server-side MP hit. */

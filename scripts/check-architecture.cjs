@@ -10,8 +10,7 @@
  *      (src/graph, src/views, src/templates, src/pages)
  *
  *   2. Transitive import-graph walk from each Vercel Edge Function
- *      entry (`api/og.tsx`, `middleware.ts`, `api/feedback.js`,
- *      `api/subscribe.js`). Any `.tsx` file reachable as a *dependency*
+ *      entry (`api/og.tsx`, `middleware.ts`). Any `.tsx` file reachable as a *dependency*
  *      fails the gate — Vercel's Edge bundler has no TSX loader for
  *      deps and would 500 the deploy with "unsupported modules".
  *

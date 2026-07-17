@@ -27,13 +27,11 @@ Fields:
 
 ### v1.8.0 candidate boundary
 
-- The audited release-candidate baseline is
-  `preview@e4d8bde364a93176fc0a72ca19f96ef8dff45aab`, a strict descendant 22
-  commits ahead of `main` with no reverse divergence. It includes the
-  shared-footer newsletter restored by #196, production configuration guidance
-  corrected by #197, and Resend diagnostic redaction from #200 in addition to
-  the diagnostic, multi-model, feedback, performance, correctness, and
-  governance work.
+- The audited pre-retirement candidate baseline is
+  `preview@7d4588b38d22a23f54211a5d0ffdcca86c2fb4c3`, a strict descendant of
+  `main` with no reverse divergence. Owner decision #202 removes the legacy
+  email-delivery APIs and the pre-production footer forms before promotion;
+  they are not part of the v1.8.0 product boundary.
 - This release-preparation change advances `preview`, and the required
   promotion merge advances `main` again. Neither `e4d8bde3` nor any
   predeclared SHA is the final release commit; the tag must be created only
@@ -45,29 +43,16 @@ Fields:
 
 ### Remaining production gates
 
-- The 2026-07-17 Vercel environment-name audit found production Resend API and
-  Japanese/English audience variables, but no `PUBLIC_TURNSTILE_SITE_KEY`,
-  `TURNSTILE_SECRET_KEY`, `UPSTASH_REDIS_REST_URL`,
-  `UPSTASH_REDIS_REST_TOKEN`, `FEEDBACK_TO_EMAIL`, or `FEEDBACK_FROM_EMAIL`.
-  Although the runtime schema allows the sender override to be omitted, this
-  release requires the production environment to set
-  `FEEDBACK_FROM_EMAIL=feedback@mirai-shigoto.com`: Resend's default onboarding
-  sender cannot deliver to the intended routed operator inbox, while the
-  `mirai-shigoto.com` domain is API-verified, so that sender is permitted under
-  Resend's domain rules. Configure the value in Vercel rather than committing a
-  production environment file. The official Redis integration exposes
-  `REDIS_URL`, but this runtime requires the Upstash REST URL/token pair and
-  cannot substitute that variable. Turnstile
-  authentication and the final feedback recipient route are not verified.
-  Provision and verify every release-required production-scoped value before
-  promotion so the production deployment is built with it; never record secret
-  values in the repository or release notes.
+- Merge and verify #202 on `preview`, then freeze the candidate before opening
+  the reviewed `preview` → `main` promotion PR. Audit report #203 was closed as
+  not reproducible: the LinkedIn handler contains one analytics call. No
+  email-delivery, anti-bot-widget, or form-rate-limit configuration is a v1.8.0
+  release gate.
 - After the production deployment reports success for the final `main` SHA,
   smoke `/`, `/models`, `/shindan`, and `/gyakuten`; verify the active GPT-5.6
-  attribution and the occupation-404 split; then submit one controlled feedback
-  and one controlled newsletter request and confirm actual Resend delivery.
-  Follow `docs/newsletter-production-smoke.md`; do not subscribe an uncontrolled
-  address.
+  attribution and the occupation-404 split; verify the footer has no email or
+  feedback form and that the retired `/api/feedback` and `/api/subscribe`
+  endpoints return 404.
 - Only after those checks pass may the exact verified production commit receive
   the `v1.8.0` tag and matching GitHub release. Record the final `main` and
   `preview` SHAs plus deployment evidence in #175 and the GitHub release; do not

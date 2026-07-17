@@ -122,13 +122,10 @@ TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データ�
 | ランタイム / ビルド | Node 24・Bun・Astro 7（Vite 8 / Rust コンパイラ）・TypeScript・React 19（OG 画像のみ） |
 | ホスティング | Vercel（Tokyo edge）— `main` から自動デプロイ |
 | ドメイン | `mirai-shigoto.com`（Cloudflare Registrar → Vercel） |
-| メール | Resend via Edge Function（`api/subscribe.js`、`api/feedback.js`） |
 | アナリティクス | Cloudflare WA、GA4、Vercel WA、Vercel Speed Insights（[仕様](analytics/spec.yaml)） |
 | SEO | `robots.txt`、`sitemap.xml`、[`/llms.txt`](https://mirai-shigoto.com/llms.txt)、Schema.org 構造化データ |
 
 キャッシュポリシーは `vercel.json` で管理します。Astro が生成する fingerprint 付き静的アセット（`/_astro/*`）と build-time subset フォント（`/fonts/*`）は `Cache-Control: public, max-age=31536000, immutable`、頻繁に更新される projection JSON / sitemap / robots / llms は短めの `max-age` + CDN `s-maxage` を明示します。
-
-共有フッターの月次レポート登録フォームは `/api/subscribe` を呼び出し、メールアドレスを Resend audience に保存します。GA4 の `email_submit_header` には成否・エラー理由・言語だけを送り、メールアドレスは送りません。本番 audience の確認手順は [`docs/newsletter-production-smoke.md`](docs/newsletter-production-smoke.md) に記載しています。
 
 ---
 
@@ -154,7 +151,7 @@ jobs/
 │   ├── layouts/            # BaseLayout
 │   ├── data/               # TypeScript ETL（build.ts + projections + schemas）
 │   └── lib/                # サイト全体のユーティリティ（canonical-css など）
-├── api/                    # Vercel Edge Function（OG 画像、登録、フィードバック）
+├── api/                    # Vercel Edge Function（OG 画像、診断結果の共有）
 ├── assets/fonts-src/       # OFL font sources used by build-time WOFF2 subsetting
 ├── analytics/              # GA4 計測スペック + 同期スクリプト
 ├── data/                   # ソースデータ（職業別 JSON、スコア、ラベル、セクター）
@@ -228,7 +225,7 @@ MIT ライセンスは本リポジトリ内のソースコードに適用され�
 - **厚生労働省 職業情報提供サイト（job tag）** および **総務省 統計局** — 構造化された職業データ・労働力データを公開し、第三者がその上に積み上げられる形にしてくださっていること。
 - **独立行政法人 労働政策研究・研修機構（JILPT）** — job tag が参照している土台の「職業情報データベース」を整備していること。
 - **採点モデル群** — AIOIS-10 v1.0 の各 append-only score batch を生成したモデル。モデル ID・provider・採点日は各 run のメタデータに保存しています。
-- **Vercel、Cloudflare、Resend** — 一人開発のサイドプロジェクトでも国内訪問者に 50 ms 以下のレイテンシを提供できるインフラ。
+- **Vercel、Cloudflare** — 一人開発のサイドプロジェクトでも国内訪問者に 50 ms 以下のレイテンシを提供できるインフラ。
 
 ---
 

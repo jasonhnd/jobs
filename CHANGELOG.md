@@ -31,14 +31,6 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 - Landed the full 556-occupation GPT-5.6 SOL batch as the deterministic active
   site-wide score source, with its prompt, provider, model, and scoring date
   preserved in repository data and public attribution (#126, #146).
-- Added an accessible Japanese feedback form to the shared footer, backed by
-  `/api/feedback` with allow-listed option keys, occupation context, honeypot,
-  Turnstile, explicit delivery/retry states, and PII-safe analytics (#171).
-- Restored the shared-footer monthly-report signup backed by `/api/subscribe`,
-  with informed privacy copy, occupation context, honeypot, Turnstile,
-  non-submitting no-JavaScript fallback, explicit validation/delivery/retry
-  states, and PII-free analytics. A controlled production Resend delivery smoke
-  remains a release gate; no uncontrolled address may be subscribed (#172).
 - Added repository-owned CI, documentation-link and occupation-route gates,
   contributor instructions, and the reviewable `preview` → `main` production
   promotion policy (#173, #174).
@@ -64,18 +56,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
   TypeScript 6 under the `typescript` package name solely as Vercel's temporary
   programmatic-API compatibility layer (#118).
 
+### Removed
+
+- Retired the previously shipped `/api/feedback` and `/api/subscribe` endpoints
+  and removed the pre-production footer forms, Resend delivery, Turnstile, and
+  form-only rate-limit configuration. The owner decided these capabilities are
+  not part of the current product or the v1.8.0 release (#202).
+
 ### Fixed
 
-- Redacted Resend failure diagnostics for feedback and newsletter submissions:
-  raw upstream bodies, messages, email addresses, and free text no longer reach
-  server logs, while bounded endpoint/status/internal-code metadata and all
-  existing client response and delivery semantics remain intact (#200).
-- Aligned feedback, Turnstile, and rate-limit operator guidance with the
-  existing environment-specific runtime contract: production configuration
-  and upstream failures default fail-closed, while preview/development retains
-  explicit non-delivery or skipped-verification paths. The production feedback
-  checklist now distinguishes required public/server values from the optional
-  sender override; runtime behavior is unchanged (#197).
 - Preserved environment-gated analytics hashes during ordinary builds and made
   CSP hash verification fail closed on missing or mismatched rendered input
   (#89, #169).
