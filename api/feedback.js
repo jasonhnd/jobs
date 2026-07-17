@@ -15,13 +15,19 @@
 // grows, swap the body of this function to write into Vercel KV or Postgres.
 //
 // Env vars:
-//   RESEND_API_KEY           — auto-injected by Resend Vercel integration
-//   FEEDBACK_TO_EMAIL        — operator inbox (e.g., feedback@mirai-shigoto.com).
-//                              If unset, falls back to logging the payload and
-//                              returning success (so the frontend stays unblocked
-//                              even before the env var is wired up).
-//   FEEDBACK_FROM_EMAIL      — sender address (default: onboarding@resend.dev,
-//                              works without verified domain).
+//   PUBLIC_TURNSTILE_SITE_KEY — renders the footer challenge widget (public)
+//   TURNSTILE_SECRET_KEY      — verifies the widget token (server-only)
+//   RESEND_API_KEY            — authorizes Resend delivery
+//   FEEDBACK_TO_EMAIL         — operator inbox (required for production delivery)
+//   FEEDBACK_FROM_EMAIL       — optional sender override; defaults to
+//                               onboarding@resend.dev
+//
+// Production (`VERCEL_ENV === "production"`) fails closed: missing Turnstile
+// secret returns HTTP 403, while missing RESEND_API_KEY / FEEDBACK_TO_EMAIL or
+// a Resend delivery failure returns HTTP 503. Preview/development may skip a
+// missing Turnstile secret and returns an explicit HTTP 202 non-delivery result
+// when delivery configuration is absent or Resend fails. Every diagnostic is
+// PII-safe and redacted; a 202 non-delivery response is not a delivered success.
 //
 // Defense in depth (current):
 //   1. CORS — only mirai-shigoto.com + localhost dev ports.
@@ -34,13 +40,14 @@
 //   5. Allow-listed option keys — rejects unknown values.
 //   6. HTML-escape on freetext before email — prevents email-template XSS.
 //   7. Per-IP rate limit (Upstash Redis REST) — 10 POST per 5 minutes.
-//      Degrades gracefully when UPSTASH_REDIS_REST_URL/TOKEN env unset:
-//      defenses 1-6 still apply. Set FAIL_CLOSED_ON_RATELIMIT_ERROR=1 to
-//      reject on Upstash outage instead of fail-open.
+//      Missing/malformed configuration fails closed in production and is
+//      skipped only in preview/development. Upstream errors default closed in
+//      production and open elsewhere; FAIL_CLOSED_ON_RATELIMIT_ERROR can
+//      explicitly invert that outage behavior.
 //   8. Cloudflare Turnstile (invisible CAPTCHA) — verified server-side
 //      when TURNSTILE_SECRET_KEY env is set. Frontend widget submits
-//      `cf-turnstile-response` token; missing token → 403. Degrades
-//      gracefully when secret env is missing.
+//      `cf-turnstile-response` token; missing token → 403. A missing secret
+//      also fails closed in production, but is skipped in preview/development.
 
 import {
   makeOriginGate,
@@ -156,8 +163,9 @@ export default async function handler(req) {
 
   // Turnstile verification — runs AFTER parsing so we know the body shape,
   // but BEFORE the expensive Resend send. The token field name matches the
-  // standard Turnstile widget output (`cf-turnstile-response`). When
-  // TURNSTILE_SECRET_KEY is unset, this is a no-op (skipped: true).
+  // standard Turnstile widget output (`cf-turnstile-response`). A missing
+  // TURNSTILE_SECRET_KEY fails closed in production (`production_misconfigured`)
+  // and is a no-op only in preview/development (`skipped: true`).
   const turnstileToken = body && typeof body === "object"
     ? (body["cf-turnstile-response"] || body["turnstile_token"] || null)
     : null;
@@ -182,21 +190,22 @@ export default async function handler(req) {
   };
   const { email, lang, occupation_id: occupationId, options, freetext } = parsed.payload;
 
-  // ---- send to operator inbox (or log) ----
+  // ---- deliver to operator inbox ----
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.FEEDBACK_TO_EMAIL;
   const fromEmail = process.env.FEEDBACK_FROM_EMAIL || "onboarding@resend.dev";
 
   // Production must SURFACE delivery failures with 503 (so monitoring
-  // and the user-visible UI can react), while preview/dev keeps the
-  // historic 202 graceful-fallback (so local dev and preview deploys
-  // without Resend wired up don't break the form). (Audit CODE-006.)
+  // and the user-visible UI can react), while preview/dev keeps an explicit
+  // 202 non-delivery result for exercising the form without Resend. The client
+  // maps `delivered: false` to an error, never to delivered success. (CODE-006.)
   const inProd = isProduction(process.env);
 
   if (!apiKey || !toEmail) {
-    // Graceful fallback: log a redacted summary so we can see what
-    // would have been delivered. PII (email + freetext + UA + referer)
-    // is NEVER written — only counts and structural flags. (Audit CODE-002.)
+    // Record a redacted diagnostic in every environment. Production then
+    // returns 503; preview/dev returns 202 with `delivered: false`. PII
+    // (email + freetext + UA + referer) is NEVER written — only counts and
+    // structural flags. (Audit CODE-002.)
     console.log("[feedback]", JSON.stringify({
       ts: payload.timestamp,
       lang: payload.lang,
@@ -278,8 +287,8 @@ export default async function handler(req) {
         { status: 503, headers: cors },
       );
     }
-    // Preview/dev: keep historic 202 graceful-fallback so previews
-    // without Resend wired up still show "submit accepted" in the UI.
+    // Preview/dev: return the explicit 202 non-delivery result. The UI maps
+    // `delivered: false` + `warn` to a retryable delivery error.
     return json(
       { ok: true, delivered: false, warn: "delivery_failed" },
       { status: 202, headers: cors },
