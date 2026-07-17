@@ -69,7 +69,7 @@ describe('feedback production configuration guidance', () => {
     );
     assert.match(
       feedback,
-      /Structured fallback summaries are PII-safe and redacted; the separately logged Resend error body must not be treated as PII-free/,
+      /Only structured configuration\/non-delivery fallback summaries are PII-safe and redacted; raw upstream logging is tracked separately in #200/,
     );
     assert.match(feedback, /A 202 response is not a delivered success/);
   });
