@@ -98,6 +98,7 @@ test('feedback form submits the endpoint contract once and emits no PII to GA4',
   const events = await capturedEvents(page);
   expect(events).toEqual([['event', 'feedback_submit', {
     selected_options: 'b2c_career',
+    selected_options_extra: '',
     freetext_length: 21,
     has_email: 'true',
     language: 'ja',
@@ -185,4 +186,20 @@ test('feedback form opens from the keyboard with accessible controls and live st
     (violation) => violation.impact === 'critical' || violation.impact === 'serious',
   );
   expect(blocking).toEqual([]);
+});
+
+test('feedback form stays non-submitting when client JavaScript is unavailable', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.locator('[data-feedback-root] summary').click();
+
+  const form = page.locator('[data-feedback-form]');
+  await expect(form).not.toHaveAttribute('action', /.+/);
+  await expect(form).not.toHaveAttribute('method', /.+/);
+  await expect(page.getByLabel('ご意見・改善してほしい点（任意）')).toBeDisabled();
+  await expect(page.locator('[data-feedback-submit]')).toBeDisabled();
+  await expect(page.locator('.feedback-unavailable')).toContainText('JavaScriptが必要');
+
+  await context.close();
 });

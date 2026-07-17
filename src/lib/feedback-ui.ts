@@ -43,12 +43,15 @@ export type FeedbackOutcome = {
 
 export type FeedbackAnalytics = {
   selected_options: string;
+  selected_options_extra: string;
   freetext_length: number;
   has_email: 'true' | 'false';
   language: 'ja';
   success: 'true' | 'false';
   error_reason: string;
 };
+
+const GA4_PARAMETER_VALUE_MAX = 100;
 
 type FeedbackPayloadInput = {
   selectedOptions: readonly string[];
@@ -145,13 +148,41 @@ export function feedbackStatusMessage(
   return '送信できませんでした。入力内容をご確認のうえ、もう一度お試しください。';
 }
 
+/**
+ * Preserve every selected backend key without exceeding GA4's 100-character
+ * event-parameter value limit. Canonical allow-list order makes the output
+ * deterministic; the current eleven keys require at most two chunks.
+ */
+export function feedbackOptionAnalyticsChunks(
+  options: readonly string[],
+): readonly [string, string] {
+  const selected = new Set(options.filter((key) => KNOWN_OPTIONS.has(key)));
+  const chunks: string[] = [];
+
+  for (const key of KNOWN_OPTIONS) {
+    if (!selected.has(key)) continue;
+    const lastIndex = Math.max(chunks.length - 1, 0);
+    const current = chunks[lastIndex] ?? '';
+    const candidate = current ? `${current},${key}` : key;
+    if (candidate.length <= GA4_PARAMETER_VALUE_MAX) {
+      chunks[lastIndex] = candidate;
+    } else {
+      chunks.push(key);
+    }
+  }
+
+  return [chunks[0] ?? '', chunks.slice(1).join(',')];
+}
+
 /** GA4-safe projection. Deliberately excludes email and free-text values. */
 export function buildFeedbackAnalytics(
   payload: FeedbackPayload,
   outcome: FeedbackOutcome,
 ): FeedbackAnalytics {
+  const [selectedOptions, selectedOptionsExtra] = feedbackOptionAnalyticsChunks(payload.options);
   return {
-    selected_options: payload.options.join(','),
+    selected_options: selectedOptions,
+    selected_options_extra: selectedOptionsExtra,
     freetext_length: payload.freetext.length,
     has_email: payload.email ? 'true' : 'false',
     language: payload.lang,

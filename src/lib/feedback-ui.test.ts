@@ -1,11 +1,16 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { KNOWN_OPTIONS, MAX_FREETEXT_LEN } from './feedback-helpers.js';
+import {
+  KNOWN_OPTIONS,
+  MAX_BODY_BYTES,
+  MAX_FREETEXT_LEN,
+} from './feedback-helpers.js';
 import {
   FEEDBACK_OPTIONS,
   buildFeedbackAnalytics,
   buildFeedbackPayload,
+  feedbackOptionAnalyticsChunks,
   feedbackOutcomeForResponse,
   feedbackStatusMessage,
   occupationIdFromPathname,
@@ -49,6 +54,20 @@ describe('buildFeedbackPayload', () => {
     assert.equal(payload.email, null);
     assert.equal(payload.occupation_id, null);
     assert.equal(payload['cf-turnstile-response'], '');
+  });
+
+  test('keeps the largest valid UTF-8 payload below the streaming body cap', () => {
+    const payload = buildFeedbackPayload({
+      selectedOptions: Array.from(KNOWN_OPTIONS),
+      freetext: 'あ'.repeat(MAX_FREETEXT_LEN),
+      email: `${'a'.repeat(240)}@example.com`,
+      turnstileToken: 't'.repeat(2048),
+      pathname: '/ja/1234567890123456',
+    });
+    const bytes = new TextEncoder().encode(JSON.stringify(payload)).byteLength;
+
+    assert.ok(bytes > 8 * 1024, 'fixture must reproduce the former 8 KiB rejection');
+    assert.ok(bytes < MAX_BODY_BYTES, `${bytes} bytes must fit under ${MAX_BODY_BYTES}`);
   });
 });
 
@@ -113,6 +132,7 @@ describe('buildFeedbackAnalytics', () => {
 
     assert.deepEqual(analytics, {
       selected_options: 'b2c_career,other',
+      selected_options_extra: '',
       freetext_length: 5,
       has_email: 'true',
       language: 'ja',
@@ -121,5 +141,17 @@ describe('buildFeedbackAnalytics', () => {
     });
     assert.equal(JSON.stringify(analytics).includes('private@example.com'), false);
     assert.equal(JSON.stringify(analytics).includes('秘密の本文'), false);
+  });
+
+  test('preserves every option key across GA4-bounded chunks', () => {
+    const selected = Array.from(KNOWN_OPTIONS).reverse();
+    const [primary, extra] = feedbackOptionAnalyticsChunks(selected);
+    const reconstructed = `${primary},${extra}`.replace(/^,|,$/g, '').split(',');
+
+    assert.ok(primary.length <= 100);
+    assert.ok(extra.length <= 100);
+    assert.deepEqual(reconstructed, Array.from(KNOWN_OPTIONS));
+    assert.ok(primary.includes('b2b_hr'));
+    assert.ok(primary.includes('b2b_training'));
   });
 });

@@ -11,17 +11,20 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? 
       <small>1分ほど・匿名でも送信できます</small>
     </summary>
 
-    <form class="feedback-form" data-feedback-form action="/api/feedback" method="post" aria-describedby="feedback-instructions feedback-status">
+    <form class="feedback-form" data-feedback-form aria-describedby="feedback-instructions feedback-status">
       <p id="feedback-instructions" class="feedback-instructions">
         当てはまる項目を選ぶか、ご意見をご入力ください。どちらか一方だけでも送信できます。
       </p>
+      <noscript>
+        <p class="feedback-unavailable">送信にはJavaScriptが必要です。ブラウザの設定を有効にしてから再読み込みしてください。</p>
+      </noscript>
 
       <fieldset>
         <legend>このサイトを何に使っていますか？（複数選択可）</legend>
         <div class="feedback-options">
           {FEEDBACK_OPTIONS.map(({ key, label }) => (
             <label>
-              <input type="checkbox" name="options" value={key} />
+              <input type="checkbox" name="options" value={key} data-feedback-control disabled />
               <span>{label}</span>
             </label>
           ))}
@@ -30,17 +33,17 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? 
 
       <label class="feedback-field" for="feedback-freetext">
         <span>ご意見・改善してほしい点（任意）</span>
-        <textarea id="feedback-freetext" name="freetext" maxlength="2000" rows="4" placeholder="例：この職業の評価根拠をもっと詳しく知りたい"></textarea>
+        <textarea id="feedback-freetext" name="freetext" maxlength="2000" rows="4" placeholder="例：この職業の評価根拠をもっと詳しく知りたい" data-feedback-control disabled></textarea>
       </label>
 
       <label class="feedback-field" for="feedback-email">
         <span>返信先メールアドレス（任意）</span>
-        <input id="feedback-email" name="email" type="email" maxlength="254" inputmode="email" autocomplete="email" placeholder="name@example.com" />
+        <input id="feedback-email" name="email" type="email" maxlength="254" inputmode="email" autocomplete="email" placeholder="name@example.com" data-feedback-control disabled />
       </label>
 
       <label class="feedback-honeypot" aria-hidden="true">
         ウェブサイト
-        <input name="htmlfield" type="text" tabindex="-1" autocomplete="off" />
+        <input name="htmlfield" type="text" tabindex="-1" autocomplete="off" data-feedback-control disabled />
       </label>
 
       {TURNSTILE_SITE_KEY && (
@@ -54,8 +57,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? 
       </p>
 
       <div class="feedback-actions">
-        <button type="submit" data-feedback-submit>ご意見を送信</button>
-        <p id="feedback-status" class="feedback-status" data-feedback-status role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+        <button type="submit" data-feedback-submit data-feedback-control disabled>ご意見を送信</button>
+        <p id="feedback-status" class="feedback-status" data-feedback-status role="status" aria-live="polite" aria-atomic="true" tabindex="-1">送信機能を準備しています…</p>
       </div>
     </form>
   </details>
@@ -167,6 +170,16 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? 
         form.setAttribute('aria-busy', 'false');
       }
     });
+
+    // The API accepts JSON only and production Turnstile verification needs
+    // JavaScript. Keep native controls disabled until this handler is wired so
+    // a missing bundle cannot navigate away, leak fields into a URL, or send a
+    // request the endpoint cannot process.
+    form.action = '/api/feedback';
+    form.method = 'post';
+    root.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement>('[data-feedback-control]')
+      .forEach((control) => { control.disabled = false; });
+    setState('idle');
   });
 </script>
 
@@ -208,11 +221,16 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? 
     border-top: 1px solid var(--border, #d7cec4);
   }
   .feedback-instructions,
+  .feedback-unavailable,
   .feedback-privacy {
     margin: 14px 0;
     color: var(--fg2, #655e58);
     font-size: 0.78rem;
     line-height: 1.7;
+  }
+  .feedback-unavailable {
+    color: #9f2d20;
+    font-weight: 650;
   }
   .feedback-form fieldset {
     margin: 0 0 16px;

@@ -209,11 +209,11 @@ Admin → Audiences → **New audience** → Custom(または template)。
 | --- | --- |
 | Subscribed | Event count `email_submit_modal` ≥ 1 OR `email_submit_header` ≥ 1、duration 540 日 |
 | Engaged but unconverted | `occupation_modal_open` ≥ 1 AND `email_submit_modal` = 0 AND `email_submit_header` = 0、duration 30 日 |
-| B2B signal | Event `feedback_submit`、parameter `selected_options` が `b2b_hr` OR `b2b_training` を含む、duration 540 日 |
+| B2B signal | Event `feedback_submit`、parameter `selected_options` または `selected_options_extra` が `b2b_hr` OR `b2b_training` を含む、duration 540 日 |
 | High-intent occupations | Event `occupation_modal_open` で `risk_tier` = `high`、duration 90 日 |
 | Returning visitors | 28 日窓内で Event count `session_start` ≥ 2、duration 28 日 |
 
-(B2B signal は custom dimension `selected_options` の存在が必要 — 上記 step 8 後に存在する)
+(B2B signal は custom dimensions `selected_options` / `selected_options_extra` の存在が必要 — 上記 step 8 後に存在する)
 
 ### Funnel exploration: Modal conversion funnel
 
