@@ -10,6 +10,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed
+
+- Upgraded the repository's `tsc` CLI to the native TypeScript 7.0 compiler.
+  TypeScript 6 remains installed under the `typescript` package name solely as
+  the temporary programmatic-API compatibility layer required by Vercel's
+  function builder until the TypeScript 7 API is available (#118).
+
 ### Added
 
 - Added an accessible Japanese feedback form to the shared site footer, backed
