@@ -10,6 +10,13 @@ import {
   scoreBarWidth,
   type ModelsDeepProjection,
 } from './models.js';
+import { modelStoryEditorialSentenceId } from '../site/model-editorial.js';
+
+const REVIEWED_PAIR = {
+  baseline: { model: 'claude-opus-4-8', date: '2026-05-30' },
+  candidate: { model: 'claude-fable-5', date: '2026-06-13' },
+};
+const editorialId = (id: number): string => modelStoryEditorialSentenceId(id, REVIEWED_PAIR);
 
 const projection: ModelsDeepProjection = {
   generated_at: '2026-07-12T00:00:00.000Z',
@@ -48,7 +55,7 @@ const projection: ModelsDeepProjection = {
       candidate_transformation: 7.5,
       baseline_rationale_ja: '前回の理由',
       candidate_rationale_ja: '今回の理由',
-      editorial_sentence_id: 'story',
+      editorial_sentence_id: editorialId(4),
     },
     {
       id: 5,
@@ -58,7 +65,7 @@ const projection: ModelsDeepProjection = {
       candidate_transformation: 6,
       baseline_rationale_ja: '前回の理由',
       candidate_rationale_ja: '今回の理由',
-      editorial_sentence_id: 'story',
+      editorial_sentence_id: editorialId(5),
     },
     {
       id: 6,
@@ -68,7 +75,7 @@ const projection: ModelsDeepProjection = {
       candidate_transformation: 8,
       baseline_rationale_ja: '前回の理由',
       candidate_rationale_ja: '今回の理由',
-      editorial_sentence_id: 'story',
+      editorial_sentence_id: editorialId(6),
     },
   ],
 };
@@ -78,7 +85,12 @@ describe('models feature view model', () => {
     const page = buildModelsFeaturePageModel(
       projection,
       { sentences: { opus: '前回文です。', fable: '固定文です。' } },
-      { editorial_sentences: { story: '編集文です。' } },
+      {
+        editorial_sentences: {
+          [editorialId(4)]: '編集文です。',
+          default_latest_pair_split: '汎用の編集文です。',
+        },
+      },
     );
 
     assert.equal(page.pageLastUpdated, '2026-06-13');
@@ -106,10 +118,7 @@ describe('models feature view model', () => {
           personality_sentence_id: 'future_model_d9_positive_strong',
         },
       ],
-      stories: projection.stories.map((story) => ({
-        ...story,
-        editorial_sentence_id: `${story.id}_latest_pair_split`,
-      })),
+      stories: projection.stories,
     };
 
     const page = buildModelsFeaturePageModel(
@@ -129,6 +138,29 @@ describe('models feature view model', () => {
 
     assert.equal(page.modelCards[0]!.personality_sentence, '汎用の強い既定文です。');
     assert.equal(page.stories[0]!.editorial_sentence, '汎用の編集文です。');
+  });
+
+  test('falls back when a later pair carries a stale older-pair editorial id', () => {
+    const nextPairProjection: ModelsDeepProjection = {
+      ...projection,
+      latest_pair: {
+        baseline: { model: 'claude-fable-5', modelDisplay: 'Fable 5', date: '2026-06-13' },
+        candidate: { model: 'gpt-5.6-sol', modelDisplay: 'GPT 5.6 SOL', date: '2026-07-12' },
+        compared_count: 2,
+      },
+    };
+    const page = buildModelsFeaturePageModel(
+      nextPairProjection,
+      { sentences: { opus: '前回文です。', fable: '固定文です。' } },
+      {
+        editorial_sentences: {
+          [editorialId(4)]: '古い比較専用の編集文です。',
+          default_latest_pair_split: '現在の比較に安全な汎用文です。',
+        },
+      },
+    );
+
+    assert.equal(page.stories[0]!.editorial_sentence, '現在の比較に安全な汎用文です。');
   });
 
   test('derives model count and roster links from projection cards', () => {
@@ -155,7 +187,7 @@ describe('models feature view model', () => {
           default_neutral: '中庸な既定文です。',
         },
       },
-      { editorial_sentences: { story: '編集文です。' } },
+      { editorial_sentences: { default_latest_pair_split: '汎用の編集文です。' } },
     );
 
     assert.equal(page.modelCount, twoCardProjection.model_cards.length);
@@ -207,7 +239,7 @@ describe('models feature view model', () => {
     const page = buildModelsFeaturePageModel(
       fourModelProjection,
       { sentences: { default_neutral: '中庸な既定文です。' } },
-      { editorial_sentences: { story: '編集文です。' } },
+      { editorial_sentences: { default_latest_pair_split: '汎用の編集文です。' } },
     );
 
     assert.deepEqual(

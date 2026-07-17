@@ -21,6 +21,7 @@ const META: BatchMeta = {
   occupationCountScored: 1,
   occupationCountSkipped: 0,
   scoringMethod: 'single-pass per occupation',
+  scoringMethodId: 'legacy-single-axis',
 };
 
 // Formula-consistent AIOIS-10 fixture (docs/SCORING_RUNBOOK.md output contract):
@@ -211,16 +212,17 @@ describe('assembleBatch', () => {
     }
   });
 
-  test('legacy scores → object passes ScoreRunSchema (schema_version 2.1)', () => {
+  test('legacy scores → object passes ScoreRunSchema with explicit methodology metadata', () => {
     const { scores } = parseScoreLines(['{"id":1,"ai_risk":6.9,"rationale_ja":"理由","confidence":0.8}'], 'legacy');
     const parsed = ScoreRunSchema.safeParse(assembleBatch(scores, META));
     assert.ok(parsed.success, parsed.success ? '' : JSON.stringify(parsed.error.issues));
     if (parsed.success) {
-      assert.equal(parsed.data.schema_version, '2.1');
+      assert.equal(parsed.data.schema_version, '2.2');
       assert.equal(parsed.data.scope, 'occupations');
       assert.equal(parsed.data.scores['1']!.ai_risk, 6.9);
       assert.equal(parsed.data.scores['1']!.rationale_ja, '理由');
       assert.equal(parsed.data.scorer.scoring_method, 'single-pass per occupation');
+      assert.equal(parsed.data.scorer.scoring_method_id, 'legacy-single-axis');
     }
   });
 
@@ -228,7 +230,11 @@ describe('assembleBatch', () => {
     const { scores, errors } = parseScoreLines([aioisLine()], 'aiois');
     assert.equal(errors.length, 0);
     const parsed = ScoreRunSchema.safeParse(
-      assembleBatch(scores, { ...META, scoringMethod: 'AIOIS-10 v1.0: in-session single-pass' }),
+      assembleBatch(scores, {
+        ...META,
+        scoringMethod: 'AIOIS-10 v1.0: in-session single-pass',
+        scoringMethodId: 'aiois-semantic-judgment',
+      }),
     );
     assert.ok(parsed.success, parsed.success ? '' : JSON.stringify(parsed.error.issues));
     if (parsed.success) {
@@ -239,6 +245,7 @@ describe('assembleBatch', () => {
       assert.equal(a!.transformation, 4.6);
       assert.equal(a!.displacement, 1.7);
       assert.equal(parsed.data.scorer.scoring_method, 'AIOIS-10 v1.0: in-session single-pass');
+      assert.equal(parsed.data.scorer.scoring_method_id, 'aiois-semantic-judgment');
     }
   });
 });

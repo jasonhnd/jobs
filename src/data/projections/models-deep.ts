@@ -11,6 +11,11 @@ import { computeDriftReport, type AioisScore, type DriftReport, type DriftRow } 
 import { ModelsDeepProjectionSchema } from '../../lib/projection-schemas.js';
 import { occupationPath } from '../../lib/urls.js';
 import { formatModelDisplay } from '../../site/score-attribution.js';
+import {
+  DEFAULT_MODEL_STORY_EDITORIAL_ID,
+  modelStoryEditorialSentenceId,
+  type ModelEditorialPairIdentity,
+} from '../../site/model-editorial.js';
 import type { Aiois10 } from '../../graph/types.js';
 import type { ScoreHistEntry } from '../../graph/score-strategy.js';
 import type { Indexes } from '../lib/indexes.js';
@@ -232,9 +237,21 @@ function configuredStoryIds(config: ModelsStoryOverrideConfig, automaticIds: rea
   return resolved;
 }
 
-function editorialSentenceId(id: number): string {
-  const specific = `${id}_latest_pair_split`;
-  return specific in storyOverrides.editorial_sentences ? specific : 'default_latest_pair_split';
+function editorialSentenceId(
+  id: number,
+  pair: ModelEditorialPairIdentity,
+  availableIds: ReadonlySet<string> = new Set(Object.keys(storyOverrides.editorial_sentences)),
+): string {
+  const specific = modelStoryEditorialSentenceId(id, pair);
+  return availableIds.has(specific) ? specific : DEFAULT_MODEL_STORY_EDITORIAL_ID;
+}
+
+export function selectEditorialSentenceIdForTest(
+  id: number,
+  pair: ModelEditorialPairIdentity,
+  availableIds: ReadonlySet<string>,
+): string {
+  return editorialSentenceId(id, pair, availableIds);
 }
 
 function storyRows(indexes: Indexes, latestPair: PairSummary): ModelsDeepProjection['stories'] {
@@ -261,7 +278,10 @@ function storyRows(indexes: Indexes, latestPair: PairSummary): ModelsDeepProject
       candidate_transformation: candidate.row.candT,
       baseline_rationale_ja: candidate.baselineEntry.rationale_ja,
       candidate_rationale_ja: candidate.candidateEntry.rationale_ja,
-      editorial_sentence_id: editorialSentenceId(candidate.row.id),
+      editorial_sentence_id: editorialSentenceId(candidate.row.id, {
+        baseline: latestPair.base,
+        candidate: latestPair.candidate,
+      }),
     });
   }
 

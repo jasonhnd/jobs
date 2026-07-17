@@ -1,11 +1,12 @@
 {
-  "schema_version": "2.1",
+  "schema_version": "2.2",
   "scope": "occupations",
   "scorer": {
     "model": "claude-opus-4-8",
     "model_provider": "anthropic",
     "model_temperature": null,
-    "scoring_method": "AIOIS-10 v1.0: vector engine over O*NET-style attributes + JP labor stats (D2–D10); Opus-4.8 semantic judgment of D1 and of missing-vector moat profiles; indices Transformation=mean(D1,D2), Displacement=E·(1−M/10)·(0.6+0.4·(P+T)/20)"
+    "scoring_method": "AIOIS-10 v1.0: vector engine over O*NET-style attributes + JP labor stats (D2–D10); Opus-4.8 semantic judgment of D1 and of missing-vector moat profiles; indices Transformation=mean(D1,D2), Displacement=E·(1−M/10)·(0.6+0.4·(P+T)/20)",
+    "scoring_method_id": "aiois-vector-semantic-hybrid"
   },
   "run": {
     "run_date": "2026-05-30",

@@ -34,7 +34,7 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 
 古い `data.featured.json`, `data.tasks/*`, `data.score-history/*` は runtime consumer がないため削除済み。`data.score_history.json` は multi-model comparison のため 2026-07 に単一 JSON projection として復活した。
 
-`data.models_deep.json` は `/models` の visitor-facing magazine page 専用で、`score_history` の no-rationale rule を破らないための小さな例外 projection。職業 detail の full history とは別に、ページに出す story 分だけ `rationale_ja` を原文で持つ。本文 copy は `src/content/model-personality.ja.json` と `src/content/model-story-overrides.ja.json` が owner-reviewed surface で、projection は sentence id を選ぶだけにする。
+`data.models_deep.json` は `/models` の visitor-facing magazine page 専用で、`score_history` の no-rationale rule を破らないための小さな例外 projection。職業 detail の full history とは別に、ページに出す story 分だけ `rationale_ja` を原文で持つ。本文 copy は `src/content/model-personality.ja.json` と `src/content/model-story-overrides.ja.json` が owner-reviewed surface で、projection は sentence id を選ぶだけにする。職業別 editorial sentence id は baseline/candidate の model と run date を両方含む exact-pair key とし、未 review の pair では必ず `default_latest_pair_split` に fallback する。
 
 `data.models_by_model.json` は batch ごとの static data page 専用で、`data/scores/` に occupations batch が追加されると `/models/{slug}` が自動生成される。slug は `src/site/score-attribution.ts` の `modelSlug()` / `modelIdFromSlug()` を正典とし、known batch list で一意に逆引きできない場合は build fail にする。drift は `src/graph/aiois-drift.ts` の `computeDriftReport()` を使い、page には reader-facing summary、movers 5 件、band crossing 5 件だけを出す。
 
@@ -47,6 +47,9 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - education / employment percentage は graph/ranking/detail 間で同じ 1 桁 banker rounding を使う。
 
 ## スコア選択
+
+- ScoreRun v2.2 は `scorer.scoring_method_id` を必須とする。値は `legacy-single-axis`、`aiois-vector-semantic-hybrid`、`aiois-semantic-judgment` のいずれかで、説明文の `scorer.scoring_method` から推測しない。
+- drift report は比較する 2 batch の `scoring_method_id` だけを方法差の根拠にする。同じ id の pair には方法変更を帰属させない。
 
 - `src/graph/score-strategy.ts` の `pickLatestScore()` が「現在スコア」の正典。
 - 通常は `date` が最新の score entry を採用する。
