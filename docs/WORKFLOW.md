@@ -19,7 +19,7 @@
 5. **PR を作る**
    - Base branch は `preview` とし、Issue を `Closes #...` でリンクする。
    - 変更内容、文書/baseline 影響、実行した検証を本文に残す。
-   - `CI / quality` と `Vercel` が成功し、review conversation がすべて解決してから human merge する。
+   - `quality`（GitHub UI では `CI / quality`）と `Vercel` が成功し、review conversation がすべて解決してから human merge する。
 
 ## 公開境界
 
@@ -39,7 +39,7 @@
 1. `preview` 上の CI、Vercel preview、対象機能の確認を完了する。
 2. head=`preview`、base=`main` の promotion PR を作る。
 3. PR 本文に含まれる変更、既知の制約、release note、production への影響、実行した検証を記録する。
-4. `CI / quality` と `Vercel` を成功させ、review conversation をすべて解決する。
+4. `quality`（GitHub UI では `CI / quality`）と `Vercel` を成功させ、review conversation をすべて解決する。
 5. Owner が production 反映を承認して human merge する。履歴と到達可能性を保つため、promotion PR は merge commit を使う。
 6. Vercel production deployment、主要 URL、公開 score/model attribution を確認する。
 
@@ -47,9 +47,9 @@
 
 ## GitHub protection の rollout
 
-Checked-in workflow の job context は `CI / quality`、deployment check は `Vercel` とする。`preview` と `main` の protection/ruleset ではこの 2 checks、pull request、review conversation resolution を必須にし、force push と branch deletion を禁止する。
+Checked-in workflow の exact check name は `quality`、deployment check は `Vercel` とする。GitHub UI は workflow 名を付けて前者を `CI / quality` と表示するが、`gh pr checks --json name`、`.delivery.yml`、branch protection では exact name の `quality` を使う。`preview` と `main` の protection/ruleset ではこの 2 checks、pull request、review conversation resolution を必須にし、force push と branch deletion を禁止する。
 
-新しい check 名を workflow の初回成功前に required にすると、まだ存在しない context を待ち続ける可能性がある。Repository の GitHub Actions が無効なら Owner が有効化し、workflow を `preview` に merge して、PR または branch push で `CI / quality` が成功したことを確認する。その後に `.delivery.yml` の `ci.checks` と protection を更新する。check 名を変更する場合も同じ順序で移行する。
+新しい check 名を workflow の初回成功前に required にすると、まだ存在しない context を待ち続ける可能性がある。Repository の GitHub Actions が無効なら Owner が有効化し、workflow を `preview` に merge して、PR または branch push で `quality`（UI 表示 `CI / quality`）が成功したことを確認する。その後に `.delivery.yml` の `ci.checks` と protection を exact name で更新する。check 名を変更する場合も同じ順序で移行する。
 
 ## 基本検証
 
