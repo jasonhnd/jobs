@@ -5,10 +5,7 @@ import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
 import {
   computeGeoFacts,
   GeoTreemapRowsSchema,
-  pickLatestGeoScoreRun,
-  type GeoAttribution,
   type GeoFacts,
-  type GeoScoreEntry,
 } from '../site/geo-facts.js';
 
 const ROOT = process.cwd();
@@ -29,37 +26,22 @@ function loadScoreRuns(): ScoreRun[] {
   return runs;
 }
 
-function scoreMapFromRun(run: ScoreRun): Map<number, GeoScoreEntry> {
-  const out = new Map<number, GeoScoreEntry>();
-  for (const [idRaw, entry] of Object.entries(run.scores)) {
-    const id = Number.parseInt(idRaw, 10);
-    if (Number.isFinite(id)) out.set(id, entry);
-  }
-  return out;
-}
-
 export function loadGeoFacts(): GeoFacts {
   if (cachedGeoFacts) return cachedGeoFacts;
 
-  const activeRun = pickLatestGeoScoreRun(loadScoreRuns());
-  if (SCORE_ATTRIBUTION.modelId !== activeRun.scorer.model) {
-    throw new Error(
-      `geo-facts-loader: SCORE_ATTRIBUTION model ${SCORE_ATTRIBUTION.modelId} != active score run ${activeRun.scorer.model}`,
-    );
-  }
-  if (SCORE_ATTRIBUTION.runDate !== activeRun.run.run_date) {
-    throw new Error(
-      `geo-facts-loader: SCORE_ATTRIBUTION date ${SCORE_ATTRIBUTION.runDate} != active score run ${activeRun.run.run_date}`,
-    );
-  }
+  const scoreRuns = loadScoreRuns();
   const treemapRows = GeoTreemapRowsSchema.parse(JSON.parse(readText('public/data.treemap.json')));
-  const attribution: GeoAttribution = {
-    modelId: SCORE_ATTRIBUTION.modelId,
-    modelDisplay: SCORE_ATTRIBUTION.modelDisplay,
-    runDate: SCORE_ATTRIBUTION.runDate,
-    standardLabel: SCORE_ATTRIBUTION.standardLabel,
-  };
-
-  cachedGeoFacts = computeGeoFacts(treemapRows, scoreMapFromRun(activeRun), attribution);
+  const facts = computeGeoFacts(treemapRows, scoreRuns);
+  if (SCORE_ATTRIBUTION.modelId !== facts.attribution.modelId) {
+    throw new Error(
+      `geo-facts-loader: SCORE_ATTRIBUTION model ${SCORE_ATTRIBUTION.modelId} != active score run ${facts.attribution.modelId}`,
+    );
+  }
+  if (SCORE_ATTRIBUTION.runDate !== facts.attribution.runDate) {
+    throw new Error(
+      `geo-facts-loader: SCORE_ATTRIBUTION date ${SCORE_ATTRIBUTION.runDate} != active score run ${facts.attribution.runDate}`,
+    );
+  }
+  cachedGeoFacts = facts;
   return cachedGeoFacts;
 }
