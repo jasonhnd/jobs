@@ -1,6 +1,6 @@
 # mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Scores use GPT 5.6 SOL (gpt-5.6-sol) under AIOIS-10; active score run: 2026-07-12. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
+> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Scores use Claude Opus 5 (claude-opus-5) under AIOIS-10; active score run: 2026-07-26. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
 ## Key facts
 
@@ -9,40 +9,40 @@
 | Canonical URL | https://mirai-shigoto.com/ |
 | Coverage | 556 occupations |
 | Total workforce mapped | 54,555,970 workers |
-| Score source | GPT 5.6 SOL (gpt-5.6-sol) |
-| Score date | 2026-07-12 |
+| Score source | Claude Opus 5 (claude-opus-5) |
+| Score date | 2026-07-26 |
 | Standard | AIOIS-10 v1.0 |
-| Mean AI Impact | 4.89 / 10 |
-| Median AI Impact | 4.70 / 10 |
-| Mean Displacement-Risk | 1.77 / 10 |
-| Occupations at AI Impact >= 5 | 230 |
-| Annual wages in occupations at AI Impact >= 5 | 124.949844 trillion yen |
-| High AI Impact occupations | 57 / 556 (10.3%) |
-| Workers in high AI Impact occupations | 8,244,007 (15.1% of mapped workforce) |
-| Largest occupation | 一般事務 (2,639,330 workers; AI Impact 8.9/10) |
-| Highest AI Impact occupation | データ入力 (9.6/10) |
-| Lowest AI Impact occupation | 潜水士 (2.0/10) |
+| Mean AI Impact | 5.23 / 10 |
+| Median AI Impact | 5.00 / 10 |
+| Mean Displacement-Risk | 2.19 / 10 |
+| Occupations at AI Impact >= 5 | 310 |
+| Annual wages in occupations at AI Impact >= 5 | 144.979531 trillion yen |
+| High AI Impact occupations | 88 / 556 (15.8%) |
+| Workers in high AI Impact occupations | 10,990,422 (20.1% of mapped workforce) |
+| Largest occupation | 一般事務 (2,639,330 workers; AI Impact 8.5/10) |
+| Highest AI Impact occupation | データ入力 (9.4/10) |
+| Lowest AI Impact occupation | 潜水士 (1.8/10) |
 
 ## Distribution
 
 | AI Impact band | Occupations | Share |
 |---|---:|---:|
-| 0-2 | 8 | 2.0% |
-| 3-4 | 215 | 39.0% |
-| 5-6 | 247 | 44.0% |
-| 7-8 | 79 | 14.0% |
-| 9-10 | 7 | 1.0% |
+| 0-2 | 7 | 1.0% |
+| 3-4 | 166 | 30.0% |
+| 5-6 | 260 | 47.0% |
+| 7-8 | 115 | 21.0% |
+| 9-10 | 8 | 1.0% |
 
-Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=161, mid=338, high=57.
+Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=102, mid=366, high=88.
 
 ## Quotable claims
 
-- 一般事務 (#428) — AI Impact 8.9/10; displacement-risk 6.4/10; workers 2,639,330.
-- データ入力 (#429) — AI Impact 9.6/10; displacement-risk 8.3/10; workers 155,710.
-- 潜水士 (#33) — AI Impact 2.0/10; displacement-risk 0.3/10; workers 129,506.
-- Mean AI Impact across all 556 occupations is 4.89/10; mean Displacement-Risk is 1.77/10.
-- 57 occupations score 7.0 or higher on AI Impact, covering 8,244,007 mapped workers (15.1%).
-- Highest-impact sector: 事務・公務 (6.90/10). Lowest-impact sector: 建設・土木 (3.21/10).
+- 一般事務 (#428) — AI Impact 8.5/10; displacement-risk 5.8/10; workers 2,639,330.
+- データ入力 (#429) — AI Impact 9.4/10; displacement-risk 7.8/10; workers 155,710.
+- 潜水士 (#33) — AI Impact 1.8/10; displacement-risk 0.5/10; workers 129,506.
+- Mean AI Impact across all 556 occupations is 5.23/10; mean Displacement-Risk is 2.19/10.
+- 88 occupations score 7.0 or higher on AI Impact, covering 10,990,422 mapped workers (20.1%).
+- Highest-impact sector: 事務・公務 (7.14/10). Lowest-impact sector: 建設・土木 (3.36/10).
 
 ## Pages
 
@@ -80,7 +80,7 @@ Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
   title  = {Japan Jobs x AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
-  note   = {Independent AIOIS-10 analysis. Active score run: GPT 5.6 SOL, 2026-07-12. AI Impact scores are LLM estimates, not official government forecasts.}
+  note   = {Independent AIOIS-10 analysis. Active score run: Claude Opus 5, 2026-07-26. AI Impact scores are LLM estimates, not official government forecasts.}
 }
 ```
 
