@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { test } from 'node:test';
 import { INDEX_CRITICAL_CSS, INDEX_CSS } from '../src/pages/_index-css';
+import { requireBuiltArtifact } from './lib/built-artifacts.js';
 
 const DIST = join(process.cwd(), 'dist-astro');
 const HOME_HTML = join(DIST, 'index.html');
@@ -59,7 +60,9 @@ test('rendered contract tolerates a clean checkout without build output', () => 
 test(
   'built homepage defers its one hashed full stylesheet and keeps a no-JS fallback',
   () => {
-    const html = readBuiltHomepage();
+    // Guarded at the call site, not inside readBuiltHomepage: the tolerance
+    // test above deliberately passes a missing path and must keep getting null.
+    const html = requireBuiltArtifact(readBuiltHomepage(), 'dist-astro/index.html');
     if (html === null) return;
     const head = html.match(/<head>([\s\S]*?)<\/head>/)?.[1];
     assert.ok(head, 'built homepage must contain a head element');
