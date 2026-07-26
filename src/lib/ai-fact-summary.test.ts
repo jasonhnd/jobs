@@ -17,6 +17,7 @@ import {
 } from './ai-fact-summary.js';
 import type { Aiois10 } from '../graph/types.js';
 import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
+import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
 
 const aiois = (over: Partial<Aiois10>): Aiois10 => ({
   d1: 0, d2: 0, d3: 0, d4: 0, d5: 0, d6: 0, d7: 0, d8: 0, d9: 0, d10: 0,
@@ -147,9 +148,12 @@ describe('buildAiFactSummary', () => {
   });
 
   test('always ends with the source attribution', () => {
+    // Derived from the active batch rather than pinned to a model name: the
+    // contract is "this block cites the canonical scorer", and hard-coding the
+    // current one turns every batch landing into an unrelated test edit.
     assert.ok(
       buildAiFactSummary(base).endsWith(
-        '（出典：厚生労働省 jobtag ＋ AIOIS-10、GPT 5.6 SOL、2026年5月）',
+        `（出典：厚生労働省 jobtag ＋ AIOIS-10、${SCORE_ATTRIBUTION.modelDisplay}、2026年5月）`,
       ),
     );
   });

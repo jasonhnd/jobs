@@ -1,11 +1,15 @@
 #!/usr/bin/env bun
 /**
- * make-pilot-sample.ts — Issue #9 pilot sample selector
+ * make-pilot-sample.ts — pilot sample selector
  * (docs/SCORING_RUNBOOK.md Phase 3).
  *
  * Deterministically picks 30–50 representative occupations from the current
  * baseline batch and writes the sample manifest plus extract chunks for the
- * in-session Fable 5 scoring agents. No randomness — same inputs, same sample.
+ * scoring pass. No randomness — same inputs, same sample.
+ *
+ * The baseline defaults to the newest AIOIS-10 batch in data/scores/ rather
+ * than a pinned filename, so the sample is always stratified against the batch
+ * that is actually canonical.
  *
  * Selection (ties → lower id):
  *   - named exemplars (the /standard calibration set + Opus anchors), matched
@@ -19,9 +23,11 @@
  *
  * Usage:
  *   bun scripts/make-pilot-sample.ts \
+ *     --model claude-opus-5 \
+ *     --prompt-file data/prompts/2026-07-26_claude-opus-5-aiois10.ja.md \
  *     [--size 40] [--chunk 5] \
- *     [--baseline data/scores/occupations_claude-opus-4-8_2026-05-30.json] \
- *     [--out .cache/scoring/issue-9/pilot]
+ *     [--baseline <path>]   # default: newest AIOIS-10 batch \
+ *     [--out .cache/scoring/<model>/pilot]
  */
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -150,14 +156,50 @@ if (import.meta.main) {
     process.exit(1);
   };
 
+  /**
+   * Newest occupations batch that actually carries AIOIS-10 vectors.
+   *
+   * Auto-detected rather than defaulted to a pinned filename: a pinned default
+   * silently goes stale the moment a batch lands, and stratifying a pilot
+   * against a superseded baseline produces a misleading sample.
+   */
+  const latestAioisBatchPath = (): string => {
+    const scoresDir = join(ROOT, 'data', 'scores');
+    const candidates = readdirSync(scoresDir)
+      .filter((f) => f.startsWith('occupations_') && f.endsWith('.json'))
+      .map((f) => {
+        const path = join(scoresDir, f);
+        const parsed = JSON.parse(readFileSync(path, 'utf8')) as {
+          scope?: string;
+          run?: { run_date?: string };
+          scores?: Record<string, { aiois?: unknown }>;
+        };
+        const hasAiois = Object.values(parsed.scores ?? {}).some((s) => s?.aiois != null);
+        return { path, runDate: parsed.run?.run_date ?? '', scope: parsed.scope, hasAiois };
+      })
+      .filter((c) => c.scope === 'occupations' && c.hasAiois && c.runDate)
+      .sort((a, b) => (a.runDate < b.runDate ? 1 : a.runDate > b.runDate ? -1 : 0));
+    if (candidates.length === 0) fail('no AIOIS-10 occupations batch found in data/scores/');
+    return candidates[0]!.path;
+  };
+
+  // Every other flag takes a value; requiring one catches typos like
+  // `--size --chunk 5` instead of silently reading "--chunk" as the size.
+  const BOOLEAN_FLAGS = new Set(['explain']);
+
   const args: Record<string, string> = {};
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
     if (!a.startsWith('--')) continue;
+    const key = a.slice(2);
+    if (BOOLEAN_FLAGS.has(key)) {
+      args[key] = 'true';
+      continue;
+    }
     const v = argv[i + 1];
-    if (v === undefined || v.startsWith('--')) fail(`--${a.slice(2)} needs a value`);
-    args[a.slice(2)] = v as string;
+    if (v === undefined || v.startsWith('--')) fail(`--${key} needs a value`);
+    args[key] = v as string;
     i += 1;
   }
 
@@ -165,8 +207,12 @@ if (import.meta.main) {
   if (!Number.isInteger(size) || size < 30 || size > 50) fail('--size must be 30–50 (runbook pilot bounds)');
   const chunkSize = Number.parseInt(args['chunk'] ?? '5', 10);
   if (!Number.isInteger(chunkSize) || chunkSize < 1) fail('--chunk must be a positive integer');
-  const baselinePath = resolve(ROOT, args['baseline'] ?? 'data/scores/occupations_claude-opus-4-8_2026-05-30.json');
-  const outDir = resolve(ROOT, args['out'] ?? '.cache/scoring/issue-9/pilot');
+  const model = args['model'];
+  if (!model) fail('--model <id> is required (recorded in the manifest as the model being piloted)');
+  const promptFile = args['prompt-file'];
+  if (!promptFile) fail('--prompt-file <path> is required (the frozen rubric the chunks point at)');
+  const baselinePath = args['baseline'] ? resolve(ROOT, args['baseline']) : latestAioisBatchPath();
+  const outDir = resolve(ROOT, args['out'] ?? `.cache/scoring/${model}/pilot`);
 
   const batch = JSON.parse(readFileSync(baselinePath, 'utf8')) as {
     scorer?: { model?: string };
@@ -206,8 +252,9 @@ if (import.meta.main) {
   mkdirSync(outDir, { recursive: true });
 
   const manifest = {
-    issue: 9,
-    model: 'claude-fable-5',
+    model,
+    prompt_file: promptFile,
+    baseline_path: baselinePath.replace(`${ROOT}/`, ''),
     baseline_model: batch.scorer!.model,
     baseline_run_date: batch.run!.run_date,
     sample_size: picks.length,
@@ -229,8 +276,8 @@ if (import.meta.main) {
   chunks.forEach((ch, idx) => {
     const n = String(idx + 1).padStart(2, '0');
     const header =
-      `# Issue-9 pilot chunk ${n}/${chunks.length} — ${ch.length} occupations (ids ${ch.map((p) => p.id).join(', ')})\n` +
-      `# 採点指示の正典: data/prompts/2026-06-13_claude-fable-5-aiois10.ja.md（このファイル自体に採点指示は書かない）\n`;
+      `# ${model} pilot chunk ${n}/${chunks.length} — ${ch.length} occupations (ids ${ch.map((p) => p.id).join(', ')})\n` +
+      `# 採点指示の正典: ${promptFile}（このファイル自体に採点指示は書かない）\n`;
     const body = ch.map((p) => extractOcc(occById.get(p.id)!).text).join('\n\n');
     writeFileSync(join(outDir, `pilot-chunk-${n}.txt`), `${header}\n${body}\n`);
   });
@@ -245,12 +292,22 @@ if (import.meta.main) {
       `chunks=${chunks.length} (size ${chunkSize})`,
   );
   if (unmatchedNames.length) console.log(`  WARNING unmatched exemplar name(s): ${unmatchedNames.join(', ')}`);
-  for (const p of picks) {
-    const named = p.reasons.filter((r) => r.startsWith('named-exemplar:'));
-    if (named.length) {
-      const e = entryById.get(p.id)!;
-      console.log(`  named: id=${p.id} ${e.title} ← ${named.join(', ')} (T=${e.aiRisk}, D=${e.displacement})`);
+  // Baseline scores stay OFF by default. On the in-agent path the operator IS
+  // the scorer, and docs/SCORING_RUNBOOK.md forbids showing the baseline batch
+  // or expected drift to whoever is about to score ("アンカリング防止"). Pass
+  // --explain only when the reader will not be scoring this sample.
+  if (args['explain'] === 'true') {
+    for (const p of picks) {
+      const named = p.reasons.filter((r) => r.startsWith('named-exemplar:'));
+      if (named.length) {
+        const e = entryById.get(p.id)!;
+        console.log(`  named: id=${p.id} ${e.title} ← ${named.join(', ')} (T=${e.aiRisk}, D=${e.displacement})`);
+      }
     }
+  } else {
+    const namedCount = picks.filter((p) => p.reasons.some((r) => r.startsWith('named-exemplar:'))).length;
+    console.log(`  ${namedCount} named exemplar(s) included; re-run with --explain to see baseline scores`);
+    console.log('  (omitted by default so the scorer is not anchored to the baseline batch)');
   }
-  console.log(`  next: score the pilot chunks with the frozen Fable 5 prompt, then assemble with --mode aiois`);
+  console.log(`  next: score the pilot chunks against ${promptFile}, then assemble with --mode aiois`);
 }

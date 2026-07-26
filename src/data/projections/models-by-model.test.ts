@@ -30,14 +30,15 @@ describe('models-by-model projection', () => {
     const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
     const slugs = Object.keys(payload.models);
 
-    assert.deepEqual(slugs, ['opus-4-7', 'opus-4-8', 'fable-5', 'gpt-5.6-sol']);
+    assert.deepEqual(slugs, ['opus-4-7', 'opus-4-8', 'fable-5', 'gpt-5.6-sol', 'opus-5']);
     assert.deepEqual(
       slugs.map((slug) => payload.models[slug]!.covered_count),
-      [552, 556, 556, 556],
+      [552, 556, 556, 556, 556],
     );
     assert.equal(payload.models['opus-4-8']!.nav.prev?.slug, 'opus-4-7');
     assert.equal(payload.models['gpt-5.6-sol']!.nav.prev?.slug, 'fable-5');
-    assert.equal(payload.models['gpt-5.6-sol']!.nav.next, null);
+    assert.equal(payload.models['gpt-5.6-sol']!.nav.next?.slug, 'opus-5');
+    assert.equal(payload.models['opus-5']!.nav.next, null);
   });
 
   test('compares only compatible AIOIS batches and never synthesizes legacy profiles', async () => {
@@ -45,7 +46,8 @@ describe('models-by-model projection', () => {
     const legacy = payload.models['opus-4-7']!;
     const firstAiois = payload.models['opus-4-8']!;
     const fable = payload.models['fable-5']!;
-    const latest = payload.models['gpt-5.6-sol']!;
+    const gpt = payload.models['gpt-5.6-sol']!;
+    const latest = payload.models['opus-5']!;
 
     assert.deepEqual(legacy.drift, { baseline: true, note_id: 'legacy_batch' });
     assert.deepEqual(firstAiois.drift, { baseline: true, note_id: 'first_aiois_batch' });
@@ -57,16 +59,21 @@ describe('models-by-model projection', () => {
       assert.equal(fable.drift.predecessor.model, 'claude-opus-4-8');
       assert.equal(fable.drift.compared_count, 556);
     }
+    assert.equal('baseline' in gpt.drift, false);
+    if (!('baseline' in gpt.drift)) {
+      assert.equal(gpt.drift.predecessor.model, 'claude-fable-5');
+      assert.equal(gpt.drift.compared_count, 556);
+    }
     assert.equal('baseline' in latest.drift, false);
     if (!('baseline' in latest.drift)) {
-      assert.equal(latest.drift.predecessor.model, 'claude-fable-5');
+      assert.equal(latest.drift.predecessor.model, 'gpt-5.6-sol');
       assert.equal(latest.drift.compared_count, 556);
     }
   });
 
   test('keeps distribution, lists, drift, and payload-size contracts', async () => {
     const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
-    const latest = payload.models['gpt-5.6-sol']!;
+    const latest = payload.models['opus-5']!;
 
     assert.equal(latest.distribution.histogram.length, 20);
     assert.equal(
@@ -77,7 +84,7 @@ describe('models-by-model projection', () => {
     assert.equal(latest.lowest.length, 10);
     assert.ok(!('baseline' in latest.drift));
     if (!('baseline' in latest.drift)) {
-      assert.equal(latest.drift.predecessor.model, 'claude-fable-5');
+      assert.equal(latest.drift.predecessor.model, 'gpt-5.6-sol');
       assert.ok(latest.drift.movers.length <= 5);
       assert.ok(latest.drift.band_crossings.length <= 5);
     }
