@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { ScoreRunSchema, type ScoreRun } from '../src/data/schema/index.js';
 import { buildCompareGeoFactSummary, buildOccupationGeoFactSummary, buildOccupationSetGeoFactSummary, buildSectorGeoFactSummary, renderAiFactParagraph } from '../src/lib/ai-fact-summary.js';
 import { loadGraph } from '../src/graph/index.js';
-import { SCORE_ATTRIBUTION } from '../src/site/score-attribution.js';
+import { SCORE_ATTRIBUTION, formatModelDisplay } from '../src/site/score-attribution.js';
 import {
   computeGeoFacts,
   GeoTreemapRowsSchema,
@@ -62,22 +62,68 @@ function assertExact(rel: string, expected: string): void {
   }
 }
 
-function assertNoStaleOrPlaceholders(rel: string, options: { allowValidationModelNames?: boolean } = {}): void {
-  const text = readText(rel);
-  const forbidden = [
-    '__SCORE_',
-    '__GEO_',
-    'claude-opus-4-8',
-    '2026-05-30',
-    'version": "0.5.0"',
-  ];
-  if (!options.allowValidationModelNames) {
-    forbidden.push('Claude Opus 4.8', 'Opus 4.8');
+interface StaleModelTokens {
+  /** Model ids and run dates of every superseded batch. Never allowed. */
+  readonly identifiers: readonly string[];
+  /** Human-readable model names, incl. the vendor-stripped short form. */
+  readonly displayNames: readonly string[];
+}
+
+/**
+ * Superseded model identifiers, derived from `data/scores/`.
+ *
+ * Previously this was a hand-edited literal list. It only ever named the model
+ * that was canonical two generations ago, so it could not catch a leak of the
+ * *current* model — the leak that actually matters — and went one generation
+ * further out of date on every batch landing (#217).
+ *
+ * Deriving it means the set is correct by construction: everything in
+ * `data/scores/` except the active run is stale, forever, without maintenance.
+ */
+export function staleModelTokens(runs: readonly ScoreRun[], active: ScoreRun): StaleModelTokens {
+  const identifiers = new Set<string>();
+  const displayNames = new Set<string>();
+  for (const run of runs) {
+    const isActive = run.scorer.model === active.scorer.model && run.run.run_date === active.run.run_date;
+    if (isActive) continue;
+    identifiers.add(run.scorer.model);
+    identifiers.add(run.run.run_date);
+    const display = formatModelDisplay(run.scorer.model);
+    displayNames.add(display);
+    // `/models` renders Anthropic models without the vendor prefix, so the
+    // short form is a distinct leak shape (e.g. "Opus 4.8" vs "Claude Opus 4.8").
+    const short = display.replace(/^Claude\s+/, '');
+    if (short !== display) displayNames.add(short);
   }
-  for (const token of forbidden) {
-    if (text.includes(token)) {
-      fail(`${rel} contains stale token ${JSON.stringify(token)}`);
-    }
+  return { identifiers: [...identifiers], displayNames: [...displayNames] };
+}
+
+/**
+ * `allowValidationModelNames` exempts display names only — never ids or run
+ * dates. `llms.txt` may legitimately name an older model inside the historical
+ * cross-model validation note; it must never carry that model's machine
+ * identifier or batch date, which would mean the generated attribution is stale.
+ */
+export function firstStaleToken(
+  text: string,
+  stale: StaleModelTokens,
+  options: { allowValidationModelNames?: boolean } = {},
+): string | null {
+  const forbidden = ['__SCORE_', '__GEO_', 'version": "0.5.0"', ...stale.identifiers];
+  if (!options.allowValidationModelNames) {
+    forbidden.push(...stale.displayNames);
+  }
+  return forbidden.find((token) => text.includes(token)) ?? null;
+}
+
+function assertNoStaleOrPlaceholders(
+  rel: string,
+  stale: StaleModelTokens,
+  options: { allowValidationModelNames?: boolean } = {},
+): void {
+  const token = firstStaleToken(readText(rel), stale, options);
+  if (token !== null) {
+    fail(`${rel} contains stale token ${JSON.stringify(token)}`);
   }
 }
 
@@ -351,9 +397,10 @@ async function main(): Promise<void> {
   assertExact('public/llms-full.txt', renderLlmsFullTxt(facts));
   assertExact('src/pages/_index-json-ld.json', renderHomeJsonLd(facts));
 
-  assertNoStaleOrPlaceholders('public/llms.txt', { allowValidationModelNames: true });
-  assertNoStaleOrPlaceholders('public/llms-full.txt', { allowValidationModelNames: true });
-  assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json');
+  const stale = staleModelTokens(scoreRuns, activeRun);
+  assertNoStaleOrPlaceholders('public/llms.txt', stale, { allowValidationModelNames: true });
+  assertNoStaleOrPlaceholders('public/llms-full.txt', stale, { allowValidationModelNames: true });
+  assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json', stale);
   assertDocumentedDetailProjectionExamples();
   assertFreshGeoAstroPages();
   assertHomeAndReadmeConsistency(facts);
@@ -373,4 +420,8 @@ async function main(): Promise<void> {
   );
 }
 
-await main();
+// Guarded so the pure helpers above can be imported by tests without running
+// the whole gate (which reads dist-astro/ and exits the process).
+if (import.meta.main) {
+  await main();
+}

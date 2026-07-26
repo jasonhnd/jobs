@@ -94,7 +94,11 @@ function pathToUrl(absPath) {
  *    slipped past the verifier silently. */
 function normalizeHref(rawHref) {
   if (!rawHref || rawHref === '#') return null;
-  if (rawHref.startsWith('#')) return null;        // intra-page anchor
+  // Intra-page anchor: routable path is the linking page itself. Returning
+  // null here used to drop all 841 of them (834 of which are the `#main-content`
+  // skip link) from validation entirely — the verifier reported on anchors
+  // while checking none that actually existed. See issue #217.
+  if (rawHref.startsWith('#')) return { path: null, fragment: rawHref.slice(1) };
   if (rawHref.startsWith('mailto:')) return null;
   if (rawHref.startsWith('tel:')) return null;
   if (rawHref.startsWith('javascript:')) return null;
@@ -130,6 +134,13 @@ function extractAnchorIds(html) {
   }
   return ids;
 }
+
+// Escape hatch for anchor fragments that are known-broken and not yet fixable.
+// Deliberately empty: at the time fragments became a hard failure the build
+// emitted zero broken ones, so there was no backlog to grandfather. Adding an
+// entry here needs a linked issue — it is a ratchet, and it only goes one way.
+// Format: 'url#fragment', e.g. '/ja/156#dead-section'.
+const KNOWN_BROKEN_FRAGMENTS = new Set([]);
 
 // 2026-05-17 C4: pages whose fragments are generated at runtime by
 // inline JS rather than being present in the static HTML. Verifier
@@ -202,7 +213,10 @@ function main() {
     for (const raw of hrefs) {
       const parsed = normalizeHref(raw);
       if (parsed === null) continue;
-      const { path: href, fragment } = parsed;
+      // path === null marks an intra-page anchor: the target page is the page
+      // we are scanning, so it trivially exists and only the fragment matters.
+      const { path: rawPath, fragment } = parsed;
+      const href = rawPath === null ? fromUrl : rawPath;
       totalHrefs += 1;
       if (isAllowlisted(href)) { allowlistedHrefs += 1; continue; }
       // Resolve the page path first.
@@ -277,20 +291,30 @@ function main() {
   // first introduction (so this commit doesn't fail CI for pre-existing
   // dead fragments). Promote to hard failures in a follow-up after
   // running once and triaging the initial list.
-  if (fragmentFailures.size > 0) {
-    console.warn(`\n⚠️  ${fragmentFailures.size} broken anchor fragment(s) — first-pass warning, not yet a hard fail:`);
-    const sorted = [...fragmentFailures.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-    for (const [key, sources] of sorted.slice(0, 30)) {
+  // Broken fragments now fail the gate. They were a warning from the 2026-05-17
+  // C4 pass ("not yet a hard fail"), which meant a dead anchor could ship and
+  // stay shipped forever. The backlog this deferral existed for is empty — the
+  // build emits zero broken fragments — so there is nothing to grandfather and
+  // KNOWN_BROKEN_FRAGMENTS below stays empty. See issue #217.
+  const newFragmentFailures = [...fragmentFailures.entries()]
+    .filter(([key]) => !KNOWN_BROKEN_FRAGMENTS.has(key))
+    .sort((a, b) => a[0].localeCompare(b[0]));
+
+  if (newFragmentFailures.length > 0) {
+    console.error(`\n❌ ${newFragmentFailures.length} broken anchor fragment(s) — target id does not exist:`);
+    for (const [key, sources] of newFragmentFailures.slice(0, 30)) {
       const srcArr = [...sources];
-      console.warn(`  ${key}`);
-      console.warn(`    linked from: ${srcArr.slice(0, 2).join(', ')}${srcArr.length > 2 ? ` (and ${srcArr.length - 2} more)` : ''}`);
+      console.error(`  ${key}`);
+      console.error(`    linked from: ${srcArr.slice(0, 2).join(', ')}${srcArr.length > 2 ? ` (and ${srcArr.length - 2} more)` : ''}`);
     }
-    if (sorted.length > 30) {
-      console.warn(`  ...and ${sorted.length - 30} more fragment failures (truncated)`);
+    if (newFragmentFailures.length > 30) {
+      console.error(`  ...and ${newFragmentFailures.length - 30} more (truncated)`);
     }
+    console.error('  Fix the link or the target id. If the id is created at runtime by inline JS,');
+    console.error('  add the page to RUNTIME_FRAGMENT_PAGES instead of adding it to the allowlist.');
   }
 
-  if (newBroken.length > 0 || stale.length > 0) {
+  if (newBroken.length > 0 || stale.length > 0 || newFragmentFailures.length > 0) {
     process.exit(1);
   }
 
