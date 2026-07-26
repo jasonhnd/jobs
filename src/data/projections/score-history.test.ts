@@ -26,11 +26,12 @@ describe('score-history projection', () => {
     const histories = Object.values(payload);
 
     assert.equal(Object.keys(payload).length, 556);
-    assert.equal(histories.filter((history) => history.length === 3).length, 4);
-    assert.equal(histories.filter((history) => history.length === 4).length, 552);
+    // The 4 occupations missing from the legacy opus-4-7 batch carry one fewer entry.
+    assert.equal(histories.filter((history) => history.length === 4).length, 4);
+    assert.equal(histories.filter((history) => history.length === 5).length, 552);
   });
 
-  test('occupation 1 carries the four known batches in date order', async () => {
+  test('occupation 1 carries the five known batches in date order', async () => {
     const { indexes, payload } = await fixture();
     const history = payload['1'];
     const sourceHistory = indexes.historyByOcc.get(1);
@@ -42,12 +43,14 @@ describe('score-history projection', () => {
       'claude-opus-4-8',
       'claude-fable-5',
       'gpt-5.6-sol',
+      'claude-opus-5',
     ]);
     assert.deepEqual(history.map((entry) => entry.date), [
       '2026-04-25',
       '2026-05-30',
       '2026-06-13',
       '2026-07-12',
+      '2026-07-26',
     ]);
     assert.deepEqual(
       history.map((entry) => entry.transformation),

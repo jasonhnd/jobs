@@ -91,14 +91,92 @@ Hard requirements:
 - `ai_risk === aiois.transformation` でなければならない。
 - extra field は schema / assembler で fail させる。
 
+## Scoring runner architecture (providers)
+
+`scripts/run-scoring.ts` is the provider-independent entry point. Everything
+that must not vary by vendor lives in `scripts/lib/scoring/`:
+
+| Concern | File | Owned by |
+| --- | --- | --- |
+| The AIOIS-10 field set, formula re-computation, `ai_risk === transformation`, JSONL shape | `lib/scoring/contract.ts` | core |
+| Error vocabulary + retry/backoff policy | `lib/scoring/errors.ts` | core |
+| Retry accounting, audit trail, resume, concurrency, prompt assembly | `lib/scoring/core.ts` | core |
+| Reaching a specific vendor | `lib/scoring/providers/<name>.ts` | provider |
+
+A provider supplies transport only: how to reach the model, how to translate
+`SCORE_OUTPUT_JSON_SCHEMA` into that vendor's native structured-output
+mechanism (if it has one), how to map that vendor's error wording onto the
+shared vocabulary, and how hard it may be hit. It has no way to express
+"quietly use a different model" — that decision does not exist in the
+vocabulary, which is how the no-silent-fallback rule is enforced structurally
+rather than by convention.
+
+Registered providers:
+
+| `--provider` | Auth | Native schema | Notes |
+| --- | --- | --- | --- |
+| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. |
+| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8` and `claude-fable-5` were. Answers supplied as JSONL. |
+
+```bash
+bun scripts/run-scoring.ts --list-providers
+```
+
+### Adding a vendor
+
+1. Write `scripts/lib/scoring/providers/<name>.ts` exporting a
+   `ScoringProvider` (interface in `lib/scoring/provider.ts`). Typically
+   40–80 lines.
+2. Register it in `lib/scoring/providers/index.ts`.
+3. Run `bun test scripts/lib/scoring`. `providers/conformance.test.ts`
+   iterates the registry, so the new provider is picked up automatically and
+   must prove it cannot weaken the contract, the error vocabulary, or the
+   schema translation.
+
+Nothing in `contract.ts`, `errors.ts`, or `core.ts` should need to change. If
+it does, the seam is in the wrong place — move the seam rather than
+special-casing the vendor.
+
+`assemble-scores.ts --provider` records the vendor in `scorer.model_provider`.
+It is inferred from known model-id prefixes (`gpt`/`o1`/`o3`, `claude`,
+`gemini`) and **fails loudly for anything else** — a batch file is append-only
+and its provider is rendered publicly as 提供元, so a new vendor must be named
+explicitly rather than silently mislabelled.
+
+### In-agent scoring flow
+
+No API key and no child process — the running model answers its own prompts,
+while still going through the same validation, audit trail, and resume logic as
+any other provider.
+
+```bash
+# 1. Emit prompts (every pending occupation is reported as pending)
+bun scripts/run-scoring.ts \
+  --provider in-agent --model <model-id> \
+  --prompt-file data/prompts/<date>_<model-id>-aiois10.ja.md \
+  --out .cache/scoring/<run>/raw-scores.jsonl \
+  --run-name <run> --ids 1,2,3
+
+# 2. Write answers as JSON Lines (chunked files keep this to a few writes)
+#    .cache/scoring/<run>/answers/chunk-01.jsonl
+
+# 3. Validate and append
+bun scripts/run-scoring.ts … --resume
+```
+
+Prompts are written to `.cache/scoring/<run>/prompts/<id>.txt` so the answers
+are produced against the exact rubric + extract any other provider would have
+been sent. Contract violations are rejected per id with the failing formula
+named, and never reach the output JSONL.
+
 ## GPT-5.6-SOL / Codex-CLI scoring
 
 This section is the Codex CLI path for `mms-5-prep` / Issue #141 and the gated GPT 5.6 SOL execution in Issue #126. It is added alongside the Fable 5 / Issue #9 path above; it does not replace the Fable 5 runbook.
 
 Scope and boundary:
 
-- Runner: `scripts/run-scoring-codex.ts`.
-- Model: `gpt-5.6-sol` (runner default). Provider: OpenAI.
+- Runner: `scripts/run-scoring.ts --provider codex` (equivalently `scripts/run-scoring-codex.ts`, kept as a compatibility entry with the same frozen behaviour).
+- Model: `gpt-5.6-sol` (Codex path default). Provider: OpenAI.
 - Auth: locally logged-in Codex CLI subscription. Do not use or commit an OpenAI API key for this path.
 - Frozen prompt: `data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md`.
 - Prompt version: `AIOIS-10-v1.0-gpt-5.6-sol`.
@@ -502,7 +580,7 @@ Use this template for pilot and full-run reports.
 
 The current `ScoreEntrySchema` permits `aiois` to be nullish so legacy single-axis batches can still parse. That schema-level compatibility is not enough for Fable 5 AIOIS-10. The assembler and candidate validation must add an AIOIS-required mode for Issue #9.
 
-`scripts/run-scoring.ts` currently defines a tool schema with only `ai_risk`, `rationale_ja`, and `confidence`. It cannot produce Fable 5 AIOIS-10 output until the tool schema and parsing path are extended to include `aiois`. Issue #9 の pilot はセッション内採点（上記 Execution mechanism）を使うため、run-scoring.ts の拡張は本 issue の必須作業ではない。
+~~`scripts/run-scoring.ts` currently defines a tool schema with only `ai_risk`, `rationale_ja`, and `confidence`. It cannot produce Fable 5 AIOIS-10 output.~~ Resolved: `run-scoring.ts` is now the provider-independent entry point and every provider emits the full AIOIS-10 contract (see "Scoring runner architecture" above). The former single-axis Anthropic Batches API implementation remains in git history (`git show 1d7d42a2:scripts/run-scoring.ts`) and is the natural starting point for a future `anthropic-api` provider.
 
 `scripts/check-score-batch.ts` currently reports high-level drift on `ai_risk` bands. Issue #9 requires a deeper AIOIS drift report covering `displacement`, D1-D10 average drift, rank changes, and manual review candidates.
 
@@ -512,7 +590,7 @@ The existing Opus-oriented local commands remain useful as references, but must 
 
 ```bash
 bun scripts/extract-occ-chunks.ts
-bun scripts/run-scoring.ts
+bun scripts/run-scoring.ts --list-providers   # provider-independent scoring entry
 bun scripts/assemble-scores.ts
 bun scripts/make-pilot-sample.ts      # Issue #9 Phase 3: 抽样 manifest + pilot extract chunks
 bun scripts/aiois-drift-report.ts     # Issue #9 Phase 6: AIOIS-10 深度 drift report

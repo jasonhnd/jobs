@@ -193,11 +193,19 @@ describe('parseScoreLines (aiois mode)', () => {
 });
 
 describe('inferProvider', () => {
-  test('gpt models → openai, claude → anthropic, gemini → google, default anthropic', () => {
+  test('maps known vendor prefixes', () => {
     assert.equal(inferProvider('gpt-5.6-sol'), 'openai');
     assert.equal(inferProvider('claude-fable-5'), 'anthropic');
+    assert.equal(inferProvider('claude-opus-5'), 'anthropic');
     assert.equal(inferProvider('gemini-2.5-pro'), 'google');
-    assert.equal(inferProvider('something-else'), 'anthropic');
+  });
+
+  // Behaviour change: this used to fall back to 'anthropic'. model_provider is
+  // written into an append-only batch and shown as 提供元 on /models/{slug}, so
+  // guessing silently mislabels a new vendor permanently.
+  test('refuses to guess an unknown vendor instead of mislabelling the batch', () => {
+    assert.throws(() => inferProvider('deepseek-v4'), /pass --provider/);
+    assert.throws(() => inferProvider('grok-5'), /pass --provider/);
   });
 });
 

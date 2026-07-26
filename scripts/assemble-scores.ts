@@ -213,13 +213,24 @@ export interface BatchMeta {
   readonly scoringMethodId: ScoringMethodId;
 }
 
-/** Infer the model provider from a model id prefix. Override with --provider. */
+/**
+ * Infer the model provider from a model id prefix. Override with --provider.
+ *
+ * Unknown prefixes throw rather than defaulting. `model_provider` is written
+ * into an append-only batch file and rendered as the "提供元" on
+ * /models/{slug}; a wrong value cannot be corrected cleanly after the fact, so
+ * a new vendor must be named explicitly via --provider instead of being
+ * silently mislabelled as the previous default.
+ */
 export function inferProvider(model: string): string {
   const m = model.toLowerCase();
   if (m.startsWith('gpt') || m.startsWith('o1') || m.startsWith('o3')) return 'openai';
   if (m.startsWith('claude')) return 'anthropic';
   if (m.startsWith('gemini')) return 'google';
-  return 'anthropic';
+  throw new Error(
+    `cannot infer model_provider from model "${model}" — pass --provider <vendor> explicitly ` +
+      '(known prefixes: gpt/o1/o3 → openai, claude → anthropic, gemini → google)',
+  );
 }
 
 /** Assemble the full ScoreRun object (validate separately via ScoreRunSchema). */
