@@ -42,6 +42,8 @@ export interface ScoringArgs {
   readonly resume: boolean;
   readonly concurrency: number;
   readonly runName: string;
+  /** Every parsed flag, forwarded to the provider for vendor-specific options. */
+  readonly providerOptions: Readonly<Record<string, string>>;
 }
 
 export interface AttemptFailure {
@@ -119,6 +121,7 @@ export function parseArgs(
     resume: raw['resume'] === 'true',
     concurrency,
     runName: sanitizeRunName(runName),
+    providerOptions: Object.freeze({ ...raw }),
   };
 }
 
@@ -373,7 +376,7 @@ export async function runScoring(
   mkdirSync(rawDir, { recursive: true });
   mkdirSync(tmpDir, { recursive: true });
 
-  const prepareCtx = { cwd: deps.root, model: args.model, runDir };
+  const prepareCtx = { cwd: deps.root, model: args.model, runDir, options: args.providerOptions };
   provider.preflight(prepareCtx);
   const prep = provider.prepareRun(prepareCtx);
   writeFileSync(

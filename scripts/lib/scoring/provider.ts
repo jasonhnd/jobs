@@ -47,6 +47,11 @@ export interface PrepareRunContext {
   readonly cwd: string;
   readonly model: string;
   readonly runDir: string;
+  /**
+   * Raw CLI flags, passed through verbatim so a provider can take options the
+   * core knows nothing about. Keeps vendor-specific flags out of core.
+   */
+  readonly options: Readonly<Record<string, string>>;
 }
 
 /** Per-run setup result. Anything returned here is also written to the run's audit directory. */

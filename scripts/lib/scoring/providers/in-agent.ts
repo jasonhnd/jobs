@@ -68,6 +68,35 @@ export function loadAnswers(dir: string): Map<number, string> {
   return answers;
 }
 
+/**
+ * Read `agent-<id>.jsonl` transcripts and report the model(s) each one used.
+ *
+ * Deliberately per-agent rather than a single flat set: a session directory
+ * normally contains unrelated agents that ran on other models, so a
+ * directory-wide check would fail on work that has nothing to do with scoring.
+ */
+export function collectSubagentModels(dir: string, agentIds?: readonly string[]): Map<string, Set<string>> {
+  const byAgent = new Map<string, Set<string>>();
+  if (!existsSync(dir)) return byAgent;
+  const wanted = agentIds ? new Set(agentIds) : null;
+  for (const file of readdirSync(dir).filter((f) => f.startsWith('agent-') && f.endsWith('.jsonl')).sort()) {
+    const agentId = file.slice('agent-'.length, -'.jsonl'.length);
+    if (wanted && !wanted.has(agentId)) continue;
+    const models = new Set<string>();
+    for (const line of readFileSync(join(dir, file), 'utf8').split('\n')) {
+      if (!line.trim()) continue;
+      try {
+        const model = (JSON.parse(line) as { message?: { model?: unknown } }).message?.model;
+        if (typeof model === 'string' && model && model !== '<synthetic>') models.add(model);
+      } catch {
+        // Transcript lines we cannot parse carry no model claim; skip them.
+      }
+    }
+    if (models.size) byAgent.set(agentId, models);
+  }
+  return byAgent;
+}
+
 export const inAgentProvider: ScoringProvider = {
   name: 'in-agent',
   description: 'Scored by the agent session itself; answers supplied as JSONL (no API key, no child process).',
@@ -78,9 +107,55 @@ export const inAgentProvider: ScoringProvider = {
   // only produce the same failure. One attempt keeps the reported count honest.
   deterministic: true,
 
-  preflight(): void {
-    // Nothing external to probe. The operator asserts the model identity via
-    // --model, and it is recorded in the run's provider-preflight.json.
+  /**
+   * The one thing this provider genuinely cannot observe is WHICH model wrote
+   * the answers — there is no subprocess to probe, unlike codex's
+   * `--model` capability check. Leaving that unchecked would let a batch be
+   * labelled `claude-opus-5` while something else actually scored it: exactly
+   * the silent-substitution failure the runbook forbids.
+   *
+   * So the gap is made explicit and auditable instead of silent:
+   *   --attest-model <id>            required; must equal --model
+   *   --verify-subagents <dir>       optional; mechanically checks transcripts
+   *   --verify-agent-ids <csv>       narrows the check to specific agents
+   *
+   * A session's transcript directory usually also holds unrelated agents that
+   * legitimately ran on other models, so prefer the id-scoped form when
+   * verifying a specific scoring wave.
+   */
+  preflight(ctx: PrepareRunContext): void {
+    const attested = ctx.options['attest-model'];
+    if (!attested || attested === 'true') {
+      throw new Error(
+        'in-agent provider cannot detect which model produced the answers. ' +
+          `Pass --attest-model ${ctx.model} to record that you verified the scorer, ` +
+          'and optionally --verify-subagents <dir> [--verify-agent-ids a,b,c] to check it mechanically.',
+      );
+    }
+    if (attested !== ctx.model) {
+      throw new Error(`--attest-model "${attested}" does not match --model "${ctx.model}"`);
+    }
+
+    const dir = ctx.options['verify-subagents'];
+    if (!dir || dir === 'true') return;
+    const ids = ctx.options['verify-agent-ids']
+      ? ctx.options['verify-agent-ids'].split(',').map((s) => s.trim()).filter(Boolean)
+      : undefined;
+    const byAgent = collectSubagentModels(dir, ids);
+    if (byAgent.size === 0) {
+      throw new Error(`--verify-subagents ${dir}: no agent transcripts found${ids ? ` for ids ${ids.join(', ')}` : ''}`);
+    }
+    const offenders: string[] = [];
+    for (const [agentId, models] of byAgent) {
+      const foreign = [...models].filter((m) => m !== ctx.model);
+      if (foreign.length) offenders.push(`${agentId} → ${foreign.join(', ')}`);
+    }
+    if (offenders.length) {
+      throw new Error(
+        `--verify-subagents: ${offenders.length} agent transcript(s) name a model other than "${ctx.model}": ` +
+          `${offenders.slice(0, 5).join('; ')}${offenders.length > 5 ? ' …' : ''}`,
+      );
+    }
   },
 
   prepareRun(ctx: PrepareRunContext): RunPreparation {
@@ -88,10 +163,22 @@ export const inAgentProvider: ScoringProvider = {
     mkdirSync(answersDir(ctx.runDir), { recursive: true });
     answerCache.clear();
     for (const [id, line] of loadAnswers(answersDir(ctx.runDir))) answerCache.set(id, line);
+    const verifyDir = ctx.options['verify-subagents'];
+    const verifyIds = ctx.options['verify-agent-ids'];
     return {
       audit: {
         scored_by: 'agent-session',
         declared_model: ctx.model,
+        // Provenance for the one property this provider cannot self-verify.
+        attested_model: ctx.options['attest-model'] ?? null,
+        subagent_verification:
+          verifyDir && verifyDir !== 'true'
+            ? {
+                transcript_dir: verifyDir,
+                agent_ids: verifyIds ? verifyIds.split(',').map((s) => s.trim()).filter(Boolean) : 'all',
+                verified_agents: [...collectSubagentModels(verifyDir, verifyIds ? verifyIds.split(',').map((s) => s.trim()).filter(Boolean) : undefined).keys()],
+              }
+            : null,
         prompts_dir: promptsDir(ctx.runDir),
         answers_dir: answersDir(ctx.runDir),
         answers_loaded: answerCache.size,
