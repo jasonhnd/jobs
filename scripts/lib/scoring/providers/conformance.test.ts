@@ -15,7 +15,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
 import { PROVIDERS, PROVIDER_NAMES } from './index.js';
-import { AWAITING_ANSWER_MARKER, inAgentProvider, loadAnswers } from './in-agent.js';
+import { AWAITING_ANSWER_MARKER, collectSubagentModels, inAgentProvider, loadAnswers } from './in-agent.js';
 import { AIOIS_FIELD_NAMES, AioisOutputSchema, SCORE_OUTPUT_JSON_SCHEMA } from '../contract.js';
 import { SCORING_ERROR_KINDS, classifyErrorText, type ScoringErrorKind } from '../errors.js';
 
@@ -94,7 +94,7 @@ for (const [name, provider] of Object.entries(PROVIDERS)) {
       () => {
         const dir = makeTmp();
         try {
-          const prep = provider.prepareRun({ cwd: dir, model: 'conformance-model', runDir: dir });
+          const prep = provider.prepareRun({ cwd: dir, model: 'conformance-model', runDir: dir, options: {} });
           if (!provider.supportsNativeSchema) {
             assert.equal(prep.outputSchemaPath, undefined);
             return;
@@ -130,11 +130,80 @@ for (const [name, provider] of Object.entries(PROVIDERS)) {
   });
 }
 
+describe('in-agent model attestation gate', () => {
+  const ctx = (options: Record<string, string>) => ({
+    cwd: '/tmp',
+    model: 'claude-opus-5',
+    runDir: '/tmp',
+    options,
+  });
+
+  test('refuses to run without an explicit attestation', () => {
+    assert.throws(() => inAgentProvider.preflight(ctx({})), /--attest-model/);
+  });
+
+  test('refuses an attestation that disagrees with --model', () => {
+    assert.throws(
+      () => inAgentProvider.preflight(ctx({ 'attest-model': 'claude-fable-5' })),
+      /does not match --model/,
+    );
+  });
+
+  test('accepts a matching attestation', () => {
+    assert.doesNotThrow(() => inAgentProvider.preflight(ctx({ 'attest-model': 'claude-opus-5' })));
+  });
+
+  test('mechanically rejects transcripts naming another model', () => {
+    const dir = makeTmp();
+    try {
+      writeFileSync(join(dir, 'agent-good1.jsonl'), '{"message":{"model":"claude-opus-5"}}\n');
+      writeFileSync(join(dir, 'agent-bad1.jsonl'), '{"message":{"model":"claude-fable-5"}}\n');
+
+      // Directory-wide: the foreign transcript is caught.
+      assert.throws(
+        () => inAgentProvider.preflight(ctx({ 'attest-model': 'claude-opus-5', 'verify-subagents': dir })),
+        /name a model other than "claude-opus-5".*bad1/s,
+      );
+
+      // Id-scoped: unrelated agents in the same directory are not penalised.
+      assert.doesNotThrow(() =>
+        inAgentProvider.preflight(
+          ctx({ 'attest-model': 'claude-opus-5', 'verify-subagents': dir, 'verify-agent-ids': 'good1' }),
+        ),
+      );
+
+      // A scope that matches nothing must fail rather than vacuously pass.
+      assert.throws(
+        () =>
+          inAgentProvider.preflight(
+            ctx({ 'attest-model': 'claude-opus-5', 'verify-subagents': dir, 'verify-agent-ids': 'nope' }),
+          ),
+        /no agent transcripts found/,
+      );
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  test('collectSubagentModels reports per-agent model sets', () => {
+    const dir = makeTmp();
+    try {
+      writeFileSync(join(dir, 'agent-x.jsonl'), '{"message":{"model":"claude-opus-5"}}\nnot-json\n{"message":{}}\n');
+      writeFileSync(join(dir, 'agent-y.jsonl'), '{"message":{"model":"<synthetic>"}}\n');
+      const found = collectSubagentModels(dir);
+      assert.deepEqual([...(found.get('x') ?? [])], ['claude-opus-5']);
+      assert.equal(found.has('y'), false, '<synthetic> is not a model claim');
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+});
+
 describe('in-agent answer ingestion', () => {
   test('reports a missing answer as pending rather than a model failure', async () => {
     const dir = makeTmp();
     try {
-      inAgentProvider.prepareRun({ cwd: dir, model: 'claude-opus-5', runDir: dir });
+      inAgentProvider.prepareRun({ cwd: dir, model: 'claude-opus-5', runDir: dir, options: {} });
       const response = await inAgentProvider.ask('prompt body', {
         cwd: dir,
         model: 'claude-opus-5',
@@ -155,7 +224,7 @@ describe('in-agent answer ingestion', () => {
     const dir = makeTmp();
     try {
       const answers = join(dir, 'answers');
-      inAgentProvider.prepareRun({ cwd: dir, model: 'claude-opus-5', runDir: dir });
+      inAgentProvider.prepareRun({ cwd: dir, model: 'claude-opus-5', runDir: dir, options: {} });
       writeFileSync(join(answers, 'chunk-01.jsonl'), '{"id":1,"x":1}\nnot-json\n{"id":2}\n');
       writeFileSync(join(answers, 'chunk-02.jsonl'), '{"id":3}\n');
       const loaded = loadAnswers(answers);
