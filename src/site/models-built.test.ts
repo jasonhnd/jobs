@@ -3,12 +3,17 @@ import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
+import { requireBuiltArtifact } from '../../scripts/lib/built-artifacts.js';
+
 function builtModelsPath(): string | null {
   const candidates = [
     join(process.cwd(), 'dist-astro', 'models', 'index.html'),
     join(process.cwd(), 'dist-astro', 'models.html'),
   ];
-  return candidates.find((candidate) => existsSync(candidate)) ?? null;
+  return requireBuiltArtifact(
+    candidates.find((candidate) => existsSync(candidate)) ?? null,
+    'dist-astro/models/index.html',
+  );
 }
 
 function builtModelDetailPath(slug: string): string | null {
@@ -16,7 +21,10 @@ function builtModelDetailPath(slug: string): string | null {
     join(process.cwd(), 'dist-astro', 'models', slug, 'index.html'),
     join(process.cwd(), 'dist-astro', 'models', `${slug}.html`),
   ];
-  return candidates.find((candidate) => existsSync(candidate)) ?? null;
+  return requireBuiltArtifact(
+    candidates.find((candidate) => existsSync(candidate)) ?? null,
+    `dist-astro/models/${slug}/index.html`,
+  );
 }
 
 function visibleHtml(html: string): string {
