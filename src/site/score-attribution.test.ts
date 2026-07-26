@@ -18,6 +18,7 @@ const currentModelIds = [
   'claude-opus-4-8',
   'claude-fable-5',
   'gpt-5.6-sol',
+  'claude-opus-5',
 ] as const;
 
 describe('formatModelDisplay', () => {
@@ -73,7 +74,7 @@ describe('modelSlug and modelIdFromSlug', () => {
   test('maps current model ids to public slugs', () => {
     assert.deepEqual(
       currentModelIds.map(modelSlug),
-      ['opus-4-7', 'opus-4-8', 'fable-5', 'gpt-5.6-sol'],
+      ['opus-4-7', 'opus-4-8', 'fable-5', 'gpt-5.6-sol', 'opus-5'],
     );
   });
 

@@ -145,16 +145,16 @@ describe('models-deep projection', () => {
   test('builds the current payload shape under 30 KB with selected rationale only', async () => {
     const payload = buildModelsDeepPayload(await indexesFixture(), '2026-07-12T00:00:00.000Z');
 
-    assert.equal(payload.latest_pair.baseline.model, 'claude-fable-5');
-    assert.equal(payload.latest_pair.candidate.model, 'gpt-5.6-sol');
+    assert.equal(payload.latest_pair.baseline.model, 'gpt-5.6-sol');
+    assert.equal(payload.latest_pair.candidate.model, 'claude-opus-5');
     assert.equal(payload.latest_pair.compared_count, 556);
-    assert.deepEqual(payload.consensus.map((row) => row.id), [24, 69, 94]);
-    assert.equal(payload.model_cards.length, 4);
+    assert.deepEqual(payload.consensus.map((row) => row.id), [10, 19, 55]);
+    assert.equal(payload.model_cards.length, 5);
     assert.equal(payload.stories.length, 5);
     assert.deepEqual(payload.stories.slice(0, 3).map((story) => story.id), [239, 398, 74]);
     assert.ok(
       payload.stories.every((story) => story.editorial_sentence_id === 'default_latest_pair_split'),
-      'the current Fable 5 → GPT 5.6 pair has no reviewed occupation-specific prose',
+      'the current GPT 5.6 → Opus 5 pair has no reviewed occupation-specific prose',
     );
     assert.ok(payload.stories.every((story) => story.baseline_rationale_ja.length > 0));
     assert.ok(payload.stories.every((story) => story.candidate_rationale_ja.length > 0));
