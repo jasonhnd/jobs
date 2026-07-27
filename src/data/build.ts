@@ -26,7 +26,9 @@ async function pathExists(p: string): Promise<boolean> {
     return false;
   }
 }
+
 import { buildIndexes } from './lib/indexes.js';
+import { rewriteGeneratedModule } from './lib/rewrite-generated-module.js';
 import { buildDetail } from './projections/detail.js';
 import { buildHolland } from './projections/holland.js';
 import { buildLabels } from './projections/labels.js';
@@ -42,7 +44,7 @@ import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
 import { buildAiAdoption } from './projections/ai-adoption.js';
 import { buildWorktypes } from './projections/worktypes.js';
-import { formatModelDisplay } from '../site/score-attribution.js';
+import { formatModelDisplay, pickAttributionBatch, type BatchMetaForAttribution } from '../site/score-attribution.js';
 import { buildGeoSurfaces } from '../site/geo-build.js';
 // Removed in Step 12 (dead projection cleanup, 2026-05-13):
 //   - buildFeatured / data.featured.json  (no runtime consumer)
@@ -132,47 +134,42 @@ async function main(): Promise<void> {
   // hardcoded calendar constant. Writes only on change → working tree stays
   // clean across rebuilds that don't introduce new scores.
   {
-    let latestDate = '';
-    let latestModel = '';
-    for (const score of indexes.latestScoreByOcc.values()) {
-      if (score.date && score.date > latestDate) {
-        latestDate = score.date;
-        latestModel = score.model;
-      }
-    }
-    const { readFile } = await import('node:fs/promises');
+    // One implementation of "which batch is canonical". This block used to
+    // re-derive it inline from `latestScoreByOcc` with its own tie-breaking,
+    // while `pickAttributionBatch` — documented in this file's header as the
+    // canonical helper — was called by nothing but its own test. Two answers to
+    // one question is the underlying hazard; the helper also fails fast on an
+    // empty `data/scores/`, replacing hardcoded 2026-05-30 / claude-opus-4-8
+    // fallbacks that would have published a two-generations-old attribution
+    // across ~40 surfaces while the build reported success. Issue #219.
+    const batchMetas: BatchMetaForAttribution[] = [...indexes.runsByModel.values()]
+      .flat()
+      .map((run) => ({
+        scope: run.scope,
+        model: run.scorer.model,
+        runDate: run.run.run_date,
+        hasAiois: Object.values(run.scores).some((entry) => entry.aiois != null),
+      }));
+    const active = pickAttributionBatch(batchMetas);
+    const modelDisplay = formatModelDisplay(active.model);
 
-    const contentDate = latestDate || '2026-05-30';
-    const contentDatePath = join(REPO_ROOT, 'src/lib/_content-date.ts');
-    const existing = await readFile(contentDatePath, 'utf-8').catch(() => '');
-    const updated = existing.replace(
-      /CONTENT_DATE = '[^']*'/,
-      `CONTENT_DATE = '${contentDate}'`,
-    );
-    if (updated && updated !== existing) {
-      await writeFile(contentDatePath, updated, 'utf-8');
-      console.log(`  [content-date] updated to ${contentDate}`);
-    } else {
-      console.log(`  [content-date] ${contentDate} (unchanged)`);
-    }
+    await rewriteGeneratedModule(join(REPO_ROOT, 'src/lib/_content-date.ts'), [
+      {
+        pattern: /CONTENT_DATE = '[^']*'/,
+        replacement: `CONTENT_DATE = '${active.runDate}'`,
+        expect: `CONTENT_DATE = '${active.runDate}'`,
+      },
+    ]);
+    console.log(`  [content-date] ${active.runDate}`);
 
     // Active score attribution (model + date) → generated fs-free module, so
     // src/site/score-attribution.ts carries no node:fs into the Edge bundle.
-    const runDate = latestDate || '2026-05-30';
-    const modelId = latestModel || 'claude-opus-4-8';
-    const modelDisplay = formatModelDisplay(modelId);
-    const attrPath = join(REPO_ROOT, 'src/site/_score-attribution.ts');
-    const attrExisting = await readFile(attrPath, 'utf-8').catch(() => '');
-    const attrUpdated = attrExisting
-      .replace(/modelId: '[^']*'/, `modelId: '${modelId}'`)
-      .replace(/modelDisplay: '[^']*'/, `modelDisplay: '${modelDisplay}'`)
-      .replace(/runDate: '[^']*'/, `runDate: '${runDate}'`);
-    if (attrUpdated && attrUpdated !== attrExisting) {
-      await writeFile(attrPath, attrUpdated, 'utf-8');
-      console.log(`  [score-attribution] ${modelDisplay} (${runDate})`);
-    } else {
-      console.log(`  [score-attribution] ${modelDisplay} (${runDate}) (unchanged)`);
-    }
+    await rewriteGeneratedModule(join(REPO_ROOT, 'src/site/_score-attribution.ts'), [
+      { pattern: /modelId: '[^']*'/, replacement: `modelId: '${active.model}'`, expect: `modelId: '${active.model}'` },
+      { pattern: /modelDisplay: '[^']*'/, replacement: `modelDisplay: '${modelDisplay}'`, expect: `modelDisplay: '${modelDisplay}'` },
+      { pattern: /runDate: '[^']*'/, replacement: `runDate: '${active.runDate}'`, expect: `runDate: '${active.runDate}'` },
+    ]);
+    console.log(`  [score-attribution] ${modelDisplay} (${active.runDate})`);
   }
 
   // ───── Prepare staging dir ─────

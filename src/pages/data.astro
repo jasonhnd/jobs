@@ -13,8 +13,13 @@ import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 import { OCCUPATION_COUNT } from '@/site/config';
+import { CONTENT_DATE } from '@/lib/_content-date';
 
-const pageLastUpdated = '2026-07-06';
+// dateModified must track the data, not a calendar date typed once: this page
+// renders score-derived content, so it changes when a batch lands. The frozen
+// value also contradicted sitemapLastmods(), which reports the latest score
+// date for the same URL — two different answers for one page. Issue #219.
+const pageLastUpdated = CONTENT_DATE;
 const SITE = 'https://mirai-shigoto.com';
 
 interface Endpoint {
