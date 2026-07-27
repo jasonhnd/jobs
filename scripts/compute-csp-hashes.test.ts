@@ -15,16 +15,16 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'compute-csp-hashes.cjs');
+const MANIFEST = join(dirname(fileURLToPath(import.meta.url)), 'lib', 'csp-analytics-manifest.cjs');
 const ENV_GATED_VARS = [
   'PUBLIC_GA4_MEASUREMENT_ID',
   'PUBLIC_X_PIXEL_ID',
   'PUBLIC_META_PIXEL_ID',
 ] as const;
-const ANALYTICS_FALLBACK_HASHES = [
-  "'sha256-eHy/AzR1WfYwPnGUyDj2+s5HQUPRCeQHbobwS3Zp2Ws='",
-  "'sha256-mEjXucpUExIz3nx3AizABlBEO3RXLDXVXIkrpe7XvPk='",
-  "'sha256-rMk6BYbivudkhnerx/Rk2lI++sOY2uBxHPARDHh/Tpk='",
-] as const;
+// Imported, never re-typed: a hand-copied duplicate drifts the moment an
+// analytics inline script changes, which is exactly what this suite guards.
+const { CSP_ANALYTICS_FALLBACK_HASHES: ANALYTICS_FALLBACK_HASHES } =
+  require('./lib/csp-analytics-manifest.cjs') as { CSP_ANALYTICS_FALLBACK_HASHES: string[] };
 
 const fixtures: string[] = [];
 
@@ -50,8 +50,12 @@ function createFixture({
   const root = mkdtempSync(join(tmpdir(), 'jobs-csp-hashes-'));
   fixtures.push(root);
   mkdirSync(join(root, 'scripts'));
+  mkdirSync(join(root, 'scripts', 'lib'));
   mkdirSync(join(root, 'dist-astro'));
   copyFileSync(SCRIPT, join(root, 'scripts', 'compute-csp-hashes.cjs'));
+  // The script requires the shared manifest by relative path; the fixture is a
+  // standalone tree, so it needs its own copy.
+  copyFileSync(MANIFEST, join(root, 'scripts', 'lib', 'csp-analytics-manifest.cjs'));
   writeFileSync(
     join(root, 'dist-astro', 'index.html'),
     `${htmlPrefix}<script>${body}</script>`,

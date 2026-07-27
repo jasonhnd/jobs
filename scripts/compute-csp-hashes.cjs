@@ -59,16 +59,9 @@ const CSP_ENV_GATED_INLINE_SCRIPT_VARS = [
   'PUBLIC_X_PIXEL_ID',
   'PUBLIC_META_PIXEL_ID',
 ];
-// These are the env-gated analytics inline-script hashes that must ALWAYS
-// appear in script-src even when PUBLIC_* analytics env is absent at build
-// time. A full-PUBLIC_*-env `bun run build` verifies that every manifest hash
-// is still emitted and fails closed if the analytics inline scripts changed;
-// update this list as part of that source change.
-const CSP_ANALYTICS_FALLBACK_HASHES = [
-  "'sha256-eHy/AzR1WfYwPnGUyDj2+s5HQUPRCeQHbobwS3Zp2Ws='",
-  "'sha256-mEjXucpUExIz3nx3AizABlBEO3RXLDXVXIkrpe7XvPk='",
-  "'sha256-rMk6BYbivudkhnerx/Rk2lI++sOY2uBxHPARDHh/Tpk='",
-];
+// Single definition, shared with compute-csp-hashes.test.ts — see that module
+// for why the list exists and how to refresh it.
+const { CSP_ANALYTICS_FALLBACK_HASHES } = require('./lib/csp-analytics-manifest.cjs');
 
 function missingCspInlineScriptEnv() {
   return CSP_ENV_GATED_INLINE_SCRIPT_VARS.filter((name) => !process.env[name]);
