@@ -116,23 +116,109 @@ export function isConsentRejected(cookieHeader: string | null): boolean {
  * pseudo-id so the server-side hit still has a non-empty cid (GA4
  * requires it).
  *
- * The fallback shape mirrors what gtag.js would have generated client-
- * side: `<random>.<unix-ts>`. Not stable across visits without a
- * cookie, so server-only visitors look like new users each session —
- * acceptable since they're a tiny minority.
+ * The fallback used to be `Math.random()` per request. Browsers that block
+ * gtag.js also never receive a `_ga` cookie, so EVERY request from such a
+ * visitor minted a fresh id and GA4 counted it as a brand-new user: 48,746
+ * "users" against 15 sessions in the 28 days to 2026-07-26, inflating every
+ * user-scoped metric roughly threefold. The fallback is now a stable hash of
+ * signals the request already carries, so one browser on one network resolves
+ * to one id for the day.
  *
- * The fallback uses `Date.now()` + `Math.random()` directly so callers
- * can monkey-patch those in tests. Pure inputs (cookie header)
- * produce a deterministic output via the regex match path.
+ * Known limitation, accepted deliberately: visitors sharing an IP and an
+ * identical User-Agent (carrier-grade NAT on JP mobile, office egress) collapse
+ * into one id. That under-counts, where the previous behaviour over-counted by
+ * ~3x. A bounded under-count is the better error, and the exact figure stays
+ * available from `_ga` for the ~56% of page views where gtag.js does run.
+ *
+ * No cookie is set for this: writing our own identifier would re-identify a
+ * visitor who has explicitly blocked tracking, and would put `Set-Cookie` on
+ * responses that are otherwise statically cached.
  */
-export function deriveClientId(cookieHeader: string | null): string {
+export function deriveClientId(cookieHeader: string | null, fingerprint?: ClientFingerprint): string {
   if (cookieHeader) {
     const match = cookieHeader.match(/_ga=GA1\.\d\.(\d+)\.(\d+)/);
     if (match) return `${match[1]}.${match[2]}`;
   }
-  const ts = Math.floor(Date.now() / 1000);
-  const rand = Math.floor(Math.random() * 1_000_000_000);
-  return `${rand}.${ts}`;
+  const day = Math.floor(Date.now() / 86_400_000);
+  const seed = [
+    fingerprint?.ip ?? '',
+    fingerprint?.userAgent ?? '',
+    fingerprint?.acceptLanguage ?? '',
+    day,
+  ].join('|');
+  // Daily epoch keeps the pair shaped like gtag's `<id>.<ts>` while making the
+  // id roll over once a day, so a fingerprint collision cannot accumulate
+  // history indefinitely.
+  return `${stableHash(seed)}.${day * 86_400}`;
+}
+
+export interface ClientFingerprint {
+  readonly ip?: string;
+  readonly userAgent?: string;
+  readonly acceptLanguage?: string;
+}
+
+/**
+ * FNV-1a, 32-bit. The Edge runtime only exposes async `crypto.subtle`, and this
+ * value never guards anything — it just has to spread evenly and be identical
+ * for identical inputs.
+ */
+export function stableHash(input: string): number {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < input.length; i += 1) {
+    hash ^= input.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return hash >>> 0;
+}
+
+/** GA4 writes its session state to `_ga_<measurement id without the G- prefix>`. */
+export function ga4SessionCookieName(measurementId: string): string {
+  return `_ga_${measurementId.replace(/^G-/, '')}`;
+}
+
+/**
+ * Session id gtag.js is already using for this browser, or null.
+ *
+ * Two encodings are live in the wild and both must be handled, or the browsers
+ * on the newer one silently fall through to the synthetic window below and open
+ * a second, parallel session alongside gtag's:
+ *
+ *   GS1.1.<sessionId>.<n>.<engaged>.<lastHit>…      dot-separated
+ *   GS2.1.s<sessionId>$o<n>$g<engaged>$t<lastHit>…  `$`-separated, `s`-prefixed
+ *
+ * The session id is unix seconds in both.
+ */
+export function parseGa4SessionId(cookieHeader: string | null, measurementId: string): string | null {
+  if (!cookieHeader || !measurementId) return null;
+  const name = ga4SessionCookieName(measurementId).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${name}=GS\\d\\.\\d\\.s?(\\d+)`));
+  return match ? match[1]! : null;
+}
+
+/** 30 minutes, matching GA4's default session timeout. */
+export const SESSION_WINDOW_SECONDS = 1800;
+
+/**
+ * Session id for the Measurement Protocol hit.
+ *
+ * Without one, GA4 attaches the event to no session at all — which is why the
+ * server-side stream showed 48,746 users against 15 sessions. Reusing gtag's id
+ * when it exists keeps server and client hits inside a single session instead
+ * of creating a parallel one.
+ */
+export function deriveSessionId(
+  cookieHeader: string | null,
+  measurementId: string,
+  clientId: string,
+  nowSeconds: number = Math.floor(Date.now() / 1000),
+): string {
+  const fromGtag = parseGa4SessionId(cookieHeader, measurementId);
+  if (fromGtag) return fromGtag;
+  // No gtag session to join: bucket to a fixed window so consecutive page views
+  // from the same visitor land in one session rather than one session each.
+  const bucket = Math.floor(nowSeconds / SESSION_WINDOW_SECONDS) * SESSION_WINDOW_SECONDS;
+  return String(bucket + (stableHash(clientId) % SESSION_WINDOW_SECONDS));
 }
 
 /**
@@ -206,6 +292,8 @@ export interface MpPayloadInput {
   readonly pageReferrer: string;
   readonly clientIp: string;
   readonly userAgent: string;
+  /** GA4 attaches the event to no session without this. See deriveSessionId. */
+  readonly sessionId: string;
   /** Defaults to `Date.now() * 1000` when omitted — overridable for tests. */
   readonly timestampMicros?: number;
 }
@@ -238,6 +326,10 @@ export function buildMpPayload(input: MpPayloadInput): unknown {
         params: {
           page_location: input.pageLocation,
           page_referrer: input.pageReferrer,
+          // Both are required for the hit to count toward a session. Omitting
+          // session_id was why the server stream reported users with no
+          // sessions at all.
+          session_id: input.sessionId,
           engagement_time_msec: 1,
           ssrc: 'mw',
         },

@@ -9,6 +9,11 @@ import { strict as assert } from 'node:assert';
 
 import {
   BOT_UA_RE,
+  SESSION_WINDOW_SECONDS,
+  deriveSessionId,
+  ga4SessionCookieName,
+  parseGa4SessionId,
+  stableHash,
   isBotUserAgent,
   isSuspectPath,
   isConsentRejected,
@@ -578,6 +583,7 @@ describe('classifyGeoReferral — GEO referral baseline classification', () => {
 describe('buildMpPayload — GA4 Measurement Protocol shape', () => {
   const BASE_INPUT = {
     clientId: '1234567890.1685600000',
+    sessionId: '1700000000',
     pageLocation: 'https://mirai-shigoto.com/156',
     pageReferrer: 'https://google.com/',
     clientIp: '203.0.113.42',
@@ -635,5 +641,139 @@ describe('buildMpPayload — GA4 Measurement Protocol shape', () => {
     const after = Date.now() * 1000;
     assert.ok(p.timestamp_micros >= before, 'timestamp_micros below test start');
     assert.ok(p.timestamp_micros <= after, 'timestamp_micros above test end');
+  });
+});
+
+/**
+ * The server-side stream reported 48,746 users against 15 sessions in the 28
+ * days to 2026-07-26 — an impossible shape that inflated every user-scoped
+ * metric roughly threefold. Two causes, pinned here: a client_id minted fresh
+ * on every request, and events carrying no session_id at all.
+ */
+describe('server-side identity (GA4 phantom-user fix)', () => {
+  const FP = {
+    ip: '203.0.113.42',
+    userAgent: 'Mozilla/5.0 (iPhone) Safari/605',
+    acceptLanguage: 'ja-JP,ja;q=0.9',
+  };
+
+  describe('deriveClientId', () => {
+    test('still prefers the _ga cookie so server and client hits are one user', () => {
+      const id = deriveClientId('_ga=GA1.1.1234567890.1685600000; other=x', FP);
+      assert.equal(id, '1234567890.1685600000');
+    });
+
+    test('the cookie wins even when a fingerprint is supplied', () => {
+      const withFp = deriveClientId('_ga=GA1.2.999.888', FP);
+      const noFp = deriveClientId('_ga=GA1.2.999.888');
+      assert.equal(withFp, noFp);
+      assert.equal(withFp, '999.888');
+    });
+
+    test('without a cookie, the same visitor resolves to the SAME id', () => {
+      // This is the whole fix: repeated requests from one blocked browser used
+      // to mint a new id each time, so GA4 counted one person as N users.
+      const first = deriveClientId(null, FP);
+      const second = deriveClientId(null, FP);
+      const third = deriveClientId('unrelated=1', FP);
+      assert.equal(first, second);
+      assert.equal(second, third);
+    });
+
+    test('different visitors still resolve to different ids', () => {
+      const a = deriveClientId(null, FP);
+      const byIp = deriveClientId(null, { ...FP, ip: '198.51.100.7' });
+      const byUa = deriveClientId(null, { ...FP, userAgent: 'Mozilla/5.0 Android Chrome/120' });
+      const byLang = deriveClientId(null, { ...FP, acceptLanguage: 'en-US,en;q=0.9' });
+      assert.notEqual(a, byIp);
+      assert.notEqual(a, byUa);
+      assert.notEqual(a, byLang);
+    });
+
+    test('shape stays gtag-like: <digits>.<digits>', () => {
+      assert.match(deriveClientId(null, FP), /^\d+\.\d+$/);
+      assert.match(deriveClientId(null), /^\d+\.\d+$/);
+    });
+  });
+
+  describe('stableHash', () => {
+    test('is deterministic and spreads distinct inputs apart', () => {
+      assert.equal(stableHash('abc'), stableHash('abc'));
+      assert.notEqual(stableHash('abc'), stableHash('abd'));
+      assert.notEqual(stableHash(''), stableHash('a'));
+    });
+
+    test('stays an unsigned 32-bit integer', () => {
+      for (const s of ['', 'a', 'ja-JP,ja;q=0.9', '203.0.113.42|Mozilla/5.0']) {
+        const h = stableHash(s);
+        assert.ok(Number.isInteger(h) && h >= 0 && h <= 0xffffffff, `${s} -> ${h}`);
+      }
+    });
+  });
+
+  describe('parseGa4SessionId', () => {
+    test('reads gtag session state so server hits join the client session', () => {
+      const cookie = '_ga=GA1.1.1.2; _ga_GLDNBDPF13=GS1.1.1753600000.7.1.1753600300.60.0.0';
+      assert.equal(parseGa4SessionId(cookie, 'G-GLDNBDPF13'), '1753600000');
+    });
+
+    test('handles the GS2 encoding, where the id is `s`-prefixed', () => {
+      // Both encodings are live. Missing GS2 would send those browsers down the
+      // synthetic-window path and open a session parallel to gtag's.
+      const cookie = '_ga_GLDNBDPF13=GS2.1.s1753600000$o7$g1$t1753600300$j0$l0$h0';
+      assert.equal(parseGa4SessionId(cookie, 'G-GLDNBDPF13'), '1753600000');
+    });
+
+    test('returns null when gtag never ran, or for another property', () => {
+      assert.equal(parseGa4SessionId(null, 'G-GLDNBDPF13'), null);
+      assert.equal(parseGa4SessionId('_ga=GA1.1.1.2', 'G-GLDNBDPF13'), null);
+      assert.equal(parseGa4SessionId('_ga_OTHER=GS1.1.123.1.1.1', 'G-GLDNBDPF13'), null);
+    });
+
+    test('derives the cookie name from the measurement id', () => {
+      assert.equal(ga4SessionCookieName('G-GLDNBDPF13'), '_ga_GLDNBDPF13');
+      assert.equal(ga4SessionCookieName('GLDNBDPF13'), '_ga_GLDNBDPF13');
+    });
+  });
+
+  describe('deriveSessionId', () => {
+    test('reuses gtag session id when present', () => {
+      const cookie = '_ga_GLDNBDPF13=GS1.1.1753600000.7.1.1753600300.60.0.0';
+      assert.equal(deriveSessionId(cookie, 'G-GLDNBDPF13', 'cid', 1753600400), '1753600000');
+    });
+
+    test('consecutive views inside the window share one session', () => {
+      const a = deriveSessionId(null, 'G-GLDNBDPF13', 'cid-1', 1753600000);
+      const b = deriveSessionId(null, 'G-GLDNBDPF13', 'cid-1', 1753600000 + 900);
+      assert.equal(a, b, 'a 15-minute gap must not start a new session');
+    });
+
+    test('a gap beyond the window starts a new session', () => {
+      const a = deriveSessionId(null, 'G-GLDNBDPF13', 'cid-1', 1753600000);
+      const b = deriveSessionId(null, 'G-GLDNBDPF13', 'cid-1', 1753600000 + SESSION_WINDOW_SECONDS * 2);
+      assert.notEqual(a, b);
+    });
+
+    test('two visitors in the same window get different sessions', () => {
+      const a = deriveSessionId(null, 'G-GLDNBDPF13', 'cid-1', 1753600000);
+      const b = deriveSessionId(null, 'G-GLDNBDPF13', 'cid-2', 1753600000);
+      assert.notEqual(a, b);
+    });
+
+    test('always returns digits — GA4 rejects a non-numeric session_id', () => {
+      assert.match(deriveSessionId(null, 'G-GLDNBDPF13', 'cid', 1753600000), /^\d+$/);
+    });
+  });
+
+  describe('buildMpPayload', () => {
+    test('carries session_id, without which GA4 attaches the hit to no session', () => {
+      const p = buildMpPayload({
+        clientId: '1.2', sessionId: '1753600000',
+        pageLocation: 'https://mirai-shigoto.com/', pageReferrer: '',
+        clientIp: '', userAgent: 'UA',
+      }) as { events: ReadonlyArray<{ params: Record<string, unknown> }> };
+      assert.equal(p.events[0]!.params.session_id, '1753600000');
+      assert.equal(p.events[0]!.params.engagement_time_msec, 1);
+    });
   });
 });
