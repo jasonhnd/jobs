@@ -1,6 +1,6 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { modelSlug } from '@/site/score-attribution';
+import { runSlug, type ScoreRunRef } from '@/site/score-attribution';
 
 export interface ModelBatchMeta {
   readonly model: string;
@@ -25,10 +25,17 @@ export async function loadModelBatchMetas(): Promise<ModelBatchMeta[]> {
     if (data.scope !== 'occupations') continue;
     metas.push({
       model: data.scorer.model,
-      slug: modelSlug(data.scorer.model),
+      slug: runSlug({ model: data.scorer.model, runDate: data.run.run_date }),
       date: data.run.run_date,
       covered_count: data.input?.occupation_count_scored ?? Object.keys(data.scores).length,
     });
   }
   return metas.sort((a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model));
+}
+
+/** The known scoring runs, as `runFromSlug` expects them. Lives here rather
+ *  than in the page frontmatter because Astro extracts `getStaticPaths` into
+ *  its own scope, where only imports are visible. */
+export function knownRuns(metas: readonly ModelBatchMeta[]): ScoreRunRef[] {
+  return metas.map((meta) => ({ model: meta.model, runDate: meta.date }));
 }

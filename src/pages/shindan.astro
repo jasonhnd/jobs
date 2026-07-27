@@ -24,6 +24,7 @@ import {
   VARIANT_BUCKETS_BY_FAMILY,
 } from '@/site/worktype-copy';
 import { OCCUPATION_COUNT } from '@/site/config';
+import { CONTENT_DATE } from '@/lib/_content-date';
 
 const canonical = 'https://mirai-shigoto.com/shindan';
 const title = 'AI働き方診断｜9問でわかるあなたの働き方タイプ - 未来の仕事';
@@ -70,7 +71,8 @@ const jsonLd = safeJsonForScript({
       about: { '@id': 'https://mirai-shigoto.com/#organization' },
       publisher: { '@id': 'https://mirai-shigoto.com/#organization' },
       datePublished: '2026-07-03',
-      dateModified: '2026-07-03',
+      // Tracks the data; datePublished stays frozen. Issue #219.
+      dateModified: CONTENT_DATE,
       breadcrumb: { '@id': `${canonical}#breadcrumb` },
     },
     {

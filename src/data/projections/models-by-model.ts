@@ -15,7 +15,7 @@ import {
 } from '../../graph/aiois-drift.js';
 import { ModelsByModelProjectionSchema, type ModelsByModelProjectionShape } from '../../lib/projection-schemas.js';
 import { occupationPath } from '../../lib/urls.js';
-import { formatModelDisplay, modelIdFromSlug, modelSlug } from '../../site/score-attribution.js';
+import { formatModelDisplay, runSlug } from '../../site/score-attribution.js';
 import type { ScoreRun } from '../schema/index.js';
 import type { ScoreEntry } from '../schema/score-run.js';
 import type { Indexes } from '../lib/indexes.js';
@@ -100,18 +100,31 @@ function occupationRuns(indexes: Indexes): ScoreRun[] {
 
 function buildBatchSummaries(indexes: Indexes): BatchSummary[] {
   const runs = occupationRuns(indexes);
-  const knownModelIds = runs.map((run) => run.scorer.model);
 
-  for (const modelId of knownModelIds) {
-    const slug = modelSlug(modelId);
-    if (modelIdFromSlug(slug, knownModelIds) !== modelId) {
-      throw new Error(`[models-by-model] model slug round-trip failed for ${modelId} (${slug})`);
+  // Public pages are keyed by RUN, so the uniqueness that matters is
+  // (model, date). This used to assert a model-level round-trip against a list
+  // built from runs: two runs of one model made `modelIdFromSlug` return null
+  // and the build died reporting "model slug round-trip failed" — a slug bug
+  // that was not happening, on a path the runbook documents as normal. The
+  // condition that IS a defect is two batches sharing a model AND a date, and
+  // it now says so. Issue #218.
+  const seen = new Map<string, ScoreRun>();
+  for (const run of runs) {
+    const slug = runSlug({ model: run.scorer.model, runDate: run.run.run_date });
+    const previous = seen.get(slug);
+    if (previous !== undefined) {
+      throw new Error(
+        `[models-by-model] duplicate scoring run "${run.scorer.model}" on ${run.run.run_date} ` +
+        `in data/scores/ — two batches share one model id and run date, so they would ` +
+        `collide on /models/${slug}. Give the re-run a different run_date.`,
+      );
     }
+    seen.set(slug, run);
   }
 
   return runs.map((run) => ({
     run,
-    slug: modelSlug(run.scorer.model),
+    slug: runSlug({ model: run.scorer.model, runDate: run.run.run_date }),
     model: run.scorer.model,
     modelDisplay: formatModelDisplay(run.scorer.model),
     date: run.run.run_date,
@@ -315,7 +328,7 @@ export function buildModelsByModelPayload(
 
   batches.forEach((batch, index) => {
     if (batch.slug in models) {
-      throw new Error(`[models-by-model] duplicate model slug: ${batch.slug}`);
+      throw new Error(`[models-by-model] duplicate run slug: ${batch.slug}`);
     }
     models[batch.slug] = {
       slug: batch.slug,

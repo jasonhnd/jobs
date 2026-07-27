@@ -3,12 +3,17 @@ import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
+import { requireBuiltArtifact } from '../../scripts/lib/built-artifacts.js';
+
 function builtModelsPath(): string | null {
   const candidates = [
     join(process.cwd(), 'dist-astro', 'models', 'index.html'),
     join(process.cwd(), 'dist-astro', 'models.html'),
   ];
-  return candidates.find((candidate) => existsSync(candidate)) ?? null;
+  return requireBuiltArtifact(
+    candidates.find((candidate) => existsSync(candidate)) ?? null,
+    'dist-astro/models/index.html',
+  );
 }
 
 function builtModelDetailPath(slug: string): string | null {
@@ -16,7 +21,10 @@ function builtModelDetailPath(slug: string): string | null {
     join(process.cwd(), 'dist-astro', 'models', slug, 'index.html'),
     join(process.cwd(), 'dist-astro', 'models', `${slug}.html`),
   ];
-  return candidates.find((candidate) => existsSync(candidate)) ?? null;
+  return requireBuiltArtifact(
+    candidates.find((candidate) => existsSync(candidate)) ?? null,
+    `dist-astro/models/${slug}/index.html`,
+  );
 }
 
 function visibleHtml(html: string): string {
@@ -98,10 +106,12 @@ describe('/models built page contract', () => {
     assert.match(visible, /Claude Opus 4\.8/);
     assert.match(visible, /Claude Fable 5/);
     assert.match(visible, /GPT 5\.6 SOL/);
+    assert.match(visible, /Opus 5/);
     assert.match(visible, /各回の対象は552〜556職業/);
     assert.match(visible, /共通する 556 職業を比べ/);
-    assert.equal(/556職業を、4つのAIモデルがそれぞれ採点/.test(visible), false);
-    assert.match(html, /4つのAIモデルによる、各回552〜556職業の採点結果/);
+    // Coverage must stay a derived range, never a single hard-coded total.
+    assert.equal(/556職業を、5つのAIモデルがそれぞれ採点/.test(visible), false);
+    assert.match(html, /5つのAIモデルによる、各回552〜556職業の採点結果/);
   });
 
   test('emits scoped heading typography that beats the canonical serif heading rule', () => {
@@ -113,7 +123,7 @@ describe('/models built page contract', () => {
   });
 
   test('renders model detail public metadata without raw ids', () => {
-    const detailPath = builtModelDetailPath('gpt-5.6-sol');
+    const detailPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
     const visible = visibleHtml(html);
@@ -123,18 +133,29 @@ describe('/models built page contract', () => {
     assert.match(visible, /<dt>評価基準<\/dt><dd>AIOIS-10 v1\.0<\/dd>/);
     assert.match(visible, /2026年7月12日/);
     assert.equal(/プロンプト|AIOIS-10-v1\.0-gpt-5\.6-sol/.test(visible), false);
+
+    // The canonical model's own page, including the Anthropic provider label.
+    const latestPath = builtModelDetailPath('opus-5@2026-07-26');
+    if (latestPath == null) return;
+    const latest = visibleHtml(readFileSync(latestPath, 'utf-8'));
+    assert.match(latest, /<h1>Claude Opus 5 の職業スコア<\/h1>/);
+    assert.match(latest, /<dt>提供元<\/dt><dd>Anthropic<\/dd>/);
+    assert.match(latest, /2026年7月26日/);
+    assert.equal(/プロンプト|AIOIS-10-v1\.0-claude-opus-5/.test(latest), false);
   });
 
   test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
-    const legacyPath = builtModelDetailPath('opus-4-7');
-    const firstAioisPath = builtModelDetailPath('opus-4-8');
-    const fablePath = builtModelDetailPath('fable-5');
-    const latestPath = builtModelDetailPath('gpt-5.6-sol');
-    if (!legacyPath || !firstAioisPath || !fablePath || !latestPath) return;
+    const legacyPath = builtModelDetailPath('opus-4-7@2026-04-25');
+    const firstAioisPath = builtModelDetailPath('opus-4-8@2026-05-30');
+    const fablePath = builtModelDetailPath('fable-5@2026-06-13');
+    const gptPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
+    const latestPath = builtModelDetailPath('opus-5@2026-07-26');
+    if (!legacyPath || !firstAioisPath || !fablePath || !gptPath || !latestPath) return;
 
     const legacy = visibleHtml(readFileSync(legacyPath, 'utf-8'));
     const firstAiois = visibleHtml(readFileSync(firstAioisPath, 'utf-8'));
     const fable = visibleHtml(readFileSync(fablePath, 'utf-8'));
+    const gpt = visibleHtml(readFileSync(gptPath, 'utf-8'));
     const latest = visibleHtml(readFileSync(latestPath, 'utf-8'));
 
     assert.match(legacy, /AIOIS-10 導入前の旧方式スコア/);
@@ -143,12 +164,14 @@ describe('/models built page contract', () => {
     assert.match(firstAiois, /比較可能な前回モデルがない/);
     assert.match(fable, /Claude Opus 4\.8（2026年5月30日）と比べて/);
     assert.match(fable, /共通して比較できた職業は 556 件/);
-    assert.match(latest, /Claude Fable 5（2026年6月13日）と比べて/);
+    assert.match(gpt, /Claude Fable 5（2026年6月13日）と比べて/);
+    assert.match(gpt, /共通して比較できた職業は 556 件/);
+    assert.match(latest, /GPT 5\.6 SOL（2026年7月12日）と比べて/);
     assert.match(latest, /共通して比較できた職業は 556 件/);
   });
 
   test('emits scoped model detail heading typography that beats the canonical serif heading rule', () => {
-    const detailPath = builtModelDetailPath('gpt-5.6-sol');
+    const detailPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
 

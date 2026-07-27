@@ -54,8 +54,15 @@ jobs:
       - name: Build production output
         run: bun run build
 
-      - name: Verify rendered homepage CSS contract
-        run: bun test scripts/home-css-loading.test.ts
+      # Must stay after "Build production output": these assert against
+      # dist-astro/, which is gitignored, so the earlier "Run unit tests" step
+      # collects them with no build present and skips every assertion (#213).
+      # REQUIRE_BUILT_ARTIFACTS turns that skip into a hard failure here, so a
+      # missing or reordered build step cannot silently disarm them again.
+      - name: Verify rendered HTML contracts
+        env:
+          REQUIRE_BUILT_ARTIFACTS: '1'
+        run: bun test scripts/home-css-loading.test.ts src/site/models-built.test.ts
 
       - name: Run repository gates
         run: bun run verify:gates

@@ -9,6 +9,7 @@
  */
 
 import { RANKING_META, type RankingSlug as RankingSlugMeta } from '../rankings-meta.js';
+import type { DemandBand } from '../../data/lib/bands.js';
 import type { ExtraCol } from '../../templates/Ranking.js';
 
 export const TOP_N = 30;
@@ -25,7 +26,10 @@ export interface Occupation {
   recruit_wage: number | null;
   /** 有効求人倍率 (Phase 2 で必要) */
   recruit_ratio: number | null;
-  demand_band: string | null;
+  /** Always produced by `demandBand()` in data/lib/bands, so the domain is
+   *  exactly DemandBand. Declaring it `string` let retired band names survive
+   *  in the lookup tables below without the compiler noticing. */
+  demand_band: DemandBand | null;
   sector_id: string;
   sector_ja: string;
   /** Phase 2: 学歴分布 (JA-key %、treemap.json の education_pct から) */
@@ -38,19 +42,46 @@ export interface Occupation {
   hourly_wage: number | null;
 }
 
-export const DEMAND_SCORE: Record<string, number> = {
+/**
+ * Sort weight per demand band. Typed by `DemandBand` so a retired key is a
+ * compile error and a missing one too — this table used to carry `warm: 3` and
+ * `cool: 2`, bands deleted when `DemandBand` narrowed to cold/normal/hot, and
+ * carried no `normal` at all. `normal` therefore scored `?? 0`, sorting the 105
+ * mid-demand occupations *below* the 170 cold ones.
+ *
+ * `normal` sits between `cold` and `hot` but stays under the `>= HIGH_DEMAND_MIN`
+ * cut, so every "high demand" surface keeps selecting exactly the hot set.
+ */
+export const DEMAND_SCORE: Record<DemandBand, number> = {
   hot: 4,
-  warm: 3,
-  cool: 2,
+  normal: 2,
   cold: 1,
 };
 
-export const DEMAND_JA: Record<string, string> = {
+/** Minimum DEMAND_SCORE for a "人手不足 / high demand" surface. Selects `hot`. */
+export const HIGH_DEMAND_MIN = 3;
+
+/** Sort weight for a possibly-absent band; unranked occupations sort last. */
+export function demandScore(band: DemandBand | null | undefined): number {
+  return band ? DEMAND_SCORE[band] : 0;
+}
+
+/**
+ * Japanese pill labels. Wording differs from the template layer's own table
+ * (see src/templates/Ranking.ts) because the contexts differ — a table pill vs
+ * inline prose. What must match is the *key set*, which
+ * src/templates/Ranking.test.ts now asserts.
+ */
+export const DEMAND_JA: Record<DemandBand, string> = {
   hot: '需要高',
-  warm: 'やや高',
-  cool: '安定',
+  normal: '安定',
   cold: '低',
 };
+
+/** Japanese label for a possibly-absent band; '' when there is nothing to show. */
+export function demandLabel(band: DemandBand | null | undefined): string {
+  return band ? DEMAND_JA[band] : '';
+}
 
 export type RankingSlug = RankingSlugMeta;
 

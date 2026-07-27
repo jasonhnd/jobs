@@ -428,29 +428,88 @@ function discoverEdgeEntries() {
 
 const EDGE_ENTRIES = discoverEdgeEntries();
 
-/** Try to resolve a relative ESM-style import (e.g. `./foo.js`) to a
- *  real file on disk. Mirrors TypeScript's "Bundler" moduleResolution:
- *  strip `.js` and try `.ts` / `.tsx`, then the literal path, then
- *  /index variants. Returns absolute path or null if unresolvable
- *  (npm package, node: built-in, broken path). */
-function resolveRelativeImport(fromDir, spec) {
-  if (!spec.startsWith('.')) return null; // npm package or node: import
-  let base = path.resolve(fromDir, spec);
-  // Strip trailing .js / .ts / .tsx so we can probe each extension.
-  base = base.replace(/\.(js|mjs|cjs|tsx|ts)$/, '');
-  for (const ext of ['.ts', '.tsx', '.js', '.mjs', '.cjs']) {
-    if (fs.existsSync(base + ext) && fs.statSync(base + ext).isFile()) {
-      return base + ext;
+/** tsconfig `compilerOptions.paths`, read at runtime so this gate cannot drift
+ *  from the real alias table. Handles both the wildcard form (`@/lib/*`) and
+ *  the exact form (`@/graph` → a specific index file). */
+function loadPathAliases() {
+  const tsconfigPath = path.join(ROOT, 'tsconfig.json');
+  let raw;
+  try {
+    raw = JSON.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+  } catch (err) {
+    console.error(`[check-architecture] FAIL — cannot parse tsconfig.json: ${err.message}`);
+    console.error('  The Edge import walk needs its path aliases; without them every `@/…` import is invisible.');
+    process.exit(1);
+  }
+  const paths = (raw.compilerOptions && raw.compilerOptions.paths) || {};
+  const aliases = Object.entries(paths).map(([pattern, targets]) => ({
+    pattern,
+    wildcard: pattern.endsWith('/*'),
+    // '@/lib/*' → '@/lib/' so a spec can be matched by prefix.
+    prefix: pattern.endsWith('/*') ? pattern.slice(0, -1) : null,
+    targets: targets.map((t) => path.resolve(ROOT, t.replace(/\/\*$/, ''))),
+  }));
+  if (aliases.length === 0) {
+    console.error('[check-architecture] FAIL — tsconfig.json declares no path aliases.');
+    console.error('  Either the config moved or this gate is reading the wrong file; both make the Edge walk unsound.');
+    process.exit(1);
+  }
+  return aliases;
+}
+
+const PATH_ALIASES = loadPathAliases();
+
+/** Candidate on-disk bases an `@/…` specifier could map to, in alias order. */
+function aliasCandidates(spec) {
+  const out = [];
+  for (const alias of PATH_ALIASES) {
+    if (alias.wildcard) {
+      if (spec.startsWith(alias.prefix)) {
+        const suffix = spec.slice(alias.prefix.length);
+        for (const target of alias.targets) out.push(path.join(target, suffix));
+      }
+    } else if (spec === alias.pattern) {
+      out.push(...alias.targets);
     }
   }
+  return out;
+}
+
+/** Probe a base path against the extensions TypeScript's "Bundler"
+ *  moduleResolution would try: strip `.js`, try `.ts` / `.tsx`, then the
+ *  literal path, then `/index` variants. */
+function probeFile(base) {
+  const stripped = base.replace(/\.(js|mjs|cjs|tsx|ts)$/, '');
+  for (const ext of ['.ts', '.tsx', '.js', '.mjs', '.cjs']) {
+    if (fs.existsSync(stripped + ext) && fs.statSync(stripped + ext).isFile()) {
+      return stripped + ext;
+    }
+  }
+  if (fs.existsSync(base) && fs.statSync(base).isFile()) return base;
   // `./foo` → `./foo/index.{ts,tsx,js}` resolution.
   for (const ext of ['.ts', '.tsx', '.js']) {
-    const idx = path.join(base, 'index' + ext);
-    if (fs.existsSync(idx) && fs.statSync(idx).isFile()) {
-      return idx;
-    }
+    const idx = path.join(stripped, 'index' + ext);
+    if (fs.existsSync(idx) && fs.statSync(idx).isFile()) return idx;
   }
   return null;
+}
+
+/** Resolve an import specifier to a real file. Returns an absolute path, or
+ *  null for npm packages and node: built-ins.
+ *
+ *  Aliased imports used to return null here alongside npm packages, so the
+ *  BFS below stopped dead at the first `@/…` import and every `.tsx` behind it
+ *  became invisible to the gate. See issue #217. */
+function resolveImport(fromDir, spec) {
+  if (spec.startsWith('.')) return probeFile(path.resolve(fromDir, spec));
+  if (spec.startsWith('@/')) {
+    for (const base of aliasCandidates(spec)) {
+      const hit = probeFile(base);
+      if (hit) return hit;
+    }
+    return null;
+  }
+  return null; // npm package or node: built-in
 }
 
 /** BFS over the import graph rooted at `entryFile`. Collects every
@@ -459,6 +518,10 @@ function resolveRelativeImport(fromDir, spec) {
  *  to resolve, regardless of whether the bundler tree-shakes them. */
 function walkImportClosure(entryFile) {
   const visited = new Set();
+  // An `@/…` specifier that resolves to nothing means the walk lost coverage:
+  // either the alias table moved or the target is gone. Collected and reported
+  // as a failure rather than a brittle "expected N deps" floor.
+  const unresolvedAliases = [];
   const queue = [entryFile];
   while (queue.length > 0) {
     const file = queue.shift();
@@ -468,25 +531,51 @@ function walkImportClosure(entryFile) {
     const source = fs.readFileSync(file, 'utf-8');
     const imports = extractImports(source);
     for (const imp of imports) {
-      const resolved = resolveRelativeImport(path.dirname(file), imp.target);
-      if (resolved && !visited.has(resolved)) {
-        queue.push(resolved);
+      const resolved = resolveImport(path.dirname(file), imp.target);
+      if (resolved) {
+        if (!visited.has(resolved)) queue.push(resolved);
+      } else if (imp.target.startsWith('@/')) {
+        unresolvedAliases.push({ spec: imp.target, from: path.relative(ROOT, file) });
       }
     }
   }
-  return visited;
+  return { visited, unresolvedAliases };
 }
 
 function checkEdgeFunctionTsxDeps() {
   let edgeViolations = 0;
+
+  // Zero entries means discovery broke (renamed api/, changed edge markers, a
+  // bad EDGE_ENTRIES_OVERRIDE). The loop below would then run zero times and
+  // the gate would report clean while checking nothing. See issue #217.
+  if (EDGE_ENTRIES.length === 0) {
+    console.error('  ✗ no Vercel Edge entries detected.');
+    console.error('    Expected at least one of api/*.{ts,tsx} with `runtime: \'edge\'` or a root middleware.ts.');
+    console.error('    Discovery is broken, or EDGE_ENTRIES_OVERRIDE is set to an empty list.');
+    return 1;
+  }
+
   for (const entry of EDGE_ENTRIES) {
+    const entryRel = path.relative(ROOT, entry);
+    // Only reachable for an entry named explicitly via EDGE_ENTRIES_ADDITIONAL
+    // / _OVERRIDE — auto-discovery never yields a path it did not just read.
+    // Skipping it meant an operator could point the gate at a typo'd path and
+    // still get a green run.
     if (!fs.existsSync(entry)) {
-      console.log(`[check-architecture] Edge entry — SKIP ${path.relative(ROOT, entry)} (missing)`);
+      console.error(`  ✗ ${entryRel}`);
+      console.error('    Edge entry named explicitly but not found on disk. Fix the path or drop it from the override.');
+      edgeViolations += 1;
       continue;
     }
-    const entryRel = path.relative(ROOT, entry);
-    const closure = walkImportClosure(entry);
+    const { visited: closure, unresolvedAliases } = walkImportClosure(entry);
     console.log(`[check-architecture] Edge entry ${entryRel} — scanning ${closure.size - 1} transitive deps`);
+    for (const { spec, from } of unresolvedAliases) {
+      console.error(`  ✗ ${from}`);
+      console.error(`    unresolvable aliased import \`${spec}\` reachable from Edge entry ${entryRel}.`);
+      console.error('    The import walk cannot follow it, so any .tsx behind it goes unchecked.');
+      console.error('    Fix the path, or add the alias to tsconfig.json compilerOptions.paths.');
+      edgeViolations += 1;
+    }
     for (const file of closure) {
       if (file === entry) continue; // entry .tsx is fine
       if (!file.endsWith('.tsx')) continue;
