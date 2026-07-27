@@ -144,6 +144,61 @@ describe('computeGeoFacts', () => {
   });
 });
 
+// Issue #216: fiveBandIndex was the one derived number in geo-facts still using
+// Math.round (half away from zero) while the rest of the file — and the repo —
+// rounds half to even. The two rules disagree on every `.5` whose Math.round
+// result is odd: 2.5, 4.5, 6.5, 8.5. In the active batch that is 63 of 556
+// occupations, published in the llms.txt Distribution table and the home JSON-LD.
+describe('five-band distribution rounding (issue #216)', () => {
+  const HALVES = [2.5, 4.5, 6.5, 8.5] as const;
+
+  function bandOf(score: number): string {
+    const row: GeoTreemapRow = {
+      id: 1, name_ja: 'X', salary: 400, ai_risk: score, workers: 100,
+      recruit_ratio: 1.0, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1',
+    };
+    const facts = computeGeoFacts(
+      [row],
+      [scoreRun('2026-06-13', 'claude-fable-5', new Map([[1, { ai_risk: score, aiois: { displacement: 0 } }]]))],
+    );
+    return facts.fiveBandDistribution.find((band) => band.count === 1)!.key;
+  }
+
+  test('rounds halves to even, not away from zero', () => {
+    // 2.5→2, 4.5→4, 6.5→6, 8.5→8. Math.round would give 3, 5, 7, 9 and push
+    // each one band higher.
+    assert.equal(bandOf(2.5), '0-2');
+    assert.equal(bandOf(4.5), '3-4');
+    assert.equal(bandOf(6.5), '5-6');
+    assert.equal(bandOf(8.5), '7-8');
+  });
+
+  test('halves that round to an even integer are unaffected either way', () => {
+    // 1.5→2, 3.5→4, 5.5→6, 7.5→8 under both rules — which is why the existing
+    // fixture (ai_risk 1.5) never caught the defect.
+    assert.equal(bandOf(1.5), '0-2');
+    assert.equal(bandOf(3.5), '3-4');
+    assert.equal(bandOf(5.5), '5-6');
+    assert.equal(bandOf(7.5), '7-8');
+  });
+
+  test('non-half values are untouched', () => {
+    assert.equal(bandOf(0), '0-2');
+    assert.equal(bandOf(4.4), '3-4');
+    assert.equal(bandOf(4.6), '5-6');
+    assert.equal(bandOf(10), '9-10');
+  });
+
+  test('each disagreeing half lands one band below the Math.round result', () => {
+    const keys = ['0-2', '3-4', '5-6', '7-8', '9-10'];
+    for (const half of HALVES) {
+      const banker = keys.indexOf(bandOf(half));
+      const naive = keys.indexOf(bandOf(half + 0.1)); // rounds up under both rules
+      assert.equal(banker + 1, naive, `${half} should sit one band below ${half + 0.1}`);
+    }
+  });
+});
+
 describe('pickLatestGeoScoreRun', () => {
   const run = (date: string, model: string, aiois: boolean): GeoScoreRunLike => ({
     scope: 'occupations',
