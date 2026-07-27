@@ -17,7 +17,7 @@ import {
   type RankingResult,
   type RankingGroupKey,
   TOP_N,
-  DEMAND_JA,
+  demandLabel,
   RANKING_GROUPS,
 } from './config.js';
 import { safeMean, makePreview, eduPct, gradPct, empPct, EDU, EMP } from './utilities.js';
@@ -140,7 +140,7 @@ export function buildRankings(
     { slug: 'entry-salary', name: '初任給ランキング TOP30', desc: '初任給が高い職業', count: salary.byEntry.length, preview: makePreview(salary.byEntry, (o) => `初任給 ${Math.trunc(o.recruit_wage ?? 0)}万円`) },
     { slug: 'young-workforce', name: '平均年齢が若い職業 TOP30', desc: '若手が活躍する職業', count: workforce.byYoung.length, preview: makePreview(workforce.byYoung, (o) => `平均${(o.average_age ?? 0).toFixed(1)}歳`) },
     { slug: 'short-hours', name: '労働時間が短い職業 TOP30', desc: 'ワークライフバランスに優れた職業', count: workConditions.byHours.length, preview: makePreview(workConditions.byHours, (o) => `月${Math.trunc(o.monthly_hours ?? 0)}時間`) },
-    { slug: 'high-demand', name: '人手不足の職業 TOP30', desc: '求人需要が高い職業', count: workConditions.byDemand.length, preview: makePreview(workConditions.byDemand, (o) => DEMAND_JA[o.demand_band ?? ''] ?? '') },
+    { slug: 'high-demand', name: '人手不足の職業 TOP30', desc: '求人需要が高い職業', count: workConditions.byDemand.length, preview: makePreview(workConditions.byDemand, (o) => demandLabel(o.demand_band)) },
     // ── Phase 2 単軸 (5) ──
     { slug: 'hourly-wage', name: '時給が高い職業 TOP30', desc: '時給ベースで報酬が高い職業', count: workConditions.byHourly.length, preview: makePreview(workConditions.byHourly, (o) => `¥${(o.hourly_wage ?? 0).toLocaleString('en-US')}`) },
     { slug: 'recruit-ratio', name: '求人倍率が高い職業 TOP30', desc: '人手不足が顕著な売り手市場', count: workConditions.byRecruitRatio.length, preview: makePreview(workConditions.byRecruitRatio, (o) => `${(o.recruit_ratio ?? 0).toFixed(2)}倍`) },
@@ -155,7 +155,7 @@ export function buildRankings(
     { slug: 'ai-frontier', name: 'AI を使いこなす側の職業', desc: 'IT・通信セクターの AI フロンティア職', count: highRisk.aiFrontier.length, preview: makePreview(highRisk.aiFrontier, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
     { slug: 'ai-stable-employment', name: 'AI 安全 × 正規雇用率高', desc: '低 AI 影響かつ正社員中心の安定職', count: employment.aiStableEmployment.length, preview: makePreview(employment.aiStableEmployment, (o) => `正規 ${empPct(o, EMP.regular).toFixed(0)}%`) },
     // ── Phase 2 組合せ (8) ──
-    { slug: 'ai-safe-high-demand', name: '高需要 × AI 安全', desc: '人手不足かつ AI 影響度が低い', count: intent.aiSafeHighDemand.length, preview: makePreview(intent.aiSafeHighDemand, (o) => DEMAND_JA[o.demand_band ?? ''] ?? '') },
+    { slug: 'ai-safe-high-demand', name: '高需要 × AI 安全', desc: '人手不足かつ AI 影響度が低い', count: intent.aiSafeHighDemand.length, preview: makePreview(intent.aiSafeHighDemand, (o) => demandLabel(o.demand_band)) },
     { slug: 'ai-safe-short-hours', name: '低労働時間 × AI 安全', desc: '労働時間が短く AI 影響も低い', count: intent.aiSafeShortHours.length, preview: makePreview(intent.aiSafeShortHours, (o) => `月${Math.trunc(o.monthly_hours ?? 0)}h`) },
     { slug: 'ai-safe-young-workforce', name: '若手中心 × AI 安全', desc: '平均年齢が若くて AI 影響も低い', count: intent.aiSafeYoung.length, preview: makePreview(intent.aiSafeYoung, (o) => `平均${(o.average_age ?? 0).toFixed(1)}歳`) },
     { slug: 'ai-safe-no-license', name: '無資格 × AI 安全', desc: '資格なしで就けて AI 影響も低い', count: intent.aiSafeNoLicense.length, preview: makePreview(intent.aiSafeNoLicense, (o) => `AI影響 ${o.ai_risk}/10`) },

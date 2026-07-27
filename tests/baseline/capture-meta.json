@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-26T09:57:36.067Z",
-  "gitCommit": "b1d8759ea5882460ca54ad25d1e671c6526ea0b7",
-  "gitBranch": "chore/scoring-provider-architecture",
+  "capturedAt": "2026-07-27T00:01:40.878Z",
+  "gitCommit": "aebcc4c9b9f1e120ec7eaeb14a935b1fdfd06a17",
+  "gitBranch": "fix/issue-216-wrong-public-values",
   "distFileCount": 834,
   "urlCount": 834,
   "dataFileCount": 612,
