@@ -37,6 +37,10 @@ export function buildIntentRankings(
   // 21. 高需要 × AI 安全
   const aiSafeHighDemand = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && demandScore(o.demand_band) >= HIGH_DEMAND_MIN)
+    // The filter above admits a single demand band (only `hot` clears
+    // HIGH_DEMAND_MIN), so this term is currently always 0 and the ordering is
+    // carried by the tiebreak. Kept, not deleted: lowering the threshold to admit
+    // `normal` must not silently drop demand from the ordering.
     .sort((a, b) => demandScore(b.demand_band) - demandScore(a.demand_band) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 

@@ -302,6 +302,9 @@ const RANKERS: Record<RankingSlug, Ranker> = {
           (o.ai_risk ?? 999) <= 5 &&
           demandScore(o.demand_band) >= HIGH_DEMAND_MIN,
       )
+      // Single demand band clears HIGH_DEMAND_MIN, so this term is currently
+      // always 0; kept so lowering the threshold cannot silently drop demand
+      // from the ordering.
       .sort(
         (a, b) =>
           demandScore(b.demand_band) -
