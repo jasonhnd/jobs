@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-27T00:19:30.299Z",
-  "gitCommit": "793a8765e002ae8cb207e1f540b54d8dfa257fd1",
-  "gitBranch": "fix/issue-218-per-run-model-slugs",
+  "capturedAt": "2026-07-27T01:46:07.216Z",
+  "gitCommit": "90f8721dac9dc9bc3fe8c535d50adddfc1276727",
+  "gitBranch": "fix/issue-219-stale-content-and-dates",
   "distFileCount": 834,
   "urlCount": 834,
   "dataFileCount": 612,

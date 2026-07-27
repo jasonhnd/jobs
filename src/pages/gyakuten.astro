@@ -14,6 +14,7 @@ import { strictReadJson } from '@/lib/strict-load';
 import { TreemapFileSummarySchema, type TreemapRecordSummary } from '@/lib/projection-schemas';
 import { WorktypesDataSchema, type WorktypeFamilyCode } from '@/data/schema/worktypes';
 import { occupationPath } from '@/lib/urls';
+import { CONTENT_DATE } from '@/lib/_content-date';
 import {
   DISCLAIMER,
   FAMILIES,
@@ -189,7 +190,8 @@ const jsonLd = safeJsonForScript({
       about: { '@id': 'https://mirai-shigoto.com/#organization' },
       publisher: { '@id': 'https://mirai-shigoto.com/#organization' },
       datePublished: '2026-07-04',
-      dateModified: '2026-07-04',
+      // Tracks the data; datePublished stays frozen. Issue #219.
+      dateModified: CONTENT_DATE,
       breadcrumb: { '@id': `${canonical}#breadcrumb` },
     },
     {
