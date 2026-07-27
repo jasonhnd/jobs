@@ -106,9 +106,11 @@ describe('worktypes projection', () => {
       assert.ok(family.pct >= 3, `${code} below floor: ${family.pct}`);
       assert.ok(family.pct <= 35, `${code} above ceiling: ${family.pct}`);
     }
-    assert.equal(payload.calibration.raw_distribution.CDB.pct, 2.3);
-    assert.equal(payload.families.CDB.pct, 3.1);
-    assert.equal(payload.calibration.smoothing.adjustments.length, 4);
+    // Under the claude-opus-5 batch the raw distribution already clears the 3%
+    // floor, so the rarest family needs no smoothing and calibrated == raw.
+    assert.equal(payload.calibration.raw_distribution.CDB.pct, 3.6);
+    assert.equal(payload.families.CDB.pct, 3.6);
+    assert.equal(payload.calibration.smoothing.adjustments.length, 0);
   });
 
   test('thresholds match the computed axis medians', async () => {

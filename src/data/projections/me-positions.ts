@@ -37,7 +37,8 @@ import { loadGraph } from '../../graph/index.js';
 import {
   buildRankings,
   loadOccupationsFromGraph,
-  DEMAND_SCORE,
+  HIGH_DEMAND_MIN,
+  demandScore,
   type Occupation,
   type RankingSlug,
 } from '../../views/ranking/index.js';
@@ -217,15 +218,15 @@ const RANKERS: Record<RankingSlug, Ranker> = {
       .sort((a, b) => (a.monthly_hours ?? 0) - (b.monthly_hours ?? 0) || a.id - b.id),
   'high-demand': (_scored, occs) => {
     let withDemand = occs.filter(
-      (o) => o.demand_band && (DEMAND_SCORE[o.demand_band] ?? 0) >= 3,
+      (o) => demandScore(o.demand_band) >= HIGH_DEMAND_MIN,
     );
     if (withDemand.length < 30) {
       withDemand = occs.filter((o) => o.demand_band);
     }
     return [...withDemand].sort((a, b) => {
       const ds =
-        (DEMAND_SCORE[b.demand_band ?? ''] ?? 0) -
-        (DEMAND_SCORE[a.demand_band ?? ''] ?? 0);
+        demandScore(b.demand_band) -
+        demandScore(a.demand_band);
       if (ds !== 0) return ds;
       const ss = (b.salary ?? 0) - (a.salary ?? 0);
       if (ss !== 0) return ss;
@@ -299,12 +300,15 @@ const RANKERS: Record<RankingSlug, Ranker> = {
       .filter(
         (o) =>
           (o.ai_risk ?? 999) <= 5 &&
-          (DEMAND_SCORE[o.demand_band ?? ''] ?? 0) >= 3,
+          demandScore(o.demand_band) >= HIGH_DEMAND_MIN,
       )
+      // Single demand band clears HIGH_DEMAND_MIN, so this term is currently
+      // always 0; kept so lowering the threshold cannot silently drop demand
+      // from the ordering.
       .sort(
         (a, b) =>
-          (DEMAND_SCORE[b.demand_band ?? ''] ?? 0) -
-            (DEMAND_SCORE[a.demand_band ?? ''] ?? 0) ||
+          demandScore(b.demand_band) -
+            demandScore(a.demand_band) ||
           (a.ai_risk ?? 0) - (b.ai_risk ?? 0),
       ),
   'ai-safe-short-hours': (scored) =>
@@ -347,13 +351,13 @@ const RANKERS: Record<RankingSlug, Ranker> = {
   'high-salary-high-demand': (scored) =>
     scored
       .filter(
-        (o) => o.salary && (DEMAND_SCORE[o.demand_band ?? ''] ?? 0) >= 3,
+        (o) => o.salary && demandScore(o.demand_band) >= HIGH_DEMAND_MIN,
       )
       .sort(
         (a, b) =>
           (b.salary ?? 0) - (a.salary ?? 0) ||
-          (DEMAND_SCORE[b.demand_band ?? ''] ?? 0) -
-            (DEMAND_SCORE[a.demand_band ?? ''] ?? 0),
+          demandScore(b.demand_band) -
+            demandScore(a.demand_band),
       ),
   'high-salary-young-entry': (_scored, occs) =>
     occs

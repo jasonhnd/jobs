@@ -29,6 +29,13 @@ Owner: Jason（承認ゲート） / conductor（分割・review） / loopcoder�
 
 ### 新規: `scripts/run-scoring-codex.ts`
 
+> **現状注記（設計当時からの変更）**: 本節は mms-5 実装当時の設計記録である。その後
+> runner は provider 方式へ再構成され、契約・再試行・監査・resume は
+> `scripts/lib/scoring/` の共有内核に移った。Codex は `--provider codex` の
+> 1 実装であり、挙動は `run-scoring-codex.test.ts` で凍結されている。
+> 新規ベンダーの追加手順は `docs/SCORING_RUNBOOK.md`「Scoring runner
+> architecture (providers)」を正典とする。
+
 `run-scoring.ts`（Anthropic Batches 専用）の兄弟スクリプト。実行エンジンだけを差し替え、**出力 JSONL 契約は完全に同一**にする: 1 行 = `{id, ai_risk, rationale_ja, confidence, aiois: {d1..d10, transformation, displacement}}`。契約が同じなので assemble / check / drift / ETL は無改修で流れる。
 
 要件:

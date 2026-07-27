@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { ScoreRunSchema, type ScoreRun } from '../src/data/schema/index.js';
 import { buildCompareGeoFactSummary, buildOccupationGeoFactSummary, buildOccupationSetGeoFactSummary, buildSectorGeoFactSummary, renderAiFactParagraph } from '../src/lib/ai-fact-summary.js';
 import { loadGraph } from '../src/graph/index.js';
-import { SCORE_ATTRIBUTION } from '../src/site/score-attribution.js';
+import { SCORE_ATTRIBUTION, formatModelDisplay } from '../src/site/score-attribution.js';
 import {
   computeGeoFacts,
   GeoTreemapRowsSchema,
@@ -62,22 +62,68 @@ function assertExact(rel: string, expected: string): void {
   }
 }
 
-function assertNoStaleOrPlaceholders(rel: string, options: { allowValidationModelNames?: boolean } = {}): void {
-  const text = readText(rel);
-  const forbidden = [
-    '__SCORE_',
-    '__GEO_',
-    'claude-opus-4-8',
-    '2026-05-30',
-    'version": "0.5.0"',
-  ];
-  if (!options.allowValidationModelNames) {
-    forbidden.push('Claude Opus 4.8', 'Opus 4.8');
+interface StaleModelTokens {
+  /** Model ids and run dates of every superseded batch. Never allowed. */
+  readonly identifiers: readonly string[];
+  /** Human-readable model names, incl. the vendor-stripped short form. */
+  readonly displayNames: readonly string[];
+}
+
+/**
+ * Superseded model identifiers, derived from `data/scores/`.
+ *
+ * Previously this was a hand-edited literal list. It only ever named the model
+ * that was canonical two generations ago, so it could not catch a leak of the
+ * *current* model — the leak that actually matters — and went one generation
+ * further out of date on every batch landing (#217).
+ *
+ * Deriving it means the set is correct by construction: everything in
+ * `data/scores/` except the active run is stale, forever, without maintenance.
+ */
+export function staleModelTokens(runs: readonly ScoreRun[], active: ScoreRun): StaleModelTokens {
+  const identifiers = new Set<string>();
+  const displayNames = new Set<string>();
+  for (const run of runs) {
+    const isActive = run.scorer.model === active.scorer.model && run.run.run_date === active.run.run_date;
+    if (isActive) continue;
+    identifiers.add(run.scorer.model);
+    identifiers.add(run.run.run_date);
+    const display = formatModelDisplay(run.scorer.model);
+    displayNames.add(display);
+    // `/models` renders Anthropic models without the vendor prefix, so the
+    // short form is a distinct leak shape (e.g. "Opus 4.8" vs "Claude Opus 4.8").
+    const short = display.replace(/^Claude\s+/, '');
+    if (short !== display) displayNames.add(short);
   }
-  for (const token of forbidden) {
-    if (text.includes(token)) {
-      fail(`${rel} contains stale token ${JSON.stringify(token)}`);
-    }
+  return { identifiers: [...identifiers], displayNames: [...displayNames] };
+}
+
+/**
+ * `allowValidationModelNames` exempts display names only — never ids or run
+ * dates. `llms.txt` may legitimately name an older model inside the historical
+ * cross-model validation note; it must never carry that model's machine
+ * identifier or batch date, which would mean the generated attribution is stale.
+ */
+export function firstStaleToken(
+  text: string,
+  stale: StaleModelTokens,
+  options: { allowValidationModelNames?: boolean } = {},
+): string | null {
+  const forbidden = ['__SCORE_', '__GEO_', 'version": "0.5.0"', ...stale.identifiers];
+  if (!options.allowValidationModelNames) {
+    forbidden.push(...stale.displayNames);
+  }
+  return forbidden.find((token) => text.includes(token)) ?? null;
+}
+
+function assertNoStaleOrPlaceholders(
+  rel: string,
+  stale: StaleModelTokens,
+  options: { allowValidationModelNames?: boolean } = {},
+): void {
+  const token = firstStaleToken(readText(rel), stale, options);
+  if (token !== null) {
+    fail(`${rel} contains stale token ${JSON.stringify(token)}`);
   }
 }
 
@@ -146,6 +192,33 @@ function assertFreshGeoAstroPages(): void {
   }
 }
 
+/**
+ * The runbook's "現行 batch" section names the active model, run date, and
+ * score file. It had gone two generations stale (claude-opus-4-8 / 2026-05-30)
+ * with nothing to notice, because it is prose nobody generates. Pin it to the
+ * data so forgetting to update it after landing a batch fails the gate rather
+ * than quietly misinforming the next operator. Issue #219 follow-up.
+ */
+function assertRunbookCurrentBatch(activeRun: ScoreRun): void {
+  const rel = 'docs/SCORING_RUNBOOK.md';
+  const text = readText(rel);
+  const model = activeRun.scorer.model;
+  const runDate = activeRun.run.run_date;
+  const expected = [
+    `- モデル: \`${model}\``,
+    `- run date: \`${runDate}\``,
+    `- Score output: \`data/scores/occupations_${model}_${runDate}.json\``,
+  ];
+  for (const line of expected) {
+    if (!text.includes(line)) {
+      fail(
+        `${rel} "現行 batch" is out of date: expected the line ${JSON.stringify(line)}. ` +
+        `The active batch under data/scores/ is ${model} @ ${runDate}.`,
+      );
+    }
+  }
+}
+
 function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
   const source = readText('src/index-source.html');
   const rendered = bindHomeFacts(source, facts);
@@ -190,6 +263,13 @@ function assertContainsText(rel: string, expected: string, label: string): void 
   const text = readText(rel);
   if (!text.includes(expected)) {
     fail(`${rel} is missing ${label}`);
+  }
+}
+
+/** Inverse of assertContainsText, for copy that must NOT survive a batch change. */
+function assertOmitsText(rel: string, forbidden: string, why: string): void {
+  if (readText(rel).includes(forbidden)) {
+    fail(`${rel} still carries copy it should have dropped — ${why}`);
   }
 }
 
@@ -351,16 +431,27 @@ async function main(): Promise<void> {
   assertExact('public/llms-full.txt', renderLlmsFullTxt(facts));
   assertExact('src/pages/_index-json-ld.json', renderHomeJsonLd(facts));
 
-  assertNoStaleOrPlaceholders('public/llms.txt', { allowValidationModelNames: true });
-  assertNoStaleOrPlaceholders('public/llms-full.txt', { allowValidationModelNames: true });
-  assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json');
+  const stale = staleModelTokens(scoreRuns, activeRun);
+  assertNoStaleOrPlaceholders('public/llms.txt', stale, { allowValidationModelNames: true });
+  assertNoStaleOrPlaceholders('public/llms-full.txt', stale, { allowValidationModelNames: true });
+  assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json', stale);
   assertDocumentedDetailProjectionExamples();
   assertFreshGeoAstroPages();
   assertHomeAndReadmeConsistency(facts);
+  assertRunbookCurrentBatch(activeRun);
   assertCrossModelValidationArchive();
+  // The D2-B note is a claim about the Fable 5 batch specifically. Assert both
+  // directions: present when that batch is canonical, ABSENT otherwise. The
+  // one-sided version had been unreachable since the GPT batch landed, so the
+  // condition that actually matters now — a stale validation claim leaking into
+  // another model's output — was unchecked. Issue #219 follow-up.
   if (hasCrossModelValidationNote(facts.attribution)) {
     assertContainsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
     assertContainsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
+  } else {
+    const why = `the D2-B note describes the Claude Fable 5 batch, but the active batch is ${facts.attribution.modelDisplay} (${facts.attribution.runDate})`;
+    assertOmitsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, why);
+    assertOmitsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, why);
   }
   assertContainsText('src/pages/methodology.astro', 'r=0.92〜0.97', 'D2-B cross-model validation correlation copy');
   assertContainsText('src/pages/methodology.astro', '38/40 職業', 'D2-B cross-model validation agreement copy');
@@ -373,4 +464,8 @@ async function main(): Promise<void> {
   );
 }
 
-await main();
+// Guarded so the pure helpers above can be imported by tests without running
+// the whole gate (which reads dist-astro/ and exits the process).
+if (import.meta.main) {
+  await main();
+}

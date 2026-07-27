@@ -4,7 +4,7 @@
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
-import { formatModelDisplay, modelSlug } from '../site/score-attribution.js';
+import { formatModelDisplay, runSlug } from '../site/score-attribution.js';
 
 export interface ScoreHistoryComparisonEntry {
   readonly model: string;
@@ -41,7 +41,7 @@ function isCurrentEntry(
 }
 
 function modelHref(entry: ScoreHistoryComparisonEntry): string {
-  return `/models/${modelSlug(entry.model)}`;
+  return `/models/${runSlug({ model: entry.model, runDate: entry.date })}`;
 }
 
 function pickCurrentHistoryEntry(
@@ -78,6 +78,18 @@ export function renderScoreHistoryComparison(
 
   let items = '';
   for (const entry of older) {
+    // A batch with no `dims` predates AIOIS-10: its number is a single-axis
+    // `ai_risk`, not a `transformation = mean(d1,d2)`. Labelling it 変化指数 and
+    // subtracting it from the current AIOIS score was arithmetic across two
+    // incompatible standards (issue #216). Every other comparison surface
+    // already guards this; follow the /models/{slug} precedent and keep the row
+    // visible as history, but drop the delta.
+    const isLegacy = entry.dims == null;
+    const scoreRow = isLegacy
+      ? `<div><dt>旧方式スコア</dt><dd class="sh-num">${escapeHtml(formatScore(entry.transformation))}<span>/10</span></dd></div>` +
+        `<div><dt>現行モデルとの差</dt><dd>AIOIS-10 導入前のため比較対象外</dd></div>`
+      : `<div><dt>変化指数</dt><dd class="sh-num">${escapeHtml(formatScore(entry.transformation))}<span>/10</span></dd></div>` +
+        `<div><dt>現行モデルとの差</dt><dd class="sh-delta">${escapeHtml(formatDelta(entry.transformation - currentScore))}</dd></div>`;
     items +=
       `<li class="score-history-item">` +
       `<div class="score-history-item-model">` +
@@ -86,8 +98,7 @@ export function renderScoreHistoryComparison(
       `</div>` +
       `<dl class="score-history-item-facts">` +
       `<div><dt>採点日</dt><dd>${escapeHtml(formatDate(entry.date))}</dd></div>` +
-      `<div><dt>変化指数</dt><dd class="sh-num">${escapeHtml(formatScore(entry.transformation))}<span>/10</span></dd></div>` +
-      `<div><dt>現行モデルとの差</dt><dd class="sh-delta">${escapeHtml(formatDelta(entry.transformation - currentScore))}</dd></div>` +
+      scoreRow +
       `</dl>` +
       `</li>`;
   }
@@ -100,10 +111,19 @@ export function renderScoreHistoryComparison(
     )
     : '';
 
+  // The "same standard" claim is only true when every listed row is AIOIS-10.
+  // It used to be unconditional, so on the 552 occupations carrying a legacy
+  // row the page asserted a shared standard directly above a row that did not
+  // share it (issue #216).
+  const hasLegacy = history.some((entry) => entry.dims == null);
+  const note = hasLegacy
+    ? 'AI 影響スコアは、異なるAIモデルが異なる日付で評価した結果です。AIOIS-10 導入前の旧方式スコアは基準が異なるため、現行スコアとは比較できません。'
+    : 'AI 影響スコアは、異なるAIモデルが異なる日付で同じ基準にもとづき評価した結果です。';
+
   return (
     `<section class="score-history" aria-labelledby="score-history-h2">` +
     `<h2 id="score-history-h2">${escapeHtml(H2)}</h2>` +
-    `<p class="score-history-note">AI 影響スコアは、異なるAIモデルが異なる日付で同じ基準にもとづき評価した結果です。` +
+    `<p class="score-history-note">${escapeHtml(note)}` +
     `<a href="/models">全モデルを見る</a></p>` +
     `<div class="score-history-current" aria-label="現行スコア">` +
     `<div>` +

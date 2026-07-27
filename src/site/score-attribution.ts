@@ -66,6 +66,10 @@ export function modelSlug(modelId: string): string {
 /**
  * Reverse lookup for model slugs. Unknown, invalid, or non-unique slugs return
  * null; callers must not infer a provider prefix mechanically.
+ *
+ * Non-unique is a real case: a model can be scored more than once. Public URLs
+ * are keyed by RUN, not by model — see `runSlug` — so this stays a
+ * model-level helper for surfaces that genuinely have one model in hand.
  */
 export function modelIdFromSlug(
   slug: string,
@@ -77,14 +81,85 @@ export function modelIdFromSlug(
     return null;
   }
 
-  const matches: string[] = [];
+  const matches = new Set<string>();
   for (const modelId of knownModelIds) {
     try {
-      if (modelSlug(modelId) === slug) matches.push(modelId);
+      if (modelSlug(modelId) === slug) matches.add(modelId);
     } catch {
       return null;
     }
   }
+  return matches.size === 1 ? [...matches][0]! : null;
+}
+
+/** Separator between the model slug and the run date in a public run slug. */
+const RUN_SLUG_SEPARATOR = '@';
+const RUN_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** A scoring run identified by model and date — the unit a /models page shows. */
+export interface ScoreRunRef {
+  readonly model: string;
+  readonly runDate: string;
+}
+
+/**
+ * Public URL slug for one scoring RUN, e.g. `opus-5@2026-07-26`.
+ *
+ * A model id alone cannot address a page: `data/scores/` is append-only and the
+ * runbook treats re-scoring an existing model as normal, so two runs would
+ * collide on one URL. The `model@date` shape matches the key
+ * `src/site/model-editorial.ts` already uses to stop a re-run inheriting
+ * another run's prose. Issue #218.
+ */
+export function runSlug(ref: ScoreRunRef): string {
+  const base = modelSlug(ref.model);
+  if (!RUN_DATE_RE.test(ref.runDate)) {
+    throw new Error(`score-attribution: invalid run date: ${JSON.stringify(ref.runDate)}`);
+  }
+  return `${base}${RUN_SLUG_SEPARATOR}${ref.runDate}`;
+}
+
+/**
+ * Split a run slug back into its parts without consulting any batch list.
+ * Returns null for anything that is not `<model-slug>@<YYYY-MM-DD>`.
+ */
+export function parseRunSlug(slug: string): { readonly modelSlug: string; readonly runDate: string } | null {
+  const at = slug.lastIndexOf(RUN_SLUG_SEPARATOR);
+  if (at <= 0) return null;
+  const base = slug.slice(0, at);
+  const runDate = slug.slice(at + RUN_SLUG_SEPARATOR.length);
+  if (!RUN_DATE_RE.test(runDate)) return null;
+  try {
+    assertValidModelToken(base, 'model slug');
+  } catch {
+    return null;
+  }
+  return { modelSlug: base, runDate };
+}
+
+/**
+ * Reverse lookup for run slugs against the known runs. Returns the matching run
+ * or null. Unlike `modelIdFromSlug` this cannot be defeated by a model with two
+ * runs — that is the whole point of keying on the run.
+ */
+export function runFromSlug(
+  slug: string,
+  knownRuns: readonly ScoreRunRef[],
+): ScoreRunRef | null {
+  const parsed = parseRunSlug(slug);
+  if (parsed === null) return null;
+
+  const matches: ScoreRunRef[] = [];
+  for (const run of knownRuns) {
+    if (run.runDate !== parsed.runDate) continue;
+    try {
+      if (modelSlug(run.model) === parsed.modelSlug) matches.push(run);
+    } catch {
+      return null;
+    }
+  }
+  // Two runs sharing a model AND a date is a data defect, not a routing case;
+  // batch loading rejects it with a message that names the condition.
   return matches.length === 1 ? matches[0]! : null;
 }
 

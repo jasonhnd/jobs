@@ -177,7 +177,12 @@ function apportionWholePercent(counts: readonly number[]): number[] {
 }
 
 function fiveBandIndex(score: number): number {
-  const rounded = Math.max(0, Math.min(10, Math.round(score)));
+  // bankerRound, not Math.round: this was the one holdout in a file where every
+  // other derived number already rounds half-to-even, and the rule is repo-wide
+  // (see data/lib/banker-round.ts on why Math.round is wrong here). 63 of 556
+  // occupations in the active batch land in a different band under the two
+  // rules — every `.5` whose Math.round result is odd. Issue #216.
+  const rounded = Math.max(0, Math.min(10, bankerRound(score, 0)));
   if (rounded <= 2) return 0;
   if (rounded <= 4) return 1;
   if (rounded <= 6) return 2;

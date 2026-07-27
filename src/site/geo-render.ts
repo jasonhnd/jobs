@@ -44,6 +44,21 @@ export const CROSS_MODEL_VALIDATION_NOTE =
 
 const HOME_OCCUPATION_COUNT_PLACEHOLDER = '__OCCUPATION_COUNT_SCORED__';
 
+/**
+ * The note records ONE validation exercise: 40 occupations from the Fable 5
+ * batch, re-scored by Opus 4.8 and Sonnet 4.6 on 2026-06-23. It is a statement
+ * about that batch, so the hardcoded pair is deliberate — do not generalise it
+ * to "the active batch". Rendering it beside a different model's scores would
+ * attribute a validation to a batch it never covered.
+ *
+ * Consequently this is false whenever the canonical batch is not Fable 5, which
+ * it has been since the GPT batch landed. `scripts/check-geo-freshness.ts`
+ * asserts BOTH directions so the false case is still covered rather than
+ * silently skipped (issue #219 follow-up).
+ *
+ * A future batch with its own validation needs its own note and its own entry
+ * here, plus a `data/validation/` archive like `issue-15-d2b/results.json`.
+ */
 export function hasCrossModelValidationNote(attribution: GeoAttribution): boolean {
   return attribution.modelId === 'claude-fable-5' && attribution.runDate === '2026-06-13';
 }

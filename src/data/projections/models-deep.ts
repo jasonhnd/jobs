@@ -20,7 +20,7 @@ import type { Aiois10 } from '../../graph/types.js';
 import type { ScoreHistEntry } from '../../graph/score-strategy.js';
 import type { Indexes } from '../lib/indexes.js';
 import personalityCopy from '../../content/model-personality.ja.json';
-import storyOverrides from '../../content/model-story-overrides.ja.json';
+import storyOverridesJson from '../../content/model-story-overrides.ja.json';
 
 const MODEL_PROJECTION_MAX_BYTES = 30 * 1024;
 const STORY_MIN = 3;
@@ -295,6 +295,11 @@ function storyRows(indexes: Indexes, latestPair: PairSummary): ModelsDeepProject
   return stories;
 }
 
+/** Typed view of the committed overrides. The JSON import infers `never[]` for
+ *  an empty `pinned_ids`, which is the correct state when the story list should
+ *  simply follow the current pair's biggest movers. */
+const storyOverrides: ModelsStoryOverrideConfig = storyOverridesJson;
+
 export interface ModelsStoryOverrideConfig {
   readonly pinned_ids: readonly number[];
   readonly replace_ids: readonly number[];
@@ -420,11 +425,116 @@ export function buildModelsDeepPayload(indexes: Indexes, generatedAt = new Date(
     stories: storyRows(indexes, latestPair),
   };
 
-  return ModelsDeepProjectionSchema.parse(payload) as ModelsDeepProjection;
+  const parsed = ModelsDeepProjectionSchema.parse(payload) as ModelsDeepProjection;
+  warnAboutOrphanedCuration(parsed, automaticStoryIds(latestPair));
+  return parsed;
 }
 
 export function modelsDeepPayloadBytes(payload: ModelsDeepProjection): number {
   return Buffer.byteLength(JSON.stringify(payload), 'utf-8');
+}
+
+/** One orphaned piece of curated copy, with enough context to act on it. */
+export interface OrphanedCurationReport {
+  readonly editorialKeys: readonly string[];
+  readonly personalityKeys: readonly string[];
+  readonly stalePins: readonly number[];
+  /** Biggest movers of the current pair that the stale pins are keeping out. */
+  readonly displacedIds: readonly number[];
+  readonly activeEditorialCount: number;
+}
+
+/**
+ * Curated copy is scoped to an exact batch pair on purpose (#162): a re-run must
+ * not inherit another pair's prose, and DATA_ARCHITECTURE mandates the generic
+ * fallback. The defect this reports is that the handover is otherwise SILENT —
+ * on the day a batch lands, every reviewed sentence goes dark and the build says
+ * nothing. Issue #219.
+ *
+ * Deliberately a warning, not a failure: MULTI_MODEL_SCORING states curation
+ * must not block landing a batch. Re-curating is the follow-up task, and this is
+ * what tells you the task exists.
+ *
+ * `default_*` personality ids are a lookup table — most are unused at any given
+ * time by design — so only MODEL-SPECIFIC keys can be orphans. Listing the whole
+ * table would train everyone to ignore the warning.
+ */
+export function reportOrphanedCuration(
+  payload: ModelsDeepProjection,
+  automaticStoryIdsForPair: readonly number[],
+  // Injectable so tests exercise the logic against fixtures instead of the
+  // committed copy — otherwise every legitimate re-curation breaks the tests
+  // and the fix becomes "update the expected strings", which teaches nothing.
+  overrides: ModelsStoryOverrideConfig = storyOverrides,
+  personalitySentences: Readonly<Record<string, string>> = personalityCopy.sentences,
+): OrphanedCurationReport {
+  const pair: ModelEditorialPairIdentity = {
+    baseline: { model: payload.latest_pair.baseline.model, date: payload.latest_pair.baseline.date },
+    candidate: { model: payload.latest_pair.candidate.model, date: payload.latest_pair.candidate.date },
+  };
+  // Every key ends with `__<base>@<date>__<candidate>@<date>`; anything that
+  // does not end with the CURRENT pair's suffix is scoped to an older one.
+  const pairSuffix = modelStoryEditorialSentenceId(0, pair).slice(1);
+
+  // The generic fallback lives in the same map but is not pair-scoped, so it is
+  // never an orphan — it is the thing orphaned keys fall back TO.
+  const allEditorial = Object.keys(overrides.editorial_sentences)
+    .filter((key) => key !== DEFAULT_MODEL_STORY_EDITORIAL_ID);
+  const editorialKeys = allEditorial.filter((key) => !key.endsWith(pairSuffix)).sort();
+  const activeEditorialCount = allEditorial.length - editorialKeys.length;
+
+  const usedPersonality = new Set(payload.model_cards.map((card) => card.personality_sentence_id));
+  const personalityKeys = Object.keys(personalitySentences)
+    .filter((key) => !key.startsWith('default_') && !usedPersonality.has(key))
+    .sort();
+
+  // `automaticStoryIdsForPair` is EVERY row sorted by drift, not a shortlist —
+  // so membership in it is meaningless. What matters is the prefix that would
+  // actually be shown if nothing were pinned.
+  const shownIds = new Set(payload.stories.map((story) => story.id));
+  const wouldShow = automaticStoryIdsForPair.slice(0, STORY_MAX);
+  const wouldShowSet = new Set(wouldShow);
+  const stalePins = [...overrides.pinned_ids, ...overrides.replace_ids]
+    .filter((id) => shownIds.has(id) && !wouldShowSet.has(id))
+    .sort((a, b) => a - b);
+  const displacedIds = wouldShow.filter((id) => !shownIds.has(id));
+
+  return { editorialKeys, personalityKeys, stalePins, displacedIds, activeEditorialCount };
+}
+
+function warnAboutOrphanedCuration(
+  payload: ModelsDeepProjection,
+  automaticStoryIdsForPair: readonly number[],
+): void {
+  const { editorialKeys, personalityKeys, stalePins, displacedIds, activeEditorialCount } =
+    reportOrphanedCuration(payload, automaticStoryIdsForPair);
+  if (editorialKeys.length === 0 && personalityKeys.length === 0 && stalePins.length === 0) return;
+
+  const pairLabel =
+    `${payload.latest_pair.baseline.model}@${payload.latest_pair.baseline.date}` +
+    ` → ${payload.latest_pair.candidate.model}@${payload.latest_pair.candidate.date}`;
+  console.warn(`[models-deep] curated /models copy is out of date for the current pair (${pairLabel}):`);
+  console.warn(`  active reviewed story sentences: ${activeEditorialCount}`);
+
+  if (editorialKeys.length > 0) {
+    console.warn(`  ${editorialKeys.length} story sentence(s) scoped to an older pair, now showing generic copy:`);
+    for (const key of editorialKeys) console.warn(`    ${key}`);
+  }
+  if (personalityKeys.length > 0) {
+    console.warn(`  ${personalityKeys.length} model-specific personality sentence(s) no longer selected:`);
+    for (const key of personalityKeys) console.warn(`    ${key}`);
+  }
+  if (stalePins.length > 0) {
+    console.warn(
+      `  ${stalePins.length} pinned story id(s) are not among this pair's biggest movers ` +
+      '(src/content/model-story-overrides.ja.json):',
+    );
+    console.warn(`    pinned:    ${stalePins.join(', ')}`);
+    if (displacedIds.length > 0) {
+      console.warn(`    keeping out: ${displacedIds.join(', ')}`);
+    }
+  }
+  console.warn('  Re-curating is a follow-up task and does not block landing a batch.');
 }
 
 export async function buildModelsDeep(

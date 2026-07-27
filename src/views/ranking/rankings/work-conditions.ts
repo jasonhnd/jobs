@@ -5,7 +5,7 @@
  * recruit-ratio-low / high-demand.
  */
 
-import { TOP_N, DEMAND_SCORE, DEMAND_JA, type Occupation, type RankingResult } from '../config.js';
+import { TOP_N, HIGH_DEMAND_MIN, demandScore, demandLabel, type Occupation, type RankingResult } from '../config.js';
 import { byKeyDesc, byKeyAsc, safeMean } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
 
@@ -17,7 +17,7 @@ export interface WorkConditionsRankings {
   byRecruitLow: Occupation[];
   byDemand: Occupation[];
   hotCount: number;
-  warmCount: number;
+  normalCount: number;
   entries: Array<[string, RankingResult]>;
 }
 
@@ -50,21 +50,24 @@ export function buildWorkConditionsRankings(
   const meanRecruitLow = safeMean(byRecruitLow, 'recruit_ratio');
 
   // 9. High demand
-  let withDemand = occs.filter((o) => o.demand_band && (DEMAND_SCORE[o.demand_band] ?? 0) >= 3);
+  let withDemand = occs.filter((o) => demandScore(o.demand_band) >= HIGH_DEMAND_MIN);
   if (withDemand.length < TOP_N) {
     withDemand = occs.filter((o) => o.demand_band);
   }
   const byDemand = [...withDemand]
     .sort((a, b) => {
-      const ds = (DEMAND_SCORE[b.demand_band ?? ''] ?? 0) - (DEMAND_SCORE[a.demand_band ?? ''] ?? 0);
+      const ds = demandScore(b.demand_band) - demandScore(a.demand_band);
       if (ds !== 0) return ds;
       const ss = (b.salary ?? 0) - (a.salary ?? 0);
       if (ss !== 0) return ss;
       return a.id - b.id;
     })
     .slice(0, limit);
-  const hotCount = byDemand.filter((o) => o.demand_band === 'hot').length;
-  const warmCount = byDemand.filter((o) => o.demand_band === 'warm').length;
+  // Dataset-wide, NOT the page slice. Derived from byDemand (already sliced to
+  // 30) this was tautologically 30 while the real figure is 270, and it shipped
+  // in the meta description unprefixed, next to siblings labelled `TOP30 平均…`.
+  const hotCount = occs.filter((o) => o.demand_band === 'hot').length;
+  const normalCount = occs.filter((o) => o.demand_band === 'normal').length;
 
   const entries: Array<[string, RankingResult]> = [
     ['short-hours', {
@@ -158,24 +161,23 @@ export function buildWorkConditionsRankings(
       items: byDemand,
       showSalary: true,
       extraColFn: (o) => {
-        const db = o.demand_band ?? '';
-        const label = DEMAND_JA[db];
-        return label ? [{ kind: 'demand-pill' as const, band: db, label }] : [];
+        const label = demandLabel(o.demand_band);
+        return label ? [{ kind: 'demand-pill' as const, band: o.demand_band ?? '', label }] : [];
       },
       faqItems: FAQS['high-demand'],
       title: '人手不足の職業ランキング TOP30【2026年版】| 未来の仕事',
-      seoDesc: `求人需要が最も高い職業TOP${TOP_N}。「需要高」${hotCount}件・「やや高」${warmCount}件。転職・就活の参考に。`,
+      seoDesc: `求人需要が最も高い職業TOP${TOP_N}。全${occs.length}職業のうち「需要高」は${hotCount}件・「安定」は${normalCount}件。転職・就活の参考に。`,
       h1Text: `人手不足の職業 TOP${TOP_N}`,
       subText: '求人需要が最も <strong>高い</strong> 職業ランキング',
       introText: '人手不足が深刻な職業を求人需要の高い順にランキング。採用されやすく待遇改善も期待できる職業を年収・AI影響度と共に確認できます。',
       statBlocks: [
-        ['「需要高」職業数', `${hotCount}`],
-        ['「やや高」職業数', `${warmCount}`],
+        ['全体「需要高」職業数', `${hotCount}`],
+        ['全体「安定」職業数', `${normalCount}`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byDemand, 'salary'))} 万円`],
         ['TOP30 平均 AI 影響', `${safeMean(byDemand, 'ai_risk').toFixed(1)} / 10`],
       ],
     }],
   ];
 
-  return { byHours, byHoursLong, byHourly, byRecruitRatio, byRecruitLow, byDemand, hotCount, warmCount, entries };
+  return { byHours, byHoursLong, byHourly, byRecruitRatio, byRecruitLow, byDemand, hotCount, normalCount, entries };
 }

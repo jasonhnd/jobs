@@ -23,9 +23,15 @@ const path = require('node:path');
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist-astro');
 
+// A check that cannot run must not report success. This used to exit 0, which
+// made the standalone `bun run check:rendered-leaks` green on any machine
+// without a build — and meant reordering the `build` chain would silently
+// disarm the only guard against leaked `-->` / `TODO:` / `{props.x}` reaching
+// rendered HTML. Inside `bun run build` this branch is unreachable: the script
+// runs after `astro build`. See issue #217.
 if (!fs.existsSync(DIST)) {
-  console.log('[check-rendered-leaks] SKIP — dist-astro/ not found. Run `npm run build` first.');
-  process.exit(0);
+  console.error('[check-rendered-leaks] FAIL — dist-astro/ not found. Run `bun run build` first.');
+  process.exit(1);
 }
 
 // Patterns that should NEVER appear in rendered, visible HTML.
@@ -77,6 +83,16 @@ function walk(dir, out = []) {
 }
 
 const files = walk(DIST);
+
+// The same fail-open shape as a missing dist-astro/, and likelier: a partial or
+// interrupted build leaves the directory in place with no HTML in it. Scanning
+// zero pages then found zero leaks and reported OK.
+if (files.length === 0) {
+  console.error('[check-rendered-leaks] FAIL — dist-astro/ contains no HTML pages; there is nothing to scan.');
+  console.error('  The build did not complete. Run `bun run build` and re-check.');
+  process.exit(1);
+}
+
 const issues = [];
 
 for (const f of files) {

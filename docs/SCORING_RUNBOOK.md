@@ -4,16 +4,43 @@
 
 ## 現行 batch
 
+> この 3 行は `data/scores/` から導出される事実であり、`bun scripts/check-geo-freshness.ts`
+> が実データと突き合わせて検証する。batch を追加したら必ずここも更新すること
+> —— 更新し忘れると gate が落ちる。手で書き換えたまま腐らせることはできない。
+
+- モデル: `claude-opus-5`
+- run date: `2026-07-26`
+- Score output: `data/scores/occupations_claude-opus-5_2026-07-26.json`
+
 - 標準: AIOIS-10 v1.0
-- モデル: `claude-opus-4-8`
-- run date: `2026-05-30`
 - 対象: JILPT IPD v7.00 の 556 職業
-- Score output: `data/scores/occupations_claude-opus-4-8_2026-05-30.json`
 - Schema: `src/data/schema/score-run.ts`
 - トップ指標: `ai_risk` は AIOIS-10 の `aiois.transformation` と同じ値
 - 公開表示箇所: `/methodology`, `/standard`, `/data`, 職業詳細ページ, JSON-LD, footer
 
 現行 batch は 556 件すべてに `aiois.d1` から `aiois.d10`, `aiois.transformation`, `aiois.displacement` を持つ。今後 AIOIS-10 batch を追加する場合も、この構造を欠かしてはならない。
+
+## 同じモデルで再採点する（issue #218）
+
+**モデル id は何度でも使ってよい。一意でなければならないのは `(model, run_date)` の組み合わせである。**
+
+`data/scores/` は append-only なので、修正 run でも後日の再採点でも、同じモデルが 2 つ以上の batch を持ちうる。公開ページはその前提で **run 単位**に URL を持つ:
+
+| | 例 |
+|---|---|
+| run slug | `opus-5@2026-07-26` |
+| ページ URL | `/models/opus-5@2026-07-26` |
+| 生成元 | `runSlug()` — `src/site/score-attribution.ts` |
+
+`model@date` の形は `src/site/model-editorial.ts` が編集文の key に使っているものと同じで、再 run が別 run の文章を引き継がないようにする意図も共通である。
+
+再採点するときの決まりごと:
+
+- **`run_date` を必ず変える。** 同じモデル id と同じ run date の batch を 2 つ置くと、`/models/<slug>` が衝突するため build が停止する。エラーはその条件をそのまま述べる。
+- **既存 URL は変わらない。** batch を足しても、すでにある run のページ URL は動かない。増えるだけである。
+- **裸の `/models/<model-slug>` は 308 リダイレクトとして残る。** 行き先はそのモデルの**最新 run**。`vercel.json` に置き、`bun scripts/check-model-redirects.ts`（`verify:gates` に組み込み済み）が `data/scores/` から期待値を導出して照合する。新しい batch を足したのにリダイレクトを更新し忘れると、この gate が stale として落ちる。
+
+> #218 以前は `models-by-model` がモデル単位で slug の round-trip を検証していたため、同じモデルの 2 回目の run で build が `model slug round-trip failed` として停止していた。slug 生成は正常で、実際の原因は「1 モデルに 2 run」だったが、メッセージはそれを一切述べていなかった。
 
 ## Deployment boundary
 
@@ -91,14 +118,92 @@ Hard requirements:
 - `ai_risk === aiois.transformation` でなければならない。
 - extra field は schema / assembler で fail させる。
 
+## Scoring runner architecture (providers)
+
+`scripts/run-scoring.ts` is the provider-independent entry point. Everything
+that must not vary by vendor lives in `scripts/lib/scoring/`:
+
+| Concern | File | Owned by |
+| --- | --- | --- |
+| The AIOIS-10 field set, formula re-computation, `ai_risk === transformation`, JSONL shape | `lib/scoring/contract.ts` | core |
+| Error vocabulary + retry/backoff policy | `lib/scoring/errors.ts` | core |
+| Retry accounting, audit trail, resume, concurrency, prompt assembly | `lib/scoring/core.ts` | core |
+| Reaching a specific vendor | `lib/scoring/providers/<name>.ts` | provider |
+
+A provider supplies transport only: how to reach the model, how to translate
+`SCORE_OUTPUT_JSON_SCHEMA` into that vendor's native structured-output
+mechanism (if it has one), how to map that vendor's error wording onto the
+shared vocabulary, and how hard it may be hit. It has no way to express
+"quietly use a different model" — that decision does not exist in the
+vocabulary, which is how the no-silent-fallback rule is enforced structurally
+rather than by convention.
+
+Registered providers:
+
+| `--provider` | Auth | Native schema | Notes |
+| --- | --- | --- | --- |
+| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. |
+| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8` and `claude-fable-5` were. Answers supplied as JSONL. |
+
+```bash
+bun scripts/run-scoring.ts --list-providers
+```
+
+### Adding a vendor
+
+1. Write `scripts/lib/scoring/providers/<name>.ts` exporting a
+   `ScoringProvider` (interface in `lib/scoring/provider.ts`). Typically
+   40–80 lines.
+2. Register it in `lib/scoring/providers/index.ts`.
+3. Run `bun test scripts/lib/scoring`. `providers/conformance.test.ts`
+   iterates the registry, so the new provider is picked up automatically and
+   must prove it cannot weaken the contract, the error vocabulary, or the
+   schema translation.
+
+Nothing in `contract.ts`, `errors.ts`, or `core.ts` should need to change. If
+it does, the seam is in the wrong place — move the seam rather than
+special-casing the vendor.
+
+`assemble-scores.ts --provider` records the vendor in `scorer.model_provider`.
+It is inferred from known model-id prefixes (`gpt`/`o1`/`o3`, `claude`,
+`gemini`) and **fails loudly for anything else** — a batch file is append-only
+and its provider is rendered publicly as 提供元, so a new vendor must be named
+explicitly rather than silently mislabelled.
+
+### In-agent scoring flow
+
+No API key and no child process — the running model answers its own prompts,
+while still going through the same validation, audit trail, and resume logic as
+any other provider.
+
+```bash
+# 1. Emit prompts (every pending occupation is reported as pending)
+bun scripts/run-scoring.ts \
+  --provider in-agent --model <model-id> \
+  --prompt-file data/prompts/<date>_<model-id>-aiois10.ja.md \
+  --out .cache/scoring/<run>/raw-scores.jsonl \
+  --run-name <run> --ids 1,2,3
+
+# 2. Write answers as JSON Lines (chunked files keep this to a few writes)
+#    .cache/scoring/<run>/answers/chunk-01.jsonl
+
+# 3. Validate and append
+bun scripts/run-scoring.ts … --resume
+```
+
+Prompts are written to `.cache/scoring/<run>/prompts/<id>.txt` so the answers
+are produced against the exact rubric + extract any other provider would have
+been sent. Contract violations are rejected per id with the failing formula
+named, and never reach the output JSONL.
+
 ## GPT-5.6-SOL / Codex-CLI scoring
 
 This section is the Codex CLI path for `mms-5-prep` / Issue #141 and the gated GPT 5.6 SOL execution in Issue #126. It is added alongside the Fable 5 / Issue #9 path above; it does not replace the Fable 5 runbook.
 
 Scope and boundary:
 
-- Runner: `scripts/run-scoring-codex.ts`.
-- Model: `gpt-5.6-sol` (runner default). Provider: OpenAI.
+- Runner: `scripts/run-scoring.ts --provider codex` (equivalently `scripts/run-scoring-codex.ts`, kept as a compatibility entry with the same frozen behaviour).
+- Model: `gpt-5.6-sol` (Codex path default). Provider: OpenAI.
 - Auth: locally logged-in Codex CLI subscription. Do not use or commit an OpenAI API key for this path.
 - Frozen prompt: `data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md`.
 - Prompt version: `AIOIS-10-v1.0-gpt-5.6-sol`.
@@ -502,7 +607,7 @@ Use this template for pilot and full-run reports.
 
 The current `ScoreEntrySchema` permits `aiois` to be nullish so legacy single-axis batches can still parse. That schema-level compatibility is not enough for Fable 5 AIOIS-10. The assembler and candidate validation must add an AIOIS-required mode for Issue #9.
 
-`scripts/run-scoring.ts` currently defines a tool schema with only `ai_risk`, `rationale_ja`, and `confidence`. It cannot produce Fable 5 AIOIS-10 output until the tool schema and parsing path are extended to include `aiois`. Issue #9 の pilot はセッション内採点（上記 Execution mechanism）を使うため、run-scoring.ts の拡張は本 issue の必須作業ではない。
+~~`scripts/run-scoring.ts` currently defines a tool schema with only `ai_risk`, `rationale_ja`, and `confidence`. It cannot produce Fable 5 AIOIS-10 output.~~ Resolved: `run-scoring.ts` is now the provider-independent entry point and every provider emits the full AIOIS-10 contract (see "Scoring runner architecture" above). The former single-axis Anthropic Batches API implementation remains in git history (`git show 1d7d42a2:scripts/run-scoring.ts`) and is the natural starting point for a future `anthropic-api` provider.
 
 `scripts/check-score-batch.ts` currently reports high-level drift on `ai_risk` bands. Issue #9 requires a deeper AIOIS drift report covering `displacement`, D1-D10 average drift, rank changes, and manual review candidates.
 
@@ -512,7 +617,7 @@ The existing Opus-oriented local commands remain useful as references, but must 
 
 ```bash
 bun scripts/extract-occ-chunks.ts
-bun scripts/run-scoring.ts
+bun scripts/run-scoring.ts --list-providers   # provider-independent scoring entry
 bun scripts/assemble-scores.ts
 bun scripts/make-pilot-sample.ts      # Issue #9 Phase 3: 抽样 manifest + pilot extract chunks
 bun scripts/aiois-drift-report.ts     # Issue #9 Phase 6: AIOIS-10 深度 drift report

@@ -172,6 +172,31 @@
       "source": "/ja/:path*",
       "destination": "/:path*",
       "permanent": true
+    },
+    {
+      "source": "/models/opus-4-7",
+      "destination": "/models/opus-4-7@2026-04-25",
+      "permanent": true
+    },
+    {
+      "source": "/models/opus-4-8",
+      "destination": "/models/opus-4-8@2026-05-30",
+      "permanent": true
+    },
+    {
+      "source": "/models/fable-5",
+      "destination": "/models/fable-5@2026-06-13",
+      "permanent": true
+    },
+    {
+      "source": "/models/gpt-5.6-sol",
+      "destination": "/models/gpt-5.6-sol@2026-07-12",
+      "permanent": true
+    },
+    {
+      "source": "/models/opus-5",
+      "destination": "/models/opus-5@2026-07-26",
+      "permanent": true
     }
   ]
 }
