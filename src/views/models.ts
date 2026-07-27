@@ -1,5 +1,5 @@
 import { ModelsDeepProjectionSchema, type ModelsDeepProjectionShape } from '@/lib/projection-schemas';
-import { formatModelDisplay, modelSlug } from '@/site/score-attribution';
+import { formatModelDisplay, runSlug } from '@/site/score-attribution';
 import {
   DEFAULT_MODEL_STORY_EDITORIAL_ID,
   modelStoryEditorialSentenceId,
@@ -125,7 +125,7 @@ export function buildModelsFeaturePageModel(
 ): ModelsFeaturePageModel {
   const projection = ModelsDeepProjectionSchema.parse(rawProjection);
   const modelCards = projection.model_cards.map((card) => {
-    const slug = modelSlug(card.model);
+    const slug = runSlug({ model: card.model, runDate: card.date });
     return {
       ...card,
       modelDisplay: formatModelDisplay(card.model),

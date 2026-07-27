@@ -4,7 +4,7 @@
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
-import { formatModelDisplay, modelSlug } from '../site/score-attribution.js';
+import { formatModelDisplay, runSlug } from '../site/score-attribution.js';
 
 export interface ScoreHistoryComparisonEntry {
   readonly model: string;
@@ -41,7 +41,7 @@ function isCurrentEntry(
 }
 
 function modelHref(entry: ScoreHistoryComparisonEntry): string {
-  return `/models/${modelSlug(entry.model)}`;
+  return `/models/${runSlug({ model: entry.model, runDate: entry.date })}`;
 }
 
 function pickCurrentHistoryEntry(
