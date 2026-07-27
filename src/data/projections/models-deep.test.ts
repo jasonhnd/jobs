@@ -14,6 +14,7 @@ import {
   selectStoryIdsForTest,
 } from './models-deep.js';
 import { DEFAULT_MODEL_STORY_EDITORIAL_ID } from '../../site/model-editorial.js';
+import personalityCopy from '../../content/model-personality.ja.json';
 import type { DriftRow } from '../../graph/aiois-drift.js';
 
 let indexesPromise: Promise<Indexes> | null = null;
@@ -153,10 +154,14 @@ describe('models-deep projection', () => {
     assert.deepEqual(payload.consensus.map((row) => row.id), [10, 19, 55]);
     assert.equal(payload.model_cards.length, 5);
     assert.equal(payload.stories.length, 5);
-    assert.deepEqual(payload.stories.slice(0, 3).map((story) => story.id), [239, 398, 74]);
+    // With the pins cleared, the story list follows the pair's actual biggest
+    // movers instead of a selection made two pairs ago (#219 follow-up).
+    assert.deepEqual(payload.stories.map((story) => story.id), [111, 114, 29, 106, 170]);
+    // Every shown story carries copy scoped to THIS pair — no generic fallback.
+    const pairSuffix = '__gpt-5.6-sol@2026-07-12__claude-opus-5@2026-07-26';
     assert.ok(
-      payload.stories.every((story) => story.editorial_sentence_id === 'default_latest_pair_split'),
-      'the current GPT 5.6 → Opus 5 pair has no reviewed occupation-specific prose',
+      payload.stories.every((story) => story.editorial_sentence_id.endsWith(pairSuffix)),
+      payload.stories.map((story) => story.editorial_sentence_id).join(', '),
     );
     assert.ok(payload.stories.every((story) => story.baseline_rationale_ja.length > 0));
     assert.ok(payload.stories.every((story) => story.candidate_rationale_ja.length > 0));
@@ -195,43 +200,56 @@ describe('orphaned curation reporting', () => {
     })),
   }) as unknown as Parameters<typeof reportOrphanedCuration>[0];
 
+  const OLD_PAIR = 'claude-opus-4-8@2026-05-30__claude-fable-5@2026-06-13';
+  const NEW_PAIR = 'gpt-5.6-sol@2026-07-12__claude-opus-5@2026-07-26';
+  const overridesFixture = (keys: string[], pins: number[] = [], replaces: number[] = []) => ({
+    pinned_ids: pins,
+    replace_ids: replaces,
+    editorial_sentences: Object.fromEntries([
+      ...keys.map((k) => [k, 'x']),
+      [DEFAULT_MODEL_STORY_EDITORIAL_ID, 'fallback'],
+    ]),
+  });
+  const personalityFixture = (keys: string[]) =>
+    Object.fromEntries(keys.map((k) => [k, 'x'])) as Record<string, string>;
+
   test('flags every sentence scoped to a superseded pair', () => {
-    // The committed overrides are all keyed to opus-4-8 → fable-5.
     const report = reportOrphanedCuration(
       payloadWith(pairOf('gpt-5.6-sol', '2026-07-12', 'claude-opus-5', '2026-07-26'), [], []),
       [],
+      overridesFixture([`239__${OLD_PAIR}`, `74__${OLD_PAIR}`]),
+      personalityFixture([]),
     );
     assert.equal(report.activeEditorialCount, 0);
-    assert.ok(report.editorialKeys.length > 0);
-    assert.ok(report.editorialKeys.every((key) => key.includes('claude-opus-4-8@2026-05-30')));
+    assert.deepEqual(report.editorialKeys, [`239__${OLD_PAIR}`, `74__${OLD_PAIR}`]);
     // The generic fallback lives in the same map and is never an orphan.
     assert.equal(report.editorialKeys.includes(DEFAULT_MODEL_STORY_EDITORIAL_ID), false);
   });
 
   test('reports nothing for the pair the copy was written for', () => {
     const report = reportOrphanedCuration(
-      payloadWith(pairOf('claude-opus-4-8', '2026-05-30', 'claude-fable-5', '2026-06-13'), [], []),
+      payloadWith(pairOf('gpt-5.6-sol', '2026-07-12', 'claude-opus-5', '2026-07-26'), [], []),
       [],
+      overridesFixture([`111__${NEW_PAIR}`, `114__${NEW_PAIR}`]),
+      personalityFixture([]),
     );
     assert.deepEqual(report.editorialKeys, []);
-    assert.ok(report.activeEditorialCount > 0);
+    assert.equal(report.activeEditorialCount, 2);
   });
 
   test('only model-specific personality keys can be orphans', () => {
     const report = reportOrphanedCuration(
-      payloadWith(
-        pairOf('a', '2026-01-01', 'b', '2026-02-01'),
-        [],
-        ['claude_opus_4_7_neutral', 'claude_opus_4_8_d9_positive_strong', 'default_d7_negative_strong'],
-      ),
+      payloadWith(pairOf('a', '2026-01-01', 'b', '2026-02-01'), [], ['claude_x_neutral', 'default_d7_negative_strong']),
       [],
+      overridesFixture([]),
+      // `default_*` is a lookup table — most entries are unused by design, and
+      // listing all ~40 would train everyone to ignore the warning.
+      personalityFixture(['claude_x_neutral', 'claude_y_d9_positive_strong', 'default_d7_negative_strong', 'default_d1_positive_strong']),
     );
-    // `default_*` is a lookup table — most entries are unused by design, and
-    // listing all ~40 would train everyone to ignore the warning.
     assert.equal(report.personalityKeys.some((key) => key.startsWith('default_')), false);
-    assert.ok(report.personalityKeys.includes('claude_fable_5_d9_negative_strong'));
+    assert.deepEqual(report.personalityKeys, ['claude_y_d9_positive_strong']);
     // Keys that ARE selected are not orphans.
-    assert.equal(report.personalityKeys.includes('claude_opus_4_7_neutral'), false);
+    assert.equal(report.personalityKeys.includes('claude_x_neutral'), false);
   });
 
   test('flags pins that displace the current pair biggest movers', () => {
@@ -239,6 +257,8 @@ describe('orphaned curation reporting', () => {
     const report = reportOrphanedCuration(
       payloadWith(pairOf('a', '2026-01-01', 'b', '2026-02-01'), [239, 398, 74, 455, 357], []),
       [111, 114, 29, 106, 170, 338, 576, 74],
+      overridesFixture([], [239, 398, 74], [455, 357]),
+      personalityFixture([]),
     );
     // All five are shown; none is in the automatic top 5. 74 ranks 8th, which
     // is still outside the shortlist, so it counts too.
@@ -250,8 +270,69 @@ describe('orphaned curation reporting', () => {
     const report = reportOrphanedCuration(
       payloadWith(pairOf('a', '2026-01-01', 'b', '2026-02-01'), [239, 398, 74, 455, 357], []),
       [239, 398, 74, 455, 357, 111],
+      overridesFixture([], [239, 398, 74], [455, 357]),
+      personalityFixture([]),
     );
     assert.deepEqual(report.stalePins, []);
     assert.deepEqual(report.displacedIds, []);
+  });
+});
+
+/**
+ * `choosePersonalityId` derives `positive` from `signed drift >= 0`, i.e. "this
+ * model scores the dimension HIGHER than its comparison". The copy must describe
+ * what a higher score on that dimension means — and for a moat dimension
+ * (d3-d7) a higher score is a STRONGER barrier.
+ *
+ * All twenty moat entries had positive and negative swapped, so three of the
+ * five live /models cards asserted the opposite of what the data said: Fable 5
+ * scores d7 lower than GPT yet was described as treating the regulatory wall as
+ * a strong moat. The up/friction dimensions (d1, d2, d8, d9, d10) were correct
+ * throughout, which is why this survived — it only shows on moat drivers.
+ */
+describe('personality copy polarity', () => {
+  const sentences = personalityCopy.sentences as Record<string, string>;
+  const MOAT_DIMS = ['d3', 'd4', 'd5', 'd6', 'd7'] as const;
+  const OPEN_DIMS = ['d1', 'd2', 'd8', 'd9', 'd10'] as const;
+
+  test('a higher moat score reads as a stronger barrier', () => {
+    for (const dim of MOAT_DIMS) {
+      for (const strength of ['strong', 'moderate'] as const) {
+        const positive = sentences[`default_${dim}_positive_${strength}`]!;
+        const negative = sentences[`default_${dim}_negative_${strength}`]!;
+        assert.ok(
+          positive.includes('防壁'),
+          `default_${dim}_positive_${strength} should describe a barrier, got: ${positive}`,
+        );
+        assert.equal(
+          negative.includes('防壁'), false,
+          `default_${dim}_negative_${strength} should NOT describe a barrier, got: ${negative}`,
+        );
+      }
+    }
+  });
+
+  test('open dimensions read as weighing the dimension, not as a barrier', () => {
+    for (const dim of OPEN_DIMS) {
+      for (const strength of ['strong', 'moderate'] as const) {
+        for (const direction of ['positive', 'negative'] as const) {
+          const copy = sentences[`default_${dim}_${direction}_${strength}`]!;
+          assert.equal(
+            copy.includes('防壁'), false,
+            `default_${dim}_${direction}_${strength} is not a moat dimension: ${copy}`,
+          );
+        }
+      }
+    }
+  });
+
+  test('every dimension has all four variants', () => {
+    for (const dim of [...MOAT_DIMS, ...OPEN_DIMS]) {
+      for (const strength of ['strong', 'moderate'] as const) {
+        for (const direction of ['positive', 'negative'] as const) {
+          assert.ok(sentences[`default_${dim}_${direction}_${strength}`], `missing default_${dim}_${direction}_${strength}`);
+        }
+      }
+    }
   });
 });

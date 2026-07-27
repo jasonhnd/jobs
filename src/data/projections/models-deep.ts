@@ -20,7 +20,7 @@ import type { Aiois10 } from '../../graph/types.js';
 import type { ScoreHistEntry } from '../../graph/score-strategy.js';
 import type { Indexes } from '../lib/indexes.js';
 import personalityCopy from '../../content/model-personality.ja.json';
-import storyOverrides from '../../content/model-story-overrides.ja.json';
+import storyOverridesJson from '../../content/model-story-overrides.ja.json';
 
 const MODEL_PROJECTION_MAX_BYTES = 30 * 1024;
 const STORY_MIN = 3;
@@ -295,6 +295,11 @@ function storyRows(indexes: Indexes, latestPair: PairSummary): ModelsDeepProject
   return stories;
 }
 
+/** Typed view of the committed overrides. The JSON import infers `never[]` for
+ *  an empty `pinned_ids`, which is the correct state when the story list should
+ *  simply follow the current pair's biggest movers. */
+const storyOverrides: ModelsStoryOverrideConfig = storyOverridesJson;
+
 export interface ModelsStoryOverrideConfig {
   readonly pinned_ids: readonly number[];
   readonly replace_ids: readonly number[];
@@ -457,6 +462,11 @@ export interface OrphanedCurationReport {
 export function reportOrphanedCuration(
   payload: ModelsDeepProjection,
   automaticStoryIdsForPair: readonly number[],
+  // Injectable so tests exercise the logic against fixtures instead of the
+  // committed copy — otherwise every legitimate re-curation breaks the tests
+  // and the fix becomes "update the expected strings", which teaches nothing.
+  overrides: ModelsStoryOverrideConfig = storyOverrides,
+  personalitySentences: Readonly<Record<string, string>> = personalityCopy.sentences,
 ): OrphanedCurationReport {
   const pair: ModelEditorialPairIdentity = {
     baseline: { model: payload.latest_pair.baseline.model, date: payload.latest_pair.baseline.date },
@@ -468,13 +478,13 @@ export function reportOrphanedCuration(
 
   // The generic fallback lives in the same map but is not pair-scoped, so it is
   // never an orphan — it is the thing orphaned keys fall back TO.
-  const allEditorial = Object.keys(storyOverrides.editorial_sentences)
+  const allEditorial = Object.keys(overrides.editorial_sentences)
     .filter((key) => key !== DEFAULT_MODEL_STORY_EDITORIAL_ID);
   const editorialKeys = allEditorial.filter((key) => !key.endsWith(pairSuffix)).sort();
   const activeEditorialCount = allEditorial.length - editorialKeys.length;
 
   const usedPersonality = new Set(payload.model_cards.map((card) => card.personality_sentence_id));
-  const personalityKeys = Object.keys(personalityCopy.sentences)
+  const personalityKeys = Object.keys(personalitySentences)
     .filter((key) => !key.startsWith('default_') && !usedPersonality.has(key))
     .sort();
 
@@ -484,7 +494,7 @@ export function reportOrphanedCuration(
   const shownIds = new Set(payload.stories.map((story) => story.id));
   const wouldShow = automaticStoryIdsForPair.slice(0, STORY_MAX);
   const wouldShowSet = new Set(wouldShow);
-  const stalePins = [...storyOverrides.pinned_ids, ...storyOverrides.replace_ids]
+  const stalePins = [...overrides.pinned_ids, ...overrides.replace_ids]
     .filter((id) => shownIds.has(id) && !wouldShowSet.has(id))
     .sort((a, b) => a - b);
   const displacedIds = wouldShow.filter((id) => !shownIds.has(id));
