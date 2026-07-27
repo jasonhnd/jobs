@@ -24,11 +24,11 @@ mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10
 
 | Band | Occupations | Share |
 |---|---:|---:|
-| 0-2 | 7 | 1.0% |
-| 3-4 | 166 | 30.0% |
-| 5-6 | 260 | 47.0% |
-| 7-8 | 115 | 21.0% |
-| 9-10 | 8 | 1.0% |
+| 0-2 | 12 | 2.0% |
+| 3-4 | 192 | 35.0% |
+| 5-6 | 252 | 45.0% |
+| 7-8 | 96 | 17.0% |
+| 9-10 | 4 | 1.0% |
 
 ## 3. Methodology
 

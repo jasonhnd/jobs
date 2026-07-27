@@ -4,7 +4,7 @@
  * salary / entry-salary / high-salary-high-demand / high-salary-young-entry.
  */
 
-import { TOP_N, DEMAND_SCORE, DEMAND_JA, type Occupation, type RankingResult } from '../config.js';
+import { TOP_N, HIGH_DEMAND_MIN, demandScore, demandLabel, type Occupation, type RankingResult } from '../config.js';
 import { byKeyDesc, safeMean } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
 
@@ -40,8 +40,8 @@ export function buildSalaryRankings(
 
   // 27. 高年収 × 高需要
   const highSalaryHighDemand = scored
-    .filter((o) => o.salary && (DEMAND_SCORE[o.demand_band ?? ''] ?? 0) >= 3)
-    .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || (DEMAND_SCORE[b.demand_band ?? ''] ?? 0) - (DEMAND_SCORE[a.demand_band ?? ''] ?? 0))
+    .filter((o) => o.salary && demandScore(o.demand_band) >= HIGH_DEMAND_MIN)
+    .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || demandScore(b.demand_band) - demandScore(a.demand_band))
     .slice(0, limit);
 
   // 28. 初任給が高い × 若手活躍
@@ -90,9 +90,8 @@ export function buildSalaryRankings(
       items: highSalaryHighDemand,
       showSalary: true,
       extraColFn: (o) => {
-        const db = o.demand_band ?? '';
-        const label = DEMAND_JA[db];
-        return label ? [{ kind: 'demand-pill' as const, band: db, label }] : [];
+        const label = demandLabel(o.demand_band);
+        return label ? [{ kind: 'demand-pill' as const, band: o.demand_band ?? '', label }] : [];
       },
       faqItems: FAQS['high-salary-high-demand'],
       title: '高年収 × 高需要の職業 TOP30【2026年版】| 未来の仕事',

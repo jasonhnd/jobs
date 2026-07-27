@@ -1,6 +1,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { buildRankings, type Occupation, type RankingSlug, type RankingsBundle } from './index.js';
+import { buildWorkConditionsRankings } from './rankings/work-conditions.js';
 import { EDU, EMP } from '../../data/domain/distribution-labels.js';
 
 function occupation(overrides: Partial<Occupation> & Pick<Occupation, 'id'>): Occupation {
@@ -16,7 +17,7 @@ function occupation(overrides: Partial<Occupation> & Pick<Occupation, 'id'>): Oc
     average_age: 40,
     recruit_wage: 25,
     recruit_ratio: 1,
-    demand_band: 'cool',
+    demand_band: 'normal',
     sector_id: 'service',
     sector_ja: 'Service',
     education_pct: {},
@@ -63,7 +64,7 @@ const occupations: Occupation[] = [
     ai_risk: 4,
     workers: 60_000,
     salary: 700,
-    demand_band: 'warm',
+    demand_band: 'hot',
     sector_id: 'iryo',
     certs: ['A', 'B', 'C'],
     education_pct: { [EDU.highSchool]: 40 },
@@ -93,7 +94,7 @@ const occupations: Occupation[] = [
     ai_risk: 2,
     workers: 55_000,
     salary: 450,
-    demand_band: 'warm',
+    demand_band: 'hot',
     sector_id: 'kensetu',
     education_pct: { [EDU.highSchool]: 70 },
     employment_type: { [EMP.selfEmployedFreelance]: 25 },
@@ -139,7 +140,12 @@ describe('buildRankings synthetic fixtures', () => {
 
     // Assert
     assert.deepEqual(ids(bundle, 'regulated-protected'), [4, 3]);
-    assert.deepEqual(ids(bundle, 'ai-safe-high-demand'), [3, 7, 4]);
+    // ids 3/4/7 are all `hot`, so the demand-score term ties and the order is
+    // the `ai_risk` ascending tiebreak: 2, 4, 5. It used to read [3, 7, 4]
+    // because the fixtures gave 4 and 7 the band `warm` — retired vocabulary
+    // that cannot occur in real data (issue #216). Only `hot` clears
+    // HIGH_DEMAND_MIN, so this ranking is hot-only in production too.
+    assert.deepEqual(ids(bundle, 'ai-safe-high-demand'), [7, 4, 3]);
   });
 
   test('keeps pure salary, workforce, and high-salary-demand ordering stable', () => {
@@ -159,5 +165,46 @@ describe('buildRankings synthetic fixtures', () => {
     // Assert
     assert.deepEqual(ids(bundle, 'salary'), [6, 5]);
     assert.deepEqual(ids(bundle, 'salary-safe'), [3, 4]);
+  });
+});
+
+describe('high-demand headline counts (issue #216)', () => {
+  // Fixture bands: hot ×5 (3,4,5,6,7), normal ×1 (2), cold ×2 (1,8).
+  const HOT_TOTAL = 5;
+  const NORMAL_TOTAL = 1;
+
+  test('counts the whole dataset, not the page slice', () => {
+    // Arrange: a limit far below the number of hot occupations. Deriving the
+    // count from the sliced list made it tautologically equal to the limit —
+    // shipping 「需要高」30件 when the real figure was 270.
+    const built = buildWorkConditionsRankings(occupations, 2);
+
+    // Assert
+    assert.equal(built.byDemand.length, 2, 'the page itself is still sliced');
+    assert.equal(built.hotCount, HOT_TOTAL);
+    assert.equal(built.normalCount, NORMAL_TOTAL);
+  });
+
+  test('the count is independent of the limit', () => {
+    const small = buildWorkConditionsRankings(occupations, 1);
+    const large = buildWorkConditionsRankings(occupations, Number.POSITIVE_INFINITY);
+
+    assert.equal(small.hotCount, large.hotCount);
+    assert.equal(small.normalCount, large.normalCount);
+  });
+
+  test('SEO copy quotes the dataset-wide figures and drops the retired band', () => {
+    const built = buildWorkConditionsRankings(occupations, 2);
+    const highDemand = built.entries.find(([slug]) => slug === 'high-demand')?.[1];
+    assert.ok(highDemand, 'high-demand entry exists');
+
+    // `やや高` was DEMAND_JA['warm'] — a band `DemandBand` does not contain, so
+    // the clause was permanently 「やや高」0件.
+    assert.equal(highDemand.seoDesc.includes('やや高'), false);
+    assert.ok(highDemand.seoDesc.includes(`「需要高」は${HOT_TOTAL}件`), highDemand.seoDesc);
+    assert.ok(
+      highDemand.statBlocks.some(([label, value]) => label.includes('需要高') && value === String(HOT_TOTAL)),
+      JSON.stringify(highDemand.statBlocks),
+    );
   });
 });
