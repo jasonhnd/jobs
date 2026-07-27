@@ -2,6 +2,7 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { buildRankings, type Occupation, type RankingSlug, type RankingsBundle } from './index.js';
 import { buildWorkConditionsRankings } from './rankings/work-conditions.js';
+import { HIGH_DEMAND_MIN, demandScore } from './config.js';
 import { EDU, EMP } from '../../data/domain/distribution-labels.js';
 
 function occupation(overrides: Partial<Occupation> & Pick<Occupation, 'id'>): Occupation {
@@ -206,5 +207,32 @@ describe('high-demand headline counts (issue #216)', () => {
       highDemand.statBlocks.some(([label, value]) => label.includes('需要高') && value === String(HOT_TOTAL)),
       JSON.stringify(highDemand.statBlocks),
     );
+  });
+});
+
+/**
+ * Three rankings filter on `demandScore(...) >= HIGH_DEMAND_MIN` and then sort
+ * with a `demandScore` term. That term is currently always 0 because only `hot`
+ * clears the threshold, so the ordering is carried by the tiebreak alone.
+ *
+ * The comparators are kept rather than deleted, so admitting `normal` later
+ * restores demand ordering instead of silently losing it. This test pins the
+ * relationship: change HIGH_DEMAND_MIN or DEMAND_SCORE and it tells you the
+ * ordering assumption moved. Follow-up to the observation recorded in #216.
+ */
+describe('HIGH_DEMAND_MIN admits exactly one band', () => {
+  test('only `hot` clears the threshold', () => {
+    assert.equal(demandScore('hot') >= HIGH_DEMAND_MIN, true);
+    assert.equal(demandScore('normal') >= HIGH_DEMAND_MIN, false);
+    assert.equal(demandScore('cold') >= HIGH_DEMAND_MIN, false);
+    assert.equal(demandScore(null) >= HIGH_DEMAND_MIN, false);
+  });
+
+  test('the band order is cold < normal < hot', () => {
+    assert.ok(demandScore('cold') < demandScore('normal'));
+    assert.ok(demandScore('normal') < demandScore('hot'));
+    // `normal` scoring 0 was the defect: it sorted the 105 mid-demand
+    // occupations below the 170 cold ones (#216).
+    assert.ok(demandScore('normal') > 0);
   });
 });
