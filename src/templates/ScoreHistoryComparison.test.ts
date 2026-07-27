@@ -45,9 +45,9 @@ describe('renderScoreHistoryComparison', () => {
     assert.ok(html.includes('2026年5月30日'));
     assert.ok(html.includes('2026年6月13日'));
     assert.ok(html.indexOf('Claude Opus 4.7') < html.indexOf('Claude Opus 4.8'));
-    assert.ok(html.includes('<a class="score-history-current-model" href="/models/fable-5">Claude Fable 5</a>'));
-    assert.ok(html.includes('<a href="/models/opus-4-7">Claude Opus 4.7</a>'));
-    assert.ok(html.includes('<a href="/models/opus-4-8">Claude Opus 4.8</a>'));
+    assert.ok(html.includes('<a class="score-history-current-model" href="/models/fable-5@2026-06-13">Claude Fable 5</a>'));
+    assert.ok(html.includes('<a href="/models/opus-4-7@2026-04-25">Claude Opus 4.7</a>'));
+    assert.ok(html.includes('<a href="/models/opus-4-8@2026-05-30">Claude Opus 4.8</a>'));
     // opus-4-8 (5) vs current fable-5 (3): both AIOIS-10, so the delta is real.
     assert.ok(html.includes('<dd class="sh-delta">+2</dd>'));
     assert.ok(html.includes('変化指数'));
@@ -69,8 +69,8 @@ describe('renderScoreHistoryComparison', () => {
       },
     ]);
 
-    assert.ok(html.includes('<a class="score-history-current-model" href="/models/gpt-5.6-sol">GPT 5.6 SOL</a>'));
-    assert.ok(!html.includes('<a class="score-history-current-model" href="/models/fable-5">Claude Fable 5</a>'));
+    assert.ok(html.includes('<a class="score-history-current-model" href="/models/gpt-5.6-sol@2026-07-20">GPT 5.6 SOL</a>'));
+    assert.ok(!html.includes('<a class="score-history-current-model" href="/models/fable-5@2026-06-13">Claude Fable 5</a>'));
     assert.ok(html.includes('<dd class="sh-delta">-1</dd>'));
   });
 
@@ -85,7 +85,7 @@ describe('renderScoreHistoryComparison', () => {
   test('single current score does not render an empty disclosure', () => {
     const html = renderScoreHistoryComparison([threeRuns[2]!]);
 
-    assert.ok(html.includes('<a class="score-history-current-model" href="/models/fable-5">Claude Fable 5</a>'));
+    assert.ok(html.includes('<a class="score-history-current-model" href="/models/fable-5@2026-06-13">Claude Fable 5</a>'));
     assert.ok(!html.includes('<details'));
     assert.ok(!html.includes('<table'));
   });
