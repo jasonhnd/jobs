@@ -8,6 +8,10 @@ import {
   modelIdFromSlug,
   modelSlug,
   pickAttributionBatch,
+  parseRunSlug,
+  runFromSlug,
+  runSlug,
+  type ScoreRunRef,
   type BatchMetaForAttribution,
 } from './score-attribution.js';
 
@@ -111,5 +115,69 @@ describe('SCORE_ATTRIBUTION (live repo data)', () => {
     assert.equal(SCORE_ATTRIBUTION.modelDisplay, formatModelDisplay(SCORE_ATTRIBUTION.modelId));
     assert.equal(SCORE_ATTRIBUTION.standardLabel, 'AIOIS-10');
     assert.ok(SCORE_ATTRIBUTION.modelDisplay.length > 0);
+  });
+});
+
+// Issue #218: public URLs are keyed by RUN, not by model. A model can be
+// scored more than once; `data/scores/` is append-only and the runbook treats
+// re-scoring as normal.
+describe('runSlug / parseRunSlug / runFromSlug', () => {
+  const runs: ScoreRunRef[] = [
+    { model: 'claude-opus-4-7', runDate: '2026-04-25' },
+    { model: 'claude-opus-5', runDate: '2026-07-26' },
+    { model: 'gpt-5.6-sol', runDate: '2026-07-12' },
+    // The case that used to crash the build: one model, two runs.
+    { model: 'gpt-5.6-sol', runDate: '2026-09-01' },
+  ];
+
+  test('builds model@date and strips the provider prefix', () => {
+    assert.equal(runSlug({ model: 'claude-opus-5', runDate: '2026-07-26' }), 'opus-5@2026-07-26');
+    assert.equal(runSlug({ model: 'gpt-5.6-sol', runDate: '2026-07-12' }), 'gpt-5.6-sol@2026-07-12');
+  });
+
+  test('rejects a malformed run date', () => {
+    assert.throws(() => runSlug({ model: 'claude-opus-5', runDate: '2026-7-26' }), /invalid run date/);
+    assert.throws(() => runSlug({ model: 'claude-opus-5', runDate: '' }), /invalid run date/);
+  });
+
+  test('round-trips every run, including two runs of one model', () => {
+    for (const run of runs) {
+      const resolved = runFromSlug(runSlug(run), runs);
+      assert.deepEqual(resolved, run, runSlug(run));
+    }
+  });
+
+  test('two runs of one model resolve to different pages', () => {
+    const july = runFromSlug('gpt-5.6-sol@2026-07-12', runs);
+    const september = runFromSlug('gpt-5.6-sol@2026-09-01', runs);
+    assert.equal(july?.runDate, '2026-07-12');
+    assert.equal(september?.runDate, '2026-09-01');
+    assert.notDeepEqual(july, september);
+  });
+
+  test('a repeated model id is no longer mistaken for an ambiguous slug', () => {
+    // Handed a run-derived list, `modelIdFromSlug` used to see the same id
+    // twice and return null — which surfaced as "model slug round-trip failed"
+    // and crashed the build. The slug names exactly one model; the repetition
+    // was the caller's, not a collision.
+    assert.equal(modelIdFromSlug('gpt-5.6-sol', runs.map((r) => r.model)), 'gpt-5.6-sol');
+
+    // A genuine collision — two DISTINCT ids sharing a slug — still returns null.
+    assert.equal(modelIdFromSlug('opus-5', ['claude-opus-5', 'opus-5']), null);
+  });
+
+  test('parseRunSlug rejects anything that is not model@YYYY-MM-DD', () => {
+    assert.equal(parseRunSlug('opus-5'), null);
+    assert.equal(parseRunSlug('opus-5@'), null);
+    assert.equal(parseRunSlug('@2026-07-26'), null);
+    assert.equal(parseRunSlug('opus-5@2026-7-26'), null);
+    assert.equal(parseRunSlug('opus-5@2026-07-26-extra'), null);
+    assert.deepEqual(parseRunSlug('opus-5@2026-07-26'), { modelSlug: 'opus-5', runDate: '2026-07-26' });
+  });
+
+  test('unknown runs and bare model slugs do not resolve', () => {
+    assert.equal(runFromSlug('opus-5@2026-01-01', runs), null);
+    assert.equal(runFromSlug('opus-5', runs), null);
+    assert.equal(runFromSlug('nope@2026-07-26', runs), null);
   });
 });

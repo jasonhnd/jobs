@@ -34,7 +34,7 @@
     "verify:internal-links": "bun scripts/verify-internal-links.cjs",
     "verify:occupation-routes": "bun scripts/verify-occupation-routes.ts",
     "check:csp-hashes": "bun scripts/compute-csp-hashes.cjs --check",
-    "verify:gates": "bun src/data/test-consistency.ts && bun scripts/check-geo-freshness.ts && bun scripts/check-architecture.cjs && bun run check:docs-links && bun scripts/verify-occupation-routes.ts && bun scripts/verify-internal-links.cjs && bun scripts/verify-jsonld.cjs && bun scripts/diff-seo-baseline.cjs && bun run check:page-class && bun run check:csp-hashes",
+    "verify:gates": "bun src/data/test-consistency.ts && bun scripts/check-geo-freshness.ts && bun scripts/check-model-redirects.ts && bun scripts/check-architecture.cjs && bun run check:docs-links && bun scripts/verify-occupation-routes.ts && bun scripts/verify-internal-links.cjs && bun scripts/verify-jsonld.cjs && bun scripts/diff-seo-baseline.cjs && bun run check:page-class && bun run check:csp-hashes",
     "test:e2e": "scripts/run-e2e.sh"
   },
   "dependencies": {

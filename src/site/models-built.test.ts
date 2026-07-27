@@ -123,7 +123,7 @@ describe('/models built page contract', () => {
   });
 
   test('renders model detail public metadata without raw ids', () => {
-    const detailPath = builtModelDetailPath('gpt-5.6-sol');
+    const detailPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
     const visible = visibleHtml(html);
@@ -135,7 +135,7 @@ describe('/models built page contract', () => {
     assert.equal(/プロンプト|AIOIS-10-v1\.0-gpt-5\.6-sol/.test(visible), false);
 
     // The canonical model's own page, including the Anthropic provider label.
-    const latestPath = builtModelDetailPath('opus-5');
+    const latestPath = builtModelDetailPath('opus-5@2026-07-26');
     if (latestPath == null) return;
     const latest = visibleHtml(readFileSync(latestPath, 'utf-8'));
     assert.match(latest, /<h1>Claude Opus 5 の職業スコア<\/h1>/);
@@ -145,11 +145,11 @@ describe('/models built page contract', () => {
   });
 
   test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
-    const legacyPath = builtModelDetailPath('opus-4-7');
-    const firstAioisPath = builtModelDetailPath('opus-4-8');
-    const fablePath = builtModelDetailPath('fable-5');
-    const gptPath = builtModelDetailPath('gpt-5.6-sol');
-    const latestPath = builtModelDetailPath('opus-5');
+    const legacyPath = builtModelDetailPath('opus-4-7@2026-04-25');
+    const firstAioisPath = builtModelDetailPath('opus-4-8@2026-05-30');
+    const fablePath = builtModelDetailPath('fable-5@2026-06-13');
+    const gptPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
+    const latestPath = builtModelDetailPath('opus-5@2026-07-26');
     if (!legacyPath || !firstAioisPath || !fablePath || !gptPath || !latestPath) return;
 
     const legacy = visibleHtml(readFileSync(legacyPath, 'utf-8'));
@@ -171,7 +171,7 @@ describe('/models built page contract', () => {
   });
 
   test('emits scoped model detail heading typography that beats the canonical serif heading rule', () => {
-    const detailPath = builtModelDetailPath('gpt-5.6-sol');
+    const detailPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
 

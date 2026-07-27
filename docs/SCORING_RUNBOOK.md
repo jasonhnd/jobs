@@ -15,6 +15,28 @@
 
 現行 batch は 556 件すべてに `aiois.d1` から `aiois.d10`, `aiois.transformation`, `aiois.displacement` を持つ。今後 AIOIS-10 batch を追加する場合も、この構造を欠かしてはならない。
 
+## 同じモデルで再採点する（issue #218）
+
+**モデル id は何度でも使ってよい。一意でなければならないのは `(model, run_date)` の組み合わせである。**
+
+`data/scores/` は append-only なので、修正 run でも後日の再採点でも、同じモデルが 2 つ以上の batch を持ちうる。公開ページはその前提で **run 単位**に URL を持つ:
+
+| | 例 |
+|---|---|
+| run slug | `opus-5@2026-07-26` |
+| ページ URL | `/models/opus-5@2026-07-26` |
+| 生成元 | `runSlug()` — `src/site/score-attribution.ts` |
+
+`model@date` の形は `src/site/model-editorial.ts` が編集文の key に使っているものと同じで、再 run が別 run の文章を引き継がないようにする意図も共通である。
+
+再採点するときの決まりごと:
+
+- **`run_date` を必ず変える。** 同じモデル id と同じ run date の batch を 2 つ置くと、`/models/<slug>` が衝突するため build が停止する。エラーはその条件をそのまま述べる。
+- **既存 URL は変わらない。** batch を足しても、すでにある run のページ URL は動かない。増えるだけである。
+- **裸の `/models/<model-slug>` は 308 リダイレクトとして残る。** 行き先はそのモデルの**最新 run**。`vercel.json` に置き、`bun scripts/check-model-redirects.ts`（`verify:gates` に組み込み済み）が `data/scores/` から期待値を導出して照合する。新しい batch を足したのにリダイレクトを更新し忘れると、この gate が stale として落ちる。
+
+> #218 以前は `models-by-model` がモデル単位で slug の round-trip を検証していたため、同じモデルの 2 回目の run で build が `model slug round-trip failed` として停止していた。slug 生成は正常で、実際の原因は「1 モデルに 2 run」だったが、メッセージはそれを一切述べていなかった。
+
 ## Deployment boundary
 
 Issue #9 の Fable 5 校正作業は、 production と pre を動かさないことを前提に進める。

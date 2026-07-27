@@ -98,7 +98,7 @@ describe('models feature view model', () => {
     assert.equal(page.modelCount, 2);
     assert.equal(page.currentModel.model, 'claude-fable-5');
     assert.equal(page.currentModel.modelDisplay, 'Claude Fable 5');
-    assert.equal(page.currentModel.href, '/models/fable-5');
+    assert.equal(page.currentModel.href, '/models/fable-5@2026-06-13');
     assert.equal(page.latestPair.baseline.modelDisplay, 'Claude Opus 4.8');
     assert.equal(page.latestPair.candidate.modelDisplay, 'Claude Fable 5');
     assert.equal(page.dateRangeText, '2026-05-30 から 2026-06-13');
@@ -194,12 +194,12 @@ describe('models feature view model', () => {
     assert.deepEqual(
       page.modelRoster.map((card) => [card.model, card.href]),
       [
-        ['claude-opus-4-8', '/models/opus-4-8'],
-        ['claude-fable-5', '/models/fable-5'],
-        ['gpt-5.6-sol', '/models/gpt-5.6-sol'],
+        ['claude-opus-4-8', '/models/opus-4-8@2026-05-30'],
+        ['claude-fable-5', '/models/fable-5@2026-06-13'],
+        ['gpt-5.6-sol', '/models/gpt-5.6-sol@2026-07-20'],
       ],
     );
-    assert.equal(page.currentModel.href, '/models/gpt-5.6-sol');
+    assert.equal(page.currentModel.href, '/models/gpt-5.6-sol@2026-07-20');
   });
 
   test('derives the current four model page links from model ids', () => {
@@ -245,10 +245,10 @@ describe('models feature view model', () => {
     assert.deepEqual(
       page.modelRoster.map((card) => [card.modelDisplay, card.href]),
       [
-        ['Claude Opus 4.7', '/models/opus-4-7'],
-        ['Claude Opus 4.8', '/models/opus-4-8'],
-        ['Claude Fable 5', '/models/fable-5'],
-        ['GPT 5.6 SOL', '/models/gpt-5.6-sol'],
+        ['Claude Opus 4.7', '/models/opus-4-7@2026-04-25'],
+        ['Claude Opus 4.8', '/models/opus-4-8@2026-05-30'],
+        ['Claude Fable 5', '/models/fable-5@2026-06-13'],
+        ['GPT 5.6 SOL', '/models/gpt-5.6-sol@2026-07-12'],
       ],
     );
     assert.deepEqual(page.modelRoster.map((card) => card.covered_count), [552, 556, 556, 556]);
