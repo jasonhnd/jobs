@@ -5,6 +5,7 @@ import { buildIndexes, type Indexes } from '../lib/indexes.js';
 import {
   buildModelsDeepPayload,
   modelsDeepPayloadBytes,
+  reportOrphanedCuration,
   resolveStoryIdsForTest,
   selectAutomaticStoryIdsForTest,
   selectConsensusRowsForTest,
@@ -12,6 +13,7 @@ import {
   selectPersonalitySentenceIdForTest,
   selectStoryIdsForTest,
 } from './models-deep.js';
+import { DEFAULT_MODEL_STORY_EDITORIAL_ID } from '../../site/model-editorial.js';
 import type { DriftRow } from '../../graph/aiois-drift.js';
 
 let indexesPromise: Promise<Indexes> | null = null;
@@ -159,5 +161,97 @@ describe('models-deep projection', () => {
     assert.ok(payload.stories.every((story) => story.baseline_rationale_ja.length > 0));
     assert.ok(payload.stories.every((story) => story.candidate_rationale_ja.length > 0));
     assert.ok(modelsDeepPayloadBytes(payload) <= 30 * 1024);
+  });
+});
+
+// Issue #219: curated /models copy is scoped to an exact batch pair on purpose
+// (#162), and the generic fallback is load-bearing. The defect was that the
+// handover is silent — every reviewed sentence goes dark the day a batch lands
+// and nothing says so.
+describe('orphaned curation reporting', () => {
+  const pairOf = (baseModel: string, baseDate: string, candModel: string, candDate: string) => ({
+    baseline: { model: baseModel, modelDisplay: baseModel, date: baseDate },
+    candidate: { model: candModel, modelDisplay: candModel, date: candDate },
+    compared_count: 100,
+  });
+
+  const payloadWith = (
+    latest: ReturnType<typeof pairOf>,
+    storyIds: number[],
+    personalityIds: string[],
+  ) => ({
+    generated_at: '2026-01-01T00:00:00.000Z',
+    latest_pair: latest,
+    model_cards: personalityIds.map((id, i) => ({
+      model: `m${i}`, modelDisplay: `M${i}`, date: '2026-01-01',
+      covered_count: 1, personality_sentence_id: id,
+    })),
+    consensus: [],
+    stories: storyIds.map((id) => ({
+      id, title_ja: `t${id}`, href: `/${id}`,
+      baseline_transformation: 1, candidate_transformation: 2,
+      baseline_rationale_ja: 'a', candidate_rationale_ja: 'b',
+      editorial_sentence_id: 'x',
+    })),
+  }) as unknown as Parameters<typeof reportOrphanedCuration>[0];
+
+  test('flags every sentence scoped to a superseded pair', () => {
+    // The committed overrides are all keyed to opus-4-8 → fable-5.
+    const report = reportOrphanedCuration(
+      payloadWith(pairOf('gpt-5.6-sol', '2026-07-12', 'claude-opus-5', '2026-07-26'), [], []),
+      [],
+    );
+    assert.equal(report.activeEditorialCount, 0);
+    assert.ok(report.editorialKeys.length > 0);
+    assert.ok(report.editorialKeys.every((key) => key.includes('claude-opus-4-8@2026-05-30')));
+    // The generic fallback lives in the same map and is never an orphan.
+    assert.equal(report.editorialKeys.includes(DEFAULT_MODEL_STORY_EDITORIAL_ID), false);
+  });
+
+  test('reports nothing for the pair the copy was written for', () => {
+    const report = reportOrphanedCuration(
+      payloadWith(pairOf('claude-opus-4-8', '2026-05-30', 'claude-fable-5', '2026-06-13'), [], []),
+      [],
+    );
+    assert.deepEqual(report.editorialKeys, []);
+    assert.ok(report.activeEditorialCount > 0);
+  });
+
+  test('only model-specific personality keys can be orphans', () => {
+    const report = reportOrphanedCuration(
+      payloadWith(
+        pairOf('a', '2026-01-01', 'b', '2026-02-01'),
+        [],
+        ['claude_opus_4_7_neutral', 'claude_opus_4_8_d9_positive_strong', 'default_d7_negative_strong'],
+      ),
+      [],
+    );
+    // `default_*` is a lookup table — most entries are unused by design, and
+    // listing all ~40 would train everyone to ignore the warning.
+    assert.equal(report.personalityKeys.some((key) => key.startsWith('default_')), false);
+    assert.ok(report.personalityKeys.includes('claude_fable_5_d9_negative_strong'));
+    // Keys that ARE selected are not orphans.
+    assert.equal(report.personalityKeys.includes('claude_opus_4_7_neutral'), false);
+  });
+
+  test('flags pins that displace the current pair biggest movers', () => {
+    // Pinned ids shown, but the automatic shortlist wanted different ones.
+    const report = reportOrphanedCuration(
+      payloadWith(pairOf('a', '2026-01-01', 'b', '2026-02-01'), [239, 398, 74, 455, 357], []),
+      [111, 114, 29, 106, 170, 338, 576, 74],
+    );
+    // All five are shown; none is in the automatic top 5. 74 ranks 8th, which
+    // is still outside the shortlist, so it counts too.
+    assert.deepEqual(report.stalePins, [74, 239, 357, 398, 455]);
+    assert.deepEqual(report.displacedIds, [111, 114, 29, 106, 170]);
+  });
+
+  test('no pin warning when the pins are the biggest movers', () => {
+    const report = reportOrphanedCuration(
+      payloadWith(pairOf('a', '2026-01-01', 'b', '2026-02-01'), [239, 398, 74, 455, 357], []),
+      [239, 398, 74, 455, 357, 111],
+    );
+    assert.deepEqual(report.stalePins, []);
+    assert.deepEqual(report.displacedIds, []);
   });
 });

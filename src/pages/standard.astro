@@ -10,11 +10,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS, heatBg, radarPoints, radarAxis, type DimDir } from '@/lib/canonical/doc';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import { CONTENT_DATE } from '@/lib/_content-date';
 
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
 // every new UTC day. See ai-adoption.ts for the data-derived equivalent.
-const pageLastUpdated = '2026-06-22';
+// dateModified must track the data, not a calendar date typed once: this page
+// renders score-derived content, so it changes when a batch lands. The frozen
+// value also contradicted sitemapLastmods(), which reports the latest score
+// date for the same URL — two different answers for one page. Issue #219.
+const pageLastUpdated = CONTENT_DATE;
 
 interface Dim {
   id: string; ja: string; en: string; dir: DimDir; stageNum: string; stageName: string; body: string;

@@ -405,7 +405,7 @@ events:
       page). The gap between map_cell_tap and map_detail_click counts is the
       "preview-only" funnel — users who looked but didn't go deeper.
     params:
-      - { name: job_id, type: int, desc: "occupation id (1..556)" }
+      - { name: job_id, type: int, desc: "occupation id; see data/occupations/. Sparse 1..584 — NOT contiguous and NOT the occupation count (556). A 1..556 filter silently drops ids 557-584." }
       - { name: sector, type: string, desc: "occupation's sector_id" }
       - { name: rank, type: int, desc: "global ranking by ai_risk desc (1..556), 0 if outside Top 50" }
     conversion: false
@@ -416,7 +416,7 @@ events:
       → detail conversion event; pair with map_open as denominator for funnel
       conversion rate.
     params:
-      - { name: job_id, type: int, desc: "occupation id (1..556)" }
+      - { name: job_id, type: int, desc: "occupation id; see data/occupations/. Sparse 1..584 — NOT contiguous and NOT the occupation count (556). A 1..556 filter silently drops ids 557-584." }
     conversion: true   # /map → detail jump is the page's primary funnel goal
 
 # ----------------------------------------------------------------------
@@ -429,7 +429,7 @@ events:
 event_scoped_dimensions:
   - parameter_name: occupation_id
     display_name: Occupation ID
-    description: Numeric ID matching jobtag (1..580).
+    description: Numeric ID matching jobtag. Sparse 1..584 — not contiguous, and not the occupation count (556).
 
   - parameter_name: occupation_name_ja
     display_name: Occupation JA
@@ -570,7 +570,7 @@ event_scoped_dimensions:
 
   - parameter_name: job_id
     display_name: Job ID
-    description: "Numeric occupation id (1..580) used by map_cell_tap and map_detail_click; same id space as the existing occupation_id dimension."
+    description: "Numeric occupation id used by map_cell_tap and map_detail_click; same id space as the existing occupation_id dimension. Sparse 1..584 — not contiguous, and not the occupation count (556)."
 
 # ----------------------------------------------------------------------
 # Custom Dimensions — user-scoped (persist across sessions)
