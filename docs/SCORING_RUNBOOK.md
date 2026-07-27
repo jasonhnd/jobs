@@ -4,11 +4,16 @@
 
 ## 現行 batch
 
+> この 3 行は `data/scores/` から導出される事実であり、`bun scripts/check-geo-freshness.ts`
+> が実データと突き合わせて検証する。batch を追加したら必ずここも更新すること
+> —— 更新し忘れると gate が落ちる。手で書き換えたまま腐らせることはできない。
+
+- モデル: `claude-opus-5`
+- run date: `2026-07-26`
+- Score output: `data/scores/occupations_claude-opus-5_2026-07-26.json`
+
 - 標準: AIOIS-10 v1.0
-- モデル: `claude-opus-4-8`
-- run date: `2026-05-30`
 - 対象: JILPT IPD v7.00 の 556 職業
-- Score output: `data/scores/occupations_claude-opus-4-8_2026-05-30.json`
 - Schema: `src/data/schema/score-run.ts`
 - トップ指標: `ai_risk` は AIOIS-10 の `aiois.transformation` と同じ値
 - 公開表示箇所: `/methodology`, `/standard`, `/data`, 職業詳細ページ, JSON-LD, footer
