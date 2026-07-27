@@ -192,6 +192,33 @@ function assertFreshGeoAstroPages(): void {
   }
 }
 
+/**
+ * The runbook's "現行 batch" section names the active model, run date, and
+ * score file. It had gone two generations stale (claude-opus-4-8 / 2026-05-30)
+ * with nothing to notice, because it is prose nobody generates. Pin it to the
+ * data so forgetting to update it after landing a batch fails the gate rather
+ * than quietly misinforming the next operator. Issue #219 follow-up.
+ */
+function assertRunbookCurrentBatch(activeRun: ScoreRun): void {
+  const rel = 'docs/SCORING_RUNBOOK.md';
+  const text = readText(rel);
+  const model = activeRun.scorer.model;
+  const runDate = activeRun.run.run_date;
+  const expected = [
+    `- モデル: \`${model}\``,
+    `- run date: \`${runDate}\``,
+    `- Score output: \`data/scores/occupations_${model}_${runDate}.json\``,
+  ];
+  for (const line of expected) {
+    if (!text.includes(line)) {
+      fail(
+        `${rel} "現行 batch" is out of date: expected the line ${JSON.stringify(line)}. ` +
+        `The active batch under data/scores/ is ${model} @ ${runDate}.`,
+      );
+    }
+  }
+}
+
 function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
   const source = readText('src/index-source.html');
   const rendered = bindHomeFacts(source, facts);
@@ -236,6 +263,13 @@ function assertContainsText(rel: string, expected: string, label: string): void 
   const text = readText(rel);
   if (!text.includes(expected)) {
     fail(`${rel} is missing ${label}`);
+  }
+}
+
+/** Inverse of assertContainsText, for copy that must NOT survive a batch change. */
+function assertOmitsText(rel: string, forbidden: string, why: string): void {
+  if (readText(rel).includes(forbidden)) {
+    fail(`${rel} still carries copy it should have dropped — ${why}`);
   }
 }
 
@@ -404,10 +438,20 @@ async function main(): Promise<void> {
   assertDocumentedDetailProjectionExamples();
   assertFreshGeoAstroPages();
   assertHomeAndReadmeConsistency(facts);
+  assertRunbookCurrentBatch(activeRun);
   assertCrossModelValidationArchive();
+  // The D2-B note is a claim about the Fable 5 batch specifically. Assert both
+  // directions: present when that batch is canonical, ABSENT otherwise. The
+  // one-sided version had been unreachable since the GPT batch landed, so the
+  // condition that actually matters now — a stale validation claim leaking into
+  // another model's output — was unchecked. Issue #219 follow-up.
   if (hasCrossModelValidationNote(facts.attribution)) {
     assertContainsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
     assertContainsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
+  } else {
+    const why = `the D2-B note describes the Claude Fable 5 batch, but the active batch is ${facts.attribution.modelDisplay} (${facts.attribution.runDate})`;
+    assertOmitsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, why);
+    assertOmitsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, why);
   }
   assertContainsText('src/pages/methodology.astro', 'r=0.92〜0.97', 'D2-B cross-model validation correlation copy');
   assertContainsText('src/pages/methodology.astro', '38/40 職業', 'D2-B cross-model validation agreement copy');
