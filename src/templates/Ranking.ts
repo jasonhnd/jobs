@@ -14,6 +14,7 @@
  * dictionary kept in sync via doc reference).
  */
 import type { Occupation } from '../views/ranking.js';
+import type { DemandBand } from '../data/lib/bands.js';
 import type { RankingSlug } from '../views/rankings-meta.js';
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass as riskBand } from '../lib/risk.js';
@@ -34,10 +35,18 @@ function safeMean(items: Occupation[], key: keyof Occupation): number {
   return vals.reduce((s, v) => s + v, 0) / vals.length;
 }
 
-// Local mirror of DEMAND_JA from views/rankings.ts (templates cannot import
-// view-layer values). Kept tiny + audited — drift detector in
-// src/templates/Ranking.test.ts checks the two stay in sync.
-const DEMAND_JA: Record<string, string> = {
+// Local mirror of the view layer's demand table (templates cannot import
+// view-layer values, and a cross-layer test would violate the same rule).
+// The wording differs on purpose — this one appears in inline prose, the
+// view's in a table pill — so what must stay in sync is the KEY SET.
+//
+// `Record<DemandBand, string>` is what enforces that: a retired key and a
+// missing one are both compile errors, in this table and in the view's.
+// The previous comment here claimed a drift detector lived in
+// Ranking.test.ts; no such test was ever written, which is how the view-side
+// table kept `warm` / `cool` and lost `normal` unnoticed (issue #216).
+// DemandBand is a type-only import, which the architecture gate permits.
+const DEMAND_JA: Record<DemandBand, string> = {
   hot: '高需要',
   normal: '通常',
   cold: '低需要',
@@ -130,7 +139,7 @@ export function renderHighlights(items: Occupation[], slug: RankingSlug): SafeHt
   } else if (slug === 'short-hours') {
     hl.push(`1位は「${name}」（月間 ${Math.trunc(top.monthly_hours ?? 0)}時間）`);
   } else if (slug === 'high-demand') {
-    hl.push(`1位は「${name}」（求人需要：${DEMAND_JA[top.demand_band ?? ''] ?? ''}）`);
+    hl.push(`1位は「${name}」（求人需要：${top.demand_band ? DEMAND_JA[top.demand_band] : ''}）`);
   } else {
     hl.push(`1位は「${name}」`);
   }

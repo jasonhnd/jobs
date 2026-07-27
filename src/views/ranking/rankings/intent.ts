@@ -9,7 +9,7 @@
  *   regulated-protected / low-stress-stable.
  */
 
-import { TOP_N, DEMAND_SCORE, DEMAND_JA, type Occupation, type RankingResult } from '../config.js';
+import { TOP_N, HIGH_DEMAND_MIN, demandScore, demandLabel, type Occupation, type RankingResult } from '../config.js';
 import {
   safeMean,
   inSectorSet,
@@ -36,8 +36,8 @@ export function buildIntentRankings(
 ): IntentRankings {
   // 21. 高需要 × AI 安全
   const aiSafeHighDemand = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && (DEMAND_SCORE[o.demand_band ?? ''] ?? 0) >= 3)
-    .sort((a, b) => (DEMAND_SCORE[b.demand_band ?? ''] ?? 0) - (DEMAND_SCORE[a.demand_band ?? ''] ?? 0) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
+    .filter((o) => (o.ai_risk ?? 999) <= 5 && demandScore(o.demand_band) >= HIGH_DEMAND_MIN)
+    .sort((a, b) => demandScore(b.demand_band) - demandScore(a.demand_band) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 
   // 22. 低労働時間 × AI 安全
@@ -88,9 +88,8 @@ export function buildIntentRankings(
       items: aiSafeHighDemand,
       showSalary: true,
       extraColFn: (o) => {
-        const db = o.demand_band ?? '';
-        const label = DEMAND_JA[db];
-        return label ? [{ kind: 'demand-pill' as const, band: db, label }] : [];
+        const label = demandLabel(o.demand_band);
+        return label ? [{ kind: 'demand-pill' as const, band: o.demand_band ?? '', label }] : [];
       },
       faqItems: FAQS['ai-safe-high-demand'],
       title: '高需要 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
