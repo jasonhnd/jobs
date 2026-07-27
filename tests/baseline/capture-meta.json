@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-27T00:01:40.878Z",
-  "gitCommit": "aebcc4c9b9f1e120ec7eaeb14a935b1fdfd06a17",
-  "gitBranch": "fix/issue-216-wrong-public-values",
+  "capturedAt": "2026-07-27T00:19:30.299Z",
+  "gitCommit": "793a8765e002ae8cb207e1f540b54d8dfa257fd1",
+  "gitBranch": "fix/issue-218-per-run-model-slugs",
   "distFileCount": 834,
   "urlCount": 834,
   "dataFileCount": 612,

@@ -5,9 +5,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { ModelsByModelProjectionSchema, type ModelsByModelProjectionShape } from '@/lib/projection-schemas';
 import { siteConfig } from '@/site/config';
-import { formatModelDisplay, modelIdFromSlug } from '@/site/score-attribution';
+import { formatModelDisplay, runFromSlug } from '@/site/score-attribution';
 import { formatEvaluationStandard, formatJapaneseDate, formatProviderDisplay } from '@/views/models';
-import { loadModelBatchMetas, type ModelBatchMeta } from './_model-route-data';
+import { knownRuns, loadModelBatchMetas, type ModelBatchMeta } from './_model-route-data';
 
 type ModelPageRecord = ModelsByModelProjectionShape['models'][string];
 
@@ -18,10 +18,14 @@ interface Props {
 
 export async function getStaticPaths() {
   const metas = await loadModelBatchMetas();
-  const knownModelIds = metas.map((meta) => meta.model);
+  const runs = knownRuns(metas);
   for (const meta of metas) {
-    if (modelIdFromSlug(meta.slug, knownModelIds) !== meta.model) {
-      throw new Error(`/models/${meta.slug} slug round-trip failed for ${meta.model}`);
+    const resolved = runFromSlug(meta.slug, runs);
+    if (resolved?.model !== meta.model || resolved.runDate !== meta.date) {
+      throw new Error(
+        `/models/${meta.slug} does not round-trip to ${meta.model} @ ${meta.date}. ` +
+        'Two batches sharing a model id and run date would collide here.',
+      );
     }
   }
   return metas.map((batchMeta) => ({
@@ -33,11 +37,15 @@ export async function getStaticPaths() {
 const { modelId, batchMeta } = Astro.props as Props;
 const requestedSlug = Astro.params.model ?? '';
 const batchMetas = await loadModelBatchMetas();
-const knownModelIds = batchMetas.map((meta) => meta.model);
-const resolvedModelId = modelIdFromSlug(requestedSlug, knownModelIds);
-if (resolvedModelId === null || resolvedModelId !== modelId || batchMeta.model !== modelId) {
+const resolvedRun = runFromSlug(requestedSlug, knownRuns(batchMetas));
+if (
+  resolvedRun === null ||
+  resolvedRun.model !== modelId ||
+  resolvedRun.runDate !== batchMeta.date ||
+  batchMeta.model !== modelId
+) {
   Astro.response.status = 404;
-  throw new Error(`/models/${requestedSlug} is not a known model page`);
+  throw new Error(`/models/${requestedSlug} is not a known scoring run`);
 }
 
 const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_by_model.json'), 'utf-8');
@@ -52,12 +60,16 @@ const modelDisplay = formatModelDisplay(page.model);
 const providerDisplay = formatProviderDisplay(page.provider);
 const scoringDate = formatJapaneseDate(page.date);
 const standardDisplay = formatEvaluationStandard(page.prompt_version);
-const prevModelDisplay = page.nav.prev
-  ? formatModelDisplay(modelIdFromSlug(page.nav.prev.slug, knownModelIds) ?? page.nav.prev.modelDisplay)
-  : null;
-const nextModelDisplay = page.nav.next
-  ? formatModelDisplay(modelIdFromSlug(page.nav.next.slug, knownModelIds) ?? page.nav.next.modelDisplay)
-  : null;
+// nav targets are run slugs, so resolve them as runs. The stored display name
+// is the fallback when a neighbouring batch is not in the known set.
+const navRuns = knownRuns(batchMetas);
+const navDisplay = (target: { slug: string; modelDisplay: string } | null): string | null => {
+  if (target === null) return null;
+  const run = runFromSlug(target.slug, navRuns);
+  return run ? formatModelDisplay(run.model) : target.modelDisplay;
+};
+const prevModelDisplay = navDisplay(page.nav.prev);
+const nextModelDisplay = navDisplay(page.nav.next);
 const isBaseline = 'baseline' in page.drift;
 const isLegacyBatch = isBaseline && page.drift.note_id === 'legacy_batch';
 
