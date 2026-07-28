@@ -84,6 +84,15 @@ const CF_BEACON_TOKEN = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
 const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
+// When the Edge middleware is configured to send page_view server-side, the
+// client must NOT also send one — otherwise every view is counted twice, which
+// is what produced 29,439 duplicate page_view events in the 28 days to
+// 2026-07-26. Read at build time from the server-only secret so the client can
+// only stand down when the server side is actually able to take over.
+// Requires the measurement id too: the flag is read by the gtag bootstrap, and
+// that whole block is skipped when the id is unset, so emitting the marker
+// alone would be dead markup.
+const GA4_SERVER_PAGE_VIEW = Boolean(GA4_MEASUREMENT_ID && process.env.GA4_MP_API_SECRET);
 ---
 <!doctype html>
 <html lang={siteConfig.htmlLang}>
@@ -166,6 +175,7 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
     {X_PIXEL_ID && <meta name="x-pixel-id" content={X_PIXEL_ID} />}
     {META_PIXEL_ID && <meta name="meta-pixel-id" content={META_PIXEL_ID} />}
     {GOOGLE_ADS_ID && <meta name="google-ads-id" content={GOOGLE_ADS_ID} />}
+    {GA4_SERVER_PAGE_VIEW && <meta name="ga4-server-page-view" content="1" />}
 
     <!-- Google tag (gtag.js) bootstrap — STATIC script body (no `define:vars`,
          no template interpolation). Reads its config from the
@@ -201,7 +211,15 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
             security_storage: 'granted'
           });
           window.gtag('js', new Date());
-          window.gtag('config', id);
+          // The <meta> is emitted only when GA4_MP_API_SECRET is set at build
+          // time, i.e. only when middleware.ts can actually deliver the
+          // server-side page_view. If it is absent the client keeps sending its
+          // own, so a missing secret degrades to the old behaviour instead of
+          // losing page_view entirely. Read from <meta> (not interpolated) to
+          // keep this script body byte-identical across every page — one CSP
+          // hash covers the site.
+          var srvPvMeta = document.querySelector('meta[name="ga4-server-page-view"]');
+          window.gtag('config', id, srvPvMeta ? { send_page_view: false } : {});
           // Google Ads shares the one gtag.js library — config('AW-…')
           // queues into dataLayer alongside GA4, and the single library
           // load below initialises both. ID read from <meta> so this
