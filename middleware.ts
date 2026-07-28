@@ -45,6 +45,7 @@
 import { next, rewrite, type RequestContext } from '@vercel/edge';
 import {
   deriveClientId,
+  deriveSessionId,
   shouldSendMpHit,
   buildMpPayload,
   classifyGeoReferral,
@@ -104,7 +105,6 @@ export default function middleware(request: Request, context: RequestContext): R
   const mid = measurementId as string;
   const secret = apiSecret as string;
 
-  const clientId = deriveClientId(cookieHeader);
   const referer = request.headers.get('referer') ?? '';
   // 2026-05-17 H15 hardening: use the shared XFF-spoof-safe helper
   // (x-real-ip > x-vercel-forwarded-for > XFF last-hop) instead of
@@ -114,6 +114,15 @@ export default function middleware(request: Request, context: RequestContext): R
   // to feed it the infrastructure-trusted value.
   const resolvedClientIp = clientIpFromRequest(request);
   const clientIp = resolvedClientIp === 'anonymous' ? '' : resolvedClientIp;
+
+  // The fingerprint feeds the no-cookie fallback only; when `_ga` exists it is
+  // ignored and the client-side id wins, so server and client hits stay one user.
+  const clientId = deriveClientId(cookieHeader, {
+    ip: resolvedClientIp,
+    userAgent: ua,
+    acceptLanguage: request.headers.get('accept-language') ?? '',
+  });
+  const sessionId = deriveSessionId(cookieHeader, mid, clientId);
 
   // 2026-05-17 H17 hardening: GA4 Measurement Protocol REQUIRES
   // measurement_id + api_secret as query string params per Google's
@@ -131,6 +140,7 @@ export default function middleware(request: Request, context: RequestContext): R
 
   const payload = buildMpPayload({
     clientId,
+    sessionId,
     pageLocation: url.href,
     pageReferrer: referer,
     clientIp,
