@@ -201,7 +201,11 @@ events:
 
   # `search_used` — REMOVED 2026-05-02. Was deprecated, never emitted; replaced
   # entirely by `job_search_submit` (which logs the query text). Removing from
-  # spec so check_spec_vs_code.mjs doesn't flag it as a missing emit.
+  # spec so scripts/check-analytics-spec.ts doesn't flag it as registered-but-
+  # never-sent. (This comment named `check_spec_vs_code.mjs` until 2026-07-28.
+  # That script was deleted in PR 37 as legacy migration tooling — see CHANGELOG
+  # "Legacy migration tooling" — leaving this file with no verification at all
+  # until issue #231, by which point 8 events and 6 params had drifted.)
 
   # P0-A (2026-05-06): `job_search_submit` was renamed to `job_search_typed` and
   # demoted from a Key Event. Reason: it fired on every typing-pause and conflated
@@ -273,6 +277,34 @@ events:
       - { name: language, type: string }
       - { name: source, type: string, desc: "search_submit | suggest_click | suggest_keyboard" }
     conversion: true   # primary search → occupation funnel
+
+  # `?q=` deep links (added to spec 2026-07-28, issue #231 — the emits predate
+  # the registration). A visitor arriving with a search term in the URL is
+  # resolved against data.search.json: an exact title match navigates straight
+  # through, anything else pre-fills the hero inputs and stays on the map.
+  # Splitting the two tells us how many deep links actually land where the
+  # visitor wanted, which a single event would hide.
+  - name: search_action_redirect
+    description: |
+      A `?q=` deep link matched an occupation title exactly and redirected
+      straight to its page. Uses `location.replace`, so the back button skips
+      this hop — the visitor never sees the map.
+    params:
+      - { name: query, type: string, desc: "Raw ?q= value, truncated to 100 chars" }
+      - { name: occupation_id, type: int }
+      - { name: language, type: string }
+    conversion: true   # deep link → occupation page, same funnel as job_search_navigate
+
+  - name: search_action_landed
+    description: |
+      A `?q=` deep link did NOT match exactly, so the visitor landed on the map
+      with all three hero inputs pre-filled. `match_count` is how many partial
+      matches were offered; 0 means the term found nothing at all.
+    params:
+      - { name: query, type: string, desc: "Raw ?q= value, truncated to 100 chars" }
+      - { name: match_count, type: int, desc: "Partial matches offered; 0 = no result" }
+      - { name: language, type: string }
+    conversion: false   # landed on the map, not yet on an occupation
 
   # ---- Modal lifecycle — REMOVED 2026-05-02 ----
   # `occupation_modal_open`, `modal_close`, `report_cta_click` were the
@@ -418,6 +450,74 @@ events:
     params:
       - { name: job_id, type: int, desc: "occupation id; see data/occupations/. Sparse 1..584 — NOT contiguous and NOT the occupation count (556). A 1..556 filter silently drops ids 557-584." }
     conversion: true   # /map → detail jump is the page's primary funnel goal
+
+  # ---- /me page ----
+  # Added to spec 2026-07-28 (issue #231). Emitted since the page shipped;
+  # they were never registered, so the params below were unqueryable.
+  - name: me_open
+    description: |
+      /me finished loading. `from_bookmark` separates a returning visitor
+      restoring a saved position (`?id=` present) from a cold start, which is
+      the difference between repeat use and first use of the page.
+    params:
+      - { name: from_bookmark, type: int, desc: "1 = arrived with ?id=, 0 = cold start" }
+    conversion: false
+
+  - name: me_select_job
+    description: User picked an occupation on /me to position themselves against.
+    params:
+      - { name: job_id, type: int, desc: "occupation id; sparse 1..584, not the 556 count" }
+      - { name: sector, type: string, desc: "sector id of the chosen occupation" }
+    conversion: false
+
+  # ---- /shindan page ----
+  # Added to spec 2026-07-28 (issue #231). All three have been emitting since
+  # the page shipped with no dimensions registered, so the 16-type, variant and
+  # gap distributions could not be reported on at all.
+  - name: shindan_result_view
+    description: |
+      The diagnostic finished and the result was shown. This is the completion
+      signal for the /shindan funnel — compare against page_view on /shindan
+      for the drop-off rate.
+    params:
+      - { name: family_code, type: string, desc: "One of the 16 type codes" }
+      - { name: variant_id, type: string, desc: "Copy variant shown within the family" }
+      - { name: variant_bucket, type: string, desc: "Bucket the variant was drawn from" }
+    conversion: true   # completing the diagnostic is the page's goal
+
+  - name: shindan_share_click
+    description: Visitor shared their result. `platform` covers every share path.
+    params:
+      - { name: platform, type: string, desc: "copy | native | x | line" }
+      - { name: family_code, type: string }
+      - { name: variant_id, type: string }
+    conversion: true   # sharing is the only organic acquisition loop the page has
+
+  - name: shindan_gap_select_job
+    description: |
+      From the result, the visitor picked an occupation to compare against their
+      type. `gap` is the direction of the mismatch, which is what makes the
+      result actionable rather than decorative.
+    params:
+      - { name: family_code, type: string, desc: "The visitor's own type code" }
+      - { name: job_id, type: int, desc: "occupation id; sparse 1..584" }
+      - { name: job_code, type: string, desc: "Type code of the chosen occupation" }
+      - { name: gap, type: string, desc: "Kind of mismatch between the two codes" }
+    conversion: false
+
+  # ---- 404 ----
+  - name: page_not_found
+    description: |
+      A 404 rendered. Added to spec 2026-07-28 (issue #231); it has been
+      emitting since the page shipped. All three params are GA4 built-ins, so
+      no custom dimension is needed — `page_referrer` is the useful one, since
+      it identifies which internal link or external site is sending traffic to
+      a dead URL.
+    params:
+      - { name: page_location, type: string }
+      - { name: page_path, type: string }
+      - { name: page_referrer, type: string, desc: "'(direct)' when document.referrer is empty" }
+    conversion: false
 
 # ----------------------------------------------------------------------
 # Custom Dimensions — event-scoped
@@ -570,7 +670,36 @@ event_scoped_dimensions:
 
   - parameter_name: job_id
     display_name: Job ID
-    description: "Numeric occupation id used by map_cell_tap and map_detail_click; same id space as the existing occupation_id dimension. Sparse 1..584 — not contiguous, and not the occupation count (556)."
+    description: "Numeric occupation id (map_cell_tap, map_detail_click); same id space as occupation_id. Sparse 1..584 — not contiguous, not the 556 count."
+
+  # ---- /shindan + /me (registered 2026-07-28, issue #231) ----
+  # These parameters have been sent since their pages shipped, but were never
+  # declared, so none of them could be used as a report dimension. Register in
+  # the GA4 UI as well — a spec entry alone does not create the dimension.
+
+  - parameter_name: family_code
+    display_name: Shindan Type Code
+    description: "One of the 16 /shindan type codes. Sent by all three shindan_* events; the dimension that makes the type distribution reportable."
+
+  - parameter_name: variant_id
+    display_name: Shindan Copy Variant
+    description: "Which copy variant of the family was shown. Used by shindan_result_view and shindan_share_click; lets share rate be compared per variant."
+
+  - parameter_name: variant_bucket
+    display_name: Shindan Variant Bucket
+    description: "Bucket the variant was drawn from. Used by shindan_result_view."
+
+  - parameter_name: job_code
+    display_name: Shindan Occupation Type Code
+    description: "Type code of the occupation the visitor compared against, as opposed to family_code which is their own. Used by shindan_gap_select_job."
+
+  - parameter_name: gap
+    display_name: Shindan Gap Kind
+    description: "Direction of mismatch between the visitor's type and the chosen occupation's. Used by shindan_gap_select_job."
+
+  - parameter_name: from_bookmark
+    display_name: Me Opened From Bookmark
+    description: "1 when /me was opened with a saved ?id=, 0 on a cold start. Used by me_open to separate repeat from first use."
 
 # ----------------------------------------------------------------------
 # Custom Dimensions — user-scoped (persist across sessions)
