@@ -454,6 +454,27 @@ events:
   # ---- /me page ----
   # Added to spec 2026-07-28 (issue #231). Emitted since the page shipped;
   # they were never registered, so the params below were unqueryable.
+
+  # Issue #234. /me and the diagnostic sat behind the global nav — on mobile,
+  # which is 91% of sessions, behind a hamburger — and the surfaces carrying the
+  # traffic had no in-content path to them. This event measures the in-content
+  # entries added on occupation, rankings and compare pages; without it the
+  # effect cannot be separated from background variation in /me traffic.
+  #
+  # Both parameters reuse existing dimensions on purpose: the property is at
+  # 47/50 event-scoped dimensions (#240), so a new one would have consumed a
+  # third of the remaining budget for a single event.
+  - name: me_entry_click
+    description: |
+      Visitor followed an in-content entry into /me. `source` distinguishes the
+      surface; `occupation_id` is the occupation in context, and is 0 on the
+      rankings and compare surfaces, which have no single occupation.
+    params:
+      - { name: occupation_id, type: int, desc: "occupation in context; 0 on list surfaces. Sparse 1..584, not the 556 count" }
+      - { name: source, type: string, desc: "occupation | rankings | compare | sectors" }
+      - { name: language, type: string }
+    conversion: false   # entry into the funnel, not its goal — shindan_result_view is
+
   - name: me_open
     description: |
       /me finished loading. `from_bookmark` separates a returning visitor
