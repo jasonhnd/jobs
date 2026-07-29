@@ -3,10 +3,14 @@
  *
  * The result identity is family + variant + exact aggregate margins. The
  * renderer stays stateless: validated URL params select the already-computed
- * display identity, while /data.worktypes.json supplies the static family
- * rarity and optional occupation context. Any displayed gap is recomputed
- * from that projection rather than trusted from the URL. No quiz answers,
- * saved result id, backend scoring, or runtime LLM are involved.
+ * display identity, while /data.worktypes.json supplies the family assignment
+ * and optional occupation context. Any displayed gap is recomputed from that
+ * projection rather than trusted from the URL. No quiz answers, saved result
+ * id, backend scoring, or runtime LLM are involved.
+ *
+ * The card does not draw the family rarity figure — this comment claimed it did
+ * until 2026-07-29 (issue #235). Rarity appears only on the /shindan result and
+ * on /gyakuten.
  *
  * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader for
  * dependencies. See _frame.ts for the shared OG renderer convention.

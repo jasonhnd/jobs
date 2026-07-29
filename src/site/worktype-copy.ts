@@ -468,9 +468,22 @@ export const LABELS = {
   gap: '自分 x 仕事のギャップ',
 } as const;
 
+/**
+ * Issue #235. The previous wording — 「このタイプは職業データ全体の約{割合}%です。」
+ * — appears right after the visitor answers nine questions about their own
+ * preferences, so a bare percentage reads as "only X% of people are like me".
+ * It never meant that: it is the share of the 556 scored **occupations** whose
+ * AIOIS-derived profile lands in this family. There is no user distribution to
+ * report — results are never sent to a server — so that reading does not just
+ * overstate the figure, it describes data the site does not hold.
+ *
+ * The count leads because 「{n}職」 names the unit and cannot be read as a
+ * number of people, and the frame (職業データの中で) is set before any figure.
+ * Guarded by worktype-rarity.test.ts.
+ */
 export const RARITY = {
-  familyTemplate: 'このタイプは職業データ全体の約{割合}%です。',
-  pending: 'このタイプの割合は職業データから確認中です。',
+  familyTemplate: '職業データの中で、このタイプに近い働き方の職業は{件数}職（全体の約{割合}%）です。',
+  pending: 'このタイプに当てはまる職業数は職業データから確認中です。',
 } as const;
 
 export const DISCLAIMER =
