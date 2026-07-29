@@ -20,6 +20,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import IdPageScript from './_IdPageScript.astro';
 import RiskCard from './_RiskCard.astro';
+import MeEntry from '@/components/MeEntry.astro';
 import StatsGrid from './_StatsGrid.astro';
 import JobtagAnchor from './_JobtagAnchor.astro';
 import { buildIdPageBindings } from './_id-bindings';
@@ -147,6 +148,14 @@ const {
       {aioisModelDisclaimer}
       {worktype}
     />
+
+    <MeEntry source="occupation" occupationId={id}>
+      {
+        rankInUniverse !== null
+          ? `AI 影響度では ${rankUniverseTotal} 職中 第${rankInUniverse}位。給与・需要・働き方では、どのあたりでしょう。`
+          : '給与・需要・働き方では、この仕事はどのあたりでしょう。'
+      }
+    </MeEntry>
 
     <Fragment set:html={scoreHistoryHtml} />
 
