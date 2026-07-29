@@ -49,7 +49,10 @@ import { join, relative } from 'node:path';
 // reached 187 of an allowed 150 characters (added by #219, caught by #231).
 // Running it here puts the same contract in CI. The module has no imports of
 // its own, so pulling it in from scripts/ costs nothing.
-import { validateCustomDimensionSpec } from '../analytics/ga4-spec-validation.mjs';
+import {
+  validateCustomDimensionSpec,
+  CUSTOM_DIMENSION_LIMITS,
+} from '../analytics/ga4-spec-validation.mjs';
 
 const ROOT = join(import.meta.dir, '..');
 const SPEC = join(ROOT, 'analytics', 'spec.yaml');
@@ -448,6 +451,25 @@ function main(): void {
     );
   }
 
+  // Per-property caps. GA4 refuses creation at the cap and archiving is the only
+  // way back, so a spec that outgrows it fails at sync time — halfway through,
+  // having already created whatever came earlier in the list. Issue #240.
+  const caps: ReadonlyArray<readonly [string, number, number]> = [
+    ['event', eventDims.length, CUSTOM_DIMENSION_LIMITS.perProperty.event],
+    ['user', userDims.length, CUSTOM_DIMENSION_LIMITS.perProperty.user],
+  ];
+  for (const [scope, count, cap] of caps) {
+    if (count > cap) {
+      fail(
+        `analytics/spec.yaml declares ${count} ${scope}-scoped dimensions, over ` +
+          `the GA4 property cap of ${cap}. setup-ga4.mjs would fail partway ` +
+          `through. Archive dimensions belonging to retired features before ` +
+          `adding more — see issue #240 for how the last nine were identified.`,
+      );
+    }
+  }
+  const eventHeadroom = CUSTOM_DIMENSION_LIMITS.perProperty.event - eventDims.length;
+
   const registeredEvents = new Set(
     specSection(lines, 'events:')
       .filter((l) => /^\s{2}- name:/.test(l))
@@ -546,6 +568,20 @@ function main(): void {
     `[check-analytics-spec] OK — ${firedBy.size} events / ` +
       `${paramOwners.size} params match analytics/spec.yaml ` +
       `(${DYNAMIC_EMIT_SITES.length} dynamic emit sites declared).`,
+  );
+  // Printed every run so the approach to the cap is visible before it is hit,
+  // rather than surfacing as a half-completed sync (#240).
+  console.log(
+    `[check-analytics-spec] GA4 event-dimension headroom: ${eventHeadroom} ` +
+      `(${eventDims.length}/${CUSTOM_DIMENSION_LIMITS.perProperty.event} declared in spec).`,
+  );
+  // Stated rather than left to assumption: this gate compares code to spec.
+  // Whether the GA4 property actually has these dimensions needs Admin API
+  // credentials that CI does not hold, and that gap is real — five dimensions
+  // sat in spec unsynced until #231 ran setup-ga4.mjs and created them.
+  console.log(
+    `[check-analytics-spec] Not checked here: whether the GA4 property matches ` +
+      `this spec. Run \`analytics/setup-ga4.mjs\` after changing dimensions.`,
   );
 }
 
