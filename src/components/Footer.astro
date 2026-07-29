@@ -307,16 +307,30 @@ const { iso, display } = formatJst(buildTime);
       while (t && t !== document.body) {
         if (t.tagName === 'A' && t.dataset && t.dataset.trackEvent) {
           var name = t.dataset.trackEvent;
+          var params = null;
           if (name === 'jobtag_outbound_click') {
-            var occId = Number(t.getAttribute('data-jobtag-id')) || 0;
-            var aiRisk = Number(t.getAttribute('data-ai-risk')) || 0;
+            params = {
+              occupation_id: Number(t.getAttribute('data-jobtag-id')) || 0,
+              ai_risk_score: Number(t.getAttribute('data-ai-risk')) || 0,
+              language: 'ja'
+            };
+          } else if (name === 'me_entry_click') {
+            // Entry into /me from occupation / rankings / compare pages (#234).
+            // occupation_id is 0 on the list surfaces, which have no single
+            // occupation in context — `source` is what separates them.
+            params = {
+              occupation_id: Number(t.getAttribute('data-occupation-id')) || 0,
+              source: t.getAttribute('data-entry-source') || '',
+              language: 'ja'
+            };
+          }
+          // An unknown data-track-event sends nothing rather than guessing a
+          // shape. scripts/check-analytics-spec.ts covers the spec side; this
+          // branch keeps an unregistered name from reaching GA4 at all.
+          if (params) {
             try {
               if (typeof window.gtag === 'function') {
-                window.gtag('event', name, {
-                  occupation_id: occId,
-                  ai_risk_score: aiRisk,
-                  language: 'ja'
-                });
+                window.gtag('event', name, params);
               }
             } catch (err) { /* never block navigation */ }
           }

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import MeEntry from '@/components/MeEntry.astro';
 import { loadGraph } from '@/graph';
 import { buildCompareBundle, type CompareResult } from '@/views/compare-hub';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
@@ -206,6 +207,10 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
       <h2>項目別比較表</h2>
       <Fragment set:html={b.tableHtml} />
     </section>
+
+    <MeEntry source="compare">
+      この 2 つの仕事は、ほかのランキングではどこに立っていますか？
+    </MeEntry>
 
     <section aria-label="主要スキル比較">
       <h2>主要スキル TOP 5 比較</h2>

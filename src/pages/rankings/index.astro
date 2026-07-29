@@ -6,6 +6,7 @@
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import MeEntry from '@/components/MeEntry.astro';
 import { buildRankings } from '@/views/ranking';
 import {
   renderHubJsonLd, renderRankingsHubGroups, renderRankingsHubStats,
@@ -188,10 +189,9 @@ footer .footer-meta .nowrap{white-space:nowrap}
 
     <Fragment set:html={insightsHtml} />
 
-    <aside class="me-cta-strip" aria-label="自分の現在地ツール">
-      <p>あなたの職業は、この <strong>39 ランキング</strong>でどこに立っていますか？</p>
-      <a href="/me">自分の現在地を確認 →</a>
-    </aside>
+    <MeEntry source="rankings">
+      あなたの職業は、この <strong>39 ランキング</strong>でどこに立っていますか？
+    </MeEntry>
 
     <Footer />
   </div>
