@@ -94,7 +94,6 @@ export interface WorktypeHeroBinding {
   readonly worktypeHumanValue: string;
   readonly worktypeNextStep: string;
   readonly worktypeOneLine: string;
-  readonly worktypeRarityPct: number | null;
 }
 
 export interface IdPageBindingsInput {
@@ -186,7 +185,6 @@ function buildWorktypeHeroBinding(id: number): WorktypeHeroBinding {
     worktypeHumanValue: family.strengths,
     worktypeNextStep: family.empowerment,
     worktypeOneLine: family.share,
-    worktypeRarityPct: record.rarityPct ?? data.families[record.code]?.pct ?? null,
   };
 }
 
