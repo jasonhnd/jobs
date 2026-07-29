@@ -101,7 +101,29 @@ received the thing they came for; 54s engagement indicates they do.
 
 ### 4.2 Screen 2 — do you fit it (the 9 questions, relocated)
 
-Entered optionally from screen 1. Same 9 items from `worktype-copy.ts`.
+Entered from screen 1 by an **explicit CTA, not automatic continuation**, placed
+immediately after the score and ranking block rather than at the end of the page.
+
+Three reasons, in order of weight:
+
+1. **It preserves the property that makes screen 1 work.** A visitor can stop after
+   the score and still have received what they came for. 54s engagement says they
+   do. Auto-continuation turns the 9 questions into a toll gate on a result the
+   visitor already has.
+2. **It is the only way to measure intent.** If everyone is pushed into screen 2,
+   the funnel cannot distinguish "wanted the deeper answer" from "was carried
+   there", and the reframed questions cannot be evaluated at all (§8).
+3. **91% of sessions are mobile.** Scrolling a phone visitor into a quiz they did
+   not request is hostile on a small screen.
+
+The objection is that an explicit CTA is what already failed — the nav entry is a
+CTA and `/shindan` still sees 67 sessions per 28 days (#234). The difference is
+context: the nav entry is a **feature name** (「診断」) shown before the visitor has
+any reason to want it. This CTA answers the question screen 1 has just raised in
+the visitor's mind — *this job scores 7.2, does that apply to me?* — and appears at
+the moment they are holding that question.
+
+The same 9 items from `worktype-copy.ts` are used, unchanged.
 
 The framing changes. Today the questions produce an identity label that restates
 the visitor's own answers back to them — a visitor who picks
@@ -147,6 +169,92 @@ Shape (to be detailed in the code issue):
   `/shindan` already renders (`shindanOccupations`), plus AI impact per occupation
 
 This branch also receives the old share links that carry no occupation — see §5.3.
+
+**It gets its own route.** A state inside `/me` would be simpler, but the branch has
+three properties a state cannot serve: it is a distinct intent worth entering
+directly, it is the landing target for every occupation-less share link already in
+circulation (§5.3), and it is the one part of this flow with plausible independent
+search demand — unlike our type vocabulary, which is why the diagnostic has no SEO
+surface today (#236).
+
+Route naming is deliberately left to the owner. The obvious candidate is a
+転職-anchored path, because 転職 carries far more Japanese search volume than
+anything in our own vocabulary — but claiming that term is a positioning decision
+with consequences beyond this flow, and belongs to #236 rather than to this doc.
+Until it is settled, the code issue should treat the path as a single constant so
+renaming costs one edit and a redirect.
+
+### 4.5 `/gyakuten` does not become a peer surface
+
+`WORKTYPE_VIRALITY.md` §1 calls `/shindan` and `/gyakuten` *"the two flagship,
+share-driven surfaces"*, and §S4 keeps the 図鑑 / めくる / trophy→dare layer on the
+grounds that *"it is the viral loop"*.
+
+The data does not support that framing. `/gyakuten` takes **33 sessions and 19s
+average engagement** — the lowest engagement of any surface measured, below
+`/rankings` at 10s only because that page is a list people scan and leave.
+
+A 図鑑 works on a collection mechanic: seeing the types you do not have creates a
+reason to get them. That requires a population of people who already hold a type
+and can compare. With 51 results produced in 28 days there is no such population,
+so the loop has nothing to loop over. Its premise is not wrong, it is unfunded.
+
+**Recommendation: keep the route, stop treating it as a flagship, and invest
+nothing in it until the diagnostic has volume.**
+
+- Keeping costs nothing — it is built, and removing it has SEO and inbound-link
+  consequences that belong to #236, not here.
+- It should not appear alongside `/me` in nav or entry work as though it were an
+  equal destination; #234's entry work points at `/me`, not at `/gyakuten`.
+- Its content is anchored to our own type vocabulary, which is exactly the pattern
+  #236 concludes does not attract search demand. If it is ever reworked, that is
+  the thing to change — not the game layer.
+
+Screen 3 overlaps with the 24-type roster, but the overlap is not a reason to act
+now: after consolidation, screen 3 is about *the visitor's own occupation* and the
+roster is about *all types*. Whether the roster still earns a route is a question
+worth asking once there is traffic to answer it with.
+
+### 4.6 JA copy (draft — owner finalizes)
+
+Voice follows `WORKTYPE_VIRALITY.md` §S2: address 「あなた」, lead with the benefit,
+no mechanism-describing framing.
+
+**Screen 1 → screen 2 CTA**, placed directly under the score and ranking block:
+
+> この仕事のAI影響度は分かりました。
+> では、あなた自身はどうでしょう。
+>
+> `[ 9問で確かめる ]`
+
+**Screen 2 intro:**
+
+> 同じ仕事でも、向き合い方は人によって違います。
+> 9問で、あなたとこの仕事の距離を見てみましょう。
+
+**Screen 3 — gap headings.** The three `GAP` entries in `worktype-copy.ts` were
+written for the old framing, where the occupation was one the visitor looked up.
+Here it is *their own*, so the copy addresses それ directly:
+
+| Kind | Current | Proposed |
+|---|---|---|
+| `aligned` | 自然に力を出しやすい組み合わせ | この仕事は、あなたの得意な進め方に近いです |
+| `hidden_strength` | まだ使い切っていない強みがあります | あなたの強みが、この仕事ではまだ眠っています |
+| `hidden_risk` | 働き方を更新する余地があります | この仕事での進め方は、これから変えていけます |
+
+`hidden_risk` deliberately avoids anything that reads as a warning about the
+visitor's job. The site's disclaimer already states that AI 影響度 is model output
+and not a statistical forecast; the result copy must not quietly promote it into a
+prediction about someone's livelihood.
+
+**No-occupation branch — entry on screen 1:**
+
+> 仕事がまだ決まっていない方、変えたいと考えている方はこちら
+
+**No-occupation branch — intro:**
+
+> 今の仕事から選ばなくても大丈夫です。
+> 9問であなたの働き方のタイプを見て、そこから合いそうな職業を探しましょう。
 
 ## 5. URLs and redirects
 
@@ -281,13 +389,24 @@ Baseline to beat, per 28 days:
 | Shares | 1 session, 4 events |
 | Engagement | `/me` 54s, `/shindan` 49s |
 
-## 9. Open questions for review
+## 9. Resolved and still open
 
-1. Screen 2 entry: automatic continuation after screen 1, or an explicit CTA? An
-   automatic continuation risks pushing the 54s visitor into a quiz they did not
-   ask for.
-2. Does the no-occupation branch need its own URL, or is a state within `/me`
-   enough? A distinct URL is shareable and indexable; a state is simpler.
-3. Does `/gyakuten` (33 sessions, 19s) stay a separate route after consolidation?
-   It is the 24-type roster and overlaps with screen 3's output.
-4. JA copy for screens 2 and 3, and for the no-occupation branch — owner finalizes.
+Settled in review (2026-07-29):
+
+| Question | Decision | Where |
+|---|---|---|
+| Screen 2 entry | Explicit CTA, placed after the score — not automatic continuation | §4.2 |
+| No-occupation branch URL | Own route, not a state inside `/me` | §4.4 |
+| `/gyakuten` | Keep the route, drop the flagship framing, invest nothing until there is volume | §4.5 |
+| JA copy | Drafted | §4.6 |
+
+Still open:
+
+1. **Route name for the no-occupation branch.** A 転職-anchored path has real search
+   volume behind it, but claiming that term is a positioning decision that belongs
+   to #236. Treat the path as one constant until it is settled.
+2. **JA copy sign-off.** §4.6 is a draft. The `hidden_risk` wording in particular
+   needs owner judgement: it must not read as a prediction about the visitor's own
+   job, which the site's disclaimer explicitly disclaims.
+3. **Whether the 24-type roster still earns a route** once screen 3 exists and
+   there is traffic to judge with. Deliberately deferred, not decided.
