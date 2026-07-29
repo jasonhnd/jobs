@@ -6,6 +6,7 @@
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import MeEntry from '@/components/MeEntry.astro';
 import { buildCompareBundle } from '@/views/compare-hub';
 import { renderHubJsonLd, renderFeaturedCompareCards, renderCompactCompareCards } from '@/templates/Compare';
 import { COMPARE_META } from '@/views/compare-meta';
@@ -206,10 +207,9 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
       <ul class="compare-chips" set:html={compactHtml} />
     </section>
 
-    <aside class="me-cta-strip" aria-label="自分の現在地ツール">
-      <p>あなたの職業は、{OCCUPATION_COUNT.SCORED} 職業の中でどこに立っていますか？<strong>39 ランキング</strong>での位置を一覧表示。</p>
-      <a href="/me">自分の現在地を確認 →</a>
-    </aside>
+    <MeEntry source="compare">
+      あなたの職業は、{OCCUPATION_COUNT.SCORED} 職業の中でどこに立っていますか？<strong>39 ランキング</strong>での位置を一覧表示。
+    </MeEntry>
 
     <Footer />
   </div>
