@@ -662,27 +662,44 @@ event_scoped_dimensions:
     description: Browser-reported `prefers-color-scheme` at the moment of the toggle (light / dark).
 
   # ---- GEO-E server-side citation / AI-referrer params ----
+  #
+  # `sent_by: server` — these six are attached to the server-rendered
+  # `page_view` by the Edge middleware (src/lib/middleware-helpers.ts), not by
+  # any `gtag()` call. `page_view` is a GA4 built-in and so is not declared
+  # under `events:`, which means setup-ga4.mjs's "is this dimension used by any
+  # event?" orphan check cannot see them. Without this marker it reported all
+  # six as orphans on every run (#247) — six false warnings printed alongside
+  # the real ones, which is how a real one gets skipped.
+  #
+  # The marker only exempts a dimension from that check. It does not exempt it
+  # from anything else, and the check stays live for genuine orphans.
   - parameter_name: ssrc
+    sent_by: server
     display_name: Server Source
     description: Source marker for Measurement Protocol page_view hits. `mw` means the hit came from Vercel Edge middleware.
 
   - parameter_name: geo_referrer_engine
+    sent_by: server
     display_name: GEO Referrer Engine
     description: "Normalized source value: perplexity, chatgpt_search, gemini, bing_copilot, claude, google_search, bing_search, internal, direct, or other_external."
 
   - parameter_name: geo_referrer_bucket
+    sent_by: server
     display_name: GEO Referrer Bucket
     description: Coarse source bucket for GEO reporting. Values - ai_engine, search, internal, direct, external.
 
   - parameter_name: geo_referrer_host
+    sent_by: server
     display_name: GEO Referrer Host
     description: Normalized referring hostname only, with no path or query. Used for off-site mention and citation drilldowns.
 
   - parameter_name: geo_landing_family
+    sent_by: server
     display_name: GEO Landing Family
     description: Landing page family for citation analysis. Values - occupation, answers, qa, sector, ranking, compare, standard, methodology, map, other.
 
   - parameter_name: geo_citation_candidate
+    sent_by: server
     display_name: GEO Citation Candidate
     description: "String boolean: true for AI-engine or citable-page search referrals where AI Overview-style citation is plausible but unproven."
 
@@ -758,8 +775,21 @@ key_events:
   - job_search_intent       # user engaged with autocomplete (KPI #1, real CTR denominator since 2026-05-06)
   - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
   - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
+  - search_action_redirect  # deep link → occupation page, same funnel as job_search_navigate
+  # — Per-surface goals (each is the primary conversion of its own page) —
+  - map_detail_click        # /map → detail jump
+  - shindan_result_view     # diagnostic completed
+  - shindan_share_click     # the only organic acquisition loop the diagnostic has
   # `job_search_submit` was renamed to `job_search_typed` and demoted from
   # key_events on 2026-05-06 (see events: section).
+  #
+  # This block must stay equal to the set of events carrying `conversion: true`.
+  # setup-ga4.mjs derives the list it syncs from `conversion:` and cross-checks
+  # it against this block — two independent declarations, so a drifting one is
+  # caught rather than silently followed. The four entries above `job_search_*`
+  # were added on 2026-07-30 (#247): they had carried `conversion: true` for
+  # some time and were already live on the property, but were never added here,
+  # so every sync run printed a mismatch WARN. Add to both places or neither.
 
 # ----------------------------------------------------------------------
 # Audiences — created MANUALLY in the GA4 dashboard

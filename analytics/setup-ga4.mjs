@@ -23,6 +23,16 @@
  *   # Or just discover what properties you can access:
  *   corepack pnpm@11.9.0 --dir analytics run discover
  *
+ * Modes:
+ *   --check     Read-only. Authenticates, lists the property, and diffs it
+ *               against the spec in both directions. Exits 1 if a spec item is
+ *               missing from the property. Never writes.
+ *   --dry-run   Validates the spec locally. Does NOT authenticate and does NOT
+ *               read the property, so it cannot detect drift — every item
+ *               prints as "would create" regardless of property state. Use
+ *               --check for that.
+ *   --discover  Lists accessible accounts and properties.
+ *
  * What it does:
  *   1. Lists existing custom dimensions on the property
  *   2. For each dimension in spec.yaml, creates it if missing
@@ -57,6 +67,22 @@ const SCOPES = ["https://www.googleapis.com/auth/analytics.edit"];
 const args = process.argv.slice(2);
 const DISCOVER = args.includes("--discover");
 const DRY_RUN = args.includes("--dry-run");
+/**
+ * `--check` — read-only reconciliation against the live property.
+ *
+ * Distinct from `--dry-run`, which never authenticates and therefore never
+ * looks at the property: under `--dry-run` the existing-state lists are
+ * substituted empty, so every item prints as "would create" whether the
+ * property is bare or a perfect match. That output cannot tell those two
+ * apart, which made it useless for the one question it looks like it answers
+ * (#247).
+ *
+ * `--check` authenticates, lists, and diffs in both directions — including
+ * property-side entries absent from the spec, which the sync path ignores by
+ * design because it only ever creates. Exits non-zero on any drift. Never
+ * writes.
+ */
+const CHECK = args.includes("--check");
 
 function log(level, msg) {
   const stamp = new Date().toISOString().slice(11, 19);
@@ -81,23 +107,60 @@ function loadSpec() {
     `Validated ${spec.event_scoped_dimensions.length + spec.user_scoped_dimensions.length} ` +
       "custom dimensions against GA4 Admin API limits",
   );
-  // Cross-check: every dimension's parameter_name should appear in some event
+  // Cross-check: every dimension's parameter_name should appear in some event.
+  //
+  // `sent_by: server` dimensions are exempt. They ride the server-rendered
+  // `page_view` from the Edge middleware, and `page_view` is a GA4 built-in
+  // that is not declared under `events:` — so this check structurally cannot
+  // see them. Before the exemption they produced six WARNs on every run
+  // (#247), which is six chances to skip past a real one. The exemption is
+  // narrow: it suppresses nothing else, and an unmarked orphan still warns.
   const eventParams = new Set();
   for (const ev of spec.events) {
     for (const p of ev.params || []) eventParams.add(p.name);
   }
+  const serverSent = spec.event_scoped_dimensions.filter(d => d.sent_by === "server");
   for (const dim of spec.event_scoped_dimensions) {
+    if (dim.sent_by === "server") continue;
     if (!eventParams.has(dim.parameter_name)) {
       log("err", `WARN: event_scoped dimension '${dim.parameter_name}' is not used by any event in spec`);
     }
+  }
+  if (serverSent.length > 0) {
+    log(
+      "info",
+      `${serverSent.length} server-sent dimension(s) exempt from the orphan check ` +
+        `(sent_by: server): ${serverSent.map(d => d.parameter_name).join(", ")}`,
+    );
   }
   return spec;
 }
 
 function getAuthClient() {
+  const oauthTokenPath = path.join(os.homedir(), ".config", "mirai-shigoto", "oauth-token.json");
+
+  // Escape hatch for a stale OAuth token. The priority order below prefers the
+  // token file whenever it exists, so a revoked or expired refresh_token makes
+  // the whole script unusable — it fails with a bare `invalid_grant` before any
+  // work, even when a perfectly good service-account key is configured. That
+  // was the live state on 2026-07-30 (#247): the token had expired, and every
+  // mode of this script was dead with a one-word error.
+  //
+  // `GA4_AUTH=service_account` skips the token file entirely.
+  if (process.env.GA4_AUTH === "service_account") {
+    const credPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+    if (!credPath || !fs.existsSync(credPath)) {
+      throw new Error(
+        "GA4_AUTH=service_account was set, but GOOGLE_APPLICATION_CREDENTIALS " +
+          `is ${credPath ? `not a readable file: ${credPath}` : "unset"}.`,
+      );
+    }
+    log("info", `Authenticating via service account (GA4_AUTH=service_account): ${credPath}`);
+    return new google.auth.GoogleAuth({ keyFile: credPath, scopes: SCOPES });
+  }
+
   // Priority 1: OAuth user-credential token (preferred — bypasses GA4
   //             service-account access restrictions).
-  const oauthTokenPath = path.join(os.homedir(), ".config", "mirai-shigoto", "oauth-token.json");
   if (fs.existsSync(oauthTokenPath)) {
     log("info", `Authenticating via OAuth user credentials: ${oauthTokenPath}`);
     const stored = JSON.parse(fs.readFileSync(oauthTokenPath, "utf8"));
@@ -224,6 +287,71 @@ async function syncKeyEvents(admin, propertyId, keyEventNames) {
   return failures;
 }
 
+/**
+ * Read-only diff of spec against the live property. Returns true if anything
+ * drifted.
+ *
+ * Reports both directions. Property-only entries are the half the sync path is
+ * blind to by construction — it only ever creates, never demotes or archives —
+ * so a dimension or key event that outlived the feature that needed it stays on
+ * the property indefinitely and nothing says so. That is how #240's nine dead
+ * dimensions accumulated, and how four dead key events are still counted as
+ * conversions today.
+ *
+ * Property-only entries are reported but do NOT fail the run: some are GA4's
+ * own defaults (`purchase`, `qualify_lead`, `close_convert_lead`) and will
+ * never be in the spec. Spec-only entries do fail — those are real unapplied
+ * changes.
+ */
+async function checkDrift(admin, propertyId, spec, derivedKeyEvents) {
+  const parent = `properties/${propertyId}`;
+  log("info", "CHECK — read-only. Listing the live property; no writes will be made.");
+
+  const dimRes = await admin.properties.customDimensions.list({ parent, pageSize: 200 });
+  const liveDims = dimRes.data.customDimensions || [];
+
+  const keyRes = await admin.properties.keyEvents
+    .list({ parent, pageSize: 200 })
+    .catch(async () => admin.properties.conversionEvents.list({ parent, pageSize: 200 }));
+  const liveKeyEvents = (keyRes.data.keyEvents || keyRes.data.conversionEvents || []).map(e => e.eventName);
+
+  let missing = 0;
+
+  for (const [scope, specDims] of [
+    ["EVENT", spec.event_scoped_dimensions],
+    ["USER", spec.user_scoped_dimensions],
+  ]) {
+    const live = new Set(liveDims.filter(d => d.scope === scope).map(d => d.parameterName));
+    const declared = new Set(specDims.map(d => d.parameter_name));
+    const specOnly = [...declared].filter(n => !live.has(n));
+    const propOnly = [...live].filter(n => !declared.has(n));
+
+    log("info", `${scope} dimensions — spec ${declared.size}, property ${live.size}`);
+    for (const n of specOnly) log("err", `  in spec, NOT on property: ${n} (run without --check to create)`);
+    for (const n of propOnly) log("info", `  on property, not in spec: ${n} (archive in the GA4 UI if dead)`);
+    if (specOnly.length === 0 && propOnly.length === 0) log("ok", `  ${scope} dimensions match exactly`);
+    missing += specOnly.length;
+  }
+
+  const liveKeySet = new Set(liveKeyEvents);
+  const specKeySet = new Set(derivedKeyEvents);
+  const keySpecOnly = derivedKeyEvents.filter(n => !liveKeySet.has(n));
+  const keyPropOnly = liveKeyEvents.filter(n => !specKeySet.has(n));
+
+  log("info", `Key events — spec ${specKeySet.size}, property ${liveKeySet.size}`);
+  for (const n of keySpecOnly) log("err", `  in spec, NOT on property: ${n} (run without --check to create)`);
+  for (const n of keyPropOnly) log("info", `  on property, not in spec: ${n} (GA4 default, or demote in the GA4 UI)`);
+  if (keySpecOnly.length === 0 && keyPropOnly.length === 0) log("ok", "  key events match exactly");
+  missing += keySpecOnly.length;
+
+  if (missing > 0) {
+    log("err", `DRIFT — ${missing} spec item(s) not applied to the property. Re-run without --check to apply.`);
+    return true;
+  }
+  log("ok", "No drift: every spec item exists on the property.");
+  return false;
+}
+
 async function main() {
   const spec = loadSpec();
 
@@ -245,11 +373,25 @@ async function main() {
   }
 
   log("info", propertyId ? `Target property: properties/${propertyId}` : "Target property: dry-run only");
-  if (DRY_RUN) log("info", "DRY RUN — no authentication, API reads, or API writes will be made");
+  if (DRY_RUN) {
+    log("info", "DRY RUN — no authentication, API reads, or API writes will be made");
+    log(
+      "info",
+      "This validates the spec only. It CANNOT see the property: existing-state " +
+        "lists are substituted empty, so every item below prints as 'would create' " +
+        "even when the property already matches exactly. Use --check for real drift.",
+    );
+  }
 
   const admin = DRY_RUN
     ? null
     : google.analyticsadmin({ version: "v1beta", auth: getAuthClient() });
+
+  const derivedKeyEventsForCheck = spec.events.filter(e => e.conversion).map(e => e.name);
+  if (CHECK) {
+    const drifted = await checkDrift(admin, propertyId, spec, derivedKeyEventsForCheck);
+    process.exit(drifted ? 1 : 0);
+  }
 
   // Accumulate per-step failures so partial sync surfaces a non-zero exit
   // code at the end instead of being lost in the log scroll.
@@ -284,5 +426,18 @@ async function main() {
 main().catch(err => {
   console.error("\nFATAL:", err.message);
   if (err.errors) console.error(err.errors);
+  // `invalid_grant` is what Google returns for a revoked or expired
+  // refresh_token, and on its own it names neither the credential nor the way
+  // out. Since the auth priority order prefers the token file whenever it
+  // exists, this failure blocks every mode of the script (#247).
+  if (/invalid_grant/i.test(err.message || "")) {
+    console.error(
+      "\nThis is an expired or revoked OAuth refresh_token in " +
+        "~/.config/mirai-shigoto/oauth-token.json. Either:\n" +
+        "  (a) re-run `node analytics/oauth-init.mjs` to mint a new one, or\n" +
+        "  (b) bypass it with GA4_AUTH=service_account and " +
+        "GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json",
+    );
+  }
   process.exit(1);
 });
