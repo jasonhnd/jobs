@@ -298,11 +298,33 @@ async function syncKeyEvents(admin, propertyId, keyEventNames) {
  * dimensions accumulated, and how four dead key events are still counted as
  * conversions today.
  *
- * Property-only entries are reported but do NOT fail the run: some are GA4's
- * own defaults (`purchase`, `qualify_lead`, `close_convert_lead`) and will
- * never be in the spec. Spec-only entries do fail — those are real unapplied
- * changes.
+ * Property-only entries are partitioned against `property_residue:` in the
+ * spec. Declared ones collapse to a single summary line — before that block
+ * existed this function printed ten of them on every run of a fully-synced
+ * property (#249), which is how an eleventh would go unread. Undeclared ones
+ * fail, same as spec-only entries: the resolution is a one-line spec addition,
+ * and the alternative is the state where nobody notices.
  */
+function residueNames(spec, kind) {
+  return new Set(((spec.property_residue || {})[kind] || []).map(e => e.name));
+}
+
+/**
+ * Reports property-side extras, splitting declared residue from surprises.
+ * Returns the number of undeclared ones.
+ */
+function reportPropertyOnly(propOnly, declared, label) {
+  const known = propOnly.filter(n => declared.has(n));
+  const unknown = propOnly.filter(n => !declared.has(n));
+  if (known.length > 0) {
+    log("info", `  ${known.length} declared property_residue ${label} present, as expected`);
+  }
+  for (const n of unknown) {
+    log("err", `  UNDECLARED on property, not in spec: ${n}`);
+  }
+  return unknown.length;
+}
+
 async function checkDrift(admin, propertyId, spec, derivedKeyEvents) {
   const parent = `properties/${propertyId}`;
   log("info", "CHECK — read-only. Listing the live property; no writes will be made.");
@@ -316,10 +338,11 @@ async function checkDrift(admin, propertyId, spec, derivedKeyEvents) {
   const liveKeyEvents = (keyRes.data.keyEvents || keyRes.data.conversionEvents || []).map(e => e.eventName);
 
   let missing = 0;
+  let undeclared = 0;
 
-  for (const [scope, specDims] of [
-    ["EVENT", spec.event_scoped_dimensions],
-    ["USER", spec.user_scoped_dimensions],
+  for (const [scope, specDims, residueKind] of [
+    ["EVENT", spec.event_scoped_dimensions, "event_scoped_dimensions"],
+    ["USER", spec.user_scoped_dimensions, "user_scoped_dimensions"],
   ]) {
     const live = new Set(liveDims.filter(d => d.scope === scope).map(d => d.parameterName));
     const declared = new Set(specDims.map(d => d.parameter_name));
@@ -328,7 +351,7 @@ async function checkDrift(admin, propertyId, spec, derivedKeyEvents) {
 
     log("info", `${scope} dimensions — spec ${declared.size}, property ${live.size}`);
     for (const n of specOnly) log("err", `  in spec, NOT on property: ${n} (run without --check to create)`);
-    for (const n of propOnly) log("info", `  on property, not in spec: ${n} (archive in the GA4 UI if dead)`);
+    undeclared += reportPropertyOnly(propOnly, residueNames(spec, residueKind), `${scope} dimension(s)`);
     if (specOnly.length === 0 && propOnly.length === 0) log("ok", `  ${scope} dimensions match exactly`);
     missing += specOnly.length;
   }
@@ -340,15 +363,23 @@ async function checkDrift(admin, propertyId, spec, derivedKeyEvents) {
 
   log("info", `Key events — spec ${specKeySet.size}, property ${liveKeySet.size}`);
   for (const n of keySpecOnly) log("err", `  in spec, NOT on property: ${n} (run without --check to create)`);
-  for (const n of keyPropOnly) log("info", `  on property, not in spec: ${n} (GA4 default, or demote in the GA4 UI)`);
+  undeclared += reportPropertyOnly(keyPropOnly, residueNames(spec, "key_events"), "key event(s)");
   if (keySpecOnly.length === 0 && keyPropOnly.length === 0) log("ok", "  key events match exactly");
   missing += keySpecOnly.length;
 
   if (missing > 0) {
     log("err", `DRIFT — ${missing} spec item(s) not applied to the property. Re-run without --check to apply.`);
-    return true;
   }
-  log("ok", "No drift: every spec item exists on the property.");
+  if (undeclared > 0) {
+    log(
+      "err",
+      `DRIFT — ${undeclared} property item(s) neither in the spec nor in ` +
+        `property_residue:. Either clean them up on the property, or declare them ` +
+        `under property_residue: with the evidence they are dead.`,
+    );
+  }
+  if (missing > 0 || undeclared > 0) return true;
+  log("ok", "No drift: spec and property agree, and every extra is declared residue.");
   return false;
 }
 
