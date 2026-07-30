@@ -581,7 +581,8 @@ function main(): void {
   // sat in spec unsynced until #231 ran setup-ga4.mjs and created them.
   console.log(
     `[check-analytics-spec] Not checked here: whether the GA4 property matches ` +
-      `this spec. Run \`analytics/setup-ga4.mjs\` after changing dimensions.`,
+      `this spec. Verify with \`node analytics/setup-ga4.mjs --check\` (read-only, ` +
+      `needs credentials); apply with the same script without --check.`,
   );
 }
 
