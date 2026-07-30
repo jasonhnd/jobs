@@ -792,6 +792,63 @@ key_events:
   # so every sync run printed a mismatch WARN. Add to both places or neither.
 
 # ----------------------------------------------------------------------
+# Property-side residue — exists on GA4, deliberately not in the spec above
+# ----------------------------------------------------------------------
+# `setup-ga4.mjs` only ever creates. It never demotes a key event or archives a
+# dimension, so anything that outlived the feature needing it stays on the
+# property indefinitely. `--check` reports those, and without this block it
+# reported all ten on every run of a fully-synced property (#249) — which is the
+# same noise-drowns-signal failure #247 was filed for, one layer up.
+#
+# Declaring them here does two things: `--check` collapses them to one summary
+# line, and an *undeclared* property-side entry fails the check instead of
+# landing in a list nobody reads. It also puts the property state in git, which
+# #240 flagged as missing — before this, the only record was an issue thread.
+#
+# Adding an entry here is a claim that it is known and accounted for, not that
+# it is fine. Include the evidence.
+#
+# Verified 2026-07-30 against property 298707336: zero live `gtag()` /
+# user_properties call in the repo for any of these, plus the GA4 event counts
+# noted per entry. NOTE: cumulative counts mislead here — `job_search_submit`
+# shows 1,740 events over 365 days and 0 over 28. Window or date any recheck.
+#
+# Not removed because no cap is under pressure: EVENT 38/50, USER 4/25, key
+# events 16/30. #240's archiving was forced by 47/50 blocking creation outright;
+# there is no such pressure here, and every write to the property is a change
+# that git cannot record or revert.
+
+property_residue:
+  key_events:
+    - name: purchase
+      reason: GA4 built-in default, present on every property. Will never be in the spec.
+    - name: close_convert_lead
+      reason: GA4 built-in default (lead-gen template).
+    - name: qualify_lead
+      reason: GA4 built-in default (lead-gen template).
+    - name: job_search_submit
+      reason: >
+        Renamed to job_search_typed and demoted on 2026-05-06 (see the events:
+        section). Last fired 2026-05-06 — the rename date exactly. 0 events in
+        the 28 days to 2026-07-30.
+    - name: chip_click
+      reason: >
+        Replaced by popular_job_click when the mobile-hero chips were reworked.
+        Last fired 2026-05-02; 0 events in the 28 days to 2026-07-30.
+    - name: feedback_submit
+      reason: Feedback widget removed in #205. 0 events in 365 days.
+    - name: email_submit_header
+      reason: Newsletter signup removed in #205. 0 events in 365 days.
+
+  user_scoped_dimensions:
+    - name: is_subscribed
+      reason: Newsletter signup removed in #205. Nothing in the repo sets it.
+    - name: has_submitted_feedback
+      reason: Feedback widget removed in #205. Nothing in the repo sets it.
+    - name: subscribed_occupation_id
+      reason: Newsletter signup removed in #205. Nothing in the repo sets it.
+
+# ----------------------------------------------------------------------
 # Audiences — created MANUALLY in the GA4 dashboard
 # ----------------------------------------------------------------------
 # Audience definitions in the Admin API are very complex JSON; for v1 of
