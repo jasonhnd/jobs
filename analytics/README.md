@@ -13,6 +13,28 @@ mirai-shigoto.com の GA4 計測設定の正典:
 `GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup`
 を再実行して GA4 に同期する。
 
+## 3 つの実行モード — 違いは「プロパティを読むか」
+
+| モード | 認証 | プロパティを読む | 書き込む | 用途 |
+| --- | --- | --- | --- | --- |
+| `run setup:dry` (`--dry-run`) | しない | **しない** | しない | spec 自体の検証のみ |
+| `run setup:check` (`--check`) | する | する | **しない** | 実際の差分を確認 |
+| `run setup` | する | する | する(作成のみ) | spec を適用 |
+
+**`--dry-run` は差分を検出できない。** 既存状態を空リストで代用するため、プロパティが完全に一致していても全項目が `would create` と表示される。出力は「プロパティが空」と「完全一致」を区別できない(#247)。同期状態を知りたいときは必ず `--check` を使う。
+
+`--check` は双方向で報告し、どちらの向きも **exit 1** にする:
+
+| 検出 | 意味 | 対応 |
+| --- | --- | --- |
+| spec にあってプロパティに無い | 未適用の変更 | `run setup` で適用 |
+| プロパティにあって spec にも `property_residue:` にも無い | 説明のつかない残留 | プロパティ側を掃除するか、`property_residue:` に根拠付きで宣言 |
+| `property_residue:` に宣言済 | 既知の残留 | 何もしない(1 行に集約表示) |
+
+`setup` は作成しかしない = 機能が廃止されても dimension と key event はプロパティに残り続ける。#240 の死んだ dimension 9 個はそうやって溜まった。
+
+**`property_residue:`(spec.yaml)がその残留の台帳。** 2026-07-30 時点で key event 7 個 + USER dimension 3 個。宣言する行為は「把握済み」の主張であって「問題ない」の主張ではないので、根拠(最終発火日 / イベント数)を必ず添える。この台帳が無かった間、完全に同期済のプロパティでも毎回 10 行の「not in spec」が出ていた(#249)——11 行目が出ても誰も気付かない状態で、#247 が一段上で直したのと同じ失敗だった。
+
 ## 認証: 2 つの経路、OAuth ユーザー認証情報が推奨
 
 `setup-ga4.mjs` は 2 つの認証経路をサポートし、以下の順で試す:
@@ -20,6 +42,25 @@ mirai-shigoto.com の GA4 計測設定の正典:
 1. **OAuth ユーザー認証情報**(`~/.config/mirai-shigoto/oauth-token.json`)— ログイン済の人間(あなた)として動き、既に持っている GA4 admin アクセスを継承する。**推奨**。クロス組織 / 個人アカウント構成で service-account メールが GA4 から「このメールアドレスに対応する Google アカウントはありません」(英語ロケールでは "This email address does not have a Google Account") として拒否される既知問題を回避できる。一回だけ `corepack pnpm@11.9.0 --dir analytics run oauth-init` で設定(下記「OAuth クイックスタート」参照)、その後はすべて非対話で実行できる
 
 2. **Service account JSON**(`GOOGLE_APPLICATION_CREDENTIALS` env var)— ヒトの OAuth フローが適さない CI / 共有環境向けのフォールバック。GA4 アカウントの Admin → Account Access Management で service-account メールにアクセス許可を付与する必要がある。**実際に必要でない限りこの経路は使わない**
+
+### `invalid_grant` で全モードが死ぬ場合
+
+上の優先順位は `oauth-token.json` が **存在すれば** 必ずそれを使う。したがって refresh token が失効すると、有効な service-account 鍵があっても全モードが `FATAL: invalid_grant` の一言で止まる。2026-07-30 時点で実際にこの状態だった(#247)。
+
+回避策は 2 つ:
+
+```bash
+# (a) トークンを作り直す
+corepack pnpm@11.9.0 --dir analytics run oauth-init
+
+# (b) トークンファイルを完全に無視して service account を使う
+GA4_AUTH=service_account \
+GOOGLE_APPLICATION_CREDENTIALS=~/.config/mirai-shigoto/ga4-admin-sa.json \
+GA4_PROPERTY_ID=298707336 \
+  corepack pnpm@11.9.0 --dir analytics run setup:check
+```
+
+`GA4_AUTH=service_account` は優先順位を飛ばして service account を直接使う。このプロパティでは service-account 経路は動作確認済み(2026-07-30 に読み取りで検証)。README 冒頭の「service-account 経路は 2026-05 にブロックされた」という記述はその時点の事実で、現在は解消している。
 
 ---
 

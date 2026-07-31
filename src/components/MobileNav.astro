@@ -14,8 +14,11 @@
  *            * label, optional count/meta, right-arrow chevron
  *            * white bg, border, rounded corners, active scale-down
  *
- * The home page (`/`) inlines an equivalent copy in src/index-source.html
- * (no BaseLayout). Keep markup in sync.
+ * Rendered on every page including `/` — index.astro has used BaseLayout since
+ * 2026-05-18, and `src/index-source.html` carries no nav markup of its own
+ * (checked: zero `mob-topbar` / `mob-drawer` / burger occurrences). An earlier
+ * version of this comment claimed the homepage inlined a duplicate copy that
+ * had to be kept in sync; it does not.
  *
  * Behavior:
  *   - Tap burger → drawer slides down (220ms), bg scroll-locked
@@ -72,7 +75,13 @@ import { OCCUPATION_COUNT } from '@/site/config';
           <span class="mob-drawer-meta">8家族24タイプをめくる</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/me" class="mob-drawer-item mob-drawer-item-feature">
+        <a
+          href="/me"
+          class="mob-drawer-item mob-drawer-item-feature"
+          data-track-event="me_entry_click"
+          data-occupation-id="0"
+          data-entry-source="nav_drawer"
+        >
           <span class="mob-drawer-label">自分の現在地</span>
           <span class="mob-drawer-meta">職業を入力 → 全 39 ランキングでの位置</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
@@ -252,6 +261,19 @@ import { OCCUPATION_COUNT } from '@/site/config';
       burger.setAttribute('aria-expanded', String(open));
       burger.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
       if (open) {
+        // #234: 91% of sessions are mobile, and every drawer entry costs two
+        // taps. Without this event a flat /me number cannot separate "the
+        // drawer is never opened" from "it is opened and the row is ignored" —
+        // the two have opposite fixes. Pairs with me_entry_click
+        // (source=nav_drawer) on the 自分の現在地 row: opens are the
+        // denominator, clicks the numerator. No params beyond `language`, so
+        // no GA4 custom dimension is consumed; the page the drawer was opened
+        // from arrives free in page_location.
+        try {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'nav_drawer_open', { language: 'ja' });
+          }
+        } catch (err) { /* never block the drawer */ }
         lastFocus = document.activeElement;
         drawer.hidden = false;
         document.body.style.overflow = 'hidden';

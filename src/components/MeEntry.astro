@@ -1,0 +1,48 @@
+---
+/**
+ * src/components/MeEntry.astro — in-content entry into `/me`.
+ *
+ * Issue #234. Of 834 built pages, only 4 carried an in-content `/me` entry: the
+ * rankings, compare and sectors hubs, plus the homepage. The 556 occupation
+ * pages — the most-viewed surface on the site at 22,266 views and 40s
+ * engagement — had none, nor did the 39 ranking detail pages or the 20 compare
+ * detail pages. `/me` took 160 sessions in 28 days against 6,368 on `/rankings`.
+ *
+ * The four that existed were also untracked, so even the status quo could not be
+ * measured. This component exists so the markup and the tracking contract have
+ * one definition instead of a fifth hand-written copy.
+ *
+ * The `<p>` is a slot: each surface keeps its own wording verbatim, so adopting
+ * this component changes no existing copy.
+ *
+ * Click tracking is handled by the delegated listener in `Footer.astro`; this
+ * component only supplies data attributes, so it adds no inline script and no
+ * new CSP hash. Styles are the existing `.me-cta-strip` rules in
+ * `canonical-css.ts` — the class name is kept so the homepage layout override in
+ * `_index.css` (`.home-cta-row .me-cta-strip`) keeps applying.
+ */
+interface Props {
+  /** Surface this entry sits on. Mirrors the `source` event parameter. */
+  readonly source: 'occupation' | 'rankings' | 'compare' | 'sectors';
+  /**
+   * Occupation in context, pre-filled into `/me`. Omit on list surfaces, which
+   * have no single occupation; the event then reports `occupation_id: 0`.
+   */
+  readonly occupationId?: number;
+  readonly cta?: string;
+}
+
+const { source, occupationId, cta = '自分の現在地を確認' } = Astro.props;
+
+const href = occupationId === undefined ? '/me' : `/me?id=${occupationId}`;
+---
+
+<aside class="me-cta-strip" aria-label="自分の現在地ツール">
+  <p><slot /></p>
+  <a
+    href={href}
+    data-track-event="me_entry_click"
+    data-occupation-id={String(occupationId ?? 0)}
+    data-entry-source={source}>{cta} →</a
+  >
+</aside>

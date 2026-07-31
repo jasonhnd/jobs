@@ -11,6 +11,19 @@ export const CUSTOM_DIMENSION_LIMITS = Object.freeze({
     event: 40,
     user: 24,
   }),
+  /**
+   * Per-property caps. Creation simply fails at the cap and archiving is the
+   * only way back, so this is a hard ceiling rather than a budget.
+   *
+   * Added 2026-07-29 (issue #240): the property reached 47/50 with 9 of those
+   * slots held by dimensions belonging to features retired in #205 and in the
+   * 2026-05 modal removal. Nothing reported the approach to the cap, so the
+   * first symptom would have been a sync failing mid-change.
+   */
+  perProperty: Object.freeze({
+    event: 50,
+    user: 25,
+  }),
 });
 
 const PARAMETER_NAME_PATTERN = /^[A-Za-z][A-Za-z0-9_]*$/;

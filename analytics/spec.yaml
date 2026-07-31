@@ -201,7 +201,11 @@ events:
 
   # `search_used` — REMOVED 2026-05-02. Was deprecated, never emitted; replaced
   # entirely by `job_search_submit` (which logs the query text). Removing from
-  # spec so check_spec_vs_code.mjs doesn't flag it as a missing emit.
+  # spec so scripts/check-analytics-spec.ts doesn't flag it as registered-but-
+  # never-sent. (This comment named `check_spec_vs_code.mjs` until 2026-07-28.
+  # That script was deleted in PR 37 as legacy migration tooling — see CHANGELOG
+  # "Legacy migration tooling" — leaving this file with no verification at all
+  # until issue #231, by which point 8 events and 6 params had drifted.)
 
   # P0-A (2026-05-06): `job_search_submit` was renamed to `job_search_typed` and
   # demoted from a Key Event. Reason: it fired on every typing-pause and conflated
@@ -273,6 +277,34 @@ events:
       - { name: language, type: string }
       - { name: source, type: string, desc: "search_submit | suggest_click | suggest_keyboard" }
     conversion: true   # primary search → occupation funnel
+
+  # `?q=` deep links (added to spec 2026-07-28, issue #231 — the emits predate
+  # the registration). A visitor arriving with a search term in the URL is
+  # resolved against data.search.json: an exact title match navigates straight
+  # through, anything else pre-fills the hero inputs and stays on the map.
+  # Splitting the two tells us how many deep links actually land where the
+  # visitor wanted, which a single event would hide.
+  - name: search_action_redirect
+    description: |
+      A `?q=` deep link matched an occupation title exactly and redirected
+      straight to its page. Uses `location.replace`, so the back button skips
+      this hop — the visitor never sees the map.
+    params:
+      - { name: query, type: string, desc: "Raw ?q= value, truncated to 100 chars" }
+      - { name: occupation_id, type: int }
+      - { name: language, type: string }
+    conversion: true   # deep link → occupation page, same funnel as job_search_navigate
+
+  - name: search_action_landed
+    description: |
+      A `?q=` deep link did NOT match exactly, so the visitor landed on the map
+      with all three hero inputs pre-filled. `match_count` is how many partial
+      matches were offered; 0 means the term found nothing at all.
+    params:
+      - { name: query, type: string, desc: "Raw ?q= value, truncated to 100 chars" }
+      - { name: match_count, type: int, desc: "Partial matches offered; 0 = no result" }
+      - { name: language, type: string }
+    conversion: false   # landed on the map, not yet on an occupation
 
   # ---- Modal lifecycle — REMOVED 2026-05-02 ----
   # `occupation_modal_open`, `modal_close`, `report_cta_click` were the
@@ -419,6 +451,109 @@ events:
       - { name: job_id, type: int, desc: "occupation id; see data/occupations/. Sparse 1..584 — NOT contiguous and NOT the occupation count (556). A 1..556 filter silently drops ids 557-584." }
     conversion: true   # /map → detail jump is the page's primary funnel goal
 
+  # ---- /me page ----
+  # Added to spec 2026-07-28 (issue #231). Emitted since the page shipped;
+  # they were never registered, so the params below were unqueryable.
+
+  # Issue #234. /me and the diagnostic sat behind the global nav — on mobile,
+  # which is 91% of sessions, behind a hamburger — and the surfaces carrying the
+  # traffic had no in-content path to them. This event measures the in-content
+  # entries added on occupation, rankings and compare pages; without it the
+  # effect cannot be separated from background variation in /me traffic.
+  #
+  # Both parameters reuse existing dimensions on purpose: the property is at
+  # 47/50 event-scoped dimensions (#240), so a new one would have consumed a
+  # third of the remaining budget for a single event.
+  - name: nav_drawer_open
+    description: |
+      Mobile drawer opened (#234). 91% of sessions are mobile and every drawer
+      entry costs two taps, so a flat /me number cannot say whether the drawer
+      is never opened or opened and ignored — opposite fixes. This is the
+      denominator; me_entry_click with source=nav_drawer is the numerator.
+      Carries no custom parameter: the page it was opened from arrives in the
+      built-in page_location.
+    params:
+      - { name: language, type: string }
+    conversion: false
+
+  - name: me_entry_click
+    description: |
+      Visitor followed an in-content entry into /me. `source` distinguishes the
+      surface; `occupation_id` is the occupation in context, and is 0 on the
+      rankings and compare surfaces, which have no single occupation.
+      `nav_drawer` is the mobile drawer row — global chrome rather than
+      in-content, and the only source that pairs with nav_drawer_open.
+    params:
+      - { name: occupation_id, type: int, desc: "occupation in context; 0 on list surfaces. Sparse 1..584, not the 556 count" }
+      - { name: source, type: string, desc: "occupation | rankings | compare | sectors | nav_drawer" }
+      - { name: language, type: string }
+    conversion: false   # entry into the funnel, not its goal — shindan_result_view is
+
+  - name: me_open
+    description: |
+      /me finished loading. `from_bookmark` separates a returning visitor
+      restoring a saved position (`?id=` present) from a cold start, which is
+      the difference between repeat use and first use of the page.
+    params:
+      - { name: from_bookmark, type: int, desc: "1 = arrived with ?id=, 0 = cold start" }
+    conversion: false
+
+  - name: me_select_job
+    description: User picked an occupation on /me to position themselves against.
+    params:
+      - { name: job_id, type: int, desc: "occupation id; sparse 1..584, not the 556 count" }
+      - { name: sector, type: string, desc: "sector id of the chosen occupation" }
+    conversion: false
+
+  # ---- /shindan page ----
+  # Added to spec 2026-07-28 (issue #231). All three have been emitting since
+  # the page shipped with no dimensions registered, so the 16-type, variant and
+  # gap distributions could not be reported on at all.
+  - name: shindan_result_view
+    description: |
+      The diagnostic finished and the result was shown. This is the completion
+      signal for the /shindan funnel — compare against page_view on /shindan
+      for the drop-off rate.
+    params:
+      - { name: family_code, type: string, desc: "One of the 16 type codes" }
+      - { name: variant_id, type: string, desc: "Copy variant shown within the family" }
+      - { name: variant_bucket, type: string, desc: "Bucket the variant was drawn from" }
+    conversion: true   # completing the diagnostic is the page's goal
+
+  - name: shindan_share_click
+    description: Visitor shared their result. `platform` covers every share path.
+    params:
+      - { name: platform, type: string, desc: "copy | native | x | line" }
+      - { name: family_code, type: string }
+      - { name: variant_id, type: string }
+    conversion: true   # sharing is the only organic acquisition loop the page has
+
+  - name: shindan_gap_select_job
+    description: |
+      From the result, the visitor picked an occupation to compare against their
+      type. `gap` is the direction of the mismatch, which is what makes the
+      result actionable rather than decorative.
+    params:
+      - { name: family_code, type: string, desc: "The visitor's own type code" }
+      - { name: job_id, type: int, desc: "occupation id; sparse 1..584" }
+      - { name: job_code, type: string, desc: "Type code of the chosen occupation" }
+      - { name: gap, type: string, desc: "Kind of mismatch between the two codes" }
+    conversion: false
+
+  # ---- 404 ----
+  - name: page_not_found
+    description: |
+      A 404 rendered. Added to spec 2026-07-28 (issue #231); it has been
+      emitting since the page shipped. All three params are GA4 built-ins, so
+      no custom dimension is needed — `page_referrer` is the useful one, since
+      it identifies which internal link or external site is sending traffic to
+      a dead URL.
+    params:
+      - { name: page_location, type: string }
+      - { name: page_path, type: string }
+      - { name: page_referrer, type: string, desc: "'(direct)' when document.referrer is empty" }
+    conversion: false
+
 # ----------------------------------------------------------------------
 # Custom Dimensions — event-scoped
 # ----------------------------------------------------------------------
@@ -527,27 +662,44 @@ event_scoped_dimensions:
     description: Browser-reported `prefers-color-scheme` at the moment of the toggle (light / dark).
 
   # ---- GEO-E server-side citation / AI-referrer params ----
+  #
+  # `sent_by: server` — these six are attached to the server-rendered
+  # `page_view` by the Edge middleware (src/lib/middleware-helpers.ts), not by
+  # any `gtag()` call. `page_view` is a GA4 built-in and so is not declared
+  # under `events:`, which means setup-ga4.mjs's "is this dimension used by any
+  # event?" orphan check cannot see them. Without this marker it reported all
+  # six as orphans on every run (#247) — six false warnings printed alongside
+  # the real ones, which is how a real one gets skipped.
+  #
+  # The marker only exempts a dimension from that check. It does not exempt it
+  # from anything else, and the check stays live for genuine orphans.
   - parameter_name: ssrc
+    sent_by: server
     display_name: Server Source
     description: Source marker for Measurement Protocol page_view hits. `mw` means the hit came from Vercel Edge middleware.
 
   - parameter_name: geo_referrer_engine
+    sent_by: server
     display_name: GEO Referrer Engine
     description: "Normalized source value: perplexity, chatgpt_search, gemini, bing_copilot, claude, google_search, bing_search, internal, direct, or other_external."
 
   - parameter_name: geo_referrer_bucket
+    sent_by: server
     display_name: GEO Referrer Bucket
     description: Coarse source bucket for GEO reporting. Values - ai_engine, search, internal, direct, external.
 
   - parameter_name: geo_referrer_host
+    sent_by: server
     display_name: GEO Referrer Host
     description: Normalized referring hostname only, with no path or query. Used for off-site mention and citation drilldowns.
 
   - parameter_name: geo_landing_family
+    sent_by: server
     display_name: GEO Landing Family
     description: Landing page family for citation analysis. Values - occupation, answers, qa, sector, ranking, compare, standard, methodology, map, other.
 
   - parameter_name: geo_citation_candidate
+    sent_by: server
     display_name: GEO Citation Candidate
     description: "String boolean: true for AI-engine or citable-page search referrals where AI Overview-style citation is plausible but unproven."
 
@@ -570,7 +722,36 @@ event_scoped_dimensions:
 
   - parameter_name: job_id
     display_name: Job ID
-    description: "Numeric occupation id used by map_cell_tap and map_detail_click; same id space as the existing occupation_id dimension. Sparse 1..584 — not contiguous, and not the occupation count (556)."
+    description: "Numeric occupation id (map_cell_tap, map_detail_click); same id space as occupation_id. Sparse 1..584 — not contiguous, not the 556 count."
+
+  # ---- /shindan + /me (registered 2026-07-28, issue #231) ----
+  # These parameters have been sent since their pages shipped, but were never
+  # declared, so none of them could be used as a report dimension. Register in
+  # the GA4 UI as well — a spec entry alone does not create the dimension.
+
+  - parameter_name: family_code
+    display_name: Shindan Type Code
+    description: "One of the 16 /shindan type codes. Sent by all three shindan_* events; the dimension that makes the type distribution reportable."
+
+  - parameter_name: variant_id
+    display_name: Shindan Copy Variant
+    description: "Which copy variant of the family was shown. Used by shindan_result_view and shindan_share_click; lets share rate be compared per variant."
+
+  - parameter_name: variant_bucket
+    display_name: Shindan Variant Bucket
+    description: "Bucket the variant was drawn from. Used by shindan_result_view."
+
+  - parameter_name: job_code
+    display_name: Shindan Occupation Type Code
+    description: "Type code of the occupation the visitor compared against, as opposed to family_code which is their own. Used by shindan_gap_select_job."
+
+  - parameter_name: gap
+    display_name: Shindan Gap Kind
+    description: "Direction of mismatch between the visitor's type and the chosen occupation's. Used by shindan_gap_select_job."
+
+  - parameter_name: from_bookmark
+    display_name: Me Opened From Bookmark
+    description: "1 when /me was opened with a saved ?id=, 0 on a cold start. Used by me_open to separate repeat from first use."
 
 # ----------------------------------------------------------------------
 # Custom Dimensions — user-scoped (persist across sessions)
@@ -594,8 +775,78 @@ key_events:
   - job_search_intent       # user engaged with autocomplete (KPI #1, real CTR denominator since 2026-05-06)
   - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
   - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
+  - search_action_redirect  # deep link → occupation page, same funnel as job_search_navigate
+  # — Per-surface goals (each is the primary conversion of its own page) —
+  - map_detail_click        # /map → detail jump
+  - shindan_result_view     # diagnostic completed
+  - shindan_share_click     # the only organic acquisition loop the diagnostic has
   # `job_search_submit` was renamed to `job_search_typed` and demoted from
   # key_events on 2026-05-06 (see events: section).
+  #
+  # This block must stay equal to the set of events carrying `conversion: true`.
+  # setup-ga4.mjs derives the list it syncs from `conversion:` and cross-checks
+  # it against this block — two independent declarations, so a drifting one is
+  # caught rather than silently followed. The four entries above `job_search_*`
+  # were added on 2026-07-30 (#247): they had carried `conversion: true` for
+  # some time and were already live on the property, but were never added here,
+  # so every sync run printed a mismatch WARN. Add to both places or neither.
+
+# ----------------------------------------------------------------------
+# Property-side residue — exists on GA4, deliberately not in the spec above
+# ----------------------------------------------------------------------
+# `setup-ga4.mjs` only ever creates. It never demotes a key event or archives a
+# dimension, so anything that outlived the feature needing it stays on the
+# property indefinitely. `--check` reports those, and without this block it
+# reported all ten on every run of a fully-synced property (#249) — which is the
+# same noise-drowns-signal failure #247 was filed for, one layer up.
+#
+# Declaring them here does two things: `--check` collapses them to one summary
+# line, and an *undeclared* property-side entry fails the check instead of
+# landing in a list nobody reads. It also puts the property state in git, which
+# #240 flagged as missing — before this, the only record was an issue thread.
+#
+# Adding an entry here is a claim that it is known and accounted for, not that
+# it is fine. Include the evidence.
+#
+# Verified 2026-07-30 against property 298707336: zero live `gtag()` /
+# user_properties call in the repo for any of these, plus the GA4 event counts
+# noted per entry. NOTE: cumulative counts mislead here — `job_search_submit`
+# shows 1,740 events over 365 days and 0 over 28. Window or date any recheck.
+#
+# Not removed because no cap is under pressure: EVENT 38/50, USER 4/25, key
+# events 16/30. #240's archiving was forced by 47/50 blocking creation outright;
+# there is no such pressure here, and every write to the property is a change
+# that git cannot record or revert.
+
+property_residue:
+  key_events:
+    - name: purchase
+      reason: GA4 built-in default, present on every property. Will never be in the spec.
+    - name: close_convert_lead
+      reason: GA4 built-in default (lead-gen template).
+    - name: qualify_lead
+      reason: GA4 built-in default (lead-gen template).
+    - name: job_search_submit
+      reason: >
+        Renamed to job_search_typed and demoted on 2026-05-06 (see the events:
+        section). Last fired 2026-05-06 — the rename date exactly. 0 events in
+        the 28 days to 2026-07-30.
+    - name: chip_click
+      reason: >
+        Replaced by popular_job_click when the mobile-hero chips were reworked.
+        Last fired 2026-05-02; 0 events in the 28 days to 2026-07-30.
+    - name: feedback_submit
+      reason: Feedback widget removed in #205. 0 events in 365 days.
+    - name: email_submit_header
+      reason: Newsletter signup removed in #205. 0 events in 365 days.
+
+  user_scoped_dimensions:
+    - name: is_subscribed
+      reason: Newsletter signup removed in #205. Nothing in the repo sets it.
+    - name: has_submitted_feedback
+      reason: Feedback widget removed in #205. Nothing in the repo sets it.
+    - name: subscribed_occupation_id
+      reason: Newsletter signup removed in #205. Nothing in the repo sets it.
 
 # ----------------------------------------------------------------------
 # Audiences — created MANUALLY in the GA4 dashboard
