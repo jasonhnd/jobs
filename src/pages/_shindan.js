@@ -499,7 +499,7 @@
       $strengths.textContent = family.strengths;
       $aiRelation.textContent = family.aiRelation;
       $nextStep.textContent = family.empowerment;
-      $rarity.textContent = rarityText(familyMeta.pct);
+      $rarity.textContent = rarityText(familyMeta.pct, familyMeta.count);
 
       renderAxes(result.axes);
       renderOccupations(result.code);
@@ -526,9 +526,15 @@
       return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
     }
 
-    function rarityText(pct) {
-      if (typeof pct !== 'number') return copy.rarity.pending;
-      return copy.rarity.familyTemplate.replace('{割合}', pct.toFixed(1).replace(/\.0$/, ''));
+    // The occupation count leads the sentence (issue #235): a bare percentage
+    // shown straight after nine questions about the visitor reads as "X% of
+    // people are like me", which is not what the figure measures. Both values
+    // come from data.worktypes.json families[code]; neither is hardcoded.
+    function rarityText(pct, count) {
+      if (typeof pct !== 'number' || typeof count !== 'number') return copy.rarity.pending;
+      return copy.rarity.familyTemplate
+        .replace('{件数}', String(count))
+        .replace('{割合}', pct.toFixed(1).replace(/\.0$/, ''));
     }
 
     function renderAxes(axes) {

@@ -125,7 +125,11 @@ const familyViews: FamilyView[] = FAMILY_CODES.map((code) => {
     share: family.share,
     aiRelation: family.aiRelation,
     empowerment: family.empowerment,
-    rarityText: familyMeta ? `全体の約${familyMeta.pct.toFixed(1)}%` : '全体比は確認中',
+    // Count first, percentage second — 「{n}職」 names the unit, so the figure
+    // cannot be read as a share of people (issue #235).
+    rarityText: familyMeta
+      ? `${familyMeta.count}職（全体の約${familyMeta.pct.toFixed(1)}%）`
+      : '職業数は確認中',
     occupations: occupationsByFamily[code].slice(0, REPRESENTATIVE_OCCUPATION_COUNT),
     variants: VARIANT_IDS_BY_FAMILY[code].map((variantId) => {
       const variant = variantCopy[variantId]!;
@@ -246,7 +250,7 @@ const jsonLd = safeJsonForScript({
     <section class="gyakuten-section" aria-labelledby="familiesHeading">
       <div class="gyakuten-section-head">
         <h2 id="familiesHeading">8家族の全体マップ</h2>
-        <p>割合と代表職業は家族単位の分布です。珍しさは序列ではなく、職業データ全体での静的な分布として読んでください。</p>
+        <p>職業数と代表職業は家族単位の分布です。これは職業データ側の分布であり、診断を受けた人の分布ではありません。珍しさは序列ではなく、静的な分布として読んでください。</p>
       </div>
 
       <div class="family-grid">

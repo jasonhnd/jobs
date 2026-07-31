@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import MeEntry from '@/components/MeEntry.astro';
 import { loadGraph } from '@/graph';
 import { buildSectorsIndexBindings, fmtInt, riskClass } from './_sectors-index-bindings';
 import { occupationPath } from '@/lib/urls';
@@ -176,10 +177,9 @@ section.faq{margin:48px 0}
       </ul>
     </section>
 
-    <aside class="me-cta-strip" aria-label="自分の現在地ツール">
-      <p>あなたの職業は、どの<strong>業界</strong>でどの位置にいますか？</p>
-      <a href="/me">自分の現在地を確認 →</a>
-    </aside>
+    <MeEntry source="sectors">
+      あなたの職業は、どの<strong>業界</strong>でどの位置にいますか？
+    </MeEntry>
 
     <Footer />
   </div>
