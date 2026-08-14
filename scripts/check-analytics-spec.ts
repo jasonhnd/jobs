@@ -119,13 +119,40 @@ const SERVER_PARAM_SOURCE = 'src/lib/middleware-helpers.ts';
 const SERVER_PARAM_ANCHORS: readonly { readonly anchor: string; readonly why: string }[] = [
   {
     anchor: 'export function buildMpPayload',
-    why: 'the `params:` object of the server-side page_view',
+    why: 'the `params:` object of the server-side page_delivery',
   },
   {
     anchor: 'export interface GeoReferralParams',
-    why: 'the geo attribution params merged in by attachPageViewParams',
+    why: 'the geo attribution params merged in by attachDeliveryParams',
   },
 ];
+
+/**
+ * The event the Edge middleware emits. It is not a `gtag()` call, so the scan
+ * cannot see it and would report it as registered-but-never-sent.
+ *
+ * Read from the source instead of hard-coded here: renaming the constant in
+ * code without updating spec.yaml must fail this gate, not slip past it. That
+ * a server-side emit was invisible to every gate is a large part of how
+ * `page_view` came to mean two different things for 18 days (#253).
+ */
+function serverEventName(): string {
+  const full = join(ROOT, SERVER_PARAM_SOURCE);
+  if (!existsSync(full)) {
+    fail(`${SERVER_PARAM_SOURCE} is missing; the server-side event name cannot be read.`);
+  }
+  const match = readFileSync(full, 'utf-8').match(
+    /export const DELIVERY_EVENT_NAME\s*=\s*['"]([a-z0-9_]+)['"]/,
+  );
+  if (!match) {
+    fail(
+      `${SERVER_PARAM_SOURCE} no longer exports a literal DELIVERY_EVENT_NAME — ` +
+        `the anchor for the server-side event name. Update serverEventName() in ` +
+        `scripts/check-analytics-spec.ts so the middleware emit stays visible.`,
+    );
+  }
+  return match![1]!;
+}
 
 /** Params GA4 defines itself; they are never custom dimensions. */
 const GA4_BUILTIN_PARAMS = new Set([
@@ -504,6 +531,10 @@ function main(): void {
     if (!firedBy.has(e.event)) firedBy.set(e.event, new Set());
     firedBy.get(e.event)!.add(e.file);
   }
+  // The middleware emit is real but invisible to a gtag() scan.
+  const serverEvent = serverEventName();
+  if (!firedBy.has(serverEvent)) firedBy.set(serverEvent, new Set());
+  firedBy.get(serverEvent)!.add(`${SERVER_PARAM_SOURCE} (Edge middleware)`);
 
   const unregistered = [...firedBy.keys()].filter((e) => !registeredEvents.has(e)).sort();
   if (unregistered.length > 0) {
@@ -535,7 +566,7 @@ function main(): void {
   }
   for (const p of serverParams()) {
     if (!paramOwners.has(p)) paramOwners.set(p, new Set());
-    paramOwners.get(p)!.add('page_view (middleware)');
+    paramOwners.get(p)!.add(`${serverEvent} (middleware)`);
   }
 
   const undeclared = [...paramOwners.keys()]
