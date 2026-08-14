@@ -2,20 +2,29 @@
  * middleware.ts — Vercel Edge Middleware for server-side GA4 measurement.
  *
  * Runs at the Edge BEFORE every HTML request is served, regardless of
- * Astro's static output. Fires a server-side `page_view` to GA4 via
+ * Astro's static output. Fires a `page_delivery` event to GA4 via
  * Measurement Protocol so the data lands in GA4 *even when the client's
  * browser blocks gtag.js* (Chromium 137+ Tracking Protection, ad
  * blockers, Privacy Sandbox cookieless mode, etc.).
  *
+ * It does NOT send `page_view`. `page_view` means "a person viewed a
+ * page" and is client-side only; `page_delivery` means "we served a
+ * page". Sharing one name for both units is what made sessions, users
+ * and engagement rate unreadable between 2026-07-28 and 2026-08-14
+ * (#253). ANALYTICS.md §計測単位 holds the contract.
+ *
  * Pipeline:
  *
- *   1. Matcher excludes static assets, API routes, and obvious bots.
- *   2. Read the GA `_ga` cookie (if any) to reuse the same client_id
- *      the browser-side gtag.js uses — server hits + client hits then
- *      deduplicate into the same GA4 user.
- *   3. Generate a fresh client_id if no _ga cookie (first visit).
+ *   1. Matcher excludes static assets and API routes.
+ *   2. Classify the User-Agent: browser / ai_agent / other_bot. Only
+ *      other_bot is refused — AI agents are measured on purpose and
+ *      labelled with `agent_name`, because "which engine fetched what"
+ *      has no other first-party source.
+ *   3. Resolve identity: reuse the `_ga` client_id when present so the
+ *      delivery joins the visitor's real session; otherwise use a
+ *      deterministic per-day bucket id. Never one id per request.
  *   4. POST to https://www.google-analytics.com/mp/collect with the
- *      page_view event. The request is fire-and-forget via
+ *      page_delivery event. The request is fire-and-forget via
  *      `context.waitUntil(...)` so it never blocks the user response.
  *   5. Forward client IP + UA so GA4 can geo-resolve correctly.
  *
@@ -44,12 +53,12 @@
  */
 import { next, rewrite, type RequestContext } from '@vercel/edge';
 import {
-  deriveClientId,
-  deriveSessionId,
+  classifyClientKind,
+  deliveryIdentity,
   shouldSendMpHit,
   buildMpPayload,
   classifyGeoReferral,
-  attachPageViewParams,
+  attachDeliveryParams,
   clientIpFromRequest,
 } from './src/lib/middleware-helpers.js';
 import { fetchWithTimeout } from './src/lib/http-client.js';
@@ -115,14 +124,19 @@ export default function middleware(request: Request, context: RequestContext): R
   const resolvedClientIp = clientIpFromRequest(request);
   const clientIp = resolvedClientIp === 'anonymous' ? '' : resolvedClientIp;
 
-  // The fingerprint feeds the no-cookie fallback only; when `_ga` exists it is
-  // ignored and the client-side id wins, so server and client hits stay one user.
-  const clientId = deriveClientId(cookieHeader, {
-    ip: resolvedClientIp,
-    userAgent: ua,
-    acceptLanguage: request.headers.get('accept-language') ?? '',
+  const geoParams = classifyGeoReferral(url, referer);
+  // `other_bot` cannot reach here — shouldSendMpHit already refused it.
+  const { kind: clientKind, agentName } = classifyClientKind(ua);
+  // With `_ga` the delivery joins the visitor's real session. Without it, a
+  // deterministic per-day bucket — never a per-request id, which is what
+  // manufactured ~1,100 single-event sessions a day (#253).
+  const identity = deliveryIdentity({
+    cookieHeader,
+    measurementId: mid,
+    clientKind,
+    agentName,
+    referrerBucket: geoParams.geo_referrer_bucket,
   });
-  const sessionId = deriveSessionId(cookieHeader, mid, clientId);
 
   // 2026-05-17 H17 hardening: GA4 Measurement Protocol REQUIRES
   // measurement_id + api_secret as query string params per Google's
@@ -139,14 +153,16 @@ export default function middleware(request: Request, context: RequestContext): R
     `&api_secret=${encodeURIComponent(secret)}`;
 
   const payload = buildMpPayload({
-    clientId,
-    sessionId,
+    clientId: identity.clientId,
+    sessionId: identity.sessionId,
     pageLocation: url.href,
     pageReferrer: referer,
     clientIp,
     userAgent: ua,
+    clientKind,
+    agentName,
   });
-  attachPageViewParams(payload, classifyGeoReferral(url, referer));
+  attachDeliveryParams(payload, geoParams);
 
   // Fire and forget. `context.waitUntil` keeps the Edge runtime alive
   // long enough for the POST to complete in the background AFTER the
