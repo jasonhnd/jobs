@@ -4,7 +4,7 @@ After the GEO work shipped, continuously observe "whether / to what extent mirai
 This is a **follow-the-steps runbook**; instrumentation details, engine-classification rules, and the full tables live in `analytics/geo-citation-baseline.md` (not repeated here).
 
 - GA4 property: `G-GLDNBDPF13` (mirai-shigoto.com), property_id `298707336`
-- Data source: the `geo_*` parameters on the server-side `page_view` in `middleware.ts` (requires production env `GA4_MP_API_SECRET` + `PUBLIC_GA4_MEASUREMENT_ID`, already set)
+- Data source: the `geo_*` parameters on the server-side **`page_delivery`** event in `middleware.ts` (requires production env `GA4_MP_API_SECRET` + `PUBLIC_GA4_MEASUREMENT_ID`, already set). It was `page_view` until 2026-08-14; that is a different unit and the rename is deliberate — see ANALYTICS.md §計測単位 (#253)
 - Issue: #11 (GEO-E)
 
 ## 0. One-time prerequisites (done — recorded for reference)
@@ -21,6 +21,8 @@ This is a **follow-the-steps runbook**; instrumentation details, engine-classifi
 | GEO Landing Family | `geo_landing_family` | Event |
 | GEO Citation Candidate | `geo_citation_candidate` | Event |
 | Server Source | `ssrc` | Event |
+| Client Kind | `client_kind` | Event |
+| AI Agent Name | `agent_name` | Event |
 
 The single source of truth for dimensions is `analytics/spec.yaml`. From the
 repository root, validate and preview every change before applying it (the
@@ -51,12 +53,15 @@ GA4 → Explore → blank, set the filter / dimensions / metrics per the table b
 | True AI referral | `geo_referrer_bucket = ai_engine` | geo_referrer_engine, geo_landing_family, page_path | sessions / users / views / engagement rate |
 | AI Overview candidate | `geo_citation_candidate = true` AND `geo_referrer_bucket = search` | geo_referrer_engine, geo_landing_family, page_path | sessions / users / views |
 | Citable-page lift | `geo_landing_family ∈ {answers,qa,sector,ranking,compare,standard,methodology}` | geo_landing_family, page_path | sessions / users / entrances |
-| Server-side coverage | `ssrc = mw` | geo_referrer_bucket, geo_referrer_engine | views |
+| Server-side coverage | `event = page_delivery` AND `client_kind = ai_agent` の否定 | geo_referrer_bucket, geo_referrer_engine | event count |
+| **AI crawl** | `event = page_delivery` AND `client_kind = ai_agent` | agent_name, geo_landing_family, page_path | event count |
 
 **Hard rules (`geo-citation-baseline.md` §6):**
 
 - Report "True AI referral" and "Google AI Overview candidate" **separately — never merge them into one KPI** (AI Overview has no stable referrer, so it can only be a candidate, not confirmation).
-- Treat bot UAs as crawlers, not human referrals (middleware already filters known AI crawlers).
+- Treat AI crawler fetches as crawlers, never as human referrals. They are their own row (`client_kind = ai_agent`) and must not enter any KPI that counts people.
+- **Do not filter AI crawlers out.** They were dropped at the Edge from 2026-05-24 to 2026-08-14, so the crawl signal existed nowhere (#253). A crawl is not a citation, but it is the leading indicator and it is vastly more frequent than an AI referral.
+- Read the server-side rows as **event counts, never sessions**. Deliveries that cannot join a real gtag.js session share a per-day bucket identity, so their session count is an artefact of bucketing, not a population.
 - Only compare before/after a GEO change once the first full numeric baseline window exists.
 
 ## 3. Weekly: off-site mention audit (the half GA4 cannot see)

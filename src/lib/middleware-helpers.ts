@@ -1,7 +1,13 @@
 /**
  * src/lib/middleware-helpers.ts — pure helpers for `middleware.ts`
- * (Vercel Edge middleware that fires server-side GA4 page_view hits
- * via the Measurement Protocol).
+ * (Vercel Edge middleware that fires server-side GA4 `page_delivery`
+ * hits via the Measurement Protocol).
+ *
+ * `page_delivery` is deliberately NOT `page_view`. The two are different
+ * units — a page served vs a person viewing one — and GA4 turns whatever it
+ * receives into a session, so sharing one name made every session-scoped
+ * metric unreadable (#253). ANALYTICS.md §計測単位 is the contract; this file
+ * and BaseLayout.astro are its two halves.
  *
  * Extracted from middleware.ts so the decision-making logic is unit-
  * testable without spinning up an Edge runtime context. The middleware
@@ -10,13 +16,16 @@
  *
  * Five concerns covered here:
  *
- *   1. Bot UA detection (`BOT_UA_RE`, `isBotUserAgent`) — skip
- *      server-side measurement for known crawlers so they don't
- *      inflate GA4 with non-human traffic.
+ *   1. Client classification (`BOT_UA_RE`, `AI_AGENT_UA_PATTERNS`,
+ *      `classifyClientKind`) — browser / ai_agent / other_bot. Only
+ *      `other_bot` is refused measurement; AI agents are measured on
+ *      purpose and labelled with `agent_name`.
  *
- *   2. GA `_ga` cookie parsing (`deriveClientId`) — reuse the
- *      client-side client_id when present so server hits + client
- *      hits dedupe into one GA4 user.
+ *   2. Delivery identity (`parseGaClientId`, `deliveryIdentity`) —
+ *      reuse the client-side client_id when `_ga` exists so the
+ *      delivery joins the visitor's real session, and fall back to a
+ *      deterministic per-day bucket (never a per-request id) when it
+ *      does not.
  *
  *   3. Should-measure decision (`shouldSendMpHit`) — composes the
  *      env + UA + Accept + URL pathname filters into one pure
@@ -24,8 +33,8 @@
  *      `context.waitUntil(...)` when this returns true.
  *
  *   4. GEO referral classification (`classifyGeoReferral`) — tags
- *      page_view events with the search / AI referral baseline fields
- *      used by downstream citation analysis.
+ *      `page_delivery` events with the search / AI referral baseline
+ *      fields used by downstream citation analysis.
  *
  *   5. Client-IP extraction (`clientIpFromRequest`) — prefers Vercel-set
  *      headers and never trusts the first raw X-Forwarded-For hop.
@@ -54,9 +63,73 @@
 export const BOT_UA_RE =
   /\b(bot|crawler|spider|crawling|scrapy|scraper|scraping|curl|wget|httpie|postman|monitor|uptime|pingdom|datadog|newrelic|sentry|googlebot|bingbot|baiduspider|yandexbot|duckduckbot|applebot|petalbot|ahrefsbot|semrushbot|mj12bot|preview|prerender|chrome-lighthouse|headlesschrome|phantomjs|slimerjs|playwright|puppeteer|cypress|gptbot|chatgpt-user|bytespider|perplexitybot|anthropic-ai|claudebot|claude-web|cohere-ai|google-extended|meta-externalagent|amazonbot|linkedinbot|twitterbot|slackbot|discordbot|telegrambot|whatsapp|facebookexternalhit|ia_archiver|zgrab|nmap|masscan|censys|shodan|expansescanner|expanse|fetcher)\b/i;
 
-/** True iff the User-Agent string matches a known bot. */
+/** True iff the User-Agent string matches a known bot, AI agents included. */
 export function isBotUserAgent(ua: string): boolean {
   return BOT_UA_RE.test(ua);
+}
+
+/**
+ * Known AI / LLM agents, mapped to the canonical `agent_name` sent to GA4.
+ *
+ * Every entry here also matches `BOT_UA_RE`; that overlap is the point.
+ * `shouldSendMpHit` consults this list first, so an AI agent is *measured as a
+ * delivery* instead of being dropped as a crawler.
+ *
+ * Why measure them at all: "which engine fetched which page" is the only
+ * first-party signal that the GEO work is landing. From 2026-05-24 to
+ * 2026-08-14 every one of these was discarded at the Edge, so that signal
+ * existed nowhere — not in GA4, not in any log we keep (#253). AI referral
+ * traffic (`geo_referrer_bucket=ai_engine`) is a different and much rarer
+ * thing: 3 sessions in the 13 days to 2026-08-13. The fetch is the signal.
+ *
+ * Order matters, first match wins. `Applebot-Extended` (AI training) must not
+ * resolve through to `applebot` (Siri / Spotlight indexing), which is an
+ * ordinary search crawler and stays excluded.
+ */
+export const AI_AGENT_UA_PATTERNS: ReadonlyArray<readonly [RegExp, string]> = [
+  [/\boai-searchbot\b/i, 'oai_searchbot'],
+  [/\bchatgpt-user\b/i, 'chatgpt_user'],
+  [/\bgptbot\b/i, 'gptbot'],
+  [/\bclaude-searchbot\b/i, 'claude_searchbot'],
+  [/\bclaude-user\b/i, 'claude_user'],
+  [/\bclaude-web\b/i, 'claude_web'],
+  [/\bclaudebot\b/i, 'claudebot'],
+  [/\banthropic-ai\b/i, 'anthropic_ai'],
+  [/\bperplexity-user\b/i, 'perplexity_user'],
+  [/\bperplexitybot\b/i, 'perplexitybot'],
+  [/\bgoogle-extended\b/i, 'google_extended'],
+  [/\bapplebot-extended\b/i, 'applebot_extended'],
+  [/\bmeta-externalagent\b/i, 'meta_externalagent'],
+  [/\bbytespider\b/i, 'bytespider'],
+  [/\bcohere-ai\b/i, 'cohere_ai'],
+  [/\bduckassistbot\b/i, 'duckassistbot'],
+  [/\bmistralai-user\b/i, 'mistralai_user'],
+  [/\byoubot\b/i, 'youbot'],
+];
+
+/**
+ * What kind of client this delivery is going to.
+ *
+ * `other_bot` is the only kind the middleware refuses to measure — scanners,
+ * SEO crawlers, monitoring probes, headless test runners, social unfurlers.
+ */
+export type ClientKind = 'browser' | 'ai_agent' | 'other_bot';
+
+/** Value used for `agent_name` when the client is not a named AI agent. */
+export const NO_AGENT = '(none)';
+
+export interface ClientClassification {
+  readonly kind: ClientKind;
+  readonly agentName: string;
+}
+
+/** Classify a User-Agent into the `client_kind` / `agent_name` pair GA4 receives. */
+export function classifyClientKind(ua: string): ClientClassification {
+  for (const [pattern, agentName] of AI_AGENT_UA_PATTERNS) {
+    if (pattern.test(ua)) return { kind: 'ai_agent', agentName };
+  }
+  if (isBotUserAgent(ua)) return { kind: 'other_bot', agentName: NO_AGENT };
+  return { kind: 'browser', agentName: NO_AGENT };
 }
 
 /**
@@ -107,55 +180,90 @@ export function isConsentRejected(cookieHeader: string | null): boolean {
 }
 
 /**
- * Best-effort GA4 `client_id` derivation from a Cookie header.
+ * The GA4 `client_id` gtag.js is already using for this browser, or null.
  *
- * `_ga` cookie shape: `GA1.1.<randomId>.<creationTimestamp>` (10+ chars
- * each, separated by dots). The canonical client_id is
- * `<randomId>.<creationTimestamp>`. When the cookie is missing (first
- * visit, or browser blocked gtag.js entirely), fall back to a fresh
- * pseudo-id so the server-side hit still has a non-empty cid (GA4
- * requires it).
- *
- * The fallback used to be `Math.random()` per request. Browsers that block
- * gtag.js also never receive a `_ga` cookie, so EVERY request from such a
- * visitor minted a fresh id and GA4 counted it as a brand-new user: 48,746
- * "users" against 15 sessions in the 28 days to 2026-07-26, inflating every
- * user-scoped metric roughly threefold. The fallback is now a stable hash of
- * signals the request already carries, so one browser on one network resolves
- * to one id for the day.
- *
- * Known limitation, accepted deliberately: visitors sharing an IP and an
- * identical User-Agent (carrier-grade NAT on JP mobile, office egress) collapse
- * into one id. That under-counts, where the previous behaviour over-counted by
- * ~3x. A bounded under-count is the better error, and the exact figure stays
- * available from `_ga` for the ~56% of page views where gtag.js does run.
- *
- * No cookie is set for this: writing our own identifier would re-identify a
- * visitor who has explicitly blocked tracking, and would put `Set-Cookie` on
- * responses that are otherwise statically cached.
+ * `_ga` cookie shape: `GA1.1.<randomId>.<creationTimestamp>`; the canonical
+ * client_id is `<randomId>.<creationTimestamp>`. When it is present the
+ * server-side delivery joins the visitor's real session instead of opening a
+ * parallel one.
  */
-export function deriveClientId(cookieHeader: string | null, fingerprint?: ClientFingerprint): string {
-  if (cookieHeader) {
-    const match = cookieHeader.match(/_ga=GA1\.\d\.(\d+)\.(\d+)/);
-    if (match) return `${match[1]}.${match[2]}`;
-  }
-  const day = Math.floor(Date.now() / 86_400_000);
-  const seed = [
-    fingerprint?.ip ?? '',
-    fingerprint?.userAgent ?? '',
-    fingerprint?.acceptLanguage ?? '',
-    day,
-  ].join('|');
-  // Daily epoch keeps the pair shaped like gtag's `<id>.<ts>` while making the
-  // id roll over once a day, so a fingerprint collision cannot accumulate
-  // history indefinitely.
-  return `${stableHash(seed)}.${day * 86_400}`;
+export function parseGaClientId(cookieHeader: string | null): string | null {
+  if (!cookieHeader) return null;
+  const match = cookieHeader.match(/_ga=GA1\.\d\.(\d+)\.(\d+)/);
+  return match ? `${match[1]}.${match[2]}` : null;
 }
 
-export interface ClientFingerprint {
-  readonly ip?: string;
-  readonly userAgent?: string;
-  readonly acceptLanguage?: string;
+/** Bucket window for deliveries that cannot join a real session: one day. */
+export const DELIVERY_BUCKET_WINDOW_SECONDS = 86_400;
+
+export interface DeliveryIdentityInput {
+  readonly cookieHeader: string | null;
+  /** `process.env.PUBLIC_GA4_MEASUREMENT_ID` — names the `_ga_<id>` session cookie. */
+  readonly measurementId: string;
+  readonly clientKind: ClientKind;
+  readonly agentName: string;
+  /** `geo_referrer_bucket` — keeps unjoinable browser deliveries separable by source. */
+  readonly referrerBucket: string;
+  readonly nowSeconds?: number;
+}
+
+export interface DeliveryIdentity {
+  readonly clientId: string;
+  readonly sessionId: string;
+  /** True when the delivery joined a real gtag.js identity rather than a bucket. */
+  readonly joined: boolean;
+}
+
+/**
+ * Identity for a server-side `page_delivery`.
+ *
+ * Two cases, and the distinction is the whole point:
+ *
+ *   1. `_ga` present — the visitor's gtag.js identity. The delivery lands in
+ *      their real session, contributing an event and no new session.
+ *
+ *   2. No `_ga` — gtag.js is blocked (~44% of deliveries). There is no real
+ *      identity to join, so DO NOT INVENT ONE PER REQUEST. The delivery gets a
+ *      deterministic bucket id keyed on (client kind × referrer bucket × day),
+ *      or (agent × day) for AI agents. `eventCount` stays exact; sessions
+ *      collapse from one-per-request to a handful per day.
+ *
+ * The previous implementation hashed IP + User-Agent + Accept-Language here.
+ * That produced ~1,100 single-event sessions a day — 88% of everything GA4
+ * reported — which buried the real population and let a 74% collapse in paid
+ * traffic read as growth on the dashboard (#253). It was not a usable person
+ * count either: its own comment conceded that JP carrier-grade NAT and office
+ * egress collapse many visitors into one id.
+ *
+ * No cookie is set for any of this. Writing our own identifier would
+ * re-identify a visitor who has explicitly blocked tracking, and would put
+ * `Set-Cookie` on responses that are otherwise statically cached.
+ */
+export function deliveryIdentity(input: DeliveryIdentityInput): DeliveryIdentity {
+  const now = input.nowSeconds ?? Math.floor(Date.now() / 1000);
+
+  if (input.clientKind === 'browser') {
+    const fromGtag = parseGaClientId(input.cookieHeader);
+    if (fromGtag) {
+      return {
+        clientId: fromGtag,
+        sessionId: deriveSessionId(input.cookieHeader, input.measurementId, fromGtag, now),
+        joined: true,
+      };
+    }
+  }
+
+  const day = Math.floor(now / DELIVERY_BUCKET_WINDOW_SECONDS);
+  const dayStart = day * DELIVERY_BUCKET_WINDOW_SECONDS;
+  const bucketKey = input.clientKind === 'ai_agent'
+    ? `ai_agent:${input.agentName}`
+    : `browser:${input.referrerBucket}`;
+  return {
+    // Keep gtag's `<id>.<ts>` shape so the value is not visibly foreign in GA4.
+    clientId: `${stableHash(`${bucketKey}|${day}`)}.${dayStart}`,
+    sessionId: String(dayStart),
+    joined: false,
+  };
 }
 
 /**
@@ -268,7 +376,11 @@ export interface ShouldSendMpHitInput {
  *
  *   - GA4 env not configured (no measurementId or no apiSecret)
  *   - User explicitly rejected cookie consent (`cookieConsent=rejected`)
- *   - User-Agent is a known bot
+ *   - User-Agent is a bot that is NOT a named AI agent — scanners, SEO
+ *     crawlers, monitoring probes, headless test runners, social unfurlers.
+ *     AI agents are measured on purpose; see `AI_AGENT_UA_PATTERNS`. Dropping
+ *     them here is what left "which engine fetched what" unmeasured for three
+ *     months (#253).
  *   - Accept header doesn't include `text/html` (image / font / xhr)
  *   - Pathname is `/api/*` or `/_vercel/*` (defensive — the route
  *     matcher in `config.matcher` should already exclude these)
@@ -278,14 +390,26 @@ export interface ShouldSendMpHitInput {
 export function shouldSendMpHit(input: ShouldSendMpHitInput): boolean {
   if (!input.measurementId || !input.apiSecret) return false;
   if (isConsentRejected(input.cookieHeader)) return false;
-  if (isBotUserAgent(input.userAgent)) return false;
+  if (classifyClientKind(input.userAgent).kind === 'other_bot') return false;
   if (!input.accept.includes('text/html')) return false;
   if (input.pathname.startsWith('/api/') || input.pathname.startsWith('/_vercel/')) return false;
   if (isSuspectPath(input.pathname)) return false;
   return true;
 }
 
-/** Inputs to the GA4 MP page_view payload. */
+/**
+ * The event name the middleware sends. NOT `page_view`.
+ *
+ * `page_view` means "a person viewed a page" and is emitted client-side only.
+ * `page_delivery` means "we served a page" and is emitted here only. GA4 counts
+ * anything it receives as a session, so one name for both units made sessions,
+ * users and engagement rate unreadable for the 18 days it was live (#253).
+ * See ANALYTICS.md §計測単位 — that section is the contract, this is one half
+ * of its implementation.
+ */
+export const DELIVERY_EVENT_NAME = 'page_delivery';
+
+/** Inputs to the GA4 MP `page_delivery` payload. */
 export interface MpPayloadInput {
   readonly clientId: string;
   readonly pageLocation: string;
@@ -294,6 +418,10 @@ export interface MpPayloadInput {
   readonly userAgent: string;
   /** GA4 attaches the event to no session without this. See deriveSessionId. */
   readonly sessionId: string;
+  /** `browser` or `ai_agent`; `other_bot` never reaches this point. */
+  readonly clientKind: ClientKind;
+  /** Canonical AI agent id, or `(none)`. */
+  readonly agentName: string;
   /** Defaults to `Date.now() * 1000` when omitted — overridable for tests. */
   readonly timestampMicros?: number;
 }
@@ -322,7 +450,7 @@ export function buildMpPayload(input: MpPayloadInput): unknown {
     user_properties: {},
     events: [
       {
-        name: 'page_view',
+        name: DELIVERY_EVENT_NAME,
         params: {
           page_location: input.pageLocation,
           page_referrer: input.pageReferrer,
@@ -332,6 +460,8 @@ export function buildMpPayload(input: MpPayloadInput): unknown {
           session_id: input.sessionId,
           engagement_time_msec: 1,
           ssrc: 'mw',
+          client_kind: input.clientKind,
+          agent_name: input.agentName,
         },
       },
     ],
@@ -429,10 +559,10 @@ export function classifyGeoReferral(pageUrl: URL, referer: string): GeoReferralP
   };
 }
 
-export function attachPageViewParams(payload: unknown, params: GeoReferralParams): void {
+export function attachDeliveryParams(payload: unknown, params: GeoReferralParams): void {
   if (!payload || typeof payload !== 'object') return;
   const events = (payload as { events?: Array<{ params?: Record<string, unknown> }> }).events;
-  const pageView = events?.[0];
-  if (!pageView?.params) return;
-  pageView.params = { ...pageView.params, ...params };
+  const delivery = events?.[0];
+  if (!delivery?.params) return;
+  delivery.params = { ...delivery.params, ...params };
 }
