@@ -11,10 +11,17 @@ stable AI-referrer segment.
 
 ## 1. GA4 Referrer Tracking
 
-Server-side `page_view` hits from `middleware.ts` now attach these parameters:
+Server-side `page_delivery` hits from `middleware.ts` attach these parameters.
+
+**The event is `page_delivery`, not `page_view` (#253).** `page_view` means "a
+person viewed a page" and is emitted client-side only; `page_delivery` means "we
+served a page" and is emitted by the middleware only. Every filter below reads
+`page_delivery`. See ANALYTICS.md §計測単位 for the contract.
 
 | Parameter | Purpose |
 | --- | --- |
+| `client_kind` | `browser` or `ai_agent`. Scanners and SEO crawlers (`other_bot`) are refused before send and never appear. |
+| `agent_name` | Canonical AI agent id when `client_kind = ai_agent`: `gptbot`, `chatgpt_user`, `oai_searchbot`, `claudebot`, `claude_user`, `perplexitybot`, `google_extended`, `bytespider`, and so on. `(none)` for browsers. |
 | `geo_referrer_engine` | Normalized source engine, such as `perplexity`, `chatgpt_search`, `gemini`, `bing_copilot`, `claude`, `google_search`, `bing_search`, `internal`, `direct`, `other_external`. |
 | `geo_referrer_bucket` | Coarse source bucket: `ai_engine`, `search`, `internal`, `direct`, `external`. |
 | `geo_referrer_host` | Referring hostname only, without path or query. |
@@ -91,7 +98,14 @@ GA4 Explore or Looker Studio tables:
 | Exact AI referrals | `geo_referrer_bucket = ai_engine` | `geo_referrer_engine`, `geo_landing_family`, `page_path` | Sessions, users, page views, engagement rate |
 | AI Overview candidates | `geo_citation_candidate = true` and `geo_referrer_bucket = search` | `geo_referrer_engine`, `geo_landing_family`, `page_path` | Sessions, users, page views |
 | Citable page lift | `geo_landing_family in answers,qa,sector,ranking,compare,standard,methodology` | `geo_landing_family`, `page_path` | Sessions, users, entrances |
-| Server-side coverage | `ssrc = mw` | `geo_referrer_bucket`, `geo_referrer_engine` | Page views |
+| Server-side coverage | `event = page_delivery` and `client_kind = browser` | `geo_referrer_bucket`, `geo_referrer_engine` | Event count |
+| **AI crawl** | `event = page_delivery` and `client_kind = ai_agent` | `agent_name`, `geo_landing_family`, `page_path` | Event count |
+| **Tracking-prevention rate** | none | `geo_landing_family` | `page_delivery` (client_kind=browser) ÷ `page_view` |
+
+Read the last two as **event counts, never sessions**. Deliveries that cannot
+join a real gtag.js session share a deterministic per-day bucket identity, so
+their session and user counts are an artefact of that bucketing. The event count
+is exact; the session count is not a population.
 
 Baseline snapshot template:
 
@@ -138,8 +152,16 @@ Fixed AI-answer audit prompts:
 
 - Do not mix exact AI-engine referrals with Google AI Overview candidates in
   one KPI. Report them side by side.
-- Treat bot user agents as crawler traffic, not human referral sessions. The
-  middleware bot filter intentionally excludes known AI crawlers from GA4.
+- Treat AI crawler fetches as crawler traffic, never as human referral sessions.
+  They are a separate row (`client_kind = ai_agent`), and must not be added to
+  any KPI that counts people.
+- **AI crawlers are measured, not excluded (#253.)** They were excluded from
+  2026-05-24 to 2026-08-14, which meant "which engine fetched which page" — the
+  most direct evidence that GEO work is landing — existed in no system at all.
+  A crawl is not a citation and not a visit, but it is the leading indicator of
+  both, and it is roughly three orders of magnitude more frequent than an AI
+  referral (3 `ai_engine` sessions in the 13 days to 2026-08-13). Do not
+  reintroduce a filter that drops them.
 - Compare GEO pillar changes only after the first complete numeric baseline
   window exists.
 - Keep `analytics/spec.yaml` as the schema source of truth; dashboard fields

@@ -17,7 +17,11 @@ import {
   isBotUserAgent,
   isSuspectPath,
   isConsentRejected,
-  deriveClientId,
+  parseGaClientId,
+  deliveryIdentity,
+  classifyClientKind,
+  AI_AGENT_UA_PATTERNS,
+  DELIVERY_EVENT_NAME,
   clientIpFromRequest,
   shouldSendMpHit,
   buildMpPayload,
@@ -106,47 +110,164 @@ describe('isBotUserAgent — BOT_UA_RE coverage', () => {
   });
 });
 
-describe('deriveClientId — _ga cookie parsing', () => {
+describe('parseGaClientId — _ga cookie parsing', () => {
   test('parses canonical _ga cookie shape (GA1.1.<id>.<ts>)', () => {
-    const cookie = '_ga=GA1.1.1234567890.1685600000; other=foo';
-    assert.equal(deriveClientId(cookie), '1234567890.1685600000');
+    assert.equal(parseGaClientId('_ga=GA1.1.1234567890.1685600000; other=foo'), '1234567890.1685600000');
   });
 
   test('parses _ga with version digit 2 (GA1.2.*)', () => {
     // Older / mobile-app GA installs use GA1.2 instead of GA1.1.
-    const cookie = '_ga=GA1.2.987654321.1234567890';
-    assert.equal(deriveClientId(cookie), '987654321.1234567890');
+    assert.equal(parseGaClientId('_ga=GA1.2.987654321.1234567890'), '987654321.1234567890');
   });
 
   test('parses _ga when it is one of many cookies', () => {
-    const cookie = 'session_id=abc; _ga=GA1.1.55.99; other=xyz';
-    assert.equal(deriveClientId(cookie), '55.99');
+    assert.equal(parseGaClientId('session_id=abc; _ga=GA1.1.55.99; other=xyz'), '55.99');
   });
 
-  test('falls back to pseudo-id when cookie header is null', () => {
-    const id = deriveClientId(null);
-    // Format: <random>.<unix-ts> — both numeric.
-    assert.match(id, /^\d+\.\d+$/);
-  });
-
-  test('falls back to pseudo-id when _ga cookie is missing', () => {
-    const id = deriveClientId('session=xyz; other=abc');
-    assert.match(id, /^\d+\.\d+$/);
-  });
-
-  test('falls back to pseudo-id when _ga cookie is malformed', () => {
-    // Missing the version + random + ts triple. Bad shape → fallback.
-    const id = deriveClientId('_ga=garbage');
-    assert.match(id, /^\d+\.\d+$/);
+  test('returns null when there is no usable _ga', () => {
+    assert.equal(parseGaClientId(null), null);
+    assert.equal(parseGaClientId('session=xyz; other=abc'), null);
+    assert.equal(parseGaClientId('_ga=garbage'), null);
   });
 
   test('does NOT match a _gid cookie (different GA cookie variant)', () => {
-    // _gid is a separate GA cookie family. The regex specifically
-    // looks for _ga=GA1.*, not _gid.
-    const id = deriveClientId('_gid=GA1.1.1.1');
-    // Falls back to pseudo-id, NOT the _gid value.
-    assert.match(id, /^\d+\.\d+$/);
-    assert.notEqual(id, '1.1');
+    // _gid is a separate GA cookie family. The regex looks for _ga=GA1.*.
+    assert.equal(parseGaClientId('_gid=GA1.1.1.1'), null);
+  });
+});
+
+describe('classifyClientKind — browser / ai_agent / other_bot', () => {
+  test('plain browsers classify as browser with no agent name', () => {
+    const chrome = classifyClientKind(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36',
+    );
+    assert.equal(chrome.kind, 'browser');
+    assert.equal(chrome.agentName, '(none)');
+  });
+
+  test('named AI agents classify as ai_agent and are NOT dropped', () => {
+    const cases: ReadonlyArray<readonly [string, string]> = [
+      ['Mozilla/5.0 (compatible; GPTBot/1.2; +https://openai.com/gptbot)', 'gptbot'],
+      ['Mozilla/5.0 (compatible; ChatGPT-User/1.0; +https://openai.com/bot)', 'chatgpt_user'],
+      ['Mozilla/5.0 (compatible; OAI-SearchBot/1.0; +https://openai.com/searchbot)', 'oai_searchbot'],
+      ['Mozilla/5.0 (compatible; ClaudeBot/1.0; +claudebot@anthropic.com)', 'claudebot'],
+      ['Mozilla/5.0 (compatible; Claude-User/1.0; +Claude-User@anthropic.com)', 'claude_user'],
+      ['Mozilla/5.0 (compatible; PerplexityBot/1.0; +https://perplexity.ai/bot)', 'perplexitybot'],
+      ['Mozilla/5.0 (compatible; Perplexity-User/1.0)', 'perplexity_user'],
+      ['Mozilla/5.0 (compatible; Google-Extended/1.0)', 'google_extended'],
+      ['Mozilla/5.0 (compatible; Bytespider; https://zhanzhang.toutiao.com/)', 'bytespider'],
+      ['meta-externalagent/1.1', 'meta_externalagent'],
+    ];
+    for (const [ua, expected] of cases) {
+      const got = classifyClientKind(ua);
+      assert.equal(got.kind, 'ai_agent', `${ua} should be ai_agent`);
+      assert.equal(got.agentName, expected);
+    }
+  });
+
+  test('Applebot-Extended is an AI agent; plain Applebot is not', () => {
+    // Order-sensitive: the extended variant must not fall through to the
+    // Siri / Spotlight crawler, which stays excluded.
+    assert.deepEqual(
+      classifyClientKind('Mozilla/5.0 (compatible; Applebot-Extended/0.1)'),
+      { kind: 'ai_agent', agentName: 'applebot_extended' },
+    );
+    assert.equal(classifyClientKind('Mozilla/5.0 (compatible; Applebot/0.1)').kind, 'other_bot');
+  });
+
+  test('scanners, SEO crawlers and test runners stay other_bot', () => {
+    for (const ua of [
+      'Googlebot/2.1 (+http://www.google.com/bot.html)',
+      'AhrefsBot/7.0',
+      'SemrushBot/7.0',
+      'curl/8.4.0',
+      'Mozilla/5.0 (X11; Linux x86_64) HeadlessChrome/120.0',
+      'Pingdom.com_bot_version_1.4',
+      'facebookexternalhit/1.1',
+    ]) {
+      assert.equal(classifyClientKind(ua).kind, 'other_bot', `${ua} should be other_bot`);
+    }
+  });
+
+  test('every AI agent pattern also matches the generic bot filter', () => {
+    // The overlap is intentional and load-bearing: classifyClientKind must be
+    // consulted BEFORE isBotUserAgent, or every AI agent is silently dropped —
+    // which is exactly what happened from 2026-05-24 to 2026-08-14 (#253).
+    for (const [, agentName] of AI_AGENT_UA_PATTERNS) {
+      assert.equal(typeof agentName, 'string');
+      assert.match(agentName, /^[a-z0-9_]+$/, `${agentName} must be a stable snake_case id`);
+    }
+  });
+});
+
+describe('deliveryIdentity — join a real session, or bucket; never per-request', () => {
+  const BASE = {
+    measurementId: 'G-TEST123456',
+    clientKind: 'browser' as const,
+    agentName: '(none)',
+    referrerBucket: 'search',
+    nowSeconds: 1_786_000_000,
+  };
+
+  test('joins the visitor real identity when _ga is present', () => {
+    const id = deliveryIdentity({ ...BASE, cookieHeader: '_ga=GA1.1.1234567890.1685600000' });
+    assert.equal(id.clientId, '1234567890.1685600000');
+    assert.equal(id.joined, true);
+  });
+
+  test('two requests without _ga in the same day share one identity', () => {
+    // The defect this replaces minted a fresh id per request, producing ~1,100
+    // single-event sessions a day and burying the real population (#253).
+    const a = deliveryIdentity({ ...BASE, cookieHeader: null });
+    const b = deliveryIdentity({ ...BASE, cookieHeader: null, nowSeconds: BASE.nowSeconds + 3600 });
+    assert.equal(a.clientId, b.clientId);
+    assert.equal(a.sessionId, b.sessionId);
+    assert.equal(a.joined, false);
+  });
+
+  test('identity is per (kind x referrer bucket), so sources stay separable', () => {
+    const search = deliveryIdentity({ ...BASE, cookieHeader: null, referrerBucket: 'search' });
+    const direct = deliveryIdentity({ ...BASE, cookieHeader: null, referrerBucket: 'direct' });
+    assert.notEqual(search.clientId, direct.clientId);
+  });
+
+  test('AI agents bucket by agent, not by referrer', () => {
+    const gpt = deliveryIdentity({
+      ...BASE, cookieHeader: null, clientKind: 'ai_agent', agentName: 'gptbot', referrerBucket: 'direct',
+    });
+    const claude = deliveryIdentity({
+      ...BASE, cookieHeader: null, clientKind: 'ai_agent', agentName: 'claudebot', referrerBucket: 'direct',
+    });
+    assert.notEqual(gpt.clientId, claude.clientId);
+
+    // Referrer must not split an agent's identity — one agent, one session/day.
+    const gptElsewhere = deliveryIdentity({
+      ...BASE, cookieHeader: null, clientKind: 'ai_agent', agentName: 'gptbot', referrerBucket: 'search',
+    });
+    assert.equal(gpt.clientId, gptElsewhere.clientId);
+  });
+
+  test('an AI agent never borrows a _ga cookie it happens to carry', () => {
+    const id = deliveryIdentity({
+      ...BASE,
+      cookieHeader: '_ga=GA1.1.1234567890.1685600000',
+      clientKind: 'ai_agent',
+      agentName: 'gptbot',
+    });
+    assert.equal(id.joined, false);
+    assert.notEqual(id.clientId, '1234567890.1685600000');
+  });
+
+  test('identity rolls over daily so a bucket cannot accumulate history', () => {
+    const today = deliveryIdentity({ ...BASE, cookieHeader: null });
+    const tomorrow = deliveryIdentity({ ...BASE, cookieHeader: null, nowSeconds: BASE.nowSeconds + 86_400 });
+    assert.notEqual(today.clientId, tomorrow.clientId);
+  });
+
+  test('bucket ids keep gtag <id>.<ts> shape', () => {
+    const id = deliveryIdentity({ ...BASE, cookieHeader: null });
+    assert.match(id.clientId, /^\d+\.\d+$/);
+    assert.match(id.sessionId, /^\d+$/);
   });
 });
 
@@ -206,11 +327,33 @@ describe('shouldSendMpHit — composite decision', () => {
     assert.equal(shouldSendMpHit({ ...VALID_HTML_REQ, apiSecret: undefined }), false);
   });
 
-  test('bot UA → false (do not pollute GA4 with crawler hits)', () => {
-    assert.equal(
-      shouldSendMpHit({ ...VALID_HTML_REQ, userAgent: 'Googlebot/2.1' }),
-      false,
-    );
+  test('non-AI bot UA → false (scanners, SEO crawlers, monitoring)', () => {
+    for (const userAgent of ['Googlebot/2.1', 'AhrefsBot/7.0', 'curl/8.4.0', 'Pingdom.com_bot_version_1.4']) {
+      assert.equal(shouldSendMpHit({ ...VALID_HTML_REQ, userAgent }), false, userAgent);
+    }
+  });
+
+  test('AI agent UA → true (measured on purpose, not dropped)', () => {
+    // Refusing these is what left "which engine fetched what" unmeasured from
+    // 2026-05-24 to 2026-08-14. They are the GEO signal, not pollution — they
+    // are separated by client_kind / agent_name instead of being discarded.
+    for (const userAgent of [
+      'Mozilla/5.0 (compatible; GPTBot/1.2; +https://openai.com/gptbot)',
+      'Mozilla/5.0 (compatible; ClaudeBot/1.0; +claudebot@anthropic.com)',
+      'Mozilla/5.0 (compatible; PerplexityBot/1.0; +https://perplexity.ai/bot)',
+      'Mozilla/5.0 (compatible; ChatGPT-User/1.0; +https://openai.com/bot)',
+    ]) {
+      assert.equal(shouldSendMpHit({ ...VALID_HTML_REQ, userAgent }), true, userAgent);
+    }
+  });
+
+  test('an AI agent is still refused when it trips a non-UA rule', () => {
+    // The AI carve-out is narrow: it only bypasses the bot filter.
+    const gptbot = { ...VALID_HTML_REQ, userAgent: 'Mozilla/5.0 (compatible; GPTBot/1.2)' };
+    assert.equal(shouldSendMpHit({ ...gptbot, accept: 'image/avif' }), false);
+    assert.equal(shouldSendMpHit({ ...gptbot, pathname: '/wp-admin/setup-config.php' }), false);
+    assert.equal(shouldSendMpHit({ ...gptbot, cookieHeader: 'cookieConsent=rejected' }), false);
+    assert.equal(shouldSendMpHit({ ...gptbot, apiSecret: undefined }), false);
   });
 
   test('Accept without text/html → false (skip image / font / xhr fetches)', () => {
@@ -588,6 +731,8 @@ describe('buildMpPayload — GA4 Measurement Protocol shape', () => {
     pageReferrer: 'https://google.com/',
     clientIp: '203.0.113.42',
     userAgent: 'Mozilla/5.0 Chrome/120',
+    clientKind: 'browser' as const,
+    agentName: '(none)',
     timestampMicros: 1_700_000_000_000_000,
   };
 
@@ -606,14 +751,32 @@ describe('buildMpPayload — GA4 Measurement Protocol shape', () => {
     assert.equal(p.events.length, 1);
   });
 
-  test('event is a single page_view', () => {
+  test('event is a single page_delivery, never page_view', () => {
+    // page_view is client-side only. Sending it from here is what redefined
+    // the metric mid-flight and made 18 days of sessions unreadable (#253).
     const p = buildMpPayload(BASE_INPUT) as {
       events: ReadonlyArray<{ name: string; params: Record<string, unknown> }>;
     };
     const ev = p.events[0]!;
-    assert.equal(ev.name, 'page_view');
+    assert.equal(ev.name, 'page_delivery');
+    assert.equal(ev.name, DELIVERY_EVENT_NAME);
+    assert.notEqual(ev.name, 'page_view');
     assert.equal(ev.params.page_location, BASE_INPUT.pageLocation);
     assert.equal(ev.params.page_referrer, BASE_INPUT.pageReferrer);
+  });
+
+  test('carries client_kind and agent_name so the two populations stay separable', () => {
+    const browser = buildMpPayload(BASE_INPUT) as {
+      events: ReadonlyArray<{ params: Record<string, unknown> }>;
+    };
+    assert.equal(browser.events[0]!.params.client_kind, 'browser');
+    assert.equal(browser.events[0]!.params.agent_name, '(none)');
+
+    const agent = buildMpPayload({
+      ...BASE_INPUT, clientKind: 'ai_agent' as const, agentName: 'gptbot',
+    }) as { events: ReadonlyArray<{ params: Record<string, unknown> }> };
+    assert.equal(agent.events[0]!.params.client_kind, 'ai_agent');
+    assert.equal(agent.events[0]!.params.agent_name, 'gptbot');
   });
 
   test('engagement_time_msec is set to 1 (required for non-bounce session)', () => {
@@ -651,48 +814,37 @@ describe('buildMpPayload — GA4 Measurement Protocol shape', () => {
  * on every request, and events carrying no session_id at all.
  */
 describe('server-side identity (GA4 phantom-user fix)', () => {
-  const FP = {
-    ip: '203.0.113.42',
-    userAgent: 'Mozilla/5.0 (iPhone) Safari/605',
-    acceptLanguage: 'ja-JP,ja;q=0.9',
-  };
+  describe('deliveryIdentity', () => {
+    const BASE = {
+      measurementId: 'G-TEST123456',
+      clientKind: 'browser' as const,
+      agentName: '(none)',
+      referrerBucket: 'direct',
+      nowSeconds: 1_786_000_000,
+    };
 
-  describe('deriveClientId', () => {
-    test('still prefers the _ga cookie so server and client hits are one user', () => {
-      const id = deriveClientId('_ga=GA1.1.1234567890.1685600000; other=x', FP);
-      assert.equal(id, '1234567890.1685600000');
+    test('still prefers the _ga cookie so delivery and client hits are one user', () => {
+      const id = deliveryIdentity({ ...BASE, cookieHeader: '_ga=GA1.1.1234567890.1685600000; other=x' });
+      assert.equal(id.clientId, '1234567890.1685600000');
+      assert.equal(id.joined, true);
     });
 
-    test('the cookie wins even when a fingerprint is supplied', () => {
-      const withFp = deriveClientId('_ga=GA1.2.999.888', FP);
-      const noFp = deriveClientId('_ga=GA1.2.999.888');
-      assert.equal(withFp, noFp);
-      assert.equal(withFp, '999.888');
+    test('no request-scoped input reaches the id at all', () => {
+      // The IP + UA + Accept-Language fingerprint is gone (#253). Identity now
+      // depends only on (kind, agent, referrer bucket, day), so nothing about an
+      // individual request can fragment it.
+      const id = deliveryIdentity({ ...BASE, cookieHeader: null });
+      const same = deliveryIdentity({ ...BASE, cookieHeader: 'unrelated=1', nowSeconds: BASE.nowSeconds + 7200 });
+      assert.equal(id.clientId, same.clientId);
     });
 
-    test('without a cookie, the same visitor resolves to the SAME id', () => {
-      // This is the whole fix: repeated requests from one blocked browser used
-      // to mint a new id each time, so GA4 counted one person as N users.
-      const first = deriveClientId(null, FP);
-      const second = deriveClientId(null, FP);
-      const third = deriveClientId('unrelated=1', FP);
-      assert.equal(first, second);
-      assert.equal(second, third);
-    });
-
-    test('different visitors still resolve to different ids', () => {
-      const a = deriveClientId(null, FP);
-      const byIp = deriveClientId(null, { ...FP, ip: '198.51.100.7' });
-      const byUa = deriveClientId(null, { ...FP, userAgent: 'Mozilla/5.0 Android Chrome/120' });
-      const byLang = deriveClientId(null, { ...FP, acceptLanguage: 'en-US,en;q=0.9' });
-      assert.notEqual(a, byIp);
-      assert.notEqual(a, byUa);
-      assert.notEqual(a, byLang);
-    });
-
-    test('shape stays gtag-like: <digits>.<digits>', () => {
-      assert.match(deriveClientId(null, FP), /^\d+\.\d+$/);
-      assert.match(deriveClientId(null), /^\d+\.\d+$/);
+    test('always carries a session_id, so no event lands outside a session', () => {
+      // Omitting session_id is what produced 48,746 users against 15 sessions.
+      for (const cookieHeader of [null, '_ga=GA1.1.1234567890.1685600000']) {
+        const id = deliveryIdentity({ ...BASE, cookieHeader });
+        assert.match(id.sessionId, /^\d+$/);
+        assert.ok(id.sessionId.length > 0);
+      }
     });
   });
 
@@ -771,6 +923,7 @@ describe('server-side identity (GA4 phantom-user fix)', () => {
         clientId: '1.2', sessionId: '1753600000',
         pageLocation: 'https://mirai-shigoto.com/', pageReferrer: '',
         clientIp: '', userAgent: 'UA',
+        clientKind: 'browser', agentName: '(none)',
       }) as { events: ReadonlyArray<{ params: Record<string, unknown> }> };
       assert.equal(p.events[0]!.params.session_id, '1753600000');
       assert.equal(p.events[0]!.params.engagement_time_msec, 1);

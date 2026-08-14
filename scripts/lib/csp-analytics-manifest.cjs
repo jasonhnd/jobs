@@ -21,9 +21,11 @@
  */
 module.exports = {
   CSP_ANALYTICS_FALLBACK_HASHES: [
-    // gtag.js bootstrap. Changed 2026-07-27 when the client stopped sending its
-    // own page_view while the Edge middleware sends one server-side.
-    "'sha256-btkxr2RYJsfWF2vR0Kv4oxuSisGFl8HnGgBuwopiO3Q='",
+    // gtag.js bootstrap. Changed 2026-08-14 (#253) when the client resumed
+    // sending its own page_view: the middleware now sends `page_delivery`, a
+    // different unit, so there is no duplicate to stand down from and the
+    // `send_page_view: false` branch is gone.
+    "'sha256-80on6q+4N8b4tdPifTn79iWlzXfYoRuhIjokIq9QGw4='",
     "'sha256-mEjXucpUExIz3nx3AizABlBEO3RXLDXVXIkrpe7XvPk='",
     "'sha256-rMk6BYbivudkhnerx/Rk2lI++sOY2uBxHPARDHh/Tpk='",
   ],
