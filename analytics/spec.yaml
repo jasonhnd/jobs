@@ -554,6 +554,44 @@ events:
       - { name: page_referrer, type: string, desc: "'(direct)' when document.referrer is empty" }
     conversion: false
 
+  # ---- Server-side delivery measurement ----
+  #
+  # Issue #253. `page_view` and `page_delivery` are different units and must
+  # never share a name again:
+  #
+  #   page_view      a person viewed a page. Client-side gtag.js only.
+  #                  Feeds GA4's built-in Views / sessions / engagement.
+  #   page_delivery  we served a page. Edge middleware (MP) only. Includes
+  #                  clients whose browser blocks gtag.js (~44% of deliveries)
+  #                  and named AI agents.
+  #
+  # From 2026-07-28 to 2026-08-14 the middleware sent `page_view`. GA4 counts
+  # anything it receives as a session, so ~1,100 single-event sessions a day
+  # buried the real population: sessions read 687 → 1,969/day while actual paid
+  # traffic fell 74%. A definition change read as a trend. See ANALYTICS.md
+  # §計測単位 — that section is the contract this event implements.
+  #
+  # `page_delivery ÷ page_view` is the tracking-prevention rate, which has no
+  # other measurable source.
+  - name: page_delivery
+    description: |
+      One page served by the Edge middleware, sent via Measurement Protocol
+      (#253). NOT a person viewing a page — that is `page_view`, client-side
+      only. `client_kind` separates browsers from AI agents; `agent_name` names
+      the agent. Deliveries that cannot join a real gtag.js session use a
+      deterministic per-day bucket identity, so eventCount is exact while
+      sessions stay bounded. Do not read session-scoped metrics off this event.
+    params:
+      - { name: ssrc, type: string, desc: "'mw' — sent by Vercel Edge middleware" }
+      - { name: client_kind, type: string, desc: "browser | ai_agent. other_bot is refused before send" }
+      - { name: agent_name, type: string, desc: "gptbot | chatgpt_user | claudebot | perplexitybot | … ; '(none)' for browsers" }
+      - { name: geo_referrer_engine, type: string }
+      - { name: geo_referrer_bucket, type: string }
+      - { name: geo_referrer_host, type: string }
+      - { name: geo_landing_family, type: string }
+      - { name: geo_citation_candidate, type: string }
+    conversion: false
+
 # ----------------------------------------------------------------------
 # Custom Dimensions — event-scoped
 # ----------------------------------------------------------------------
@@ -661,45 +699,48 @@ event_scoped_dimensions:
     display_name: System Color Preference
     description: Browser-reported `prefers-color-scheme` at the moment of the toggle (light / dark).
 
-  # ---- GEO-E server-side citation / AI-referrer params ----
+  # ---- Server-side delivery / GEO citation params ----
   #
-  # `sent_by: server` — these six are attached to the server-rendered
-  # `page_view` by the Edge middleware (src/lib/middleware-helpers.ts), not by
-  # any `gtag()` call. `page_view` is a GA4 built-in and so is not declared
-  # under `events:`, which means setup-ga4.mjs's "is this dimension used by any
-  # event?" orphan check cannot see them. Without this marker it reported all
-  # six as orphans on every run (#247) — six false warnings printed alongside
-  # the real ones, which is how a real one gets skipped.
+  # All eight ride the `page_delivery` event from the Edge middleware
+  # (src/lib/middleware-helpers.ts), never a `gtag()` call.
   #
-  # The marker only exempts a dimension from that check. It does not exempt it
-  # from anything else, and the check stays live for genuine orphans.
+  # These carried `sent_by: server` until #253. That marker existed only to
+  # exempt them from setup-ga4.mjs's "is this dimension used by any event?"
+  # orphan check, which structurally could not see them while they rode
+  # `page_view` — a GA4 built-in, and so not declared under `events:` (#247).
+  # `page_delivery` IS declared, so the orphan check now covers them for real
+  # and the exemption is gone. Real coverage beats a suppressed warning.
   - parameter_name: ssrc
-    sent_by: server
     display_name: Server Source
-    description: Source marker for Measurement Protocol page_view hits. `mw` means the hit came from Vercel Edge middleware.
+    description: Source marker for Measurement Protocol hits. `mw` means the hit came from Vercel Edge middleware.
+
+  # Full value lists live on the page_delivery event above and in
+  # AI_AGENT_UA_PATTERNS; GA4 caps this field at 150 characters.
+  - parameter_name: client_kind
+    display_name: Client Kind
+    description: "Client the page was delivered to. Values - browser, ai_agent. other_bot (scanners, SEO crawlers, monitors) is refused before send."
+
+  - parameter_name: agent_name
+    display_name: AI Agent Name
+    description: "AI agent id when client_kind=ai_agent - gptbot, chatgpt_user, claudebot, perplexitybot, google_extended, bytespider, etc. (none) for browsers."
 
   - parameter_name: geo_referrer_engine
-    sent_by: server
     display_name: GEO Referrer Engine
     description: "Normalized source value: perplexity, chatgpt_search, gemini, bing_copilot, claude, google_search, bing_search, internal, direct, or other_external."
 
   - parameter_name: geo_referrer_bucket
-    sent_by: server
     display_name: GEO Referrer Bucket
     description: Coarse source bucket for GEO reporting. Values - ai_engine, search, internal, direct, external.
 
   - parameter_name: geo_referrer_host
-    sent_by: server
     display_name: GEO Referrer Host
     description: Normalized referring hostname only, with no path or query. Used for off-site mention and citation drilldowns.
 
   - parameter_name: geo_landing_family
-    sent_by: server
     display_name: GEO Landing Family
     description: Landing page family for citation analysis. Values - occupation, answers, qa, sector, ranking, compare, standard, methodology, map, other.
 
   - parameter_name: geo_citation_candidate
-    sent_by: server
     display_name: GEO Citation Candidate
     description: "String boolean: true for AI-engine or citable-page search referrals where AI Overview-style citation is plausible but unproven."
 
