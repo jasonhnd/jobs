@@ -143,6 +143,50 @@
       return count;
     }
 
+    /**
+     * Funnel events for #256. `shindan_start` once on the first answer.
+     * `shindan_step` on each newly reached answered-count, with GA4 builtin
+     * `value` = 1..9 so Explorations can count steps without a new dimension.
+     * Restoring a result from URL/storage never calls this.
+     */
+    function nextFunnelEvents(started, lastStep, answered) {
+      var events = [];
+      var nextStarted = started;
+      var nextLast = lastStep;
+      if (answered < 1) {
+        return { started: nextStarted, lastStep: nextLast, events: events };
+      }
+      if (!started) {
+        nextStarted = true;
+        events.push({ name: 'shindan_start', params: {} });
+      }
+      for (var step = lastStep + 1; step <= answered; step += 1) {
+        events.push({ name: 'shindan_step', params: { value: step } });
+        nextLast = step;
+      }
+      return { started: nextStarted, lastStep: nextLast, events: events };
+    }
+
+    var funnelStarted = false;
+    var funnelLastStep = 0;
+
+    function resetFunnel() {
+      funnelStarted = false;
+      funnelLastStep = 0;
+    }
+
+    function emitQuizFunnel() {
+      var next = nextFunnelEvents(funnelStarted, funnelLastStep, answeredCount());
+      funnelStarted = next.started;
+      funnelLastStep = next.lastStep;
+      for (var i = 0; i < next.events.length; i += 1) {
+        var ev = next.events[i];
+        // Literal names so check-analytics-spec can see the emits (#231).
+        if (ev.name === 'shindan_start') track('shindan_start');
+        else if (ev.name === 'shindan_step') track('shindan_step', { value: ev.params.value });
+      }
+    }
+
     function selectedSide(index) {
       var checked = $form.querySelector('input[name="shindan-q' + index + '"]:checked');
       return checked ? checked.value : null;
@@ -1137,8 +1181,12 @@
     }
 
     function wireEvents() {
-      $form.addEventListener('change', updateProgress);
+      $form.addEventListener('change', function () {
+        updateProgress();
+        emitQuizFunnel();
+      });
       $form.addEventListener('reset', function () {
+        resetFunnel();
         setTimeout(updateProgress, 0);
       });
       $form.addEventListener('submit', handleSubmit);
@@ -1159,6 +1207,7 @@
       });
       $retake.addEventListener('click', function () {
         $form.reset();
+        resetFunnel();
         updateProgress();
         document.getElementById('shindanQuiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
@@ -1195,6 +1244,7 @@
       window.__SHINDAN_TEST_HOOKS__.validAxesPattern = validAxesPattern;
       window.__SHINDAN_TEST_HOOKS__.axesFromCodePattern = axesFromCodePattern;
       window.__SHINDAN_TEST_HOOKS__.resultStateParams = resultStateParams;
+      window.__SHINDAN_TEST_HOOKS__.nextFunnelEvents = nextFunnelEvents;
     }
 
     if (document.readyState === 'loading') {
