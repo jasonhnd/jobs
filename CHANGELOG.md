@@ -15,6 +15,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 - `/me` now keeps the 9-question work-style quiz behind an explicit CTA after
   the occupation rankings (#257). SEO baseline recaptured: `/me` anchors +8
   (quiz section ids), no href removals.
+- `/me` screen 3 shows the occupation gap (aligned / hidden_strength /
+  hidden_risk) against the already-selected job after the 9 questions, with
+  no second occupation input (#258). `gap` is not stored in the query string.
+  SEO baseline recaptured: `/me` anchors +4 (gap section ids; `meQuizDone`
+  removed).
 
 ### Changed
 

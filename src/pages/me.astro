@@ -51,6 +51,25 @@ function safeJsonForScript(value: unknown): string {
 const meQuizCopyJson = safeJsonForScript({
   questions: QUESTIONS,
   variantBuckets: VARIANT_BUCKETS_BY_FAMILY,
+  // /me screen 3 headings address この仕事 as the visitor's own job.
+  // Separate from GAP in worktype-copy.ts, which still frames a looked-up occupation.
+  gap: {
+    aligned: {
+      heading: 'この仕事は、あなたの得意な進め方に近いです',
+      reading: 'この仕事は、あなたがふだん使いやすい進め方と近いところがあります。',
+      action: 'AIで変わる作業を確認しながら、今の強みをどの業務で伸ばすか見てみましょう。',
+    },
+    hidden_strength: {
+      heading: 'あなたの強みが、この仕事ではまだ眠っています',
+      reading: 'あなたの{strengths}という強みが、この仕事ではまだ使い切れていないかもしれません。',
+      action: 'その強みを使える役割に広げるか、近い職業も比べてみましょう。',
+    },
+    hidden_risk: {
+      heading: 'この仕事での進め方は、これから変えていけます',
+      reading: 'この仕事では、判断、人との接点、AIを使った進め方がこれから効きやすくなります。',
+      action: '判断を加える練習、人との接点を増やす工夫、AI補助のワークフローから始めましょう。',
+    },
+  },
 });
 
 // JSON-LD: @graph form pairs WebApplication (semantic app classification)
@@ -251,7 +270,7 @@ const jsonLd = JSON.stringify({
       margin: 8px 0 28px; padding: 20px 22px;
       background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
     }
-    .me-quiz-cta[hidden], .me-quiz[hidden], .me-quiz-done[hidden] { display: none; }
+    .me-quiz-cta[hidden], .me-quiz[hidden], .me-gap[hidden] { display: none; }
     .me-quiz-cta p { margin: 0 0 14px; color: var(--fg); line-height: 1.8; }
     .me-quiz-open {
       display: inline-flex; align-items: center; justify-content: center;
@@ -286,7 +305,12 @@ const jsonLd = JSON.stringify({
       background: var(--accent); color: #fff; font-weight: 700; cursor: pointer;
     }
     .me-quiz-submit:disabled { opacity: .45; cursor: not-allowed; }
-    .me-quiz-done { margin: 8px 0 28px; color: var(--fg2); font-size: .92rem; }
+    .me-gap { margin: 8px 0 28px; padding: 22px;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; }
+    .me-gap h2 { font-family: var(--font-serif); font-size: 1.2rem; margin: 0 0 10px; line-height: 1.45; }
+    .me-gap-reading, .me-gap-action { margin: 0 0 10px; color: var(--fg); line-height: 1.8; }
+    .me-gap-action { color: var(--fg2); }
+    .me-gap-meter { margin: 0; color: var(--fg3); font-size: .82rem; }
     @media (max-width: 600px) {
       .me-wrapper { padding: 20px 16px 60px; }
       .me-rank-list li { grid-template-columns: 1fr auto; }
@@ -389,7 +413,12 @@ const jsonLd = JSON.stringify({
         </form>
       </section>
 
-      <p class="me-quiz-done" id="meQuizDone" hidden>回答を保存しました。</p>
+      <section class="me-gap" id="meGap" hidden aria-labelledby="meGapHeading">
+        <h2 id="meGapHeading"></h2>
+        <p class="me-gap-reading" id="meGapReading"></p>
+        <p class="me-gap-action" id="meGapAction"></p>
+        <p class="me-gap-meter" id="meGapMeter"></p>
+      </section>
 
       <section class="me-section" aria-labelledby="meSimilarHead">
         <h2 id="meSimilarHead">似た職業 (同業種・AI 影響度 ±1)</h2>
