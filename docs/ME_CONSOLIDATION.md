@@ -103,6 +103,9 @@ received the thing they came for; 54s engagement indicates they do.
 
 Entered from screen 1 by an **explicit CTA, not automatic continuation**, placed
 immediately after the score and ranking block rather than at the end of the page.
+Shipped selectors on `/me` (#257): `#meQuizCta` / `#meQuizOpen` after
+`#meRanksHead`; quiz is `#meQuiz` / `#meQuizForm` and stays hidden until the
+CTA is clicked. `shindan_start` fires on that click. Screen 3 is #258.
 
 Three reasons, in order of weight:
 
