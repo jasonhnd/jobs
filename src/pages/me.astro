@@ -28,6 +28,7 @@ import { join } from 'node:path';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { OCCUPATION_COUNT } from '@/site/config';
+import { NO_OCC_PATH } from '@/site/no-occ-path';
 import { QUESTIONS, VARIANT_BUCKETS_BY_FAMILY } from '@/site/worktype-copy';
 
 const canonical = 'https://mirai-shigoto.com/me';
@@ -311,6 +312,9 @@ const jsonLd = JSON.stringify({
     .me-gap-reading, .me-gap-action { margin: 0 0 10px; color: var(--fg); line-height: 1.8; }
     .me-gap-action { color: var(--fg2); }
     .me-gap-meter { margin: 0; color: var(--fg3); font-size: .82rem; }
+    .me-no-occ-entry { margin: 14px 0 0; font-size: .88rem; }
+    .me-no-occ-entry a { color: var(--fg2); }
+    .me-no-occ-entry a:hover { color: var(--accent-deep); }
     @media (max-width: 600px) {
       .me-wrapper { padding: 20px 16px 60px; }
       .me-rank-list li { grid-template-columns: 1fr auto; }
@@ -349,6 +353,9 @@ const jsonLd = JSON.stringify({
           aria-label="検索候補"
         ></ul>
       </form>
+      <p class="me-no-occ-entry">
+        <a href={NO_OCC_PATH} id="meNoOccEntry">仕事がまだ決まっていない方、変えたいと考えている方はこちら</a>
+      </p>
       <p class="me-status" id="meAnnounce" aria-live="polite" aria-atomic="true"></p>
     </header>
 
