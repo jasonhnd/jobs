@@ -372,9 +372,13 @@ Order:
 Funnel instrumentation must exist **before** consolidation ships, or the redesign
 cannot be evaluated against the baseline.
 
-Currently there is no `shindan_start` event and no per-question event, so quiz
-abandonment cannot be measured at all — only the completion endpoint
-(`shindan_result_view`) is visible. Any event added must be registered in
+`shindan_start` and `shindan_step` ship on today's `/shindan` (#256). Start
+fires once on the first answered question (not on a restored or shared
+result). Each newly reached answered-count fires `shindan_step` with GA4
+builtin `value` = 1..9 — no new event-scoped dimension. Completion remains
+`shindan_result_view`. Abandonment is `shindan_start` without
+`shindan_result_view`; per-question drop is the `value` series on
+`shindan_step`. Any further event must stay registered in
 `analytics/spec.yaml`; `scripts/check-analytics-spec.ts` enforces this in
 `verify:gates` (#231).
 
