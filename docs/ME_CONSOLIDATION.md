@@ -185,8 +185,9 @@ Route naming is deliberately left to the owner. The obvious candidate is a
 転職-anchored path, because 転職 carries far more Japanese search volume than
 anything in our own vocabulary — but claiming that term is a positioning decision
 with consequences beyond this flow, and belongs to #236 rather than to this doc.
-Until it is settled, the code issue should treat the path as a single constant so
-renaming costs one edit and a redirect.
+Shipped constant (#259): `NO_OCC_PATH` in `src/site/no-occ-path.ts`, currently
+`/me/start`. The page is `noindex` and is not in `sitemap.xml` until #236
+decides. Rename later = one edit plus a redirect.
 
 ### 4.5 `/gyakuten` does not become a peer surface
 
