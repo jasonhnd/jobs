@@ -10,6 +10,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Added
+
+- `/me` now keeps the 9-question work-style quiz behind an explicit CTA after
+  the occupation rankings (#257). SEO baseline recaptured: `/me` anchors +8
+  (quiz section ids), no href removals.
+
 ### Changed
 
 - Reconciled the privacy policy after deleting the retired email forms' three

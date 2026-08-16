@@ -28,6 +28,26 @@
     var $rankToggle = document.getElementById('meRankToggle');
     var $rankRest = document.getElementById('meRankRest');
     var $similar = document.getElementById('meSimilar');
+    var $quizCta = document.getElementById('meQuizCta');
+    var $quizOpen = document.getElementById('meQuizOpen');
+    var $quiz = document.getElementById('meQuiz');
+    var $quizForm = document.getElementById('meQuizForm');
+    var $quizSubmit = document.getElementById('meQuizSubmit');
+    var $quizDone = document.getElementById('meQuizDone');
+    var $quizCopy = document.getElementById('meQuizCopy');
+
+    var WORKTYPES_URL = '/data.worktypes.json';
+    var quizCopy = null;
+    var worktypes = null;
+    var quizStarted = false;
+    var quizLastStep = 0;
+    var currentQuizResult = null;
+
+    var AXES = [
+      { key: 'A1', leftPole: 'C', rightPole: 'R', exposedPole: 'R' },
+      { key: 'A2', leftPole: 'P', rightPole: 'D', exposedPole: 'D' },
+      { key: 'A3', leftPole: 'B', rightPole: 'K', exposedPole: 'K' }
+    ];
 
     var searchDocs = null;
     var positionsData = null; // { meta, rankings, positions }
@@ -309,8 +329,147 @@
 
       renderRankList(pos);
       renderSimilar(pos);
+      resetQuizForJob();
 
       $announce.textContent = pos.nameJa + ' の全 39 ランキングを表示しました';
+    }
+
+    function readQuizCopy() {
+      if (quizCopy) return quizCopy;
+      if (!$quizCopy) return null;
+      try {
+        quizCopy = JSON.parse($quizCopy.textContent || '{}');
+      } catch (err) {
+        quizCopy = null;
+      }
+      return quizCopy;
+    }
+
+    function loadWorktypes() {
+      if (worktypes) return Promise.resolve(worktypes);
+      return fetchWithTimeout(WORKTYPES_URL, FETCH_TIMEOUT_MS).then(function (raw) {
+        if (!raw || raw.schema_version !== '1.0' || !raw.variants) throw new Error('bad worktypes');
+        worktypes = raw;
+        return worktypes;
+      });
+    }
+
+    function quizAnsweredCount() {
+      var copy = readQuizCopy();
+      if (!copy || !copy.questions || !$quizForm) return 0;
+      var n = 0;
+      for (var i = 0; i < copy.questions.length; i += 1) {
+        if ($quizForm.querySelector('input[name="me-q' + i + '"]:checked')) n += 1;
+      }
+      return n;
+    }
+
+    function selectedQuizSide(index) {
+      var checked = $quizForm && $quizForm.querySelector('input[name="me-q' + index + '"]:checked');
+      return checked ? checked.value : null;
+    }
+
+    function bucketFromMachine(machineVariant) {
+      if (!machineVariant || typeof machineVariant !== 'string') return 'balance';
+      if (machineVariant.indexOf('-sweep') >= 0) return 'sweep';
+      if (machineVariant.indexOf('-mixed') >= 0) return 'mixed';
+      return 'balance';
+    }
+
+    function variantFromBucket(code, bucket) {
+      var copy = readQuizCopy();
+      var byBucket = copy && copy.variantBuckets && copy.variantBuckets[code];
+      if (byBucket && byBucket[bucket]) return byBucket[bucket];
+      return '';
+    }
+
+    function scoreQuizAnswers() {
+      var copy = readQuizCopy();
+      if (!copy || !copy.questions || !worktypes) return null;
+      var counts = {
+        A1: { C: 0, R: 0 },
+        A2: { P: 0, D: 0 },
+        A3: { B: 0, K: 0 }
+      };
+      for (var i = 0; i < copy.questions.length; i += 1) {
+        var q = copy.questions[i];
+        var side = selectedQuizSide(i);
+        if (!side) return null;
+        var pole = side === 'left' ? q.leftPole : q.rightPole;
+        counts[q.axis][pole] += 1;
+      }
+      var code = '';
+      var margins = [];
+      for (var a = 0; a < AXES.length; a += 1) {
+        var cfg = AXES[a];
+        var leftCount = counts[cfg.key][cfg.leftPole];
+        var winner = leftCount >= 2 ? cfg.leftPole : cfg.rightPole;
+        var loser = winner === cfg.leftPole ? cfg.rightPole : cfg.leftPole;
+        code += winner;
+        margins.push(counts[cfg.key][winner] + '-' + counts[cfg.key][loser]);
+      }
+      var pattern = margins.join('/');
+      var machineVariant = worktypes.variants[code] && worktypes.variants[code][pattern];
+      var bucket = bucketFromMachine(machineVariant);
+      return {
+        code: code,
+        pattern: pattern,
+        bucket: bucket,
+        variantId: variantFromBucket(code, bucket)
+      };
+    }
+
+    function resetQuizForJob() {
+      quizStarted = false;
+      quizLastStep = 0;
+      currentQuizResult = null;
+      if ($quizForm) $quizForm.reset();
+      if ($quizSubmit) $quizSubmit.disabled = true;
+      if ($quiz) $quiz.hidden = true;
+      if ($quizDone) $quizDone.hidden = true;
+      if ($quizCta) $quizCta.hidden = false;
+    }
+
+    function openQuiz() {
+      if (!$quiz || !$quizCta) return;
+      $quizCta.hidden = true;
+      $quiz.hidden = false;
+      $quizDone.hidden = true;
+      if (!quizStarted) {
+        quizStarted = true;
+        ga('shindan_start');
+      }
+      loadWorktypes().catch(function () {});
+      $quiz.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function onQuizChange() {
+      var n = quizAnsweredCount();
+      if ($quizSubmit) $quizSubmit.disabled = n !== 9;
+      for (var s = quizLastStep + 1; s <= n; s += 1) {
+        ga('shindan_step', { value: s });
+      }
+      if (n > quizLastStep) quizLastStep = n;
+    }
+
+    function submitQuiz(e) {
+      e.preventDefault();
+      loadWorktypes().then(function () {
+        var result = scoreQuizAnswers();
+        if (!result) return;
+        currentQuizResult = result;
+        if ($quiz) $quiz.hidden = true;
+        if ($quizDone) $quizDone.hidden = false;
+        updateUrl(currentJobId);
+      });
+    }
+
+    function wireQuiz() {
+      if ($quizOpen) $quizOpen.addEventListener('click', openQuiz);
+      if ($quizForm) {
+        $quizForm.addEventListener('change', onQuizChange);
+        $quizForm.addEventListener('submit', submitQuiz);
+      }
     }
 
     function renderRankList(pos) {
@@ -483,6 +642,11 @@
     function updateUrl(jobId) {
       var p = new URLSearchParams();
       if (jobId) p.set('id', String(jobId));
+      if (currentQuizResult) {
+        p.set('self', currentQuizResult.code);
+        p.set('variant', currentQuizResult.variantId);
+        p.set('axes', currentQuizResult.pattern);
+      }
       var qs = p.toString();
       var newPath = location.pathname + (qs ? '?' + qs : '');
       if (newPath !== location.pathname + location.search) {
@@ -500,6 +664,7 @@
 
     // ── init ───────────────────────────────────────────────────────
     function init() {
+      wireQuiz();
       var urlId = readUrlId();
       // Pre-load positions + search so first selection is instant.
       Promise.all([loadSearchIndex(), loadPositions(), loadTreemap()]).then(function () {
@@ -509,6 +674,11 @@
         console.warn('[me] data load failed:', err);
         $empty.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
       });
+    }
+
+    if (typeof window !== 'undefined' && window.__ME_TEST_HOOKS__) {
+      window.__ME_TEST_HOOKS__.scoreQuizAnswers = scoreQuizAnswers;
+      window.__ME_TEST_HOOKS__.quizAnsweredCount = quizAnsweredCount;
     }
 
     if (document.readyState === 'loading') {
