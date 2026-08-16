@@ -39,6 +39,9 @@
     var $gapAction = document.getElementById('meGapAction');
     var $gapMeter = document.getElementById('meGapMeter');
     var $quizCopy = document.getElementById('meQuizCopy');
+    var $occList = document.getElementById('meOccList');
+    var $occs = document.getElementById('meOccs');
+    var noOccMode = !!$occList;
 
     var WORKTYPES_URL = '/data.worktypes.json';
     var quizCopy = null;
@@ -218,6 +221,7 @@
     }
 
     function closeListbox() {
+      if (!$listbox || !$input) return;
       $listbox.setAttribute('data-open', 'false');
       $input.setAttribute('aria-expanded', 'false');
       $input.removeAttribute('aria-activedescendant');
@@ -226,7 +230,7 @@
 
     var searchDebounce = null;
     var searchSeq = 0;
-    $input.addEventListener('input', function () {
+    if ($input) $input.addEventListener('input', function () {
       if (searchDebounce) clearTimeout(searchDebounce);
       var q = $input.value;
       if (!q.trim()) {
@@ -248,7 +252,7 @@
       }, 80);
     });
 
-    $input.addEventListener('keydown', function (e) {
+    if ($input) $input.addEventListener('keydown', function (e) {
       var items = $listbox.querySelectorAll('li');
       if (e.key === 'ArrowDown') {
         if (!items.length) {
@@ -280,24 +284,24 @@
       }
     });
 
-    $form.addEventListener('submit', function (e) {
+    if ($form) $form.addEventListener('submit', function (e) {
       e.preventDefault();
       var items = $listbox.querySelectorAll('li');
       var pick = items[focusedIdx >= 0 ? focusedIdx : 0];
       if (pick) selectJob(parseInt(pick.dataset.id, 10));
     });
 
-    $listbox.addEventListener('click', function (e) {
+    if ($listbox) $listbox.addEventListener('click', function (e) {
       var li = e.target.closest('li[data-id]');
       if (!li) return;
       selectJob(parseInt(li.dataset.id, 10));
     });
 
-    $input.addEventListener('blur', function () {
+    if ($input) $input.addEventListener('blur', function () {
       // Delay closing so click on listbox lands first.
       setTimeout(closeListbox, 150);
     });
-    $input.addEventListener('focus', function () {
+    if ($input) $input.addEventListener('focus', function () {
       if ($input.value.trim() && $listbox.children.length > 0) {
         $listbox.setAttribute('data-open', 'true');
         $input.setAttribute('aria-expanded', 'true');
@@ -560,6 +564,54 @@
       if (n > quizLastStep) quizLastStep = n;
     }
 
+    function renderFamilyOccupations(code, options) {
+      if (!$occList) return;
+      if ($occs) $occs.hidden = false;
+      $occList.replaceChildren();
+      var rows = [];
+      var tree = treemapData || [];
+      for (var i = 0; i < tree.length; i += 1) {
+        var item = tree[i];
+        var record = worktypes && worktypes.occupations ? worktypes.occupations[String(item.id)] : null;
+        if (!record || record.code !== code) continue;
+        rows.push(item);
+      }
+      rows.sort(function (a, b) {
+        return (b.workers || 0) - (a.workers || 0) || String(a.name_ja || '').localeCompare(String(b.name_ja || ''), 'ja');
+      });
+      var shown = rows.slice(0, 6);
+      if (!shown.length) {
+        var empty = document.createElement('li');
+        empty.textContent = '代表職業データを読み込めませんでした。';
+        $occList.appendChild(empty);
+        return;
+      }
+      for (var k = 0; k < shown.length; k += 1) {
+        var r2 = shown[k];
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = occupationPath(r2.id);
+        var nm = document.createElement('span');
+        nm.textContent = r2.name_ja || ('職業 ' + r2.id);
+        var meta = document.createElement('span');
+        meta.className = 'me-occ-meta';
+        var pill = document.createElement('span');
+        pill.className = 'me-li-pill ' + (riskBand(r2.ai_risk) || 'mid');
+        pill.textContent = 'AI ' + (r2.ai_risk != null ? r2.ai_risk : '?') + '/10';
+        var workers = document.createElement('span');
+        workers.textContent = fmtWorkers(r2.workers);
+        meta.appendChild(pill);
+        meta.appendChild(workers);
+        a.appendChild(nm);
+        a.appendChild(meta);
+        li.appendChild(a);
+        $occList.appendChild(li);
+      }
+      if (!(options && options.skipScroll) && $occs) {
+        $occs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
     function submitQuiz(e) {
       e.preventDefault();
       loadWorktypes().then(function () {
@@ -567,6 +619,17 @@
         if (!result) return;
         currentQuizResult = result;
         if ($quiz) $quiz.hidden = true;
+        if (noOccMode) {
+          return Promise.all([loadTreemap(), loadWorktypes()]).then(function () {
+            updateUrl(null);
+            renderFamilyOccupations(result.code);
+            ga('shindan_result_view', {
+              family_code: result.code,
+              variant_id: result.variantId,
+              variant_bucket: result.bucket
+            });
+          });
+        }
         updateUrl(currentJobId);
         showGap(result);
       });
@@ -673,7 +736,7 @@
       }
     }
 
-    $rankToggle.addEventListener('click', function () {
+    if ($rankToggle) $rankToggle.addEventListener('click', function () {
       var rows = $rankList._rows;
       if (!rows) return;
       var alreadyShown = parseInt($rankList.dataset.rendered || '0', 10);
@@ -805,7 +868,28 @@
     }
 
     // ── init ───────────────────────────────────────────────────────
+    function initNoOcc() {
+      wireQuiz();
+      if ($quiz) $quiz.hidden = false;
+      if ($occs) $occs.hidden = true;
+      var urlQuiz = readUrlQuiz();
+      Promise.all([loadWorktypes(), loadTreemap()]).then(function () {
+        if (urlQuiz) {
+          currentQuizResult = urlQuiz;
+          if ($quiz) $quiz.hidden = true;
+          renderFamilyOccupations(urlQuiz.code, { skipScroll: true });
+        }
+        ga('me_open', { from_bookmark: urlQuiz ? 1 : 0 });
+      }).catch(function (err) {
+        console.warn('[me] no-occ data load failed:', err);
+      });
+    }
+
     function init() {
+      if (noOccMode) {
+        initNoOcc();
+        return;
+      }
       wireQuiz();
       var urlId = readUrlId();
       var urlQuiz = readUrlQuiz();
@@ -815,7 +899,7 @@
         ga('me_open', { from_bookmark: urlId ? 1 : 0 });
       }).catch(function (err) {
         console.warn('[me] data load failed:', err);
-        $empty.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
+        if ($empty) $empty.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
       });
     }
 
@@ -825,6 +909,7 @@
       window.__ME_TEST_HOOKS__.computeGap = computeGap;
       window.__ME_TEST_HOOKS__.gapReadingFor = gapReadingFor;
       window.__ME_TEST_HOOKS__.quizStateParams = quizStateParams;
+      window.__ME_TEST_HOOKS__.noOccMode = noOccMode;
     }
 
     if (document.readyState === 'loading') {
