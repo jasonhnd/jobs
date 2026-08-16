@@ -506,9 +506,24 @@ events:
     conversion: false
 
   # ---- /shindan page ----
-  # Added to spec 2026-07-28 (issue #231). All three have been emitting since
-  # the page shipped with no dimensions registered, so the 16-type, variant and
-  # gap distributions could not be reported on at all.
+  # Result / share / gap added 2026-07-28 (#231). Start / step added 2026-08-16
+  # (#256) so abandonment is visible before the /me merge.
+  - name: shindan_start
+    description: |
+      First answered question on /shindan (#256 / acq-2). Distinguishes
+      "landed on the page" (page_view) from "began the quiz". Restored or
+      shared results do not fire this. Compare to shindan_result_view for
+      start-to-completion abandonment. conversion false — entry, not the goal.
+    params: []
+    conversion: false
+  - name: shindan_step
+    description: |
+      One fire per newly reached answered-count (1..9) after shindan_start.
+      Uses GA4 builtin `value` as the step index so Explorations / BigQuery
+      can read the step without a new event-scoped dimension (#240 cap).
+    params:
+      - { name: value, type: int, desc: "Answered-count just reached, 1..9. GA4 builtin — not a custom dimension." }
+    conversion: false
   - name: shindan_result_view
     description: |
       The diagnostic finished and the result was shown. This is the completion
