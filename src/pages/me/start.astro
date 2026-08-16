@@ -1,0 +1,181 @@
+---
+/**
+ * /me/start — no-occupation branch (#259).
+ *
+ * Own route, not a state inside /me. Path is NO_OCC_PATH so #236 can
+ * rename it with one edit + redirect. noindex until #236 decides SEO.
+ *
+ * CSP: same static _me-inline.js body as /me (one hash).
+ */
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { NO_OCC_PATH } from '@/site/no-occ-path';
+import { QUESTIONS, VARIANT_BUCKETS_BY_FAMILY } from '@/site/worktype-copy';
+
+const canonical = `https://mirai-shigoto.com${NO_OCC_PATH}`;
+const title = '仕事がまだ決まっていない方へ｜9問で合う職業を見る - 未来の仕事';
+const seoDesc =
+  '今の仕事から選ばなくても大丈夫です。9問であなたの働き方を見て、合いそうな職業とAI影響度を提示します。';
+
+const ME_INLINE_JS = readFileSync(
+  join(process.cwd(), 'src', 'pages', '_me-inline.js'),
+  'utf-8',
+);
+
+function safeJsonForScript(value: unknown): string {
+  const text = JSON.stringify(value) ?? 'null';
+  return text
+    .replace(/<\//g, '<\\/')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
+const meQuizCopyJson = safeJsonForScript({
+  questions: QUESTIONS,
+  variantBuckets: VARIANT_BUCKETS_BY_FAMILY,
+});
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': canonical,
+      name: title,
+      url: canonical,
+      description: seoDesc,
+      inLanguage: 'ja',
+      isPartOf: { '@type': 'WebSite', name: 'Mirai-Shigoto', url: 'https://mirai-shigoto.com/' },
+    },
+  ],
+});
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  canonical={canonical}
+  ogTitle={title}
+  ogDescription={seoDesc}
+  ogImage="https://mirai-shigoto.com/api/og?page=me"
+  noindex={true}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={`
+    .me-wrapper { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+    .me-crumb { font-size: .85rem; color: var(--fg2); margin-bottom: 24px; }
+    .me-crumb a { color: var(--fg2); }
+    .me-crumb span[aria-hidden] { margin: 0 8px; color: var(--fg3); }
+    .me-head { margin-bottom: 28px; border-bottom: 1px solid var(--border); padding-bottom: 22px; }
+    .me-head h1 {
+      font-family: var(--font-serif); font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 600; line-height: 1.25; color: var(--fg); margin-bottom: 10px;
+    }
+    .me-head h1 .accent { color: var(--accent-deep); }
+    .me-head .sub { color: var(--fg2); font-size: .95rem; line-height: 1.8; }
+    .me-quiz[hidden], .me-occs[hidden] { display: none; }
+    .me-quiz { margin: 8px 0 28px; padding: 22px;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; }
+    .me-quiz h2 { font-family: var(--font-serif); font-size: 1.2rem; margin: 0 0 8px; }
+    .me-quiz .sub { margin: 0 0 18px; color: var(--fg2); font-size: .9rem; line-height: 1.8; }
+    .me-quiz-question { border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin: 0 0 12px; background: var(--bg); }
+    .me-quiz-question legend { padding: 0; margin: 0 0 10px; font-weight: 600; }
+    .me-quiz-meta { margin-right: 8px; color: var(--accent-deep); font-size: .78rem; font-weight: 700; }
+    .me-quiz-choice-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .me-quiz-choice input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
+    .me-quiz-choice-text {
+      display: flex; align-items: center; justify-content: center; min-height: 58px;
+      padding: 10px 12px; border: 1px solid var(--border); border-radius: 7px;
+      background: var(--bg2); color: var(--fg); font-size: .88rem; line-height: 1.5;
+      text-align: center; cursor: pointer;
+    }
+    .me-quiz-choice input:checked + .me-quiz-choice-text {
+      background: rgba(217,107,61,.14); border-color: var(--accent); font-weight: 600;
+    }
+    .me-quiz-choice input:focus-visible + .me-quiz-choice-text { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .me-quiz-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .me-quiz-submit {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 10px 18px; border-radius: 999px; border: 0;
+      background: var(--accent); color: #fff; font-weight: 700; cursor: pointer;
+    }
+    .me-quiz-submit:disabled { opacity: .45; cursor: not-allowed; }
+    .me-occs { margin: 8px 0 28px; }
+    .me-occs h2 { font-family: var(--font-serif); font-size: 1.2rem; margin: 0 0 14px; }
+    .me-occ-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; list-style: none; padding: 0; margin: 0; }
+    .me-occ-list a {
+      display: flex; flex-direction: column;
+      padding: 14px 16px; background: var(--bg2);
+      border: 1px solid var(--border); border-radius: 6px;
+      text-decoration: none; color: var(--fg); font-weight: 500;
+    }
+    .me-occ-list a:hover { border-color: var(--accent); color: var(--accent-deep); }
+    .me-occ-meta { font-size: .76rem; color: var(--fg2); margin-top: 4px; display: flex; gap: 8px; align-items: center; }
+    .me-li-pill { font-size: .72rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+    .me-li-pill.low { background: rgba(110,155,137,.16); color: #3f7461; }
+    .me-li-pill.mid { background: rgba(212,167,73,.16); color: #8a6a1f; }
+    .me-li-pill.high { background: rgba(201,90,58,.14); color: #9d4a33; }
+    .me-back { margin: 0 0 18px; font-size: .88rem; }
+    .me-back a { color: var(--fg2); }
+    @media (max-width: 600px) {
+      .me-wrapper { padding: 20px 16px 60px; }
+    }
+  `} />
+
+  <article class="me-wrapper">
+    <nav class="me-crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <a href="/me">自分の現在地</a>
+      <span aria-hidden="true">›</span>
+      <span>仕事がまだ決まっていない方</span>
+    </nav>
+
+    <header class="me-head" id="content">
+      <h1><span class="accent">仕事から選ばなくても大丈夫です</span></h1>
+      <p class="sub">9問であなたの働き方のタイプを見て、そこから合いそうな職業を探しましょう。</p>
+      <p class="me-back"><a href="/me">職業が決まっている方はこちら</a></p>
+    </header>
+
+    <script id="meQuizCopy" type="application/json" set:html={meQuizCopyJson}></script>
+
+    <section class="me-quiz" id="meQuiz" aria-labelledby="meQuizHeading">
+      <h2 id="meQuizHeading">9問で働き方を見る</h2>
+      <p class="sub">今の仕事から選ばなくても大丈夫です。答えはどれも正解です。</p>
+      <form id="meQuizForm" autocomplete="off">
+        {QUESTIONS.map((q, i) => (
+          <fieldset class="me-quiz-question">
+            <legend>
+              <span class="me-quiz-meta">Q{i + 1}</span>
+              {q.left} / {q.right}
+            </legend>
+            <div class="me-quiz-choice-row">
+              <label class="me-quiz-choice">
+                <input type="radio" name={`me-q${i}`} value="left" />
+                <span class="me-quiz-choice-text">{q.left}</span>
+              </label>
+              <label class="me-quiz-choice">
+                <input type="radio" name={`me-q${i}`} value="right" />
+                <span class="me-quiz-choice-text">{q.right}</span>
+              </label>
+            </div>
+          </fieldset>
+        ))}
+        <div class="me-quiz-actions">
+          <button class="me-quiz-submit" type="submit" id="meQuizSubmit" disabled>答えを見る</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="me-occs" id="meOccs" hidden aria-labelledby="meOccHeading">
+      <h2 id="meOccHeading">合いそうな職業</h2>
+      <ul class="me-occ-list" id="meOccList"></ul>
+    </section>
+
+    <Footer />
+  </article>
+
+  <script slot="bodyEnd" is:inline set:html={ME_INLINE_JS} />
+</BaseLayout>
