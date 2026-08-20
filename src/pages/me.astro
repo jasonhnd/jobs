@@ -29,7 +29,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { OCCUPATION_COUNT } from '@/site/config';
 import { NO_OCC_PATH } from '@/site/no-occ-path';
-import { QUESTIONS, VARIANT_BUCKETS_BY_FAMILY } from '@/site/worktype-copy';
+import { QUESTIONS, SHARE, VARIANT_BUCKETS_BY_FAMILY } from '@/site/worktype-copy';
 
 const canonical = 'https://mirai-shigoto.com/me';
 const title = '自分の現在地｜全 39 ランキングでの位置を確認 - 未来の仕事';
@@ -52,6 +52,7 @@ function safeJsonForScript(value: unknown): string {
 const meQuizCopyJson = safeJsonForScript({
   questions: QUESTIONS,
   variantBuckets: VARIANT_BUCKETS_BY_FAMILY,
+  share: SHARE,
   // /me screen 3 headings address この仕事 as the visitor's own job.
   // Separate from GAP in worktype-copy.ts, which still frames a looked-up occupation.
   gap: {
@@ -213,6 +214,29 @@ const jsonLd = JSON.stringify({
       font-weight: 600; color: var(--fg);
       font-variant-numeric: tabular-nums;
     }
+    .me-share {
+      margin: 16px 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .me-share[hidden] { display: none; }
+    .me-share-open {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .me-share-open:hover { filter: brightness(1.06); }
     .me-section { margin: 36px 0; }
     .me-section h2 {
       font-family: var(--font-serif); font-size: 1.25rem; font-weight: 600;
@@ -380,6 +404,9 @@ const jsonLd = JSON.stringify({
           <div><dt>年収</dt><dd id="meStatSalary">—</dd></div>
           <div><dt>業種</dt><dd id="meStatSector">—</dd></div>
         </dl>
+        <div class="me-share" id="meShare" hidden>
+          <button type="button" class="me-share-open" id="meShareOpen">この数字をシェア</button>
+        </div>
       </section>
 
       <section class="me-section" aria-labelledby="meRanksHead">

@@ -39,6 +39,8 @@
     var $gapAction = document.getElementById('meGapAction');
     var $gapMeter = document.getElementById('meGapMeter');
     var $quizCopy = document.getElementById('meQuizCopy');
+    var $share = document.getElementById('meShare');
+    var $shareOpen = document.getElementById('meShareOpen');
 
     var WORKTYPES_URL = '/data.worktypes.json';
     var quizCopy = null;
@@ -339,6 +341,7 @@
       renderRankList(pos);
       renderSimilar(pos);
       resetQuizForJob();
+      if ($share) $share.hidden = false;
       if (options && options.restoredQuiz) {
         restoreQuizResult(options.restoredQuiz);
       }
@@ -805,9 +808,50 @@
       };
     }
 
+    function currentSharePayload() {
+      if (!currentJobId || !positionsData || !positionsData.positions) return null;
+      var pos = positionsData.positions[currentJobId];
+      if (!pos || pos.summary.aiRisk == null) return null;
+      var copy = readQuizCopy();
+      var share = copy && copy.share ? copy.share : {};
+      var template = share.textTemplateWithJob || '#AI働き方診断 {職業}のAI影響度は{点数}。あなたの仕事は？ {リンク}';
+      var url = location.origin + location.pathname + (location.search || '');
+      var text = template
+        .replace(/\{職業\}/g, pos.nameJa)
+        .replace(/\{点数\}/g, pos.summary.aiRisk + '/10')
+        .replace(/\{リンク\}/g, url)
+        .replace(/\s+/g, ' ')
+        .trim();
+      return { title: pos.nameJa + 'のAI影響度', text: text, url: url, jobId: currentJobId };
+    }
+
+    function openMeShare() {
+      var payload = currentSharePayload();
+      if (!payload) return;
+      ga('share_click', { platform: typeof navigator.share === 'function' ? 'native' : 'x', occupation_id: payload.jobId });
+      if (typeof navigator.share === 'function') {
+        navigator.share({
+          title: payload.title,
+          text: payload.text.replace(payload.url, '').replace(/\s+/g, ' ').trim(),
+          url: payload.url
+        }).catch(function () {});
+        return;
+      }
+      window.open(
+        'https://x.com/intent/post?text=' + encodeURIComponent(payload.text),
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
+
+    function wireShare() {
+      if ($shareOpen) $shareOpen.addEventListener('click', openMeShare);
+    }
+
     // ── init ───────────────────────────────────────────────────────
     function init() {
       wireQuiz();
+      wireShare();
       var urlId = readUrlId();
       var urlQuiz = readUrlQuiz();
       // Pre-load positions + search so first selection is instant.

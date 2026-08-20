@@ -11,6 +11,7 @@ test('worktype OG context uses recomputed job gap copy', () => {
     title: 'データ職業',
     worktypeCode: 'CDB',
     worktypeName: 'ものづくり設計家',
+    score: 8.1,
   });
 
   assert.equal(gap, 'hidden_risk');
@@ -18,3 +19,5 @@ test('worktype OG context uses recomputed job gap copy', () => {
   assert.match(context, /データ職業 \/ ものづくり設計家/);
   assert.match(context, /働き方を更新する余地があります/);
 });
+
+
