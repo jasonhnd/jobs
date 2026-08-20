@@ -315,9 +315,10 @@ const { iso, display } = formatJst(buildTime);
               language: 'ja'
             };
           } else if (name === 'me_entry_click') {
-            // Entry into /me from occupation / rankings / compare pages (#234).
-            // occupation_id is 0 on the list surfaces, which have no single
-            // occupation in context — `source` is what separates them.
+            // Entry into /me from occupation / rankings / compare / sectors
+            // pages (#234), the mobile drawer (`nav_drawer`), or the desktop
+            // top bar (`top_nav`). occupation_id is 0 on list and chrome
+            // surfaces — `source` is what separates them.
             params = {
               occupation_id: Number(t.getAttribute('data-occupation-id')) || 0,
               source: t.getAttribute('data-entry-source') || '',

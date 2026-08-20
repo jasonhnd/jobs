@@ -31,9 +31,12 @@ interface NavItem {
   href: string;
   label: string;
   prefix: string;
+  trackEvent?: string;
+  entrySource?: string;
 }
 
 const items: ReadonlyArray<NavItem> = [
+  { href: '/me',          label: '自分の現在地', prefix: '/me', trackEvent: 'me_entry_click', entrySource: 'top_nav' },
   { href: '/shindan',     label: '診断',        prefix: '/shindan' },
   { href: '/gyakuten',    label: '図鑑',        prefix: '/gyakuten' },
   { href: '/map',           label: '職業マップ',  prefix: '/map' },
@@ -57,6 +60,7 @@ const brandIsCurrent = isCurrent('/');
       <a
         href={it.href}
         {...(isCurrent(it.prefix) ? { 'aria-current': 'page' } : {})}
+        {...(it.trackEvent ? { 'data-track-event': it.trackEvent, 'data-occupation-id': '0', 'data-entry-source': it.entrySource } : {})}
       >{it.label}</a>{i < items.length - 1 && <span class="sep" aria-hidden="true">·</span>}
     </>
   ))}
