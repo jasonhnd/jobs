@@ -15,17 +15,11 @@ Tracks issue #233. Related: #234 (entry), #235 (rarity), #236 (SEO), #237 (share
 
 ### 1.1 The site asks the same person the same question in two places
 
-`/me` and `/shindan` both ask the visitor for their occupation, both read the same
-occupation index (`data.search.json` + `data.treemap.json`), both implement their
-own search widget (`meInput`, `shindanJobInput`), and **neither links to the
-other**:
-
-```
-me.astro      → /shindan links: 0
-_me-inline.js → /shindan links: 0
-shindan.astro → /me links:      0
-_shindan.js   → /me links:      0
-```
+`/me` and `/shindan` both used to ask the visitor for their occupation, both read
+the same occupation index, both implement their own search widget, and neither
+linked to the other. That is the problem this doc started from. After the 2026-08-17
+lock, `/me` links to `/shindan` as the no-occupation 9-question entry; `/shindan`
+is no longer a second occupation-first product.
 
 ### 1.2 `/me` is already the occupation-first shape
 
@@ -69,11 +63,15 @@ the feature.
 
 ## 2. Decisions
 
-- **D1 — `/me` is the single "about me" surface.** The diagnostic becomes a
-  deepening step inside it, not a parallel route.
-- **D2 — `/shindan` 301s to `/me`.** Details and the share-link exception in §5.
+- **D1 — `/me` is the single occupation-first "about me" surface.** The 9
+  questions there are a deepening step against a known job, not a parallel
+  identity product.
+- **D2 — `/shindan` stays as the no-occupation 9-question entry.** It is not
+  301'd away as a whole. Occupation-bearing old links (`?job=`) 301 to `/me`.
+  Details in §5.
 - **D3 — A no-occupation branch is a first-class entry, not a fallback.**
-  「まだ仕事がない / 変えたい」. Rationale in §4.4.
+  「まだ仕事がない / 変えたい」. The public path is `/shindan` (`NO_OCC_PATH`).
+  Rationale in §4.4.
 - **D4 — The 9 questions are reframed from identity to divergence.** Same items,
   same axes, same scoring. What changes is what the result claims: not *"you are
   X"* but *"you and this occupation differ on axis Y"*.
@@ -174,20 +172,15 @@ Shape (to be detailed in the code issue):
 
 This branch also receives the old share links that carry no occupation — see §5.3.
 
-**It gets its own route.** A state inside `/me` would be simpler, but the branch has
-three properties a state cannot serve: it is a distinct intent worth entering
-directly, it is the landing target for every occupation-less share link already in
-circulation (§5.3), and it is the one part of this flow with plausible independent
-search demand — unlike our type vocabulary, which is why the diagnostic has no SEO
-surface today (#236).
+**It keeps `/shindan` as that route** (owner lock 2026-08-17). A state inside
+`/me` cannot serve three properties this branch needs: it is a distinct intent
+worth entering directly, it is the landing target for every occupation-less share
+link already in circulation (§5.3), and it is the one part of this flow with
+plausible independent search demand — unlike our type vocabulary (#236).
 
-Route naming is deliberately left to the owner. The obvious candidate is a
-転職-anchored path, because 転職 carries far more Japanese search volume than
-anything in our own vocabulary — but claiming that term is a positioning decision
-with consequences beyond this flow, and belongs to #236 rather than to this doc.
-Shipped constant (#259): `NO_OCC_PATH` in `src/site/no-occ-path.ts`, currently
-`/me/start`. The page is `noindex` and is not in `sitemap.xml` until #236
-decides. Rename later = one edit plus a redirect.
+`NO_OCC_PATH` in `src/site/no-occ-path.ts` is `/shindan`. `/me` screen 1 links
+there. The brief `#259` alias `/me/start` 301s to `/shindan`. A later 転職-anchored
+public name is still #236; rename = one constant plus a redirect.
 
 ### 4.5 `/gyakuten` does not become a peer surface
 
@@ -276,49 +269,44 @@ This is the part that can silently break existing shares. State shapes today:
 `/shindan → /me` redirect in `vercel.json` would bypass that and break every result
 link already shared.
 
-### 5.1 Merged state shape
-
-`/me` carries occupation and, when present, diagnostic state:
+### 5.1 State shape
 
 ```
 /me?id=<jobId>
 /me?id=<jobId>&self=<code>&variant=<variantId>&axes=<pattern>
-/me?self=<code>&variant=<variantId>&axes=<pattern>     ← no-occupation branch
+/shindan
+/shindan?self=<code>&variant=<variantId>&axes=<pattern>     ← no-occupation result
 ```
 
-`gap` is not carried: it is derivable from `self` + the occupation's code, and a
-stored value could contradict a re-derived one after a re-score.
+`gap` is not carried on `/me`: it is derivable from `self` + the occupation's
+code, and a stored value could contradict a re-derived one after a re-score.
 
 ### 5.2 Redirect rules
 
 | Request | Behaviour |
 |---|---|
-| `/shindan` (no params) | 301 → `/me` |
-| `/shindan?self=…&job=<id>&…` | 301 → `/me?id=<id>&self=…&variant=…&axes=…` |
-| `/shindan?self=…` (no `job`) | 301 → `/me?self=…&variant=…&axes=…` → no-occupation branch |
+| `/shindan` (no params) | stays — no-occupation 9-question entry |
+| `/shindan?self=…` (no `job`) | stays; share rewrite to `/api/shindan-share` for OG |
+| `/shindan?self=…&job=<id>&…` | humans 301 → `/me?id=<id>&self=…&variant=…&axes=…`; scrapers keep the share rewrite so OG is not lost |
+| `/me/start` | 301 → `/shindan` (query preserved) |
 
-Because the mapping is conditional on query parameters, it belongs in the routing
-middleware alongside the existing share rewrite, not in `vercel.json` `redirects`
-(which matches on path). The existing `shindanShareRewriteTarget` and the new
-redirect must be ordered deliberately and covered by tests — a crawler or a social
-scraper hitting a shared link must still reach OG metadata, not a redirect chain
-that loses it.
+Conditional mapping lives in routing middleware next to `shindanShareRewriteTarget`.
+The path-only `/me/start` alias is also in `vercel.json` so the local e2e static
+server follows it. Order: alias 301 → (if not a bot) occupation 301 → share
+rewrite. Tests cover all three rows.
 
 ### 5.3 Old shares without an occupation
 
 The gap step was used 4 times in 28 days, so nearly every result link already
-shared carries `self` but no `job`. Those land on the no-occupation branch from
-§4.4, which is a coherent destination rather than an error state. This is a reason
-to build that branch in the same change as the redirect, not after it.
+shared carries `self` but no `job`. Those stay on `/shindan`, which is the
+no-occupation entry.
 
 ### 5.4 SEO
 
-`/shindan` is in `sitemap.xml` (1 entry) and must be removed from it when the
-redirect lands. Result URLs are `noindex, follow`
-(`src/site/shindan-share-html.ts:65`) — correct, and unchanged. Re-capture SEO
-baselines; `verify-internal-links` will flag any in-repo `/shindan` link left
-behind (`gyakuten.astro:235,338`, `models.astro:284`, `TopNav.astro:37`,
-`MobileNav.astro:65`).
+`/shindan` stays in `sitemap.xml` (it is the public no-occupation entry). Result
+URLs remain `noindex, follow` (`src/site/shindan-share-html.ts:65`). Nav and
+`/gyakuten` / `/models` CTAs keep pointing at `/shindan`. Recapture SEO baselines
+if `/me` hrefs or the retired `/me/start` page set change.
 
 ## 6. Where this contradicts WORKTYPE_VIRALITY.md
 
@@ -405,15 +393,15 @@ Settled in review (2026-07-29):
 | Question | Decision | Where |
 |---|---|---|
 | Screen 2 entry | Explicit CTA, placed after the score — not automatic continuation | §4.2 |
-| No-occupation branch URL | Own route, not a state inside `/me` | §4.4 |
+| No-occupation branch URL | `/shindan` (`NO_OCC_PATH`); `/me/start` 301s there | §4.4 |
 | `/gyakuten` | Keep the route, drop the flagship framing, invest nothing until there is volume | §4.5 |
 | JA copy | Drafted | §4.6 |
 
 Still open:
 
-1. **Route name for the no-occupation branch.** A 転職-anchored path has real search
-   volume behind it, but claiming that term is a positioning decision that belongs
-   to #236. Treat the path as one constant until it is settled.
+1. **Public name beyond `/shindan`.** Owner locked `/shindan` as the no-occupation
+   entry (2026-08-17). A 転職-anchored path remains a #236 positioning decision.
+   `NO_OCC_PATH` is still the one constant.
 2. **JA copy sign-off.** §4.6 is a draft. The `hidden_risk` wording in particular
    needs owner judgement: it must not read as a prediction about the visitor's own
    job, which the site's disclaimer explicitly disclaims.
