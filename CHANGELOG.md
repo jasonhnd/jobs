@@ -28,6 +28,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `/me` now uses the site cream body wash (`--bg`) like `/shindan` and the
+  hub/static pages. It previously left `body` at browser white, so the
+  page read as a different colour from the rest of the site.
 - Reconciled the privacy policy after deleting the retired email forms' three
   historical contacts, two jobs-only Resend segments, Vercel bindings, and
   dedicated rate-limit store; Resend is no longer an active processor for the

@@ -118,6 +118,11 @@ const jsonLd = JSON.stringify({
   <link rel="preload" href="/data.me-positions.json" as="fetch" slot="head" />
 
   <style slot="head" set:html={`
+    /* Same page-class body wash as /shindan and hub/static pages.
+       Footer only emits :root tokens; without this, body stays browser-white
+       against cream (--bg #FAF6EE) used everywhere else. */
+    html { font-size: 16px; }
+    body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; line-height: 1.75; }
     .me-wrapper { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
     .me-crumb { font-size: .85rem; color: var(--fg2); margin-bottom: 24px; }
     .me-crumb a { color: var(--fg2); }
