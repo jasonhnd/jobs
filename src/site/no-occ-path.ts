@@ -1,8 +1,14 @@
 /**
- * Path for the no-occupation branch (#259).
+ * Path for the no-occupation 9-question entry.
  *
- * One constant so a later #236 rename is one edit plus a redirect.
- * Do not put 転職 in this slug here — that is a positioning decision
- * for #236, not this issue.
+ * Owner lock 2026-08-17: `/shindan` stays as that entry. `/me` is
+ * occupation-first. A later #236 public-name change (including any 転職
+ * claim) is still one edit plus a redirect from this constant.
+ *
+ * The retired alias `/me/start` 301s here — see
+ * `noOccAliasRedirectTarget` in `src/lib/shindan-share-route.ts`.
  */
-export const NO_OCC_PATH = '/me/start';
+export const NO_OCC_PATH = '/shindan';
+
+/** Public path shipped briefly by #259 before the owner pointed the branch at `/shindan`. */
+export const NO_OCC_ALIAS_PATH = '/me/start';

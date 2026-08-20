@@ -643,7 +643,7 @@
         var name = document.createElement('span');
         name.textContent = item.name_ja || ('職業 ' + item.id);
         var meta = document.createElement('small');
-        meta.textContent = '就業者数 ' + formatWorkers(item.workers);
+        meta.textContent = 'AI ' + formatRisk(item.ai_risk) + ' / 就業者数 ' + formatWorkers(item.workers);
         a.appendChild(name);
         a.appendChild(meta);
         li.appendChild(a);

@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-08-16T16:18:13.138Z",
-  "gitCommit": "04749ef4f7a5b8e7013f1fc4813236e2a3131d4c",
-  "gitBranch": "feat/issue-259-no-occ",
-  "distFileCount": 835,
-  "urlCount": 835,
+  "capturedAt": "2026-08-20T03:41:32.881Z",
+  "gitCommit": "291e03112c1f0c737286c6f3821d98bb5fb46de2",
+  "gitBranch": "feat/issue-259-shindan-no-occ",
+  "distFileCount": 834,
+  "urlCount": 834,
   "dataFileCount": 612,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

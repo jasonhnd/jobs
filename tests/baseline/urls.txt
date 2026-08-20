@@ -676,7 +676,6 @@
 /life-balance/senior-friendly
 /map
 /me
-/me/start
 /methodology
 /models
 /models/fable-5@2026-06-13
