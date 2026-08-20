@@ -23,6 +23,8 @@ open because it closes on a later entry number, not on the ship.
 - acq-6-redirect (#260 / #265): humans `/shindan?job=` → `/me`; scrapers keep OG.
   Bare `/shindan` is **not** 301'd (owner lock 2026-08-17, supersedes the original table).
 - Follow-ups: `/me` cream body (#266); desktop top nav 「自分の現在地」 (#267).
+- JA copy in `docs/ME_CONSOLIDATION.md` §4.6 signed by owner 2026-08-20
+  (`hidden_risk`: この仕事での進め方は、これから変えていけます).
 
 ## Done — v1.8.0 release reconciliation (#175, closed 2026-07-17)
 
