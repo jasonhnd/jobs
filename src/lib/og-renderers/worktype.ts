@@ -21,6 +21,7 @@ import { createElement as h } from 'react';
 import type { ReactElement } from 'react';
 import {
   DetailRecordSchema,
+  RISK_COLORS,
   WorktypesProjectionSchema,
   loadGoogleFont,
   padId,
@@ -68,6 +69,7 @@ export interface WorktypeJobContext {
   readonly title: string;
   readonly worktypeCode: FamilyCode;
   readonly worktypeName?: string;
+  readonly score: number | null;
 }
 
 export async function renderWorktypeOgCard(
@@ -94,16 +96,22 @@ export async function renderWorktypeOgCard(
   const projection = worktypesParsed.data;
   const variantCopy = resolveVariantCopy(input.family, input.variant);
   const visual = WORKTYPE_CARDS[input.family];
-  const accent = visual.accent;
-  const sharePrompt = SHARE.challengeHooks[0] ?? 'あなたの1枚もめくってみる?';
   const jobContext = input.job ? await fetchJobContext(url, input.job, projection) : null;
+  const score = jobContext?.score ?? null;
+  const scoreLabel = score != null && !Number.isNaN(score) ? String(score) : null;
+  const scoreColor =
+    score != null ? (RISK_COLORS[Math.round(score)] ?? visual.accent) : visual.accent;
+  const accent = scoreLabel ? scoreColor : visual.accent;
+  const sharePrompt = scoreLabel
+    ? SHARE.challengeHookWithJob
+    : (SHARE.challengeHooks[0] ?? 'あなたの1枚もめくってみる?');
   const computedGap = jobContext
     ? classifyShindanGap(input.family, jobContext.worktypeCode).kind
     : undefined;
   const gapLine = computedGap ? GAP[computedGap].label : '';
   const contextLine = buildWorktypeContextCopy(computedGap, gapLine, jobContext);
-  const featureLabel = buildWorktypeFeatureLabel(input.family);
-  const introLabel = variantCopy.name;
+  const featureLabel = scoreLabel ? `${LABELS.featureName} / AI 影響` : buildWorktypeFeatureLabel(input.family);
+  const introLabel = scoreLabel && jobContext ? jobContext.title : variantCopy.name;
 
   const subsetText = [
     visual.glyphSet,
@@ -115,6 +123,8 @@ export async function renderWorktypeOgCard(
     DISCLAIMER,
     FOOTER_LEFT,
     SHARE.hashtag,
+    SHARE.challengeHookWithJob,
+    scoreLabel ? `${scoreLabel} / 10` : '',
     FRAME_SUBSET,
   ].join(' ');
 
@@ -135,6 +145,8 @@ export async function renderWorktypeOgCard(
           sharePrompt,
           variantCopy,
           visual,
+          scoreLabel,
+          scoreColor,
         })
       : renderWideCard({
           accent,
@@ -144,6 +156,8 @@ export async function renderWorktypeOgCard(
           sharePrompt,
           variantCopy,
           visual,
+          scoreLabel,
+          scoreColor,
         }),
     {
       width: isSquare ? 1080 : 1200,
@@ -166,6 +180,8 @@ interface CardLayoutData {
   readonly sharePrompt: string;
   readonly variantCopy: WorktypeVariant;
   readonly visual: { readonly character: string; readonly accent: string; readonly glyphSet: string };
+  readonly scoreLabel: string | null;
+  readonly scoreColor: string;
 }
 
 function renderWideCard(data: CardLayoutData): ReactElement {
@@ -182,7 +198,9 @@ function renderWideCard(data: CardLayoutData): ReactElement {
           marginTop: '24px',
         },
       },
-      characterBlock(data.visual.character, data.accent, 270, 152),
+      data.scoreLabel
+        ? scoreBadge(data.scoreLabel, data.scoreColor, 270)
+        : characterBlock(data.visual.character, data.accent, 270, 152),
       h(
         'div',
         {
@@ -221,7 +239,7 @@ function renderWideCard(data: CardLayoutData): ReactElement {
               color: COLORS.ink,
             },
           },
-          data.variantCopy.catch,
+          data.scoreLabel ? data.variantCopy.name : data.variantCopy.catch,
         ),
         h(
           'div',
@@ -269,7 +287,9 @@ function renderSquareCard(data: CardLayoutData): ReactElement {
         },
       },
       labelText(data.featureLabel, data.accent, 28),
-      characterBlock(data.visual.character, data.accent, 330, 190),
+      data.scoreLabel
+        ? scoreBadge(data.scoreLabel, data.scoreColor, 280)
+        : characterBlock(data.visual.character, data.accent, 330, 190),
       h(
         'div',
         {
@@ -296,7 +316,7 @@ function renderSquareCard(data: CardLayoutData): ReactElement {
             color: COLORS.ink,
           },
         },
-        data.variantCopy.catch,
+        data.scoreLabel ? data.variantCopy.name : data.variantCopy.catch,
       ),
       h(
         'div',
@@ -322,6 +342,54 @@ function renderSquareCard(data: CardLayoutData): ReactElement {
       h('span', { style: { display: 'flex' } }, FOOTER_LEFT),
     ]),
   ]);
+}
+
+function scoreBadge(scoreLabel: string, color: string, size: number): ReactElement {
+  return h(
+    'div',
+    {
+      style: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: COLORS.bg2,
+        border: `4px solid ${color}`,
+        color,
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: '24px',
+        flexShrink: 0,
+      },
+    },
+    h(
+      'div',
+      {
+        style: {
+          display: 'flex',
+          fontFamily: 'NotoSerifJP',
+          fontSize: size > 270 ? '160px' : '140px',
+          fontWeight: 600,
+          lineHeight: 1,
+        },
+      },
+      scoreLabel,
+    ),
+    h(
+      'div',
+      {
+        style: {
+          display: 'flex',
+          fontSize: '28px',
+          fontWeight: 600,
+          marginTop: '-4px',
+          color: COLORS.muted,
+          letterSpacing: '0.04em',
+        },
+      },
+      '/ 10',
+    ),
+  );
 }
 
 function characterBlock(character: string, accent: string, size: number, fontSize: number): ReactElement {
@@ -466,6 +534,7 @@ async function fetchJobContext(
     title,
     worktypeCode: worktypeRecord.code,
     worktypeName: FAMILIES[worktypeRecord.code].name,
+    score: detailParsed.data.ai_risk?.score ?? null,
   };
 }
 

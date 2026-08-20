@@ -56,6 +56,7 @@ import {
   classifyClientKind,
   deliveryIdentity,
   isBotUserAgent,
+  isShareUnfurlerUserAgent,
   shouldSendMpHit,
   buildMpPayload,
   classifyGeoReferral,
@@ -64,6 +65,7 @@ import {
 } from './src/lib/middleware-helpers.js';
 import { fetchWithTimeout } from './src/lib/http-client.js';
 import {
+  meOccupationOgRewriteTarget,
   noOccAliasRedirectTarget,
   shindanOccupationRedirectTarget,
   shindanShareRewriteTarget,
@@ -104,6 +106,11 @@ export default function middleware(request: Request, context: RequestContext): R
   const occupationTarget = shindanOccupationRedirectTarget(url);
   if (occupationTarget && !isBotUserAgent(ua)) {
     return Response.redirect(occupationTarget, 301);
+  }
+
+  const meOgTarget = meOccupationOgRewriteTarget(url);
+  if (meOgTarget && isShareUnfurlerUserAgent(ua)) {
+    return rewrite(meOgTarget);
   }
 
   const shareTarget = shindanShareRewriteTarget(url);

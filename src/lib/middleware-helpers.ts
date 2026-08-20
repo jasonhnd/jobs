@@ -69,6 +69,17 @@ export function isBotUserAgent(ua: string): boolean {
 }
 
 /**
+ * Social unfurlers that fetch OG tags for a timeline card.
+ * Narrower than `isBotUserAgent` so Googlebot still sees the canonical `/me`.
+ */
+export const SHARE_UNFURLER_UA_RE =
+  /\b(twitterbot|facebookexternalhit|slackbot|discordbot|linkedinbot|whatsapp|telegrambot)\b/i;
+
+export function isShareUnfurlerUserAgent(ua: string): boolean {
+  return SHARE_UNFURLER_UA_RE.test(ua);
+}
+
+/**
  * Known AI / LLM agents, mapped to the canonical `agent_name` sent to GA4.
  *
  * Every entry here also matches `BOT_UA_RE`; that overlap is the point.
