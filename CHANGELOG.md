@@ -28,6 +28,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Desktop top nav now includes 「自分の現在地」 (`/me`) ahead of 「診断」,
+  matching the occupation-first lock. Clicks fire `me_entry_click` with
+  `source=top_nav`. Internal-link set unchanged: the mobile drawer already
+  linked `/me` on every page.
 - `/me` now uses the site cream body wash (`--bg`) like `/shindan` and the
   hub/static pages. It previously left `body` at browser white, so the
   page read as a different colour from the rest of the site.
