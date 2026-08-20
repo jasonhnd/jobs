@@ -1,6 +1,7 @@
 # /me Consolidation — Occupation-First Diagnostic (Design)
 
-Status: draft for review. Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
+Status: screens 1–3 and routing shipped on `preview` (2026-08-20). Remaining:
+JA copy sign-off, #237 share, #236 SEO. Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
 and [`WORKTYPE_DIAGNOSTIC.md`](./WORKTYPE_DIAGNOSTIC.md). Those docs rework how the
 diagnostic result is **named, surfaced and spread**, and leave the 3-axis /
 8-family / 24-variant scoring system unchanged. This doc keeps that scoring system
@@ -351,10 +352,13 @@ Order:
 
 1. **`[entry]`** (#234) — in-content entry from `/rankings` and `/compare` into
    `/me`, attached to occupation context. The only step that changes the order of
-   magnitude.
-2. **Observe** — let `/me` accumulate a usable sample.
+   magnitude. Shipped in production (PR #251). Issue still closes on a later
+   number, not on the ship.
+2. **Observe** — let `/me` accumulate a usable sample. 17-day cut (2026-08-16):
+   ~1.5× `me_open`, not 10×. Owner continued the series anyway.
 3. **`[consolidate]`** — screens 2 and 3, the no-occupation branch, the redirect.
-   Requires funnel instrumentation to exist first (§8).
+   Requires funnel instrumentation to exist first (§8). Shipped on `preview`
+   (#256–#260, PRs #261–#265). Not promoted to `main`.
 4. **`[share]`** (#237) — only meaningful once a score is on screen 1.
 5. **`[seo]`** (#236) — only decidable once the page shape is settled.
 
@@ -395,15 +399,32 @@ Settled in review (2026-07-29):
 | Screen 2 entry | Explicit CTA, placed after the score — not automatic continuation | §4.2 |
 | No-occupation branch URL | `/shindan` (`NO_OCC_PATH`); `/me/start` 301s there | §4.4 |
 | `/gyakuten` | Keep the route, drop the flagship framing, invest nothing until there is volume | §4.5 |
-| JA copy | Drafted | §4.6 |
+| JA copy | Drafted; live on `preview` as §4.6 | §4.6 |
+
+Shipped on `preview` (2026-08-20), not on `main`:
+
+| Unit | Issue | PR | Live check |
+|---|---|---|---|
+| Funnel events | #256 | #261 | `shindan_start` / `shindan_step` |
+| 9 questions on `/me` | #257 | #262 | `#meQuizCta` after rankings |
+| Gap as screen 3 | #258 | #263 | `#meGap`; `gap` not in the URL |
+| No-occupation entry | #259 | #265 | `/shindan`; `/me/start` → `/shindan` |
+| Occupation-bearing 301 | #260 | #265 | humans `/shindan?job=` → `/me`; scrapers keep OG |
+
+Desktop top nav 「自分の現在地」 and `/me` cream body wash shipped as follow-ups (#267, #266). `#260`'s original table (bare `/shindan` 301, drop from sitemap) was superseded by the 2026-08-17 lock in D2.
 
 Still open:
 
 1. **Public name beyond `/shindan`.** Owner locked `/shindan` as the no-occupation
    entry (2026-08-17). A 転職-anchored path remains a #236 positioning decision.
    `NO_OCC_PATH` is still the one constant.
-2. **JA copy sign-off.** §4.6 is a draft. The `hidden_risk` wording in particular
-   needs owner judgement: it must not read as a prediction about the visitor's own
-   job, which the site's disclaimer explicitly disclaims.
-3. **Whether the 24-type roster still earns a route** once screen 3 exists and
+2. **JA copy sign-off.** §4.6 is a draft and is what `preview` currently shows.
+   The `hidden_risk` wording in particular needs owner judgement: it must not
+   read as a prediction about the visitor's own job, which the site's disclaimer
+   explicitly disclaims. Implementation units #257 / #258 are closed; copy
+   edits are a follow-up, not those units.
+3. **Share unit** (#237) — identity name vs AI-impact number. Not settled here.
+4. **Indexable page space** (#236) — only decidable now that the page shape is
+   shipped.
+5. **Whether the 24-type roster still earns a route** once screen 3 exists and
    there is traffic to judge with. Deliberately deferred, not decided.
