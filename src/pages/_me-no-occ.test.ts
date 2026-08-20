@@ -7,7 +7,9 @@ import { NO_OCC_ALIAS_PATH, NO_OCC_PATH } from '../site/no-occ-path.js';
 
 const meAstro = readFileSync(join(import.meta.dirname, 'me.astro'), 'utf8');
 const sitemap = readFileSync(join(import.meta.dirname, '../views/sitemap.ts'), 'utf8');
-const vercel = readFileSync(join(import.meta.dirname, '../../vercel.json'), 'utf8');
+const vercel = JSON.parse(
+  readFileSync(join(import.meta.dirname, '../../vercel.json'), 'utf8'),
+) as { redirects?: ReadonlyArray<{ source: string; destination: string; permanent?: boolean }> };
 
 describe('no-occupation entry is /shindan (#259 lock)', () => {
   test('NO_OCC_PATH is /shindan and does not claim 転職', () => {
@@ -28,7 +30,9 @@ describe('no-occupation entry is /shindan (#259 lock)', () => {
   test('/shindan stays in the sitemap; the retired /me/start alias 301s', () => {
     assert.match(sitemap, /\/shindan/);
     assert.doesNotMatch(sitemap, /\/me\/start/);
-    assert.match(vercel, /"source": "\/me\/start"/);
-    assert.match(vercel, /"destination": "\/shindan"/);
+    const alias = (vercel.redirects || []).find((rule) => rule.source === '/me/start');
+    assert.ok(alias, 'vercel.json must redirect /me/start');
+    assert.equal(alias.destination, '/shindan');
+    assert.equal(alias.permanent, true);
   });
 });
