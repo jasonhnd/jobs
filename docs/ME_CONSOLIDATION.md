@@ -1,14 +1,14 @@
 # /me Consolidation — Occupation-First Diagnostic (Design)
 
-Status: screens 1–3 and routing shipped on `preview` (2026-08-20). Remaining:
-JA copy sign-off, #237 share, #236 SEO. Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
+Status: screens 1–3 and routing shipped on `preview` (2026-08-20). JA copy
+signed 2026-08-20. Remaining: #237 share, #236 SEO. Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
 and [`WORKTYPE_DIAGNOSTIC.md`](./WORKTYPE_DIAGNOSTIC.md). Those docs rework how the
 diagnostic result is **named, surfaced and spread**, and leave the 3-axis /
 8-family / 24-variant scoring system unchanged. This doc keeps that scoring system
 and changes **which question the product asks first**, which is upstream of both.
 
 Base branch: `preview`. Human-merge gate. JA-only site; English spec with JA copy
-strings inline (owner finalizes JA copy in review).
+strings inline. Owner signed the `/me` strings in §4.6 on 2026-08-20.
 
 Tracks issue #233. Related: #234 (entry), #235 (rarity), #236 (SEO), #237 (share).
 
@@ -214,10 +214,10 @@ now: after consolidation, screen 3 is about *the visitor's own occupation* and t
 roster is about *all types*. Whether the roster still earns a route is a question
 worth asking once there is traffic to answer it with.
 
-### 4.6 JA copy (draft — owner finalizes)
+### 4.6 JA copy (owner-signed 2026-08-20)
 
 Voice follows `WORKTYPE_VIRALITY.md` §S2: address 「あなた」, lead with the benefit,
-no mechanism-describing framing.
+no mechanism-describing framing. The strings below are the live `/me` copy.
 
 **Screen 1 → screen 2 CTA**, placed directly under the score and ranking block:
 
@@ -235,7 +235,7 @@ no mechanism-describing framing.
 written for the old framing, where the occupation was one the visitor looked up.
 Here it is *their own*, so the copy addresses それ directly:
 
-| Kind | Current | Proposed |
+| Kind | Old `/shindan` GAP | `/me` (signed) |
 |---|---|---|
 | `aligned` | 自然に力を出しやすい組み合わせ | この仕事は、あなたの得意な進め方に近いです |
 | `hidden_strength` | まだ使い切っていない強みがあります | あなたの強みが、この仕事ではまだ眠っています |
@@ -244,7 +244,7 @@ Here it is *their own*, so the copy addresses それ directly:
 `hidden_risk` deliberately avoids anything that reads as a warning about the
 visitor's job. The site's disclaimer already states that AI 影響度 is model output
 and not a statistical forecast; the result copy must not quietly promote it into a
-prediction about someone's livelihood.
+prediction about someone's livelihood. Owner accepted this wording on 2026-08-20.
 
 **No-occupation branch — entry on screen 1:**
 
@@ -399,7 +399,7 @@ Settled in review (2026-07-29):
 | Screen 2 entry | Explicit CTA, placed after the score — not automatic continuation | §4.2 |
 | No-occupation branch URL | `/shindan` (`NO_OCC_PATH`); `/me/start` 301s there | §4.4 |
 | `/gyakuten` | Keep the route, drop the flagship framing, invest nothing until there is volume | §4.5 |
-| JA copy | Drafted; live on `preview` as §4.6 | §4.6 |
+| JA copy | Owner signed 2026-08-20; live as §4.6 | §4.6 |
 
 Shipped on `preview` (2026-08-20), not on `main`:
 
@@ -418,13 +418,8 @@ Still open:
 1. **Public name beyond `/shindan`.** Owner locked `/shindan` as the no-occupation
    entry (2026-08-17). A 転職-anchored path remains a #236 positioning decision.
    `NO_OCC_PATH` is still the one constant.
-2. **JA copy sign-off.** §4.6 is a draft and is what `preview` currently shows.
-   The `hidden_risk` wording in particular needs owner judgement: it must not
-   read as a prediction about the visitor's own job, which the site's disclaimer
-   explicitly disclaims. Implementation units #257 / #258 are closed; copy
-   edits are a follow-up, not those units.
-3. **Share unit** (#237) — identity name vs AI-impact number. Not settled here.
-4. **Indexable page space** (#236) — only decidable now that the page shape is
+2. **Share unit** (#237) — identity name vs AI-impact number. Not settled here.
+3. **Indexable page space** (#236) — only decidable now that the page shape is
    shipped.
-5. **Whether the 24-type roster still earns a route** once screen 3 exists and
+4. **Whether the 24-type roster still earns a route** once screen 3 exists and
    there is traffic to judge with. Deliberately deferred, not decided.
