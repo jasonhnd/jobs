@@ -20,10 +20,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
   no second occupation input (#258). `gap` is not stored in the query string.
   SEO baseline recaptured: `/me` anchors +4 (gap section ids; `meQuizDone`
   removed).
-- First-class no-occupation branch at `NO_OCC_PATH` (`/me/start`): entry from
-  `/me` screen 1, nine questions with no job, representative occupations plus
-  AI impact (#259). Path is a renameable constant. `noindex` until #236.
-  SEO baseline recaptured: +1 URL (`/me/start`), sitemap unchanged.
+- First-class no-occupation branch: `/me` screen 1 links to `NO_OCC_PATH`
+  (`/shindan`). The brief `/me/start` alias 301s there. Occupation-bearing
+  `/shindan?job=` links 301 to `/me` for humans; social scrapers keep the
+  share rewrite so OG is not lost (#259, #260). `/shindan` stays in the
+  sitemap. SEO baseline recaptured: −1 URL (`/me/start`).
 
 ### Changed
 
