@@ -30,6 +30,13 @@ const WORKTYPES = {
   },
 };
 
+const DETAIL_133 = {
+  id: 133,
+  title: { ja: 'データ職業' },
+  ai_risk: { score: 8.1 },
+  stats: { workers: 1000, salary_man_yen: 500 },
+};
+
 const fetchFixture: typeof fetch = async (input) => {
   const url = new URL(String(input));
   if (url.pathname === '/shindan') {
@@ -37,6 +44,9 @@ const fetchFixture: typeof fetch = async (input) => {
   }
   if (url.pathname === '/data.worktypes.json') {
     return Response.json(WORKTYPES);
+  }
+  if (url.pathname === '/data.detail/0133.json') {
+    return Response.json(DETAIL_133);
   }
   return new Response('not found', { status: 404 });
 };
@@ -55,7 +65,8 @@ describe('crawler-rendered shindan share HTML', () => {
     assert.match(html, /<meta name="robots" content="noindex, follow">/);
     assert.ok(html.includes(`<meta property="og:image" content="${expectedImage}">`));
     assert.ok(html.includes(`<meta name="twitter:image" content="${expectedImage}">`));
-    assert.match(html, /自分 x 仕事のギャップ: 働き方を更新する余地があります/);
+    assert.match(html, /データ職業のAI影響度は8\.1\/10｜AI働き方診断/);
+    assert.match(html, /データ職業のAI影響度は8\.1\/10。あなたの仕事は？/);
     assert.doesNotMatch(html, /gap=aligned/);
   });
 

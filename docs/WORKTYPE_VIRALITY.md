@@ -48,9 +48,13 @@ framework people already know** — not from a proprietary code.
 - **S4 — Keep the game layer, kill the repetition.** 図鑑 / めくる / trophy→dare
   stays (it is the viral loop). Rotate the locked-label and next-move phrasings so
   nothing reads copy-pasted.
-- **S5 — Single share hero.** The share unit is **one memorable identity** (the
-  variant name + one line), not family＋variant＋code. Axes / family / rarity /
-  "depth" live inside the page, not in the share hook.
+- **S5 — Single share hero.** When an occupation (and therefore an AI-impact
+  score) is known, the share unit is **that measurement** (job name + score +
+  「あなたの仕事は？」), not the variant name. Recipients recognise jobs, not
+  our type vocabulary (#237). When there is no occupation, the share unit
+  stays the memorable identity (variant name + one line). Axes / family /
+  rarity / "depth" live inside the page, not in the share hook. Do not put
+  the internal `CPK`-style code in the share unit.
 - **S6 — Piggyback MBTI (editorial).** A new content line
   「MBTIタイプ × AI時代の働き方」 connects each already-known type to our
   occupation + AI-impact (AIOIS-10) data and funnels into the diagnostic. It rides

@@ -10,8 +10,36 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Added
+
+- `/me` now keeps the 9-question work-style quiz behind an explicit CTA after
+  the occupation rankings (#257). SEO baseline recaptured: `/me` anchors +8
+  (quiz section ids), no href removals.
+- `/me` screen 3 shows the occupation gap (aligned / hidden_strength /
+  hidden_risk) against the already-selected job after the 9 questions, with
+  no second occupation input (#258). `gap` is not stored in the query string.
+  SEO baseline recaptured: `/me` anchors +4 (gap section ids; `meQuizDone`
+  removed).
+- First-class no-occupation branch: `/me` screen 1 links to `NO_OCC_PATH`
+  (`/shindan`). The brief `/me/start` alias 301s there. Occupation-bearing
+  `/shindan?job=` links 301 to `/me` for humans; social scrapers keep the
+  share rewrite so OG is not lost (#259, #260). `/shindan` stays in the
+  sitemap. SEO baseline recaptured: −1 URL (`/me/start`).
+- Diagnostic share is measurement-led when an occupation is known (#237):
+  `{職業}のAI影響度は{点数}。あなたの仕事は？`. No-occupation `/shindan`
+  shares stay identity-only. Worktype OG cards and `/me` share follow the
+  same hook. Social unfurlers of `/me?id=` reuse the occupation score card.
+  SEO baseline recaptured: `/me` anchors +2 (`meShare`, `meShareOpen`).
+
 ### Changed
 
+- Desktop top nav now includes 「自分の現在地」 (`/me`) ahead of 「診断」,
+  matching the occupation-first lock. Clicks fire `me_entry_click` with
+  `source=top_nav`. Internal-link set unchanged: the mobile drawer already
+  linked `/me` on every page.
+- `/me` now uses the site cream body wash (`--bg`) like `/shindan` and the
+  hub/static pages. It previously left `body` at browser white, so the
+  page read as a different colour from the rest of the site.
 - Reconciled the privacy policy after deleting the retired email forms' three
   historical contacts, two jobs-only Resend segments, Vercel bindings, and
   dedicated rate-limit store; Resend is no longer an active processor for the
