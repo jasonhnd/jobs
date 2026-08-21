@@ -39,6 +39,21 @@ export function shindanOccupationRedirectTarget(requestUrl: URL): URL | null {
   return target;
 }
 
+/**
+ * `/me?id=` is a client-rendered page; its static OG is the generic /me card.
+ * Social unfurlers rewrite to the occupation page, which already has the
+ * score-led OG card (#237). Humans keep `/me?id=`.
+ */
+export function meOccupationOgRewriteTarget(requestUrl: URL): URL | null {
+  if (requestUrl.pathname !== '/me') return null;
+  const idRaw = requestUrl.searchParams.get('id');
+  if (!idRaw || !JOB_ID_RE.test(idRaw)) return null;
+  const id = Number(idRaw);
+  if (id === 0) return null;
+  const path = id === 404 ? '/occupations/404' : `/${id}`;
+  return new URL(path, requestUrl.origin);
+}
+
 export function shindanShareRewriteTarget(requestUrl: URL): URL | null {
   if (requestUrl.pathname !== '/shindan' || !requestUrl.searchParams.has('self')) {
     return null;

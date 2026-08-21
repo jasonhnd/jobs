@@ -5,10 +5,19 @@ import {
   VARIANTS,
 } from './worktype-copy.js';
 import {
+  formatShareMetaDescription,
+  formatShareMetaTitle,
+} from './worktype-share.js';
+import {
   buildShindanOgImageUrl,
   buildShindanResultUrl,
   type ShindanResultState,
 } from './shindan-result-state.js';
+
+export interface ShindanShareJobContext {
+  readonly title: string;
+  readonly score: number | null;
+}
 
 export interface ShindanShareMetadata {
   readonly title: string;
@@ -43,16 +52,27 @@ function replaceMeta(
 export function buildShindanShareMetadata(
   origin: string,
   state: ShindanResultState,
+  job?: ShindanShareJobContext | null,
 ): ShindanShareMetadata {
   const family = FAMILIES[state.family];
   const variants = VARIANTS[state.family] as Readonly<
     Record<string, { readonly name: string; readonly catch: string }>
   >;
   const variant = variants[state.variant]!;
-  const context = state.gap ? ` ${LABELS.gap}: ${GAP[state.gap].label}。` : '';
+  const gapLine = state.gap ? `${LABELS.gap}: ${GAP[state.gap].label}。` : '';
   return {
-    title: `${variant.name}｜${family.name} - ${LABELS.featureName}`,
-    description: `${variant.catch}${context}`,
+    title: formatShareMetaTitle({
+      variantName: variant.name,
+      familyName: family.name,
+      jobTitle: job?.title,
+      score: job?.score,
+    }),
+    description: formatShareMetaDescription({
+      catchLine: variant.catch,
+      gapLine,
+      jobTitle: job?.title,
+      score: job?.score,
+    }),
     url: buildShindanResultUrl(origin, state),
     image: buildShindanOgImageUrl(origin, state),
   };

@@ -1,4 +1,9 @@
-import { trustedFetchOrigin, WorktypesProjectionSchema } from '../src/lib/og-helpers.js';
+import {
+  DetailRecordSchema,
+  padId,
+  trustedFetchOrigin,
+  WorktypesProjectionSchema,
+} from '../src/lib/og-helpers.js';
 import {
   addShindanOccupationContext,
   parseShindanBaseState,
@@ -6,6 +11,7 @@ import {
 import {
   buildShindanShareMetadata,
   renderShindanShareHtml,
+  type ShindanShareJobContext,
 } from '../src/site/shindan-share-html.js';
 
 export const config = {
@@ -58,7 +64,9 @@ export async function renderShindanShareResponse(
     });
   }
 
-  const metadata = state ? buildShindanShareMetadata(origin, state) : null;
+  const jobId = requestUrl.searchParams.get('job');
+  const jobContext = jobId ? await fetchShareJobContext(origin, jobId, fetchImpl) : null;
+  const metadata = state ? buildShindanShareMetadata(origin, state, jobContext) : null;
   const html = renderShindanShareHtml(await basePageResponse.text(), metadata);
   return new Response(html, {
     status: 200,
@@ -68,6 +76,32 @@ export async function renderShindanShareResponse(
       'X-Robots-Tag': 'noindex, follow',
     },
   });
+}
+
+async function fetchShareJobContext(
+  origin: string,
+  jobId: string,
+  fetchImpl: FetchLike,
+): Promise<ShindanShareJobContext | null> {
+  let paddedId: string;
+  try {
+    paddedId = padId(jobId);
+  } catch {
+    return null;
+  }
+  const detailRes = await fetchImpl(new URL(`/data.detail/${paddedId}.json`, origin), {
+    headers: { Accept: 'application/json' },
+  }).catch(() => null);
+  if (!detailRes?.ok) return null;
+  const detailRaw: unknown = await detailRes.json().catch(() => null);
+  const parsed = DetailRecordSchema.safeParse(detailRaw);
+  if (!parsed.success) return null;
+  const title = parsed.data.title?.ja;
+  if (!title) return null;
+  return {
+    title,
+    score: parsed.data.ai_risk?.score ?? null,
+  };
 }
 
 export default function handler(request: Request): Promise<Response> {

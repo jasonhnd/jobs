@@ -1,7 +1,8 @@
 # /me Consolidation — Occupation-First Diagnostic (Design)
 
 Status: screens 1–3 and routing shipped on `preview` (2026-08-20). JA copy
-signed 2026-08-20. Remaining: #237 share, #236 SEO. Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
+signed 2026-08-20. Share unit is measurement-led when a job is known (#237).
+Remaining: #236 SEO. Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
 and [`WORKTYPE_DIAGNOSTIC.md`](./WORKTYPE_DIAGNOSTIC.md). Those docs rework how the
 diagnostic result is **named, surfaced and spread**, and leave the 3-axis /
 8-family / 24-variant scoring system unchanged. This doc keeps that scoring system
@@ -325,7 +326,10 @@ own vocabulary**. It did not consider the AI-impact score, because at the time t
 result did not reliably contain one.
 
 After consolidation a score is present on screen 1, so the option becomes
-available and should be re-decided. Tracked in #237; not settled by this doc.
+available. Owner ruled **measurement-led** (2026-08-20, #237): share text and
+the `/api/og` worktype card lead with `{職業}のAI影響度は{点数}` when a job
+is known. No-occupation `/shindan` shares stay identity-only because there is
+no number. `WORKTYPE_VIRALITY.md` §S5 is amended in the same change.
 
 **§4.B — entry.** That doc plans entry via global nav plus a homepage first-screen
 band. The nav entry shipped (`TopNav.astro:37`, `MobileNav.astro:65`) and `/shindan`
@@ -359,7 +363,9 @@ Order:
 3. **`[consolidate]`** — screens 2 and 3, the no-occupation branch, the redirect.
    Requires funnel instrumentation to exist first (§8). Shipped on `preview`
    (#256–#260, PRs #261–#265). Not promoted to `main`.
-4. **`[share]`** (#237) — only meaningful once a score is on screen 1.
+4. **`[share]`** (#237) — measurement-led when a job is known; identity-only
+   on the no-occupation `/shindan` result. Share text and worktype OG card
+   decided together.
 5. **`[seo]`** (#236) — only decidable once the page shape is settled.
 
 **#235 (rarity) is independent** and can be done at any point.
@@ -418,8 +424,7 @@ Still open:
 1. **Public name beyond `/shindan`.** Owner locked `/shindan` as the no-occupation
    entry (2026-08-17). A 転職-anchored path remains a #236 positioning decision.
    `NO_OCC_PATH` is still the one constant.
-2. **Share unit** (#237) — identity name vs AI-impact number. Not settled here.
-3. **Indexable page space** (#236) — only decidable now that the page shape is
+2. **Indexable page space** (#236) — only decidable now that the page shape is
    shipped.
-4. **Whether the 24-type roster still earns a route** once screen 3 exists and
+3. **Whether the 24-type roster still earns a route** once screen 3 exists and
    there is traffic to judge with. Deliberately deferred, not decided.

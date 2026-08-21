@@ -13,7 +13,7 @@ Fields:
 ## Done — occupation-first /me consolidation, acq-2…acq-6 (`preview`, 2026-08-20)
 
 Shipped on `preview` / https://pre.mirai-shigoto.com. **Not** promoted to
-`main`. Umbrella #233 stays open for #237 (share) and #236 (SEO). #234 stays
+`main`. Umbrella #233 stays open for #236 (SEO). #234 stays
 open because it closes on a later entry number, not on the ship.
 
 - acq-2-funnel (#256 / #261): `shindan_start` + `shindan_step` (`value` 1..9).
@@ -25,6 +25,8 @@ open because it closes on a later entry number, not on the ship.
 - Follow-ups: `/me` cream body (#266); desktop top nav 「自分の現在地」 (#267).
 - JA copy in `docs/ME_CONSOLIDATION.md` §4.6 signed by owner 2026-08-20
   (`hidden_risk`: この仕事での進め方は、これから変えていけます).
+- acq-7-share (#237): share text and worktype OG are measurement-led when a
+  job is known (`{職業}のAI影響度は{点数}`). No-occupation shares stay identity.
 
 ## Done — v1.8.0 release reconciliation (#175, closed 2026-07-17)
 
