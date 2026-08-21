@@ -454,11 +454,19 @@ export const GAP = {
 
 export const SHARE = {
   hashtag: '#AI働き方診断',
+  /** No occupation — identity only. Used when there is no number to share. */
   textTemplate: '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}',
+  /**
+   * Occupation known — measurement-led (#237). The score is the hook; the
+   * type name stays on the page, not in the share unit.
+   */
+  textTemplateWithJob: '#AI働き方診断 {職業}のAI影響度は{点数}。あなたの仕事は？ {リンク}',
   challengeHooks: ['あなたの1枚もめくってみる?', '同僚と図鑑をめくり合おう'],
+  challengeHookWithJob: 'あなたの仕事は？',
   compareCta: '結果を比べる',
   copyLinkCta: 'リンクをコピー',
   xConsent: 'Xに投稿します',
+  meShareCta: 'この数字をシェア',
 } as const;
 
 export const LABELS = {

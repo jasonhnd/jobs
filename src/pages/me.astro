@@ -28,6 +28,8 @@ import { join } from 'node:path';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { OCCUPATION_COUNT } from '@/site/config';
+import { NO_OCC_PATH } from '@/site/no-occ-path';
+import { QUESTIONS, SHARE, VARIANT_BUCKETS_BY_FAMILY } from '@/site/worktype-copy';
 
 const canonical = 'https://mirai-shigoto.com/me';
 const title = '自分の現在地｜全 39 ランキングでの位置を確認 - 未来の仕事';
@@ -38,6 +40,39 @@ const ME_INLINE_JS = readFileSync(
   join(process.cwd(), 'src', 'pages', '_me-inline.js'),
   'utf-8',
 );
+
+function safeJsonForScript(value: unknown): string {
+  const text = JSON.stringify(value) ?? 'null';
+  return text
+    .replace(/<\//g, '<\\/')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
+const meQuizCopyJson = safeJsonForScript({
+  questions: QUESTIONS,
+  variantBuckets: VARIANT_BUCKETS_BY_FAMILY,
+  share: SHARE,
+  // /me screen 3 headings address この仕事 as the visitor's own job.
+  // Separate from GAP in worktype-copy.ts, which still frames a looked-up occupation.
+  gap: {
+    aligned: {
+      heading: 'この仕事は、あなたの得意な進め方に近いです',
+      reading: 'この仕事は、あなたがふだん使いやすい進め方と近いところがあります。',
+      action: 'AIで変わる作業を確認しながら、今の強みをどの業務で伸ばすか見てみましょう。',
+    },
+    hidden_strength: {
+      heading: 'あなたの強みが、この仕事ではまだ眠っています',
+      reading: 'あなたの{strengths}という強みが、この仕事ではまだ使い切れていないかもしれません。',
+      action: 'その強みを使える役割に広げるか、近い職業も比べてみましょう。',
+    },
+    hidden_risk: {
+      heading: 'この仕事での進め方は、これから変えていけます',
+      reading: 'この仕事では、判断、人との接点、AIを使った進め方がこれから効きやすくなります。',
+      action: '判断を加える練習、人との接点を増やす工夫、AI補助のワークフローから始めましょう。',
+    },
+  },
+});
 
 // JSON-LD: @graph form pairs WebApplication (semantic app classification)
 // with WebPage (page-identity node required by scripts/verify-jsonld.cjs §6.3,
@@ -84,6 +119,11 @@ const jsonLd = JSON.stringify({
   <link rel="preload" href="/data.me-positions.json" as="fetch" slot="head" />
 
   <style slot="head" set:html={`
+    /* Same page-class body wash as /shindan and hub/static pages.
+       Footer only emits :root tokens; without this, body stays browser-white
+       against cream (--bg #FAF6EE) used everywhere else. */
+    html { font-size: 16px; }
+    body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; line-height: 1.75; }
     .me-wrapper { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
     .me-crumb { font-size: .85rem; color: var(--fg2); margin-bottom: 24px; }
     .me-crumb a { color: var(--fg2); }
@@ -174,6 +214,29 @@ const jsonLd = JSON.stringify({
       font-weight: 600; color: var(--fg);
       font-variant-numeric: tabular-nums;
     }
+    .me-share {
+      margin: 16px 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .me-share[hidden] { display: none; }
+    .me-share-open {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .me-share-open:hover { filter: brightness(1.06); }
     .me-section { margin: 36px 0; }
     .me-section h2 {
       font-family: var(--font-serif); font-size: 1.25rem; font-weight: 600;
@@ -233,6 +296,54 @@ const jsonLd = JSON.stringify({
       position: absolute; left: -10000px; width: 1px; height: 1px;
       overflow: hidden;
     }
+    .me-quiz-cta {
+      margin: 8px 0 28px; padding: 20px 22px;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    }
+    .me-quiz-cta[hidden], .me-quiz[hidden], .me-gap[hidden] { display: none; }
+    .me-quiz-cta p { margin: 0 0 14px; color: var(--fg); line-height: 1.8; }
+    .me-quiz-open {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 10px 18px; border-radius: 999px;
+      border: 1px solid transparent; background: var(--accent); color: #fff;
+      font-weight: 700; font-size: .92rem; cursor: pointer;
+    }
+    .me-quiz-open:hover { filter: brightness(1.04); }
+    .me-quiz { margin: 8px 0 28px; padding: 22px;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; }
+    .me-quiz h2 { font-family: var(--font-serif); font-size: 1.2rem; margin: 0 0 8px; }
+    .me-quiz .sub { margin: 0 0 18px; color: var(--fg2); font-size: .9rem; line-height: 1.8; }
+    .me-quiz-question { border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin: 0 0 12px; background: var(--bg); }
+    .me-quiz-question legend { padding: 0; margin: 0 0 10px; font-weight: 600; }
+    .me-quiz-meta { margin-right: 8px; color: var(--accent-deep); font-size: .78rem; font-weight: 700; }
+    .me-quiz-choice-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .me-quiz-choice input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
+    .me-quiz-choice-text {
+      display: flex; align-items: center; justify-content: center; min-height: 58px;
+      padding: 10px 12px; border: 1px solid var(--border); border-radius: 7px;
+      background: var(--bg2); color: var(--fg); font-size: .88rem; line-height: 1.5;
+      text-align: center; cursor: pointer;
+    }
+    .me-quiz-choice input:checked + .me-quiz-choice-text {
+      background: rgba(217,107,61,.14); border-color: var(--accent); font-weight: 600;
+    }
+    .me-quiz-choice input:focus-visible + .me-quiz-choice-text { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .me-quiz-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .me-quiz-submit {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 10px 18px; border-radius: 999px; border: 0;
+      background: var(--accent); color: #fff; font-weight: 700; cursor: pointer;
+    }
+    .me-quiz-submit:disabled { opacity: .45; cursor: not-allowed; }
+    .me-gap { margin: 8px 0 28px; padding: 22px;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; }
+    .me-gap h2 { font-family: var(--font-serif); font-size: 1.2rem; margin: 0 0 10px; line-height: 1.45; }
+    .me-gap-reading, .me-gap-action { margin: 0 0 10px; color: var(--fg); line-height: 1.8; }
+    .me-gap-action { color: var(--fg2); }
+    .me-gap-meter { margin: 0; color: var(--fg3); font-size: .82rem; }
+    .me-no-occ-entry { margin: 14px 0 0; font-size: .88rem; }
+    .me-no-occ-entry a { color: var(--fg2); }
+    .me-no-occ-entry a:hover { color: var(--accent-deep); }
     @media (max-width: 600px) {
       .me-wrapper { padding: 20px 16px 60px; }
       .me-rank-list li { grid-template-columns: 1fr auto; }
@@ -271,6 +382,9 @@ const jsonLd = JSON.stringify({
           aria-label="検索候補"
         ></ul>
       </form>
+      <p class="me-no-occ-entry">
+        <a href={NO_OCC_PATH} id="meNoOccEntry">仕事がまだ決まっていない方、変えたいと考えている方はこちら</a>
+      </p>
       <p class="me-status" id="meAnnounce" aria-live="polite" aria-atomic="true"></p>
     </header>
 
@@ -290,6 +404,9 @@ const jsonLd = JSON.stringify({
           <div><dt>年収</dt><dd id="meStatSalary">—</dd></div>
           <div><dt>業種</dt><dd id="meStatSector">—</dd></div>
         </dl>
+        <div class="me-share" id="meShare" hidden>
+          <button type="button" class="me-share-open" id="meShareOpen">この数字をシェア</button>
+        </div>
       </section>
 
       <section class="me-section" aria-labelledby="meRanksHead">
@@ -298,6 +415,48 @@ const jsonLd = JSON.stringify({
         <button type="button" class="me-rank-toggle" id="meRankToggle" aria-expanded="false">
           残り <span id="meRankRest">31</span> 件を見る
         </button>
+      </section>
+
+      <script id="meQuizCopy" type="application/json" set:html={meQuizCopyJson}></script>
+
+      <section class="me-quiz-cta" id="meQuizCta" hidden>
+        <p>この仕事のAI影響度は分かりました。<br />では、あなた自身はどうでしょう。</p>
+        <button type="button" class="me-quiz-open" id="meQuizOpen">9問で確かめる</button>
+      </section>
+
+      <section class="me-quiz" id="meQuiz" hidden aria-labelledby="meQuizHeading">
+        <h2 id="meQuizHeading">あなたとこの仕事の距離</h2>
+        <p class="sub">同じ仕事でも、向き合い方は人によって違います。9問で、あなたとこの仕事の距離を見てみましょう。</p>
+        <form id="meQuizForm" autocomplete="off">
+          {QUESTIONS.map((q, i) => (
+            <fieldset class="me-quiz-question">
+              <legend>
+                <span class="me-quiz-meta">Q{i + 1}</span>
+                {q.left} / {q.right}
+              </legend>
+              <div class="me-quiz-choice-row">
+                <label class="me-quiz-choice">
+                  <input type="radio" name={`me-q${i}`} value="left" />
+                  <span class="me-quiz-choice-text">{q.left}</span>
+                </label>
+                <label class="me-quiz-choice">
+                  <input type="radio" name={`me-q${i}`} value="right" />
+                  <span class="me-quiz-choice-text">{q.right}</span>
+                </label>
+              </div>
+            </fieldset>
+          ))}
+          <div class="me-quiz-actions">
+            <button class="me-quiz-submit" type="submit" id="meQuizSubmit" disabled>答えを見る</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="me-gap" id="meGap" hidden aria-labelledby="meGapHeading">
+        <h2 id="meGapHeading"></h2>
+        <p class="me-gap-reading" id="meGapReading"></p>
+        <p class="me-gap-action" id="meGapAction"></p>
+        <p class="me-gap-meter" id="meGapMeter"></p>
       </section>
 
       <section class="me-section" aria-labelledby="meSimilarHead">

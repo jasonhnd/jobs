@@ -483,9 +483,10 @@ events:
       rankings and compare surfaces, which have no single occupation.
       `nav_drawer` is the mobile drawer row — global chrome rather than
       in-content, and the only source that pairs with nav_drawer_open.
+      `top_nav` is the desktop sticky bar row (same chrome, one tap).
     params:
       - { name: occupation_id, type: int, desc: "occupation in context; 0 on list surfaces. Sparse 1..584, not the 556 count" }
-      - { name: source, type: string, desc: "occupation | rankings | compare | sectors | nav_drawer" }
+      - { name: source, type: string, desc: "occupation | rankings | compare | sectors | nav_drawer | top_nav" }
       - { name: language, type: string }
     conversion: false   # entry into the funnel, not its goal — shindan_result_view is
 
@@ -506,9 +507,24 @@ events:
     conversion: false
 
   # ---- /shindan page ----
-  # Added to spec 2026-07-28 (issue #231). All three have been emitting since
-  # the page shipped with no dimensions registered, so the 16-type, variant and
-  # gap distributions could not be reported on at all.
+  # Result / share / gap added 2026-07-28 (#231). Start / step added 2026-08-16
+  # (#256) so abandonment is visible before the /me merge.
+  - name: shindan_start
+    description: |
+      First answered question on /shindan (#256 / acq-2). Distinguishes
+      "landed on the page" (page_view) from "began the quiz". Restored or
+      shared results do not fire this. Compare to shindan_result_view for
+      start-to-completion abandonment. conversion false — entry, not the goal.
+    params: []
+    conversion: false
+  - name: shindan_step
+    description: |
+      One fire per newly reached answered-count (1..9) after shindan_start.
+      Uses GA4 builtin `value` as the step index so Explorations / BigQuery
+      can read the step without a new event-scoped dimension (#240 cap).
+    params:
+      - { name: value, type: int, desc: "Answered-count just reached, 1..9. GA4 builtin — not a custom dimension." }
+    conversion: false
   - name: shindan_result_view
     description: |
       The diagnostic finished and the result was shown. This is the completion

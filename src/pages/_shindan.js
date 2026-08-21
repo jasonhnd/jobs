@@ -143,6 +143,50 @@
       return count;
     }
 
+    /**
+     * Funnel events for #256. `shindan_start` once on the first answer.
+     * `shindan_step` on each newly reached answered-count, with GA4 builtin
+     * `value` = 1..9 so Explorations can count steps without a new dimension.
+     * Restoring a result from URL/storage never calls this.
+     */
+    function nextFunnelEvents(started, lastStep, answered) {
+      var events = [];
+      var nextStarted = started;
+      var nextLast = lastStep;
+      if (answered < 1) {
+        return { started: nextStarted, lastStep: nextLast, events: events };
+      }
+      if (!started) {
+        nextStarted = true;
+        events.push({ name: 'shindan_start', params: {} });
+      }
+      for (var step = lastStep + 1; step <= answered; step += 1) {
+        events.push({ name: 'shindan_step', params: { value: step } });
+        nextLast = step;
+      }
+      return { started: nextStarted, lastStep: nextLast, events: events };
+    }
+
+    var funnelStarted = false;
+    var funnelLastStep = 0;
+
+    function resetFunnel() {
+      funnelStarted = false;
+      funnelLastStep = 0;
+    }
+
+    function emitQuizFunnel() {
+      var next = nextFunnelEvents(funnelStarted, funnelLastStep, answeredCount());
+      funnelStarted = next.started;
+      funnelLastStep = next.lastStep;
+      for (var i = 0; i < next.events.length; i += 1) {
+        var ev = next.events[i];
+        // Literal names so check-analytics-spec can see the emits (#231).
+        if (ev.name === 'shindan_start') track('shindan_start');
+        else if (ev.name === 'shindan_step') track('shindan_step', { value: ev.params.value });
+      }
+    }
+
     function selectedSide(index) {
       var checked = $form.querySelector('input[name="shindan-q' + index + '"]:checked');
       return checked ? checked.value : null;
@@ -599,7 +643,7 @@
         var name = document.createElement('span');
         name.textContent = item.name_ja || ('職業 ' + item.id);
         var meta = document.createElement('small');
-        meta.textContent = '就業者数 ' + formatWorkers(item.workers);
+        meta.textContent = 'AI ' + formatRisk(item.ai_risk) + ' / 就業者数 ' + formatWorkers(item.workers);
         a.appendChild(name);
         a.appendChild(meta);
         li.appendChild(a);
@@ -971,14 +1015,46 @@
       return Math.round(value).toLocaleString('ja-JP') + '人';
     }
 
-    function renderShare(result, variant, gap) {
-      var resultUrl = canonicalResultUrl(result, gap);
-      var hook = variant.name + '：' + variant.catch;
-      var template = copy.share.textTemplate || '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}';
-      var shareText = template
+    function jobShareFields(gap) {
+      if (!gap || !gap.jobId) return { jobTitle: null, score: null };
+      var doc = searchById[String(gap.jobId)];
+      if (!doc) return { jobTitle: null, score: null };
+      var score = doc.ai_risk != null && !isNaN(doc.ai_risk) ? doc.ai_risk : null;
+      return {
+        jobTitle: doc.title_ja || null,
+        score: score
+      };
+    }
+
+    function fillShareTemplate(resultUrl, variant, gap, includeUrl) {
+      var fields = jobShareFields(gap);
+      var share = copy.share || {};
+      var url = includeUrl === false ? '' : resultUrl;
+      if (fields.jobTitle && fields.score != null) {
+        var withJob = share.textTemplateWithJob || '#AI働き方診断 {職業}のAI影響度は{点数}。あなたの仕事は？ {リンク}';
+        return withJob
+          .replace(/\{職業\}/g, fields.jobTitle)
+          .replace(/\{点数\}/g, fields.score + '/10')
+          .replace(/\{リンク\}/g, url)
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+      var template = share.textTemplate || '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}';
+      return template
         .replace('{タイプ名}', variant.name)
         .replace('{一言}', variant.catch)
-        .replace('{リンク}', resultUrl);
+        .replace('{リンク}', url)
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function renderShare(result, variant, gap) {
+      var resultUrl = canonicalResultUrl(result, gap);
+      var fields = jobShareFields(gap);
+      var hook = fields.jobTitle && fields.score != null
+        ? fields.jobTitle + 'のAI影響度は' + fields.score + '/10。あなたの仕事は？'
+        : variant.name + '：' + variant.catch;
+      var shareText = fillShareTemplate(resultUrl, variant, gap, true);
       var xUrl = 'https://x.com/intent/post?text=' + encodeURIComponent(shareText);
       var lineUrl = 'https://line.me/R/msg/text/?' + encodeURIComponent(shareText);
       var imageUrl = ogImageUrl(result, gap);
@@ -1014,12 +1090,12 @@
     function nativeShare() {
       if (!currentResult || typeof navigator.share !== 'function') return;
       var variant = copy.variants[currentResult.code][currentResult.variantId];
-      var text = (copy.share.textTemplate || '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}')
-        .replace('{タイプ名}', variant.name)
-        .replace('{一言}', variant.catch)
-        .replace(' {リンク}', '')
-        .replace('{リンク}', '')
-        .trim();
+      var text = fillShareTemplate(
+        canonicalResultUrl(currentResult, currentGap),
+        variant,
+        currentGap,
+        false
+      );
       navigator.share({
         title: copy.labels.featureName,
         text: text,
@@ -1137,8 +1213,12 @@
     }
 
     function wireEvents() {
-      $form.addEventListener('change', updateProgress);
+      $form.addEventListener('change', function () {
+        updateProgress();
+        emitQuizFunnel();
+      });
       $form.addEventListener('reset', function () {
+        resetFunnel();
         setTimeout(updateProgress, 0);
       });
       $form.addEventListener('submit', handleSubmit);
@@ -1159,6 +1239,7 @@
       });
       $retake.addEventListener('click', function () {
         $form.reset();
+        resetFunnel();
         updateProgress();
         document.getElementById('shindanQuiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
@@ -1195,6 +1276,7 @@
       window.__SHINDAN_TEST_HOOKS__.validAxesPattern = validAxesPattern;
       window.__SHINDAN_TEST_HOOKS__.axesFromCodePattern = axesFromCodePattern;
       window.__SHINDAN_TEST_HOOKS__.resultStateParams = resultStateParams;
+      window.__SHINDAN_TEST_HOOKS__.nextFunnelEvents = nextFunnelEvents;
     }
 
     if (document.readyState === 'loading') {

@@ -10,6 +10,24 @@ Fields:
 - depends_on: List of work unit ids that must finish first; use [] when none.
 -->
 
+## Done — occupation-first /me consolidation, acq-2…acq-6 (`preview`, 2026-08-20)
+
+Shipped on `preview` / https://pre.mirai-shigoto.com. **Not** promoted to
+`main`. Umbrella #233 stays open for #236 (SEO). #234 stays
+open because it closes on a later entry number, not on the ship.
+
+- acq-2-funnel (#256 / #261): `shindan_start` + `shindan_step` (`value` 1..9).
+- acq-3-screen2 (#257 / #262): 9 questions on `/me` behind `#meQuizOpen`.
+- acq-4-screen3 (#258 / #263): occupation gap as `/me` screen 3; no `gap` in URL.
+- acq-5-no-occ (#259 / #265): `/shindan` is `NO_OCC_PATH`; `/me/start` redirects there.
+- acq-6-redirect (#260 / #265): humans `/shindan?job=` → `/me`; scrapers keep OG.
+  Bare `/shindan` is **not** 301'd (owner lock 2026-08-17, supersedes the original table).
+- Follow-ups: `/me` cream body (#266); desktop top nav 「自分の現在地」 (#267).
+- JA copy in `docs/ME_CONSOLIDATION.md` §4.6 signed by owner 2026-08-20
+  (`hidden_risk`: この仕事での進め方は、これから変えていけます).
+- acq-7-share (#237): share text and worktype OG are measurement-led when a
+  job is known (`{職業}のAI影響度は{点数}`). No-occupation shares stay identity.
+
 ## Done — v1.8.0 release reconciliation (#175, closed 2026-07-17)
 
 ### Production and release record

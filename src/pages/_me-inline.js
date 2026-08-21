@@ -28,6 +28,34 @@
     var $rankToggle = document.getElementById('meRankToggle');
     var $rankRest = document.getElementById('meRankRest');
     var $similar = document.getElementById('meSimilar');
+    var $quizCta = document.getElementById('meQuizCta');
+    var $quizOpen = document.getElementById('meQuizOpen');
+    var $quiz = document.getElementById('meQuiz');
+    var $quizForm = document.getElementById('meQuizForm');
+    var $quizSubmit = document.getElementById('meQuizSubmit');
+    var $gap = document.getElementById('meGap');
+    var $gapHeading = document.getElementById('meGapHeading');
+    var $gapReading = document.getElementById('meGapReading');
+    var $gapAction = document.getElementById('meGapAction');
+    var $gapMeter = document.getElementById('meGapMeter');
+    var $quizCopy = document.getElementById('meQuizCopy');
+    var $share = document.getElementById('meShare');
+    var $shareOpen = document.getElementById('meShareOpen');
+
+    var WORKTYPES_URL = '/data.worktypes.json';
+    var quizCopy = null;
+    var worktypes = null;
+    var quizStarted = false;
+    var quizLastStep = 0;
+    var currentQuizResult = null;
+
+    var AXES = [
+      { key: 'A1', leftPole: 'C', rightPole: 'R', exposedPole: 'R', label: '創造 / 定型', strengthLabel: '創造性' },
+      { key: 'A2', leftPole: 'P', rightPole: 'D', exposedPole: 'D', label: '人 / データ', strengthLabel: '対人感覚' },
+      { key: 'A3', leftPole: 'B', rightPole: 'K', exposedPole: 'K', label: '身体 / 知識', strengthLabel: '現場感' }
+    ];
+    var FAMILY_CODE_RE = /^(CPB|CPK|CDB|CDK|RPB|RPK|RDB|RDK)$/;
+    var AXES_PATTERN_RE = /^(?:2-1|3-0)\/(?:2-1|3-0)\/(?:2-1|3-0)$/;
 
     var searchDocs = null;
     var positionsData = null; // { meta, rankings, positions }
@@ -192,6 +220,7 @@
     }
 
     function closeListbox() {
+      if (!$listbox || !$input) return;
       $listbox.setAttribute('data-open', 'false');
       $input.setAttribute('aria-expanded', 'false');
       $input.removeAttribute('aria-activedescendant');
@@ -200,7 +229,7 @@
 
     var searchDebounce = null;
     var searchSeq = 0;
-    $input.addEventListener('input', function () {
+    if ($input) $input.addEventListener('input', function () {
       if (searchDebounce) clearTimeout(searchDebounce);
       var q = $input.value;
       if (!q.trim()) {
@@ -222,7 +251,7 @@
       }, 80);
     });
 
-    $input.addEventListener('keydown', function (e) {
+    if ($input) $input.addEventListener('keydown', function (e) {
       var items = $listbox.querySelectorAll('li');
       if (e.key === 'ArrowDown') {
         if (!items.length) {
@@ -254,24 +283,24 @@
       }
     });
 
-    $form.addEventListener('submit', function (e) {
+    if ($form) $form.addEventListener('submit', function (e) {
       e.preventDefault();
       var items = $listbox.querySelectorAll('li');
       var pick = items[focusedIdx >= 0 ? focusedIdx : 0];
       if (pick) selectJob(parseInt(pick.dataset.id, 10));
     });
 
-    $listbox.addEventListener('click', function (e) {
+    if ($listbox) $listbox.addEventListener('click', function (e) {
       var li = e.target.closest('li[data-id]');
       if (!li) return;
       selectJob(parseInt(li.dataset.id, 10));
     });
 
-    $input.addEventListener('blur', function () {
+    if ($input) $input.addEventListener('blur', function () {
       // Delay closing so click on listbox lands first.
       setTimeout(closeListbox, 150);
     });
-    $input.addEventListener('focus', function () {
+    if ($input) $input.addEventListener('focus', function () {
       if ($input.value.trim() && $listbox.children.length > 0) {
         $listbox.setAttribute('data-open', 'true');
         $input.setAttribute('aria-expanded', 'true');
@@ -279,7 +308,7 @@
     });
 
     // ── render results ──────────────────────────────────────────────
-    function selectJob(jobId) {
+    function selectJob(jobId, options) {
       if (!jobId || isNaN(jobId)) return;
       Promise.all([loadSearchIndex(), loadPositions(), loadTreemap()]).then(function () {
         var pos = positionsData.positions[jobId];
@@ -290,13 +319,15 @@
         currentJobId = jobId;
         closeListbox();
         $input.value = pos.nameJa;
-        renderResults(pos);
+        renderResults(pos, options);
         updateUrl(jobId);
-        ga('me_select_job', { job_id: jobId, sector: pos.summary.sectorId });
+        if (!(options && options.restored)) {
+          ga('me_select_job', { job_id: jobId, sector: pos.summary.sectorId });
+        }
       });
     }
 
-    function renderResults(pos) {
+    function renderResults(pos, options) {
       $empty.style.display = 'none';
       $results.setAttribute('data-visible', 'true');
 
@@ -309,8 +340,248 @@
 
       renderRankList(pos);
       renderSimilar(pos);
+      resetQuizForJob();
+      if ($share) $share.hidden = false;
+      if (options && options.restoredQuiz) {
+        restoreQuizResult(options.restoredQuiz);
+      }
 
       $announce.textContent = pos.nameJa + ' の全 39 ランキングを表示しました';
+    }
+
+    function readQuizCopy() {
+      if (quizCopy) return quizCopy;
+      if (!$quizCopy) return null;
+      try {
+        quizCopy = JSON.parse($quizCopy.textContent || '{}');
+      } catch (err) {
+        quizCopy = null;
+      }
+      return quizCopy;
+    }
+
+    function loadWorktypes() {
+      if (worktypes) return Promise.resolve(worktypes);
+      return fetchWithTimeout(WORKTYPES_URL, FETCH_TIMEOUT_MS).then(function (raw) {
+        if (!raw || raw.schema_version !== '1.0' || !raw.variants) throw new Error('bad worktypes');
+        worktypes = raw;
+        return worktypes;
+      });
+    }
+
+    function quizAnsweredCount() {
+      var copy = readQuizCopy();
+      if (!copy || !copy.questions || !$quizForm) return 0;
+      var n = 0;
+      for (var i = 0; i < copy.questions.length; i += 1) {
+        if ($quizForm.querySelector('input[name="me-q' + i + '"]:checked')) n += 1;
+      }
+      return n;
+    }
+
+    function selectedQuizSide(index) {
+      var checked = $quizForm && $quizForm.querySelector('input[name="me-q' + index + '"]:checked');
+      return checked ? checked.value : null;
+    }
+
+    function bucketFromMachine(machineVariant) {
+      if (!machineVariant || typeof machineVariant !== 'string') return 'balance';
+      if (machineVariant.indexOf('-sweep') >= 0) return 'sweep';
+      if (machineVariant.indexOf('-mixed') >= 0) return 'mixed';
+      return 'balance';
+    }
+
+    function variantFromBucket(code, bucket) {
+      var copy = readQuizCopy();
+      var byBucket = copy && copy.variantBuckets && copy.variantBuckets[code];
+      if (byBucket && byBucket[bucket]) return byBucket[bucket];
+      return '';
+    }
+
+    function scoreQuizAnswers() {
+      var copy = readQuizCopy();
+      if (!copy || !copy.questions || !worktypes) return null;
+      var counts = {
+        A1: { C: 0, R: 0 },
+        A2: { P: 0, D: 0 },
+        A3: { B: 0, K: 0 }
+      };
+      for (var i = 0; i < copy.questions.length; i += 1) {
+        var q = copy.questions[i];
+        var side = selectedQuizSide(i);
+        if (!side) return null;
+        var pole = side === 'left' ? q.leftPole : q.rightPole;
+        counts[q.axis][pole] += 1;
+      }
+      var code = '';
+      var margins = [];
+      for (var a = 0; a < AXES.length; a += 1) {
+        var cfg = AXES[a];
+        var leftCount = counts[cfg.key][cfg.leftPole];
+        var winner = leftCount >= 2 ? cfg.leftPole : cfg.rightPole;
+        var loser = winner === cfg.leftPole ? cfg.rightPole : cfg.leftPole;
+        code += winner;
+        margins.push(counts[cfg.key][winner] + '-' + counts[cfg.key][loser]);
+      }
+      var pattern = margins.join('/');
+      var machineVariant = worktypes.variants[code] && worktypes.variants[code][pattern];
+      var bucket = bucketFromMachine(machineVariant);
+      return {
+        code: code,
+        pattern: pattern,
+        bucket: bucket,
+        variantId: variantFromBucket(code, bucket)
+      };
+    }
+
+    function computeGap(selfCode, jobCode) {
+      var matches = 0;
+      var mismatchLabels = [];
+      var underusedStrengthLabels = [];
+      var riskMismatchLabels = [];
+      for (var i = 0; i < AXES.length; i += 1) {
+        var axis = AXES[i];
+        var selfPole = selfCode.charAt(i);
+        var jobPole = jobCode.charAt(i);
+        if (selfPole === jobPole) {
+          matches += 1;
+        } else {
+          mismatchLabels.push(axis.label);
+          if (selfPole === axis.leftPole && jobPole === axis.rightPole) {
+            underusedStrengthLabels.push(axis.strengthLabel);
+          } else if (selfPole === axis.rightPole && jobPole === axis.leftPole) {
+            riskMismatchLabels.push(axis.label);
+          }
+        }
+      }
+
+      var kind = 'hidden_risk';
+      if (matches >= 2) {
+        kind = 'aligned';
+      } else if (riskMismatchLabels.length >= 2) {
+        kind = 'hidden_risk';
+      } else if (underusedStrengthLabels.length > 0) {
+        kind = 'hidden_strength';
+      }
+
+      return {
+        kind: kind,
+        matches: matches,
+        gapAxes: 3 - matches,
+        mismatchLabels: mismatchLabels,
+        underusedStrengthLabels: underusedStrengthLabels,
+        riskMismatchLabels: riskMismatchLabels
+      };
+    }
+
+    function gapReadingFor(gapCopy, gap) {
+      if (!gapCopy || !gapCopy.reading) return '';
+      if (gap.kind !== 'hidden_strength') return gapCopy.reading;
+      var strengths = gap.underusedStrengthLabels && gap.underusedStrengthLabels.length
+        ? gap.underusedStrengthLabels.join('・')
+        : '自然に使っている働き方';
+      return gapCopy.reading.replace('{strengths}', strengths);
+    }
+
+    function hideGap() {
+      if ($gap) $gap.hidden = true;
+    }
+
+    function renderGap(gap) {
+      var copy = readQuizCopy();
+      var gapCopy = copy && copy.gap && copy.gap[gap.kind] ? copy.gap[gap.kind] : {
+        heading: gap.kind,
+        reading: '',
+        action: ''
+      };
+      if ($gap) {
+        $gap.hidden = false;
+        $gap.dataset.gap = gap.kind;
+      }
+      if ($gapHeading) $gapHeading.textContent = gapCopy.heading || '';
+      if ($gapReading) $gapReading.textContent = gapReadingFor(gapCopy, gap);
+      if ($gapAction) $gapAction.textContent = gapCopy.action || '';
+      if ($gapMeter) $gapMeter.textContent = '距離 ' + gap.gapAxes + '/3軸';
+    }
+
+    function showGap(result, options) {
+      if (!currentJobId || !result) return;
+      loadWorktypes().then(function () {
+        var record = worktypes.occupations && worktypes.occupations[String(currentJobId)];
+        if (!record || !record.code) {
+          hideGap();
+          return;
+        }
+        var gap = computeGap(result.code, record.code);
+        renderGap(gap);
+        if (!(options && options.restored)) {
+          ga('shindan_result_view', {
+            family_code: result.code,
+            variant_id: result.variantId,
+            variant_bucket: result.bucket
+          });
+        }
+      });
+    }
+
+    function restoreQuizResult(result) {
+      currentQuizResult = result;
+      if ($quizCta) $quizCta.hidden = true;
+      if ($quiz) $quiz.hidden = true;
+      showGap(result, { restored: true });
+    }
+
+    function resetQuizForJob() {
+      quizStarted = false;
+      quizLastStep = 0;
+      currentQuizResult = null;
+      if ($quizForm) $quizForm.reset();
+      if ($quizSubmit) $quizSubmit.disabled = true;
+      if ($quiz) $quiz.hidden = true;
+      hideGap();
+      if ($quizCta) $quizCta.hidden = false;
+    }
+
+    function openQuiz() {
+      if (!$quiz || !$quizCta) return;
+      $quizCta.hidden = true;
+      $quiz.hidden = false;
+      hideGap();
+      if (!quizStarted) {
+        quizStarted = true;
+        ga('shindan_start');
+      }
+      loadWorktypes().catch(function () {});
+      $quiz.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function onQuizChange() {
+      var n = quizAnsweredCount();
+      if ($quizSubmit) $quizSubmit.disabled = n !== 9;
+      for (var s = quizLastStep + 1; s <= n; s += 1) {
+        ga('shindan_step', { value: s });
+      }
+      if (n > quizLastStep) quizLastStep = n;
+    }
+
+    function submitQuiz(e) {
+      e.preventDefault();
+      loadWorktypes().then(function () {
+        var result = scoreQuizAnswers();
+        if (!result) return;
+        currentQuizResult = result;
+        if ($quiz) $quiz.hidden = true;
+        updateUrl(currentJobId);
+        showGap(result);
+      });
+    }
+
+    function wireQuiz() {
+      if ($quizOpen) $quizOpen.addEventListener('click', openQuiz);
+      if ($quizForm) {
+        $quizForm.addEventListener('change', onQuizChange);
+        $quizForm.addEventListener('submit', submitQuiz);
+      }
     }
 
     function renderRankList(pos) {
@@ -406,7 +677,7 @@
       }
     }
 
-    $rankToggle.addEventListener('click', function () {
+    if ($rankToggle) $rankToggle.addEventListener('click', function () {
       var rows = $rankList._rows;
       if (!rows) return;
       var alreadyShown = parseInt($rankList.dataset.rendered || '0', 10);
@@ -480,10 +751,19 @@
     }
 
     // ── URL state ──────────────────────────────────────────────────
-    function updateUrl(jobId) {
+    function quizStateParams(jobId, result) {
       var p = new URLSearchParams();
       if (jobId) p.set('id', String(jobId));
-      var qs = p.toString();
+      if (result) {
+        p.set('self', result.code);
+        p.set('variant', result.variantId);
+        p.set('axes', result.pattern);
+      }
+      return p.toString();
+    }
+
+    function updateUrl(jobId) {
+      var qs = quizStateParams(jobId, currentQuizResult);
       var newPath = location.pathname + (qs ? '?' + qs : '');
       if (newPath !== location.pathname + location.search) {
         history.replaceState(null, '', newPath);
@@ -498,17 +778,98 @@
       return isNaN(n) ? null : n;
     }
 
+    function bucketFromAxes(axes) {
+      if (!AXES_PATTERN_RE.test(axes)) return null;
+      var strongCount = 0;
+      var parts = axes.split('/');
+      for (var i = 0; i < parts.length; i += 1) {
+        if (parts[i] === '3-0') strongCount += 1;
+      }
+      if (strongCount === 0) return 'balance';
+      if (strongCount === 3) return 'sweep';
+      return 'mixed';
+    }
+
+    function readUrlQuiz() {
+      var p = new URLSearchParams(location.search);
+      var self = (p.get('self') || '').toUpperCase();
+      var variant = p.get('variant') || '';
+      var axes = p.get('axes') || '';
+      if (!FAMILY_CODE_RE.test(self) || !AXES_PATTERN_RE.test(axes)) return null;
+      var bucket = bucketFromAxes(axes);
+      if (!bucket) return null;
+      var expected = variantFromBucket(self, bucket);
+      if (!expected || variant !== expected) return null;
+      return {
+        code: self,
+        pattern: axes,
+        bucket: bucket,
+        variantId: variant
+      };
+    }
+
+    function currentSharePayload() {
+      if (!currentJobId || !positionsData || !positionsData.positions) return null;
+      var pos = positionsData.positions[currentJobId];
+      if (!pos || pos.summary.aiRisk == null) return null;
+      var copy = readQuizCopy();
+      var share = copy && copy.share ? copy.share : {};
+      var template = share.textTemplateWithJob || '#AI働き方診断 {職業}のAI影響度は{点数}。あなたの仕事は？ {リンク}';
+      var url = location.origin + location.pathname + (location.search || '');
+      var text = template
+        .replace(/\{職業\}/g, pos.nameJa)
+        .replace(/\{点数\}/g, pos.summary.aiRisk + '/10')
+        .replace(/\{リンク\}/g, url)
+        .replace(/\s+/g, ' ')
+        .trim();
+      return { title: pos.nameJa + 'のAI影響度', text: text, url: url, jobId: currentJobId };
+    }
+
+    function openMeShare() {
+      var payload = currentSharePayload();
+      if (!payload) return;
+      ga('share_click', { platform: typeof navigator.share === 'function' ? 'native' : 'x', occupation_id: payload.jobId });
+      if (typeof navigator.share === 'function') {
+        navigator.share({
+          title: payload.title,
+          text: payload.text.replace(payload.url, '').replace(/\s+/g, ' ').trim(),
+          url: payload.url
+        }).catch(function () {});
+        return;
+      }
+      window.open(
+        'https://x.com/intent/post?text=' + encodeURIComponent(payload.text),
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
+
+    function wireShare() {
+      if ($shareOpen) $shareOpen.addEventListener('click', openMeShare);
+    }
+
     // ── init ───────────────────────────────────────────────────────
     function init() {
+      wireQuiz();
+      wireShare();
       var urlId = readUrlId();
+      var urlQuiz = readUrlQuiz();
       // Pre-load positions + search so first selection is instant.
       Promise.all([loadSearchIndex(), loadPositions(), loadTreemap()]).then(function () {
-        if (urlId) selectJob(urlId);
+        if (urlId) selectJob(urlId, urlQuiz ? { restored: true, restoredQuiz: urlQuiz } : null);
         ga('me_open', { from_bookmark: urlId ? 1 : 0 });
       }).catch(function (err) {
         console.warn('[me] data load failed:', err);
-        $empty.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
+        if ($empty) $empty.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
       });
+    }
+
+    if (typeof window !== 'undefined' && window.__ME_TEST_HOOKS__) {
+      window.__ME_TEST_HOOKS__.scoreQuizAnswers = scoreQuizAnswers;
+      window.__ME_TEST_HOOKS__.quizAnsweredCount = quizAnsweredCount;
+      window.__ME_TEST_HOOKS__.computeGap = computeGap;
+      window.__ME_TEST_HOOKS__.gapReadingFor = gapReadingFor;
+      window.__ME_TEST_HOOKS__.quizStateParams = quizStateParams;
     }
 
     if (document.readyState === 'loading') {

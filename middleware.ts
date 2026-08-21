@@ -55,6 +55,8 @@ import { next, rewrite, type RequestContext } from '@vercel/edge';
 import {
   classifyClientKind,
   deliveryIdentity,
+  isBotUserAgent,
+  isShareUnfurlerUserAgent,
   shouldSendMpHit,
   buildMpPayload,
   classifyGeoReferral,
@@ -62,7 +64,12 @@ import {
   clientIpFromRequest,
 } from './src/lib/middleware-helpers.js';
 import { fetchWithTimeout } from './src/lib/http-client.js';
-import { shindanShareRewriteTarget } from './src/lib/shindan-share-route.js';
+import {
+  meOccupationOgRewriteTarget,
+  noOccAliasRedirectTarget,
+  shindanOccupationRedirectTarget,
+  shindanShareRewriteTarget,
+} from './src/lib/shindan-share-route.js';
 
 export const config = {
   // Match user-facing HTML routes. Skip:
@@ -88,6 +95,24 @@ export default function middleware(request: Request, context: RequestContext): R
   const accept = request.headers.get('accept') ?? '';
   const url = new URL(request.url);
   const cookieHeader = request.headers.get('cookie');
+
+  const aliasTarget = noOccAliasRedirectTarget(url);
+  if (aliasTarget) {
+    return Response.redirect(aliasTarget, 301);
+  }
+
+  // Occupation-bearing /shindan links belong on /me. Social scrapers keep
+  // the share rewrite so OG metadata is not lost on a 301 chain.
+  const occupationTarget = shindanOccupationRedirectTarget(url);
+  if (occupationTarget && !isBotUserAgent(ua)) {
+    return Response.redirect(occupationTarget, 301);
+  }
+
+  const meOgTarget = meOccupationOgRewriteTarget(url);
+  if (meOgTarget && isShareUnfurlerUserAgent(ua)) {
+    return rewrite(meOgTarget);
+  }
+
   const shareTarget = shindanShareRewriteTarget(url);
   const routeResponse = shareTarget ? rewrite(shareTarget) : next();
 
