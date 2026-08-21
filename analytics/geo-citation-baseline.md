@@ -1,6 +1,6 @@
 # GEO Citation Measurement Baseline
 
-Issue: #11  
+Issue: #11 (instrumentation). Product follow-up: #236.  
 Owner surface: `analytics/spec.yaml`, `middleware.ts`, GA4, off-site mention log
 
 This document defines the baseline for measuring whether GEO work causes
@@ -121,7 +121,7 @@ spreadsheet or issue comment; use this schema so weeks remain comparable:
 | Column | Meaning |
 | --- | --- |
 | `run_date` | Date the check was performed. |
-| `source` | `google_search`, `bing_search`, `perplexity`, `chatgpt`, `gemini`, `manual_web`, `gsc_links`, or SEO-tool source. |
+| `source` | `google_search`, `bing_search`, `perplexity`, `chatgpt`, `gemini`, `claude`, `manual_web`, `gsc_links`, or SEO-tool source. |
 | `query_or_report` | Prompt, search query, or report name. |
 | `mentioned` | `true` if mirai-shigoto.com, 未来の仕事, or ZKSC is mentioned. |
 | `cited_url` | Exact URL cited, if any. |
@@ -147,6 +147,31 @@ Fixed AI-answer audit prompts:
 | High-risk jobs | `AIに代替されやすい仕事ランキングを、日本の職業データで説明してください。` |
 | Salary x AI | `年収が高く、AIに代替されにくい仕事を日本のデータで教えてください。` |
 | Methodology | `AIが仕事に与える影響を測る日本語の指標やデータセットはありますか？` |
+
+Existing landings (do not invent type-vocabulary pages — #236):
+
+| Prompt family | Indexable landing |
+| --- | --- |
+| High-risk jobs | `/answers/ai-de-nakunaru-shigoto`, `/rankings` |
+| Salary x AI | `/answers/nenshu-ai-anzen` |
+| AI-safe / growing | `/answers/nobiru-shigoto-top` (closest existing; "なくならない" is not a separate slug) |
+| Methodology | `/methodology`, `/standard` |
+
+Product work to make these win Google and get cited is #236, not a new GEO feature.
+
+### 5.1 First post-#253 off-site run (2026-08-21)
+
+Four SOP prompts. Exact quoted excerpts and Claude's URL were not filed.
+
+| run_date | source | mentioned | mention_type | notes |
+| --- | --- | --- | --- | --- |
+| 2026-08-21 | chatgpt | false | — | Crawls occupation pages (`chatgpt_user`); no citation in the answer |
+| 2026-08-21 | perplexity | false | — | Near-empty |
+| 2026-08-21 | gemini | false | — | Empty |
+| 2026-08-21 | google_search | false | — | Paid ads shown; organic almost absent for these prompts |
+| 2026-08-21 | claude | true | unlinked_mention | Has content. **Next run must capture cited_url** |
+
+GA4 `page_delivery` 2026-08-15…08-19: `chatgpt_user` 1,164 (786 occupation), `bytespider` 1,440, `claude_user` 1. Human `geo_referrer_bucket=ai_engine` ≈ 0.
 
 ## 6. Review Rules
 

@@ -2,7 +2,7 @@
 
 Status: screens 1–3 and routing shipped on `preview` (2026-08-20). JA copy
 signed 2026-08-20. Share unit is measurement-led when a job is known (#237).
-Remaining: #236 SEO. Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
+Remaining discovery work is #236 (SEO + GEO on existing pages). Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
 and [`WORKTYPE_DIAGNOSTIC.md`](./WORKTYPE_DIAGNOSTIC.md). Those docs rework how the
 diagnostic result is **named, surfaced and spread**, and leave the 3-axis /
 8-family / 24-variant scoring system unchanged. This doc keeps that scoring system
@@ -366,7 +366,9 @@ Order:
 4. **`[share]`** (#237) — measurement-led when a job is known; identity-only
    on the no-occupation `/shindan` result. Share text and worktype OG card
    decided together.
-5. **`[seo]`** (#236) — only decidable once the page shape is settled.
+5. **`[seo]` / `[geo]`** (#236) — page shape is settled on `preview`. Indexable
+   space is occupations, rankings, `/answers/*`, `/methodology`, `/standard`.
+   Not 24 type pages. Slices on the issue.
 
 **#235 (rarity) is independent** and can be done at any point.
 
@@ -422,9 +424,13 @@ Desktop top nav 「自分の現在地」 and `/me` cream body wash shipped as fo
 Still open:
 
 1. **Public name beyond `/shindan`.** Owner locked `/shindan` as the no-occupation
-   entry (2026-08-17). A 転職-anchored path remains a #236 positioning decision.
-   `NO_OCC_PATH` is still the one constant.
-2. **Indexable page space** (#236) — only decidable now that the page shape is
-   shipped.
+   entry (2026-08-17). A 転職-anchored path remains a later positioning decision,
+   not the first #236 slice. `NO_OCC_PATH` is still the one constant.
+2. **Indexable page space + GEO** (#236) — decided 2026-08-21. No 24 type pages.
+   Win the four SOP prompts on pages that already exist (occupations, rankings,
+   `/answers/*`, `/methodology`, `/standard`). ChatGPT crawls occupation pages
+   and does not cite; Claude cites; Google organic does not rank those prompts
+   (ads do). MBTI `/mbti/<type>` is a later funnel, not this issue. Slices
+   seo-geo-1…3 on the issue.
 3. **Whether the 24-type roster still earns a route** once screen 3 exists and
    there is traffic to judge with. Deliberately deferred, not decided.

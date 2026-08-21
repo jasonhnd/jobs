@@ -13,8 +13,9 @@ Fields:
 ## Done — occupation-first /me consolidation, acq-2…acq-6 (`preview`, 2026-08-20)
 
 Shipped on `preview` / https://pre.mirai-shigoto.com. **Not** promoted to
-`main`. Umbrella #233 stays open for #236 (SEO). #234 stays
-open because it closes on a later entry number, not on the ship.
+`main`. Umbrella #233 stays open for #236 (SEO + GEO on existing pages; no
+24 type pages). #234 stays open because it closes on a later entry number,
+not on the ship.
 
 - acq-2-funnel (#256 / #261): `shindan_start` + `shindan_step` (`value` 1..9).
 - acq-3-screen2 (#257 / #262): 9 questions on `/me` behind `#meQuizOpen`.
