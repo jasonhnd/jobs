@@ -11,7 +11,7 @@
 - [`WORKTYPE_DIAGNOSTIC.md`](WORKTYPE_DIAGNOSTIC.md) — Canonical design for `仕事タイプ診断` and the DIAG-1..9 implementation scope.
 - [`WORKTYPE_VIRALITY.md`](WORKTYPE_VIRALITY.md) — 診断結果の naming / surfacing / entry / 拡散の設計。scoring 体系は変更しない。
 - [`MBTI_CONTENT.md`](MBTI_CONTENT.md) — `WORKTYPE_VIRALITY.md` §4.C の sub-spec。`/mbti/<type>` content line（未実装）。
-- [`ME_CONSOLIDATION.md`](ME_CONSOLIDATION.md) — 診断を `/me` に統合し、職業を最初に聞く形へ反転させる設計。`/shindan` は無職入口として残し、`?job=` 付きの旧リンクだけ `/me` へ 301 する。
+- [`ME_CONSOLIDATION.md`](ME_CONSOLIDATION.md) — 診断を `/me` に統合し、職業を最初に聞く形へ反転させる設計。`/shindan` は無職入口として残し、`?job=` 付きの旧リンクだけ `/me` へ 301 する。発見（SEO / GEO）は #236：既存の職業・answers・methodology ページで SOP の 4 問を取りに行く。24 タイプページは作らない。
 - [`AIOIS-10.md`](AIOIS-10.md) — AIOIS-10 v1.0 の開発者向け入口。公開ページ `/standard` と score batch / prompt の橋渡し。
 - [`architecture.md`](architecture.md) — `src/data` / `src/graph` / `src/views` / `src/templates` / `src/pages` の層境界。
 - [`SEO_OG_BASELINE.md`](SEO_OG_BASELINE.md) — sitemap、JSON-LD、OG/Twitter meta、baseline 更新手順。

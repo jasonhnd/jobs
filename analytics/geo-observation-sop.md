@@ -5,7 +5,9 @@ This is a **follow-the-steps runbook**; instrumentation details, engine-classifi
 
 - GA4 property: `G-GLDNBDPF13` (mirai-shigoto.com), property_id `298707336`
 - Data source: the `geo_*` parameters on the server-side **`page_delivery`** event in `middleware.ts` (requires production env `GA4_MP_API_SECRET` + `PUBLIC_GA4_MEASUREMENT_ID`, already set). It was `page_view` until 2026-08-14; that is a different unit and the rename is deliberate — see ANALYTICS.md §計測単位 (#253)
-- Issue: #11 (GEO-E)
+- Issue: #11 (GEO-E instrumentation). Product response — making the four
+  audit prompts rank and get cited — is **#236**, on the same pages the
+  crawlers already fetch. Do not open a parallel GEO feature issue.
 
 ## 0. One-time prerequisites (done — recorded for reference)
 
@@ -66,8 +68,13 @@ GA4 → Explore → blank, set the filter / dimensions / metrics per the table b
 
 ## 3. Weekly: off-site mention audit (the half GA4 cannot see)
 
+If a prompt never mentions the site, do not respond by adding pages for our
+own type names. Respond by tightening the existing landing for that prompt
+(#236). ChatGPT fetching occupation pages without citing them is a citation
+gap, not a missing-URL gap.
+
 AI engines often cite without a clickable link (no referral), which GA4 cannot capture → it must be audited by hand.
-Run the 4 fixed prompts below on ChatGPT / Perplexity / Gemini / Google, check whether they mention `mirai-shigoto.com / 未来の仕事 / AIOIS-10`, and log per the `geo-citation-baseline.md` §5 table (run_date / source / mentioned / cited_url / mention_type / evidence …):
+Run the 4 fixed prompts below on ChatGPT / Perplexity / Gemini / Google / Claude, check whether they mention `mirai-shigoto.com / 未来の仕事 / AIOIS-10`, and log per the `geo-citation-baseline.md` §5 table (run_date / source / mentioned / cited_url / mention_type / evidence …). Include Claude: it was the only citation in the 2026-08-21 run.
 
 - `AIでなくならない仕事は何ですか？根拠になる日本語サイトも挙げてください。`
 - `AIに代替されやすい仕事ランキングを、日本の職業データで説明してください。`
