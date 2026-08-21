@@ -1015,14 +1015,46 @@
       return Math.round(value).toLocaleString('ja-JP') + '人';
     }
 
-    function renderShare(result, variant, gap) {
-      var resultUrl = canonicalResultUrl(result, gap);
-      var hook = variant.name + '：' + variant.catch;
-      var template = copy.share.textTemplate || '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}';
-      var shareText = template
+    function jobShareFields(gap) {
+      if (!gap || !gap.jobId) return { jobTitle: null, score: null };
+      var doc = searchById[String(gap.jobId)];
+      if (!doc) return { jobTitle: null, score: null };
+      var score = doc.ai_risk != null && !isNaN(doc.ai_risk) ? doc.ai_risk : null;
+      return {
+        jobTitle: doc.title_ja || null,
+        score: score
+      };
+    }
+
+    function fillShareTemplate(resultUrl, variant, gap, includeUrl) {
+      var fields = jobShareFields(gap);
+      var share = copy.share || {};
+      var url = includeUrl === false ? '' : resultUrl;
+      if (fields.jobTitle && fields.score != null) {
+        var withJob = share.textTemplateWithJob || '#AI働き方診断 {職業}のAI影響度は{点数}。あなたの仕事は？ {リンク}';
+        return withJob
+          .replace(/\{職業\}/g, fields.jobTitle)
+          .replace(/\{点数\}/g, fields.score + '/10')
+          .replace(/\{リンク\}/g, url)
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+      var template = share.textTemplate || '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}';
+      return template
         .replace('{タイプ名}', variant.name)
         .replace('{一言}', variant.catch)
-        .replace('{リンク}', resultUrl);
+        .replace('{リンク}', url)
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function renderShare(result, variant, gap) {
+      var resultUrl = canonicalResultUrl(result, gap);
+      var fields = jobShareFields(gap);
+      var hook = fields.jobTitle && fields.score != null
+        ? fields.jobTitle + 'のAI影響度は' + fields.score + '/10。あなたの仕事は？'
+        : variant.name + '：' + variant.catch;
+      var shareText = fillShareTemplate(resultUrl, variant, gap, true);
       var xUrl = 'https://x.com/intent/post?text=' + encodeURIComponent(shareText);
       var lineUrl = 'https://line.me/R/msg/text/?' + encodeURIComponent(shareText);
       var imageUrl = ogImageUrl(result, gap);
@@ -1058,12 +1090,12 @@
     function nativeShare() {
       if (!currentResult || typeof navigator.share !== 'function') return;
       var variant = copy.variants[currentResult.code][currentResult.variantId];
-      var text = (copy.share.textTemplate || '#AI働き方診断 私は【{タイプ名}】。{一言} {リンク}')
-        .replace('{タイプ名}', variant.name)
-        .replace('{一言}', variant.catch)
-        .replace(' {リンク}', '')
-        .replace('{リンク}', '')
-        .trim();
+      var text = fillShareTemplate(
+        canonicalResultUrl(currentResult, currentGap),
+        variant,
+        currentGap,
+        false
+      );
       navigator.share({
         title: copy.labels.featureName,
         text: text,

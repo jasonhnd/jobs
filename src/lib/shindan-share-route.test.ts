@@ -1,8 +1,9 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { isBotUserAgent } from './middleware-helpers.js';
+import { isBotUserAgent, isShareUnfurlerUserAgent } from './middleware-helpers.js';
 import {
+  meOccupationOgRewriteTarget,
   noOccAliasRedirectTarget,
   shindanOccupationRedirectTarget,
   shindanShareRewriteTarget,
@@ -51,6 +52,20 @@ describe('shindan routing (#259 / #260 lock)', () => {
       'https://mirai-shigoto.com/me?id=133&self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1',
     );
     assert.equal(target?.searchParams.has('gap'), false);
+  });
+
+  test('/me?id= rewrites to the occupation page for score OG (#237)', () => {
+    assert.equal(
+      meOccupationOgRewriteTarget(new URL('https://mirai-shigoto.com/me?id=133'))?.toString(),
+      'https://mirai-shigoto.com/133',
+    );
+    assert.equal(
+      meOccupationOgRewriteTarget(new URL('https://mirai-shigoto.com/me?id=404'))?.toString(),
+      'https://mirai-shigoto.com/occupations/404',
+    );
+    assert.equal(meOccupationOgRewriteTarget(new URL('https://mirai-shigoto.com/me')), null);
+    assert.equal(isShareUnfurlerUserAgent('Twitterbot/1.0'), true);
+    assert.equal(isShareUnfurlerUserAgent('Googlebot/2.1'), false);
   });
 
   test('social scrapers still match the share rewrite on occupation-bearing links', () => {

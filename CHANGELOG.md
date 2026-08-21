@@ -25,6 +25,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
   `/shindan?job=` links 301 to `/me` for humans; social scrapers keep the
   share rewrite so OG is not lost (#259, #260). `/shindan` stays in the
   sitemap. SEO baseline recaptured: −1 URL (`/me/start`).
+- Diagnostic share is measurement-led when an occupation is known (#237):
+  `{職業}のAI影響度は{点数}。あなたの仕事は？`. No-occupation `/shindan`
+  shares stay identity-only. Worktype OG cards and `/me` share follow the
+  same hook. Social unfurlers of `/me?id=` reuse the occupation score card.
+  SEO baseline recaptured: `/me` anchors +2 (`meShare`, `meShareOpen`).
 
 ### Changed
 
