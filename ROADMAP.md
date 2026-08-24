@@ -16,8 +16,8 @@ Shipped on `preview`, then promoted (`#273`, `main@b2606e3c`). Umbrella #233
 closes on the product ship. It does **not** wait on #236.
 
 #236 (SEO/GEO) is a separate programme and is parked until the owner starts
-it. #234 stays open on its own: it closes on a later entry number, not on
-this ship.
+it. #234 closed 2026-08-22 on the existing 17-day cut (~1.5× `me_open`,
+not 10×). Owner: do not wait another 28 days.
 
 - acq-2-funnel (#256 / #261): `shindan_start` + `shindan_step` (`value` 1..9).
 - acq-3-screen2 (#257 / #262): 9 questions on `/me` behind `#meQuizOpen`.
