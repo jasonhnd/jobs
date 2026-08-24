@@ -10,11 +10,14 @@ Fields:
 - depends_on: List of work unit ids that must finish first; use [] when none.
 -->
 
-## Done — occupation-first /me consolidation, acq-2…acq-6 (`preview`, 2026-08-20)
+## Done — occupation-first /me consolidation (#233, production 2026-08-21)
 
-Shipped on `preview` / https://pre.mirai-shigoto.com. **Not** promoted to
-`main`. Umbrella #233 stays open for #236 (SEO). #234 stays
-open because it closes on a later entry number, not on the ship.
+Shipped on `preview`, then promoted (`#273`, `main@b2606e3c`). Umbrella #233
+closes on the product ship. It does **not** wait on #236.
+
+#236 (SEO/GEO) is a separate programme and is parked until the owner starts
+it. #234 closed 2026-08-22 on the existing 17-day cut (~1.5× `me_open`,
+not 10×). Owner: do not wait another 28 days.
 
 - acq-2-funnel (#256 / #261): `shindan_start` + `shindan_step` (`value` 1..9).
 - acq-3-screen2 (#257 / #262): 9 questions on `/me` behind `#meQuizOpen`.

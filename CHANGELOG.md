@@ -33,6 +33,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Occupation detail `<title>` / meta description now lead with the jobtag
+  yen figure then AI impact (`{name}の年収約{N}万円｜AI影響{n}/10`), and
+  the description no longer says `AI代替リスク` (#276). GSC showed niche
+  `{職} 年収` queries impressing at position ~9 with ~0.1% CTR because the
+  old title named 年収 but showed no number. SEO baseline recaptured:
+  occupation title + description + og:title + og:description on all
+  occupation URLs; URL set unchanged.
 - Desktop top nav now includes 「自分の現在地」 (`/me`) ahead of 「診断」,
   matching the occupation-first lock. Clicks fire `me_entry_click` with
   `source=top_nav`. Internal-link set unchanged: the mobile drawer already
