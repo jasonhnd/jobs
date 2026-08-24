@@ -7,15 +7,18 @@
  * derivation; consolidating it here keeps the formula in one
  * tested place and out of the page frontmatter.
  *
- * Title format:
- *   `${nameJa}の将来性・年収・AI影響度【${riskStr}】｜未来の仕事`
+ * Title format (#276 — GSC: occupation 年収 queries impress, titles
+ * did not show a yen figure, so CTR collapsed):
+ *   with salary:  `${nameJa}の年収約${N}万円｜AI影響${riskStr}｜未来の仕事`
+ *   no salary:    `${nameJa}のAI影響${riskStr}｜未来の仕事`
+ *   unscored AI:  `未評価` instead of `{n}/10`
  *
- * Description format (mirrors the legacy code's three-clause
- * structure: risk tier + optional data parts + always-on tail):
- *   `${nameJa}の${riskTierDesc}。${dataParts}。将来性やなり方、…`
+ * Description: salary (jobtag) → workers → AI-impact tier →
+ * "degree of work change, not unemployment probability" when scored →
+ * the 将来性 tail. Do not say AI代替リスク in the meta description.
  *
  * OG title/description are the same as title/description but
- * capped at 120 / 300 chars respectively (legacy parity).
+ * capped at 120 / 300 chars respectively.
  *
  * Keywords: [nameJa, …aliasesJa.slice(0, 8)].join(', ').
  */
@@ -64,22 +67,28 @@ export function buildOccupationSeo(input: OccupationSeoInput): OccupationSeoOutp
   // Google SERPs.
   const riskStr = aiRisk !== null ? `${aiRisk}/10` : '未評価';
 
-  const title = `${nameJa}の将来性・年収・AI影響度【${riskStr}】｜未来の仕事`;
+  const title = salaryMan
+    ? `${nameJa}の年収約${Math.trunc(salaryMan)}万円｜AI影響${riskStr}｜未来の仕事`
+    : `${nameJa}のAI影響${riskStr}｜未来の仕事`;
 
-  const riskTierDesc =
-    aiRisk !== null
-      ? `AI代替リスクは10段階中${aiRisk}と${
-          aiRisk <= RISK_LOW_CEILING ? '低め' : aiRisk <= RISK_MID_CEILING ? '中程度' : '高め'
-        }`
-      : 'AI影響度を分析';
+  const clauses: string[] = [];
+  if (salaryMan) {
+    clauses.push(`${nameJa}の平均年収は約${Math.trunc(salaryMan)}万円（厚生労働省 jobtag）。`);
+  }
+  if (workers) {
+    clauses.push(`就業者は${fmtIntCommas(workers)}人。`);
+  }
+  if (aiRisk !== null) {
+    const tier =
+      aiRisk <= RISK_LOW_CEILING ? '低め' : aiRisk <= RISK_MID_CEILING ? '中程度' : '高め';
+    clauses.push(`${nameJa}のAI影響度は10段階中${aiRisk}と${tier}です。`);
+    clauses.push('仕事の中身がAIで変わる度合いであり、失業の確率ではありません。');
+  } else {
+    clauses.push(`${nameJa}のAI影響度を分析。`);
+  }
+  clauses.push(NATIONAL_AVG_TAIL);
 
-  const salaryShort = salaryMan ? `年収${Math.trunc(salaryMan)}万円` : '';
-  const workersShort = workers ? `就業者${fmtIntCommas(workers)}人` : '';
-  const dataParts = [salaryShort, workersShort].filter(Boolean).join('・');
-
-  const description = dataParts
-    ? `${nameJa}の${riskTierDesc}。${dataParts}。${NATIONAL_AVG_TAIL}`
-    : `${nameJa}の${riskTierDesc}。${NATIONAL_AVG_TAIL}`;
+  const description = clauses.join('');
 
   const ogTitle = title.slice(0, OG_TITLE_MAX);
   const ogDescription = description.slice(0, OG_DESCRIPTION_MAX);
