@@ -34,7 +34,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | `@vercel/og` | **0.11.1** | same | Edge Function `api/og` |
 | `@vercel/edge` | **1.3.3** | same | `middleware.ts` |
 | React | **19.2.8** (OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Edge bundle |
-| Playwright / axe | **1.62.1** / **4.12.1** (exact pins, no `^`) | **not executed** | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
+| Playwright / axe | **1.62.1** / **4.13.0** (exact pins, no `^`) | **not executed** | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
 | `api/og` Edge bundle | — | — | **854.9 KB** (`vercel inspect` Builds: `λ api/og (854.9KB) [hnd1, kix1]`). CHANGELOG 2026-05-28 recorded 748KB — treat inspect as current. Refresh the same way. |
 | `api/shindan-share` | — | — | **91.39 KB** `[hnd1, kix1]` |
 | middleware | — | — | **23.72 KB** `[iad1, hnd1]` |
