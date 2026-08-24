@@ -27,7 +27,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | Item | Local (this machine, 2026-08-24) | CI `quality` (`.github/workflows/ci.yml`) | Vercel |
 | --- | --- | --- | --- |
 | Node | **v22.22.3** (drift — see §7) | `24.x` via `actions/setup-node` | `engines.node: "24.x"` → latest 24.x on Builds. Edge Functions do **not** use this. |
-| Bun | **1.3.14** (`0d9b296a`) | **`bun-version: 1.3.11`** | Install log: **`bun install v1.3.14 (0d9b296a)`**. How to refresh: Vercel dashboard → latest **preview** deployment → Build logs → Install; or `vercel inspect <url>` does not print Bun — use the events/build log and search `bun install v`. |
+| Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bunx bun@1.4.0 install --frozen-lockfile`. **No `bunVersion`** (Function plane stays Edge). Paste the first preview Install log in Issue 288 / this cell after it deploys. |
 | Astro | lockfile **7.2.4** | same lockfile | same |
 | `typescript` (JS package) | **6.0.3** | same | same |
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
@@ -40,7 +40,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | middleware | — | — | **23.72 KB** `[iad1, hnd1]` |
 | Vercel plan Edge gzip limit | — | — | **unknown** (Hobby 1MB / Pro 2MB / Enterprise 4MB). How to fill: Vercel dashboard → team/project **Settings** or billing; 854.9KB fits all three. Do not guess the plan. |
 
-`bun.lock` today: `lockfileVersion: 1`, `configVersion: 1`.
+`bun.lock` today: `lockfileVersion: 2` (Bun 1.4). CI and Vercel install must be 1.4.0 in the same PR as this rewrite.
 
 `.nvmrc` contains `24`. Use that (or `engines.node`) locally before Astro compiler work. `astro build` is Node.
 
@@ -108,7 +108,7 @@ Not in the series: Node 26; `typescript` package → 7; analytics/ `googleapis` 
 | Check | Proves | Does not prove |
 | --- | --- | --- |
 | GitHub **`quality`** | CI Bun pin can `bun install --frozen-lockfile`; unit tests; native typecheck; production `build`; `home-css-loading` + `models-built` with `REQUIRE_BUILT_ARTIFACTS=1`; `verify:gates`; no uncommitted generated files (`git diff --exit-code`) | Playwright, axe, a real `/api/og` PNG, production alias |
-| GitHub **`Vercel`** | Preview ran `installCommand` + `buildCommand` on Vercel’s image, including `verify:gates` (SEO baseline is a **deploy** gate) | e2e; OG pixels; that Install Bun equals CI Bun (today it does **not**: 1.3.14 vs 1.3.11) |
+| GitHub **`Vercel`** | Preview ran `installCommand` + `buildCommand` on Vercel’s image, including `verify:gates` (SEO baseline is a **deploy** gate). Issue 288: Install must show `bunx bun@1.4.0` succeeding. | e2e; OG pixels; Function runtime (must stay Edge, not `bunVersion`) |
 | Local `bun run test:e2e` | Chromium against `dist-astro/` via `scripts/e2e-server.cjs`. Analytics specs need `PUBLIC_*` tracker IDs baked into that dist (`vercel env pull` writes empty strings for Encrypted vars — fill from production HTML or a real preview). | CI/Vercel |
 | Preview `/api/og` | Edge Function boots and returns PNG | `astro preview` (it does **not** serve `/api/`) |
 
@@ -128,7 +128,7 @@ Occupation bodies are mostly `src/templates/` SafeHtml injected from `[...id].as
 ## 7. Known drift (record here; do not “fix” in a docs-only PR)
 
 1. **Local Node 22.22.3 vs engines/CI 24.x.** `astro build` is Node. Align the machine to 24 **before #282** (`.nvmrc` is already `24`). This is not a repository version bump.
-2. **CI Bun 1.3.11 vs local and Vercel Install 1.3.14.** Fix only in **#288**, in the **same** PR as any `lockfileVersion: 2` rewrite. Never land v2 while CI is still 1.3.11.
+2. **CI / local / Vercel Install Bun** aligned to **1.4.0** in Issue 288 (same PR as `lockfileVersion: 2`). Function plane is still Edge — do not add `bunVersion`.
 3. **Vercel plan** for Edge size cap is `unknown` until someone reads billing/settings. 854.9KB currently fits Hobby 1MB; still record the plan before #287 if the 1.0 bundle grows.
 
 ---

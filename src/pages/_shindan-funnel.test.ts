@@ -35,12 +35,17 @@ function loadRuntimeHooks(): RuntimeHooks {
 
 const hooks = loadRuntimeHooks();
 
+/** Bun 1.4 deepStrictEqual treats vm.runInNewContext arrays as another realm. */
+function hostClone<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
 describe('shindan quiz funnel (#256)', () => {
   test('emits nothing before the first answer', () => {
     const next = hooks.nextFunnelEvents(false, 0, 0);
     assert.equal(next.started, false);
     assert.equal(next.lastStep, 0);
-    assert.deepEqual(next.events, []);
+    assert.deepEqual(hostClone(next.events), []);
   });
 
   test('first answer emits start then step value 1', () => {
@@ -48,7 +53,7 @@ describe('shindan quiz funnel (#256)', () => {
     assert.equal(next.started, true);
     assert.equal(next.lastStep, 1);
     assert.deepEqual(
-      next.events.map((event) => [event.name, event.params]),
+      hostClone(next.events.map((event) => [event.name, event.params])),
       [
         ['shindan_start', {}],
         ['shindan_step', { value: 1 }],
@@ -61,7 +66,7 @@ describe('shindan quiz funnel (#256)', () => {
     assert.equal(next.started, true);
     assert.equal(next.lastStep, 3);
     assert.deepEqual(
-      next.events.map((event) => [event.name, event.params.value]),
+      hostClone(next.events.map((event) => [event.name, event.params.value])),
       [
         ['shindan_step', 2],
         ['shindan_step', 3],
@@ -71,14 +76,14 @@ describe('shindan quiz funnel (#256)', () => {
 
   test('repeat of the same count is a no-op', () => {
     const next = hooks.nextFunnelEvents(true, 4, 4);
-    assert.deepEqual(next.events, []);
+    assert.deepEqual(hostClone(next.events), []);
     assert.equal(next.lastStep, 4);
   });
 
   test('ninth answer reaches value 9 without a second start', () => {
     const next = hooks.nextFunnelEvents(true, 8, 9);
     assert.equal(next.started, true);
-    assert.deepEqual(next.events, [{ name: 'shindan_step', params: { value: 9 } }]);
+    assert.deepEqual(hostClone(next.events), [{ name: 'shindan_step', params: { value: 9 } }]);
   });
 
   test('source restores a result without calling the funnel helper from init', () => {
