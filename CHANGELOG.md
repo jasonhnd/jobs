@@ -36,6 +36,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- React 19.2.7 → 19.2.8 and `@types/react` 19.2.17 → 19.2.18 (#283).
+  OG `createElement` only; no client React, no `@astrojs/react`.
 - Astro 7.0.3 → 7.2.4 and security-floor override `devalue` ^5.8.1 →
   ^5.9.1 (#282). No adapter, no experimental flags; `compressHTML: true`
   stays explicit. Occupation paths stay `/{id}.html` /
