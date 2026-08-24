@@ -29,6 +29,10 @@ OG renderer は request origin の data projection を読む。ただし spoofed
 
 Google Fonts CSS から抽出した font binary URL は `https://fonts.gstatic.com/` で始まる場合だけ fetch する。CSS response は外部入力なので、任意 host へ server-side fetch しない。
 
+## `@vercel/og` 1.0.1 on Edge
+
+`api/og.tsx` stays `runtime: "edge"` / `regions: ["hnd1", "kix1"]` on `@vercel/og@1.0.1` (satori 0.29). Preview Function boot as Edge (not Node/Bun) is the Issue 287 gate; record the inspect size in TOOLCHAIN.md §2. There is still no `fs` on this runtime: fonts stay `loadGoogleFont` → gstatic-only; data stays `trustedFetchOrigin`. Do not bundle TTF into the Function. If a later `@vercel/og` bump fails to start on Edge, stop and open an architecture Issue — do not flip `runtime` to `"nodejs"` in a version bump.
+
 ## OG 表示契約
 
 - occupation ID は 1-4 桁の ASCII digit のみ。overflow を truncate しない。

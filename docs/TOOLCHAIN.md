@@ -31,7 +31,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | Astro | lockfile **7.2.4** | same lockfile | same |
 | `typescript` (JS package) | **6.0.3** | same | same |
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
-| `@vercel/og` | **0.11.1** | same | Edge Function `api/og` |
+| `@vercel/og` | **1.0.1** | same | Edge Function `api/og` |
 | `@vercel/edge` | **1.3.3** | same | `middleware.ts` |
 | React | **19.2.8** (OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Edge bundle |
 | Playwright / axe | **1.62.1** / **4.13.0** (exact pins, no `^`) | **not executed** | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
@@ -61,7 +61,7 @@ Citations include the document date so they can go stale on purpose.
 | Function runtime `bunVersion: "1.x"` | Selects Bun **1.3.14**. Not used here. | [Bun runtime](https://vercel.com/docs/functions/runtimes/bun) |
 | Function runtime `bunVersion: "1.4.x"` | Selects Bun **1.4** (Zig→Rust). Explicit opt-in. Not used here. | [changelog 2026-08-20](https://vercel.com/changelog/bun-1-4-is-now-available-in-vercel-functions) |
 | Edge Functions | Still supported. Vercel *recommends* migrating Edge → Node.js (advice, not a shutdown). Dynamic `WebAssembly.compile` forbidden; wasm must be imported. Gzip caps: Hobby 1MB / Pro 2MB / Enterprise 4MB. | [Edge runtime](https://vercel.com/docs/functions/runtimes/edge) (2026-08-03) |
-| `@vercel/og` on Edge vs Node | Platform OG docs (2026-06-16) lead with **Node.js**. npm `@vercel/og@1.0.1` README still says Node **and** Edge. **1.0 on Edge is unproven until a preview Function boots.** | [OG image generation](https://vercel.com/docs/og-image-generation) (2026-06-16) |
+| `@vercel/og` on Edge vs Node | Platform OG docs (2026-06-16) lead with **Node.js**. npm `@vercel/og@1.0.1` README still says Node **and** Edge. **Issue 287 proves 1.0.1 on Edge only after the preview Function boots** — record size in §2 from `vercel inspect`. If it fails to boot, stop; do not flip `runtime` to `nodejs`. | [OG image generation](https://vercel.com/docs/og-image-generation) (2026-06-16) |
 | Playwright / axe on Vercel | Not run. Do not add them to `buildCommand`. | this repo `vercel.json` + CHANGELOG |
 
 `vercel.json` `buildCommand` includes `verify:gates`, which includes the SEO baseline diff. Extracted-field HTML drift **fails the Vercel build**. (Older CHANGELOG text that said SEO baseline was local-only is stale.)
