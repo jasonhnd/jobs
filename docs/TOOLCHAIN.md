@@ -28,7 +28,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | --- | --- | --- | --- |
 | Node | **v22.22.3** (drift — see §7) | `24.x` via `actions/setup-node` | `engines.node: "24.x"` → latest 24.x on Builds. Edge Functions do **not** use this. |
 | Bun | **1.3.14** (`0d9b296a`) | **`bun-version: 1.3.11`** | Install log: **`bun install v1.3.14 (0d9b296a)`**. How to refresh: Vercel dashboard → latest **preview** deployment → Build logs → Install; or `vercel inspect <url>` does not print Bun — use the events/build log and search `bun install v`. |
-| Astro | lockfile **7.0.3** | same lockfile | same |
+| Astro | lockfile **7.2.4** | same lockfile | same |
 | `typescript` (JS package) | **6.0.3** | same | same |
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
 | `@vercel/og` | **0.11.1** | same | Edge Function `api/og` |
