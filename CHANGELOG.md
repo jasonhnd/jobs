@@ -33,6 +33,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Preview alias `pre.mirai-shigoto.com` now sends `X-Robots-Tag: noindex,
+  nofollow` so the `sc-domain:mirai-shigoto.com` Search Console property
+  does not treat the staging copy as a second indexable host (#279).
+  Production `mirai-shigoto.com` is unchanged. Static HTML `robots` meta
+  stays `index, follow`; the header is the host-level override. Preview
+  `robots.txt` still allows crawl so Google can see `noindex`.
 - Occupation detail `<title>` / meta description now lead with the jobtag
   yen figure then AI impact (`{name}の年収約{N}万円｜AI影響{n}/10`), and
   the description no longer says `AI代替リスク` (#276). GSC showed niche
