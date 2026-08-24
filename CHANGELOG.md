@@ -36,6 +36,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `@playwright/test` 1.61.1 → 1.62.1 (#285). Exact pin, Chromium 151.
+  axe stays 4.12.1. E2E remains local-only (`bun run test:e2e`). The
+  analytics `g/collect` assertion now also matches
+  `analytics.google.com/g/collect` (current gtag.js host).
 - `@vercel/edge` 1.3.1 → 1.3.3 and `@types/node` 24.13.2 → 24.13.3
   (#284). Stay on the Node 24 types line. Middleware imports unchanged.
 - React 19.2.7 → 19.2.8 and `@types/react` 19.2.17 → 19.2.18 (#283).
