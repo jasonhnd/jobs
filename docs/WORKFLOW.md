@@ -41,6 +41,7 @@ Issue、PR、commit message、`docs/` は **英語または日本語のみ**で�
 - GitHub への push と PR 作成は Vercel preview deployment を起動しうる。
 - `main` は production の公開境界として扱い、通常の修正 PR は直接向けない。
 - Preview、production alias、環境変数、project settings の変更は、Issue の範囲に明記された場合だけ行う。
+- Preview alias `pre.mirai-shigoto.com` は `X-Robots-Tag: noindex, nofollow` を返す。production `mirai-shigoto.com` は index 対象のまま。静的 HTML の `robots` meta は `index, follow` を維持し、host 条件の応答ヘッダで上書きする。preview の `robots.txt` は crawl を許可したままにする（`Disallow: /` にすると Google が `noindex` を読めない）。
 
 ## ブランチの役割
 
