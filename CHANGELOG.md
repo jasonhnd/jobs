@@ -36,6 +36,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Bun 1.3.x → **1.4.0** on the install plane only (#288): local, CI
+  `bun-version: 1.4.0`, Vercel `installCommand` `bunx bun@1.4.0 install
+  --frozen-lockfile`. `bun.lock` migrates to lockfileVersion 2. **No
+  `bunVersion`** — `api/og`, `api/shindan-share`, and middleware stay
+  Edge. `astro build` is still Node. Shindan vm-hook tests clone
+  `runInNewContext` arrays before `deepEqual` (Bun 1.4 realm check).
 - `@vercel/og` 0.11.1 → 1.0.1 (#287). Runtime stays Edge (`hnd1`/`kix1`).
   Bundle 854.9 KB → 855.83 KB. No renderer rewrite; still
   `createElement` + runtime Google Fonts (`fs` is not available on
