@@ -13,7 +13,8 @@ Base branch: `preview`. Human-merge gate. JA-only site; English spec with JA cop
 strings inline. Owner signed the `/me` strings in §4.6 on 2026-08-20.
 
 Tracks issue #233 (closed 2026-08-22: product shipped; not blocked by #236).
-Related and **independent**: #234 (entry number), #235 (rarity, closed),
+Related and **independent**: #234 (entry number, closed 2026-08-22 on the
+17-day cut; do not wait 28 days), #235 (rarity, closed),
 #236 (SEO/GEO, parked), #237 (share, closed).
 
 ## 1. Why
@@ -359,8 +360,8 @@ Order:
 
 1. **`[entry]`** (#234) — in-content entry from `/rankings` and `/compare` into
    `/me`, attached to occupation context. The only step that changes the order of
-   magnitude. Shipped in production (PR #251). Issue still closes on a later
-   number, not on the ship.
+   magnitude. Shipped in production (PR #251). Closed 2026-08-22 on the
+   2026-08-16 17-day cut (~1.5×, not 10×). Owner: do not wait another 28 days.
 2. **Observe** — let `/me` accumulate a usable sample. 17-day cut (2026-08-16):
    ~1.5× `me_open`, not 10×. Owner continued the series anyway.
 3. **`[consolidate]`** — screens 2 and 3, the no-occupation branch, the redirect.
@@ -373,8 +374,8 @@ Order:
    Separate programme. Parked (owner 2026-08-22): do not start until asked.
    Page shape is settled, so #236 is unblocked, but #233 does not wait on it.
 
-**#235 (rarity) is independent** and can be done at any point. **#234** stays
-open on its own: it closes on a later entry number, not on this ship.
+**#235 (rarity) is independent** and can be done at any point. **#234** closed
+2026-08-22 on the existing measurement; do not hold a 28-day clock.
 
 ## 8. Measurement
 
@@ -427,7 +428,9 @@ Desktop top nav 「自分の現在地」 and `/me` cream body wash shipped as fo
 
 This consolidation is complete. Independent of it:
 
-1. **#234** — entry number. Closes on a later measurement, not on this ship.
+1. **#234** — closed 2026-08-22. 17-day production cut: `me_open` ~1.5×, not
+   10×; rankings path is real; compare `MeEntry` was 0 clicks. Owner: do
+   not wait another 28 days.
 2. **#236** — SEO/GEO programme. Parked 2026-08-22. Do not start until the
    owner asks. Not a closer for #233. A 転職 rename of `/shindan` and the
    24-type roster question stay there if they are ever picked up.
