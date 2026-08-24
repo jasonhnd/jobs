@@ -1,8 +1,9 @@
 # /me Consolidation — Occupation-First Diagnostic (Design)
 
-Status: screens 1–3 and routing shipped on `preview` (2026-08-20). JA copy
-signed 2026-08-20. Share unit is measurement-led when a job is known (#237).
-Remaining: #236 SEO. Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
+Status: occupation-first `/me` shipped to production (2026-08-21, #273).
+JA copy signed 2026-08-20. Share is measurement-led when a job is known (#237).
+This consolidation (#233) does **not** wait on #236. SEO/GEO is a separate
+programme and is parked until the owner starts it. Extends [`WORKTYPE_VIRALITY.md`](./WORKTYPE_VIRALITY.md)
 and [`WORKTYPE_DIAGNOSTIC.md`](./WORKTYPE_DIAGNOSTIC.md). Those docs rework how the
 diagnostic result is **named, surfaced and spread**, and leave the 3-axis /
 8-family / 24-variant scoring system unchanged. This doc keeps that scoring system
@@ -11,7 +12,10 @@ and changes **which question the product asks first**, which is upstream of both
 Base branch: `preview`. Human-merge gate. JA-only site; English spec with JA copy
 strings inline. Owner signed the `/me` strings in §4.6 on 2026-08-20.
 
-Tracks issue #233. Related: #234 (entry), #235 (rarity), #236 (SEO), #237 (share).
+Tracks issue #233 (closed 2026-08-22: product shipped; not blocked by #236).
+Related and **independent**: #234 (entry number, closed 2026-08-22 on the
+17-day cut; do not wait 28 days), #235 (rarity, closed),
+#236 (SEO/GEO, parked), #237 (share, closed).
 
 ## 1. Why
 
@@ -356,19 +360,22 @@ Order:
 
 1. **`[entry]`** (#234) — in-content entry from `/rankings` and `/compare` into
    `/me`, attached to occupation context. The only step that changes the order of
-   magnitude. Shipped in production (PR #251). Issue still closes on a later
-   number, not on the ship.
+   magnitude. Shipped in production (PR #251). Closed 2026-08-22 on the
+   2026-08-16 17-day cut (~1.5×, not 10×). Owner: do not wait another 28 days.
 2. **Observe** — let `/me` accumulate a usable sample. 17-day cut (2026-08-16):
    ~1.5× `me_open`, not 10×. Owner continued the series anyway.
 3. **`[consolidate]`** — screens 2 and 3, the no-occupation branch, the redirect.
    Requires funnel instrumentation to exist first (§8). Shipped on `preview`
-   (#256–#260, PRs #261–#265). Not promoted to `main`.
+   (#256–#260, PRs #261–#265), promoted to production 2026-08-21 (#273).
 4. **`[share]`** (#237) — measurement-led when a job is known; identity-only
    on the no-occupation `/shindan` result. Share text and worktype OG card
-   decided together.
-5. **`[seo]`** (#236) — only decidable once the page shape is settled.
+   decided together. Shipped to production (#273).
+5. **`[seo]` / `[geo]`** (#236) — **not part of closing this consolidation.**
+   Separate programme. Parked (owner 2026-08-22): do not start until asked.
+   Page shape is settled, so #236 is unblocked, but #233 does not wait on it.
 
-**#235 (rarity) is independent** and can be done at any point.
+**#235 (rarity) is independent** and can be done at any point. **#234** closed
+2026-08-22 on the existing measurement; do not hold a 28-day clock.
 
 ## 8. Measurement
 
@@ -407,7 +414,7 @@ Settled in review (2026-07-29):
 | `/gyakuten` | Keep the route, drop the flagship framing, invest nothing until there is volume | §4.5 |
 | JA copy | Owner signed 2026-08-20; live as §4.6 | §4.6 |
 
-Shipped on `preview` (2026-08-20), not on `main`:
+Shipped on `preview` (2026-08-20), production 2026-08-21 (#273):
 
 | Unit | Issue | PR | Live check |
 |---|---|---|---|
@@ -419,12 +426,12 @@ Shipped on `preview` (2026-08-20), not on `main`:
 
 Desktop top nav 「自分の現在地」 and `/me` cream body wash shipped as follow-ups (#267, #266). `#260`'s original table (bare `/shindan` 301, drop from sitemap) was superseded by the 2026-08-17 lock in D2.
 
-Still open:
+This consolidation is complete. Independent of it:
 
-1. **Public name beyond `/shindan`.** Owner locked `/shindan` as the no-occupation
-   entry (2026-08-17). A 転職-anchored path remains a #236 positioning decision.
-   `NO_OCC_PATH` is still the one constant.
-2. **Indexable page space** (#236) — only decidable now that the page shape is
-   shipped.
-3. **Whether the 24-type roster still earns a route** once screen 3 exists and
-   there is traffic to judge with. Deliberately deferred, not decided.
+1. **#234** — closed 2026-08-22. 17-day production cut: `me_open` ~1.5×, not
+   10×; rankings path is real; compare `MeEntry` was 0 clicks. Owner: do
+   not wait another 28 days.
+2. **#236** — SEO/GEO programme. Parked 2026-08-22. Do not start until the
+   owner asks. Not a closer for #233. A 転職 rename of `/shindan` and the
+   24-type roster question stay there if they are ever picked up.
+3. **Whether the 24-type roster still earns a route** — deliberately deferred.
