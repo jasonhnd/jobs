@@ -258,7 +258,7 @@ const vercelRaw = fs.readFileSync(VERCEL_JSON, 'utf-8');
 const vercel = JSON.parse(vercelRaw);
 
 const cspEntry = vercel.headers
-  ?.find((h) => h.source === '/(.*)')
+  ?.find((h) => h.source === '/(.*)' && !h.has)
   ?.headers?.find((kv) => kv.key === 'Content-Security-Policy');
 
 if (!cspEntry) {
