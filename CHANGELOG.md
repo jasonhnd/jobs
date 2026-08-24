@@ -37,9 +37,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 ### Changed
 
 - `@vercel/og` 0.11.1 → 1.0.1 (#287). Runtime stays Edge (`hnd1`/`kix1`).
-  No renderer rewrite; still `createElement` + runtime Google Fonts
-  (`fs` is not available on Edge). Preview Function boot and PNG
-  comparison vs production are the pixel oracle, not unit tests.
+  Bundle 854.9 KB → 855.83 KB. No renderer rewrite; still
+  `createElement` + runtime Google Fonts (`fs` is not available on
+  Edge). Preview PNGs for home / occupation 156 / sector iryo / map /
+  worktype wide + square were byte-identical to production.
 - `@axe-core/playwright` 4.12.1 → 4.13.0 (#286). Exact pin. Playwright
   stays 1.62.1. E2E remains local-only (`bun run test:e2e`).
 - `@playwright/test` 1.61.1 → 1.62.1 (#285). Exact pin, Chromium 151.

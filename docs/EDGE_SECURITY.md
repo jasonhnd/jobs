@@ -31,7 +31,7 @@ Google Fonts CSS から抽出した font binary URL は `https://fonts.gstatic.c
 
 ## `@vercel/og` 1.0.1 on Edge
 
-`api/og.tsx` stays `runtime: "edge"` / `regions: ["hnd1", "kix1"]` on `@vercel/og@1.0.1` (satori 0.29). Preview Function boot as Edge (not Node/Bun) is the Issue 287 gate; record the inspect size in TOOLCHAIN.md §2. There is still no `fs` on this runtime: fonts stay `loadGoogleFont` → gstatic-only; data stays `trustedFetchOrigin`. Do not bundle TTF into the Function. If a later `@vercel/og` bump fails to start on Edge, stop and open an architecture Issue — do not flip `runtime` to `"nodejs"` in a version bump.
+`api/og.tsx` stays `runtime: "edge"` / `regions: ["hnd1", "kix1"]` on `@vercel/og@1.0.1` (satori 0.29). Issue 287 verified the preview Function boots as Edge (not Node/Bun): `λ api/og (855.83KB) [hnd1, kix1]`. Six production PNGs were byte-identical on that preview (`/api/og`, `?id=156`, `?sector=iryo`, `?page=map`, one worktype wide + `shape=square`). There is still no `fs` on this runtime: fonts stay `loadGoogleFont` → gstatic-only; data stays `trustedFetchOrigin`. Do not bundle TTF into the Function. If a later `@vercel/og` bump fails to start on Edge, stop and open an architecture Issue — do not flip `runtime` to `"nodejs"` in a version bump.
 
 ## OG 表示契約
 
