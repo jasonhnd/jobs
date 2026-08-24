@@ -36,6 +36,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `@axe-core/playwright` 4.12.1 → 4.13.0 (#286). Exact pin. Playwright
+  stays 1.62.1. E2E remains local-only (`bun run test:e2e`).
 - `@playwright/test` 1.61.1 → 1.62.1 (#285). Exact pin, Chromium 151.
   axe stays 4.12.1. E2E remains local-only (`bun run test:e2e`). The
   analytics `g/collect` assertion now also matches
