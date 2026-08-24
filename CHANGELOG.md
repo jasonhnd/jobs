@@ -36,6 +36,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Astro 7.0.3 → 7.2.4 and security-floor override `devalue` ^5.8.1 →
+  ^5.9.1 (#282). No adapter, no experimental flags; `compressHTML: true`
+  stays explicit. Occupation paths stay `/{id}.html` /
+  `occupations/404.html`. CSP hashes and the SEO baseline were unchanged.
 - Preview alias `pre.mirai-shigoto.com` now sends `X-Robots-Tag: noindex,
   nofollow` so the `sc-domain:mirai-shigoto.com` Search Console property
   does not treat the staging copy as a second indexable host (#279).
