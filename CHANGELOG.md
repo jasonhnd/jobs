@@ -36,6 +36,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `@vercel/edge` 1.3.1 → 1.3.3 and `@types/node` 24.13.2 → 24.13.3
+  (#284). Stay on the Node 24 types line. Middleware imports unchanged.
 - React 19.2.7 → 19.2.8 and `@types/react` 19.2.17 → 19.2.18 (#283).
   OG `createElement` only; no client React, no `@astrojs/react`.
 - Astro 7.0.3 → 7.2.4 and security-floor override `devalue` ^5.8.1 →
