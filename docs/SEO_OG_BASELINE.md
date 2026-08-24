@@ -50,6 +50,12 @@ OG/Twitter image は `https://mirai-shigoto.com/api/og?page=aiadoption` を使�
 
 5. code、docs、`tests/baseline/*` を同じ commit / PR に入れる。
 
+## Preview host
+
+`pre.mirai-shigoto.com` is the Vercel preview alias for the `preview` branch. Canonical URLs in HTML still point at `https://mirai-shigoto.com`, but the preview host itself must not be indexed: `vercel.json` sends `X-Robots-Tag: noindex, nofollow` when `Host` is `pre.mirai-shigoto.com`.
+
+Do not put that header on the unconditioned `/(.*)` rule — that would noindex production. Do not `Disallow: /` on preview `robots.txt`; Google has to crawl the host to honour `noindex`.
+
 ## やってはいけないこと
 
 - 理由なしに baseline だけ更新しない。
