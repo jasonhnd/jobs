@@ -105,9 +105,23 @@ for (const target of PAGES_TO_CHECK) {
 
 test('GA4: window.gtag becomes a function and dataLayer accepts pushes', async ({ page }) => {
   await page.goto('/ja/sectors', { waitUntil: 'load' });
-  // gtag.js loads on window.load — give it up to 8s to take effect.
+  // The inline stub sets window.gtag immediately; the library (loaded on
+  // window.load) is what creates google_tag_manager['G-…']. Wait for that,
+  // not just typeof gtag — otherwise the assertion races the network.
   await page.waitForFunction(
-    () => typeof (window as unknown as { gtag?: unknown }).gtag === 'function',
+    () => {
+      const w = window as unknown as {
+        gtag?: unknown;
+        google_tag_manager?: Record<string, unknown>;
+      };
+      return (
+        typeof w.gtag === 'function' &&
+        Boolean(
+          w.google_tag_manager &&
+            Object.keys(w.google_tag_manager).some((k) => k.startsWith('G-')),
+        )
+      );
+    },
     null,
     { timeout: 8_000 },
   );
@@ -281,9 +295,11 @@ test('CSP script-src does NOT include unsafe-inline (CODE-012 hardening)', async
 // ─── GA4 g/collect must actually fire (the test that would have caught the audit) ──
 
 test('GA4 actually sends a g/collect request after page load', async ({ page }) => {
+  // Chromium 151 / current gtag.js POSTs to analytics.google.com/g/collect
+  // (www.google-analytics.com/g/collect is the historical host). Match both.
   const seenGCollect = waitForRequestMatching(
     page,
-    /www\.google-analytics\.com\/g\/collect/,
+    /(?:www\.google-analytics\.com|analytics\.google\.com)\/g\/collect/,
     12_000,
   );
   await page.goto('/ja/sectors', { waitUntil: 'load' });
