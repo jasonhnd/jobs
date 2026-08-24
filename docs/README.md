@@ -5,6 +5,7 @@
 ## まず読むもの
 
 - [`WORKFLOW.md`](WORKFLOW.md) — Issue-first / docs-first の開発順序。非自明な変更はここに従う。
+- [`TOOLCHAIN.md`](TOOLCHAIN.md) — install / build / runtime の版と Vercel 三平面の正典。CI Bun と本機 Bun もここへ書く。
 - [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — branch、PR、必須検証の contributor 向け要約。
 - [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md) — データソース、グラフ、projection、丸め、スコア選択、整合性ゲート。
 - [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md) — AIOIS-10 score batch の追加手順。Issue #9 の Fable 5 pilot → drift → full run → preview gate もここを正典にする。

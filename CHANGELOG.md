@@ -12,6 +12,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- `docs/TOOLCHAIN.md` is the canonical pin list for install, build, and
+  runtime (Vercel three planes, CI vs local Bun, Edge Function sizes,
+  and the #280 upgrade queue) (#281).
 - `/me` now keeps the 9-question work-style quiz behind an explicit CTA after
   the occupation rankings (#257). SEO baseline recaptured: `/me` anchors +8
   (quiz section ids), no href removals.

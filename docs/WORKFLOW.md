@@ -2,6 +2,8 @@
 
 本リポジトリは **Issue-first / docs-first** で進める。非自明な変更は、実装より先に目的、範囲、受け入れ条件、検証方法を Issue に残す。
 
+ランタイム、パッケージマネージャ、CI Bun、Vercel の install / build / Function 平面のピンは [`TOOLCHAIN.md`](TOOLCHAIN.md) を正典とする。本機 Bun と `.github/workflows/ci.yml` の `bun-version` がずれている場合は、Issue や PR で推測せずそこへ書く。
+
 ## 記述言語
 
 Issue、PR、commit message、`docs/` は **英語または日本語のみ**で書く。それ以外の言語は使わない。

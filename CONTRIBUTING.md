@@ -1,6 +1,6 @@
 # コントリビューションガイド
 
-Issue と Pull Request を歓迎します。非自明な変更は、実装前に目的・範囲・受け入れ条件・検証方法を GitHub Issue に残してください。詳細な運用は [`docs/WORKFLOW.md`](docs/WORKFLOW.md) を正典とします。
+Issue と Pull Request を歓迎します。非自明な変更は、実装前に目的・範囲・受け入れ条件・検証方法を GitHub Issue に残してください。詳細な運用は [`docs/WORKFLOW.md`](docs/WORKFLOW.md) を正典とします。Node / Bun / Astro / Vercel の版と三平面は [`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) を正典とします。
 
 ## ブランチと Pull Request
 
