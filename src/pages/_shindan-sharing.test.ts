@@ -34,12 +34,17 @@ function loadRuntimeHooks(): RuntimeHooks {
 
 const hooks = loadRuntimeHooks();
 
+/** Bun 1.4 deepStrictEqual treats vm.runInNewContext arrays as another realm. */
+function hostClone<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
 describe('shindan browser share-state runtime', () => {
   test('preserves exact margins for distinct mixed patterns', () => {
     for (const pattern of ['3-0/3-0/2-1', '3-0/2-1/3-0']) {
       assert.equal(hooks.validAxesPattern(pattern), true);
       assert.deepEqual(
-        hooks.axesFromCodePattern('CDK', pattern).map((axis) => axis.margin),
+        hostClone(hooks.axesFromCodePattern('CDK', pattern).map((axis) => axis.margin)),
         pattern.split('/'),
       );
       const params = hooks.resultStateParams(

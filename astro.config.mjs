@@ -20,8 +20,8 @@ import { defineConfig } from 'astro/config';
 //                regenerated on every build, see .gitignore)
 //
 // No React integration: the site has no client:* directives and no .jsx/.tsx
-// Astro components. The only React consumer is api/og.tsx (Vercel Edge
-// function bundled separately from Astro) which calls `createElement` from
+// Astro components. The only React consumer is api/og.tsx (Vercel Function,
+// Bun 1.4 via runtime nodejs + bunVersion) which calls `createElement` from
 // the `react` package directly — that's a runtime-only dep, not an Astro
 // integration. Dropping @astrojs/react removes a 142KB unreferenced
 // client.js from dist-astro/_astro/ and saves an unused build pass.

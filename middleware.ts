@@ -1,8 +1,9 @@
 /**
- * middleware.ts — Vercel Edge Middleware for server-side GA4 measurement.
+ * middleware.ts — Vercel Routing Middleware for server-side GA4 measurement.
  *
- * Runs at the Edge BEFORE every HTML request is served, regardless of
- * Astro's static output. Fires a `page_delivery` event to GA4 via
+ * Runs before every HTML request is served, regardless of Astro's
+ * static output (Bun 1.4 via `runtime: "nodejs"` + `bunVersion`).
+ * Fires a `page_delivery` event to GA4 via
  * Measurement Protocol so the data lands in GA4 *even when the client's
  * browser blocks gtag.js* (Chromium 137+ Tracking Protection, ad
  * blockers, Privacy Sandbox cookieless mode, etc.).
@@ -51,7 +52,7 @@
  * 5xx, no client-visible effect. Only the server-side measurement
  * is skipped.
  */
-import { next, rewrite, type RequestContext } from '@vercel/edge';
+import { next, rewrite, waitUntil } from '@vercel/functions';
 import {
   classifyClientKind,
   deliveryIdentity,
@@ -72,6 +73,9 @@ import {
 } from './src/lib/shindan-share-route.js';
 
 export const config = {
+  // nodejs + vercel.json bunVersion 1.4.x → Bun 1.4 routing middleware
+  // (TOOLCHAIN §9 / #305). Default is still edge if this key is omitted.
+  runtime: 'nodejs',
   // Match user-facing HTML routes. Skip:
   //   - /api/*               (API endpoints)
   //   - /_vercel/*           (Vercel internals)
@@ -87,7 +91,7 @@ export const config = {
 // unit-testable without spinning up the Edge runtime. This file is the
 // I/O wrapper: read headers + env → call helpers → POST via waitUntil.
 
-export default function middleware(request: Request, context: RequestContext): Response {
+export default function middleware(request: Request): Response {
   const measurementId = process.env.PUBLIC_GA4_MEASUREMENT_ID;
   const apiSecret = process.env.GA4_MP_API_SECRET;
 
@@ -189,19 +193,19 @@ export default function middleware(request: Request, context: RequestContext): R
   });
   attachDeliveryParams(payload, geoParams);
 
-  // Fire and forget. `context.waitUntil` keeps the Edge runtime alive
-  // long enough for the POST to complete in the background AFTER the
+  // Fire and forget. `waitUntil` from @vercel/functions keeps the
+  // invocation alive long enough for the POST to complete AFTER the
   // user already received their HTML — zero perceived latency.
   //
   // 2000ms timeout (Audit CODE-007). Even though the call is fire-
-  // and-forget, an unbounded `waitUntil` could pin Edge resources on
+  // and-forget, an unbounded `waitUntil` could pin resources on
   // a stalled GA4 endpoint; bound it explicitly.
-  context.waitUntil(
+  waitUntil(
     fetchWithTimeout(mpUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-      // keepalive lets the request survive even if the Edge invocation
+      // keepalive lets the request survive even if the invocation
       // is torn down before fetch resolves (rare, but defensive).
       keepalive: true,
     }, 2000)

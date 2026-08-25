@@ -2,7 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
   "buildCommand": "rm -rf dist-astro node_modules/.astro && bun run typecheck && bun run build && bun run verify:gates && bun run test",
-  "installCommand": "bun install --frozen-lockfile",
+  "installCommand": "bunx bun@1.4.0 install --frozen-lockfile",
+  "bunVersion": "1.4.x",
   "outputDirectory": "dist-astro",
   "trailingSlash": false,
   "cleanUrls": true,
@@ -17,6 +18,15 @@
         { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
         { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" },
         { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com https://*.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://static.ads-twitter.com https://connect.facebook.net 'sha256-+5bdLHzj8GiTPeItmNhH70xQPa7yclrHL56ESG2Vqjs=' 'sha256-1rv/mZufcZoaPwpsbw987HwE/M+WuYKzHXuF3BCvzOo=' 'sha256-2ap6HbmAAZ4jml1AfuvXiZFn94p0hyE+ePVa7+OrkrY=' 'sha256-685wL/dHCdikCfQrWJc8/3h3zn+7ugScWhAVQZcHVr8=' 'sha256-80on6q+4N8b4tdPifTn79iWlzXfYoRuhIjokIq9QGw4=' 'sha256-8pJ3laaECnNFCT3EG1ABP5Ie2vlMu5JHFMeCxeofC0w=' 'sha256-Cjl8ygea1H/oGRAgQ4uThbMdSOdAUPc7/Wz/isIyYDU=' 'sha256-EGZLYoBkSY/cGkL64HRbxX0oayerfoFvX3MjKUVA8O0=' 'sha256-FVDsBMyIkFkMuh4pcxmfkeKhemFWJy8Wf0rRwb26HrQ=' 'sha256-L4QbaDe3zN+KRmmJzQvuDGTdSssRmLG9ZapL7Ibsc0k=' 'sha256-OBp8uuNIQSHOHcXhZHIOZnqEuu8ufoiOqiPWL8BHewk=' 'sha256-UoO7Y/sJrjo2L/d+JjLhS40cLwmEiZtcgOPRajhQf0A=' 'sha256-jRrnRv5/fQxjvRU3yt5Jkof1D1RxX5hO6GplM9EraZ4=' 'sha256-lHt/NrC3+OZ68yhsPFaSNgnPtjstK0aG1YjOwtj4ecs=' 'sha256-mEjXucpUExIz3nx3AizABlBEO3RXLDXVXIkrpe7XvPk=' 'sha256-nteMg/XPiAM10FHVDeo3XNBvVT7qg8ELII75+qi17vc=' 'sha256-rMk6BYbivudkhnerx/Rk2lI++sOY2uBxHPARDHh/Tpk=' 'sha256-rtTYLg1aJvZmwCs10Oh7gxsU9JzW4fzO/kfUuQU6RE8=' 'sha256-vLf/TS2H7w0qx7j66lohFNPTEgHM/GtEUYO0CGsSbk0=' 'sha256-x4JMRHHxuJFMff+ZyUM1lgOELW03/4yhCe6wetFlMH0=' 'sha256-xD6hZa6sAXFt/YW5BTXyUDDy/VTct3vVyIb47bVSYwA=' 'sha256-ydj6+dSc8i8BEKvEm189N5kaob/4699a/kYnrtbdEoI='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https:; connect-src 'self' https://cloudflareinsights.com https://*.cloudflareinsights.com https://*.google-analytics.com https://analytics.google.com https://www.google.com https://www.googletagmanager.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://vitals.vercel-insights.com https://analytics.twitter.com https://t.co https://www.facebook.com https://connect.facebook.net; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        { "type": "host", "value": "pre.mirai-shigoto.com" }
+      ],
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
     {
