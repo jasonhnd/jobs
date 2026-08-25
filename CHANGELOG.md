@@ -36,6 +36,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Local default Node is **24.18.0** (`nvm alias default 24`), matching
+  `.nvmrc` / `engines.node: "24.x"` / CI. Hermes 22 stays only as
+  `~/.hermes/node/bin/node` for its CLI shims. Not Node 26.
 - Bun 1.3.x → **1.4.0** on the install plane only (#288): local, CI
   `bun-version: 1.4.0`, Vercel `installCommand` `bunx bun@1.4.0 install
   --frozen-lockfile`. `bun.lock` migrates to lockfileVersion 2. **No
