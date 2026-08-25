@@ -16,7 +16,7 @@ A deploy is not one runtime. Mixing these planes is how `bunVersion` accidentall
 | --- | --- | --- | --- |
 | **A Install** | `vercel.json` `installCommand` | Build-image Bun, unless the command pins with `bunx bun@x.y.z` | Today: `bun install --frozen-lockfile`. Must be able to read `bun.lock`. |
 | **B Build** | `buildCommand` in the same container | `package.json` `engines.node: "24.x"` (overrides Project Settings) | `bun run typecheck` → `bun run build` → `bun run verify:gates` → `bun run test`. **`astro build` uses the `astro` bin shebang (Node).** ETL, `bun test`, and most `scripts/*` use Bun. |
-| **C Runtime** | After the deploy is live | Not the install Bun | HTML: CDN files from `outputDirectory` `dist-astro/`. `api/og.tsx`, `api/shindan-share.ts`, `middleware.ts`: **`runtime: "edge"`**, `regions: ["hnd1", "kix1"]` (middleware also listed `iad1` on the last inspect). **`vercel.json` has no `bunVersion`.** Adding `bunVersion` changes **C**, not A/B. |
+| **C Runtime** | After the deploy is live | Not the install Bun | HTML: CDN files from `outputDirectory` `dist-astro/`. `api/og.tsx`, `api/shindan-share.ts`, `middleware.ts`: **`runtime: "edge"`**, `regions: ["hnd1", "kix1"]` (middleware also listed `iad1` on the last inspect). **`vercel.json` sets `"bunVersion": "1.4.x"`** (Vercel Functions 1.4 opt-in). Docs: that flag applies to Functions and Routing Middleware **not** using Edge — Edge entries stay Edge. |
 
 This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: dist-astro` is the deploy model. Do not add the adapter as part of a version bump.
 
@@ -27,7 +27,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | Item | Local (this machine, 2026-08-24) | CI `quality` (`.github/workflows/ci.yml`) | Vercel |
 | --- | --- | --- | --- |
 | Node | **v24.18.0** (nvm `default` → 24; `~/.local/bin/node` Hermes 22 is no longer first) | `24.x` via `actions/setup-node` | `engines.node: "24.x"` → latest 24.x on Builds. Edge Functions do **not** use this. |
-| Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bunx bun@1.4.0 install --frozen-lockfile`. **No `bunVersion`** (Function plane stays Edge). Paste the first preview Install log in Issue 288 / this cell after it deploys. |
+| Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bunx bun@1.4.0 install --frozen-lockfile`. **`"bunVersion": "1.4.x"`** (Functions 1.4). Image pack step may still print `bun install v1.3.14`. |
 | Astro | lockfile **7.2.4** | same lockfile | same |
 | `typescript` (JS package) | **6.0.3** | same | same |
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
@@ -59,7 +59,7 @@ Citations include the document date so they can go stale on purpose.
 | `bun.lock` → `bun install` | Yes. Supported line is **“Bun 1”** only. No lockfileVersion 1 vs 2 mapping (unlike pnpm). | [Package managers](https://vercel.com/docs/package-managers) (**2026-07-01**, before Bun 1.4) |
 | Pinning **build** Bun | Yes: Install Command `bunx bun@x.y.z install`. | [Pin Bun for Vercel builds](https://vercel.com/kb/guide/how-to-pin-a-specific-bun-version-for-vercel-builds) (2026-06-17) |
 | Function runtime `bunVersion: "1.x"` | Selects Bun **1.3.14**. Not used here. | [Bun runtime](https://vercel.com/docs/functions/runtimes/bun) |
-| Function runtime `bunVersion: "1.4.x"` | Selects Bun **1.4** (Zig→Rust). Explicit opt-in. Not used here. | [changelog 2026-08-20](https://vercel.com/changelog/bun-1-4-is-now-available-in-vercel-functions) |
+| Function runtime `bunVersion: "1.4.x"` | Selects Bun **1.4** (Zig→Rust). **Set.** Applies to non-Edge Functions/middleware. OG / shindan-share / middleware stay `runtime: "edge"`. | [changelog 2026-08-20](https://vercel.com/changelog/bun-1-4-is-now-available-in-vercel-functions) |
 | Edge Functions | Still supported. Vercel *recommends* migrating Edge → Node.js (advice, not a shutdown). Dynamic `WebAssembly.compile` forbidden; wasm must be imported. Gzip caps: Hobby 1MB / Pro 2MB / Enterprise 4MB. | [Edge runtime](https://vercel.com/docs/functions/runtimes/edge) (2026-08-03) |
 | `@vercel/og` on Edge vs Node | Platform OG docs (2026-06-16) lead with **Node.js**. npm `@vercel/og@1.0.1` README still says Node **and** Edge. **1.0.1 boots on Edge** (Issue 287 preview: `λ api/og (855.83KB) [hnd1, kix1]`). If a later bump fails to boot, stop; do not flip `runtime` to `nodejs`. | [OG image generation](https://vercel.com/docs/og-image-generation) (2026-06-16) |
 | Playwright / axe on Vercel | Not run. Do not add them to `buildCommand`. | this repo `vercel.json` + CHANGELOG |
@@ -70,8 +70,8 @@ Citations include the document date so they can go stale on purpose.
 
 ## 4. Forbidden for the #280 series
 
-- `vercel.json` `"bunVersion"` (`"1.x"` or `"1.4.x"`). That is plane **C**.
 - `engines.node` → 26 or `@types/node@26`.
+- Removing `runtime: "edge"` from `api/og` / `api/shindan-share` / middleware because `"bunVersion": "1.4.x"` is set. The flag does not apply to Edge.
 - Replacing the npm package name `typescript` with 7.0.2. Typecheck already uses `@typescript/native@7.0.2`. The JS compiler API is not in 7.0; Microsoft’s side-by-side layout keeps 6.x under `typescript` until 7.1.
 - Adding `@astrojs/vercel` “so Astro 7.2 works”.
 - Silently changing `api/og.tsx`, `api/shindan-share.ts`, or `middleware.ts` from `runtime: "edge"` to `nodejs` or Bun. If `@vercel/og@1.0` cannot boot on Edge, **stop** and open a new architecture Issue; do not flip runtime in the version-bump PR.
@@ -128,7 +128,7 @@ Occupation bodies are mostly `src/templates/` SafeHtml injected from `[...id].as
 ## 7. Known drift (record here; do not “fix” in a docs-only PR)
 
 1. **Local Node is 24.18.0** (`nvm alias default 24`). Hermes 22 remains at `~/.hermes/node/bin/node` for its CLI shims. Do not jump **Node 26**.
-2. **CI / local Bun 1.4.0**; Vercel **installCommand** is `bunx bun@1.4.0`. The **image** Bun for packing Edge Functions is still **1.3.14**, so `bun.lock` stays **lockfileVersion 1**. Function plane is Edge — do not add `bunVersion`.
+2. **CI / local Bun 1.4.0**; Vercel **installCommand** is `bunx bun@1.4.0`; **`bunVersion`: `1.4.x`**. The **image** Bun for packing Edge Functions can still print **1.3.14**, so `bun.lock` stays **lockfileVersion 1**. OG/middleware remain Edge.
 3. **Vercel plan** for Edge size cap is `unknown` until someone reads billing/settings. 854.9KB currently fits Hobby 1MB; still record the plan before #287 if the 1.0 bundle grows.
 
 ---
