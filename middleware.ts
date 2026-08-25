@@ -1,8 +1,9 @@
 /**
  * middleware.ts — Vercel Routing Middleware for server-side GA4 measurement.
  *
- * Runs at the Edge BEFORE every HTML request is served, regardless of
- * Astro's static output. Fires a `page_delivery` event to GA4 via
+ * Runs before every HTML request is served, regardless of Astro's
+ * static output (Bun 1.4 via `runtime: "nodejs"` + `bunVersion`).
+ * Fires a `page_delivery` event to GA4 via
  * Measurement Protocol so the data lands in GA4 *even when the client's
  * browser blocks gtag.js* (Chromium 137+ Tracking Protection, ad
  * blockers, Privacy Sandbox cookieless mode, etc.).
