@@ -36,6 +36,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Removed root `package.json` `engines.node` so `"bunVersion": "1.4.x"`
+  is no longer overridden (`package.json` takes precedence, using
+  `"node"`). Builds stay Node 24 via `.nvmrc`, CI `node-version: 24.x`,
+  and Vercel’s default 24.x. `api/og` / `api/shindan-share` /
+  middleware stay Edge until #303–#305 (#302).
 - TOOLCHAIN.md §9 is the contract to **actually run** Vercel Functions
   on Bun 1.4 (#301, hub #300). PR 299 set `"bunVersion": "1.4.x"` and
   did not: the preview Build log said `engines.node` takes precedence,
@@ -51,8 +56,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
   (the flag does not apply to Edge). This flag alone is not proof
   that Functions run on Bun 1.4.
 - Local default Node is **24.18.0** (`nvm alias default 24`), matching
-  `.nvmrc` / `engines.node: "24.x"` / CI. Hermes 22 stays only as
-  `~/.hermes/node/bin/node` for its CLI shims. Not Node 26.
+  `.nvmrc` / CI. Hermes 22 stays only as
+  `~/.hermes/node/bin/node` for its CLI shims. Not Node 26. Root
+  `engines.node` was later removed (#302) so it cannot override
+  `bunVersion`.
 - `bun.lock` stays **lockfileVersion 1** while Vercel’s image Bun is
   1.3.14. A v2 lockfile makes that post-build `bun install` ignore the
   lockfile and break Edge bundling. Install/CI remain Bun 1.4.0.
