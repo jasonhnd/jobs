@@ -31,7 +31,7 @@ OG renderer は request origin の data projection を読む。ただし spoofed
 
 Google Fonts CSS から抽出した font binary URL は `https://fonts.gstatic.com/` で始まる場合だけ fetch する。CSS response は外部入力なので、任意 host へ server-side fetch しない。
 
-## `@vercel/og` 1.0.1 — current Edge, then §9 Bun
+## `@vercel/og` 1.0.1 on Bun 1.4
 
 **Today (#303):** `api/og.tsx` is `runtime: "nodejs"` / `regions: ["hnd1", "kix1"]` on `@vercel/og@1.0.1` (satori 0.29), so `"bunVersion": "1.4.x"` runs it on Bun 1.4. Issue 287 verified the previous Edge boot (`λ api/og (855.83KB)`). Fonts stay `loadGoogleFont` → gstatic-only; data stays `trustedFetchOrigin`. Do not bundle TTF. PNG oracle vs production is required on the #303 preview (same six URLs as Issue 287).
 

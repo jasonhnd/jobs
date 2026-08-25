@@ -36,6 +36,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- TOOLCHAIN.md §2 records `api/og`, `api/shindan-share`, and middleware
+  as Bun 1.4 (`lambda.runtime: "bun1.4.x"`) after #303–#305. The Bun
+  row no longer says share/middleware are Edge. Inspect truth is
+  `vercel inspect --format=json`, not the CLI `λ` glyph.
 - `middleware.ts` `config.runtime: "nodejs"` so `"bunVersion":
   "1.4.x"` runs Routing Middleware on Bun 1.4. Imports move from
   `@vercel/edge` to `@vercel/functions` (`next`, `rewrite`,
