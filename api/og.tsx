@@ -87,7 +87,10 @@ export const config = {
 
 // Design-Mobile.md §4.7: /map page OG card. Static layout, no upstream fetch.
 
-export default async function handler(req: Request): Promise<Response> {
+// Named GET: on nodejs/Bun the Edge-style default export that returns
+// a Response is ignored (`(req, res) => void`). Preview on Bun 1.4
+// logged that warning, then timed out at 300s. See TOOLCHAIN §9.3.
+export async function GET(req: Request): Promise<Response> {
   try {
     return await renderHandler(req);
   } catch (err) {
