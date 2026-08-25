@@ -1,6 +1,6 @@
 # コントリビューションガイド
 
-Issue と Pull Request を歓迎します。非自明な変更は、実装前に目的・範囲・受け入れ条件・検証方法を GitHub Issue に残してください。詳細な運用は [`docs/WORKFLOW.md`](docs/WORKFLOW.md) を正典とします。Node / Bun / Astro / Vercel の版と三平面は [`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) を正典とします。Install / `bun test` / ETL は Bun **1.4.0**（CI と Vercel install も同じピン）。Function 平面は Edge のまま — `vercel.json` に `bunVersion` を足さない。
+Issue と Pull Request を歓迎します。非自明な変更は、実装前に目的・範囲・受け入れ条件・検証方法を GitHub Issue に残してください。詳細な運用は [`docs/WORKFLOW.md`](docs/WORKFLOW.md) を正典とします。Node / Bun / Astro / Vercel の版と三平面は [`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) を正典とします。Install / `bun test` / ETL は Bun **1.4.0**（CI と Vercel `installCommand` は `bunx bun@1.4.0`）。`vercel.json` は `"bunVersion": "1.4.x"`（Vercel Functions の Bun 1.4）。`api/og` / `api/shindan-share` / middleware は Edge のまま。
 
 ## ブランチと Pull Request
 
