@@ -1,6 +1,8 @@
 # Edge Security
 
-対象は `middleware.ts`、OG 画像生成 (`api/og.tsx` と `src/lib/og-*`)、診断結果共有 (`api/shindan-share.ts` と関連 helper)。Edge runtime は外部入力を受けるため、preview convenience より fail-safe な境界を優先する。
+対象は `middleware.ts`、OG 画像生成 (`api/og.tsx` と `src/lib/og-*`)、診断結果共有 (`api/shindan-share.ts` と関連 helper)。これらの入口は外部入力を受けるため、preview convenience より fail-safe な境界を優先する。
+
+**Runtime status (2026-08-25, after PR 299):** all three still `runtime: "edge"`. `"bunVersion": "1.4.x"` is set and does **not** apply to Edge. The series that moves them to `runtime: "nodejs"` so Bun 1.4 actually runs them is [`TOOLCHAIN.md`](TOOLCHAIN.md) §9. IP / origin / font rules below are input-boundary rules — they stay after the runtime cut. Do not drop `trustedFetchOrigin` or the gstatic-only font fetch because Node/Bun has `fs`.
 
 ## Client IP
 
@@ -29,9 +31,13 @@ OG renderer は request origin の data projection を読む。ただし spoofed
 
 Google Fonts CSS から抽出した font binary URL は `https://fonts.gstatic.com/` で始まる場合だけ fetch する。CSS response は外部入力なので、任意 host へ server-side fetch しない。
 
-## `@vercel/og` 1.0.1 on Edge
+## `@vercel/og` 1.0.1 — current Edge, then §9 Bun
 
-`api/og.tsx` stays `runtime: "edge"` / `regions: ["hnd1", "kix1"]` on `@vercel/og@1.0.1` (satori 0.29). Issue 287 verified the preview Function boots as Edge (not Node/Bun): `λ api/og (855.83KB) [hnd1, kix1]`. Six production PNGs were byte-identical on that preview (`/api/og`, `?id=156`, `?sector=iryo`, `?page=map`, one worktype wide + `shape=square`). There is still no `fs` on this runtime: fonts stay `loadGoogleFont` → gstatic-only; data stays `trustedFetchOrigin`. Do not bundle TTF into the Function. If a later `@vercel/og` bump fails to start on Edge, stop and open an architecture Issue — do not flip `runtime` to `"nodejs"` in a version bump.
+**Today:** `api/og.tsx` is `runtime: "edge"` / `regions: ["hnd1", "kix1"]` on `@vercel/og@1.0.1` (satori 0.29). Issue 287 verified Edge boot: `λ api/og (855.83KB) [hnd1, kix1]`. Six production PNGs were byte-identical (`/api/og`, `?id=156`, `?sector=iryo`, `?page=map`, one worktype wide + `shape=square`). Fonts stay `loadGoogleFont` → gstatic-only; data stays `trustedFetchOrigin`. Do not bundle TTF.
+
+**#280 rule:** do not flip `runtime` to `"nodejs"` inside a package bump. That rule still holds for version bumps.
+
+**§9 rule:** the Function-runtime series **does** flip `api/og` to `runtime: "nodejs"` (with `"bunVersion": "1.4.x"`) so the Function runs on Bun 1.4. Keep regions, keep fetch-based fonts, keep `trustedFetchOrigin`. Repeat the six-PNG oracle. If that preview fails to boot or pixels regress, revert that PR — do not invent `runtime: "bun"`.
 
 ## OG 表示契約
 
