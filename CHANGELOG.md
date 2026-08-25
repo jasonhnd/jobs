@@ -36,6 +36,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `api/shindan-share.ts` `runtime: "edge"` → `"nodejs"` so
+  `"bunVersion": "1.4.x"` runs share HTML on Bun 1.4. Named `GET`
+  (same nodejs/Bun handler rule as #303). Regions stay `hnd1`/`kix1`.
+  Product HTML unchanged (#304).
 - `api/og.tsx` `runtime: "edge"` → `"nodejs"` so `"bunVersion": "1.4.x"`
   runs OG on Bun 1.4. Regions stay `hnd1`/`kix1`. Fonts stay
   `loadGoogleFont` (no TTF bundle / `fs`). Handler is named `GET`

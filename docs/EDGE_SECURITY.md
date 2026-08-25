@@ -2,7 +2,7 @@
 
 対象は `middleware.ts`、OG 画像生成 (`api/og.tsx` と `src/lib/og-*`)、診断結果共有 (`api/shindan-share.ts` と関連 helper)。これらの入口は外部入力を受けるため、preview convenience より fail-safe な境界を優先する。
 
-**Runtime status:** `api/og.tsx` is `runtime: "nodejs"` so `"bunVersion": "1.4.x"` runs it on Bun 1.4 (#303). `api/shindan-share.ts` and `middleware.ts` are still Edge until #304–#305. IP / origin / font rules below are input-boundary rules — they stay after the runtime cut. Do not drop `trustedFetchOrigin` or the gstatic-only font fetch because Node/Bun has `fs`.
+**Runtime status:** `api/og.tsx` and `api/shindan-share.ts` are `runtime: "nodejs"` so `"bunVersion": "1.4.x"` runs them on Bun 1.4 (#303, #304). `middleware.ts` is still Edge until #305. IP / origin / font rules below are input-boundary rules — they stay after the runtime cut. Do not drop `trustedFetchOrigin` or the gstatic-only font fetch because Node/Bun has `fs`.
 
 ## Client IP
 
