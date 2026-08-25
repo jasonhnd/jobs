@@ -24,7 +24,7 @@ A deploy is not one runtime. Mixing these planes is how `bunVersion` accidentall
 | --- | --- | --- | --- |
 | **A Install** | `vercel.json` `installCommand` | Build-image Bun, unless the command pins with `bunx bun@x.y.z` | Today: `bun install --frozen-lockfile`. Must be able to read `bun.lock`. |
 | **B Build** | `buildCommand` in the same container | **No `engines.node`** (#302) so it cannot steal Function runtime from `bunVersion`. Builds stay Node **24.x** via platform default + `.nvmrc` + CI `node-version: 24.x`. | `bun run typecheck` → `bun run build` → `bun run verify:gates` → `bun run test`. **`astro build` uses the `astro` bin shebang (Node).** ETL, `bun test`, and most `scripts/*` use Bun. |
-| **C Runtime** | After the deploy is live | Not the install Bun | HTML: CDN files from `outputDirectory` `dist-astro/`. **Today (#304):** `api/og` and `api/shindan-share` are `runtime: "nodejs"` + `"bunVersion": "1.4.x"` (Bun 1.4), `regions: ["hnd1", "kix1"]`. `middleware.ts` is still **Edge** until #305. |
+| **C Runtime** | After the deploy is live | Not the install Bun | HTML: CDN files from `outputDirectory` `dist-astro/`. **Today (#305):** `api/og`, `api/shindan-share`, and `middleware.ts` are `runtime: "nodejs"` + `"bunVersion": "1.4.x"` (Bun 1.4). OG/share `regions: ["hnd1", "kix1"]`. Middleware uses `@vercel/functions` (`next`, `rewrite`, `waitUntil`). |
 
 This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: dist-astro` is the deploy model. Do not add the adapter as part of a version bump.
 
@@ -40,12 +40,12 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | `typescript` (JS package) | **6.0.3** | same | same |
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
 | `@vercel/og` | **1.0.1** | same | `api/og` `runtime: "nodejs"` + Bun 1.4 via `bunVersion` (#303). Size: refresh from inspect on that PR. |
-| `@vercel/edge` | **1.3.3** | same | `middleware.ts` |
-| React | **19.2.8** (OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Edge bundle |
+| `@vercel/functions` | **3.9.5** | same | `middleware.ts` (`next`, `rewrite`, `waitUntil`). `@vercel/edge` removed. |
+| React | **19.2.8** (OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Bun 1.4 bundle |
 | Playwright / axe | **1.62.1** / **4.13.0** (exact pins, no `^`) | **not executed** | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
 | `api/og` Function bundle | — | — | Issue 287 Edge: **855.83 KB** `λ`. #303 moves it off Edge — paste the new inspect line (must not be `λ`) in that PR. |
 | `api/shindan-share` | — | — | #304: `runtime: "nodejs"` + Bun 1.4. Paste inspect `lambda.runtime` (must be `bun1.4.x`, `edge: null`). |
-| middleware | — | — | **23.72 KB** `[iad1, hnd1]` |
+| middleware | — | — | #305: `runtime: "nodejs"` + Bun 1.4. Paste inspect `lambda.runtime` (must be `bun1.4.x`, `edge: null`). |
 | Vercel plan Edge gzip limit | — | — | **unknown** (Hobby 1MB / Pro 2MB / Enterprise 4MB). How to fill: Vercel dashboard → team/project **Settings** or billing; 854.9KB fits all three. Do not guess the plan. |
 
 `bun.lock` today: **`lockfileVersion: 1`**. CI and Vercel `installCommand` are Bun **1.4.0** (1.4 can read v1). Keep v1 until Vercel’s **image** Bun is 1.4: after `buildCommand`, the platform runs a second `bun install v1.3.14` to pack Edge Functions, and 1.3.14 errors on v2 (`Unknown lockfile version`), then ignores the lockfile and re-resolves `astro@7.2.6` / `@vercel/og@1.0.2`.
@@ -139,7 +139,7 @@ Occupation bodies are mostly `src/templates/` SafeHtml injected from `[...id].as
 ## 7. Known drift (record here; do not “fix” in a docs-only PR)
 
 1. **Local Node is 24.18.0** (`nvm alias default 24`). Hermes 22 remains at `~/.hermes/node/bin/node` for its CLI shims. Do not jump **Node 26**.
-2. **CI / local Bun 1.4.0**; Vercel **installCommand** is `bunx bun@1.4.0`; **`bunVersion`: `1.4.x`**. `#302` removed `engines.node`. `#303`/`#304` moved `api/og` and `api/shindan-share` to `runtime: "nodejs"` (Bun 1.4, named `GET`). Middleware still Edge until #305. `bun.lock` stays **lockfileVersion 1**.
+2. **CI / local Bun 1.4.0**; Vercel **installCommand** is `bunx bun@1.4.0`; **`bunVersion`: `1.4.x`**. `#302` removed `engines.node`. `#303`–`#305` moved `api/og`, `api/shindan-share`, and middleware to `runtime: "nodejs"` (Bun 1.4). OG/share use named `GET`. Middleware keeps the Routing Middleware default export. `bun.lock` stays **lockfileVersion 1**.
 3. **Vercel plan** for Edge size cap is `unknown` until someone reads billing/settings. 854.9KB currently fits Hobby 1MB; still record the plan before #287 if the 1.0 bundle grows.
 
 ---
