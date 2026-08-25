@@ -74,7 +74,7 @@ describe('renderScoreHistoryComparison', () => {
     assert.ok(html.includes('<dd class="sh-delta">-1</dd>'));
   });
 
-  test('missing legacy run renders remaining rows without an error state', () => {
+  test('missing legacy run still renders remaining rows (no empty-data banner)', () => {
     const html = renderScoreHistoryComparison(threeRuns.slice(1));
     assert.equal((html.match(/<li class="score-history-item">/g) ?? []).length, 1);
     assert.ok(!html.includes('Claude Opus 4.7'));
