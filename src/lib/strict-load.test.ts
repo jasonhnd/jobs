@@ -22,6 +22,20 @@ import {
 
 const Schema = z.object({ id: z.number(), name: z.string() }).passthrough();
 
+/** tryReadJson / permissive loaders log expected failures to stderr. Mute that in tests. */
+function withMutedConsoleError<T>(fn: () => T): { result: T; logs: string[] } {
+  const logs: string[] = [];
+  const orig = console.error;
+  console.error = (...args: unknown[]) => {
+    logs.push(args.map(String).join(' '));
+  };
+  try {
+    return { result: fn(), logs };
+  } finally {
+    console.error = orig;
+  }
+}
+
 describe('strict-load', () => {
   let tmp: string;
 
@@ -90,8 +104,11 @@ describe('strict-load', () => {
       assert.equal(got?.id, 1);
     });
     test('returns null on failure (no throw)', () => {
-      const got = tryReadJson(join(tmp, 'nope.json'), Schema, 'test');
+      const { result: got, logs } = withMutedConsoleError(() =>
+        tryReadJson(join(tmp, 'nope.json'), Schema, 'test'),
+      );
       assert.equal(got, null);
+      assert.ok(logs.some((line) => line.startsWith('[test] read failed:')));
     });
   });
 
@@ -108,7 +125,9 @@ describe('strict-load', () => {
     });
     test('returns [] on missing directory when ALLOW_PARTIAL_DATA=1', () => {
       process.env.ALLOW_PARTIAL_DATA = '1';
-      const got = strictReaddir(join(tmp, 'nope'), () => true, 'test');
+      const { result: got } = withMutedConsoleError(() =>
+        strictReaddir(join(tmp, 'nope'), () => true, 'test'),
+      );
       assert.deepEqual(got, []);
       delete process.env.ALLOW_PARTIAL_DATA;
     });
@@ -122,9 +141,12 @@ describe('strict-load', () => {
     });
     test('permissive mode: skips bad files, reports count', () => {
       process.env.ALLOW_PARTIAL_DATA = '1';
-      const { items, skipped } = strictLoadDir(tmp, (f) => f.endsWith('.json'), Schema, 'test');
-      assert.equal(items.length, 2);
-      assert.equal(skipped, 2);
+      const { result, logs } = withMutedConsoleError(() =>
+        strictLoadDir(tmp, (f) => f.endsWith('.json'), Schema, 'test'),
+      );
+      assert.equal(result.items.length, 2);
+      assert.equal(result.skipped, 2);
+      assert.ok(logs.some((line) => line.includes('invalid JSON:') && line.includes('bad-json.json')));
       delete process.env.ALLOW_PARTIAL_DATA;
     });
   });

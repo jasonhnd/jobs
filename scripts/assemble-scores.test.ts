@@ -116,39 +116,39 @@ describe('parseScoreLines (aiois mode)', () => {
     assert.equal(e.aiois!.displacement, 1.7);
   });
 
-  test('aiois missing → error', () => {
+  test('rejects a line with aiois missing', () => {
     const { errors } = parseScoreLines([JSON.stringify(without(BASE, 'aiois'))], 'aiois');
     assert.ok(errors.length > 0);
     assert.match(errors[0]!, /aiois/);
   });
 
-  test('aiois field missing (d7) → error', () => {
+  test('rejects a line with aiois field d7 missing', () => {
     const { errors } = parseScoreLines([aioisLine({}, without(BASE_AIOIS, 'd7'))], 'aiois');
     assert.ok(errors.length > 0);
     assert.match(errors[0]!, /d7/);
   });
 
-  test('2-decimal aiois score (d3=5.55) → error', () => {
+  test('rejects a 2-decimal aiois score (d3=5.55)', () => {
     const { errors } = parseScoreLines([aioisLine({}, { ...BASE_AIOIS, d3: 5.55 })], 'aiois');
     assert.ok(errors.length > 0);
     assert.match(errors[0]!, /d3/);
   });
 
-  test('out-of-range aiois score (d2=11) → error', () => {
+  test('rejects an out-of-range aiois score (d2=11)', () => {
     assert.ok(parseScoreLines([aioisLine({}, { ...BASE_AIOIS, d2: 11 })], 'aiois').errors.length > 0);
   });
 
-  test('numeric-string aiois score (d1="4.8") → error', () => {
+  test('rejects a numeric-string aiois score (d1="4.8")', () => {
     assert.ok(parseScoreLines([aioisLine({}, { ...BASE_AIOIS, d1: '4.8' })], 'aiois').errors.length > 0);
   });
 
-  test('ai_risk !== aiois.transformation → error', () => {
+  test('rejects ai_risk that does not match aiois.transformation', () => {
     const { errors } = parseScoreLines([aioisLine({ ai_risk: 4.5 })], 'aiois');
     assert.ok(errors.length > 0);
     assert.match(errors[0]!, /transformation/);
   });
 
-  test('transformation far from mean(d1,d2) → error', () => {
+  test('rejects transformation far from mean(d1,d2)', () => {
     const { errors } = parseScoreLines(
       [aioisLine({ ai_risk: 5.0 }, { ...BASE_AIOIS, transformation: 5.0 })],
       'aiois',
@@ -171,21 +171,21 @@ describe('parseScoreLines (aiois mode)', () => {
     }
   });
 
-  test('displacement far from formula value → error', () => {
+  test('rejects displacement far from the formula value', () => {
     const { errors } = parseScoreLines([aioisLine({}, { ...BASE_AIOIS, displacement: 2.5 })], 'aiois');
     assert.ok(errors.length > 0);
     assert.match(errors[0]!, /displacement/);
   });
 
-  test('extra aiois field (d11) → error', () => {
+  test('rejects an extra aiois field (d11)', () => {
     assert.ok(parseScoreLines([aioisLine({}, { ...BASE_AIOIS, d11: 1.0 })], 'aiois').errors.length > 0);
   });
 
-  test('extra top-level field → error', () => {
+  test('rejects an extra top-level field', () => {
     assert.ok(parseScoreLines([aioisLine({ note: 'x' })], 'aiois').errors.length > 0);
   });
 
-  test('confidence missing → error (required in aiois mode)', () => {
+  test('rejects a line with confidence missing (required in aiois mode)', () => {
     const { errors } = parseScoreLines([JSON.stringify(without(BASE, 'confidence'))], 'aiois');
     assert.ok(errors.length > 0);
     assert.match(errors[0]!, /confidence/);
