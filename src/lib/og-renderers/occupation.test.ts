@@ -21,7 +21,7 @@
  * boundary so a bad upstream record cannot get past zod.
  */
 
-import { describe, test, afterEach } from 'node:test';
+import { describe, test, afterEach, before, after } from 'node:test';
 import { strict as assert } from 'node:assert';
 
 import { renderOccupationOgCard, statLabels } from './occupation.js';
@@ -72,6 +72,16 @@ describe('renderOccupationOgCard — upstream 5xx path', () => {
 });
 
 describe('renderOccupationOgCard — zod schema validation', () => {
+  const origError = console.error;
+  before(() => {
+    // Schema-mismatch path logs to stderr for Vercel observability. Tests
+    // assert the HTTP body; mute the expected log so CI does not look failed.
+    console.error = () => {};
+  });
+  after(() => {
+    console.error = origError;
+  });
+
   test('502 when upstream JSON is not an object at all (e.g. array)', async () => {
     globalThis.fetch = async () =>
       new Response(JSON.stringify([1, 2, 3]), { status: 200 });
@@ -114,7 +124,7 @@ describe('renderOccupationOgCard — zod schema validation', () => {
     assert.equal(await res.text(), 'Upstream detail data invalid');
   });
 
-  test('502 error body NEVER echoes the malformed payload back to the caller', async () => {
+  test('502 response body never echoes the malformed payload back to the caller', async () => {
     // The schema-mismatch handler logs structured detail server-side
     // (Vercel observability) and responds with a fixed string. The
     // request body must never leak fields like `evil_marker` to the
