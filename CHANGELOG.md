@@ -36,6 +36,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `vercel.json` `"bunVersion": "1.4.x"` — Vercel Functions Bun 1.4
+  opt-in ([changelog 2026-08-20](https://vercel.com/changelog/bun-1-4-is-now-available-in-vercel-functions)).
+  `api/og`, `api/shindan-share`, and middleware stay `runtime: "edge"`
+  (the flag does not apply to Edge).
 - Local default Node is **24.18.0** (`nvm alias default 24`), matching
   `.nvmrc` / `engines.node: "24.x"` / CI. Hermes 22 stays only as
   `~/.hermes/node/bin/node` for its CLI shims. Not Node 26.
