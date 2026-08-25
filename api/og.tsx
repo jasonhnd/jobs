@@ -1,4 +1,4 @@
-// api/og.tsx — Vercel Edge Function: dynamic Open Graph image generator.
+// api/og.tsx — Vercel Function (nodejs + bunVersion 1.4.x): dynamic Open Graph image generator.
 //
 // All site OG cards render through this single endpoint. Three rich
 // templates plus a generic text-only template cover every page type:
@@ -68,7 +68,9 @@ import { renderOccupationOgCard } from "../src/lib/og-renderers/occupation.js";
 import { renderWorktypeOgCard } from "../src/lib/og-renderers/worktype.js";
 
 export const config = {
-  runtime: "edge",
+  // nodejs + vercel.json bunVersion 1.4.x → Bun 1.4 (TOOLCHAIN §9 / #303).
+  // Do not set runtime "bun"; Vercel docs use nodejs for this flag.
+  runtime: "nodejs",
   // JA-only audience; pin to Tokyo + Osaka regions instead of the default
   // 19-region global pool. Saves Vercel function quota; minor cold-start
   // benefit for JP visitors.

@@ -2,7 +2,7 @@
 
 対象は `middleware.ts`、OG 画像生成 (`api/og.tsx` と `src/lib/og-*`)、診断結果共有 (`api/shindan-share.ts` と関連 helper)。これらの入口は外部入力を受けるため、preview convenience より fail-safe な境界を優先する。
 
-**Runtime status (2026-08-25, after PR 299):** all three still `runtime: "edge"`. `"bunVersion": "1.4.x"` is set and does **not** apply to Edge. The series that moves them to `runtime: "nodejs"` so Bun 1.4 actually runs them is [`TOOLCHAIN.md`](TOOLCHAIN.md) §9. IP / origin / font rules below are input-boundary rules — they stay after the runtime cut. Do not drop `trustedFetchOrigin` or the gstatic-only font fetch because Node/Bun has `fs`.
+**Runtime status:** `api/og.tsx` is `runtime: "nodejs"` so `"bunVersion": "1.4.x"` runs it on Bun 1.4 (#303). `api/shindan-share.ts` and `middleware.ts` are still Edge until #304–#305. IP / origin / font rules below are input-boundary rules — they stay after the runtime cut. Do not drop `trustedFetchOrigin` or the gstatic-only font fetch because Node/Bun has `fs`.
 
 ## Client IP
 
@@ -33,7 +33,7 @@ Google Fonts CSS から抽出した font binary URL は `https://fonts.gstatic.c
 
 ## `@vercel/og` 1.0.1 — current Edge, then §9 Bun
 
-**Today:** `api/og.tsx` is `runtime: "edge"` / `regions: ["hnd1", "kix1"]` on `@vercel/og@1.0.1` (satori 0.29). Issue 287 verified Edge boot: `λ api/og (855.83KB) [hnd1, kix1]`. Six production PNGs were byte-identical (`/api/og`, `?id=156`, `?sector=iryo`, `?page=map`, one worktype wide + `shape=square`). Fonts stay `loadGoogleFont` → gstatic-only; data stays `trustedFetchOrigin`. Do not bundle TTF.
+**Today (#303):** `api/og.tsx` is `runtime: "nodejs"` / `regions: ["hnd1", "kix1"]` on `@vercel/og@1.0.1` (satori 0.29), so `"bunVersion": "1.4.x"` runs it on Bun 1.4. Issue 287 verified the previous Edge boot (`λ api/og (855.83KB)`). Fonts stay `loadGoogleFont` → gstatic-only; data stays `trustedFetchOrigin`. Do not bundle TTF. PNG oracle vs production is required on the #303 preview (same six URLs as Issue 287).
 
 **#280 rule:** do not flip `runtime` to `"nodejs"` inside a package bump. That rule still holds for version bumps.
 
