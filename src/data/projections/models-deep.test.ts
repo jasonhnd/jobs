@@ -266,7 +266,7 @@ describe('orphaned curation reporting', () => {
     assert.deepEqual(report.displacedIds, [111, 114, 29, 106, 170]);
   });
 
-  test('no pin warning when the pins are the biggest movers', () => {
+  test('does not flag pins that already are the biggest movers', () => {
     const report = reportOrphanedCuration(
       payloadWith(pairOf('a', '2026-01-01', 'b', '2026-02-01'), [239, 398, 74, 455, 357], []),
       [239, 398, 74, 455, 357, 111],

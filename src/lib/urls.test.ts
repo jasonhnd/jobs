@@ -15,7 +15,7 @@ describe('occupationPath', () => {
     assert.equal(occupationPath(584), '/584');
   });
 
-  test('moves occupation 404 away from the custom /404 error document', () => {
+  test('occupation id 404 uses /occupations/404, not the site 404 page', () => {
     assert.equal(occupationPath(404), '/occupations/404');
   });
 
