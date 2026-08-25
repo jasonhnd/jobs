@@ -40,7 +40,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | middleware | — | — | **23.72 KB** `[iad1, hnd1]` |
 | Vercel plan Edge gzip limit | — | — | **unknown** (Hobby 1MB / Pro 2MB / Enterprise 4MB). How to fill: Vercel dashboard → team/project **Settings** or billing; 854.9KB fits all three. Do not guess the plan. |
 
-`bun.lock` today: `lockfileVersion: 2` (Bun 1.4). CI and Vercel install must be 1.4.0 in the same PR as this rewrite.
+`bun.lock` today: **`lockfileVersion: 1`**. CI and Vercel `installCommand` are Bun **1.4.0** (1.4 can read v1). Keep v1 until Vercel’s **image** Bun is 1.4: after `buildCommand`, the platform runs a second `bun install v1.3.14` to pack Edge Functions, and 1.3.14 errors on v2 (`Unknown lockfile version`), then ignores the lockfile and re-resolves `astro@7.2.6` / `@vercel/og@1.0.2`.
 
 `.nvmrc` contains `24`. Use that (or `engines.node`) locally before Astro compiler work. `astro build` is Node.
 
@@ -128,7 +128,7 @@ Occupation bodies are mostly `src/templates/` SafeHtml injected from `[...id].as
 ## 7. Known drift (record here; do not “fix” in a docs-only PR)
 
 1. **Local Node is 24.18.0** (`nvm alias default 24`). Hermes 22 remains at `~/.hermes/node/bin/node` for its CLI shims. Do not jump **Node 26**.
-2. **CI / local / Vercel Install Bun** aligned to **1.4.0** in Issue 288 (same PR as `lockfileVersion: 2`). Function plane is still Edge — do not add `bunVersion`.
+2. **CI / local Bun 1.4.0**; Vercel **installCommand** is `bunx bun@1.4.0`. The **image** Bun for packing Edge Functions is still **1.3.14**, so `bun.lock` stays **lockfileVersion 1**. Function plane is Edge — do not add `bunVersion`.
 3. **Vercel plan** for Edge size cap is `unknown` until someone reads billing/settings. 854.9KB currently fits Hobby 1MB; still record the plan before #287 if the 1.0 bundle grows.
 
 ---
