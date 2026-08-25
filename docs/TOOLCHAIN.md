@@ -4,7 +4,7 @@ Canonical pins for install, build, and runtime. README’s one-line stack table 
 
 Issue-first / docs-first order: [`WORKFLOW.md`](WORKFLOW.md). Contributor commands: [`../CONTRIBUTING.md`](../CONTRIBUTING.md). Edge behaviour: [`EDGE_SECURITY.md`](EDGE_SECURITY.md). SEO snapshots: [`SEO_OG_BASELINE.md`](SEO_OG_BASELINE.md).
 
-Recorded **as of 2026-08-24** (preview deploy `dpl_FvJ3KQaLxHZekpiPBy4uV7QDLsVU`, `jobs-cdzvt3etz-zkscio.vercel.app`). Re-read Vercel Install logs and Function sizes when bumping Bun or `@vercel/og`.
+Recorded **as of 2026-08-25** (preview deploy `dpl_FvJ3KQaLxHZekpiPBy4uV7QDLsVU`, `jobs-cdzvt3etz-zkscio.vercel.app`). Re-read Vercel Install logs and Function sizes when bumping Bun or `@vercel/og`.
 
 ---
 
@@ -26,7 +26,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 
 | Item | Local (this machine, 2026-08-24) | CI `quality` (`.github/workflows/ci.yml`) | Vercel |
 | --- | --- | --- | --- |
-| Node | **v22.22.3** (drift — see §7) | `24.x` via `actions/setup-node` | `engines.node: "24.x"` → latest 24.x on Builds. Edge Functions do **not** use this. |
+| Node | **v24.18.0** (nvm `default` → 24; `~/.local/bin/node` Hermes 22 is no longer first) | `24.x` via `actions/setup-node` | `engines.node: "24.x"` → latest 24.x on Builds. Edge Functions do **not** use this. |
 | Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bunx bun@1.4.0 install --frozen-lockfile`. **No `bunVersion`** (Function plane stays Edge). Paste the first preview Install log in Issue 288 / this cell after it deploys. |
 | Astro | lockfile **7.2.4** | same lockfile | same |
 | `typescript` (JS package) | **6.0.3** | same | same |
@@ -127,7 +127,7 @@ Occupation bodies are mostly `src/templates/` SafeHtml injected from `[...id].as
 
 ## 7. Known drift (record here; do not “fix” in a docs-only PR)
 
-1. **Local Node 22.22.3 vs engines/CI 24.x.** `astro build` is Node. Align the machine to 24 **before #282** (`.nvmrc` is already `24`). This is not a repository version bump.
+1. **Local Node is 24.18.0** (`nvm alias default 24`). Hermes 22 remains at `~/.hermes/node/bin/node` for its CLI shims. Do not jump **Node 26**.
 2. **CI / local / Vercel Install Bun** aligned to **1.4.0** in Issue 288 (same PR as `lockfileVersion: 2`). Function plane is still Edge — do not add `bunVersion`.
 3. **Vercel plan** for Edge size cap is `unknown` until someone reads billing/settings. 854.9KB currently fits Hobby 1MB; still record the plan before #287 if the 1.0 bundle grows.
 
