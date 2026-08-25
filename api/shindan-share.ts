@@ -15,7 +15,8 @@ import {
 } from '../src/site/shindan-share-html.js';
 
 export const config = {
-  runtime: 'edge',
+  // nodejs + vercel.json bunVersion 1.4.x → Bun 1.4 (TOOLCHAIN §9 / #304).
+  runtime: 'nodejs',
   regions: ['hnd1', 'kix1'],
 };
 
@@ -104,6 +105,6 @@ async function fetchShareJobContext(
   };
 }
 
-export default function handler(request: Request): Promise<Response> {
+export async function GET(request: Request): Promise<Response> {
   return renderShindanShareResponse(request);
 }
