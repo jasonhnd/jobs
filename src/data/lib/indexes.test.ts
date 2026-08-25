@@ -10,7 +10,7 @@ import { strict as assert } from 'node:assert';
 import { buildIndexes, insertById } from './indexes.js';
 import type { LoadError } from '../loaders.js';
 
-test('buildIndexes: loads occupations and stats with no errors', async () => {
+test('buildIndexes: loads occupations and stats with a clean load', async () => {
   const { indexes, errors } = await buildIndexes();
 
   // Filter out any errors that aren't relevant to occupation/stats loading.
@@ -81,7 +81,7 @@ describe('insertById', () => {
     assert.equal(errors.length, 0);
   });
 
-  test('records a duplicate-id error and preserves the FIRST value', () => {
+  test('duplicate id keeps the first value and records the clash', () => {
     // Map.set would overwrite — we explicitly want first-wins + error.
     const map = new Map<number, string>();
     const errors: LoadError[] = [];
@@ -93,7 +93,7 @@ describe('insertById', () => {
     assert.match(errors[0]!.file, /occupations$/, 'error.file must point at the subdir');
   });
 
-  test('accumulates errors across many duplicates', () => {
+  test('accumulates clashes across many duplicates', () => {
     const map = new Map<number, string>();
     const errors: LoadError[] = [];
     insertById(map, 1, 'a', errors, 'occupations');
@@ -105,7 +105,7 @@ describe('insertById', () => {
     assert.equal(errors.length, 3, 'two for id 1, one for id 2');
   });
 
-  test('different subdirs produce different error paths', () => {
+  test('duplicate reports include the source subdirectory', () => {
     const map = new Map<number, string>();
     const errors: LoadError[] = [];
     insertById(map, 1, 'a', errors, 'occupations');
@@ -117,7 +117,7 @@ describe('insertById', () => {
     assert.match(errors[1]!.file, /translations[/\\]en$/);
   });
 
-  test('appends to caller-owned errors array without replacing it', () => {
+  test('appends to the caller-owned list without replacing it', () => {
     const map = new Map<number, string>();
     const errors: LoadError[] = [{ file: 'pre-existing', message: 'pre-existing' }];
     insertById(map, 1, 'a', errors, 'occupations');

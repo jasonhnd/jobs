@@ -73,7 +73,7 @@ for (const [name, provider] of Object.entries(PROVIDERS)) {
       assert.equal(typeof provider.ask, 'function');
     });
 
-    test('classifies shared error wording into the shared vocabulary', () => {
+    test('maps shared failure wording onto the shared vocabulary', () => {
       for (const [text, expected] of SHARED_ERROR_CASES) {
         const kind = provider.classifyError?.(text) ?? classifyErrorText(text);
         assert.ok(SCORING_ERROR_KINDS.includes(kind), `${name} returned unknown kind "${kind}"`);
