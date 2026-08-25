@@ -4,9 +4,6 @@
   "private": true,
   "description": "Static site + Vercel Edge Functions for mirai-shigoto.com (TypeScript ETL + Astro).",
   "type": "module",
-  "engines": {
-    "node": "24.x"
-  },
   "scripts": {
     "dev": "astro dev",
     "build": "bun scripts/check-lockfile-sync.cjs && bun scripts/check-analytics-config.cjs && bun scripts/check-nested-html-comments.cjs && bun src/data/build.ts && astro build && bun scripts/subset-fonts.ts && bun scripts/check-geo-freshness.ts && bun scripts/check-rendered-leaks.cjs && bun scripts/compute-csp-hashes.cjs",

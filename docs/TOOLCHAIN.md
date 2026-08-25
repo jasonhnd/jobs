@@ -23,8 +23,8 @@ A deploy is not one runtime. Mixing these planes is how `bunVersion` accidentall
 | Plane | What it is | What sets the version | What actually runs |
 | --- | --- | --- | --- |
 | **A Install** | `vercel.json` `installCommand` | Build-image Bun, unless the command pins with `bunx bun@x.y.z` | Today: `bun install --frozen-lockfile`. Must be able to read `bun.lock`. |
-| **B Build** | `buildCommand` in the same container | Today: `package.json` `engines.node: "24.x"` (overrides Project Settings). After §9.1 that key is **removed** so it cannot steal Function runtime from `bunVersion`. Builds stay Node **24.x** via platform default + `.nvmrc` + CI `node-version: 24.x`. | `bun run typecheck` → `bun run build` → `bun run verify:gates` → `bun run test`. **`astro build` uses the `astro` bin shebang (Node).** ETL, `bun test`, and most `scripts/*` use Bun. |
-| **C Runtime** | After the deploy is live | Not the install Bun | HTML: CDN files from `outputDirectory` `dist-astro/`. **Today (PR 299):** `api/og.tsx`, `api/shindan-share.ts`, `middleware.ts` are still **`runtime: "edge"`**, `regions: ["hnd1", "kix1"]` (middleware also listed `iad1`). `"bunVersion": "1.4.x"` is set but **does not apply** to Edge, and `engines.node` additionally forces the non-Edge choice to **Node**. **Target after §9:** those three entries `runtime: "nodejs"` so `bunVersion` runs them on Bun **1.4**. |
+| **B Build** | `buildCommand` in the same container | **No `engines.node`** (#302) so it cannot steal Function runtime from `bunVersion`. Builds stay Node **24.x** via platform default + `.nvmrc` + CI `node-version: 24.x`. | `bun run typecheck` → `bun run build` → `bun run verify:gates` → `bun run test`. **`astro build` uses the `astro` bin shebang (Node).** ETL, `bun test`, and most `scripts/*` use Bun. |
+| **C Runtime** | After the deploy is live | Not the install Bun | HTML: CDN files from `outputDirectory` `dist-astro/`. **Today (#302):** `api/og.tsx`, `api/shindan-share.ts`, `middleware.ts` are still **`runtime: "edge"`**, `regions: ["hnd1", "kix1"]` (middleware also listed `iad1`). `"bunVersion": "1.4.x"` is set; `engines.node` no longer overrides it. The flag still **does not apply** to Edge. **Target after §9.2–§9.4:** those three entries `runtime: "nodejs"` so `bunVersion` runs them on Bun **1.4**. |
 
 This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: dist-astro` is the deploy model. Do not add the adapter as part of a version bump.
 
@@ -34,8 +34,8 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 
 | Item | Local (this machine, 2026-08-24) | CI `quality` (`.github/workflows/ci.yml`) | Vercel |
 | --- | --- | --- | --- |
-| Node | **v24.18.0** (nvm `default` → 24; `~/.local/bin/node` Hermes 22 is no longer first) | `24.x` via `actions/setup-node` | Builds: `engines.node: "24.x"` today (latest 24.x). After §9.1: no `engines.node`; Builds stay 24.x by Vercel default ([Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions), default **24.x**). Edge Functions do **not** use this. |
-| Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bunx bun@1.4.0 install --frozen-lockfile`. **`"bunVersion": "1.4.x"` is set.** Image pack step may still print `bun install v1.3.14`. **Function runtime today: not Bun** (Edge + `engines.node` wins). Target after §9: Bun 1.4 for the three entries. |
+| Node | **v24.18.0** (nvm `default` → 24; `~/.local/bin/node` Hermes 22 is no longer first) | `24.x` via `actions/setup-node` | Builds: **no `engines.node`** (#302). Node **24.x** via Vercel default ([Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)). Edge Functions do **not** use this. |
+| Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bunx bun@1.4.0 install --frozen-lockfile`. **`"bunVersion": "1.4.x"` is set** and `engines.node` no longer overrides it. Image pack step may still print `bun install v1.3.14`. **Function runtime today: still not Bun** (entries remain Edge). Target after §9.2–§9.4: Bun 1.4 for the three entries. |
 | Astro | lockfile **7.2.4** | same lockfile | same |
 | `typescript` (JS package) | **6.0.3** | same | same |
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
@@ -139,7 +139,7 @@ Occupation bodies are mostly `src/templates/` SafeHtml injected from `[...id].as
 ## 7. Known drift (record here; do not “fix” in a docs-only PR)
 
 1. **Local Node is 24.18.0** (`nvm alias default 24`). Hermes 22 remains at `~/.hermes/node/bin/node` for its CLI shims. Do not jump **Node 26**.
-2. **CI / local Bun 1.4.0**; Vercel **installCommand** is `bunx bun@1.4.0`; **`bunVersion`: `1.4.x` is set but Functions are not on Bun** (PR 299 log: `engines.node` takes precedence, using `"node"`; inspect still `λ` Edge). The **image** Bun for packing Edge Functions can still print **1.3.14**, so `bun.lock` stays **lockfileVersion 1** until there are no Edge entries left **and** a follow-up Issue proves the pack step is gone. Do not migrate lockfile v2 inside §9.
+2. **CI / local Bun 1.4.0**; Vercel **installCommand** is `bunx bun@1.4.0`; **`bunVersion`: `1.4.x`**. `#302` removed `engines.node` so the flag is no longer overridden by `using "node"`. Functions are **still Edge** until #303–#305. The **image** Bun for packing Edge Functions can still print **1.3.14**, so `bun.lock` stays **lockfileVersion 1** until there are no Edge entries left **and** a follow-up Issue proves the pack step is gone. Do not migrate lockfile v2 inside §9.
 3. **Vercel plan** for Edge size cap is `unknown` until someone reads billing/settings. 854.9KB currently fits Hobby 1MB; still record the plan before #287 if the 1.0 bundle grows.
 
 ---
@@ -159,7 +159,7 @@ Do not invent a Bun version from `bunVersion` docs (`1.x` = 1.3.14 is the **Func
 
 ## 9. Bun 1.4 Function runtime series (after #280)
 
-#280 upgraded install/CI Bun to 1.4.0 and PR 299 set `"bunVersion": "1.4.x"`. Functions still run on **Edge**, and the platform still chooses **Node** over Bun when `engines.node` is present. This series is the architecture cut that makes plane C actually use Bun 1.4.
+#280 upgraded install/CI Bun to 1.4.0 and PR 299 set `"bunVersion": "1.4.x"`. Functions still run on **Edge**. `#302` removed `engines.node` so the platform no longer prints `using "node"` over `bunVersion`. Remaining work is `runtime: "nodejs"` on the three entries (#303–#305).
 
 Do not use the Bun **framework preset** (`server.ts` + `Bun.serve()`). This repo stays static Astro (`framework: "astro"`, `outputDirectory: dist-astro`, no `@astrojs/vercel`) plus three `/api`+middleware Functions.
 
@@ -172,7 +172,7 @@ Two independent blockers. Fixing only one still leaves Functions off Bun.
 | **1. `engines.node` wins** | `package.json` `"engines": { "node": "24.x" }` plus `vercel.json` `"bunVersion"` → Vercel uses **Node** for the non-Edge runtime choice. | PR 299 Build log, four times: `Warning detected "engines": { "node": ... } in package.json and "bunVersion" in vercel.json. package.json takes precedence, using "node".` | **Remove** `engines.node`. Keep Node 24 for **Builds** via `.nvmrc` `24`, CI `node-version: 24.x`, and Vercel’s default Node **24.x**. Do not jump Node 26. Do not put `engines.node` back. |
 | **2. Edge excludes the flag** | [vercel.json `bunVersion`](https://vercel.com/docs/project-configuration/vercel-json#bunversion): the flag applies to Functions and Routing Middleware **not** using Edge. | `api/og.tsx` and `api/shindan-share.ts` export `runtime: "edge"`. `middleware.ts` has no `runtime` (platform default **edge**) and imports `next` / `rewrite` from `@vercel/edge`. Inspect: `λ api/og … [hnd1, kix1]`. | Set each entry `runtime: "nodejs"`. Middleware also needs that key ([Routing Middleware API](https://vercel.com/docs/routing-middleware/api)). Replace `@vercel/edge` with `@vercel/functions`. |
 
-`engines.node` exists today only to pin Builds to Node 24. Vercel’s current default **is already 24.x**, CI already pins 24.x, `.nvmrc` is `24`, and `astro` still uses the Node shebang. Removing the key does **not** move `astro build` onto Bun.
+`engines.node` existed only to pin Builds to Node 24. Vercel’s current default **is already 24.x**, CI already pins 24.x, `.nvmrc` is `24`, and `astro` still uses the Node shebang. Removing the key does **not** move `astro build` onto Bun. Do not put it back.
 
 There is no `runtime: "bun"` in this repo’s contract. Official path: `runtime: "nodejs"` + `"bunVersion": "1.4.x"`.
 
