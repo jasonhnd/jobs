@@ -52,6 +52,9 @@ const CONTENT_TYPES = {
 // header-level e2e assertions (CSP allow-list, immutable asset cache policy,
 // etc.) see what production actually serves. Plain http-server sent none of
 // these, so those tests could never pass locally.
+// Host-gated rules (`has: [{ type: "host", ... }]`) apply only when the
+// request Host matches. Localhost must not inherit the preview-alias
+// X-Robots-Tag: noindex, nofollow.
 function loadVercelHeaderRules() {
   try {
     const cfg = JSON.parse(fs.readFileSync(VERCEL_JSON, 'utf8'));
@@ -61,6 +64,7 @@ function loadVercelHeaderRules() {
         source: rule.source,
         regex: new RegExp(`^${rule.source}$`),
         headers: rule.headers,
+        has: Array.isArray(rule.has) ? rule.has : [],
       }));
   } catch {
     return [];
@@ -68,11 +72,23 @@ function loadVercelHeaderRules() {
 }
 const HEADER_RULES = loadVercelHeaderRules();
 
-function headersForRequest(rawPath) {
-  const { urlPath } = parseRequestUrl(rawPath);
+function requestHost(req) {
+  const raw = typeof req.headers?.host === 'string' ? req.headers.host : '';
+  return raw.split(':')[0].toLowerCase();
+}
+
+function hostConditionsMatch(has, host) {
+  if (!has.length) return true;
+  return has.every((cond) => cond && cond.type === 'host' && host === cond.value);
+}
+
+function headersForRequest(req) {
+  const { urlPath } = parseRequestUrl(req.url || '/');
+  const host = requestHost(req);
   const out = {};
   for (const rule of HEADER_RULES) {
     if (!rule.regex.test(urlPath)) continue;
+    if (!hostConditionsMatch(rule.has, host)) continue;
     for (const { key, value } of rule.headers) out[key] = value;
   }
   return out;
@@ -186,7 +202,7 @@ function resolveFile(rawPath) {
 }
 
 const server = http.createServer((req, res) => {
-  const responseHeaders = headersForRequest(req.url || '/');
+  const responseHeaders = headersForRequest(req);
   const redirect = resolveRedirect(req.url || '/');
   if (redirect) {
     res.writeHead(redirect.statusCode, { Location: redirect.location, ...responseHeaders });

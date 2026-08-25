@@ -12,6 +12,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- `docs/TOOLCHAIN.md` is the canonical pin list for install, build, and
+  runtime (Vercel three planes, CI vs local Bun, Edge Function sizes,
+  and the #280 upgrade queue) (#281).
 - `/me` now keeps the 9-question work-style quiz behind an explicit CTA after
   the occupation rankings (#257). SEO baseline recaptured: `/me` anchors +8
   (quiz section ids), no href removals.
@@ -33,6 +36,83 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- TOOLCHAIN.md §2 records `api/og`, `api/shindan-share`, and middleware
+  as Bun 1.4 (`lambda.runtime: "bun1.4.x"`) after #303–#305. The Bun
+  row no longer says share/middleware are Edge. Inspect truth is
+  `vercel inspect --format=json`, not the CLI `λ` glyph.
+- `middleware.ts` `config.runtime: "nodejs"` so `"bunVersion":
+  "1.4.x"` runs Routing Middleware on Bun 1.4. Imports move from
+  `@vercel/edge` to `@vercel/functions` (`next`, `rewrite`,
+  `waitUntil`). Matcher, 301s, share rewrites, and `page_delivery`
+  are unchanged. Architecture gate allows zero Edge entries (#305).
+- `api/shindan-share.ts` `runtime: "edge"` → `"nodejs"` so
+  `"bunVersion": "1.4.x"` runs share HTML on Bun 1.4. Named `GET`
+  (same nodejs/Bun handler rule as #303). Regions stay `hnd1`/`kix1`.
+  Product HTML unchanged (#304).
+- `api/og.tsx` `runtime: "edge"` → `"nodejs"` so `"bunVersion": "1.4.x"`
+  runs OG on Bun 1.4. Regions stay `hnd1`/`kix1`. Fonts stay
+  `loadGoogleFont` (no TTF bundle / `fs`). Handler is named `GET`
+  (nodejs/Bun ignores an Edge-style default export that returns
+  `Response`). PNG oracle vs production is the #303 preview gate
+  (#303).
+- Removed root `package.json` `engines.node` so `"bunVersion": "1.4.x"`
+  is no longer overridden (`package.json` takes precedence, using
+  `"node"`). Builds stay Node 24 via `.nvmrc`, CI `node-version: 24.x`,
+  and Vercel’s default 24.x. `api/og` / `api/shindan-share` /
+  middleware stay Edge until #303–#305 (#302).
+- TOOLCHAIN.md §9 is the contract to **actually run** Vercel Functions
+  on Bun 1.4 (#301, hub #300). PR 299 set `"bunVersion": "1.4.x"` and
+  did not: the preview Build log said `engines.node` takes precedence,
+  using `"node"`, and inspect still listed `λ api/og` (Edge). Next
+  serial cut: remove `engines.node` (#302; Builds stay Node 24 via
+  `.nvmrc` / CI / Vercel default 24.x), then move `api/og` (#303),
+  `api/shindan-share` (#304), and middleware (#305) from
+  `runtime: "edge"` to `"nodejs"` so the flag applies. Keep
+  lockfileVersion 1. Not `main`.
+- `vercel.json` `"bunVersion": "1.4.x"` — Vercel Functions Bun 1.4
+  opt-in ([changelog 2026-08-20](https://vercel.com/changelog/bun-1-4-is-now-available-in-vercel-functions)).
+  `api/og`, `api/shindan-share`, and middleware stay `runtime: "edge"`
+  (the flag does not apply to Edge). This flag alone is not proof
+  that Functions run on Bun 1.4.
+- Local default Node is **24.18.0** (`nvm alias default 24`), matching
+  `.nvmrc` / CI. Hermes 22 stays only as
+  `~/.hermes/node/bin/node` for its CLI shims. Not Node 26. Root
+  `engines.node` was later removed (#302) so it cannot override
+  `bunVersion`.
+- `bun.lock` stays **lockfileVersion 1** while Vercel’s image Bun is
+  1.3.14. A v2 lockfile makes that post-build `bun install` ignore the
+  lockfile and break Edge bundling. Install/CI remain Bun 1.4.0.
+- Bun 1.3.x → **1.4.0** on the install plane only (#288): local, CI
+  `bun-version: 1.4.0`, Vercel `installCommand` `bunx bun@1.4.0 install
+  --frozen-lockfile`. `bun.lock` migrates to lockfileVersion 2. **No
+  `bunVersion`** — `api/og`, `api/shindan-share`, and middleware stay
+  Edge. `astro build` is still Node. Shindan vm-hook tests clone
+  `runInNewContext` arrays before `deepEqual` (Bun 1.4 realm check).
+- `@vercel/og` 0.11.1 → 1.0.1 (#287). Runtime stays Edge (`hnd1`/`kix1`).
+  Bundle 854.9 KB → 855.83 KB. No renderer rewrite; still
+  `createElement` + runtime Google Fonts (`fs` is not available on
+  Edge). Preview PNGs for home / occupation 156 / sector iryo / map /
+  worktype wide + square were byte-identical to production.
+- `@axe-core/playwright` 4.12.1 → 4.13.0 (#286). Exact pin. Playwright
+  stays 1.62.1. E2E remains local-only (`bun run test:e2e`).
+- `@playwright/test` 1.61.1 → 1.62.1 (#285). Exact pin, Chromium 151.
+  axe stays 4.12.1. E2E remains local-only (`bun run test:e2e`). The
+  analytics `g/collect` assertion now also matches
+  `analytics.google.com/g/collect` (current gtag.js host).
+- `@vercel/edge` 1.3.1 → 1.3.3 and `@types/node` 24.13.2 → 24.13.3
+  (#284). Stay on the Node 24 types line. Middleware imports unchanged.
+- React 19.2.7 → 19.2.8 and `@types/react` 19.2.17 → 19.2.18 (#283).
+  OG `createElement` only; no client React, no `@astrojs/react`.
+- Astro 7.0.3 → 7.2.4 and security-floor override `devalue` ^5.8.1 →
+  ^5.9.1 (#282). No adapter, no experimental flags; `compressHTML: true`
+  stays explicit. Occupation paths stay `/{id}.html` /
+  `occupations/404.html`. CSP hashes and the SEO baseline were unchanged.
+- Preview alias `pre.mirai-shigoto.com` now sends `X-Robots-Tag: noindex,
+  nofollow` so the `sc-domain:mirai-shigoto.com` Search Console property
+  does not treat the staging copy as a second indexable host (#279).
+  Production `mirai-shigoto.com` is unchanged. Static HTML `robots` meta
+  stays `index, follow`; the header is the host-level override. Preview
+  `robots.txt` still allows crawl so Google can see `noindex`.
 - Occupation detail `<title>` / meta description now lead with the jobtag
   yen figure then AI impact (`{name}の年収約{N}万円｜AI影響{n}/10`), and
   the description no longer says `AI代替リスク` (#276). GSC showed niche

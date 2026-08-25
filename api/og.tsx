@@ -1,4 +1,4 @@
-// api/og.tsx — Vercel Edge Function: dynamic Open Graph image generator.
+// api/og.tsx — Vercel Function (nodejs + bunVersion 1.4.x): dynamic Open Graph image generator.
 //
 // All site OG cards render through this single endpoint. Three rich
 // templates plus a generic text-only template cover every page type:
@@ -68,7 +68,9 @@ import { renderOccupationOgCard } from "../src/lib/og-renderers/occupation.js";
 import { renderWorktypeOgCard } from "../src/lib/og-renderers/worktype.js";
 
 export const config = {
-  runtime: "edge",
+  // nodejs + vercel.json bunVersion 1.4.x → Bun 1.4 (TOOLCHAIN §9 / #303).
+  // Do not set runtime "bun"; Vercel docs use nodejs for this flag.
+  runtime: "nodejs",
   // JA-only audience; pin to Tokyo + Osaka regions instead of the default
   // 19-region global pool. Saves Vercel function quota; minor cold-start
   // benefit for JP visitors.
@@ -85,7 +87,10 @@ export const config = {
 
 // Design-Mobile.md §4.7: /map page OG card. Static layout, no upstream fetch.
 
-export default async function handler(req: Request): Promise<Response> {
+// Named GET: on nodejs/Bun the Edge-style default export that returns
+// a Response is ignored (`(req, res) => void`). Preview on Bun 1.4
+// logged that warning, then timed out at 300s. See TOOLCHAIN §9.3.
+export async function GET(req: Request): Promise<Response> {
   try {
     return await renderHandler(req);
   } catch (err) {
