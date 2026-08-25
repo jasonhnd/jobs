@@ -545,14 +545,18 @@ function walkImportClosure(entryFile) {
 function checkEdgeFunctionTsxDeps() {
   let edgeViolations = 0;
 
-  // Zero entries means discovery broke (renamed api/, changed edge markers, a
-  // bad EDGE_ENTRIES_OVERRIDE). The loop below would then run zero times and
-  // the gate would report clean while checking nothing. See issue #217.
+  // Zero Edge entries is the intended state after TOOLCHAIN §9 (#303–#305):
+  // api/og, api/shindan-share, and middleware run on nodejs + bunVersion.
+  // The TSX-dep walk is an Edge bundler trap and must not fail-closed when
+  // nothing is Edge. An empty EDGE_ENTRIES_OVERRIDE still fails below.
   if (EDGE_ENTRIES.length === 0) {
-    console.error('  ✗ no Vercel Edge entries detected.');
-    console.error('    Expected at least one of api/*.{ts,tsx} with `runtime: \'edge\'` or a root middleware.ts.');
-    console.error('    Discovery is broken, or EDGE_ENTRIES_OVERRIDE is set to an empty list.');
-    return 1;
+    if (process.env.EDGE_ENTRIES_OVERRIDE !== undefined) {
+      console.error('  ✗ no Vercel Edge entries detected.');
+      console.error('    EDGE_ENTRIES_OVERRIDE is set to an empty list.');
+      return 1;
+    }
+    console.log('[check-architecture] no Edge entries — plane C is nodejs/Bun (TOOLCHAIN §9)');
+    return 0;
   }
 
   for (const entry of EDGE_ENTRIES) {

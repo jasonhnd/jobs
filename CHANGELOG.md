@@ -36,6 +36,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `middleware.ts` `config.runtime: "nodejs"` so `"bunVersion":
+  "1.4.x"` runs Routing Middleware on Bun 1.4. Imports move from
+  `@vercel/edge` to `@vercel/functions` (`next`, `rewrite`,
+  `waitUntil`). Matcher, 301s, share rewrites, and `page_delivery`
+  are unchanged. Architecture gate allows zero Edge entries (#305).
 - `api/shindan-share.ts` `runtime: "edge"` → `"nodejs"` so
   `"bunVersion": "1.4.x"` runs share HTML on Bun 1.4. Named `GET`
   (same nodejs/Bun handler rule as #303). Regions stay `hnd1`/`kix1`.
