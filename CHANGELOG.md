@@ -36,10 +36,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- TOOLCHAIN.md §9 is the contract to **actually run** Vercel Functions
+  on Bun 1.4 (#301, hub #300). PR 299 set `"bunVersion": "1.4.x"` and
+  did not: the preview Build log said `engines.node` takes precedence,
+  using `"node"`, and inspect still listed `λ api/og` (Edge). Next
+  serial cut: remove `engines.node` (#302; Builds stay Node 24 via
+  `.nvmrc` / CI / Vercel default 24.x), then move `api/og` (#303),
+  `api/shindan-share` (#304), and middleware (#305) from
+  `runtime: "edge"` to `"nodejs"` so the flag applies. Keep
+  lockfileVersion 1. Not `main`.
 - `vercel.json` `"bunVersion": "1.4.x"` — Vercel Functions Bun 1.4
   opt-in ([changelog 2026-08-20](https://vercel.com/changelog/bun-1-4-is-now-available-in-vercel-functions)).
   `api/og`, `api/shindan-share`, and middleware stay `runtime: "edge"`
-  (the flag does not apply to Edge).
+  (the flag does not apply to Edge). This flag alone is not proof
+  that Functions run on Bun 1.4.
 - Local default Node is **24.18.0** (`nvm alias default 24`), matching
   `.nvmrc` / `engines.node: "24.x"` / CI. Hermes 22 stays only as
   `~/.hermes/node/bin/node` for its CLI shims. Not Node 26.
