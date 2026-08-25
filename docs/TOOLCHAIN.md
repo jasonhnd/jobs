@@ -202,6 +202,7 @@ Order is mandatory: if order 2–4 run while `engines.node` is still present, Ve
 **Order 2 — OG**
 
 - `api/og.tsx` `export const config`: `runtime: "nodejs"`, keep regions.
+- Change the Edge-style `export default async function handler(req): Promise<Response>` to a named **`export async function GET(req: Request)`**. On nodejs/Bun, a default export that returns `Response` is treated as `(req, res) => void` and the return is ignored (preview log: `default export returned a Response` → 300s timeout + `Invalid URL`). Do not keep both exports.
 - Do not rewrite renderers. Do not add `@astrojs/react`. Do not change dispatch.
 - Fonts stay `loadGoogleFont` → `fonts.gstatic.com` only ([`EDGE_SECURITY.md`](EDGE_SECURITY.md)). Data stays `trustedFetchOrigin`.
 - Record new Function size from `vercel inspect`. Node/Bun size limits are not the Edge gzip cap; still paste the number.

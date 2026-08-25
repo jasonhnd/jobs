@@ -38,8 +38,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 - `api/og.tsx` `runtime: "edge"` → `"nodejs"` so `"bunVersion": "1.4.x"`
   runs OG on Bun 1.4. Regions stay `hnd1`/`kix1`. Fonts stay
-  `loadGoogleFont` (no TTF bundle / `fs`). PNG oracle vs production
-  is the #303 preview gate (#303).
+  `loadGoogleFont` (no TTF bundle / `fs`). Handler is named `GET`
+  (nodejs/Bun ignores an Edge-style default export that returns
+  `Response`). PNG oracle vs production is the #303 preview gate
+  (#303).
 - Removed root `package.json` `engines.node` so `"bunVersion": "1.4.x"`
   is no longer overridden (`package.json` takes precedence, using
   `"node"`). Builds stay Node 24 via `.nvmrc`, CI `node-version: 24.x`,
