@@ -85,3 +85,25 @@ Not sure the instrumentation is still firing? GA4 → Realtime / DebugView → v
 - **Leading signals**: sessions with `geo_citation_candidate=true` rising; entrances to citable pages (answers / qa / sector / ranking / compare / standard / methodology) rising; the appearance of true AI referrals such as perplexity / chatgpt / gemini / claude.
 - **Off-site**: more `page_citation` / `data_citation` in the audit log = AI engines starting to treat us as a source.
 - Read **both together**: GA4 quantifies the click side, the audit log covers the "mentioned but not linked" side.
+
+## 6. Independent cross-check: Vercel Bot Management (zero-code)
+
+The Vercel dashboard (project → Firewall → bot traffic views) classifies
+**verified AI crawlers** (GPTBot, ClaudeBot, PerplexityBot, etc.) at the
+platform layer — a data source with no shared failure mode with our GA4
+pipeline: it keeps counting even if the middleware, the MP env, or GA4
+itself breaks.
+
+Use it two ways:
+
+- **Weekly (with §3)**: note the AI-crawler request volume and its trend.
+  Rising crawl volume is a leading indicator ahead of `geo_referrer_engine`
+  referrals — engines fetch before they cite.
+- **Sanity check (with §4)**: if GA4 shows `client_kind=ai_agent` deliveries
+  near zero while Bot Management still shows AI-crawler traffic, suspect the
+  measurement chain, not the crawlers (the measurement sentinel, #333,
+  alarms on chain failure from the other side).
+
+Guardrail: Bot Management actions for AI crawlers must stay **allow /
+observe**. Never enable AI-bot blocking or challenge — it would end the
+citations this SOP exists to grow (`docs/EDGE_SECURITY.md`).
