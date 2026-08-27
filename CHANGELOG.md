@@ -12,6 +12,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- Daily measurement sentinel (`api/cron/measurement-sentinel`, vercel.json
+  cron at 07:17 JST): asserts the GA4 MP env is present and validates a
+  canary payload (built with the middleware's own `buildMpPayload`)
+  against GA4's debug endpoint; any failure returns an intentional 500 so
+  the default alert rule emails the owner. Catches the silent failure
+  modes behind #253 — env loss and payload-contract drift (#333).
 - Root `AGENTS.md` (agent-facing entry point) and `docs/WORKFLOW.md`
   §「Vercel 操作の権限境界」 define the authority boundary for coding agents
   using Vercel MCP / CLI: reads are free, state changes need owner approval,
