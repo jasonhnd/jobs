@@ -259,7 +259,8 @@ First screen, top to bottom:
    right per current visual balance) via grid areas; mobile stacks
    numbers-first.
 
-### 4.3 Entry shape — chaptered body (issue #324 — code dependency on #323)
+### 4.3 Entry shape — chaptered body (issue #324, **gated**: start only
+after #323 is merged and the owner reviews it and opens #324)
 
 Files: `src/pages/[...id].astro`, `_id-css.ts`, plus one small static
 inline helper (§3.6) or an addition to the existing hashed page script
@@ -339,8 +340,9 @@ questions, all signed copy unchanged. Presentation only:
   `_shindan.js`): thin progress indicator `n / 9問`.
 - Reference: `mockups/shots/frame-08.png`, `pair-7.png`.
 
-### 4.6 List shape v2 — rollout (issue #328 — code dependency on #321:
-reuses its CSS, row atom, and `list_row_click`)
+### 4.6 List shape v2 — rollout (issue #328, **gated**: start only after
+#321 ships and the owner reviews its turn-in numbers and opens #328;
+reuses #321's CSS, row atom, and `list_row_click`)
 
 Apply §4.1 to the remaining List-shape templates:
 
@@ -427,37 +429,39 @@ Definitions (GA4, cuts per 28 days unless noted):
 - **Turn-in rate (corridor→room):** sessions landing on `/rankings/*` or
   `/compare/*` that reach any occupation page or `/me` in the same session.
   Baseline: engagement 10s / 7s and near-zero measured continuation —
-  capture the pre-change number before the rankings change lands (use
-  existing `result_view` + landing-page dimension; no new events needed
-  beyond §3.7; window length is the dispatcher's call).
+  capture the pre-change number before #321 merges (use existing
+  `result_view` + landing-page dimension; no new events needed beyond
+  §3.7; ~2 weeks if the schedule allows).
 - **Search overlay usage:** `search_overlay_open` / sessions;
   `search_overlay_navigate` / `search_overlay_open`.
 - **Entry depth:** unchanged `result_view`, plus chapter-open rate if
   cheap (no new dimension — skip if it needs one).
 - **Existing funnels** (`analytics/funnel-reference.md`) keep working.
 
-Sequencing, dispatch pacing, and go/no-go calls between issues belong to
-the owner / dispatcher. The definitions above exist so whoever measures
-uses the same yardstick.
+Stop rule: after #321 (rankings), wave 4 waits for the owner to review
+turn-in movement. If the rate does not move, the rollout #328 does not
+open — the programme ends at wave 3 by design, with waves 0–3 still
+standing on their own merits.
 
-## 6. Issue index & code dependencies
+## 6. Waves & issue index (binding execution order)
 
-Execution order is decided by the owner / dispatcher. The dependency
-column lists code-level prerequisites only.
+The wave order is binding for implementing agents. Gates are held and
+opened by the owner — an agent never decides on its own that a gate has
+cleared.
 
-| Issue | Scope | Pages | Code dependency |
+| Wave | Issue | Pages | Gate |
 |---|---|---|---|
-| #320 | Compact cookie consent bar (§3.4) | all | — |
-| #321 | Rankings list-first (§4.1) | 39 | — |
-| #322 | Compare pinned bar (§4.4) | 20 | — |
-| #323 | Entry numbers-first verdict card (§4.2) | 556 | — |
-| #324 | Entry chaptered body (§4.3) | 556 | #323 (anchor ids, relocated type block) |
-| #325 | Home first screen (§4.7) | 1 | — |
-| #326 | /me + /shindan touch-ups (§4.5) | 2 | — |
-| #327 | Global search overlay (§4.8) | all | — |
-| #328 | List rollout (§4.6) | ~165 | #321 (shared CSS, row atom, `list_row_click`) |
+| 0 | #320 compact cookie bar (§3.4) | all | none — do this first |
+| 1 | #321 rankings list-first (§4.1) | 39 | after #320 merges |
+| 1 | #322 compare pinned bar (§4.4) | 20 | after #320 merges |
+| 2 | #323 entry numbers-first verdict card (§4.2) | 556 | after wave 1 merges |
+| 2 | #324 entry chapters (§4.3, **gated**) | 556 | after #323 merges and the owner reviews it and opens #324 |
+| 3 | #325 home first screen (§4.7) | 1 | after wave 1 merges |
+| 3 | #326 /me + /shindan touch-ups (§4.5) | 2 | after wave 1 merges |
+| 3 | #327 global search overlay (§4.8) | all | after wave 1 merges |
+| 4 | #328 List rollout (§4.6, **gated**) | ~165 | the owner reviews #321's turn-in numbers and opens #328 |
 
-Every issue lands on `preview` only (§0). The owner reviews the whole
+Every wave lands on `preview` only (§0). The owner reviews the whole
 state on `preview` and triggers promotion; nothing in this programme
 touches `main`.
 

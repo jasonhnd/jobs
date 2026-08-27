@@ -5,6 +5,12 @@
   "installCommand": "bunx bun@1.4.0 install --frozen-lockfile",
   "bunVersion": "1.4.x",
   "outputDirectory": "dist-astro",
+  "crons": [
+    {
+      "path": "/api/cron/measurement-sentinel",
+      "schedule": "17 22 * * *"
+    }
+  ],
   "trailingSlash": false,
   "cleanUrls": true,
   "headers": [
