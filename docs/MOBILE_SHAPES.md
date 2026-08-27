@@ -56,7 +56,7 @@ regenerates every page of that mold.
 |---|---|---|---|
 | **Entry** (词条) | `/<id>` occupation pages | 556 | `src/pages/[...id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_id-bindings.ts`, `src/pages/_id-css.ts` |
 | **List** (名单) | `/rankings/<type>` | 39 | `src/pages/rankings/[type].astro`, `src/pages/rankings/_rankings-bindings.ts`, `src/templates/Ranking.ts` |
-| | `/q/<q>` (49), `/sectors/*` (16), theme hubs (`/interests /skills /abilities /knowledge /values /education /training /work-styles /employment-types /life-balance /entry-paths /careers /licenses`, ~100+) | ~165 | phase 2 only — see §4.6; do not touch in wave 1 |
+| | `/q/<q>` (49), `/sectors/*` (16), theme hubs (`/interests /skills /abilities /knowledge /values /education /training /work-styles /employment-types /life-balance /entry-paths /careers /licenses`, ~100+) | ~165 | rollout issue only — see §4.6; out of scope for #321 |
 | **Duel** (并排) | `/compare/<pair>` | 20 | `src/pages/compare/[pair].astro`, `src/pages/compare/_compare-bindings.ts` |
 | **Tool** | `/me`, `/shindan` (`/map` is OUT OF SCOPE) | 3 | `src/pages/me.astro`, `src/pages/shindan.astro` |
 | **Home** | `/` | 1 | `src/index-source.html`, `src/pages/_index.css`, `src/pages/_index-bindings.ts`, `src/pages/_index-inline.js` |
@@ -107,7 +107,7 @@ transfer/escape candidates, search results, TOP10 cards may adapt):
   border at ~30% alpha, radius 12, 8px gap between rows.
 - Reference render: `mockups/shots/frame-02.png`.
 
-### 3.4 Compact cookie consent bar (spec for issue W0-1)
+### 3.4 Compact cookie consent bar (issue #320)
 
 Current banner (`BaseLayout.astro`, `#cookieBanner`) covers ~1/3 of the
 first screen incl. the thumb zone. Replace the **presentation only**:
@@ -155,7 +155,7 @@ query text**):
 
 | Event | Fires when |
 |---|---|
-| `list_row_click` | a List-shape row is tapped (rankings wave 1; Q&A etc. wave 4) |
+| `list_row_click` | a List-shape row is tapped (introduced by #321; reused by #328) |
 | `search_overlay_open` | top-bar search icon opens the overlay |
 | `search_overlay_navigate` | a search result row is tapped |
 
@@ -169,7 +169,7 @@ Chapters (`<details>`) render **open** on desktop via the §4.3 helper.
 
 ## 4. Shape specs
 
-### 4.1 List shape v1 — rankings template (issue W1-2)
+### 4.1 List shape v1 — rankings template (issue #321)
 
 Files: `src/pages/rankings/[type].astro`, `_rankings-bindings.ts`,
 `src/templates/Ranking.ts`. Reference: `mockups/shots/frame-02.png`,
@@ -201,7 +201,7 @@ minimum):
 Also in this issue: fire `list_row_click` on row taps (§3.7); type floor
 §3.1; JSON-LD/H1/meta untouched (§3.5).
 
-### 4.2 Entry shape — first screen (issue W2-4a)
+### 4.2 Entry shape — first screen (issue #323)
 
 Files: `src/pages/[...id].astro`, `src/pages/_RiskCard.astro`,
 `_id-bindings.ts`, `_id-css.ts`. References: `mockups/shots/frame-03.png`
@@ -259,8 +259,7 @@ First screen, top to bottom:
    right per current visual balance) via grid areas; mobile stacks
    numbers-first.
 
-### 4.3 Entry shape — chaptered body (issue W2-4b, after 4a is merged and
-owner-reviewed)
+### 4.3 Entry shape — chaptered body (issue #324 — code dependency on #323)
 
 Files: `src/pages/[...id].astro`, `_id-css.ts`, plus one small static
 inline helper (§3.6) or an addition to the existing hashed page script
@@ -290,7 +289,7 @@ chapters, preserving DOM content byte-for-byte inside:
   in the PR that DOM order changed.
 - Reference: scrolled view of `mockups/shots/frame-03.png`.
 
-### 4.4 Duel shape — compare template (issue W1-3)
+### 4.4 Duel shape — compare template (issue #322)
 
 Files: `src/pages/compare/[pair].astro`, `_compare-bindings.ts`.
 References: `mockups/shots/frame-05.png`, `pair-4.png`.
@@ -316,7 +315,7 @@ References: `mockups/shots/frame-05.png`, `pair-4.png`.
    `side-by-side` with `並べて` (JA-only site; leftover English is a bug).
 6. `MeEntry`, escape-routes, related pairs: positions unchanged.
 
-### 4.5 Tool touch-ups (issue W3-6)
+### 4.5 Tool touch-ups (issue #326)
 
 `/me` (`src/pages/me.astro`, `_me-inline.js`) — flow, quiz, gap, share,
 URLs all unchanged. Presentation only:
@@ -340,8 +339,8 @@ questions, all signed copy unchanged. Presentation only:
   `_shindan.js`): thin progress indicator `n / 9問`.
 - Reference: `mockups/shots/frame-08.png`, `pair-7.png`.
 
-### 4.6 List shape v2 — rollout (issue W4-9, **gated**: opens only after
-W1-2 ships and the owner reviews wave-1 numbers)
+### 4.6 List shape v2 — rollout (issue #328 — code dependency on #321:
+reuses its CSS, row atom, and `list_row_click`)
 
 Apply §4.1 to the remaining List-shape templates:
 
@@ -352,10 +351,10 @@ Apply §4.1 to the remaining List-shape templates:
   → the job list (rows = §3.3) → folded 読み方・出典 (the `.ai-fact`) →
   related questions. Reference: `mockups/shots/frame-09.png`, `pair-8.png`.
 - `/sectors/*` (16) and theme hubs (~100+): same reorder — payload list
-  first, prose/stats folded. One PR per template family; reuse the wave-1
+  first, prose/stats folded. One PR per template family; reuse #321's
   CSS and row atom; keep each template's own extras.
 
-### 4.7 Home (issue W3-5)
+### 4.7 Home (issue #325)
 
 Files: `src/index-source.html`, `_index.css`, `_index-bindings.ts`,
 `_index-inline.js`. Mechanism: `index-source.html` is a raw body fragment
@@ -370,7 +369,7 @@ Mobile first screen order:
    H1 `あなたの仕事は、AIでどう変わる？` + search bar — **submit button
    label changes `診断` → `調べる`** (`#mhSearchBtn` in `index-source.html`;
    this is an approved copy change; desktop `#dhSearchBtn` is out of scope
-   this wave) + existing example chips (add `保育士` to match mockup or
+   this issue) + existing example chips (add `保育士` to match mockup or
    keep current five — implementer's choice, note in PR).
 2. TOP10 horizontal swipe (exists: `#mTop10`) — restyle rows to the §3.3
    pill grammar if not already.
@@ -389,7 +388,7 @@ Mobile first screen order:
 6. Everything below (KPI band, treemap section, hub sections) unchanged in
    content and order; treemap canvas remains desktop-only behavior as today.
 
-### 4.8 Global search overlay (issue W3-7) — the only newly built component
+### 4.8 Global search overlay (issue #327) — the only newly built component
 
 Files: `src/components/MobileNav.astro` (+ a static inline script or a new
 hashed asset), styles in `canonical-css.ts`. References:
@@ -428,33 +427,39 @@ Definitions (GA4, cuts per 28 days unless noted):
 - **Turn-in rate (corridor→room):** sessions landing on `/rankings/*` or
   `/compare/*` that reach any occupation page or `/me` in the same session.
   Baseline: engagement 10s / 7s and near-zero measured continuation —
-  capture the exact pre-change number for 2 weeks before wave 1 merges
-  (use existing `result_view` + landing-page dimension; no new events
-  needed beyond §3.7).
+  capture the pre-change number before the rankings change lands (use
+  existing `result_view` + landing-page dimension; no new events needed
+  beyond §3.7; window length is the dispatcher's call).
 - **Search overlay usage:** `search_overlay_open` / sessions;
   `search_overlay_navigate` / `search_overlay_open`.
 - **Entry depth:** unchanged `result_view`, plus chapter-open rate if
   cheap (no new dimension — skip if it needs one).
 - **Existing funnels** (`analytics/funnel-reference.md`) keep working.
 
-Stop rules: after W1-2 (rankings), hold wave 4 until the owner reviews
-turn-in movement. If the rate does not move, the List rollout (W4-9) does
-not open — the programme stops there by design, with waves 0–3 still
-standing on their own merits.
+Sequencing, dispatch pacing, and go/no-go calls between issues belong to
+the owner / dispatcher. The definitions above exist so whoever measures
+uses the same yardstick.
 
-## 6. Waves & issue index
+## 6. Issue index & code dependencies
 
-| Wave | Issues | Gate |
-|---|---|---|
-| 0 | W0-1 cookie bar | none — ship first |
-| 1 | W1-2 rankings, W1-3 compare | after W0-1 |
-| 2 | W2-4a entry first screen → W2-4b chapters | 4b opens after 4a is merged + owner look |
-| 3 | W3-5 home, W3-6 tools, W3-7 search overlay | after wave 1 merges |
-| 4 | W4-9 List rollout (Q&A/sectors/themes) | **owner reviews wave-1 numbers first** |
+Execution order is decided by the owner / dispatcher. The dependency
+column lists code-level prerequisites only.
 
-Every wave lands on `preview` only (§0). The owner reviews the whole state
-on `preview` and triggers promotion; nothing in this programme touches
-`main`.
+| Issue | Scope | Pages | Code dependency |
+|---|---|---|---|
+| #320 | Compact cookie consent bar (§3.4) | all | — |
+| #321 | Rankings list-first (§4.1) | 39 | — |
+| #322 | Compare pinned bar (§4.4) | 20 | — |
+| #323 | Entry numbers-first verdict card (§4.2) | 556 | — |
+| #324 | Entry chaptered body (§4.3) | 556 | #323 (anchor ids, relocated type block) |
+| #325 | Home first screen (§4.7) | 1 | — |
+| #326 | /me + /shindan touch-ups (§4.5) | 2 | — |
+| #327 | Global search overlay (§4.8) | all | — |
+| #328 | List rollout (§4.6) | ~165 | #321 (shared CSS, row atom, `list_row_click`) |
+
+Every issue lands on `preview` only (§0). The owner reviews the whole
+state on `preview` and triggers promotion; nothing in this programme
+touches `main`.
 
 ## 7. Mockups
 
@@ -488,7 +493,7 @@ PR review. Everything not listed here: reuse existing strings.
 | Search overlay close | `閉じる` |
 | Home movers module | `今月の変動 · {M}月スコア改定` / `↑上がった` / `↓下がった` |
 | Home door cards | `ランキング`（`AI・年収・需要で並べる`）/ `比較する`（`2つの仕事を並べて見る`）/ `職業マップ`（`{N}職業の俯瞰`）/ `自分の現在地`（`職業を入れて全39榜の位置` → use existing nav copy `職業を入力 → 全 39 ランキングでの位置`） |
-| Q&A answer line (wave 4, pattern) | `{要約}。最も高いのは{名}（{score}/10）、{N}職の平均は{mean}/10です。` |
+| Q&A answer line (#328, pattern) | `{要約}。最も高いのは{名}（{score}/10）、{N}職の平均は{mean}/10です。` |
 
 ## Appendix B — File pointer index (verified 2026-08-27)
 
