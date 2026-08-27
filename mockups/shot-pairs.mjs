@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1300, height: 1100 }, deviceScaleFactor: 2 });
+await page.goto('http://localhost:8823/before-after.html');
+await page.waitForTimeout(1200);
+const pairs = page.locator('.pair');
+const n = await pairs.count();
+for (let i = 0; i < n; i++) await pairs.nth(i).screenshot({ path: `mockups/shots/pair-${i + 1}.png` });
+await browser.close();
+console.log('pairs', n);
