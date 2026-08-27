@@ -79,6 +79,20 @@ export async function renderShindanShareResponse(
   });
 }
 
+// Unfurlers reach this endpoint through the middleware share rewrite and
+// may probe HEAD before GET; named-export routing otherwise answers 405
+// (#330). Mirror the GET 200 headers without the body work.
+export function HEAD(_request: Request): Response {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'public, max-age=0, s-maxage=300, stale-while-revalidate=86400',
+      'X-Robots-Tag': 'noindex, follow',
+    },
+  });
+}
+
 async function fetchShareJobContext(
   origin: string,
   jobId: string,
