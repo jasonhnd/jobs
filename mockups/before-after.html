@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>現行 vs 改造後 — 手机首屏全面对比</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#E9E2D2;font-family:"Plus Jakarta Sans","Noto Sans JP",-apple-system,sans-serif;color:#241E18;padding:40px 48px}
+h1{font-size:24px;margin-bottom:6px}
+.note{color:#7A6F5E;font-size:13px;margin-bottom:30px;max-width:110ch;line-height:1.7}
+.pair{background:#F6F1E6;border-radius:20px;padding:26px 30px;margin-bottom:36px;max-width:1150px}
+.pair h2{font-size:17px;margin-bottom:4px}
+.pair .delta{font-size:13px;color:#7A6F5E;line-height:1.7;margin-bottom:18px;max-width:100ch}
+.cols{display:flex;gap:34px;align-items:flex-start}
+.col{flex:0 0 auto}
+.col .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;border-radius:999px;padding:4px 12px;margin-bottom:10px}
+.tag.before{background:#241E18;color:#FAF6EE}
+.tag.after{background:#D96B3D;color:#fff}
+.tag.new{background:#48705F;color:#fff}
+.tag.keep{background:#A39785;color:#fff}
+.col img{display:block;height:760px;width:auto;border-radius:18px;box-shadow:0 16px 44px -18px rgba(36,30,24,.4)}
+.arrow{align-self:center;font-size:30px;color:#D96B3D;font-weight:700}
+</style>
+</head>
+<body>
+<h1>現行サイト vs 改造後 — 手机首屏全面对比（十组）</h1>
+<p class="note">左＝本番サイト实拍（2026-08-27、iPhone 逻辑宽 390px、首次访问状态）；右＝高保真改造稿。改造稿同样带 cookie 同意条——「拒否／同意する」两个按钮都保留，但从盖住三分之一屏压成一行，不再压住内容与拇指区。右侧分数为 2026-07-26 实际打分；「今月の変動」上升列、Q&A 行序等个别处为示意。</p>
+
+<div class="pair">
+  <h2>① 排行页 /rankings/ai-risk-high — 名单形状（39 页共用模板）</h2>
+  <p class="delta">现网首屏：标题＋模型说明＋引用段开头，一个职业名都看不到。改后：标题下一行即「1位は…」，名单立即开始、整行可点；说明与引用段折叠到名单后。</p>
+  <div class="cols">
+    <div class="col"><span class="tag before">現行</span><img src="shots/live-ranking.png"></div>
+    <div class="arrow">→</div>
+    <div class="col"><span class="tag after">改造後</span><img src="shots/frame-02.png"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <h2>② 职业页 /156 看護師（低分 3.6）— 词条形状</h2>
+  <p class="delta">现网首屏：类型名「ふれあい創造家」＋三段类型散文，分数刚露头就被 cookie 横幅切断。改后：数字＋名次＋先月比＋一句人话＋年收/就业者＋门＋9問入口，一屏交齐；类型段移入折叠章「スコアの中身」。</p>
+  <div class="cols">
+    <div class="col"><span class="tag before">現行</span><img src="shots/live-entry.png"></div>
+    <div class="arrow">→</div>
+    <div class="col"><span class="tag after">改造後</span><img src="shots/frame-03.png"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <h2>③ 职业页 /430 経理事務（高分 8.5）— 同一模板，门随分数换</h2>
+  <p class="delta">高分职业的门换成「AIで変わる作業を見る」＋「移り先の候補」——数字、意思、下一步永远同屏，不让人独自面对一个吓人的数字。这是现网没有的能力。</p>
+  <div class="cols">
+    <div class="col"><span class="tag before">現行</span><img src="shots/live-entry-430.png"></div>
+    <div class="arrow">→</div>
+    <div class="col"><span class="tag after">改造後</span><img src="shots/frame-04.png"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <h2>④ 对比页 /compare/kango-vs-helper — 并排形状（20 页共用模板）</h2>
+  <p class="delta">现网首屏：长导语＋引用段，看不到任何对比数据，且窄屏下两职业上下叠、「并排」消失，副题还有英文残留。改后：两名字＋两分数做成钉住的对比条，滚动不消失；下面立即是逐项对比行。</p>
+  <div class="cols">
+    <div class="col"><span class="tag before">現行</span><img src="shots/live-compare.png"></div>
+    <div class="arrow">→</div>
+    <div class="col"><span class="tag after">改造後</span><img src="shots/frame-05.png"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <h2>⑤ 首页 /</h2>
+  <p class="delta">现网：搜索按钮误标「診断」，下接半屏诊断推广带。改后：按钮「調べる」＋示例词 → TOP10 横滑 → 今月の変動 → 四张门卡；诊断降为门之一。</p>
+  <div class="cols">
+    <div class="col"><span class="tag before">現行</span><img src="shots/live-home.png"></div>
+    <div class="arrow">→</div>
+    <div class="col"><span class="tag after">改造後</span><img src="shots/frame-01.png"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <h2>⑥ /me 自分の現在地 — 工具（流程照旧，只修呈现）</h2>
+  <p class="delta">现网：占位文案被截断（「例: 看護師、エ…」），下面是一个复述说明的空虚线框。改后：占位完整；虚线框换成即点即出的示例词＋「选中后出什么」预告。选中后的画面、9問、结果流程不动。</p>
+  <div class="cols">
+    <div class="col"><span class="tag before">現行</span><img src="shots/live-me.png"></div>
+    <div class="arrow">→</div>
+    <div class="col"><span class="tag after">改造後</span><img src="shots/frame-07.png"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <h2>⑦ /shindan 9問診断 — 工具（一页九题不变，页头压缩）</h2>
+  <p class="delta">现网首屏：大标题＋导语＋「9問/3軸/556」说明卡，第 1 题在折线之下。改后：页头压缩、加进度条，第 1 题连同选项进入首屏——这一页的「答案」就是题目本身。</p>
+  <div class="cols">
+    <div class="col"><span class="tag before">現行</span><img src="shots/live-shindan.png"></div>
+    <div class="arrow">→</div>
+    <div class="col"><span class="tag after">改造後</span><img src="shots/frame-08.png"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <h2>⑧ Q&A 页 /q/ai-de-kieru — 名单形状套用（49 页）</h2>
+  <p class="delta">被搜的承诺是「回答」。现网首屏：引用段独占，人要从密集段落里自己刨答案。改后：先一句话作答（最高データ入力 9.4、10 職平均 8.7），紧接职业名单行即门，引用段折叠。</p>
+  <div class="cols">
+    <div class="col"><span class="tag before">現行</span><img src="shots/live-q.png"></div>
+    <div class="arrow">→</div>
+    <div class="col"><span class="tag after">改造後</span><img src="shots/frame-09.png"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <h2>⑨ 顶栏检索浮层 — 現行にない新能力</h2>
+  <p class="delta">现网没有全局搜索：要查一个职业得回首页或开 28 项抽屉再进 /me。改后任何页面点顶栏🔍，两步到任何词条；假名未变换即命中；查不到给三扇门。这是整套改造里唯一「新造」的部件。</p>
+  <div class="cols">
+    <div class="col"><span class="tag new">新能力（現行に対応物なし）</span><img src="shots/frame-06.png"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <h2>⑩ /map 職業マップ — 今回は対象外</h2>
+  <p class="delta">地图保留桌面身份，本轮手机端不动（数据：加载→点开一块的转化 4.6%，不作为手机主脊柱）。列在此处仅为完整性。</p>
+  <div class="cols">
+    <div class="col"><span class="tag keep">現行のまま</span><img src="shots/live-map.png"></div>
+  </div>
+</div>
+
+</body>
+</html>
