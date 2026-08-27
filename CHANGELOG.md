@@ -12,6 +12,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- Root `AGENTS.md` (agent-facing entry point) and `docs/WORKFLOW.md`
+  §「Vercel 操作の権限境界」 define the authority boundary for coding agents
+  using Vercel MCP / CLI: reads are free, state changes need owner approval,
+  and firewall Challenge actions are permanently prohibited (GEO policy)
+  (#317).
 - `docs/TOOLCHAIN.md` is the canonical pin list for install, build, and
   runtime (Vercel three planes, CI vs local Bun, Edge Function sizes,
   and the #280 upgrade queue) (#281).
