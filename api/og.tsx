@@ -87,12 +87,28 @@ export const config = {
 
 // Design-Mobile.md §4.7: /map page OG card. Static layout, no upstream fetch.
 
+// Canonical caching policy for every rendered card: browser 1 day;
+// Vercel CDN 1 day + 7-day stale-while-revalidate (s-maxage/SWR are
+// consumed at the edge and stripped from the browser-facing header).
+const OG_CACHE_CONTROL =
+  "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800";
+
 // Named GET: on nodejs/Bun the Edge-style default export that returns
 // a Response is ignored (`(req, res) => void`). Preview on Bun 1.4
 // logged that warning, then timed out at 300s. See TOOLCHAIN §9.3.
 export async function GET(req: Request): Promise<Response> {
   try {
-    return await renderHandler(req);
+    const res = await renderHandler(req);
+    // @vercel/og's ImageResponse MERGES its own default Cache-Control
+    // (`public, immutable, no-transform, max-age=31536000`) with any
+    // per-renderer header, shipping a duplicated directive list; the
+    // generic cards set nothing and inherit the bare 1-year default.
+    // Normalize every 200 here so all five card kinds share one policy
+    // (#330). Error responses keep their own (non-)caching headers.
+    if (res.status === 200) {
+      res.headers.set("Cache-Control", OG_CACHE_CONTROL);
+    }
+    return res;
   } catch (err) {
     // Catch-all so a malformed Google Fonts response or a transient network
     // error returns a 503 with Retry-After instead of leaking a stack trace
@@ -110,6 +126,18 @@ export async function GET(req: Request): Promise<Response> {
       headers: { "Retry-After": "60", "Content-Type": "text/plain; charset=utf-8" },
     });
   }
+}
+
+// Social scrapers and image validators (the image-sitemap submits 556
+// `og?id=` URLs to image crawlers) may probe HEAD before GET; named-export
+// routing otherwise answers 405 (#330). Answer cheaply without rendering:
+// the dispatcher never 400s (unrenderable input degrades to the home
+// card), so a bare 200 + image/png is truthful for any query.
+export function HEAD(_req: Request): Response {
+  return new Response(null, {
+    status: 200,
+    headers: { "Content-Type": "image/png", "Cache-Control": OG_CACHE_CONTROL },
+  });
 }
 
 async function renderHandler(req: Request): Promise<Response> {
