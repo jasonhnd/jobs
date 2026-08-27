@@ -45,6 +45,25 @@ Issue、PR、commit message、`docs/` は **英語または日本語のみ**で�
 - Preview、production alias、環境変数、project settings の変更は、Issue の範囲に明記された場合だけ行う。
 - Preview alias `pre.mirai-shigoto.com` は `X-Robots-Tag: noindex, nofollow` を返す。production `mirai-shigoto.com` は index 対象のまま。静的 HTML の `robots` meta は `index, follow` を維持し、host 条件の応答ヘッダで上書きする。preview の `robots.txt` は crawl を許可したままにする（`Disallow: /` にすると Google が `noindex` を読めない）。
 
+## Vercel 操作の権限境界（agent / MCP / CLI）
+
+ローカルの coding agent（Claude Code / Codex / Gemini CLI / Grok）は、Vercel MCP（`https://mcp.vercel.com`）と認証済み Vercel CLI を通じて owner 相当の権限を持つ。この節は [公開境界](#公開境界) の原則を Vercel 操作面へ拡張し、agent が承認なしで行える操作を定める。
+
+**承認不要（読み取り・診断）** — deployment 状態、build log、usage、Web Analytics、firewall overview、alert 一覧などの読み取りは自由に行ってよい。障害調査での log 取得も含む。
+
+**Owner の明示承認が必要（状態変更）** — 次の操作は、実行前に Owner の指示または承認を得る。
+
+- `promote` / `rollback` / `redeploy` など、serving 状態を変える deployment 操作
+- 環境変数の追加・変更・削除
+- firewall ルールの変更と `publish`
+- rolling release 設定の変更
+- alias / domain / DNS / project settings の変更
+- `vercel api` での書き込み（POST / PATCH / PUT / DELETE）
+
+**恒久禁止** — firewall の Challenge 系 action は使わない。AI crawler を遮断し、GEO 方針（[`EDGE_SECURITY.md`](EDGE_SECURITY.md) 参照）を破壊するためである。rate limit の超過時 action は `log` または `deny`（429）のみとする。
+
+git 側の境界は [標準フロー](#標準フロー) と promotion 手順に従う。この節はそれを Vercel 平面に対応させたものである。
+
 ## ブランチの役割
 
 - `preview` — 日常開発の integration branch。topic branch は最新の `preview` から作り、PR も `preview` を base にする。
