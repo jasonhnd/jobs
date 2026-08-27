@@ -32,6 +32,20 @@ this repository.
 - Score batches are append-only; never overwrite existing runs.
 - Do not commit secrets or generated `dist-astro/`.
 
+## Operational commands (read-only)
+
+Free to run without approval, per the authority boundary in
+[`docs/WORKFLOW.md`](docs/WORKFLOW.md):
+
+- `vercel alerts --ai` — check unresolved production alerts at session start.
+- `vercel ls` / `vercel inspect <url> --logs` — deployment states, build logs.
+- `vercel usage --group-by project` — cost attribution.
+- `vercel firewall overview` — WAF / rate-limit / attack-mode state.
+
+Incident procedures and the platform-state ledger live in
+[`docs/INCIDENT_RUNBOOK.md`](docs/INCIDENT_RUNBOOK.md). Every state-changing
+command there is owner-approval-gated.
+
 ## Verification
 
 ```bash

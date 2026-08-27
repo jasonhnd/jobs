@@ -12,6 +12,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- `docs/INCIDENT_RUNBOOK.md`: production incident procedures (rollback,
+  rolling-release abort, `vercel bisect`, attack mode with its GEO cost
+  warning) plus the ledger of platform state that lives outside the repo
+  (WAF rule, rolling-release config, budget, alert rule, env inventory)
+  with exact replay commands. `AGENTS.md` gains a read-only operational
+  command toolbox; `analytics/geo-observation-sop.md` §6 adds Vercel Bot
+  Management as a zero-code independent cross-check of AI-crawler traffic
+  (#335).
 - Daily measurement sentinel (`api/cron/measurement-sentinel`, vercel.json
   cron at 07:17 JST): asserts the GA4 MP env is present and validates a
   canary payload (built with the middleware's own `buildMpPayload`)
