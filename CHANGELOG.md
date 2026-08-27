@@ -41,6 +41,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `api/og` and `api/shindan-share` now answer `HEAD` (named-export routing
+  previously returned 405 to crawlers probing before GET), and the OG
+  `GET` wrapper normalizes `Cache-Control` on every 200 — @vercel/og's
+  ImageResponse merged its 1-year-immutable default with the per-renderer
+  header into a duplicated directive list, and generic cards shipped the
+  bare default (#330).
 - TOOLCHAIN.md §2 records `api/og`, `api/shindan-share`, and middleware
   as Bun 1.4 (`lambda.runtime: "bun1.4.x"`) after #303–#305. The Bun
   row no longer says share/middleware are Edge. Inspect truth is
