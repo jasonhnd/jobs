@@ -40,9 +40,17 @@ test('390×844 first screen: pinned duel bar, metric rows, no English leftover',
   expect(barBox!.y, 'duel bar starts on the first screen under the H1').toBeLessThan(400);
 
   await page.evaluate(() => window.scrollTo(0, 1200));
+  const nav = page.locator('header.mob-topbar').filter({ visible: true });
+  await expect(nav).toBeVisible();
+  const navBox = await nav.boundingBox();
+  expect(navBox!.y, 'mobile top bar stays at the top').toBeLessThanOrEqual(1);
   const pinned = await bar.boundingBox();
   expect(pinned, 'duel bar must stay after scroll').not.toBeNull();
+  expect(pinned!.y, `pinned y=${pinned!.y}`).toBeGreaterThanOrEqual(47);
   expect(pinned!.y, `pinned y=${pinned!.y}`).toBeLessThanOrEqual(50);
+  const rightName = bar.locator('.duel-name').nth(1);
+  const nameBox = await rightName.boundingBox();
+  expect(nameBox!.height, 'duel names must not wrap mid-kana into a tall stack').toBeLessThanOrEqual(40);
 });
 
 test('desktop ≥1280 keeps versus-hero and hides the duel bar', async ({ page }) => {

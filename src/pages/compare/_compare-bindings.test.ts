@@ -48,14 +48,18 @@ describe('buildCompareMetricRows', () => {
     );
     const byLabel = Object.fromEntries(rows.map((r) => [r.label, r]));
     assert.equal(byLabel['年収 (平均)']?.win, 'a');
-    assert.equal(byLabel['年収 (平均)']?.a, '520 万円');
+    assert.equal(byLabel['年収 (平均)']?.a, '520万円');
     assert.equal(byLabel['仕事が減るリスク']?.win, null);
     assert.equal(byLabel['仕事が減るリスク']?.a, '0.6/10');
     assert.equal(byLabel['仕事が減るリスク']?.b, '0.5/10');
     assert.equal(byLabel['就業者数']?.win, null);
+    assert.equal(byLabel['就業者数']?.a, '69万人');
+    assert.equal(byLabel['就業者数']?.b, '28万人');
     assert.equal(byLabel['月労働時間']?.win, 'a');
+    assert.equal(byLabel['月労働時間']?.a, '155h');
     assert.equal(byLabel['関連資格']?.win, null);
     assert.equal(byLabel['求人倍率']?.win, 'b');
+    assert.equal(byLabel['求人倍率']?.b, '15.0倍');
   });
 
   test('skips a row when either side lacks the value', () => {
@@ -86,11 +90,11 @@ describe('buildCompareMetricRows', () => {
 describe('renderCompareMetricRows', () => {
   test('marks the winning cell and escapes labels', () => {
     const html = renderCompareMetricRows([
-      { label: '年収 (平均)', a: '520 万円', b: '381 万円', win: 'a' },
-      { label: '<x>', a: '1', b: '2', win: null },
+      { label: '年収 (平均)', a: '520万円', b: '381万円', win: 'a', kind: 'num' },
+      { label: '<x>', a: '1', b: '2', win: null, kind: 'text' },
     ]);
-    assert.match(html, /class="cm-a win">520 万円</);
-    assert.match(html, /class="cm-b">381 万円</);
+    assert.match(html, /class="cm-a win num">520万円</);
+    assert.match(html, /class="cm-b num">381万円</);
     assert.match(html, /&lt;x&gt;/);
   });
 });
