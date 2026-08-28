@@ -97,7 +97,7 @@ const DYNAMIC_EMIT_SITES: readonly DynamicEmitSite[] = [
   },
   {
     file: 'src/components/Footer.astro',
-    emits: ['jobtag_outbound_click', 'me_entry_click'],
+    emits: ['jobtag_outbound_click', 'me_entry_click', 'list_row_click'],
     why: 'Reads the name from <a data-track-event>, then builds params per known name.',
   },
   {

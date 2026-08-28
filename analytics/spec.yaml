@@ -476,6 +476,15 @@ events:
       - { name: language, type: string }
     conversion: false
 
+  - name: list_row_click
+    description: |
+      Visitor tapped a whole-row occupation link on a List-shape ranking page
+      (#321). The only custom parameter is language; occupation identity
+      arrives in the built-in page_location of the following page_view.
+    params:
+      - { name: language, type: string }
+    conversion: false
+
   - name: me_entry_click
     description: |
       Visitor followed an in-content entry into /me. `source` distinguishes the
