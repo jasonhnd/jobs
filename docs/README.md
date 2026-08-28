@@ -17,6 +17,7 @@
 - [`architecture.md`](architecture.md) — `src/data` / `src/graph` / `src/views` / `src/templates` / `src/pages` の層境界。
 - [`SEO_OG_BASELINE.md`](SEO_OG_BASELINE.md) — sitemap、JSON-LD、OG/Twitter meta、baseline 更新手順。
 - [`EDGE_SECURITY.md`](EDGE_SECURITY.md) — Edge API と OG 画像生成の防御ルール。
+- [`INCIDENT_RUNBOOK.md`](INCIDENT_RUNBOOK.md) — production 障害・攻撃時の即応手順と、repo 外の Vercel プラットフォーム状態の台帳・回放コマンド。
 
 ## ドキュメント更新ルール
 

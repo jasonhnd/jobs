@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>未来の仕事 — 手机端改造 高保真设计板</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Plus+Jakarta+Sans:wght@500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#FAF6EE; --bg2:#F2EADB; --cream:#F6EEDD; --card:#FFFFFF;
+  --ink:#241E18; --muted:#7A6F5E; --muted2:#A39785;
+  --accent:#D96B3D; --sage:#6E9B89; --sage-deep:#48705F;
+  --serif:"Noto Serif JP",serif;
+  --sans:"Plus Jakarta Sans","Noto Sans JP",-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --shadow:0 1px 0 rgba(36,30,24,.04), 0 8px 24px -12px rgba(36,30,24,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#E9E2D2;font-family:var(--sans);color:var(--ink);padding:40px 48px 64px}
+.board-head{max-width:1200px;margin:0 0 28px}
+.board-head h1{font-family:var(--serif);font-size:26px;font-weight:600}
+.board-head p{color:var(--muted);font-size:13.5px;margin-top:8px;line-height:1.7;max-width:72ch}
+.board{display:flex;gap:36px;align-items:flex-start;overflow-x:auto;padding-bottom:24px}
+.unit{flex:0 0 auto;width:414px}
+.cap{margin:0 0 12px;padding:0 4px}
+.cap .cap-n{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:#fff;background:var(--ink);border-radius:999px;padding:3px 10px;margin-right:8px}
+.cap b{font-size:15px}
+.cap p{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.65}
+/* ── phone bezel ── */
+.phone{width:414px;height:862px;background:#241E18;border-radius:40px;padding:12px;box-shadow:0 24px 60px -24px rgba(36,30,24,.45)}
+.screen{width:390px;height:838px;background:var(--bg1);border-radius:30px;overflow-y:auto;overflow-x:hidden;position:relative;scrollbar-width:thin}
+.statusbar{height:34px;display:flex;justify-content:space-between;align-items:center;padding:0 22px;font-size:12.5px;font-weight:700;color:var(--ink);background:var(--bg1)}
+.statusbar .sb-r{letter-spacing:2px;font-size:11px}
+/* ── top bar ── */
+.topbar{position:sticky;top:0;z-index:40;height:48px;display:flex;align-items:center;gap:10px;padding:0 14px;background:rgba(250,246,238,.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(163,151,133,.28)}
+.brand{display:flex;align-items:center;gap:7px;font-family:var(--serif);font-weight:700;font-size:15px;color:var(--ink);flex:1}
+.brand svg{color:var(--accent)}
+.tb-btn{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--ink);background:transparent}
+.tb-btn.search-on{background:var(--cream)}
+.burger{display:flex;flex-direction:column;gap:4px}
+.burger span{display:block;width:17px;height:2px;background:var(--ink);border-radius:2px}
+/* ── shared atoms ── */
+.crumb{padding:10px 20px 0;font-size:12px;color:var(--muted2)}
+.pill{display:inline-flex;align-items:center;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.02em;border-radius:999px;padding:3px 9px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill.low{color:var(--sage-deep);background:rgba(110,155,137,.14)}
+.pill.mid{color:#8B6B2A;background:rgba(212,167,73,.18)}
+.pill.high{color:var(--accent);background:rgba(217,107,61,.13)}
+.mono-label{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.jobrow{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;background:var(--card);border:1px solid rgba(163,151,133,.30);border-radius:12px;padding:11px 13px;margin:0 0 8px}
+.jobrow .rk{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--muted2);text-align:center}
+.jobrow.top3 .rk{color:var(--accent)}
+.jobrow .nm{font-size:15.5px;font-weight:600;line-height:1.4}
+.jobrow .sec{font-size:12.5px;color:var(--muted);margin-top:3px}
+.jobrow .arr{color:var(--muted2);font-size:15px;margin-left:6px}
+.doorbtn{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:10px 15px;font-size:14px;font-weight:700;border:1.5px solid rgba(36,30,24,.16);background:var(--card);color:var(--ink)}
+.doorbtn.solid{background:var(--accent);border-color:var(--accent);color:#fff}
+details.chap{background:var(--card);border:1px solid rgba(163,151,133,.30);border-radius:14px;margin:0 0 9px;overflow:hidden}
+details.chap summary{list-style:none;display:flex;align-items:center;gap:10px;padding:14px 15px;font-size:14.5px;font-weight:700;cursor:pointer}
+details.chap summary::-webkit-details-marker{display:none}
+details.chap summary::after{content:"›";margin-left:auto;color:var(--muted2);font-size:16px;transform:rotate(90deg)}
+details.chap[open] summary::after{transform:rotate(-90deg)}
+details.chap .chap-b{padding:2px 15px 15px;font-size:14px;color:var(--muted);line-height:1.85}
+.foot-note{padding:20px;font-size:11px;color:var(--muted2);line-height:1.7;text-align:center}
+/* ══ HOME ══ */
+.hero{padding:22px 20px 6px}
+.hero .mono-label{color:var(--accent)}
+.hero h1{font-family:var(--serif);font-size:27px;line-height:1.32;font-weight:600;margin:10px 0 16px}
+.searchbar{display:flex;background:var(--card);border:1.5px solid rgba(36,30,24,.18);border-radius:999px;padding:5px 5px 5px 18px;align-items:center;box-shadow:var(--shadow)}
+.searchbar .ph{flex:1;font-size:16px;color:var(--muted2)}
+.searchbar .go{background:var(--accent);color:#fff;font-weight:700;font-size:14px;border-radius:999px;padding:10px 18px}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 2px}
+.chips span{font-size:13px;font-weight:600;color:var(--ink);background:var(--cream);border:1px solid rgba(163,151,133,.35);border-radius:999px;padding:6px 12px}
+.hsec{padding:20px 20px 0}
+.hsec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+.hsec-head .more{font-size:12px;color:var(--accent);font-weight:700}
+.swipe{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-right:-20px}
+.scard{flex:0 0 128px;background:var(--card);border:1px solid rgba(163,151,133,.30);border-radius:14px;padding:12px;box-shadow:var(--shadow)}
+.scard .rk{font-family:var(--serif);font-size:13px;color:var(--accent);font-weight:700}
+.scard .nm{font-size:13.5px;font-weight:700;margin:4px 0 8px;line-height:1.35;min-height:37px}
+.movers{background:var(--card);border:1px solid rgba(163,151,133,.30);border-radius:14px;padding:14px 15px;display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
+.movers .mh{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.movers .mr{display:flex;justify-content:space-between;font-size:13px;padding:3px 0}
+.movers .up{color:var(--accent);font-family:var(--mono);font-size:11.5px}
+.movers .dn{color:var(--sage-deep);font-family:var(--mono);font-size:11.5px}
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0}
+.door{background:var(--card);border:1px solid rgba(163,151,133,.30);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.door .dt{font-size:15px;font-weight:700;font-family:var(--serif)}
+.door .dd{font-size:12px;color:var(--muted);margin-top:3px}
+.door .cnt{font-family:var(--mono);font-size:10px;color:var(--accent);margin-top:8px;letter-spacing:.08em}
+.mapthumb{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:9px;border-radius:8px;overflow:hidden}
+.mapthumb i{height:11px;display:block}
+/* ══ RANKING ══ */
+.rk-head{padding:14px 20px 12px}
+.rk-head h1{font-family:var(--serif);font-size:22.5px;line-height:1.3;font-weight:600}
+.rk-sum{margin-top:7px;font-size:13.5px;color:var(--muted)}
+.rk-sum b{color:var(--ink)}
+.rk-list{padding:2px 16px 0}
+.readme-wrap{padding:8px 16px 0}
+.mecta{margin:12px 16px 0;background:var(--cream);border:1px dashed rgba(122,111,94,.5);border-radius:14px;padding:14px 15px;font-size:14px;line-height:1.7}
+.mecta a{color:var(--accent);font-weight:700;text-decoration:none}
+/* ══ ENTRY (occupation) ══ */
+.oc-head{padding:12px 20px 0}
+.oc-head h1{font-family:var(--serif);font-size:29px;font-weight:700;line-height:1.2}
+.oc-meta{font-size:13px;color:var(--muted);margin-top:5px}
+.verdict{margin:14px 16px 0;background:var(--card);border:1px solid rgba(163,151,133,.30);border-radius:18px;padding:18px 18px 14px;box-shadow:var(--shadow);position:relative}
+.v-share{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:10px;background:var(--cream);display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.v-nums{display:flex;gap:22px;align-items:flex-end}
+.v-num .lb{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.v-num .n{font-family:var(--serif);font-weight:700;line-height:1}
+.v-num.main .n{font-size:46px;margin-top:4px}
+.v-num.subn .n{font-size:26px;margin-top:8px}
+.v-num .n small{font-size:.42em;color:var(--muted2);font-weight:600}
+.v-rank{margin-top:10px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.v-rank b{color:var(--ink)}
+.v-line{margin:12px 0 0;font-family:var(--serif);font-size:16px;line-height:1.8;color:var(--ink)}
+.v-facts{margin-top:10px;font-size:13.5px;color:var(--muted)}
+.v-doors{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.v-disc{margin:10px 20px 0;font-size:11.5px;color:var(--muted2);line-height:1.65}
+.quizdoor{margin:12px 16px 0;background:var(--cream);border-radius:14px;padding:13px 15px;display:flex;align-items:center;gap:10px}
+.quizdoor .q{flex:1;font-size:14px;line-height:1.6}
+.quizdoor .q b{font-family:var(--serif)}
+.quizdoor .go{background:var(--ink);color:#FAF6EE;border-radius:999px;font-size:13px;font-weight:700;padding:10px 15px;white-space:nowrap}
+.chipnav{position:sticky;top:48px;z-index:30;display:flex;gap:7px;overflow-x:auto;padding:12px 16px 10px;background:rgba(250,246,238,.94);backdrop-filter:blur(8px);scrollbar-width:none}
+.chipnav span{flex:0 0 auto;font-size:12.5px;font-weight:700;border:1px solid rgba(163,151,133,.4);border-radius:999px;padding:7px 13px;color:var(--muted)}
+.chipnav span.on{background:var(--ink);border-color:var(--ink);color:#FAF6EE}
+.chaps{padding:2px 16px 0}
+.dimbar{display:grid;grid-template-columns:112px 1fr 28px;gap:8px;align-items:center;margin:7px 0;font-size:12.5px;color:var(--muted)}
+.dimbar .tr{height:7px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.dimbar .fl{display:block;height:100%;border-radius:4px;background:var(--sage)}
+.dimbar.hot .fl{background:var(--accent)}
+.dimbar .vv{font-family:var(--mono);font-size:11px;text-align:right;color:var(--ink)}
+/* ══ COMPARE ══ */
+.cmp-title{padding:12px 20px 10px}
+.cmp-title h1{font-family:var(--serif);font-size:17.5px;font-weight:600;line-height:1.4}
+.ovrow{grid-template-columns:1fr auto !important}
+.kbd{margin-top:auto;background:#E5DFD2;padding:10px 8px 22px;display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.kbd i{height:36px;background:#FFF;border-radius:6px;box-shadow:0 1px 0 rgba(36,30,24,.18)}
+.kbd i.wide{grid-column:span 2}
+.kbd i.space{grid-column:span 6;background:#FFF}
+.kbd i.act{background:var(--accent)}
+.vsbar{position:sticky;top:48px;z-index:30;margin:0;display:grid;grid-template-columns:1fr 34px 1fr;align-items:center;background:var(--card);border-top:1px solid rgba(163,151,133,.3);border-bottom:2px solid var(--ink);padding:10px 16px}
+.vsbar .side{text-align:center}
+.vsbar .side .nm{font-family:var(--serif);font-size:15.5px;font-weight:700;line-height:1.3}
+.vsbar .vs{font-family:var(--serif);font-size:12px;font-weight:700;color:var(--accent);text-align:center}
+.vsbar .side .pill{margin-top:5px}
+.cmp-rows{padding:6px 16px 0}
+.crow{display:grid;grid-template-columns:86px 1fr 1fr;align-items:center;background:var(--card);border:1px solid rgba(163,151,133,.30);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+.crow .k{font-size:12px;color:var(--muted);font-weight:600;line-height:1.45}
+.crow .v{font-family:var(--serif);font-size:16px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
+.crow .v small{font-size:.66em;color:var(--muted);font-weight:500}
+.crow .v.win{color:var(--accent)}
+/* ══ COOKIE BAR (compact) ══ */
+.ckbar{position:sticky;bottom:0;z-index:50;display:flex;gap:9px;align-items:center;background:#241E18;color:#EDE6D8;padding:10px 12px;font-size:12px;line-height:1.4}
+.ckbar u{color:#C9BFA9;text-underline-offset:2px}
+.ckbar .ck-no{margin-left:auto;border:1px solid rgba(250,246,238,.5);border-radius:999px;padding:5px 11px;font-weight:700;font-size:11px;white-space:nowrap}
+.ckbar .ck-ok{background:var(--accent);border-radius:999px;padding:5px 13px;font-weight:700;font-size:11px;color:#fff;white-space:nowrap}
+/* ══ ME / SHINDAN / QA ══ */
+.ghost{margin:16px 16px 0;background:var(--bg2);border-radius:14px;padding:15px 17px;font-size:14px;color:var(--muted);line-height:2.0}
+.ghost b{color:var(--ink)}
+.prog{display:flex;align-items:center;gap:10px;padding:0 20px;margin-top:12px}
+.prog .bar{flex:1;height:6px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.prog .fill{display:block;width:11%;height:100%;background:var(--accent)}
+.prog .t{font-family:var(--mono);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.qcard{margin:12px 16px 0;background:var(--card);border:1px solid rgba(163,151,133,.30);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.qcard .qn{font-family:var(--mono);font-size:10.5px;color:var(--accent);font-weight:600;letter-spacing:.1em}
+.qcard .qt{font-size:13.5px;color:var(--muted);margin:4px 0 12px}
+.qbtn{display:flex;align-items:center;justify-content:center;text-align:center;min-height:58px;padding:13px;border:1.5px solid rgba(36,30,24,.16);border-radius:12px;background:var(--bg1);font-size:15px;font-weight:600;line-height:1.6;margin-bottom:9px}
+.qbtn.sel{border-color:var(--accent);background:rgba(217,107,61,.10)}
+.ans-line{margin:10px 20px 4px;font-family:var(--serif);font-size:16.5px;line-height:1.85}
+/* ══ SEARCH OVERLAY ══ */
+.ov{position:absolute;inset:0;background:var(--bg1);z-index:60;display:flex;flex-direction:column}
+.ov-top{display:flex;gap:10px;align-items:center;padding:14px 16px 10px}
+.ov-input{flex:1;display:flex;align-items:center;gap:9px;background:var(--card);border:1.5px solid var(--ink);border-radius:999px;padding:12px 16px;font-size:16px;font-weight:600}
+.ov-input .caret{display:inline-block;width:2px;height:18px;background:var(--accent);animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.ov-cancel{font-size:13px;color:var(--muted);font-weight:600}
+.ov-hint{padding:2px 20px 10px;font-size:12px;color:var(--muted2)}
+.ov-list{padding:4px 16px;overflow-y:auto}
+.ov-sec{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);padding:12px 4px 7px}
+</style>
+</head>
+<body>
+
+<div class="board-head">
+  <h1>未来の仕事 — 手机端改造 · 高保真设计板</h1>
+  <p>六个 390px 框，全部使用站点现行 Direction C 令牌（暖奶油 #FAF6EE · Noto Serif JP · 赤陶 #D96B3D · 鼠尾草绿）。<b>每个框内可以滚动、折叠章可以点开</b>。数字为 2026-07-26 实际打分（看護師 3.6、経理事務 8.5、データ入力 9.4）；「今月の変動」上升列与部分辅助文言为示意。</p>
+</div>
+
+<div class="board">
+
+<!-- ═══════════ 1. HOME ═══════════ -->
+<div class="unit">
+  <div class="cap"><span class="cap-n">01</span><b>首页 — 一屏四件事</b>
+    <p>问句＋搜索（按钮改「調べる」）＋示例词 → TOP10 横滑 → 今月の変動 → 四张门卡。树图不在手机首页渲染。</p></div>
+  <div class="phone"><div class="screen">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">●●●●●</span></div>
+    <div class="topbar">
+      <div class="brand"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="21" cy="6" r="1.6" fill="currentColor"/></svg>未来の仕事</div>
+      <div class="tb-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <div class="tb-btn burger"><span></span><span></span><span></span></div>
+    </div>
+    <div class="hero">
+      <span class="mono-label">日本の556職業 × AI · 毎月更新</span>
+      <h1>あなたの仕事は、<br>AIでどう変わる？</h1>
+      <div class="searchbar"><span class="ph">気になる職業を入力</span><span class="go">調べる</span></div>
+      <div class="chips"><span>事務職</span><span>経理</span><span>営業</span><span>看護師</span><span>保育士</span></div>
+    </div>
+    <div class="hsec">
+      <div class="hsec-head"><span class="mono-label">AIに変わる仕事 TOP10</span><span class="more">すべて見る →</span></div>
+      <div class="swipe">
+        <div class="scard"><span class="rk">1位</span><div class="nm">データ入力</div><span class="pill high">9.4/10</span></div>
+        <div class="scard"><span class="rk">2位</span><div class="nm">速記者、音声反訳者</div><span class="pill high">9.1/10</span></div>
+        <div class="scard"><span class="rk">3位</span><div class="nm">通信販売受付事務</div><span class="pill high">8.8/10</span></div>
+        <div class="scard"><span class="rk">4位</span><div class="nm">プログラマー</div><span class="pill high">8.8/10</span></div>
+      </div>
+    </div>
+    <div class="hsec">
+      <div class="hsec-head"><span class="mono-label">今月の変動 · 7月スコア改定</span></div>
+      <div class="movers">
+        <div>
+          <div class="mh">↑ 上がった</div>
+          <div class="mr"><span>通訳者</span><span class="up">+0.4</span></div>
+          <div class="mr"><span>校閲者</span><span class="up">+0.3</span></div>
+        </div>
+        <div>
+          <div class="mh">↓ 下がった</div>
+          <div class="mr"><span>データ入力</span><span class="dn">−0.2</span></div>
+          <div class="mr"><span>ホームヘルパー</span><span class="dn">−1.2</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hsec" style="padding-bottom:22px">
+      <div class="hsec-head"><span class="mono-label">入口</span></div>
+      <div class="doors">
+        <div class="door"><div class="dt">ランキング</div><div class="dd">AI・年収・需要で並べる</div><div class="cnt">39 LISTS →</div></div>
+        <div class="door"><div class="dt">比較する</div><div class="dd">2つの仕事を並べて見る</div><div class="cnt">20 PAIRS →</div></div>
+        <div class="door"><div class="dt">職業マップ</div>
+          <div class="mapthumb">
+            <i style="background:#6E9B89"></i><i style="background:#6E9B89"></i><i style="background:#D4A749"></i><i style="background:#D96B3D"></i><i style="background:#D96B3D"></i><i style="background:#C4422F"></i>
+            <i style="background:#48705F"></i><i style="background:#6E9B89"></i><i style="background:#D4A749"></i><i style="background:#D4A749"></i><i style="background:#D96B3D"></i><i style="background:#C4422F"></i>
+          </div><div class="cnt">556 職業の俯瞰 →</div></div>
+        <div class="door"><div class="dt">自分の現在地</div><div class="dd">職業を入れて全39榜の位置</div><div class="cnt">MY POSITION →</div></div>
+      </div>
+    </div>
+    <div class="foot-note">↓ 以下、既存のハブ区块（セクター・ランキング一覧等）はそのまま残る ↓</div>
+    <div class="ckbar">解析のためCookieを使用します。<u>詳細</u><span class="ck-no">拒否</span><span class="ck-ok">同意する</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════ 2. RANKING ═══════════ -->
+<div class="unit">
+  <div class="cap"><span class="cap-n">02</span><b>名单形状 — 排行页（39页共用）</b>
+    <p>标题一字不改；第二行即「1位は…」；名单立刻开始，<b>整行可点</b>。原首屏的引用段与统计卡收进名单后的折叠块（可点开试试）。</p></div>
+  <div class="phone"><div class="screen">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">●●●●●</span></div>
+    <div class="topbar">
+      <div class="brand"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="21" cy="6" r="1.6" fill="currentColor"/></svg>未来の仕事</div>
+      <div class="tb-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <div class="tb-btn burger"><span></span><span></span><span></span></div>
+    </div>
+    <div class="crumb">ホーム › ランキング</div>
+    <div class="rk-head">
+      <h1>AIに奪われる仕事 TOP30</h1>
+      <p class="rk-sum">1位は<b>データ入力（9.4/10）</b> · TOP30平均 8.3/10 · 2026年7月更新</p>
+    </div>
+    <div class="rk-list">
+      <div class="jobrow top3"><span class="rk">1</span><span><span class="nm">データ入力</span><div class="sec">事務・公務 · 年収356万円</div></span><span><span class="pill high">9.4/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow top3"><span class="rk">2</span><span><span class="nm">速記者、音声反訳者</span><div class="sec">士業・経営・コンサル · 591万円</div></span><span><span class="pill high">9.1/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow top3"><span class="rk">3</span><span><span class="nm">通信販売受付事務</span><div class="sec">事務・公務 · 394万円</div></span><span><span class="pill high">8.8/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow"><span class="rk">4</span><span><span class="nm">プログラマー</span><div class="sec">IT・通信 · 574万円</div></span><span><span class="pill high">8.8/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow"><span class="rk">5</span><span><span class="nm">一般事務</span><div class="sec">事務・公務 · 530万円</div></span><span><span class="pill high">8.5/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow"><span class="rk">6</span><span><span class="nm">経理事務</span><div class="sec">事務・公務 · 509万円</div></span><span><span class="pill high">8.5/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow"><span class="rk">7</span><span><span class="nm">デバッグ作業</span><div class="sec">IT・通信 · 574万円</div></span><span><span class="pill high">8.5/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow"><span class="rk">8</span><span><span class="nm">翻訳者</span><div class="sec">クリエイティブ・メディア · 681万円</div></span><span><span class="pill high">8.5/10</span><span class="arr">›</span></span></div>
+      <div style="text-align:center;font-size:12.5px;color:var(--muted2);padding:4px 0 10px">… 30位まで続く …</div>
+    </div>
+    <div class="mecta">気になった仕事は、ほかのランキングではどの位置？ <a>自分の現在地を確認 →</a></div>
+    <div class="readme-wrap" style="padding-top:14px">
+      <details class="chap"><summary>このランキングの読み方・出典</summary><div class="chap-b">
+        <b style="color:var(--ink)">引用用ファクト：</b>GEO-Aの全556職業データから、このランキングで表示する30職業を同じ口径で集計すると、平均AI影響度は8.3/10。先頭のデータ入力はAI影響度9.4/10…（出典：厚生労働省 jobtag ＋ AIOIS-10、2026年7月）<br><br>
+        全556職業 · 全体平均 4.2/10 · TOP30平均年収 512万円 · セクター内訳：事務・公務 12件…<br><br>
+        AIOIS-10はモデル出力の目安で、統計的な将来予測ではありません。
+      </div></details>
+      <details class="chap"><summary>この仕事から動くなら（移り先の候補）</summary><div class="chap-b">データ入力からの移り先：医療事務作業補助者（3.4）、学校事務（3.9）、図書館司書（3.2）…</div></details>
+      <details class="chap"><summary>よくある質問</summary><div class="chap-b">Q. AIに奪われる仕事の1位は？ — データ入力（AI影響度9.4/10）です。…</div></details>
+      <details class="chap"><summary>他のランキング</summary><div class="chap-b">AI影響が少ない仕事 TOP30 / 高年収×低AIリスク TOP30 / 人手不足の職業 TOP30 …</div></details>
+    </div>
+    <div class="foot-note">出典：厚生労働省 jobtag ＋ AIOIS-10（毎月更新）</div>
+    <div class="ckbar">解析のためCookieを使用します。<u>詳細</u><span class="ck-no">拒否</span><span class="ck-ok">同意する</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════ 3. ENTRY low-risk ═══════════ -->
+<div class="unit">
+  <div class="cap"><span class="cap-n">03</span><b>词条形状 — 看護師（低リスク 3.6）</b>
+    <p>首屏三件套：数字＋一句人话＋门。低分职业的门＝「なぜ守られやすいか」「似た仕事」。往下滑：章节标签钉住，七章折叠（可点开）。</p></div>
+  <div class="phone"><div class="screen">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">●●●●●</span></div>
+    <div class="topbar">
+      <div class="brand"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="21" cy="6" r="1.6" fill="currentColor"/></svg>未来の仕事</div>
+      <div class="tb-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <div class="tb-btn burger"><span></span><span></span><span></span></div>
+    </div>
+    <div class="crumb">ホーム › 医療・保健</div>
+    <div class="oc-head">
+      <h1>看護師</h1>
+      <div class="oc-meta">医療・保健 · 就業者 約69万人</div>
+    </div>
+    <div class="verdict">
+      <div class="v-share"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 8 6h3v8h2V6h3l-4-4Zm-7 7v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9h-3v2h1v9H7v-9h1V9H5Z"/></svg></div>
+      <div class="v-nums">
+        <div class="v-num main"><span class="lb">AI影響度（変化の大きさ）</span><div class="n" style="color:var(--sage-deep)">3.6<small> /10</small></div></div>
+        <div class="v-num subn"><span class="lb">仕事が減るリスク</span><div class="n">0.6<small> /10</small></div></div>
+      </div>
+      <div class="v-rank"><b>556職中 483位</b> · 先月比 ±0 · 2026年7月採点</div>
+      <p class="v-line">人とのやりとり・情緒など人間の強みが守りになり、仕事そのものが大きく減るリスクは低め。</p>
+      <div class="v-facts">年収 約520万円 · 就業者 約69万人 · 月155h</div>
+      <div class="v-doors"><span class="doorbtn solid">なぜ守られやすいか</span><span class="doorbtn">似た仕事</span></div>
+    </div>
+    <div class="quizdoor"><span class="q">この仕事のAI影響度は分かりました。<b>では、あなた自身は？</b></span><span class="go">9問で確かめる</span></div>
+    <p class="v-disc">AIOIS-10はモデル出力の目安で、統計的な将来予測や適職保証ではありません。</p>
+    <div class="chipnav">
+      <span class="on">スコアの中身</span><span>この仕事とは</span><span>なるには・資格</span><span>待遇と働き方</span><span>似た仕事・移り先</span><span>Q&A</span><span>出典と数字</span>
+    </div>
+    <div class="chaps">
+      <details class="chap" open><summary>スコアの中身</summary><div class="chap-b">
+        <div class="dimbar"><span>人とのやりとり・情緒</span><span class="tr"><span class="fl" style="width:88%"></span></span><span class="vv">8.8</span></div>
+        <div class="dimbar"><span>体・現場での実務</span><span class="tr"><span class="fl" style="width:79%"></span></span><span class="vv">7.9</span></div>
+        <div class="dimbar"><span>資格・安全の壁</span><span class="tr"><span class="fl" style="width:85%"></span></span><span class="vv">8.5</span></div>
+        <div class="dimbar hot"><span>定型的な手順</span><span class="tr"><span class="fl" style="width:46%"></span></span><span class="vv">4.6</span></div>
+        <div style="margin-top:10px">この職業のタイプ：<b style="color:var(--ink)">そばで支える人</b> — 現場のケアと観察が中心。AIは記録・下書きを補助し、判断とふれあいが人に残る。<br><br>スコア推移：4月 2.0 → 5月 4.6 → 6月 3.9 → 7月 3.6</div>
+      </div></details>
+      <details class="chap"><summary>この仕事とは</summary><div class="chap-b">傷病者の療養上の世話と診療の補助を行う。病棟・外来・訪問看護など…（既存の長文がそのまま入る）</div></details>
+      <details class="chap"><summary>なるには・資格</summary><div class="chap-b">看護師国家資格が必要。看護系大学・短大・専門学校（3年以上）を卒業し…</div></details>
+      <details class="chap"><summary>待遇と働き方</summary><div class="chap-b">年収中央値 約520万円 · 月間労働 155h · 平均年齢 41.2歳 · 有効求人倍率 2.2倍 …</div></details>
+      <details class="chap"><summary>似た仕事・移り先</summary><div class="chap-b">保健師 (2.9) · 助産師 (2.4) · 訪問介護員 (2.3) · 臨床検査技師 (5.1) …</div></details>
+      <details class="chap"><summary>よくある質問</summary><div class="chap-b">Q. 看護師の仕事はAIに奪われますか？ — AI影響度3.6/10、仕事が減るリスク0.6/10で…</div></details>
+      <details class="chap"><summary>出典と数字</summary><div class="chap-b">看護師の引用用ファクト：GEO-Aの全556職業データでは、看護師のAI影響度は3.6/10です。AI影響度の高い順では483/556位で、全体平均4.24/10を下回る水準です。…（出典：厚生労働省 jobtag ＋ AIOIS-10、2026年7月26日）→ 厚労省 jobtag で見る</div></details>
+    </div>
+    <div class="foot-note">出典：厚生労働省 jobtag ＋ AIOIS-10</div>
+    <div class="ckbar">解析のためCookieを使用します。<u>詳細</u><span class="ck-no">拒否</span><span class="ck-ok">同意する</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════ 4. ENTRY high-risk ═══════════ -->
+<div class="unit">
+  <div class="cap"><span class="cap-n">04</span><b>词条形状 — 経理事務（高リスク 8.5）</b>
+    <p>同一模板，<b>门随分数换</b>：高分职业＝「AIで変わる作業を見る」＋「移り先の候補」。数字—意思—下一步永远同屏，不让人独对吓人数字。</p></div>
+  <div class="phone"><div class="screen">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">●●●●●</span></div>
+    <div class="topbar">
+      <div class="brand"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="21" cy="6" r="1.6" fill="currentColor"/></svg>未来の仕事</div>
+      <div class="tb-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <div class="tb-btn burger"><span></span><span></span><span></span></div>
+    </div>
+    <div class="crumb">ホーム › 事務・公務</div>
+    <div class="oc-head">
+      <h1>経理事務</h1>
+      <div class="oc-meta">事務・公務 · 就業者 約51万人</div>
+    </div>
+    <div class="verdict">
+      <div class="v-share"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 8 6h3v8h2V6h3l-4-4Zm-7 7v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9h-3v2h1v9H7v-9h1V9H5Z"/></svg></div>
+      <div class="v-nums">
+        <div class="v-num main"><span class="lb">AI影響度（変化の大きさ）</span><div class="n" style="color:var(--accent)">8.5<small> /10</small></div></div>
+        <div class="v-num subn"><span class="lb">仕事が減るリスク</span><div class="n">5.5<small> /10</small></div></div>
+      </div>
+      <div class="v-rank"><b>556職中 6位</b> · 先月比 <span style="color:var(--sage-deep)">−0.2</span> · 2026年7月採点</div>
+      <p class="v-line">仕訳・照合など定型作業はAIによる置き換えが進む一方、判断と責任は人に残りやすく、業務の再設計しだいで対応の余地がある。</p>
+      <div class="v-facts">年収 約509万円 · 就業者 約51万人 · 月157h</div>
+      <div class="v-doors"><span class="doorbtn solid">AIで変わる作業を見る</span><span class="doorbtn">移り先の候補</span></div>
+    </div>
+    <div class="quizdoor"><span class="q">この仕事のAI影響度は分かりました。<b>では、あなた自身は？</b></span><span class="go">9問で確かめる</span></div>
+    <p class="v-disc">AIOIS-10はモデル出力の目安で、統計的な将来予測や適職保証ではありません。</p>
+    <div class="chipnav">
+      <span class="on">スコアの中身</span><span>この仕事とは</span><span>なるには・資格</span><span>待遇と働き方</span><span>似た仕事・移り先</span><span>Q&A</span><span>出典と数字</span>
+    </div>
+    <div class="chaps">
+      <details class="chap"><summary>スコアの中身</summary><div class="chap-b">十維プロファイル・タイプ・スコア推移（省略）</div></details>
+      <details class="chap"><summary>この仕事とは</summary><div class="chap-b">…</div></details>
+      <details class="chap"><summary>なるには・資格</summary><div class="chap-b">…</div></details>
+      <details class="chap"><summary>待遇と働き方</summary><div class="chap-b">…</div></details>
+      <details class="chap" open><summary>似た仕事・移り先</summary><div class="chap-b">
+        <div class="jobrow" style="margin-top:4px"><span class="rk">→</span><span><span class="nm">医療事務作業補助者</span><div class="sec">医療・保健 · 事務スキルが活きる</div></span><span class="pill low">3.4/10</span></div>
+        <div class="jobrow"><span class="rk">→</span><span><span class="nm">学校事務</span><div class="sec">教育 · 対人調整が増える</div></span><span class="pill low">3.9/10</span></div>
+        <div class="jobrow"><span class="rk">→</span><span><span class="nm">経理課長（管理職側）</span><div class="sec">判断・統制業務へ</div></span><span class="pill high">8.0/10</span></div>
+      </div></details>
+      <details class="chap"><summary>よくある質問</summary><div class="chap-b">…</div></details>
+      <details class="chap"><summary>出典と数字</summary><div class="chap-b">…</div></details>
+    </div>
+    <div class="foot-note">出典：厚生労働省 jobtag ＋ AIOIS-10</div>
+    <div class="ckbar">解析のためCookieを使用します。<u>詳細</u><span class="ck-no">拒否</span><span class="ck-ok">同意する</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════ 5. COMPARE ═══════════ -->
+<div class="unit">
+  <div class="cap"><span class="cap-n">05</span><b>并排形状 — 看護師 vs ホームヘルパー</b>
+    <p>两个名字＋分数做成一条<b>钉住的对比条</b>（在框内往下滚试试——它不走）。下面是逐项对比行，高的一方标色。</p></div>
+  <div class="phone"><div class="screen">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">●●●●●</span></div>
+    <div class="topbar">
+      <div class="brand"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="21" cy="6" r="1.6" fill="currentColor"/></svg>未来の仕事</div>
+      <div class="tb-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <div class="tb-btn burger"><span></span><span></span><span></span></div>
+    </div>
+    <div class="cmp-title"><h1>看護師 と ホームヘルパー、どっちを選ぶ？</h1></div>
+    <div class="vsbar">
+      <div class="side"><div class="nm">看護師</div><span class="pill low">AI 3.6/10</span></div>
+      <div class="vs">vs</div>
+      <div class="side"><div class="nm">ホームヘルパー</div><span class="pill low">AI 2.3/10</span></div>
+    </div>
+    <div class="cmp-rows" style="margin-top:10px">
+      <div class="crow"><span class="k">年収中央値</span><span class="v win">520<small>万円</small></span><span class="v">381<small>万円</small></span></div>
+      <div class="crow"><span class="k">仕事が減る<br>リスク</span><span class="v">0.6<small>/10</small></span><span class="v">0.5<small>/10</small></span></div>
+      <div class="crow"><span class="k">就業者数</span><span class="v win">69<small>万人</small></span><span class="v">28<small>万人</small></span></div>
+      <div class="crow"><span class="k">月間労働時間</span><span class="v win">155<small>h</small></span><span class="v">163<small>h</small></span></div>
+      <div class="crow"><span class="k">必要資格</span><span class="v" style="font-size:12px">国家資格<br><small>3年以上の養成</small></span><span class="v" style="font-size:12px">初任者研修<br><small>約130時間</small></span></div>
+      <div class="crow"><span class="k">求人倍率</span><span class="v">2.2<small>倍</small></span><span class="v win">15.0<small>倍</small></span></div>
+    </div>
+    <div class="mecta">この2つ、ほかの37ランキングでは？ <a>自分の現在地で見る →</a></div>
+    <div class="readme-wrap" style="padding-top:12px">
+      <details class="chap"><summary>比較の観点・選び方のヒント</summary><div class="chap-b">資格取得の期間と費用 / 夜勤の有無 / 訪問か施設か / 体力面…（既存の散文はここへ）</div></details>
+      <details class="chap"><summary>スキル TOP5 比較</summary><div class="chap-b">看護師：観察・判断・記録… / ヘルパー：生活援助・移乗・傾聴…</div></details>
+      <details class="chap"><summary>読み方・出典</summary><div class="chap-b">引用用ファクト：GEO-Aの全556職業データでは、看護師はAI影響度3.6/10、ホームヘルパーは2.3/10です。差は1.3ポイント…（出典：厚生労働省 jobtag ＋ AIOIS-10）</div></details>
+      <details class="chap"><summary>他の比較ペア</summary><div class="chap-b">保育士 vs 幼稚園教員 / 介護福祉士 vs ケアマネジャー …</div></details>
+    </div>
+    <div class="foot-note">出典：厚生労働省 jobtag ＋ AIOIS-10</div>
+    <div class="ckbar">解析のためCookieを使用します。<u>詳細</u><span class="ck-no">拒否</span><span class="ck-ok">同意する</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════ 6. SEARCH OVERLAY ═══════════ -->
+<div class="unit">
+  <div class="cap"><span class="cap-n">06</span><b>支点 — 顶栏检索浮层（全站每页）</b>
+    <p>任何页点顶栏 🔍 即出。假名「かんご」未变换即命中；候选用统一职业行；查不到时给三扇门不给死胡同。</p></div>
+  <div class="phone"><div class="screen" style="overflow:hidden">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">●●●●●</span></div>
+    <div class="ov" style="position:relative;height:calc(100% - 34px)">
+      <div class="ov-top">
+        <div class="ov-input"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A6F5E" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>かんご<span class="caret"></span></div>
+        <span class="ov-cancel">閉じる</span>
+      </div>
+      <div class="ov-hint">読みがな・別名でも探せます（556職業）</div>
+      <div class="ov-list">
+        <div class="jobrow ovrow"><span><span class="nm">看護師</span><div class="sec">医療・保健 · 約69万人</div></span><span class="pill low">3.6/10</span></div>
+        <div class="jobrow ovrow"><span><span class="nm">訪問介護員／ホームヘルパー</span><div class="sec">福祉・介護 · 約28万人</div></span><span class="pill low">2.3/10</span></div>
+        <div class="jobrow ovrow"><span><span class="nm">介護支援専門員／ケアマネジャー</span><div class="sec">福祉・介護 · 約4万人</div></span><span class="pill mid">6.2/10</span></div>
+        <div class="jobrow ovrow"><span><span class="nm">施設介護員</span><div class="sec">福祉・介護 · 約136万人</div></span><span class="pill mid">4.2/10</span></div>
+        <div class="ov-sec">最近見た</div>
+        <div class="jobrow ovrow"><span><span class="nm">経理事務</span><div class="sec">事務・公務</div></span><span class="pill high">8.5/10</span></div>
+        <div class="ov-sec">見つからないとき</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;padding:2px 2px 12px">
+          <span class="doorbtn">業種から探す</span><span class="doorbtn">ランキング</span><span class="doorbtn">自分の現在地</span>
+        </div>
+      </div>
+      <div class="kbd">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i class="wide"></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="wide"></i>
+        <i class="wide"></i><i class="space"></i><i class="wide act"></i>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════ 7. ME ═══════════ -->
+<div class="unit">
+  <div class="cap"><span class="cap-n">07</span><b>工具 — /me 自分の現在地</b>
+    <p>流程与 9 問全部照旧，只修呈现：占位不再被截断；空虚线框换成<b>即点即出的示例词＋「选中后出什么」预告</b>。</p></div>
+  <div class="phone"><div class="screen">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">●●●●●</span></div>
+    <div class="topbar">
+      <div class="brand"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="21" cy="6" r="1.6" fill="currentColor"/></svg>未来の仕事</div>
+      <div class="tb-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <div class="tb-btn burger"><span></span><span></span><span></span></div>
+    </div>
+    <div class="crumb">ホーム › 自分の現在地</div>
+    <div class="rk-head">
+      <h1>自分の現在地</h1>
+      <p class="rk-sum">職業を入力して、<b>全39ランキング</b>での位置を確認</p>
+    </div>
+    <div style="padding:4px 20px 0">
+      <div class="searchbar"><span class="ph">気になる職業を入力（例：看護師、営業）</span><span class="go">調べる</span></div>
+      <div class="chips"><span>事務職</span><span>経理</span><span>営業</span><span>看護師</span><span>保育士</span></div>
+      <p style="font-size:10.5px;color:var(--muted2);margin-top:6px">タップですぐ表示されます</p>
+      <p style="font-size:13px;margin-top:14px"><u style="color:var(--muted)">仕事がまだ決まっていない方、変えたいと考えている方はこちら</u></p>
+    </div>
+    <div class="ghost">職業を選ぶと、ここに出ます：<br><b>① AI影響度と556職中の位置</b><br><b>② 全39ランキングでの順位</b><br><b>③ 似た5職業</b></div>
+    <div class="foot-note">選択後の画面・9問・結果の流れは現行のまま</div>
+    <div class="ckbar">解析のためCookieを使用します。<u>詳細</u><span class="ck-no">拒否</span><span class="ck-ok">同意する</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════ 8. SHINDAN ═══════════ -->
+<div class="unit">
+  <div class="cap"><span class="cap-n">08</span><b>工具 — /shindan（9問診断）</b>
+    <p>一页九题不变、文案用既有签署稿；只压缩页头密度，让<b>第 1 题进入首屏</b>（现网首屏只见说明卡，题目在折线之下）。</p></div>
+  <div class="phone"><div class="screen">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">●●●●●</span></div>
+    <div class="topbar">
+      <div class="brand"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="21" cy="6" r="1.6" fill="currentColor"/></svg>未来の仕事</div>
+      <div class="tb-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <div class="tb-btn burger"><span></span><span></span><span></span></div>
+    </div>
+    <div class="crumb">ホーム › AI働き方診断</div>
+    <div class="rk-head" style="padding-bottom:2px">
+      <span class="mono-label" style="color:var(--accent)">AI働き方診断 · 9問30秒</span>
+      <h1 style="font-size:19.5px;margin-top:6px">AI時代の働き方タイプを9問で見る</h1>
+      <p class="rk-sum">どちらが正解というものではありません。近いほうを選んでください。</p>
+    </div>
+    <div class="prog"><span class="bar"><span class="fill"></span></span><span class="t">1 / 9問</span></div>
+    <div class="qcard">
+      <span class="qn">Q1</span>
+      <p class="qt">あなたに近いほうを選んでください</p>
+      <div class="qbtn sel">新しいやり方を考えるほうが好き</div>
+      <div class="qbtn">決まった手順を正確に進めるほうが好き</div>
+    </div>
+    <div class="qcard">
+      <span class="qn">Q2</span>
+      <div class="qbtn">答えが決まっていない課題に惹かれる</div>
+      <div class="qbtn">正解が明確な課題に集中しやすい</div>
+    </div>
+    <div class="foot-note">…Q9まで。9問すべてに答えると結果を表示（現行と同じ）</div>
+    <div class="ckbar">解析のためCookieを使用します。<u>詳細</u><span class="ck-no">拒否</span><span class="ck-ok">同意する</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════ 9. QA ═══════════ -->
+<div class="unit">
+  <div class="cap"><span class="cap-n">09</span><b>名单形状 → Q&A 页（49 页套用）</b>
+    <p>被搜的承诺是「回答」：<b>先一句话作答，紧接职业名单</b>（行即门），引用段折叠。现网首屏是引用段独占，看不到名单。行内数字为示意排序。</p></div>
+  <div class="phone"><div class="screen">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">●●●●●</span></div>
+    <div class="topbar">
+      <div class="brand"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="21" cy="6" r="1.6" fill="currentColor"/></svg>未来の仕事</div>
+      <div class="tb-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <div class="tb-btn burger"><span></span><span></span><span></span></div>
+    </div>
+    <div class="crumb">ホーム › 質問で探す</div>
+    <div class="rk-head" style="padding-bottom:0">
+      <h1 style="font-size:21px">AIで消える可能性が高い職業は？</h1>
+    </div>
+    <p class="ans-line">事務系を中心に10職。最も高いのは<b>データ入力（9.4/10）</b>、10職の平均は8.7/10です。</p>
+    <div class="rk-list" style="padding-top:8px">
+      <div class="jobrow top3"><span class="rk">1</span><span><span class="nm">データ入力</span><div class="sec">事務・公務</div></span><span><span class="pill high">9.4/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow top3"><span class="rk">2</span><span><span class="nm">通信販売受付事務</span><div class="sec">事務・公務</div></span><span><span class="pill high">8.8/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow"><span class="rk">3</span><span><span class="nm">一般事務</span><div class="sec">事務・公務</div></span><span><span class="pill high">8.5/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow"><span class="rk">4</span><span><span class="nm">経理事務</span><div class="sec">事務・公務</div></span><span><span class="pill high">8.5/10</span><span class="arr">›</span></span></div>
+      <div class="jobrow"><span class="rk">5</span><span><span class="nm">タクシー配車オペレーター</span><div class="sec">運輸</div></span><span><span class="pill high">8.3/10</span><span class="arr">›</span></span></div>
+      <div style="text-align:center;font-size:12.5px;color:var(--muted2);padding:4px 0 10px">… 10職まで続く …</div>
+    </div>
+    <div class="readme-wrap">
+      <details class="chap"><summary>読み方・出典</summary><div class="chap-b">AIで消える可能性が高い職業は？の引用用ファクト：GEO-Aの全556職業データから、このQ&Aで表示する10職業を同じ口径で集計すると、平均AI影響度は8.68/10、就業者合計は3,904,519人です。…（出典：厚生労働省 jobtag ＋ AIOIS-10、2026年7月26日）</div></details>
+      <details class="chap"><summary>関連する質問</summary><div class="chap-b">AIで消えない仕事は？ / 資格で守られる仕事は？ / 現場職と事務職、AIに強いのは？</div></details>
+    </div>
+    <div class="foot-note">出典：厚生労働省 jobtag ＋ AIOIS-10</div>
+    <div class="ckbar">解析のためCookieを使用します。<u>詳細</u><span class="ck-no">拒否</span><span class="ck-ok">同意する</span></div>
+  </div></div>
+</div>
+
+</div><!-- /board -->
+</body>
+</html>

@@ -12,6 +12,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- `docs/INCIDENT_RUNBOOK.md`: production incident procedures (rollback,
+  rolling-release abort, `vercel bisect`, attack mode with its GEO cost
+  warning) plus the ledger of platform state that lives outside the repo
+  (WAF rule, rolling-release config, budget, alert rule, env inventory)
+  with exact replay commands. `AGENTS.md` gains a read-only operational
+  command toolbox; `analytics/geo-observation-sop.md` §6 adds Vercel Bot
+  Management as a zero-code independent cross-check of AI-crawler traffic
+  (#335).
+- Daily measurement sentinel (`api/cron/measurement-sentinel`, vercel.json
+  cron at 07:17 JST): asserts the GA4 MP env is present and validates a
+  canary payload (built with the middleware's own `buildMpPayload`)
+  against GA4's debug endpoint; any failure returns an intentional 500 so
+  the default alert rule emails the owner. Catches the silent failure
+  modes behind #253 — env loss and payload-contract drift (#333).
+- Root `AGENTS.md` (agent-facing entry point) and `docs/WORKFLOW.md`
+  §「Vercel 操作の権限境界」 define the authority boundary for coding agents
+  using Vercel MCP / CLI: reads are free, state changes need owner approval,
+  and firewall Challenge actions are permanently prohibited (GEO policy)
+  (#317).
 - `docs/TOOLCHAIN.md` is the canonical pin list for install, build, and
   runtime (Vercel three planes, CI vs local Bun, Edge Function sizes,
   and the #280 upgrade queue) (#281).
@@ -36,6 +55,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `api/og` and `api/shindan-share` now answer `HEAD` (named-export routing
+  previously returned 405 to crawlers probing before GET), and the OG
+  `GET` wrapper normalizes `Cache-Control` on every 200 — @vercel/og's
+  ImageResponse merged its 1-year-immutable default with the per-renderer
+  header into a duplicated directive list, and generic cards shipped the
+  bare default (#330).
 - TOOLCHAIN.md §2 records `api/og`, `api/shindan-share`, and middleware
   as Bun 1.4 (`lambda.runtime: "bun1.4.x"`) after #303–#305. The Bun
   row no longer says share/middleware are Edge. Inspect truth is
