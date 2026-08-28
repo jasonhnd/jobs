@@ -55,6 +55,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Cookie consent banner is a single sticky bottom bar (≤48px + safe-area)
+  with one-line copy `解析のためCookieを使用します。` + `詳細`, instead of the
+  stacked mobile panel that covered ~1/3 of the first screen. Button ids
+  / labels and the consent inline script are unchanged (#320).
 - WAF rule `ratelimit-shindan-share` exceeded-action flipped log → deny(429)
   on 2026-08-28 after an incident-free log observation window;
   `docs/INCIDENT_RUNBOOK.md` §6.1 ledger updated in the same change.

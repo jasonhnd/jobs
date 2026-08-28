@@ -378,12 +378,12 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
 
     {/* RA-013 (2026-05-18): Cookie consent banner. Hidden by default; shown
         when localStorage.cookieConsent is unset. Fires gtag consent 'update'
-        on accept; rejects merely remembers the choice (default is denied). */}
+        on accept; rejects merely remembers the choice (default is denied).
+        Presentation: compact one-line bar (#320 / MOBILE_SHAPES §3.4).
+        Ids, button labels, and the inline script body stay byte-identical. */}
     <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie 同意" aria-live="polite" hidden>
       <div class="cb-inner">
-        <p class="cb-text">
-          本サイトはアクセス解析のために Cookie を使用します。同意いただける場合は「同意する」を、不要な場合は「拒否する」を選択してください。詳細は <a href="/privacy">プライバシーポリシー</a>。
-        </p>
+        <p class="cb-text">解析のためCookieを使用します。<a href="/privacy">詳細</a></p>
         <div class="cb-actions">
           <button type="button" id="cookieReject" class="cb-btn cb-btn-reject">拒否する</button>
           <button type="button" id="cookieAccept" class="cb-btn cb-btn-accept">同意する</button>
