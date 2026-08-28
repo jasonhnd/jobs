@@ -61,7 +61,7 @@ vercel redeploy <url|id>         # 同一コミットの再ビルド（キャッ
 
 ### 6.1 WAF custom rule（2026-08-27 作成）
 
-`ratelimit-shindan-share` — path starts with `/api/shindan-share` → Rate Limit **60 req / 60s / IP**、超過 action **log**（観察期。2026-09-03 頃、Firewall 面で誤検知なしを確認して `deny` へ切替）。challenge は使わない。
+`ratelimit-shindan-share` — path starts with `/api/shindan-share` → Rate Limit **60 req / 60s / IP**、超過 action **deny (429)**（2026-08-27〜28 の log 観察で誤検知なしを確認し、2026-08-28 に切替済）。challenge は使わない。
 
 ```bash
 vercel firewall rules add ratelimit-shindan-share \
@@ -69,7 +69,7 @@ vercel firewall rules add ratelimit-shindan-share \
   --condition '{"type":"path","op":"pre","value":"/api/shindan-share"}' \
   --action rate_limit --rate-limit-algo fixed_window \
   --rate-limit-window 60 --rate-limit-requests 60 \
-  --rate-limit-keys ip --rate-limit-action log \
+  --rate-limit-keys ip --rate-limit-action deny \
   --non-interactive -y
 vercel firewall publish --yes
 ```
