@@ -107,6 +107,16 @@ const {
   jsonLd, riskTierJs,
 } = bindings;
 
+const CHAPTERS = [
+  { id: 'chp-score', title: 'スコアの中身' },
+  { id: 'chp-about', title: 'この仕事とは' },
+  { id: 'chp-path', title: 'なるには・資格' },
+  { id: 'chp-work', title: '待遇と働き方' },
+  { id: 'chp-next', title: '似た仕事・移り先' },
+  { id: 'chp-faq', title: 'よくある質問' },
+  { id: 'chp-source', title: '出典と数字' },
+] as const;
+
 ---
 <BaseLayout
   title={title}
@@ -153,87 +163,114 @@ const {
 
     <p class="aiois-disc">{aioisModelDisclaimer}</p>
 
-    <Fragment set:html={scoreHistoryHtml} />
+    <nav class="chipnav" aria-label="このページの章">
+      {CHAPTERS.map((c) => (
+        <a href={`#${c.id}`}>{c.title}</a>
+      ))}
+    </nav>
 
-    <Fragment set:html={aiFactHtml} />
-
-    <section
-      class="type-block"
-      aria-labelledby="worktype-verdict-title"
-      data-worktype-code={worktype.worktypeFamilyCode}
-      data-worktype-family-id={worktype.worktypeFamilyId}
-    >
-      <div class="verdict-copy">
-        <p class="verdict-kicker">AI働き方診断 · この職業のタイプ</p>
-        <div class="verdict-title-row">
-          <h2 id="worktype-verdict-title">{worktype.worktypeFamilyName}</h2>
+    <details class="chap" id="chp-score">
+      <summary>スコアの中身</summary>
+      <div class="chap-body">
+        <Fragment set:html={scoreHistoryHtml} />
+        <div id="sec-aiois">
+          <Fragment set:html={aioisHtml} />
         </div>
-        <p class="verdict-lede">{worktype.worktypeIdentity}</p>
-        <div class="verdict-task-grid" aria-label="AIで変わる作業と今できる一手">
-          <div class="verdict-task">
-            <span>AIが補助しやすい</span>
-            <p>{worktype.worktypeAiRelation}</p>
+        <div id="sec-ai-detail">
+          <Fragment set:html={aiRiskDetailHtml} />
+        </div>
+        <Fragment set:html={profileHtml} />
+        <Fragment set:html={topnHtml} />
+        <section
+          class="type-block"
+          aria-labelledby="worktype-verdict-title"
+          data-worktype-code={worktype.worktypeFamilyCode}
+          data-worktype-family-id={worktype.worktypeFamilyId}
+        >
+          <div class="verdict-copy">
+            <p class="verdict-kicker">AI働き方診断 · この職業のタイプ</p>
+            <div class="verdict-title-row">
+              <h2 id="worktype-verdict-title">{worktype.worktypeFamilyName}</h2>
+            </div>
+            <p class="verdict-lede">{worktype.worktypeIdentity}</p>
+            <div class="verdict-task-grid" aria-label="AIで変わる作業と今できる一手">
+              <div class="verdict-task">
+                <span>AIが補助しやすい</span>
+                <p>{worktype.worktypeAiRelation}</p>
+              </div>
+              <div class="verdict-task">
+                <span>人が残る価値</span>
+                <p>{worktype.worktypeHumanValue}</p>
+              </div>
+              <div class="verdict-task">
+                <span>今できる一手</span>
+                <p>{worktype.worktypeNextStep}</p>
+              </div>
+            </div>
           </div>
-          <div class="verdict-task">
-            <span>人が残る価値</span>
-            <p>{worktype.worktypeHumanValue}</p>
-          </div>
-          <div class="verdict-task">
-            <span>今できる一手</span>
-            <p>{worktype.worktypeNextStep}</p>
-          </div>
+          <p class="verdict-one-line">{worktype.worktypeOneLine}</p>
+        </section>
+      </div>
+    </details>
+
+    <details class="chap" id="chp-about">
+      <summary>この仕事とは</summary>
+      <div class="chap-body">
+        <section class="context">
+          <h2>{ctxH2}</h2>
+          <Fragment set:html={ctxHtml} />
+        </section>
+      </div>
+    </details>
+
+    <details class="chap" id="chp-path">
+      <summary>なるには・資格</summary>
+      <div class="chap-body">
+        <Fragment set:html={howSection} />
+        <Fragment set:html={orgsCertsHtml} />
+      </div>
+    </details>
+
+    <details class="chap" id="chp-work">
+      <summary>待遇と働き方</summary>
+      <div class="chap-body">
+        <Fragment set:html={condSection} />
+        <StatsGrid {workersCell} {salaryCell} {ageCell} {hoursCell} {recruitDisp} {hourlyDisp} />
+      </div>
+    </details>
+
+    <details class="chap" id="chp-next">
+      <summary>似た仕事・移り先</summary>
+      <div class="chap-body">
+        <div id="sec-transfer">
+          <Fragment set:html={transferHtml} />
+        </div>
+        <div id="sec-similar">
+          <Fragment set:html={sameRiskHtml} />
+          <Fragment set:html={legacyRelatedHtml} />
         </div>
       </div>
-      <p class="verdict-one-line">{worktype.worktypeOneLine}</p>
-    </section>
+    </details>
 
-    <div id="sec-aiois">
-      <Fragment set:html={aioisHtml} />
-    </div>
+    <details class="chap" id="chp-faq">
+      <summary>よくある質問</summary>
+      <div class="chap-body">
+        <Fragment set:html={faqHtml} />
+      </div>
+    </details>
 
-    <div id="sec-ai-detail">
-      <Fragment set:html={aiRiskDetailHtml} />
-    </div>
-
-    <StatsGrid {workersCell} {salaryCell} {ageCell} {hoursCell} {recruitDisp} {hourlyDisp} />
-
-    <section class="context">
-      <h2>{ctxH2}</h2>
-      <Fragment set:html={ctxHtml} />
-    </section>
-
-    <Fragment set:html={howSection} />
-
-    <Fragment set:html={condSection} />
-
-    <Fragment set:html={profileHtml} />
-
-    <Fragment set:html={topnHtml} />
-
-    <Fragment set:html={faqHtml} />
-
-    <div id="sec-transfer">
-      <Fragment set:html={transferHtml} />
-    </div>
-
-    <div id="sec-similar">
-      <Fragment set:html={sameRiskHtml} />
-      <Fragment set:html={legacyRelatedHtml} />
-    </div>
-
-    <Fragment set:html={orgsCertsHtml} />
-
-    <Fragment set:html={relatedHubsHtml} />
-
-    {/* v2: page-level <section class="sources"> was removed; the canonical
-        <Footer /> below carries 出典 + share buttons. Per-page jobtag
-        outbound click is preserved via a hidden anchor in <JobtagAnchor>
-        to keep the GA4 `jobtag_outbound_click` funnel intact. */}
-    <JobtagAnchor occId={id} nameJa={nameJa} mhlwUrl={mhlwUrl} aiRisk={risk} />
-
-    <nav class="map-back-link" aria-label="職業マップへ戻る">
-      <a href="/map">← 職業マップへ</a>
-    </nav>
+    <details class="chap" id="chp-source">
+      <summary>出典と数字</summary>
+      <div class="chap-body">
+        <Fragment set:html={aiFactHtml} />
+        {/* Hidden jobtag outbound for GA4; visible 出典 is in Footer. */}
+        <JobtagAnchor occId={id} nameJa={nameJa} mhlwUrl={mhlwUrl} aiRisk={risk} />
+        <Fragment set:html={relatedHubsHtml} />
+        <nav class="map-back-link" aria-label="職業マップへ戻る">
+          <a href="/map">← 職業マップへ</a>
+        </nav>
+      </div>
+    </details>
 
     <Footer />
   </div>
