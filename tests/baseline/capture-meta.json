@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-08-24T14:08:33.209Z",
-  "gitCommit": "ede7752b2d183541b318d6517f975c8b658d96a8",
-  "gitBranch": "fix/issue-276-occupation-seo-salary-title",
+  "capturedAt": "2026-08-28T15:09:56.404Z",
+  "gitCommit": "08a798fc1851aa897241f88324bf0441de9bb869",
+  "gitBranch": "feat/issue-323-entry-verdict-card",
   "distFileCount": 834,
   "urlCount": 834,
   "dataFileCount": 612,
