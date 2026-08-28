@@ -88,13 +88,16 @@ describe('buildCompareMetricRows', () => {
 });
 
 describe('renderCompareMetricRows', () => {
-  test('marks the winning cell and escapes labels', () => {
+  test('marks the winning cell, splits units, and escapes labels', () => {
     const html = renderCompareMetricRows([
       { label: '年収 (平均)', a: '520万円', b: '381万円', win: 'a', kind: 'num' },
+      { label: '仕事が減るリスク', a: '0.6/10', b: '0.5/10', win: null, kind: 'num' },
       { label: '<x>', a: '1', b: '2', win: null, kind: 'text' },
     ]);
-    assert.match(html, /class="cm-a win num">520万円</);
-    assert.match(html, /class="cm-b num">381万円</);
+    assert.match(html, /class="cm-a win num"><span class="cm-val">520<\/span><small>万円<\/small>/);
+    assert.match(html, /class="cm-b num"><span class="cm-val">381<\/span><small>万円<\/small>/);
+    assert.match(html, /仕事が減る<wbr>リスク/);
+    assert.match(html, /<small>\/10<\/small>/);
     assert.match(html, /&lt;x&gt;/);
   });
 });

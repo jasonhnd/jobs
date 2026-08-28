@@ -30,6 +30,14 @@ test('390×844 first screen: pinned duel bar, metric rows, no English leftover',
   await expect(risk).toBeVisible();
   await expect(risk.locator('.cm-a')).toHaveText('0.6/10');
   await expect(risk.locator('.cm-b')).toHaveText('0.5/10');
+  await expect(risk.locator('.cm-a small')).toHaveText('/10');
+
+  await expect(page.locator('.crumb')).toBeHidden();
+  await expect(bar.locator('.duel-name').nth(1)).toHaveText('ホームヘルパー');
+  const h1Size = await page.locator('#content h1').evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+  expect(h1Size, `h1 ${h1Size}px must be compact`).toBeLessThanOrEqual(18.5);
+  const salary = page.locator('.cmp-metric', { hasText: '年収' });
+  await expect(salary.locator('.cm-a small')).toHaveText('万円');
 
   const sub = await page.locator('.sub').textContent();
   expect(sub).toContain('並べて');
@@ -37,7 +45,17 @@ test('390×844 first screen: pinned duel bar, metric rows, no English leftover',
 
   const barBox = await bar.boundingBox();
   expect(barBox, 'duel bar must paint').not.toBeNull();
-  expect(barBox!.y, 'duel bar starts on the first screen under the H1').toBeLessThan(400);
+  expect(barBox!.y, 'duel bar starts on the first screen under the H1').toBeLessThan(160);
+
+  const lastMetric = page.locator('.cmp-metric').last();
+  const lastBox = await lastMetric.boundingBox();
+  expect(lastBox, 'last metric row must paint').not.toBeNull();
+  expect(lastBox!.y + lastBox!.height, 'all metric rows fit on the first screen').toBeLessThan(700);
+
+  const me = page.locator('.me-cta-strip');
+  const meBox = await me.boundingBox();
+  expect(meBox, 'me entry must paint').not.toBeNull();
+  expect(meBox!.height, 'me entry is a one-block strip, not a stacked orange button').toBeLessThan(90);
 
   await page.evaluate(() => window.scrollTo(0, 1200));
   const nav = page.locator('header.mob-topbar').filter({ visible: true });

@@ -41,18 +41,27 @@ export function renderCompareHero(a: CompareSide, b: CompareSide): SafeHtml {
   ) as SafeHtml;
 }
 
+/**
+ * Duel-bar label at 390px. Occupations that encode an alias after `/`
+ * (訪問介護員/ホームヘルパー) use the alias so the name stays one serif line,
+ * matching frame-05. Full `name_ja` stays on the H1, table, and skills.
+ */
+export function duelDisplayName(name: string): string {
+  const i = name.lastIndexOf('/');
+  if (i >= 0 && i < name.length - 1) return name.slice(i + 1);
+  return name;
+}
+
 /** Mobile pinned duel bar (#322). Desktop keeps renderCompareHero. */
 export function renderCompareDuelBar(a: CompareSide, b: CompareSide): SafeHtml {
-  function duelName(name: string): string {
-    // Allow wrapping only at "A/B" alias splits, never mid-kana (ホームヘ / ルパー).
-    return escapeHtml(name).replace(/\//g, '/<wbr>');
-  }
   function side(s: CompareSide): string {
     const band = riskClass(s.ai_risk);
     const score = s.ai_risk !== null ? `${s.ai_risk}/10` : '—';
+    const shown = duelDisplayName(s.name_ja);
+    const title = shown === s.name_ja ? '' : ` title="${escapeHtml(s.name_ja)}"`;
     return (
-      `<a class="duel-side" href="${occupationPath(s.id)}">` +
-      `<span class="duel-name">${duelName(s.name_ja)}</span>` +
+      `<a class="duel-side" href="${occupationPath(s.id)}"${title}>` +
+      `<span class="duel-name">${escapeHtml(shown)}</span>` +
       `<span class="risk-pill ${band}">AI ${escapeHtml(score)}</span>` +
       `</a>`
     );

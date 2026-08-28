@@ -1,7 +1,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { renderJsonLd } from './Compare.js';
+import { duelDisplayName, renderCompareDuelBar, renderJsonLd } from './Compare.js';
 import type { CompareSide } from '../views/compare-hub.js';
 import type { CompareMeta } from '../views/compare-meta.js';
 
@@ -32,6 +32,23 @@ const side = (id: number, name: string): CompareSide => ({
   sector_ja: '医療',
   related_certs_ja: [],
   top_skills: [],
+});
+
+describe('duelDisplayName', () => {
+  test('uses the alias after a slash so the bar stays one line', () => {
+    assert.equal(duelDisplayName('訪問介護員/ホームヘルパー'), 'ホームヘルパー');
+    assert.equal(duelDisplayName('看護師'), '看護師');
+  });
+});
+
+describe('renderCompareDuelBar', () => {
+  test('puts the short alias in the label and the full name in title', () => {
+    const html = renderCompareDuelBar(side(156, '看護師'), side(133, '訪問介護員/ホームヘルパー'));
+    assert.match(html, />看護師</);
+    assert.match(html, />ホームヘルパー</);
+    assert.match(html, /title="訪問介護員\/ホームヘルパー"/);
+    assert.equal(html.includes('訪問介護員/ホームヘルパー</span>'), false);
+  });
 });
 
 describe('Compare JSON-LD speakable', () => {
