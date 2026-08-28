@@ -134,13 +134,44 @@ export function buildCompareMetricRows(
   return rows;
 }
 
+/** Split `520万円` → value + unit so the unit can render as a smaller caption. */
+const METRIC_UNIT = /^(.*?)(万円|万人|人|h|\/10|倍)$/;
+
+function renderMetricCell(
+  text: string,
+  side: 'a' | 'b',
+  win: MetricWin,
+  kind: CompareMetricRow['kind'],
+): string {
+  const cls = `cm-${side}${win === side ? ' win' : ''}${kind === 'num' ? ' num' : ''}`;
+  if (kind === 'num') {
+    const m = text.match(METRIC_UNIT);
+    if (m && m[1] !== undefined && m[2] !== undefined) {
+      return (
+        `<span class="${cls}">` +
+        `<span class="cm-val">${escapeHtml(m[1])}</span>` +
+        `<small>${escapeHtml(m[2])}</small>` +
+        `</span>`
+      );
+    }
+  }
+  return `<span class="${cls}">${escapeHtml(text)}</span>`;
+}
+
+function formatMetricLabel(label: string): string {
+  // Soft break so 仕事が減るリスク wraps as two caption lines at 86px,
+  // matching frame-05, without changing the label string.
+  if (label === '仕事が減るリスク') return '仕事が減る<wbr>リスク';
+  return escapeHtml(label);
+}
+
 export function renderCompareMetricRows(rows: ReadonlyArray<CompareMetricRow>): string {
   if (rows.length === 0) return '';
   const body = rows.map((r) => (
     `<div class="cmp-metric">` +
-    `<div class="cm-label">${escapeHtml(r.label)}</div>` +
-    `<span class="cm-a${r.win === 'a' ? ' win' : ''}${r.kind === 'num' ? ' num' : ''}">${escapeHtml(r.a)}</span>` +
-    `<span class="cm-b${r.win === 'b' ? ' win' : ''}${r.kind === 'num' ? ' num' : ''}">${escapeHtml(r.b)}</span>` +
+    `<div class="cm-label">${formatMetricLabel(r.label)}</div>` +
+    renderMetricCell(r.a, 'a', r.win, r.kind) +
+    renderMetricCell(r.b, 'b', r.win, r.kind) +
     `</div>`
   )).join('');
   return `<div class="cmp-metrics">${body}</div>`;
