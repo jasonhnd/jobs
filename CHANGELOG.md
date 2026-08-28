@@ -55,6 +55,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Occupation pages lead with a numbers-first verdict card (AI影響度 +
+  仕事が減るリスク, rank / 先月比, rationale, facts, score-band doors).
+  The work-type block moves above `#sec-aiois`. Unscored / short-history
+  branches are unit-tested; no such occupations exist in current data.
+  SEO baseline recaptured: 556 occupation pages gain `#sec-aiois` /
+  `#sec-ai-detail` / `#sec-similar` / `#sec-transfer` anchors; title /
+  meta / JSON-LD unchanged (#323).
 - Compare pair pages pin a two-name duel bar under the mobile top bar and
   lead with metric rows; intro / points / full table / `.ai-fact` fold into
   `この比較の読み方・出典`. Sub line `side-by-side` → `並べて`. Mobile first
