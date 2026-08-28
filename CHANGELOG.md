@@ -55,6 +55,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- WAF rule `ratelimit-shindan-share` exceeded-action flipped log → deny(429)
+  on 2026-08-28 after an incident-free log observation window;
+  `docs/INCIDENT_RUNBOOK.md` §6.1 ledger updated in the same change.
+  `docs/SCORING_RUNBOOK.md` gains a self-deleting pre-batch gate banner:
+  route model calls through Vercel AI Gateway (fallback off, executed
+  model recorded into batch metadata) before the next batch (#340).
 - `api/og` and `api/shindan-share` now answer `HEAD` (named-export routing
   previously returned 405 to crawlers probing before GET), and the OG
   `GET` wrapper normalizes `Cache-Control` on every 200 — @vercel/og's

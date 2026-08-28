@@ -2,6 +2,12 @@
 
 本書は、AI 影響スコア batch を再実行・追加するときの開発者向け正典である。公開ページの基準説明は `/standard`、開発者向け AIOIS-10 入口は [`AIOIS-10.md`](AIOIS-10.md)、データ選択規則は [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md) の「スコア選択」を正典にする。
 
+> **⚠ 次回 batch 前のゲート(#340)**: 次の batch を実行する前に、モデル呼び出しを
+> Vercel AI Gateway 経由へ移行する。要点: 統一 endpoint / **fallback は無効**
+> (別モデルへの silent 代替は batch を汚染する)/ 応答の実行モデル名を batch
+> metadata へ記録し `check:score-batch` で照合 / API key は着手時に
+> `vercel ai-gateway api-keys` で作成。**移行が完了したらこの注意書きを削除する。**
+
 ## 現行 batch
 
 > この 3 行は `data/scores/` から導出される事実であり、`bun scripts/check-geo-freshness.ts`
