@@ -55,6 +55,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Rankings first screen is list-first: H1 + one-line summary + TOP rows,
+  with the former sub/intro/`.ai-fact`/stats/highlights/sector chart folded
+  into `このランキングの読み方・出典`. Whole-row links fire `list_row_click`
+  (#321).
 - Cookie consent banner is a single sticky bottom bar (≤48px + safe-area)
   with one-line copy `解析のためCookieを使用します。` + `詳細`, instead of the
   stacked mobile panel that covered ~1/3 of the first screen. Button ids

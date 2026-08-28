@@ -324,6 +324,8 @@ const { iso, display } = formatJst(buildTime);
               source: t.getAttribute('data-entry-source') || '',
               language: 'ja'
             };
+          } else if (name === 'list_row_click') {
+            params = { language: 'ja' };
           }
           // An unknown data-track-event sends nothing rather than guessing a
           // shape. scripts/check-analytics-spec.ts covers the spec side; this

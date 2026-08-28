@@ -76,6 +76,36 @@ export type ExtraCol =
   | string
   | { kind: 'demand-pill'; band: string; label: string };
 
+function formatContentMonth(isoDate: string): string {
+  const [year, month] = isoDate.split('-');
+  const monthNum = Number(month);
+  if (!year || !Number.isFinite(monthNum) || monthNum < 1) return isoDate;
+  return `${year}年${monthNum}月`;
+}
+
+/**
+ * One-line ranking summary under the H1 (#321). Names/numbers are bold ink;
+ * null top score renders `—`.
+ */
+export function renderRankingSummary(items: Occupation[]): SafeHtml {
+  if (items.length === 0) return '' as SafeHtml;
+  const top = items[0];
+  const name = escapeHtml(top.title_ja ?? `#${top.id}`);
+  const scoreHtml = top.ai_risk === null ? '—' : `${top.ai_risk}/10`;
+  const meanVals = items
+    .map((o) => o.ai_risk)
+    .filter((v): v is number => typeof v === 'number');
+  const meanHtml = meanVals.length === 0
+    ? '—'
+    : `${safeMean(items, 'ai_risk').toFixed(1)}/10`;
+  const n = items.length;
+  const month = formatContentMonth(CONTENT_DATE);
+  return (
+    `<p class="rk-sum">1位は<strong>${name}</strong>（<strong>${scoreHtml}</strong>）` +
+    ` · TOP${n}平均 <strong>${meanHtml}</strong> · ${month}更新</p>`
+  ) as SafeHtml;
+}
+
 export function renderRankItem(
   o: Occupation,
   showSalary: boolean,
@@ -89,35 +119,44 @@ export function renderRankItem(
   const salary = o.salary;
   const workers = o.workers;
 
-  const statsParts: string[] = [
+  const metaParts: string[] = [];
+  if (sector) metaParts.push(escapeHtml(sector));
+  const endParts: string[] = [
     `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>`,
   ];
   if (extraCols) {
     for (const c of extraCols) {
       if (typeof c === 'string') {
-        statsParts.push(`<span class="rl-extra">${escapeHtml(c)}</span>`);
+        metaParts.push(`<span class="rl-extra">${escapeHtml(c)}</span>`);
       } else if (c.kind === 'demand-pill') {
-        statsParts.push(
+        endParts.push(
           `<span class="demand-pill ${escapeHtml(c.band)}">${escapeHtml(c.label)}</span>`,
         );
       }
     }
   }
   if (showSalary && salary) {
-    statsParts.push(`<span class="rl-salary">${Math.trunc(salary)}万円</span>`);
+    metaParts.push(`<span class="rl-salary">${Math.trunc(salary)}万円</span>`);
   }
   if (workers) {
-    statsParts.push(`<span class="rl-workers">${fmtInt(workers)}人</span>`);
+    metaParts.push(`<span class="rl-workers">${fmtInt(workers)}人</span>`);
   }
 
-  const sectorHtml = sector ? `<span class="rl-sector">${escapeHtml(sector)}</span>` : '';
+  const metaHtml = metaParts.length
+    ? `<span class="rl-meta">${metaParts.join(' · ')}</span>`
+    : '';
   return (
     `<li>` +
-    `<div class="rl-main">` +
-    `<a class="rl-name" href="${occupationPath(o.id)}">${escapeHtml(title)}</a>` +
-    `${sectorHtml}` +
-    `</div>` +
-    `<div class="rl-stats">${statsParts.join('')}</div>` +
+    `<a class="rl-row" href="${occupationPath(o.id)}" data-track-event="list_row_click">` +
+    `<span class="rl-main">` +
+    `<span class="rl-name">${escapeHtml(title)}</span>` +
+    `${metaHtml}` +
+    `</span>` +
+    `<span class="rl-end">` +
+    `${endParts.join('')}` +
+    `<span class="rl-chevron" aria-hidden="true">›</span>` +
+    `</span>` +
+    `</a>` +
     `</li>`
   ) as SafeHtml;
 }
