@@ -123,77 +123,101 @@ export const CANONICAL_CSS = `
   --border: rgba(36, 30, 24, 0.10);
 }
 
-/* ───── Cookie consent banner (RA-013, 2026-05-18) ─────
-   Fixed at viewport bottom; visible when localStorage.cookieConsent
-   is unset. Single-line on desktop, stacked on mobile. */
+/* ───── Cookie consent banner (RA-013, 2026-05-18; compact #320) ─────
+   Sticky bottom bar. Visible when localStorage.cookieConsent is unset.
+   Height budget: ≤48px + env(safe-area-inset-bottom). One line at 390px;
+   wrap to two lines only below that so the bar never overflows. Buttons
+   keep a 44px hit area; the visual pill is shorter via ::before. */
 html body .cookie-banner {
   position: fixed;
   inset: auto 0 0 0;
   z-index: 10000;
   background: var(--ink);
   color: #fff;
-  padding: 14px 18px;
-  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.25);
-  font-size: 0.88rem;
-  line-height: 1.5;
-  max-height: 50vh;
-  overflow-y: auto;
+  padding: 2px 8px calc(2px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
+  font-size: 12px;
+  line-height: 1.2;
 }
 html body .cookie-banner .cb-inner {
-  max-width: 1080px;
+  max-width: var(--content-max);
   margin: 0 auto;
   display: flex;
-  gap: 18px;
-  align-items: center;
   flex-wrap: wrap;
+  gap: 4px 6px;
+  align-items: center;
+  min-height: 44px;
 }
 html body .cookie-banner .cb-text {
   margin: 0;
-  flex: 1 1 320px;
+  flex: 1 1 auto;
+  min-width: 0;
   color: #fff;
-  font-size: 0.82rem;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.2;
 }
 html body .cookie-banner .cb-text a {
   color: var(--orange-soft);
   text-decoration: underline;
+  margin-left: 0.4em;
+  white-space: nowrap;
 }
 html body .cookie-banner .cb-actions {
   display: flex;
-  gap: 10px;
+  gap: 4px;
   flex-shrink: 0;
+  margin-left: auto;
 }
 html body .cookie-banner .cb-btn {
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  border: 1px solid transparent;
-  font-family: inherit;
-  min-height: 40px;
-}
-html body .cookie-banner .cb-btn-accept {
-  background: var(--orange);
-  color: #fff;
-}
-html body .cookie-banner .cb-btn-accept:hover { filter: brightness(1.08); }
-html body .cookie-banner .cb-btn-reject {
+  position: relative;
+  z-index: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 999px;
   background: transparent;
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.35);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
 }
-html body .cookie-banner .cb-btn-reject:hover { background: rgba(255, 255, 255, 0.08); }
-@media (max-width: 540px) {
-  html body .cookie-banner .cb-inner { flex-direction: column; align-items: stretch; gap: 10px; padding: 0; }
-  html body .cookie-banner .cb-actions { justify-content: flex-end; }
-  /* RA-143 (2026-05-19): reset .cb-text flex so it sits at content height.
-     The base rule uses 'flex: 1 1 320px' for desktop row layout, but in
-     column flex flex-basis becomes the main-axis (vertical) size — that
-     forced the text container to 320px+ tall and pushed the buttons
-     below the visible 42vh banner on mobile. */
-  html body .cookie-banner .cb-text { font-size: 0.78rem; line-height: 1.45; flex: 0 0 auto; }
-  html body .cookie-banner { padding: 12px 14px; max-height: none; }
+html body .cookie-banner .cb-btn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 28px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  pointer-events: none;
+}
+html body .cookie-banner .cb-btn-accept { color: #fff; }
+html body .cookie-banner .cb-btn-accept::before { background: var(--accent); }
+html body .cookie-banner .cb-btn-accept:hover::before { filter: brightness(1.08); }
+html body .cookie-banner .cb-btn-reject { color: #fff; }
+html body .cookie-banner .cb-btn-reject::before {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+html body .cookie-banner .cb-btn-reject:hover::before {
+  background: rgba(255, 255, 255, 0.08);
+}
+html body .cookie-banner .cb-btn:focus-visible {
+  outline: 2px solid var(--orange-soft);
+  outline-offset: 2px;
+}
+@media (min-width: 390px) {
+  html body .cookie-banner .cb-inner { flex-wrap: nowrap; }
+  html body .cookie-banner .cb-text { white-space: nowrap; }
 }
 
 /* ───── Skip link (WCAG 2.4.1 Bypass Blocks) ─────
