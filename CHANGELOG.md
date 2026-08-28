@@ -55,6 +55,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Occupation page bodies fold into seven `<details class="chap">` chapters
+  with a sticky chip nav. `.ai-fact` DOM order moves into `出典と数字`
+  (content unchanged). Desktop ≥900px opens every chapter via the existing
+  hashed occupation script. SEO baseline recaptured for `chp-*` ids (#324).
 - Occupation pages lead with a numbers-first verdict card (AI影響度 +
   仕事が減るリスク, rank / 先月比, rationale, facts, score-band doors).
   The work-type block moves above `#sec-aiois`. Unscored / short-history
