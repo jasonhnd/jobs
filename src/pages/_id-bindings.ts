@@ -65,6 +65,8 @@ import {
   renderOccupationAiois10,
   renderOccupationJsonLdFromRec,
 } from './_id-renderers';
+import { pickRiskOneLineCallout } from '@/lib/risk-callout';
+import { CONTENT_DATE } from '@/lib/_content-date';
 import type { Rec } from '@/views/occupation-detail';
 
 const DESC_TRUNCATE = 240;
@@ -83,6 +85,119 @@ function loadWorktypesData(): WorktypesData {
     );
   }
   return worktypesCache;
+}
+
+export interface VerdictDoor {
+  readonly href: string;
+  readonly label: string;
+  readonly kind: 'solid' | 'ghost';
+}
+
+export interface VerdictBinding {
+  readonly scored: boolean;
+  readonly transformationDisp: string;
+  readonly displacementDisp: string | null;
+  readonly rankLine: string;
+  readonly sentence: string;
+  readonly facts: string;
+  readonly doors: ReadonlyArray<VerdictDoor>;
+  readonly showShare: boolean;
+}
+
+/** Latest − previous transformation. Omit when the history has fewer than 2 rows. */
+export function derivePrevDelta(
+  history: ReadonlyArray<{ readonly date: string; readonly transformation: number }>,
+): number | null {
+  if (history.length < 2) return null;
+  const sorted = [...history].sort((a, b) => a.date.localeCompare(b.date));
+  const latest = sorted[sorted.length - 1]!;
+  const prev = sorted[sorted.length - 2]!;
+  return latest.transformation - prev.transformation;
+}
+
+export function formatPrevDelta(delta: number): string {
+  const rounded = Math.round(delta * 10) / 10;
+  if (rounded === 0) return '±0';
+  const body = Number.isInteger(rounded) ? String(Math.abs(rounded)) : Math.abs(rounded).toFixed(1);
+  return rounded > 0 ? `+${body}` : `-${body}`;
+}
+
+export function formatScoredMonthJa(date: string | undefined): string {
+  const src = date ?? CONTENT_DATE;
+  const m = /^(\d{4})-(\d{2})/.exec(src);
+  if (!m) return `${src}採点`;
+  return `${m[1]}年${Number(m[2])}月採点`;
+}
+
+export function formatVerdictRankLine(opts: {
+  readonly rank: number | null;
+  readonly total: number;
+  readonly prevDelta: number | null;
+  readonly scoredAtJa: string;
+}): string {
+  const parts: string[] = [];
+  if (opts.rank !== null) parts.push(`${opts.total}職中 第${opts.rank}位`);
+  if (opts.prevDelta !== null) parts.push(`先月比 ${formatPrevDelta(opts.prevDelta)}`);
+  parts.push(opts.scoredAtJa);
+  return parts.join(' · ');
+}
+
+/** Local copy of the ai-fact 万人 rule — issue #323 allows duplicating it. */
+function fmtWorkersMan(workers: number): string {
+  if (workers >= 100_000) return `約${Math.round(workers / 10_000)}万人`;
+  if (workers >= 10_000) return `約${Math.round(workers / 1000) / 10}万人`;
+  return `約${Math.round(workers / 1000)}千人`;
+}
+
+export function formatVerdictFacts(opts: {
+  readonly salaryMan: number | null | undefined;
+  readonly workers: number | null | undefined;
+  readonly hours: number | null | undefined;
+}): string {
+  const parts: string[] = [];
+  if (opts.salaryMan) parts.push(`年収 約${Math.trunc(opts.salaryMan)}万円`);
+  if (opts.workers) parts.push(`就業者 ${fmtWorkersMan(opts.workers)}`);
+  if (opts.hours) parts.push(`月${Math.trunc(opts.hours)}h`);
+  return parts.join(' · ');
+}
+
+export function verdictSentence(rationaleJa: string, risk: number | null): string {
+  const t = rationaleJa.trim();
+  return t ? t : pickRiskOneLineCallout(risk);
+}
+
+export function buildVerdictDoors(opts: {
+  readonly risk: number | null;
+  readonly hasTransfer: boolean;
+}): ReadonlyArray<VerdictDoor> {
+  if (opts.risk === null) {
+    return [{ href: '#sec-similar', label: '似た仕事', kind: 'ghost' }];
+  }
+  const ghostSimilar: VerdictDoor = { href: '#sec-similar', label: '似た仕事', kind: 'ghost' };
+  if (opts.risk >= 7) {
+    const ghost: VerdictDoor = opts.hasTransfer
+      ? { href: '#sec-transfer', label: '移り先の候補', kind: 'ghost' }
+      : ghostSimilar;
+    return [
+      { href: '#sec-aiois', label: 'AIで変わる作業を見る', kind: 'solid' },
+      ghost,
+    ];
+  }
+  if (opts.risk < 5) {
+    return [
+      { href: '#sec-aiois', label: 'なぜ守られやすいか', kind: 'solid' },
+      ghostSimilar,
+    ];
+  }
+  return [
+    { href: '#sec-aiois', label: 'スコアの中身', kind: 'solid' },
+    ghostSimilar,
+  ];
+}
+
+function fmtScoreDisp(score: number | null): string {
+  if (score === null) return '—';
+  return score.toFixed(1).replace(/\.0$/, '');
 }
 
 export interface WorktypeHeroBinding {
@@ -125,6 +240,7 @@ export interface IdPageBindings extends OccupationDisplay {
   readonly prevDelta: number | null;
   readonly aioisModelDisclaimer: string;
   readonly worktype: WorktypeHeroBinding;
+  readonly verdict: VerdictBinding;
   /** Citable fact block — number-dense, attributed lead paragraph (Phase 1,
    *  docs/SEO_GEO_STRATEGY.md). Empty SafeHtml when unscored. */
   readonly aiFactHtml: SafeHtml;
@@ -236,7 +352,11 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const rankUniverseTotal = geoFacts.occupationCount || OCCUPATION_COUNT.SCORED;
   const aioisTransformation = rec.aiois?.transformation ?? risk;
   const aioisDisplacement = rec.aiois?.displacement ?? null;
-  const prevDelta = input.prevDelta ?? null;
+  const history = input.scoreHistory ?? [];
+  const prevDelta = input.prevDelta !== undefined ? input.prevDelta : derivePrevDelta(history);
+  const latestHistoryDate = history.length === 0
+    ? undefined
+    : [...history].sort((a, b) => a.date.localeCompare(b.date)).at(-1)?.date;
 
   // Citable fact block (Phase 1) — number-dense, attributed lead paragraph.
   const aiFactHtml = renderAiFactParagraph(buildOccupationGeoFactSummary({ facts: geoFacts, occupationId: id }));
@@ -294,6 +414,23 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const riskTierJs: 'high' | 'mid' | 'low' =
     risk !== null && risk >= 7 ? 'high' : risk !== null && risk >= 5 ? 'mid' : 'low';
 
+  const scored = risk !== null;
+  const verdict: VerdictBinding = {
+    scored,
+    transformationDisp: scored ? fmtScoreDisp(aioisTransformation) : '未採点',
+    displacementDisp: scored ? fmtScoreDisp(aioisDisplacement) : null,
+    rankLine: formatVerdictRankLine({
+      rank: rankInUniverse,
+      total: rankUniverseTotal,
+      prevDelta,
+      scoredAtJa: formatScoredMonthJa(latestHistoryDate),
+    }),
+    sentence: verdictSentence(rationaleJa, risk),
+    facts: formatVerdictFacts({ salaryMan, workers, hours }),
+    doors: buildVerdictDoors({ risk, hasTransfer: Boolean(transferHtml) }),
+    showShare: scored,
+  };
+
   return {
     ...display,
     id,
@@ -309,6 +446,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     prevDelta,
     aioisModelDisclaimer: AIOIS_MODEL_DISCLAIMER,
     worktype,
+    verdict,
     aiFactHtml,
     title: seo.title,
     seoDesc: seo.description,
