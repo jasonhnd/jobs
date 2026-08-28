@@ -70,7 +70,7 @@ a:hover{color:var(--accent)}
 .crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
 .crumb a{color:var(--fg2)}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
-header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+header{margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:14px}
 h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px}
 h1 .accent{color:var(--accent-deep)}
 .sub{color:var(--fg2);font-size:.95rem}
@@ -90,6 +90,24 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
 .risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
 @media (max-width:600px){.versus-hero{grid-template-columns:1fr;gap:18px}.versus-hero .vh-vs{margin:0 auto}}
+.duel-bar{display:none}
+.cmp-metrics{display:flex;flex-direction:column;gap:8px;margin:12px 0 24px}
+.cmp-metric{display:grid;grid-template-columns:7.2em 1fr 1fr;gap:8px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;min-height:44px}
+.cm-label{font-size:12.5px;line-height:1.35;color:var(--fg2);font-weight:500}
+.cm-a,.cm-b{font-size:15.5px;line-height:1.3;font-variant-numeric:tabular-nums;text-align:center;color:var(--fg)}
+.cm-a.win,.cm-b.win{color:var(--accent);font-weight:600}
+@media (max-width:768px){
+  header{margin-bottom:8px;padding-bottom:8px;border-bottom:none}
+  h1{font-size:1.28rem;margin-bottom:10px}
+  .versus-hero{display:none}
+  .duel-bar{display:grid;grid-template-columns:1fr 34px 1fr;align-items:center;position:sticky;top:48px;z-index:90;background:var(--bg);border-bottom:2px solid var(--ink);margin:0 -20px 12px;padding:8px 12px;gap:4px}
+  .duel-side{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:44px;padding:6px 4px;text-decoration:none;color:inherit;text-align:center}
+  .duel-side:hover{color:inherit}
+  .duel-name{font-family:var(--font-serif);font-size:15.5px;font-weight:600;color:var(--fg);line-height:1.25}
+  .duel-vs{font-size:12px;font-weight:700;color:var(--accent);text-align:center}
+  .duel-bar .risk-pill{font-size:11.5px;padding:2px 8px}
+}
+@media (max-width:600px){.duel-bar{margin:0 -16px 12px}}
 .compare-points,.decision-hints{list-style:disc;padding-left:22px;margin:14px 0}
 .compare-points li,.decision-hints li{font-size:.93rem;color:var(--fg);margin-bottom:6px;line-height:1.7}
 .points-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
@@ -184,29 +202,34 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 
     <header id="content">
       <h1><span class="accent">{meta.title_ja}</span></h1>
-      <p class="sub">AI 影響度・年収・労働条件・必要スキルを <strong>side-by-side</strong> で比較</p>
-      <p class="intro" set:html={b.introHtml}></p>
     </header>
 
-    <Fragment set:html={b.aiFactHtml} />
-
+    <Fragment set:html={b.duelBarHtml} />
     <Fragment set:html={b.heroHtml} />
+    <Fragment set:html={b.metricRowsHtml} />
 
-    <section class="points-grid" aria-label="比較の観点">
-      <div>
-        <h3>比較すべき主要観点</h3>
-        <Fragment set:html={b.pointsHtml} />
+    <details class="chap">
+      <summary>この比較の読み方・出典</summary>
+      <div class="chap-body">
+        <p class="sub">AI 影響度・年収・労働条件・必要スキルを <strong>並べて</strong> で比較</p>
+        <p class="intro" set:html={b.introHtml}></p>
+        <section class="points-grid" aria-label="比較の観点">
+          <div>
+            <h3>比較すべき主要観点</h3>
+            <Fragment set:html={b.pointsHtml} />
+          </div>
+          <div>
+            <h3>選び方の判断ヒント</h3>
+            <Fragment set:html={b.hintsHtml} />
+          </div>
+        </section>
+        <section aria-label="比較表">
+          <h2>項目別比較表</h2>
+          <Fragment set:html={b.tableHtml} />
+        </section>
+        <Fragment set:html={b.aiFactHtml} />
       </div>
-      <div>
-        <h3>選び方の判断ヒント</h3>
-        <Fragment set:html={b.hintsHtml} />
-      </div>
-    </section>
-
-    <section aria-label="比較表">
-      <h2>項目別比較表</h2>
-      <Fragment set:html={b.tableHtml} />
-    </section>
+    </details>
 
     <MeEntry source="compare">
       この 2 つの仕事は、ほかのランキングではどこに立っていますか？
@@ -259,6 +282,16 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
       } catch (_) {
         if (typeof console !== 'undefined') console.warn('[compare-recent] localStorage parse/write failed:', _);
       }
+    })();
+  </script>
+  {/* Identical body to rankings #321 so one CSP hash covers both. */}
+  <script is:inline slot="bodyEnd">
+    (function () {
+      try {
+        if (!window.matchMedia('(min-width: 900px)').matches) return;
+        var nodes = document.querySelectorAll('details.chap');
+        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
+      } catch (e) {}
     })();
   </script>
 </BaseLayout>
