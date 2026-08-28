@@ -95,8 +95,8 @@ const bindings = buildIdPageBindings({
   dateModified: DATE_MODIFIED,
 });
 const {
-  id, canonical, nameJa, risk, aioisTransformation, aioisDisplacement, mhlwUrl,
-  rankInUniverse, rankUniverseTotal, prevDelta, aioisModelDisclaimer, worktype, aiFactHtml,
+  id, canonical, nameJa, risk, mhlwUrl,
+  rankInUniverse, rankUniverseTotal, aioisModelDisclaimer, worktype, verdict, aiFactHtml,
   title, seoDesc, ogTitle, ogDesc, keywords,
   ctxH2, ctxHtml,
   metaRowHtml, scoreHistoryHtml, aiRiskDetailHtml, aioisHtml, profileHtml, topnHtml, faqHtml,
@@ -140,13 +140,7 @@ const {
       {riskClass}
       {riskColor}
       {riskNumDisp}
-      {aioisTransformation}
-      {aioisDisplacement}
-      {rankInUniverse}
-      {rankUniverseTotal}
-      {prevDelta}
-      {aioisModelDisclaimer}
-      {worktype}
+      {verdict}
     />
 
     <MeEntry source="occupation" occupationId={id}>
@@ -157,13 +151,49 @@ const {
       }
     </MeEntry>
 
+    <p class="aiois-disc">{aioisModelDisclaimer}</p>
+
     <Fragment set:html={scoreHistoryHtml} />
 
     <Fragment set:html={aiFactHtml} />
 
-    <Fragment set:html={aioisHtml} />
+    <section
+      class="type-block"
+      aria-labelledby="worktype-verdict-title"
+      data-worktype-code={worktype.worktypeFamilyCode}
+      data-worktype-family-id={worktype.worktypeFamilyId}
+    >
+      <div class="verdict-copy">
+        <p class="verdict-kicker">AI働き方診断 · この職業のタイプ</p>
+        <div class="verdict-title-row">
+          <h2 id="worktype-verdict-title">{worktype.worktypeFamilyName}</h2>
+        </div>
+        <p class="verdict-lede">{worktype.worktypeIdentity}</p>
+        <div class="verdict-task-grid" aria-label="AIで変わる作業と今できる一手">
+          <div class="verdict-task">
+            <span>AIが補助しやすい</span>
+            <p>{worktype.worktypeAiRelation}</p>
+          </div>
+          <div class="verdict-task">
+            <span>人が残る価値</span>
+            <p>{worktype.worktypeHumanValue}</p>
+          </div>
+          <div class="verdict-task">
+            <span>今できる一手</span>
+            <p>{worktype.worktypeNextStep}</p>
+          </div>
+        </div>
+      </div>
+      <p class="verdict-one-line">{worktype.worktypeOneLine}</p>
+    </section>
 
-    <Fragment set:html={aiRiskDetailHtml} />
+    <div id="sec-aiois">
+      <Fragment set:html={aioisHtml} />
+    </div>
+
+    <div id="sec-ai-detail">
+      <Fragment set:html={aiRiskDetailHtml} />
+    </div>
 
     <StatsGrid {workersCell} {salaryCell} {ageCell} {hoursCell} {recruitDisp} {hourlyDisp} />
 
@@ -182,11 +212,14 @@ const {
 
     <Fragment set:html={faqHtml} />
 
-    <Fragment set:html={transferHtml} />
+    <div id="sec-transfer">
+      <Fragment set:html={transferHtml} />
+    </div>
 
-    <Fragment set:html={sameRiskHtml} />
-
-    <Fragment set:html={legacyRelatedHtml} />
+    <div id="sec-similar">
+      <Fragment set:html={sameRiskHtml} />
+      <Fragment set:html={legacyRelatedHtml} />
+    </div>
 
     <Fragment set:html={orgsCertsHtml} />
 
