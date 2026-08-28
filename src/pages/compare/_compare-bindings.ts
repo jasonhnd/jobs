@@ -49,12 +49,17 @@ export interface CompareMetricRow {
   readonly a: string;
   readonly b: string;
   readonly win: MetricWin;
+  readonly kind: 'num' | 'text';
 }
 
 function formatCerts(certs: ReadonlyArray<string>): string {
   if (certs.length === 0) return '—';
-  const head = certs.slice(0, 2).join('、');
-  return certs.length > 2 ? `${head} 他` : head;
+  return certs[0] ?? '—';
+}
+
+function formatWorkers(n: number): string {
+  if (n >= 10_000) return `${Math.round(n / 10_000)}万人`;
+  return `${fmtInt(n)}人`;
 }
 
 function displacementOf(graph: KnowledgeGraph, id: number): number | null {
@@ -71,9 +76,10 @@ export function buildCompareMetricRows(
   if (a.salary !== null && b.salary !== null) {
     rows.push({
       label: '年収 (平均)',
-      a: `${Math.trunc(a.salary)} 万円`,
-      b: `${Math.trunc(b.salary)} 万円`,
+      a: `${Math.trunc(a.salary)}万円`,
+      b: `${Math.trunc(b.salary)}万円`,
       win: a.salary === b.salary ? null : (a.salary > b.salary ? 'a' : 'b'),
+      kind: 'num',
     });
   }
   const dispA = displacementOf(graph, a.id);
@@ -84,24 +90,27 @@ export function buildCompareMetricRows(
       a: `${dispA.toFixed(1)}/10`,
       b: `${dispB.toFixed(1)}/10`,
       win: null,
+      kind: 'num',
     });
   }
   if (a.workers !== null && b.workers !== null) {
     rows.push({
       label: '就業者数',
-      a: `${fmtInt(a.workers)} 人`,
-      b: `${fmtInt(b.workers)} 人`,
+      a: formatWorkers(a.workers),
+      b: formatWorkers(b.workers),
       win: null,
+      kind: 'num',
     });
   }
   if (a.monthly_hours !== null && b.monthly_hours !== null) {
     rows.push({
       label: '月労働時間',
-      a: `${a.monthly_hours} 時間`,
-      b: `${b.monthly_hours} 時間`,
+      a: `${Math.trunc(a.monthly_hours)}h`,
+      b: `${Math.trunc(b.monthly_hours)}h`,
       win: a.monthly_hours === b.monthly_hours
         ? null
         : (a.monthly_hours < b.monthly_hours ? 'a' : 'b'),
+      kind: 'num',
     });
   }
   rows.push({
@@ -109,15 +118,17 @@ export function buildCompareMetricRows(
     a: formatCerts(a.related_certs_ja),
     b: formatCerts(b.related_certs_ja),
     win: null,
+    kind: 'text',
   });
   if (a.recruit_ratio !== null && b.recruit_ratio !== null) {
     rows.push({
       label: '求人倍率',
-      a: `${a.recruit_ratio.toFixed(2)} 倍`,
-      b: `${b.recruit_ratio.toFixed(2)} 倍`,
+      a: `${a.recruit_ratio.toFixed(1)}倍`,
+      b: `${b.recruit_ratio.toFixed(1)}倍`,
       win: a.recruit_ratio === b.recruit_ratio
         ? null
         : (a.recruit_ratio > b.recruit_ratio ? 'a' : 'b'),
+      kind: 'num',
     });
   }
   return rows;
@@ -128,8 +139,8 @@ export function renderCompareMetricRows(rows: ReadonlyArray<CompareMetricRow>): 
   const body = rows.map((r) => (
     `<div class="cmp-metric">` +
     `<div class="cm-label">${escapeHtml(r.label)}</div>` +
-    `<span class="cm-a${r.win === 'a' ? ' win' : ''}">${escapeHtml(r.a)}</span>` +
-    `<span class="cm-b${r.win === 'b' ? ' win' : ''}">${escapeHtml(r.b)}</span>` +
+    `<span class="cm-a${r.win === 'a' ? ' win' : ''}${r.kind === 'num' ? ' num' : ''}">${escapeHtml(r.a)}</span>` +
+    `<span class="cm-b${r.win === 'b' ? ' win' : ''}${r.kind === 'num' ? ' num' : ''}">${escapeHtml(r.b)}</span>` +
     `</div>`
   )).join('');
   return `<div class="cmp-metrics">${body}</div>`;
