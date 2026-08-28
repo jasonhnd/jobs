@@ -976,4 +976,41 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   .me-cta-strip p { flex: 0 0 auto; }
   .me-cta-strip a { justify-content: center; }
 }
+
+/* ───── Shared chapter fold (#321; reused by later mobile-shape issues) ─────
+   Mobile default is closed. A static bodyEnd helper sets open at
+   min-width 900px; this block only hides the chevron on desktop. */
+html body details.chap {
+  margin: 8px 0 32px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg2);
+}
+html body details.chap > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  min-height: 44px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+html body details.chap > summary::-webkit-details-marker { display: none; }
+html body details.chap > summary::after {
+  content: "›";
+  flex-shrink: 0;
+  color: var(--fg3);
+  font-size: 1.15rem;
+  line-height: 1;
+  transform: rotate(90deg);
+}
+html body details.chap[open] > summary::after { transform: rotate(-90deg); }
+html body details.chap .chap-body { padding: 0 16px 16px; }
+@media (min-width: 900px) {
+  html body details.chap > summary::after { display: none; }
+}
 `;

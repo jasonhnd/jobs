@@ -11,7 +11,7 @@ import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import type { RankingResult } from '@/views/ranking.js';
 import { ALL_RANKINGS, type RankingSlug } from '@/views/ranking.js';
 import {
-  renderRankItem, renderHighlights, renderSectorChart,
+  renderRankItem, renderRankingSummary, renderHighlights, renderSectorChart,
   renderFaqHtml, renderRelatedRankings, renderJsonLd, escapeHtml,
 } from '@/templates/Ranking.js';
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
@@ -32,6 +32,7 @@ export interface RankingsSlugBindings {
   readonly crossHubHtml: string;
   readonly introInlinedHtml: string;
   readonly aiFactHtml: string;
+  readonly summaryHtml: string;
   readonly jsonLd: string;
 }
 
@@ -63,8 +64,10 @@ export function buildRankingsSlugBindings(
     occupationIds: result.items.map((item) => item.id),
   }));
   const jsonLd = renderJsonLd(canonical, result.title, result.seoDesc, result.items, result.faqItems);
+  const summaryHtml = renderRankingSummary(result.items);
   return {
     canonical, ogImage, statsHtml, highlightsHtml, sectorChartHtml,
-    rankItems, faqHtml, relatedHtml, crossHubHtml, introInlinedHtml, aiFactHtml, jsonLd,
+    rankItems, faqHtml, relatedHtml, crossHubHtml, introInlinedHtml, aiFactHtml,
+    summaryHtml, jsonLd,
   };
 }

@@ -55,6 +55,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Rankings first screen is list-first: H1 + one-line summary + TOP rows,
+  with the former sub/intro/`.ai-fact`/stats/highlights/sector chart folded
+  into `このランキングの読み方・出典`. Whole-row links fire `list_row_click`
+  (#321).
 - WAF rule `ratelimit-shindan-share` exceeded-action flipped log → deny(429)
   on 2026-08-28 after an incident-free log observation window;
   `docs/INCIDENT_RUNBOOK.md` §6.1 ledger updated in the same change.
