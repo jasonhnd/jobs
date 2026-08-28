@@ -57,7 +57,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 - Compare pair pages pin a two-name duel bar under the mobile top bar and
   lead with metric rows; intro / points / full table / `.ai-fact` fold into
-  `この比較の読み方・出典`. Sub line `side-by-side` → `並べて` (#322).
+  `この比較の読み方・出典`. Sub line `side-by-side` → `並べて`. Mobile first
+  screen matches frame-05 density: compact H1, slash-alias duel names,
+  number + caption unit, compact `/me` strip (#322).
 - Rankings first screen is list-first: H1 + one-line summary + TOP rows,
   with the former sub/intro/`.ai-fact`/stats/highlights/sector chart folded
   into `このランキングの読み方・出典`. Whole-row links fire `list_row_click`
