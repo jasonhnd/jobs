@@ -41,6 +41,27 @@ export function renderCompareHero(a: CompareSide, b: CompareSide): SafeHtml {
   ) as SafeHtml;
 }
 
+/** Mobile pinned duel bar (#322). Desktop keeps renderCompareHero. */
+export function renderCompareDuelBar(a: CompareSide, b: CompareSide): SafeHtml {
+  function side(s: CompareSide): string {
+    const band = riskClass(s.ai_risk);
+    const score = s.ai_risk !== null ? `${s.ai_risk}/10` : '—';
+    return (
+      `<a class="duel-side" href="${occupationPath(s.id)}">` +
+      `<span class="duel-name">${escapeHtml(s.name_ja)}</span>` +
+      `<span class="risk-pill ${band}">AI ${escapeHtml(score)}</span>` +
+      `</a>`
+    );
+  }
+  return (
+    `<div class="duel-bar" aria-label="比較対象">` +
+    side(a) +
+    `<span class="duel-vs" aria-hidden="true">vs</span>` +
+    side(b) +
+    `</div>`
+  ) as SafeHtml;
+}
+
 export function renderCompareTable(rows: CompareResult['rows'], aName: string, bName: string): SafeHtml {
   const headers =
     `<thead><tr>` +

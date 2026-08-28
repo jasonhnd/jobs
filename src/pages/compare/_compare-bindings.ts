@@ -2,17 +2,18 @@
  * src/pages/compare/_compare-bindings.ts — bindings for [pair].astro.
  * Phase D audit #7 (2026-05-14): page frontmatter ≤30 lines per doc §2.5.
  */
-import type { KnowledgeGraph } from '@/graph';
+import { asOccupationId, type KnowledgeGraph } from '@/graph';
 import {
   buildCompareGeoFactSummary,
   renderAiFactParagraph,
 } from '@/lib/ai-fact-summary';
+import { fmtInt } from '@/lib/num.js';
 import { loadGeoFacts } from '@/page-data/geo-facts-loader';
-import type { CompareResult } from '@/views/compare-hub.js';
+import type { CompareResult, CompareSide } from '@/views/compare-hub.js';
 import type { CompareSlug } from '@/views/compare-meta.js';
 import { COMPARE_META } from '@/views/compare-meta.js';
 import {
-  renderCompareHero, renderCompareTable, renderTopSkillsCompare,
+  renderCompareHero, renderCompareDuelBar, renderCompareTable, renderTopSkillsCompare,
   renderFaqHtml, renderRelatedCompares, renderJsonLd, escapeHtml,
 } from '@/templates/Compare.js';
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
@@ -27,6 +28,8 @@ export interface ComparePairBindings {
   readonly title: string;
   readonly seoDesc: string;
   readonly heroHtml: string;
+  readonly duelBarHtml: string;
+  readonly metricRowsHtml: string;
   readonly tableHtml: string;
   readonly skillsHtml: string;
   readonly faqHtml: string;
@@ -37,6 +40,99 @@ export interface ComparePairBindings {
   readonly aiFactHtml: string;
   readonly crossHubHtml: string;
   readonly jsonLd: string;
+}
+
+export type MetricWin = 'a' | 'b' | null;
+
+export interface CompareMetricRow {
+  readonly label: string;
+  readonly a: string;
+  readonly b: string;
+  readonly win: MetricWin;
+}
+
+function formatCerts(certs: ReadonlyArray<string>): string {
+  if (certs.length === 0) return '—';
+  const head = certs.slice(0, 2).join('、');
+  return certs.length > 2 ? `${head} 他` : head;
+}
+
+function displacementOf(graph: KnowledgeGraph, id: number): number | null {
+  return graph.occupations.get(asOccupationId(id))?.aiRisk?.aiois?.displacement ?? null;
+}
+
+/** First-screen metric rows (#322). Skip a row when either side lacks the value. */
+export function buildCompareMetricRows(
+  a: CompareSide,
+  b: CompareSide,
+  graph: KnowledgeGraph,
+): ReadonlyArray<CompareMetricRow> {
+  const rows: CompareMetricRow[] = [];
+  if (a.salary !== null && b.salary !== null) {
+    rows.push({
+      label: '年収 (平均)',
+      a: `${Math.trunc(a.salary)} 万円`,
+      b: `${Math.trunc(b.salary)} 万円`,
+      win: a.salary === b.salary ? null : (a.salary > b.salary ? 'a' : 'b'),
+    });
+  }
+  const dispA = displacementOf(graph, a.id);
+  const dispB = displacementOf(graph, b.id);
+  if (dispA !== null && dispB !== null) {
+    rows.push({
+      label: '仕事が減るリスク',
+      a: `${dispA.toFixed(1)}/10`,
+      b: `${dispB.toFixed(1)}/10`,
+      win: null,
+    });
+  }
+  if (a.workers !== null && b.workers !== null) {
+    rows.push({
+      label: '就業者数',
+      a: `${fmtInt(a.workers)} 人`,
+      b: `${fmtInt(b.workers)} 人`,
+      win: null,
+    });
+  }
+  if (a.monthly_hours !== null && b.monthly_hours !== null) {
+    rows.push({
+      label: '月労働時間',
+      a: `${a.monthly_hours} 時間`,
+      b: `${b.monthly_hours} 時間`,
+      win: a.monthly_hours === b.monthly_hours
+        ? null
+        : (a.monthly_hours < b.monthly_hours ? 'a' : 'b'),
+    });
+  }
+  rows.push({
+    label: '関連資格',
+    a: formatCerts(a.related_certs_ja),
+    b: formatCerts(b.related_certs_ja),
+    win: null,
+  });
+  if (a.recruit_ratio !== null && b.recruit_ratio !== null) {
+    rows.push({
+      label: '求人倍率',
+      a: `${a.recruit_ratio.toFixed(2)} 倍`,
+      b: `${b.recruit_ratio.toFixed(2)} 倍`,
+      win: a.recruit_ratio === b.recruit_ratio
+        ? null
+        : (a.recruit_ratio > b.recruit_ratio ? 'a' : 'b'),
+    });
+  }
+  return rows;
+}
+
+export function renderCompareMetricRows(rows: ReadonlyArray<CompareMetricRow>): string {
+  if (rows.length === 0) return '';
+  const body = rows.map((r) => (
+    `<div class="cmp-metric">` +
+    `<div class="cm-label">${escapeHtml(r.label)}</div>` +
+    `<span class="cm-a${r.win === 'a' ? ' win' : ''}">${escapeHtml(r.a)}</span>` +
+    `<span class="cm-b${r.win === 'b' ? ' win' : ''}">${escapeHtml(r.b)}</span>` +
+    `</div>`
+  )).join('');
+  return `<div class="cmp-metrics">${body}</div>`;
 }
 
 function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
@@ -59,6 +155,10 @@ export function buildComparePairBindings(
   const title = `${meta.title_ja}｜AI影響度・年収を比較【2026 年版】｜未来の仕事`;
   const seoDesc = `${result.a.name_ja} と ${result.b.name_ja} を AI 影響度・年収・労働条件・必要スキルで比較。${meta.description_ja.slice(0, 100)}…`;
   const heroHtml = renderCompareHero(result.a, result.b);
+  const duelBarHtml = renderCompareDuelBar(result.a, result.b);
+  const metricRowsHtml = renderCompareMetricRows(
+    buildCompareMetricRows(result.a, result.b, graph),
+  );
   const tableHtml = renderCompareTable(result.rows, result.a.name_ja, result.b.name_ja);
   const skillsHtml = renderTopSkillsCompare(result.a, result.b);
   const faqHtml = renderFaqHtml(result.faqItems);
@@ -79,7 +179,7 @@ export function buildComparePairBindings(
   const crossHubHtml = renderRelatedHubsBlock('compare', slug, 6);
   return {
     canonical, ogImage, title, seoDesc,
-    heroHtml, tableHtml, skillsHtml, faqHtml, relatedHtml,
+    heroHtml, duelBarHtml, metricRowsHtml, tableHtml, skillsHtml, faqHtml, relatedHtml,
     pointsHtml, hintsHtml, introHtml, aiFactHtml, crossHubHtml, jsonLd,
   };
 }
