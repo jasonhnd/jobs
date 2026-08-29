@@ -506,6 +506,35 @@ function renderMoverList(
   );
 }
 
+/** Compact two-column 今月の変動 for the mobile home first screen (#325). */
+export function renderHomeMovers(movers: RankingsMoversView): SafeHtml {
+  const monthMatch = /^(\d{4})-(\d{2})/.exec(movers.meta.candidate.date);
+  const monthJa = monthMatch ? `${Number(monthMatch[2])}月` : '';
+  const heading = monthJa ? `今月の変動 · ${monthJa}スコア改定` : '今月の変動';
+
+  function col(label: string, rows: readonly RankingsMoverView[], direction: 'up' | 'down'): string {
+    const lis = rows.slice(0, 3).map((row) => (
+      `<li>` +
+      `<a href="${occupationPath(row.id)}">${escapeHtml(row.name)}</a>` +
+      `<span class="${direction}">${signed1(row.delta)}</span>` +
+      `</li>`
+    )).join('');
+    return `<div class="hm-col"><h3>${escapeHtml(label)}</h3><ol>${lis}</ol></div>`;
+  }
+
+  return (
+    `<section class="home-movers" aria-label="今月の変動">` +
+    `<header class="home-movers-head">` +
+    `<a href="/rankings">${escapeHtml(heading)}</a>` +
+    `</header>` +
+    `<div class="home-movers-grid">` +
+    `${col('↑上がった', movers.transformation.up, 'up')}` +
+    `${col('↓下がった', movers.transformation.down, 'down')}` +
+    `</div>` +
+    `</section>`
+  ) as SafeHtml;
+}
+
 export function renderRankingsMovers(movers: RankingsMoversView): SafeHtml {
   const note =
     `${movers.meta.baseline.date} ${movers.meta.baseline.model} → ` +
