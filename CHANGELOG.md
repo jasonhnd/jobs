@@ -63,6 +63,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `/shindan` and `/me` quiz legends no longer wrap mid-kana on mobile:
+  the duplicated `left / right` line is visually clipped (stays in the
+  DOM); choice buttons keep the full copy with `word-break: keep-all`
+  (#326).
 - `/me` empty state: placeholder uses full-width punctuation
   `気になる職業を入力（例：看護師、営業）`; dashed box becomes five
   exact-title chips (`一般事務` `経理事務` `データ入力` `看護師`

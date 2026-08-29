@@ -73,3 +73,20 @@ test('/shindan 390 consent-decided: Q1 and both choices fit in 844px', async ({ 
   const q1Y = await q1.evaluate((el) => el.getBoundingClientRect().y);
   expect(proofY).toBeGreaterThan(q1Y);
 });
+
+test('/shindan 390: legend pair is clipped so Qn does not wrap mid-kana', async ({ page }) => {
+  await open(page, '/shindan');
+  const boxes = await page.evaluate(() =>
+    [...document.querySelectorAll('.shindan-question-pair')].map((el) => {
+      const r = el.getBoundingClientRect();
+      return { w: r.width, h: r.height };
+    }),
+  );
+  expect(boxes.length).toBe(9);
+  for (const box of boxes) {
+    expect(box.w).toBeLessThan(2);
+    expect(box.h).toBeLessThan(2);
+  }
+  await expect(page.locator('.shindan-question-meta').first()).toBeVisible();
+  await expect(page.locator('.shindan-choice-text').first()).toBeVisible();
+});
