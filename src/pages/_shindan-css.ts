@@ -47,10 +47,11 @@ button,input{font:inherit}
 .shindan-question{border:1px solid var(--border);border-radius:var(--shindan-radius);padding:16px;margin:0 0 12px;background:var(--bg)}
 .shindan-question legend{padding:0;margin:0 0 12px;color:var(--fg);font-weight:600;line-height:1.6}
 .shindan-question-meta{display:inline-flex;margin-right:8px;color:var(--accent-deep);font-size:.78rem;font-weight:700;font-variant-numeric:tabular-nums}
+.shindan-question-pair{word-break:keep-all;overflow-wrap:anywhere}
 .shindan-choice-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .shindan-choice{display:block;min-width:0}
 .shindan-choice input{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none}
-.shindan-choice-text{display:flex;align-items:center;justify-content:center;min-height:58px;padding:10px 12px;border:1px solid var(--border);border-radius:7px;background:var(--bg2);color:var(--fg);font-size:.9rem;line-height:1.5;text-align:center;cursor:pointer;transition:background .14s ease,border-color .14s ease,color .14s ease}
+.shindan-choice-text{display:flex;align-items:center;justify-content:center;min-height:58px;padding:10px 12px;border:1px solid var(--border);border-radius:7px;background:var(--bg2);color:var(--fg);font-size:.9rem;line-height:1.5;text-align:center;cursor:pointer;word-break:keep-all;overflow-wrap:anywhere;transition:background .14s ease,border-color .14s ease,color .14s ease}
 .shindan-choice input:checked + .shindan-choice-text{background:var(--shindan-soft-strong);border-color:var(--accent);color:var(--fg);font-weight:600}
 .shindan-choice input:focus-visible + .shindan-choice-text{outline:2px solid var(--accent);outline-offset:2px}
 .shindan-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}
@@ -164,6 +165,7 @@ button,input{font:inherit}
   .shindan-status{margin:0 0 8px}
   .shindan-progress{margin-bottom:10px}
   .shindan-question{padding:12px;margin:0 0 10px}
+  .shindan-question-pair{position:absolute;inline-size:1px;block-size:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   .shindan-proof{margin-top:14px;padding:12px 14px}
 }
 @media (max-width:640px){

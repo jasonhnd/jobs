@@ -334,11 +334,12 @@ const jsonLd = JSON.stringify({
     .me-quiz-meta { margin-right: 8px; color: var(--accent-deep); font-size: .78rem; font-weight: 700; }
     .me-quiz-choice-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .me-quiz-choice input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
+    .me-quiz-pair { word-break: keep-all; overflow-wrap: anywhere; }
     .me-quiz-choice-text {
       display: flex; align-items: center; justify-content: center; min-height: 58px;
       padding: 10px 12px; border: 1px solid var(--border); border-radius: 7px;
       background: var(--bg2); color: var(--fg); font-size: .88rem; line-height: 1.5;
-      text-align: center; cursor: pointer;
+      text-align: center; cursor: pointer; word-break: keep-all; overflow-wrap: anywhere;
     }
     .me-quiz-choice input:checked + .me-quiz-choice-text {
       background: rgba(217,107,61,.14); border-color: var(--accent); font-weight: 600;
@@ -365,6 +366,11 @@ const jsonLd = JSON.stringify({
       .me-search-input { padding: 0 16px; background-image: none; }
       .me-rank-list li { grid-template-columns: 1fr auto; }
       .me-summary-head .me-name { font-size: 1.25rem; }
+      .me-quiz-choice-row { grid-template-columns: 1fr; }
+      .me-quiz-pair {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+      }
     }
   `} />
 
@@ -459,7 +465,7 @@ const jsonLd = JSON.stringify({
             <fieldset class="me-quiz-question">
               <legend>
                 <span class="me-quiz-meta">Q{i + 1}</span>
-                {q.left} / {q.right}
+                <span class="me-quiz-pair">{q.left} / {q.right}</span>
               </legend>
               <div class="me-quiz-choice-row">
                 <label class="me-quiz-choice">
