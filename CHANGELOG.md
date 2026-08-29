@@ -12,6 +12,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- Sentinel phase 2 (#334): the daily watchdog now also verifies GA4
+  **ingested** recent `page_delivery` events — Data API `runReport`
+  (yesterday vs the day before, JST) reached via Vercel OIDC federation
+  (STS token exchange → 300s impersonation of a read-only service
+  account; no long-lived Google credential exists anywhere). Zero
+  deliveries or a >60% day-over-day collapse above baseline joins the
+  intentional-500 → `ar_default` email chain. GCP-side state and replay
+  commands are ledgered in `docs/INCIDENT_RUNBOOK.md` §6.7.
 - `docs/INCIDENT_RUNBOOK.md`: production incident procedures (rollback,
   rolling-release abort, `vercel bisect`, attack mode with its GEO cost
   warning) plus the ledger of platform state that lives outside the repo
