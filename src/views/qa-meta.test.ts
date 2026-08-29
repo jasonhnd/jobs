@@ -8,7 +8,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { QA_ITEMS, selectExamples, type QAItem } from './qa-meta.js';
+import { QA_ITEMS, QA_GROUP_SLUGS, qaGroup, selectExamples, type QAItem } from './qa-meta.js';
 
 describe('QA_ITEMS — structural contract', () => {
   test('non-empty catalog (at least 40 questions — current canon: 49)', () => {
@@ -99,6 +99,32 @@ describe('selectExamples — ranks + slices candidates', () => {
     const qa = QA_ITEMS[0]!;
     const result = selectExamples([], qa, 10);
     assert.deepEqual(result, []);
+  });
+});
+
+describe('QA_GROUP_SLUGS — 9 thematic groups partition the catalog', () => {
+  test('exactly 9 groups', () => {
+    assert.equal(Object.keys(QA_GROUP_SLUGS).length, 9);
+  });
+
+  test('every QA_ITEMS slug is in exactly one group', () => {
+    const seen = new Map<string, string>();
+    for (const [group, slugs] of Object.entries(QA_GROUP_SLUGS)) {
+      for (const slug of slugs) {
+        assert.equal(seen.has(slug), false, `${slug} listed in ${seen.get(slug)} and ${group}`);
+        seen.set(slug, group);
+      }
+    }
+    const catalog = QA_ITEMS.map((q) => q.slug);
+    assert.equal(seen.size, catalog.length);
+    for (const slug of catalog) {
+      assert.ok(seen.has(slug), `${slug} missing from QA_GROUP_SLUGS`);
+      assert.equal(qaGroup(slug), seen.get(slug));
+    }
+  });
+
+  test('qaGroup throws on unknown slug', () => {
+    assert.throws(() => qaGroup('not-a-real-slug'), /unknown Q&A slug/);
   });
 });
 

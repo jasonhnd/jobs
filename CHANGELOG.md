@@ -70,6 +70,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Q&A pages (`/q/<slug>`, 49) go list-first (#328 family 1): H1 stays,
+  a one-sentence answer line (serif 16.5px, per thematic group) sits
+  under it, occupation rows use the #321 whole-row atom +
+  `list_row_click`, and `読み方・出典` folds the complete `.ai-fact` plus
+  直答/根拠. Titles / meta / JSON-LD / H1 unchanged. Shared
+  `RANK_LIST_CSS` extracted from rankings so later List families reuse
+  the same row contract.
 - `/shindan` and `/me` quiz legends no longer wrap mid-kana on mobile:
   the duplicated `left / right` line is visually clipped (stays in the
   DOM); choice buttons keep the full copy with `word-break: keep-all`
