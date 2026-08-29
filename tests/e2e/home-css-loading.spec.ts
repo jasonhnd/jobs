@@ -49,7 +49,9 @@ test('home full CSS does not block first paint and activates without material CL
     const top10 = document.querySelector<HTMLElement>('.m-top10');
     const top10Track = document.querySelector<HTMLElement>('.m-top10-track');
     const preview = document.querySelector<HTMLElement>('.m-map-preview');
-    if (!hero || !kpi || !top10 || !top10Track || !preview) {
+    const movers = document.querySelector<HTMLElement>('.home-movers');
+    const doors = document.querySelector<HTMLElement>('.home-doors');
+    if (!hero || !kpi || !top10 || !top10Track || !preview || !movers || !doors) {
       throw new Error('critical homepage element missing');
     }
     return {
@@ -61,6 +63,8 @@ test('home full CSS does not block first paint and activates without material CL
       top10TrackDisplay: getComputedStyle(top10Track).display,
       previewDisplay: getComputedStyle(preview).display,
       previewHeight: preview.getBoundingClientRect().height,
+      moversDisplay: getComputedStyle(movers).display,
+      doorsDisplay: getComputedStyle(doors).display,
     };
   }, isMobile);
 
@@ -71,8 +75,10 @@ test('home full CSS does not block first paint and activates without material CL
     expect(criticalState.top10Display).toBe('block');
     expect(criticalState.top10TrackDisplay).toBe('flex');
     expect(criticalState.top10Height).toBeLessThan(800);
-    expect(criticalState.previewDisplay).toBe('block');
+    expect(criticalState.previewDisplay).toBe('flex');
     expect(criticalState.previewHeight).toBeGreaterThan(0);
+    expect(criticalState.moversDisplay).toBe('block');
+    expect(criticalState.doorsDisplay).toBe('grid');
   }
 
   releaseCss?.();

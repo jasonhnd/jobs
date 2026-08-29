@@ -53,6 +53,7 @@ import {
   renderRelatedRankings,
   renderJsonLd,
   renderHubJsonLd,
+  renderHomeMovers,
 } from './Ranking.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import type { Occupation } from '../views/ranking.js';
@@ -418,6 +419,31 @@ describe('renderJsonLd', () => {
 });
 
 // ─── renderHubJsonLd ──────────────────────────────────────────────────────
+
+describe('renderHomeMovers', () => {
+  test('renders two columns, occupation links, and /rankings header', () => {
+    const html = renderHomeMovers({
+      meta: {
+        baseline: { model: 'a', date: '2026-06-13', scoreCount: 556 },
+        candidate: { model: 'b', date: '2026-07-26', scoreCount: 556 },
+        comparedCount: 556,
+      },
+      transformation: {
+        up: [{ id: 10, name: '上がった職', base: 3, current: 3.4, delta: 0.4, familyCode: null }],
+        down: [{ id: 20, name: '下がった職', base: 5, current: 3.8, delta: -1.2, familyCode: null }],
+      },
+      displacement: { up: [], down: [] },
+    });
+    assert.match(html, /今月の変動 · 7月スコア改定/);
+    assert.match(html, /href="\/rankings"/);
+    assert.match(html, /href="\/10"/);
+    assert.match(html, /href="\/20"/);
+    assert.match(html, /\+0\.4/);
+    assert.match(html, /-1\.2/);
+    assert.match(html, /↑上がった/);
+    assert.match(html, /↓下がった/);
+  });
+});
 
 describe('renderHubJsonLd', () => {
   test('returns valid JSON with WebPage + BreadcrumbList', () => {
