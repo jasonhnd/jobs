@@ -12,6 +12,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- Mobile top-bar search overlay on every page (#327): 44×44 search
+  button, full-screen dialog with NFKC substring match over
+  `/data.search.json`, risk pills from the corpus `risk_band`, 最近見た
+  (consent-gated `ms.search.recent`), and three always-on door links.
+  Phase 1 ships without kana readings — none exist upstream. SEO
+  baseline recaptured for overlay ids. `search_overlay_open` /
+  `search_overlay_navigate` registered (language only).
 - Sentinel phase 2 (#334): the daily watchdog now also verifies GA4
   **ingested** recent `page_delivery` events — Data API `runReport`
   (yesterday vs the day before, JST) reached via Vercel OIDC federation
