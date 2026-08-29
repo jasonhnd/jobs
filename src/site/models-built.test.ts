@@ -95,7 +95,8 @@ describe('/models built page contract', () => {
     const visible = visibleHtml(html);
 
     assert.match(html, /<template id="models-projection">/);
-    assert.equal(/fetch\s*\(/.test(html), false);
+    // Global #327 overlay fetches /data.search.json; models itself stays static.
+    assert.equal(/fetch\s*\([^)]*models/.test(html), false);
     assert.equal(/data\.models_deep\.json/.test(html), false);
     assert.equal(/<table\b/i.test(visible), false);
     assert.equal(/\bD(?:[1-9]|10)\b|D1[〜-]D10|drift/i.test(visible), false);
