@@ -43,6 +43,8 @@ test('critical CSS is a balanced subset covering every first-render surface', ()
     '.m-top10-track',
     '.m-map-preview',
     '.home-kpi-band',
+    '.home-movers',
+    '.home-doors',
   ]) {
     assert.ok(INDEX_CRITICAL_CSS.includes(selector), `critical CSS must include ${selector}`);
   }

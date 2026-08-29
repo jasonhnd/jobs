@@ -63,6 +63,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Home mobile first screen: `#mhSearchBtn` `診断` → `調べる`, mobile H1
+  `あなたの仕事は、AIでどう変わる？`, 今月の変動 module, four JA door cards.
+  Diagnostic entry band moves below the doors via CSS `order`. Desktop
+  hero/treemap unchanged. SEO baseline recaptured for mover occupation
+  hrefs (#325).
 - Occupation page bodies fold into seven `<details class="chap">` chapters
   with a sticky chip nav. `.ai-fact` DOM order moves into `出典と数字`
   (content unchanged). Desktop ≥900px opens every chapter via the existing
