@@ -103,10 +103,44 @@ Team budget **$200 / 月、通知のみ**（`pauseProjects: false`）。auto-pau
 | `CRON_SECRET` | Production | sentinel の caller gate（Sensitive、2026-08-27） |
 | `PUBLIC_CF_BEACON_TOKEN` | Production, Preview | Cloudflare beacon |
 | `PUBLIC_X_PIXEL_ID` | Production | X pixel |
+| `GCP_WIF_AUDIENCE` | Production | sentinel phase 2 の STS audience（非機密の識別子、2026-08-29） |
+| `GCP_SA_EMAIL` | Production | `ga4-sentinel@aijobsrisk.iam.gserviceaccount.com`（2026-08-29） |
+| `GA4_PROPERTY_ID` | Production | `298707336`（sentinel phase 2 の Data API 照合、2026-08-29） |
 
 確認: `vercel env ls`。2026-08-27 に孤児 `aijobs_REDIS_URL` を全環境から削除済（#202/#205 で退役した機能の残骸。対応する Marketplace 統合 `redis-citrine-chair` は Uninstalled だった）。
 
 ### 6.6 MCP / OIDC
 
 - Vercel MCP: 4 つの local coding agent（Claude Code / Codex / Gemini CLI / Grok）が `https://mcp.vercel.com` へ接続。権限境界は [`WORKFLOW.md`](WORKFLOW.md)。Gemini / Grok は `mcp-remote` 橋（OAuth トークンは `~/.mcp-auth` 共有）。
-- Project `oidcTokenConfig`: **enabled / issuerMode `team`**。sentinel phase 2（GA4 Data API 照合、#334）で使用予定。
+- Project `oidcTokenConfig`: **enabled / issuerMode `team`**。sentinel phase 2（GA4 Data API 照合、#334）が §6.7 の GCP 連携で使用中。
+
+### 6.7 GCP Workload Identity（sentinel phase 2、2026-08-29 作成）
+
+GCP project `aijobsrisk`（number `703360579439`）。長期鍵は存在しない — production の
+sentinel だけが short-lived トークンで `ga4-sentinel@` を借りられる。回放:
+
+```bash
+gcloud config set project aijobsrisk
+gcloud services enable iamcredentials.googleapis.com sts.googleapis.com \
+  analyticsdata.googleapis.com
+gcloud iam workload-identity-pools create vercel --location=global \
+  --display-name="Vercel OIDC"
+gcloud iam workload-identity-pools providers create-oidc vercel-zkscio \
+  --location=global --workload-identity-pool=vercel \
+  --issuer-uri="https://oidc.vercel.com/zkscio" \
+  --allowed-audiences="https://vercel.com/zkscio" \
+  --attribute-mapping="google.subject=assertion.sub"
+gcloud iam service-accounts create ga4-sentinel \
+  --display-name="GA4 sentinel read-only (Vercel OIDC)"
+gcloud iam service-accounts add-iam-policy-binding \
+  ga4-sentinel@aijobsrisk.iam.gserviceaccount.com \
+  --role="roles/iam.workloadIdentityUser" \
+  --member="principal://iam.googleapis.com/projects/703360579439/locations/global/workloadIdentityPools/vercel/subject/owner:zkscio:project:jobs:environment:production"
+```
+
+- STS audience（env `GCP_WIF_AUDIENCE`）:
+  `//iam.googleapis.com/projects/703360579439/locations/global/workloadIdentityPools/vercel/providers/vercel-zkscio`
+- GA4 property `298707336` に `ga4-sentinel@…` を **Viewer** として登録済
+  （Admin API `v1alpha accessBindings`、scope `analytics.manage.users`）。
+- 借用できる subject は `owner:zkscio:project:jobs:environment:production` のみ —
+  preview / 他 project / 他 team は構造的に不可。
