@@ -848,10 +848,34 @@
       if ($shareOpen) $shareOpen.addEventListener('click', openMeShare);
     }
 
+    function fillInputFallback(label) {
+      if (!$input) return;
+      $input.value = label;
+      $input.focus();
+    }
+
+    function wireChips() {
+      if (!$empty) return;
+      $empty.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-chip]');
+        if (!btn || !$empty.contains(btn)) return;
+        var label = btn.getAttribute('data-chip') || '';
+        if (!label) return;
+        Promise.all([loadSearchIndex(), loadPositions()]).then(function () {
+          var matches = rankMatches(label);
+          if (matches.length) selectJob(matches[0].id);
+          else fillInputFallback(label);
+        }).catch(function () {
+          fillInputFallback(label);
+        });
+      });
+    }
+
     // ── init ───────────────────────────────────────────────────────
     function init() {
       wireQuiz();
       wireShare();
+      wireChips();
       var urlId = readUrlId();
       var urlQuiz = readUrlQuiz();
       // Pre-load positions + search so first selection is instant.
@@ -860,7 +884,12 @@
         ga('me_open', { from_bookmark: urlId ? 1 : 0 });
       }).catch(function (err) {
         console.warn('[me] data load failed:', err);
-        if ($empty) $empty.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
+        if ($empty) {
+          $empty.replaceChildren();
+          var fail = document.createElement('p');
+          fail.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
+          $empty.appendChild(fail);
+        }
       });
     }
 

@@ -147,6 +147,7 @@ const jsonLd = JSON.stringify({
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237A6F5E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>");
       background-repeat: no-repeat; background-position: 16px center;
     }
+    .me-search-input::placeholder { color: var(--fg2); font-size: 13px; }
     .me-search-input:focus-visible {
       outline: 2px solid var(--accent); outline-offset: 2px;
       border-color: var(--accent);
@@ -180,11 +181,26 @@ const jsonLd = JSON.stringify({
     .me-listbox li .me-li-pill.mid { background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg); }
     .me-listbox li .me-li-pill.high { background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg); }
     .me-empty {
-      padding: 56px 24px; text-align: center; color: var(--fg2);
-      background: var(--bg2); border: 1px dashed var(--border);
-      border-radius: 10px; margin: 32px 0;
+      padding: 8px 0 8px; text-align: left; color: var(--fg2);
+      background: transparent; border: 0; margin: 8px 0 16px;
     }
-    .me-empty p { margin: 0; font-size: .95rem; }
+    .me-empty p { margin: 0; }
+    .me-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .me-chip {
+      min-height: 44px; padding: 10px 14px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--bg2); color: var(--fg);
+      font: inherit; font-size: .86rem; cursor: pointer;
+    }
+    .me-chip:hover, .me-chip:focus-visible {
+      border-color: var(--accent); color: var(--accent); outline: none;
+    }
+    .me-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .me-empty-hint { margin: 10px 0 14px; font-size: 12px; color: var(--fg2); }
+    .me-empty-preview {
+      padding: 16px 18px; background: var(--bg2);
+      border: 1px solid var(--border); border-radius: 12px;
+      font-size: 14px; line-height: 1.7; color: var(--fg);
+    }
     .me-results { display: none; }
     .me-results[data-visible="true"] { display: block; }
     .me-summary {
@@ -346,6 +362,7 @@ const jsonLd = JSON.stringify({
     .me-no-occ-entry a:hover { color: var(--accent-deep); }
     @media (max-width: 600px) {
       .me-wrapper { padding: 20px 16px 60px; }
+      .me-search-input { padding: 0 16px; background-image: none; }
       .me-rank-list li { grid-template-columns: 1fr auto; }
       .me-summary-head .me-name { font-size: 1.25rem; }
     }
@@ -368,7 +385,7 @@ const jsonLd = JSON.stringify({
           type="search"
           class="me-search-input"
           id="meInput"
-          placeholder="気になる職業を入力 (例: 看護師、エンジニア)"
+          placeholder="気になる職業を入力（例：看護師、営業）"
           aria-label="職業を検索"
           aria-autocomplete="list"
           aria-controls="meListbox"
@@ -389,7 +406,17 @@ const jsonLd = JSON.stringify({
     </header>
 
     <div class="me-empty" id="meEmpty">
-      <p>上の検索欄から職業を選択すると、全 39 ランキングでの位置と類似 5 職業を表示します。</p>
+      <div class="me-chips" role="list">
+        <button type="button" class="me-chip" data-chip="一般事務" role="listitem">一般事務</button>
+        <button type="button" class="me-chip" data-chip="経理事務" role="listitem">経理事務</button>
+        <button type="button" class="me-chip" data-chip="データ入力" role="listitem">データ入力</button>
+        <button type="button" class="me-chip" data-chip="看護師" role="listitem">看護師</button>
+        <button type="button" class="me-chip" data-chip="保育士" role="listitem">保育士</button>
+      </div>
+      <p class="me-empty-hint">タップですぐ表示されます</p>
+      <div class="me-empty-preview">
+        職業を選ぶと、ここに出ます：① AI影響度と{OCCUPATION_COUNT.SCORED}職中の位置 ② 全39ランキングでの順位 ③ 似た5職業
+      </div>
     </div>
 
     <div class="me-results" id="meResults" aria-live="polite">

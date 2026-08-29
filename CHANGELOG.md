@@ -63,6 +63,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `/me` empty state: placeholder uses full-width punctuation
+  `気になる職業を入力（例：看護師、営業）`; dashed box becomes five
+  exact-title chips (`一般事務` `経理事務` `データ入力` `看護師`
+  `保育士`) plus the preview card. `/shindan` moves the 9問/3軸/556
+  stats card below the questions and compresses head spacing so Q1
+  plus both choices fit the first 844px. Progress label `n / 9問`
+  (#326).
 - Home mobile first screen: `#mhSearchBtn` `診断` → `調べる`, mobile H1
   `あなたの仕事は、AIでどう変わる？`, 今月の変動 module, four JA door cards.
   Diagnostic entry band moves below the doors via CSS `order`. Desktop
