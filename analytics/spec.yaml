@@ -485,6 +485,24 @@ events:
       - { name: language, type: string }
     conversion: false
 
+  - name: search_overlay_open
+    description: |
+      Mobile top-bar search overlay opened (#327). The only custom parameter
+      is language; the page it was opened from arrives in page_location.
+      Query text is never sent.
+    params:
+      - { name: language, type: string }
+    conversion: false
+
+  - name: search_overlay_navigate
+    description: |
+      Visitor tapped a search overlay result row (#327). Occupation identity
+      arrives in the following page_view's page_location. Query text is
+      never sent.
+    params:
+      - { name: language, type: string }
+    conversion: false
+
   - name: me_entry_click
     description: |
       Visitor followed an in-content entry into /me. `source` distinguishes the

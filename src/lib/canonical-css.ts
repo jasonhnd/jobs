@@ -692,7 +692,8 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
 /* Hide mobile components on desktop */
 @media (min-width: 769px) {
   html body header.mob-topbar,
-  html body div.mob-drawer { display: none !important; }
+  html body div.mob-drawer,
+  html body div.mob-search { display: none !important; }
 }
 
 @media (max-width: 768px) {
@@ -737,6 +738,31 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     flex-shrink: 0;
   }
 
+  html body header.mob-topbar .mob-topbar-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+  }
+  html body header.mob-topbar button.mob-topbar-search {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0;
+    color: var(--fg);
+  }
+  html body header.mob-topbar button.mob-topbar-search:hover {
+    background: var(--bg2);
+  }
+  html body header.mob-topbar button.mob-topbar-search:active {
+    background: var(--bg3);
+  }
   html body header.mob-topbar button.mob-topbar-burger {
     width: 44px;
     height: 44px;
@@ -774,6 +800,155 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   }
   html body header.mob-topbar button.mob-topbar-burger[aria-expanded="true"] span:nth-child(3) {
     transform: translateY(-5.5px) rotate(-45deg);
+  }
+
+  /* ── Search overlay (#327): above top bar (100) / drawer (99), below skip (9999) / cookie (10000) ── */
+  html body div.mob-search {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    padding: 12px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+  }
+  html body div.mob-search[hidden] { display: none !important; }
+  html body div.mob-search .mob-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  html body div.mob-search .mob-search-bar input {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg2);
+    color: var(--fg);
+    font: inherit;
+    font-size: 16px;
+  }
+  html body div.mob-search .mob-search-bar input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-color: var(--accent);
+  }
+  html body div.mob-search .mob-search-close {
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: 8px 10px;
+    border: 0;
+    background: transparent;
+    color: var(--fg2);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    word-break: keep-all;
+  }
+  html body div.mob-search .mob-search-hint {
+    margin: 10px 4px 12px;
+    font-size: 12.5px;
+    color: var(--fg2);
+  }
+  html body div.mob-search .mob-search-results,
+  html body div.mob-search .mob-search-recent-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    min-height: 0;
+  }
+  html body div.mob-search .mob-search-results { flex: 1 1 auto; }
+  html body div.mob-search .mob-search-results:empty { display: none; }
+  html body div.mob-search .mob-search-recent { flex: 0 1 auto; overflow-y: auto; min-height: 0; }
+  html body div.mob-search .mob-search-kicker,
+  html body div.mob-search .mob-search-empty-head {
+    margin: 0 4px 8px;
+    font-size: 12.5px;
+    color: var(--fg2);
+    font-weight: 700;
+  }
+  html body div.mob-search a.mob-search-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    row-gap: 2px;
+    align-items: center;
+    min-height: 44px;
+    padding: 12px 14px;
+    background: var(--bg2);
+    border: 1px solid rgba(163, 151, 133, 0.30);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+  }
+  html body div.mob-search a.mob-search-row:hover { text-decoration: none; border-color: var(--accent); }
+  html body div.mob-search .mob-search-name {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 15.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--fg);
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  html body div.mob-search .mob-search-sub {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 12.5px;
+    color: var(--fg2);
+  }
+  html body div.mob-search .mob-search-pill {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  html body div.mob-search .mob-search-pill.low { color: var(--risk-pill-low-fg); background: var(--risk-pill-low-bg); }
+  html body div.mob-search .mob-search-pill.mid { color: var(--risk-pill-mid-fg); background: var(--risk-pill-mid-bg); }
+  html body div.mob-search .mob-search-pill.high { color: var(--risk-pill-high-fg); background: var(--risk-pill-high-bg); }
+  html body div.mob-search .mob-search-doors {
+    flex-shrink: 0;
+    margin-top: 12px;
+    padding-top: 8px;
+  }
+  html body div.mob-search .mob-search-door-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  html body div.mob-search .mob-search-door-row a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg2);
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    word-break: keep-all;
+  }
+  html body div.mob-search .mob-search-door-row a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
   }
 
   /* ── Layer 2: full-screen drawer ── */
