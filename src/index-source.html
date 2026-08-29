@@ -89,12 +89,10 @@
 
         <!-- Mobile-only hero block (Design.md §7.11) — visible on ≤768px only. Gives anxious-job-seeker users a one-screen tool entry: H2 + trust signal + search input + 5 occupation chips, sitting just above the treemap on mobile. -->
         <div class="mobile-hero" aria-label="モバイルクイック検索">
+          <p class="mobile-hero-kicker">日本の__OCCUPATION_COUNT_SCORED__職業 × AI · 毎月更新</p>
           <h1 class="mobile-hero-title">
-            AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。
+            あなたの仕事は、<br class="ja-phrase-break">AIでどう変わる？
           </h1>
-          <div class="mobile-hero-trust">
-            __OCCUPATION_COUNT_SCORED__ の職業を、AI 影響度で多角的に分析
-          </div>
           <form class="mobile-hero-search" id="mhSearchForm" role="search" autocomplete="off">
             <input id="searchInputMobile" type="search" autocomplete="off"
                    placeholder="気になる職業を入力"
@@ -105,7 +103,7 @@
                    aria-expanded="false"
                    aria-haspopup="listbox" />
             <button type="submit" class="mhs-cta" id="mhSearchBtn">
-              診断
+              調べる
             </button>
             <ul class="search-suggest" id="searchSuggestMobile" role="listbox" aria-label="検索候補"></ul>
           </form>
@@ -113,8 +111,8 @@
             <button type="button" data-chip="事務職" role="listitem">事務職</button>
             <button type="button" data-chip="経理" role="listitem">経理</button>
             <button type="button" data-chip="営業" role="listitem">営業</button>
-            <button type="button" data-chip="カスタマーサポート" role="listitem">CS</button>
             <button type="button" data-chip="看護師" role="listitem">看護師</button>
+            <button type="button" data-chip="保育士" role="listitem">保育士</button>
           </div>
         </div>
         <!-- v1.2.x mobile-only: TOP 10 horizontal-swipe carousel of high-AI-risk occupations. Visible only at ≤768px (matches .mobile-hero breakpoint). Cards built client-side from 'data' array sorted by ai_risk desc after fetch resolves. -->
@@ -132,20 +130,34 @@
           </div>
         </section>
 
-        <!-- Mobile-only map preview card (Design-Mobile.md §4.2). Replaces the embedded treemap canvas + m-map-head on viewports <=768px. The entire <a> is the tap target → /map. The inline SVG thumbnail comes from public/map-thumb.snippet.html injected between the INCLUDE markers below — do not hand-edit the SVG. -->
-        <a class="m-map-preview" href="/map" aria-label="職業マップを開く（全 __OCCUPATION_COUNT_SCORED__ 職業）">
-          <header class="m-map-preview-head">
-            <p class="m-map-preview-title" role="heading" aria-level="2">職業マップ</p>
-            <span class="m-map-preview-count">全 __OCCUPATION_COUNT_SCORED__ 職業</span>
-          </header>
-          <div class="m-map-preview-legend">面積 = 就業者数 ・ 色 = AI 影響</div>
+        __HOME_MOVERS__
+
+        <section class="home-doors" aria-label="入口">
+          <a class="home-door" href="/rankings">
+            <span class="home-door-title">ランキング</span>
+            <span class="home-door-desc">AI・年収・需要で並べる</span>
+            <span class="home-door-meta">39 のランキング</span>
+          </a>
+          <a class="home-door" href="/compare">
+            <span class="home-door-title">比較する</span>
+            <span class="home-door-desc">2つの仕事を並べて見る</span>
+            <span class="home-door-meta">20 ペア</span>
+          </a>
+        <!-- Mobile map preview, now one of four door cards (#325). SVG stays hardcoded. -->
+        <a class="m-map-preview home-door" href="/map" aria-label="職業マップを開く（全 __OCCUPATION_COUNT_SCORED__ 職業）">
+          <span class="home-door-title">職業マップ</span>
+          <span class="home-door-desc">__OCCUPATION_COUNT_SCORED__職業の俯瞰</span>
           <div class="m-map-preview-thumb" aria-hidden="true">
             <!-- INCLUDE: map-thumb -->
           <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" role="img" aria-label="__OCCUPATION_COUNT_SCORED__ 職業の AI 影響ヒートマップ プレビュー" class="m-map-preview-svg"><rect x="0.0" y="0.0" width="61.4" height="33.8" fill="#0F8A66"/><rect x="61.4" y="0.0" width="17.1" height="33.8" fill="#0F8A66"/><rect x="78.5" y="0.0" width="20.6" height="33.8" fill="#5BA84F"/><rect x="99.2" y="0.0" width="15.6" height="33.8" fill="#5BA84F"/><rect x="114.8" y="0.0" width="17.3" height="33.8" fill="#5BA84F"/><rect x="132.1" y="0.0" width="13.1" height="33.8" fill="#5BA84F"/><rect x="145.2" y="0.0" width="22.9" height="33.8" fill="#E27A33"/><rect x="168.2" y="0.0" width="15.9" height="33.8" fill="#E27A33"/><rect x="184.0" y="0.0" width="16.7" height="33.8" fill="#E27A33"/><rect x="200.8" y="0.0" width="119.2" height="33.8" fill="#C4422F"/><rect x="0.0" y="33.8" width="64.9" height="33.8" fill="#0F8A66"/><rect x="64.9" y="33.8" width="21.2" height="33.8" fill="#0F8A66"/><rect x="86.2" y="33.8" width="27.3" height="33.8" fill="#5BA84F"/><rect x="113.5" y="33.8" width="49.4" height="33.8" fill="#5BA84F"/><rect x="162.9" y="33.8" width="20.7" height="33.8" fill="#5BA84F"/><rect x="183.6" y="33.8" width="21.7" height="33.8" fill="#D9A03B"/><rect x="205.3" y="33.8" width="32.6" height="33.8" fill="#E27A33"/><rect x="237.9" y="33.8" width="25.1" height="33.8" fill="#E27A33"/><rect x="262.9" y="33.8" width="20.8" height="33.8" fill="#E27A33"/><rect x="283.8" y="33.8" width="36.2" height="33.8" fill="#C4422F"/><rect x="0.0" y="67.6" width="28.3" height="33.8" fill="#0F8A66"/><rect x="28.3" y="67.6" width="46.8" height="33.8" fill="#5BA84F"/><rect x="75.1" y="67.6" width="27.7" height="33.8" fill="#5BA84F"/><rect x="102.7" y="67.6" width="51.1" height="33.8" fill="#5BA84F"/><rect x="153.9" y="67.6" width="21.4" height="33.8" fill="#5BA84F"/><rect x="175.3" y="67.6" width="26.0" height="33.8" fill="#D9A03B"/><rect x="201.3" y="67.6" width="33.7" height="33.8" fill="#E27A33"/><rect x="235.0" y="67.6" width="26.0" height="33.8" fill="#E27A33"/><rect x="260.9" y="67.6" width="21.6" height="33.8" fill="#E27A33"/><rect x="282.5" y="67.6" width="37.5" height="33.8" fill="#C4422F"/><rect x="0.0" y="101.4" width="320" height="28.6" fill="#D9A03B" opacity="0.55"/></svg>
           <!-- /INCLUDE: map-thumb -->
           </div>
-          <div class="m-map-preview-cta">マップを探索する <span aria-hidden="true">→</span></div>
         </a>
+          <a class="home-door" href="/me" data-track-event="me_entry_click" data-occupation-id="0" data-entry-source="home_door">
+            <span class="home-door-title">自分の現在地</span>
+            <span class="home-door-desc">職業を入力 → 全 39 ランキングでの位置</span>
+          </a>
+        </section>
 
         <div class="controls">
           <label class="active">色：</label>
