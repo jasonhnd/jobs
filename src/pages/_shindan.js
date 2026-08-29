@@ -198,7 +198,7 @@
       var total = copy.questions.length;
       var pct = Math.round((count / total) * 100);
       if ($progressFill) $progressFill.style.width = pct + '%';
-      if ($progressText) $progressText.textContent = count + ' / ' + total;
+      if ($progressText) $progressText.textContent = count + ' / ' + total + '問';
       if ($submit) $submit.disabled = !dataReady || count !== total;
       if (count === total && dataReady) {
         setStatus('結果を表示できます。');

@@ -111,18 +111,11 @@ const jsonLd = safeJsonForScript({
     </nav>
 
     <header class="shindan-hero" id="content">
-      <div>
-        <p class="shindan-kicker">{LABELS.featureName}</p>
-        <h1>AI時代の<span class="accent">働き方タイプ</span>を9問で見る</h1>
-        <p class="shindan-lead">
-          9問であなたの「働き方タイプ」が1枚に。AI時代、あなたの強みがいちばん活きる仕事はどこか、いっしょに見つけにいきましょう。
-        </p>
-      </div>
-      <aside class="shindan-proof" aria-label="診断の前提">
-        <span><strong>9</strong>問</span>
-        <span><strong>3</strong>軸</span>
-        <span><strong>{OCCUPATION_COUNT.SCORED}</strong>職業データ</span>
-      </aside>
+      <p class="shindan-kicker">{LABELS.featureName}</p>
+      <h1>AI時代の<span class="accent">働き方タイプ</span>を9問で見る</h1>
+      <p class="shindan-lead">
+        9問であなたの「働き方タイプ」が1枚に。AI時代、あなたの強みがいちばん活きる仕事はどこか、いっしょに見つけにいきましょう。
+      </p>
     </header>
 
     <script id="shindanCopy" type="application/json" set:html={copyJson}></script>
@@ -135,7 +128,7 @@ const jsonLd = safeJsonForScript({
 
         <div class="shindan-progress" aria-hidden="true">
           <div class="shindan-progress-track"><span class="shindan-progress-fill" id="shindanProgressFill"></span></div>
-          <span class="shindan-progress-text" id="shindanProgressText">0 / 9</span>
+          <span class="shindan-progress-text" id="shindanProgressText">0 / 9問</span>
         </div>
 
         <form id="shindanForm" autocomplete="off">
@@ -177,6 +170,12 @@ const jsonLd = safeJsonForScript({
             <button class="shindan-secondary" type="reset">選び直す</button>
           </div>
         </form>
+
+        <aside class="shindan-proof" aria-label="診断の前提">
+          <span><strong>9</strong>問</span>
+          <span><strong>3</strong>軸</span>
+          <span><strong>{OCCUPATION_COUNT.SCORED}</strong>職業データ</span>
+        </aside>
       </section>
 
       <aside class="shindan-side" aria-label="診断の説明">
