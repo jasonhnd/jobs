@@ -70,6 +70,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Career pages (`/careers/<slug>`, 10) go list-first (#328 family 4):
+  H1 + the existing one-line sub stay, the recommendation list is the
+  first-screen payload, and `読み方・出典` folds intro / 利点・注意点 /
+  stats / highlights / sector chart. Row markup was inherited from
+  Hub.ts in family 3. No `.ai-fact` on these pages. Titles / meta /
+  JSON-LD / H1 unchanged. `/careers` index is untouched.
 - Nine genre hubs (abilities / knowledge / values / education /
   training / work-styles / employment-types / life-balance /
   entry-paths) go list-first (#328 family 3): H1 + the existing
