@@ -15,31 +15,50 @@ export async function getStaticPaths() {
 
 const { hub, items } = Astro.props as { hub: LicenseHub; items: GenreOccupation[] };
 const b = buildLicenseBindings({ hub, items, graph: await loadGraph() });
+const LICENSE_CHAP_CSS = '.hub-slug .chap-body .cert-examples li,.hub-slug .chap-body .genre-detail p{word-break:keep-all;line-break:strict}';
 ---
 <BaseLayout title={b.title} description={b.seoDesc} canonical={b.canonical}
   ogImage={b.ogImage} ogTitle={b.title.slice(0, 120)} ogDescription={b.seoDesc}>
   <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
-  <div id="wrapper">
+  <style slot="head" set:html={LICENSE_CHAP_CSS} />
+  <div id="wrapper" class="hub-slug">
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/licenses" rel="up">資格から探す</a><span aria-hidden="true">›</span><span>{hub.short_ja}</span></nav>
     <header id="content">
       <h1><span class="accent">{hub.title_ja}</span></h1>
       <p class="sub">{hub.short_ja} カテゴリー · <strong>{items.length} 職業</strong></p>
-      <p class="intro" set:html={b.introHtml}></p>
     </header>
-    <section class="genre-detail" aria-label={`${hub.short_ja}の代表資格`}>
-      <h2>{hub.short_ja} の代表資格</h2>
-      <Fragment set:html={b.examplesHtml} />
-      <p style="margin-top:14px;font-size:.9rem;color:var(--fg2);"><strong>取得難度:</strong> {hub.difficulty_ja}</p>
+    <section class="hub-list-sec" aria-label={`${hub.short_ja} 関連職業 TOP ${items.length}`}>
+      <h2>{hub.short_ja} 関連職業 TOP {items.length}</h2>
+      <ol class="rank-list" set:html={b.rankItems} />
     </section>
-    <Fragment set:html={b.statsHtml} />
-    <Fragment set:html={b.highlightsHtml} />
-    <Fragment set:html={b.sectorChartHtml} />
-    <section><h2>{hub.short_ja} 関連職業 TOP {items.length}</h2><ol class="rank-list" set:html={b.rankItems} /></section>
+    <details class="chap">
+      <summary>読み方・出典</summary>
+      <div class="chap-body">
+        <p class="intro" set:html={b.introHtml}></p>
+        <section class="genre-detail" aria-label={`${hub.short_ja}の代表資格`}>
+          <h2>{hub.short_ja} の代表資格</h2>
+          <Fragment set:html={b.examplesHtml} />
+          <p style="margin-top:14px;font-size:.9rem;color:var(--fg2);"><strong>取得難度:</strong> {hub.difficulty_ja}</p>
+        </section>
+        <Fragment set:html={b.statsHtml} />
+        <Fragment set:html={b.highlightsHtml} />
+        <Fragment set:html={b.sectorChartHtml} />
+      </div>
+    </details>
     <Fragment set:html={b.faqHtml} />
     <Fragment set:html={b.crossHubHtml} />
     <section aria-label="他の資格カテゴリー"><h2>他の資格カテゴリー</h2><Fragment set:html={b.relatedHtml} /></section>
     <Footer />
   </div>
+  <script is:inline slot="bodyEnd">
+    (function () {
+      try {
+        if (!window.matchMedia('(min-width: 900px)').matches) return;
+        var nodes = document.querySelectorAll('details.chap');
+        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
+      } catch (e) {}
+    })();
+  </script>
 </BaseLayout>

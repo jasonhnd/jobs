@@ -70,6 +70,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- License pages (`/licenses/<slug>`, 15) go list-first (#328 family 5):
+  H1 + the existing one-line sub stay, the related-occupation list is
+  the first-screen payload, and `読み方・出典` folds intro / 代表資格 /
+  stats / highlights / sector chart. Row markup was inherited from
+  Hub.ts in family 3. No `.ai-fact` on these pages. Titles / meta /
+  JSON-LD / H1 unchanged. `/licenses` index is untouched.
 - Career pages (`/careers/<slug>`, 10) go list-first (#328 family 4):
   H1 + the existing one-line sub stay, the recommendation list is the
   first-screen payload, and `読み方・出典` folds intro / 利点・注意点 /
