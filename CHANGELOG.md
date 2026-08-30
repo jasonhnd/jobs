@@ -70,6 +70,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Nine genre hubs (abilities / knowledge / values / education /
+  training / work-styles / employment-types / life-balance /
+  entry-paths) go list-first (#328 family 3): H1 + the existing
+  one-line sub stay, the occupation list is the first-screen payload,
+  and `読み方・出典` folds intro / `.ai-fact` / stats / highlights /
+  sector chart (abilities also folds `genre-detail`). `Hub.ts`
+  `renderRankItem` is the #321 whole-row atom + `list_row_click` and
+  keeps the genre-score extra. Careers / licenses inherit the row
+  markup; their page reorder is families 4–5. Titles / meta / JSON-LD /
+  H1 unchanged. Genre index pages are untouched.
 - Sector pages (`/sectors/<id>`, 16) go list-first (#328 family 2):
   H1 + the existing one-line sub stay, the full AI-risk-descending
   occupation list is the first-screen payload, and `読み方・出典` folds
