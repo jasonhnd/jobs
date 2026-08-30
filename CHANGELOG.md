@@ -70,6 +70,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Sector pages (`/sectors/<id>`, 16) go list-first (#328 family 2):
+  H1 + the existing one-line sub stay, the full AI-risk-descending
+  occupation list is the first-screen payload, and `読み方・出典` folds
+  intro / `.ai-fact` / stats / essay / patterns plus the three TOP5
+  blocks. Occupation rows use the #321 whole-row atom + `list_row_click`.
+  Titles / meta / JSON-LD / H1 unchanged. `/sectors` index is untouched.
 - Q&A pages (`/q/<slug>`, 49) go list-first (#328 family 1): H1 stays,
   a one-sentence answer line (serif 16.5px, per thematic group) sits
   under it, occupation rows use the #321 whole-row atom +
