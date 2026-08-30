@@ -17,6 +17,7 @@
 
 import { CANONICAL_SECTOR_CSS } from '@/lib/canonical/sector';
 import { AI_FACT_CSS } from '@/lib/ai-fact-css';
+import { RANK_LIST_CSS } from '@/lib/rank-list-css';
 
 const SECTOR_PAGE_SPECIFIC_CSS = `
 .top-banner{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 16px;font-size:.85rem;color:var(--fg2);display:flex;gap:12px;align-items:center;justify-content:center}
@@ -90,6 +91,16 @@ section.faq{margin:48px 0}
 .pattern-observations{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:8px}
 .pattern-observations li{padding:10px 14px;background:var(--bg3);border-radius:4px;font-size:.9rem;color:var(--fg);line-height:1.65}
 .pattern-observations li strong{color:var(--accent-deep)}
-@media (max-width:600px){.ai-dist-legend{font-size:.74rem;gap:8px}}`;
+@media (max-width:600px){.ai-dist-legend{font-size:.74rem;gap:8px}}
+header{margin-bottom:16px;padding-bottom:14px}
+.sec-list-sec{margin:8px 0 28px}
+.sec-list-sec h2{font-size:12px;font-weight:600;color:var(--fg2);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;font-family:var(--font-sans);word-break:keep-all;overflow-wrap:anywhere}
+.chap-body .stats{margin:16px 0}
+.chap-body .ai-fact{margin-bottom:16px}
+.chap-body .ai-era-essay{margin:16px 0;padding:16px 18px}
+.chap-body .patterns{margin:16px 0}
+.chap-body section{margin:20px 0}
+${RANK_LIST_CSS}
+`;
 
 export const SECTOR_PAGE_CSS = CANONICAL_SECTOR_CSS + SECTOR_PAGE_SPECIFIC_CSS;
