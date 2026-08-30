@@ -82,42 +82,41 @@ const {
         <span class="accent">{h1Main}</span>
       </h1>
       <p class="sub" set:html={subText} />
-      <Fragment set:html={introSection} />
     </header>
 
-    <Fragment set:html={aiFactHtml} />
-
-    <section aria-label="セクター概要">
-      <dl class="stats">
-        <div><dt>職業数</dt><dd>{n}</dd></div>
-        <div><dt>平均 AI 影響</dt><dd>{meanRisk === null ? '—' : `${meanRisk.toFixed(1)} / 10`}</dd></div>
-        <div><dt>就業者数 合計</dt><dd>{fmtInt(workforceTotal)}</dd></div>
-      </dl>
-    </section>
-
-    <Fragment set:html={aiEraEssayHtml} />
-
-    <Fragment set:html={patternsHtml} />
-
-    <section aria-label={hHigh}>
-      <h2>{hHigh}</h2>
-      <Fragment set:html={topHighHtml} />
-    </section>
-
-    <section aria-label={hLow}>
-      <h2>{hLow}</h2>
-      <Fragment set:html={topLowHtml} />
-    </section>
-
-    <section aria-label={hPop}>
-      <h2>{hPop}</h2>
-      <Fragment set:html={topWorkersHtml} />
-    </section>
-
-    <section aria-label={hFull}>
+    <section class="sec-list-sec" aria-label={hFull}>
       <h2>{hFull}</h2>
       <Fragment set:html={fullListHtml} />
     </section>
+
+    <details class="chap">
+      <summary>読み方・出典</summary>
+      <div class="chap-body">
+        <Fragment set:html={introSection} />
+        <Fragment set:html={aiFactHtml} />
+        <section aria-label="セクター概要">
+          <dl class="stats">
+            <div><dt>職業数</dt><dd>{n}</dd></div>
+            <div><dt>平均 AI 影響</dt><dd>{meanRisk === null ? '—' : `${meanRisk.toFixed(1)} / 10`}</dd></div>
+            <div><dt>就業者数 合計</dt><dd>{fmtInt(workforceTotal)}</dd></div>
+          </dl>
+        </section>
+        <Fragment set:html={aiEraEssayHtml} />
+        <Fragment set:html={patternsHtml} />
+        <section aria-label={hHigh}>
+          <h2>{hHigh}</h2>
+          <Fragment set:html={topHighHtml} />
+        </section>
+        <section aria-label={hLow}>
+          <h2>{hLow}</h2>
+          <Fragment set:html={topLowHtml} />
+        </section>
+        <section aria-label={hPop}>
+          <h2>{hPop}</h2>
+          <Fragment set:html={topWorkersHtml} />
+        </section>
+      </div>
+    </details>
 
     <Fragment set:html={faqHtml} />
 
@@ -130,4 +129,14 @@ const {
 
     <Footer />
   </div>
+  {/* Static body: open shared chapters on desktop. Byte-identical to rankings (#321 / §3.6). */}
+  <script is:inline slot="bodyEnd">
+    (function () {
+      try {
+        if (!window.matchMedia('(min-width: 900px)').matches) return;
+        var nodes = document.querySelectorAll('details.chap');
+        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
+      } catch (e) {}
+    })();
+  </script>
 </BaseLayout>

@@ -2,19 +2,14 @@
  * src/templates/SectorListings.ts — list-style templates for the
  * sector hub page (`/sectors/{sector}`).
  *
- * Three exports for three list flavours that lived as inline
- * page-local renderers in [sector].astro:
+ * Occupation rows use the MOBILE_SHAPES §3.3 atom (`a.rl-row`,
+ * `list_row_click`) so the full list and the three folded TOP5
+ * blocks share the #321 tap contract (#328 family 2). Related
+ * sectors stay a sibling-nav list, not occupation rows.
  *
- *   renderSectorOccupationTopList — short "top-N" list with
- *     risk-pill + workers count (for Top-High / Top-Low /
- *     Top-Workers blocks).
- *   renderSectorOccupationFullList — wider full list with
- *     risk-pill only (no workers count).
- *   renderRelatedSectorsList — sibling sectors list with
- *     occupation count per row.
- *
- * The risk-pill `band-low|mid|high` class comes from src/lib/risk
- * (riskClass) — same bucketing as the per-occupation page.
+ *   renderSectorOccupationTopList — TOP5 with workers in `.rl-meta`.
+ *   renderSectorOccupationFullList — full AI-risk-desc list, pill only.
+ *   renderRelatedSectorsList — sibling sectors with occupation count.
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
@@ -50,19 +45,33 @@ function listItem(
   const titleStr = (occ.titleJa ?? '') || `#${occ.id}`;
   const scoreStr = riskScoreText(occ.aiRisk);
   const band = riskClass(occ.aiRisk);
-  const link =
-    `<a href="${occupationPath(occ.id)}">` +
-    `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>` +
-    `${escapeHtml(titleStr)}` +
-    `</a>`;
-  const meta = showWorkers
-    ? `<span class="meta">${fmtInt(occ.workers)} 就業者</span>`
+  const metaHtml = showWorkers
+    ? `<span class="rl-meta"><span class="rl-workers">${fmtInt(occ.workers)} 就業者</span></span>`
     : '';
-  return `<li>${link}${meta}</li>`;
+  return (
+    `<li>` +
+    `<a class="rl-row" href="${occupationPath(occ.id)}" data-track-event="list_row_click">` +
+    `<span class="rl-main">` +
+    `<span class="rl-name">${escapeHtml(titleStr)}</span>` +
+    `${metaHtml}` +
+    `</span>` +
+    `<span class="rl-end">` +
+    `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>` +
+    `<span class="rl-chevron" aria-hidden="true">›</span>` +
+    `</span>` +
+    `</a>` +
+    `</li>`
+  );
+}
+
+function rankList(items: ReadonlyArray<SectorListOccupation>, showWorkers: boolean): string {
+  let rows = '';
+  for (const o of items) rows += listItem(o, showWorkers);
+  return `<ol class="rank-list">${rows}</ol>`;
 }
 
 /**
- * Top-N occupation list (risk-pill + workers count per row).
+ * Top-N occupation list (workers count in `.rl-meta`).
  * Used for Top-High / Top-Low / Top-Workers blocks on the
  * sector hub. Empty `items` → empty SafeHtml.
  */
@@ -70,23 +79,19 @@ export function renderSectorOccupationTopList(
   items: ReadonlyArray<SectorListOccupation>,
 ): SafeHtml {
   if (items.length === 0) return '' as SafeHtml;
-  let rows = '';
-  for (const o of items) rows += listItem(o, true);
-  return (`<ul class="top-list">${rows}</ul>`) as SafeHtml;
+  return rankList(items, true) as SafeHtml;
 }
 
 /**
  * Full-list (risk-pill only, no workers count). Used for the
- * "all occupations" listing below the top-blocks. Empty array
- * still emits `<ul class="full-list"></ul>` to match legacy
- * behaviour (the page wraps the call unconditionally).
+ * first-screen payload (#328 family 2). Empty array still emits
+ * the `<ol class="rank-list"></ol>` wrapper (the page wraps the
+ * call unconditionally).
  */
 export function renderSectorOccupationFullList(
   items: ReadonlyArray<SectorListOccupation>,
 ): SafeHtml {
-  let rows = '';
-  for (const o of items) rows += listItem(o, false);
-  return (`<ul class="full-list">${rows}</ul>`) as SafeHtml;
+  return rankList(items, false) as SafeHtml;
 }
 
 /**
