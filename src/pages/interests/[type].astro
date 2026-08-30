@@ -5,6 +5,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
 import { loadGraph } from '@/graph';
 import { buildInterests, type InterestResult } from '@/views/interests';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
+import { RANK_LIST_CSS } from '@/lib/rank-list-css';
 import { buildInterestsSlugBindings } from './_interests-bindings';
 
 export async function getStaticPaths() {
@@ -41,7 +42,7 @@ a:hover{color:var(--accent)}
 .crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
 .crumb a{color:var(--fg2)}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
-header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+header{margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:14px}
 h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 h1 .accent{color:var(--accent-deep)}
 h1 .letter-badge{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;background:var(--accent);color:#fff;border-radius:999px;font-family:var(--font-serif);font-size:1.5rem;font-weight:700}
@@ -62,21 +63,6 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .persona-grid h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 10px}
 .persona-grid ul{list-style:disc;padding-left:20px;margin:0}
 .persona-grid li{font-size:.92rem;color:var(--fg);margin-bottom:6px;line-height:1.6}
-.rank-list{list-style:none;counter-reset:rank;padding:0}
-.rank-list li{counter-increment:rank;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:8px;display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center}
-.rank-list li:hover{border-color:var(--accent)}
-.rank-list li::before{content:counter(rank);font-family:var(--font-serif);font-size:1.2rem;font-weight:700;color:var(--fg3);text-align:center}
-.rank-list li:nth-child(-n+3)::before{color:var(--accent)}
-.rank-list .rl-main{display:flex;flex-direction:column;gap:4px;min-width:0}
-.rank-list .rl-name{font-family:var(--font-serif);font-size:1.05rem;font-weight:500;color:var(--fg);text-decoration:none;overflow:hidden;text-overflow:ellipsis}
-.rank-list .rl-name:hover{color:var(--accent);text-decoration:underline}
-.rank-list .rl-sector{font-size:.78rem;color:var(--fg2)}
-.rank-list .rl-stats{display:flex;gap:10px;flex-wrap:wrap;align-items:center;white-space:nowrap}
-.risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
-.risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
-.risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
-.risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
-.rl-salary,.rl-workers{font-size:.82rem;color:var(--fg2);font-variant-numeric:tabular-nums}
 .rmini-wrap{display:inline-flex;align-items:center;gap:6px}
 .rmini{display:inline-flex;align-items:flex-end;gap:2px;width:42px;height:24px;border-bottom:1px solid var(--border)}
 .rmini-bar{flex:1;background:var(--fg3);border-radius:1px 1px 0 0;min-width:3px}
@@ -105,11 +91,19 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .related-interests .ri-letter{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--accent-deep);color:#fff;border-radius:999px;font-family:var(--font-serif);font-weight:700;font-size:.95rem;flex-shrink:0}
 .related-interests .ri-name{font-family:var(--font-serif);font-weight:500;color:var(--fg)}
 .related-interests .ri-desc{font-size:.78rem;color:var(--fg2);display:block;margin-top:2px}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px;grid-column:1 / -1}.sb-row{grid-template-columns:80px 1fr 36px}.rmini{width:36px;height:20px}}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}.sb-row{grid-template-columns:80px 1fr 36px}.rmini{width:36px;height:20px}}
+.hub-list-sec{margin:8px 0 28px}
+.hub-list-sec h2{font-size:12px;font-weight:600;color:var(--fg2);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;font-family:var(--font-sans);word-break:keep-all;overflow-wrap:anywhere}
+.chap-body .stats{margin:16px 0}
+.chap-body .intro{margin:12px 0 16px;word-break:keep-all;line-break:strict}
+.chap-body .highlights,.chap-body .sector-chart,.chap-body .persona{margin:16px 0}
+.chap-body .persona p,.chap-body .persona-grid li{word-break:keep-all;line-break:strict}
+.rl-meta .rmini-wrap{vertical-align:middle}
 `} />
+  <style slot="head" set:html={RANK_LIST_CSS} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
-  <div id="wrapper">
+  <div id="wrapper" class="hub-interest">
     <nav class="crumb" aria-label="パンくずリスト">
       <a href="/" rel="up">未来の仕事</a>
       <span aria-hidden="true">›</span>
@@ -124,32 +118,36 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
         <span class="accent">{meta.name_ja}タイプにおすすめの職業</span>
       </h1>
       <p class="sub">RIASEC <strong>{meta.letter} ({meta.name_ja})</strong> の score が高い職業 TOP {result.items.length}（全 {OCCUPATION_COUNT.SCORED} 職業中）</p>
-      <p class="intro" set:html={b.introHtml}></p>
     </header>
 
-    <section class="persona" aria-label={`${meta.name_ja}タイプの特徴`}>
-      <h2>{meta.name_ja}タイプとは</h2>
-      <p set:html={b.introHtml}></p>
-      <div class="persona-grid">
-        <div>
-          <h3>こんな特徴がある人</h3>
-          <Fragment set:html={b.charsHtml} />
-        </div>
-        <div>
-          <h3>典型的に向く分野</h3>
-          <Fragment set:html={b.fieldsHtml} />
-        </div>
-      </div>
-    </section>
-
-    <Fragment set:html={b.statsHtml} />
-    <Fragment set:html={b.highlightsHtml} />
-    <Fragment set:html={b.sectorChartHtml} />
-
-    <section aria-label={`TOP ${result.items.length} 職業`}>
+    <section class="hub-list-sec" aria-label={`TOP ${result.items.length} 職業`}>
       <h2>{meta.name_ja}タイプ TOP {result.items.length}（{meta.letter} スコア降順）</h2>
       <ol class="rank-list" set:html={b.rankItems} />
     </section>
+
+    <details class="chap">
+      <summary>読み方・出典</summary>
+      <div class="chap-body">
+        <p class="intro" set:html={b.introHtml}></p>
+        <section class="persona" aria-label={`${meta.name_ja}タイプの特徴`}>
+          <h2>{meta.name_ja}タイプとは</h2>
+          <p set:html={b.introHtml}></p>
+          <div class="persona-grid">
+            <div>
+              <h3>こんな特徴がある人</h3>
+              <Fragment set:html={b.charsHtml} />
+            </div>
+            <div>
+              <h3>典型的に向く分野</h3>
+              <Fragment set:html={b.fieldsHtml} />
+            </div>
+          </div>
+        </section>
+        <Fragment set:html={b.statsHtml} />
+        <Fragment set:html={b.highlightsHtml} />
+        <Fragment set:html={b.sectorChartHtml} />
+      </div>
+    </details>
 
     <Fragment set:html={b.faqHtml} />
 
@@ -162,4 +160,13 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 
     <Footer />
   </div>
+  <script is:inline slot="bodyEnd">
+    (function () {
+      try {
+        if (!window.matchMedia('(min-width: 900px)').matches) return;
+        var nodes = document.querySelectorAll('details.chap');
+        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
+      } catch (e) {}
+    })();
+  </script>
 </BaseLayout>

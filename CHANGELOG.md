@@ -70,6 +70,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Interest pages (`/interests/<type>`, 6) go list-first (#328 family 6):
+  H1 + the existing one-line sub stay, the RIASEC-ranked occupation list
+  is the first-screen payload, and `読み方・出典` folds intro / タイプとは /
+  stats / highlights / sector chart. Rows use the #321 whole-row atom +
+  `list_row_click` and keep the `.rmini` RIASEC sparkline extra. No
+  `.ai-fact` on these pages. Titles / meta / JSON-LD / H1 unchanged.
+  `/interests` index is untouched.
 - License pages (`/licenses/<slug>`, 15) go list-first (#328 family 5):
   H1 + the existing one-line sub stay, the related-occupation list is
   the first-screen payload, and `読み方・出典` folds intro / 代表資格 /
