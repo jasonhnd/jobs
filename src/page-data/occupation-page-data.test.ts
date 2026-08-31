@@ -62,6 +62,8 @@ function fakeRec(id: number, aiRisk: number | null): Rec {
     consensus_transformation: aiRisk,
     latest_transformation: aiRisk,
     latest_delta: 0,
+    used_expired_votes: false,
+    consensus_vote_count: null,
     profile5: {
       creative: null,
       social: null,

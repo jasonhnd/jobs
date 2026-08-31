@@ -12,6 +12,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Occupation pages show the consensus headline label 「複数のAIによる総合」,
+  unsigned rationale, and a 最新観測 row when `|Δ| ≥ 1.0` (mms-6c / #367).
+  History fold keeps model names; the highlighted card is the consensus
+  value. D1–D10 legend notes each dimension is a multi-model median.
 - Canonical public scores now use `pickConsensusScore()` (mms-6b / #366):
   treemap, rankings, bands, 診断, detail, JSON-LD, OG. Occupation 111
   goes from latest-vote 6.8 to consensus 4.25 (display 4.2).

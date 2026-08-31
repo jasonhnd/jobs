@@ -41,13 +41,16 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .verdict-grid{display:flex;flex-direction:column;gap:10px;padding-right:8px}
     .v-nums{display:flex;gap:22px;align-items:flex-end}
     .v-num{min-width:0;display:flex;flex-direction:column;gap:4px}
-    .score-label{font-size:11px;line-height:1.25;color:var(--ink-3);font-weight:700;letter-spacing:0.04em}
+    .score-label{font-size:11px;line-height:1.35;color:var(--ink-3);font-weight:700;letter-spacing:0.02em;line-break:strict;overflow-wrap:anywhere;word-break:normal}
     .score-num{font-family:var(--font-serif);font-weight:700;line-height:1;letter-spacing:0;color:var(--ink);font-variant-numeric:tabular-nums}
     .v-num.main .score-num{font-size:46px;margin-top:4px}
     .v-num.subn .score-num{font-size:26px;margin-top:8px}
     .score-num small{font-size:0.42em;font-weight:600;color:var(--fg3, var(--ink-3));margin-left:2px}
     .score-num.unscored{font-size:32px}
     .v-rank{margin:0;font-size:13px;line-height:1.45;color:var(--ink-3);font-variant-numeric:tabular-nums;font-weight:600}
+    .v-obs{margin:0;font-size:13.5px;line-height:1.65;color:var(--ink-2);line-break:strict;overflow-wrap:anywhere;word-break:normal}
+    .v-obs a{color:var(--ink-2);text-decoration:underline;text-decoration-thickness:0.06em;text-underline-offset:0.16em}
+    .v-obs a:hover{color:var(--accent);text-decoration-thickness:0.08em}
     .v-line{margin:4px 0 0;font-family:var(--font-serif);font-size:16px;line-height:1.8;color:var(--ink)}
     .v-facts{margin:0;font-size:13.5px;line-height:1.55;color:var(--ink-3)}
     .v-doors{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
@@ -56,7 +59,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .v-doors a.ghost{background:var(--paper);color:var(--ink);border:1.5px solid rgba(36,30,24,0.16)}
     .v-doors a:hover{text-decoration:none;opacity:0.92}
     .aiois-disc{margin:10px 4px 16px;font-size:12px;line-height:1.65;color:var(--ink-3)}
-    #sec-aiois,#sec-ai-detail,#sec-similar,#sec-transfer,
+    #sec-aiois,#sec-ai-detail,#sec-similar,#sec-transfer,#score-history-details,
     details.chap{scroll-margin-top:104px}
     html body #wrapper details.chap{margin:0 0 9px}
     html body #wrapper details.chap .chap-body{padding:2px 15px 15px}
@@ -74,12 +77,13 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:900px){
       .chipnav{margin-left:-32px;margin-right:-32px;padding-left:32px;padding-right:32px}
       details.chap{scroll-margin-top:24px}
-      #sec-aiois,#sec-ai-detail,#sec-similar,#sec-transfer{scroll-margin-top:24px}
+      #sec-aiois,#sec-ai-detail,#sec-similar,#sec-transfer,#score-history-details{scroll-margin-top:24px}
     }
     @media (min-width:900px){
-      .verdict-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(220px,0.9fr);grid-template-areas:"line nums" "rank nums" "facts facts" "doors doors";gap:10px 28px;align-items:start;padding-right:12px}
+      .verdict-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(220px,0.9fr);grid-template-areas:"line nums" "obs nums" "rank nums" "facts facts" "doors doors";gap:10px 28px;align-items:start;padding-right:12px}
       .v-nums{grid-area:nums;flex-direction:column;align-items:flex-start;gap:12px}
       .v-line{grid-area:line;margin:0}
+      .v-obs{grid-area:obs}
       .v-rank{grid-area:rank}
       .v-facts{grid-area:facts}
       .v-doors{grid-area:doors}
@@ -128,6 +132,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .score-history-details summary{display:flex;align-items:center;min-height:40px;width:max-content;max-width:100%;padding:8px 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--cream-2);color:var(--ink);font-size:0.84rem;line-height:1.35;font-weight:900;cursor:pointer;overflow-wrap:break-word;word-break:normal}
     .score-history-details summary:hover{border-color:var(--orange);color:var(--orange-hot)}
     .score-history-details[open] summary{margin-bottom:10px}
+    .score-history-aging{max-width:var(--content-max);margin:0 0 10px;font-size:0.82rem;line-height:1.7;color:var(--ink-3);line-break:strict;overflow-wrap:anywhere;word-break:normal}
     .score-history-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
     .score-history-item{min-width:0;background:var(--paper);border:1px solid var(--line-strong);border-radius:8px;padding:14px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,2fr);gap:12px;align-items:start;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
     @media (min-width:900px){.score-history-item{padding:16px 18px}}
