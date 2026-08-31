@@ -113,6 +113,8 @@ export interface DetailFile {
   latest_transformation?: number | null;
   /** latest − consensus, unrounded. Threshold display is the view layer (mms-6c). */
   latest_delta?: number | null;
+  used_expired_votes?: boolean;
+  consensus_vote_count?: number | null;
   stats?: {
     salary_man_yen?: number | null;
     workers?: number | null;
@@ -175,6 +177,8 @@ export interface Rec {
   consensus_transformation: number | null;
   latest_transformation: number | null;
   latest_delta: number | null;
+  used_expired_votes: boolean;
+  consensus_vote_count: number | null;
   /**
    * Pre-computed 5-axis ability profile. Sourced from
    * `graph.occupations.get(id).profile5` in the production page-data
@@ -259,6 +263,8 @@ export function adaptDetailFile(
     consensus_transformation: d.consensus_transformation ?? null,
     latest_transformation: d.latest_transformation ?? null,
     latest_delta: d.latest_delta ?? null,
+    used_expired_votes: d.used_expired_votes ?? false,
+    consensus_vote_count: d.consensus_vote_count ?? null,
     profile5,
     transferCandidates,
   };
@@ -316,11 +322,15 @@ export function buildOccupationDetailFile(
   let consensusTransformation: number | null = null;
   let latestTransformation: number | null = null;
   let latestDelta: number | null = null;
+  let usedExpiredVotes = false;
+  let consensusVoteCount: number | null = null;
   try {
     const consensus = pickConsensusScore(mapped);
     consensusTransformation = consensus.transformation;
     latestTransformation = consensus.latest.aiois ? consensus.latest.aiois.transformation : null;
     latestDelta = consensus.latestDelta;
+    usedExpiredVotes = consensus.usedExpiredVotes;
+    consensusVoteCount = consensus.panel.length;
   } catch {
     // Occupations with no comparable AIOIS-10 votes omit the observation fields.
   }
@@ -370,6 +380,8 @@ export function buildOccupationDetailFile(
     consensus_transformation: consensusTransformation,
     latest_transformation: latestTransformation,
     latest_delta: latestDelta,
+    used_expired_votes: usedExpiredVotes,
+    consensus_vote_count: consensusVoteCount,
     stats: occ.stats
       ? {
           salary_man_yen: occ.stats.salaryManYen,
