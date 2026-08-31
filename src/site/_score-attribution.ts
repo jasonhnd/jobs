@@ -1,10 +1,14 @@
 /**
- * Build-time score attribution (active model + run date).
+ * Build-time score attribution (latest observation batch) and consensus
+ * panel metadata.
  *
  * This file is OVERWRITTEN by `bun src/data/build.ts` (run as part of
- * `npm run build:data` and the `build` chain). The values are derived from the
- * newest AIOIS-10 score batch under `data/scores/` — the model that produced
- * the scores the site currently shows, and that batch's run date.
+ * `npm run build:data` and the `build` chain).
+ *
+ *   - `SCORE_ATTRIBUTION_DATA` is the newest AIOIS-10 occupation batch
+ *     under `data/scores/` (最新観測 / /models / deep pages).
+ *   - `SCORE_PANEL_DATA` is the comparable-vote panel used by
+ *     `pickConsensusScore()` (vote count, newest run date, window/floor).
  *
  * Why a committed default instead of pure auto-generation (same rationale as
  * src/lib/_content-date.ts):
@@ -21,4 +25,12 @@ export const SCORE_ATTRIBUTION_DATA = {
   modelId: 'claude-opus-5',
   modelDisplay: 'Claude Opus 5',
   runDate: '2026-07-26',
+} as const;
+
+export const SCORE_PANEL_DATA = {
+  voteCount: 4,
+  latestRunDate: '2026-07-26',
+  windowMonths: 6,
+  floorVotes: 5,
+  usedExpiredVotes: false,
 } as const;

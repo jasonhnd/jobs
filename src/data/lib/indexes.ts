@@ -9,7 +9,9 @@
  *   transById            Map<number, TranslationEN>
  *   statsById            Map<number, StatsLegacy>
  *   historyByOcc         Map<number, ScoreHistEntry[]>      sorted by date
- *   latestScoreByOcc     Map<number, ScoreHistEntry>
+ *   latestScoreByOcc     Map<number, ScoreHistEntry>      最新観測
+ *   consensusByOcc       Map<number, ConsensusScore>
+ *   canonicalScoreByOcc  Map<number, ScoreHistEntry>      正典（総合）
  *   runsByModel          Map<string, ScoreRun[]>
  *   labelsByDim          Map<string, Map<string, LabelEntry>>
  *   sectors              SectorDef[]
@@ -79,7 +81,13 @@ import {
   validateSectorDefinitions,
   type SectorAssignment,
 } from '../../graph/sector-resolver.js';
-import { pickLatestScore, type ScoreHistEntry } from '../../graph/score-strategy.js';
+import {
+  pickLatestScore,
+  pickConsensusScore,
+  toCanonicalScoreEntry,
+  type ScoreHistEntry,
+  type ConsensusScore,
+} from '../../graph/score-strategy.js';
 
 export interface Indexes {
   occById: Map<number, Occupation>;
@@ -87,6 +95,10 @@ export interface Indexes {
   statsById: Map<number, StatsLegacy>;
   historyByOcc: Map<number, ScoreHistEntry[]>;
   latestScoreByOcc: Map<number, ScoreHistEntry>;
+  /** Median consensus of comparable AIOIS-10 votes (mms-6b). */
+  consensusByOcc: Map<number, ConsensusScore>;
+  /** Consensus flattened to ScoreHistEntry for projection drop-in. */
+  canonicalScoreByOcc: Map<number, ScoreHistEntry>;
   runsByModel: Map<string, ScoreRun[]>;
   labelsByDim: Map<string, Map<string, LabelEntry>>;
   sectors: SectorDef[];
@@ -171,10 +183,20 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
     hist.sort((a, b) => a.date.localeCompare(b.date));
   }
 
-  // Latest score per occupation.
+  // Latest score per occupation (最新観測 / attribution). Canonical public
+  // scores are consensusByOcc / canonicalScoreByOcc (mms-6b).
   const latestScoreByOcc = new Map<number, ScoreHistEntry>();
+  const consensusByOcc = new Map<number, ConsensusScore>();
+  const canonicalScoreByOcc = new Map<number, ScoreHistEntry>();
   for (const [occId, hist] of historyByOcc) {
     latestScoreByOcc.set(occId, pickLatestScore(hist));
+    try {
+      const consensus = pickConsensusScore(hist);
+      consensusByOcc.set(occId, consensus);
+      canonicalScoreByOcc.set(occId, toCanonicalScoreEntry(consensus));
+    } catch {
+      // Occupations with no comparable AIOIS-10 votes stay off the canonical map.
+    }
   }
 
   // Cross-reference sanity.
@@ -269,6 +291,8 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
       statsById,
       historyByOcc,
       latestScoreByOcc,
+      consensusByOcc,
+      canonicalScoreByOcc,
       runsByModel,
       labelsByDim,
       sectors,

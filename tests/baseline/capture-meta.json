@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-08-29T13:33:10.008Z",
-  "gitCommit": "74f037cc6607a39fa9db2b31e9e1c26a9e8aa982",
-  "gitBranch": "feat/issue-327-search-overlay",
+  "capturedAt": "2026-08-31T09:16:16.085Z",
+  "gitCommit": "cb9f000370c71ab4ca74aae4061dc984696502ef",
+  "gitBranch": "feat/issue-366-consensus-projections",
   "distFileCount": 834,
   "urlCount": 834,
   "dataFileCount": 612,

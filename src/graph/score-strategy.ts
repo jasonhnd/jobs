@@ -3,13 +3,15 @@
  *
  * Centralizes the rule for "which historical score is current".
  *
- * Current canonical-in-progress: `pickConsensusScore` (mms-6a) — median of
- * comparable AIOIS-10 votes. `pickLatestScore` remains for 最新観測 / /models.
+ * Canonical: `pickConsensusScore` (mms-6b) — median of comparable AIOIS-10
+ * votes. `pickLatestScore` remains for 最新観測 / /models / score_history.
  *
  * CHANGELOG of pickConsensusScore:
  *   2026-08-31  mms-6a — comparable → 1 vote/model → 6-month window
  *               (anchor = newest vote date, no clock APIs) → floor 5
  *               expired fill → independent medians → rationale ±0.3.
+ *   2026-08-31  mms-6b — wired as the public canonical score; SCORE_PANEL
+ *               metadata; toCanonicalScoreEntry for projection drop-in.
  *
  * CHANGELOG of pickLatestScore:
  *   2026-05-04  initial — strict max(date) per occupation
@@ -60,6 +62,9 @@ export function pickLatestScore<T extends { date: string; aiois?: unknown }>(his
   return chosen;
 }
 
+export const CONSENSUS_WINDOW_MONTHS = 6;
+export const CONSENSUS_FLOOR_VOTES = 5;
+
 const DIM_KEYS = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10'] as const;
 type DimKey = (typeof DIM_KEYS)[number];
 
@@ -85,6 +90,25 @@ export interface ConsensusScore {
   readonly rationaleEntry: ScoreHistEntry;
   readonly latest: ScoreHistEntry;
   readonly latestDelta: number;
+}
+
+/** Site-wide panel metadata baked into `SCORE_PANEL` at build time. */
+export interface ScorePanelMeta {
+  readonly voteCount: number;
+  readonly latestRunDate: string;
+  readonly windowMonths: number;
+  readonly floorVotes: number;
+  readonly usedExpiredVotes: boolean;
+}
+
+export function scorePanelMeta(c: ConsensusScore): ScorePanelMeta {
+  return {
+    voteCount: c.panel.length,
+    latestRunDate: c.latest.date,
+    windowMonths: CONSENSUS_WINDOW_MONTHS,
+    floorVotes: CONSENSUS_FLOOR_VOTES,
+    usedExpiredVotes: c.usedExpiredVotes,
+  };
 }
 
 const DAYS_IN_MONTH = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -187,7 +211,7 @@ export function pickConsensusScore(history: readonly ScoreHistEntry[]): Consensu
   const latest = pickLatestScore(comparable);
   const votes = oneVotePerModel(comparable);
   const anchor = votes.reduce((max, e) => (e.date > max ? e.date : max), votes[0]!.date);
-  const cutoff = subtractMonths(anchor, 6);
+  const cutoff = subtractMonths(anchor, CONSENSUS_WINDOW_MONTHS);
   const inWindow: ScoreHistEntry[] = [];
   const expired: ScoreHistEntry[] = [];
   for (const entry of votes) {
@@ -198,8 +222,8 @@ export function pickConsensusScore(history: readonly ScoreHistEntry[]): Consensu
 
   let usedExpiredVotes = false;
   const panelEntries = inWindow.slice();
-  if (panelEntries.length < 5 && expired.length > 0) {
-    const fill = expired.slice(0, 5 - panelEntries.length);
+  if (panelEntries.length < CONSENSUS_FLOOR_VOTES && expired.length > 0) {
+    const fill = expired.slice(0, CONSENSUS_FLOOR_VOTES - panelEntries.length);
     panelEntries.push(...fill);
     usedExpiredVotes = fill.length > 0;
   }
@@ -228,5 +252,21 @@ export function pickConsensusScore(history: readonly ScoreHistEntry[]): Consensu
     rationaleEntry,
     latest,
     latestDelta,
+  };
+}
+
+/** Flatten a consensus result into the ScoreHistEntry shape projections already consume. */
+export function toCanonicalScoreEntry(c: ConsensusScore): ScoreHistEntry {
+  return {
+    model: c.rationaleEntry.model,
+    date: c.latest.date,
+    ai_risk: c.transformation,
+    rationale_ja: c.rationaleEntry.rationale_ja,
+    confidence: c.rationaleEntry.confidence,
+    aiois: {
+      ...c.dims,
+      transformation: c.transformation,
+      displacement: c.displacement,
+    },
   };
 }
