@@ -108,3 +108,8 @@ export function bankerRound(x: number, ndigits: number): number {
   const incremented = x >= 0 ? truncated + unit : truncated - unit;
   return Number(incremented.toFixed(ndigits));
 }
+
+/** One-decimal public display of a score. Engine values stay unrounded. */
+export function displayScore(score: number): number {
+  return bankerRound(score, 1);
+}

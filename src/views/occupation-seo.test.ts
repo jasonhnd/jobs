@@ -21,6 +21,11 @@ describe('buildOccupationSeo', () => {
     assert.equal(title, '看護師の年収約536万円｜AI影響3/10｜未来の仕事');
   });
 
+  test('title banker-rounds even-count medians to one decimal', () => {
+    const { title } = buildOccupationSeo({ ...baseInput, aiRisk: 4.25, salaryMan: 500 });
+    assert.equal(title, '看護師の年収約500万円｜AI影響4.2/10｜未来の仕事');
+  });
+
   test('title without salary still carries AI impact', () => {
     const { title } = buildOccupationSeo({ ...baseInput, aiRisk: 6 });
     assert.equal(title, '看護師のAI影響6/10｜未来の仕事');

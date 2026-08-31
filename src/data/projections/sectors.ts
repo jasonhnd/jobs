@@ -148,7 +148,7 @@ export async function buildSectors(
     const titles = sampleTitles.get(sid)!;
     if (titles.length < 6) titles.push(occ.title_ja);
 
-    const score = indexes.latestScoreByOcc.get(occId);
+    const score = indexes.canonicalScoreByOcc.get(occId);
     if (score) {
       pushVal(riskValues, sid, score.ai_risk);
     }

@@ -56,6 +56,20 @@ test('buildIndexes: carries AIOIS profile into score history and latest score', 
   assert.ok(history, 'occupation #1 should have score history');
   assert.ok(history.some((entry) => entry.aiois != null), 'history should preserve AIOIS profile');
   assert.ok(indexes.latestScoreByOcc.get(1)?.aiois, 'latest score should preserve AIOIS profile');
+  assert.ok(indexes.canonicalScoreByOcc.get(1)?.aiois, 'canonical score should preserve AIOIS profile');
+});
+
+test('buildIndexes: canonical score for occ 111 is the consensus median, not the latest vote', async () => {
+  const { indexes } = await buildIndexes();
+  const canonical = indexes.canonicalScoreByOcc.get(111);
+  const latest = indexes.latestScoreByOcc.get(111);
+  const consensus = indexes.consensusByOcc.get(111);
+  assert.ok(canonical, 'occ 111 should have a canonical score');
+  assert.ok(latest, 'occ 111 should have a latest score');
+  assert.ok(consensus, 'occ 111 should have a consensus score');
+  assert.ok(Math.abs(canonical.ai_risk - 4.25) < 1e-9, `expected 4.25, got ${canonical.ai_risk}`);
+  assert.equal(canonical.ai_risk, consensus.transformation);
+  assert.notEqual(canonical.ai_risk, latest.ai_risk);
 });
 
 test('buildIndexes: history is sorted by date ascending', async () => {
