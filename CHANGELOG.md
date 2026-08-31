@@ -12,6 +12,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- `docs/CONSENSUS_SCORE.md` mms-6-doc: latest-observation threshold
+  `|Δ| ≥ 1.0`, rationale proximity `±0.3`, and C-facing copy slots
+  (headline / 最新観測行 / footer / FAQ / 引用用ファクト / 老化提示 /
+  切替説明 / /standard·/methodology·README 方針). Later mms-6 issues
+  use those strings verbatim (#364).
 - Mobile top-bar search overlay on every page (#327): 44×44 search
   button, full-screen dialog with NFKC substring match over
   `/data.search.json`, risk pills from the corpus `risk_band`, 最近見た
