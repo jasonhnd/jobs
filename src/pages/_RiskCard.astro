@@ -48,7 +48,7 @@ const ogHref = `/api/og?id=${id}`;
   <div class="verdict-grid">
     <div class="v-nums" aria-label="AIOIS-10 指標">
       <div class="v-num main">
-        <span class="score-label">AI影響度（変化の大きさ）</span>
+        <span class="score-label">{verdict.scoreLabel}</span>
         {verdict.scored ? (
           <span class="score-num" style={riskColor ? `color:${riskColor}` : undefined}>{verdict.transformationDisp}<small>/10</small></span>
         ) : (
@@ -64,6 +64,11 @@ const ogHref = `/api/og?id=${id}`;
     </div>
 
     {verdict.rankLine && <p class="v-rank">{verdict.rankLine}</p>}
+    {verdict.latestObs && (
+      <p class="v-obs">
+        <a href={verdict.latestObsHref}>{verdict.latestObs}</a>
+      </p>
+    )}
     <p class="v-line">{verdict.sentence}</p>
     {verdict.facts && <p class="v-facts">{verdict.facts}</p>}
 
