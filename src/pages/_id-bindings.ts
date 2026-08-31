@@ -67,6 +67,7 @@ import {
 } from './_id-renderers';
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
 import { CONTENT_DATE } from '@/lib/_content-date';
+import { displayScore } from '@/data/lib/banker-round';
 import type { Rec } from '@/views/occupation-detail';
 
 const DESC_TRUNCATE = 240;
@@ -197,7 +198,7 @@ export function buildVerdictDoors(opts: {
 
 function fmtScoreDisp(score: number | null): string {
   if (score === null) return '—';
-  return score.toFixed(1).replace(/\.0$/, '');
+  return String(displayScore(score));
 }
 
 export interface WorktypeHeroBinding {

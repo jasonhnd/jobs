@@ -95,19 +95,26 @@ describe('loadGraph — occupation node shape', () => {
     assert.equal(withoutStats, 0, `expected 0 occupations without stats, got ${withoutStats}`);
   });
 
-  test('aiRisk: at least 500 occupations have a latest score', () => {
+  test('aiRisk: at least 500 occupations have a canonical consensus score', () => {
     let scored = 0;
     for (const occ of graph.occupations.values()) {
       if (occ.aiRisk !== null) scored += 1;
     }
     assert.ok(scored >= 500, `expected >= 500 scored occupations, got ${scored}`);
-    // Score is 0.0–10.0 with at most one decimal place (schema v2.1).
+    // Canonical scores are unrounded medians (even-count → mean of two
+    // central values). Display rounding stays at the view layer.
     for (const occ of graph.occupations.values()) {
       if (occ.aiRisk === null) continue;
       const s = occ.aiRisk.score;
       assert.ok(s >= 0 && s <= 10, `aiRisk.score out of range for occ ${occ.id}`);
-      assert.ok(Math.abs(s * 10 - Math.round(s * 10)) < 1e-9, `aiRisk.score >1 decimal for occ ${occ.id}`);
     }
+  });
+
+  test('occ 111 canonical transformation is the consensus median (~4.25), not the latest vote (6.8)', () => {
+    const occ = graph.occupations.get(asOccupationId(111));
+    assert.ok(occ?.aiRisk, 'occ 111 should be scored');
+    assert.ok(Math.abs(occ.aiRisk.score - 4.25) < 1e-9, `expected 4.25, got ${occ.aiRisk.score}`);
+    assert.notEqual(occ.aiRisk.score, 6.8);
   });
 });
 

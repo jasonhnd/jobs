@@ -28,8 +28,8 @@ async function fixture() {
 }
 
 function activeAioisIds(indexes: Indexes): number[] {
-  return [...indexes.latestScoreByOcc.keys()]
-    .filter((id) => indexes.latestScoreByOcc.get(id)?.aiois != null)
+  return [...indexes.canonicalScoreByOcc.keys()]
+    .filter((id) => indexes.canonicalScoreByOcc.get(id)?.aiois != null)
     .sort((a, b) => a - b);
 }
 
@@ -45,14 +45,14 @@ function expectedThresholds(indexes: Indexes): Record<AxisId, number> {
   const stats = {} as Record<DimensionKey, { mean: number; stdev: number }>;
 
   for (const dim of dims) {
-    const values = ids.map((id) => indexes.latestScoreByOcc.get(id)!.aiois![dim]);
+    const values = ids.map((id) => indexes.canonicalScoreByOcc.get(id)!.aiois![dim]);
     const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
     const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
     stats[dim] = { mean, stdev: Math.sqrt(variance) };
   }
 
   const norm = (id: number, dim: DimensionKey): number => {
-    const value = indexes.latestScoreByOcc.get(id)!.aiois![dim];
+    const value = indexes.canonicalScoreByOcc.get(id)!.aiois![dim];
     const stat = stats[dim];
     return stat.stdev === 0 ? 0 : (value - stat.mean) / stat.stdev;
   };
@@ -106,10 +106,10 @@ describe('worktypes projection', () => {
       assert.ok(family.pct >= 3, `${code} below floor: ${family.pct}`);
       assert.ok(family.pct <= 35, `${code} above ceiling: ${family.pct}`);
     }
-    // Under the claude-opus-5 batch the raw distribution already clears the 3%
+    // Under the consensus panel the raw distribution already clears the 3%
     // floor, so the rarest family needs no smoothing and calibrated == raw.
-    assert.equal(payload.calibration.raw_distribution.CDB.pct, 3.6);
-    assert.equal(payload.families.CDB.pct, 3.6);
+    assert.equal(payload.calibration.raw_distribution.CDB.pct, 3.1);
+    assert.equal(payload.families.CDB.pct, 3.1);
     assert.equal(payload.calibration.smoothing.adjustments.length, 0);
   });
 

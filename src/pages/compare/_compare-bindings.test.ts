@@ -77,13 +77,13 @@ describe('buildCompareMetricRows', () => {
     assert.equal(labels.includes('関連資格'), true);
   });
 
-  test('kango-vs-helper displacements are 0.6 / 0.5 on the live graph', async () => {
+  test('kango-vs-helper displacements are the live consensus medians', async () => {
     const { loadGraph } = await import('@/graph');
     const graph = await loadGraph();
     const a = graph.occupations.get(asOccupationId(156))?.aiRisk?.aiois?.displacement ?? null;
     const b = graph.occupations.get(asOccupationId(133))?.aiRisk?.aiois?.displacement ?? null;
-    assert.equal(a, 0.6);
-    assert.equal(b, 0.5);
+    assert.equal(a, 0.55);
+    assert.equal(b, 0.6);
   });
 });
 

@@ -13,6 +13,7 @@
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
 import type { Aiois10 } from '@/graph/types';
+import { pickConsensusScore, type ScoreHistEntry } from '@/graph/score-strategy';
 import type { Profile5Record } from '@/graph/profile5';
 import type { TransferPathEntry } from '@/graph/transfer-paths';
 import {
@@ -106,6 +107,12 @@ export interface DetailFile {
     horizon_5y_ja?: string | null;
     aiois?: Aiois10 | null;
   };
+  /** Unrounded consensus transformation (same as `ai_risk.score` when scored). */
+  consensus_transformation?: number | null;
+  /** Latest comparable vote's transformation (最新観測). */
+  latest_transformation?: number | null;
+  /** latest − consensus, unrounded. Threshold display is the view layer (mms-6c). */
+  latest_delta?: number | null;
   stats?: {
     salary_man_yen?: number | null;
     workers?: number | null;
@@ -165,6 +172,9 @@ export interface Rec {
   ai_horizon_5y_ja: string | null;
   /** Full AIOIS-10 profile (D1–D10 + transformation + displacement); null for legacy/unscored. */
   aiois: Aiois10 | null;
+  consensus_transformation: number | null;
+  latest_transformation: number | null;
+  latest_delta: number | null;
   /**
    * Pre-computed 5-axis ability profile. Sourced from
    * `graph.occupations.get(id).profile5` in the production page-data
@@ -246,6 +256,9 @@ export function adaptDetailFile(
     ai_resilient_tasks_ja: ai.resilient_tasks_ja ?? [],
     ai_horizon_5y_ja: ai.horizon_5y_ja ?? null,
     aiois: ai.aiois ?? null,
+    consensus_transformation: d.consensus_transformation ?? null,
+    latest_transformation: d.latest_transformation ?? null,
+    latest_delta: d.latest_delta ?? null,
     profile5,
     transferCandidates,
   };
@@ -291,6 +304,26 @@ export function buildOccupationDetailFile(
   const sectorId = graph.sectorOf(occId);
   const sector = sectorId ? graph.sectors.get(sectorId) : null;
   const aiScore = occ.aiRisk?.score ?? null;
+  const hist = graph.scoreHistoryByOcc.get(occId) ?? [];
+  const mapped: ScoreHistEntry[] = hist.map((entry) => ({
+    model: entry.model,
+    date: entry.date,
+    ai_risk: entry.transformation,
+    rationale_ja: entry.rationaleJa,
+    confidence: entry.confidence,
+    aiois: entry.dims,
+  }));
+  let consensusTransformation: number | null = null;
+  let latestTransformation: number | null = null;
+  let latestDelta: number | null = null;
+  try {
+    const consensus = pickConsensusScore(mapped);
+    consensusTransformation = consensus.transformation;
+    latestTransformation = consensus.latest.aiois ? consensus.latest.aiois.transformation : null;
+    latestDelta = consensus.latestDelta;
+  } catch {
+    // Occupations with no comparable AIOIS-10 votes omit the observation fields.
+  }
 
   const skillLabels = labelMap(graph.skills as ReadonlyMap<unknown, { nameJa: string }>);
   const knowledgeLabels = labelMap(graph.knowledge as ReadonlyMap<unknown, { nameJa: string }>);
@@ -334,6 +367,9 @@ export function buildOccupationDetailFile(
           // null gracefully.
         }
       : undefined,
+    consensus_transformation: consensusTransformation,
+    latest_transformation: latestTransformation,
+    latest_delta: latestDelta,
     stats: occ.stats
       ? {
           salary_man_yen: occ.stats.salaryManYen,

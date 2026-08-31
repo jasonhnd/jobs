@@ -1,8 +1,17 @@
 import { fmean, fsum } from '../data/lib/fsum.js';
 import { bankerRound } from '../data/lib/banker-round.js';
 import { riskBand } from '../data/lib/bands.js';
+import {
+  pickConsensusScore,
+  type ScoreHistEntry,
+} from '../graph/score-strategy.js';
+import type { Aiois10 } from '../graph/types.js';
 import { formatModelDisplay } from './score-attribution.js';
 import { z } from 'zod';
+
+const ZERO_DIMS: Pick<Aiois10, 'd1' | 'd2' | 'd3' | 'd4' | 'd5' | 'd6' | 'd7' | 'd8' | 'd9' | 'd10'> = {
+  d1: 0, d2: 0, d3: 0, d4: 0, d5: 0, d6: 0, d7: 0, d8: 0, d9: 0, d10: 0,
+};
 
 export interface GeoAttribution {
   readonly modelId: string;
@@ -190,15 +199,49 @@ function fiveBandIndex(score: number): number {
   return 4;
 }
 
-function transformation(entry: GeoScoreEntry): number {
-  return entry.aiois?.transformation ?? entry.ai_risk;
+interface GeoConsensus {
+  readonly t: number;
+  readonly d: number;
 }
 
-function scoreMapFromRun(run: GeoScoreRunLike): Map<number, GeoScoreEntry> {
-  const out = new Map<number, GeoScoreEntry>();
-  for (const [idRaw, entry] of Object.entries(run.scores)) {
-    const id = Number.parseInt(idRaw, 10);
-    if (Number.isFinite(id)) out.set(id, entry);
+function histEntryFromGeo(run: GeoScoreRunLike, entry: GeoScoreEntry): ScoreHistEntry {
+  const displacement = entry.aiois?.displacement;
+  const t = entry.aiois?.transformation ?? entry.ai_risk;
+  return {
+    model: run.scorer.model,
+    date: run.run.run_date,
+    ai_risk: t,
+    rationale_ja: '',
+    confidence: entry.confidence ?? null,
+    aiois: typeof displacement === 'number'
+      ? { ...ZERO_DIMS, transformation: t, displacement }
+      : null,
+  };
+}
+
+function consensusByOccFromRuns(runs: readonly GeoScoreRunLike[]): Map<number, GeoConsensus> {
+  const history = new Map<number, ScoreHistEntry[]>();
+  for (const run of runs) {
+    if (run.scope !== 'occupations') continue;
+    for (const [idRaw, entry] of Object.entries(run.scores)) {
+      const id = Number.parseInt(idRaw, 10);
+      if (!Number.isFinite(id)) continue;
+      let bucket = history.get(id);
+      if (!bucket) {
+        bucket = [];
+        history.set(id, bucket);
+      }
+      bucket.push(histEntryFromGeo(run, entry));
+    }
+  }
+  const out = new Map<number, GeoConsensus>();
+  for (const [id, hist] of history) {
+    try {
+      const c = pickConsensusScore(hist);
+      out.set(id, { t: c.transformation, d: c.displacement });
+    } catch {
+      // Occupations with no comparable (aiois + displacement) votes stay out.
+    }
   }
   return out;
 }
@@ -213,16 +256,16 @@ function median(values: readonly number[]): number {
 
 function scoreFor(
   row: GeoTreemapRow,
-  scoresById: ReadonlyMap<number, GeoScoreEntry>,
+  consensusById: ReadonlyMap<number, GeoConsensus>,
   rankById: ReadonlyMap<number, number>,
 ): GeoOccupationSummary {
-  const score = scoresById.get(row.id);
+  const consensus = consensusById.get(row.id);
   return {
     id: row.id,
     nameJa: row.name_ja,
-    aiImpact: row.ai_risk ?? score?.ai_risk ?? NaN,
+    aiImpact: row.ai_risk ?? consensus?.t ?? NaN,
     aiImpactRank: rankById.get(row.id) ?? 0,
-    displacementRisk: score?.aiois?.displacement ?? null,
+    displacementRisk: consensus?.d ?? null,
     salaryMan: row.salary ?? null,
     workers: row.workers,
     recruitRatio: row.recruit_ratio ?? null,
@@ -283,18 +326,32 @@ export function computeGeoFacts(
   const runs = [...scoreRuns];
   const activeRun = pickLatestGeoScoreRun(runs);
   const predecessorRun = pickPredecessorGeoScoreRun(activeRun, runs);
-  const scoresById = scoreMapFromRun(activeRun);
+  const consensusById = consensusByOccFromRuns(runs);
+  const mentionedIds = new Set<number>();
+  for (const run of runs) {
+    if (run.scope !== 'occupations') continue;
+    for (const idRaw of Object.keys(run.scores)) {
+      const id = Number.parseInt(idRaw, 10);
+      if (Number.isFinite(id)) mentionedIds.add(id);
+    }
+  }
   const attribution: GeoAttribution = {
     modelId: activeRun.scorer.model,
     modelDisplay: formatModelDisplay(activeRun.scorer.model),
     runDate: activeRun.run.run_date,
     standardLabel: 'AIOIS-10',
   };
-  // The treemap carries labor metadata. Scores always come from the selected
-  // active run so a stale per-row ai_risk cannot create a mixed-batch aggregate.
+  // Treemap carries labor metadata. Canonical T/D come from pickConsensusScore
+  // across comparable occupation runs (mms-6b). Attribution stays the newest
+  // run for 最新観測.
+  for (const row of rows) {
+    if (mentionedIds.has(row.id) && !consensusById.has(row.id)) {
+      throw new Error(`geo-facts: expected displacement for occupation ${row.id}`);
+    }
+  }
   const scoredRows = rows.flatMap((row) => {
-    const score = scoresById.get(row.id);
-    return score ? [{ ...row, ai_risk: transformation(score) }] : [];
+    const consensus = consensusById.get(row.id);
+    return consensus ? [{ ...row, ai_risk: consensus.t }] : [];
   });
   if (scoredRows.length === 0) throw new Error('geo-facts: treemap has no scored rows');
 
@@ -307,14 +364,7 @@ export function computeGeoFacts(
   const highRiskRows = scoredRows.filter((row) => riskBand(row.ai_risk) === 'high');
   const highRiskWorkforce = fsum(highRiskRows.map((row) => row.workers ?? 0));
 
-  const displacementValues = scoredRows
-    .map((row) => scoresById.get(row.id)?.aiois?.displacement)
-    .filter((v): v is number => typeof v === 'number');
-  if (displacementValues.length !== scoredRows.length) {
-    throw new Error(
-      `geo-facts: expected displacement for ${scoredRows.length} scored rows, got ${displacementValues.length}`,
-    );
-  }
+  const displacementValues = scoredRows.map((row) => consensusById.get(row.id)!.d);
 
   const fiveBandCounts = FIVE_BANDS.map((_, index) =>
     risks.filter((risk) => fiveBandIndex(risk) === index).length,
@@ -330,13 +380,15 @@ export function computeGeoFacts(
     };
   });
 
-  const predecessorScores = predecessorRun ? scoreMapFromRun(predecessorRun) : null;
-  const predecessorDeltas = predecessorScores
-    ? [...scoresById.entries()]
+  const predecessorConsensus = predecessorRun
+    ? consensusByOccFromRuns(runs.filter((run) => run !== activeRun))
+    : null;
+  const predecessorDeltas = predecessorConsensus
+    ? [...consensusById.entries()]
       .sort(([a], [b]) => a - b)
       .flatMap(([id, score]) => {
-        const previous = predecessorScores.get(id);
-        return previous ? [transformation(score) - transformation(previous)] : [];
+        const previous = predecessorConsensus.get(id);
+        return previous ? [score.t - previous.t] : [];
       })
     : [];
   const meanAiImpactRaw = fmean(risks);
@@ -361,7 +413,7 @@ export function computeGeoFacts(
   );
   const occupations = [...scoredRows]
     .sort((a, b) => a.id - b.id)
-    .map((row) => scoreFor(row, scoresById, rankById));
+    .map((row) => scoreFor(row, consensusById, rankById));
 
   const sectors = new Map<string, {
     nameJa: string;
@@ -416,12 +468,12 @@ export function computeGeoFacts(
     highRiskOccupationSharePct: roundPct(highRiskCount, scoredRows.length),
     highRiskWorkforce: bankerRound(highRiskWorkforce, 0),
     highRiskWorkforceSharePct: roundPct(highRiskWorkforce, totalWorkforce),
-    largestOccupation: scoreFor(requireOne(byWorkforceDesc, 'largest occupation'), scoresById, rankById),
-    highestImpactOccupation: scoreFor(requireOne(byImpactDesc, 'highest-impact occupation'), scoresById, rankById),
-    lowestImpactOccupation: scoreFor(requireOne(byImpactAsc, 'lowest-impact occupation'), scoresById, rankById),
+    largestOccupation: scoreFor(requireOne(byWorkforceDesc, 'largest occupation'), consensusById, rankById),
+    highestImpactOccupation: scoreFor(requireOne(byImpactDesc, 'highest-impact occupation'), consensusById, rankById),
+    lowestImpactOccupation: scoreFor(requireOne(byImpactAsc, 'lowest-impact occupation'), consensusById, rankById),
     occupations,
-    topImpactOccupations: byImpactDesc.slice(0, 20).map((row) => scoreFor(row, scoresById, rankById)),
-    bottomImpactOccupations: byImpactAsc.slice(0, 20).map((row) => scoreFor(row, scoresById, rankById)),
+    topImpactOccupations: byImpactDesc.slice(0, 20).map((row) => scoreFor(row, consensusById, rankById)),
+    bottomImpactOccupations: byImpactAsc.slice(0, 20).map((row) => scoreFor(row, consensusById, rankById)),
     sectorsByMeanImpact,
   };
 }

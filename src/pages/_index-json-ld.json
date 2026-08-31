@@ -74,7 +74,7 @@
       "@id": "https://mirai-shigoto.com/#dataset",
       "name": "Japan __OCCUPATION_COUNT_SCORED__ Occupations x AI Impact",
       "alternateName": "日本の職業 AI 影響度マップ",
-      "description": "__OCCUPATION_COUNT_SCORED__ Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by Claude Opus 5. Mean AI Impact 5.23/10; mean Displacement-Risk 2.19/10.",
+      "description": "__OCCUPATION_COUNT_SCORED__ Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by Claude Opus 5. Mean AI Impact 4.68/10; mean Displacement-Risk 1.90/10.",
       "url": "https://mirai-shigoto.com/",
       "creator": {
         "@id": "https://mirai-shigoto.com/#organization"
@@ -117,32 +117,32 @@
         {
           "@type": "PropertyValue",
           "name": "Mean AI Impact",
-          "value": 5.226618705035971,
+          "value": 4.6770683453237405,
           "minValue": 0,
           "maxValue": 10
         },
         {
           "@type": "PropertyValue",
           "name": "Mean Displacement-Risk",
-          "value": 2.193705035971223,
+          "value": 1.8966726618705034,
           "minValue": 0,
           "maxValue": 10
         },
         {
           "@type": "PropertyValue",
           "name": "Occupations with AI Impact >= 5",
-          "value": 310
+          "value": 197
         },
         {
           "@type": "PropertyValue",
           "name": "Annual wages with AI Impact >= 5",
-          "value": 144.979530885,
+          "value": 97.040298776,
           "unitText": "trillion JPY"
         },
         {
           "@type": "PropertyValue",
           "name": "Rounded AI Impact five-band distribution",
-          "value": "0-2:12 (2%), 3-4:192 (35%), 5-6:252 (45%), 7-8:96 (17%), 9-10:4 (1%)"
+          "value": "0-2:13 (2%), 3-4:264 (47%), 5-6:221 (40%), 7-8:55 (10%), 9-10:3 (1%)"
         }
       ],
       "citation": [
@@ -200,7 +200,7 @@
           "@type": "ListItem",
           "position": 1,
           "name": "一般事務",
-          "description": "一般事務 is the largest mapped occupation with 2,639,330 workers and AI Impact 8.5/10."
+          "description": "一般事務 is the largest mapped occupation with 2,639,330 workers and AI Impact 8.3/10."
         },
         {
           "@type": "ListItem",
@@ -212,19 +212,19 @@
           "@type": "ListItem",
           "position": 3,
           "name": "潜水士",
-          "description": "潜水士 has the lowest AI Impact at 1.8/10."
+          "description": "潜水士 has the lowest AI Impact at 1.9/10."
         },
         {
           "@type": "ListItem",
           "position": 4,
           "name": "Occupations and wages at AI Impact >= 5",
-          "description": "310 occupations score 5.0 or higher, representing 144.979531 trillion yen in annual wages."
+          "description": "197 occupations score 5.0 or higher, representing 97.040299 trillion yen in annual wages."
         },
         {
           "@type": "ListItem",
           "position": 5,
           "name": "Mean AI Impact",
-          "description": "Mean AI Impact is 5.23/10; mean Displacement-Risk is 2.19/10."
+          "description": "Mean AI Impact is 4.68/10; mean Displacement-Risk is 1.90/10."
         }
       ]
     },
