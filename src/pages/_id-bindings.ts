@@ -68,6 +68,12 @@ import {
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { displayScore } from '@/data/lib/banker-round';
+import { SCORE_PANEL } from '@/site/score-attribution';
+import {
+  CONSENSUS_HEADLINE_LABEL,
+  SCORE_HISTORY_DETAILS_ID,
+  formatLatestObservationLine,
+} from '@/site/consensus-copy';
 import type { Rec } from '@/views/occupation-detail';
 
 const DESC_TRUNCATE = 240;
@@ -96,6 +102,7 @@ export interface VerdictDoor {
 
 export interface VerdictBinding {
   readonly scored: boolean;
+  readonly scoreLabel: string;
   readonly transformationDisp: string;
   readonly displacementDisp: string | null;
   readonly rankLine: string;
@@ -103,6 +110,8 @@ export interface VerdictBinding {
   readonly facts: string;
   readonly doors: ReadonlyArray<VerdictDoor>;
   readonly showShare: boolean;
+  readonly latestObs: string | null;
+  readonly latestObsHref: string;
 }
 
 /** Latest − previous transformation. Omit when the history has fewer than 2 rows. */
@@ -387,7 +396,13 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     bodyText: longCondJa,
   });
   const metaRowHtml = renderOccupationMetaRow(rec);
-  const scoreHistoryHtml = renderScoreHistoryComparison(input.scoreHistory ?? []);
+  const consensusT = rec.consensus_transformation ?? risk;
+  const scoreHistoryHtml = renderScoreHistoryComparison(input.scoreHistory ?? [], {
+    consensusTransformation: consensusT ?? 0,
+    voteCount: rec.consensus_vote_count ?? SCORE_PANEL.voteCount,
+    latestRunDate: rec.ai_scored_at ?? SCORE_PANEL.latestRunDate,
+    usedExpiredVotes: rec.used_expired_votes,
+  });
   const aiRiskDetailHtml = renderOccupationAiRiskDetail(rec);
   const aioisHtml = renderOccupationAiois10(rec);
   const profileHtml = renderOccupationProfileRadar(rec);
@@ -416,20 +431,26 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     risk !== null && risk >= 7 ? 'high' : risk !== null && risk >= 5 ? 'mid' : 'low';
 
   const scored = risk !== null;
+  const latestObs = rec.latest_transformation != null && rec.latest_delta != null
+    ? formatLatestObservationLine(rec.latest_transformation, rec.latest_delta)
+    : null;
   const verdict: VerdictBinding = {
     scored,
+    scoreLabel: CONSENSUS_HEADLINE_LABEL,
     transformationDisp: scored ? fmtScoreDisp(aioisTransformation) : '未採点',
     displacementDisp: scored ? fmtScoreDisp(aioisDisplacement) : null,
     rankLine: formatVerdictRankLine({
       rank: rankInUniverse,
       total: rankUniverseTotal,
-      prevDelta,
-      scoredAtJa: formatScoredMonthJa(latestHistoryDate),
+      prevDelta: null,
+      scoredAtJa: formatScoredMonthJa(rec.ai_scored_at ?? latestHistoryDate),
     }),
     sentence: verdictSentence(rationaleJa, risk),
     facts: formatVerdictFacts({ salaryMan, workers, hours }),
     doors: buildVerdictDoors({ risk, hasTransfer: Boolean(transferHtml) }),
     showShare: scored,
+    latestObs,
+    latestObsHref: `#${SCORE_HISTORY_DETAILS_ID}`,
   };
 
   return {
