@@ -10,6 +10,44 @@ Fields:
 - depends_on: List of work unit ids that must finish first; use [] when none.
 -->
 
+## Active — consensus canonical score (mms-6) + Grok onboarding (mms-7)
+
+Design: `docs/CONSENSUS_SCORE.md` (eight decisions owner-confirmed 2026-08-31;
+doc-level copy + two default parameters await owner sign-off in mms-6-doc).
+Canonical flips from `pickLatestScore` (latest model wins) to the median of
+comparable batches (per-model latest vote, 6-month validity, floor of 5).
+C-facing surfaces drop model names entirely; precise attribution stays in the
+history fold, /models, citation fact, footer, and JSON-LD. Vendor whitelist is
+OpenAI / Anthropic / xAI (Gemini excluded for now, owner 2026-08-31).
+
+- mms-6-doc: approve design; finalize /standard, /methodology, README copy;
+  sign the latest-observation threshold (default |Δ|>=1.0) and rationale
+  tolerance (default ±0.3). depends_on: []
+- mms-6a: `pickConsensusScore()` engine (median, per-model latest vote,
+  6-month window, floor 5) + rationale selector + unit tests.
+  depends_on: [mms-6-doc]
+- mms-6b: wire canonical projections to the consensus; add panel metadata;
+  keep payload gates. depends_on: [mms-6a]
+- mms-6c: occupation-page surface — consensus headline, unattributed
+  rationale, latest-observation line, attributed history fold.
+  depends_on: [mms-6b]
+- mms-6d: sitewide copy sweep under the no-model-names-on-C-surfaces rule
+  (footer, FAQ templates, citation fact, JSON-LD, OG). depends_on: [mms-6b]
+- mms-6e: /models hub alignment (current-model card becomes consensus summary
+  + latest run); full hub rework stays out of scope. depends_on: [mms-6b]
+- mms-6f: regenerate baselines; consolidate canonical-pinned fixtures.
+  depends_on: [mms-6c, mms-6d, mms-6e]
+- mms-6g: switch release with old-vs-new drift report + on-site update note;
+  owner preview approval before landing. depends_on: [mms-6f]
+- mms-7a: xAI scoring runner per SCORING_RUNBOOK "Adding a vendor".
+  depends_on: [] (implementation may parallel mms-6; landing waits for 6g)
+- mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
+  depends_on: [mms-7a]
+- mms-7c: Grok full 556 batch lands as the 5th vote. depends_on: [mms-6g, mms-7b]
+
+Parked (returns after mms-7): /models observatory enhancements — update-history
+surface, model-page OG cards, dimension fingerprints, release-day ritual.
+
 ## Done — occupation-first /me consolidation (#233, production 2026-08-21)
 
 Shipped on `preview`, then promoted (`#273`, `main@b2606e3c`). Umbrella #233
