@@ -4,6 +4,10 @@ import {
   pickLatestScore,
   pickConsensusScore,
   subtractMonths,
+  toCanonicalScoreEntry,
+  scorePanelMeta,
+  CONSENSUS_WINDOW_MONTHS,
+  CONSENSUS_FLOOR_VOTES,
   type ScoreHistEntry,
 } from './score-strategy.js';
 import type { Aiois10 } from './types.js';
@@ -256,5 +260,40 @@ describe('pickConsensusScore', () => {
       vote('b', '2026-06-01', 5),
     ]);
     assert.deepEqual(got.panel.map((p) => p.date), ['2026-04-01', '2026-06-01', '2026-07-26']);
+  });
+});
+
+describe('toCanonicalScoreEntry / scorePanelMeta', () => {
+  test('flattens consensus into ScoreHistEntry for projection drop-in', () => {
+    const got = pickConsensusScore([
+      vote('latest', '2026-07-26', 6.8),
+      vote('a', '2026-06-01', 4.2),
+      vote('b', '2026-05-01', 4.3),
+      vote('c', '2026-04-01', 3.4),
+    ]);
+    const entry = toCanonicalScoreEntry(got);
+    assert.equal(entry.ai_risk, got.transformation);
+    assert.equal(entry.date, got.latest.date);
+    assert.equal(entry.model, got.rationaleEntry.model);
+    assert.equal(entry.rationale_ja, got.rationaleEntry.rationale_ja);
+    assert.equal(entry.aiois?.transformation, got.transformation);
+    assert.equal(entry.aiois?.displacement, got.displacement);
+    assert.equal(entry.aiois?.d1, got.dims.d1);
+  });
+
+  test('scorePanelMeta reports panel size, latest date, and window constants', () => {
+    const got = pickConsensusScore([
+      vote('latest', '2026-07-26', 6),
+      vote('a', '2026-06-01', 4),
+      vote('b', '2026-05-01', 5),
+      vote('c', '2026-04-01', 3),
+    ]);
+    assert.deepEqual(scorePanelMeta(got), {
+      voteCount: 4,
+      latestRunDate: '2026-07-26',
+      windowMonths: CONSENSUS_WINDOW_MONTHS,
+      floorVotes: CONSENSUS_FLOOR_VOTES,
+      usedExpiredVotes: false,
+    });
   });
 });

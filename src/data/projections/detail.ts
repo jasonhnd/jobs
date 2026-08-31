@@ -73,7 +73,8 @@ export async function buildDetail(
   for (const occId of sortedIds) {
     const occ = indexes.occById.get(occId)!;
     const stats = indexes.statsById.get(occId);
-    const score = indexes.latestScoreByOcc.get(occId);
+    const score = indexes.canonicalScoreByOcc.get(occId);
+    const consensus = indexes.consensusByOcc.get(occId);
     const assignment = indexes.sectorByOcc.get(occId);
     const sectorDef = assignment ? sectorById.get(assignment.sector_id) : undefined;
 
@@ -121,6 +122,9 @@ export async function buildDetail(
             rationale_ja: score.rationale_ja,
           }
         : null,
+      consensus_transformation: consensus ? consensus.transformation : null,
+      latest_transformation: consensus?.latest.aiois ? consensus.latest.aiois.transformation : null,
+      latest_delta: consensus ? consensus.latestDelta : null,
       stats: stats
         ? {
             // Match Pydantic's exclude={"id", "schema_version"} model_dump

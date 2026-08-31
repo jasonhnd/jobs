@@ -18,6 +18,7 @@
 
 import type { KnowledgeGraph } from '@/graph';
 import { occupationPath } from '@/lib/urls';
+import { displayScore } from '../data/lib/banker-round.js';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -73,7 +74,7 @@ export function renderImageSitemapXml(
   entries: ReadonlyArray<ImageSitemapEntry>,
 ): string {
   const blocks = entries.map((o) => {
-    const title = `${o.title} — AI影響 ${o.score}/10`;
+    const title = `${o.title} — AI影響 ${displayScore(o.score)}/10`;
     return `  <url>
     <loc>${escapeXml(`${SITE}${occupationPath(o.id)}`)}</loc>
     <image:image>

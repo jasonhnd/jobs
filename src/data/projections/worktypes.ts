@@ -71,9 +71,9 @@ const MARGIN_VALUES = ['2-1', '3-0'] as const;
 
 function activeAioisRows(indexes: Indexes): ActiveAioisRow[] {
   const rows: ActiveAioisRow[] = [];
-  const sortedIds = [...indexes.latestScoreByOcc.keys()].sort((a, b) => a - b);
+  const sortedIds = [...indexes.canonicalScoreByOcc.keys()].sort((a, b) => a - b);
   for (const id of sortedIds) {
-    const aiois = indexes.latestScoreByOcc.get(id)?.aiois;
+    const aiois = indexes.canonicalScoreByOcc.get(id)?.aiois;
     if (!aiois) continue;
     rows.push({ id, aiois });
   }

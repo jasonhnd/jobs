@@ -4,6 +4,7 @@ import { strict as assert } from 'node:assert';
 
 import {
   SCORE_ATTRIBUTION,
+  SCORE_PANEL,
   formatModelDisplay,
   modelIdFromSlug,
   modelSlug,
@@ -115,6 +116,16 @@ describe('SCORE_ATTRIBUTION (live repo data)', () => {
     assert.equal(SCORE_ATTRIBUTION.modelDisplay, formatModelDisplay(SCORE_ATTRIBUTION.modelId));
     assert.equal(SCORE_ATTRIBUTION.standardLabel, 'AIOIS-10');
     assert.ok(SCORE_ATTRIBUTION.modelDisplay.length > 0);
+  });
+});
+
+describe('SCORE_PANEL (live repo data)', () => {
+  test('matches the current comparable occupation panel', () => {
+    assert.equal(SCORE_PANEL.voteCount, 4);
+    assert.equal(SCORE_PANEL.latestRunDate, SCORE_ATTRIBUTION.runDate);
+    assert.equal(SCORE_PANEL.windowMonths, 6);
+    assert.equal(SCORE_PANEL.floorVotes, 5);
+    assert.equal(SCORE_PANEL.usedExpiredVotes, false);
   });
 });
 
