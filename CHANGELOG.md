@@ -70,6 +70,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Skill pages (`/skills/<slug>`, 10) go list-first (#328 family 7):
+  H1 + the existing one-line sub stay, the IPD-ranked occupation list is
+  the first-screen payload, and `読み方・出典` folds intro / スキルとは /
+  stats / highlights / sector chart. Rows use the #321 whole-row atom +
+  `list_row_click` and keep the `.skill-score` extra. No `.ai-fact` on
+  these pages. Titles / meta / JSON-LD / H1 unchanged. `/skills` index
+  is untouched.
 - Interest pages (`/interests/<type>`, 6) go list-first (#328 family 6):
   H1 + the existing one-line sub stay, the RIASEC-ranked occupation list
   is the first-screen payload, and `読み方・出典` folds intro / タイプとは /
