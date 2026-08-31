@@ -13,16 +13,15 @@ Fields:
 ## Active — consensus canonical score (mms-6) + Grok onboarding (mms-7)
 
 Design: `docs/CONSENSUS_SCORE.md` (eight decisions owner-confirmed 2026-08-31;
-doc-level copy + two default parameters await owner sign-off in mms-6-doc).
+PR #363 merged. mms-6-doc locks |Δ|≥1.0, rationale ±0.3, and C-facing copy).
 Canonical flips from `pickLatestScore` (latest model wins) to the median of
 comparable batches (per-model latest vote, 6-month validity, floor of 5).
 C-facing surfaces drop model names entirely; precise attribution stays in the
 history fold, /models, citation fact, footer, and JSON-LD. Vendor whitelist is
 OpenAI / Anthropic / xAI (Gemini excluded for now, owner 2026-08-31).
 
-- mms-6-doc: approve design; finalize /standard, /methodology, README copy;
-  sign the latest-observation threshold (default |Δ|>=1.0) and rationale
-  tolerance (default ±0.3). depends_on: []
+- mms-6-doc: design approved (PR #363); |Δ|≥1.0, ±0.3, and C-facing
+  copy locked in `docs/CONSENSUS_SCORE.md` (#364). depends_on: []
 - mms-6a: `pickConsensusScore()` engine (median, per-model latest vote,
   6-month window, floor 5) + rationale selector + unit tests.
   depends_on: [mms-6-doc]
