@@ -12,6 +12,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- `pickConsensusScore()` in `src/graph/score-strategy.ts` (mms-6a / #365):
+  comparable AIOIS-10 votes, one vote per model, 6-month window anchored
+  to the newest vote date (no clock APIs), floor-5 expired fill,
+  independent medians, rationale ±0.3. `pickLatestScore` stays for
+  最新観測. Not wired into projections yet (mms-6b).
 - `docs/CONSENSUS_SCORE.md` mms-6-doc: latest-observation threshold
   `|Δ| ≥ 1.0`, rationale proximity `±0.3`, and C-facing copy slots
   (headline / 最新観測行 / footer / FAQ / 引用用ファクト / 老化提示 /
