@@ -103,6 +103,10 @@ describe('/models built page contract', () => {
     assert.equal(/バッチ間|方法論メモ|ヒストグラム|散布図/.test(visible), false);
     assert.match(visible, /<h1>AIモデル比較<\/h1>/);
     assert.match(visible, /<h2 id="models-roster">これまでのモデル<\/h2>/);
+    assert.match(visible, /いまの総合/);
+    assert.match(visible, /複数のAIによる総合/);
+    assert.match(visible, /4票/);
+    assert.equal(/現行モデル/.test(visible), false);
     assert.match(visible, /Claude Opus 4\.7/);
     assert.match(visible, /Claude Opus 4\.8/);
     assert.match(visible, /Claude Fable 5/);
@@ -112,7 +116,7 @@ describe('/models built page contract', () => {
     assert.match(visible, /共通する 556 職業を比べ/);
     // Coverage must stay a derived range, never a single hard-coded total.
     assert.equal(/556職業を、5つのAIモデルがそれぞれ採点/.test(visible), false);
-    assert.match(html, /5つのAIモデルによる、各回552〜556職業の採点結果/);
+    assert.match(html, /4つのAIモデルによる採点を総合した、各回552〜556職業の結果から/);
   });
 
   test('emits scoped heading typography that beats the canonical serif heading rule', () => {
@@ -142,6 +146,7 @@ describe('/models built page contract', () => {
     assert.match(latest, /<h1>Claude Opus 5 の職業スコア<\/h1>/);
     assert.match(latest, /<dt>提供元<\/dt><dd>Anthropic<\/dd>/);
     assert.match(latest, /2026年7月26日/);
+    assert.match(latest, /このモデルの採点は総合値の 1 票です/);
     assert.equal(/プロンプト|AIOIS-10-v1\.0-claude-opus-5/.test(latest), false);
   });
 
@@ -161,6 +166,7 @@ describe('/models built page contract', () => {
 
     assert.match(legacy, /AIOIS-10 導入前の旧方式スコア/);
     assert.match(legacy, /D1〜D10 や置換指数を補完せず/);
+    assert.equal(/このモデルの採点は総合値の 1 票です/.test(legacy), false);
     assert.match(firstAiois, /AIOIS-10 系列で最初の採点/);
     assert.match(firstAiois, /比較可能な前回モデルがない/);
     assert.match(fable, /Claude Opus 4\.8（2026年5月30日）と比べて/);

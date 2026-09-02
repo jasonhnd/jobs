@@ -21,6 +21,12 @@ export const CONSENSUS_FAQ_SENTENCE =
 export const CONSENSUS_STANDARD_FORMAL =
   '本サイトの公開値は、各次元および変化の大きさ・仕事が減るリスクを、複数のAIによる採点の中央値として出します。総合の変化の大きさを mean(D1, D2) から再計算しません。';
 
+/** /models hub card label (mms-6e). */
+export const MODELS_HUB_NOW_LABEL = 'いまの総合';
+
+/** Per-run page note (mms-6e). Comparable AIOIS-10 batches only. */
+export const MODELS_RUN_VOTE_NOTE = 'このモデルの採点は総合値の 1 票です。';
+
 export function formatRunDateJa(isoDate: string): string {
   const [year, month, day] = isoDate.split('-').map((part) => Number.parseInt(part, 10));
   if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return isoDate;
