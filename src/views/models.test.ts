@@ -91,6 +91,13 @@ describe('models feature view model', () => {
           default_latest_pair_split: '汎用の編集文です。',
         },
       },
+      {
+        voteCount: 2,
+        latestRunDate: '2026-06-13',
+        windowMonths: 6,
+        floorVotes: 5,
+        usedExpiredVotes: false,
+      },
     );
 
     assert.equal(page.pageLastUpdated, '2026-06-13');
@@ -99,6 +106,12 @@ describe('models feature view model', () => {
     assert.equal(page.currentModel.model, 'claude-fable-5');
     assert.equal(page.currentModel.modelDisplay, 'Claude Fable 5');
     assert.equal(page.currentModel.href, '/models/fable-5@2026-06-13');
+    assert.equal(page.consensusSummary.label, 'いまの総合');
+    assert.equal(page.consensusSummary.headline, '複数のAIによる総合');
+    assert.equal(page.consensusSummary.voteCount, 2);
+    assert.equal(page.consensusSummary.latestRunDate, '2026-06-13');
+    assert.equal(page.consensusSummary.latestModelHref, '/models/fable-5@2026-06-13');
+    assert.equal(page.consensusSummary.agingNote, null);
     assert.equal(page.latestPair.baseline.modelDisplay, 'Claude Opus 4.8');
     assert.equal(page.latestPair.candidate.modelDisplay, 'Claude Fable 5');
     assert.equal(page.dateRangeText, '2026-05-30 から 2026-06-13');

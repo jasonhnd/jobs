@@ -12,6 +12,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `/models` hub card is now 「いまの総合」 (vote count, latest scoring
+  date, locked consensus one-liner, latest-run link). Per-run AIOIS-10
+  pages note that the batch is one vote in the consensus (mms-6e / #382).
 - C-facing copy no longer names scoring models (mms-6d / #368): footer,
   FAQ templates, citation facts, occupation JSON-LD, OG descriptions,
   `/standard` 形式定義, `/methodology` evaluation process, README, and
