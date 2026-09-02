@@ -20,8 +20,7 @@ export function buildMethodologyBatchView(facts: GeoFacts): MethodologyBatchView
   let comparisonJa = '比較可能な前回 batch はありません。';
   if (facts.predecessor && facts.meanAiImpactDeltaFromPredecessor !== null) {
     comparisonJa =
-      `現行 batch（${facts.attribution.modelDisplay}、${facts.attribution.runDate}）は、` +
-      `前回 batch（${facts.predecessor.modelDisplay}、${facts.predecessor.runDate}）と共通する ` +
+      `現行の総合値は、前回の公開値（${facts.predecessor.runDate}）と共通する ` +
       `${facts.predecessorComparedCount} 職業で、変化の大きさの平均差が ` +
       `${signedFixed(facts.meanAiImpactDeltaFromPredecessor, 2)} です。`;
   }

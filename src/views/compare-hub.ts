@@ -105,7 +105,7 @@ function detailToSide(d: DetailFile): CompareSide {
 // ─── Helpers ───────────────────────────────────────────────────
 
 import { fmtInt } from '../lib/num.js';
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 
 function fmtDiff(a: number | null, b: number | null, suffix = ''): string {
   if (a === null || b === null) return '';
@@ -186,7 +186,7 @@ function buildFaqs(meta: CompareMeta, a: CompareSide, b: CompareSide): Array<rea
       faqs.push([
         `AI 影響度はどちらが低い？`,
         `${winner.name_ja} (${winner.ai_risk}/10) の方が ${loser.name_ja} (${loser.ai_risk}/10) より AI 影響度が低い傾向です。` +
-          `本サイトの AI 影響度は ${SCORE_ATTRIBUTION.modelDisplay} による独自分析（非公式）です。`,
+          CONSENSUS_FAQ_SENTENCE,
       ]);
     } else {
       faqs.push([

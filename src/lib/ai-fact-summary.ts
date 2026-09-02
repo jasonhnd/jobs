@@ -17,7 +17,8 @@
  * SEO copy contract and is pinned by tests + the SEO baseline diff.
  */
 import type { Aiois10 } from '../graph/types.js';
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { SCORE_PANEL } from '../site/score-attribution.js';
+import { formatConsensusCitation } from '../site/consensus-copy.js';
 import {
   summarizeGeoOccupationIds,
   type GeoFacts,
@@ -82,8 +83,8 @@ export interface AiFactInput {
   readonly aiois: Aiois10 | null;
   readonly salaryMan: number | null;
   readonly workers: number | null;
-  /** Human-readable score date, e.g. "2026年5月". */
-  readonly scoredDate: string;
+  /** @deprecated Unused; citation now uses SCORE_PANEL. Kept optional for callers. */
+  readonly scoredDate?: string;
 }
 
 /**
@@ -92,7 +93,7 @@ export interface AiFactInput {
  * escape it before inserting into HTML.
  */
 export function buildAiFactSummary(input: AiFactInput): string {
-  const { nameJa, aiRisk, rank, total, meanRisk, aiois, salaryMan, workers, scoredDate } = input;
+  const { nameJa, aiRisk, rank, total, meanRisk, aiois, salaryMan, workers } = input;
   if (aiRisk === null) return '';
 
   const parts: string[] = [];
@@ -134,7 +135,7 @@ export function buildAiFactSummary(input: AiFactInput): string {
   if (stats.length > 0) parts.push(stats.join('、') + '。');
 
   // 4. Source + date (the attribution that makes the block citable).
-  parts.push(`（出典：厚生労働省 jobtag ＋ AIOIS-10、${SCORE_ATTRIBUTION.modelDisplay}、${scoredDate}）`);
+  parts.push(formatConsensusCitation(SCORE_PANEL.voteCount, SCORE_PANEL.latestRunDate));
 
   return parts.join('');
 }
@@ -178,14 +179,8 @@ function fmtSalaryMan(n: number): string {
   return `${Math.trunc(n)}万円`;
 }
 
-function fmtRunDateJa(runDate: string): string {
-  const [year, month, day] = runDate.split('-').map((part) => Number.parseInt(part, 10));
-  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return runDate;
-  return `${year}年${month}月${day}日`;
-}
-
-function geoSource(facts: GeoFacts): string {
-  return `（出典：厚生労働省 jobtag ＋ ${facts.attribution.standardLabel}、${facts.attribution.modelDisplay}、${fmtRunDateJa(facts.attribution.runDate)}）`;
+function geoSource(): string {
+  return formatConsensusCitation(SCORE_PANEL.voteCount, SCORE_PANEL.latestRunDate);
 }
 
 function requireGroupOccupation(
@@ -224,7 +219,7 @@ export function buildOccupationGeoFactSummary(input: OccupationGeoFactInput): st
   if (occupation.salaryMan !== null) stats.push(`年収中央値は約${fmtSalaryMan(occupation.salaryMan)}`);
   if (occupation.workers !== null) stats.push(`就業者は${fmtWorkersMan(occupation.workers)}`);
   if (stats.length) parts.push(`${stats.join('、')}。`);
-  parts.push(geoSource(facts));
+  parts.push(geoSource());
 
   return parts.join('');
 }
@@ -242,7 +237,7 @@ export function buildSectorGeoFactSummary(input: SectorGeoFactInput): string {
     `平均AI影響度${fmtScore2(sector.meanAiImpact)}/10です。` +
     `全体平均${fmtScore2(facts.meanAiImpact)}/10を${relative}水準で、` +
     `セクター平均AI影響度順では${sectorRank + 1}/${facts.sectorsByMeanImpact.length}位です。` +
-    geoSource(facts)
+    geoSource()
   );
 }
 
@@ -253,7 +248,7 @@ export function buildOccupationSetGeoFactSummary(input: OccupationSetGeoFactInpu
     return (
       `${subjectJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
       `全体平均AI影響度は${fmtScore2(facts.meanAiImpact)}/10、中央値は${fmtScore2(facts.medianAiImpact)}/10です。` +
-      geoSource(facts)
+      geoSource()
     );
   }
 
@@ -268,7 +263,7 @@ export function buildOccupationSetGeoFactSummary(input: OccupationSetGeoFactInpu
     `先頭の${first.nameJa}はAI影響度${fmtScore(first.aiImpact)}/10、` +
     `最もAI影響度が高い${highest.nameJa}は${fmtScore(highest.aiImpact)}/10、` +
     `最も低い${lowest.nameJa}は${fmtScore(lowest.aiImpact)}/10です。` +
-    geoSource(facts)
+    geoSource()
   );
 }
 
@@ -293,7 +288,7 @@ export function buildCompareGeoFactSummary(input: CompareGeoFactInput): string {
     `${a.nameJa}はAI影響度${fmtScore(a.aiImpact)}/10、${b.nameJa}は${fmtScore(b.aiImpact)}/10です。` +
     `差は${fmtScore(diff)}ポイントで、${comparison}` +
     `2職業の平均AI影響度は${fmtScore2(summary.meanAiImpact)}/10、就業者合計は${fmtInt(summary.totalWorkforce)}人です。` +
-    geoSource(facts)
+    geoSource()
   );
 }
 

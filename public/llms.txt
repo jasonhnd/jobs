@@ -1,6 +1,6 @@
 # mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Scores use Claude Opus 5 (claude-opus-5) under AIOIS-10; active score run: 2026-07-26. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
+> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model AIOIS-10 consensus (median of 4 comparable votes; latest scoring 2026-07-26). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
 ## Key facts
 
@@ -9,8 +9,9 @@
 | Canonical URL | https://mirai-shigoto.com/ |
 | Coverage | 556 occupations |
 | Total workforce mapped | 54,555,970 workers |
-| Score source | Claude Opus 5 (claude-opus-5) |
-| Score date | 2026-07-26 |
+| Score source | Multi-model consensus (AIOIS-10) |
+| Vote count | 4 |
+| Latest scoring date | 2026-07-26 |
 | Standard | AIOIS-10 v1.0 |
 | Mean AI Impact | 4.68 / 10 |
 | Median AI Impact | 4.55 / 10 |
@@ -57,7 +58,7 @@ Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=174,
 
 ## Methodology
 
-AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. The active batch keeps all D1-D10 dimensions and the two derived indices for every occupation.
+AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are the median of comparable multi-model votes for each dimension and both indices; Transformation is not recomputed from mean(D1, D2) after the median. Per-model scores remain on /models.
 
 ## FAQ
 
@@ -80,7 +81,7 @@ Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
   title  = {Japan Jobs x AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
-  note   = {Independent AIOIS-10 analysis. Active score run: Claude Opus 5, 2026-07-26. AI Impact scores are LLM estimates, not official government forecasts.}
+  note   = {Independent AIOIS-10 analysis. Published value: multi-model consensus, latest scoring 2026-07-26. AI Impact scores are LLM estimates, not official government forecasts.}
 }
 ```
 

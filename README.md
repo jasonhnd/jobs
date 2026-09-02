@@ -6,7 +6,7 @@
 
 ![Japan Jobs × AI Impact — 厚労省 jobtag/JILPT IPD に基づく日本の 556 職業の treemap に AIOIS-10 の AI 影響度と仕事が減るリスクを重ねた可視化サイト](https://mirai-shigoto.com/api/og?page=home)
 
-厚生労働省の **職業情報提供サイト（job tag）** / JILPT IPD v7.00 に登録されている **556 の日本の職業** について、年収・学歴・就業者数・将来性などの構造化データに加えて、**現行の active score batch が AIOIS-10 で採点した AI 影響度（Transformation）と仕事が減るリスク（Displacement-Risk）**、およびその理由を重ねた可視化サイトです。active batch のモデル名と採点日は、サイトの [モデル比較](https://mirai-shigoto.com/models) と JSON-LD へ build 時に自動反映されます。UI は日本語で、国内の読者を対象としています。
+厚生労働省の **職業情報提供サイト（job tag）** / JILPT IPD v7.00 に登録されている **556 の日本の職業** について、年収・学歴・就業者数・将来性などの構造化データに加えて、**複数のAIによる総合（AIOIS-10）の AI 影響度（Transformation）と仕事が減るリスク（Displacement-Risk）**、およびその理由を重ねた可視化サイトです。公開値は comparable batch 群の中央値（総合値）。個別モデルの採点は [モデル比較](https://mirai-shigoto.com/models) と履歴に残します。UI は日本語で、国内の読者を対象としています。
 
 🔗 **公開サイト:** **<https://mirai-shigoto.com/>**
 
@@ -75,7 +75,7 @@ Karpathy の「政府職業データ × LLM スコア」という構造は継承
 
 1. **入力バンドル** — 職業名（日 + 英）、業種、job tag の「仕事内容」記述、構造化フィールド（年収、就業者数、学歴分布、将来性）。
 2. **プロンプト** — AIOIS-10 v1.0 の定義 + 入力バンドル + 構造化出力指示（JSON: `ai_risk`, `rationale_ja`, `confidence`, `aiois: { d1...d10, transformation, displacement }`。本サイトは日本語専用）。
-3. **モデル** — 各 run のモデル ID・provider・採点日は `data/scores/*.json` に記録します。サイトは最新の occupation run を active batch として選び、別モデルへの silent fallback は行いません。
+3. **モデル** — 各 run のモデル ID・provider・採点日は `data/scores/*.json` に記録します。公開値は comparable batch 群の中央値（総合値）。個別モデルの採点は /models と履歴に残す。別モデルへの silent fallback は行いません。
 4. **出力** — モデルの AIOIS-10 スコア + 理由文、職業ごとにキャッシュ。再実行時は既出力の職業はスキップ。
 5. **集約** — `bun run build:data`（`src/data/build.ts`）が IPD ソースデータ + AI スコア + 統計を結合し、`public/` 下に projection を出力（treemap / top10 / detail / search / labels / sectors / profile5 / transfer_paths / holland / skills など）。ホーム画面は desktop で canvas が近づいた時だけ `/data.treemap.json` を読み込み、mobile の TOP 10 は軽量な `/data.top10.json` を読み込みます。
 
@@ -89,7 +89,7 @@ Karpathy の「政府職業データ × LLM スコア」という構造は継承
 - **プロンプトの言い回しに敏感です。** ルーブリックを変える、アンカーを変える、あるいは worked example の言い方を変えるだけで、データセット全体で 1〜2 ポイントずれることがあります。公開しているアンカーとプロンプトは安定したものですが、それは可能なキャリブレーションのひとつであり、唯一解ではありません。
 - **「現時点の LLM の見解」を反映しており、その見解は変動します。** 新しいモデルで再採点するとスコアが動きます。古いモデルはクリエイティブ職に対して系統的に悲観的、新しいモデルは事務職に対して悲観的、という傾向もあります。スコアはスナップショットです。
 - **理由文は日本語を正としています。** サイトと README は日本語を正本として運用しています。英語 UI は v1.4.0 で廃止済みです。
-- **face validity 以上の妥当性は主張しません。** 実務者へのフォローアップ調査も、実際の代替率との比較も、信頼区間もありません。履歴上は 2026-06-23 に、当時の正典だった Claude Fable 5 batch（2026-06-13）の代表 40 職業を Claude Opus 4.8 / Sonnet 4.6 と比較しましたが、これは Fable predecessor の外部整合性チェックであり、現行 active batch の全量検証や多モデル consensus ではありません。
+- **face validity 以上の妥当性は主張しません。** 実務者へのフォローアップ調査も、実際の代替率との比較も、信頼区間もありません。履歴上は 2026-06-23 に、当時の正典だった Claude Fable 5 batch（2026-06-13）の代表 40 職業を Claude Opus 4.8 / Sonnet 4.6 と比較しましたが、これは Fable predecessor の外部整合性チェックであり、現行の公開総合値の全量検証ではありません。公開値は複数のAIによる採点の中央値です。
 
 このダッシュボードは、すでに発表されている学術的演習を日本の読者にとって具体的・クリック可能な形で提示するためのものです。**特定の個人の仕事の将来を予測する目的では作っていません。**
 
@@ -109,7 +109,7 @@ Karpathy の「政府職業データ × LLM スコア」という構造は継承
 
 ## ビルドパイプライン
 
-TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データを取り込み、選択された active score batch の AIOIS-10 AI 影響度 / 仕事が減るリスクと結合し、Zod スキーマ（`src/data/schema/*.ts`）で検証した上で、`public/` 配下に projection を書き出します。続いて Astro が `src/pages/` を静的レンダリングし、結果の `dist-astro/` を Vercel がデプロイします。パイプライン全体は `bun run build` で実行できます。
+TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データを取り込み、複数のAIによる総合（AIOIS-10）の AI 影響度 / 仕事が減るリスクと結合し、Zod スキーマ（`src/data/schema/*.ts`）で検証した上で、`public/` 配下に projection を書き出します。続いて Astro が `src/pages/` を静的レンダリングし、結果の `dist-astro/` を Vercel がデプロイします。パイプライン全体は `bun run build` で実行できます。
 
 フォントは Google Fonts から実行時に読み込まず、`assets/fonts-src/` に vendoring した Noto Serif JP / Plus Jakarta Sans の TTF を元にします。`astro build` 後に `scripts/subset-fonts.ts` が `dist-astro/**/*.html` の表示テキストを走査し、必要な glyph だけを content-hashed WOFF2 と `@font-face` CSS として `dist-astro/fonts/` に出力します。見出しは Noto Serif JP を優先し、subset にない文字は Hiragino / Yu Mincho に per-glyph fallback します。
 
