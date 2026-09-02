@@ -17,7 +17,8 @@ import {
 } from './ai-fact-summary.js';
 import type { Aiois10 } from '../graph/types.js';
 import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { SCORE_PANEL } from '../site/score-attribution.js';
+import { formatConsensusCitation } from '../site/consensus-copy.js';
 
 const aiois = (over: Partial<Aiois10>): Aiois10 => ({
   d1: 0, d2: 0, d3: 0, d4: 0, d5: 0, d6: 0, d7: 0, d8: 0, d9: 0, d10: 0,
@@ -148,12 +149,9 @@ describe('buildAiFactSummary', () => {
   });
 
   test('always ends with the source attribution', () => {
-    // Derived from the active batch rather than pinned to a model name: the
-    // contract is "this block cites the canonical scorer", and hard-coding the
-    // current one turns every batch landing into an unrelated test edit.
     assert.ok(
       buildAiFactSummary(base).endsWith(
-        `（出典：厚生労働省 jobtag ＋ AIOIS-10、${SCORE_ATTRIBUTION.modelDisplay}、2026年5月）`,
+        formatConsensusCitation(SCORE_PANEL.voteCount, SCORE_PANEL.latestRunDate),
       ),
     );
   });
@@ -170,7 +168,7 @@ describe('GEO page fact summaries', () => {
     const s = buildSectorGeoFactSummary({ facts: geoFacts, sectorId: 'it' });
     assert.ok(s.includes('ITセクターは2職業、就業者1,600人、平均AI影響度8.10/10'), s);
     assert.ok(s.includes('セクター平均AI影響度順では1/2位'), s);
-    assert.ok(s.endsWith('（出典：厚生労働省 jobtag ＋ AIOIS-10、Claude Fable 5、2026年6月13日）'), s);
+    assert.ok(s.endsWith(formatConsensusCitation(SCORE_PANEL.voteCount, SCORE_PANEL.latestRunDate)), s);
   });
 
   test('occupation summary uses GEO occupation rank and page metrics', () => {
@@ -189,7 +187,7 @@ describe('GEO page fact summaries', () => {
     assert.ok(s.includes('全体平均5.42/10を上回る水準'), s);
     assert.ok(s.includes('仕事が減るリスクは8.0/10'), s);
     assert.ok(s.includes('年収中央値は約720万円'), s);
-    assert.ok(s.endsWith('（出典：厚生労働省 jobtag ＋ AIOIS-10、Claude Fable 5、2026年6月13日）'), s);
+    assert.ok(s.endsWith(formatConsensusCitation(SCORE_PANEL.voteCount, SCORE_PANEL.latestRunDate)), s);
   });
 
   test('occupation-set summary aggregates only through geo-facts helper', () => {

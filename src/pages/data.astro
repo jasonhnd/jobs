@@ -11,7 +11,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
-import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import { CONSENSUS_FAQ_SENTENCE } from '@/site/consensus-copy';
 import { OCCUPATION_COUNT } from '@/site/config';
 import { CONTENT_DATE } from '@/lib/_content-date';
 
@@ -127,7 +127,7 @@ const jsonLd = JSON.stringify({
       <div class="callout">
         <strong>ライセンス</strong>：MIT（コード + データビュー）。出典表記の上、自由に利用・再配布できます。<br />
         <strong>引用</strong>：ZKSC (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/<br />
-        <strong>注意</strong>：スコアは {SCORE_ATTRIBUTION.modelDisplay} による独立した LLM 推定であり、政府の公式予測ではありません。出典の労働統計は厚生労働省 jobtag ＋ JILPT IPD。
+        <strong>注意</strong>：{CONSENSUS_FAQ_SENTENCE}政府の公式予測ではありません。出典の労働統計は厚生労働省 jobtag ＋ JILPT IPD。
       </div>
 
       <h2>エンドポイント一覧</h2>
