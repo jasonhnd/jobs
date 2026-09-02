@@ -6,6 +6,8 @@ import {
   CONSENSUS_HEADLINE_LABEL,
   CONSENSUS_STANDARD_FORMAL,
   LATEST_OBSERVATION_THRESHOLD,
+  MODELS_HUB_NOW_LABEL,
+  MODELS_RUN_VOTE_NOTE,
   formatConsensusCitation,
   formatConsensusFooterLine,
   formatLatestObservationLine,
@@ -57,5 +59,7 @@ describe('formatLatestObservationLine', () => {
       CONSENSUS_STANDARD_FORMAL,
       '本サイトの公開値は、各次元および変化の大きさ・仕事が減るリスクを、複数のAIによる採点の中央値として出します。総合の変化の大きさを mean(D1, D2) から再計算しません。',
     );
+    assert.equal(MODELS_HUB_NOW_LABEL, 'いまの総合');
+    assert.equal(MODELS_RUN_VOTE_NOTE, 'このモデルの採点は総合値の 1 票です。');
   });
 });
