@@ -7,6 +7,7 @@ import { ModelsByModelProjectionSchema, type ModelsByModelProjectionShape } from
 import { siteConfig } from '@/site/config';
 import { formatModelDisplay, runFromSlug } from '@/site/score-attribution';
 import { formatEvaluationStandard, formatJapaneseDate, formatProviderDisplay } from '@/views/models';
+import { MODELS_RUN_VOTE_NOTE } from '@/site/consensus-copy';
 import { knownRuns, loadModelBatchMetas, type ModelBatchMeta } from './_model-route-data';
 
 type ModelPageRecord = ModelsByModelProjectionShape['models'][string];
@@ -257,6 +258,7 @@ template{display:none}
         <h1>{modelDisplay} の職業スコア</h1>
         <p class="lead">
           {modelDisplay} が {page.covered_count} 件の職業をどう採点したかを、分布と上位・下位職業で確認します。{comparisonDescription}
+          {isLegacyBatch ? '' : ` ${MODELS_RUN_VOTE_NOTE}`}
         </p>
       </div>
       <aside class="profile-box" aria-label="モデル概要">

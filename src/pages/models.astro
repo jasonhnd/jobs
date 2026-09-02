@@ -19,9 +19,10 @@ const page = buildModelsFeaturePageModel(projection, personalityCopy, storyCopy)
 
 const pageTitle = 'AIモデル比較 | 未来の仕事';
 const modelCountText = `${page.modelCount}つのAIモデル`;
+const voteCountText = `${page.consensusSummary.voteCount}つのAIモデル`;
 const occupationCoverageText = page.coverageRangeText;
 const pageDescription =
-  `${modelCountText}による、各回${occupationCoverageText}の採点結果から、現行モデルと判断が一致した職業・大きく分かれた職業を読むモデル比較ページです。`;
+  `${voteCountText}による採点を総合した、各回${occupationCoverageText}の結果から、判断が一致した職業・大きく分かれた職業を読むモデル比較ページです。`;
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -170,19 +171,20 @@ a:hover{color:var(--accent)}
         <h1>AIモデル比較</h1>
         <p class="hook">AIモデルは、あなたの仕事をどう見ているか。</p>
         <p class="lead">
-          これまで{modelCountText}による採点を公開し、各回の対象は{occupationCoverageText}です。AIの判断にはそれぞれの見方があり、同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。
+          {voteCountText}による採点を総合しています。これまで{modelCountText}の採点を公開し、各回の対象は{occupationCoverageText}です。AIの判断にはそれぞれの見方があり、同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。
         </p>
       </div>
       <aside class="current-model-card" aria-labelledby="current-model-title">
-        <p class="current-label">現行モデル</p>
-        <h2 id="current-model-title">{page.currentModel.modelDisplay}</h2>
+        <p class="current-label">{page.consensusSummary.label}</p>
+        <h2 id="current-model-title">{page.consensusSummary.headline}</h2>
         <dl>
-          <dt>採点日</dt><dd>{formatJapaneseDate(page.currentModel.date)}</dd>
-          <dt>対象職業</dt><dd>{page.currentModel.covered_count}件</dd>
-          <dt>比較モデル</dt><dd>{page.modelCount}モデル</dd>
+          <dt>票数</dt><dd>{page.consensusSummary.voteCount}票</dd>
+          <dt>最新採点</dt><dd>{formatJapaneseDate(page.consensusSummary.latestRunDate)}</dd>
+          <dt>最新モデル</dt><dd><a href={page.consensusSummary.latestModelHref}>{page.consensusSummary.latestModelDisplay}</a></dd>
         </dl>
-        <p>{page.currentModel.personality_sentence}</p>
-        <a class="current-model-link" href={page.currentModel.href}>このモデルの分布を見る</a>
+        <p>{page.consensusSummary.oneLiner}</p>
+        {page.consensusSummary.agingNote && <p>{page.consensusSummary.agingNote}</p>}
+        <a class="current-model-link" href={page.consensusSummary.latestModelHref}>{page.consensusSummary.latestModelDisplay} の分布を見る</a>
       </aside>
     </header>
 
@@ -289,7 +291,7 @@ a:hover{color:var(--accent)}
 
     <section class="data-note" aria-label="データについて">
       <p>
-        このページは {page.batchDatesText} の採点結果をもとにしています。各回の対象範囲は {page.coverageRangeText} です。採点方法は <a href="/methodology">評価プロセス</a> と <a href="/standard">AIOIS-10 標準</a> を参照してください。
+        公開値は複数のAIによる総合です。このページは {page.batchDatesText} の採点結果をもとにしています。各回の対象範囲は {page.coverageRangeText} です。採点方法は <a href="/methodology">評価プロセス</a> と <a href="/standard">AIOIS-10 標準</a> を参照してください。
       </p>
     </section>
 

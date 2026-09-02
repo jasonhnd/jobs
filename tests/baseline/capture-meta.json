@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-09-02T06:49:23.160Z",
-  "gitCommit": "3a2f3101b341886f30c9e896e8e43a3d8db3fc1f",
-  "gitBranch": "feat/issue-368-consensus-copy-sweep",
+  "capturedAt": "2026-09-02T12:29:22.621Z",
+  "gitCommit": "6bcf247f5196a0656bc11963334a57ddcb8cd051",
+  "gitBranch": "feat/issue-382-models-hub-consensus",
   "distFileCount": 834,
   "urlCount": 834,
   "dataFileCount": 612,
