@@ -15,6 +15,26 @@ export const CONSENSUS_AGING_NOTE =
 
 export const CONSENSUS_DIM_NOTE = '各次元は複数のAIによる採点の中央値です。';
 
+export const CONSENSUS_FAQ_SENTENCE =
+  '本サイトの AI 影響度は複数のAIモデルによる採点の総合値（独自分析・非公式）です。';
+
+export const CONSENSUS_STANDARD_FORMAL =
+  '本サイトの公開値は、各次元および変化の大きさ・仕事が減るリスクを、複数のAIによる採点の中央値として出します。総合の変化の大きさを mean(D1, D2) から再計算しません。';
+
+export function formatRunDateJa(isoDate: string): string {
+  const [year, month, day] = isoDate.split('-').map((part) => Number.parseInt(part, 10));
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return isoDate;
+  return `${year}年${month}月${day}日`;
+}
+
+export function formatConsensusFooterLine(latestRunDate: string): string {
+  return `AI 影響度：複数のAIモデルによる総合（AIOIS-10・最新採点 ${latestRunDate}）`;
+}
+
+export function formatConsensusCitation(voteCount: number, latestRunDate: string): string {
+  return `（出典：厚生労働省 jobtag ＋ AIOIS-10、複数のAIによる総合・${voteCount}票、最新採点 ${formatRunDateJa(latestRunDate)}。モデル別の内訳は /models）`;
+}
+
 export const SCORE_HISTORY_DETAILS_ID = 'score-history-details';
 
 export function formatConsensusScore(value: number): string {
