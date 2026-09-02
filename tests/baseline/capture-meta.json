@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-08-31T10:41:07.415Z",
-  "gitCommit": "ac9ab5129892aa5fb8c8b56a88f569f5c0f7ce67",
-  "gitBranch": "feat/issue-367-occupation-consensus-surface",
+  "capturedAt": "2026-09-02T06:49:23.160Z",
+  "gitCommit": "3a2f3101b341886f30c9e896e8e43a3d8db3fc1f",
+  "gitBranch": "feat/issue-368-consensus-copy-sweep",
   "distFileCount": 834,
   "urlCount": 834,
   "dataFileCount": 612,

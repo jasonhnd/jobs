@@ -12,6 +12,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- C-facing copy no longer names scoring models (mms-6d / #368): footer,
+  FAQ templates, citation facts, occupation JSON-LD, OG descriptions,
+  `/standard` 形式定義, `/methodology` evaluation process, README, and
+  `llms.txt`. Locked strings from `docs/CONSENSUS_SCORE.md`. Model names
+  remain on `/models`, occupation history `<details>`, and the
+  methodology cross-model validation record. SEO baseline recaptured.
 - Occupation pages show the consensus headline label 「複数のAIによる総合」,
   unsigned rationale, and a 最新観測 row when `|Δ| ≥ 1.0` (mms-6c / #367).
   History fold keeps model names; the highlighted card is the consensus
