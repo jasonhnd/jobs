@@ -142,21 +142,31 @@ AI 影響度の出し方を変えました。これまでは「いちばん新�
 - **/methodology** — 評価プロセス節の「1 台の現行モデルが判定」を「複数のAIが同一ルーブリックで判定し、公開値は中央値」に置換する。データソース行の「{model} 採点」は footer 署名行と同じ「複数のAIモデルによる総合（AIOIS-10・最新採点 {日付}）」に揃える。履歴上のクロスモデル検証節は帰属の記録としてモデル名を残してよい（決定 7 の例外: /methodology の履歴節）。「現行公開値も多モデル consensus ではなく、単一の active batch」の一文は削除し、総合値の説明に差し替える。
 - **README「AIOIS-10 スコアの算出方法」** — 「サイトは最新の occupation run を active batch として選び」を「公開値は comparable batch 群の中央値（総合値）。個別モデルの採点は /models と履歴に残す」に置換する。face-validity 節の過去検証は履歴としてモデル名を残してよい。冒頭の「現行の active score batch が AIOIS-10 で採点した」は「複数のAIによる総合（AIOIS-10）」に置換する。
 
-## 実装分割（issue 草案）
+## 既存プログラムとの整合（2026-08-31 照合）
+
+issue 起票は必ず `gh issue list` で現況を照合してから行う（本節は 2026-08-31 の照合結果）。
+
+- **#340（AI Gateway 移行）は次の採点バッチ前の hard gate**（SCORING_RUNBOOK 冒頭バナー、実装 PR #345 が open）。mms-7 系は全て #340 完了後に実行する。mms-7a は bespoke xAI provider を新造せず、**Gateway provider の上に Grok 固有部分だけ**を載せる。fallback OFF・実行モデルの batch メタ記録・`check:score-batch` 配線（#340 受け入れ条件）は mms-7c の着地検証で実運用確認する。
+- **mobile-first プログラム（#320–#329、wave 順はオーナー持ちゲート）**: #323（W2 verdict card）は mms-6c と同一ファイル群（`_RiskCard.astro` / `[...id].astro` / `_id-bindings.ts` / `_id-css.ts`）を触る。**実行順はオーナー裁定**（推奨: mms-6c 先行 → #323 が総合化済み card を再構成する）。#323 spec の 3 点（先月比 prevDelta / 採点月 / `ai_rationale_ja` 供給元）は総合切替で意味が変わる（#323 にコメント済み）。#324（gated）は後段のため通常 rebase で足りる。
+- **GEO（#236 / #272、parked）**: mms-6d の /methodology・FAQ 改稿は 4 audit prompts のランディング内容を後退させない（PR 説明で確認 1 行）。
+
+## 実装分割（進捗と再起票 — 2026-08-31）
+
+進捗: mms-6-doc 済（PR #363 / #375）、mms-6a 済（PR #376）、mms-6b は branch `feat/issue-366-consensus-projections` で実装進行中。初回起票分（#364–#374）は既存プログラム照合前の起票だったため撤回済み。残余 unit は本節の依存で再起票する。
 
 | # | id | 内容 | 依存 |
 |---|----|------|------|
-| 1 | mms-6-doc | 本書承認 + 確定パラメータ + 確定文案（本節） | なし |
-| 2 | mms-6a | `pickConsensusScore()`（窓・floor・中央値・理由文セレクタ）+ 単体テスト | 1 |
+| 1 | mms-6-doc | 済（PR #363 / #375: パラメータ + 確定文案ロック） | — |
+| 2 | mms-6a | 済（PR #376: `pickConsensusScore()` + 理由文セレクタ） | — |
 | 3 | mms-6b | ETL/projection 接続: 正典系 projection を総合値へ、パネルメタ追加、payload gate 内 | 2 |
-| 4 | mms-6c | 職業ページ表面: 総合見出し・無署名理由文・最新観測行・履歴折りたたみ（帰属あり） | 3 |
-| 5 | mms-6d | 全站文言掃除: footer / FAQ テンプレ群 / 引用用ファクト / JSON-LD / OG（C 向け型番ゼロ規則） | 3 |
+| 4 | mms-6c | 職業ページ表面: 総合見出し・無署名理由文・最新観測行・履歴折りたたみ（帰属あり） | 3、#323 との順序はオーナー裁定 |
+| 5 | mms-6d | 全站文言掃除: footer / FAQ テンプレ群 / 引用用ファクト / JSON-LD / OG（C 向け型番ゼロ規則） | 3、GEO 不後退（#236/#272） |
 | 6 | mms-6e | /models hub 整合（「現行モデル」カード → 総合概況 + 最新採点）※hub 全面改修はスコープ外 | 3 |
 | 7 | mms-6f | fixture/baseline 再生成、正典値ピン留めテスト整理 | 4, 5, 6 |
-| 8 | mms-6g | 切替 release: drift レポート + 站内更新説明、preview オーナー承認 → 着地 | 7 |
-| 9 | mms-7a | xAI runner（SCORING_RUNBOOK「Adding a vendor」手順） | なし（着地は 6g 後） |
-| 10 | mms-7b | Grok pilot 40 + 日本語品質審（オーナー署名） | 9 |
-| 11 | mms-7c | Grok 全量 556 → 第 5 票として着地（総合微動 + 最新観測更新） | 6g, 10 |
+| 8 | mms-6g | 切替 release: drift レポート + 站内更新説明（確定文案ドラフト使用）、preview オーナー承認 → 着地 | 7 |
+| 9 | mms-7a | Grok 採点経路: #340/#345 の Gateway provider 上に Grok 固有部分のみ + prompt freeze | **#340**（着地は 6g 後） |
+| 10 | mms-7b | Grok pilot 40 + 日本語品質審（オーナー署名）。実行開始は都度オーナー確認 | 9 |
+| 11 | mms-7c | Grok 全量 556 → 第 5 票として着地（総合微動の実測 + 実行モデル記録の照合） | 6g, 10 |
 
 ## 採点ポリシー（SCORING_RUNBOOK へ転記する常設規則）
 

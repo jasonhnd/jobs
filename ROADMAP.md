@@ -22,24 +22,28 @@ OpenAI / Anthropic / xAI (Gemini excluded for now, owner 2026-08-31).
 
 - mms-6-doc: design approved (PR #363); |Δ|≥1.0, ±0.3, and C-facing
   copy locked in `docs/CONSENSUS_SCORE.md` (#364). depends_on: []
-- mms-6a: `pickConsensusScore()` engine (median, per-model latest vote,
-  6-month window, floor 5) + rationale selector + unit tests.
-  depends_on: [mms-6-doc]
+- mms-6a: DONE (PR #376) — `pickConsensusScore()` engine + rationale
+  selector + unit tests.
 - mms-6b: wire canonical projections to the consensus; add panel metadata;
-  keep payload gates. depends_on: [mms-6a]
+  keep payload gates. IN PROGRESS on `feat/issue-366-consensus-projections`
+  (original #366 withdrawn in reconciliation; successor issue carries it).
+  depends_on: [mms-6a]
 - mms-6c: occupation-page surface — consensus headline, unattributed
   rationale, latest-observation line, attributed history fold.
-  depends_on: [mms-6b]
+  depends_on: [mms-6b]; shares files with mobile W2 #323 — execution order
+  is an owner ruling (recommended: mms-6c first).
 - mms-6d: sitewide copy sweep under the no-model-names-on-C-surfaces rule
-  (footer, FAQ templates, citation fact, JSON-LD, OG). depends_on: [mms-6b]
+  (footer, FAQ templates, citation fact, JSON-LD, OG). Must not regress the
+  GEO audit-prompt landings (#236 / #272). depends_on: [mms-6b]
 - mms-6e: /models hub alignment (current-model card becomes consensus summary
   + latest run); full hub rework stays out of scope. depends_on: [mms-6b]
 - mms-6f: regenerate baselines; consolidate canonical-pinned fixtures.
   depends_on: [mms-6c, mms-6d, mms-6e]
 - mms-6g: switch release with old-vs-new drift report + on-site update note;
   owner preview approval before landing. depends_on: [mms-6f]
-- mms-7a: xAI scoring runner per SCORING_RUNBOOK "Adding a vendor".
-  depends_on: [] (implementation may parallel mms-6; landing waits for 6g)
+- mms-7a: Grok scoring path on the AI Gateway provider (hard gate #340,
+  implementation PR #345); Grok-specific config + prompt freeze only — no
+  bespoke xAI provider. depends_on: [#340] (landing waits for 6g)
 - mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
   depends_on: [mms-7a]
 - mms-7c: Grok full 556 batch lands as the 5th vote. depends_on: [mms-6g, mms-7b]
