@@ -61,6 +61,7 @@ Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は�
 ## 切替日の影響実測
 
 - 全站平均 5.23 → 4.68。|Δ|≥1.0 が 100 職業、riskBand 変化 133 件。ランキング再編一回。
+- 切替当日の latest-vs-consensus 表は [`CONSENSUS_SWITCH_DRIFT.md`](CONSENSUS_SWITCH_DRIFT.md)（mms-6g）。`bun scripts/consensus-switch-drift.ts` で再生成する。
 - 文言変更面: footer 署名、views/*.ts の FAQ テンプレ群、引用用ファクト、JSON-LD、OG。
 - tests/baseline 全再生成 + 正典値ピン留め fixture の整理（mms-6f）。
 
