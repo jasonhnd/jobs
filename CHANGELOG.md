@@ -12,6 +12,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `/models` hero and section headings beat the site-wide `h1`/`h2`
+  `1.7rem !important` so the magazine title sizes apply again.
 - Consensus switch note on `/models` and `/data` (mms-6g / #384):
   published values are the multi-model median; site mean 5.23 → 4.68.
   Drift report: `docs/CONSENSUS_SWITCH_DRIFT.md`.
