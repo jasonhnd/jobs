@@ -15,16 +15,11 @@ import {
   type ScoreRunRef,
   type BatchMetaForAttribution,
 } from './score-attribution.js';
+import { comparableAioisRuns, listOccupationRuns } from './occupation-runs.js';
 
 const meta = (model: string, runDate: string, hasAiois = true, scope = 'occupations'): BatchMetaForAttribution =>
   ({ scope, model, runDate, hasAiois });
-const currentModelIds = [
-  'claude-opus-4-7',
-  'claude-opus-4-8',
-  'claude-fable-5',
-  'gpt-5.6-sol',
-  'claude-opus-5',
-] as const;
+const currentModelIds = listOccupationRuns().map((run) => run.model);
 
 describe('formatModelDisplay', () => {
   test('claude-opus-4-8 → Claude Opus 4.8', () => {
@@ -79,7 +74,7 @@ describe('modelSlug and modelIdFromSlug', () => {
   test('maps current model ids to public slugs', () => {
     assert.deepEqual(
       currentModelIds.map(modelSlug),
-      ['opus-4-7', 'opus-4-8', 'fable-5', 'gpt-5.6-sol', 'opus-5'],
+      listOccupationRuns().map((run) => run.slug.replace(/@\d{4}-\d{2}-\d{2}$/, '')),
     );
   });
 
@@ -121,7 +116,11 @@ describe('SCORE_ATTRIBUTION (live repo data)', () => {
 
 describe('SCORE_PANEL (live repo data)', () => {
   test('matches the current comparable occupation panel', () => {
-    assert.equal(SCORE_PANEL.voteCount, 4);
+    const aiois = comparableAioisRuns();
+    const latest = aiois[aiois.length - 1];
+    assert.ok(latest);
+    assert.equal(SCORE_PANEL.voteCount, aiois.length);
+    assert.equal(SCORE_PANEL.latestRunDate, latest.runDate);
     assert.equal(SCORE_PANEL.latestRunDate, SCORE_ATTRIBUTION.runDate);
     assert.equal(SCORE_PANEL.windowMonths, 6);
     assert.equal(SCORE_PANEL.floorVotes, 5);

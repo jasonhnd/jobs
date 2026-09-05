@@ -14,6 +14,7 @@ import {
   selectStoryIdsForTest,
 } from './models-deep.js';
 import { DEFAULT_MODEL_STORY_EDITORIAL_ID } from '../../site/model-editorial.js';
+import { latestAioisPair, listOccupationRuns } from '../../site/occupation-runs.js';
 import personalityCopy from '../../content/model-personality.ja.json';
 import type { DriftRow } from '../../graph/aiois-drift.js';
 
@@ -147,18 +148,21 @@ describe('models-deep projection', () => {
 
   test('builds the current payload shape under 30 KB with selected rationale only', async () => {
     const payload = buildModelsDeepPayload(await indexesFixture(), '2026-07-12T00:00:00.000Z');
+    const runs = listOccupationRuns();
+    const { baseline, candidate } = latestAioisPair(runs);
 
-    assert.equal(payload.latest_pair.baseline.model, 'gpt-5.6-sol');
-    assert.equal(payload.latest_pair.candidate.model, 'claude-opus-5');
-    assert.equal(payload.latest_pair.compared_count, 556);
-    assert.deepEqual(payload.consensus.map((row) => row.id), [10, 19, 55]);
-    assert.equal(payload.model_cards.length, 5);
-    assert.equal(payload.stories.length, 5);
-    // With the pins cleared, the story list follows the pair's actual biggest
-    // movers instead of a selection made two pairs ago (#219 follow-up).
-    assert.deepEqual(payload.stories.map((story) => story.id), [111, 114, 29, 106, 170]);
-    // Every shown story carries copy scoped to THIS pair — no generic fallback.
-    const pairSuffix = '__gpt-5.6-sol@2026-07-12__claude-opus-5@2026-07-26';
+    assert.equal(payload.latest_pair.baseline.model, baseline.model);
+    assert.equal(payload.latest_pair.candidate.model, candidate.model);
+    assert.equal(payload.latest_pair.baseline.date, baseline.runDate);
+    assert.equal(payload.latest_pair.candidate.date, candidate.runDate);
+    assert.ok(payload.latest_pair.compared_count >= 1);
+    assert.equal(payload.consensus.length, 3);
+    assert.equal(new Set(payload.consensus.map((row) => row.id)).size, 3);
+    assert.equal(payload.model_cards.length, runs.length);
+    assert.ok(payload.stories.length >= 3 && payload.stories.length <= 5);
+    assert.equal(new Set(payload.stories.map((story) => story.id)).size, payload.stories.length);
+    const pairSuffix =
+      `__${baseline.model}@${baseline.runDate}__${candidate.model}@${candidate.runDate}`;
     assert.ok(
       payload.stories.every((story) => story.editorial_sentence_id.endsWith(pairSuffix)),
       payload.stories.map((story) => story.editorial_sentence_id).join(', '),

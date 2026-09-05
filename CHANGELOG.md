@@ -12,6 +12,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Canonical-pinned tests now derive expected model names, slugs, and
+  roster lengths from `data/scores/` instead of hard-coding the latest
+  batch (mms-6f / #383). A new batch landing should not need to rewrite
+  those seven files by hand.
 - `/models` hub card is now 「いまの総合」 (vote count, latest scoring
   date, locked consensus one-liner, latest-run link). Per-run AIOIS-10
   pages note that the batch is one vote in the consensus (mms-6e / #382).

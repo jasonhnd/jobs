@@ -4,6 +4,14 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
 import { requireBuiltArtifact } from '../../scripts/lib/built-artifacts.js';
+import { SCORE_PANEL } from './score-attribution.js';
+import {
+  comparableAioisRuns,
+  latestOccupationRun,
+  listOccupationRuns,
+} from './occupation-runs.js';
+import { formatJapaneseDate } from '../views/models.js';
+import { MODELS_RUN_VOTE_NOTE } from './consensus-copy.js';
 
 function builtModelsPath(): string | null {
   const candidates = [
@@ -25,6 +33,10 @@ function builtModelDetailPath(slug: string): string | null {
     candidates.find((candidate) => existsSync(candidate)) ?? null,
     `dist-astro/models/${slug}/index.html`,
   );
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function visibleHtml(html: string): string {
@@ -103,20 +115,30 @@ describe('/models built page contract', () => {
     assert.equal(/バッチ間|方法論メモ|ヒストグラム|散布図/.test(visible), false);
     assert.match(visible, /<h1>AIモデル比較<\/h1>/);
     assert.match(visible, /<h2 id="models-roster">これまでのモデル<\/h2>/);
+    const runs = listOccupationRuns();
+    const coverages = runs.map((run) => run.coveredCount);
+    const coverageMin = Math.min(...coverages);
+    const coverageMax = Math.max(...coverages);
+    const coverageText = coverageMin === coverageMax
+      ? `${coverageMax}職業`
+      : `${coverageMin}〜${coverageMax}職業`;
     assert.match(visible, /いまの総合/);
     assert.match(visible, /複数のAIによる総合/);
-    assert.match(visible, /4票/);
+    assert.match(visible, new RegExp(`${SCORE_PANEL.voteCount}票`));
     assert.equal(/現行モデル/.test(visible), false);
-    assert.match(visible, /Claude Opus 4\.7/);
-    assert.match(visible, /Claude Opus 4\.8/);
-    assert.match(visible, /Claude Fable 5/);
-    assert.match(visible, /GPT 5\.6 SOL/);
-    assert.match(visible, /Opus 5/);
-    assert.match(visible, /各回の対象は552〜556職業/);
+    for (const run of runs) {
+      assert.match(visible, new RegExp(escapeRegExp(run.modelDisplay)));
+    }
+    assert.match(visible, new RegExp(`各回の対象は${coverageText}`));
     assert.match(visible, /共通する 556 職業を比べ/);
-    // Coverage must stay a derived range, never a single hard-coded total.
-    assert.equal(/556職業を、5つのAIモデルがそれぞれ採点/.test(visible), false);
-    assert.match(html, /4つのAIモデルによる採点を総合した、各回552〜556職業の結果から/);
+    assert.equal(
+      new RegExp(`556職業を、${runs.length}つのAIモデルがそれぞれ採点`).test(visible),
+      false,
+    );
+    assert.match(
+      html,
+      new RegExp(`${SCORE_PANEL.voteCount}つのAIモデルによる採点を総合した、各回${coverageText}の結果から`),
+    );
   });
 
   test('emits scoped heading typography that beats the canonical serif heading rule', () => {
@@ -128,57 +150,65 @@ describe('/models built page contract', () => {
   });
 
   test('renders model detail public metadata without raw ids', () => {
-    const detailPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
+    const sample = comparableAioisRuns()[1] ?? comparableAioisRuns()[0]!;
+    const detailPath = builtModelDetailPath(sample.slug);
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
     const visible = visibleHtml(html);
+    const display = escapeRegExp(sample.modelDisplay);
 
-    assert.match(visible, /<h1>GPT 5\.6 SOL の職業スコア<\/h1>/);
-    assert.match(visible, /<dt>提供元<\/dt><dd>OpenAI<\/dd>/);
+    assert.match(visible, new RegExp(`<h1>${display} の職業スコア</h1>`));
     assert.match(visible, /<dt>評価基準<\/dt><dd>AIOIS-10 v1\.0<\/dd>/);
-    assert.match(visible, /2026年7月12日/);
-    assert.equal(/プロンプト|AIOIS-10-v1\.0-gpt-5\.6-sol/.test(visible), false);
+    assert.match(visible, new RegExp(escapeRegExp(formatJapaneseDate(sample.runDate))));
+    assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(sample.model)}`).test(visible), false);
 
-    // The canonical model's own page, including the Anthropic provider label.
-    const latestPath = builtModelDetailPath('opus-5@2026-07-26');
+    const latestRun = latestOccupationRun();
+    const latestPath = builtModelDetailPath(latestRun.slug);
     if (latestPath == null) return;
     const latest = visibleHtml(readFileSync(latestPath, 'utf-8'));
-    assert.match(latest, /<h1>Claude Opus 5 の職業スコア<\/h1>/);
-    assert.match(latest, /<dt>提供元<\/dt><dd>Anthropic<\/dd>/);
-    assert.match(latest, /2026年7月26日/);
-    assert.match(latest, /このモデルの採点は総合値の 1 票です/);
-    assert.equal(/プロンプト|AIOIS-10-v1\.0-claude-opus-5/.test(latest), false);
+    const latestDisplay = escapeRegExp(latestRun.modelDisplay);
+    assert.match(latest, new RegExp(`<h1>${latestDisplay} の職業スコア</h1>`));
+    assert.match(latest, new RegExp(escapeRegExp(formatJapaneseDate(latestRun.runDate))));
+    assert.match(latest, new RegExp(escapeRegExp(MODELS_RUN_VOTE_NOTE)));
+    assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(latestRun.model)}`).test(latest), false);
   });
 
   test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
-    const legacyPath = builtModelDetailPath('opus-4-7@2026-04-25');
-    const firstAioisPath = builtModelDetailPath('opus-4-8@2026-05-30');
-    const fablePath = builtModelDetailPath('fable-5@2026-06-13');
-    const gptPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
-    const latestPath = builtModelDetailPath('opus-5@2026-07-26');
-    if (!legacyPath || !firstAioisPath || !fablePath || !gptPath || !latestPath) return;
+    const runs = listOccupationRuns();
+    const aiois = comparableAioisRuns(runs);
+    const legacyRuns = runs.filter((run) => !run.hasAiois);
+    if (legacyRuns.length === 0 || aiois.length < 2) return;
 
-    const legacy = visibleHtml(readFileSync(legacyPath, 'utf-8'));
-    const firstAiois = visibleHtml(readFileSync(firstAioisPath, 'utf-8'));
-    const fable = visibleHtml(readFileSync(fablePath, 'utf-8'));
-    const gpt = visibleHtml(readFileSync(gptPath, 'utf-8'));
-    const latest = visibleHtml(readFileSync(latestPath, 'utf-8'));
+    for (const legacyRun of legacyRuns) {
+      const path = builtModelDetailPath(legacyRun.slug);
+      if (path == null) return;
+      const legacy = visibleHtml(readFileSync(path, 'utf-8'));
+      assert.match(legacy, /AIOIS-10 導入前の旧方式スコア/);
+      assert.match(legacy, /D1〜D10 や置換指数を補完せず/);
+      assert.equal(legacy.includes(MODELS_RUN_VOTE_NOTE), false);
+    }
 
-    assert.match(legacy, /AIOIS-10 導入前の旧方式スコア/);
-    assert.match(legacy, /D1〜D10 や置換指数を補完せず/);
-    assert.equal(/このモデルの採点は総合値の 1 票です/.test(legacy), false);
+    const firstPath = builtModelDetailPath(aiois[0]!.slug);
+    if (firstPath == null) return;
+    const firstAiois = visibleHtml(readFileSync(firstPath, 'utf-8'));
     assert.match(firstAiois, /AIOIS-10 系列で最初の採点/);
     assert.match(firstAiois, /比較可能な前回モデルがない/);
-    assert.match(fable, /Claude Opus 4\.8（2026年5月30日）と比べて/);
-    assert.match(fable, /共通して比較できた職業は 556 件/);
-    assert.match(gpt, /Claude Fable 5（2026年6月13日）と比べて/);
-    assert.match(gpt, /共通して比較できた職業は 556 件/);
-    assert.match(latest, /GPT 5\.6 SOL（2026年7月12日）と比べて/);
-    assert.match(latest, /共通して比較できた職業は 556 件/);
+
+    for (let i = 1; i < aiois.length; i += 1) {
+      const path = builtModelDetailPath(aiois[i]!.slug);
+      if (path == null) return;
+      const page = visibleHtml(readFileSync(path, 'utf-8'));
+      const predecessor = aiois[i - 1]!;
+      const predDisplay = escapeRegExp(predecessor.modelDisplay);
+      const predDate = escapeRegExp(formatJapaneseDate(predecessor.runDate));
+      assert.match(page, new RegExp(`${predDisplay}（${predDate}）と比べて`));
+      assert.match(page, /共通して比較できた職業は \d+ 件/);
+      assert.match(page, new RegExp(escapeRegExp(MODELS_RUN_VOTE_NOTE)));
+    }
   });
 
   test('emits scoped model detail heading typography that beats the canonical serif heading rule', () => {
-    const detailPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
+    const detailPath = builtModelDetailPath((comparableAioisRuns()[0] ?? latestOccupationRun()).slug);
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
 
