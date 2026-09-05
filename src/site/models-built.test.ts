@@ -98,6 +98,16 @@ function assertModelsSurfaceBodyReset(html: string): void {
   assert.match(styleCss(html), /html body\.models-surface\{[^}]*\bmargin:0\b/);
 }
 
+function assertHeroSizeBeatsCanonical(html: string, selector: string, size: string): void {
+  const css = styleCss(html);
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  assert.match(
+    css,
+    new RegExp(`${escaped}\\{[^}]*font-size:${size.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}!important`),
+    `${selector} must beat canonical html body h1 { font-size: 1.7rem !important }`,
+  );
+}
+
 describe('/models built page contract', () => {
   const htmlPath = builtModelsPath();
 
@@ -149,6 +159,7 @@ describe('/models built page contract', () => {
 
     assertModelsSurfaceBodyReset(html);
     assertHeadingSansRuleBeatsCanonical(styleCss(html), '.models-feature');
+    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .models-hero h1', 'clamp(2rem,4.6vw,4.2rem)');
   });
 
   test('renders model detail public metadata without raw ids', () => {
@@ -216,5 +227,6 @@ describe('/models built page contract', () => {
 
     assertModelsSurfaceBodyReset(html);
     assertHeadingSansRuleBeatsCanonical(styleCss(html), '#wrapper');
+    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .model-hero h1', 'clamp(2rem,4.5vw,4rem)');
   });
 });
