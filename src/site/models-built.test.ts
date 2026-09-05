@@ -124,6 +124,8 @@ describe('/models built page contract', () => {
       : `${coverageMin}〜${coverageMax}職業`;
     assert.match(visible, /いまの総合/);
     assert.match(visible, /複数のAIによる総合/);
+    assert.match(visible, /AI 影響度の出し方を変えました/);
+    assert.match(visible, /全職業の平均が 5\.23 から 4\.68/);
     assert.match(visible, new RegExp(`${SCORE_PANEL.voteCount}票`));
     assert.equal(/現行モデル/.test(visible), false);
     for (const run of runs) {

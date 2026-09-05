@@ -27,6 +27,13 @@ export const MODELS_HUB_NOW_LABEL = 'いまの総合';
 /** Per-run page note (mms-6e). Comparable AIOIS-10 batches only. */
 export const MODELS_RUN_VOTE_NOTE = 'このモデルの採点は総合値の 1 票です。';
 
+/** Switch-release on-site note (mms-6g). Two paragraphs, verbatim. */
+export const CONSENSUS_SWITCH_NOTE_LEAD =
+  'AI 影響度の出し方を変えました。これまでは「いちばん新しいAIの採点」をサイト全体の数字にしていました。これからは、複数のAIによる採点の総合値（中央値）を正典にします。いちばん新しいAIの見解は、差が大きい職業だけ「最新のAIは…」という行に出します。';
+
+export const CONSENSUS_SWITCH_NOTE_IMPACT =
+  '今回の切替では、全職業の平均が 5.23 から 4.68 になります。1.0 以上動く職業は 100、リスク帯が変わる職業は 133 です。新しいAIを1つ足すたびにサイト全体がひっくり返らないようにするための変更です。';
+
 export function formatRunDateJa(isoDate: string): string {
   const [year, month, day] = isoDate.split('-').map((part) => Number.parseInt(part, 10));
   if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return isoDate;

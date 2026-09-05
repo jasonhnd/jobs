@@ -12,6 +12,10 @@ import {
 } from '@/views/models';
 import personalityCopy from '../content/model-personality.ja.json';
 import storyCopy from '../content/model-story-overrides.ja.json';
+import {
+  CONSENSUS_SWITCH_NOTE_IMPACT,
+  CONSENSUS_SWITCH_NOTE_LEAD,
+} from '@/site/consensus-copy';
 
 const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_deep.json'), 'utf-8');
 const projection = JSON.parse(projectionRaw);
@@ -127,6 +131,7 @@ a:hover{color:var(--accent)}
 .cta-secondary{border:1px solid rgba(255,255,255,.45);color:var(--bg)}
 .data-note{padding:26px 0;color:var(--fg2);font-size:.92rem;line-height:1.8}
 .data-note p{margin:0;overflow-wrap:break-word;word-break:normal}
+.data-note p + p{margin-top:12px}
 @media(max-width:880px){
   .models-hero,.contrast,.quote-grid,.cta-band{grid-template-columns:1fr}
   .cta-actions{justify-content:flex-start}
@@ -290,6 +295,8 @@ a:hover{color:var(--accent)}
     </section>
 
     <section class="data-note" aria-label="データについて">
+      <p>{CONSENSUS_SWITCH_NOTE_LEAD}</p>
+      <p>{CONSENSUS_SWITCH_NOTE_IMPACT}</p>
       <p>
         公開値は複数のAIによる総合です。このページは {page.batchDatesText} の採点結果をもとにしています。各回の対象範囲は {page.coverageRangeText} です。採点方法は <a href="/methodology">評価プロセス</a> と <a href="/standard">AIOIS-10 標準</a> を参照してください。
       </p>
