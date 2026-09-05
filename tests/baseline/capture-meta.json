@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-09-02T12:29:22.621Z",
-  "gitCommit": "6bcf247f5196a0656bc11963334a57ddcb8cd051",
-  "gitBranch": "feat/issue-382-models-hub-consensus",
+  "capturedAt": "2026-09-05T14:02:21.347Z",
+  "gitCommit": "e7c3b41890407403596052a5636df9a8ac42c1bb",
+  "gitBranch": "feat/issue-383-canonical-fixtures",
   "distFileCount": 834,
   "urlCount": 834,
   "dataFileCount": 612,
