@@ -12,6 +12,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Consensus switch note on `/models` and `/data` (mms-6g / #384):
+  published values are the multi-model median; site mean 5.23 → 4.68.
+  Drift report: `docs/CONSENSUS_SWITCH_DRIFT.md`.
 - Canonical-pinned tests now derive expected model names, slugs, and
   roster lengths from `data/scores/` instead of hard-coding the latest
   batch (mms-6f / #383). A new batch landing should not need to rewrite
