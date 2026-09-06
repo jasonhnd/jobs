@@ -13,6 +13,7 @@ import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
 import {
   CONSENSUS_FAQ_SENTENCE,
+  CONSENSUS_SWITCH_NOTE_HEADING,
   CONSENSUS_SWITCH_NOTE_IMPACT,
   CONSENSUS_SWITCH_NOTE_LEAD,
 } from '@/site/consensus-copy';
@@ -134,7 +135,7 @@ const jsonLd = JSON.stringify({
         <strong>注意</strong>：{CONSENSUS_FAQ_SENTENCE}政府の公式予測ではありません。出典の労働統計は厚生労働省 jobtag ＋ JILPT IPD。
       </div>
 
-      <h2>スコアの出し方を変えました</h2>
+      <h2>{CONSENSUS_SWITCH_NOTE_HEADING}</h2>
       <p>{CONSENSUS_SWITCH_NOTE_LEAD}</p>
       <p>{CONSENSUS_SWITCH_NOTE_IMPACT}</p>
 
