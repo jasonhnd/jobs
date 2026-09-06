@@ -12,6 +12,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- C-facing consensus copy: drop 正典 / いちばん / ひっくり返る from the
+  switch note; public value is the median of comparable scores, not a
+  nickname for it. Hub label 「現行の総合」. `/methodology` no longer
+  calls the frozen prompt or a past batch 正典.
 - `/models` hero and section headings beat the site-wide `h1`/`h2`
   `1.7rem !important` so the magazine title sizes apply again.
 - Consensus switch note on `/models` and `/data` (mms-6g / #384):

@@ -8,6 +8,7 @@ import {
   LATEST_OBSERVATION_THRESHOLD,
   MODELS_HUB_NOW_LABEL,
   MODELS_RUN_VOTE_NOTE,
+  CONSENSUS_SWITCH_NOTE_HEADING,
   CONSENSUS_SWITCH_NOTE_LEAD,
   CONSENSUS_SWITCH_NOTE_IMPACT,
   formatConsensusCitation,
@@ -61,15 +62,16 @@ describe('formatLatestObservationLine', () => {
       CONSENSUS_STANDARD_FORMAL,
       '本サイトの公開値は、各次元および変化の大きさ・仕事が減るリスクを、複数のAIによる採点の中央値として出します。総合の変化の大きさを mean(D1, D2) から再計算しません。',
     );
-    assert.equal(MODELS_HUB_NOW_LABEL, 'いまの総合');
+    assert.equal(MODELS_HUB_NOW_LABEL, '現行の総合');
     assert.equal(MODELS_RUN_VOTE_NOTE, 'このモデルの採点は総合値の 1 票です。');
+    assert.equal(CONSENSUS_SWITCH_NOTE_HEADING, 'スコアの算出方法を変更しました');
     assert.equal(
       CONSENSUS_SWITCH_NOTE_LEAD,
-      'AI 影響度の出し方を変えました。これまでは「いちばん新しいAIの採点」をサイト全体の数字にしていました。これからは、複数のAIによる採点の総合値（中央値）を正典にします。いちばん新しいAIの見解は、差が大きい職業だけ「最新のAIは…」という行に出します。',
+      'AI 影響度の算出方法を変更しました。これまでは、最新の1件の採点をサイト全体の公開値として採用していました。これからは、複数のAIによる採点の中央値を公開値とします。最新の採点が公開値から大きく外れる職業に限り、「最新のAIは…」という行でその見解を示します。',
     );
     assert.equal(
       CONSENSUS_SWITCH_NOTE_IMPACT,
-      '今回の切替では、全職業の平均が 5.23 から 4.68 になります。1.0 以上動く職業は 100、リスク帯が変わる職業は 133 です。新しいAIを1つ足すたびにサイト全体がひっくり返らないようにするための変更です。',
+      '今回の変更では、全職業の平均は 5.23 から 4.68 になります。公開値が 1.0 以上変わる職業は 100、リスク帯が変わる職業は 133 です。新しいAIを1件追加しても、公開値全体が、その1件の採点で入れ替わらないようにするための変更です。',
     );
   });
 });

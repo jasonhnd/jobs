@@ -169,7 +169,7 @@ const jsonLd = `{
     <p>ただの統計でも、ただの勘でもありません。<strong>複数のAIが同一ルーブリックで 10 次元を判定し、公開値は中央値</strong>です。2 つの指数は決まった式で算出します。Eloundou ら（2023）が GPT-4 に「O*NET の作業を AI がどこまでできるか」を判定させた手法の系譜で、判定対象を 10 次元に広げたものです。</p>
     <p>研究上の近い参照点は、Frey &amp; Osborne (2013) の職業単位の computerisation susceptibility、Eloundou et al. (2023) の GPT/LLM task exposure、Acemoglu &amp; Restrepo (2019) の displacement / reinstatement のタスク枠組みです。AIOIS-10 は exposure だけで終わらせず、D3〜D7 の human moat、D8 の導入費用対効果、D9 の日本固有の需給・制度摩擦を通して、変化の大きさと仕事が減るリスクを別々に出します。</p>
     <div class="steps">
-      <div class="step-item"><div class="t">AI が判定：D1〜D10</div><div class="d">複数のAIが各職業の職務記述（概要・仕事内容・労働条件）を読み、AI 到達度・定型反復・身体現場・判断責任・対人・創造・資格の壁・費用対効果・需給制度・雇用の将来性の 10 次元を 0〜10 で判定。<a href="/standard">AIOIS-10 標準</a>を正典とする凍結プロンプトを全職業に同一適用し、公開値は中央値です。</div></div>
+      <div class="step-item"><div class="t">AI が判定：D1〜D10</div><div class="d">複数のAIが各職業の職務記述（概要・仕事内容・労働条件）を読み、AI 到達度・定型反復・身体現場・判断責任・対人・創造・資格の壁・費用対効果・需給制度・雇用の将来性の 10 次元を 0〜10 で判定。<a href="/standard">AIOIS-10 標準</a>に基づく凍結プロンプトを全職業に同一適用し、公開値は中央値です。</div></div>
       <div class="step-item"><div class="t">式で出す：2 つの指数</div><div class="d">変化の大きさ ＝ D1 と D2 の平均。仕事が減るリスク ＝ AI 到達度 ×（1 − 人間の強み/10）× 広がりやすさ。式は <a href="/standard">AIOIS-10 標準</a> のまま固定で、採点モデルは式を変更できない。トップ指標「AI 影響」は変化の大きさ。</div></div>
       <div class="step-item"><div class="t">機械検証ではじく</div><div class="d">全採点行を自動検証する：10 次元＋2 指数の完全性、0〜10・小数第 1 位、指数が式と一致するか、ID の重複・欠落。違反した職業は採点をやり直す（手で数値を直すことはしない）。</div></div>
       <div class="step-item"><div class="t">D9 は日本版</div><div class="d">D9 需給・制度は国ごとに付け直す唯一の次元。<strong>深刻な人手不足</strong>の現場では AI は置きかえではなく助けになるため低く出る（職務記述と日本の労働市場の状況に基づいて判定）。</div></div>
@@ -199,7 +199,7 @@ const jsonLd = `{
     </div>
 
     <h2>履歴上のクロスモデル検証（外部整合性）</h2>
-    <p><strong>これは現行の公開総合値の検証ではありません。</strong> 2026-06-23 に、当時の正典だった Claude Fable 5 batch（2026-06-13）から代表 40 職業を取り、Claude Opus 4.8 と Claude Sonnet 4.6 に同一の AIOIS-10 ルーブリックで独立採点させた履歴上の検証です。3 モデルの「変化の大きさ」指数はモデル間相関 r=0.92〜0.97、平均の開きは約 1.0/10、95%（38/40 職業）が 2 点以内で一致しました。Fable 5 との平均絶対差は Opus 4.8 で 0.6、Sonnet 4.6 で 0.6 点でした。全量 batch 同士の集計差分は <a href="/models">モデル比較</a> にまとめています。</p>
+    <p><strong>これは現行の公開総合値の検証ではありません。</strong> 2026-06-23 に、当時の公開値だった Claude Fable 5 batch（2026-06-13）から代表 40 職業を取り、Claude Opus 4.8 と Claude Sonnet 4.6 に同一の AIOIS-10 ルーブリックで独立採点させた履歴上の検証です。3 モデルの「変化の大きさ」指数はモデル間相関 r=0.92〜0.97、平均の開きは約 1.0/10、95%（38/40 職業）が 2 点以内で一致しました。Fable 5 との平均絶対差は Opus 4.8 で 0.6、Sonnet 4.6 で 0.6 点でした。全量 batch 同士の集計差分は <a href="/models">モデル比較</a> にまとめています。</p>
     <p>限界：この 40 職業検証は Fable 5 predecessor batch の外部整合性を確認したもので、現行の公開総合値（全 {batchView.occupationCount} 職業）を直接検証したものではありません。公開値は、複数のAIが同一ルーブリックで判定した採点の中央値です。</p>
 
     <h2><span class="num">6.</span>本手法の限界</h2>

@@ -106,7 +106,7 @@ describe('models feature view model', () => {
     assert.equal(page.currentModel.model, 'claude-fable-5');
     assert.equal(page.currentModel.modelDisplay, 'Claude Fable 5');
     assert.equal(page.currentModel.href, '/models/fable-5@2026-06-13');
-    assert.equal(page.consensusSummary.label, 'いまの総合');
+    assert.equal(page.consensusSummary.label, '現行の総合');
     assert.equal(page.consensusSummary.headline, '複数のAIによる総合');
     assert.equal(page.consensusSummary.voteCount, 2);
     assert.equal(page.consensusSummary.latestRunDate, '2026-06-13');
