@@ -17,10 +17,12 @@
  * special-casing the vendor.
  */
 import type { ScoringProvider } from '../provider.js';
+import { aiGatewayProvider } from './ai-gateway.js';
 import { codexProvider } from './codex.js';
 import { inAgentProvider } from './in-agent.js';
 
 export const PROVIDERS: Readonly<Record<string, ScoringProvider>> = Object.freeze({
+  [aiGatewayProvider.name]: aiGatewayProvider,
   [codexProvider.name]: codexProvider,
   [inAgentProvider.name]: inAgentProvider,
 });
@@ -36,5 +38,6 @@ export function getProvider(name: string): ScoringProvider {
   return provider;
 }
 
+export { aiGatewayProvider } from './ai-gateway.js';
 export { codexProvider } from './codex.js';
 export { inAgentProvider } from './in-agent.js';
