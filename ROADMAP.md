@@ -38,8 +38,8 @@ OpenAI / Anthropic / xAI (Gemini excluded for now, owner 2026-08-31).
   depends_on: [mms-6c, mms-6d, mms-6e]
 - mms-6g: switch release with old-vs-new drift report + on-site update note;
   owner preview approval before landing. depends_on: [mms-6f]
-- mms-7a: xAI scoring runner per SCORING_RUNBOOK "Adding a vendor".
-  depends_on: [] (implementation may parallel mms-6; landing waits for 6g)
+- mms-7a: Grok 4.6 scoring path on the AI Gateway provider (`spacexai/grok-4.6`)
+  + prompt freeze. No bespoke xAI provider. depends_on: [mms-6g, #340]
 - mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
   depends_on: [mms-7a]
 - mms-7c: Grok full 556 batch lands as the 5th vote. depends_on: [mms-6g, mms-7b]
