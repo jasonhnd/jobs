@@ -55,8 +55,7 @@ function assertModelsSurfaceBodyReset(html: string): void {
   assert.match(styleCss(html), /html body\.models-surface\{[^}]*\bmargin:0\b/);
 }
 
-/** /models must not run a private heading face or scale vs /data and /methodology. */
-function assertHeadingsStayOnCanonicalSerif(html: string): void {
+function assertHeadingsStaySerif(html: string): void {
   const css = styleCss(html);
   for (const rule of css.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
     const selectors = rule[1] ?? '';
@@ -68,8 +67,16 @@ function assertHeadingsStayOnCanonicalSerif(html: string): void {
       `heading selector must not switch to sans: ${selectors.trim()}`,
     );
   }
-  assert.equal(/clamp\(2rem,4\.6vw,4\.2rem\)/.test(css), false);
-  assert.equal(/clamp\(2rem,4\.5vw,4rem\)/.test(css), false);
+}
+
+function assertHeroSizeBeatsCanonical(html: string, selector: string, size: string): void {
+  const css = styleCss(html);
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  assert.match(
+    css,
+    new RegExp(`${escaped}\\{[^}]*font-family:var\\(--font-serif\\)!important[^}]*font-size:${size.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}!important`),
+    `${selector} must keep serif and beat canonical html body h1 { font-size: 1.7rem !important }`,
+  );
 }
 
 describe('/models built page contract', () => {
@@ -117,12 +124,13 @@ describe('/models built page contract', () => {
     );
   });
 
-  test('keeps headings on the site-wide serif scale', () => {
+  test('keeps serif headings at the magazine title size', () => {
     if (htmlPath == null) return;
     const html = readFileSync(htmlPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingsStayOnCanonicalSerif(html);
+    assertHeadingsStaySerif(html);
+    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .models-hero h1', 'clamp(2rem,4.6vw,4.2rem)');
   });
 
   test('renders model detail public metadata without raw ids', () => {
@@ -183,12 +191,13 @@ describe('/models built page contract', () => {
     }
   });
 
-  test('keeps model-detail headings on the site-wide serif scale', () => {
+  test('keeps model-detail serif headings at the magazine title size', () => {
     const detailPath = builtModelDetailPath((comparableAioisRuns()[0] ?? latestOccupationRun()).slug);
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingsStayOnCanonicalSerif(html);
+    assertHeadingsStaySerif(html);
+    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .model-hero h1', 'clamp(2rem,4.5vw,4rem)');
   });
 });
