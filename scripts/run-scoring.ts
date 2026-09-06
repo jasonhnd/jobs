@@ -36,6 +36,12 @@
  *     --prompt-file data/prompts/<date>_claude-opus-5-aiois10.ja.md \
  *     --out .cache/scoring/<run>/raw-scores.jsonl
  *
+ *   # Grok 4.6 (mms-7a). Dry-run needs a separate owner go-ahead.
+ *   bun scripts/run-scoring.ts \
+ *     --provider ai-gateway --model spacexai/grok-4.6 \
+ *     --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
+ *     --out .cache/scoring/<run>/raw-scores.jsonl --ids 111,156
+ *
  *   # Scored by this agent session (no API key, no child process)
  *   bun scripts/run-scoring.ts \
  *     --provider in-agent --model claude-opus-5 \

@@ -228,10 +228,11 @@ export function inferProvider(model: string): string {
   if (slash > 0) return inferProvider(m.slice(slash + 1));
   if (m.startsWith('gpt') || m.startsWith('o1') || m.startsWith('o3')) return 'openai';
   if (m.startsWith('claude')) return 'anthropic';
+  if (m.startsWith('grok')) return 'xai';
   if (m.startsWith('gemini')) return 'google';
   throw new Error(
     `cannot infer model_provider from model "${model}" — pass --provider <vendor> explicitly ` +
-      '(known prefixes: gpt/o1/o3 → openai, claude → anthropic, gemini → google)',
+      '(known prefixes: gpt/o1/o3 → openai, claude → anthropic, grok → xai, gemini → google)',
   );
 }
 

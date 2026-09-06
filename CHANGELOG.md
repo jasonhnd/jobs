@@ -49,6 +49,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- Grok 4.6 scoring path on the existing `ai-gateway` provider (mms-7a /
+  #385): locked catalog id `spacexai/grok-4.6`, `inferProvider('grok-…')`
+  → `xai`, frozen prompt `data/prompts/2026-09-06_grok-4.6-aiois10.ja.md`
+  (Opus 5 rubric body unchanged). No scoring run in this change.
 - `ai-gateway` scoring provider (#340): any vendor's model through Vercel
   AI Gateway's OpenAI-compatible API with one key (`AI_GATEWAY_API_KEY`).
   Gateway fallback is never enabled; a response whose executed model
