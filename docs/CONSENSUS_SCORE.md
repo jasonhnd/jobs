@@ -167,7 +167,7 @@ AI 影響度の算出方法を変更しました。これまでは、最新の1�
 | 6 | mms-6e | /models hub 整合（「現行モデル」カード → 総合概況 + 最新採点）※hub 全面改修はスコープ外 | 3 |
 | 7 | mms-6f | fixture/baseline 再生成、正典値ピン留めテスト整理 | 4, 5, 6 |
 | 8 | mms-6g | 切替 release: drift レポート + 站内更新説明、preview オーナー承認 → 着地 | 7 |
-| 9 | mms-7a | xAI runner（SCORING_RUNBOOK「Adding a vendor」手順） | なし（着地は 6g 後） |
+| 9 | mms-7a | Grok 4.6 on AI Gateway（`spacexai/grok-4.6`）+ prompt freeze。bespoke xAI provider は作らない | 6g, #340 |
 | 10 | mms-7b | Grok pilot 40 + 日本語品質審（オーナー署名） | 9 |
 | 11 | mms-7c | Grok 全量 556 → 第 5 票として着地（総合微動 + 最新観測更新） | 6g, 10 |
 

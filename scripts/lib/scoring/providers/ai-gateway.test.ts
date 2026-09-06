@@ -23,6 +23,7 @@ describe('isGatewayModelId', () => {
     assert.equal(isGatewayModelId('anthropic/claude-opus-5'), true);
     assert.equal(isGatewayModelId('openai/gpt-5.6-sol'), true);
     assert.equal(isGatewayModelId('xai/grok-4'), true);
+    assert.equal(isGatewayModelId('spacexai/grok-4.6'), true);
   });
 
   test('rejects bare slugs so the gateway can never guess the vendor', () => {
