@@ -158,13 +158,7 @@ const jsonLd = JSON.stringify({
 const localCss = `
 *,*::before,*::after{box-sizing:border-box}
 html{font-size:16px}
-html body.models-surface{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.7;line-break:strict}
-html body #wrapper h1,
-html body #wrapper h2,
-html body #wrapper h3{font-family:var(--font-sans)}
-html body.models-surface .model-hero h1{font-size:clamp(2rem,4.5vw,4rem)!important;font-weight:700!important;line-height:1.12!important}
-html body.models-surface .section h2{font-size:1.45rem!important;font-weight:700!important;line-height:1.3!important}
-html body.models-surface .rank-card h3{font-size:1.05rem!important;font-weight:700!important;line-height:1.3!important}
+html body.models-surface{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75;line-break:strict}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
 a:hover{color:var(--accent)}
 #wrapper{max-width:1120px;margin:0 auto;padding:32px 20px 80px}
@@ -174,7 +168,7 @@ a:hover{color:var(--accent)}
 .crumb span[aria-hidden]{color:var(--fg3)}
 .model-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:28px;align-items:end;padding:18px 0 30px;border-bottom:1px solid var(--border)}
 .eyebrow{margin:0 0 12px;color:var(--accent-deep);font-weight:700;font-size:.84rem}
-h1{margin:0;font-size:clamp(2rem,4.5vw,4rem);font-weight:700;line-height:1.12;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break:normal}
+h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break:normal}
 .lead{max-width:720px;margin:18px 0 0;color:var(--fg2);font-size:1.02rem;line-height:1.9;overflow-wrap:break-word;word-break:normal}
 .profile-box{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px}
 .profile-box dl{display:grid;grid-template-columns:104px 1fr;gap:10px 14px;margin:0}
@@ -184,7 +178,7 @@ h1{margin:0;font-size:clamp(2rem,4.5vw,4rem);font-weight:700;line-height:1.12;le
 .profile-links a,.nav-links a,.back-link{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid var(--border);border-radius:6px;padding:0 12px;background:var(--bg);font-weight:700;text-decoration:none;color:var(--fg)}
 .profile-links a:hover,.nav-links a:hover,.back-link:hover{border-color:var(--accent);color:var(--accent)}
 .section{padding:38px 0;border-bottom:1px solid var(--border)}
-.section h2{margin:0 0 16px;font-size:1.45rem;line-height:1.3;color:var(--fg);letter-spacing:0;overflow-wrap:break-word;word-break:normal}
+.section h2{margin:0 0 16px;color:var(--fg);letter-spacing:0;overflow-wrap:break-word;word-break:normal}
 .section-intro{max-width:760px;margin:0 0 22px;color:var(--fg2);line-height:1.9;overflow-wrap:break-word;word-break:normal}
 .stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 24px}
 .stat{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:14px;min-width:0}
@@ -198,7 +192,7 @@ h1{margin:0;font-size:clamp(2rem,4.5vw,4rem);font-weight:700;line-height:1.12;le
 .fallback{margin:14px 0 0;color:var(--fg2);font-size:.92rem}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .rank-card{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px}
-.rank-card h3{margin:0 0 12px;font-size:1.05rem}
+.rank-card h3{margin:0 0 12px}
 .rank-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .rank-list li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(92,82,60,.16)}
 .rank-list li:last-child{border-bottom:0}
