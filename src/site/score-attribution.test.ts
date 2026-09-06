@@ -34,6 +34,9 @@ describe('formatModelDisplay', () => {
   test('gpt-5.6-sol → GPT 5.6 SOL', () => {
     assert.equal(formatModelDisplay('gpt-5.6-sol'), 'GPT 5.6 SOL');
   });
+  test('grok-4.6 → Grok 4.6', () => {
+    assert.equal(formatModelDisplay('grok-4.6'), 'Grok 4.6');
+  });
   test('word-only id degrades gracefully', () => {
     assert.equal(formatModelDisplay('claude-fable'), 'Claude Fable');
   });

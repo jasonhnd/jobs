@@ -190,9 +190,43 @@ special-casing the vendor.
 
 `assemble-scores.ts --provider` records the vendor in `scorer.model_provider`.
 It is inferred from known model-id prefixes (`gpt`/`o1`/`o3`, `claude`,
-`gemini`) and **fails loudly for anything else** — a batch file is append-only
-and its provider is rendered publicly as 提供元, so a new vendor must be named
-explicitly rather than silently mislabelled.
+`grok` → `xai`, `gemini`) and **fails loudly for anything else** — a batch
+file is append-only and its provider is rendered publicly as 提供元, so a new
+vendor must be named explicitly rather than silently mislabelled.
+
+## Grok 4.6 / AI Gateway scoring (mms-7a / #385)
+
+Grok は **bespoke xAI provider を新造しない**。既存の `--provider ai-gateway`
+に Gateway catalog id を渡す。
+
+- Gateway model: `spacexai/grok-4.6`（Vercel AI Gateway catalog、2026-09-06 固定）
+- assemble の裸 slug: `grok-4.6`
+- `model_provider`: `xai`（`inferProvider('grok-…')`）
+- Frozen prompt: `data/prompts/2026-09-06_grok-4.6-aiois10.ja.md`
+- Prompt version: `AIOIS-10-v1.0-grok-4.6`
+- Rubric 本文は Opus 5 凍結 prompt とモデル識別行以外同一
+- LOCAL tool。`data/scores/` への追加は mms-7c。API key は実行時に
+  `vercel ai-gateway api-keys create`。**dry-run を含む採点実行はオーナーの
+  事前確認が必要**（実装完了 ≠ 実行開始）。
+
+```bash
+bun scripts/run-scoring.ts \
+  --provider ai-gateway --model spacexai/grok-4.6 \
+  --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
+  --out .cache/scoring/<run>/raw-scores.jsonl \
+  --ids 111,156
+
+# assemble は裸 slug + 明示 --provider（Gateway の creator/ は付けない）
+bun scripts/assemble-scores.ts \
+  --mode aiois --model grok-4.6 --provider xai --date <YYYY-MM-DD> \
+  --prompt-version AIOIS-10-v1.0-grok-4.6 \
+  --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
+  --in .cache/scoring/<run>/raw-scores.jsonl \
+  --out .cache/scoring/<run>/occupations_grok-4.6_<date>.json
+
+bun run check:score-batch .cache/scoring/<run>/occupations_grok-4.6_<date>.json \
+  --executed-models .cache/scoring/<run>/executed-models.jsonl
+```
 
 ### In-agent scoring flow
 
