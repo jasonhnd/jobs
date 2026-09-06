@@ -12,10 +12,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
-- `/models` hub and per-run headings use the site-wide serif scale
-  (Noto Serif JP, 1.7rem / 1.15rem / 1rem, weight 700/600) so they
-  match `/data` and `/methodology`. The private sans + magazine clamp
-  is gone.
+- `/models` hub and per-run titles keep Noto Serif JP (weight 700) but
+  beat the site-wide 1.7rem cap: hub h1 is `clamp(2rem, 4.6vw, 4.2rem)`.
+  The previous sans + weight-800 face is still gone.
 - C-facing consensus copy: drop 正典 / いちばん / ひっくり返る from the
   switch note; public value is the median of comparable scores, not a
   nickname for it. Hub label 「現行の総合」. `/methodology` no longer
