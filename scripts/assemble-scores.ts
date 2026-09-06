@@ -224,6 +224,8 @@ export interface BatchMeta {
  */
 export function inferProvider(model: string): string {
   const m = model.toLowerCase();
+  const slash = m.indexOf('/');
+  if (slash > 0) return inferProvider(m.slice(slash + 1));
   if (m.startsWith('gpt') || m.startsWith('o1') || m.startsWith('o3')) return 'openai';
   if (m.startsWith('claude')) return 'anthropic';
   if (m.startsWith('gemini')) return 'google';

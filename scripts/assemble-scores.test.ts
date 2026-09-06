@@ -200,12 +200,18 @@ describe('inferProvider', () => {
     assert.equal(inferProvider('gemini-2.5-pro'), 'google');
   });
 
+  test('strips a gateway creator/slug prefix before matching', () => {
+    assert.equal(inferProvider('openai/gpt-5.6-sol'), 'openai');
+    assert.equal(inferProvider('anthropic/claude-opus-5'), 'anthropic');
+  });
+
   // Behaviour change: this used to fall back to 'anthropic'. model_provider is
   // written into an append-only batch and shown as 提供元 on /models/{slug}, so
   // guessing silently mislabels a new vendor permanently.
   test('refuses to guess an unknown vendor instead of mislabelling the batch', () => {
     assert.throws(() => inferProvider('deepseek-v4'), /pass --provider/);
     assert.throws(() => inferProvider('grok-5'), /pass --provider/);
+    assert.throws(() => inferProvider('xai/grok-5'), /pass --provider/);
   });
 });
 
