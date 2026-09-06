@@ -50,62 +50,26 @@ function styleCss(html: string): string {
   return Array.from(html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g), (match) => match[1] ?? '').join('\n');
 }
 
-function specificity(selector: string): [number, number, number] {
-  const idCount = (selector.match(/#[\w-]+/g) ?? []).length;
-  const classLikeCount = (selector.match(/(?:\.[\w-]+|\[[^\]]+\]|:[\w-]+)/g) ?? []).length;
-  const withoutPseudoArgs = selector.replace(/:(?:not|is|where|has)\([^)]*\)/g, '');
-  const typeCount = (withoutPseudoArgs.match(/(^|[\s>+~])([a-zA-Z][\w-]*)/g) ?? []).length;
-  return [idCount, classLikeCount, typeCount];
-}
-
-function compareSpecificity(a: [number, number, number], b: [number, number, number]): number {
-  for (let i = 0; i < 3; i += 1) {
-    if (a[i] !== b[i]) return a[i]! - b[i]!;
-  }
-  return 0;
-}
-
-function matchingSelectors(css: string, heading: 'h1' | 'h2' | 'h3'): string[] {
-  const selectors: string[] = [];
-  for (const rule of css.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
-    const selectorList = rule[1] ?? '';
-    const declarations = rule[2] ?? '';
-    if (!/font-family\s*:\s*var\(--font-sans\)/.test(declarations)) continue;
-    if (/font-family\s*:\s*var\(--font-sans\)\s*!important/.test(declarations)) continue;
-    for (const selector of selectorList.split(',')) {
-      const trimmed = selector.trim();
-      if (new RegExp(`(?:^|[\\s>+~])${heading}(?:$|[\\s.#:[>+~])`).test(trimmed)) {
-        selectors.push(trimmed);
-      }
-    }
-  }
-  return selectors;
-}
-
-function assertHeadingSansRuleBeatsCanonical(css: string, scope: string): void {
-  const canonical = specificity('html body h1');
-  for (const heading of ['h1', 'h2', 'h3'] as const) {
-    const selectors = matchingSelectors(css, heading).filter((selector) => selector.includes(scope));
-    assert.ok(
-      selectors.some((selector) => compareSpecificity(specificity(selector), canonical) > 0),
-      `missing scoped ${heading} font-family rule stronger than canonical html body ${heading}`,
-    );
-  }
-}
-
 function assertModelsSurfaceBodyReset(html: string): void {
   assert.match(html, /<body class="models-surface">/);
   assert.match(styleCss(html), /html body\.models-surface\{[^}]*\bmargin:0\b/);
 }
 
-function assertHeroSizeBeatsCanonical(html: string, selector: string, size: string): void {
+/** /models must not run a private heading face or scale vs /data and /methodology. */
+function assertHeadingsStayOnCanonicalSerif(html: string): void {
   const css = styleCss(html);
-  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  assert.match(
-    css,
-    new RegExp(`${escaped}\\{[^}]*font-size:${size.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}!important`),
-    `${selector} must beat canonical html body h1 { font-size: 1.7rem !important }`,
-  );
+  for (const rule of css.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
+    const selectors = rule[1] ?? '';
+    const declarations = rule[2] ?? '';
+    if (!/font-family\s*:\s*var\(--font-sans\)/.test(declarations)) continue;
+    assert.equal(
+      /(?:^|,)[^{},]*\bh[123]\b/.test(selectors),
+      false,
+      `heading selector must not switch to sans: ${selectors.trim()}`,
+    );
+  }
+  assert.equal(/clamp\(2rem,4\.6vw,4\.2rem\)/.test(css), false);
+  assert.equal(/clamp\(2rem,4\.5vw,4rem\)/.test(css), false);
 }
 
 describe('/models built page contract', () => {
@@ -153,13 +117,12 @@ describe('/models built page contract', () => {
     );
   });
 
-  test('emits scoped heading typography that beats the canonical serif heading rule', () => {
+  test('keeps headings on the site-wide serif scale', () => {
     if (htmlPath == null) return;
     const html = readFileSync(htmlPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingSansRuleBeatsCanonical(styleCss(html), '.models-feature');
-    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .models-hero h1', 'clamp(2rem,4.6vw,4.2rem)');
+    assertHeadingsStayOnCanonicalSerif(html);
   });
 
   test('renders model detail public metadata without raw ids', () => {
@@ -220,13 +183,12 @@ describe('/models built page contract', () => {
     }
   });
 
-  test('emits scoped model detail heading typography that beats the canonical serif heading rule', () => {
+  test('keeps model-detail headings on the site-wide serif scale', () => {
     const detailPath = builtModelDetailPath((comparableAioisRuns()[0] ?? latestOccupationRun()).slug);
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingSansRuleBeatsCanonical(styleCss(html), '#wrapper');
-    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .model-hero h1', 'clamp(2rem,4.5vw,4rem)');
+    assertHeadingsStayOnCanonicalSerif(html);
   });
 });
