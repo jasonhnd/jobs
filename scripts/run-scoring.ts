@@ -30,6 +30,12 @@
  *     --prompt-file data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md \
  *     --out .cache/scoring/<run>/raw-scores.jsonl
  *
+ *   # Any vendor through Vercel AI Gateway (AI_GATEWAY_API_KEY in .env.local)
+ *   bun scripts/run-scoring.ts \
+ *     --provider ai-gateway --model anthropic/claude-opus-5 \
+ *     --prompt-file data/prompts/<date>_claude-opus-5-aiois10.ja.md \
+ *     --out .cache/scoring/<run>/raw-scores.jsonl
+ *
  *   # Scored by this agent session (no API key, no child process)
  *   bun scripts/run-scoring.ts \
  *     --provider in-agent --model claude-opus-5 \

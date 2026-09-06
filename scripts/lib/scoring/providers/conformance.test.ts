@@ -43,9 +43,10 @@ describe('contract stays internally consistent', () => {
 });
 
 describe('provider registry', () => {
-  test('registers at least the codex and in-agent providers', () => {
+  test('registers at least the codex, in-agent, and ai-gateway providers', () => {
     assert.ok(PROVIDER_NAMES.includes('codex'));
     assert.ok(PROVIDER_NAMES.includes('in-agent'));
+    assert.ok(PROVIDER_NAMES.includes('ai-gateway'));
   });
 
   test('every registry key matches its provider name', () => {

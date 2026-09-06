@@ -16,13 +16,20 @@
  *
  * Usage:
  *   bun scripts/check-score-batch.ts data/scores/occupations_<model>_<YYYY-MM-DD>.json
+ *   bun scripts/check-score-batch.ts <batch>.json --executed-models .cache/scoring/<run>/executed-models.jsonl
+ *
+ * When an `executed-models.jsonl` sidecar is present (gateway runs write it
+ * under the run directory; pass `--executed-models` or place it next to the
+ * batch file), every attested occupation must have executed the batch's
+ * `scorer.model`. Missing sidecar is skipped so legacy batches still check.
  *
  * Exit codes: 0 = schema valid (warnings are advisory); 1 = bad args /
- * unreadable / schema-invalid.
+ * unreadable / schema-invalid / executed-model mismatch.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { ScoreRunSchema } from '../src/data/schema/score-run.js';
+import { attestationsMatchBatch, parseExecutedModelsJsonl } from './lib/scoring/providers/ai-gateway.js';
 
 const ROOT = resolve(import.meta.dir, '..');
 const OCC_DIR = join(ROOT, 'data', 'occupations');
@@ -40,9 +47,24 @@ function fail(msg: string): never {
   process.exit(1);
 }
 
-const arg = process.argv[2];
+const argv = process.argv.slice(2);
+let executedModelsFlag: string | undefined;
+const positional: string[] = [];
+for (let i = 0; i < argv.length; i += 1) {
+  const token = argv[i]!;
+  if (token === '--executed-models') {
+    executedModelsFlag = argv[i + 1];
+    if (!executedModelsFlag) fail('--executed-models needs a path');
+    i += 1;
+    continue;
+  }
+  positional.push(token);
+}
+const arg = positional[0];
 if (!arg) {
-  fail('no file given.\n  Usage: bun scripts/check-score-batch.ts data/scores/<batch>.json');
+  fail(
+    'no file given.\n  Usage: bun scripts/check-score-batch.ts data/scores/<batch>.json [--executed-models <jsonl>]',
+  );
 }
 const candidatePath = resolve(arg);
 if (!existsSync(candidatePath)) fail(`file not found: ${candidatePath}`);
@@ -66,6 +88,24 @@ if (!parsed.success) {
 }
 const batch = parsed.data;
 console.log(`[check-score-batch] schema OK — scope=${batch.scope}, model=${batch.scorer.model}, run_date=${batch.run.run_date}`);
+
+const sidecarPath = executedModelsFlag
+  ? resolve(executedModelsFlag)
+  : join(dirname(candidatePath), 'executed-models.jsonl');
+if (executedModelsFlag && !existsSync(sidecarPath)) {
+  fail(`executed-models file not found: ${sidecarPath}`);
+}
+if (existsSync(sidecarPath)) {
+  const sidecar = parseExecutedModelsJsonl(readFileSync(sidecarPath, 'utf8'));
+  if (sidecar.error) fail(`executed-models: ${sidecar.error}`);
+  const mismatch = attestationsMatchBatch(sidecar.rows, batch.scorer.model);
+  if (mismatch) fail(`executed-models: ${mismatch}`);
+  console.log(
+    `[executed-models] OK — ${String(sidecar.rows.length)} attested occupation(s) match scorer.model=${batch.scorer.model}`,
+  );
+} else {
+  console.log('[executed-models] no sidecar (legacy or non-gateway batch) — skipped');
+}
 
 if (batch.scope !== 'occupations') {
   console.log(`[check-score-batch] scope is "${batch.scope}" (not occupations) — skipping occupation coverage/drift.`);

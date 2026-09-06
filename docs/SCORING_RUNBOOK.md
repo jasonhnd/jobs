@@ -2,12 +2,6 @@
 
 本書は、AI 影響スコア batch を再実行・追加するときの開発者向け正典である。公開ページの基準説明は `/standard`、開発者向け AIOIS-10 入口は [`AIOIS-10.md`](AIOIS-10.md)、データ選択規則は [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md) の「スコア選択」を正典にする。
 
-> **⚠ 次回 batch 前のゲート(#340)**: 次の batch を実行する前に、モデル呼び出しを
-> Vercel AI Gateway 経由へ移行する。要点: 統一 endpoint / **fallback は無効**
-> (別モデルへの silent 代替は batch を汚染する)/ 応答の実行モデル名を batch
-> metadata へ記録し `check:score-batch` で照合 / API key は着手時に
-> `vercel ai-gateway api-keys` で作成。**移行が完了したらこの注意書きを削除する。**
-
 ## 現行 batch
 
 > この 3 行は `data/scores/` から導出される事実であり、`bun scripts/check-geo-freshness.ts`
@@ -148,20 +142,44 @@ Registered providers:
 
 | `--provider` | Auth | Native schema | Notes |
 | --- | --- | --- | --- |
+| `ai-gateway` | `AI_GATEWAY_API_KEY` (`vercel ai-gateway api-keys create`; .env.local) | yes (OpenAI-compatible `response_format: json_schema`) | Any vendor's model with one key, id in `creator/slug` form (#340). Gateway fallback is never enabled; a response whose executed model differs from the request is a failed attempt, and every accepted response is attested in `<runDir>/executed-models.jsonl`. `check:score-batch` verifies that sidecar when present. |
 | `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. |
 | `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8` and `claude-fable-5` were. Answers supplied as JSONL. |
 
 ```bash
 bun scripts/run-scoring.ts --list-providers
+
+# Any vendor through Vercel AI Gateway (one key for all models)
+bun scripts/run-scoring.ts \
+  --provider ai-gateway --model anthropic/claude-opus-5 \
+  --prompt-file data/prompts/<date>_<model>-aiois10.ja.md \
+  --out .cache/scoring/<run>/raw-scores.jsonl
 ```
+
+Gateway notes: usage bills from prepaid AI Gateway credits (top up on the
+dashboard AI tab; a fresh key with no credits gets HTTP 403
+`no_providers_available`). The downstream `assemble:scores` step takes the
+bare model slug (`claude-opus-5`, no `creator/` prefix) plus an explicit
+`--provider`, same as every other run. Pass the sidecar into the batch check:
+
+```bash
+bun run check:score-batch data/scores/occupations_<model>_<date>.json \
+  --executed-models .cache/scoring/<run>/executed-models.jsonl
+```
+
+Whitelist vendors (OpenAI / Anthropic / xAI) should use `--provider ai-gateway`
+with a `creator/slug` model id rather than a new provider file. A new
+`providers/<name>.ts` is only for a genuinely different transport.
 
 ### Adding a vendor
 
-1. Write `scripts/lib/scoring/providers/<name>.ts` exporting a
+1. Prefer `--provider ai-gateway --model creator/slug` when the vendor is on
+   the whitelist and the gateway catalog carries the model.
+2. Otherwise write `scripts/lib/scoring/providers/<name>.ts` exporting a
    `ScoringProvider` (interface in `lib/scoring/provider.ts`). Typically
    40–80 lines.
-2. Register it in `lib/scoring/providers/index.ts`.
-3. Run `bun test scripts/lib/scoring`. `providers/conformance.test.ts`
+3. Register it in `lib/scoring/providers/index.ts`.
+4. Run `bun test scripts/lib/scoring`. `providers/conformance.test.ts`
    iterates the registry, so the new provider is picked up automatically and
    must prove it cannot weaken the contract, the error vocabulary, or the
    schema translation.
