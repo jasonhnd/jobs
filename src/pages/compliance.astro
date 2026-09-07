@@ -7,7 +7,6 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
-import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 import { CONTENT_DATE } from '@/lib/_content-date';
 
 const pageLastUpdated = CONTENT_DATE;
@@ -372,7 +371,7 @@ const jsonLd = `{
       以下は <strong>mirai-shigoto.com の独自分析</strong>であり、厚生労働省・JILPT は関与していません。これらの著作権は本サイトの運営者 ZKSC株式会社 に帰属します。
     </p>
     <ul>
-      <li><strong>AI 影響度スコア（0〜10）と評価理由</strong> — {SCORE_ATTRIBUTION.modelDisplay}・AIOIS-10 による独自スコアリング。</li>
+      <li><strong>AI 影響度スコア（0〜10）と評価理由</strong> — 複数のAIによる総合（AIOIS-10）による独自スコアリング。</li>
       <li><strong>英訳</strong>（職業名・業種・記述）— LLM による独自翻訳</li>
       <li><strong>可視化</strong>（squarified treemap、配色、UI、検索ロジック）— 独自実装</li>
       <li><strong>派生統計</strong>（リスク階層別シェア、リスク × 年収、加重平均など）— 公開データから独自集計</li>

@@ -15,6 +15,50 @@ export const CONSENSUS_AGING_NOTE =
 
 export const CONSENSUS_DIM_NOTE = '各次元は複数のAIによる採点の中央値です。';
 
+export const CONSENSUS_FAQ_SENTENCE =
+  '本サイトの AI 影響度は複数のAIモデルによる採点の総合値（独自分析・非公式）です。';
+
+export const CONSENSUS_STANDARD_FORMAL =
+  '本サイトの公開値は、各次元および変化の大きさ・仕事が減るリスクを、複数のAIによる採点の中央値として出します。総合の変化の大きさを mean(D1, D2) から再計算しません。';
+
+/** /models hub card label (mms-6e). */
+export const MODELS_HUB_NOW_LABEL = '現行の総合';
+
+/** Per-run page note (mms-6e). Comparable AIOIS-10 batches only. */
+export const MODELS_RUN_VOTE_NOTE = 'このモデルの採点は総合値の 1 票です。';
+
+/** Switch-release on-site note (mms-6g). Two paragraphs, verbatim. */
+export const CONSENSUS_SWITCH_NOTE_HEADING = 'スコアの算出方法を変更しました';
+
+export const CONSENSUS_SWITCH_NOTE_LEAD =
+  'AI 影響度の算出方法を変更しました。これまでは、最新の1件の採点をサイト全体の公開値として採用していました。これからは、複数のAIによる採点の中央値を公開値とします。最新の採点が公開値から大きく外れる職業に限り、「最新のAIは…」という行でその見解を示します。';
+
+export const CONSENSUS_SWITCH_NOTE_IMPACT =
+  '今回の変更では、全職業の平均は 5.23 から 4.68 になります。公開値が 1.0 以上変わる職業は 100、リスク帯が変わる職業は 133 です。新しいAIを1件追加しても、公開値全体が、その1件の採点で入れ替わらないようにするための変更です。';
+
+/** Fifth-vote landing note (mms-7c / #387). No model names. */
+export const CONSENSUS_FIFTH_VOTE_NOTE_HEADING = '総合の票を1件増やしました';
+
+export const CONSENSUS_FIFTH_VOTE_NOTE_LEAD =
+  '複数のAIによる総合に、採点を1件追加しました。公開値はこれまでどおり、複数の採点の中央値です。';
+
+export const CONSENSUS_FIFTH_VOTE_NOTE_IMPACT =
+  '今回の追加では、全職業の平均は 4.68 から 4.73 になります。公開値が 0.5 以上変わる職業は 32、リスク帯が変わる職業は 40 です。公開値が 1.0 以上変わる職業はありません。';
+
+export function formatRunDateJa(isoDate: string): string {
+  const [year, month, day] = isoDate.split('-').map((part) => Number.parseInt(part, 10));
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return isoDate;
+  return `${year}年${month}月${day}日`;
+}
+
+export function formatConsensusFooterLine(latestRunDate: string): string {
+  return `AI 影響度：複数のAIモデルによる総合（AIOIS-10・最新採点 ${latestRunDate}）`;
+}
+
+export function formatConsensusCitation(voteCount: number, latestRunDate: string): string {
+  return `（出典：厚生労働省 jobtag ＋ AIOIS-10、複数のAIによる総合・${voteCount}票、最新採点 ${formatRunDateJa(latestRunDate)}。モデル別の内訳は /models）`;
+}
+
 export const SCORE_HISTORY_DETAILS_ID = 'score-history-details';
 
 export function formatConsensusScore(value: number): string {

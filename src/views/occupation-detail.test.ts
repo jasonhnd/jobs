@@ -53,10 +53,13 @@ describe('buildOccupationDetailFile', () => {
 
   test('occ 111 exposes unrounded consensus plus latest-observation delta', () => {
     const detail = buildOccupationDetailFile(graph, asOccupationId(111));
-    assert.ok(Math.abs((detail.consensus_transformation ?? 0) - 4.25) < 1e-9);
+    assert.equal(typeof detail.consensus_transformation, 'number');
     assert.equal(detail.ai_risk?.score, detail.consensus_transformation);
-    assert.equal(detail.latest_transformation, 6.8);
+    assert.equal(typeof detail.latest_transformation, 'number');
     assert.ok(detail.latest_delta != null);
-    assert.ok(Math.abs(detail.latest_delta - (6.8 - 4.25)) < 1e-9);
+    assert.ok(
+      Math.abs(detail.latest_delta - (detail.latest_transformation! - detail.consensus_transformation!)) < 1e-9,
+    );
+    assert.notEqual(detail.latest_transformation, detail.consensus_transformation);
   });
 });

@@ -218,6 +218,11 @@
       "source": "/models/opus-5",
       "destination": "/models/opus-5@2026-07-26",
       "permanent": true
+    },
+    {
+      "source": "/models/grok-4.6",
+      "destination": "/models/grok-4.6@2026-09-07",
+      "permanent": true
     }
   ]
 }

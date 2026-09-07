@@ -40,7 +40,8 @@ function fail(msg: string): never {
   process.exit(1);
 }
 
-const arg = process.argv[2];
+const argv = process.argv.slice(2);
+const arg = argv[0];
 if (!arg) {
   fail('no file given.\n  Usage: bun scripts/check-score-batch.ts data/scores/<batch>.json');
 }

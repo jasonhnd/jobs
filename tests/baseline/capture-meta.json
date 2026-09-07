@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-08-31T10:41:07.415Z",
-  "gitCommit": "ac9ab5129892aa5fb8c8b56a88f569f5c0f7ce67",
-  "gitBranch": "feat/issue-367-occupation-consensus-surface",
-  "distFileCount": 834,
-  "urlCount": 834,
+  "capturedAt": "2026-09-07T05:59:15.246Z",
+  "gitCommit": "184685c852f13c116ba1a25c807e7e25f73c0f48",
+  "gitBranch": "feat/issue-387-grok-full-556",
+  "distFileCount": 835,
+  "urlCount": 835,
   "dataFileCount": 612,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

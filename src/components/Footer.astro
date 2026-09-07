@@ -10,7 +10,10 @@
  */
 import { CANONICAL_CSS } from '../lib/canonical-css.ts';
 import { siteConfig, OCCUPATION_COUNT } from '@/site/config';
-import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import { SCORE_PANEL } from '@/site/score-attribution';
+import { formatConsensusFooterLine } from '@/site/consensus-copy';
+const footerScoreLine = formatConsensusFooterLine(SCORE_PANEL.latestRunDate);
+const footerScoreBody = footerScoreLine.slice('AI 影響度：'.length);
 const buildTime = new Date();
 
 // Server-side default share URLs. The client JS still overwrites href with
@@ -123,7 +126,7 @@ const { iso, display } = formatJst(buildTime);
   </div>
   <div class="footer-meta">
     <strong>運営</strong>：ZKSC株式会社（東京・日本）<br />
-    <strong>AI 影響度</strong>：{SCORE_ATTRIBUTION.modelDisplay} 独自分析（AIOIS-10・{SCORE_ATTRIBUTION.runDate}）<br />
+    <strong>AI 影響度</strong>：{footerScoreBody}<br />
     出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
     最終更新：<time datetime={iso}>{display}</time><br />
     <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
