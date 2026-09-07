@@ -57,3 +57,8 @@ git diff --exit-code
 ```
 
 Docs-only changes still require `bun run check:docs-links`.
+
+On a Cursor Cloud Agent, `.cursor/install.sh` provisions this toolchain at
+checkout. What that VM can and cannot verify on its own — e2e, scoring
+providers, and everything that needs a Vercel deployment — is
+[`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) §10.
