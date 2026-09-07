@@ -1,0 +1,4 @@
+{
+  "name": "mirai-shigoto",
+  "install": "bash .cursor/install.sh"
+}

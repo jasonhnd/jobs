@@ -31,28 +31,30 @@ export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
 export function renderSkillItem(o: SkillOccupation, shortJa: string): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
-  const score = o.ai_risk;
-  const scoreStr = score === null ? '—' : `${score}/10`;
-  const band = riskClass(score);
-  const sector = o.sector_ja || '';
-  const salary = o.salary;
-  const workers = o.workers;
-
-  const stats: string[] = [
+  const scoreStr = o.ai_risk === null ? '—' : `${o.ai_risk}/10`;
+  const band = riskClass(o.ai_risk);
+  const metaParts: string[] = [];
+  if (o.sector_ja) metaParts.push(escapeHtml(o.sector_ja));
+  metaParts.push(
     `<span class="skill-score">${escapeHtml(shortJa)} ${o.skill_score.toFixed(2)}</span>`,
-    `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>`,
-  ];
-  if (salary) stats.push(`<span class="rl-salary">${Math.trunc(salary)}万円</span>`);
-  if (workers) stats.push(`<span class="rl-workers">${fmtInt(workers)}人</span>`);
-
-  const sectorHtml = sector ? `<span class="rl-sector">${escapeHtml(sector)}</span>` : '';
+  );
+  if (o.salary) metaParts.push(`<span class="rl-salary">${Math.trunc(o.salary)}万円</span>`);
+  if (o.workers) metaParts.push(`<span class="rl-workers">${fmtInt(o.workers)}人</span>`);
+  const metaHtml = metaParts.length
+    ? `<span class="rl-meta">${metaParts.join(' · ')}</span>`
+    : '';
   return (
     `<li>` +
-    `<div class="rl-main">` +
-    `<a class="rl-name" href="${occupationPath(o.id)}">${escapeHtml(title)}</a>` +
-    `${sectorHtml}` +
-    `</div>` +
-    `<div class="rl-stats">${stats.join('')}</div>` +
+    `<a class="rl-row" href="${occupationPath(o.id)}" data-track-event="list_row_click">` +
+    `<span class="rl-main">` +
+    `<span class="rl-name">${escapeHtml(title)}</span>` +
+    `${metaHtml}` +
+    `</span>` +
+    `<span class="rl-end">` +
+    `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>` +
+    `<span class="rl-chevron" aria-hidden="true">›</span>` +
+    `</span>` +
+    `</a>` +
     `</li>`
   ) as SafeHtml;
 }

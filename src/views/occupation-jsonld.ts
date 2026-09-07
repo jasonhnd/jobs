@@ -25,7 +25,7 @@
  * walks a flat shape.
  */
 
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { displayScore } from '../data/lib/banker-round.js';
 
 // ─── Internal Schema.org types (private to this module) ─────────
 
@@ -202,7 +202,7 @@ const ORG_REF = 'https://mirai-shigoto.com/#organization';
 const DATASET_REF = 'https://mirai-shigoto.com/#dataset';
 
 const AI_RISK_DESCRIPTION =
-  `${SCORE_ATTRIBUTION.modelDisplay} による独自 LLM 推定。仕事がどれだけ AI で変わるかを表し、職が消える確率ではありません。`;
+  '複数のAIによる総合（AIOIS-10）。仕事がどれだけ AI で変わるかを表し、職が消える確率ではありません。';
 
 export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
   const {
@@ -238,7 +238,7 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
     additional.push({
       '@type': 'PropertyValue',
       name: 'AI risk score (0-10)',
-      value: aiRisk,
+      value: displayScore(aiRisk),
       description: AI_RISK_DESCRIPTION,
     });
   }
@@ -266,13 +266,13 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
     additional.push({
       '@type': 'PropertyValue',
       name: 'AIOIS-10 Transformation index',
-      value: aiois10.transformation,
+      value: displayScore(aiois10.transformation),
       minValue: 0,
       maxValue: 10,
       description: 'How much AI reshapes the work (mean of D1 and D2); equal to the headline AI-risk score.',
     });
     for (const [key, name] of AIOIS_DIMS) {
-      additional.push({ '@type': 'PropertyValue', name, value: aiois10[key], minValue: 0, maxValue: 10 });
+      additional.push({ '@type': 'PropertyValue', name, value: displayScore(aiois10[key]), minValue: 0, maxValue: 10 });
     }
   }
 

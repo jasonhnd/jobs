@@ -24,7 +24,11 @@ import {
   resolveSector,
   SENTINEL_UNCATEGORIZED,
 } from './sector-resolver.js';
-import { pickLatestScore } from './score-strategy.js';
+import {
+  pickConsensusScore,
+  toCanonicalScoreEntry,
+  type ScoreHistEntry,
+} from './score-strategy.js';
 import { computeProfile5ForOcc } from './profile5.js';
 import {
   computeTransferCandidatesMap,
@@ -133,7 +137,7 @@ async function buildGraph(): Promise<KnowledgeGraph> {
   const translationsById = mapById(translations);
   const statsById = mapById(stats);
   const scoreHistoryByOcc = computeScoreHistory(scoreRuns);
-  const latestScoreByOcc = computeLatestScores(scoreHistoryByOcc);
+  const canonicalScoreByOcc = computeCanonicalScores(scoreHistoryByOcc);
 
   // 3. Build the OccupationNode map.
   const occupationsMap = new Map<OccupationId, OccupationNode>();
@@ -144,7 +148,7 @@ async function buildGraph(): Promise<KnowledgeGraph> {
       occ,
       translationsById.get(occ.id) ?? null,
       statsById.get(occ.id) ?? null,
-      latestScoreByOcc.get(occ.id) ?? null,
+      canonicalScoreByOcc.get(occ.id) ?? null,
     ));
   }
 
@@ -237,7 +241,7 @@ async function buildGraph(): Promise<KnowledgeGraph> {
     riskByOcc: new Map<number, number>(
       occupations
         .map((o) => {
-          const score = latestScoreByOcc.get(o.id);
+          const score = canonicalScoreByOcc.get(o.id);
           return score ? [o.id, score.score] as const : null;
         })
         .filter((e): e is readonly [number, number] => e !== null),
@@ -410,27 +414,39 @@ function computeScoreHistory(runs: readonly ScoreRun[]): ReadonlyMap<OccupationI
   return frozen;
 }
 
-function computeLatestScores(history: ReadonlyMap<OccupationId, readonly ScoreHistoryEntry[]>): Map<number, AiRiskScore> {
-  const latest = new Map<number, AiRiskScore>();
+function asScoreHist(hist: readonly ScoreHistoryEntry[]): ScoreHistEntry[] {
+  return hist.map((entry) => ({
+    model: entry.model,
+    date: entry.date,
+    ai_risk: entry.transformation,
+    rationale_ja: entry.rationaleJa,
+    confidence: entry.confidence,
+    aiois: entry.dims,
+  }));
+}
+
+function toAiRiskScore(pick: ScoreHistEntry): AiRiskScore {
+  return {
+    score: pick.ai_risk,
+    rationaleJa: pick.rationale_ja,
+    confidence: pick.confidence ?? null,
+    model: pick.model,
+    date: pick.date,
+    aiois: pick.aiois ?? null,
+  };
+}
+
+function computeCanonicalScores(history: ReadonlyMap<OccupationId, readonly ScoreHistoryEntry[]>): Map<number, AiRiskScore> {
+  const canonical = new Map<number, AiRiskScore>();
   for (const [occId, hist] of history) {
-    const pick = pickLatestScore(hist.map((entry) => ({
-      model: entry.model,
-      date: entry.date,
-      ai_risk: entry.transformation,
-      rationale_ja: entry.rationaleJa,
-      confidence: entry.confidence,
-      aiois: entry.dims,
-    })));
-    latest.set(Number(occId), {
-      score: pick.ai_risk,
-      rationaleJa: pick.rationale_ja,
-      confidence: pick.confidence ?? null,
-      model: pick.model,
-      date: pick.date,
-      aiois: pick.aiois ?? null,
-    });
+    try {
+      const pick = toCanonicalScoreEntry(pickConsensusScore(asScoreHist(hist)));
+      canonical.set(Number(occId), toAiRiskScore(pick));
+    } catch {
+      // Occupations with no comparable AIOIS-10 votes stay unscored.
+    }
   }
-  return latest;
+  return canonical;
 }
 
 function buildOccupationNode(

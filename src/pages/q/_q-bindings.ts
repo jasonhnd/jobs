@@ -8,13 +8,15 @@ import {
   renderAiFactParagraph,
 } from '@/lib/ai-fact-summary';
 import { loadGeoFacts } from '@/page-data/geo-facts-loader';
-import { QA_ITEMS, type QAItem } from '@/views/qa-meta.js';
+import { QA_ITEMS, qaGroup, type QAItem } from '@/views/qa-meta.js';
 import type { DetailFileMin } from '@/views/genre-hub.js';
 import { escapeHtml } from '@/templates/Hub.js';
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import type { GeoFacts } from '@/site/geo-facts';
 import { occupationPath } from '@/lib/urls';
+import { riskClass } from '@/lib/risk';
+import { safeMean } from '@/lib/num';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -26,6 +28,7 @@ export interface QSlugBindings {
   readonly shortAnswerHtml: string;
   readonly reasoningHtml: string;
   readonly aiFactHtml: string;
+  readonly answerLineHtml: string;
   readonly exampleListHtml: string;
   readonly relatedQAs: ReadonlyArray<QAItem>;
   readonly relatedHtml: string;
@@ -33,20 +36,93 @@ export interface QSlugBindings {
   readonly jsonLd: string;
 }
 
-function renderExampleList(examples: ReadonlyArray<DetailFileMin>): string {
+function eyebrowStem(qa: QAItem): string {
+  return qa.og_eyebrow.replace(/^Q&A · /, '');
+}
+
+function scoreLabel(score: number | null | undefined): string {
+  if (score === null || score === undefined) return '—';
+  return `${score}/10`;
+}
+
+/**
+ * First-screen one-sentence answer (#328 family 1).
+ *
+ * AI-anxiety groups follow Appendix A (`最も高いのは…平均は…`) when row 1
+ * is the set max; low-AI-first lists use `最も低いのは` so the named job
+ * matches row 1. Sector / life / aptitude / career groups use the issue
+ * condition pattern (`{stem}に当てはまる{N}職。先頭は{名}です。`). Stem is
+ * the existing `og_eyebrow` without the `Q&A · ` prefix — no new copy.
+ */
+export function renderQaAnswerLine(
+  qa: QAItem,
+  examples: ReadonlyArray<DetailFileMin>,
+): string {
+  if (examples.length === 0) return '';
+  const n = examples.length;
+  const top = examples[0]!;
+  const name = top.title?.ja ?? `#${top.id}`;
+  const nameHtml = `<strong>${escapeHtml(name)}</strong>`;
+  const stemHtml = escapeHtml(eyebrowStem(qa));
+  const group = qaGroup(qa.slug);
+  const isAiGroup = group === 'ai-anxiety' || group === 'ai-anxiety-extra';
+
+  if (!isAiGroup) {
+    return `<p class="qa-sum">${stemHtml}に当てはまる${n}職。先頭は${nameHtml}です。</p>`;
+  }
+
+  const scores = examples
+    .map((d) => d.ai_risk?.score)
+    .filter((v): v is number => typeof v === 'number');
+  const firstScore = top.ai_risk?.score;
+  const meanHtml = scores.length === 0 ? '—' : `${safeMean(scores).toFixed(1)}/10`;
+  const scoreHtml = escapeHtml(scoreLabel(firstScore ?? null));
+  const max = scores.length > 0 ? Math.max(...scores) : null;
+  const min = scores.length > 0 ? Math.min(...scores) : null;
+  const isMax = typeof firstScore === 'number' && max !== null && firstScore === max;
+  const isMin = typeof firstScore === 'number' && min !== null && firstScore === min;
+  const split = max !== null && min !== null && max !== min;
+
+  let lead: string;
+  if (isMax && split) {
+    lead = `最も高いのは${nameHtml}（${scoreHtml}）`;
+  } else if (isMin && split) {
+    lead = `最も低いのは${nameHtml}（${scoreHtml}）`;
+  } else {
+    lead = `先頭は${nameHtml}（${scoreHtml}）`;
+  }
+  return `<p class="qa-sum">${stemHtml}の${n}職。${lead}、${n}職の平均は${meanHtml}です。</p>`;
+}
+
+export function renderExampleList(examples: ReadonlyArray<DetailFileMin>): string {
   if (examples.length === 0) return '<p>該当例なし</p>';
   const items = examples.map((d) => {
     const name = d.title?.ja ?? `#${d.id}`;
     const ai = d.ai_risk?.score;
     const aiStr = ai === null || ai === undefined ? '—' : `${ai}/10`;
-    const band = ai === null || ai === undefined ? 'mid' : ai <= 3 ? 'low' : ai <= 6 ? 'mid' : 'high';
+    const band = riskClass(ai === null || ai === undefined ? null : ai);
     const sec = d.sector?.ja ?? '';
     const salary = d.stats?.salary_man_yen;
-    return `<li><div class="rl-main"><a class="rl-name" href="${occupationPath(d.id)}">${escapeHtml(name)}</a>` +
-      (sec ? `<span class="rl-sector">${escapeHtml(sec)}</span>` : '') +
-      `</div><div class="rl-stats"><span class="risk-pill ${band}">${aiStr}</span>` +
-      (salary ? `<span class="rl-salary">${Math.trunc(salary)}万円</span>` : '') +
-      `</div></li>`;
+    const metaParts: string[] = [];
+    if (sec) metaParts.push(escapeHtml(sec));
+    if (salary) metaParts.push(`<span class="rl-salary">${Math.trunc(salary)}万円</span>`);
+    const metaHtml = metaParts.length
+      ? `<span class="rl-meta">${metaParts.join(' · ')}</span>`
+      : '';
+    return (
+      `<li>` +
+      `<a class="rl-row" href="${occupationPath(d.id)}" data-track-event="list_row_click">` +
+      `<span class="rl-main">` +
+      `<span class="rl-name">${escapeHtml(name)}</span>` +
+      `${metaHtml}` +
+      `</span>` +
+      `<span class="rl-end">` +
+      `<span class="risk-pill ${band}">${escapeHtml(aiStr)}</span>` +
+      `<span class="rl-chevron" aria-hidden="true">›</span>` +
+      `</span>` +
+      `</a>` +
+      `</li>`
+    );
   }).join('');
   return '<ol class="rank-list">' + items + '</ol>';
 }
@@ -110,6 +186,7 @@ export function buildQSlugBindings(
     pageKindJa: 'Q&A',
     occupationIds: examples.map((example) => example.id),
   }));
+  const answerLineHtml = renderQaAnswerLine(qa, examples);
   const exampleListHtml = renderExampleList(examples);
   const relatedQAs = QA_ITEMS.filter((other) => qa.related_topics.includes(other.slug)).slice(0, 5);
   const relatedHtml = renderRelatedQAs(relatedQAs);
@@ -117,7 +194,7 @@ export function buildQSlugBindings(
   const jsonLd = renderJsonLd(canonical, qa, seoDesc);
   return {
     canonical, ogImage, title, seoDesc,
-    shortAnswerHtml, reasoningHtml, aiFactHtml, exampleListHtml,
+    shortAnswerHtml, reasoningHtml, aiFactHtml, answerLineHtml, exampleListHtml,
     relatedQAs, relatedHtml, crossHubHtml, jsonLd,
   };
 }

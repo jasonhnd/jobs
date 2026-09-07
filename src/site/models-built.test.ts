@@ -4,6 +4,14 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
 import { requireBuiltArtifact } from '../../scripts/lib/built-artifacts.js';
+import { SCORE_PANEL } from './score-attribution.js';
+import {
+  comparableAioisRuns,
+  latestOccupationRun,
+  listOccupationRuns,
+} from './occupation-runs.js';
+import { formatJapaneseDate } from '../views/models.js';
+import { MODELS_RUN_VOTE_NOTE } from './consensus-copy.js';
 
 function builtModelsPath(): string | null {
   const candidates = [
@@ -27,6 +35,10 @@ function builtModelDetailPath(slug: string): string | null {
   );
 }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function visibleHtml(html: string): string {
   return html
     .replace(/<template id="models-projection"[\s\S]*?<\/template>/, '')
@@ -38,52 +50,33 @@ function styleCss(html: string): string {
   return Array.from(html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g), (match) => match[1] ?? '').join('\n');
 }
 
-function specificity(selector: string): [number, number, number] {
-  const idCount = (selector.match(/#[\w-]+/g) ?? []).length;
-  const classLikeCount = (selector.match(/(?:\.[\w-]+|\[[^\]]+\]|:[\w-]+)/g) ?? []).length;
-  const withoutPseudoArgs = selector.replace(/:(?:not|is|where|has)\([^)]*\)/g, '');
-  const typeCount = (withoutPseudoArgs.match(/(^|[\s>+~])([a-zA-Z][\w-]*)/g) ?? []).length;
-  return [idCount, classLikeCount, typeCount];
+function assertModelsSurfaceBodyReset(html: string): void {
+  assert.match(html, /<body class="models-surface">/);
+  assert.match(styleCss(html), /html body\.models-surface\{[^}]*\bmargin:0\b/);
 }
 
-function compareSpecificity(a: [number, number, number], b: [number, number, number]): number {
-  for (let i = 0; i < 3; i += 1) {
-    if (a[i] !== b[i]) return a[i]! - b[i]!;
-  }
-  return 0;
-}
-
-function matchingSelectors(css: string, heading: 'h1' | 'h2' | 'h3'): string[] {
-  const selectors: string[] = [];
+function assertHeadingsStaySerif(html: string): void {
+  const css = styleCss(html);
   for (const rule of css.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
-    const selectorList = rule[1] ?? '';
+    const selectors = rule[1] ?? '';
     const declarations = rule[2] ?? '';
     if (!/font-family\s*:\s*var\(--font-sans\)/.test(declarations)) continue;
-    if (/font-family\s*:\s*var\(--font-sans\)\s*!important/.test(declarations)) continue;
-    for (const selector of selectorList.split(',')) {
-      const trimmed = selector.trim();
-      if (new RegExp(`(?:^|[\\s>+~])${heading}(?:$|[\\s.#:[>+~])`).test(trimmed)) {
-        selectors.push(trimmed);
-      }
-    }
-  }
-  return selectors;
-}
-
-function assertHeadingSansRuleBeatsCanonical(css: string, scope: string): void {
-  const canonical = specificity('html body h1');
-  for (const heading of ['h1', 'h2', 'h3'] as const) {
-    const selectors = matchingSelectors(css, heading).filter((selector) => selector.includes(scope));
-    assert.ok(
-      selectors.some((selector) => compareSpecificity(specificity(selector), canonical) > 0),
-      `missing scoped ${heading} font-family rule stronger than canonical html body ${heading}`,
+    assert.equal(
+      /(?:^|,)[^{},]*\bh[123]\b/.test(selectors),
+      false,
+      `heading selector must not switch to sans: ${selectors.trim()}`,
     );
   }
 }
 
-function assertModelsSurfaceBodyReset(html: string): void {
-  assert.match(html, /<body class="models-surface">/);
-  assert.match(styleCss(html), /html body\.models-surface\{[^}]*\bmargin:0\b/);
+function assertHeroSizeBeatsCanonical(html: string, selector: string, size: string): void {
+  const css = styleCss(html);
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  assert.match(
+    css,
+    new RegExp(`${escaped}\\{[^}]*font-family:var\\(--font-serif\\)!important[^}]*font-size:${size.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}!important`),
+    `${selector} must keep serif and beat canonical html body h1 { font-size: 1.7rem !important }`,
+  );
 }
 
 describe('/models built page contract', () => {
@@ -95,87 +88,117 @@ describe('/models built page contract', () => {
     const visible = visibleHtml(html);
 
     assert.match(html, /<template id="models-projection">/);
-    assert.equal(/fetch\s*\(/.test(html), false);
+    // Global #327 overlay fetches /data.search.json; models itself stays static.
+    assert.equal(/fetch\s*\([^)]*models/.test(html), false);
     assert.equal(/data\.models_deep\.json/.test(html), false);
     assert.equal(/<table\b/i.test(visible), false);
     assert.equal(/\bD(?:[1-9]|10)\b|D1[〜-]D10|drift/i.test(visible), false);
     assert.equal(/バッチ間|方法論メモ|ヒストグラム|散布図/.test(visible), false);
     assert.match(visible, /<h1>AIモデル比較<\/h1>/);
     assert.match(visible, /<h2 id="models-roster">これまでのモデル<\/h2>/);
-    assert.match(visible, /Claude Opus 4\.7/);
-    assert.match(visible, /Claude Opus 4\.8/);
-    assert.match(visible, /Claude Fable 5/);
-    assert.match(visible, /GPT 5\.6 SOL/);
-    assert.match(visible, /Opus 5/);
-    assert.match(visible, /各回の対象は552〜556職業/);
+    const runs = listOccupationRuns();
+    const coverages = runs.map((run) => run.coveredCount);
+    const coverageMin = Math.min(...coverages);
+    const coverageMax = Math.max(...coverages);
+    const coverageText = coverageMin === coverageMax
+      ? `${coverageMax}職業`
+      : `${coverageMin}〜${coverageMax}職業`;
+    assert.match(visible, /現行の総合/);
+    assert.match(visible, /複数のAIによる総合/);
+    assert.match(visible, /AI 影響度の算出方法を変更しました/);
+    assert.match(visible, /全職業の平均は 5\.23 から 4\.68/);
+    assert.match(visible, /全職業の平均は 4\.68 から 4\.73/);
+    assert.match(visible, new RegExp(`${SCORE_PANEL.voteCount}票`));
+    assert.equal(/現行モデル/.test(visible), false);
+    for (const run of runs) {
+      assert.match(visible, new RegExp(escapeRegExp(run.modelDisplay)));
+    }
+    assert.match(visible, new RegExp(`各回の対象は${coverageText}`));
     assert.match(visible, /共通する 556 職業を比べ/);
-    // Coverage must stay a derived range, never a single hard-coded total.
-    assert.equal(/556職業を、5つのAIモデルがそれぞれ採点/.test(visible), false);
-    assert.match(html, /5つのAIモデルによる、各回552〜556職業の採点結果/);
+    assert.equal(
+      new RegExp(`556職業を、${runs.length}つのAIモデルがそれぞれ採点`).test(visible),
+      false,
+    );
+    assert.match(
+      html,
+      new RegExp(`${SCORE_PANEL.voteCount}つのAIモデルによる採点を総合した、各回${coverageText}の結果から`),
+    );
   });
 
-  test('emits scoped heading typography that beats the canonical serif heading rule', () => {
+  test('keeps serif headings at the magazine title size', () => {
     if (htmlPath == null) return;
     const html = readFileSync(htmlPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingSansRuleBeatsCanonical(styleCss(html), '.models-feature');
+    assertHeadingsStaySerif(html);
+    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .models-hero h1', 'clamp(2rem,4.6vw,4.2rem)');
   });
 
   test('renders model detail public metadata without raw ids', () => {
-    const detailPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
+    const sample = comparableAioisRuns()[1] ?? comparableAioisRuns()[0]!;
+    const detailPath = builtModelDetailPath(sample.slug);
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
     const visible = visibleHtml(html);
+    const display = escapeRegExp(sample.modelDisplay);
 
-    assert.match(visible, /<h1>GPT 5\.6 SOL の職業スコア<\/h1>/);
-    assert.match(visible, /<dt>提供元<\/dt><dd>OpenAI<\/dd>/);
+    assert.match(visible, new RegExp(`<h1>${display} の職業スコア</h1>`));
     assert.match(visible, /<dt>評価基準<\/dt><dd>AIOIS-10 v1\.0<\/dd>/);
-    assert.match(visible, /2026年7月12日/);
-    assert.equal(/プロンプト|AIOIS-10-v1\.0-gpt-5\.6-sol/.test(visible), false);
+    assert.match(visible, new RegExp(escapeRegExp(formatJapaneseDate(sample.runDate))));
+    assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(sample.model)}`).test(visible), false);
 
-    // The canonical model's own page, including the Anthropic provider label.
-    const latestPath = builtModelDetailPath('opus-5@2026-07-26');
+    const latestRun = latestOccupationRun();
+    const latestPath = builtModelDetailPath(latestRun.slug);
     if (latestPath == null) return;
     const latest = visibleHtml(readFileSync(latestPath, 'utf-8'));
-    assert.match(latest, /<h1>Claude Opus 5 の職業スコア<\/h1>/);
-    assert.match(latest, /<dt>提供元<\/dt><dd>Anthropic<\/dd>/);
-    assert.match(latest, /2026年7月26日/);
-    assert.equal(/プロンプト|AIOIS-10-v1\.0-claude-opus-5/.test(latest), false);
+    const latestDisplay = escapeRegExp(latestRun.modelDisplay);
+    assert.match(latest, new RegExp(`<h1>${latestDisplay} の職業スコア</h1>`));
+    assert.match(latest, new RegExp(escapeRegExp(formatJapaneseDate(latestRun.runDate))));
+    assert.match(latest, new RegExp(escapeRegExp(MODELS_RUN_VOTE_NOTE)));
+    assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(latestRun.model)}`).test(latest), false);
   });
 
   test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
-    const legacyPath = builtModelDetailPath('opus-4-7@2026-04-25');
-    const firstAioisPath = builtModelDetailPath('opus-4-8@2026-05-30');
-    const fablePath = builtModelDetailPath('fable-5@2026-06-13');
-    const gptPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
-    const latestPath = builtModelDetailPath('opus-5@2026-07-26');
-    if (!legacyPath || !firstAioisPath || !fablePath || !gptPath || !latestPath) return;
+    const runs = listOccupationRuns();
+    const aiois = comparableAioisRuns(runs);
+    const legacyRuns = runs.filter((run) => !run.hasAiois);
+    if (legacyRuns.length === 0 || aiois.length < 2) return;
 
-    const legacy = visibleHtml(readFileSync(legacyPath, 'utf-8'));
-    const firstAiois = visibleHtml(readFileSync(firstAioisPath, 'utf-8'));
-    const fable = visibleHtml(readFileSync(fablePath, 'utf-8'));
-    const gpt = visibleHtml(readFileSync(gptPath, 'utf-8'));
-    const latest = visibleHtml(readFileSync(latestPath, 'utf-8'));
+    for (const legacyRun of legacyRuns) {
+      const path = builtModelDetailPath(legacyRun.slug);
+      if (path == null) return;
+      const legacy = visibleHtml(readFileSync(path, 'utf-8'));
+      assert.match(legacy, /AIOIS-10 導入前の旧方式スコア/);
+      assert.match(legacy, /D1〜D10 や置換指数を補完せず/);
+      assert.equal(legacy.includes(MODELS_RUN_VOTE_NOTE), false);
+    }
 
-    assert.match(legacy, /AIOIS-10 導入前の旧方式スコア/);
-    assert.match(legacy, /D1〜D10 や置換指数を補完せず/);
+    const firstPath = builtModelDetailPath(aiois[0]!.slug);
+    if (firstPath == null) return;
+    const firstAiois = visibleHtml(readFileSync(firstPath, 'utf-8'));
     assert.match(firstAiois, /AIOIS-10 系列で最初の採点/);
     assert.match(firstAiois, /比較可能な前回モデルがない/);
-    assert.match(fable, /Claude Opus 4\.8（2026年5月30日）と比べて/);
-    assert.match(fable, /共通して比較できた職業は 556 件/);
-    assert.match(gpt, /Claude Fable 5（2026年6月13日）と比べて/);
-    assert.match(gpt, /共通して比較できた職業は 556 件/);
-    assert.match(latest, /GPT 5\.6 SOL（2026年7月12日）と比べて/);
-    assert.match(latest, /共通して比較できた職業は 556 件/);
+
+    for (let i = 1; i < aiois.length; i += 1) {
+      const path = builtModelDetailPath(aiois[i]!.slug);
+      if (path == null) return;
+      const page = visibleHtml(readFileSync(path, 'utf-8'));
+      const predecessor = aiois[i - 1]!;
+      const predDisplay = escapeRegExp(predecessor.modelDisplay);
+      const predDate = escapeRegExp(formatJapaneseDate(predecessor.runDate));
+      assert.match(page, new RegExp(`${predDisplay}（${predDate}）と比べて`));
+      assert.match(page, /共通して比較できた職業は \d+ 件/);
+      assert.match(page, new RegExp(escapeRegExp(MODELS_RUN_VOTE_NOTE)));
+    }
   });
 
-  test('emits scoped model detail heading typography that beats the canonical serif heading rule', () => {
-    const detailPath = builtModelDetailPath('gpt-5.6-sol@2026-07-12');
+  test('keeps model-detail serif headings at the magazine title size', () => {
+    const detailPath = builtModelDetailPath((comparableAioisRuns()[0] ?? latestOccupationRun()).slug);
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingSansRuleBeatsCanonical(styleCss(html), '#wrapper');
+    assertHeadingsStaySerif(html);
+    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .model-hero h1', 'clamp(2rem,4.5vw,4rem)');
   });
 });

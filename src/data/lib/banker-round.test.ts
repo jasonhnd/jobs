@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { bankerRound } from './banker-round.js';
+import { bankerRound, displayScore } from './banker-round.js';
 
 test('bankerRound: FP near-halfway from real computation', () => {
   // (3.236 + 3.127 + 3.073 + 2.934) / 4 / 5 * 100
@@ -72,4 +72,10 @@ test('bankerRound: negative ndigits clamps to 0', () => {
   // ndigits = -3 should be treated as 0.
   assert.equal(bankerRound(2.5, -3), 2);
   assert.equal(bankerRound(3.5, -3), 4);
+});
+
+test('displayScore: even-count median 4.25 → 4.2 (half to even)', () => {
+  assert.equal(displayScore(4.25), 4.2);
+  assert.equal(displayScore(6.8), 6.8);
+  assert.equal(displayScore(5.05), 5.0);
 });

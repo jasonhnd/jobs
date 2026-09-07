@@ -12,6 +12,7 @@ import { strict as assert } from 'node:assert';
 import { loadGraph } from '@/graph';
 import { buildOccupationDetailFile } from './occupation-detail.js';
 import type { KnowledgeGraph, OccupationId } from '@/graph';
+import { asOccupationId } from '@/graph/ids';
 
 let graph: KnowledgeGraph;
 let firstOccId: OccupationId;
@@ -48,5 +49,17 @@ describe('buildOccupationDetailFile', () => {
     const a = buildOccupationDetailFile(graph, firstOccId);
     const b = buildOccupationDetailFile(graph, firstOccId);
     assert.equal(JSON.stringify(a), JSON.stringify(b));
+  });
+
+  test('occ 111 exposes unrounded consensus plus latest-observation delta', () => {
+    const detail = buildOccupationDetailFile(graph, asOccupationId(111));
+    assert.equal(typeof detail.consensus_transformation, 'number');
+    assert.equal(detail.ai_risk?.score, detail.consensus_transformation);
+    assert.equal(typeof detail.latest_transformation, 'number');
+    assert.ok(detail.latest_delta != null);
+    assert.ok(
+      Math.abs(detail.latest_delta - (detail.latest_transformation! - detail.consensus_transformation!)) < 1e-9,
+    );
+    assert.notEqual(detail.latest_transformation, detail.consensus_transformation);
   });
 });

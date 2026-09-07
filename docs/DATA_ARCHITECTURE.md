@@ -51,10 +51,13 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - ScoreRun v2.2 は `scorer.scoring_method_id` を必須とする。値は `legacy-single-axis`、`aiois-vector-semantic-hybrid`、`aiois-semantic-judgment` のいずれかで、説明文の `scorer.scoring_method` から推測しない。
 - drift report は比較する 2 batch の `scoring_method_id` だけを方法差の根拠にする。同じ id の pair には方法変更を帰属させない。
 
-- `src/graph/score-strategy.ts` の `pickLatestScore()` が「現在スコア」の正典。
-- 通常は `date` が最新の score entry を採用する。
-- 同じ日付に legacy single-axis と AIOIS-10 entry が両方ある場合は AIOIS-10 を優先する。
-- 両方 AIOIS-10、または両方 legacy の同日 tie は historical behavior として後勝ちにする。
+- 正典スコアは comparable AIOIS-10 票の中央値（総合値）。規則の正典は [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)。
+- `src/graph/score-strategy.ts` の `pickConsensusScore()` が公開値（treemap / ランキング / band / 診断 / detail 見出し / JSON-LD / OG）を供給する。`pickLatestScore()` は最新観測行と `/models`・`score_history` 用に残す。
+- 投票権は 1 モデル 1 票。6 ヶ月窓の基準日は最新 comparable `run_date`（壁時計は使わない）。有効票が 5 未満なら期限切れ票を新しい順に補充する（floor 5）。
+- transformation / displacement / D1–D10 はそれぞれ独立に中央値。偶数票は中央 2 票の平均。総合 transformation を mean(D1, D2) から再計算しない。丸めは表示層の banker rounding のみ（`src/data/lib/banker-round.ts`）。
+- 職業 detail は正典値に加え `consensus_transformation` / `latest_transformation` / `latest_delta` を持つ。最新観測行の表示閾値は表示層（mms-6c）。
+- `SCORE_ATTRIBUTION` は最新 run（最新観測・深層用）。`SCORE_PANEL` は票数・最新採点日・窓/floor 状態。
+- 同じ日付に legacy single-axis と AIOIS-10 entry が両方ある場合、`pickLatestScore()` は AIOIS-10 を優先する。両方 AIOIS-10、または両方 legacy の同日 tie は historical behavior として後勝ちにする。
 
 ## AI adoption
 

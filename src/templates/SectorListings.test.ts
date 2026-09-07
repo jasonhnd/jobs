@@ -15,20 +15,26 @@ describe('renderSectorOccupationTopList', () => {
     assert.equal(renderSectorOccupationTopList([]), '');
   });
 
-  test('single row: risk-pill + name + workers count', () => {
+  test('single row: §3.3 whole-row tap + workers in rl-meta', () => {
     const out = renderSectorOccupationTopList([
       { id: 1, titleJa: '看護師', aiRisk: 4, workers: 1_500_000 },
     ]);
     assert.equal(
       out,
-      '<ul class="top-list">' +
-        '<li><a href="/1">' +
+      '<ol class="rank-list">' +
+        '<li>' +
+        '<a class="rl-row" href="/1" data-track-event="list_row_click">' +
+        '<span class="rl-main">' +
+        '<span class="rl-name">看護師</span>' +
+        '<span class="rl-meta"><span class="rl-workers">1,500,000 就業者</span></span>' +
+        '</span>' +
+        '<span class="rl-end">' +
         '<span class="risk-pill mid">4/10</span>' +
-        '看護師' +
+        '<span class="rl-chevron" aria-hidden="true">›</span>' +
+        '</span>' +
         '</a>' +
-        '<span class="meta">1,500,000 就業者</span>' +
         '</li>' +
-        '</ul>',
+        '</ol>',
     );
   });
 
@@ -57,7 +63,15 @@ describe('renderSectorOccupationTopList', () => {
     const out = renderSectorOccupationTopList([
       { id: 99, titleJa: '', aiRisk: 5, workers: 0 },
     ]);
-    assert.ok(out.includes('>#99</a>'));
+    assert.ok(out.includes('<span class="rl-name">#99</span>'));
+  });
+
+  test('whole-row anchor is the only link and carries list_row_click', () => {
+    const out = renderSectorOccupationTopList([
+      { id: 7, titleJa: '看護師', aiRisk: 3, workers: 100 },
+    ]);
+    assert.equal([...out.matchAll(/<a /g)].length, 1);
+    assert.match(out, /<a class="rl-row" href="\/7" data-track-event="list_row_click">/);
   });
 
   test('XSS in title escaped', () => {
@@ -70,17 +84,20 @@ describe('renderSectorOccupationTopList', () => {
 });
 
 describe('renderSectorOccupationFullList', () => {
-  test('empty array still emits the <ul class="full-list"></ul> wrapper (legacy parity)', () => {
-    assert.equal(renderSectorOccupationFullList([]), '<ul class="full-list"></ul>');
+  test('empty array still emits the <ol class="rank-list"></ol> wrapper', () => {
+    assert.equal(renderSectorOccupationFullList([]), '<ol class="rank-list"></ol>');
   });
 
-  test('single row: risk-pill + name; NO workers chip', () => {
+  test('single row: §3.3 atom; NO workers chip', () => {
     const out = renderSectorOccupationFullList([
       { id: 1, titleJa: '看護師', aiRisk: 4 },
     ]);
-    assert.ok(out.includes('<span class="risk-pill mid">4/10</span>看護師'));
-    assert.ok(!out.includes('就業者'));
-    assert.ok(!out.includes('meta'));
+    assert.match(out, /<a class="rl-row" href="\/1" data-track-event="list_row_click">/);
+    assert.match(out, /<span class="rl-name">看護師<\/span>/);
+    assert.match(out, /<span class="risk-pill mid">4\/10<\/span>/);
+    assert.equal(out.includes('就業者'), false);
+    assert.equal(out.includes('rl-meta'), false);
+    assert.equal(out.includes('class="rl-name" href='), false);
   });
 
   test('preserves order across many rows', () => {
@@ -91,7 +108,7 @@ describe('renderSectorOccupationFullList', () => {
     );
     const liCount = (out.match(/<li>/g) || []).length;
     assert.equal(liCount, 10);
-    assert.ok(out.indexOf('r1<') < out.indexOf('r10<'));
+    assert.ok(out.indexOf('>r1<') < out.indexOf('>r10<'));
   });
 });
 

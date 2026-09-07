@@ -111,36 +111,38 @@ describe('computeGeoFacts', () => {
     );
   });
 
-  test('canonical batch flip updates homepage, methodology, and JSON-LD together', async () => {
+  test('newest batch updates attribution; published scores are the consensus median', async () => {
     const nextScores = new Map<number, GeoScoreEntry>([
       [1, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
       [2, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
       [3, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
       [4, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
     ]);
-    const oldCanonical = computeGeoFacts(rows, [
+    const oldLatest = computeGeoFacts(rows, [
       scoreRun('2026-07-02', 'claude-fable-5'),
       scoreRun('2026-07-01', 'gpt-next-6', nextScores),
     ]);
-    const newCanonical = computeGeoFacts(rows, [
+    const newLatest = computeGeoFacts(rows, [
       scoreRun('2026-07-01', 'claude-fable-5'),
       scoreRun('2026-07-02', 'gpt-next-6', nextScores),
     ]);
     const template = await readFile(join(process.cwd(), 'src', 'index-source.html'), 'utf-8');
-    const oldHome = bindHomeFacts(template, oldCanonical);
-    const newHome = bindHomeFacts(template, newCanonical);
-    const oldMethodology = buildMethodologyBatchView(oldCanonical);
-    const newMethodology = buildMethodologyBatchView(newCanonical);
-    const oldJsonLd = renderHomeJsonLd(oldCanonical);
-    const newJsonLd = renderHomeJsonLd(newCanonical);
+    const oldHome = bindHomeFacts(template, oldLatest);
+    const newHome = bindHomeFacts(template, newLatest);
+    const newMethodology = buildMethodologyBatchView(newLatest);
+    const oldJsonLd = renderHomeJsonLd(oldLatest);
+    const newJsonLd = renderHomeJsonLd(newLatest);
 
-    assert.notEqual(oldHome, newHome);
-    assert.match(newHome, /5\.0<small>\/10<\/small>/);
-    assert.match(newHome, /影響≥5・4職業/);
-    assert.notEqual(oldMethodology.comparisonJa, newMethodology.comparisonJa);
+    // Same two comparable votes → same published numbers either date order.
+    assert.equal(oldLatest.meanAiImpactRaw, newLatest.meanAiImpactRaw);
+    assert.notEqual(newLatest.meanAiImpact, 5);
+    assert.equal(oldHome, newHome);
+    assert.equal(oldLatest.attribution.modelId, 'claude-fable-5');
+    assert.equal(newLatest.attribution.modelId, 'gpt-next-6');
     assert.equal(newMethodology.currentModelDisplay, 'GPT Next 6');
-    assert.notEqual(oldJsonLd, newJsonLd);
-    assert.match(newJsonLd, /gpt-next-6:2026-07-02/);
+    assert.equal(oldJsonLd, newJsonLd);
+    assert.doesNotMatch(newJsonLd, /gpt-next-6/);
+    assert.doesNotMatch(newJsonLd, /GPT Next 6/);
   });
 });
 
@@ -226,14 +228,16 @@ describe('pickLatestGeoScoreRun', () => {
 });
 
 describe('geo renderers', () => {
-  test('llms surfaces and JSON-LD render active attribution and no placeholders', () => {
+  test('llms surfaces and JSON-LD render consensus copy and no placeholders', () => {
     const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
     const llms = renderLlmsTxt(facts);
     const llmsFull = renderLlmsFullTxt(facts);
     const jsonld = renderHomeJsonLd(facts);
 
-    assert.match(llms, /Claude Fable 5/);
+    assert.match(llms, /multi-model/);
     assert.match(llms, /2026-06-13/);
+    assert.match(llms, /Score source \| Multi-model consensus/);
+    assert.doesNotMatch(llms, /Score source \| Claude Fable 5/);
     assert.doesNotMatch(llms, /__SCORE_/);
     for (const [name, rendered] of [['llms.txt', llms], ['llms-full.txt', llmsFull]] as const) {
       assert.match(rendered, /detail IDs are zero-padded to four digits/, name);
@@ -264,10 +268,12 @@ describe('buildGeoSurfaces', () => {
 
       const llms = await readFile(join(distRoot, 'llms.txt'), 'utf-8');
       const jsonld = await readFile(join(repoRoot, 'src', 'pages', '_index-json-ld.json'), 'utf-8');
-      assert.match(llms, /Claude Next 6/);
+      assert.match(llms, /multi-model/);
       assert.match(llms, /2026-07-01/);
+      assert.doesNotMatch(llms, /Claude Next 6/);
       assert.doesNotMatch(llms, /Claude Fable 5/);
-      assert.match(jsonld, /claude-next-6:2026-07-01/);
+      assert.match(jsonld, /consensus:\d+:2026-07-01/);
+      assert.doesNotMatch(jsonld, /claude-next-6/);
     } finally {
       await rm(distRoot, { recursive: true, force: true });
       await rm(repoRoot, { recursive: true, force: true });
