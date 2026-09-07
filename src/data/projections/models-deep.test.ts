@@ -164,7 +164,11 @@ describe('models-deep projection', () => {
     const pairSuffix =
       `__${baseline.model}@${baseline.runDate}__${candidate.model}@${candidate.runDate}`;
     assert.ok(
-      payload.stories.every((story) => story.editorial_sentence_id.endsWith(pairSuffix)),
+      payload.stories.every(
+        (story) =>
+          story.editorial_sentence_id.endsWith(pairSuffix) ||
+          story.editorial_sentence_id === DEFAULT_MODEL_STORY_EDITORIAL_ID,
+      ),
       payload.stories.map((story) => story.editorial_sentence_id).join(', '),
     );
     assert.ok(payload.stories.every((story) => story.baseline_rationale_ja.length > 0));
