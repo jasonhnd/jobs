@@ -13,6 +13,8 @@ import {
 import personalityCopy from '../content/model-personality.ja.json';
 import storyCopy from '../content/model-story-overrides.ja.json';
 import {
+  CONSENSUS_FIFTH_VOTE_NOTE_IMPACT,
+  CONSENSUS_FIFTH_VOTE_NOTE_LEAD,
   CONSENSUS_SWITCH_NOTE_IMPACT,
   CONSENSUS_SWITCH_NOTE_LEAD,
 } from '@/site/consensus-copy';
@@ -298,6 +300,8 @@ a:hover{color:var(--accent)}
     </section>
 
     <section class="data-note" aria-label="データについて">
+      <p>{CONSENSUS_FIFTH_VOTE_NOTE_LEAD}</p>
+      <p>{CONSENSUS_FIFTH_VOTE_NOTE_IMPACT}</p>
       <p>{CONSENSUS_SWITCH_NOTE_LEAD}</p>
       <p>{CONSENSUS_SWITCH_NOTE_IMPACT}</p>
       <p>
