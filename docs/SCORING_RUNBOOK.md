@@ -142,39 +142,34 @@ Registered providers:
 
 | `--provider` | Auth | Native schema | Notes |
 | --- | --- | --- | --- |
-| `ai-gateway` | `AI_GATEWAY_API_KEY` (`vercel ai-gateway api-keys create`; .env.local) | yes (OpenAI-compatible `response_format: json_schema`) | Any vendor's model with one key, id in `creator/slug` form (#340). Gateway fallback is never enabled; a response whose executed model differs from the request is a failed attempt, and every accepted response is attested in `<runDir>/executed-models.jsonl`. `check:score-batch` verifies that sidecar when present. |
+| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. |
 | `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. |
-| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8` and `claude-fable-5` were. Answers supplied as JSONL. |
+
+There is no Vercel AI Gateway provider. Do not add one.
 
 ```bash
 bun scripts/run-scoring.ts --list-providers
 
-# Any vendor through Vercel AI Gateway (one key for all models)
+# In-agent (the running session *is* the scorer; no API key)
 bun scripts/run-scoring.ts \
-  --provider ai-gateway --model anthropic/claude-opus-5 \
-  --prompt-file data/prompts/<date>_<model>-aiois10.ja.md \
+  --provider in-agent --model grok-4.6 --attest-model grok-4.6 \
+  --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
   --out .cache/scoring/<run>/raw-scores.jsonl
 ```
 
-Gateway notes: usage bills from prepaid AI Gateway credits (top up on the
-dashboard AI tab; a fresh key with no credits gets HTTP 403
-`no_providers_available`). The downstream `assemble:scores` step takes the
-bare model slug (`claude-opus-5`, no `creator/` prefix) plus an explicit
-`--provider`, same as every other run. Pass the sidecar into the batch check:
+The downstream `assemble:scores` step takes the bare model slug plus an
+explicit `--provider` (the vendor 提供元: `xai` / `anthropic` / `openai`,
+not the CLI transport).
 
-```bash
-bun run check:score-batch data/scores/occupations_<model>_<date>.json \
-  --executed-models .cache/scoring/<run>/executed-models.jsonl
-```
-
-Whitelist vendors (OpenAI / Anthropic / xAI) should use `--provider ai-gateway`
-with a `creator/slug` model id rather than a new provider file. A new
-`providers/<name>.ts` is only for a genuinely different transport.
+Whitelist vendors are OpenAI / Anthropic / xAI. A new `providers/<name>.ts`
+is only for a genuinely different transport (Codex-CLI-like). Do not add a
+bespoke xAI API provider for Grok — Grok scores in-agent.
 
 ### Adding a vendor
 
-1. Prefer `--provider ai-gateway --model creator/slug` when the vendor is on
-   the whitelist and the gateway catalog carries the model.
+1. Prefer `--provider in-agent` when the running session is the scoring
+   model (Claude, Grok, …). Prefer `--provider codex` for the local Codex
+   CLI. Do not add a Vercel AI Gateway provider.
 2. Otherwise write `scripts/lib/scoring/providers/<name>.ts` exporting a
    `ScoringProvider` (interface in `lib/scoring/provider.ts`). Typically
    40–80 lines.
@@ -194,29 +189,29 @@ It is inferred from known model-id prefixes (`gpt`/`o1`/`o3`, `claude`,
 file is append-only and its provider is rendered publicly as 提供元, so a new
 vendor must be named explicitly rather than silently mislabelled.
 
-## Grok 4.6 / AI Gateway scoring (mms-7a / #385)
+## Grok 4.6 / in-agent scoring (mms-7a)
 
-Grok は **bespoke xAI provider を新造しない**。既存の `--provider ai-gateway`
-に Gateway catalog id を渡す。
+Grok は **Vercel AI Gateway を使わない**。**bespoke xAI provider も新造しない**。
+既存の `--provider in-agent` で、実行中の Grok 4.6 セッション自身が採点する
+（`claude-opus-4-8` / `claude-fable-5` と同じ輸送）。
 
-- Gateway model: `spacexai/grok-4.6`（Vercel AI Gateway catalog、2026-09-06 固定）
+- CLI transport: `in-agent`
 - assemble の裸 slug: `grok-4.6`
-- `model_provider`: `xai`（`inferProvider('grok-…')`）
+- `model_provider`: `xai`（`inferProvider('grok-…')` — 公開 提供元。CLI `--provider` ではない）
 - Frozen prompt: `data/prompts/2026-09-06_grok-4.6-aiois10.ja.md`
 - Prompt version: `AIOIS-10-v1.0-grok-4.6`
 - Rubric 本文は Opus 5 凍結 prompt とモデル識別行以外同一
-- LOCAL tool。`data/scores/` への追加は mms-7c。API key は実行時に
-  `vercel ai-gateway api-keys create`。**dry-run を含む採点実行はオーナーの
+- LOCAL tool。`data/scores/` への追加は mms-7c。**dry-run を含む採点実行はオーナーの
   事前確認が必要**（実装完了 ≠ 実行開始）。
 
 ```bash
 bun scripts/run-scoring.ts \
-  --provider ai-gateway --model spacexai/grok-4.6 \
+  --provider in-agent --model grok-4.6 --attest-model grok-4.6 \
   --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
   --out .cache/scoring/<run>/raw-scores.jsonl \
   --ids 111,156
 
-# assemble は裸 slug + 明示 --provider（Gateway の creator/ は付けない）
+# assemble は裸 slug + 明示 --provider（提供元 xai。in-agent ではない）
 bun scripts/assemble-scores.ts \
   --mode aiois --model grok-4.6 --provider xai --date <YYYY-MM-DD> \
   --prompt-version AIOIS-10-v1.0-grok-4.6 \
@@ -224,8 +219,7 @@ bun scripts/assemble-scores.ts \
   --in .cache/scoring/<run>/raw-scores.jsonl \
   --out .cache/scoring/<run>/occupations_grok-4.6_<date>.json
 
-bun run check:score-batch .cache/scoring/<run>/occupations_grok-4.6_<date>.json \
-  --executed-models .cache/scoring/<run>/executed-models.jsonl
+bun run check:score-batch .cache/scoring/<run>/occupations_grok-4.6_<date>.json
 ```
 
 ### In-agent scoring flow
@@ -237,7 +231,7 @@ any other provider.
 ```bash
 # 1. Emit prompts (every pending occupation is reported as pending)
 bun scripts/run-scoring.ts \
-  --provider in-agent --model <model-id> \
+  --provider in-agent --model <model-id> --attest-model <model-id> \
   --prompt-file data/prompts/<date>_<model-id>-aiois10.ja.md \
   --out .cache/scoring/<run>/raw-scores.jsonl \
   --run-name <run> --ids 1,2,3
