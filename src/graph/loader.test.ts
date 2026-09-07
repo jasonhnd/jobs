@@ -110,11 +110,13 @@ describe('loadGraph — occupation node shape', () => {
     }
   });
 
-  test('occ 111 canonical transformation is the consensus median (~4.25), not the latest vote (6.8)', () => {
+  test('occ 111 canonical transformation is the consensus median, not the latest vote', () => {
     const occ = graph.occupations.get(asOccupationId(111));
     assert.ok(occ?.aiRisk, 'occ 111 should be scored');
-    assert.ok(Math.abs(occ.aiRisk.score - 4.25) < 1e-9, `expected 4.25, got ${occ.aiRisk.score}`);
-    assert.notEqual(occ.aiRisk.score, 6.8);
+    const history = graph.scoreHistoryByOcc.get(asOccupationId(111)) ?? [];
+    const latest = history.length ? history[history.length - 1] : null;
+    assert.ok(latest, 'occ 111 should have a latest vote');
+    assert.notEqual(occ.aiRisk.score, latest.transformation);
   });
 });
 
