@@ -11,6 +11,9 @@ import {
   CONSENSUS_SWITCH_NOTE_HEADING,
   CONSENSUS_SWITCH_NOTE_LEAD,
   CONSENSUS_SWITCH_NOTE_IMPACT,
+  CONSENSUS_FIFTH_VOTE_NOTE_HEADING,
+  CONSENSUS_FIFTH_VOTE_NOTE_LEAD,
+  CONSENSUS_FIFTH_VOTE_NOTE_IMPACT,
   formatConsensusCitation,
   formatConsensusFooterLine,
   formatLatestObservationLine,
@@ -72,6 +75,15 @@ describe('formatLatestObservationLine', () => {
     assert.equal(
       CONSENSUS_SWITCH_NOTE_IMPACT,
       '今回の変更では、全職業の平均は 5.23 から 4.68 になります。公開値が 1.0 以上変わる職業は 100、リスク帯が変わる職業は 133 です。新しいAIを1件追加しても、公開値全体が、その1件の採点で入れ替わらないようにするための変更です。',
+    );
+    assert.equal(CONSENSUS_FIFTH_VOTE_NOTE_HEADING, '総合の票を1件増やしました');
+    assert.equal(
+      CONSENSUS_FIFTH_VOTE_NOTE_LEAD,
+      '複数のAIによる総合に、採点を1件追加しました。公開値はこれまでどおり、複数の採点の中央値です。',
+    );
+    assert.equal(
+      CONSENSUS_FIFTH_VOTE_NOTE_IMPACT,
+      '今回の追加では、全職業の平均は 4.68 から 4.73 になります。公開値が 0.5 以上変わる職業は 32、リスク帯が変わる職業は 40 です。公開値が 1.0 以上変わる職業はありません。',
     );
   });
 });

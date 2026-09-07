@@ -8,9 +8,9 @@
 > が実データと突き合わせて検証する。batch を追加したら必ずここも更新すること
 > —— 更新し忘れると gate が落ちる。手で書き換えたまま腐らせることはできない。
 
-- モデル: `claude-opus-5`
-- run date: `2026-07-26`
-- Score output: `data/scores/occupations_claude-opus-5_2026-07-26.json`
+- モデル: `grok-4.6`
+- run date: `2026-09-07`
+- Score output: `data/scores/occupations_grok-4.6_2026-09-07.json`
 
 - 標準: AIOIS-10 v1.0
 - 対象: JILPT IPD v7.00 の 556 職業

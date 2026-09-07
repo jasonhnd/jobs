@@ -42,7 +42,8 @@ OpenAI / Anthropic / xAI (Gemini excluded for now, owner 2026-08-31).
   No Vercel AI Gateway. No bespoke xAI provider. depends_on: [mms-6g]
 - mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
   depends_on: [mms-7a]
-- mms-7c: Grok full 556 batch lands as the 5th vote. depends_on: [mms-6g, mms-7b]
+- mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
+  depends_on: [mms-6g, mms-7b]
 
 Parked (returns after mms-7): /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.

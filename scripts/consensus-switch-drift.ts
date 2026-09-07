@@ -46,8 +46,12 @@ function round2(n: number): number {
   return Math.round(n * 100) / 100;
 }
 
+/** 6g switch-day latest run. Later votes must not rewrite those locked figures. */
+export const SWITCH_DAY = '2026-07-26';
+
 export function computeSwitchDrift(
   indexes: Awaited<ReturnType<typeof buildIndexes>>['indexes'],
+  asOf: string = SWITCH_DAY,
 ): SwitchDriftSummary {
   const latestVals: number[] = [];
   const consensusVals: number[] = [];
@@ -57,10 +61,10 @@ export function computeSwitchDrift(
   let bandChanges = 0;
 
   for (const [id, history] of indexes.historyByOcc) {
-    const comparable = history.filter((entry) => entry.aiois != null);
+    const comparable = history.filter((entry) => entry.aiois != null && entry.date <= asOf);
     if (comparable.length === 0) continue;
     const latest = pickLatestScore(comparable);
-    const consensus = pickConsensusScore(history);
+    const consensus = pickConsensusScore(comparable);
     const latestT = latest.aiois!.transformation;
     const consensusT = consensus.transformation;
     const delta = latestT - consensusT;
