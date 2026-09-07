@@ -50,7 +50,7 @@ export async function buildTransferPaths(
       sortedIds.map((id) => [id, skillsBlockOf(indexes.occById.get(id)!)]),
     ),
     riskByOcc: new Map(
-      [...indexes.latestScoreByOcc].map(([id, entry]) => [id, entry.ai_risk]),
+      [...indexes.canonicalScoreByOcc].map(([id, entry]) => [id, entry.ai_risk]),
     ),
     sectorByOcc: new Map(
       [...indexes.sectorByOcc].map(([id, a]) => [id, a.sector_id]),

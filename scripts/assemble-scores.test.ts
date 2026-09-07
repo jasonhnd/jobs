@@ -197,7 +197,14 @@ describe('inferProvider', () => {
     assert.equal(inferProvider('gpt-5.6-sol'), 'openai');
     assert.equal(inferProvider('claude-fable-5'), 'anthropic');
     assert.equal(inferProvider('claude-opus-5'), 'anthropic');
+    assert.equal(inferProvider('grok-4.6'), 'xai');
     assert.equal(inferProvider('gemini-2.5-pro'), 'google');
+  });
+
+  test('strips an optional creator/slug prefix before matching', () => {
+    assert.equal(inferProvider('openai/gpt-5.6-sol'), 'openai');
+    assert.equal(inferProvider('anthropic/claude-opus-5'), 'anthropic');
+    assert.equal(inferProvider('xai/grok-4.6'), 'xai');
   });
 
   // Behaviour change: this used to fall back to 'anthropic'. model_provider is
@@ -205,7 +212,7 @@ describe('inferProvider', () => {
   // guessing silently mislabels a new vendor permanently.
   test('refuses to guess an unknown vendor instead of mislabelling the batch', () => {
     assert.throws(() => inferProvider('deepseek-v4'), /pass --provider/);
-    assert.throws(() => inferProvider('grok-5'), /pass --provider/);
+    assert.throws(() => inferProvider('llama-4'), /pass --provider/);
   });
 });
 

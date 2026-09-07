@@ -68,7 +68,10 @@ export interface Aiois10 {
 }
 
 export interface AiRiskScore {
-  /** 0.0–10.0 headline score (one decimal). On AIOIS batches this is the Transformation index. */
+  /**
+   * Headline score 0.0–10.0. Canonical is the unrounded consensus median
+   * (mms-6b); display rounding is banker at the view layer.
+   */
   readonly score: number;
   readonly rationaleJa: string;
   readonly confidence: number | null;
@@ -119,7 +122,7 @@ export interface OccupationNode {
   readonly url: string;
   /** Workforce stats — null when no stats_legacy file exists for this occupation. */
   readonly stats: OccupationStats | null;
-  /** Latest AI risk score — null when this occupation has never been scored. */
+  /** Canonical AI impact (consensus median) — null when never scored under AIOIS-10. */
   readonly aiRisk: AiRiskScore | null;
   /** Related Japanese certifications mentioned on the source jobtag page. */
   readonly relatedCertsJa: readonly string[];

@@ -94,7 +94,7 @@ export async function buildTreemap(
   for (const occId of sortedIds) {
     const occ = indexes.occById.get(occId)!;
     const stats = indexes.statsById.get(occId);
-    const score = indexes.latestScoreByOcc.get(occId);
+    const score = indexes.canonicalScoreByOcc.get(occId);
     // Filter: treemap needs both stats AND ai_risk.
     if (!stats || !score) continue;
 

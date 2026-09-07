@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-08-24T14:08:33.209Z",
-  "gitCommit": "ede7752b2d183541b318d6517f975c8b658d96a8",
-  "gitBranch": "fix/issue-276-occupation-seo-salary-title",
-  "distFileCount": 834,
-  "urlCount": 834,
+  "capturedAt": "2026-09-07T05:59:15.246Z",
+  "gitCommit": "184685c852f13c116ba1a25c807e7e25f73c0f48",
+  "gitBranch": "feat/issue-387-grok-full-556",
+  "distFileCount": 835,
+  "urlCount": 835,
   "dataFileCount": 612,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

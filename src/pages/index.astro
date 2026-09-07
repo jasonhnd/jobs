@@ -33,7 +33,9 @@ import { OCCUPATION_COUNT } from '@/site/config';
 import HOME_INDEX_CSS_URL from './_index.css?url';
 import HOME_INDEX_JS_URL from './_index-inline.js?url';
 import { INDEX_CRITICAL_CSS } from './_index-css';
-import { HOME_BODY_HTML, HOME_JSON_LD } from './_index-bindings';
+import { loadHomeBodyHtml, HOME_JSON_LD } from './_index-bindings';
+
+const HOME_BODY_HTML = await loadHomeBodyHtml();
 
 const TITLE = `AIの時代でも、あなたらしい働き方を。— 未来の仕事 / ${OCCUPATION_COUNT.SCORED} 職業の AI 影響マップ`;
 const DESCRIPTION = `AIの時代でも、あなたらしい働き方を見つける。日本 ${OCCUPATION_COUNT.SCORED} 職業を AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。`;

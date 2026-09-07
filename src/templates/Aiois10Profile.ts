@@ -17,6 +17,7 @@
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
+import { CONSENSUS_DIM_NOTE, formatConsensusScoreFixed1 } from '../site/consensus-copy.js';
 
 export interface Aiois10ProfileInput {
   readonly d1: number; readonly d2: number; readonly d3: number; readonly d4: number; readonly d5: number;
@@ -39,7 +40,8 @@ const DIMS: ReadonlyArray<{ key: keyof Aiois10ProfileInput; code: string; ja: st
   { key: 'd10', code: 'D10', ja: 'これから仕事は増えるか', role: 'drv', tag: '▲' },
 ];
 
-const pct = (v: number): number => Math.max(0, Math.min(100, Math.round(v * 10)));
+const pct = (v: number): number => Math.max(0, Math.min(100, Math.round(Number(formatConsensusScoreFixed1(v)) * 10)));
+const fmt = (v: number): string => formatConsensusScoreFixed1(v);
 
 export function renderAiois10Profile(a: Aiois10ProfileInput | null): SafeHtml {
   if (!a) return '' as SafeHtml;
@@ -50,9 +52,9 @@ export function renderAiois10Profile(a: Aiois10ProfileInput | null): SafeHtml {
     rows += `<li class="aio-row aio-${dm.role}">` +
       `<span class="aio-code">${dm.code}</span>` +
       `<span class="aio-name"><span class="aio-tag" aria-hidden="true">${dm.tag}</span>${escapeHtml(dm.ja)}</span>` +
-      `<span class="aio-bar" role="img" aria-label="${dm.code} ${escapeHtml(dm.ja)} ${v.toFixed(1)} / 10">` +
+      `<span class="aio-bar" role="img" aria-label="${dm.code} ${escapeHtml(dm.ja)} ${fmt(v)} / 10">` +
       `<span class="aio-fill" style="width:${pct(v)}%"></span></span>` +
-      `<span class="aio-val">${v.toFixed(1)}</span>` +
+      `<span class="aio-val">${fmt(v)}</span>` +
       `</li>`;
   }
 
@@ -61,16 +63,16 @@ export function renderAiois10Profile(a: Aiois10ProfileInput | null): SafeHtml {
         <div class="aio-indices">
           <div class="aio-idx idx-t">
             <span class="aio-idx-lbl">変化の大きさ</span>
-            <span class="aio-idx-num">${a.transformation.toFixed(1)}<small>/10</small></span>
+            <span class="aio-idx-num">${fmt(a.transformation)}<small>/10</small></span>
             <span class="aio-idx-sub">仕事のやり方がどれだけ変わるか</span>
           </div>
           <div class="aio-idx idx-d">
             <span class="aio-idx-lbl">仕事が減るリスク</span>
-            <span class="aio-idx-num">${a.displacement.toFixed(1)}<small>/10</small></span>
+            <span class="aio-idx-num">${fmt(a.displacement)}<small>/10</small></span>
             <span class="aio-idx-sub">仕事そのものが減る・なくなる確率</span>
           </div>
         </div>
         <ul class="aio-list">${rows}</ul>
-        <p class="aio-note">見方：<span class="aio-tag">▲</span>AI が届く部分（高いほど影響が大きい）／<span class="aio-tag">■</span>人間の強み（高いほど守られる）／<span class="aio-tag">◐</span>その他の調整。各 0〜10。くわしくは <a href="/standard">AIOIS-10 とは</a>、点数の付け方は <a href="/methodology">調べ方</a> を参照。</p>
+        <p class="aio-note">見方：<span class="aio-tag">▲</span>AI が届く部分（高いほど影響が大きい）／<span class="aio-tag">■</span>人間の強み（高いほど守られる）／<span class="aio-tag">◐</span>その他の調整。各 0〜10。${escapeHtml(CONSENSUS_DIM_NOTE)}くわしくは <a href="/standard">AIOIS-10 とは</a>、点数の付け方は <a href="/methodology">調べ方</a> を参照。</p>
       </section>`) as SafeHtml;
 }

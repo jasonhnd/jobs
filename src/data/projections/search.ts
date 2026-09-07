@@ -46,7 +46,7 @@ export async function buildSearch(
   for (const occId of sortedIds) {
     const occ = indexes.occById.get(occId)!;
     const stats = indexes.statsById.get(occId);
-    const score = indexes.latestScoreByOcc.get(occId);
+    const score = indexes.canonicalScoreByOcc.get(occId);
     const assignment = indexes.sectorByOcc.get(occId);
 
     documents.push({

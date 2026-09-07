@@ -66,7 +66,7 @@ describe('buildSectors aggregation', () => {
           [2, { workers: 1 }],
           [3, { workers: 1 }],
         ]),
-        latestScoreByOcc: new Map([
+        canonicalScoreByOcc: new Map([
           [1, { ai_risk: 2.898 }],
           [2, { ai_risk: 2.673 }],
           [3, { ai_risk: 2.878 }],

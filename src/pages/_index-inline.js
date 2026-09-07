@@ -1731,6 +1731,11 @@
           if (manYen == null) return "—";
           return Math.round(manYen) + "万円";
         };
+        const pillBand = (score) => {
+          if (score < 4.0) return "low";
+          if (score < 7.0) return "mid";
+          return "high";
+        };
         track.innerHTML = top10.map((rec, i) => {
           const rank = i + 1;
           const nameJa = rec.name_ja || "";
@@ -1738,6 +1743,7 @@
           const display = nameJa || nameEn;
           const sub = nameEn;
           const score = (rec.ai_risk != null) ? Number(rec.ai_risk) : 0;
+          const scoreLabel = (rec.ai_risk != null) ? score.toFixed(1) : "—";
           const rationaleRaw = rec.ai_rationale_ja || "";
           const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
           const sValue = fmtSalary(rec.salary);
@@ -1752,6 +1758,7 @@
               '<div class="m-top10-card-score">' +
                 '<span class="num">' + score + '</span>' +
                 '<span class="denom">/ 10</span>' +
+                '<span class="risk-pill ' + pillBand(score) + '">' + scoreLabel + '/10</span>' +
                 '<span class="m-top10-card-tag">' + escapeHtml(tag) + '</span>' +
               '</div>' +
               '<p class="m-top10-card-rationale">' + escapeHtml(rationaleRaw) + '</p>' +

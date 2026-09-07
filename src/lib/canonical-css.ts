@@ -123,77 +123,101 @@ export const CANONICAL_CSS = `
   --border: rgba(36, 30, 24, 0.10);
 }
 
-/* ───── Cookie consent banner (RA-013, 2026-05-18) ─────
-   Fixed at viewport bottom; visible when localStorage.cookieConsent
-   is unset. Single-line on desktop, stacked on mobile. */
+/* ───── Cookie consent banner (RA-013, 2026-05-18; compact #320) ─────
+   Sticky bottom bar. Visible when localStorage.cookieConsent is unset.
+   Height budget: ≤48px + env(safe-area-inset-bottom). One line at 390px;
+   wrap to two lines only below that so the bar never overflows. Buttons
+   keep a 44px hit area; the visual pill is shorter via ::before. */
 html body .cookie-banner {
   position: fixed;
   inset: auto 0 0 0;
   z-index: 10000;
   background: var(--ink);
   color: #fff;
-  padding: 14px 18px;
-  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.25);
-  font-size: 0.88rem;
-  line-height: 1.5;
-  max-height: 50vh;
-  overflow-y: auto;
+  padding: 2px 8px calc(2px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
+  font-size: 12px;
+  line-height: 1.2;
 }
 html body .cookie-banner .cb-inner {
-  max-width: 1080px;
+  max-width: var(--content-max);
   margin: 0 auto;
   display: flex;
-  gap: 18px;
-  align-items: center;
   flex-wrap: wrap;
+  gap: 4px 6px;
+  align-items: center;
+  min-height: 44px;
 }
 html body .cookie-banner .cb-text {
   margin: 0;
-  flex: 1 1 320px;
+  flex: 1 1 auto;
+  min-width: 0;
   color: #fff;
-  font-size: 0.82rem;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.2;
 }
 html body .cookie-banner .cb-text a {
   color: var(--orange-soft);
   text-decoration: underline;
+  margin-left: 0.4em;
+  white-space: nowrap;
 }
 html body .cookie-banner .cb-actions {
   display: flex;
-  gap: 10px;
+  gap: 4px;
   flex-shrink: 0;
+  margin-left: auto;
 }
 html body .cookie-banner .cb-btn {
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  border: 1px solid transparent;
-  font-family: inherit;
-  min-height: 40px;
-}
-html body .cookie-banner .cb-btn-accept {
-  background: var(--orange);
-  color: #fff;
-}
-html body .cookie-banner .cb-btn-accept:hover { filter: brightness(1.08); }
-html body .cookie-banner .cb-btn-reject {
+  position: relative;
+  z-index: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 999px;
   background: transparent;
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.35);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
 }
-html body .cookie-banner .cb-btn-reject:hover { background: rgba(255, 255, 255, 0.08); }
-@media (max-width: 540px) {
-  html body .cookie-banner .cb-inner { flex-direction: column; align-items: stretch; gap: 10px; padding: 0; }
-  html body .cookie-banner .cb-actions { justify-content: flex-end; }
-  /* RA-143 (2026-05-19): reset .cb-text flex so it sits at content height.
-     The base rule uses 'flex: 1 1 320px' for desktop row layout, but in
-     column flex flex-basis becomes the main-axis (vertical) size — that
-     forced the text container to 320px+ tall and pushed the buttons
-     below the visible 42vh banner on mobile. */
-  html body .cookie-banner .cb-text { font-size: 0.78rem; line-height: 1.45; flex: 0 0 auto; }
-  html body .cookie-banner { padding: 12px 14px; max-height: none; }
+html body .cookie-banner .cb-btn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 28px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  pointer-events: none;
+}
+html body .cookie-banner .cb-btn-accept { color: #fff; }
+html body .cookie-banner .cb-btn-accept::before { background: var(--accent); }
+html body .cookie-banner .cb-btn-accept:hover::before { filter: brightness(1.08); }
+html body .cookie-banner .cb-btn-reject { color: #fff; }
+html body .cookie-banner .cb-btn-reject::before {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+html body .cookie-banner .cb-btn-reject:hover::before {
+  background: rgba(255, 255, 255, 0.08);
+}
+html body .cookie-banner .cb-btn:focus-visible {
+  outline: 2px solid var(--orange-soft);
+  outline-offset: 2px;
+}
+@media (min-width: 390px) {
+  html body .cookie-banner .cb-inner { flex-wrap: nowrap; }
+  html body .cookie-banner .cb-text { white-space: nowrap; }
 }
 
 /* ───── Skip link (WCAG 2.4.1 Bypass Blocks) ─────
@@ -668,7 +692,8 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
 /* Hide mobile components on desktop */
 @media (min-width: 769px) {
   html body header.mob-topbar,
-  html body div.mob-drawer { display: none !important; }
+  html body div.mob-drawer,
+  html body div.mob-search { display: none !important; }
 }
 
 @media (max-width: 768px) {
@@ -713,6 +738,31 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     flex-shrink: 0;
   }
 
+  html body header.mob-topbar .mob-topbar-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+  }
+  html body header.mob-topbar button.mob-topbar-search {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0;
+    color: var(--fg);
+  }
+  html body header.mob-topbar button.mob-topbar-search:hover {
+    background: var(--bg2);
+  }
+  html body header.mob-topbar button.mob-topbar-search:active {
+    background: var(--bg3);
+  }
   html body header.mob-topbar button.mob-topbar-burger {
     width: 44px;
     height: 44px;
@@ -750,6 +800,155 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   }
   html body header.mob-topbar button.mob-topbar-burger[aria-expanded="true"] span:nth-child(3) {
     transform: translateY(-5.5px) rotate(-45deg);
+  }
+
+  /* ── Search overlay (#327): above top bar (100) / drawer (99), below skip (9999) / cookie (10000) ── */
+  html body div.mob-search {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    padding: 12px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+  }
+  html body div.mob-search[hidden] { display: none !important; }
+  html body div.mob-search .mob-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  html body div.mob-search .mob-search-bar input {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg2);
+    color: var(--fg);
+    font: inherit;
+    font-size: 16px;
+  }
+  html body div.mob-search .mob-search-bar input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-color: var(--accent);
+  }
+  html body div.mob-search .mob-search-close {
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: 8px 10px;
+    border: 0;
+    background: transparent;
+    color: var(--fg2);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    word-break: keep-all;
+  }
+  html body div.mob-search .mob-search-hint {
+    margin: 10px 4px 12px;
+    font-size: 12.5px;
+    color: var(--fg2);
+  }
+  html body div.mob-search .mob-search-results,
+  html body div.mob-search .mob-search-recent-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    min-height: 0;
+  }
+  html body div.mob-search .mob-search-results { flex: 1 1 auto; }
+  html body div.mob-search .mob-search-results:empty { display: none; }
+  html body div.mob-search .mob-search-recent { flex: 0 1 auto; overflow-y: auto; min-height: 0; }
+  html body div.mob-search .mob-search-kicker,
+  html body div.mob-search .mob-search-empty-head {
+    margin: 0 4px 8px;
+    font-size: 12.5px;
+    color: var(--fg2);
+    font-weight: 700;
+  }
+  html body div.mob-search a.mob-search-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    row-gap: 2px;
+    align-items: center;
+    min-height: 44px;
+    padding: 12px 14px;
+    background: var(--bg2);
+    border: 1px solid rgba(163, 151, 133, 0.30);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+  }
+  html body div.mob-search a.mob-search-row:hover { text-decoration: none; border-color: var(--accent); }
+  html body div.mob-search .mob-search-name {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 15.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--fg);
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  html body div.mob-search .mob-search-sub {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 12.5px;
+    color: var(--fg2);
+  }
+  html body div.mob-search .mob-search-pill {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  html body div.mob-search .mob-search-pill.low { color: var(--risk-pill-low-fg); background: var(--risk-pill-low-bg); }
+  html body div.mob-search .mob-search-pill.mid { color: var(--risk-pill-mid-fg); background: var(--risk-pill-mid-bg); }
+  html body div.mob-search .mob-search-pill.high { color: var(--risk-pill-high-fg); background: var(--risk-pill-high-bg); }
+  html body div.mob-search .mob-search-doors {
+    flex-shrink: 0;
+    margin-top: 12px;
+    padding-top: 8px;
+  }
+  html body div.mob-search .mob-search-door-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  html body div.mob-search .mob-search-door-row a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg2);
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    word-break: keep-all;
+  }
+  html body div.mob-search .mob-search-door-row a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
   }
 
   /* ── Layer 2: full-screen drawer ── */
@@ -975,5 +1174,42 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   .me-cta-strip { padding: 16px 18px; flex-direction: column; align-items: stretch; gap: 12px; }
   .me-cta-strip p { flex: 0 0 auto; }
   .me-cta-strip a { justify-content: center; }
+}
+
+/* ───── Shared chapter fold (#321; reused by later mobile-shape issues) ─────
+   Mobile default is closed. A static bodyEnd helper sets open at
+   min-width 900px; this block only hides the chevron on desktop. */
+html body details.chap {
+  margin: 8px 0 32px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg2);
+}
+html body details.chap > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  min-height: 44px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+html body details.chap > summary::-webkit-details-marker { display: none; }
+html body details.chap > summary::after {
+  content: "›";
+  flex-shrink: 0;
+  color: var(--fg3);
+  font-size: 1.15rem;
+  line-height: 1;
+  transform: rotate(90deg);
+}
+html body details.chap[open] > summary::after { transform: rotate(-90deg); }
+html body details.chap .chap-body { padding: 0 16px 16px; }
+@media (min-width: 900px) {
+  html body details.chap > summary::after { display: none; }
 }
 `;

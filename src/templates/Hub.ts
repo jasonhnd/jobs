@@ -21,6 +21,7 @@ import { fmtInt, safeMean } from '../lib/num.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { OCCUPATION_COUNT } from '../site/config.js';
 import { AI_FACT_CSS } from '../lib/ai-fact-css.js';
+import { RANK_LIST_CSS } from '../lib/rank-list-css.js';
 import { occupationPath } from '../lib/urls.js';
 
 // Re-exports so page importers (which previously pulled these from
@@ -34,22 +35,28 @@ export function renderRankItem(o: GenreOccupation, shortJa: string): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
   const scoreStr = o.ai_risk === null ? '—' : `${o.ai_risk}/10`;
   const band = riskClass(o.ai_risk);
-  const sector = o.sector_ja || '';
-  const stats: string[] = [
+  const metaParts: string[] = [];
+  if (o.sector_ja) metaParts.push(escapeHtml(o.sector_ja));
+  metaParts.push(
     `<span class="genre-score">${escapeHtml(shortJa)} ${o.primary_score.toFixed(2)}</span>`,
-    `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>`,
-  ];
-  if (o.salary) stats.push(`<span class="rl-salary">${Math.trunc(o.salary)}万円</span>`);
-  if (o.workers) stats.push(`<span class="rl-workers">${fmtInt(o.workers)}人</span>`);
-
-  const sectorHtml = sector ? `<span class="rl-sector">${escapeHtml(sector)}</span>` : '';
+  );
+  if (o.salary) metaParts.push(`<span class="rl-salary">${Math.trunc(o.salary)}万円</span>`);
+  if (o.workers) metaParts.push(`<span class="rl-workers">${fmtInt(o.workers)}人</span>`);
+  const metaHtml = metaParts.length
+    ? `<span class="rl-meta">${metaParts.join(' · ')}</span>`
+    : '';
   return (
     `<li>` +
-    `<div class="rl-main">` +
-    `<a class="rl-name" href="${occupationPath(o.id)}">${escapeHtml(title)}</a>` +
-    `${sectorHtml}` +
-    `</div>` +
-    `<div class="rl-stats">${stats.join('')}</div>` +
+    `<a class="rl-row" href="${occupationPath(o.id)}" data-track-event="list_row_click">` +
+    `<span class="rl-main">` +
+    `<span class="rl-name">${escapeHtml(title)}</span>` +
+    `${metaHtml}` +
+    `</span>` +
+    `<span class="rl-end">` +
+    `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>` +
+    `<span class="rl-chevron" aria-hidden="true">›</span>` +
+    `</span>` +
+    `</a>` +
     `</li>`
   ) as SafeHtml;
 }
@@ -388,16 +395,6 @@ ${AI_FACT_CSS}
 .genre-detail-grid h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 10px}
 .genre-detail-grid ul{list-style:disc;padding-left:20px;margin:0}
 .genre-detail-grid li{font-size:.92rem;color:var(--fg);margin-bottom:6px;line-height:1.6}
-.rank-list{list-style:none;counter-reset:rank;padding:0}
-.rank-list li{counter-increment:rank;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:8px;display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center}
-.rank-list li:hover{border-color:var(--accent)}
-.rank-list li::before{content:counter(rank);font-family:var(--font-serif);font-size:1.2rem;font-weight:700;color:var(--fg3);text-align:center}
-.rank-list li:nth-child(-n+3)::before{color:var(--accent)}
-.rank-list .rl-main{display:flex;flex-direction:column;gap:4px;min-width:0}
-.rank-list .rl-name{font-family:var(--font-serif);font-size:1.05rem;font-weight:500;color:var(--fg);text-decoration:none;overflow:hidden;text-overflow:ellipsis}
-.rank-list .rl-name:hover{color:var(--accent);text-decoration:underline}
-.rank-list .rl-sector{font-size:.78rem;color:var(--fg2)}
-.rank-list .rl-stats{display:flex;gap:10px;flex-wrap:wrap;align-items:center;white-space:nowrap}
 .genre-score{font-family:ui-monospace,monospace;font-size:.78rem;color:var(--accent-deep);font-variant-numeric:tabular-nums;font-weight:600}
 .risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
 .risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
@@ -454,7 +451,15 @@ ${AI_FACT_CSS}
 .gsp-name{font-family:var(--font-sans);font-size:1rem;font-weight:700;color:var(--fg);line-height:1.3}
 .gsp-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .gsp-salary{font-size:.82rem;color:var(--fg2);font-variant-numeric:tabular-nums}
-@media (max-width:600px){.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px;grid-column:1 / -1}.sb-row{grid-template-columns:80px 1fr 36px}.genre-spotlight{grid-template-columns:1fr}}
+@media (max-width:600px){.sb-row{grid-template-columns:80px 1fr 36px}.genre-spotlight{grid-template-columns:1fr}}
+.hub-slug header{margin-bottom:16px;padding-bottom:14px}
+.hub-list-sec{margin:8px 0 28px}
+.hub-list-sec h2{font-size:12px;font-weight:600;color:var(--fg2);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;font-family:var(--font-sans);word-break:keep-all;overflow-wrap:anywhere}
+.chap-body .stats{margin:16px 0}
+.chap-body .ai-fact{margin-bottom:16px}
+.chap-body .intro{margin:12px 0 16px}
+.chap-body .highlights,.chap-body .sector-chart,.chap-body .genre-detail{margin:16px 0}
+${RANK_LIST_CSS}
 `;
 
 export const GENRE_HUB_CSS = CANONICAL_HUB_CSS + HUB_PAGE_SPECIFIC_CSS;

@@ -63,6 +63,19 @@ describe('mobile drawer — built artifacts', () => {
     }
   });
 
+  test('every sampled page fires search overlay events', () => {
+    for (const rel of SAMPLE_PAGES) {
+      const html = read(rel);
+      if (html === null) continue;
+      assert.match(html, /gtag\('event', 'search_overlay_open'/);
+      assert.match(html, /gtag\('event', 'search_overlay_navigate'/);
+      assert.match(html, /id="mobSearchOverlay"/);
+      assert.match(html, /id="mobSearchInput"/);
+      assert.match(html, /href="\/sectors"/);
+      assert.match(html, /href="\/rankings"/);
+    }
+  });
+
   test('the drawer row is chrome, not an in-content entry', () => {
     // me-entry-built.test.ts asserts exactly one /me entry inside <main> per
     // occupation page. If the drawer row ever moved inside <main> that count

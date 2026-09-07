@@ -46,13 +46,16 @@ const MOCK_RANKINGS: ReadonlyArray<readonly [RankingSlug, string, string]> = [
 import {
   escapeHtml,
   renderRankItem,
+  renderRankingSummary,
   renderHighlights,
   renderSectorChart,
   renderFaqHtml,
   renderRelatedRankings,
   renderJsonLd,
   renderHubJsonLd,
+  renderHomeMovers,
 } from './Ranking.js';
+import { CONTENT_DATE } from '../lib/_content-date.js';
 import type { Occupation } from '../views/ranking.js';
 
 // ─── Deterministic fixtures ───────────────────────────────────────────────
@@ -112,15 +115,16 @@ describe('renderRankItem', () => {
     assert.equal(
       got,
       '<li>' +
-      '<div class="rl-main">' +
-      '<a class="rl-name" href="/7">看護師</a>' +
-      '<span class="rl-sector">医療・福祉</span>' +
-      '</div>' +
-      '<div class="rl-stats">' +
+      '<a class="rl-row" href="/7" data-track-event="list_row_click">' +
+      '<span class="rl-main">' +
+      '<span class="rl-name">看護師</span>' +
+      '<span class="rl-meta">医療・福祉 · <span class="rl-salary">500万円</span> · <span class="rl-workers">1,500,000人</span></span>' +
+      '</span>' +
+      '<span class="rl-end">' +
       '<span class="risk-pill low">3/10</span>' +
-      '<span class="rl-salary">500万円</span>' +
-      '<span class="rl-workers">1,500,000人</span>' +
-      '</div>' +
+      '<span class="rl-chevron" aria-hidden="true">›</span>' +
+      '</span>' +
+      '</a>' +
       '</li>',
     );
   });
@@ -133,14 +137,16 @@ describe('renderRankItem', () => {
     assert.equal(
       got,
       '<li>' +
-      '<div class="rl-main">' +
-      '<a class="rl-name" href="/1">X</a>' +
-      '</div>' +
-      '<div class="rl-stats">' +
+      '<a class="rl-row" href="/1" data-track-event="list_row_click">' +
+      '<span class="rl-main">' +
+      '<span class="rl-name">X</span>' +
+      '<span class="rl-meta"><span class="rl-extra">初任給 30万円</span> · <span class="rl-workers">100人</span></span>' +
+      '</span>' +
+      '<span class="rl-end">' +
       '<span class="risk-pill high">8/10</span>' +
-      '<span class="rl-extra">初任給 30万円</span>' +
-      '<span class="rl-workers">100人</span>' +
-      '</div>' +
+      '<span class="rl-chevron" aria-hidden="true">›</span>' +
+      '</span>' +
+      '</a>' +
       '</li>',
     );
   });
@@ -181,6 +187,49 @@ describe('renderRankItem', () => {
     const o = makeOcc({ ai_risk: null, salary: null, workers: null });
     const got = renderRankItem(o, false, null);
     assert.match(got, /<span class="risk-pill mid">—<\/span>/);
+  });
+
+  test('whole-row anchor is the only link and carries list_row_click', () => {
+    const got = renderRankItem(makeOcc({ id: 7, title_ja: '看護師' }), true, null);
+    assert.equal([...got.matchAll(/<a /g)].length, 1);
+    assert.match(got, /<a class="rl-row" href="\/7" data-track-event="list_row_click">/);
+    assert.equal(got.includes('class="rl-name" href='), false);
+  });
+});
+
+describe('renderRankingSummary', () => {
+  test('empty list → empty string', () => {
+    assert.equal(renderRankingSummary([]), '');
+  });
+
+  test('formats name, score, mean, and CONTENT_DATE month', () => {
+    const items = [
+      makeOcc({ title_ja: 'データ入力', ai_risk: 9.4 }),
+      makeOcc({ title_ja: 'B', ai_risk: 7.2 }),
+    ];
+    const [year, month] = CONTENT_DATE.split('-');
+    const monthLabel = `${year}年${Number(month)}月`;
+    const got = renderRankingSummary(items);
+    assert.equal(
+      got,
+      `<p class="rk-sum">1位は<strong>データ入力</strong>（<strong>9.4/10</strong>）` +
+      ` · TOP2平均 <strong>8.3/10</strong> · ${monthLabel}更新</p>`,
+    );
+  });
+
+  test('null top score renders an em dash, not /10', () => {
+    const got = renderRankingSummary([
+      makeOcc({ title_ja: 'X', ai_risk: null }),
+      makeOcc({ title_ja: 'Y', ai_risk: 4 }),
+    ]);
+    assert.match(got, /（<strong>—<\/strong>）/);
+    assert.match(got, /TOP2平均 <strong>4\.0\/10<\/strong>/);
+  });
+
+  test('escapes the occupation name', () => {
+    const got = renderRankingSummary([makeOcc({ title_ja: '<b>x</b>', ai_risk: 1 })]);
+    assert.match(got, /&lt;b&gt;x&lt;\/b&gt;/);
+    assert.equal(got.includes('<b>x</b>'), false);
   });
 });
 
@@ -370,6 +419,31 @@ describe('renderJsonLd', () => {
 });
 
 // ─── renderHubJsonLd ──────────────────────────────────────────────────────
+
+describe('renderHomeMovers', () => {
+  test('renders two columns, occupation links, and /rankings header', () => {
+    const html = renderHomeMovers({
+      meta: {
+        baseline: { model: 'a', date: '2026-06-13', scoreCount: 556 },
+        candidate: { model: 'b', date: '2026-07-26', scoreCount: 556 },
+        comparedCount: 556,
+      },
+      transformation: {
+        up: [{ id: 10, name: '上がった職', base: 3, current: 3.4, delta: 0.4, familyCode: null }],
+        down: [{ id: 20, name: '下がった職', base: 5, current: 3.8, delta: -1.2, familyCode: null }],
+      },
+      displacement: { up: [], down: [] },
+    });
+    assert.match(html, /今月の変動 · 7月スコア改定/);
+    assert.match(html, /href="\/rankings"/);
+    assert.match(html, /href="\/10"/);
+    assert.match(html, /href="\/20"/);
+    assert.match(html, /\+0\.4/);
+    assert.match(html, /-1\.2/);
+    assert.match(html, /↑上がった/);
+    assert.match(html, /↓下がった/);
+  });
+});
 
 describe('renderHubJsonLd', () => {
   test('returns valid JSON with WebPage + BreadcrumbList', () => {

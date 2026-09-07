@@ -13,6 +13,7 @@
 
 import { fmtInt } from '../lib/num.js';
 import { riskClass as riskBandClass } from '../lib/risk.js';
+import { displayScore } from '../data/lib/banker-round.js';
 
 /** Narrow input — only the Rec stat fields the formatters read. */
 export interface OccupationDisplayInput {
@@ -90,10 +91,11 @@ function riskNumColor(score: number): string {
 export function buildOccupationDisplay(input: OccupationDisplayInput): OccupationDisplay {
   const { aiRisk, salaryMan, workers, age, hours, recruitRatio, hourlyWage } = input;
 
-  const riskStr = aiRisk !== null ? `${aiRisk}/10` : EMDASH;
+  const shown = aiRisk !== null ? displayScore(aiRisk) : null;
+  const riskStr = shown !== null ? `${shown}/10` : EMDASH;
   const riskClass = aiRisk !== null ? `risk-${riskBandClass(aiRisk)}` : 'risk-na';
   const riskColor = aiRisk !== null ? riskNumColor(aiRisk) : '';
-  const riskNumDisp: number | string = aiRisk !== null ? aiRisk : EMDASH;
+  const riskNumDisp: number | string = shown !== null ? shown : EMDASH;
 
   const salaryInt: number | string = salaryMan ? Math.trunc(salaryMan) : EMDASH;
   const ageDisp: number | string = age ?? EMDASH;

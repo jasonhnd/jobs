@@ -243,3 +243,45 @@ Dump Vercel logs to a file (`vercel inspect <url> --logs` into `/tmp`, then SIGT
 Revert the single PR. Order 2–4 each revert independently. If OG on `nodejs`+Bun fails to boot, revert order 2 and leave `engines.node` removed only if order 1 already merged — do not restore `engines.node` as a “fix” for an OG boot failure.
 
 Hub: [#300](https://github.com/jasonhnd/jobs/issues/300). Per-step Issues are in the order table above.
+
+---
+
+## 10. Cloud Agent plane (`.cursor/`)
+
+A Cursor Cloud Agent boots a bare VM with neither Bun nor the `.nvmrc` Node, so
+every `bun run …` fails until it is bootstrapped. That makes it a fourth plane
+on top of §1's three, and it is repository-managed so it is versioned with the
+code it bootstraps: a branch that moves the Bun pin carries its own environment.
+
+| Item | Where | Value |
+| --- | --- | --- |
+| Config | `.cursor/environment.json` | `install` only. No `start`, no `terminals`, no Dockerfile — nothing here needs a live service. |
+| Bootstrap | `.cursor/install.sh` | Node `.nvmrc` major via nvm, Bun **1.4.0**, `bun install --frozen-lockfile`, Chromium (best effort). Idempotent. |
+| Ignore rule | `.gitignore` | `.cursor/*` with `!environment.json` and `!install.sh`. The rest of `.cursor/` stays per-machine LLM-tool state. |
+
+`install` runs after checkout, and once into the baseline snapshot when
+environment builds are enabled, so it may only produce on-disk state that
+survives a reboot. Two omissions are deliberate:
+
+- **No `bun run build`.** `verify:gates` reads `dist-astro/`. A `dist-astro/`
+  baked into a snapshot would be stale against the next branch and the gates
+  would report on the wrong HTML. Build before gates, every time.
+- **No `PUBLIC_*` analytics env.** Setting them makes `BaseLayout.astro` emit
+  the tracker blocks, which changes the inline-script hashes
+  `compute-csp-hashes.cjs` writes into `vercel.json` — and that breaks
+  `git diff --exit-code`.
+
+The image places its own `node` ahead of nvm in `PATH`, so `nvm use` alone is
+not enough. The script writes one marker-guarded block into `~/.bashrc` that
+prepends the nvm Node and Bun.
+
+### 10.1 What a Cloud Agent can and cannot verify
+
+| Surface | Cloud Agent | Note |
+| --- | --- | --- |
+| `test` / `typecheck` / `build` / `verify:gates` / `git diff --exit-code` | Yes | The whole `quality` chain runs on the VM. This is the §6 green bar minus the deploy half. |
+| `bun run test:e2e` | Partial | `tests/e2e/analytics.spec.ts` always fails here: with no `PUBLIC_*` env the tracker blocks are never emitted, which is the failure mode that spec documents at its head. Any other red belongs to the mobile work in flight on the branch, so diff against the branch point before blaming a change. e2e is in neither `ci.yml` nor `buildCommand` and gates nothing. |
+| Scoring batches | Yes, `in-agent` only | The `in-agent` provider needs no credential — the agent session is the model, as for `claude-opus-4-8` and `claude-fable-5`. Any keyed provider is owner-only. See [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md). |
+| `bun run audit` | No | `analytics/` pins `pnpm@11.9.0` for corepack to fetch, and the GA4 scripts need credentials. |
+| Vercel CLI (`alerts`, `ls`, `inspect`, `firewall overview`) | No | Not installed, not authenticated. §8's refresh procedure needs an operator. |
+| Preview deployment | No | Verification ends at `git push`. §6 and §9.5 — `lambda.runtime`, OG pixels, the SEO baseline as a *deploy* gate — still need a human.

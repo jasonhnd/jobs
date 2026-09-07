@@ -6,15 +6,17 @@
  * date used to be hard-coded in 40+ surfaces (footer, hubs, FAQ, methodology,
  * sector copy …) and every score-batch upgrade had to chase them all. The
  * active attribution is derived ONCE — at BUILD TIME, in src/data/build.ts,
- * mirroring `pickLatestScore()` batch-selection semantics — and baked into the
- * generated, fs-free `_score-attribution.ts` so importers (including the few
- * Vercel Edge bundles that share chunks with page code) carry NO node:fs.
+ * mirroring `pickLatestScore()` batch-selection semantics for 最新観測 —
+ * and baked into the generated, fs-free `_score-attribution.ts` so importers
+ * (including the few Vercel Edge bundles that share chunks with page code)
+ * carry NO node:fs. Canonical public scores use `pickConsensusScore()`;
+ * `SCORE_PANEL` is the matching panel metadata.
  *
  * The pure helpers below (`formatModelDisplay`, `pickAttributionBatch`) are
  * the canonical selection/formatting logic; build.ts uses them to compute the
  * baked values, and the tests pin them.
  */
-import { SCORE_ATTRIBUTION_DATA } from './_score-attribution.js';
+import { SCORE_ATTRIBUTION_DATA, SCORE_PANEL_DATA } from './_score-attribution.js';
 
 export interface ScoreAttribution {
   /** Raw model id, e.g. "claude-fable-5". */
@@ -211,4 +213,28 @@ export const SCORE_ATTRIBUTION: ScoreAttribution = Object.freeze({
   modelDisplay: SCORE_ATTRIBUTION_DATA.modelDisplay,
   runDate: SCORE_ATTRIBUTION_DATA.runDate,
   standardLabel: 'AIOIS-10',
+});
+
+export interface ScorePanel {
+  /** Comparable votes in the current consensus panel. */
+  readonly voteCount: number;
+  /** Newest comparable run_date (window anchor). */
+  readonly latestRunDate: string;
+  readonly windowMonths: number;
+  readonly floorVotes: number;
+  /** True when floor fill pulled in votes older than the window. */
+  readonly usedExpiredVotes: boolean;
+}
+
+/**
+ * Consensus panel metadata — baked at build time (fs-free at runtime).
+ * Distinct from `SCORE_ATTRIBUTION`, which remains the latest observation
+ * batch for 最新観測 / /models.
+ */
+export const SCORE_PANEL: ScorePanel = Object.freeze({
+  voteCount: SCORE_PANEL_DATA.voteCount,
+  latestRunDate: SCORE_PANEL_DATA.latestRunDate,
+  windowMonths: SCORE_PANEL_DATA.windowMonths,
+  floorVotes: SCORE_PANEL_DATA.floorVotes,
+  usedExpiredVotes: SCORE_PANEL_DATA.usedExpiredVotes,
 });

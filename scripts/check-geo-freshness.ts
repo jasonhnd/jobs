@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { ScoreRunSchema, type ScoreRun } from '../src/data/schema/index.js';
 import { buildCompareGeoFactSummary, buildOccupationGeoFactSummary, buildOccupationSetGeoFactSummary, buildSectorGeoFactSummary, renderAiFactParagraph } from '../src/lib/ai-fact-summary.js';
 import { loadGraph } from '../src/graph/index.js';
-import { SCORE_ATTRIBUTION, formatModelDisplay } from '../src/site/score-attribution.js';
+import { SCORE_ATTRIBUTION, SCORE_PANEL, formatModelDisplay } from '../src/site/score-attribution.js';
 import {
   computeGeoFacts,
   GeoTreemapRowsSchema,
@@ -174,15 +174,20 @@ function assertFreshGeoAstroPages(): void {
   for (const rel of GEO_ASTRO_PAGES) {
     if (rel.replace(/\\/g, '/').startsWith('src/pages/yearly/')) continue;
     const text = readText(rel);
-    const derivesModel = text.includes('SCORE_ATTRIBUTION.modelDisplay') ||
+    const derivesConsensus = text.includes('CONSENSUS_STANDARD_FORMAL') ||
+      text.includes('formatConsensusFooterLine') ||
+      text.includes('CONSENSUS_FAQ_SENTENCE') ||
+      text.includes('複数のAIモデルによる総合') ||
+      text.includes('SCORE_ATTRIBUTION.modelDisplay') ||
       text.includes('batchView.currentModelDisplay');
-    const derivesDate = text.includes('SCORE_ATTRIBUTION.runDate') ||
+    const derivesDate = text.includes('SCORE_PANEL.latestRunDate') ||
+      text.includes('SCORE_ATTRIBUTION.runDate') ||
       text.includes('batchView.currentRunDate');
-    if (!derivesModel) {
-      fail(`${rel} must derive the current scoring model from the active-batch aggregate`);
+    if (!derivesConsensus) {
+      fail(`${rel} must derive published-score copy from the consensus panel (or the active-batch aggregate)`);
     }
     if (!derivesDate) {
-      fail(`${rel} must derive the current scoring date from the active-batch aggregate`);
+      fail(`${rel} must derive the current scoring date from SCORE_PANEL or the active-batch aggregate`);
     }
     for (const token of forbidden) {
       if (text.includes(token)) {
@@ -240,8 +245,10 @@ function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
   }
 
   const methodology = buildMethodologyBatchView(facts);
-  assertContains('dist-astro/methodology.html', methodology.currentModelDisplay);
+  assertContains('dist-astro/methodology.html', '複数のAI');
+  assertContains('dist-astro/methodology.html', SCORE_PANEL.latestRunDate);
   assertContains('dist-astro/methodology.html', methodology.meanAiImpact);
+  assertContains('dist-astro/methodology.html', 'Claude Fable 5');
 
   const readme = readText('README.md');
   const staleCurrentClaims = [

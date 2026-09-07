@@ -9,7 +9,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS, heatBg, radarPoints, radarAxis, type DimDir } from '@/lib/canonical/doc';
-import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import { SCORE_PANEL } from '@/site/score-attribution';
+import { CONSENSUS_STANDARD_FORMAL } from '@/site/consensus-copy';
 import { CONTENT_DATE } from '@/lib/_content-date';
 
 // Last content-change date — bump when this page's content actually changes.
@@ -246,6 +247,9 @@ const jsonLd = `{
       ))}
     </div>
 
+    <h2>形式定義（本サイトの公開値）</h2>
+    <p>{CONSENSUS_STANDARD_FORMAL}</p>
+
     <h2>採点のルール</h2>
     <ul>
       <li><strong>目もり</strong>：各次元 0.0〜10.0、小数 1 けた。</li>
@@ -259,7 +263,7 @@ const jsonLd = `{
     <p>AIOIS-10 が<strong>世界</strong>標準になれる理由：<strong>D1〜D8 と D10 は世界共通</strong>（仕事と AI の性質そのものなので、東京でもベルリンでもサンパウロでも同じ）。<strong>D9 だけが国ごとに変わる次元</strong>で、各国版は D9（と必要ならリスク式の重み）だけを付け直します。日本の深刻な人手不足は、D9 が低くなる一例です。</p>
 
     <h2>採点例（日本版・現行 AI 時点）</h2>
-    <p>本サイトの採点（{SCORE_ATTRIBUTION.modelDisplay}、{SCORE_ATTRIBUTION.runDate}、D9＝日本）からの抜粋。T＝変化の大きさ、DR＝仕事が減るリスク。</p>
+    <p>本サイトの採点（複数のAIによる総合、最新採点 {SCORE_PANEL.latestRunDate}、D9＝日本）からの抜粋。T＝変化の大きさ、DR＝仕事が減るリスク。</p>
     <div class="wrap-x">
       <table class="ex">
         <thead>

@@ -14,7 +14,7 @@
  * Pure-data モジュール。
  */
 import type { DetailFileMin } from './genre-hub.js';
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 
 export interface QAItem {
   slug: string;
@@ -49,7 +49,7 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
     slug: 'ai-de-kienai',
     question: 'AI でなくならない仕事は？',
     short_answer: '身体性・対人スキル・現場判断を要する仕事は AI で代替されにくく、長期的に残る可能性が高い。看護師・建設職人・介護福祉士・保育士・消防士などが代表例。',
-    reasoning: `AI が苦手とするのは、(1) 物理的な世界での即興的判断 (建設現場・救急処置)、(2) 人間の感情を読み取り信頼関係を築く対人スキル (看護・介護・保育)、(3) 例外的な状況への適応 (緊急救急)。これらが業務の中核になっている職業ほど AI 影響度が低くなる傾向にあります。本サイトの AI 影響度は ${SCORE_ATTRIBUTION.modelDisplay} による独自分析 (非公式) で、職業選択の参考情報の一つとしてご活用ください。`,
+    reasoning: `AI が苦手とするのは、(1) 物理的な世界での即興的判断 (建設現場・救急処置)、(2) 人間の感情を読み取り信頼関係を築く対人スキル (看護・介護・保育)、(3) 例外的な状況への適応 (緊急救急)。これらが業務の中核になっている職業ほど AI 影響度が低くなる傾向にあります。${CONSENSUS_FAQ_SENTENCE}職業選択の参考情報の一つとしてご活用ください。`,
     selector: lowAi,
     related_topics: ['ai-de-kieru', 'shokunin-mirai', 'hito-aite-shigoto'],
     og_eyebrow: 'Q&A · AI で残る仕事',
@@ -640,6 +640,66 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
     og_eyebrow: 'Q&A · 海外移住',
   },
 ];
+
+/**
+ * Nine thematic groups of QA_ITEMS, matching the section comments above.
+ * #328 writes the first-screen answer line per group (different sort
+ * dimensions). Keep this partition in lockstep with the catalog — the
+ * test in qa-meta.test.ts asserts every slug is in exactly one group.
+ */
+export const QA_GROUP_SLUGS = {
+  'ai-anxiety': [
+    'ai-de-kienai', 'ai-de-kieru', 'ai-augment-vs-replace', 'shikaku-mamoru',
+    'genba-vs-jimu', 'shokunin-mirai', 'hito-aite-shigoto', 'ai-jidai-osusume',
+  ],
+  'sector-future': [
+    'kango-ai', 'it-engineer-ai', 'jimu-mirai', 'hanbai-mirai',
+    'driver-mirai', 'kyouiku-ai',
+  ],
+  'career': [
+    'shinso-osusume', 'tenshoku-30s', 'tenshoku-40s', 'over-50-katsuyaku',
+    'tenshoku-yasashii', 'career-change-mirai', 'blank-fukki',
+    'hoshou-nashi-tenshoku', 'tenshoku-kaisuu-ooi',
+  ],
+  'life': [
+    'ikuji-ryouritsu', 'kaigo-ryouritsu', 'female-long', 'zaitaku-shigoto',
+    'fukugyou-ok', 'shougai-mochi-ok',
+  ],
+  'aptitude': [
+    'bunkei-osusume', 'rikei-osusume', 'hito-mishiri-ok', 'suugaku-nigate',
+    'eigo-ikasu', 'geijutsu-keikei',
+  ],
+  'aptitude-extra': [
+    'naiko-osusume', 'gaiko-osusume', 'kanjou-roudou-sukunai', 'ronri-shiko-ikasu',
+  ],
+  'life-extra': [
+    'tsuukin-friendly', 'yakin-nashi', 'dokushin-friendly',
+  ],
+  'ai-anxiety-extra': [
+    'ai-shitsugyou-yobou', 'ai-skill-mi-ni-tsukeru', 'ai-hoshou-shoku',
+  ],
+  'career-extra': [
+    'gakureki-konpurekkusu', 'mikeiken-it', 'nenshu-up', 'kaigai-iju-shoku',
+  ],
+} as const;
+
+export type QaGroup = keyof typeof QA_GROUP_SLUGS;
+
+const QA_SLUG_TO_GROUP: ReadonlyMap<string, QaGroup> = (() => {
+  const map = new Map<string, QaGroup>();
+  (Object.entries(QA_GROUP_SLUGS) as Array<[QaGroup, readonly string[]]>).forEach(
+    ([group, slugs]) => {
+      for (const slug of slugs) map.set(slug, group);
+    },
+  );
+  return map;
+})();
+
+export function qaGroup(slug: string): QaGroup {
+  const group = QA_SLUG_TO_GROUP.get(slug);
+  if (!group) throw new Error(`qa-meta: unknown Q&A slug ${slug}`);
+  return group;
+}
 
 export function selectExamples(items: ReadonlyArray<DetailFileMin>, qa: QAItem, n: number = 10): ReadonlyArray<DetailFileMin> {
   const scored = items

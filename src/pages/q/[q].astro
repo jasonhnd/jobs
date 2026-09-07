@@ -6,6 +6,7 @@ import { QA_ITEMS, selectExamples, type QAItem } from '@/views/qa-meta';
 import { loadAllDetails, type DetailFileMin } from '@/views/genre-hub';
 import { GENRE_HUB_CSS } from '@/templates/Hub';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
+import { RANK_LIST_CSS } from '@/lib/rank-list-css';
 import { buildQSlugBindings } from './_q-bindings';
 
 export async function getStaticPaths() {
@@ -22,30 +23,43 @@ const b = buildQSlugBindings(qa, examples, await loadGraph());
   <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
+  <style slot="head" set:html={RANK_LIST_CSS} />
   <style slot="head" set:html={`
+.qa-sum{margin:0;font-family:var(--font-serif);font-size:16.5px;line-height:1.75;color:var(--fg);word-break:keep-all;overflow-wrap:anywhere}
+.qa-sum strong{font-weight:700;color:var(--fg)}
+.qa-list-sec{margin:8px 0 28px}
+.qa-list-sec h2{font-size:12px;font-weight:600;color:var(--fg2);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;font-family:var(--font-sans)}
 .qa-answer{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:28px 0}
 .qa-answer h2{font-size:1.1rem;color:var(--accent);margin:0 0 14px;padding:0;border:none}
 .qa-answer .qa-direct{font-size:1.05rem;line-height:1.85;color:var(--fg);font-weight:500;margin-bottom:18px}
 .qa-answer .qa-reasoning{font-size:.96rem;line-height:1.85;color:var(--fg);margin:0}
+.chap-body .ai-fact{margin-bottom:16px}
+.chap-body .qa-answer{margin:16px 0 0;padding:16px 18px}
 `} />
   <div id="wrapper">
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/q" rel="up">質問で探す</a><span aria-hidden="true">›</span><span>{qa.question}</span></nav>
     <header id="content">
       <h1><span class="accent">{qa.question}</span></h1>
+      <Fragment set:html={b.answerLineHtml} />
     </header>
-    <Fragment set:html={b.aiFactHtml} />
-    <section class="qa-answer">
-      <h2>直答</h2>
-      <p class="qa-direct" set:html={b.shortAnswerHtml}></p>
-      <h2>根拠</h2>
-      <p class="qa-reasoning" set:html={b.reasoningHtml}></p>
-    </section>
     {examples.length > 0 && (
-      <section>
+      <section class="qa-list-sec" aria-label="具体例">
         <h2>具体例 TOP {examples.length}</h2>
         <Fragment set:html={b.exampleListHtml} />
       </section>
     )}
+    <details class="chap">
+      <summary>読み方・出典</summary>
+      <div class="chap-body">
+        <Fragment set:html={b.aiFactHtml} />
+        <section class="qa-answer">
+          <h2>直答</h2>
+          <p class="qa-direct" set:html={b.shortAnswerHtml}></p>
+          <h2>根拠</h2>
+          <p class="qa-reasoning" set:html={b.reasoningHtml}></p>
+        </section>
+      </div>
+    </details>
     <Fragment set:html={b.crossHubHtml} />
     {b.relatedQAs.length > 0 && (
       <section>
@@ -55,4 +69,14 @@ const b = buildQSlugBindings(qa, examples, await loadGraph());
     )}
     <Footer />
   </div>
+  {/* Static body: open shared chapters on desktop. Byte-identical to rankings (#321 / §3.6). */}
+  <script is:inline slot="bodyEnd">
+    (function () {
+      try {
+        if (!window.matchMedia('(min-width: 900px)').matches) return;
+        var nodes = document.querySelectorAll('details.chap');
+        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
+      } catch (e) {}
+    })();
+  </script>
 </BaseLayout>

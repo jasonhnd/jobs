@@ -8,9 +8,9 @@
 > が実データと突き合わせて検証する。batch を追加したら必ずここも更新すること
 > —— 更新し忘れると gate が落ちる。手で書き換えたまま腐らせることはできない。
 
-- モデル: `claude-opus-5`
-- run date: `2026-07-26`
-- Score output: `data/scores/occupations_claude-opus-5_2026-07-26.json`
+- モデル: `grok-4.6`
+- run date: `2026-09-07`
+- Score output: `data/scores/occupations_grok-4.6_2026-09-07.json`
 
 - 標準: AIOIS-10 v1.0
 - 対象: JILPT IPD v7.00 の 556 職業
@@ -142,20 +142,39 @@ Registered providers:
 
 | `--provider` | Auth | Native schema | Notes |
 | --- | --- | --- | --- |
+| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. |
 | `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. |
-| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8` and `claude-fable-5` were. Answers supplied as JSONL. |
+
+There is no Vercel AI Gateway provider. Do not add one.
 
 ```bash
 bun scripts/run-scoring.ts --list-providers
+
+# In-agent (the running session *is* the scorer; no API key)
+bun scripts/run-scoring.ts \
+  --provider in-agent --model grok-4.6 --attest-model grok-4.6 \
+  --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
+  --out .cache/scoring/<run>/raw-scores.jsonl
 ```
+
+The downstream `assemble:scores` step takes the bare model slug plus an
+explicit `--provider` (the vendor 提供元: `xai` / `anthropic` / `openai`,
+not the CLI transport).
+
+Whitelist vendors are OpenAI / Anthropic / xAI. A new `providers/<name>.ts`
+is only for a genuinely different transport (Codex-CLI-like). Do not add a
+bespoke xAI API provider for Grok — Grok scores in-agent.
 
 ### Adding a vendor
 
-1. Write `scripts/lib/scoring/providers/<name>.ts` exporting a
+1. Prefer `--provider in-agent` when the running session is the scoring
+   model (Claude, Grok, …). Prefer `--provider codex` for the local Codex
+   CLI. Do not add a Vercel AI Gateway provider.
+2. Otherwise write `scripts/lib/scoring/providers/<name>.ts` exporting a
    `ScoringProvider` (interface in `lib/scoring/provider.ts`). Typically
    40–80 lines.
-2. Register it in `lib/scoring/providers/index.ts`.
-3. Run `bun test scripts/lib/scoring`. `providers/conformance.test.ts`
+3. Register it in `lib/scoring/providers/index.ts`.
+4. Run `bun test scripts/lib/scoring`. `providers/conformance.test.ts`
    iterates the registry, so the new provider is picked up automatically and
    must prove it cannot weaken the contract, the error vocabulary, or the
    schema translation.
@@ -166,9 +185,42 @@ special-casing the vendor.
 
 `assemble-scores.ts --provider` records the vendor in `scorer.model_provider`.
 It is inferred from known model-id prefixes (`gpt`/`o1`/`o3`, `claude`,
-`gemini`) and **fails loudly for anything else** — a batch file is append-only
-and its provider is rendered publicly as 提供元, so a new vendor must be named
-explicitly rather than silently mislabelled.
+`grok` → `xai`, `gemini`) and **fails loudly for anything else** — a batch
+file is append-only and its provider is rendered publicly as 提供元, so a new
+vendor must be named explicitly rather than silently mislabelled.
+
+## Grok 4.6 / in-agent scoring (mms-7a)
+
+Grok は **Vercel AI Gateway を使わない**。**bespoke xAI provider も新造しない**。
+既存の `--provider in-agent` で、実行中の Grok 4.6 セッション自身が採点する
+（`claude-opus-4-8` / `claude-fable-5` と同じ輸送）。
+
+- CLI transport: `in-agent`
+- assemble の裸 slug: `grok-4.6`
+- `model_provider`: `xai`（`inferProvider('grok-…')` — 公開 提供元。CLI `--provider` ではない）
+- Frozen prompt: `data/prompts/2026-09-06_grok-4.6-aiois10.ja.md`
+- Prompt version: `AIOIS-10-v1.0-grok-4.6`
+- Rubric 本文は Opus 5 凍結 prompt とモデル識別行以外同一
+- LOCAL tool。`data/scores/` への追加は mms-7c。**dry-run を含む採点実行はオーナーの
+  事前確認が必要**（実装完了 ≠ 実行開始）。
+
+```bash
+bun scripts/run-scoring.ts \
+  --provider in-agent --model grok-4.6 --attest-model grok-4.6 \
+  --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
+  --out .cache/scoring/<run>/raw-scores.jsonl \
+  --ids 111,156
+
+# assemble は裸 slug + 明示 --provider（提供元 xai。in-agent ではない）
+bun scripts/assemble-scores.ts \
+  --mode aiois --model grok-4.6 --provider xai --date <YYYY-MM-DD> \
+  --prompt-version AIOIS-10-v1.0-grok-4.6 \
+  --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
+  --in .cache/scoring/<run>/raw-scores.jsonl \
+  --out .cache/scoring/<run>/occupations_grok-4.6_<date>.json
+
+bun run check:score-batch .cache/scoring/<run>/occupations_grok-4.6_<date>.json
+```
 
 ### In-agent scoring flow
 
@@ -179,7 +231,7 @@ any other provider.
 ```bash
 # 1. Emit prompts (every pending occupation is reported as pending)
 bun scripts/run-scoring.ts \
-  --provider in-agent --model <model-id> \
+  --provider in-agent --model <model-id> --attest-model <model-id> \
   --prompt-file data/prompts/<date>_<model-id>-aiois10.ja.md \
   --out .cache/scoring/<run>/raw-scores.jsonl \
   --run-name <run> --ids 1,2,3

@@ -23,6 +23,8 @@
  * Keywords: [nameJa, …aliasesJa.slice(0, 8)].join(', ').
  */
 
+import { displayScore } from '../data/lib/banker-round.js';
+
 /** Narrow input — only the Rec fields the SEO derivation reads. */
 export interface OccupationSeoInput {
   readonly nameJa: string;
@@ -65,7 +67,8 @@ export function buildOccupationSeo(input: OccupationSeoInput): OccupationSeoOutp
   // occupations 581-584 not yet scored), render the readable
   // '未評価' instead of an em dash that looked like missing data in
   // Google SERPs.
-  const riskStr = aiRisk !== null ? `${aiRisk}/10` : '未評価';
+  const shown = aiRisk !== null ? displayScore(aiRisk) : null;
+  const riskStr = shown !== null ? `${shown}/10` : '未評価';
 
   const title = salaryMan
     ? `${nameJa}の年収約${Math.trunc(salaryMan)}万円｜AI影響${riskStr}｜未来の仕事`
@@ -78,10 +81,10 @@ export function buildOccupationSeo(input: OccupationSeoInput): OccupationSeoOutp
   if (workers) {
     clauses.push(`就業者は${fmtIntCommas(workers)}人。`);
   }
-  if (aiRisk !== null) {
+  if (aiRisk !== null && shown !== null) {
     const tier =
       aiRisk <= RISK_LOW_CEILING ? '低め' : aiRisk <= RISK_MID_CEILING ? '中程度' : '高め';
-    clauses.push(`${nameJa}のAI影響度は10段階中${aiRisk}と${tier}です。`);
+    clauses.push(`${nameJa}のAI影響度は10段階中${shown}と${tier}です。`);
     clauses.push('仕事の中身がAIで変わる度合いであり、失業の確率ではありません。');
   } else {
     clauses.push(`${nameJa}のAI影響度を分析。`);

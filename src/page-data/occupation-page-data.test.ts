@@ -59,6 +59,11 @@ function fakeRec(id: number, aiRisk: number | null): Rec {
     ai_resilient_tasks_ja: [],
     ai_horizon_5y_ja: null,
     aiois: null,
+    consensus_transformation: aiRisk,
+    latest_transformation: aiRisk,
+    latest_delta: 0,
+    used_expired_votes: false,
+    consensus_vote_count: null,
     profile5: {
       creative: null,
       social: null,

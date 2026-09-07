@@ -39,18 +39,33 @@ import { OCCUPATION_COUNT } from '@/site/config';
     </svg>
     <span class="mob-topbar-brand-text">未来の仕事</span>
   </a>
-  <button
-    type="button"
-    class="mob-topbar-burger"
-    id="mobBurger"
-    aria-label="メニューを開く"
-    aria-expanded="false"
-    aria-controls="mobDrawer"
-  >
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <div class="mob-topbar-actions">
+    <button
+      type="button"
+      class="mob-topbar-search"
+      id="mobSearchBtn"
+      aria-label="職業を検索"
+      aria-expanded="false"
+      aria-controls="mobSearchOverlay"
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+    </button>
+    <button
+      type="button"
+      class="mob-topbar-burger"
+      id="mobBurger"
+      aria-label="メニューを開く"
+      aria-expanded="false"
+      aria-controls="mobDrawer"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
 </header>
 
 <div class="mob-drawer" id="mobDrawer" hidden role="dialog" aria-modal="true" aria-label="メインメニュー">
@@ -244,6 +259,33 @@ import { OCCUPATION_COUNT } from '@/site/config';
   </div>
 </div>
 
+<div class="mob-search" id="mobSearchOverlay" hidden role="dialog" aria-modal="true" aria-label="職業検索">
+  <div class="mob-search-bar">
+    <input
+      id="mobSearchInput"
+      type="search"
+      autocomplete="off"
+      placeholder="気になる職業を入力"
+      aria-label="職業を検索"
+    />
+    <button type="button" class="mob-search-close" id="mobSearchClose">閉じる</button>
+  </div>
+  <p class="mob-search-hint">別名でも探せます（{OCCUPATION_COUNT.SCORED}職業）</p>
+  <div class="mob-search-results" role="list"></div>
+  <div class="mob-search-recent" hidden>
+    <p class="mob-search-kicker">最近見た</p>
+    <div class="mob-search-recent-list" role="list"></div>
+  </div>
+  <div class="mob-search-doors">
+    <p class="mob-search-empty-head" hidden>見つからないとき</p>
+    <div class="mob-search-door-row">
+      <a href="/sectors">業種から探す</a>
+      <a href="/rankings">ランキング</a>
+      <a href="/me">自分の現在地</a>
+    </div>
+  </div>
+</div>
+
 <script is:inline>
   // wireMobileNav — runs once per page load. Idempotent: re-attaching from
   // bfcache pageshow is safe because we use stored references on the burger
@@ -309,6 +351,237 @@ import { OCCUPATION_COUNT } from '@/site/config';
     });
 
     window.addEventListener('pageshow', function () {
+      document.body.style.overflow = '';
+    });
+  })();
+</script>
+
+<script is:inline>
+  // wireMobileSearch — static body, one CSP hash. Idempotent via dataset.wired.
+  (function () {
+    var btn = document.getElementById('mobSearchBtn');
+    var overlay = document.getElementById('mobSearchOverlay');
+    var input = document.getElementById('mobSearchInput');
+    var closeBtn = document.getElementById('mobSearchClose');
+    if (!btn || !overlay || !input || !closeBtn) return;
+    if (btn.dataset.wired === '1') return;
+    btn.dataset.wired = '1';
+
+    var SEARCH_URL = '/data.search.json';
+    var SECTORS_URL = '/data.sectors.json';
+    var RECENT_KEY = 'ms.search.recent';
+    var FETCH_MS = 10000;
+    var lastFocus = null;
+    var docs = null;
+    var sectorJa = {};
+    var loadPromise = null;
+
+    var resultsEl = overlay.querySelector('.mob-search-results');
+    var recentWrap = overlay.querySelector('.mob-search-recent');
+    var recentList = overlay.querySelector('.mob-search-recent-list');
+    var emptyHead = overlay.querySelector('.mob-search-empty-head');
+
+    function occupationPath(id) {
+      return Number(id) === 404 ? '/occupations/404' : '/' + id;
+    }
+    function nfkc(s) {
+      return String(s || '').normalize('NFKC').toLowerCase();
+    }
+    function consentOk() {
+      try { return localStorage.getItem('cookieConsent') === 'accepted'; } catch (e) { return false; }
+    }
+    function gaOpen() {
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'search_overlay_open', { language: 'ja' });
+        }
+      } catch (e) {}
+    }
+    function gaNav() {
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'search_overlay_navigate', { language: 'ja' });
+        }
+      } catch (e) {}
+    }
+    function fetchJson(url) {
+      return new Promise(function (resolve, reject) {
+        var done = false;
+        var t = setTimeout(function () { if (!done) { done = true; reject(new Error('timeout')); } }, FETCH_MS);
+        fetch(url).then(function (r) {
+          if (!done) { done = true; clearTimeout(t); }
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        }).then(resolve).catch(function (err) {
+          if (!done) { done = true; clearTimeout(t); }
+          reject(err);
+        });
+      });
+    }
+    function ensureData() {
+      if (docs) return Promise.resolve();
+      if (loadPromise) return loadPromise;
+      loadPromise = Promise.all([fetchJson(SEARCH_URL), fetchJson(SECTORS_URL)]).then(function (parts) {
+        docs = (parts[0] && parts[0].documents) || [];
+        var sectors = (parts[1] && parts[1].sectors) || [];
+        sectorJa = {};
+        for (var i = 0; i < sectors.length; i++) {
+          sectorJa[sectors[i].id] = sectors[i].ja || sectors[i].id;
+        }
+      }).catch(function (err) {
+        loadPromise = null;
+        throw err;
+      });
+      return loadPromise;
+    }
+    function rankMatches(q) {
+      q = nfkc(q).trim();
+      if (!q || !docs) return [];
+      var exact = [];
+      var starts = [];
+      var contains = [];
+      for (var i = 0; i < docs.length; i++) {
+        var d = docs[i];
+        var fields = [d.title_ja].concat(d.aliases_ja || []);
+        var hit = false;
+        var isExact = false;
+        var isStart = false;
+        for (var k = 0; k < fields.length; k++) {
+          var f = nfkc(fields[k]);
+          if (f === q) { isExact = true; hit = true; break; }
+          if (f.indexOf(q) === 0) { isStart = true; hit = true; }
+          else if (f.indexOf(q) >= 0) hit = true;
+        }
+        if (!hit) continue;
+        if (isExact) exact.push(d);
+        else if (isStart) starts.push(d);
+        else contains.push(d);
+      }
+      return exact.concat(starts, contains).slice(0, 8);
+    }
+    function readRecent() {
+      if (!consentOk()) return [];
+      try {
+        var raw = localStorage.getItem(RECENT_KEY);
+        var list = raw ? JSON.parse(raw) : [];
+        return Array.isArray(list) ? list.slice(0, 5) : [];
+      } catch (e) { return []; }
+    }
+    function writeRecent(doc) {
+      if (!consentOk() || !doc || doc.id == null) return;
+      try {
+        var next = readRecent().filter(function (r) { return r && String(r.id) !== String(doc.id); });
+        next.unshift({
+          id: doc.id,
+          title_ja: doc.title_ja,
+          sector_id: doc.sector_id,
+          risk_band: doc.risk_band,
+          ai_risk: doc.ai_risk
+        });
+        localStorage.setItem(RECENT_KEY, JSON.stringify(next.slice(0, 5)));
+      } catch (e) {}
+    }
+    function makeRow(doc) {
+      var a = document.createElement('a');
+      a.className = 'mob-search-row';
+      a.setAttribute('role', 'listitem');
+      a.href = occupationPath(doc.id);
+      var name = document.createElement('span');
+      name.className = 'mob-search-name';
+      name.textContent = doc.title_ja || '';
+      var sub = document.createElement('span');
+      sub.className = 'mob-search-sub';
+      sub.textContent = sectorJa[doc.sector_id] || '';
+      var pill = document.createElement('span');
+      var band = doc.risk_band === 'low' || doc.risk_band === 'high' ? doc.risk_band : 'mid';
+      pill.className = 'mob-search-pill ' + band;
+      pill.textContent = (doc.ai_risk != null ? Number(doc.ai_risk).toFixed(1) : '—') + '/10';
+      a.appendChild(name);
+      a.appendChild(sub);
+      a.appendChild(pill);
+      a.addEventListener('click', function () {
+        writeRecent(doc);
+        gaNav();
+      });
+      return a;
+    }
+    function render() {
+      var q = input.value;
+      var hasQuery = nfkc(q).trim().length > 0;
+      resultsEl.replaceChildren();
+      recentList.replaceChildren();
+      if (!hasQuery) {
+        var recent = readRecent();
+        recentWrap.hidden = recent.length === 0;
+        emptyHead.hidden = true;
+        for (var i = 0; i < recent.length; i++) recentList.appendChild(makeRow(recent[i]));
+        return;
+      }
+      recentWrap.hidden = true;
+      var hits = rankMatches(q);
+      emptyHead.hidden = hits.length !== 0;
+      for (var j = 0; j < hits.length; j++) resultsEl.appendChild(makeRow(hits[j]));
+    }
+    function visibleFocusables() {
+      var nodes = overlay.querySelectorAll('a[href], button:not([disabled]), input');
+      var out = [];
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i].closest('[hidden]')) continue;
+        out.push(nodes[i]);
+      }
+      return out;
+    }
+    function setOpen(open) {
+      btn.setAttribute('aria-expanded', String(open));
+      if (open) {
+        var burger = document.getElementById('mobBurger');
+        if (burger && burger.getAttribute('aria-expanded') === 'true') burger.click();
+        lastFocus = document.activeElement;
+        overlay.hidden = false;
+        document.body.style.overflow = 'hidden';
+        gaOpen();
+        ensureData().then(function () { render(); }).catch(function () { render(); });
+        requestAnimationFrame(function () { input.focus(); });
+      } else {
+        overlay.hidden = true;
+        document.body.style.overflow = '';
+        if (lastFocus && typeof lastFocus.focus === 'function') {
+          try { lastFocus.focus(); } catch (e) {}
+        }
+      }
+    }
+
+    btn.addEventListener('click', function () {
+      setOpen(btn.getAttribute('aria-expanded') !== 'true');
+    });
+    closeBtn.addEventListener('click', function () { setOpen(false); });
+    input.addEventListener('input', function () { if (docs) render(); });
+
+    overlay.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var list = visibleFocusables();
+      if (!list.length) return;
+      var first = list[0];
+      var last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        e.preventDefault();
+        setOpen(false);
+      }
+    });
+
+    window.addEventListener('pageshow', function () {
+      overlay.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     });
   })();

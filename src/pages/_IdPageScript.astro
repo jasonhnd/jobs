@@ -3,11 +3,10 @@
  * src/pages/_IdPageScript.astro — page-local Astro component
  * carrying the per-occupation client-side script.
  *
- * Currently a single responsibility: fire the GA4 `result_view`
- * event with occupation_id + ai_risk_score + risk_tier on page
- * load. Renders a hidden <div data-occupation-page-meta …> carrying
- * the per-occupation data, plus a STATIC <script> that reads the
- * data attributes and emits the GA4 event.
+ * Fires GA4 `result_view` from data-* on a hidden meta div, opens
+ * `details.chap` at ≥900px (same matchMedia pattern as rankings/compare),
+ * and on load/hashchange opens the chapter that owns the hash target
+ * so #323 doors and the chip nav land correctly.
  *
  * CSP hardening (audit CODE-012, 2026-05-17): the inline script body
  * is now byte-identical across every one of 556 occupation pages
@@ -45,19 +44,16 @@ const riskScoreAttr = riskScoreJs == null ? '' : String(riskScoreJs);
   aria-hidden="true"
 ></div>
 <script slot="bodyEnd" is:inline>
-  // STATIC body — reads occupation data from the <div data-occupation-page-meta>
-  // element rendered above. Identical across every /[id] page → single
-  // CSP hash covers all 556 occupation pages.
+  // STATIC body — identical across every /[id] page → one CSP hash.
+  // result_view + desktop chapter open (#321 pattern) + hash opens closest chap.
   (function () {
-    var meta = document.querySelector('div[data-occupation-page-meta]');
-    if (!meta) return;
-    var occId = Number(meta.getAttribute('data-occ-id'));
-    var riskScoreAttr = meta.getAttribute('data-risk-score') || '';
-    var riskScore = riskScoreAttr === '' ? null : Number(riskScoreAttr);
-    var riskTier = meta.getAttribute('data-risk-tier') || '';
-    // Per-occupation page-view signal for the GA4 conversion funnel.
     try {
-      if (typeof window.gtag === 'function') {
+      var meta = document.querySelector('div[data-occupation-page-meta]');
+      if (meta && typeof window.gtag === 'function') {
+        var occId = Number(meta.getAttribute('data-occ-id'));
+        var riskScoreAttr = meta.getAttribute('data-risk-score') || '';
+        var riskScore = riskScoreAttr === '' ? null : Number(riskScoreAttr);
+        var riskTier = meta.getAttribute('data-risk-tier') || '';
         window.gtag('event', 'result_view', {
           occupation_id: occId,
           ai_risk_score: riskScore,
@@ -66,5 +62,49 @@ const riskScoreAttr = riskScoreJs == null ? '' : String(riskScoreJs);
         });
       }
     } catch (e) {}
+
+    function openChapsDesktop() {
+      try {
+        if (!window.matchMedia('(min-width: 900px)').matches) return;
+        var nodes = document.querySelectorAll('details.chap');
+        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
+      } catch (e2) {}
+    }
+
+    function hashId() {
+      var h = location.hash || '';
+      if (h.charAt(0) === '#') h = h.slice(1);
+      try { return decodeURIComponent(h); } catch (e3) { return h; }
+    }
+
+    function markChip(chapId) {
+      var chips = document.querySelectorAll('.chipnav a');
+      for (var i = 0; i < chips.length; i++) {
+        if (chapId && chips[i].getAttribute('href') === '#' + chapId) {
+          chips[i].setAttribute('aria-current', 'true');
+        } else {
+          chips[i].removeAttribute('aria-current');
+        }
+      }
+    }
+
+    function openHashTarget() {
+      try {
+        var id = hashId();
+        if (!id) { markChip(''); return; }
+        var el = document.getElementById(id);
+        if (!el) return;
+        var chap = el.classList && el.classList.contains('chap') ? el : el.closest('details.chap');
+        if (chap) chap.open = true;
+        markChip(chap ? chap.id : '');
+        if (typeof el.scrollIntoView === 'function') {
+          el.scrollIntoView({ block: 'start' });
+        }
+      } catch (e4) {}
+    }
+
+    openChapsDesktop();
+    openHashTarget();
+    window.addEventListener('hashchange', openHashTarget);
   })();
 </script>

@@ -15,7 +15,7 @@
  * Schema: each slug maps to an array of [question, answer] tuples.
  */
 import type { RankingSlug } from './rankings-meta.js';
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 
 export const FAQS: Record<RankingSlug, ReadonlyArray<readonly [string, string]>> = {
   'ai-risk-high': [
@@ -95,7 +95,7 @@ export const FAQS: Record<RankingSlug, ReadonlyArray<readonly [string, string]>>
   'ai-replaced-soon': [
     ['AI 影響度 8/10 以上の職業はもうすぐなくなる？', '「業務再設計が急務」というシグナル。職業そのものが消えるとは限りませんが、5 年以内に業務内容が大きく変わる可能性が高い職業群です。'],
     ['AI 影響 大職業から転職するには？', '身体性・対人スキル・現場判断を活かせる関連職や、AI を使いこなす側 (AI フロンティア) への移行が選択肢です。'],
-    ['AI 影響度はどう測定された？', `${SCORE_ATTRIBUTION.modelDisplay} が AIOIS-10 で 0〜10 で評価。本サイトの独自分析 (非公式) です。`],
+    ['AI 影響度はどう測定された？', CONSENSUS_FAQ_SENTENCE],
   ],
   'ai-resistant-craft': [
     ['伝統技能職が AI に強い理由は？', '手技・経験的判断・現場の身体的調整は AI で代替しにくく、製造・建設・メンテ・農林の現場職が低 AI 影響度のまま残りやすい傾向です。'],

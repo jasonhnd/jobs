@@ -101,8 +101,14 @@ transfer/escape candidates, search results, TOP10 cards may adapt):
 └──────────────────────────────────────────────┘
 ```
 
-- Pill = existing risk-band classes (`low/mid/high` → sage/amber/terracotta,
-  see `.m-risk-*` in `styles/mobile-tokens.css`), mono numerals `X.X/10`.
+- Pill = the LIVE pill system: `.risk-pill low/mid/high` classes fed by the
+  `--risk-pill-*-bg/fg` tokens in `src/lib/canonical-css.ts` (injected
+  site-wide via `Footer.astro`'s global style). **Correction (2026-08-28):
+  the `.m-risk-*` classes in `styles/mobile-tokens.css` are NOT in the live
+  render path** — that file is design reference + OG-renderer color source
+  only. Mono numerals `X.X/10`. UI-pill band cutoffs come from
+  `src/lib/risk.ts` (`<4.0 low, <7.0 mid, else high`) — distinct from the
+  entry-page `riskTierJs` cutoffs.
 - Whole row is the link (§3.2). Card: white bg, 1px `--m-color-muted-2`-ish
   border at ~30% alpha, radius 12, 8px gap between rows.
 - Reference render: `mockups/shots/frame-02.png`.
@@ -135,6 +141,14 @@ first screen incl. the thumb zone. Replace the **presentation only**:
   untouched. `/map`: untouched this programme.
 - Existing GA4 events keep firing exactly as today (`me_entry_click`,
   `shindan_start`, `result_view`, `occupation_tile_click`, …).
+- **No new element `id`s** unless the issue explicitly sanctions them
+  (#323's `#sec-*`, #324's `chp-*`): anchor ids are tracked in
+  `tests/baseline/internal-links.jsonl` and stray ids break
+  `verify:gates` or force a baseline regen. When sanctioned ids/hrefs are
+  added, regenerate per `docs/SEO_OG_BASELINE.md` and commit
+  `tests/baseline/*` with a CHANGELOG note — "diff clean" always means
+  clean AFTER the documented, committed regen, with title/meta/JSON-LD
+  rows at zero diff.
 
 ### 3.6 CSP & inline scripts
 
@@ -149,7 +163,9 @@ Prefer extending existing hashed asset files (`_index-inline.js`,
 ### 3.7 Analytics
 
 Any new event must be registered in `analytics/spec.yaml`
-(`bun run check:analytics-config` gates this). New events in this programme
+(**gate: `scripts/check-analytics-spec.ts`, which runs inside
+`bun run verify:gates`** — note `check:analytics-config` checks CSP
+origins/env, not event registration). New events in this programme
 (all with the single param `language: 'ja'`, **no new custom dimensions, no
 query text**):
 
@@ -162,7 +178,12 @@ query text**):
 ### 3.8 Desktop non-regression
 
 These are mobile-first reorders of shared templates, so desktop DOM order
-changes too. Rule: desktop (≥900px) must remain **visually equivalent or
+changes too. **Breakpoint facts:** the mobile top bar renders only at
+≤768px (`canonical-css.ts`) — anything pinned UNDER the top bar (compare
+duel bar, entry chip nav, search trigger) uses the 768/769px boundary;
+the 900px figure applies to entry-page layout media queries. Rule:
+desktop (≥769px for nav-related, ≥900px for entry layout) must remain
+**visually equivalent or
 better**; where a mobile-first DOM order would visibly degrade desktop, use
 CSS (`grid-template-areas`, `order`) to preserve the desktop arrangement.
 Chapters (`<details>`) render **open** on desktop via the §4.3 helper.
@@ -198,6 +219,16 @@ minimum):
 7. Then unchanged: `MeEntry` strip, FAQ, cross-hub links, related rankings,
    escape-routes.
 
+Corrections (2026-08-28, from the dry-run review — issue #321 carries the
+operative wording): the former `.sub` line's text goes into the folded
+block FIRST (before the old intro); keep `<h2>TOP {N}</h2>` restyled
+small (a11y landmark, §3.5); #321 itself ships the shared `.chap` CSS and
+the static desktop-open helper (it is the first issue to introduce
+chapters); event wiring extends the existing delegated
+`data-track-event` listener in `src/components/Footer.astro` (never
+inline `onclick` — the CSP has no `unsafe-inline`, and a stale comment in
+`analytics/spec.yaml` describes an obsolete mechanism).
+
 Also in this issue: fire `list_row_click` on row taps (§3.7); type floor
 §3.1; JSON-LD/H1/meta untouched (§3.5).
 
@@ -231,13 +262,23 @@ First screen, top to bottom:
      placed at the card's top-right.
    - **Doors row — varies by score band** (bands follow the existing
      `riskTierJs` cutoffs: high ≥7; low <5; mid otherwise):
-     - high: solid `AIで変わる作業を見る` → `#sec-ai-detail`; ghost
+     - high: solid `AIで変わる作業を見る` → **`#sec-aiois`**; ghost
        `移り先の候補` → `#sec-transfer` (fallback `#sec-similar` when the
        transfer section is empty for this occupation)
-     - low: solid `なぜ守られやすいか` → `#sec-ai-detail`; ghost
+     - low: solid `なぜ守られやすいか` → **`#sec-aiois`**; ghost
        `似た仕事` → `#sec-similar`
      - mid: solid `スコアの中身` → `#sec-aiois`; ghost `似た仕事` →
        `#sec-similar`
+     - **Correction (2026-08-28): all solid doors target `#sec-aiois`** —
+       verified: `aiRiskDetailHtml` renders empty for all 556 occupations
+       in current data; the AIOIS dimension breakdown is the populated
+       section that answers the door copy. Also: check `risk === null`
+       BEFORE consulting `riskTierJs` (it maps null to `'low'`); zero
+       delta renders `±0`; the verdict-sentence fallback module is
+       `pickRiskOneLineCallout()` in `src/lib/risk-callout.ts` (not
+       `buildOccupationDisplay`). The first screen keeps the EXISTING
+       `metaRowHtml` chip row under the h1 — no new plain-text meta line.
+       See issue #323 for the operative details.
      - Unscored occupations (`ai_risk === null`): number area shows
        `未採点`, doors = mid variant minus score anchor, no share.
    - Anchor ids added in this issue by wrapping the existing fragments:
@@ -311,12 +352,32 @@ References: `mockups/shots/frame-05.png`, `pair-4.png`.
    `比較すべき主要観点`/`選び方の判断ヒント` lists, `.ai-fact` (unchanged
    text), FAQ stays as-is. Skills TOP5 comparison stays visible (it is
    comparison payload).
+Corrections (2026-08-28 — issue #322 carries the operative wording): pin
+the duel bar at ≤768px (§3.8 breakpoint facts), whole-SIDE anchors;
+`仕事が減るリスク` has NO existing compare data path — read
+`aiois.displacement` off the `graph` param inside `_compare-bindings.ts`;
+metric-row labels reuse compare-hub's existing strings verbatim
+(`関連資格`, `年収 (平均)`); the full `項目別比較表` folds too (§3.5);
+fold title `この比較の読み方・出典`, placed before `MeEntry`; mockup's
+就業者数 win-coloring / folded-skills / folded-related are deviations —
+written spec wins.
+
 5. **Copy fix (approved):** the sub line currently reads
    `AI 影響度・年収・労働条件・必要スキルを side-by-side で比較` — replace
    `side-by-side` with `並べて` (JA-only site; leftover English is a bug).
 6. `MeEntry`, escape-routes, related pairs: positions unchanged.
 
 ### 4.5 Tool touch-ups (issue #326)
+
+Corrections (2026-08-28 — issue #326 carries the operative wording): the
+/me example chips must be EXACT `title_ja` corpus values
+(`一般事務・経理事務・データ入力・看護師・保育士` — the earlier
+`事務職/経理/営業` set has zero/ambiguous matches in
+`data.search.json`), with a fill-the-input fallback when a query has no
+match; the /shindan progress indicator ALREADY EXISTS
+(`#shindanProgressFill`/`#shindanProgressText`) — optional `問` suffix
+only; Q1-fit is measured in a consent-decided state with spacing-only
+levers.
 
 `/me` (`src/pages/me.astro`, `_me-inline.js`) — flow, quiz, gap, share,
 URLs all unchanged. Presentation only:
@@ -339,6 +400,20 @@ questions, all signed copy unchanged. Presentation only:
 - Optional enhancement (only if trivial within the existing hashed
   `_shindan.js`): thin progress indicator `n / 9問`.
 - Reference: `mockups/shots/frame-08.png`, `pair-7.png`.
+
+Correction (2026-08-28 — issue #328 carries the operative scope): the
+named routes collapse into **7 code families** (Q&A / Sectors / the
+shared `Hub.ts`+`_genre-slug-bindings.ts` pair covering 9 hub routes /
+Careers / Licenses / Interests / Skills) — one PR per code family, and
+the shared-pair family is intentionally ONE PR across its 9 routes.
+Sectors' first-screen payload = the FULL list (`fullListHtml`); its three
+TOP5 blocks fold. The Q&A answer line is written PER THEMATIC GROUP of
+`QA_ITEMS` (9 groups, different sort dimensions) — do NOT reuse the
+`.ai-fact` text as the answer (it always reports AI-impact stats and
+would contradict row 1 on ~41 of 49 pages). Row tap + event wiring is
+re-implemented per family renderer (the renderers are independent
+functions); `.ai-fact` folding is a no-op on Interests/Skills/Careers/
+Licenses (none render one).
 
 ### 4.6 List shape v2 — rollout (issue #328, **gated**: start only after
 #321 ships and the owner reviews its turn-in numbers and opens #328;
@@ -379,7 +454,17 @@ Mobile first screen order:
    each, from the movers view already used by `src/pages/rankings/index.astro`
    (`loadRankingMovers(graph)` → take top movers by |Δ| on transformation).
    Inject via a new `__HOME_MOVERS__` placeholder in `_index-bindings.ts`.
-   Links go to the occupation pages; module links to `/rankings#movers`.
+   Links go to the occupation pages; module header links to **plain
+   `/rankings`** (correction: no `#movers` anchor exists on that page).
+   Corrections (2026-08-28 — issue #325 carries the operative wording):
+   scope also includes `src/templates/Ranking.ts` (compact movers
+   renderer, template layer) and `src/pages/_index-css.ts` (the new CSS
+   must be covered by the critical-CSS ranges or
+   `home-css-loading.spec.ts` CLS can fail); the mobile hero H1
+   `あなたの仕事は、AIでどう変わる？` is Appendix-A registered working
+   copy (owner signs at PR review); door-card captions are JA only —
+   never the mockup's `39 LISTS →` style; TOP10 pills inline the
+   `src/lib/risk.ts` cutoffs (classic script, no imports).
 4. Four door cards: ランキング (39) → `/rankings`; 比較する (20) →
    `/compare`; 職業マップ (static mini-heatmap thumb, no canvas) → `/map`;
    自分の現在地 → `/me` (with the existing `me_entry_click` tracking
@@ -395,6 +480,17 @@ Mobile first screen order:
 Files: `src/components/MobileNav.astro` (+ a static inline script or a new
 hashed asset), styles in `canonical-css.ts`. References:
 `mockups/shots/frame-06.png`, `pair-9.png`.
+
+Corrections (2026-08-28 — issue #327 carries the operative wording):
+implement a REAL Tab/Shift-Tab focus trap (the drawer's focus management
+has none — "mirror the drawer" is insufficient); the three door buttons
+render CONSTANTLY at the overlay's bottom (per the approved mockup), the
+`見つからないとき` header appears only in the zero-result state; sector
+names come from the light `/data.sectors.json` (not the 2.3MB
+me-positions file) and rows show NO worker counts (not in the corpus);
+pills use `--risk-pill-*` tokens + the corpus's own `risk_band`; z-index
+above top bar (100)/drawer (99), below skip-link/cookie bar; NFKC
+normalization is new code (the /me prototype lacks it).
 
 - Top bar gains a search icon button (44×44) between brand and burger,
   **mobile top bar only** (desktop `TopNav.astro` untouched).
@@ -467,6 +563,15 @@ touches `main`.
 
 ## 7. Mockups
 
+**Mockups are directional, not pixel-normative.** Where a mockup and the
+written spec disagree, the written spec + Appendix A win — known mockup
+deviations: sub-floor font sizes (§3.1 wins), a 調べる button on the /me
+form (home-only), kicker/lead text edits on /shindan, English door-card
+captions on home, 就業者数 win-coloring and folded skills/related on
+compare, `読みがな・` in the search hint, per-row worker counts in search
+results, illustrative verdict sentences (real `ai_rationale_ja` is
+longer).
+
 `mockups/` (repo-relative; open `mockups/mobile-redesign.html` at 100% zoom
 for true device scale; `mockups/before-after.html` for live-vs-redesign):
 frames 01–09 map to §§4.7, 4.1, 4.2(low), 4.2(high), 4.4, 4.8, 4.5(/me),
@@ -490,7 +595,11 @@ PR review. Everything not listed here: reuse existing strings.
 | Entry rank line | `556職中 第{n}位 · 先月比 {±Δ} · {YYYY年M月}採点`（`556` = `rankUniverseTotal`） |
 | Entry unscored state | `未採点` |
 | /me placeholder | `気になる職業を入力（例：看護師、営業）` |
+| /me example chips (exact corpus titles) | `一般事務` / `経理事務` / `データ入力` / `看護師` / `保育士` |
 | /me chips hint | `タップですぐ表示されます` |
+| Home mobile hero H1 (working copy, owner signs at PR review) | `あなたの仕事は、AIでどう変わる？` |
+| Compare fold title | `この比較の読み方・出典` |
+| Compare duel-bar pill | `AI {score}/10` |
 | /me preview card | `職業を選ぶと、ここに出ます：① AI影響度と556職中の位置 ② 全39ランキングでの順位 ③ 似た5職業` |
 | Search overlay hint | `別名でも探せます（556職業）`（readings 対応後は `読みがな・別名でも探せます（556職業）`） |
 | Search overlay empty state | `見つからないとき` + `業種から探す` / `ランキング` / `自分の現在地` |
@@ -501,7 +610,10 @@ PR review. Everything not listed here: reuse existing strings.
 
 ## Appendix B — File pointer index (verified 2026-08-27)
 
-- Tokens: `styles/mobile-tokens.css` (site-wide since v1.2.0; body 15 /
+- Tokens: `styles/mobile-tokens.css` (**design reference + OG-renderer
+  color source only — NOT in the live page render path**; the live
+  equivalents are the `--risk-pill-*` and site tokens in
+  `src/lib/canonical-css.ts`, injected via `Footer.astro`; body 15 /
   caption 13 / mono 11; `--m-device-width: 390px`).
 - Top bar + drawer: `src/components/MobileNav.astro` (48px bar; drawer
   focus management to mirror for the overlay).
@@ -532,7 +644,9 @@ PR review. Everything not listed here: reuse existing strings.
 - Search corpus: `public/data.search.json` — `documents[]` with `id`,
   `title_ja`, `aliases_ja[]`, `sector_id`, `risk_band`, `ai_risk`;
   **no readings field** (verified).
-- Analytics: `analytics/spec.yaml`; gate `bun run check:analytics-config`.
+- Analytics: `analytics/spec.yaml`; event-registration gate =
+  `scripts/check-analytics-spec.ts` (runs in `verify:gates`);
+  `check:analytics-config` = CSP/env check only.
 - Gates: `bun run typecheck` / `test` / `verify:gates` / `test:e2e` /
   `capture:seo-baseline` / `check:csp-hashes`.
 - E2E specs: `tests/e2e/` (`a11y`, `analytics`, `home-css-loading`,
