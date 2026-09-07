@@ -6,6 +6,7 @@ import {
   buildGeoAnswerTopics,
   renderGeoAnswerIndexJsonLd,
 } from '@/views/geo-answer-topics';
+import { SCORE_PANEL } from '@/site/score-attribution';
 
 const facts = loadGeoFacts();
 const topics = buildGeoAnswerTopics(facts);
@@ -62,8 +63,8 @@ const jsonLd = renderGeoAnswerIndexJsonLd(facts);
 
     <div class="meta" aria-label="データ概要">
       <span>対象: GEO-A {facts.occupationCount}職業</span>
-      <span>モデル: {facts.attribution.modelDisplay}</span>
-      <span>更新: {facts.attribution.runDate}</span>
+      <span>公開値: 複数のAIによる総合（{SCORE_PANEL.voteCount}票）</span>
+      <span>最新採点: {SCORE_PANEL.latestRunDate}</span>
     </div>
   </article>
 

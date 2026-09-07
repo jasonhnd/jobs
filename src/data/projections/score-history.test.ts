@@ -2,6 +2,7 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
 import { buildIndexes, type Indexes } from '../lib/indexes.js';
+import { listOccupationRuns } from '../../site/occupation-runs.js';
 import { buildScoreHistoryPayload } from './score-history.js';
 
 let fixturePromise: Promise<{ indexes: Indexes; payload: ReturnType<typeof buildScoreHistoryPayload> }> | null = null;
@@ -22,36 +23,29 @@ async function fixture() {
 
 describe('score-history projection', () => {
   test('emits the latest-score occupation universe with shorter legacy gaps preserved', async () => {
-    const { payload } = await fixture();
+    const { indexes, payload } = await fixture();
     const histories = Object.values(payload);
+    const runCount = listOccupationRuns().length;
+    const sourceLengths = [...indexes.historyByOcc.values()].map((history) => history.length);
 
     assert.equal(Object.keys(payload).length, 556);
-    // The 4 occupations missing from the legacy opus-4-7 batch carry one fewer entry.
-    assert.equal(histories.filter((history) => history.length === 4).length, 4);
-    assert.equal(histories.filter((history) => history.length === 5).length, 552);
+    assert.equal(histories.length, sourceLengths.length);
+    assert.equal(Math.max(...histories.map((history) => history.length)), runCount);
+    assert.deepEqual(
+      histories.map((history) => history.length).sort((a, b) => a - b),
+      sourceLengths.sort((a, b) => a - b),
+    );
   });
 
-  test('occupation 1 carries the five known batches in date order', async () => {
+  test('occupation 1 carries every known batch in date order', async () => {
     const { indexes, payload } = await fixture();
     const history = payload['1'];
     const sourceHistory = indexes.historyByOcc.get(1);
 
     assert.ok(history);
     assert.ok(sourceHistory);
-    assert.deepEqual(history.map((entry) => entry.model), [
-      'claude-opus-4-7',
-      'claude-opus-4-8',
-      'claude-fable-5',
-      'gpt-5.6-sol',
-      'claude-opus-5',
-    ]);
-    assert.deepEqual(history.map((entry) => entry.date), [
-      '2026-04-25',
-      '2026-05-30',
-      '2026-06-13',
-      '2026-07-12',
-      '2026-07-26',
-    ]);
+    assert.deepEqual(history.map((entry) => entry.model), sourceHistory.map((entry) => entry.model));
+    assert.deepEqual(history.map((entry) => entry.date), sourceHistory.map((entry) => entry.date));
     assert.deepEqual(
       history.map((entry) => entry.transformation),
       sourceHistory.map((entry) => entry.aiois?.transformation ?? entry.ai_risk),

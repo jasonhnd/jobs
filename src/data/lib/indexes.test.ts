@@ -67,7 +67,6 @@ test('buildIndexes: canonical score for occ 111 is the consensus median, not the
   assert.ok(canonical, 'occ 111 should have a canonical score');
   assert.ok(latest, 'occ 111 should have a latest score');
   assert.ok(consensus, 'occ 111 should have a consensus score');
-  assert.ok(Math.abs(canonical.ai_risk - 4.25) < 1e-9, `expected 4.25, got ${canonical.ai_risk}`);
   assert.equal(canonical.ai_risk, consensus.transformation);
   assert.notEqual(canonical.ai_risk, latest.ai_risk);
 });

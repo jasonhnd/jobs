@@ -25,7 +25,6 @@
  * walks a flat shape.
  */
 
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
 import { displayScore } from '../data/lib/banker-round.js';
 
 // ─── Internal Schema.org types (private to this module) ─────────
@@ -203,7 +202,7 @@ const ORG_REF = 'https://mirai-shigoto.com/#organization';
 const DATASET_REF = 'https://mirai-shigoto.com/#dataset';
 
 const AI_RISK_DESCRIPTION =
-  `${SCORE_ATTRIBUTION.modelDisplay} による独自 LLM 推定。仕事がどれだけ AI で変わるかを表し、職が消える確率ではありません。`;
+  '複数のAIによる総合（AIOIS-10）。仕事がどれだけ AI で変わるかを表し、職が消える確率ではありません。';
 
 export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
   const {

@@ -24,7 +24,7 @@
  */
 
 import { fmtInt } from '../lib/num.js';
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 import { findGeoOccupation, type GeoFacts } from '../site/geo-facts.js';
 
 /** Narrow shape — only the Rec fields buildOccupationFaqs reads. */
@@ -114,7 +114,7 @@ export function buildOccupationFaqs(
       : '';
     faqs.push([
       `${name}はAIでなくなる・AIに代替される仕事ですか？`,
-      `${name}は「AIでなくなる」と断定する職業ではありません。GEO-AではAI影響度が10段階中 ${fmtScore(factAiRisk)} で、${tier}です。${geoRankStr}${displacementStr}${rationaleStr}これは ${SCORE_ATTRIBUTION.modelDisplay} による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。`,
+      `${name}は「AIでなくなる」と断定する職業ではありません。GEO-AではAI影響度が10段階中 ${fmtScore(factAiRisk)} で、${tier}です。${geoRankStr}${displacementStr}${rationaleStr}${CONSENSUS_FAQ_SENTENCE}職業選択の唯一の根拠としては使用しないでください。`,
     ]);
 
     const outlook =

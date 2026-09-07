@@ -1,5 +1,11 @@
 import { ModelsDeepProjectionSchema, type ModelsDeepProjectionShape } from '@/lib/projection-schemas';
-import { formatModelDisplay, runSlug } from '@/site/score-attribution';
+import { formatModelDisplay, runSlug, SCORE_PANEL, type ScorePanel } from '@/site/score-attribution';
+import {
+  CONSENSUS_AGING_NOTE,
+  CONSENSUS_FAQ_SENTENCE,
+  CONSENSUS_HEADLINE_LABEL,
+  MODELS_HUB_NOW_LABEL,
+} from '@/site/consensus-copy';
 import {
   DEFAULT_MODEL_STORY_EDITORIAL_ID,
   modelStoryEditorialSentenceId,
@@ -22,6 +28,7 @@ export interface ModelsFeaturePageModel {
   readonly modelCount: number;
   readonly latestPair: ModelsDeepProjection['latest_pair'];
   readonly currentModel: ModelsFeatureModelCard;
+  readonly consensusSummary: ModelsConsensusSummary;
   readonly modelCards: ReadonlyArray<ModelsFeatureModelCard>;
   readonly modelRoster: ReadonlyArray<ModelsFeatureModelCard>;
   readonly dateRangeText: string;
@@ -37,6 +44,17 @@ export type ModelsFeatureModelCard = ModelsDeepProjection['model_cards'][number]
   readonly href: string;
   readonly personality_sentence: string;
 };
+
+export interface ModelsConsensusSummary {
+  readonly label: string;
+  readonly headline: string;
+  readonly oneLiner: string;
+  readonly voteCount: number;
+  readonly latestRunDate: string;
+  readonly agingNote: string | null;
+  readonly latestModelDisplay: string;
+  readonly latestModelHref: string;
+}
 
 function requireCopy(copy: Readonly<Record<string, string>>, id: string, label: string): string {
   const sentence = copy[id];
@@ -122,6 +140,7 @@ export function buildModelsFeaturePageModel(
   rawProjection: unknown,
   personalityCopy: ModelPersonalityCopy,
   storyCopy: ModelStoryCopy,
+  panel: ScorePanel = SCORE_PANEL,
 ): ModelsFeaturePageModel {
   const projection = ModelsDeepProjectionSchema.parse(rawProjection);
   const modelCards = projection.model_cards.map((card) => {
@@ -153,6 +172,16 @@ export function buildModelsFeaturePageModel(
       candidate: canonicalPairBatch(projection.latest_pair.candidate),
     },
     currentModel,
+    consensusSummary: {
+      label: MODELS_HUB_NOW_LABEL,
+      headline: CONSENSUS_HEADLINE_LABEL,
+      oneLiner: CONSENSUS_FAQ_SENTENCE,
+      voteCount: panel.voteCount,
+      latestRunDate: panel.latestRunDate,
+      agingNote: panel.usedExpiredVotes ? CONSENSUS_AGING_NOTE : null,
+      latestModelDisplay: currentModel.modelDisplay,
+      latestModelHref: currentModel.href,
+    },
     modelCards,
     modelRoster,
     dateRangeText: dates.length === 1 ? dates[0]! : `${dates[0]} から ${dates[dates.length - 1]}`,

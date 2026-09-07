@@ -112,7 +112,7 @@ export { escapeHtml };
 import { riskClass } from '../lib/risk.js';
 export { riskClass };
 
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 
 // ─── Core builder ────────────────────────────────────────────
 
@@ -244,7 +244,7 @@ export function buildGenreResult(
     const tier = meanRisk <= 3.5 ? '低め' : meanRisk <= 5.5 ? '中程度' : 'やや高め';
     faqItems.push([
       `${config.short_ja}が必要な職業は AI 影響度が高い？`,
-      `本 hub の TOP ${items.length} の平均 AI 影響度は ${meanRisk.toFixed(1)}/10 で ${tier} の水準です。本サイトの AI 影響度は ${SCORE_ATTRIBUTION.modelDisplay} による独自分析（非公式）です。`,
+      `本 hub の TOP ${items.length} の平均 AI 影響度は ${meanRisk.toFixed(1)}/10 で ${tier} の水準です。${CONSENSUS_FAQ_SENTENCE}`,
     ]);
   }
   if (config.how_to_develop_ja?.length) {

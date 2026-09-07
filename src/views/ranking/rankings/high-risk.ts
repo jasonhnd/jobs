@@ -9,7 +9,6 @@
 import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { byKeyDesc, safeMean, inSectorSet, CRAFT_SECTORS } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
-import { SCORE_ATTRIBUTION } from '../../../site/score-attribution.js';
 
 export interface HighRiskRankings {
   aiHigh: Occupation[];
@@ -81,10 +80,10 @@ export function buildHighRiskRankings(
       showSalary: true,
       faqItems: FAQS['ai-risk-high'],
       title: 'AIに奪われる仕事ランキング TOP30【2026年版】| 未来の仕事',
-      seoDesc: `AI影響度が最も高い職業TOP${TOP_N}。平均スコア${meanHigh.toFixed(1)}/10。AI代替リスク・年収・就業者数を一覧比較。${SCORE_ATTRIBUTION.modelDisplay}独自分析（非公式）。`,
+      seoDesc: `AI影響度が最も高い職業TOP${TOP_N}。平均スコア${meanHigh.toFixed(1)}/10。AI代替リスク・年収・就業者数を一覧比較。複数のAIモデルによる採点の総合値（独自分析・非公式）。`,
       h1Text: `AIに奪われる仕事 TOP${TOP_N}`,
       subText: `AI 影響度が最も <strong>高い</strong> 職業ランキング（${scored.length} 職業中）`,
-      introText: `厚労省の職業データに基づき、${SCORE_ATTRIBUTION.modelDisplay} が AIOIS-10 で AI 影響を分析。0〜10 のスコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。`,
+      introText: `厚労省の職業データに基づき、複数のAIが AIOIS-10 で AI 影響を分析し、公開値はそれらの総合値です。0〜10 のスコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。`,
       statBlocks: [
         ['対象職業数', `${scored.length}`],
         ['TOP30 平均 AI 影響', `${meanHigh.toFixed(1)} / 10`],

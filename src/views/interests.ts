@@ -126,7 +126,7 @@ function loadTreemapMap(): Map<number, TreemapRecord> {
 // ─── Helpers ────────────────────────────────────────────────────
 
 import { fmtInt, safeMean } from '../lib/num.js';
-import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 
 // ─── FAQ generation (per type, mostly templated from meta) ───────
 
@@ -158,7 +158,7 @@ function buildFaqs(meta: InterestMeta, items: InterestOccupation[]): Array<reado
       `${meta.name_ja}タイプの職業は AI に置き換えられる？`,
       `本 hub の TOP ${items.length} の平均 AI 影響度は ${meanRisk.toFixed(1)}/10 で ${tier} の水準です。` +
         `タイプによって AI 適合度の傾向が異なるため、個別の職業ごとの確認が重要です。` +
-        `本サイトの AI 影響度評価は ${SCORE_ATTRIBUTION.modelDisplay} による独自分析（非公式）です。`,
+        CONSENSUS_FAQ_SENTENCE,
     ]);
   }
 

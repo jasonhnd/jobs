@@ -9,6 +9,7 @@ import {
   buildOccupationFaqs,
   type OccupationFaqsInput,
 } from './occupation-faqs.js';
+import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 import type { GeoFacts } from '../site/geo-facts.js';
 
 const baseInput: OccupationFaqsInput = {
@@ -112,6 +113,8 @@ describe('buildOccupationFaqs', () => {
     assert.equal(out[1][0], 'プログラマーの将来性はどうですか？');
     // Rationale appears inside the risk answer, with trailing 。 stripped.
     assert.ok(out[0][1].includes('「判断業務が多い」'));
+    assert.ok(out[0][1].includes(CONSENSUS_FAQ_SENTENCE));
+    assert.ok(!out[0][1].includes('Claude'));
   });
 
   test('aiRisk tiers: <=3 low / 4-6 mid / >=7 high', () => {
