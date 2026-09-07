@@ -1,10 +1,11 @@
 /**
- * grok-run.ts — locked Grok 4.6 scoring path on the AI Gateway provider
- * (mms-7a / #385). Transport is `ai-gateway`; there is no bespoke xAI
- * provider. Dry-run and full scoring still need a separate owner go-ahead
- * and an API key created at execution time.
+ * grok-run.ts — locked Grok 4.6 scoring path on the in-agent provider
+ * (same transport as claude-opus-4-8 / claude-fable-5). The running Grok
+ * 4.6 session scores locally. There is no Vercel AI Gateway and no
+ * bespoke xAI provider file. Dry-run and full scoring still need a
+ * separate owner go-ahead.
  */
-export const GROK_GATEWAY_MODEL = 'spacexai/grok-4.6';
+export const GROK_SCORING_PROVIDER = 'in-agent';
 export const GROK_MODEL_SLUG = 'grok-4.6';
 export const GROK_MODEL_PROVIDER = 'xai';
 export const GROK_PROMPT_FILE = 'data/prompts/2026-09-06_grok-4.6-aiois10.ja.md';
