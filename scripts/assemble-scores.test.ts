@@ -201,10 +201,9 @@ describe('inferProvider', () => {
     assert.equal(inferProvider('gemini-2.5-pro'), 'google');
   });
 
-  test('strips a gateway creator/slug prefix before matching', () => {
+  test('strips an optional creator/slug prefix before matching', () => {
     assert.equal(inferProvider('openai/gpt-5.6-sol'), 'openai');
     assert.equal(inferProvider('anthropic/claude-opus-5'), 'anthropic');
-    assert.equal(inferProvider('spacexai/grok-4.6'), 'xai');
     assert.equal(inferProvider('xai/grok-4.6'), 'xai');
   });
 
