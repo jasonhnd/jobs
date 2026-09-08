@@ -201,15 +201,6 @@ describe('inferProvider', () => {
     assert.equal(inferProvider('gemini-2.5-pro'), 'google');
   });
 
-  // mms-8 (#404): the two new votes must keep inferring their public 提供元
-  // without an explicit --provider, exactly like their predecessors.
-  test('maps the mms-8 ids (claude-fable-5-1 → anthropic, gpt-6-astra → openai)', () => {
-    assert.equal(inferProvider('claude-fable-5-1'), 'anthropic');
-    assert.equal(inferProvider('gpt-6-astra'), 'openai');
-    assert.equal(inferProvider('anthropic/claude-fable-5-1'), 'anthropic');
-    assert.equal(inferProvider('openai/gpt-6-astra'), 'openai');
-  });
-
   test('strips an optional creator/slug prefix before matching', () => {
     assert.equal(inferProvider('openai/gpt-5.6-sol'), 'openai');
     assert.equal(inferProvider('anthropic/claude-opus-5'), 'anthropic');

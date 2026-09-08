@@ -10,7 +10,7 @@ Fields:
 - depends_on: List of work unit ids that must finish first; use [] when none.
 -->
 
-## Active — consensus canonical score (mms-6) + Grok onboarding (mms-7) + Fable 5.1 / GPT-6 Astra onboarding (mms-8)
+## Active — consensus canonical score (mms-6) + Grok onboarding (mms-7)
 
 Design: `docs/CONSENSUS_SCORE.md` (eight decisions owner-confirmed 2026-08-31;
 PR #363 merged. mms-6-doc locks |Δ|≥1.0, rationale ±0.3, and C-facing copy).
@@ -45,44 +45,7 @@ OpenAI / Anthropic / xAI (Gemini excluded for now, owner 2026-08-31).
 - mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
   depends_on: [mms-6g, mms-7b]
 
-mms-8 (#404): two frontier models released 2026-09-01 / 2026-09-03 enter the
-panel as **two new votes** — `claude-fable-5-1` (Claude Fable 5.1, in-agent,
-must run inside a Fable 5.1 session, effort `high`) and `gpt-6-astra` (GPT 6
-Astra, owner's local Codex CLI ≥ 0.153.1 with an explicit `--model`, effort
-`high` explicit). `claude-fable-5` and `gpt-5.6-sol` stay. Panel after both
-land: 7 votes (Anthropic 4 / OpenAI 2 / xAI 1). Documents are shared; scoring
-runs on two tracks; landing is one PR when both 556 batches are done (5 → 7
-flips once). If one track stalls, the finished one lands alone. Rubric,
-formulas, and the JSONL contract of AIOIS-10 v1.0 do not change. Out of
-scope: Mythos 5.1, Sonnet 5, Haiku, GPT-5.6 Terra/Luna, Daybreak/Cyber
-variants, Gemini, any Vercel AI Gateway provider, any new Anthropic/OpenAI
-HTTP provider.
-
-- mms-8-doc: Issue #404, two frozen prompts (body identical to the Grok 4.6
-  freeze), runbook sections for Fable 5.1 (in-agent) and GPT-6 Astra (Codex),
-  two-vote C-facing copy slot in `docs/CONSENSUS_SCORE.md`, this entry, and
-  `formatModelDisplay` / `modelSlug` / `inferProvider` tests for both ids.
-  No scoring. No `data/scores/`. No `vercel.json`. depends_on: [mms-7c]
-- mms-8F: Claude Fable 5.1 in-agent scoring — pilot 40 → owner Japanese
-  `rationale_ja` sign-off → full 556 under `.cache/scoring/mms-8f/`. Drift
-  vs `claude-fable-5` and vs `grok-4.6`. `--attest-model` must equal
-  `--model`; JSONL answers only (Fable 5.1 rejects forced tool use).
-  depends_on: [mms-8-doc]
-- mms-8G: GPT-6 Astra Codex scoring on the owner's machine — preflight must
-  prove the account really reaches `gpt-6-astra` (not just that `--model`
-  exists); effort `high` pinned explicitly (optional runner flag whose
-  default keeps the frozen 5.6 SOL argument vector, or `~/.codex/config.toml`);
-  pilot 40 including security-type occupations (public Astra refuses
-  advanced exploit content) → owner sign-off → full 556 under
-  `.cache/scoring/mms-8g/`. Drift vs `gpt-5.6-sol` and vs `grok-4.6`.
-  `CODEX_DEFAULT_MODEL` stays `gpt-5.6-sol`. depends_on: [mms-8-doc]
-- mms-8c: land both batches in one PR — two append-only JSON files,
-  `vercel.json` 308s for `/models/fable-5-1` and `/models/gpt-6-astra`,
-  SCORE_PANEL 5 → 7, baselines, runbook 「現行 batch」 lines, and the
-  two-vote on-site note filled with measured numbers. If only one track is
-  done, land it alone with the one-vote note. depends_on: [mms-8F, mms-8G]
-
-Parked (returns after mms-8): /models observatory enhancements — update-history
+Parked (returns after mms-7): /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.
 
 ## Done — occupation-first /me consolidation (#233, production 2026-08-21)
