@@ -1,6 +1,7 @@
-# 総合スコア — 複数モデル中央値への正典切替（mms-6 設計）
+# 総合スコア — 複数モデル中央値への正典切替（mms-6 設計）／3社の最新モデルの平均へ（mms-8 改訂）
 
 Status: 設計承認（PR #363 merged 2026-08-31）。mms-6-doc のパラメータと確定文案は下記。
+Status（mms-8）: 改訂 2 を末尾に追加（2026-09-08）。改訂 2 が決定 2・3・4 を上書きする。
 Date: 2026-08-31
 Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は後続 dispatch
 
@@ -193,3 +194,115 @@ AI 影響度の算出方法を変更しました。これまでは、最新の1�
 - 入列基準: 白名単ベンダーのフロンティア級モデル。同一ベンダー複数モデルの並存可（各 1 票）。非フロンティア・軽量版は不採、決定ログ 1 行のみ。
 - pilot 40 の日本語品質審はオーナー署名ゲートとして維持（コスト門ではなく品質門）。
 - 再採点の節奏は 6 ヶ月期限が自然に駆動する（票を面板に残したければ期限内に更新 run）。
+
+## 改訂 2 — 3社の最新モデルの平均へ（mms-8、2026-09-08 決定）
+
+Status: オーナー決定済み（2026-09-08）。実装は mms-8.x シリーズ（下表）。
+Owner: Jason（承認・署名ゲート）
+
+現行の公開値は comparable AIOIS-10 票の中央値（`pickConsensusScore()`: 1 model id 1 票、基準日 = 最新 run_date の 6 ヶ月窓、不足は期限切れ票で floor 5 補充）。現行パネルは `claude-opus-4-8` 2026-05-30、`claude-fable-5` 2026-06-13、`gpt-5.6-sol` 2026-07-12、`claude-opus-5` 2026-07-26、`grok-4.6` 2026-09-07 の 5 票。`claude-opus-4-7`（2026-04-25）は `legacy-single-axis` のため投票しない。
+
+### 決定事項（2026-09-08 Jason 確認済み）
+
+1. 今後、各ベンダーはその時点の最上位（旗艦）モデル 1 件だけで採点する。ベンダーは現在 3 社: Anthropic（`anthropic`）/ OpenAI（`openai`）/ xAI（`xai`）。将来の追加はあり得る。Gemini は引き続き不採用。
+2. 公開値 = 各ベンダーの最新 comparable run（1 社 1 件）の算術平均。中央値・6 ヶ月窓・floor 5 は廃止。同一ベンダーの旧 run は `data/scores/`・`/models`・職業ページ履歴に残るが公開値には入らない。
+3. `claude-fable-5-1`（Claude Fable 5.1、2026-09-01 公開）が着地した時点で Anthropic の旗艦は `claude-opus-5` から Fable 5.1 へ。`gpt-6-astra`（GPT 6 Astra、2026-09-03 公開）が着地した時点で OpenAI の旗艦は `gpt-5.6-sol` から Astra へ。順序は **Fable 5.1 が先、GPT-6 Astra は Fable 5.1 着地後**（ハードゲート）。
+4. 規則の切替は Fable 5.1 batch 着地日に同時に行い、站内更新説明 1 本で「算出方法の変更」と「採点 1 件追加」を説明する。Astra は後日別の更新説明。
+5. `/models` hub はベンダー 3 列（各社の最新モデルを上、旧 run を折りたたみ下）。「分かれた職業」は 3 社の現旗艦の比較。
+6. 読者面の語彙は「複数のAI」のまま。FAQ と `/standard` だけ「現在は3社の最新モデルの平均」と明記。中央値・票・floor は公開面から消す。
+7. 最新観測行（「最新のAIは…」）は維持、閾値 |Δ| ≥ 1.0 不変。
+8. 老化提示は維持。条件は「いずれかのベンダーの最新採点日が、パネル内最新 run_date より 6 ヶ月超前」。文言は「票」→「採点」。
+9. 採点手順: Fable 5.1 は in-agent（Fable 5.1 セッション内、`--attest-model` 必須、effort high は無効化不可）、Astra はオーナー本機の Codex CLI（毎回 `--model gpt-6-astra`、effort high を明示）。両方とも pilot 40 → オーナーの日本語審 → 556。
+
+### 旧規則との対応表
+
+| 項目 | mms-6（中央値） | mms-8（旗艦平均） |
+|---|---|---|
+| 投票単位 | 1 model id 1 票 | 1 ベンダー 1 件（そのベンダーの最新 comparable run） |
+| 集計 | 中央値（偶数票は中央 2 票の平均） | 算術平均 |
+| 6 ヶ月窓 | あり（基準日 = 最新 run_date） | なし |
+| floor | 5 票（期限切れ票で補充） | なし |
+| 老化提示 | floor 補充が起きたとき | いずれかのベンダーの最新採点日が最新 run_date より 6 ヶ月超前のとき |
+| 最新観測行 | \|最新票 − 総合\| ≥ 1.0 | 不変 |
+| 理由文選定 | ±0.3 内の最新 run、なければ最近接 | 不変（パネル = 各社最新 run） |
+| C 面型番ゼロ | 決定 7 | 不変 |
+| 公開面の語彙 | 「複数のAI」「中央値」（/standard のみ） | 「複数のAI」のまま。FAQ と /standard に「現在は3社の最新モデルの平均」 |
+
+### 算定規則（実装仕様 — mms-8.10 が逐字実装する）
+
+1. comparable = 職業の履歴のうち `aiois` を持つ entry（`legacy-single-axis` は除外。従来どおり）。
+2. ベンダー = entry の `provider`（batch の `scorer.model_provider`。`anthropic` / `openai` / `xai`）。
+3. ベンダーごとに `date` が最大の entry を 1 件選ぶ（同日 tie は入力順の後勝ち）。これをパネルとし、`date` 昇順・同日は `model` 昇順で並べる。
+4. transformation = パネルの `aiois.transformation` の算術平均（`src/data/lib/fsum.ts` の `fmean`）。displacement、d1〜d10 も同様に各々の算術平均。丸めない（表示層の banker rounding のみ）。総合 transformation を mean(D1, D2) から再計算しない。
+5. anchor = パネル内の最大 `date`。cutoff = `subtractMonths(anchor, 6)`（月末は切り詰め）。`date < cutoff` のベンダーを `staleVendors` に入れる（境界日は stale ではない）。
+6. 理由文 = パネル内で |transformation − 平均| ≤ 0.3 の entry のうち最新 `date`（同日は `model` 昇順先頭）。該当なしなら最近接（tie は同規則）。
+7. latest = comparable 全体の `pickLatestScore`。latestDelta = latest.transformation − 平均。
+8. comparable が空なら throw。`provider` を欠く entry があれば throw。
+9. `SCORE_PANEL` = { vendorCount, latestRunDate, staleMonths: 6, staleVendorCount }。build 時に全職業のベンダー集合が一致することを検証し、不一致なら build を止める（旗艦 batch は 556 職業すべてを覆う）。
+
+### 切替日の影響実測（設計時点、2026-09-08）
+
+現行 5 票中央値 → 3 旗艦平均（Opus 5 / GPT 5.6 SOL / Grok 4.6）:
+
+- 全站平均 4.73 → 4.98。|Δ|≥0.5 が 105 職業、|Δ|≥1.0 が 2 職業、band 変化 41。
+
+旗艦入れ替えの感度（Anthropic を Opus 5 → Fable 5 で模擬）:
+
+- 全站平均 4.98 → 4.63。|Δ|≥0.5 が 165 職業、band 変化 64。
+
+最新観測行: Grok 基準で 15 職業（現行 10）。
+
+実際の切替は Fable 5.1 batch 着地日に行い、実測は mms-8.28 が `docs/FLAGSHIP_SWITCH_DRIFT.md` に記録する。
+
+### 確定文案（mms-8）
+
+mms-8.2 で確定。オーナー署名後に本節へ転記する。
+
+### 実装分割（mms-8.x）
+
+| # | id | 内容 | 依存 | オーナーの関与 |
+|---|---|---|---|---|
+| 8.1 | #408 | Design doc 「改訂 2」 in `docs/CONSENSUS_SCORE.md` | — | review |
+| 8.2 | #409 | Copy signature table → 「確定文案（mms-8）」 | 8.1 | **sign** |
+| 8.3 | #410 | `DATA_ARCHITECTURE.md` スコア選択 + `MULTI_MODEL_SCORING.md` 2c-v4 | 8.1 | |
+| 8.4 | #411 | Frozen prompt Claude Fable 5.1 + body-hash test | 8.1 | |
+| 8.5 | #412 | Frozen prompt GPT-6 Astra + body-hash test | 8.4 | |
+| 8.6 | #413 | `SCORING_RUNBOOK.md` mms-8 section + providers table + `TOOLCHAIN.md` §10.1 | 8.4, 8.5 | |
+| 8.7 | #414 | ROADMAP, CHANGELOG, display/slug/vendor tests | 8.6 | |
+| 8.8 | #415 | `provider` on `ScoreHistEntry` / `ScoreHistoryEntry` (5 construction sites) | 8.7 | |
+| 8.9 | #416 | `VENDOR_WHITELIST` / `isWhitelistedVendor` / `formatVendorDisplay` + `check-score-batch` advisory | 8.8 | |
+| 8.10 | #417 | Engine `pickFlagshipMeanScore` + `toFlagshipCanonicalScoreEntry` + `flagshipPanelMeta` + unit tests (not wired) | 8.9 | |
+| 8.11 | #418 | Live-data tests; deprecate `pickConsensusScore`; prove not wired | 8.10 | |
+| 8.12 | #419 | Codex runner `--reasoning-effort` flag + audit + frozen-argv test + runbook flag doc | 8.6 | |
+| 8.13 | #420 | Wire `indexes` / `loader` / `geo-facts` to the new engine; `flagshipByOcc` | 8.11 | |
+| 8.14 | #421 | Detail projection fields `stale_vote` / `consensus_vendor_count` | 8.13 | |
+| 8.15 | #422 | `SCORE_PANEL` v2 + build invariant + all readers compile | 8.14 | |
+| 8.16 | #423 | `scripts/flagship-switch-drift.ts` + synthetic test | 8.15 | |
+| 8.17 | #424 | `consensus-copy.ts` constants + direct consumers | 8.2, 8.15 | |
+| 8.18 | #425 | `/standard`, `/methodology`, `/about` prose + JSON-LD | 8.17 | |
+| 8.19 | #426 | README + `geo-render.ts` English + regenerate GEO files | 8.18 | |
+| 8.20 | #427 | Per-run page `in_panel` note + `提供元` xAI | 8.17 | |
+| 8.21 | #428 | `models-deep` projection v2 (vendor lanes, 3-way spread) | 8.20 | |
+| 8.22 | #429 | `/models` view model | 8.21 | |
+| 8.23 | #430 | `/models` page markup + CSS | 8.22 | |
+| 8.24 | #431 | Baseline regeneration + pinned-test consolidation + all gates | 8.19, 8.23 | preview check |
+| 8.25 | #432 | Fable 5.1 pilot 40 (in-agent) | 8.24 | **GO**, sign rationale |
+| 8.26 | #433 | Fable 5.1 full 556 | 8.25 | **GO** |
+| 8.27 | #434 | Land Fable 5.1 batch (file, 308, runbook, build, baseline) | 8.26 | |
+| 8.28 | #435 | Switch note: drift doc, numbers, `/data` + `/models`, design-doc 実測 | 8.27 | |
+| 8.29 | #436 | Preview checklist + promotion PR text | 8.28 | check, **promote** |
+| 8.30 | #437 | `/models` content after Fable 5.1 (personality + story sentences) | 8.29 | **sign** |
+| 8.31 | #438 | Astra entitlement preflight (owner's machine) — **gate: after 8.27** | 8.27, 8.12 | run on own machine |
+| 8.32 | #439 | Astra pilot 40 incl. security-type occupations | 8.31 | **GO**, sign rationale |
+| 8.33 | #440 | Astra full 556 | 8.32 | **GO** |
+| 8.34 | #441 | `scripts/vendor-update-drift.ts` + synthetic test | 8.16 | |
+| 8.35 | #442 | Land Astra batch + update note + promotion text | 8.33, 8.34 | check, **promote** |
+| 8.36 | #443 | `/models` content after Astra | 8.35 | **sign** |
+| 8.37 | #444 | Close-out: ROADMAP Done, CHANGELOG, deprecated-engine decision | 8.36 | decide |
+
+### 採点ポリシーの改訂
+
+- 入列単位はベンダー。各ベンダーは当時の最上位（旗艦）モデル 1 件で採点し、その最新 run だけが公開値に入る。同一ベンダーの旧モデルは履歴。
+- ベンダー白名単は OpenAI / Anthropic / xAI（不変）。Gemini は不採用（不変）。
+- pilot 40 の日本語品質審はオーナー署名ゲート（不変）。
+- 範囲外: Mythos 5.1 / Sonnet 5 / Haiku / GPT-5.6 Terra・Luna / Daybreak・Cyber 特供 / Gemini / Vercel AI Gateway / 新しい HTTP provider。
