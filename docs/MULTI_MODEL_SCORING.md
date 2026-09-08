@@ -321,6 +321,8 @@ Payload bound: inline JSON は pretty-print しない。Projection 全体は **3
 
 ### 2c-v3. `/models` 情報設計 — hub + モデル別ページ
 
+> Superseded by 2c-v4 for the hub structure (mms-8). The per-run page contract in 2c-v3 remains valid except for the `in_panel` addition.
+
 2c-v3 は 2026-07-13 時点の実装対象。mms-4c で `/models` から外した統計の深さを、hub ではなくモデル別ページへ移す。`/models` は current canonical model を入口にする visitor magazine、`/models/{slug}` は batch ごとの static data page として分担する。
 
 現時点の batch は 4 件で、すべて roster と per-model page に出る。
@@ -502,6 +504,34 @@ Earliest batch の `drift` は `{ "baseline": true, "note_id": "first_batch" }` 
 | Data source | Batch meta と scores は `data/scores/` 由来。Current canonical 判定は `pickLatestScore()` と同じ最新 `run_date` 規則 |
 | Extensibility | 新 batch 追加だけで roster entry と `/models/{slug}` が増える。未知 slug は 404 |
 | Approval gate | Doc PR merge 前に conductor review と owner approval を必須にする。Code 実装は本 doc merge 後の `mms-4d-code-a` / `mms-4d-code-b` で別 dispatch |
+
+### 2c-v4. `/models` 情報設計 — ベンダー 3 列（mms-8）
+
+> 2c-v3 は mms-4d の実装履歴として残す。2c-v4 は 2026-09-08 のオーナー決定（`CONSENSUS_SCORE.md` 改訂 2）を反映し、mms-8.21〜8.23 が実装する。
+
+前提: 公開値は各ベンダーの最新モデル 1 件の算術平均。hub の主役は「時間順の最新 run」ではなく「3 社それぞれの最新モデル」。
+
+#### Page structure（上から下まで固定）
+1. Hero — kicker / h1 `AIモデル比較` / hook / lead（確定文案 `formatModelsHubLead`）。右カラムは「現行の総合」カード（`採点した会社` `最新採点` `最新モデル`）。
+2. `各社の最新モデル`（`#models-vendors`）— `VENDOR_WHITELIST` 順（anthropic / openai / xai）に 1 社 1 カード。カード: ベンダー名、最新モデル名（run ページへ link）、採点日、対象職業数、personality 1 文、`詳しく見る ›`、その下に `<details>` で旧 run を日付降順（legacy 含む）。旧 run が無ければ `以前のモデルはありません`。
+3. `モデルの見方が近い職業・分かれた職業`（`#models-contrast`）— 近い職業 3 件 = 3 社の最新モデルの transformation の極差（max − min）が最小の 3 件（tie は id 昇順）。右パネルは確定文案 `formatModelsHubContrastCopy`。
+4. `モデルで見方が分かれた職業`（`#models-stories`）— 極差降順の 3〜5 件。各カードに 3 本の score bar と 3 つの理由文（パネル順 = 採点日昇順）。curated override（pinned / replace）は継続。editorial key は `{id}__{model@date}__{model@date}__{model@date}`（パネル順）。
+5. CTA（不変）。
+6. データについて（更新説明 + 出典行）。
+
+#### Projection contract v2（`public/data.models_deep.json`、30 KB 以下）
+- `panel.entries[]`: `{ provider, vendorDisplay, model, modelDisplay, date, covered_count, personality_sentence_id }`（採点日昇順）
+- `panel.compared_count`: パネル全員が採点した職業数
+- `lanes[]`: `{ provider, vendorDisplay, latest, history[] }`（`VENDOR_WHITELIST` 順。`history` は `{ model, modelDisplay, date, covered_count }` 日付降順、legacy 含む）
+- `consensus[3]`: `{ id, title_ja, href }`
+- `stories[3..5]`: `{ id, title_ja, href, scores[] { provider, model, modelDisplay, transformation, rationale_ja }, spread, editorial_sentence_id }`
+- `latest_pair` と `model_cards` は廃止。
+
+#### Rendering constraints（不変）
+zero client JS / `<template id="models-projection">` inline / `:root` 禁止 / heading は serif + `!important` / `<table>` 禁止 / `D1`〜`D10`・`drift` の語を本文に出さない / 既存 token のみ。
+
+#### per-run ページ
+`in_panel: boolean` を projection に持ち、パネル内 run は「現在の公開値に含まれる」注記、それ以外は「履歴」注記（確定文案）。`提供元` は `formatVendorDisplay`（xai → xAI）。
 
 ## リスクとトレードオフ（記録）
 
