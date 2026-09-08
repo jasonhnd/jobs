@@ -142,8 +142,8 @@ Registered providers:
 
 | `--provider` | Auth | Native schema | Notes |
 | --- | --- | --- | --- |
-| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. |
-| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. |
+| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are (and `claude-fable-5-1` will be, mms-8F). Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. |
+| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8G) rides the same transport with an explicit `--model`; the default stays `gpt-5.6-sol`. |
 
 There is no Vercel AI Gateway provider. Do not add one.
 
@@ -247,6 +247,141 @@ Prompts are written to `.cache/scoring/<run>/prompts/<id>.txt` so the answers
 are produced against the exact rubric + extract any other provider would have
 been sent. Contract violations are rejected per id with the failing formula
 named, and never reach the output JSONL.
+
+## mms-8: Claude Fable 5.1 + GPT-6 Astra を 2 票同時に入列する（#404）
+
+2026-09 第 1 週に出た 2 つのフロンティア級モデルを、どちらも**新しい票**として総合パネルに加える（1 モデル id = 1 票、[`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md) 決定 2）。`claude-fable-5` と `gpt-5.6-sol` はパネルに残る。文書（本節、mms-8-doc）は共有し、採点は 2 軌（8F / 8G）に分け、両方の 556 が揃ったら 1 本の PR で着地する（mms-8c。SCORE_PANEL は 5 → 7 と一度だけ動く）。片方が止まったら、揃った方だけ先に着地してよい（互いにブロックしない）。
+
+| | Claude Fable 5.1 | GPT-6 Astra |
+|---|---|---|
+| 公式 model id（裸 slug） | `claude-fable-5-1` | `gpt-6-astra` |
+| 公開表示 / URL slug | Claude Fable 5.1 / `fable-5-1` | GPT 6 Astra / `gpt-6-astra` |
+| `model_provider`（提供元） | `anthropic` | `openai` |
+| CLI transport | `in-agent`（Claude Fable 5.1 セッション内） | `codex`（オーナー本機の Codex CLI） |
+| Frozen prompt | `data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md` | `data/prompts/2026-09-08_gpt-6-astra-aiois10.ja.md` |
+| Prompt version | `AIOIS-10-v1.0-claude-fable-5-1` | `AIOIS-10-v1.0-gpt-6-astra` |
+| reasoning effort | `high`（adaptive thinking は無効化できない） | `high`（**明示必須**。Codex 同梱既定は `low` の可能性） |
+| drift の比較先 | 自家前任 `claude-fable-5`（2026-06-13）+ 現行最新 `grok-4.6`（2026-09-07） | 自家前任 `gpt-5.6-sol`（2026-07-12）+ 現行最新 `grok-4.6`（2026-09-07） |
+| artifacts | `.cache/scoring/mms-8f/` | `.cache/scoring/mms-8g/` |
+
+共通の決まりごと:
+
+- model id はベンダー公式 id に従う（`gpt-5.6-sol` と同じ原則）。`claude-fable-5.1` や `gpt-6` を id にしない。
+- rubric 本文は `2026-09-06_grok-4.6-aiois10.ja.md`（祖先は Opus 5 凍結版）とモデル識別行以外**逐字同一**。AIOIS-10 v1.0 の rubric・公式・JSONL 契約は動かさない。
+- pilot 40 職 → オーナーが `rationale_ja` の日本語品質を確認 → 556 全量。既存の品質門（Phase 3〜6）をそのまま使う。
+- **オーナーの明示承認前に `data/scores/` へ書かない。** dry-run や 1 id の試走も、オーナーの都度発令が要る（実装完了 ≠ 実行開始）。
+- silent fallback 禁止。Vercel AI Gateway 禁止。`providers/anthropic-api.ts` や xAI HTTP provider を新造しない。
+- 範囲外: Mythos 5.1 / Sonnet 5 / Haiku / GPT-5.6 Terra・Luna / Daybreak・Cyber 特供 / Gemini。
+- 着地後のパネルは 7 票（Anthropic 4 / OpenAI 2 / xAI 1）。7 票は floor 5 を超えるため、以後は 6 ヶ月窓が実際に古い票を落とし始める（最古 `claude-opus-4-8` 2026-05-30 は最新 run_date が 2026-11-30 を過ぎると失効）。着地 PR で `SCORE_PANEL` の窓状態を確認する。
+
+### Claude Fable 5.1 / in-agent scoring（mms-8F）
+
+`claude-opus-4-8` / `claude-fable-5` / `grok-4.6` と同じ輸送。**実行中のセッションが Claude Fable 5.1 でなければ実行してはならない**（Cloud Agent でも可。ただし [`TOOLCHAIN.md`](TOOLCHAIN.md) §10.1 のとおり in-agent のみ）。他モデルのセッションで Fable 5.1 と称して採点することが、この経路で唯一起こりうる silent substitution である。
+
+- `--attest-model claude-fable-5-1` を必ず付け、`--model` と一致させる（provider の preflight が不一致を拒否する）。subagent に分散した場合は `--verify-subagents <transcript-dir> --verify-agent-ids a,b,c` で transcript の model 名を機械照合する。
+- reasoning effort は `high`。Fable 5.1 の adaptive thinking は無効化できないため、run report の Scope に「effort: high（adaptive）」と記録するだけでよい。
+- **Fable 5.1 は forced tool use をエラーにする。** in-agent 経路は tool schema を使わず、答えを JSONL として `answers/*.jsonl` に書く。scoring 用に tool schema を組み立ててはならない。
+- 入力は「凍結 prompt + 職業 extract」のみ。基準 batch や drift 期待値を採点側に渡さない（Issue #9 と同じアンカリング防止）。
+
+```bash
+# 1. prompts を出す（pending として報告される）
+bun scripts/run-scoring.ts \
+  --provider in-agent --model claude-fable-5-1 --attest-model claude-fable-5-1 \
+  --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
+  --out .cache/scoring/mms-8f/raw-scores.jsonl \
+  --run-name mms-8f --ids "$(jq -r '.ids | join(",")' .cache/scoring/mms-8f/pilot/sample.json)"
+
+# 2. 答えを .cache/scoring/mms-8f/answers/chunk-NN.jsonl に書く（Fable 5.1 セッション自身が採点）
+
+# 3. 検証して追記
+bun scripts/run-scoring.ts … --resume
+
+# assemble は裸 slug + 明示 --provider（提供元 anthropic。in-agent ではない）
+bun scripts/assemble-scores.ts \
+  --mode aiois --model claude-fable-5-1 --provider anthropic --date <YYYY-MM-DD> \
+  --prompt-version AIOIS-10-v1.0-claude-fable-5-1 \
+  --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
+  --in .cache/scoring/mms-8f/raw-scores.jsonl \
+  --out .cache/scoring/mms-8f/occupations_claude-fable-5-1_<date>.json
+
+bun run check:score-batch .cache/scoring/mms-8f/occupations_claude-fable-5-1_<date>.json
+
+# drift は自家前任と現行最新の 2 本
+bun scripts/aiois-drift-report.ts \
+  --baseline data/scores/occupations_claude-fable-5_2026-06-13.json \
+  --candidate .cache/scoring/mms-8f/occupations_claude-fable-5-1_<date>.json \
+  --out .cache/scoring/mms-8f/drift_claude-fable-5_vs_claude-fable-5-1_<date>.md
+bun scripts/aiois-drift-report.ts \
+  --baseline data/scores/occupations_grok-4.6_2026-09-07.json \
+  --candidate .cache/scoring/mms-8f/occupations_claude-fable-5-1_<date>.json \
+  --out .cache/scoring/mms-8f/drift_grok-4.6_vs_claude-fable-5-1_<date>.md
+```
+
+### GPT-6 Astra / Codex-CLI scoring（mms-8G）
+
+`gpt-5.6-sol` と同じ `--provider codex` 経路だが、**Codex の既定モデルは変えない**（`CODEX_DEFAULT_MODEL` は `gpt-5.6-sol` のまま。`providers/codex.ts` の `buildCodexExecArgs` は behaviour-frozen で `run-scoring-codex.test.ts` が引数ベクトルを固定している）。Astra は**毎回 `--model gpt-6-astra` を明示**する。Cloud Agent では実行できない（Codex CLI が無い・ログインしていない。[`TOOLCHAIN.md`](TOOLCHAIN.md) §10.1）。オーナー本機の、ログイン済み Codex CLI だけが輸送である。
+
+前提条件（preflight。1 つでも欠けたら**停止**。5.6 SOL で採点した出力を Astra として記録することは絶対にしない）:
+
+1. Codex CLI **≥ 0.153.1**（`-m gpt-6-astra` を受け付ける版。**≥ 0.153.4 推奨**。2026-09-08 時点の本機は 0.153.4）。`codex --version` で確認する。
+2. `codex exec --help` が `--model <MODEL>` を広告している（既存 preflight `assertCodexModelSupport`）。**これだけでは不十分**。flag があることと、アカウントに Astra の資格があることは別である。
+3. **アカウントが実際に Astra を叩けること**を証明する。職業を採点しない最小 prompt（例: 「ok と 1 語だけ返せ」）を `codex exec --model gpt-6-astra --json` で 1 回流し、出力 event（`session_configured` 等）が報告する model が `gpt-6-astra` であることを確認する。別 model 名が返る・資格エラー・model not found のいずれかなら **8G を開始しない**。この確認はオーナーが本機で行い、結果を Issue に貼る。
+4. reasoning effort `high` を**明示**する。現行 runner は effort を渡さない（Codex 同梱既定は `low` の可能性がある）。8G の runner 変更で `codex exec -c model_reasoning_effort=high` を通す**任意 flag** を足し、既定（flag 無し）では 5.6 SOL の凍結ベクトルが 1 バイトも変わらないことをテストで固定する。runner を変えずに実行する場合は `~/.codex/config.toml` の `model_reasoning_effort = "high"` を設定し、その事実を run report に記録する（どちらでも、効いた effort を run report の Scope に書く）。
+
+運用上の注記:
+
+- 公開版 Astra は高度な exploit 系の内容を拒否する。**8G の pilot 40 には security 系職業（情報セキュリティ、ペネトレーションテスト等）を必ず含め**、拒答を早期に見つける。拒答は明示エラー（`*.failures.jsonl` に記録、同 model で retry）。他モデルへ振り替えない。
+- 5.6 SOL の Codex 節（Runner flags / Pilot setup / Full run gate）はそのまま適用する。違いは model id・prompt・effort・preflight 3 だけ。
+
+```bash
+# preflight（採点ではない。オーナー本機）
+codex --version                                   # >= 0.153.1（推奨 >= 0.153.4）
+codex exec --help | grep -- '--model'             # flag の存在
+codex exec --model gpt-6-astra --json 'Reply with the single word ok.'   # 資格の実証。model 名が gpt-6-astra であること
+
+# pilot 40（8G の sample は security 系を含める）
+bun scripts/make-pilot-sample.ts \
+  --size 40 --chunk 5 \
+  --baseline data/scores/occupations_gpt-5.6-sol_2026-07-12.json \
+  --out .cache/scoring/mms-8g/pilot
+
+bun scripts/run-scoring.ts \
+  --provider codex --model gpt-6-astra \
+  --prompt-file data/prompts/2026-09-08_gpt-6-astra-aiois10.ja.md \
+  --out .cache/scoring/mms-8g/raw-scores.jsonl \
+  --ids "$(jq -r '.ids | join(",")' .cache/scoring/mms-8g/pilot/sample.json)" \
+  --concurrency 2
+# effort high は 8G の任意 flag、または ~/.codex/config.toml の model_reasoning_effort = "high" で明示する
+
+bun scripts/assemble-scores.ts \
+  --mode aiois --model gpt-6-astra --provider openai --date <YYYY-MM-DD> \
+  --prompt-version AIOIS-10-v1.0-gpt-6-astra \
+  --prompt-file data/prompts/2026-09-08_gpt-6-astra-aiois10.ja.md \
+  --in .cache/scoring/mms-8g/raw-scores.jsonl \
+  --out .cache/scoring/mms-8g/occupations_gpt-6-astra_<date>.json
+
+bun run check:score-batch .cache/scoring/mms-8g/occupations_gpt-6-astra_<date>.json
+
+bun scripts/aiois-drift-report.ts \
+  --baseline data/scores/occupations_gpt-5.6-sol_2026-07-12.json \
+  --candidate .cache/scoring/mms-8g/occupations_gpt-6-astra_<date>.json \
+  --out .cache/scoring/mms-8g/drift_gpt-5.6-sol_vs_gpt-6-astra_<date>.md
+bun scripts/aiois-drift-report.ts \
+  --baseline data/scores/occupations_grok-4.6_2026-09-07.json \
+  --candidate .cache/scoring/mms-8g/occupations_gpt-6-astra_<date>.json \
+  --out .cache/scoring/mms-8g/drift_grok-4.6_vs_gpt-6-astra_<date>.md
+```
+
+### 着地（mms-8c）で必ず動くもの
+
+`grok-4.6`（#387）の着地と同じ随伴作業を、2 batch 分まとめて行う:
+
+- `data/scores/occupations_claude-fable-5-1_<date>.json` と `data/scores/occupations_gpt-6-astra_<date>.json` を追加（append-only、`(model, run_date)` 一意）。
+- `vercel.json` に `/models/fable-5-1` と `/models/gpt-6-astra` の裸 slug 308 を追加（`check-model-redirects.ts` が照合）。**mms-8-doc では触らない。**
+- 本書冒頭「現行 batch」3 行を最新 run に更新（`check-geo-freshness.ts` が照合）。
+- `bun run build` で baseline・projection・`_score-attribution.ts` を再生成。`SCORE_PANEL.voteCount` は 5 → 7（片方だけなら 6）。
+- 站内更新説明は [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md) の「第 6・7 票着地」文案を逐字使用し、`{…}` を実測で埋める。C 向けにモデル型番を出さない。
+- 実証記録（mean|Δ| / ≥0.5 件数 / band 変化 / 最新観測行の主役が替わった職業サンプル）を PR に残す。
 
 ## GPT-5.6-SOL / Codex-CLI scoring
 

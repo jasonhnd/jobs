@@ -10,6 +10,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Added
+
+- mms-8-doc (#404): Claude Fable 5.1 (`claude-fable-5-1`, in-agent) and
+  GPT-6 Astra (`gpt-6-astra`, Codex CLI with explicit `--model`) prepared
+  as two new consensus votes — frozen prompts (rubric body identical to the
+  Grok 4.6 freeze), runbook sections with the effort `high` pin and the
+  Astra entitlement preflight, two-vote C-facing copy slot, ROADMAP
+  mms-8 units, and display / slug / 提供元 tests. No scoring, no
+  `data/scores/`, no `vercel.json` change; `CODEX_DEFAULT_MODEL` stays
+  `gpt-5.6-sol`.
+
 ### Changed
 
 - Grok 4.6 scoring path (mms-7a) is in-agent — the running `grok-4.6`
