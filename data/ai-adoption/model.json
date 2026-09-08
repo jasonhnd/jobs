@@ -1,19 +1,19 @@
 {
-  "title_ja": "世界の AI 利用率モニター",
-  "subtitle_ja": "公開データと代わりの数字を使い、AI 利用者を見積もるモデル。",
+  "title_ja": "世界の AI 利用状況",
+  "subtitle_ja": "公開データと代わりの数字から、生成 AI を使う人を見積もるモデル。",
   "layers": [
     {
       "id": "N_dev",
-      "label_ja": "仕事で深く使う人",
-      "short_label_ja": "仕事で深く",
-      "formula_ja": "N_dev = Σ(開発者向け AI ツールの利用者_i) × (1 - ツールの重なり率)",
-      "rationale_ja": "コード作成や API 利用は、AI を毎日の仕事に入れている合図になるため、最初に数える。",
+      "label_ja": "開発で毎日使う人",
+      "short_label_ja": "開発者向け AI",
+      "formula_ja": "N_dev = Σ(コーディング AI ツールの利用者_i) × (1 - ツールの重なり率)",
+      "rationale_ja": "GitHub Copilot や Cursor など、コードを書くための AI ツールだけを数える。仕事全般の利用ではなく、開発者向け AI の利用者として最初に分ける。",
       "risk_ja": "会社用と個人用のアカウント、複数ツールの利用が重なることがある。",
       "color": "#8b5fb0"
     },
     {
       "id": "N_pro",
-      "label_ja": "有料で使う人",
+      "label_ja": "お金を払って使う人",
       "short_label_ja": "有料",
       "formula_ja": "N_pro = Σ(ARR_i / 年間 ARPU) × (1 - 有料サービスの重なり率) - 開発者との重なり",
       "rationale_ja": "有料ユーザー数が出ていない会社は、年売上を 1 人あたり料金で割って人数を見積もる。",
@@ -31,21 +31,12 @@
     },
     {
       "id": "N_passive",
-      "label_ja": "端末で AI にふれる人",
-      "short_label_ja": "端末 AI",
+      "label_ja": "端末に入っているだけの人",
+      "short_label_ja": "端末搭載",
       "formula_ja": "N_passive = 対応端末数 × AI 機能が使える割合 × 有効化率 - すでに使う人との重なり",
-      "rationale_ja": "OS やスマホに AI が入ると、専用アプリを開かない人も AI にふれる。",
+      "rationale_ja": "OS やスマホに AI 機能が入っている人。本人が開いて使うとは限らないので、自分で使う人とは分けて数える。",
       "risk_ja": "端末が対応していても、本人が AI 機能を使うとは限らない。",
       "color": "#D9A03B"
-    },
-    {
-      "id": "N_unreached",
-      "label_ja": "まだ使っていない人",
-      "short_label_ja": "未利用",
-      "formula_ja": "N_unreached = N_total - N_dev - N_pro - N_free - N_passive",
-      "rationale_ja": "この人数は直接数えず、上の 4 グループを引いた残りとして出す。",
-      "risk_ja": "上の 4 グループの見積もり違いは、この残り人数に出る。",
-      "color": "#C8BCA8"
     }
   ]
 }

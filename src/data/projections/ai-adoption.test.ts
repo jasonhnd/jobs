@@ -62,7 +62,6 @@ const model: ModelDefinition = {
     { id: 'N_pro', label_ja: 'Pro', short_label_ja: 'Pro', formula_ja: 'fixture', rationale_ja: 'fixture', risk_ja: 'fixture', color: '#222222' },
     { id: 'N_free', label_ja: 'Free', short_label_ja: 'Free', formula_ja: 'fixture', rationale_ja: 'fixture', risk_ja: 'fixture', color: '#333333' },
     { id: 'N_passive', label_ja: 'Passive', short_label_ja: 'Passive', formula_ja: 'fixture', rationale_ja: 'fixture', risk_ja: 'fixture', color: '#444444' },
-    { id: 'N_unreached', label_ja: 'Unreached', short_label_ja: 'None', formula_ja: 'fixture', rationale_ja: 'fixture', risk_ja: 'fixture', color: '#555555' },
   ],
 };
 
@@ -153,15 +152,9 @@ function buildFixturePayload() {
   });
 }
 
-test('ai-adoption applies overlap dedupe chain and residual rounding exactly', () => {
+test('ai-adoption applies overlap dedupe chain and publishes separate summary counts', () => {
   // Arrange / Act
   const payload = buildFixturePayload();
-  const layerSum =
-    payload.totals.N_dev +
-    payload.totals.N_pro +
-    payload.totals.N_free +
-    payload.totals.N_passive +
-    payload.totals.N_unreached;
 
   // Assert
   assert.deepEqual(payload.totals, {
@@ -171,9 +164,24 @@ test('ai-adoption applies overlap dedupe chain and residual rounding exactly', (
     N_pro: 144,
     N_free: 274,
     N_passive: 254,
-    N_unreached: 215,
   });
-  assert.equal(layerSum, payload.totals.N_total);
+  // Four separate populations + a standalone offline count. Nothing here is a
+  // share of anything, and no field sums the four layers into a touch rate.
+  assert.deepEqual(payload.summary, {
+    self_users: 531,
+    developer_users: 113,
+    paid_users: 144,
+    free_users: 274,
+    passive_only_users: 254,
+    internet_users: 1000,
+    population: 2000,
+    offline_people: 1000,
+  });
+  assert.equal(payload.calculations.internet_users_not_in_layers, 215);
+  assert.equal('rates' in payload, false);
+  assert.equal('chart' in payload, false);
+  assert.equal('trend' in payload, false);
+  assert.equal(payload.layers.map((layer): string => layer.id).includes('N_unreached'), false);
   assert.equal(payload.calculations.dev_raw, 151);
   assert.equal(payload.calculations.paid_gross_users, 200);
   assert.equal(payload.calculations.paid_after_platform_dedup, 180);
@@ -184,16 +192,16 @@ test('ai-adoption applies overlap dedupe chain and residual rounding exactly', (
   assert.equal(payload.calculations.passive_explicit_overlap, 106);
 });
 
-test('ai-adoption weights freshness by confidence and rolls worst source status into layers', () => {
+test('ai-adoption flags freshness per source and rolls the worst status into its layer', () => {
   // Arrange / Act
   const payload = buildFixturePayload();
 
   // Assert
-  assert.equal(payload.freshness.score, 0.873);
-  assert.equal(payload.freshness.status, 'fresh');
+  // No model-level health score: staleness is a per-source flag, not a grade.
+  assert.equal('freshness' in payload, false);
   assert.equal(payload.sources.find((row) => row.id === 'dev-secondary')?.freshness_status, 'review_needed');
   assert.equal(payload.sources.find((row) => row.id === 'free-platform-a')?.freshness_status, 'stale');
   assert.equal(payload.layers.find((layer) => layer.id === 'N_dev')?.freshness_status, 'review_needed');
   assert.equal(payload.layers.find((layer) => layer.id === 'N_free')?.freshness_status, 'stale');
-  assert.equal(payload.layers.find((layer) => layer.id === 'N_unreached')?.freshness_status, 'stale');
+  assert.equal(payload.layers.find((layer) => layer.id === 'N_passive')?.freshness_status, 'fresh');
 });

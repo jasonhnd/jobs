@@ -137,7 +137,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   me:               { eyebrow: 'ME · 自分の現在地',  title: '自分の現在地',            subtitle: '職業を入力 → 全 39 ランキングでの位置・業種内の類似職を瞬時に表示' },
   shindan:          { eyebrow: 'AI働き方診断 · 9問', title: 'AI時代の働き方タイプ診断', subtitle: '9問であなたの働き方タイプを表示。結果はそのままシェアできます' },
   gyakuten:         { eyebrow: 'AI働き方診断 · 図鑑', title: '8家族と24タイプを見る', subtitle: '家族タイプ、代表職業、未解放タイプを見ながら、あなたの1枚を探せます' },
-  aiadoption:       { eyebrow: 'AI ADOPTION · 世界の AI 利用率', title: '世界で AI を使う人は何人？', subtitle: '深く使う/有料/無料/端末でふれる/未利用の 5 層で世界人口を分解' },
+  aiadoption:       { eyebrow: 'AI ADOPTION · 世界の AI 利用状況', title: '自分で生成 AI を使う人は何人？', subtitle: '自分で使う人・有料・開発者・端末搭載を、足し合わせずに別々に見積もる世界の推計' },
 };
 
 /** N ranking detail card variants — built from the shared RANKING_META.

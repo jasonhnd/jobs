@@ -6,6 +6,8 @@ import Footer from '../components/Footer.astro';
 import { siteConfig } from '@/site/config';
 import { AI_ADOPTION_CSS } from './_ai-adoption-css';
 
+type FreshnessStatus = 'fresh' | 'review_needed' | 'stale';
+
 interface SourceRow {
   id: string;
   metric: string;
@@ -21,13 +23,13 @@ interface SourceRow {
   source_url: string;
   confidence: 'high' | 'medium' | 'low';
   stale_after_days: number;
-  freshness_status: 'fresh' | 'review_needed' | 'stale';
+  freshness_status: FreshnessStatus;
   used_by: string[];
   note: string;
 }
 
 interface LayerRow {
-  id: string;
+  id: 'N_dev' | 'N_pro' | 'N_free' | 'N_passive';
   label_ja: string;
   short_label_ja: string;
   formula_ja: string;
@@ -35,76 +37,153 @@ interface LayerRow {
   risk_ja: string;
   color: string;
   value: number;
-  share_of_total: number;
-  freshness_status: 'fresh' | 'review_needed' | 'stale';
+  freshness_status: FreshnessStatus;
   inputs: SourceRow[];
 }
 
-interface ChartLayer {
-  id: string;
-  label_ja: string;
-  short_label_ja: string;
-  color: string;
+interface ParameterDef {
   value: number;
-  share: number;
-  formula_ja: string;
+  label_ja: string;
   rationale_ja: string;
-  risk_ja: string;
-  freshness_status: 'fresh' | 'review_needed' | 'stale';
-  inputs: SourceRow[];
-}
-
-interface ChartPayload {
-  unit_count: number;
-  base_label: string;
-  base_value: number;
-  touched_value: number;
-  touch_rate: number;
-  unreached_rate: number;
-  layers: ChartLayer[];
 }
 
 interface DashboardPayload {
   model_version: string;
   period: string;
-  generated_at: string;
   updated_at: string;
   title_ja: string;
   subtitle_ja: string;
-  denominator: {
-    primary_value: number;
-    auxiliary_value: number;
-  };
-  totals: Record<string, number>;
-  rates: {
-    explicit_adoption_rate: number;
-    passive_touch_rate: number;
-    total_touch_rate: number;
-    unreached_rate: number;
-    population_touch_rate: number;
+  summary: {
+    self_users: number;
+    developer_users: number;
+    paid_users: number;
+    free_users: number;
+    passive_only_users: number;
+    internet_users: number;
+    population: number;
+    offline_people: number;
   };
   layers: LayerRow[];
-  chart: ChartPayload;
-  sources: SourceRow[];
-  freshness: {
-    score: number;
-    status: 'fresh' | 'review_needed' | 'stale';
+  assumptions: {
+    parameters: Record<string, ParameterDef>;
   };
+  sources: SourceRow[];
 }
 
 const dataPath = join(process.cwd(), 'public', 'data.ai-adoption.json');
 const dashboard = JSON.parse(readFileSync(dataPath, 'utf-8')) as DashboardPayload;
 const canonical = `${siteConfig.origin}/aiadoption`;
+const { summary } = dashboard;
 
-const compact = (value: number): string =>
-  new Intl.NumberFormat('ja-JP', { notation: 'compact', maximumFractionDigits: 1 }).format(value);
-const pct = (value: number): string =>
-  `${(value * 100).toFixed(1)}%`;
-const statusLabel = (status: string): string => {
-  if (status === 'fresh') return '新しい';
-  if (status === 'review_needed') return '確認';
-  return '古い';
+// ---------------------------------------------------------------------------
+// Formatting
+// ---------------------------------------------------------------------------
+const compactFormatter = new Intl.NumberFormat('ja-JP', { notation: 'compact', maximumFractionDigits: 1 });
+const compact = (value: number): string => compactFormatter.format(value);
+
+// Headline rounding: whole 億 only ("およそ 15 億人"), never a decimal.
+const approxOku = (value: number): string => `${Math.round(value / 1e8)} 億`;
+
+// `updated_at` is the latest observation `as_of_date` (see projection). The
+// first screen states the month only; the exact day sits with the sources.
+const asOfMonth = ((): string => {
+  const match = /^(\d{4})-(\d{2})/.exec(dashboard.updated_at);
+  if (!match) return dashboard.updated_at;
+  return `${match[1]} 年 ${Number(match[2])} 月`;
+})();
+
+const layerById = (id: LayerRow['id']): LayerRow => {
+  const layer = dashboard.layers.find((row) => row.id === id);
+  if (!layer) throw new Error(`[aiadoption] layer ${id} missing from payload`);
+  return layer;
 };
+const devLayer = layerById('N_dev');
+const proLayer = layerById('N_pro');
+const freeLayer = layerById('N_free');
+const passiveLayer = layerById('N_passive');
+
+// ---------------------------------------------------------------------------
+// Copy
+// ---------------------------------------------------------------------------
+const headline = `自分で生成 AI を使っている人は、およそ ${approxOku(summary.self_users)}人。`;
+const headlinePlain = headline.replace(/。$/, '');
+
+// Four separate populations. Each card says what it counts and how it relates
+// to the others. They are never summed and never drawn as a 100% split.
+const groupCards = [
+  {
+    id: 'self',
+    label: '自分で使う人',
+    value: summary.self_users,
+    relation: '4 つの人数のうち、いちばん広い集まり',
+    note: 'ChatGPT や Gemini などの生成 AI を、自分の意思で開いて使う人。有料も無料も、開発者も含む。',
+    color: 'var(--accent-deep)',
+    primary: true,
+  },
+  {
+    id: 'paid',
+    label: proLayer.label_ja,
+    value: summary.paid_users,
+    relation: '自分で使う人の一部',
+    note: '個人向けの有料プランを契約している人。年間売上を 1 人あたり料金で割って見積もる。',
+    color: proLayer.color,
+    primary: false,
+  },
+  {
+    id: 'dev',
+    label: devLayer.label_ja,
+    value: summary.developer_users,
+    relation: '自分で使う人の一部',
+    note: 'GitHub Copilot や Cursor など、コードを書くための AI ツールを使う開発者。仕事全般の利用ではない。',
+    color: devLayer.color,
+    primary: false,
+  },
+  {
+    id: 'passive',
+    label: passiveLayer.label_ja,
+    value: summary.passive_only_users,
+    relation: '上の 3 つとは別に数える',
+    note: 'スマホや PC に AI 機能が入っているが、本人が開くとは限らない人。自分で使う人には足さない。',
+    color: passiveLayer.color,
+    primary: false,
+  },
+];
+
+const offlineLine = `世界はおよそ ${approxOku(summary.population)}人。そのうちおよそ ${approxOku(summary.offline_people)}人はまだインターネットを使っていない。`;
+
+// ---------------------------------------------------------------------------
+// Method section
+// ---------------------------------------------------------------------------
+const formulaTextByLayer: Record<LayerRow['id'], string> = {
+  N_dev: 'N_dev = 開発者向け AI 利用者の合計 × (1 - 同じ人の重なり)',
+  N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1 人あたり年間売上 ARPU) - 上の層との重なり',
+  N_free: 'N_free = Σ(月間利用者 MAU × 1 人あたり補正) - 上の層との重なり',
+  N_passive: 'N_passive = AI 対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
+};
+
+const formulaCards = [
+  { title: '自分で使う人', code: '自分で使う人 = N_dev + N_pro + N_free' },
+  ...dashboard.layers.map((layer) => ({ title: layer.label_ja, code: formulaTextByLayer[layer.id] })),
+  { title: 'インターネットを使っていない人', code: 'インターネットを使っていない人 = 世界の総人口 − インターネット利用者' },
+];
+
+const formulaTerms = [
+  ['ARR', '年間売上。ユーザー数が未公開の会社で、人数を推定するための代わりの数字。'],
+  ['ARPU', '1 人あたり年間売上。ARR を人数に直すときに使う。'],
+  ['MAU', '月間利用者数。無料利用者を推定するときの中心データ。'],
+  ['重なり', '同じ人が複数の AI サービスを使っている分。ここを引かないと人数が多く見える。'],
+];
+
+const parameterRows = Object.entries(dashboard.assumptions.parameters).map(([key, def]) => ({
+  key,
+  label: def.label_ja,
+  rationale: def.rationale_ja,
+  display: key.endsWith('_usd') ? `${def.value} ドル` : `${Math.round(def.value * 100)}%`,
+}));
+
+// ---------------------------------------------------------------------------
+// Sources section
+// ---------------------------------------------------------------------------
 const entityLabel = (entity: string): string => {
   if (entity === 'World') return '世界';
   if (entity === 'Other developer AI tools') return 'その他の開発者向け AI';
@@ -125,56 +204,22 @@ const unitLabel = (unit: string): string => {
   return unit;
 };
 
-const formulaTextByLayer: Record<string, string> = {
-  N_dev: 'N_dev = 開発者向け AI 利用者の合計 × (1 - 同じ人の重なり)',
-  N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1 人あたり年間売上 ARPU) - 上の層との重なり',
-  N_free: 'N_free = Σ(月間利用者 MAU × 1 人あたり補正) - 上の層との重なり',
-  N_passive: 'N_passive = AI 対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
-  N_unreached: 'N_unreached = N_total - N_dev - N_pro - N_free - N_passive',
+// Per-source freshness only. A source past its `stale_after_days` gets a chip
+// on its own card; there is no model-level "health" figure anywhere on the page.
+const staleChipLabel = (status: FreshnessStatus): string | null => {
+  if (status === 'stale') return '期限切れ';
+  if (status === 'review_needed') return '見直し時期';
+  return null;
 };
-
-const formulaText = (id: string | undefined, fallback: string | undefined): string =>
-  id != null ? (formulaTextByLayer[id] ?? fallback ?? '') : (fallback ?? '');
-
-const formulaTerms = [
-  ['N_total', '割合を出すときの母数。このページでは世界のインターネット利用者数を使う。'],
-  ['ARR', '年間売上。ユーザー数が未公開の会社で、人数を推定するための代わりの数字。'],
-  ['ARPU', '1 人あたり年間売上。ARR を人数に直すときに使う。'],
-  ['MAU', '月間利用者数。無料利用者を推定するときの中心データ。'],
-  ['重なり', '同じ人が複数の AI サービスを使っている分。ここを引かないと人数が多く見える。'],
-];
+const sourceAgeLabel = (source: SourceRow): string =>
+  `公開 ${source.published_at} / 見直し目安 ${source.stale_after_days} 日`;
 
 const sourceGroupMeta = [
-  {
-    id: 'base',
-    title: '母数',
-    note: '全体の分母になる数字。',
-    metrics: ['global_internet_users', 'global_population'],
-  },
-  {
-    id: 'developer',
-    title: '仕事で深く使う人',
-    note: '開発者向け AI ツールの利用者を見る。',
-    metrics: ['developer_active_users'],
-  },
-  {
-    id: 'paid',
-    title: '有料で使う人',
-    note: 'ARR を使い、有料ユーザーの目安に直す。',
-    metrics: ['vendor_arr_usd'],
-  },
-  {
-    id: 'free',
-    title: '無料で使う人',
-    note: 'Web やアプリの月間利用を使う。',
-    metrics: ['platform_mau_proxy'],
-  },
-  {
-    id: 'passive',
-    title: '端末で AI にふれる人',
-    note: 'OS や端末に入った AI の対象端末を見る。',
-    metrics: ['passive_eligible_devices'],
-  },
+  { id: 'base', title: '人口とインターネット利用者', note: '第一画面の「およそ 83 億人」と「22 億人」の元になる数字。', metrics: ['global_population', 'global_internet_users'] },
+  { id: 'developer', title: devLayer.label_ja, note: 'コードを書くための AI ツールの利用者を見る。', metrics: ['developer_active_users'] },
+  { id: 'paid', title: proLayer.label_ja, note: 'ARR を使い、有料ユーザーの目安に直す。', metrics: ['vendor_arr_usd'] },
+  { id: 'free', title: freeLayer.label_ja, note: 'Web やアプリの月間利用を使う。', metrics: ['platform_mau_proxy'] },
+  { id: 'passive', title: passiveLayer.label_ja, note: 'OS や端末に入った AI の対象端末を見る。', metrics: ['passive_eligible_devices'] },
 ];
 
 const sourceGroups = sourceGroupMeta
@@ -184,68 +229,42 @@ const sourceGroups = sourceGroupMeta
   }))
   .filter((group) => group.sources.length > 0);
 
-const sourceReviewLabel = (source: SourceRow): string => {
-  const remaining = source.stale_after_days - source.age_days;
-  if (remaining >= 0) return `${remaining} 日後に再確認`;
-  return `${Math.abs(remaining)} 日遅れ`;
-};
-
-const sourceAgeLabel = (source: SourceRow): string =>
-  `${source.age_days} 日経過 / ${source.stale_after_days} 日で見直し`;
-
-const topReviewSources = dashboard.sources
-  .slice()
-  .sort((a, b) => (b.age_days / b.stale_after_days) - (a.age_days / a.stale_after_days))
-  .slice(0, 8);
-
-const layerValue = (id: string): number =>
-  dashboard.layers.find((layer) => layer.id === id)?.value ?? 0;
-const explicitPeople =
-  layerValue('N_dev') + layerValue('N_pro') + layerValue('N_free');
-const touchedPeople = explicitPeople + layerValue('N_passive');
-const unreachedPeople = layerValue('N_unreached');
-
-const summaryCards = [
-  { label: 'AI にふれる人', value: touchedPeople, note: '自分で使う人と、端末の AI にふれる人を合わせた人数。' },
-  { label: '自分で使う人', value: explicitPeople, note: '仕事で深く使う、有料で使う、無料で使う人。' },
-  { label: 'まだ使っていない人', value: unreachedPeople, note: '重なりを引いた後に残る人数。' },
-  { label: '基準人数', value: dashboard.denominator.primary_value, note: '世界のインターネット利用者を基準にする。' },
-  { label: '世界の総人口', value: dashboard.denominator.auxiliary_value, note: 'インターネット利用者だけでなく、全人口に対する広がりも見るための補助基準。' },
-].sort((a, b) => a.value - b.value);
-
-const chartUnits = dashboard.chart.unit_count;
-const dotPctLabel = (100 / chartUnits).toFixed(1);
-const touchedPer100 = Math.round(dashboard.chart.touch_rate * 100);
-const unreachedPer100 = 100 - touchedPer100;
-const touchedPerUnit = Math.round(dashboard.chart.touch_rate * chartUnits);
-const unreachedPerUnit = chartUnits - touchedPerUnit;
-const initialChartLayer = dashboard.chart.layers.find((l) => l.id === 'N_free') ?? dashboard.chart.layers[0];
+// ---------------------------------------------------------------------------
+// SEO
+// ---------------------------------------------------------------------------
+const description = `世界で自分から生成 AI を使う人はおよそ ${approxOku(summary.self_users)}人（${asOfMonth}時点の推計）。お金を払って使う人、開発で毎日使う人、端末に入っているだけの人を足し合わせずに別々に見積もり、計算式と出典を公開します。`;
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Dataset',
   name: `${dashboard.title_ja} - mirai-shigoto.com`,
-  description: '世界の AI 利用率を、仕事で深く使う人、有料で使う人、無料で使う人、端末で AI にふれる人、まだ使っていない人に分けて見積もる公開モデル。',
+  description,
   url: canonical,
   inLanguage: 'ja',
   isAccessibleForFree: true,
   dateModified: dashboard.updated_at,
-  measurementTechnique: 'Proxy metrics, ARR back-calculation, traffic alignment, device activation model, and de-duplication funnel.',
-  variableMeasured: dashboard.layers.map((layer) => ({
-    '@type': 'PropertyValue',
-    name: layer.label_ja,
-    value: layer.value,
-    unitText: 'people',
-  })),
+  measurementTechnique: 'Proxy metrics, ARR back-calculation, traffic alignment, device activation model, and overlap de-duplication. Groups are published separately; they are not a 100% decomposition.',
+  variableMeasured: [
+    { '@type': 'PropertyValue', name: '自分で生成 AI を使う人', value: summary.self_users, unitText: 'people' },
+    ...dashboard.layers.map((layer) => ({
+      '@type': 'PropertyValue',
+      name: layer.label_ja,
+      value: layer.value,
+      unitText: 'people',
+    })),
+    { '@type': 'PropertyValue', name: '世界の総人口', value: summary.population, unitText: 'people' },
+    { '@type': 'PropertyValue', name: 'インターネット利用者', value: summary.internet_users, unitText: 'people' },
+    { '@type': 'PropertyValue', name: 'インターネットを使っていない人', value: summary.offline_people, unitText: 'people' },
+  ],
 });
 ---
 <BaseLayout
-  title={`${dashboard.title_ja} | AI 利用率ダッシュボード - mirai-shigoto.com`}
-  description="世界の AI 利用率を、仕事で深く使う人、有料で使う人、無料で使う人、端末で AI にふれる人、まだ使っていない人の 5 グループに分け、計算式・理由・データの新しさを公開するダッシュボード。"
+  title={`${headlinePlain} | ${dashboard.title_ja} - mirai-shigoto.com`}
+  description={description}
   canonical={canonical}
-  keywords="AI 利用率, 生成 AI, ChatGPT, Claude, Gemini, ARR, MAU, データの新しさ, D3"
-  ogTitle={`${dashboard.title_ja} | AI 利用率ダッシュボード`}
-  ogDescription="AI 利用者を 5 グループに分け、計算式・理由・データの新しさを公開するモデルページ。"
+  keywords="生成 AI, 利用者数, 世界, ChatGPT, Claude, Gemini, ARR, MAU, 推計"
+  ogTitle={`${headlinePlain} | ${dashboard.title_ja}`}
+  ogDescription="有料、開発者、端末搭載を足し合わせずに別々に見積もる、世界の生成 AI 利用状況の推計。"
   ogType="article"
   ogImage={`${siteConfig.origin}/api/og?page=aiadoption`}
 >
@@ -253,158 +272,76 @@ const jsonLd = JSON.stringify({
   <style slot="head" set:html={AI_ADOPTION_CSS} />
 
   <article class="ai-adoption-page" aria-labelledby="aiAdoptionTitle">
-    <p class="adoption-kicker">AI adoption monitor</p>
-    <h1 id="aiAdoptionTitle" class="adoption-title">{dashboard.title_ja}</h1>
-    <p class="adoption-lede">
-      <span>{dashboard.subtitle_ja}</span>
-      <span>上から順に重なりを引き、同じ人を二度数えないようにします。</span>
-    </p>
+    <header class="adoption-hero">
+      <h1 id="aiAdoptionTitle" class="adoption-headline">
+        自分で生成 AI を使っている人は、<span class="headline-tail">およそ <strong class="headline-number">{approxOku(summary.self_users)}</strong>人。</span>
+      </h1>
+      <p class="adoption-hero-note">{asOfMonth}時点の推計です。国勢調査のような実数ではなく、公開データから見積もった数字です。</p>
+    </header>
 
-    <div class="adoption-meta" aria-label="モデル情報">
-      <span class="meta-pill">期間: {dashboard.period}</span>
-      <span class="meta-pill">更新: {dashboard.updated_at}</span>
-      <span class={`meta-pill status-chip status-${dashboard.freshness.status}`}>
-        データ: {statusLabel(dashboard.freshness.status)} {Math.round(dashboard.freshness.score * 100)}%
-      </span>
-      <span class="meta-pill">モデル v{dashboard.model_version}</span>
-    </div>
-
-    <section class="summary-grid" aria-label="主な数字">
-      {summaryCards.map((card) => (
-        <div class="metric-card">
-          <p class="metric-label">{card.label}</p>
-          <p class="metric-value">{compact(card.value)}</p>
-          <p class="metric-note">{card.note}</p>
-        </div>
-      ))}
+    <section class="group-section" aria-labelledby="groupHeading">
+      <h2 id="groupHeading" class="group-heading">4 つの人数は、それぞれ別のものを数えています。足して 100% にはなりません。</h2>
+      <div class="group-grid">
+        {groupCards.map((card) => (
+          <article class={`group-card${card.primary ? ' group-card-primary' : ''}`} style={`--group-color:${card.color}`}>
+            <p class="group-label">{card.label}</p>
+            <p class="group-value">推計 <strong>{compact(card.value)}</strong>人</p>
+            <p class="group-relation">{card.relation}</p>
+            <p class="group-note">{card.note}</p>
+          </article>
+        ))}
+      </div>
     </section>
 
-    <section class="dashboard-shell" aria-label="AI 利用率の内訳">
-      <div class="chart-panel">
-        <div class="panel-head">
-          <h2>{chartUnits} 点で見る 5 グループ</h2>
-          <p class="panel-sub">点 1 つ = {dotPctLabel}%</p>
-        </div>
-        <div class="impact-row" aria-label="100 人あたりの AI 利用イメージ">
-          <div>
-            <span class="impact-number">{touchedPer100}</span><span class="impact-unit">人</span>
-            <span class="impact-mini">{touchedPerUnit}/{chartUnits} 点</span>
-            <p>100 人のうち AI にふれる人</p>
-          </div>
-          <div>
-            <span class="impact-number muted">{unreachedPer100}</span><span class="impact-unit">人</span>
-            <span class="impact-mini">{unreachedPerUnit}/{chartUnits} 点</span>
-            <p>まだ使っていない人</p>
-          </div>
-        </div>
-        <div id="aiAdoptionLayerChart" class="chart-stage" aria-label="AI 利用率の 5 グループグラフ"></div>
-        <ol class="chart-fallback">
-          {dashboard.chart.layers.map((layer) => (
-            <li>
-              <strong>{layer.label_ja}</strong> {compact(layer.value)} ({pct(layer.share)})
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      <aside class="explain-panel" aria-live="polite">
-        <div class="panel-head">
-          <h2>グループの説明</h2>
-          <span id="aiLayerStatus" class="status-chip status-fresh" hidden>新しい</span>
-        </div>
-        <h3 id="aiLayerTitle" class="explain-title">{initialChartLayer.label_ja}</h3>
-        <div class="explain-value">
-          <span id="aiLayerValue" class="explain-number">{compact(initialChartLayer.value)}</span>
-          <span id="aiLayerShare" class="explain-share">{pct(initialChartLayer.share)}</span>
-        </div>
-        <div class="explain-block">
-          <h3>計算式</h3>
-          <code id="aiLayerFormula" class="formula-code">{formulaText(initialChartLayer.id, initialChartLayer.formula_ja)}</code>
-        </div>
-        <div class="explain-block">
-          <h3>理由</h3>
-          <p id="aiLayerRationale">{initialChartLayer.rationale_ja}</p>
-        </div>
-        <div class="explain-block">
-          <h3>注意点</h3>
-          <p id="aiLayerRisk">{initialChartLayer.risk_ja}</p>
-        </div>
-        <div class="explain-block">
-          <h3>使うデータ</h3>
-          <div id="aiLayerSources" class="source-mini-list"></div>
-        </div>
-      </aside>
-    </section>
-
-    <section class="two-col" aria-label="変化とデータの新しさ">
-      <div class="wide-panel">
-        <div class="panel-head">
-          <h2>AI 時代の広がり</h2>
-          <p class="panel-sub">2020 年から現在まで / 年ごとの概算</p>
-        </div>
-        <div id="aiAdoptionTrend" class="trend-stage"></div>
-      </div>
-      <div class="wide-panel">
-        <div class="panel-head">
-          <h2>更新チェック</h2>
-          <p class="panel-sub">公開日からの経過 / 見直し目安</p>
-        </div>
-        <p class="freshness-note">これは正確さの点数ではなく、各入力データをいつ見直すべきかを見る管理表です。</p>
-        <div class="review-queue" aria-label="次に見直す入力データ">
-          {topReviewSources.map((source) => {
-            const ratio = Math.min(1, source.age_days / source.stale_after_days);
-            return (
-              <div class="review-item">
-                <div class="review-head">
-                  <div>
-                    <strong>{entityLabel(source.entity)}</strong>
-                    <span>{sourceAgeLabel(source)}</span>
-                  </div>
-                  <span class={`status-chip status-${source.freshness_status}`}>{sourceReviewLabel(source)}</span>
-                </div>
-                <div class={`review-bar review-bar-${source.freshness_status}`}>
-                  <span style={`width:${(ratio * 100).toFixed(0)}%`}></span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+    <section class="offline-section" aria-label="インターネットを使っていない人">
+      <p class="offline-line">{offlineLine}</p>
+      <p class="offline-note">上の 4 つの人数は、この {approxOku(summary.offline_people)}人を含みません。</p>
     </section>
 
     <section class="wide-panel formula-panel" aria-labelledby="formulaHeading">
       <div class="panel-head">
-        <h2 id="formulaHeading">公開している計算式</h2>
-        <p class="panel-sub">5 グループの式</p>
+        <h2 id="formulaHeading">どうやって計算したか</h2>
+        <p class="panel-sub">観測日 {dashboard.updated_at} / 期間 {dashboard.period} / モデル v{dashboard.model_version}</p>
       </div>
-      <p class="method-note">このページの式は、同じ人を二度数えないために上から順に引いていく形です。まず仕事で深く使う人を分け、その後に有料、無料、端末 AI、未利用の順に見ます。</p>
+      <p class="method-note">人数が公表されていないものは、年間売上（ARR）、月間利用者（MAU）、対応端末数から見積もります。同じ人を二度数えないよう、開発者、有料、無料、端末搭載の順に重なりを引きます。4 つの人数はそれぞれ別に出しているので、足し合わせても意味を持ちません。</p>
+      <div class="formula-grid">
+        {formulaCards.map((card) => (
+          <div class="formula-card">
+            <h3>{card.title}</h3>
+            <code class="formula-code">{card.code}</code>
+          </div>
+        ))}
+      </div>
       <div class="formula-primer" aria-label="式で使う言葉">
         <h3>式で使う言葉</h3>
         <dl>
-          {formulaTerms.map(([term, description]) => (
+          {formulaTerms.map(([term, definition]) => (
             <>
               <dt>{term}</dt>
-              <dd>{description}</dd>
+              <dd>{definition}</dd>
             </>
           ))}
         </dl>
       </div>
-      <div class="formula-grid">
-        {dashboard.layers.map((layer) => (
-          <div class="formula-card">
-            <h3>{layer.label_ja}</h3>
-            <code class="formula-code">{formulaText(layer.id, layer.formula_ja)}</code>
-          </div>
-        ))}
+      <div class="formula-primer" aria-label="使っている仮定">
+        <h3>使っている仮定</h3>
+        <dl>
+          {parameterRows.map((row) => (
+            <>
+              <dt>{row.label} <span class="parameter-value">{row.display}</span></dt>
+              <dd>{row.rationale}</dd>
+            </>
+          ))}
+        </dl>
       </div>
     </section>
 
     <section class="wide-panel source-panel" aria-labelledby="sourceHeading">
       <div class="panel-head">
-        <h2 id="sourceHeading">入力データと更新日</h2>
+        <h2 id="sourceHeading">入力データと出典</h2>
         <p class="panel-sub">どの数字を、何のために使うか</p>
       </div>
-      <p class="method-note">各データは「元の値」と「人数に直した値」を分けて示します。仮の数字でも、どこを変えればモデル全体が動くか分かる形です。</p>
+      <p class="method-note">各データは「元の値」と「人数に直した値」を分けて示します。見直し目安を過ぎたデータは、そのカードにだけ印をつけます。</p>
       <div class="source-groups">
         {sourceGroups.map((group) => (
           <section class="source-group" aria-label={group.title}>
@@ -416,30 +353,31 @@ const jsonLd = JSON.stringify({
               <span>{group.sources.length} 件</span>
             </div>
             <div class="source-card-grid">
-              {group.sources.map((source) => (
-                <article class={`source-card source-card-${source.freshness_status}`}>
-                  <div class="source-card-top">
-                    <h4>{entityLabel(source.entity)}</h4>
-                    {source.freshness_status !== 'fresh' && (
-                      <span class={`status-chip status-${source.freshness_status}`}>{statusLabel(source.freshness_status)}</span>
-                    )}
-                  </div>
-                  <div class="source-metrics">
-                    <div>
-                      <span>元の値</span>
-                      <strong>{compact(source.value)} {unitLabel(source.unit)}</strong>
+              {group.sources.map((source) => {
+                const chip = staleChipLabel(source.freshness_status);
+                return (
+                  <article class={`source-card source-card-${source.freshness_status}`}>
+                    <div class="source-card-top">
+                      <h4>{entityLabel(source.entity)}</h4>
+                      {chip ? <span class={`status-chip status-${source.freshness_status}`}>{chip}</span> : null}
                     </div>
-                    <div>
-                      <span>人数換算</span>
-                      <strong>{compact(source.derived_value)}</strong>
+                    <div class="source-metrics">
+                      <div>
+                        <span>元の値</span>
+                        <strong>{compact(source.value)} {unitLabel(source.unit)}</strong>
+                      </div>
+                      <div>
+                        <span>人数換算</span>
+                        <strong>{compact(source.derived_value)}</strong>
+                      </div>
                     </div>
-                  </div>
-                  <p class="source-foot">
-                    <span>{source.published_at}</span>
-                    <a href={source.source_url} target="_blank" rel="noopener noreferrer">{source.source_label} ↗</a>
-                  </p>
-                </article>
-              ))}
+                    <p class="source-foot">
+                      <span>{sourceAgeLabel(source)}</span>
+                      <a href={source.source_url} target="_blank" rel="noopener noreferrer">{source.source_label} ↗</a>
+                    </p>
+                  </article>
+                );
+              })}
             </div>
           </section>
         ))}
@@ -447,519 +385,11 @@ const jsonLd = JSON.stringify({
     </section>
 
     <section class="wide-panel" aria-labelledby="methodHeading">
-      <h2 id="methodHeading">モデルの読み方</h2>
+      <h2 id="methodHeading">この数字の読み方</h2>
       <p class="method-note">
-        このモデルでは、人数が公表されていないものを、ARR、MAU、端末数などから見積もります。大事なのは単純に足し算しないことです。仕事で深く使う人、有料で使う人、無料で使う人、端末で AI にふれる人の順に、同じ人の重なりを引きます。
+        このページの人数は、すべて推計です。会社発表、Web の利用統計、端末の出荷数など、性質の違う数字を人数に直しているので、桁と傾向を見るための数字として読んでください。日本の仕事については、<a href="/">職業マップ</a> と <a href="/me">自分の現在地</a> をご覧ください。
       </p>
     </section>
-
-    <script id="aiAdoptionData" type="application/json" set:html={JSON.stringify(dashboard)}></script>
-
-    <script>
-      import * as d3 from 'd3';
-
-      interface SourceRow {
-        id: string;
-        entity: string;
-        derived_value: number;
-        published_at: string;
-        stale_after_days: number;
-        freshness_status: 'fresh' | 'review_needed' | 'stale';
-        confidence: string;
-        source_url: string;
-        source_label: string;
-      }
-
-      interface LayerRow {
-        id: string;
-        label_ja: string;
-        short_label_ja: string;
-        formula_ja: string;
-        rationale_ja: string;
-        risk_ja: string;
-        color: string;
-        value: number;
-        share_of_total: number;
-        freshness_status: 'fresh' | 'review_needed' | 'stale';
-        inputs: SourceRow[];
-      }
-
-      interface ChartLayer {
-        id: string;
-        label_ja: string;
-        short_label_ja: string;
-        color: string;
-        value: number;
-        share: number;
-        formula_ja: string;
-        rationale_ja: string;
-        risk_ja: string;
-        freshness_status: 'fresh' | 'review_needed' | 'stale';
-        inputs: SourceRow[];
-      }
-
-      interface TrendRow {
-        period: string;
-        N_dev: number;
-        N_pro: number;
-        N_free: number;
-        N_passive: number;
-        N_unreached: number;
-      }
-
-      interface Payload {
-        denominator: { primary_value: number };
-        layers: LayerRow[];
-        chart: { unit_count: number; touch_rate: number; layers: ChartLayer[] };
-        sources: Array<SourceRow & { metric: string; age_days: number }>;
-        trend: TrendRow[];
-      }
-
-      const dataNode = document.getElementById('aiAdoptionData');
-      const payload = dataNode?.textContent ? JSON.parse(dataNode.textContent) as Payload : null;
-      const selected = { id: 'N_free' };
-      const WAFFLE_UNITS = payload ? payload.chart.unit_count : 1000;
-
-      const compactNumber = new Intl.NumberFormat('ja-JP', {
-        notation: 'compact',
-        maximumFractionDigits: 1,
-      });
-
-      function fmt(value: number): string {
-        return compactNumber.format(value);
-      }
-
-      function pct(value: number): string {
-        return `${(value * 100).toFixed(1)}%`;
-      }
-
-      function statusLabel(status: string): string {
-        if (status === 'fresh') return '新しい';
-        if (status === 'review_needed') return '確認';
-        return '古い';
-      }
-
-      const formulaTextByLayer: Record<string, string> = {
-        N_dev: 'N_dev = 開発者向け AI 利用者の合計 × (1 - 同じ人の重なり)',
-        N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1 人あたり年間売上 ARPU) - 上の層との重なり',
-        N_free: 'N_free = Σ(月間利用者 MAU × 1 人あたり補正) - 上の層との重なり',
-        N_passive: 'N_passive = AI 対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
-        N_unreached: '未利用 = 世界の総人口 − AI にふれる人',
-      };
-
-      function entityLabel(entity: string): string {
-        if (entity === 'World') return '世界';
-        if (entity === 'Other developer AI tools') return 'その他の開発者向け AI';
-        if (entity === 'OpenAI consumer products') return 'OpenAI 個人向け';
-        if (entity === 'Anthropic consumer products') return 'Anthropic 個人向け';
-        if (entity === 'Perplexity consumer products') return 'Perplexity 個人向け';
-        if (entity === 'Other consumer AI products') return 'その他の個人向け AI';
-        if (entity === 'Regional AI apps') return '各地域の AI アプリ';
-        if (entity === 'Apple Intelligence eligible devices') return 'Apple Intelligence 対応端末';
-        if (entity === 'Windows Copilot eligible PCs') return 'Windows Copilot 対応 PC';
-        if (entity === 'Android Gemini eligible devices') return 'Android Gemini 対応端末';
-        if (entity === 'Regional OS-level AI devices') return '各地域の端末 AI';
-        return entity;
-      }
-
-      interface WaffleUnit {
-        index: number;
-        layer: ChartLayer;
-      }
-
-      function makeWaffleUnits(layers: ChartLayer[]): WaffleUnit[] {
-        const counts = layers.map((layer) => {
-          const raw = layer.share * WAFFLE_UNITS;
-          const count = Math.floor(raw);
-          return { layer, count, remainder: raw - count };
-        });
-        let left = WAFFLE_UNITS - d3.sum(counts, (item) => item.count);
-        counts
-          .slice()
-          .sort((a, b) => d3.descending(a.remainder, b.remainder))
-          .forEach((item) => {
-            if (left <= 0) return;
-            item.count += 1;
-            left -= 1;
-          });
-        const units: WaffleUnit[] = [];
-        for (const item of counts) {
-          for (let i = 0; i < item.count; i += 1) {
-            units.push({ index: units.length, layer: item.layer });
-          }
-        }
-        return units.slice(0, WAFFLE_UNITS);
-      }
-
-      function selectLayer(layerId: string): void {
-        if (!payload) return;
-        const layer = payload.chart.layers.find((item) => item.id === layerId);
-        if (!layer) return;
-        selected.id = layerId;
-        const title = document.getElementById('aiLayerTitle');
-        const value = document.getElementById('aiLayerValue');
-        const share = document.getElementById('aiLayerShare');
-        const formula = document.getElementById('aiLayerFormula');
-        const rationale = document.getElementById('aiLayerRationale');
-        const risk = document.getElementById('aiLayerRisk');
-        const status = document.getElementById('aiLayerStatus');
-        const sources = document.getElementById('aiLayerSources');
-        if (title) title.textContent = layer.label_ja;
-        if (value) value.textContent = fmt(layer.value);
-        if (share) share.textContent = pct(layer.share);
-        if (formula) formula.textContent = formulaTextByLayer[layer.id] ?? layer.formula_ja;
-        if (rationale) rationale.textContent = layer.rationale_ja;
-        if (risk) risk.textContent = layer.risk_ja;
-        if (status) {
-          status.className = `status-chip status-${layer.freshness_status}`;
-          status.textContent = statusLabel(layer.freshness_status);
-          status.hidden = layer.freshness_status === 'fresh';
-        }
-        if (sources) {
-          const rows = layer.inputs.slice(0, 5).map((source) => {
-            const item = document.createElement('a');
-            item.href = source.source_url;
-            item.target = '_blank';
-            item.rel = 'noopener noreferrer';
-            item.className = 'source-mini';
-            const name = document.createElement('strong');
-            name.textContent = entityLabel(source.entity);
-            const meta = document.createElement('span');
-            meta.textContent = `${fmt(source.derived_value)} / ${source.published_at}`;
-            item.append(name, meta);
-            return item;
-          });
-          sources.replaceChildren(...rows);
-        }
-        updateLayerSelection();
-      }
-
-      function updateLayerSelection(): void {
-        const stageSelector = '#aiAdoptionLayerChart';
-        d3.selectAll<SVGCircleElement, WaffleUnit>(`${stageSelector} .waffle-halo`)
-          .classed('is-selected', (d) => d.layer.id === selected.id)
-          .transition()
-          .duration(220)
-          .ease(d3.easeCubicOut)
-          .attr('r', function (this: SVGCircleElement, d) {
-            const haloRadius = Number(this.dataset.haloRadius);
-            return d.layer.id === selected.id ? haloRadius : 0;
-          })
-          .attr('opacity', (d) => d.layer.id === selected.id ? 0.2 : 0);
-
-        d3.selectAll<SVGCircleElement, WaffleUnit>(`${stageSelector} .waffle-dot`)
-          .classed('is-selected', (d) => d.layer.id === selected.id)
-          .attr('aria-pressed', (d) => String(d.layer.id === selected.id))
-          .transition()
-          .duration(220)
-          .ease(d3.easeCubicOut)
-          .attr('r', function (this: SVGCircleElement, d) {
-            const baseRadius = Number(this.dataset.baseRadius);
-            const selectedRadius = Number(this.dataset.selectedRadius);
-            return d.layer.id === selected.id ? selectedRadius : baseRadius;
-          });
-
-        d3.selectAll<SVGGElement, { layer: ChartLayer }>(`${stageSelector} .stack-segment`)
-          .classed('is-selected', (d) => d.layer.id === selected.id)
-          .attr('aria-pressed', (d) => String(d.layer.id === selected.id));
-
-        d3.selectAll<SVGGElement, ChartLayer>(`${stageSelector} .layer-tile`)
-          .classed('is-selected', (d) => d.id === selected.id)
-          .attr('aria-pressed', (d) => String(d.id === selected.id));
-      }
-
-      function renderLayerChart(): void {
-        if (!payload) return;
-        const el = document.getElementById('aiAdoptionLayerChart');
-        if (!el) return;
-        const layers = payload.chart.layers;
-        const width = Math.max(320, el.clientWidth || 720);
-        const small = width < 620;
-        const columns = small ? 25 : 40;
-        const units = makeWaffleUnits(layers);
-        const cell = Math.min(small ? 13 : 16, Math.max(9, (width - 24) / columns));
-        const baseDotRadius = cell * 0.35;
-        const selectedDotRadius = cell * 0.44;
-        const haloRadius = cell * 0.56;
-        const rowsCount = Math.ceil(units.length / columns);
-        const gridW = columns * cell;
-        const gridH = rowsCount * cell;
-        const gridX = (width - gridW) / 2;
-        const gridY = 30;
-        const barX = 20;
-        const barY = gridY + gridH + 34;
-        const barW = width - 40;
-        const barH = 34;
-        const tileGap = 8;
-        const tileCols = small ? 1 : 5;
-        const tileW = (width - 40 - tileGap * (tileCols - 1)) / tileCols;
-        const tileH = small ? 44 : 56;
-        const tileY = barY + barH + 24;
-        const tileRows = Math.ceil(layers.length / tileCols);
-        const height = tileY + tileRows * tileH + (tileRows - 1) * tileGap + 18;
-        const color = new Map(layers.map((layer) => [layer.id, layer.color]));
-        const touchedShare = payload.chart.touch_rate;
-
-        d3.select(el).selectAll('*').remove();
-        const svg = d3.select(el)
-          .append('svg')
-          .attr('viewBox', `0 0 ${width} ${height}`)
-          .attr('role', 'img')
-          .attr('aria-label', `AI 利用率を ${WAFFLE_UNITS} 点で見た 5 グループ。点 1 つは ${(100 / WAFFLE_UNITS).toFixed(1)}%。`);
-
-        svg.append('rect')
-          .attr('class', 'waffle-frame')
-          .attr('x', gridX - 10)
-          .attr('y', gridY - 10)
-          .attr('width', gridW + 20)
-          .attr('height', gridH + 20)
-          .attr('rx', 8);
-
-        svg.append('text')
-          .attr('class', 'waffle-caption')
-          .attr('x', width / 2)
-          .attr('y', 4)
-          .attr('text-anchor', 'middle')
-          .attr('dominant-baseline', 'hanging')
-          .text(`${WAFFLE_UNITS} 点 = 100% / 1 点 = ${(100 / WAFFLE_UNITS).toFixed(1)}%`);
-
-        svg.append('g')
-          .attr('class', 'waffle-halo-grid')
-          .attr('transform', `translate(${gridX},${gridY})`)
-          .selectAll<SVGCircleElement, WaffleUnit>('circle')
-          .data(units)
-          .join('circle')
-          .attr('class', (d) => `waffle-halo${d.layer.id === selected.id ? ' is-selected' : ''}`)
-          .attr('data-halo-radius', String(haloRadius))
-          .attr('cx', (d) => (d.index % columns) * cell + cell / 2)
-          .attr('cy', (d) => Math.floor(d.index / columns) * cell + cell / 2)
-          .attr('r', (d) => d.layer.id === selected.id ? haloRadius : 0)
-          .attr('fill', (d) => d.layer.color)
-          .attr('opacity', (d) => d.layer.id === selected.id ? 0.2 : 0);
-
-        const dots = svg.append('g')
-          .attr('class', 'waffle-grid')
-          .attr('transform', `translate(${gridX},${gridY})`)
-          .selectAll<SVGCircleElement, WaffleUnit>('circle')
-          .data(units)
-          .join('circle')
-          .attr('class', (d) => `waffle-dot${d.layer.id === selected.id ? ' is-selected' : ''}`)
-          .attr('data-layer-id', (d) => d.layer.id)
-          .attr('data-base-radius', String(baseDotRadius))
-          .attr('data-selected-radius', String(selectedDotRadius))
-          .attr('cx', (d) => (d.index % columns) * cell + cell / 2)
-          .attr('cy', (d) => Math.floor(d.index / columns) * cell + cell / 2)
-          .attr('r', (d) => d.layer.id === selected.id ? selectedDotRadius : baseDotRadius)
-          .attr('fill', (d) => d.layer.color)
-          // Decorative for AT: putting `tabindex=0` + `role=button` on every dot
-          // (chartUnits = 1000) put a thousand items in the keyboard tab order
-          // for a sighted-mouse convenience. The five layer tiles below already
-          // handle layer selection; keep `click` for mouse, mark the dots
-          // `aria-hidden` so screen readers + keyboard users navigate the chart
-          // via the tiles instead of cycling through 1000 SVG circles.
-          .attr('aria-hidden', 'true')
-          .on('click', (_event, d) => selectLayer(d.layer.id));
-        dots.append('title').text((d) => `${d.layer.label_ja}: ${pct(d.layer.share)}`);
-
-        const stack = svg.append('g').attr('transform', `translate(${barX},${barY})`);
-        stack.append('rect')
-          .attr('class', 'stack-track')
-          .attr('width', barW)
-          .attr('height', barH)
-          .attr('rx', 7);
-
-        let cursor = 0;
-        const segments = layers.map((layer) => {
-          const start = cursor;
-          const w = barW * layer.share;
-          cursor += w;
-          return { layer, start, w };
-        });
-
-        const segment = stack.selectAll<SVGGElement, typeof segments[number]>('g.stack-segment')
-          .data(segments)
-          .join('g')
-          .attr('class', (d) => `stack-segment${d.layer.id === selected.id ? ' is-selected' : ''}`)
-          .attr('transform', (d) => `translate(${d.start},0)`)
-          .attr('tabindex', 0)
-          .attr('role', 'button')
-          .attr('aria-pressed', (d) => String(d.layer.id === selected.id))
-          .attr('aria-label', (d) => `${d.layer.label_ja}: ${pct(d.layer.share)}`)
-          .on('click', (_event, d) => selectLayer(d.layer.id))
-          .on('keydown', (event, d) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              selectLayer(d.layer.id);
-            }
-          });
-
-        segment.append('rect')
-          .attr('width', (d) => Math.max(1, d.w))
-          .attr('height', barH)
-          .attr('rx', 6)
-          .attr('fill', (d) => color.get(d.layer.id) ?? d.layer.color);
-
-        segment.filter((d) => d.w > 64).append('text')
-          .attr('class', 'stack-label')
-          .attr('x', (d) => d.w / 2)
-          .attr('y', barH / 2)
-          .attr('text-anchor', 'middle')
-          .attr('dominant-baseline', 'middle')
-          .text((d) => `${d.layer.short_label_ja} ${pct(d.layer.share)}`);
-
-        const touchX = barW * touchedShare;
-        stack.append('line')
-          .attr('class', 'touch-line')
-          .attr('x1', touchX)
-          .attr('x2', touchX)
-          .attr('y1', -8)
-          .attr('y2', barH + 8);
-        stack.append('text')
-          .attr('class', 'touch-label')
-          .attr('x', Math.min(barW - 2, Math.max(2, touchX)))
-          .attr('y', -12)
-          .attr('text-anchor', touchX > barW * 0.72 ? 'end' : 'start')
-          .text(`AI にふれる人 ${Math.round(touchedShare * 100)} 人`);
-
-        const tiles = svg.append('g')
-          .attr('transform', `translate(20,${tileY})`)
-          .selectAll<SVGGElement, ChartLayer>('g.layer-tile')
-          .data(layers)
-          .join('g')
-          .attr('class', (d) => `layer-tile${d.id === selected.id ? ' is-selected' : ''}`)
-          .attr('transform', (_d, i) => {
-            const col = i % tileCols;
-            const row = Math.floor(i / tileCols);
-            return `translate(${col * (tileW + tileGap)},${row * (tileH + tileGap)})`;
-          })
-          .attr('tabindex', 0)
-          .attr('role', 'button')
-          .attr('aria-pressed', (d) => String(d.id === selected.id))
-          .attr('aria-label', (d) => `${d.label_ja}: ${fmt(d.value)}`)
-          .on('click', (_event, d) => selectLayer(d.id))
-          .on('keydown', (event, d) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              selectLayer(d.id);
-            }
-          });
-
-        tiles.append('rect')
-          .attr('class', 'layer-tile-bg')
-          .attr('width', tileW)
-          .attr('height', tileH)
-          .attr('rx', 7);
-        tiles.append('rect')
-          .attr('width', 6)
-          .attr('height', tileH - 14)
-          .attr('x', 8)
-          .attr('y', 7)
-          .attr('rx', 3)
-          .attr('fill', (d) => d.color);
-        tiles.append('text')
-          .attr('class', 'tile-label')
-          .attr('x', 22)
-          .attr('y', 20)
-          .text((d) => d.short_label_ja);
-        tiles.append('text')
-          .attr('class', 'tile-value')
-          .attr('x', 22)
-          .attr('y', 39)
-          .text((d) => `${pct(d.share)} / ${fmt(d.value)}`);
-      }
-
-      function renderTrend(): void {
-        if (!payload) return;
-        const el = document.getElementById('aiAdoptionTrend');
-        if (!el) return;
-        const width = Math.max(320, el.clientWidth || 520);
-        const height = Math.max(320, el.clientHeight || 360);
-        const small = width < 520;
-        const margin = { top: 18, right: 22, bottom: 54, left: 52 };
-        const innerW = width - margin.left - margin.right;
-        const innerH = height - margin.top - margin.bottom;
-        const keys: Array<keyof TrendRow> = ['N_dev', 'N_pro', 'N_free', 'N_passive'];
-        const color = new Map(payload.layers.map((layer) => [layer.id, layer.color]));
-        const labels = new Map(payload.layers.map((layer) => [layer.id, layer.short_label_ja]));
-        const periods = payload.trend.map((row) => row.period);
-        const tickPeriods = periods;
-        const x = d3.scalePoint()
-          .domain(periods)
-          .range([0, innerW])
-          .padding(0.35);
-        const maxY = d3.max(payload.trend, (row) => d3.max(keys, (key) => Number(row[key]))) ?? 1;
-        const y = d3.scaleLinear().domain([0, maxY]).range([innerH, 0]).nice();
-
-        d3.select(el).selectAll('*').remove();
-        const svg = d3.select(el)
-          .append('svg')
-          .attr('viewBox', `0 0 ${width} ${height}`)
-          .attr('role', 'img')
-          .attr('aria-label', 'AI 時代の利用率の変化');
-        const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
-
-        g.append('g')
-          .attr('class', 'axis')
-          .attr('transform', `translate(0,${innerH})`)
-          .call(d3.axisBottom(x).tickValues(tickPeriods))
-          .selectAll('text')
-          .attr('text-anchor', small ? 'end' : 'middle')
-          .attr('transform', small ? 'rotate(-28)' : null);
-        g.append('g')
-          .attr('class', 'axis')
-          .call(d3.axisLeft(y).ticks(4).tickFormat((d) => fmt(Number(d))));
-
-        for (const key of keys) {
-          const seriesLine = d3.line<TrendRow>()
-            .x((d) => x(d.period) ?? 0)
-            .y((d) => y(Number(d[key])));
-          g.append('path')
-            .datum(payload.trend)
-            .attr('fill', 'none')
-            .attr('stroke', color.get(String(key)) ?? '#777')
-            .attr('stroke-width', 2)
-            .attr('d', seriesLine);
-          g.selectAll(`circle.${key}`)
-            .data(payload.trend)
-            .join('circle')
-            .attr('cx', (d) => x(d.period) ?? 0)
-            .attr('cy', (d) => y(Number(d[key])))
-            .attr('r', 2.8)
-            .attr('fill', color.get(String(key)) ?? '#777');
-        }
-
-        const legend = svg.append('g').attr('transform', `translate(${margin.left},${height - 18})`);
-        keys.forEach((key, index) => {
-          const item = legend.append('g').attr('transform', `translate(${index * 86},0)`);
-          item.append('rect')
-            .attr('width', 10)
-            .attr('height', 10)
-            .attr('rx', 2)
-            .attr('fill', color.get(String(key)) ?? '#777');
-          item.append('text')
-            .attr('x', 15)
-            .attr('y', 9)
-            .attr('class', 'chart-value')
-            .text(labels.get(String(key)) ?? String(key));
-        });
-      }
-
-      function renderAll(): void {
-        renderLayerChart();
-        renderTrend();
-      }
-
-      if (payload) {
-        selectLayer(selected.id);
-        renderAll();
-        const observed = [
-          document.getElementById('aiAdoptionLayerChart'),
-          document.getElementById('aiAdoptionTrend'),
-        ].filter((item): item is HTMLElement => item != null);
-        const resizeObserver = new ResizeObserver(renderAll);
-        observed.forEach((item) => resizeObserver.observe(item));
-      }
-    </script>
 
     <Footer />
   </article>

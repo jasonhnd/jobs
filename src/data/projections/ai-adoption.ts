@@ -3,7 +3,8 @@
  *
  * This projection keeps the public dashboard deterministic: source observations
  * and assumptions live under data/ai-adoption/, while the browser receives one
- * precomputed JSON payload. D3 renders the output; it does not own the model.
+ * precomputed JSON payload. The page renders the output; it does not own the
+ * model, and it never re-expresses the groups as a 100% split.
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -11,7 +12,7 @@ import { z } from 'zod';
 import { nowIso } from '../../lib/now.js';
 
 const ConfidenceSchema = z.enum(['high', 'medium', 'low']);
-const LayerIdSchema = z.enum(['N_dev', 'N_pro', 'N_free', 'N_passive', 'N_unreached']);
+const LayerIdSchema = z.enum(['N_dev', 'N_pro', 'N_free', 'N_passive']);
 
 const ObservationSchema = z
   .object({
@@ -169,24 +170,7 @@ function freshnessStatus(ageDays: number, staleAfterDays: number): FreshnessStat
   return 'stale';
 }
 
-function freshnessScore(status: FreshnessStatus): number {
-  if (status === 'fresh') return 1;
-  if (status === 'review_needed') return 0.55;
-  return 0.15;
-}
-
-function confidenceWeight(confidence: Confidence): number {
-  if (confidence === 'high') return 1.2;
-  if (confidence === 'medium') return 1;
-  return 0.75;
-}
-
 function layerObservationIds(layerId: LayerId, observations: readonly Observation[]): string[] {
-  if (layerId === 'N_unreached') {
-    return observations
-      .filter((o) => o.used_by.some((u) => ['N_total', 'N_dev', 'N_pro', 'N_free', 'N_passive'].includes(u)))
-      .map((o) => o.id);
-  }
   return observations.filter((o) => o.used_by.includes(layerId)).map((o) => o.id);
 }
 
@@ -230,9 +214,10 @@ export function buildAiAdoptionPayload(input: AiAdoptionPayloadInput) {
 
   const nTotal = metricValue(observations, assumptions.primary_denominator_metric);
   const nPopulation = metricValue(observations, assumptions.auxiliary_denominator_metric);
-  // Denominators must be strictly positive: every share/rate below divides by
-  // one of them, and a 0 would serialize as Infinity→null and silently corrupt
-  // the dashboard. assertFiniteNumber only rules out NaN/±Infinity, not 0.
+  // Denominators must be strictly positive: N_total caps the passive layer and
+  // N_population − N_total is the published offline count, so a 0 here would
+  // silently zero out or invert those. assertFiniteNumber only rules out
+  // NaN/±Infinity, not 0.
   if (nTotal <= 0) {
     throw new Error(`[ai-adoption] primary denominator ${assumptions.primary_denominator_metric} must be > 0, got ${nTotal}`);
   }
@@ -265,27 +250,38 @@ export function buildAiAdoptionPayload(input: AiAdoptionPayloadInput) {
   const passiveUncapped = Math.max(0, passiveGross - passiveExplicitOverlap);
   const nPassive = clamp(passiveUncapped, 0, Math.max(0, nTotal - nDev - nPro - nFree));
 
-  const nUnreached = Math.max(0, nTotal - nDev - nPro - nFree - nPassive);
+  // Internet users that none of the four layers claims. This is a reconciliation
+  // residual for the maintainer (it shows how much of N_total the model has
+  // "explained"), NOT a published group: the page never presents the four
+  // layers as a 100% split of anything, so it is not surfaced as a layer.
+  const internetUsersNotInLayers = Math.max(0, nTotal - nDev - nPro - nFree - nPassive);
 
-  // Round each reached layer independently, then derive N_unreached as the
-  // residual so the five layer integers sum EXACTLY to round(N_total). The
-  // dashboard presents them as a 100% decomposition of internet users, so the
-  // published parts must reconcile to the whole — rounding all six in
-  // isolation left a ±1-person gap (sum of parts ≠ total). `nUnreached`
-  // (unrounded) is still used for the rate fields below.
-  const rTotal = round(nTotal);
-  const rDev = round(nDev);
-  const rPro = round(nPro);
-  const rFree = round(nFree);
-  const rPassive = round(nPassive);
   const totals: Record<LayerId | 'N_total' | 'N_population', number> = {
-    N_total: rTotal,
+    N_total: round(nTotal),
     N_population: round(nPopulation),
-    N_dev: rDev,
-    N_pro: rPro,
-    N_free: rFree,
-    N_passive: rPassive,
-    N_unreached: Math.max(0, rTotal - rDev - rPro - rFree - rPassive),
+    N_dev: round(nDev),
+    N_pro: round(nPro),
+    N_free: round(nFree),
+    N_passive: round(nPassive),
+  };
+
+  // The public headline numbers. Each one is a distinct population; they are
+  // published side by side and are never summed into a "touch rate" or drawn
+  // as a 100% chart. `self_users` is the people who open a generative-AI
+  // product themselves (dev + paid + free, already de-duplicated by the
+  // overlap chain above). `passive_only_users` are people whose device ships
+  // an AI feature they may never open — kept separate, not added in.
+  // `offline_people` is population − internet users: a standalone statement,
+  // not a funnel residual.
+  const summary = {
+    self_users: totals.N_dev + totals.N_pro + totals.N_free,
+    developer_users: totals.N_dev,
+    paid_users: totals.N_pro,
+    free_users: totals.N_free,
+    passive_only_users: totals.N_passive,
+    internet_users: totals.N_total,
+    population: totals.N_population,
+    offline_people: Math.max(0, totals.N_population - totals.N_total),
   };
 
   // age_days / freshness_status below are INTENTIONALLY wall-clock-relative:
@@ -294,6 +290,10 @@ export function buildAiAdoptionPayload(input: AiAdoptionPayloadInput) {
   // (not the content-derived dataAsOf above), and why they are excluded from the
   // SEO baseline (rendered freshness pills, not page metadata). Do NOT "fix" this
   // to a content date — staleness is meaningless without a moving reference.
+  //
+  // Freshness is per source only. There is deliberately no model-level
+  // "health score": a single percentage read as a quality grade on the public
+  // page, which it never was. A stale input is flagged on its own source card.
   const sourceRows = observations.map((o) => {
     const ageDays = daysSince(o.published_at, now);
     const sourceDef = sources[o.source_key];
@@ -318,25 +318,10 @@ export function buildAiAdoptionPayload(input: AiAdoptionPayloadInput) {
       confidence: o.confidence,
       stale_after_days: o.stale_after_days,
       freshness_status: status,
-      freshness_score: freshnessScore(status),
       used_by: o.used_by,
       note: o.note,
     };
   });
-
-  const weightedFreshness = sourceRows.reduce(
-    (acc, row) => {
-      const weight = confidenceWeight(row.confidence);
-      return {
-        score: acc.score + row.freshness_score * weight,
-        weight: acc.weight + weight,
-      };
-    },
-    { score: 0, weight: 0 },
-  );
-  const modelFreshnessScore = weightedFreshness.weight === 0
-    ? 0
-    : weightedFreshness.score / weightedFreshness.weight;
 
   const layers = displayModel.layers.map((layer) => {
     const value = totals[layer.id];
@@ -344,89 +329,14 @@ export function buildAiAdoptionPayload(input: AiAdoptionPayloadInput) {
     return {
       ...layer,
       value,
-      share_of_total: round(value / nTotal, 4),
       source_ids: ids,
       freshness_status: statusForObservationIds(ids, sourceRows),
       inputs: sourceRows.filter((row) => ids.includes(row.id)),
     };
   });
 
-  // Population-based view for the dashboard chart (waffle / cards / stack / tiles
-  // + its explain panel). The model itself stays internet-user based; here the
-  // four reached layers are re-expressed as a share of world population and the
-  // residual "未利用" = population − reached (so it also includes offline people).
-  const unreachedColor = displayModel.layers.find((l) => l.id === 'N_unreached')?.color ?? '#C8BCA8';
-  const touchedTotal = totals.N_dev + totals.N_pro + totals.N_free + totals.N_passive;
-  const popUnreached = Math.max(0, totals.N_population - touchedTotal);
-  const chart = {
-    unit_count: 1000,
-    base_label: '世界の総人口',
-    base_value: totals.N_population,
-    touched_value: round(touchedTotal),
-    touch_rate: round(touchedTotal / totals.N_population, 4),
-    unreached_rate: round(popUnreached / totals.N_population, 4),
-    layers: [
-      ...layers
-        .filter((l) => l.id !== 'N_unreached')
-        .map((l) => ({
-          id: l.id,
-          label_ja: l.label_ja,
-          short_label_ja: l.short_label_ja,
-          color: l.color,
-          value: l.value,
-          share: round(l.value / totals.N_population, 4),
-          formula_ja: l.formula_ja,
-          rationale_ja: l.rationale_ja,
-          risk_ja: l.risk_ja,
-          freshness_status: l.freshness_status,
-          inputs: l.inputs,
-        })),
-      {
-        id: 'N_unreached',
-        label_ja: 'まだ使っていない人',
-        short_label_ja: '未利用',
-        color: unreachedColor,
-        value: round(popUnreached),
-        share: round(popUnreached / totals.N_population, 4),
-        formula_ja: '未利用 = 世界の総人口 − AI にふれる人',
-        rationale_ja: '世界の総人口のうち、まだ AI にふれていない人。インターネットを使っていない人もここに含む。',
-        risk_ja: '総人口やインターネット利用の見積もり、上の各グループの誤差がここに集まる。',
-        freshness_status: 'fresh' as FreshnessStatus,
-        inputs: sourceRows.filter((row) => row.metric === 'global_population' || row.metric === 'global_internet_users'),
-      },
-    ],
-  };
-
-  const trendScales: Array<{ period: string; totalScale: number; layerScale: Record<Exclude<LayerId, 'N_unreached'>, number> }> = [
-    { period: '2020', totalScale: 0.82, layerScale: { N_dev: 0.0100, N_pro: 0.0010, N_free: 0.0030, N_passive: 0.0000 } },
-    { period: '2021', totalScale: 0.88, layerScale: { N_dev: 0.0300, N_pro: 0.0030, N_free: 0.0080, N_passive: 0.0020 } },
-    { period: '2022', totalScale: 0.93, layerScale: { N_dev: 0.0900, N_pro: 0.0200, N_free: 0.0400, N_passive: 0.0060 } },
-    { period: '2023', totalScale: 0.96, layerScale: { N_dev: 0.2200, N_pro: 0.1200, N_free: 0.2200, N_passive: 0.0400 } },
-    { period: '2024', totalScale: 0.98, layerScale: { N_dev: 0.4500, N_pro: 0.3400, N_free: 0.4800, N_passive: 0.1600 } },
-    { period: '2025', totalScale: 0.99, layerScale: { N_dev: 0.7000, N_pro: 0.6200, N_free: 0.7200, N_passive: 0.4800 } },
-    { period: assumptions.period, totalScale: 1, layerScale: { N_dev: 1, N_pro: 1, N_free: 1, N_passive: 1 } },
-  ];
-
-  const trend = trendScales.map((row) => {
-    const total = round(nTotal * row.totalScale);
-    const dev = round(nDev * row.layerScale.N_dev);
-    const pro = round(nPro * row.layerScale.N_pro);
-    const free = round(nFree * row.layerScale.N_free);
-    const passive = round(nPassive * row.layerScale.N_passive);
-    const unreached = Math.max(0, total - dev - pro - free - passive);
-    return {
-      period: row.period,
-      N_total: total,
-      N_dev: dev,
-      N_pro: pro,
-      N_free: free,
-      N_passive: passive,
-      N_unreached: round(unreached),
-    };
-  });
-
   const payload = {
-    schema_version: '0.1.0',
+    schema_version: '0.2.0',
     model_version: assumptions.model_version,
     period: assumptions.period,
     generated_at: generatedAt,
@@ -440,15 +350,8 @@ export function buildAiAdoptionPayload(input: AiAdoptionPayloadInput) {
       auxiliary_value: totals.N_population,
     },
     totals,
-    rates: {
-      explicit_adoption_rate: round((nDev + nPro + nFree) / nTotal, 4),
-      passive_touch_rate: round(nPassive / nTotal, 4),
-      total_touch_rate: round((nDev + nPro + nFree + nPassive) / nTotal, 4),
-      unreached_rate: round(nUnreached / nTotal, 4),
-      population_touch_rate: round((nDev + nPro + nFree + nPassive) / nPopulation, 4),
-    },
+    summary,
     layers,
-    chart,
     formulas: displayModel.layers.map((layer) => ({
       id: layer.id,
       label_ja: layer.label_ja,
@@ -466,14 +369,10 @@ export function buildAiAdoptionPayload(input: AiAdoptionPayloadInput) {
       free_upper_overlap: round(freeUpperOverlap),
       passive_gross_users: round(passiveGross),
       passive_explicit_overlap: round(passiveExplicitOverlap),
+      internet_users_not_in_layers: round(internetUsersNotInLayers),
     },
     sources: sourceRows,
     source_definitions: sources,
-    freshness: {
-      score: round(modelFreshnessScore, 3),
-      status: modelFreshnessScore >= 0.8 ? 'fresh' : modelFreshnessScore >= 0.5 ? 'review_needed' : 'stale',
-    },
-    trend,
   };
 
   return payload;

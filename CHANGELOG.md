@@ -12,6 +12,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `/aiadoption` no longer publishes a "利用率". The first screen is one
+  sentence — 自分で生成 AI を使っている人は、およそ 15 億人 (N_dev + N_pro +
+  N_free, as-of month from the payload `updated_at`) — followed by four
+  separate counts (自分で使う人 / お金を払って使う人 / 開発で毎日使う人 /
+  端末に入っているだけの人) that are never summed or drawn as a 100% split.
+  Removed: the 1000-dot waffle + stacked bar over world population, the
+  32/100 `population_touch_rate` headline, both conflicting
+  「まだ使っていない人」 residuals, the hand-scaled 2020→now trend, the
+  model-level freshness score, and the inline D3 script. 「世界はおよそ
+  83 億人、22 億人はまだインターネットを使っていない」 is a standalone
+  sentence (N_population − N_total), not a fifth group. N_dev is renamed
+  開発で毎日使う人 (coding tools only, not 仕事). Formulas, assumptions
+  and per-source cards with their own 期限切れ chip stay below the fold.
+  `data.ai-adoption.json` schema 0.2.0: adds `summary`, drops `rates`,
+  `chart`, `trend`, `freshness`, and the `N_unreached` layer. SEO baseline
+  re-captured for `/aiadoption` (title / description / h1 / OG / JSON-LD /
+  anchors) — intended.
 - Grok 4.6 scoring path (mms-7a) is in-agent — the running `grok-4.6`
   session, same transport as Opus 4.8 / Fable 5. Frozen prompt identity
   line no longer names Gateway. `inferProvider('grok-…')` → `xai` stays
