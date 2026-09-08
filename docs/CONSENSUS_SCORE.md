@@ -163,24 +163,6 @@ AI 影響度の算出方法を変更しました。これまでは、最新の1�
 
 モデル型番は C 向けに置かない。6g 切替説明は履歴として残す。
 
-### 第 6・7 票着地の站内更新説明（mms-8c / #404）
-
-Claude Fable 5.1 と GPT-6 Astra の 2 batch を**一度に**着地させるときの文案。`{…}` は着地時に実測で埋める（mms-8-doc では占位のまま）。モデル型番は C 向けに置かない。片方だけ先に着地する場合は、上の「第 5 票着地」の 1 件テンプレを再利用し、後から来る 1 件にも同じ 1 件テンプレを使う（2 件テンプレは同時着地のときだけ）。
-
-見出し（`/data`）:
-
-```
-総合の票を2件増やしました
-```
-
-```
-複数のAIによる総合に、採点を2件追加しました。公開値はこれまでどおり、複数の採点の中央値です。
-
-今回の追加では、全職業の平均は {前の平均} から {後の平均} になります。公開値が 0.5 以上変わる職業は {N_0.5}、リスク帯が変わる職業は {N_band} です。公開値が 1.0 以上変わる職業は{ありません／{N_1.0} です}。
-```
-
-埋め方: `{前の平均}` `{後の平均}` は 556 職業の Transformation 平均（表示 1 桁、banker rounding）。`{N_0.5}` `{N_band}` `{N_1.0}` は着地前後の公開値（中央値）を比べた職業数。`{N_1.0}` が 0 なら「ありません」、1 以上なら「{N_1.0} です」を選ぶ。数字は着地 PR の drift 実測から転記し、文の骨格は変えない。
-
 ### /standard・/methodology・README の更新方針
 
 実ページの書換は mms-6d / 6e。ここでは方針だけを固定する。
@@ -204,15 +186,10 @@ Claude Fable 5.1 と GPT-6 Astra の 2 batch を**一度に**着地させると�
 | 9 | mms-7a | Grok 4.6 on in-agent（`grok-4.6`）+ prompt freeze。Vercel AI Gateway は使わない。bespoke xAI provider は作らない | 6g |
 | 10 | mms-7b | Grok pilot 40 + 日本語品質審（オーナー署名） | 9 |
 | 11 | mms-7c | Grok 全量 556 → 第 5 票として着地（総合微動 + 最新観測更新） | 6g, 10 |
-| 12 | mms-8-doc | Claude Fable 5.1 + GPT-6 Astra を 2 票同時入列: 凍結 prompt ×2、runbook 2 節、本書の 2 件文案、ROADMAP、表示名テスト（#404。採点しない） | 11 |
-| 13 | mms-8F | Fable 5.1 on in-agent（`claude-fable-5-1`、Fable 5.1 セッション内、effort high、`--attest-model`）: pilot 40 → オーナー日本語審 → 556 | 12 |
-| 14 | mms-8G | GPT-6 Astra on Codex（`gpt-6-astra`、オーナー本機、毎回 `--model` 明示、effort high 明示、Astra 資格の実証 preflight）: pilot 40（security 系を含む）→ オーナー日本語審 → 556 | 12 |
-| 15 | mms-8c | 2 batch 同時着地: JSON ×2、vercel 308 ×2、SCORE_PANEL 5→7、baseline、「現行 batch」、2 件文案に実測を充填。片方が止まれば揃った方だけ先に着地 | 13, 14 |
 
 ## 採点ポリシー（SCORING_RUNBOOK へ転記する常設規則）
 
 - ベンダー白名単: **OpenAI / Anthropic / xAI**（2026-08-31 オーナー決定。Gemini は現時点不採用）。
 - 入列基準: 白名単ベンダーのフロンティア級モデル。同一ベンダー複数モデルの並存可（各 1 票）。非フロンティア・軽量版は不採、決定ログ 1 行のみ。
-- mms-8（2026-09-08 決定）: Claude Fable 5.1（`claude-fable-5-1`）と GPT-6 Astra（`gpt-6-astra`）はどちらも新票。`claude-fable-5` / `gpt-5.6-sol` はパネルに残す。着地後 7 票（Anthropic 4 / OpenAI 2 / xAI 1）。Mythos 5.1 / Sonnet 5 / Haiku / GPT-5.6 Terra・Luna / Daybreak・Cyber 特供 / Gemini は不採。
 - pilot 40 の日本語品質審はオーナー署名ゲートとして維持（コスト門ではなく品質門）。
 - 再採点の節奏は 6 ヶ月期限が自然に駆動する（票を面板に残したければ期限内に更新 run）。

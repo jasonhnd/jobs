@@ -37,13 +37,6 @@ describe('formatModelDisplay', () => {
   test('grok-4.6 → Grok 4.6', () => {
     assert.equal(formatModelDisplay('grok-4.6'), 'Grok 4.6');
   });
-  // mms-8 (#404): the two new votes follow the vendors' official ids.
-  test('claude-fable-5-1 → Claude Fable 5.1', () => {
-    assert.equal(formatModelDisplay('claude-fable-5-1'), 'Claude Fable 5.1');
-  });
-  test('gpt-6-astra → GPT 6 Astra', () => {
-    assert.equal(formatModelDisplay('gpt-6-astra'), 'GPT 6 Astra');
-  });
   test('word-only id degrades gracefully', () => {
     assert.equal(formatModelDisplay('claude-fable'), 'Claude Fable');
   });
@@ -100,16 +93,6 @@ describe('modelSlug and modelIdFromSlug', () => {
     assert.equal(modelIdFromSlug('', currentModelIds), null);
     assert.equal(modelIdFromSlug('bad slug', currentModelIds), null);
     assert.equal(modelIdFromSlug('bad/slug', currentModelIds), null);
-  });
-
-  // mms-8 (#404): only the `claude-` prefix is hidden; a non-Claude id is its own slug.
-  test('maps the mms-8 ids to their public slugs', () => {
-    assert.equal(modelSlug('claude-fable-5-1'), 'fable-5-1');
-    assert.equal(modelSlug('gpt-6-astra'), 'gpt-6-astra');
-    assert.equal(modelIdFromSlug('fable-5-1', [...currentModelIds, 'claude-fable-5-1']), 'claude-fable-5-1');
-    assert.equal(modelIdFromSlug('gpt-6-astra', [...currentModelIds, 'gpt-6-astra']), 'gpt-6-astra');
-    // Fable 5 and Fable 5.1 are distinct votes with distinct slugs.
-    assert.notEqual(modelSlug('claude-fable-5-1'), modelSlug('claude-fable-5'));
   });
 
   test('modelSlug throws on empty, slash, or whitespace model ids', () => {
