@@ -21,6 +21,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `/models` editorial after GPT-6 Astra (mms-8.36 / #443): five story
+  sentences match the Fable 5.1 / Astra / Grok 4.6 panel. Astra keeps the
+  generic personality sentence. Superseded GPT 5.6 SOL panel copy removed.
 - GPT-6 Astra lands as OpenAI's flagship scoring run
   (mms-8.35 / #442): `data/scores/occupations_gpt-6-astra_2026-09-10.json`,
   556/556. `/models/gpt-6-astra` 308 to the run page. Site mean 4.67 → 4.69;
