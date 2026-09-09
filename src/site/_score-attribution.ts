@@ -22,14 +22,14 @@
  * Do NOT edit by hand — the next `build:data` will overwrite it.
  */
 export const SCORE_ATTRIBUTION_DATA = {
-  modelId: 'grok-4.6',
-  modelDisplay: 'Grok 4.6',
-  runDate: '2026-09-07',
+  modelId: 'claude-fable-5-1',
+  modelDisplay: 'Claude Fable 5.1',
+  runDate: '2026-09-09',
 } as const;
 
 export const SCORE_PANEL_DATA = {
   vendorCount: 3,
-  latestRunDate: '2026-09-07',
+  latestRunDate: '2026-09-09',
   staleMonths: 6,
   staleVendorCount: 0,
 } as const;

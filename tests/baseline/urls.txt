@@ -678,6 +678,7 @@
 /me
 /methodology
 /models
+/models/fable-5-1@2026-09-09
 /models/fable-5@2026-06-13
 /models/gpt-5.6-sol@2026-07-12
 /models/grok-4.6@2026-09-07

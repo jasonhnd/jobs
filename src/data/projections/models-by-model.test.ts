@@ -101,10 +101,11 @@ describe('models-by-model projection', () => {
       .flat()
       .find((run) => run.scorer.model === currentAnthropic.model && run.scope === 'occupations');
     assert.ok(current);
+    const incomingModel = 'claude-fable-5-2';
     const extra: ScoreRun = {
       ...current,
-      scorer: { ...current.scorer, model: 'claude-fable-5-1' },
-      run: { ...current.run, run_date: '2026-11-15', run_id: 'synthetic-fable-5-1' },
+      scorer: { ...current.scorer, model: incomingModel },
+      run: { ...current.run, run_date: '2026-11-15', run_id: 'synthetic-fable-5-2' },
     };
     const runsByModel = new Map(
       [...indexes.runsByModel].map(([model, runs]) => [model, [...runs]] as const),
@@ -115,7 +116,7 @@ describe('models-by-model projection', () => {
       '2026-11-16T00:00:00.000Z',
     );
     const older = Object.values(payload.models).find((model) => model.model === currentAnthropic.model);
-    const newer = Object.values(payload.models).find((model) => model.model === 'claude-fable-5-1');
+    const newer = Object.values(payload.models).find((model) => model.model === incomingModel);
     assert.ok(older);
     assert.ok(newer);
     assert.equal(older.in_panel, false);
