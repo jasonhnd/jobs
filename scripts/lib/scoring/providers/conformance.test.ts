@@ -108,6 +108,10 @@ for (const [name, provider] of Object.entries(PROVIDERS)) {
           assert.deepEqual(Object.keys(schema.properties.aiois.properties), [...AIOIS_FIELD_NAMES]);
           assert.deepEqual(schema.properties.aiois.required, [...AIOIS_FIELD_NAMES]);
           assert.deepEqual(schema.required, ['id', 'ai_risk', 'rationale_ja', 'confidence', 'aiois']);
+          if (name === 'codex') {
+            assert.equal(prep.audit?.reasoning_effort ?? null, null);
+            assert.equal(prep.audit?.reasoning_effort_source, 'inherited-from-user-config');
+          }
         } finally {
           rmSync(dir, { recursive: true, force: true });
         }
