@@ -125,6 +125,8 @@ export async function buildDetail(
       consensus_transformation: consensus ? consensus.transformation : null,
       latest_transformation: consensus?.latest.aiois ? consensus.latest.aiois.transformation : null,
       latest_delta: consensus ? consensus.latestDelta : null,
+      stale_vote: consensus ? consensus.staleVendors.length > 0 : false,
+      consensus_vendor_count: consensus ? consensus.panel.length : null,
       stats: stats
         ? {
             // Match Pydantic's exclude={"id", "schema_version"} model_dump
