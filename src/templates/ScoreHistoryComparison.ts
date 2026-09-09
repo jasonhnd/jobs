@@ -14,6 +14,8 @@ import {
   CONSENSUS_HEADLINE_LABEL,
   SCORE_HISTORY_DETAILS_ID,
   formatConsensusScore,
+  formatScoreHistoryCurrentLine,
+  formatScoreHistorySummary,
 } from '../site/consensus-copy.js';
 
 export interface ScoreHistoryComparisonEntry {
@@ -96,7 +98,7 @@ export function renderScoreHistoryComparison(
 
   const details =
     `<details class="score-history-details" id="${SCORE_HISTORY_DETAILS_ID}">` +
-    `<summary>モデル別の票を表示（${sorted.length}件）</summary>` +
+    `<summary>${escapeHtml(formatScoreHistorySummary(sorted.length))}</summary>` +
     aging +
     `<ol class="score-history-list">${items}</ol>` +
     `</details>`;
@@ -114,7 +116,7 @@ export function renderScoreHistoryComparison(
     `<div class="score-history-current" aria-label="${escapeHtml(CONSENSUS_HEADLINE_LABEL)}">` +
     `<div>` +
     `<span class="score-history-current-label">${escapeHtml(CONSENSUS_HEADLINE_LABEL)}</span>` +
-    `<span class="score-history-current-date">${options.vendorCount}票 · 最新採点 ${escapeHtml(formatDate(options.latestRunDate))}</span>` +
+    `<span class="score-history-current-date">${escapeHtml(formatScoreHistoryCurrentLine(options.latestRunDate))}</span>` +
     `</div>` +
     `<strong>${escapeHtml(formatScore(options.consensusTransformation))}<span>/10</span></strong>` +
     `</div>` +

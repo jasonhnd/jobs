@@ -151,7 +151,7 @@ describe('buildAiFactSummary', () => {
   test('always ends with the source attribution', () => {
     assert.ok(
       buildAiFactSummary(base).endsWith(
-        formatConsensusCitation(SCORE_PANEL.vendorCount, SCORE_PANEL.latestRunDate),
+        formatConsensusCitation(SCORE_PANEL.latestRunDate),
       ),
     );
   });
@@ -168,7 +168,7 @@ describe('GEO page fact summaries', () => {
     const s = buildSectorGeoFactSummary({ facts: geoFacts, sectorId: 'it' });
     assert.ok(s.includes('ITセクターは2職業、就業者1,600人、平均AI影響度8.10/10'), s);
     assert.ok(s.includes('セクター平均AI影響度順では1/2位'), s);
-    assert.ok(s.endsWith(formatConsensusCitation(SCORE_PANEL.vendorCount, SCORE_PANEL.latestRunDate)), s);
+    assert.ok(s.endsWith(formatConsensusCitation(SCORE_PANEL.latestRunDate)), s);
   });
 
   test('occupation summary uses GEO occupation rank and page metrics', () => {
@@ -187,7 +187,7 @@ describe('GEO page fact summaries', () => {
     assert.ok(s.includes('全体平均5.42/10を上回る水準'), s);
     assert.ok(s.includes('仕事が減るリスクは8.0/10'), s);
     assert.ok(s.includes('年収中央値は約720万円'), s);
-    assert.ok(s.endsWith(formatConsensusCitation(SCORE_PANEL.vendorCount, SCORE_PANEL.latestRunDate)), s);
+    assert.ok(s.endsWith(formatConsensusCitation(SCORE_PANEL.latestRunDate)), s);
   });
 
   test('occupation-set summary aggregates only through geo-facts helper', () => {
