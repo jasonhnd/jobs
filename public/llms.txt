@@ -81,7 +81,7 @@ Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
   title  = {Japan Jobs x AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
-  note   = {Independent AIOIS-10 analysis. Published value: multi-model consensus, latest scoring 2026-09-07. AI Impact scores are LLM estimates, not official government forecasts.}
+  note   = {Independent AIOIS-10 analysis. Published value: mean of each vendor's latest model, latest scoring 2026-09-07. AI Impact scores are LLM estimates, not official government forecasts.}
 }
 ```
 
