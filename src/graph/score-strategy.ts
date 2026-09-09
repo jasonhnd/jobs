@@ -3,8 +3,7 @@
  *
  * Centralizes the rule for "which historical score is current".
  *
- * Canonical: `pickConsensusScore` (mms-6b) — median of comparable AIOIS-10
- * votes. `pickLatestScore` remains for 最新観測 / /models / score_history.
+ * Canonical: pickFlagshipMeanScore (mms-8.13 onward) — mean of each vendor's latest comparable run. pickConsensusScore (median) is deprecated; pickLatestScore remains for 最新観測 / /models / score_history.
  *
  * CHANGELOG of pickConsensusScore:
  *   2026-08-31  mms-6a — comparable → 1 vote/model → 6-month window
@@ -70,7 +69,15 @@ export function pickLatestScore<T extends { date: string; aiois?: unknown }>(his
   return chosen;
 }
 
+/**
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
+ */
 export const CONSENSUS_WINDOW_MONTHS = 6;
+/**
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
+ */
 export const CONSENSUS_FLOOR_VOTES = 5;
 
 const DIM_KEYS = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10'] as const;
@@ -109,6 +116,10 @@ export interface ScorePanelMeta {
   readonly usedExpiredVotes: boolean;
 }
 
+/**
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
+ */
 export function scorePanelMeta(c: ConsensusScore): ScorePanelMeta {
   return {
     voteCount: c.panel.length,
@@ -206,6 +217,9 @@ function selectRationale(
  *
  * `pickLatestScore` stays for the 最新観測 row and /models. This function
  * does not round (display-layer banker rounding is unchanged).
+ *
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
  */
 export function pickConsensusScore(history: readonly ScoreHistEntry[]): ConsensusScore {
   if (history.length === 0) {
@@ -263,7 +277,12 @@ export function pickConsensusScore(history: readonly ScoreHistEntry[]): Consensu
   };
 }
 
-/** Flatten a consensus result into the ScoreHistEntry shape projections already consume. */
+/**
+ * Flatten a consensus result into the ScoreHistEntry shape projections already consume.
+ *
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
+ */
 export function toCanonicalScoreEntry(c: ConsensusScore): ScoreHistEntry {
   return {
     model: c.rationaleEntry.model,
