@@ -16,13 +16,19 @@ import { loadGraph } from '@/graph';
 import { loadOccupationsFromGraph } from '@/views/ranking';
 import { loadRankingMovers } from '@/page-data/ranking-movers';
 import { OCCUPATION_COUNT } from '@/site/config';
+import { SCORE_PANEL } from '@/site/score-attribution';
+import { SOP_LANDINGS, formatSopCitation } from '@/views/geo-answer-topics';
 
 const graph = await loadGraph();
 const { hub } = buildRankings(() => loadOccupationsFromGraph(graph));
 const canonical = 'https://mirai-shigoto.com/rankings';
 const title = '職業ランキング｜AI影響度・年収・就業者数・初任給・労働時間で比較 | 未来の仕事';
 // RA-003 (2026-05-18): SCORED count, not raw IPD total — match adjacent pages.
-const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
+const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事などを日本の職業データで一覧。`;
+const sopCite = formatSopCitation({
+  runDate: SCORE_PANEL.latestRunDate,
+  occupationCount: OCCUPATION_COUNT.SCORED,
+});
 
 const groupsHtml = renderRankingsHubGroups(hub.groups);
 const gsHtml = renderRankingsHubStats(hub.globalStats);
@@ -56,6 +62,8 @@ h1 .accent{color:var(--accent-deep)}
 .sub{color:var(--fg2);font-size:.95rem}
 .sub strong{color:var(--accent-deep);font-weight:600}
 .intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+.sop-cite{margin:16px 0 0;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.95rem;line-height:1.7;color:var(--fg);max-width:64ch}
+.sop-related{margin:28px 0 0;font-size:.95rem;line-height:1.8;color:var(--fg2)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:32px 0}
 .stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
 .stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
@@ -175,7 +183,8 @@ footer .footer-meta .nowrap{white-space:nowrap}
     <header id="content">
       <h1><span class="accent">職業ランキング</span></h1>
       <p class="sub"><strong>{OCCUPATION_COUNT.SCORED} 職業</strong> を AI 影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点で比較</p>
-      <p class="intro">日本の職業を様々な視点でランキング。AI に代替されやすい仕事、将来性のある仕事、高年収かつ低リスクの職業、初任給が高い職業、労働時間が短い職業、人手不足の職業などを一覧できます。</p>
+      <p class="intro">日本の職業データを様々な視点でランキング。AIに代替されやすい仕事ランキング、年収が高くAIに代替されにくい仕事、なくならない仕事の候補を一覧できます。</p>
+      <p class="sop-cite">{sopCite}</p>
     </header>
 
     <Fragment set:html={gsHtml} />
@@ -188,6 +197,16 @@ footer .footer-meta .nowrap{white-space:nowrap}
     </section>
 
     <Fragment set:html={insightsHtml} />
+
+    <nav class="sop-related" aria-label="関連する質問">
+      {SOP_LANDINGS.map((landing, i, arr) => (
+        <>
+          <a href={landing.href}>{landing.labelJa}</a>
+          {i < arr.length - 1 ? ' · ' : ''}
+        </>
+      ))}
+      {' · '}<a href="/standard">AIOIS-10 標準</a>
+    </nav>
 
     <MeEntry source="rankings">
       あなたの職業は、この <strong>39 ランキング</strong>でどこに立っていますか？

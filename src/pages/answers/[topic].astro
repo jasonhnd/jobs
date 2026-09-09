@@ -6,9 +6,12 @@ import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import { occupationPath } from '@/lib/urls';
 import {
   GEO_ANSWER_TOPIC_CONFIGS,
+  SOP_LANDINGS,
   buildGeoAnswerTopic,
+  formatSopCitation,
   type GeoAnswerTopicResult,
 } from '@/views/geo-answer-topics';
+import { SCORE_PANEL } from '@/site/score-attribution';
 
 export function getStaticPaths() {
   return GEO_ANSWER_TOPIC_CONFIGS.map((config) => ({
@@ -59,6 +62,13 @@ const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
     .item-title:hover{text-decoration:underline}
     .metrics{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;color:var(--fg2);font-size:.88rem}
     .metrics span{white-space:nowrap}
+    .sop-cite{margin:0 0 18px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.95rem;line-height:1.7;color:var(--fg);max-width:74ch}
+    .sop-faq{margin:0 0 28px;max-width:74ch}
+    .sop-faq h2{font-size:1.05rem;margin:0 0 10px}
+    .sop-faq dt{font-weight:700;margin:0 0 8px}
+    .sop-faq dd{margin:0;color:var(--fg2);line-height:1.8}
+    .sop-related{margin:28px 0 0;font-size:.95rem;line-height:1.8;color:var(--fg2)}
+    .sop-related a{color:var(--accent-deep)}
     .back{margin:34px 0 0}
     .back a{color:var(--accent-deep)}
     @media (max-width:640px){
@@ -80,13 +90,26 @@ const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
     <header>
       <h1>{topic.config.h1Ja}</h1>
       <p class="answer-lead">{topic.config.shortAnswerJa}</p>
+      <p class="sop-cite">{formatSopCitation({
+        runDate: SCORE_PANEL.latestRunDate,
+        occupationCount: facts.occupationCount,
+        standardLabel: facts.attribution.standardLabel,
+      })}</p>
       <p class="intro">{topic.config.introJa}</p>
     </header>
+
+    <section class="sop-faq" aria-labelledby="sop-faq-h">
+      <h2 id="sop-faq-h">よくある質問</h2>
+      <dl>
+        <dt>{topic.config.questionJa}</dt>
+        <dd>{topic.config.shortAnswerJa}</dd>
+      </dl>
+    </section>
 
     <Fragment set:html={aiFactHtml} />
 
     <div class="topic-meta" aria-label="集計条件">
-      <span>対象: GEO-A {facts.occupationCount}職業</span>
+      <span>対象: AIOIS-10 {facts.occupationCount}職業</span>
       <span>表示: TOP{topic.items.length}</span>
       <span>並び順: {topic.config.itemReasonJa}</span>
     </div>
@@ -108,6 +131,16 @@ const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
         </li>
       ))}
     </ol>
+
+    <nav class="sop-related" aria-label="関連する質問">
+      {SOP_LANDINGS.filter((landing) => landing.href !== `/answers/${topic.config.slug}`).map((landing, i, arr) => (
+        <>
+          <a href={landing.href}>{landing.labelJa}</a>
+          {i < arr.length - 1 ? ' · ' : ''}
+        </>
+      ))}
+      {' · '}<a href="/rankings">職業ランキング</a>
+    </nav>
 
     <p class="back"><a href="/answers">AI回答トピック一覧へ戻る</a></p>
   </article>
