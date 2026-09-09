@@ -23,6 +23,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { ScoreRunSchema } from '../src/data/schema/score-run.js';
+import { isWhitelistedVendor } from '../src/site/score-attribution.js';
 
 const ROOT = resolve(import.meta.dir, '..');
 const OCC_DIR = join(ROOT, 'data', 'occupations');
@@ -67,6 +68,10 @@ if (!parsed.success) {
 }
 const batch = parsed.data;
 console.log(`[check-score-batch] schema OK — scope=${batch.scope}, model=${batch.scorer.model}, run_date=${batch.run.run_date}`);
+console.log(`[check-score-batch] vendor: ${batch.scorer.model_provider}`);
+if (!isWhitelistedVendor(batch.scorer.model_provider)) {
+  console.log(`  WARNING — model_provider "${batch.scorer.model_provider}" is not in VENDOR_WHITELIST (anthropic / openai / xai); it would form its own vendor lane in the public mean.`);
+}
 
 if (batch.scope !== 'occupations') {
   console.log(`[check-score-batch] scope is "${batch.scope}" (not occupations) — skipping occupation coverage/drift.`);
