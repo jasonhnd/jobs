@@ -74,7 +74,7 @@ export async function buildDetail(
     const occ = indexes.occById.get(occId)!;
     const stats = indexes.statsById.get(occId);
     const score = indexes.canonicalScoreByOcc.get(occId);
-    const consensus = indexes.consensusByOcc.get(occId);
+    const consensus = indexes.flagshipByOcc.get(occId);
     const assignment = indexes.sectorByOcc.get(occId);
     const sectorDef = assignment ? sectorById.get(assignment.sector_id) : undefined;
 

@@ -10,7 +10,7 @@
  *   statsById            Map<number, StatsLegacy>
  *   historyByOcc         Map<number, ScoreHistEntry[]>      sorted by date
  *   latestScoreByOcc     Map<number, ScoreHistEntry>      最新観測
- *   consensusByOcc       Map<number, ConsensusScore>
+ *   flagshipByOcc        Map<number, FlagshipMeanScore>   公開値（各社最新 run の平均）
  *   canonicalScoreByOcc  Map<number, ScoreHistEntry>      正典（総合）
  *   runsByModel          Map<string, ScoreRun[]>
  *   labelsByDim          Map<string, Map<string, LabelEntry>>
@@ -83,10 +83,10 @@ import {
 } from '../../graph/sector-resolver.js';
 import {
   pickLatestScore,
-  pickConsensusScore,
-  toCanonicalScoreEntry,
+  pickFlagshipMeanScore,
+  toFlagshipCanonicalScoreEntry,
   type ScoreHistEntry,
-  type ConsensusScore,
+  type FlagshipMeanScore,
 } from '../../graph/score-strategy.js';
 
 export interface Indexes {
@@ -95,9 +95,9 @@ export interface Indexes {
   statsById: Map<number, StatsLegacy>;
   historyByOcc: Map<number, ScoreHistEntry[]>;
   latestScoreByOcc: Map<number, ScoreHistEntry>;
-  /** Median consensus of comparable AIOIS-10 votes (mms-6b). */
-  consensusByOcc: Map<number, ConsensusScore>;
-  /** Consensus flattened to ScoreHistEntry for projection drop-in. */
+  /** Mean of each vendor's latest comparable AIOIS-10 run (mms-8.13). */
+  flagshipByOcc: Map<number, FlagshipMeanScore>;
+  /** Flagship mean flattened to ScoreHistEntry for projection drop-in. */
   canonicalScoreByOcc: Map<number, ScoreHistEntry>;
   runsByModel: Map<string, ScoreRun[]>;
   labelsByDim: Map<string, Map<string, LabelEntry>>;
@@ -185,16 +185,16 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
   }
 
   // Latest score per occupation (最新観測 / attribution). Canonical public
-  // scores are consensusByOcc / canonicalScoreByOcc (mms-6b).
+  // scores are flagshipByOcc / canonicalScoreByOcc (mms-8.13).
   const latestScoreByOcc = new Map<number, ScoreHistEntry>();
-  const consensusByOcc = new Map<number, ConsensusScore>();
+  const flagshipByOcc = new Map<number, FlagshipMeanScore>();
   const canonicalScoreByOcc = new Map<number, ScoreHistEntry>();
   for (const [occId, hist] of historyByOcc) {
     latestScoreByOcc.set(occId, pickLatestScore(hist));
     try {
-      const consensus = pickConsensusScore(hist);
-      consensusByOcc.set(occId, consensus);
-      canonicalScoreByOcc.set(occId, toCanonicalScoreEntry(consensus));
+      const flagship = pickFlagshipMeanScore(hist);
+      flagshipByOcc.set(occId, flagship);
+      canonicalScoreByOcc.set(occId, toFlagshipCanonicalScoreEntry(flagship));
     } catch {
       // Occupations with no comparable AIOIS-10 votes stay off the canonical map.
     }
@@ -292,7 +292,7 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
       statsById,
       historyByOcc,
       latestScoreByOcc,
-      consensusByOcc,
+      flagshipByOcc,
       canonicalScoreByOcc,
       runsByModel,
       labelsByDim,

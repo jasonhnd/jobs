@@ -178,7 +178,7 @@ describe('SCORE_PANEL (live repo data)', () => {
     const aiois = comparableAioisRuns();
     const latest = aiois[aiois.length - 1];
     assert.ok(latest);
-    assert.equal(SCORE_PANEL.voteCount, aiois.length);
+    assert.equal(SCORE_PANEL.voteCount, 3); // vendor-flagship panel (mms-8.13 adapter; 8.15 replaces SCORE_PANEL)
     assert.equal(SCORE_PANEL.latestRunDate, latest.runDate);
     assert.equal(SCORE_PANEL.latestRunDate, SCORE_ATTRIBUTION.runDate);
     assert.equal(SCORE_PANEL.windowMonths, 6);
