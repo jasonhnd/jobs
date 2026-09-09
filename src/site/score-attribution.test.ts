@@ -2,10 +2,17 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
+import { readdirSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import {
   SCORE_ATTRIBUTION,
   SCORE_PANEL,
+  VENDOR_WHITELIST,
   formatModelDisplay,
+  formatVendorDisplay,
+  isWhitelistedVendor,
   modelIdFromSlug,
   modelSlug,
   pickAttributionBatch,
@@ -115,6 +122,40 @@ describe('modelSlug and modelIdFromSlug', () => {
     assert.equal(modelIdFromSlug('fable-5-1', [...currentModelIds, 'claude-fable-5-1']), 'claude-fable-5-1');
     assert.equal(modelIdFromSlug('gpt-6-astra', [...currentModelIds, 'gpt-6-astra']), 'gpt-6-astra');
     assert.notEqual(modelSlug('claude-fable-5-1'), modelSlug('claude-fable-5'));
+  });
+});
+
+describe('VENDOR_WHITELIST / formatVendorDisplay', () => {
+  test('whitelist is exactly anthropic, openai, xai in that order', () => {
+    assert.deepEqual([...VENDOR_WHITELIST], ['anthropic', 'openai', 'xai']);
+  });
+  test('isWhitelistedVendor', () => {
+    assert.equal(isWhitelistedVendor('xai'), true);
+    assert.equal(isWhitelistedVendor('google'), false);
+    assert.equal(isWhitelistedVendor(''), false);
+  });
+  test('display labels', () => {
+    assert.equal(formatVendorDisplay('anthropic'), 'Anthropic');
+    assert.equal(formatVendorDisplay('openai'), 'OpenAI');
+    assert.equal(formatVendorDisplay('xai'), 'xAI');
+    assert.equal(formatVendorDisplay(' XAI '), 'xAI');
+    assert.equal(formatVendorDisplay('google'), 'Google');
+    assert.equal(formatVendorDisplay(' deepseek '), 'deepseek');
+  });
+  test('every batch in data/scores/ declares a whitelisted model_provider', () => {
+    const dir = join(dirname(fileURLToPath(import.meta.url)), '../../data/scores');
+    const files = readdirSync(dir).filter((name) => name.endsWith('.json'));
+    assert.ok(files.length > 0);
+    for (const name of files) {
+      const batch = JSON.parse(readFileSync(join(dir, name), 'utf8')) as {
+        scorer?: { model_provider?: string };
+      };
+      assert.equal(
+        isWhitelistedVendor(batch.scorer?.model_provider ?? ''),
+        true,
+        `${name} model_provider=${JSON.stringify(batch.scorer?.model_provider)}`,
+      );
+    }
   });
 });
 
