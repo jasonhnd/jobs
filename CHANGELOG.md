@@ -21,6 +21,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `/models` editorial after Fable 5.1 (mms-8.30 / #437): Anthropic card uses
+  a signed personality sentence; five story sentences match the current
+  vendor panel. Superseded GPT 5.6 SOL / Opus 5 pair copy removed.
 - Vendor-flagship switch note on `/data` and `/models` (mms-8.28 / #435):
   site mean 4.73 → 4.67; `|Δ| ≥ 0.5` on 32 occupations; 33 band changes;
   `|Δ| ≥ 1.0` on 1. Drift report: `docs/FLAGSHIP_SWITCH_DRIFT.md`.
