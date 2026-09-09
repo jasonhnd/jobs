@@ -331,6 +331,7 @@ const ModelsByModelRecordSchema = z
     model: z.string(),
     modelDisplay: z.string(),
     provider: z.string(),
+    in_panel: z.boolean(),
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     covered_count: z.number().int().min(0),
     prompt_version: z.string(),

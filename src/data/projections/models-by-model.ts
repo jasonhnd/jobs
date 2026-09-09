@@ -37,6 +37,7 @@ interface BatchSummary {
   readonly modelDisplay: string;
   readonly date: string;
   readonly provider: string;
+  readonly inPanel: boolean;
   readonly coveredCount: number;
   readonly promptVersion: string;
   readonly rows: readonly OccupationScoreRow[];
@@ -98,6 +99,31 @@ function occupationRuns(indexes: Indexes): ScoreRun[] {
     );
 }
 
+function aioisCoverage(run: ScoreRun): number {
+  return Object.values(run.scores).filter((entry) => entry.aiois != null).length;
+}
+
+/** Latest comparable (aiois) batch per vendor. Tie-break: newer date, then model id ascending. */
+function inPanelSlugs(runs: readonly ScoreRun[]): Set<string> {
+  const latestByProvider = new Map<string, ScoreRun>();
+  for (const run of runs) {
+    if (aioisCoverage(run) === 0) continue;
+    const prev = latestByProvider.get(run.scorer.model_provider);
+    if (
+      !prev ||
+      run.run.run_date > prev.run.run_date ||
+      (run.run.run_date === prev.run.run_date && run.scorer.model < prev.scorer.model)
+    ) {
+      latestByProvider.set(run.scorer.model_provider, run);
+    }
+  }
+  return new Set(
+    [...latestByProvider.values()].map((run) =>
+      runSlug({ model: run.scorer.model, runDate: run.run.run_date }),
+    ),
+  );
+}
+
 function buildBatchSummaries(indexes: Indexes): BatchSummary[] {
   const runs = occupationRuns(indexes);
 
@@ -122,17 +148,22 @@ function buildBatchSummaries(indexes: Indexes): BatchSummary[] {
     seen.set(slug, run);
   }
 
-  return runs.map((run) => ({
-    run,
-    slug: runSlug({ model: run.scorer.model, runDate: run.run.run_date }),
-    model: run.scorer.model,
-    modelDisplay: formatModelDisplay(run.scorer.model),
-    date: run.run.run_date,
-    provider: run.scorer.model_provider,
-    coveredCount: Object.keys(run.scores).length,
-    promptVersion: run.prompt.prompt_version,
-    rows: buildRows(indexes, run),
-  }));
+  const panel = inPanelSlugs(runs);
+  return runs.map((run) => {
+    const slug = runSlug({ model: run.scorer.model, runDate: run.run.run_date });
+    return {
+      run,
+      slug,
+      model: run.scorer.model,
+      modelDisplay: formatModelDisplay(run.scorer.model),
+      date: run.run.run_date,
+      provider: run.scorer.model_provider,
+      inPanel: panel.has(slug),
+      coveredCount: Object.keys(run.scores).length,
+      promptVersion: run.prompt.prompt_version,
+      rows: buildRows(indexes, run),
+    };
+  });
 }
 
 function bandCounts(rows: readonly OccupationScoreRow[]): ModelRecord['distribution']['bands'] {
@@ -335,6 +366,7 @@ export function buildModelsByModelPayload(
       model: batch.model,
       modelDisplay: batch.modelDisplay,
       provider: batch.provider,
+      in_panel: batch.inPanel,
       date: batch.date,
       covered_count: batch.coveredCount,
       prompt_version: batch.promptVersion,
