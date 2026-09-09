@@ -18,6 +18,7 @@ import {
   validateAndNormalizeResponse,
   type CodexExecutor,
 } from './run-scoring-codex.js';
+import { parseReasoningEffort } from './lib/scoring/providers/codex.js';
 
 const AIOIS = {
   d1: 4.8,
@@ -140,6 +141,26 @@ describe('response validation', () => {
     });
     assert.deepEqual(args.slice(-3), ['--model', 'gpt-5.6-sol', '-']);
     assert.equal(args.filter((arg) => arg === '--model').length, 1);
+  });
+
+  test('argv without --reasoning-effort is byte-identical to the frozen gpt-5.6-sol vector', () => {
+    assert.deepEqual(
+      buildCodexExecArgs({ cwd: '/repo', model: 'gpt-5.6-sol', outputSchemaPath: '/repo/schema.json', outputLastMessagePath: '/repo/last.txt' }),
+      ['exec', '--ephemeral', '--cd', '/repo', '--color', 'never', '--output-schema', '/repo/schema.json', '--output-last-message', '/repo/last.txt', '--model', 'gpt-5.6-sol', '-'],
+    );
+  });
+
+  test('--reasoning-effort high inserts -c model_reasoning_effort=high immediately before --model', () => {
+    const args = buildCodexExecArgs({ cwd: '/repo', model: 'gpt-6-astra', outputSchemaPath: '/repo/s.json', outputLastMessagePath: '/repo/l.txt', reasoningEffort: 'high' });
+    assert.deepEqual(args.slice(-5), ['-c', 'model_reasoning_effort=high', '--model', 'gpt-6-astra', '-']);
+    assert.equal(args.filter((a) => a === '--model').length, 1);
+  });
+
+  test('parseReasoningEffort accepts the four levels, rejects bare flag and unknown values', () => {
+    assert.equal(parseReasoningEffort(undefined), null);
+    for (const e of ['low', 'medium', 'high', 'xhigh'] as const) assert.equal(parseReasoningEffort(e), e);
+    assert.throws(() => parseReasoningEffort('true'), /--reasoning-effort must be one of/);
+    assert.throws(() => parseReasoningEffort('max'), /--reasoning-effort must be one of/);
   });
 
   test('rejects explicit provider/model errors and all-zero placeholders', () => {
