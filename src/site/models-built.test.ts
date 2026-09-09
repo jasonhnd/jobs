@@ -108,7 +108,7 @@ describe('/models built page contract', () => {
     assert.match(visible, /AI 影響度の算出方法を変更しました/);
     assert.match(visible, /全職業の平均は 5\.23 から 4\.68/);
     assert.match(visible, /全職業の平均は 4\.68 から 4\.73/);
-    assert.match(visible, new RegExp(`${SCORE_PANEL.voteCount}票`));
+    assert.match(visible, new RegExp(`${SCORE_PANEL.vendorCount}票`));
     assert.equal(/現行モデル/.test(visible), false);
     for (const run of runs) {
       assert.match(visible, new RegExp(escapeRegExp(run.modelDisplay)));
@@ -121,7 +121,7 @@ describe('/models built page contract', () => {
     );
     assert.match(
       html,
-      new RegExp(`${SCORE_PANEL.voteCount}つのAIモデルによる採点を総合した、各回${coverageText}の結果から`),
+      new RegExp(`${SCORE_PANEL.vendorCount}つのAIモデルによる採点を総合した、各回${coverageText}の結果から`),
     );
   });
 

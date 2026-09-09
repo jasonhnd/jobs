@@ -7,10 +7,11 @@
  */
 import { test, describe } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { buildIndexes, insertById } from './indexes.js';
+import { assertUniformVendorPanel, buildIndexes, insertById } from './indexes.js';
 import type { LoadError } from '../loaders.js';
 import { isWhitelistedVendor } from '../../site/score-attribution.js';
-import { pickFlagshipMeanScore } from '../../graph/score-strategy.js';
+import { pickFlagshipMeanScore, type FlagshipMeanScore, type ScoreHistEntry } from '../../graph/score-strategy.js';
+import type { Aiois10 } from '../../graph/types.js';
 import { fmean } from './fsum.js';
 
 test('buildIndexes: loads occupations and stats with a clean load', async () => {
@@ -96,6 +97,46 @@ test('buildIndexes: pickFlagshipMeanScore on occ 111 uses exactly one run per wh
   assert.deepEqual(c.panel.map((p) => p.model), ['gpt-5.6-sol', 'claude-opus-5', 'grok-4.6']);
   assert.deepEqual([...c.staleVendors], []);
   assert.ok(Math.abs(c.transformation - fmean(c.panel.map((p) => p.transformation))) < 1e-12);
+});
+
+function aioisAt(value: number): Aiois10 {
+  return {
+    d1: value, d2: value, d3: value, d4: value, d5: value,
+    d6: value, d7: value, d8: value, d9: value, d10: value,
+    transformation: value,
+    displacement: value,
+  };
+}
+
+function flagshipFor(providers: readonly string[]): FlagshipMeanScore {
+  const history: ScoreHistEntry[] = providers.map((provider) => ({
+    model: `${provider}-model`,
+    provider,
+    date: '2026-09-07',
+    ai_risk: 5,
+    rationale_ja: '',
+    aiois: aioisAt(5),
+  }));
+  return pickFlagshipMeanScore(history);
+}
+
+test('assertUniformVendorPanel: throws when one occupation lacks xai', () => {
+  const map = new Map<number, FlagshipMeanScore>([
+    [1, flagshipFor(['anthropic', 'openai', 'xai'])],
+    [2, flagshipFor(['anthropic', 'openai'])],
+  ]);
+  assert.throws(
+    () => assertUniformVendorPanel(map),
+    /\[build\] occupation 2 panel vendors \[anthropic,openai\] differ from occupation 1 \[anthropic,openai,xai\] — a flagship batch must cover every occupation/,
+  );
+});
+
+test('assertUniformVendorPanel: accepts a uniform vendor set', () => {
+  const map = new Map<number, FlagshipMeanScore>([
+    [1, flagshipFor(['anthropic', 'openai', 'xai'])],
+    [2, flagshipFor(['openai', 'xai', 'anthropic'])],
+  ]);
+  assert.doesNotThrow(() => assertUniformVendorPanel(map));
 });
 
 test('buildIndexes: history is sorted by date ascending', async () => {

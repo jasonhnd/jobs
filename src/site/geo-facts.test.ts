@@ -273,7 +273,7 @@ describe('buildGeoSurfaces', () => {
       assert.match(llms, /2026-07-01/);
       assert.doesNotMatch(llms, /Claude Next 6/);
       assert.doesNotMatch(llms, /Claude Fable 5/);
-      assert.match(jsonld, /consensus:\d+:2026-07-01/);
+      assert.match(jsonld, /vendor-mean:\d+:2026-07-01/);
       assert.doesNotMatch(jsonld, /claude-next-6/);
     } finally {
       await rm(distRoot, { recursive: true, force: true });

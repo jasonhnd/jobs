@@ -9,7 +9,7 @@
  * mirroring `pickLatestScore()` batch-selection semantics for 最新観測 —
  * and baked into the generated, fs-free `_score-attribution.ts` so importers
  * (including the few Vercel Edge bundles that share chunks with page code)
- * carry NO node:fs. Canonical public scores use `pickConsensusScore()`;
+ * carry NO node:fs. Canonical public scores use `pickFlagshipMeanScore()`;
  * `SCORE_PANEL` is the matching panel metadata.
  *
  * The pure helpers below (`formatModelDisplay`, `pickAttributionBatch`) are
@@ -238,14 +238,13 @@ export const SCORE_ATTRIBUTION: ScoreAttribution = Object.freeze({
 });
 
 export interface ScorePanel {
-  /** Comparable votes in the current consensus panel. */
-  readonly voteCount: number;
-  /** Newest comparable run_date (window anchor). */
+  /** Vendors whose latest run forms the public mean. */
+  readonly vendorCount: number;
+  /** Newest run_date across the panel (also the 最新観測 batch date). */
   readonly latestRunDate: string;
-  readonly windowMonths: number;
-  readonly floorVotes: number;
-  /** True when floor fill pulled in votes older than the window. */
-  readonly usedExpiredVotes: boolean;
+  readonly staleMonths: number;
+  /** Vendors whose latest run is older than latestRunDate − staleMonths. */
+  readonly staleVendorCount: number;
 }
 
 /**
@@ -254,9 +253,8 @@ export interface ScorePanel {
  * batch for 最新観測 / /models.
  */
 export const SCORE_PANEL: ScorePanel = Object.freeze({
-  voteCount: SCORE_PANEL_DATA.voteCount,
+  vendorCount: SCORE_PANEL_DATA.vendorCount,
   latestRunDate: SCORE_PANEL_DATA.latestRunDate,
-  windowMonths: SCORE_PANEL_DATA.windowMonths,
-  floorVotes: SCORE_PANEL_DATA.floorVotes,
-  usedExpiredVotes: SCORE_PANEL_DATA.usedExpiredVotes,
+  staleMonths: SCORE_PANEL_DATA.staleMonths,
+  staleVendorCount: SCORE_PANEL_DATA.staleVendorCount,
 });
