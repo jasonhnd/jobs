@@ -45,7 +45,7 @@ import { buildTreemap } from './projections/treemap.js';
 import { buildAiAdoption } from './projections/ai-adoption.js';
 import { buildWorktypes } from './projections/worktypes.js';
 import { formatModelDisplay, pickAttributionBatch, type BatchMetaForAttribution } from '../site/score-attribution.js';
-import { scorePanelMeta } from '../graph/score-strategy.js';
+
 import { buildGeoSurfaces } from '../site/geo-build.js';
 // Removed in Step 12 (dead projection cleanup, 2026-05-13):
 //   - buildFeatured / data.featured.json  (no runtime consumer)
@@ -125,7 +125,7 @@ async function main(): Promise<void> {
   console.log(`     stats_legacy:       ${indexes.statsById.size}`);
   console.log(`     score histories:    ${indexes.historyByOcc.size}`);
   console.log(`     latest scores:      ${indexes.latestScoreByOcc.size}`);
-  console.log(`     consensus scores:   ${indexes.consensusByOcc.size}`);
+  console.log(`     flagship means:     ${indexes.flagshipByOcc.size}`);
   console.log(`     labels dimensions:  ${indexes.labelsByDim.size}`);
   console.log(`     sectors:            ${indexes.sectors.length}`);
 
@@ -166,11 +166,17 @@ async function main(): Promise<void> {
 
     // Active score attribution (model + date) → generated fs-free module, so
     // src/site/score-attribution.ts carries no node:fs into the Edge bundle.
-    const sampleConsensus = indexes.consensusByOcc.get(1);
-    if (!sampleConsensus) {
-      throw new Error('[build] no consensus score for occupation 1 — cannot write SCORE_PANEL');
+    const sample = indexes.flagshipByOcc.get(1);
+    if (!sample) {
+      throw new Error('[build] no flagship score for occupation 1 — cannot write SCORE_PANEL');
     }
-    const panel = scorePanelMeta(sampleConsensus);
+    const panel = {
+      voteCount: sample.panel.length,
+      latestRunDate: sample.latest.date,
+      windowMonths: 6,
+      floorVotes: 5,
+      usedExpiredVotes: sample.staleVendors.length > 0,
+    };
 
     await rewriteGeneratedModule(join(REPO_ROOT, 'src/site/_score-attribution.ts'), [
       { pattern: /modelId: '[^']*'/, replacement: `modelId: '${active.model}'`, expect: `modelId: '${active.model}'` },

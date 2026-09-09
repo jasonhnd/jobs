@@ -28,7 +28,7 @@ export const SCORE_ATTRIBUTION_DATA = {
 } as const;
 
 export const SCORE_PANEL_DATA = {
-  voteCount: 5,
+  voteCount: 3,
   latestRunDate: '2026-09-07',
   windowMonths: 6,
   floorVotes: 5,
