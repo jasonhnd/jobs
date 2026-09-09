@@ -4,7 +4,7 @@ Extended GEO companion to https://mirai-shigoto.com/llms.txt. This file is gener
 
 ## 1. Summary
 
-mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10 v1.0. Published scores are a multi-model consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-09-09). Per-model breakdown: https://mirai-shigoto.com/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
+mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10 v1.0. Published scores are a multi-model consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-09-10). Per-model breakdown: https://mirai-shigoto.com/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
 
 ## 2. Dataset
 
@@ -12,22 +12,22 @@ mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10
 |---|---|
 | Occupations | 556 |
 | Workforce mapped | 54,555,970 |
-| Mean AI Impact | 4.67 / 10 |
-| Median AI Impact | 4.60 / 10 |
+| Mean AI Impact | 4.69 / 10 |
+| Median AI Impact | 4.57 / 10 |
 | Mean Displacement-Risk | 1.83 / 10 |
-| Occupations at AI Impact >= 5 | 196 |
-| Annual wages at AI Impact >= 5 | 101.467741 trillion yen |
-| Low / mid / high risk-band counts | 178 / 347 / 31 |
-| High-impact workforce | 6,097,860 (11.2%) |
+| Occupations at AI Impact >= 5 | 202 |
+| Annual wages at AI Impact >= 5 | 105.703270 trillion yen |
+| Low / mid / high risk-band counts | 175 / 351 / 30 |
+| High-impact workforce | 5,995,981 (11.0%) |
 
 ### AI Impact distribution
 
 | Band | Occupations | Share |
 |---|---:|---:|
-| 0-2 | 6 | 1.0% |
-| 3-4 | 256 | 46.0% |
-| 5-6 | 238 | 43.0% |
-| 7-8 | 55 | 10.0% |
+| 0-2 | 3 | 0.0% |
+| 3-4 | 259 | 47.0% |
+| 5-6 | 239 | 43.0% |
+| 7-8 | 54 | 10.0% |
 | 9-10 | 1 | 0.0% |
 
 ## 3. Methodology
@@ -51,72 +51,72 @@ AI Impact is the Transformation index: mean(D1, D2). It estimates how much daily
 
 | Sector ID | Sector | Occupations | Mean AI Impact | Workforce |
 |---|---|---:|---:|---:|
-| jimu | 事務・公務 | 57 | 6.37 | 11,534,069 |
-| it | IT・通信 | 22 | 6.21 | 1,551,228 |
+| jimu | 事務・公務 | 57 | 6.38 | 11,534,069 |
+| it | IT・通信 | 22 | 6.23 | 1,551,228 |
 | shigyo | 士業・経営・コンサル | 63 | 5.17 | 1,820,677 |
-| creative | クリエイティブ・メディア | 37 | 5.07 | 778,380 |
-| senmon | 専門・技術 | 51 | 4.86 | 1,561,033 |
-| hanbai | 販売・営業 | 41 | 4.76 | 6,616,467 |
-| keiseki | 軽作業・清掃 | 16 | 4.37 | 3,518,776 |
+| creative | クリエイティブ・メディア | 37 | 5.14 | 778,380 |
+| hanbai | 販売・営業 | 41 | 4.86 | 6,616,467 |
+| senmon | 専門・技術 | 51 | 4.79 | 1,561,033 |
 | seizo | 製造・職人 | 59 | 4.37 | 4,537,008 |
-| maint | 設備・保守 | 49 | 4.17 | 4,598,159 |
-| iryo | 医療・保健 | 36 | 4.03 | 3,409,451 |
-| kyoiku | 教育・指導 | 20 | 4.02 | 2,610,464 |
-| fukushi | 福祉・介護 | 15 | 3.98 | 2,188,687 |
-| service | サービス・接客 | 41 | 3.82 | 4,488,395 |
-| noringyo | 農林・水産 | 14 | 3.69 | 1,847,992 |
-| hoan | 保安・公安 | 15 | 3.56 | 1,104,199 |
-| kensetu | 建設・土木 | 20 | 3.14 | 2,390,985 |
+| keiseki | 軽作業・清掃 | 16 | 4.33 | 3,518,776 |
+| maint | 設備・保守 | 49 | 4.20 | 4,598,159 |
+| kyoiku | 教育・指導 | 20 | 4.08 | 2,610,464 |
+| iryo | 医療・保健 | 36 | 4.00 | 3,409,451 |
+| service | サービス・接客 | 41 | 3.92 | 4,488,395 |
+| fukushi | 福祉・介護 | 15 | 3.87 | 2,188,687 |
+| noringyo | 農林・水産 | 14 | 3.78 | 1,847,992 |
+| hoan | 保安・公安 | 15 | 3.63 | 1,104,199 |
+| kensetu | 建設・土木 | 20 | 3.10 | 2,390,985 |
 
 ## 6. Highest AI Impact occupations
 
 | Rank | Occupation | AI Impact | Displacement-Risk | Workers |
 |---:|---|---:|---:|---:|
-| 1 | データ入力 | 9.4 | 8.2 | 155,710 |
-| 2 | 一般事務 | 8.4 | 6.0 | 2,639,330 |
-| 3 | 速記者、音声反訳者 | 8.4 | 5.9 | 9,971 |
-| 4 | 通信販売受付事務 | 8.3 | 5.9 | 146,270 |
-| 5 | 経理事務 | 8.0 | 5.2 | 507,867 |
-| 6 | タクシー配車オペレーター | 8.0 | 5.6 | 43,566 |
-| 7 | 診療情報管理士 | 7.9 | 4.5 | 120,576 |
-| 8 | 翻訳者 | 7.9 | 5.3 | 15,065 |
-| 9 | コールセンターオペレーター | 7.8 | 5.1 | 146,270 |
-| 10 | プログラマー | 7.8 | 4.9 | 48,720 |
-| 11 | ネット通販の運営 | 7.8 | 4.7 | 120,576 |
-| 12 | 医療事務 | 7.6 | 4.3 | 120,576 |
-| 13 | 製版オペレーター、DTPオペレーター | 7.6 | 5.3 | 60,233 |
-| 14 | 営業事務 | 7.5 | 4.8 | 174,488 |
-| 15 | テクニカルライター | 7.5 | 4.3 | 13,988 |
-| 16 | CADオペレーター | 7.4 | 4.8 | 289,300 |
-| 17 | 運用・管理（IT） | 7.4 | 4.1 | 25,925 |
-| 18 | 通関士 | 7.3 | 3.3 | 9,971 |
-| 19 | 貿易事務 | 7.2 | 4.1 | 174,488 |
-| 20 | 出荷・受荷事務 | 7.2 | 4.2 | 292,325 |
+| 1 | データ入力 | 9.4 | 8.1 | 155,710 |
+| 2 | 速記者、音声反訳者 | 8.4 | 6.0 | 9,971 |
+| 3 | 一般事務 | 8.4 | 6.0 | 2,639,330 |
+| 4 | 通信販売受付事務 | 8.2 | 5.7 | 146,270 |
+| 5 | 経理事務 | 7.9 | 5.1 | 507,867 |
+| 6 | タクシー配車オペレーター | 7.9 | 5.5 | 43,566 |
+| 7 | 翻訳者 | 7.9 | 5.4 | 15,065 |
+| 8 | コールセンターオペレーター | 7.8 | 5.0 | 146,270 |
+| 9 | 診療情報管理士 | 7.8 | 4.4 | 120,576 |
+| 10 | ネット通販の運営 | 7.8 | 4.8 | 120,576 |
+| 11 | プログラマー | 7.8 | 4.9 | 48,720 |
+| 12 | 製版オペレーター、DTPオペレーター | 7.6 | 5.2 | 60,233 |
+| 13 | 医療事務 | 7.5 | 4.1 | 120,576 |
+| 14 | テクニカルライター | 7.5 | 4.3 | 13,988 |
+| 15 | 営業事務 | 7.4 | 4.7 | 174,488 |
+| 16 | 運用・管理（IT） | 7.4 | 4.1 | 25,925 |
+| 17 | 貿易事務 | 7.3 | 4.1 | 174,488 |
+| 18 | デバッグ作業 | 7.3 | 4.4 | 48,720 |
+| 19 | 知的財産サーチャー | 7.3 | 4.0 | 9,971 |
+| 20 | 行政書士 | 7.2 | 3.0 | 9,971 |
 
 ## 7. Lowest AI Impact occupations
 
 | Rank | Occupation | AI Impact | Displacement-Risk | Workers |
 |---:|---|---:|---:|---:|
-| 1 | 潜水士 | 2.2 | 0.5 | 129,506 |
-| 2 | 報道カメラマン | 2.3 | 0.8 | 23,057 |
-| 3 | アウトドアインストラクター | 2.4 | 0.5 | 60,235 |
-| 4 | ベビーシッター | 2.4 | 0.5 | 13,570 |
-| 5 | 消防官 | 2.4 | 0.4 | 74,290 |
-| 6 | 漆器製造 | 2.4 | 0.9 | 71,828 |
-| 7 | オーケストラ奏者（団員） | 2.5 | 0.8 | 26,080 |
-| 8 | 送電線工事 | 2.6 | 0.6 | 47,430 |
-| 9 | はり師・きゅう師 | 2.6 | 0.6 | 39,403 |
-| 10 | メイクアップアーティスト | 2.7 | 0.8 | 175,530 |
-| 11 | 左官 | 2.7 | 0.9 | 59,890 |
-| 12 | 調教師 | 2.7 | 0.5 | 9,971 |
-| 13 | 美容師 | 2.7 | 0.6 | 175,530 |
+| 1 | ベビーシッター | 2.2 | 0.5 | 13,570 |
+| 2 | 潜水士 | 2.3 | 0.5 | 129,506 |
+| 3 | 報道カメラマン | 2.3 | 0.8 | 23,057 |
+| 4 | アウトドアインストラクター | 2.5 | 0.5 | 60,235 |
+| 5 | 左官 | 2.5 | 0.8 | 59,890 |
+| 6 | 花火師 | 2.5 | 0.5 | 43,928 |
+| 7 | 漆器製造 | 2.6 | 1.1 | 71,828 |
+| 8 | 消防官 | 2.6 | 0.4 | 74,290 |
+| 9 | 救急救命士 | 2.6 | 0.3 | 74,290 |
+| 10 | とび | 2.6 | 0.7 | 55,970 |
+| 11 | 石工 | 2.7 | 0.9 | 46,590 |
+| 12 | はり師・きゅう師 | 2.7 | 0.6 | 39,403 |
+| 13 | メイクアップアーティスト | 2.7 | 0.8 | 175,530 |
 | 14 | 沿岸漁業従事者 | 2.7 | 1.0 | 66,470 |
-| 15 | とび | 2.7 | 0.7 | 55,970 |
-| 16 | 国会議員 | 2.7 | 0.4 | 51,870 |
-| 17 | 花火師 | 2.7 | 0.5 | 43,928 |
-| 18 | 助産師 | 2.7 | 0.4 | 27,550 |
-| 19 | スクールカウンセラー | 2.7 | 0.7 | 9,971 |
-| 20 | 貴金属装身具製作 | 2.8 | 1.0 | 71,828 |
+| 15 | 送電線工事 | 2.7 | 0.7 | 47,430 |
+| 16 | オーケストラ奏者（団員） | 2.7 | 0.9 | 26,080 |
+| 17 | あんまマッサージ指圧師 | 2.8 | 0.7 | 39,403 |
+| 18 | 助産師 | 2.8 | 0.4 | 27,550 |
+| 19 | 犬訓練士 | 2.8 | 0.7 | 9,971 |
+| 20 | 建設・土木作業員 | 2.8 | 1.1 | 228,450 |
 
 ## 8. Frequently asked questions
 
@@ -124,7 +124,7 @@ Q: Which occupation is most exposed to AI?
 A: データ入力 has the highest AI Impact in the active batch at 9.4/10.
 
 Q: Which occupation is least exposed to AI?
-A: 潜水士 has the lowest AI Impact in the active batch at 2.2/10.
+A: ベビーシッター has the lowest AI Impact in the active batch at 2.2/10.
 
 Q: How should high AI Impact be interpreted?
 A: It means the work is strongly reshaped by AI. It does not by itself mean the occupation disappears.
@@ -149,7 +149,7 @@ Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
   title  = {Japan Jobs x AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
-  note   = {Independent AIOIS-10 analysis. Published value: mean of each vendor's latest model, latest scoring 2026-09-09. AI Impact scores are LLM estimates, not official government forecasts.}
+  note   = {Independent AIOIS-10 analysis. Published value: mean of each vendor's latest model, latest scoring 2026-09-10. AI Impact scores are LLM estimates, not official government forecasts.}
 }
 ```
 

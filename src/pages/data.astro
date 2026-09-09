@@ -13,6 +13,9 @@ import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
 import {
   CONSENSUS_FAQ_SENTENCE,
+  CONSENSUS_VENDOR_UPDATE_NOTE_HEADING,
+  CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT,
+  CONSENSUS_VENDOR_UPDATE_NOTE_LEAD,
   CONSENSUS_FLAGSHIP_SWITCH_NOTE_HEADING,
   CONSENSUS_FLAGSHIP_SWITCH_NOTE_IMPACT,
   CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD,
@@ -140,6 +143,10 @@ const jsonLd = JSON.stringify({
         <strong>引用</strong>：ZKSC (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/<br />
         <strong>注意</strong>：{CONSENSUS_FAQ_SENTENCE}政府の公式予測ではありません。出典の労働統計は厚生労働省 jobtag ＋ JILPT IPD。
       </div>
+
+      <h2>{CONSENSUS_VENDOR_UPDATE_NOTE_HEADING}</h2>
+      <p>{CONSENSUS_VENDOR_UPDATE_NOTE_LEAD}</p>
+      <p>{CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT}</p>
 
       <h2>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_HEADING}</h2>
       <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD}</p>
