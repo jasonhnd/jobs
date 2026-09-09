@@ -71,6 +71,8 @@ export const DetailFileSchema = z
       .passthrough()
       .nullish(),
     related_certs_ja: z.array(z.string()).optional(),
+    stale_vote: z.boolean().optional(),
+    consensus_vendor_count: z.number().nullable().optional(),
     abilities_top5: z.array(DimensionEntrySchema).nullish(),
     knowledge_top5: z.array(DimensionEntrySchema).nullish(),
     skills_top10: z.array(DimensionEntrySchema).nullish(),
@@ -182,21 +184,33 @@ export type ScoreHistoryProjectionShape = z.infer<typeof ScoreHistoryProjectionS
 
 // ─── /models magazine feature projection (public/data.models_deep.json) ───
 
-const ModelsDeepPairBatchSchema = z
+const ModelsDeepPanelEntrySchema = z
   .object({
-    model: z.string(),
-    modelDisplay: z.string(),
-    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  })
-  .strict();
-
-const ModelsDeepModelCardSchema = z
-  .object({
+    provider: z.string(),
+    vendorDisplay: z.string(),
     model: z.string(),
     modelDisplay: z.string(),
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     covered_count: z.number().int().min(0),
     personality_sentence_id: z.string(),
+  })
+  .strict();
+
+const ModelsDeepHistoryEntrySchema = z
+  .object({
+    model: z.string(),
+    modelDisplay: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    covered_count: z.number().int().min(0),
+  })
+  .strict();
+
+const ModelsDeepVendorLaneSchema = z
+  .object({
+    provider: z.string(),
+    vendorDisplay: z.string(),
+    latest: ModelsDeepPanelEntrySchema,
+    history: z.array(ModelsDeepHistoryEntrySchema),
   })
   .strict();
 
@@ -208,15 +222,23 @@ const ModelsDeepConsensusSchema = z
   })
   .strict();
 
+const ModelsDeepStoryScoreSchema = z
+  .object({
+    provider: z.string(),
+    model: z.string(),
+    modelDisplay: z.string(),
+    transformation: z.number(),
+    rationale_ja: z.string().min(1),
+  })
+  .strict();
+
 const ModelsDeepStorySchema = z
   .object({
     id: z.number().int(),
     title_ja: z.string(),
     href: z.string().regex(/^\/\d+$/),
-    baseline_transformation: z.number(),
-    candidate_transformation: z.number(),
-    baseline_rationale_ja: z.string().min(1),
-    candidate_rationale_ja: z.string().min(1),
+    scores: z.array(ModelsDeepStoryScoreSchema).min(2),
+    spread: z.number(),
     editorial_sentence_id: z.string(),
   })
   .strict();
@@ -224,14 +246,13 @@ const ModelsDeepStorySchema = z
 export const ModelsDeepProjectionSchema = z
   .object({
     generated_at: z.string(),
-    latest_pair: z
+    panel: z
       .object({
-        baseline: ModelsDeepPairBatchSchema,
-        candidate: ModelsDeepPairBatchSchema,
+        entries: z.array(ModelsDeepPanelEntrySchema).min(1),
         compared_count: z.number().int().min(1),
       })
       .strict(),
-    model_cards: z.array(ModelsDeepModelCardSchema).min(1),
+    lanes: z.array(ModelsDeepVendorLaneSchema).min(1),
     consensus: z.array(ModelsDeepConsensusSchema).length(3),
     stories: z.array(ModelsDeepStorySchema).min(3).max(5),
   })
@@ -329,6 +350,7 @@ const ModelsByModelRecordSchema = z
     model: z.string(),
     modelDisplay: z.string(),
     provider: z.string(),
+    in_panel: z.boolean(),
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     covered_count: z.number().int().min(0),
     prompt_version: z.string(),

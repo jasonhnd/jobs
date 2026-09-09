@@ -2,10 +2,17 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
+import { readdirSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import {
   SCORE_ATTRIBUTION,
   SCORE_PANEL,
+  VENDOR_WHITELIST,
   formatModelDisplay,
+  formatVendorDisplay,
+  isWhitelistedVendor,
   modelIdFromSlug,
   modelSlug,
   pickAttributionBatch,
@@ -39,6 +46,13 @@ describe('formatModelDisplay', () => {
   });
   test('word-only id degrades gracefully', () => {
     assert.equal(formatModelDisplay('claude-fable'), 'Claude Fable');
+  });
+  // mms-8: the two new flagships follow the vendors' official ids.
+  test('claude-fable-5-1 → Claude Fable 5.1', () => {
+    assert.equal(formatModelDisplay('claude-fable-5-1'), 'Claude Fable 5.1');
+  });
+  test('gpt-6-astra → GPT 6 Astra', () => {
+    assert.equal(formatModelDisplay('gpt-6-astra'), 'GPT 6 Astra');
   });
 });
 
@@ -101,6 +115,48 @@ describe('modelSlug and modelIdFromSlug', () => {
     assert.throws(() => modelSlug('claude opus-4-8'), /invalid model id/);
     assert.throws(() => modelSlug('claude-opus-4-8\n'), /invalid model id/);
   });
+
+  test('maps the mms-8 ids to their public slugs', () => {
+    assert.equal(modelSlug('claude-fable-5-1'), 'fable-5-1');
+    assert.equal(modelSlug('gpt-6-astra'), 'gpt-6-astra');
+    assert.equal(modelIdFromSlug('fable-5-1', [...currentModelIds, 'claude-fable-5-1']), 'claude-fable-5-1');
+    assert.equal(modelIdFromSlug('gpt-6-astra', [...currentModelIds, 'gpt-6-astra']), 'gpt-6-astra');
+    assert.notEqual(modelSlug('claude-fable-5-1'), modelSlug('claude-fable-5'));
+  });
+});
+
+describe('VENDOR_WHITELIST / formatVendorDisplay', () => {
+  test('whitelist is exactly anthropic, openai, xai in that order', () => {
+    assert.deepEqual([...VENDOR_WHITELIST], ['anthropic', 'openai', 'xai']);
+  });
+  test('isWhitelistedVendor', () => {
+    assert.equal(isWhitelistedVendor('xai'), true);
+    assert.equal(isWhitelistedVendor('google'), false);
+    assert.equal(isWhitelistedVendor(''), false);
+  });
+  test('display labels', () => {
+    assert.equal(formatVendorDisplay('anthropic'), 'Anthropic');
+    assert.equal(formatVendorDisplay('openai'), 'OpenAI');
+    assert.equal(formatVendorDisplay('xai'), 'xAI');
+    assert.equal(formatVendorDisplay(' XAI '), 'xAI');
+    assert.equal(formatVendorDisplay('google'), 'Google');
+    assert.equal(formatVendorDisplay(' deepseek '), 'deepseek');
+  });
+  test('every batch in data/scores/ declares a whitelisted model_provider', () => {
+    const dir = join(dirname(fileURLToPath(import.meta.url)), '../../data/scores');
+    const files = readdirSync(dir).filter((name) => name.endsWith('.json'));
+    assert.ok(files.length > 0);
+    for (const name of files) {
+      const batch = JSON.parse(readFileSync(join(dir, name), 'utf8')) as {
+        scorer?: { model_provider?: string };
+      };
+      assert.equal(
+        isWhitelistedVendor(batch.scorer?.model_provider ?? ''),
+        true,
+        `${name} model_provider=${JSON.stringify(batch.scorer?.model_provider)}`,
+      );
+    }
+  });
 });
 
 describe('SCORE_ATTRIBUTION (live repo data)', () => {
@@ -122,12 +178,15 @@ describe('SCORE_PANEL (live repo data)', () => {
     const aiois = comparableAioisRuns();
     const latest = aiois[aiois.length - 1];
     assert.ok(latest);
-    assert.equal(SCORE_PANEL.voteCount, aiois.length);
+    assert.equal(SCORE_PANEL.vendorCount, 3);
+    assert.equal(SCORE_PANEL.staleMonths, 6);
+    assert.equal(SCORE_PANEL.staleVendorCount, 0);
     assert.equal(SCORE_PANEL.latestRunDate, latest.runDate);
     assert.equal(SCORE_PANEL.latestRunDate, SCORE_ATTRIBUTION.runDate);
-    assert.equal(SCORE_PANEL.windowMonths, 6);
-    assert.equal(SCORE_PANEL.floorVotes, 5);
-    assert.equal(SCORE_PANEL.usedExpiredVotes, false);
+    assert.equal(
+      SCORE_PANEL.vendorCount,
+      new Set(comparableAioisRuns().map((r) => r.provider)).size,
+    );
   });
 });
 

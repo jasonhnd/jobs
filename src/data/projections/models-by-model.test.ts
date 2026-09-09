@@ -3,7 +3,8 @@ import { strict as assert } from 'node:assert';
 
 import { buildIndexes, type Indexes } from '../lib/indexes.js';
 import type { ScoreRun } from '../schema/index.js';
-import { comparableAioisRuns, listOccupationRuns } from '../../site/occupation-runs.js';
+import { comparableAioisRuns, latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
+import { VENDOR_WHITELIST } from '../../site/score-attribution.js';
 import { buildModelsByModelPayload, modelsByModelMaxPageBytes } from './models-by-model.js';
 
 let indexesPromise: Promise<Indexes> | null = null;
@@ -72,6 +73,58 @@ describe('models-by-model projection', () => {
         assert.ok(page.drift.compared_count >= 1);
       }
     }
+  });
+
+  test('marks exactly one latest comparable run per vendor as in_panel', async () => {
+    const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
+    const panel = latestRunPerVendor();
+    const inPanel = Object.values(payload.models).filter((model) => model.in_panel);
+    assert.equal(inPanel.length, panel.length);
+    assert.deepEqual(
+      inPanel.map((model) => `${model.model}@${model.date}`).sort(),
+      panel.map((run) => `${run.model}@${run.runDate}`).sort(),
+    );
+    const historyRun = comparableAioisRuns().find(
+      (run) => run.provider === 'anthropic' && !panel.some((entry) => entry.slug === run.slug),
+    );
+    assert.ok(historyRun);
+    const historyPage = Object.values(payload.models).find((model) => model.model === historyRun.model);
+    assert.ok(historyPage);
+    assert.equal(historyPage.in_panel, false);
+    assert.ok(modelsByModelMaxPageBytes(payload) <= 24 * 1024);
+  });
+
+  test('a later Anthropic batch flips the older Anthropic run out of the panel', async () => {
+    const indexes = await indexesFixture();
+    const currentAnthropic = latestRunPerVendor().find((run) => run.provider === 'anthropic')!;
+    const current = [...indexes.runsByModel.values()]
+      .flat()
+      .find((run) => run.scorer.model === currentAnthropic.model && run.scope === 'occupations');
+    assert.ok(current);
+    const incomingModel = 'claude-fable-5-2';
+    const extra: ScoreRun = {
+      ...current,
+      scorer: { ...current.scorer, model: incomingModel },
+      run: { ...current.run, run_date: '2026-11-15', run_id: 'synthetic-fable-5-2' },
+    };
+    const runsByModel = new Map(
+      [...indexes.runsByModel].map(([model, runs]) => [model, [...runs]] as const),
+    );
+    runsByModel.set(extra.scorer.model, [...(runsByModel.get(extra.scorer.model) ?? []), extra]);
+    const payload = buildModelsByModelPayload(
+      { ...indexes, runsByModel } as Indexes,
+      '2026-11-16T00:00:00.000Z',
+    );
+    const older = Object.values(payload.models).find((model) => model.model === currentAnthropic.model);
+    const newer = Object.values(payload.models).find((model) => model.model === incomingModel);
+    assert.ok(older);
+    assert.ok(newer);
+    assert.equal(older.in_panel, false);
+    assert.equal(newer.in_panel, true);
+    assert.equal(
+      Object.values(payload.models).filter((model) => model.in_panel).length,
+      VENDOR_WHITELIST.length,
+    );
   });
 
   test('keeps distribution, lists, drift, and payload-size contracts', async () => {

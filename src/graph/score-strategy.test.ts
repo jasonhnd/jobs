@@ -3,11 +3,15 @@ import { strict as assert } from 'node:assert';
 import {
   pickLatestScore,
   pickConsensusScore,
+  pickFlagshipMeanScore,
+  toFlagshipCanonicalScoreEntry,
+  flagshipPanelMeta,
   subtractMonths,
   toCanonicalScoreEntry,
   scorePanelMeta,
   CONSENSUS_WINDOW_MONTHS,
   CONSENSUS_FLOOR_VOTES,
+  VENDOR_STALE_MONTHS,
   type ScoreHistEntry,
 } from './score-strategy.js';
 import type { Aiois10 } from './types.js';
@@ -69,6 +73,13 @@ function profile(over: Partial<Aiois10> & Pick<Aiois10, 'transformation'>): Aioi
   };
 }
 
+function providerOf(model: string): string {
+  if (model.startsWith('claude')) return 'anthropic';
+  if (model.startsWith('gpt')) return 'openai';
+  if (model.startsWith('grok')) return 'xai';
+  return 'test';
+}
+
 function vote(
   model: string,
   date: string,
@@ -78,6 +89,7 @@ function vote(
   const aiois = profile({ transformation, ...extra });
   return {
     model,
+    provider: providerOf(model),
     date,
     ai_risk: transformation,
     rationale_ja: `${model}@${date}`,
@@ -106,14 +118,14 @@ describe('pickConsensusScore', () => {
 
   test('throws when every entry is legacy (no comparable aiois)', () => {
     const legacy: ScoreHistEntry = {
-      model: 'old', date: '2026-01-01', ai_risk: 5, rationale_ja: 'x', aiois: null,
+      model: 'old', provider: 'test', date: '2026-01-01', ai_risk: 5, rationale_ja: 'x', aiois: null,
     };
     assert.throws(() => pickConsensusScore([legacy]), /no comparable/);
   });
 
   test('ignores legacy entries mixed with comparable votes', () => {
     const legacy: ScoreHistEntry = {
-      model: 'legacy', date: '2026-07-26', ai_risk: 9, rationale_ja: 'nope', aiois: null,
+      model: 'legacy', provider: 'test', date: '2026-07-26', ai_risk: 9, rationale_ja: 'nope', aiois: null,
     };
     const a = vote('m1', '2026-07-26', 4);
     const b = vote('m2', '2026-06-01', 6);
@@ -295,5 +307,168 @@ describe('toCanonicalScoreEntry / scorePanelMeta', () => {
       floorVotes: CONSENSUS_FLOOR_VOTES,
       usedExpiredVotes: false,
     });
+  });
+});
+
+describe('pickFlagshipMeanScore', () => {
+  test('throws on empty history', () => {
+    assert.throws(() => pickFlagshipMeanScore([]), /empty history/);
+  });
+
+  test('throws when every entry is legacy (no comparable aiois)', () => {
+    const legacy: ScoreHistEntry = {
+      model: 'old', provider: 'test', date: '2026-01-01', ai_risk: 5, rationale_ja: 'x', aiois: null,
+    };
+    assert.throws(() => pickFlagshipMeanScore([legacy]), /no comparable/);
+  });
+
+  test('throws when a comparable entry has no provider', () => {
+    const e = { ...vote('claude-opus-5', '2026-07-26', 5), provider: '' };
+    assert.throws(() => pickFlagshipMeanScore([e]), /has no provider/);
+  });
+
+  test('one entry per vendor: latest anthropic + sol + grok, mean 5.0', () => {
+    const got = pickFlagshipMeanScore([
+      vote('claude-opus-4-8', '2026-05-30', 5.0),
+      vote('claude-fable-5', '2026-06-13', 6.0),
+      vote('claude-opus-5', '2026-07-26', 8.0),
+      vote('gpt-5.6-sol', '2026-07-12', 4.0),
+      vote('grok-4.6', '2026-09-07', 3.0),
+    ]);
+    assert.deepEqual(got.panel.map((p) => p.model), ['gpt-5.6-sol', 'claude-opus-5', 'grok-4.6']);
+    assert.ok(Math.abs(got.transformation - 5) < 1e-12);
+  });
+
+  test('same-date tie within a vendor keeps the later-in-input entry', () => {
+    const first = vote('claude-opus-5', '2026-07-26', 8);
+    const later = vote('claude-fable-5', '2026-07-26', 6);
+    const got = pickFlagshipMeanScore([
+      first,
+      vote('gpt-5.6-sol', '2026-07-12', 4),
+      vote('grok-4.6', '2026-09-07', 3),
+      later,
+    ]);
+    assert.equal(got.panel.find((p) => p.provider === 'anthropic')?.model, 'claude-fable-5');
+  });
+
+  test('arithmetic mean is unrounded', () => {
+    const got = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-07-26', 1.0),
+      vote('gpt-5.6-sol', '2026-07-12', 2.0),
+      vote('grok-4.6', '2026-09-07', 2.0),
+    ]);
+    assert.ok(Math.abs(got.transformation - 5 / 3) < 1e-12);
+  });
+
+  test('dims and displacement are independent per-field means', () => {
+    const got = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-07-26', 5, { d1: 1, displacement: 9 }),
+      vote('gpt-5.6-sol', '2026-07-12', 5, { d1: 2, displacement: 6 }),
+      vote('grok-4.6', '2026-09-07', 5, { d1: 3, displacement: 3 }),
+    ]);
+    assert.ok(Math.abs(got.dims.d1 - 2) < 1e-12);
+    assert.ok(Math.abs(got.displacement - 6) < 1e-12);
+    assert.ok(Math.abs(got.transformation - 5) < 1e-12);
+  });
+
+  test('stale boundary: cutoff day is not stale; the day before is', () => {
+    const notStale = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-03-07', 5),
+      vote('gpt-5.6-sol', '2026-07-12', 5),
+      vote('grok-4.6', '2026-09-07', 5),
+    ]);
+    assert.deepEqual([...notStale.staleVendors], []);
+
+    const stale = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-03-06', 5),
+      vote('gpt-5.6-sol', '2026-07-12', 5),
+      vote('grok-4.6', '2026-09-07', 5),
+    ]);
+    assert.deepEqual([...stale.staleVendors], ['anthropic']);
+  });
+
+  test('rationale: ±0.3 newest date wins; else nearest; tie newer then model asc', () => {
+    const within = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-07-26', 5.2),
+      vote('gpt-5.6-sol', '2026-07-12', 4.9),
+      vote('grok-4.6', '2026-09-07', 5.1),
+    ]);
+    assert.equal(within.rationaleEntry.model, 'grok-4.6');
+
+    const nearest = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-07-26', 8),
+      vote('gpt-5.6-sol', '2026-07-12', 1),
+      vote('grok-4.6', '2026-09-07', 2),
+    ]);
+    // mean = 11/3 ≈ 3.666; distances: opus 4.333, sol 2.666, grok 1.666 → grok
+    assert.equal(nearest.rationaleEntry.model, 'grok-4.6');
+
+    const tie = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-07-26', 1),
+      vote('gpt-5.6-sol', '2026-07-26', 9),
+      vote('grok-4.6', '2026-07-26', 1),
+    ]);
+    // mean = 11/3; opus and grok both 2.667 away; same date; model asc → claude-opus-5
+    assert.equal(tie.rationaleEntry.model, 'claude-opus-5');
+  });
+
+  test('latest is the newest comparable entry and latestDelta is signed', () => {
+    const high = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-07-26', 5),
+      vote('gpt-5.6-sol', '2026-07-12', 5),
+      vote('grok-4.6', '2026-09-07', 8),
+    ]);
+    assert.equal(high.latest.model, 'grok-4.6');
+    assert.ok(Math.abs(high.latestDelta - (8 - high.transformation)) < 1e-12);
+    assert.ok(high.latestDelta > 0);
+
+    const low = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-07-26', 8),
+      vote('gpt-5.6-sol', '2026-07-12', 8),
+      vote('grok-4.6', '2026-09-07', 2),
+    ]);
+    assert.equal(low.latest.model, 'grok-4.6');
+    assert.ok(low.latestDelta < 0);
+  });
+
+  test('panel is sorted by date ascending then model', () => {
+    const got = pickFlagshipMeanScore([
+      vote('grok-4.6', '2026-09-07', 5),
+      vote('claude-opus-5', '2026-07-26', 5),
+      vote('gpt-5.6-sol', '2026-07-12', 5),
+    ]);
+    assert.deepEqual(got.panel.map((p) => p.date), ['2026-07-12', '2026-07-26', '2026-09-07']);
+    assert.deepEqual(got.panel.map((p) => p.model), ['gpt-5.6-sol', 'claude-opus-5', 'grok-4.6']);
+  });
+
+  test('toFlagshipCanonicalScoreEntry carries rationale provider, latest date, mean values', () => {
+    const got = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-07-26', 8),
+      vote('gpt-5.6-sol', '2026-07-12', 4),
+      vote('grok-4.6', '2026-09-07', 3),
+    ]);
+    const entry = toFlagshipCanonicalScoreEntry(got);
+    assert.equal(entry.provider, got.rationaleEntry.provider);
+    assert.equal(entry.model, got.rationaleEntry.model);
+    assert.equal(entry.date, got.latest.date);
+    assert.equal(entry.ai_risk, got.transformation);
+    assert.equal(entry.aiois?.transformation, got.transformation);
+    assert.equal(entry.aiois?.displacement, got.displacement);
+    assert.equal(entry.aiois?.d1, got.dims.d1);
+  });
+
+  test('flagshipPanelMeta reports vendorCount, latest date, stale constants, vendors by provider', () => {
+    const got = pickFlagshipMeanScore([
+      vote('claude-opus-5', '2026-07-26', 5),
+      vote('gpt-5.6-sol', '2026-07-12', 5),
+      vote('grok-4.6', '2026-09-07', 5),
+    ]);
+    const meta = flagshipPanelMeta(got);
+    assert.equal(meta.vendorCount, 3);
+    assert.equal(meta.latestRunDate, '2026-09-07');
+    assert.equal(meta.staleMonths, VENDOR_STALE_MONTHS);
+    assert.equal(meta.staleMonths, 6);
+    assert.equal(meta.staleVendorCount, 0);
+    assert.deepEqual(meta.vendors.map((v) => v.provider), ['anthropic', 'openai', 'xai']);
   });
 });

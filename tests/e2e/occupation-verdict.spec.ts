@@ -25,7 +25,6 @@ test('390×844 /156 low-risk: numbers, なぜ守られやすいか door, disclai
   await expect(card.locator('.v-num.main .score-num')).toContainText('/10');
   await expect(card.locator('.v-num.subn .score-num')).toContainText('/10');
   await expect(card.locator('.v-rank')).toContainText('職中');
-  await expect(card.locator('.v-rank')).toContainText('先月比');
   await expect(card.locator('.v-line')).not.toHaveText('');
   await expect(card.locator('.v-facts')).toContainText('年収');
   await expect(card.locator('.v-doors a.solid')).toHaveText('なぜ守られやすいか');

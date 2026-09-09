@@ -50,8 +50,8 @@
       },
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
-      "datePublished": "2026-09-07",
-      "dateModified": "2026-09-07",
+      "datePublished": "2026-09-10",
+      "dateModified": "2026-09-10",
       "speakable": {
         "@type": "SpeakableSpecification",
         "cssSelector": [
@@ -74,7 +74,7 @@
       "@id": "https://mirai-shigoto.com/#dataset",
       "name": "Japan __OCCUPATION_COUNT_SCORED__ Occupations x AI Impact",
       "alternateName": "日本の職業 AI 影響度マップ",
-      "description": "__OCCUPATION_COUNT_SCORED__ Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by a multi-model AIOIS-10 consensus. Mean AI Impact 4.73/10; mean Displacement-Risk 1.87/10.",
+      "description": "__OCCUPATION_COUNT_SCORED__ Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by a multi-model AIOIS-10 consensus (mean of each vendor's latest model). Mean AI Impact 4.69/10; mean Displacement-Risk 1.83/10.",
       "url": "https://mirai-shigoto.com/",
       "creator": {
         "@id": "https://mirai-shigoto.com/#organization"
@@ -84,9 +84,9 @@
       },
       "license": "https://opensource.org/licenses/MIT",
       "isAccessibleForFree": true,
-      "datePublished": "2026-09-07",
-      "dateModified": "2026-09-07",
-      "version": "consensus:5:2026-09-07",
+      "datePublished": "2026-09-10",
+      "dateModified": "2026-09-10",
+      "version": "vendor-mean:3:2026-09-10",
       "keywords": [
         "AI",
         "labor market",
@@ -101,7 +101,7 @@
         "name": "Japan"
       },
       "temporalCoverage": "2025/2026",
-      "measurementTechnique": "Scored with AIOIS-10 v1.0. Published value: multi-model median.",
+      "measurementTechnique": "Scored with AIOIS-10 v1.0. Published value: mean of each vendor's latest model.",
       "additionalProperty": [
         {
           "@type": "PropertyValue",
@@ -117,32 +117,32 @@
         {
           "@type": "PropertyValue",
           "name": "Mean AI Impact",
-          "value": 4.730395683453238,
+          "value": 4.688669064748201,
           "minValue": 0,
           "maxValue": 10
         },
         {
           "@type": "PropertyValue",
           "name": "Mean Displacement-Risk",
-          "value": 1.873021582733813,
+          "value": 1.833273381294964,
           "minValue": 0,
           "maxValue": 10
         },
         {
           "@type": "PropertyValue",
           "name": "Occupations with AI Impact >= 5",
-          "value": 215
+          "value": 202
         },
         {
           "@type": "PropertyValue",
           "name": "Annual wages with AI Impact >= 5",
-          "value": 113.582038557,
+          "value": 105.703270086,
           "unitText": "trillion JPY"
         },
         {
           "@type": "PropertyValue",
           "name": "Rounded AI Impact five-band distribution",
-          "value": "0-2:12 (2%), 3-4:259 (47%), 5-6:229 (41%), 7-8:55 (10%), 9-10:1 (0%)"
+          "value": "0-2:3 (0%), 3-4:259 (47%), 5-6:239 (43%), 7-8:54 (10%), 9-10:1 (0%)"
         }
       ],
       "citation": [
@@ -192,7 +192,7 @@
       "@type": "ItemList",
       "@id": "https://mirai-shigoto.com/#top-findings",
       "name": "Notable findings - Japan __OCCUPATION_COUNT_SCORED__ occupations x AI Impact",
-      "description": "Generated from the multi-model consensus panel (latest scoring 2026-09-07).",
+      "description": "Generated from the vendor-flagship mean panel (latest scoring 2026-09-10).",
       "itemListOrder": "https://schema.org/ItemListUnordered",
       "numberOfItems": 5,
       "itemListElement": [
@@ -200,7 +200,7 @@
           "@type": "ListItem",
           "position": 1,
           "name": "一般事務",
-          "description": "一般事務 is the largest mapped occupation with 2,639,330 workers and AI Impact 8.5/10."
+          "description": "一般事務 is the largest mapped occupation with 2,639,330 workers and AI Impact 8.4/10."
         },
         {
           "@type": "ListItem",
@@ -211,20 +211,20 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "潜水士",
-          "description": "潜水士 has the lowest AI Impact at 2.0/10."
+          "name": "ベビーシッター",
+          "description": "ベビーシッター has the lowest AI Impact at 2.2/10."
         },
         {
           "@type": "ListItem",
           "position": 4,
           "name": "Occupations and wages at AI Impact >= 5",
-          "description": "215 occupations score 5.0 or higher, representing 113.582039 trillion yen in annual wages."
+          "description": "202 occupations score 5.0 or higher, representing 105.703270 trillion yen in annual wages."
         },
         {
           "@type": "ListItem",
           "position": 5,
           "name": "Mean AI Impact",
-          "description": "Mean AI Impact is 4.73/10; mean Displacement-Risk is 1.87/10."
+          "description": "Mean AI Impact is 4.69/10; mean Displacement-Risk is 1.83/10."
         }
       ]
     },
@@ -254,7 +254,7 @@
           "name": "現在の採点モデルと日付は？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "現在の公開値は複数のAIによる総合（AIOIS-10、5票、最新採点 2026-09-07）です。モデル別の内訳は /models。"
+            "text": "現在の公開値は複数のAIによる総合（AIOIS-10、3社の最新モデルの平均、最新採点 2026-09-10）です。モデル別の内訳は /models。"
           }
         }
       ]

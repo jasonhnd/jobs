@@ -10,6 +10,7 @@
  * BEHAVIOUR-FROZEN: `buildCodexExecArgs` produces exactly the argument vector
  * that shipped the gpt-5.6-sol batch, and `run-scoring-codex.test.ts` pins it.
  * Do not "tidy" the flag order.
+ * The optional --reasoning-effort flag (mms-8.12) inserts "-c model_reasoning_effort=<e>" before "--model"; with the flag absent the argv is unchanged.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -20,6 +21,11 @@ import type { AskOptions, PrepareRunContext, ProviderResponse, RunPreparation, S
 
 export const CODEX_MAX_CONCURRENCY = 4;
 export const CODEX_DEFAULT_MODEL = 'gpt-5.6-sol';
+export const CODEX_REASONING_EFFORTS = ['low', 'medium', 'high', 'xhigh'] as const;
+export type CodexReasoningEffort = (typeof CODEX_REASONING_EFFORTS)[number];
+
+/** Set by prepareRun from --reasoning-effort; null keeps the frozen gpt-5.6-sol argv. */
+let reasoningEffortForRun: CodexReasoningEffort | null = null;
 
 export interface CodexModelProbeResult {
   readonly command: readonly string[];
@@ -31,6 +37,8 @@ export interface CodexModelProbeResult {
 
 export interface CodexExecOptions extends AskOptions {
   readonly outputSchemaPath: string;
+  /** When set, inserts `-c model_reasoning_effort=<effort>` immediately before `--model`. */
+  readonly reasoningEffort?: CodexReasoningEffort | null;
 }
 
 export function codexExecSupportsModel(helpText: string): boolean {
@@ -69,21 +77,32 @@ export function assertCodexModelSupport(probe: CodexModelProbeResult): void {
 }
 
 export function buildCodexExecArgs(options: CodexExecOptions): string[] {
+  const effort = options.reasoningEffort ? ['-c', `model_reasoning_effort=${options.reasoningEffort}`] : [];
   return [
     'exec',
     '--ephemeral',
-    '--cd',
-    options.cwd,
-    '--color',
-    'never',
-    '--output-schema',
-    options.outputSchemaPath,
-    '--output-last-message',
-    options.outputLastMessagePath,
-    '--model',
-    options.model,
+    '--cd', options.cwd,
+    '--color', 'never',
+    '--output-schema', options.outputSchemaPath,
+    '--output-last-message', options.outputLastMessagePath,
+    ...effort,
+    '--model', options.model,
     '-',
   ];
+}
+
+export function parseReasoningEffort(raw: string | undefined): CodexReasoningEffort | null {
+  if (raw === undefined) return null;
+  if (raw === 'true' || !(CODEX_REASONING_EFFORTS as readonly string[]).includes(raw)) {
+    throw new Error('--reasoning-effort must be one of low|medium|high|xhigh');
+  }
+  return raw as CodexReasoningEffort;
+}
+
+export function probeCodexVersion(): string {
+  const res = spawnSync('codex', ['--version'], { encoding: 'utf8' });
+  if (res.error) return `error: ${res.error.message}`;
+  return (res.stdout || res.stderr || '').trim();
 }
 
 export const runCodexExec = (prompt: string, options: AskOptions): Promise<ProviderResponse> =>
@@ -97,7 +116,7 @@ export const runCodexExec = (prompt: string, options: AskOptions): Promise<Provi
       });
       return;
     }
-    const cmd = buildCodexExecArgs({ ...options, outputSchemaPath: options.outputSchemaPath });
+    const cmd = buildCodexExecArgs({ ...options, outputSchemaPath: options.outputSchemaPath, reasoningEffort: reasoningEffortForRun });
 
     const child = spawn('codex', cmd, { cwd: options.cwd, stdio: ['pipe', 'pipe', 'pipe'] });
     let stdout = '';
@@ -128,17 +147,25 @@ export const codexProvider: ScoringProvider = {
   supportsNativeSchema: true,
   maxConcurrency: CODEX_MAX_CONCURRENCY,
 
-  preflight(): void {
+  preflight(ctx: PrepareRunContext): void {
+    parseReasoningEffort(ctx.options['reasoning-effort']);
     assertCodexModelSupport(probeCodexModelSupport());
   },
 
   prepareRun(ctx: PrepareRunContext): RunPreparation {
+    reasoningEffortForRun = parseReasoningEffort(ctx.options['reasoning-effort']);
     const outputSchemaPath = join(ctx.runDir, 'codex-score.schema.json');
     writeFileSync(outputSchemaPath, `${JSON.stringify(SCORE_OUTPUT_JSON_SCHEMA, null, 2)}\n`);
     const probe = probeCodexModelSupport();
     return {
       outputSchemaPath,
-      audit: { command: probe.command, status: probe.status },
+      audit: {
+        command: probe.command,
+        status: probe.status,
+        reasoning_effort: reasoningEffortForRun,
+        reasoning_effort_source: reasoningEffortForRun ? 'cli-flag' : 'inherited-from-user-config',
+        codex_version: probeCodexVersion(),
+      },
     };
   },
 

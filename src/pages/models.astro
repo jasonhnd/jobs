@@ -13,10 +13,17 @@ import {
 import personalityCopy from '../content/model-personality.ja.json';
 import storyCopy from '../content/model-story-overrides.ja.json';
 import {
+  CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT,
+  CONSENSUS_VENDOR_UPDATE_NOTE_LEAD,
+  CONSENSUS_FLAGSHIP_SWITCH_NOTE_IMPACT,
+  CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD,
   CONSENSUS_FIFTH_VOTE_NOTE_IMPACT,
   CONSENSUS_FIFTH_VOTE_NOTE_LEAD,
   CONSENSUS_SWITCH_NOTE_IMPACT,
   CONSENSUS_SWITCH_NOTE_LEAD,
+  MODELS_HUB_VENDOR_COUNT_LABEL,
+  MODELS_HUB_VENDORS_HEADING,
+  MODELS_HUB_VENDORS_INTRO,
 } from '@/site/consensus-copy';
 
 const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_deep.json'), 'utf-8');
@@ -24,11 +31,7 @@ const projection = JSON.parse(projectionRaw);
 const page = buildModelsFeaturePageModel(projection, personalityCopy, storyCopy);
 
 const pageTitle = 'AIモデル比較 | 未来の仕事';
-const modelCountText = `${page.modelCount}つのAIモデル`;
-const voteCountText = `${page.consensusSummary.voteCount}つのAIモデル`;
-const occupationCoverageText = page.coverageRangeText;
-const pageDescription =
-  `${voteCountText}による採点を総合した、各回${occupationCoverageText}の結果から、判断が一致した職業・大きく分かれた職業を読むモデル比較ページです。`;
+const pageDescription = page.description;
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -90,15 +93,32 @@ a:hover{color:var(--accent)}
 .feature-section{padding:38px 0;border-bottom:1px solid var(--border)}
 .feature-section h2{margin:0 0 16px;color:var(--fg);overflow-wrap:break-word;word-break:normal}
 .section-intro{max-width:760px;margin:0 0 22px;color:var(--fg2);line-height:1.9;overflow-wrap:break-word;word-break:normal}
-.roster-list{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:10px}
-.roster-link{display:grid;grid-template-columns:118px minmax(0,1fr) auto auto;gap:14px;align-items:center;border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:14px 16px;color:var(--fg);text-decoration:none}
-.roster-link:hover,.roster-link:focus-visible{border-color:var(--accent);box-shadow:0 8px 20px rgba(217,107,61,.08);outline:none;text-decoration:none}
-.roster-date{font-weight:900;font-variant-numeric:tabular-nums;color:var(--accent-deep);overflow-wrap:break-word;word-break:normal}
-.roster-main{min-width:0}
-.roster-main strong{display:block;font-size:1.05rem;line-height:1.3;overflow-wrap:break-word;word-break:normal}
-.roster-main span{display:block;margin-top:4px;color:var(--fg2);font-size:.9rem;line-height:1.6;overflow-wrap:break-word;word-break:normal}
-.roster-count{white-space:nowrap;color:var(--fg2);font-size:.86rem;font-weight:800}
-.roster-cta{white-space:nowrap;color:var(--accent);font-size:.86rem;font-weight:900}
+html body.models-surface .vendor-card h3{font-family:var(--font-serif)!important;font-size:1.3rem!important;font-weight:700!important;line-height:1.3!important}
+.vendor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0 0}
+.vendor-card{min-width:0;border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px;box-shadow:0 1px 0 rgba(0,0,0,.03),0 12px 28px rgba(120,80,30,.06)}
+.vendor-name{margin:0 0 8px;color:var(--accent-deep);font-size:.78rem;font-weight:800;letter-spacing:0}
+.vendor-card h3{margin:0;overflow-wrap:break-word;word-break:normal}
+.vendor-card h3 a{color:var(--fg);text-decoration:none}
+.vendor-card h3 a:hover{color:var(--accent);text-decoration:underline}
+.vendor-facts{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:12px 0 0}
+.vendor-facts div{display:contents}
+.vendor-facts dt{color:var(--fg2);font-size:.78rem}
+.vendor-facts dd{margin:0;font-weight:800;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.vendor-personality{margin:12px 0 0;color:var(--fg2);font-size:.92rem;line-height:1.75;overflow-wrap:break-word;word-break:normal}
+.vendor-link{display:inline-flex;align-items:center;margin-top:14px;color:var(--accent);font-size:.86rem;font-weight:900;text-decoration:none}
+.vendor-link:hover,.vendor-link:focus-visible{text-decoration:underline}
+.vendor-history{margin:16px 0 0;border-top:1px solid var(--border);padding-top:12px}
+.vendor-history summary{display:flex;align-items:center;min-height:36px;width:max-content;max-width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--fg);font-size:.82rem;font-weight:800;cursor:pointer;overflow-wrap:break-word;word-break:normal}
+.vendor-history summary:hover{border-color:var(--accent);color:var(--accent)}
+.vendor-history[open] summary{margin-bottom:10px}
+.vendor-history-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.vendor-history-list a{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(92,82,60,.16);color:var(--fg);text-decoration:none;font-size:.9rem}
+.vendor-history-list li:last-child a{border-bottom:0}
+.vendor-history-list a:hover{color:var(--accent)}
+.vendor-history-date{font-weight:900;font-variant-numeric:tabular-nums;color:var(--accent-deep);white-space:nowrap}
+.vendor-history-model{min-width:0;font-weight:800;overflow-wrap:break-word;word-break:normal}
+.vendor-history-count{white-space:nowrap;color:var(--fg2);font-size:.82rem;font-weight:800}
+.vendor-history-empty{margin:16px 0 0;border-top:1px solid var(--border);padding-top:12px;color:var(--fg3);font-size:.82rem}
 .contrast{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:22px;align-items:stretch}
 .contrast-panel{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:20px}
 .contrast-panel h3{margin:0 0 12px;overflow-wrap:break-word;word-break:normal}
@@ -121,10 +141,12 @@ a:hover{color:var(--accent)}
 .score-track{height:12px;border-radius:999px;background:rgba(92,82,60,.14);overflow:hidden}
 .score-fill{display:block;height:100%;border-radius:999px;background:var(--accent)}
 .score-row:nth-child(2) .score-fill{background:var(--green-deep)}
+.score-row:nth-child(3) .score-fill{background:var(--accent-2)}
 .score-value{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
-.quote-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;min-width:0}
+.quote-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;min-width:0}
 .quote-block{margin:0;border-left:4px solid var(--accent);padding:2px 0 2px 16px}
 .quote-block:nth-child(2){border-left-color:var(--green-deep)}
+.quote-block:nth-child(3){border-left-color:var(--accent-2)}
 .quote-block figcaption{font-weight:700;margin-bottom:8px;color:var(--fg)}
 .quote-block blockquote{margin:0;color:var(--fg);font-size:1rem;line-height:1.9;overflow-wrap:break-word;word-break:normal}
 .cta-band{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;background:var(--fg);color:var(--bg);border-radius:8px;padding:24px}
@@ -138,13 +160,8 @@ a:hover{color:var(--accent)}
 .data-note p{margin:0;overflow-wrap:break-word;word-break:normal}
 .data-note p + p{margin-top:12px}
 @media(max-width:880px){
-  .models-hero,.contrast,.quote-grid,.cta-band{grid-template-columns:1fr}
+  .models-hero,.vendor-grid,.contrast,.quote-grid,.cta-band{grid-template-columns:1fr}
   .cta-actions{justify-content:flex-start}
-}
-@media(max-width:720px){
-  .roster-link{grid-template-columns:1fr;gap:7px}
-  .roster-count{white-space:normal}
-  .roster-cta{white-space:normal}
 }
 @media(max-width:560px){
   .models-feature{padding:22px 16px 64px}
@@ -180,15 +197,13 @@ a:hover{color:var(--accent)}
         <p class="models-kicker">モデル比較</p>
         <h1>AIモデル比較</h1>
         <p class="hook">AIモデルは、あなたの仕事をどう見ているか。</p>
-        <p class="lead">
-          {voteCountText}による採点を総合しています。これまで{modelCountText}の採点を公開し、各回の対象は{occupationCoverageText}です。AIの判断にはそれぞれの見方があり、同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。
-        </p>
+        <p class="lead">{page.lead}</p>
       </div>
       <aside class="current-model-card" aria-labelledby="current-model-title">
         <p class="current-label">{page.consensusSummary.label}</p>
         <h2 id="current-model-title">{page.consensusSummary.headline}</h2>
         <dl>
-          <dt>票数</dt><dd>{page.consensusSummary.voteCount}票</dd>
+          <dt>{MODELS_HUB_VENDOR_COUNT_LABEL}</dt><dd>{page.consensusSummary.vendorCount}社</dd>
           <dt>最新採点</dt><dd>{formatJapaneseDate(page.consensusSummary.latestRunDate)}</dd>
           <dt>最新モデル</dt><dd><a href={page.consensusSummary.latestModelHref}>{page.consensusSummary.latestModelDisplay}</a></dd>
         </dl>
@@ -198,26 +213,41 @@ a:hover{color:var(--accent)}
       </aside>
     </header>
 
-    <section class="feature-section" aria-labelledby="models-roster">
-      <h2 id="models-roster">これまでのモデル</h2>
-      <p class="section-intro">
-        {formatJapaneseDate(page.modelRoster[0]!.date)}から{formatJapaneseDate(page.currentModel.date)}までに公開しているモデルを、採点日の古い順に並べています。新しいモデルを追加したときは、この一覧とモデル別ページも増えます。
-      </p>
-      <ol class="roster-list">
-        {page.modelRoster.map((card) => (
-          <li>
-            <a class="roster-link" href={card.href}>
-              <span class="roster-date">{formatJapaneseDate(card.date)}</span>
-              <span class="roster-main">
-                <strong>{card.modelDisplay}</strong>
-                <span>{card.personality_sentence}</span>
-              </span>
-              <span class="roster-count">{card.covered_count}職業</span>
-              <span class="roster-cta">詳しく見る ›</span>
-            </a>
-          </li>
+    <section class="feature-section" aria-labelledby="models-vendors">
+      <h2 id="models-vendors">{MODELS_HUB_VENDORS_HEADING}</h2>
+      <p class="section-intro">{MODELS_HUB_VENDORS_INTRO}</p>
+      <div class="vendor-grid">
+        {page.lanes.map((lane) => (
+          <article class="vendor-card" aria-labelledby={`vendor-${lane.provider}`}>
+            <p class="vendor-name">{lane.vendorDisplay}</p>
+            <h3 id={`vendor-${lane.provider}`}><a href={lane.latest.href}>{lane.latest.modelDisplay}</a></h3>
+            <dl class="vendor-facts">
+              <div><dt>採点日</dt><dd>{formatJapaneseDate(lane.latest.date)}</dd></div>
+              <div><dt>対象</dt><dd>{lane.latest.covered_count}職業</dd></div>
+            </dl>
+            <p class="vendor-personality">{lane.latest.personality_sentence}</p>
+            <a class="vendor-link" href={lane.latest.href}>詳しく見る ›</a>
+            {lane.history.length > 0 ? (
+              <details class="vendor-history">
+                <summary>{lane.historySummary}</summary>
+                <ol class="vendor-history-list">
+                  {lane.history.map((run) => (
+                    <li>
+                      <a href={run.href}>
+                        <span class="vendor-history-date">{formatJapaneseDate(run.date)}</span>
+                        <span class="vendor-history-model">{run.modelDisplay}</span>
+                        <span class="vendor-history-count">{run.covered_count}職業</span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </details>
+            ) : (
+              <p class="vendor-history-empty">{lane.historySummary}</p>
+            )}
+          </article>
         ))}
-      </ol>
+      </div>
     </section>
 
     <section class="feature-section" aria-labelledby="models-contrast">
@@ -233,10 +263,7 @@ a:hover{color:var(--accent)}
         </div>
         <div class="contrast-panel">
           <h3>見方が大きく分かれた職業</h3>
-          <p class="contrast-copy">
-            最新の比較では、<strong>{page.latestPair.baseline.modelDisplay}</strong> と <strong>{page.latestPair.candidate.modelDisplay}</strong> の共通する {page.latestPair.compared_count} 職業を比べ、いくつかの職業をまったく違う角度から見ています。
-            次のカードでは、差が大きかった職業を、両モデルの理由文そのままと一緒に読みます。
-          </p>
+          <p class="contrast-copy">{page.contrastCopy}</p>
         </div>
       </div>
     </section>
@@ -257,27 +284,21 @@ a:hover{color:var(--accent)}
             </div>
 
             <div class="score-bars" aria-label={`${story.title_ja}のモデル別スコア`}>
-              <div class="score-row">
-                <span>{page.latestPair.baseline.modelDisplay}</span>
-                <span class="score-track" aria-hidden="true"><span class="score-fill" style={`width:${scoreBarWidth(story.baseline_transformation)}`}></span></span>
-                <span class="score-value">{formatModelScore(story.baseline_transformation)}</span>
-              </div>
-              <div class="score-row">
-                <span>{page.latestPair.candidate.modelDisplay}</span>
-                <span class="score-track" aria-hidden="true"><span class="score-fill" style={`width:${scoreBarWidth(story.candidate_transformation)}`}></span></span>
-                <span class="score-value">{formatModelScore(story.candidate_transformation)}</span>
-              </div>
+              {story.scores.map((s) => (
+                <div class="score-row">
+                  <span>{s.modelDisplay}</span>
+                  <span class="score-track" aria-hidden="true"><span class="score-fill" style={`width:${scoreBarWidth(s.transformation)}`}></span></span>
+                  <span class="score-value">{formatModelScore(s.transformation)}</span>
+                </div>
+              ))}
             </div>
-
             <div class="quote-grid">
-              <figure class="quote-block">
-                <figcaption>{page.latestPair.baseline.modelDisplay} の理由</figcaption>
-                <blockquote>{story.baseline_rationale_ja}</blockquote>
-              </figure>
-              <figure class="quote-block">
-                <figcaption>{page.latestPair.candidate.modelDisplay} の理由</figcaption>
-                <blockquote>{story.candidate_rationale_ja}</blockquote>
-              </figure>
+              {story.scores.map((s) => (
+                <figure class="quote-block">
+                  <figcaption>{s.modelDisplay} の理由</figcaption>
+                  <blockquote>{s.rationale_ja}</blockquote>
+                </figure>
+              ))}
             </div>
           </article>
         ))}
@@ -300,6 +321,10 @@ a:hover{color:var(--accent)}
     </section>
 
     <section class="data-note" aria-label="データについて">
+      <p>{CONSENSUS_VENDOR_UPDATE_NOTE_LEAD}</p>
+      <p>{CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT}</p>
+      <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD}</p>
+      <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_IMPACT}</p>
       <p>{CONSENSUS_FIFTH_VOTE_NOTE_LEAD}</p>
       <p>{CONSENSUS_FIFTH_VOTE_NOTE_IMPACT}</p>
       <p>{CONSENSUS_SWITCH_NOTE_LEAD}</p>

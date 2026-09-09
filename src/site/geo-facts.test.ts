@@ -35,10 +35,11 @@ function scoreRun(
   date: string,
   model: string,
   entries: ReadonlyMap<number, GeoScoreEntry> = scores,
+  provider = 'test',
 ): GeoScoreRunLike {
   return {
     scope: 'occupations',
-    scorer: { model },
+    scorer: { model, model_provider: provider },
     run: { run_date: date },
     scores: Object.fromEntries([...entries].map(([id, entry]) => [String(id), entry])),
   };
@@ -111,7 +112,7 @@ describe('computeGeoFacts', () => {
     );
   });
 
-  test('newest batch updates attribution; published scores are the consensus median', async () => {
+  test('newest batch updates attribution; published scores are the vendor-flagship mean', async () => {
     const nextScores = new Map<number, GeoScoreEntry>([
       [1, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
       [2, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
@@ -119,12 +120,12 @@ describe('computeGeoFacts', () => {
       [4, { ai_risk: 5, aiois: { transformation: 5, displacement: 2 } }],
     ]);
     const oldLatest = computeGeoFacts(rows, [
-      scoreRun('2026-07-02', 'claude-fable-5'),
-      scoreRun('2026-07-01', 'gpt-next-6', nextScores),
+      scoreRun('2026-07-02', 'claude-fable-5', scores, 'anthropic'),
+      scoreRun('2026-07-01', 'gpt-next-6', nextScores, 'openai'),
     ]);
     const newLatest = computeGeoFacts(rows, [
-      scoreRun('2026-07-01', 'claude-fable-5'),
-      scoreRun('2026-07-02', 'gpt-next-6', nextScores),
+      scoreRun('2026-07-01', 'claude-fable-5', scores, 'anthropic'),
+      scoreRun('2026-07-02', 'gpt-next-6', nextScores, 'openai'),
     ]);
     const template = await readFile(join(process.cwd(), 'src', 'index-source.html'), 'utf-8');
     const oldHome = bindHomeFacts(template, oldLatest);
@@ -204,7 +205,7 @@ describe('five-band distribution rounding (issue #216)', () => {
 describe('pickLatestGeoScoreRun', () => {
   const run = (date: string, model: string, aiois: boolean): GeoScoreRunLike => ({
     scope: 'occupations',
-    scorer: { model },
+    scorer: { model, model_provider: 'test' },
     run: { run_date: date },
     scores: { '1': { ai_risk: 1, aiois: aiois ? { displacement: 0.5 } : null } },
   });
@@ -272,7 +273,7 @@ describe('buildGeoSurfaces', () => {
       assert.match(llms, /2026-07-01/);
       assert.doesNotMatch(llms, /Claude Next 6/);
       assert.doesNotMatch(llms, /Claude Fable 5/);
-      assert.match(jsonld, /consensus:\d+:2026-07-01/);
+      assert.match(jsonld, /vendor-mean:\d+:2026-07-01/);
       assert.doesNotMatch(jsonld, /claude-next-6/);
     } finally {
       await rm(distRoot, { recursive: true, force: true });

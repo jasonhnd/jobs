@@ -4,24 +4,21 @@ export interface ModelEditorialBatchIdentity {
   readonly date: string;
 }
 
-export interface ModelEditorialPairIdentity {
-  readonly baseline: ModelEditorialBatchIdentity;
-  readonly candidate: ModelEditorialBatchIdentity;
+/** Vendor-flagship panel identity (mms-8.21). Entries are panel order (date asc). */
+export interface ModelEditorialPanelIdentity {
+  readonly entries: readonly ModelEditorialBatchIdentity[];
 }
 
 export const DEFAULT_MODEL_STORY_EDITORIAL_ID = 'default_latest_pair_split';
 
 /**
- * Curated interpretation is evidence for one reviewed comparison, not for an
- * occupation in every future model pair. Keep both model and batch date in the
- * key so a model re-run cannot accidentally inherit prose from another run.
+ * Curated interpretation is evidence for one reviewed panel, not for an
+ * occupation in every future model set. Keep model and batch date for every
+ * panel entry so a re-run cannot inherit prose from another run.
  */
 export function modelStoryEditorialSentenceId(
   occupationId: number,
-  pair: ModelEditorialPairIdentity,
+  panel: ModelEditorialPanelIdentity,
 ): string {
-  return (
-    `${occupationId}__${pair.baseline.model}@${pair.baseline.date}` +
-    `__${pair.candidate.model}@${pair.candidate.date}`
-  );
+  return `${occupationId}__${panel.entries.map((entry) => `${entry.model}@${entry.date}`).join('__')}`;
 }

@@ -281,7 +281,7 @@ prepends the nvm Node and Bun.
 | --- | --- | --- |
 | `test` / `typecheck` / `build` / `verify:gates` / `git diff --exit-code` | Yes | The whole `quality` chain runs on the VM. This is the §6 green bar minus the deploy half. |
 | `bun run test:e2e` | Partial | `tests/e2e/analytics.spec.ts` always fails here: with no `PUBLIC_*` env the tracker blocks are never emitted, which is the failure mode that spec documents at its head. Any other red belongs to the mobile work in flight on the branch, so diff against the branch point before blaming a change. e2e is in neither `ci.yml` nor `buildCommand` and gates nothing. |
-| Scoring batches | Yes, `in-agent` only | The `in-agent` provider needs no credential — the agent session is the model, as for `claude-opus-4-8` and `claude-fable-5`. Any keyed provider is owner-only. See [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md). |
+| Scoring batches | Yes, `in-agent` only | The `in-agent` provider needs no credential — the agent session is the model, as for `claude-opus-4-8`, `claude-fable-5`, `grok-4.6`, and `claude-fable-5-1`. Any keyed provider is owner-only. The `codex` provider (gpt-5.6-sol, gpt-6-astra) is owner-machine only. See [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md). |
 | `bun run audit` | No | `analytics/` pins `pnpm@11.9.0` for corepack to fetch, and the GA4 scripts need credentials. |
 | Vercel CLI (`alerts`, `ls`, `inspect`, `firewall overview`) | No | Not installed, not authenticated. §8's refresh procedure needs an operator. |
 | Preview deployment | No | Verification ends at `git push`. §6 and §9.5 — `lambda.runtime`, OG pixels, the SEO baseline as a *deploy* gate — still need a human.

@@ -2,7 +2,7 @@ import { fmean, fsum } from '../data/lib/fsum.js';
 import { bankerRound } from '../data/lib/banker-round.js';
 import { riskBand } from '../data/lib/bands.js';
 import {
-  pickConsensusScore,
+  pickFlagshipMeanScore,
   type ScoreHistEntry,
 } from '../graph/score-strategy.js';
 import type { Aiois10 } from '../graph/types.js';
@@ -51,6 +51,7 @@ export interface GeoScoreRunLike {
   readonly scope: string;
   readonly scorer: {
     readonly model: string;
+    readonly model_provider: string;
   };
   readonly run: {
     readonly run_date: string;
@@ -209,6 +210,7 @@ function histEntryFromGeo(run: GeoScoreRunLike, entry: GeoScoreEntry): ScoreHist
   const t = entry.aiois?.transformation ?? entry.ai_risk;
   return {
     model: run.scorer.model,
+    provider: run.scorer.model_provider,
     date: run.run.run_date,
     ai_risk: t,
     rationale_ja: '',
@@ -237,7 +239,7 @@ function consensusByOccFromRuns(runs: readonly GeoScoreRunLike[]): Map<number, G
   const out = new Map<number, GeoConsensus>();
   for (const [id, hist] of history) {
     try {
-      const c = pickConsensusScore(hist);
+      const c = pickFlagshipMeanScore(hist);
       out.set(id, { t: c.transformation, d: c.displacement });
     } catch {
       // Occupations with no comparable (aiois + displacement) votes stay out.
@@ -341,8 +343,8 @@ export function computeGeoFacts(
     runDate: activeRun.run.run_date,
     standardLabel: 'AIOIS-10',
   };
-  // Treemap carries labor metadata. Canonical T/D come from pickConsensusScore
-  // across comparable occupation runs (mms-6b). Attribution stays the newest
+  // Treemap carries labor metadata. Canonical T/D come from pickFlagshipMeanScore (vendor mean)
+  // across comparable occupation runs (mms-8.13). Attribution stays the newest
   // run for 最新観測.
   for (const row of rows) {
     if (mentionedIds.has(row.id) && !consensusById.has(row.id)) {

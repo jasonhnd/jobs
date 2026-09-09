@@ -7,14 +7,19 @@
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { computeDriftReport, type AioisScore, type DriftReport, type DriftRow } from '../../graph/aiois-drift.js';
-import { ModelsDeepProjectionSchema } from '../../lib/projection-schemas.js';
+import { computeDriftReport, type AioisScore, type DriftReport } from '../../graph/aiois-drift.js';
+import { ModelsDeepProjectionSchema, type ModelsDeepProjectionShape } from '../../lib/projection-schemas.js';
 import { occupationPath } from '../../lib/urls.js';
-import { formatModelDisplay } from '../../site/score-attribution.js';
+import {
+  formatModelDisplay,
+  formatVendorDisplay,
+  isWhitelistedVendor,
+  VENDOR_WHITELIST,
+} from '../../site/score-attribution.js';
 import {
   DEFAULT_MODEL_STORY_EDITORIAL_ID,
   modelStoryEditorialSentenceId,
-  type ModelEditorialPairIdentity,
+  type ModelEditorialPanelIdentity,
 } from '../../site/model-editorial.js';
 import type { Aiois10 } from '../../graph/types.js';
 import type { ScoreHistEntry } from '../../graph/score-strategy.js';
@@ -31,12 +36,14 @@ const AIOIS_DIM_KEYS = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd
 
 type Strength = 'strong' | 'moderate';
 type Direction = 'positive' | 'negative';
+export type ModelsDeepProjection = ModelsDeepProjectionShape;
 
 interface BatchSummary {
   readonly key: string;
   readonly model: string;
   readonly modelDisplay: string;
   readonly date: string;
+  readonly provider: string;
   readonly coveredCount: number;
   readonly aioisCoverage: number;
 }
@@ -47,10 +54,15 @@ interface PairSummary {
   readonly report: DriftReport;
 }
 
+interface OccupationSpread {
+  readonly id: number;
+  readonly title: string;
+  readonly spread: number;
+}
+
 interface StoryCandidate {
-  readonly row: DriftRow;
-  readonly baselineEntry: ScoreHistEntry;
-  readonly candidateEntry: ScoreHistEntry;
+  readonly spread: OccupationSpread;
+  readonly scores: ModelsDeepProjection['stories'][number]['scores'];
 }
 
 export interface ModelsDeepBuildResult {
@@ -104,16 +116,97 @@ function buildBatchSummaries(indexes: Indexes): BatchSummary[] {
   return [...grouped.entries()]
     .map(([key, entries]) => {
       const first = entries[0]!;
+      if (!isWhitelistedVendor(first.provider)) {
+        throw new Error(
+          `[models-deep] batch ${key} has model_provider "${first.provider}" outside VENDOR_WHITELIST`,
+        );
+      }
       return {
         key,
         model: first.model,
         modelDisplay: modelDisplay(first.model),
         date: first.date,
+        provider: first.provider,
         coveredCount: entries.length,
         aioisCoverage: entries.filter((entry) => entry.aiois != null).length,
       };
     })
     .sort((a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model));
+}
+
+function newestComparableForProvider(
+  batches: readonly BatchSummary[],
+  provider: string,
+): BatchSummary | null {
+  const candidates = batches.filter((batch) => batch.provider === provider && batch.aioisCoverage > 0);
+  if (candidates.length === 0) return null;
+  return [...candidates].sort((a, b) => b.date.localeCompare(a.date) || a.model.localeCompare(b.model))[0]!;
+}
+
+function newestBatchForProvider(
+  batches: readonly BatchSummary[],
+  provider: string,
+): BatchSummary | null {
+  const candidates = batches.filter((batch) => batch.provider === provider);
+  if (candidates.length === 0) return null;
+  return [...candidates].sort((a, b) => b.date.localeCompare(a.date) || a.model.localeCompare(b.model))[0]!;
+}
+
+function selectPanel(batches: readonly BatchSummary[]): BatchSummary[] {
+  const panel: BatchSummary[] = [];
+  for (const provider of VENDOR_WHITELIST) {
+    const latest = newestComparableForProvider(batches, provider);
+    if (latest) panel.push(latest);
+  }
+  panel.sort((a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model));
+  if (panel.length === 0) {
+    throw new Error('[models-deep] no comparable AIOIS-10 batch for any whitelisted vendor');
+  }
+  return panel;
+}
+
+function panelEntry(
+  batch: BatchSummary,
+  pairs: readonly PairSummary[],
+): ModelsDeepProjection['panel']['entries'][number] {
+  return {
+    provider: batch.provider,
+    vendorDisplay: formatVendorDisplay(batch.provider),
+    model: batch.model,
+    modelDisplay: batch.modelDisplay,
+    date: batch.date,
+    covered_count: batch.coveredCount,
+    personality_sentence_id: personalityIdForModel(batch.model, pairs),
+  };
+}
+
+function buildLanes(
+  batches: readonly BatchSummary[],
+  panel: readonly BatchSummary[],
+  pairs: readonly PairSummary[],
+): ModelsDeepProjection['lanes'] {
+  const lanes: ModelsDeepProjection['lanes'] = [];
+  for (const provider of VENDOR_WHITELIST) {
+    const latestBatch = panel.find((batch) => batch.provider === provider)
+      ?? newestBatchForProvider(batches, provider);
+    if (!latestBatch) continue;
+    const history = batches
+      .filter((batch) => batch.provider === provider && batch.key !== latestBatch.key)
+      .sort((a, b) => b.date.localeCompare(a.date) || a.model.localeCompare(b.model))
+      .map((batch) => ({
+        model: batch.model,
+        modelDisplay: batch.modelDisplay,
+        date: batch.date,
+        covered_count: batch.coveredCount,
+      }));
+    lanes.push({
+      provider,
+      vendorDisplay: formatVendorDisplay(provider),
+      latest: panelEntry(latestBatch, pairs),
+      history,
+    });
+  }
+  return lanes;
 }
 
 function buildPairSummaries(indexes: Indexes, batches: readonly BatchSummary[]): PairSummary[] {
@@ -138,6 +231,25 @@ function buildPairSummaries(indexes: Indexes, batches: readonly BatchSummary[]):
   }
 
   return pairs;
+}
+
+function occupationSpreads(
+  indexes: Indexes,
+  panel: readonly BatchSummary[],
+): { readonly comparedCount: number; readonly rows: readonly OccupationSpread[] } {
+  const maps = panel.map((batch) => toAioisScoreMap(indexes.historyByOcc, batch.key));
+  const first = maps[0];
+  if (!first) return { comparedCount: 0, rows: [] };
+  const commonIds = [...first.keys()].filter((id) => maps.every((map) => map.has(id)));
+  const rows = commonIds.map((id) => {
+    const values = maps.map((map) => map.get(id)!.aiRisk);
+    return {
+      id,
+      title: indexes.occById.get(id)?.title_ja ?? `職業 ${id}`,
+      spread: Math.max(...values) - Math.min(...values),
+    };
+  });
+  return { comparedCount: commonIds.length, rows };
 }
 
 function modelKey(model: string): string {
@@ -197,9 +309,9 @@ export function selectPersonalitySentenceIdForTest(
   return choosePersonalityId(model, dimDrifts, role === 'candidate' ? 1 : -1, availableIds);
 }
 
-function consensusRows(latestPair: PairSummary): ModelsDeepProjection['consensus'] {
-  return [...latestPair.report.rows]
-    .sort((a, b) => Math.abs(a.dT) - Math.abs(b.dT) || a.id - b.id)
+function consensusRows(rows: readonly OccupationSpread[]): ModelsDeepProjection['consensus'] {
+  return [...rows]
+    .sort((a, b) => a.spread - b.spread || a.id - b.id)
     .slice(0, 3)
     .map((row) => ({
       id: row.id,
@@ -208,19 +320,31 @@ function consensusRows(latestPair: PairSummary): ModelsDeepProjection['consensus
     }));
 }
 
-function findStoryCandidate(indexes: Indexes, latestPair: PairSummary, id: number): StoryCandidate | null {
-  const row = latestPair.report.rows.find((candidateRow) => candidateRow.id === id);
-  const history = indexes.historyByOcc.get(id);
-  if (!row || !history) return null;
-  const baselineEntry = history.find((entry) => batchKey(entry.model, entry.date) === latestPair.base.key);
-  const candidateEntry = history.find((entry) => batchKey(entry.model, entry.date) === latestPair.candidate.key);
-  if (!baselineEntry?.rationale_ja || !candidateEntry?.rationale_ja) return null;
-  return { row, baselineEntry, candidateEntry };
+function findStoryCandidate(
+  indexes: Indexes,
+  panel: readonly BatchSummary[],
+  spread: OccupationSpread,
+): StoryCandidate | null {
+  const history = indexes.historyByOcc.get(spread.id);
+  if (!history) return null;
+  const scores: ModelsDeepProjection['stories'][number]['scores'][number][] = [];
+  for (const batch of panel) {
+    const entry = history.find((item) => batchKey(item.model, item.date) === batch.key);
+    if (!entry?.rationale_ja) return null;
+    scores.push({
+      provider: batch.provider,
+      model: batch.model,
+      modelDisplay: batch.modelDisplay,
+      transformation: entry.aiois?.transformation ?? entry.ai_risk,
+      rationale_ja: entry.rationale_ja,
+    });
+  }
+  return { spread, scores };
 }
 
-function automaticStoryIds(latestPair: PairSummary): number[] {
-  return [...latestPair.report.rows]
-    .sort((a, b) => Math.abs(b.dT) - Math.abs(a.dT) || a.id - b.id)
+function automaticStoryIds(rows: readonly OccupationSpread[]): number[] {
+  return [...rows]
+    .sort((a, b) => b.spread - a.spread || a.id - b.id)
     .map((row) => row.id);
 }
 
@@ -239,49 +363,59 @@ function configuredStoryIds(config: ModelsStoryOverrideConfig, automaticIds: rea
 
 function editorialSentenceId(
   id: number,
-  pair: ModelEditorialPairIdentity,
+  panel: ModelEditorialPanelIdentity,
   availableIds: ReadonlySet<string> = new Set(Object.keys(storyOverrides.editorial_sentences)),
 ): string {
-  const specific = modelStoryEditorialSentenceId(id, pair);
+  const specific = modelStoryEditorialSentenceId(id, panel);
   return availableIds.has(specific) ? specific : DEFAULT_MODEL_STORY_EDITORIAL_ID;
 }
 
 export function selectEditorialSentenceIdForTest(
   id: number,
-  pair: ModelEditorialPairIdentity,
+  panel: ModelEditorialPanelIdentity,
   availableIds: ReadonlySet<string>,
 ): string {
-  return editorialSentenceId(id, pair, availableIds);
+  return editorialSentenceId(id, panel, availableIds);
 }
 
-function storyRows(indexes: Indexes, latestPair: PairSummary): ModelsDeepProjection['stories'] {
-  const autoIds = automaticStoryIds(latestPair);
+function storyRows(
+  indexes: Indexes,
+  panel: readonly BatchSummary[],
+  spreads: readonly OccupationSpread[],
+): ModelsDeepProjection['stories'] {
+  const autoIds = automaticStoryIds(spreads);
   const requestedIds = configuredStoryIds(storyOverrides, autoIds);
   const stories: ModelsDeepProjection['stories'] = [];
   const used = new Set<number>();
+  const byId = new Map(spreads.map((row) => [row.id, row]));
+  const panelIdentity: ModelEditorialPanelIdentity = {
+    entries: panel.map((batch) => ({ model: batch.model, date: batch.date })),
+  };
 
   function tryAdd(id: number, isOverride: boolean): void {
     if (used.has(id) || stories.length >= STORY_MAX) return;
-    const candidate = findStoryCandidate(indexes, latestPair, id);
+    const spread = byId.get(id);
+    if (!spread) {
+      if (isOverride) {
+        console.warn(`[models-deep] curated story id ${id} unavailable in current vendor panel; filling automatically`);
+      }
+      return;
+    }
+    const candidate = findStoryCandidate(indexes, panel, spread);
     if (!candidate) {
       if (isOverride) {
-        console.warn(`[models-deep] curated story id ${id} unavailable in latest comparable pair; filling automatically`);
+        console.warn(`[models-deep] curated story id ${id} unavailable in current vendor panel; filling automatically`);
       }
       return;
     }
     used.add(id);
     stories.push({
-      id: candidate.row.id,
-      title_ja: candidate.row.title,
-      href: occupationPath(candidate.row.id),
-      baseline_transformation: candidate.row.baseT,
-      candidate_transformation: candidate.row.candT,
-      baseline_rationale_ja: candidate.baselineEntry.rationale_ja,
-      candidate_rationale_ja: candidate.candidateEntry.rationale_ja,
-      editorial_sentence_id: editorialSentenceId(candidate.row.id, {
-        baseline: latestPair.base,
-        candidate: latestPair.candidate,
-      }),
+      id: candidate.spread.id,
+      title_ja: candidate.spread.title,
+      href: occupationPath(candidate.spread.id),
+      scores: candidate.scores,
+      spread: candidate.spread.spread,
+      editorial_sentence_id: editorialSentenceId(candidate.spread.id, panelIdentity),
     });
   }
 
@@ -342,91 +476,45 @@ export function resolveStoryIdsForTest(
   return resolved;
 }
 
-export function selectConsensusRowsForTest(rows: readonly DriftRow[]): readonly number[] {
-  const pair = {
-    base: { key: 'base', model: 'base', modelDisplay: '', date: '', coveredCount: 0, aioisCoverage: 0 },
-    candidate: { key: 'candidate', model: 'candidate', modelDisplay: '', date: '', coveredCount: 0, aioisCoverage: 0 },
-    report: { rows },
-  } as PairSummary;
-  return consensusRows(pair).map((row) => row.id);
+export function selectConsensusRowsForTest(
+  rows: readonly { readonly id: number; readonly spread: number }[],
+): readonly number[] {
+  return [...rows]
+    .sort((a, b) => a.spread - b.spread || a.id - b.id)
+    .slice(0, 3)
+    .map((row) => row.id);
 }
 
-export function selectAutomaticStoryIdsForTest(rows: readonly DriftRow[]): readonly number[] {
-  const pair = {
-    base: { key: 'base', model: 'base', modelDisplay: '', date: '', coveredCount: 0, aioisCoverage: 0 },
-    candidate: { key: 'candidate', model: 'candidate', modelDisplay: '', date: '', coveredCount: 0, aioisCoverage: 0 },
-    report: { rows },
-  } as PairSummary;
-  return automaticStoryIds(pair);
+export function selectAutomaticStoryIdsForTest(
+  rows: readonly { readonly id: number; readonly spread: number }[],
+): readonly number[] {
+  return [...rows]
+    .sort((a, b) => b.spread - a.spread || a.id - b.id)
+    .map((row) => row.id);
 }
-
-export type ModelsDeepProjection = {
-  generated_at: string;
-  latest_pair: {
-    baseline: { model: string; modelDisplay: string; date: string };
-    candidate: { model: string; modelDisplay: string; date: string };
-    compared_count: number;
-  };
-  model_cards: Array<{
-    model: string;
-    modelDisplay: string;
-    date: string;
-    covered_count: number;
-    personality_sentence_id: string;
-  }>;
-  consensus: Array<{
-    id: number;
-    title_ja: string;
-    href: string;
-  }>;
-  stories: Array<{
-    id: number;
-    title_ja: string;
-    href: string;
-    baseline_transformation: number;
-    candidate_transformation: number;
-    baseline_rationale_ja: string;
-    candidate_rationale_ja: string;
-    editorial_sentence_id: string;
-  }>;
-};
 
 export function buildModelsDeepPayload(indexes: Indexes, generatedAt = new Date().toISOString()): ModelsDeepProjection {
   const batches = buildBatchSummaries(indexes);
   const pairs = buildPairSummaries(indexes, batches);
-  const latestPair = pairs[pairs.length - 1];
-  if (!latestPair) {
-    throw new Error('[models-deep] no comparable AIOIS-10 score batch pair found');
+  const panelBatches = selectPanel(batches);
+  const { comparedCount, rows } = occupationSpreads(indexes, panelBatches);
+  if (comparedCount < 1) {
+    throw new Error('[models-deep] vendor panel has no occupation scored by every panel entry');
   }
 
   const payload: ModelsDeepProjection = {
     generated_at: generatedAt,
-    latest_pair: {
-      baseline: {
-        model: latestPair.base.model,
-        modelDisplay: latestPair.base.modelDisplay,
-        date: latestPair.base.date,
-      },
-      candidate: {
-        model: latestPair.candidate.model,
-        modelDisplay: latestPair.candidate.modelDisplay,
-        date: latestPair.candidate.date,
-      },
-      compared_count: latestPair.report.comparedCount,
+    panel: {
+      entries: panelBatches.map((batch) => panelEntry(batch, pairs)),
+      compared_count: comparedCount,
     },
-    model_cards: batches.map((batch) => ({
-      model: batch.model,
-      modelDisplay: batch.modelDisplay,
-      date: batch.date,
-      covered_count: batch.coveredCount,
-      personality_sentence_id: personalityIdForModel(batch.model, pairs),
-    })),
-    consensus: consensusRows(latestPair),
-    stories: storyRows(indexes, latestPair),
+    lanes: buildLanes(batches, panelBatches, pairs),
+    consensus: consensusRows(rows),
+    stories: storyRows(indexes, panelBatches, rows),
   };
 
-  const parsed = ModelsDeepProjectionSchema.parse(payload) as ModelsDeepProjection;
-  warnAboutOrphanedCuration(parsed, automaticStoryIds(latestPair));
+  const parsed = ModelsDeepProjectionSchema.parse(payload);
+  warnAboutOrphanedCuration(parsed, automaticStoryIds(rows));
   return parsed;
 }
 
@@ -445,8 +533,8 @@ export interface OrphanedCurationReport {
 }
 
 /**
- * Curated copy is scoped to an exact batch pair on purpose (#162): a re-run must
- * not inherit another pair's prose, and DATA_ARCHITECTURE mandates the generic
+ * Curated copy is scoped to an exact batch panel on purpose (#162): a re-run must
+ * not inherit another panel's prose, and DATA_ARCHITECTURE mandates the generic
  * fallback. The defect this reports is that the handover is otherwise SILENT —
  * on the day a batch lands, every reviewed sentence goes dark and the build says
  * nothing. Issue #219.
@@ -462,35 +550,24 @@ export interface OrphanedCurationReport {
 export function reportOrphanedCuration(
   payload: ModelsDeepProjection,
   automaticStoryIdsForPair: readonly number[],
-  // Injectable so tests exercise the logic against fixtures instead of the
-  // committed copy — otherwise every legitimate re-curation breaks the tests
-  // and the fix becomes "update the expected strings", which teaches nothing.
   overrides: ModelsStoryOverrideConfig = storyOverrides,
   personalitySentences: Readonly<Record<string, string>> = personalityCopy.sentences,
 ): OrphanedCurationReport {
-  const pair: ModelEditorialPairIdentity = {
-    baseline: { model: payload.latest_pair.baseline.model, date: payload.latest_pair.baseline.date },
-    candidate: { model: payload.latest_pair.candidate.model, date: payload.latest_pair.candidate.date },
+  const panel: ModelEditorialPanelIdentity = {
+    entries: payload.panel.entries.map((entry) => ({ model: entry.model, date: entry.date })),
   };
-  // Every key ends with `__<base>@<date>__<candidate>@<date>`; anything that
-  // does not end with the CURRENT pair's suffix is scoped to an older one.
-  const pairSuffix = modelStoryEditorialSentenceId(0, pair).slice(1);
+  const panelSuffix = modelStoryEditorialSentenceId(0, panel).slice(1);
 
-  // The generic fallback lives in the same map but is not pair-scoped, so it is
-  // never an orphan — it is the thing orphaned keys fall back TO.
   const allEditorial = Object.keys(overrides.editorial_sentences)
     .filter((key) => key !== DEFAULT_MODEL_STORY_EDITORIAL_ID);
-  const editorialKeys = allEditorial.filter((key) => !key.endsWith(pairSuffix)).sort();
+  const editorialKeys = allEditorial.filter((key) => !key.endsWith(panelSuffix)).sort();
   const activeEditorialCount = allEditorial.length - editorialKeys.length;
 
-  const usedPersonality = new Set(payload.model_cards.map((card) => card.personality_sentence_id));
+  const usedPersonality = new Set(payload.panel.entries.map((entry) => entry.personality_sentence_id));
   const personalityKeys = Object.keys(personalitySentences)
     .filter((key) => !key.startsWith('default_') && !usedPersonality.has(key))
     .sort();
 
-  // `automaticStoryIdsForPair` is EVERY row sorted by drift, not a shortlist —
-  // so membership in it is meaningless. What matters is the prefix that would
-  // actually be shown if nothing were pinned.
   const shownIds = new Set(payload.stories.map((story) => story.id));
   const wouldShow = automaticStoryIdsForPair.slice(0, STORY_MAX);
   const wouldShowSet = new Set(wouldShow);
@@ -510,10 +587,8 @@ function warnAboutOrphanedCuration(
     reportOrphanedCuration(payload, automaticStoryIdsForPair);
   if (editorialKeys.length === 0 && personalityKeys.length === 0 && stalePins.length === 0) return;
 
-  const pairLabel =
-    `${payload.latest_pair.baseline.model}@${payload.latest_pair.baseline.date}` +
-    ` → ${payload.latest_pair.candidate.model}@${payload.latest_pair.candidate.date}`;
-  console.warn(`[models-deep] curated /models copy is out of date for the current pair (${pairLabel}):`);
+  const panelLabel = payload.panel.entries.map((entry) => `${entry.model}@${entry.date}`).join(' / ');
+  console.warn(`[models-deep] curated /models copy is out of date for the current panel (${panelLabel}):`);
   console.warn(`  active reviewed story sentences: ${activeEditorialCount}`);
 
   if (editorialKeys.length > 0) {
@@ -552,7 +627,7 @@ export async function buildModelsDeep(
 
   return {
     files: [outPath],
-    modelCards: payload.model_cards.length,
+    modelCards: payload.lanes.length,
     consensus: payload.consensus.length,
     stories: payload.stories.length,
     bytes,
