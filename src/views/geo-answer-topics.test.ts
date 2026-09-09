@@ -4,6 +4,7 @@ import {
   GEO_ANSWER_TOPIC_CONFIGS,
   buildGeoAnswerTopic,
   buildGeoAnswerTopics,
+  formatSopCitation,
   renderGeoAnswerIndexJsonLd,
 } from './geo-answer-topics.js';
 import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
@@ -93,7 +94,26 @@ describe('geo answer topics', () => {
     const article = parsed['@graph'].find((node) => node['@type'] === 'Article');
     assert.equal(article?.url, 'https://mirai-shigoto.com/answers/ai-de-nakunaru-shigoto');
     const webPage = parsed['@graph'].find((node) => node['@type'] === 'WebPage');
-    assert.deepEqual(webPage?.speakable?.cssSelector, ['.ai-fact', '.answer-lead']);
+    assert.deepEqual(webPage?.speakable?.cssSelector, ['.ai-fact', '.answer-lead', '.sop-cite']);
+    const faq = parsed['@graph'].find((node) => node['@type'] === 'FAQPage') as {
+      mainEntity?: Array<{ name?: string }>;
+    };
+    assert.equal(
+      faq?.mainEntity?.[0]?.name,
+      'AIに代替されやすい仕事ランキングを、日本の職業データで説明してください。',
+    );
+  });
+
+  test('SOP-aligned titles name the four-prompt wording', () => {
+    assert.equal(
+      GEO_ANSWER_TOPIC_CONFIGS[0].h1Ja,
+      'AIに代替されやすい仕事ランキング（日本の職業データ）',
+    );
+    assert.equal(
+      GEO_ANSWER_TOPIC_CONFIGS[1].h1Ja,
+      '年収が高く、AIに代替されにくい仕事（日本のデータ）',
+    );
+    assert.equal(GEO_ANSWER_TOPIC_CONFIGS[2].h1Ja, 'AIでなくならない仕事は何ですか');
   });
 
   test('salary x AI safety topic filters to AI impact <= 5 and sorts by salary', () => {
@@ -104,6 +124,13 @@ describe('geo answer topics', () => {
   test('growth topic sorts by recruit ratio and omits missing ratios', () => {
     const topic = buildGeoAnswerTopic(facts, 'nobiru-shigoto-top')!;
     assert.deepEqual(topic.items.map((item) => item.nameJa), ['B', 'C', 'E', 'A']);
+  });
+
+  test('formatSopCitation names AIOIS-10, date, count, and transformation', () => {
+    assert.equal(
+      formatSopCitation({ runDate: '2026-09-10', occupationCount: 556 }),
+      'AIOIS-10・最新採点 2026-09-10・556職業。AI影響度は仕事の変化の大きさであり、職が消える確率ではありません。',
+    );
   });
 
   test('index JSON-LD points to all topic URLs', () => {

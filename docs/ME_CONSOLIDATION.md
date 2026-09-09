@@ -371,7 +371,7 @@ Order:
    on the no-occupation `/shindan` result. Share text and worktype OG card
    decided together. Shipped to production (#273).
 5. **`[seo]` / `[geo]`** (#236) — **not part of closing this consolidation.**
-   Separate programme. Parked (owner 2026-08-22): do not start until asked.
+   Separate programme. Owner 「继续」 2026-09-09 started seo-geo-1 (#272).
    Page shape is settled, so #236 is unblocked, but #233 does not wait on it.
 
 **#235 (rarity) is independent** and can be done at any point. **#234** closed
@@ -431,7 +431,7 @@ This consolidation is complete. Independent of it:
 1. **#234** — closed 2026-08-22. 17-day production cut: `me_open` ~1.5×, not
    10×; rankings path is real; compare `MeEntry` was 0 clicks. Owner: do
    not wait another 28 days.
-2. **#236** — SEO/GEO programme. Parked 2026-08-22. Do not start until the
-   owner asks. Not a closer for #233. A 転職 rename of `/shindan` and the
+2. **#236** — SEO/GEO programme. Owner 「继续」 2026-09-09 started
+   seo-geo-1 (#272). Not a closer for #233. A 転職 rename of `/shindan` and the
    24-type roster question stay there if they are ever picked up.
 3. **Whether the 24-type roster still earns a route** — deliberately deferred.
