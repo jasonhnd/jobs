@@ -21,6 +21,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Vendor-flagship switch note on `/data` and `/models` (mms-8.28 / #435):
+  site mean 4.73 → 4.67; `|Δ| ≥ 0.5` on 32 occupations; 33 band changes;
+  `|Δ| ≥ 1.0` on 1. Drift report: `docs/FLAGSHIP_SWITCH_DRIFT.md`.
 - Claude Fable 5.1 lands as Anthropic's flagship scoring run
   (mms-8.27 / #434): `data/scores/occupations_claude-fable-5-1_2026-09-09.json`,
   556/556. `/models/fable-5-1` 308 to the run page. On-site note and
