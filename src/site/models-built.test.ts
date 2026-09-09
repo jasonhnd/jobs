@@ -11,7 +11,7 @@ import {
   listOccupationRuns,
 } from './occupation-runs.js';
 import { formatJapaneseDate } from '../views/models.js';
-import { MODELS_RUN_IN_PANEL_NOTE } from './consensus-copy.js';
+import { MODELS_RUN_HISTORY_NOTE, MODELS_RUN_IN_PANEL_NOTE } from './consensus-copy.js';
 
 function builtModelsPath(): string | null {
   const candidates = [
@@ -156,6 +156,19 @@ describe('/models built page contract', () => {
     assert.match(latest, new RegExp(escapeRegExp(formatJapaneseDate(latestRun.runDate))));
     assert.match(latest, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
     assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(latestRun.model)}`).test(latest), false);
+
+    const grokPath = builtModelDetailPath('grok-4.6@2026-09-07');
+    if (grokPath != null) {
+      const grok = visibleHtml(readFileSync(grokPath, 'utf-8'));
+      assert.match(grok, /提供元<\/dt><dd>xAI</);
+      assert.match(grok, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
+    }
+    const fablePath = builtModelDetailPath('fable-5@2026-06-13');
+    if (fablePath != null) {
+      const fable = visibleHtml(readFileSync(fablePath, 'utf-8'));
+      assert.match(fable, new RegExp(escapeRegExp(MODELS_RUN_HISTORY_NOTE)));
+      assert.equal(fable.includes(MODELS_RUN_IN_PANEL_NOTE), false);
+    }
   });
 
   test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
@@ -188,7 +201,10 @@ describe('/models built page contract', () => {
       const predDate = escapeRegExp(formatJapaneseDate(predecessor.runDate));
       assert.match(page, new RegExp(`${predDisplay}（${predDate}）と比べて`));
       assert.match(page, /共通して比較できた職業は \d+ 件/);
-      assert.match(page, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
+      assert.equal(
+        page.includes(MODELS_RUN_IN_PANEL_NOTE) || page.includes(MODELS_RUN_HISTORY_NOTE),
+        true,
+      );
     }
   });
 

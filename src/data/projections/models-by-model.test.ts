@@ -74,6 +74,48 @@ describe('models-by-model projection', () => {
     }
   });
 
+  test('marks exactly one latest comparable run per vendor as in_panel', async () => {
+    const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
+    const inPanel = Object.values(payload.models).filter((model) => model.in_panel);
+    assert.equal(inPanel.length, 3);
+    assert.deepEqual(
+      inPanel.map((model) => `${model.model}@${model.date}`).sort(),
+      ['claude-opus-5@2026-07-26', 'gpt-5.6-sol@2026-07-12', 'grok-4.6@2026-09-07'].sort(),
+    );
+    const opus47 = Object.values(payload.models).find((model) => model.model === 'claude-opus-4-7');
+    assert.ok(opus47);
+    assert.equal(opus47.in_panel, false);
+    assert.ok(modelsByModelMaxPageBytes(payload) <= 24 * 1024);
+  });
+
+  test('a later Anthropic batch flips the older Anthropic run out of the panel', async () => {
+    const indexes = await indexesFixture();
+    const opus5 = [...indexes.runsByModel.values()]
+      .flat()
+      .find((run) => run.scorer.model === 'claude-opus-5' && run.scope === 'occupations');
+    assert.ok(opus5);
+    const extra: ScoreRun = {
+      ...opus5,
+      scorer: { ...opus5.scorer, model: 'claude-fable-5-1' },
+      run: { ...opus5.run, run_date: '2026-11-15', run_id: 'synthetic-fable-5-1' },
+    };
+    const runsByModel = new Map(
+      [...indexes.runsByModel].map(([model, runs]) => [model, [...runs]] as const),
+    );
+    runsByModel.set(extra.scorer.model, [...(runsByModel.get(extra.scorer.model) ?? []), extra]);
+    const payload = buildModelsByModelPayload(
+      { ...indexes, runsByModel } as Indexes,
+      '2026-11-16T00:00:00.000Z',
+    );
+    const older = Object.values(payload.models).find((model) => model.model === 'claude-opus-5');
+    const newer = Object.values(payload.models).find((model) => model.model === 'claude-fable-5-1');
+    assert.ok(older);
+    assert.ok(newer);
+    assert.equal(older.in_panel, false);
+    assert.equal(newer.in_panel, true);
+    assert.equal(Object.values(payload.models).filter((model) => model.in_panel).length, 3);
+  });
+
   test('keeps distribution, lists, drift, and payload-size contracts', async () => {
     const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
     const latest = payload.models[listOccupationRuns().at(-1)!.slug]!;

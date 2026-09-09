@@ -270,6 +270,7 @@ describe('models feature view model', () => {
   test('formats public model metadata for visitor pages', () => {
     assert.equal(formatProviderDisplay('openai'), 'OpenAI');
     assert.equal(formatProviderDisplay('anthropic'), 'Anthropic');
+    assert.equal(formatProviderDisplay('xai'), 'xAI');
     assert.equal(formatJapaneseDate('2026-07-12'), '2026年7月12日');
     assert.equal(formatEvaluationStandard('AIOIS-10-v1.0-gpt-5.6-sol'), 'AIOIS-10 v1.0');
   });
