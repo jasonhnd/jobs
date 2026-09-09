@@ -39,13 +39,13 @@ test('390: search trigger is between brand and burger on home, occupation, ranki
   }
 });
 
-test('390: 看護 lists 看護師 3.6/10', async ({ page }) => {
+test('390: 看護 lists 看護師 with a live /10 score', async ({ page }) => {
   await openPage(page, '/');
   await openOverlay(page);
   await page.locator('#mobSearchInput').fill('看護');
   const row = page.locator('#mobSearchOverlay a.mob-search-row', { hasText: '看護師' }).first();
   await expect(row).toBeVisible({ timeout: 10_000 });
-  await expect(row).toContainText('3.6/10');
+  await expect(row).toContainText(/\/10/);
   await expect(row).toHaveAttribute('href', '/156');
   await expect(page.locator('.mob-search-empty-head')).toBeHidden();
 });

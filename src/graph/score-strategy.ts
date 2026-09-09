@@ -3,8 +3,7 @@
  *
  * Centralizes the rule for "which historical score is current".
  *
- * Canonical: `pickConsensusScore` (mms-6b) — median of comparable AIOIS-10
- * votes. `pickLatestScore` remains for 最新観測 / /models / score_history.
+ * Canonical: pickFlagshipMeanScore (mms-8.13 onward) — mean of each vendor's latest comparable run. pickConsensusScore (median) is deprecated; pickLatestScore remains for 最新観測 / /models / score_history.
  *
  * CHANGELOG of pickConsensusScore:
  *   2026-08-31  mms-6a — comparable → 1 vote/model → 6-month window
@@ -18,10 +17,18 @@
  *   2026-06-03  same-date tie-break: prefer the AIOIS-10 entry over a legacy
  *               single-axis one (deterministic, not filename-order dependent).
  *               No-op on current data (the two score runs have distinct dates).
+ *
+ * CHANGELOG of pickFlagshipMeanScore:
+ *   2026-09-09  mms-8.10 — pickFlagshipMeanScore: per-vendor latest run →
+ *               arithmetic mean; no window/floor; staleVendors.
  */
+
+import { fmean } from '../data/lib/fsum.js';
 
 export interface ScoreHistEntry {
   model: string;
+  /** Vendor id from the batch's `scorer.model_provider` (`anthropic` / `openai` / `xai`). */
+  provider: string;
   /** ISO date YYYY-MM-DD. */
   date: string;
   ai_risk: number;
@@ -62,7 +69,15 @@ export function pickLatestScore<T extends { date: string; aiois?: unknown }>(his
   return chosen;
 }
 
+/**
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
+ */
 export const CONSENSUS_WINDOW_MONTHS = 6;
+/**
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
+ */
 export const CONSENSUS_FLOOR_VOTES = 5;
 
 const DIM_KEYS = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10'] as const;
@@ -101,6 +116,10 @@ export interface ScorePanelMeta {
   readonly usedExpiredVotes: boolean;
 }
 
+/**
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
+ */
 export function scorePanelMeta(c: ConsensusScore): ScorePanelMeta {
   return {
     voteCount: c.panel.length,
@@ -198,6 +217,9 @@ function selectRationale(
  *
  * `pickLatestScore` stays for the 最新観測 row and /models. This function
  * does not round (display-layer banker rounding is unchanged).
+ *
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
  */
 export function pickConsensusScore(history: readonly ScoreHistEntry[]): ConsensusScore {
   if (history.length === 0) {
@@ -255,10 +277,16 @@ export function pickConsensusScore(history: readonly ScoreHistEntry[]): Consensu
   };
 }
 
-/** Flatten a consensus result into the ScoreHistEntry shape projections already consume. */
+/**
+ * Flatten a consensus result into the ScoreHistEntry shape projections already consume.
+ *
+ * @deprecated Superseded by pickFlagshipMeanScore (mms-8, docs/CONSENSUS_SCORE.md 改訂 2).
+ * Kept for scripts/flagship-switch-drift.ts (switch-day report). Do not add new callers.
+ */
 export function toCanonicalScoreEntry(c: ConsensusScore): ScoreHistEntry {
   return {
     model: c.rationaleEntry.model,
+    provider: c.rationaleEntry.provider,
     date: c.latest.date,
     ai_risk: c.transformation,
     rationale_ja: c.rationaleEntry.rationale_ja,
@@ -268,5 +296,111 @@ export function toCanonicalScoreEntry(c: ConsensusScore): ScoreHistEntry {
       transformation: c.transformation,
       displacement: c.displacement,
     },
+  };
+}
+
+/** Months after which a vendor's latest run counts as stale (aging note). */
+export const VENDOR_STALE_MONTHS = 6;
+
+export interface FlagshipPanelEntry {
+  readonly provider: string;
+  readonly model: string;
+  readonly date: string;
+  readonly transformation: number;
+}
+
+export interface FlagshipMeanScore {
+  readonly transformation: number;
+  readonly displacement: number;
+  readonly dims: ConsensusDims;
+  /** One entry per vendor — that vendor's latest comparable run. `date` ascending, then `model`. */
+  readonly panel: readonly FlagshipPanelEntry[];
+  /** Vendors whose latest run date is strictly older than anchor − VENDOR_STALE_MONTHS. Sorted. */
+  readonly staleVendors: readonly string[];
+  readonly rationaleEntry: ScoreHistEntry;
+  readonly latest: ScoreHistEntry;
+  readonly latestDelta: number;
+}
+
+/**
+ * Public value = arithmetic mean of each vendor's latest comparable AIOIS-10 run.
+ * docs/CONSENSUS_SCORE.md 改訂 2 (mms-8). Supersedes pickConsensusScore (median),
+ * which is kept only for scripts/flagship-switch-drift.ts.
+ * Does not round (display-layer banker rounding is unchanged).
+ */
+export function pickFlagshipMeanScore(history: readonly ScoreHistEntry[]): FlagshipMeanScore {
+  if (history.length === 0) throw new Error('pickFlagshipMeanScore called with empty history');
+  const comparable = history.filter((e) => e.aiois != null);
+  if (comparable.length === 0) throw new Error('pickFlagshipMeanScore called with no comparable (aiois) scores');
+  for (const e of comparable) {
+    if (!e.provider) throw new Error(`pickFlagshipMeanScore: entry ${e.model}@${e.date} has no provider`);
+  }
+
+  const latest = pickLatestScore(comparable);
+
+  const byVendor = new Map<string, ScoreHistEntry>();
+  for (const entry of comparable) {
+    const prev = byVendor.get(entry.provider);
+    // Latest date wins; same-date keeps the later-in-input entry.
+    if (!prev || entry.date >= prev.date) byVendor.set(entry.provider, entry);
+  }
+  const panelEntries = [...byVendor.values()].sort(
+    (a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model),
+  );
+
+  const anchor = panelEntries[panelEntries.length - 1]!.date;
+  const cutoff = subtractMonths(anchor, VENDOR_STALE_MONTHS);
+  const staleVendors = panelEntries.filter((e) => e.date < cutoff).map((e) => e.provider).sort();
+
+  const transformation = fmean(panelEntries.map((e) => e.aiois!.transformation));
+  const displacement = fmean(panelEntries.map((e) => e.aiois!.displacement));
+  const dims = {} as { -readonly [K in DimKey]: number };
+  for (const key of DIM_KEYS) dims[key] = fmean(panelEntries.map((e) => e.aiois![key]));
+
+  const rationaleEntry = selectRationale(panelEntries, transformation);
+  const latestDelta = latest.aiois!.transformation - transformation;
+
+  return {
+    transformation,
+    displacement,
+    dims,
+    panel: panelEntries.map((e) => ({ provider: e.provider, model: e.model, date: e.date, transformation: e.aiois!.transformation })),
+    staleVendors,
+    rationaleEntry,
+    latest,
+    latestDelta,
+  };
+}
+
+/** Flatten into the ScoreHistEntry shape projections consume (same contract as toCanonicalScoreEntry). */
+export function toFlagshipCanonicalScoreEntry(c: FlagshipMeanScore): ScoreHistEntry {
+  return {
+    model: c.rationaleEntry.model,
+    provider: c.rationaleEntry.provider,
+    date: c.latest.date,
+    ai_risk: c.transformation,
+    rationale_ja: c.rationaleEntry.rationale_ja,
+    confidence: c.rationaleEntry.confidence,
+    aiois: { ...c.dims, transformation: c.transformation, displacement: c.displacement },
+  };
+}
+
+/** Site-wide panel metadata baked into SCORE_PANEL at build time (mms-8.15). */
+export interface FlagshipPanelMeta {
+  readonly vendorCount: number;
+  readonly latestRunDate: string;
+  readonly staleMonths: number;
+  readonly staleVendorCount: number;
+  /** Sorted by provider. */
+  readonly vendors: readonly { readonly provider: string; readonly model: string; readonly date: string }[];
+}
+
+export function flagshipPanelMeta(c: FlagshipMeanScore): FlagshipPanelMeta {
+  return {
+    vendorCount: c.panel.length,
+    latestRunDate: c.latest.date,
+    staleMonths: VENDOR_STALE_MONTHS,
+    staleVendorCount: c.staleVendors.length,
+    vendors: [...c.panel].sort((a, b) => a.provider.localeCompare(b.provider)).map((e) => ({ provider: e.provider, model: e.model, date: e.date })),
   };
 }

@@ -77,15 +77,15 @@ describe('buildCompareMetricRows', () => {
     assert.equal(labels.includes('関連資格'), true);
   });
 
-  test('kango-vs-helper displacements are the live consensus medians', async () => {
+  test('kango-vs-helper displacements are the live vendor-flagship means', async () => {
     const { loadGraph } = await import('@/graph');
     const { buildIndexes } = await import('@/data/lib/indexes.js');
     const graph = await loadGraph();
     const { indexes } = await buildIndexes();
     const a = graph.occupations.get(asOccupationId(156))?.aiRisk?.aiois?.displacement ?? null;
     const b = graph.occupations.get(asOccupationId(133))?.aiRisk?.aiois?.displacement ?? null;
-    assert.equal(a, indexes.consensusByOcc.get(156)?.displacement);
-    assert.equal(b, indexes.consensusByOcc.get(133)?.displacement);
+    assert.equal(a, indexes.flagshipByOcc.get(156)?.displacement);
+    assert.equal(b, indexes.flagshipByOcc.get(133)?.displacement);
   });
 });
 

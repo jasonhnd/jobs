@@ -10,8 +10,59 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Added
+
+- mms-8 design (#408–#414): the public AI-impact value will become the
+  mean of each vendor's latest flagship run (3 vendors) instead of the
+  multi-model median; Claude Fable 5.1 (`claude-fable-5-1`, in-agent) then
+  GPT-6 Astra (`gpt-6-astra`, Codex CLI) replace their vendors' entries.
+  Frozen prompts, runbook section, roadmap, and id tests landed; no scoring,
+  no `data/scores/`, no engine change yet.
+
 ### Changed
 
+- Four GEO SOP prompts now have matching indexable landings (seo-geo-1 /
+  #272): `/answers/ai-de-nakunaru-shigoto`, `/answers/nenshu-ai-anzen`,
+  `/answers/nobiru-shigoto-top`, `/methodology`. Title / H1 / lead / FAQ
+  JSON-LD use the SOP wording; AIOIS-10, occupation count, and score date
+  sit above the fold; `/answers` ↔ `/methodology` ↔ `/rankings` cross-link.
+  Transformation is not P(job loss).
+- Vendor-flagship mean is the public AI-impact value (mms-8 / #407, close-out
+  #444). Arithmetic mean of each vendor's latest comparable AIOIS-10 run
+  (Anthropic / OpenAI / xAI). Median / 6-month window / floor 5 left the
+  public surface; `pickConsensusScore` and the one-off drift scripts stay as
+  history (owner A). Switch-day with Fable 5.1 land
+  (`docs/FLAGSHIP_SWITCH_DRIFT.md`): site mean 4.73 → 4.67; `|Δ| ≥ 0.5` on
+  32 occupations; 33 band changes; `|Δ| ≥ 1.0` on 1. Claude Fable 5.1
+  (`claude-fable-5-1@2026-09-09`) is Anthropic's flagship. GPT-6 Astra
+  (`gpt-6-astra@2026-09-10`) later replaced GPT 5.6 SOL
+  (`docs/VENDOR_UPDATE_DRIFT_gpt-6-astra_2026-09-10.md`): 4.67 → 4.69;
+  `|Δ| ≥ 0.5` on 8; 17 band changes; none `|Δ| ≥ 1.0`. `/models` is three
+  vendor lanes. Codex runner accepts `--reasoning-effort`.
+- `/models` editorial after GPT-6 Astra (mms-8.36 / #443): five story
+  sentences match the Fable 5.1 / Astra / Grok 4.6 panel. Astra keeps the
+  generic personality sentence. Superseded GPT 5.6 SOL panel copy removed.
+- GPT-6 Astra lands as OpenAI's flagship scoring run
+  (mms-8.35 / #442): `data/scores/occupations_gpt-6-astra_2026-09-10.json`,
+  556/556. `/models/gpt-6-astra` 308 to the run page. Site mean 4.67 → 4.69;
+  `|Δ| ≥ 0.5` on 8 occupations; 17 band changes; none `|Δ| ≥ 1.0`.
+  Drift report: `docs/VENDOR_UPDATE_DRIFT_gpt-6-astra_2026-09-10.md`.
+- `/models` editorial after Fable 5.1 (mms-8.30 / #437): Anthropic card uses
+  a signed personality sentence; five story sentences match the current
+  vendor panel. Superseded GPT 5.6 SOL / Opus 5 pair copy removed.
+- Vendor-flagship switch note on `/data` and `/models` (mms-8.28 / #435):
+  site mean 4.73 → 4.67; `|Δ| ≥ 0.5` on 32 occupations; 33 band changes;
+  `|Δ| ≥ 1.0` on 1. Drift report: `docs/FLAGSHIP_SWITCH_DRIFT.md`.
+- Claude Fable 5.1 lands as Anthropic's flagship scoring run
+  (mms-8.27 / #434): `data/scores/occupations_claude-fable-5-1_2026-09-09.json`,
+  556/556. `/models/fable-5-1` 308 to the run page. On-site note and
+  drift doc follow in 8.28.
+- Canonical-pinned tests derive the current vendor panel from
+  `latestRunPerVendor()` instead of hard-coding Grok 4.6 / Opus 5 /
+  GPT 5.6 SOL (mms-8.24 / #431).
+- `/models` hub is three vendor cards (Anthropic / OpenAI / xAI) with
+  folded history, signed contrast copy, and three-bar / three-quote
+  stories (mms-8.23 / #430).
 - Grok 4.6 scoring path (mms-7a) is in-agent — the running `grok-4.6`
   session, same transport as Opus 4.8 / Fable 5. Frozen prompt identity
   line no longer names Gateway. `inferProvider('grok-…')` → `xai` stays

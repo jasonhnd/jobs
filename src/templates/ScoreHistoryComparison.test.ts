@@ -33,9 +33,9 @@ const threeRuns: ScoreHistoryComparisonEntry[] = [
 
 const opts: ScoreHistoryComparisonOptions = {
   consensusTransformation: 4,
-  voteCount: 2,
+  vendorCount: 2,
   latestRunDate: '2026-06-13',
-  usedExpiredVotes: false,
+  staleVote: false,
 };
 
 describe('renderScoreHistoryComparison', () => {
@@ -49,13 +49,13 @@ describe('renderScoreHistoryComparison', () => {
     assert.ok(html.includes('モデル比較'));
     assert.ok(html.includes('<a href="/models">全モデルを見る</a>'));
     assert.ok(html.includes(`id="score-history-details"`));
-    assert.ok(html.includes('<summary>モデル別の票を表示（3件）</summary>'));
+    assert.ok(html.includes('<summary>モデル別の採点を表示（3件）</summary>'));
     assert.ok(html.includes('2026年4月25日'));
     assert.ok(html.includes('2026年5月30日'));
     assert.ok(html.includes('2026年6月13日'));
     assert.ok(html.indexOf('Claude Opus 4.7') < html.indexOf('Claude Opus 4.8'));
     assert.ok(html.includes(CONSENSUS_HEADLINE_LABEL));
-    assert.ok(html.includes('2票 · 最新採点 2026年6月13日'));
+    assert.ok(html.includes('3社の最新モデルの平均 · 最新採点 2026年6月13日'));
     assert.equal(html.includes('score-history-current-model'), false);
     assert.ok(html.includes('<a href="/models/fable-5@2026-06-13">Claude Fable 5</a>'));
     assert.ok(html.includes('<a href="/models/opus-4-7@2026-04-25">Claude Opus 4.7</a>'));
@@ -79,12 +79,12 @@ describe('renderScoreHistoryComparison', () => {
         displacement: 2,
         dims: { d1: 1, d2: 2, d3: 3, d4: 4, d5: 5, d6: 6, d7: 7, d8: 8, d9: 9, d10: 10 },
       },
-    ], { ...opts, latestRunDate: '2026-07-20', voteCount: 3 });
+    ], { ...opts, latestRunDate: '2026-07-20', vendorCount: 3 });
 
     assert.ok(html.includes('<a href="/models/gpt-5.6-sol@2026-07-20">GPT 5.6 SOL</a>'));
     assert.ok(html.includes('<a href="/models/fable-5@2026-06-13">Claude Fable 5</a>'));
     assert.equal(html.includes('score-history-current-model'), false);
-    assert.ok(html.includes('<summary>モデル別の票を表示（4件）</summary>'));
+    assert.ok(html.includes('<summary>モデル別の採点を表示（4件）</summary>'));
   });
 
   test('missing legacy run still renders remaining rows (no empty-data banner)', () => {
@@ -98,7 +98,7 @@ describe('renderScoreHistoryComparison', () => {
   test('a single vote still opens a disclosure so the model name stays in the fold', () => {
     const html = renderScoreHistoryComparison([threeRuns[2]!], {
       ...opts,
-      voteCount: 1,
+      vendorCount: 1,
       consensusTransformation: 3,
     });
 
@@ -108,11 +108,11 @@ describe('renderScoreHistoryComparison', () => {
     assert.ok(!html.includes('<table'));
   });
 
-  test('aging note appears inside the fold only when expired votes were used', () => {
+  test('aging note appears inside the fold only when a vendor run is stale', () => {
     const without = renderScoreHistoryComparison(threeRuns, opts);
     assert.equal(without.includes(CONSENSUS_AGING_NOTE), false);
 
-    const withNote = renderScoreHistoryComparison(threeRuns, { ...opts, usedExpiredVotes: true });
+    const withNote = renderScoreHistoryComparison(threeRuns, { ...opts, staleVote: true });
     assert.ok(withNote.includes(CONSENSUS_AGING_NOTE));
     const detailsAt = withNote.indexOf('<details');
     const agingAt = withNote.indexOf(CONSENSUS_AGING_NOTE);

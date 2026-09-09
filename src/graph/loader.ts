@@ -25,8 +25,8 @@ import {
   SENTINEL_UNCATEGORIZED,
 } from './sector-resolver.js';
 import {
-  pickConsensusScore,
-  toCanonicalScoreEntry,
+  pickFlagshipMeanScore,
+  toFlagshipCanonicalScoreEntry,
   type ScoreHistEntry,
 } from './score-strategy.js';
 import { computeProfile5ForOcc } from './profile5.js';
@@ -395,6 +395,7 @@ function computeScoreHistory(runs: readonly ScoreRun[]): ReadonlyMap<OccupationI
       }
       bucket.push({
         model: run.scorer.model,
+        provider: run.scorer.model_provider,
         date: run.run.run_date,
         transformation: entry.ai_risk,
         rationaleJa: entry.rationale_ja,
@@ -417,6 +418,7 @@ function computeScoreHistory(runs: readonly ScoreRun[]): ReadonlyMap<OccupationI
 function asScoreHist(hist: readonly ScoreHistoryEntry[]): ScoreHistEntry[] {
   return hist.map((entry) => ({
     model: entry.model,
+    provider: entry.provider,
     date: entry.date,
     ai_risk: entry.transformation,
     rationale_ja: entry.rationaleJa,
@@ -440,7 +442,7 @@ function computeCanonicalScores(history: ReadonlyMap<OccupationId, readonly Scor
   const canonical = new Map<number, AiRiskScore>();
   for (const [occId, hist] of history) {
     try {
-      const pick = toCanonicalScoreEntry(pickConsensusScore(asScoreHist(hist)));
+      const pick = toFlagshipCanonicalScoreEntry(pickFlagshipMeanScore(asScoreHist(hist)));
       canonical.set(Number(occId), toAiRiskScore(pick));
     } catch {
       // Occupations with no comparable AIOIS-10 votes stay unscored.

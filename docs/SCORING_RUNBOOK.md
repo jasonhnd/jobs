@@ -8,9 +8,9 @@
 > が実データと突き合わせて検証する。batch を追加したら必ずここも更新すること
 > —— 更新し忘れると gate が落ちる。手で書き換えたまま腐らせることはできない。
 
-- モデル: `grok-4.6`
-- run date: `2026-09-07`
-- Score output: `data/scores/occupations_grok-4.6_2026-09-07.json`
+- モデル: `gpt-6-astra`
+- run date: `2026-09-10`
+- Score output: `data/scores/occupations_gpt-6-astra_2026-09-10.json`
 
 - 標準: AIOIS-10 v1.0
 - 対象: JILPT IPD v7.00 の 556 職業
@@ -142,8 +142,8 @@ Registered providers:
 
 | `--provider` | Auth | Native schema | Notes |
 | --- | --- | --- | --- |
-| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. |
-| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. |
+| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. `claude-fable-5-1` (mms-8.25/8.26) uses the same transport. |
+| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8.32/8.33) rides the same transport with an explicit `--model` and `--reasoning-effort high`; the default model stays `gpt-5.6-sol`. |
 
 There is no Vercel AI Gateway provider. Do not add one.
 
@@ -248,6 +248,240 @@ are produced against the exact rubric + extract any other provider would have
 been sent. Contract violations are rejected per id with the failing formula
 named, and never reach the output JSONL.
 
+## mms-8: Claude Fable 5.1 と GPT-6 Astra（各社旗艦の入れ替え）
+
+公開値の規則は [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md) 改訂 2（各ベンダー最新 run の算術平均）。両 batch は着地時にそれぞれのベンダーの旗艦を置き換える。旧 run は履歴。
+
+### Identity
+
+| 項目 | Claude Fable 5.1 | GPT-6 Astra |
+|---|---|---|
+| 公式 model id（裸 slug） | `claude-fable-5-1` | `gpt-6-astra` |
+| 公開表示 / URL slug | Claude Fable 5.1 / `fable-5-1` | GPT 6 Astra / `gpt-6-astra` |
+| `model_provider` | `anthropic` | `openai` |
+| 入れ替える前任（同ベンダーの現旗艦） | `claude-opus-5`（2026-07-26） | `gpt-5.6-sol`（2026-07-12） |
+| CLI transport | `in-agent`（Claude Fable 5.1 セッション内） | `codex`（オーナー本機、ログイン済み Codex CLI ≥ 0.153.1。2026-09-08 時点の本機は 0.153.4） |
+| Frozen prompt | `data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md` | `data/prompts/2026-09-08_gpt-6-astra-aiois10.ja.md` |
+| prompt_version | `AIOIS-10-v1.0-claude-fable-5-1` | `AIOIS-10-v1.0-gpt-6-astra` |
+| reasoning effort | `high`（adaptive thinking は無効化不可。run report に記録） | `high`（**明示必須**: `--reasoning-effort high`。本機 `~/.codex/config.toml` は `model_reasoning_effort = "low"` なので、渡さないと low を静默継承する） |
+| drift 比較先 | `claude-opus-5`（前任）と `grok-4.6`（現行最新） | `gpt-5.6-sol`（前任）と Fable 5.1 batch |
+| artifacts | `.cache/scoring/mms-8f-pilot/`, `.cache/scoring/mms-8f-full/` | `.cache/scoring/mms-8g-pilot/`, `.cache/scoring/mms-8g-full/` |
+| 採点 Issue | mms-8.25（pilot）/ 8.26（556） | mms-8.31（preflight）/ 8.32（pilot）/ 8.33（556） |
+| 着地 Issue | mms-8.27 | mms-8.35 |
+
+### 共通の決まりごと
+
+- 公開値の規則は `CONSENSUS_SCORE.md` 改訂 2（各ベンダー最新 run の算術平均）。両 batch は着地時にそれぞれのベンダーの旗艦を置き換える。旧 run は履歴。
+- model id はベンダー公式 id に従う（`gpt-5.6-sol` と同じ原則）。`claude-fable-5.1` / `gpt-6` は不可。
+- rubric 本文は `2026-09-06_grok-4.6-aiois10.ja.md` とモデル識別行以外逐字同一。AIOIS-10 v1.0 の rubric・公式・JSONL 契約は動かさない。
+- pilot 40 → オーナーが `rationale_ja` の日本語品質を確認 → 556。既存の品質門（Phase 3〜6）をそのまま使う。
+- オーナーの明示 GO 前に採点しない（dry-run・1 id も同じ）。オーナーの承認前に `data/scores/` へ書かない。
+- silent fallback 禁止。Vercel AI Gateway 禁止。`providers/anthropic-api.ts` / xAI HTTP provider / OpenAI HTTP provider を新造しない。
+- 順序: Fable 5.1 が先。Astra の採点（8.31 以降）は Fable 5.1 着地（8.27）後にのみ開始する。
+- 範囲外: Mythos 5.1 / Sonnet 5 / Haiku / GPT-5.6 Terra・Luna / Daybreak・Cyber 特供 / Gemini。
+
+### Claude Fable 5.1 / in-agent（mms-8.25 / 8.26）
+
+Sub-agent brief: copy `.cache/scoring/grok-4.6-in-agent-2026-09-07/SCORING_INSTRUCTIONS.md` to `.cache/scoring/mms-8f-<phase>/SCORING_INSTRUCTIONS.md` (`mms-8f-pilot` or `mms-8f-full`), replace `grok-4.6` → `claude-fable-5-1`, the run dir path, and add the line `Do not use tool-call / structured-output features; write the JSONL file as plain text.` Keep the formulas block verbatim. If sub-agents were used, add `--verify-subagents <transcript dir> --verify-agent-ids a,b,c` on the `--resume` pass.
+
+Pilot (mms-8.25). Artifacts under `.cache/scoring/mms-8f-pilot/`. Owner GO on #432 before the first command. Session must be Claude Fable 5.1.
+
+```bash
+git checkout preview && git pull --ff-only
+test -f data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md || { echo "8.4 not merged"; exit 1; }
+ls data/occupations/*.json | wc -l     # 556
+
+# 1. sample (no --explain: it would print baseline scores to the scorer = anchoring)
+bun scripts/make-pilot-sample.ts \
+  --model claude-fable-5-1 \
+  --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
+  --size 40 --chunk 5 \
+  --baseline data/scores/occupations_claude-opus-5_2026-07-26.json \
+  --out .cache/scoring/mms-8f-pilot
+
+# 2. emit prompts (40 pending — expected)
+bun scripts/run-scoring.ts \
+  --provider in-agent --model claude-fable-5-1 --attest-model claude-fable-5-1 \
+  --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
+  --run-name mms-8f-pilot \
+  --out .cache/scoring/mms-8f-pilot/raw-scores.jsonl \
+  --ids "$(jq -r '.ids | join(",")' .cache/scoring/mms-8f-pilot/sample.json)"
+
+# 3. score → .cache/scoring/mms-8f-pilot/answers/chunk-01.jsonl … (≤ 20 ids per chunk)
+
+# 4. validate + append (add --verify-subagents <transcript dir> --verify-agent-ids a,b,c if sub-agents were used)
+bun scripts/run-scoring.ts \
+  --provider in-agent --model claude-fable-5-1 --attest-model claude-fable-5-1 \
+  --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
+  --run-name mms-8f-pilot \
+  --out .cache/scoring/mms-8f-pilot/raw-scores.jsonl \
+  --ids "$(jq -r '.ids | join(",")' .cache/scoring/mms-8f-pilot/sample.json)" \
+  --resume
+wc -l .cache/scoring/mms-8f-pilot/raw-scores.jsonl     # 40
+
+# 5. anomaly scan (re-score hits with --resume --ids <bad>)
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8f-pilot/raw-scores.jsonl
+
+# 6. assemble pilot batch (stays in .cache)
+bun scripts/assemble-scores.ts \
+  --mode aiois --model claude-fable-5-1 --provider anthropic --date <YYYY-MM-DD> \
+  --prompt-version AIOIS-10-v1.0-claude-fable-5-1 \
+  --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
+  --in .cache/scoring/mms-8f-pilot/raw-scores.jsonl \
+  --out .cache/scoring/mms-8f-pilot/occupations_claude-fable-5-1_<YYYY-MM-DD>_pilot.json \
+  --run-id mms-8f-pilot-<YYYY-MM-DD>
+bun run check:score-batch .cache/scoring/mms-8f-pilot/occupations_claude-fable-5-1_<YYYY-MM-DD>_pilot.json   # schema OK; "missing 516" is expected for a pilot
+
+# 7. drift ×2
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-opus-5_2026-07-26.json --candidate .cache/scoring/mms-8f-pilot/occupations_claude-fable-5-1_<d>_pilot.json --out .cache/scoring/mms-8f-pilot/drift_claude-opus-5_vs_claude-fable-5-1_<d>.md
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.6_2026-09-07.json    --candidate .cache/scoring/mms-8f-pilot/occupations_claude-fable-5-1_<d>_pilot.json --out .cache/scoring/mms-8f-pilot/drift_grok-4.6_vs_claude-fable-5-1_<d>.md
+```
+
+Full 556 (mms-8.26). Artifacts under `.cache/scoring/mms-8f-full/`. Owner `全量 GO` on 8.25 and `GO` on #433.
+
+```bash
+# emit 556 prompts
+bun scripts/run-scoring.ts \
+  --provider in-agent --model claude-fable-5-1 --attest-model claude-fable-5-1 \
+  --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
+  --run-name mms-8f-full \
+  --out .cache/scoring/mms-8f-full/raw-scores.jsonl
+# score into answers/chunk-01..29.jsonl (≈20 ids each; copy SCORING_INSTRUCTIONS.md from the pilot dir, fix the path)
+bun scripts/run-scoring.ts … --run-name mms-8f-full --out .cache/scoring/mms-8f-full/raw-scores.jsonl --resume
+wc -l .cache/scoring/mms-8f-full/raw-scores.jsonl                                   # 556
+jq -r .id .cache/scoring/mms-8f-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8f-full/raw-scores.jsonl   # re-score hits
+
+# caveat file: Grok caveat with the model swapped
+sed 's/grok-4\.6 がセッション内（in-agent）で/claude-fable-5-1 がセッション内（in-agent）で/' <(jq -r .caveat data/scores/occupations_grok-4.6_2026-09-07.json) > .cache/scoring/mms-8f-full/caveat.txt
+
+bun scripts/assemble-scores.ts \
+  --mode aiois --model claude-fable-5-1 --provider anthropic --date <run_date> \
+  --prompt-version AIOIS-10-v1.0-claude-fable-5-1 \
+  --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
+  --in .cache/scoring/mms-8f-full/raw-scores.jsonl \
+  --out .cache/scoring/mms-8f-full/occupations_claude-fable-5-1_<run_date>.json \
+  --run-id claude-fable-5-1-in-agent-<run_date> \
+  --caveat .cache/scoring/mms-8f-full/caveat.txt \
+  --scoring-method "AIOIS-10 v1.0: in-session single-pass per occupation; model-judged D1–D10, indices per /standard formulas (re-validated); reasoning effort high (adaptive)"
+bun run check:score-batch .cache/scoring/mms-8f-full/occupations_claude-fable-5-1_<run_date>.json   # schema OK; 556/556; freshness newer than all 6
+shasum -a 256 .cache/scoring/mms-8f-full/occupations_claude-fable-5-1_<run_date>.json
+
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-opus-5_2026-07-26.json --candidate .cache/scoring/mms-8f-full/occupations_claude-fable-5-1_<run_date>.json --out .cache/scoring/mms-8f-full/drift_claude-opus-5_vs_claude-fable-5-1_<run_date>.md
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.6_2026-09-07.json    --candidate .cache/scoring/mms-8f-full/occupations_claude-fable-5-1_<run_date>.json --out .cache/scoring/mms-8f-full/drift_grok-4.6_vs_claude-fable-5-1_<run_date>.md
+```
+
+`<run_date>` = the JST calendar date the 556 completed, `YYYY-MM-DD`, must be later than `2026-09-07`.
+
+### GPT-6 Astra / Codex CLI（mms-8.31〜8.33）
+
+Owner's machine only. Every Astra call passes `--model gpt-6-astra` and `--reasoning-effort high`. `CODEX_DEFAULT_MODEL` stays `gpt-5.6-sol`. Astra scoring (8.31 onward) starts only after Fable 5.1 lands (8.27).
+
+Four failure conditions that stop the run:
+
+1. version < 0.153.1
+2. missing `--model` / `-c, --config` flag support
+3. entitlement error text in the probe stream
+4. any `"model":"…"` in the probe stream that is not `gpt-6-astra` (silent fallback, e.g. `gpt-5.6-sol`)
+
+Preflight (mms-8.31). Not scoring. Owner GO on #438 before the probe.
+
+```bash
+codex --version                                        # must be >= 0.153.1 (0.153.4 observed 2026-09-08)
+codex exec --help | grep -E -- '-m, --model <MODEL>|--model <MODEL>'      # flag exists
+codex exec --help | grep -E -- '-c, --config <key=value>'                 # override exists
+
+# Entitlement probe — NOT scoring. Minimal prompt, JSON event stream.
+mkdir -p .cache/scoring/mms-8g-preflight
+codex exec --ephemeral --color never --json -c model_reasoning_effort=high --model gpt-6-astra 'Reply with the single word ok.' 2>&1 | tee .cache/scoring/mms-8g-preflight/probe.jsonl
+echo "exit=$?"
+grep -o '"model":"[^"]*"' .cache/scoring/mms-8g-preflight/probe.jsonl | sort -u
+grep -o '"reasoning_effort":"[^"]*"\|model_reasoning_effort[^,}]*' .cache/scoring/mms-8g-preflight/probe.jsonl | sort -u
+grep -iE 'not found|unavailable|unsupported|not entitled|forbidden|permission' .cache/scoring/mms-8g-preflight/probe.jsonl || echo "no entitlement errors"
+```
+
+Pilot (mms-8.32). Artifacts under `.cache/scoring/mms-8g-pilot/`. Owner GO on #439; 8.31 verdict must be `PREFLIGHT PASS`. `--reasoning-effort high` on every call.
+
+```bash
+bun scripts/make-pilot-sample.ts \
+  --model gpt-6-astra \
+  --prompt-file data/prompts/2026-09-08_gpt-6-astra-aiois10.ja.md \
+  --size 40 --chunk 5 \
+  --baseline data/scores/occupations_gpt-5.6-sol_2026-07-12.json \
+  --out .cache/scoring/mms-8g-pilot
+
+bun scripts/run-scoring.ts \
+  --provider codex --model gpt-6-astra --reasoning-effort high \
+  --prompt-file data/prompts/2026-09-08_gpt-6-astra-aiois10.ja.md \
+  --run-name mms-8g-pilot \
+  --out .cache/scoring/mms-8g-pilot/raw-scores.jsonl \
+  --ids "$(jq -r '.ids | join(",")' .cache/scoring/mms-8g-pilot/sample.json)" \
+  --concurrency 2
+cat .cache/scoring/mms-8g-pilot/provider-preflight.json     # requested_model gpt-6-astra, reasoning_effort "high", reasoning_effort_source "cli-flag", codex_version
+wc -l .cache/scoring/mms-8g-pilot/raw-scores.jsonl          # = sample_size (rerun with --resume for pending/failed ids)
+for f in .cache/scoring/mms-8g-pilot/raw/*.failures.jsonl; do echo "== $f"; cat "$f"; done 2>/dev/null
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8g-pilot/raw-scores.jsonl
+
+bun scripts/assemble-scores.ts \
+  --mode aiois --model gpt-6-astra --provider openai --date <YYYY-MM-DD> \
+  --prompt-version AIOIS-10-v1.0-gpt-6-astra \
+  --prompt-file data/prompts/2026-09-08_gpt-6-astra-aiois10.ja.md \
+  --in .cache/scoring/mms-8g-pilot/raw-scores.jsonl \
+  --out .cache/scoring/mms-8g-pilot/occupations_gpt-6-astra_<YYYY-MM-DD>_pilot.json \
+  --run-id mms-8g-pilot-<YYYY-MM-DD>
+bun run check:score-batch .cache/scoring/mms-8g-pilot/occupations_gpt-6-astra_<YYYY-MM-DD>_pilot.json
+
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_gpt-5.6-sol_2026-07-12.json --candidate .cache/scoring/mms-8g-pilot/occupations_gpt-6-astra_<d>_pilot.json --out .cache/scoring/mms-8g-pilot/drift_gpt-5.6-sol_vs_gpt-6-astra_<d>.md
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fable-5-1_<fable_date>.json --candidate .cache/scoring/mms-8g-pilot/occupations_gpt-6-astra_<d>_pilot.json --out .cache/scoring/mms-8g-pilot/drift_claude-fable-5-1_vs_gpt-6-astra_<d>.md
+```
+
+Full 556 (mms-8.33). Artifacts under `.cache/scoring/mms-8g-full/`. Owner GO on #440; 8.32 decision `全量 GO`. `--reasoning-effort high` on every call.
+
+```bash
+bun scripts/run-scoring.ts \
+  --provider codex --model gpt-6-astra --reasoning-effort high \
+  --prompt-file data/prompts/2026-09-08_gpt-6-astra-aiois10.ja.md \
+  --run-name mms-8g-full \
+  --out .cache/scoring/mms-8g-full/raw-scores.jsonl \
+  --concurrency 4
+# interrupted / failures → rerun the same command with --resume. Never change --model.
+wc -l .cache/scoring/mms-8g-full/raw-scores.jsonl                                   # 556
+jq -r .id .cache/scoring/mms-8g-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
+for f in .cache/scoring/mms-8g-full/raw/*.failures.jsonl; do echo "== $f"; cat "$f"; done 2>/dev/null | grep -c '"kind":"refusal"'
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8g-full/raw-scores.jsonl   # re-score hits
+
+sed 's/grok-4\.6 がセッション内（in-agent）で/gpt-6-astra が Codex CLI 経由で/' <(jq -r .caveat data/scores/occupations_grok-4.6_2026-09-07.json) > .cache/scoring/mms-8g-full/caveat.txt
+
+bun scripts/assemble-scores.ts \
+  --mode aiois --model gpt-6-astra --provider openai --date <run_date> \
+  --prompt-version AIOIS-10-v1.0-gpt-6-astra \
+  --prompt-file data/prompts/2026-09-08_gpt-6-astra-aiois10.ja.md \
+  --in .cache/scoring/mms-8g-full/raw-scores.jsonl \
+  --out .cache/scoring/mms-8g-full/occupations_gpt-6-astra_<run_date>.json \
+  --run-id gpt-6-astra-codex-<run_date> \
+  --caveat .cache/scoring/mms-8g-full/caveat.txt \
+  --scoring-method "AIOIS-10 v1.0: Codex CLI single-pass per occupation; model-judged D1–D10, indices per /standard formulas (re-validated); reasoning effort high (explicit)"
+bun run check:score-batch .cache/scoring/mms-8g-full/occupations_gpt-6-astra_<run_date>.json   # schema OK; 556/556; freshness newer than all 7
+shasum -a 256 .cache/scoring/mms-8g-full/occupations_gpt-6-astra_<run_date>.json
+
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_gpt-5.6-sol_2026-07-12.json --candidate .cache/scoring/mms-8g-full/occupations_gpt-6-astra_<run_date>.json --out .cache/scoring/mms-8g-full/drift_gpt-5.6-sol_vs_gpt-6-astra_<run_date>.md
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fable-5-1_<fable_date>.json --candidate .cache/scoring/mms-8g-full/occupations_gpt-6-astra_<run_date>.json --out .cache/scoring/mms-8g-full/drift_claude-fable-5-1_vs_gpt-6-astra_<run_date>.md
+```
+
+### 着地（mms-8.27 / 8.35）
+
+Landing checklist (Fable 5.1 = 8.27, Astra = 8.35). Owner-gated scoring must already have produced the batch under `.cache/scoring/`.
+
+1. Copy the batch into `data/scores/` (sha256 equal to the assembled file).
+2. `bun run check:score-batch data/scores/occupations_<model>_<date>.json`
+3. `vercel.json` 308: `{"source":"/models/<slug>","destination":"/models/<slug>@<date>","permanent":true}`
+4. Update the three 「現行 batch」 lines (and only then).
+5. `bun run build` — log `[score-panel] vendors=3 latest=<date> stale=<n>`
+6. `bun run capture:seo-baseline` (do not hand-edit `tests/baseline/*`)
+7. `bun run test` / `bun run typecheck` / `bun run verify:gates` / `git diff --exit-code`
+8. On-site note from 確定文案（mms-8）, numbers from the drift script (`flagship-switch-drift.ts` for 8.28, `vendor-update-drift.ts` for 8.35)
+9. Promotion PR text for the owner (`preview` → `main`). Agents do not merge to `main`.
+
 ## GPT-5.6-SOL / Codex-CLI scoring
 
 This section is the Codex CLI path for `mms-5-prep` / Issue #141 and the gated GPT 5.6 SOL execution in Issue #126. It is added alongside the Fable 5 / Issue #9 path above; it does not replace the Fable 5 runbook.
@@ -283,6 +517,7 @@ Runner flags:
 - `--ids 1,2,3`: score only selected IDs.
 - `--limit N`: score the first N pending occupations after filtering.
 - `--resume`: skip IDs already present in the output JSONL and append remaining rows.
+- `--reasoning-effort <low|medium|high|xhigh>`: optional, codex only (mms-8.12). Inserts `-c model_reasoning_effort=<e>` before `--model`. Absent = inherit `~/.codex/config.toml`; the effective value and its source are recorded in `provider-preflight.json`.
 
 Pilot setup (30-50 occupations):
 

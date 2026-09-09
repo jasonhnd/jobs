@@ -8,10 +8,18 @@ import { SCORE_PANEL } from './score-attribution.js';
 import {
   comparableAioisRuns,
   latestOccupationRun,
+  latestRunPerVendor,
   listOccupationRuns,
 } from './occupation-runs.js';
 import { formatJapaneseDate } from '../views/models.js';
-import { MODELS_RUN_VOTE_NOTE } from './consensus-copy.js';
+import {
+  CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD,
+  CONSENSUS_VENDOR_UPDATE_NOTE_LEAD,
+  MODELS_HUB_VENDORS_HEADING,
+  MODELS_RUN_HISTORY_NOTE,
+  MODELS_RUN_IN_PANEL_NOTE,
+} from './consensus-copy.js';
+import { isWhitelistedVendor } from './score-attribution.js';
 
 function builtModelsPath(): string | null {
   const candidates = [
@@ -95,7 +103,10 @@ describe('/models built page contract', () => {
     assert.equal(/\bD(?:[1-9]|10)\b|D1[〜-]D10|drift/i.test(visible), false);
     assert.equal(/バッチ間|方法論メモ|ヒストグラム|散布図/.test(visible), false);
     assert.match(visible, /<h1>AIモデル比較<\/h1>/);
-    assert.match(visible, /<h2 id="models-roster">これまでのモデル<\/h2>/);
+    assert.match(
+      visible,
+      new RegExp(`<h2 id="models-vendors">${escapeRegExp(MODELS_HUB_VENDORS_HEADING)}</h2>`),
+    );
     const runs = listOccupationRuns();
     const coverages = runs.map((run) => run.coveredCount);
     const coverageMin = Math.min(...coverages);
@@ -103,25 +114,50 @@ describe('/models built page contract', () => {
     const coverageText = coverageMin === coverageMax
       ? `${coverageMax}職業`
       : `${coverageMin}〜${coverageMax}職業`;
+    const historyLaneCount = [...runs.reduce((counts, run) => {
+      if (!isWhitelistedVendor(run.provider)) return counts;
+      counts.set(run.provider, (counts.get(run.provider) ?? 0) + 1);
+      return counts;
+    }, new Map<string, number>()).values()].filter((count) => count > 1).length;
     assert.match(visible, /現行の総合/);
     assert.match(visible, /複数のAIによる総合/);
     assert.match(visible, /AI 影響度の算出方法を変更しました/);
+    assert.match(visible, new RegExp(escapeRegExp(CONSENSUS_VENDOR_UPDATE_NOTE_LEAD.slice(0, 12))));
+    assert.match(visible, new RegExp(escapeRegExp(CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD.slice(0, 12))));
     assert.match(visible, /全職業の平均は 5\.23 から 4\.68/);
     assert.match(visible, /全職業の平均は 4\.68 から 4\.73/);
-    assert.match(visible, new RegExp(`${SCORE_PANEL.voteCount}票`));
+    assert.match(visible, new RegExp(`${SCORE_PANEL.vendorCount}社`));
+    assert.match(visible, /Anthropic/);
+    assert.match(visible, /OpenAI/);
+    assert.match(visible, /xAI/);
     assert.equal(/現行モデル/.test(visible), false);
+    assert.equal(/roster-link/.test(html), false);
     for (const run of runs) {
       assert.match(visible, new RegExp(escapeRegExp(run.modelDisplay)));
     }
     assert.match(visible, new RegExp(`各回の対象は${coverageText}`));
-    assert.match(visible, /共通する 556 職業を比べ/);
+    assert.match(visible, /3社のAIそれぞれの最新モデルによる採点を平均しています/);
+    assert.match(visible, /3社の最新モデルが共通する \d+ 職業を比べると/);
     assert.equal(
       new RegExp(`556職業を、${runs.length}つのAIモデルがそれぞれ採点`).test(visible),
       false,
     );
     assert.match(
       html,
-      new RegExp(`${SCORE_PANEL.voteCount}つのAIモデルによる採点を総合した、各回${coverageText}の結果から`),
+      new RegExp(`3社のAIそれぞれの最新モデルによる採点を平均した、各回${coverageText}の結果から`),
+    );
+    assert.equal(
+      (html.match(/<details class="vendor-history">/g) ?? []).length,
+      historyLaneCount,
+    );
+    const storyCards = html.match(/<article class="story-card">/g) ?? [];
+    assert.equal(
+      (html.match(/<div class="score-row">/g) ?? []).length,
+      storyCards.length * SCORE_PANEL.vendorCount,
+    );
+    assert.equal(
+      (html.match(/<figure class="quote-block">/g) ?? []).length,
+      storyCards.length * SCORE_PANEL.vendorCount,
     );
   });
 
@@ -132,6 +168,7 @@ describe('/models built page contract', () => {
     assertModelsSurfaceBodyReset(html);
     assertHeadingsStaySerif(html);
     assertHeroSizeBeatsCanonical(html, 'html body.models-surface .models-hero h1', 'clamp(2rem,4.6vw,4.2rem)');
+    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .vendor-card h3', '1.3rem');
   });
 
   test('renders model detail public metadata without raw ids', () => {
@@ -154,8 +191,30 @@ describe('/models built page contract', () => {
     const latestDisplay = escapeRegExp(latestRun.modelDisplay);
     assert.match(latest, new RegExp(`<h1>${latestDisplay} の職業スコア</h1>`));
     assert.match(latest, new RegExp(escapeRegExp(formatJapaneseDate(latestRun.runDate))));
-    assert.match(latest, new RegExp(escapeRegExp(MODELS_RUN_VOTE_NOTE)));
+    assert.match(latest, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
     assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(latestRun.model)}`).test(latest), false);
+
+    const panel = latestRunPerVendor();
+    const xai = panel.find((run) => run.provider === 'xai');
+    if (xai != null) {
+      const grokPath = builtModelDetailPath(xai.slug);
+      if (grokPath != null) {
+        const grok = visibleHtml(readFileSync(grokPath, 'utf-8'));
+        assert.match(grok, /提供元<\/dt><dd>xAI</);
+        assert.match(grok, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
+      }
+    }
+    const historyRun = comparableAioisRuns().find(
+      (run) => isWhitelistedVendor(run.provider) && !panel.some((entry) => entry.slug === run.slug),
+    );
+    if (historyRun != null) {
+      const historyPath = builtModelDetailPath(historyRun.slug);
+      if (historyPath != null) {
+        const history = visibleHtml(readFileSync(historyPath, 'utf-8'));
+        assert.match(history, new RegExp(escapeRegExp(MODELS_RUN_HISTORY_NOTE)));
+        assert.equal(history.includes(MODELS_RUN_IN_PANEL_NOTE), false);
+      }
+    }
   });
 
   test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
@@ -170,7 +229,7 @@ describe('/models built page contract', () => {
       const legacy = visibleHtml(readFileSync(path, 'utf-8'));
       assert.match(legacy, /AIOIS-10 導入前の旧方式スコア/);
       assert.match(legacy, /D1〜D10 や置換指数を補完せず/);
-      assert.equal(legacy.includes(MODELS_RUN_VOTE_NOTE), false);
+      assert.equal(legacy.includes(MODELS_RUN_IN_PANEL_NOTE), false);
     }
 
     const firstPath = builtModelDetailPath(aiois[0]!.slug);
@@ -188,7 +247,10 @@ describe('/models built page contract', () => {
       const predDate = escapeRegExp(formatJapaneseDate(predecessor.runDate));
       assert.match(page, new RegExp(`${predDisplay}（${predDate}）と比べて`));
       assert.match(page, /共通して比較できた職業は \d+ 件/);
-      assert.match(page, new RegExp(escapeRegExp(MODELS_RUN_VOTE_NOTE)));
+      assert.equal(
+        page.includes(MODELS_RUN_IN_PANEL_NOTE) || page.includes(MODELS_RUN_HISTORY_NOTE),
+        true,
+      );
     }
   });
 

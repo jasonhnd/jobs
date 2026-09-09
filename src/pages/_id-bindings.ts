@@ -399,9 +399,9 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const consensusT = rec.consensus_transformation ?? risk;
   const scoreHistoryHtml = renderScoreHistoryComparison(input.scoreHistory ?? [], {
     consensusTransformation: consensusT ?? 0,
-    voteCount: rec.consensus_vote_count ?? SCORE_PANEL.voteCount,
+    vendorCount: rec.consensus_vendor_count ?? SCORE_PANEL.vendorCount,
     latestRunDate: rec.ai_scored_at ?? SCORE_PANEL.latestRunDate,
-    usedExpiredVotes: rec.used_expired_votes,
+    staleVote: rec.stale_vote,
   });
   const aiRiskDetailHtml = renderOccupationAiRiskDetail(rec);
   const aioisHtml = renderOccupationAiois10(rec);

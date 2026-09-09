@@ -257,6 +257,8 @@ function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
     'with Claude Fable 5-scored',
     'AIOIS-10 scores use Claude Fable 5',
     'AIOIS-10 v1.0 に基づく現行スコアリングに使用している LLM',
+    '公開値は comparable batch 群の中央値',
+    '複数のAIによる採点の中央値です',
   ];
   for (const claim of staleCurrentClaims) {
     if (readme.includes(claim)) fail(`README.md contains stale current-model claim ${JSON.stringify(claim)}`);

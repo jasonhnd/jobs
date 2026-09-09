@@ -27,7 +27,7 @@ async function pathExists(p: string): Promise<boolean> {
   }
 }
 
-import { buildIndexes } from './lib/indexes.js';
+import { assertUniformVendorPanel, buildIndexes } from './lib/indexes.js';
 import { rewriteGeneratedModule } from './lib/rewrite-generated-module.js';
 import { buildDetail } from './projections/detail.js';
 import { buildHolland } from './projections/holland.js';
@@ -45,7 +45,8 @@ import { buildTreemap } from './projections/treemap.js';
 import { buildAiAdoption } from './projections/ai-adoption.js';
 import { buildWorktypes } from './projections/worktypes.js';
 import { formatModelDisplay, pickAttributionBatch, type BatchMetaForAttribution } from '../site/score-attribution.js';
-import { scorePanelMeta } from '../graph/score-strategy.js';
+import { flagshipPanelMeta } from '../graph/score-strategy.js';
+
 import { buildGeoSurfaces } from '../site/geo-build.js';
 // Removed in Step 12 (dead projection cleanup, 2026-05-13):
 //   - buildFeatured / data.featured.json  (no runtime consumer)
@@ -125,7 +126,7 @@ async function main(): Promise<void> {
   console.log(`     stats_legacy:       ${indexes.statsById.size}`);
   console.log(`     score histories:    ${indexes.historyByOcc.size}`);
   console.log(`     latest scores:      ${indexes.latestScoreByOcc.size}`);
-  console.log(`     consensus scores:   ${indexes.consensusByOcc.size}`);
+  console.log(`     flagship means:     ${indexes.flagshipByOcc.size}`);
   console.log(`     labels dimensions:  ${indexes.labelsByDim.size}`);
   console.log(`     sectors:            ${indexes.sectors.length}`);
 
@@ -166,24 +167,22 @@ async function main(): Promise<void> {
 
     // Active score attribution (model + date) → generated fs-free module, so
     // src/site/score-attribution.ts carries no node:fs into the Edge bundle.
-    const sampleConsensus = indexes.consensusByOcc.get(1);
-    if (!sampleConsensus) {
-      throw new Error('[build] no consensus score for occupation 1 — cannot write SCORE_PANEL');
-    }
-    const panel = scorePanelMeta(sampleConsensus);
+    const sample = indexes.flagshipByOcc.get(1);
+    if (!sample) throw new Error('[build] no flagship mean for occupation 1 — cannot write SCORE_PANEL');
+    assertUniformVendorPanel(indexes.flagshipByOcc);
+    const panel = flagshipPanelMeta(sample);
 
     await rewriteGeneratedModule(join(REPO_ROOT, 'src/site/_score-attribution.ts'), [
       { pattern: /modelId: '[^']*'/, replacement: `modelId: '${active.model}'`, expect: `modelId: '${active.model}'` },
       { pattern: /modelDisplay: '[^']*'/, replacement: `modelDisplay: '${modelDisplay}'`, expect: `modelDisplay: '${modelDisplay}'` },
       { pattern: /runDate: '[^']*'/, replacement: `runDate: '${active.runDate}'`, expect: `runDate: '${active.runDate}'` },
-      { pattern: /voteCount: \d+/, replacement: `voteCount: ${panel.voteCount}`, expect: `voteCount: ${panel.voteCount}` },
+      { pattern: /vendorCount: \d+/, replacement: `vendorCount: ${panel.vendorCount}`, expect: `vendorCount: ${panel.vendorCount}` },
       { pattern: /latestRunDate: '[^']*'/, replacement: `latestRunDate: '${panel.latestRunDate}'`, expect: `latestRunDate: '${panel.latestRunDate}'` },
-      { pattern: /windowMonths: \d+/, replacement: `windowMonths: ${panel.windowMonths}`, expect: `windowMonths: ${panel.windowMonths}` },
-      { pattern: /floorVotes: \d+/, replacement: `floorVotes: ${panel.floorVotes}`, expect: `floorVotes: ${panel.floorVotes}` },
-      { pattern: /usedExpiredVotes: (?:true|false)/, replacement: `usedExpiredVotes: ${panel.usedExpiredVotes}`, expect: `usedExpiredVotes: ${panel.usedExpiredVotes}` },
+      { pattern: /staleMonths: \d+/, replacement: `staleMonths: ${panel.staleMonths}`, expect: `staleMonths: ${panel.staleMonths}` },
+      { pattern: /staleVendorCount: \d+/, replacement: `staleVendorCount: ${panel.staleVendorCount}`, expect: `staleVendorCount: ${panel.staleVendorCount}` },
     ]);
     console.log(`  [score-attribution] ${modelDisplay} (${active.runDate})`);
-    console.log(`  [score-panel] votes=${panel.voteCount} latest=${panel.latestRunDate} expired=${panel.usedExpiredVotes}`);
+    console.log(`  [score-panel] vendors=${panel.vendorCount} latest=${panel.latestRunDate} stale=${panel.staleVendorCount}`);
   }
 
   // ───── Prepare staging dir ─────

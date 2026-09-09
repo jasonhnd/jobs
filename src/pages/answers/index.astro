@@ -3,16 +3,19 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import {
+  SOP_LANDINGS,
   buildGeoAnswerTopics,
+  formatSopCitation,
   renderGeoAnswerIndexJsonLd,
 } from '@/views/geo-answer-topics';
 import { SCORE_PANEL } from '@/site/score-attribution';
+import { ANSWERS_HUB_PUBLIC_VALUE } from '@/site/consensus-copy';
 
 const facts = loadGeoFacts();
 const topics = buildGeoAnswerTopics(facts);
 const canonical = 'https://mirai-shigoto.com/answers';
 const title = 'AI回答トピック | 未来の仕事';
-const description = 'AIでなくなる仕事、年収とAI安全度、伸びる仕事をGEO-Aデータから探す入口。';
+const description = 'AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事、なくならない仕事を、AIOIS-10の日本の職業データから探す入口。';
 const jsonLd = renderGeoAnswerIndexJsonLd(facts);
 ---
 <BaseLayout
@@ -35,6 +38,9 @@ const jsonLd = renderGeoAnswerIndexJsonLd(facts);
     .topic-card:hover{border-color:var(--accent);box-shadow:0 8px 24px rgba(0,0,0,.06)}
     .topic-card h2{font-size:1.1rem;margin:0 0 10px;color:var(--fg)}
     .topic-card p{margin:0;color:var(--fg2);line-height:1.75;font-size:.95rem}
+    .sop-cite{margin:0 0 18px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.95rem;line-height:1.7;color:var(--fg);max-width:74ch}
+    .sop-related{margin:28px 0 0;font-size:.95rem;line-height:1.8;color:var(--fg2)}
+    .sop-related a{color:var(--accent-deep)}
     .meta{display:flex;flex-wrap:wrap;gap:10px}
     .meta span{border:1px solid var(--border);background:var(--bg2);border-radius:6px;padding:8px 10px;color:var(--fg2);font-size:.9rem}
     @media (max-width:640px){.answers-wrap{padding:24px 16px 44px}}
@@ -49,7 +55,12 @@ const jsonLd = renderGeoAnswerIndexJsonLd(facts);
 
     <header>
       <h1>AI回答トピック</h1>
-      <p class="lead">AIでなくなる仕事、年収とAI安全度、伸びる仕事を、GEO-Aの同じ職業データからすぐ引用できる形で整理した入口です。</p>
+      <p class="lead">AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事、なくならない仕事を、同じ日本の職業データからすぐ引用できる形で整理した入口です。</p>
+      <p class="sop-cite">{formatSopCitation({
+        runDate: SCORE_PANEL.latestRunDate,
+        occupationCount: facts.occupationCount,
+        standardLabel: facts.attribution.standardLabel,
+      })}</p>
     </header>
 
     <section class="topic-grid" aria-label="AI回答トピック一覧">
@@ -62,10 +73,21 @@ const jsonLd = renderGeoAnswerIndexJsonLd(facts);
     </section>
 
     <div class="meta" aria-label="データ概要">
-      <span>対象: GEO-A {facts.occupationCount}職業</span>
-      <span>公開値: 複数のAIによる総合（{SCORE_PANEL.voteCount}票）</span>
+      <span>対象: AIOIS-10 {facts.occupationCount}職業</span>
+      <span>{ANSWERS_HUB_PUBLIC_VALUE}</span>
       <span>最新採点: {SCORE_PANEL.latestRunDate}</span>
     </div>
+
+    <nav class="sop-related" aria-label="関連する質問">
+      {SOP_LANDINGS.map((landing, i, arr) => (
+        <>
+          <a href={landing.href}>{landing.labelJa}</a>
+          {i < arr.length - 1 ? ' · ' : ''}
+        </>
+      ))}
+      {' · '}<a href="/rankings">職業ランキング</a>
+      {' · '}<a href="/standard">AIOIS-10 標準</a>
+    </nav>
   </article>
 
   <Footer />

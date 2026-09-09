@@ -62,8 +62,8 @@ function fakeRec(id: number, aiRisk: number | null): Rec {
     consensus_transformation: aiRisk,
     latest_transformation: aiRisk,
     latest_delta: 0,
-    used_expired_votes: false,
-    consensus_vote_count: null,
+    stale_vote: false,
+    consensus_vendor_count: null,
     profile5: {
       creative: null,
       social: null,
@@ -179,7 +179,7 @@ test('occupation hero and FAQ share the canonical tied-score rank', () => {
   );
   const scoreRun: GeoScoreRunLike = {
     scope: 'occupations',
-    scorer: { model: 'test-model' },
+    scorer: { model: 'test-model', model_provider: 'test' },
     run: { run_date: '2026-01-01' },
     scores: Object.fromEntries([...scores].map(([id, entry]) => [String(id), entry])),
   };

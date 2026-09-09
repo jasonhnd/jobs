@@ -74,7 +74,7 @@ export async function buildDetail(
     const occ = indexes.occById.get(occId)!;
     const stats = indexes.statsById.get(occId);
     const score = indexes.canonicalScoreByOcc.get(occId);
-    const consensus = indexes.consensusByOcc.get(occId);
+    const consensus = indexes.flagshipByOcc.get(occId);
     const assignment = indexes.sectorByOcc.get(occId);
     const sectorDef = assignment ? sectorById.get(assignment.sector_id) : undefined;
 
@@ -125,6 +125,8 @@ export async function buildDetail(
       consensus_transformation: consensus ? consensus.transformation : null,
       latest_transformation: consensus?.latest.aiois ? consensus.latest.aiois.transformation : null,
       latest_delta: consensus ? consensus.latestDelta : null,
+      stale_vote: consensus ? consensus.staleVendors.length > 0 : false,
+      consensus_vendor_count: consensus ? consensus.panel.length : null,
       stats: stats
         ? {
             // Match Pydantic's exclude={"id", "schema_version"} model_dump

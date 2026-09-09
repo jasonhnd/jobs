@@ -9,7 +9,7 @@
  * mirroring `pickLatestScore()` batch-selection semantics for 最新観測 —
  * and baked into the generated, fs-free `_score-attribution.ts` so importers
  * (including the few Vercel Edge bundles that share chunks with page code)
- * carry NO node:fs. Canonical public scores use `pickConsensusScore()`;
+ * carry NO node:fs. Canonical public scores use `pickFlagshipMeanScore()`;
  * `SCORE_PANEL` is the matching panel metadata.
  *
  * The pure helpers below (`formatModelDisplay`, `pickAttributionBatch`) are
@@ -63,6 +63,28 @@ function assertValidModelToken(value: string, label: string): void {
 export function modelSlug(modelId: string): string {
   assertValidModelToken(modelId, 'model id');
   return modelId.startsWith('claude-') ? modelId.slice('claude-'.length) : modelId;
+}
+
+/**
+ * Vendors allowed to score (docs/CONSENSUS_SCORE.md 決定 8 / 改訂 2).
+ * Order is the display order of vendor lanes on /models.
+ */
+export const VENDOR_WHITELIST = ['anthropic', 'openai', 'xai'] as const;
+export type VendorId = (typeof VENDOR_WHITELIST)[number];
+
+export function isWhitelistedVendor(provider: string): provider is VendorId {
+  return (VENDOR_WHITELIST as readonly string[]).includes(provider);
+}
+
+/** Public vendor label. Unknown ids come back trimmed and unchanged so a typo is visible, never hidden. */
+export function formatVendorDisplay(provider: string): string {
+  switch (provider.trim().toLowerCase()) {
+    case 'anthropic': return 'Anthropic';
+    case 'openai': return 'OpenAI';
+    case 'xai': return 'xAI';
+    case 'google': return 'Google';
+    default: return provider.trim();
+  }
 }
 
 /**
@@ -216,14 +238,13 @@ export const SCORE_ATTRIBUTION: ScoreAttribution = Object.freeze({
 });
 
 export interface ScorePanel {
-  /** Comparable votes in the current consensus panel. */
-  readonly voteCount: number;
-  /** Newest comparable run_date (window anchor). */
+  /** Vendors whose latest run forms the public mean. */
+  readonly vendorCount: number;
+  /** Newest run_date across the panel (also the 最新観測 batch date). */
   readonly latestRunDate: string;
-  readonly windowMonths: number;
-  readonly floorVotes: number;
-  /** True when floor fill pulled in votes older than the window. */
-  readonly usedExpiredVotes: boolean;
+  readonly staleMonths: number;
+  /** Vendors whose latest run is older than latestRunDate − staleMonths. */
+  readonly staleVendorCount: number;
 }
 
 /**
@@ -232,9 +253,8 @@ export interface ScorePanel {
  * batch for 最新観測 / /models.
  */
 export const SCORE_PANEL: ScorePanel = Object.freeze({
-  voteCount: SCORE_PANEL_DATA.voteCount,
+  vendorCount: SCORE_PANEL_DATA.vendorCount,
   latestRunDate: SCORE_PANEL_DATA.latestRunDate,
-  windowMonths: SCORE_PANEL_DATA.windowMonths,
-  floorVotes: SCORE_PANEL_DATA.floorVotes,
-  usedExpiredVotes: SCORE_PANEL_DATA.usedExpiredVotes,
+  staleMonths: SCORE_PANEL_DATA.staleMonths,
+  staleVendorCount: SCORE_PANEL_DATA.staleVendorCount,
 });

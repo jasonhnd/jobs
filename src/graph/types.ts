@@ -69,8 +69,8 @@ export interface Aiois10 {
 
 export interface AiRiskScore {
   /**
-   * Headline score 0.0–10.0. Canonical is the unrounded consensus median
-   * (mms-6b); display rounding is banker at the view layer.
+   * Headline score 0.0–10.0. Canonical is the unrounded vendor-flagship mean
+   * (mms-8.13); display rounding is banker at the view layer.
    */
   readonly score: number;
   readonly rationaleJa: string;
@@ -86,6 +86,8 @@ export interface AiRiskScore {
 export interface ScoreHistoryEntry {
   /** Model name (e.g., "claude-fable-5"). */
   readonly model: string;
+  /** Vendor id (`scorer.model_provider`). */
+  readonly provider: string;
   /** ISO date YYYY-MM-DD of the scoring run. */
   readonly date: string;
   /** Headline score. On AIOIS batches this equals `aiois.transformation`. */
@@ -122,7 +124,7 @@ export interface OccupationNode {
   readonly url: string;
   /** Workforce stats — null when no stats_legacy file exists for this occupation. */
   readonly stats: OccupationStats | null;
-  /** Canonical AI impact (consensus median) — null when never scored under AIOIS-10. */
+  /** Canonical AI impact (vendor-flagship mean) — null when never scored under AIOIS-10. */
   readonly aiRisk: AiRiskScore | null;
   /** Related Japanese certifications mentioned on the source jobtag page. */
   readonly relatedCertsJa: readonly string[];

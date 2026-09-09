@@ -10,6 +10,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS, heatBg } from '@/lib/canonical/doc';
 import { SCORE_PANEL } from '@/site/score-attribution';
+import { CONSENSUS_FAQ_DETAIL } from '@/site/consensus-copy';
 import { OCCUPATION_COUNT } from '@/site/config';
 import { CONTENT_DATE } from '@/lib/_content-date';
 
@@ -155,7 +156,7 @@ const jsonLd = `{
       </details>
       <details>
         <summary>どれくらいの頻度で更新されますか？</summary>
-        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は {SCORE_PANEL.latestRunDate}（複数のAIによる総合、<a href="/standard">AIOIS-10</a> v1.0）。元データ（jobtag／JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
+        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は {SCORE_PANEL.latestRunDate}（複数のAIによる総合、<a href="/standard">AIOIS-10</a> v1.0）。{CONSENSUS_FAQ_DETAIL}元データ（jobtag／JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
       </details>
       <details>
         <summary>自分の職業がリストに見つかりません。</summary>
