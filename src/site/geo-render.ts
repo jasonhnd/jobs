@@ -153,7 +153,7 @@ Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
   title  = {Japan Jobs x AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
-  note   = {Independent AIOIS-10 analysis. Published value: multi-model consensus, latest scoring ${attribution.runDate}. AI Impact scores are LLM estimates, not official government forecasts.}
+  note   = {Independent AIOIS-10 analysis. Published value: mean of each vendor's latest model, latest scoring ${attribution.runDate}. AI Impact scores are LLM estimates, not official government forecasts.}
 }
 \`\`\`
 
@@ -259,7 +259,7 @@ Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
   title  = {Japan Jobs x AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
-  note   = {Independent AIOIS-10 analysis. Published value: multi-model consensus, latest scoring ${attribution.runDate}. AI Impact scores are LLM estimates, not official government forecasts.}
+  note   = {Independent AIOIS-10 analysis. Published value: mean of each vendor's latest model, latest scoring ${attribution.runDate}. AI Impact scores are LLM estimates, not official government forecasts.}
 }
 \`\`\`
 
@@ -330,7 +330,7 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
       '@id': `${site}/#dataset`,
       name: `Japan ${occupationCount} Occupations x AI Impact`,
       alternateName: '日本の職業 AI 影響度マップ',
-      description: `${occupationCount} Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by a multi-model ${attribution.standardLabel} consensus. Mean AI Impact ${fmtMean(facts.meanAiImpact)}/10; mean Displacement-Risk ${fmtMean(facts.meanDisplacementRisk)}/10.`,
+      description: `${occupationCount} Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI Impact by a multi-model ${attribution.standardLabel} consensus (mean of each vendor's latest model). Mean AI Impact ${fmtMean(facts.meanAiImpact)}/10; mean Displacement-Risk ${fmtMean(facts.meanDisplacementRisk)}/10.`,
       url: `${site}/`,
       creator: { '@id': `${site}/#organization` },
       publisher: { '@id': `${site}/#organization` },
@@ -342,7 +342,7 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
       keywords: ['AI', 'labor market', 'Japan', 'occupations', 'AIOIS-10', 'MHLW jobtag', 'JILPT'],
       spatialCoverage: { '@type': 'Place', name: 'Japan' },
       temporalCoverage: '2025/2026',
-      measurementTechnique: `Scored with ${attribution.standardLabel} v1.0. Published value: vendor-flagship mean.`,
+      measurementTechnique: `Scored with ${attribution.standardLabel} v1.0. Published value: mean of each vendor's latest model.`,
       additionalProperty: [
         { '@type': 'PropertyValue', name: 'Mapped occupation count', value: facts.occupationCount },
         { '@type': 'PropertyValue', name: 'Mapped workforce', value: facts.totalWorkforce, unitText: 'people' },
@@ -380,7 +380,7 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
       '@type': 'ItemList',
       '@id': `${site}/#top-findings`,
       name: `Notable findings - Japan ${occupationCount} occupations x AI Impact`,
-      description: `Generated from the multi-model consensus panel (latest scoring ${attribution.runDate}).`,
+      description: `Generated from the vendor-flagship mean panel (latest scoring ${attribution.runDate}).`,
       itemListOrder: 'https://schema.org/ItemListUnordered',
       numberOfItems: 5,
       itemListElement: [
