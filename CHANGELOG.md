@@ -21,6 +21,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- GPT-6 Astra lands as OpenAI's flagship scoring run
+  (mms-8.35 / #442): `data/scores/occupations_gpt-6-astra_2026-09-10.json`,
+  556/556. `/models/gpt-6-astra` 308 to the run page. Site mean 4.67 → 4.69;
+  `|Δ| ≥ 0.5` on 8 occupations; 17 band changes; none `|Δ| ≥ 1.0`.
+  Drift report: `docs/VENDOR_UPDATE_DRIFT_gpt-6-astra_2026-09-10.md`.
 - `/models` editorial after Fable 5.1 (mms-8.30 / #437): Anthropic card uses
   a signed personality sentence; five story sentences match the current
   vendor panel. Superseded GPT 5.6 SOL / Opus 5 pair copy removed.

@@ -14,6 +14,7 @@ import {
 import { formatJapaneseDate } from '../views/models.js';
 import {
   CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD,
+  CONSENSUS_VENDOR_UPDATE_NOTE_LEAD,
   MODELS_HUB_VENDORS_HEADING,
   MODELS_RUN_HISTORY_NOTE,
   MODELS_RUN_IN_PANEL_NOTE,
@@ -121,6 +122,7 @@ describe('/models built page contract', () => {
     assert.match(visible, /現行の総合/);
     assert.match(visible, /複数のAIによる総合/);
     assert.match(visible, /AI 影響度の算出方法を変更しました/);
+    assert.match(visible, new RegExp(escapeRegExp(CONSENSUS_VENDOR_UPDATE_NOTE_LEAD.slice(0, 12))));
     assert.match(visible, new RegExp(escapeRegExp(CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD.slice(0, 12))));
     assert.match(visible, /全職業の平均は 5\.23 から 4\.68/);
     assert.match(visible, /全職業の平均は 4\.68 から 4\.73/);

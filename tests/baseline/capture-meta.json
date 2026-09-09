@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-09T08:28:16.366Z",
-  "gitCommit": "705ff01142726b519cb055e8ec4016e38a87dd38",
-  "gitBranch": "feat/mms-8.28-flagship-switch",
-  "distFileCount": 836,
-  "urlCount": 836,
+  "capturedAt": "2026-09-09T12:20:48.885Z",
+  "gitCommit": "fc89422d4d31c55ce1ccc5d9cc7e2d4edd771c30",
+  "gitBranch": "feat/mms-8.35-land-astra",
+  "distFileCount": 837,
+  "urlCount": 837,
   "dataFileCount": 612,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }
