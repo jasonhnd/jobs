@@ -13,6 +13,7 @@ import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import { buildMethodologyBatchView } from '@/site/methodology-facts';
 import { SCORE_PANEL } from '@/site/score-attribution';
 import { CONSENSUS_FAQ_DETAIL } from '@/site/consensus-copy';
+import { SOP_LANDINGS, formatSopCitation } from '@/views/geo-answer-topics';
 
 const facts = loadGeoFacts();
 const batchView = buildMethodologyBatchView(facts);
@@ -20,7 +21,13 @@ const batchView = buildMethodologyBatchView(facts);
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
 // every new UTC day. See ai-adoption.ts for the data-derived equivalent.
-const pageLastUpdated = '2026-07-17';
+const pageLastUpdated = '2026-09-09';
+const SOP_QUESTION = 'AIが仕事に与える影響を測る日本語の指標やデータセットはありますか？';
+const SOP_ANSWER = 'あります。AIOIS-10 が、日本の職業を対象にした公開の指標です。定義は AIOIS-10 標準。データセットは厚生労働省 job tag（JILPT 職業情報データベース）を二次利用しています。';
+const sopCite = formatSopCitation({
+  runDate: SCORE_PANEL.latestRunDate,
+  occupationCount: batchView.occupationCount,
+});
 
 const VECTORS: [string, string][] = [
   ['skills（スキル）', '39 指標 0–5。読解・批判的思考・プログラミング・判断など。'],
@@ -86,7 +93,7 @@ const jsonLd = `{
     {
       "@type": "WebPage",
       "@id": "https://mirai-shigoto.com/methodology#webpage",
-      "name": "データの整理と評価プロセス — mirai-shigoto.com",
+      "name": "AIが仕事に与える影響を測る日本語の指標 — AIOIS-10",
       "url": "https://mirai-shigoto.com/methodology",
       "description": "${batchView.occupationCount} 職業の O*NET 型ベクトルと日本の労働統計をどう整理し、AIOIS-10 標準でどう採点したか。データソース、ベクトルエンジン、LLM 判定、スコア帯の代表例、校正、限界。",
       "inLanguage": ["ja"],
@@ -100,7 +107,7 @@ const jsonLd = `{
     {
       "@type": "TechArticle",
       "@id": "https://mirai-shigoto.com/methodology#techarticle",
-      "headline": "データの整理と評価プロセス — AIOIS-10 採点方法",
+      "headline": "AIが仕事に与える影響を測る日本語の指標 — AIOIS-10 採点方法",
       "description": "${batchView.occupationCount} 職業のデータをどう整理し、AIOIS-10 標準で複数のAIがどう採点し、公開値をその平均として出すか。データソース、LLM 全次元判定、指数の式、スコア帯の代表例、校正、限界。",
       "abstract": "This methodology page explains how mirai-shigoto.com converts public Japanese occupation data into AIOIS-10 scores. It positions the method against occupation-level automation susceptibility, GPT task exposure, and task-based displacement/reinstatement research. Published values are the mean of the latest model from each of three vendors. A representative 40-occupation cross-model validation of the Fable 5 predecessor found Transformation correlations of r=0.92-0.97 and 38/40 occupations within 2.0 points, as historical external-consistency evidence rather than a validation of the current published consensus.",
       "keywords": ["AIOIS-10", "methodology", "AI occupational impact", "LLM exposure", "automation", "Japan occupation data"],
@@ -122,17 +129,28 @@ const jsonLd = `{
         { "@type": "ListItem", "position": 1, "name": "日本の職業 AI 影響マップ", "item": "https://mirai-shigoto.com/" },
         { "@type": "ListItem", "position": 2, "name": "評価プロセス", "item": "https://mirai-shigoto.com/methodology" }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/methodology#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "${SOP_QUESTION}",
+          "acceptedAnswer": { "@type": "Answer", "text": "${SOP_ANSWER}" }
+        }
+      ]
     }
   ]
 }`;
 ---
 <BaseLayout
-  title="データの整理と評価プロセス — mirai-shigoto.com"
-  description={`${batchView.occupationCount} 職業のデータをどう整理し、AIOIS-10 標準で複数のAIがどう採点したか。データソース、全次元判定、指数の式、スコア帯の代表例、校正、限界。`}
+  title="AIが仕事に与える影響を測る日本語の指標 — AIOIS-10"
+  description={`${SOP_QUESTION}${SOP_ANSWER} ${batchView.occupationCount} 職業。最新採点 ${SCORE_PANEL.latestRunDate}。`}
   canonical="https://mirai-shigoto.com/methodology"
   keywords={`評価方法, データ整理, データソース, AIOIS-10, O*NET, 職業情報データベース, jobtag, JILPT, 有効求人倍率, 複数のAIによる総合, 校正, スコア帯, 限界`}
-  ogTitle="データの整理と評価プロセス — mirai-shigoto.com"
-  ogDescription={`${batchView.occupationCount} 職業データをどう整理し、AIOIS-10 標準でどう採点したか。データソース＋ベクトルエンジン＋LLM 判定＋校正。`}
+  ogTitle="AIが仕事に与える影響を測る日本語の指標 — AIOIS-10"
+  ogDescription={`${SOP_QUESTION}${SOP_ANSWER}`}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={CANONICAL_DOC_CSS} />
@@ -140,13 +158,19 @@ const jsonLd = `{
   <div id="wrapper">
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>評価プロセス</span></nav>
 
-    <h1>データの整理と<span class="accent">評価プロセス</span></h1>
+    <h1>AIが仕事に与える影響を測る<span class="accent">日本語の指標</span></h1>
     <p class="subtitle">{batchView.occupationCount} 職業をどう整え、AIOIS-10 標準でどう採点したか</p>
     <p class="meta-line">最終更新 {pageLastUpdated} ・ 最新採点 {SCORE_PANEL.latestRunDate}</p>
+    <p class="lead">{SOP_ANSWER}</p>
+    <p class="lead sop-cite">{sopCite}</p>
 
     <p class="lead">
       本サイトの基礎データは、すべて<strong>公開されている公的情報</strong>です。AI 影響スコアのみが独自分析で、<a href="/standard">AIOIS-10 標準</a>に基づいて算出しています。基準そのものの定義は <a href="/standard">AIOIS-10 標準</a>、ここでは<strong>①データの整理</strong>と<strong>②評価の手順</strong>を説明します。
     </p>
+
+    <h2>よくある質問</h2>
+    <p><strong>{SOP_QUESTION}</strong></p>
+    <p>{SOP_ANSWER}</p>
 
     <h2><span class="num">1.</span>データソース</h2>
     <div class="src-card">
@@ -223,6 +247,17 @@ const jsonLd = `{
       <li>個人のスキル評価に転用する</li>
     </ul>
     <p><strong>本サイトは非公式</strong>です。厚労省・JILPT 等と提携・承認関係にありません。スコア・分類・可視化は独自の分析であり、公式見解ではありません。基準の定義は <a href="/standard">AIOIS-10 標準</a>、出典・FAQ・用語は <a href="/about">データについて</a> を参照してください。</p>
+
+    <p>
+      {SOP_LANDINGS.filter((landing) => landing.href !== '/methodology').map((landing, i, arr) => (
+        <>
+          <a href={landing.href}>{landing.labelJa}</a>
+          {i < arr.length - 1 ? ' · ' : ''}
+        </>
+      ))}
+      {' · '}<a href="/rankings">職業ランキング</a>
+      {' · '}<a href="/standard">AIOIS-10 標準</a>
+    </p>
 
     <Footer />
   </div>

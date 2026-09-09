@@ -12,6 +12,8 @@ import { CANONICAL_DOC_CSS, heatBg, radarPoints, radarAxis, type DimDir } from '
 import { SCORE_PANEL } from '@/site/score-attribution';
 import { CONSENSUS_STANDARD_FORMAL } from '@/site/consensus-copy';
 import { CONTENT_DATE } from '@/lib/_content-date';
+import { OCCUPATION_COUNT } from '@/site/config';
+import { SOP_LANDINGS, formatSopCitation } from '@/views/geo-answer-topics';
 
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
@@ -180,6 +182,18 @@ const jsonLd = `{
 
     <p class="lead">
       「AI の影響」は 1 つの数字では表せません。<strong>仕事のやり方がどれだけ変わるか</strong>と、<strong>仕事そのものがなくなるか</strong>は、しばしば逆を向きます（経営者は AI に大きく変えられても、職を失う可能性は低い）。AIOIS-10 は影響のもとになる性質を 10 の独立した次元で測り、別々の問いに別々の答えを返します。
+    </p>
+    <p class="lead">{formatSopCitation({
+      runDate: SCORE_PANEL.latestRunDate,
+      occupationCount: OCCUPATION_COUNT.SCORED,
+    })} 定義は本ページ、整理と採点の手順は <a href="/methodology">評価プロセス</a>。</p>
+    <p>
+      {SOP_LANDINGS.map((landing, i, arr) => (
+        <>
+          <a href={landing.href}>{landing.labelJa}</a>
+          {i < arr.length - 1 ? ' · ' : ''}
+        </>
+      ))}
     </p>
 
     <h2>EMFO — 4 つの段階で考える</h2>
