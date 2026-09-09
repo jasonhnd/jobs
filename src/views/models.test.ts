@@ -94,6 +94,27 @@ const projection: ModelsDeepProjection = {
   ],
 };
 
+const fourOpus47 = { model: 'claude-opus-4-7', modelDisplay: 'Opus 4.7', date: '2026-04-25', covered_count: 552 };
+const fourOpus48 = entry('anthropic', 'Anthropic', 'claude-opus-4-8', 'Opus 4.8', '2026-05-30', 556, 'default_neutral');
+const fourFable = entry('anthropic', 'Anthropic', 'claude-fable-5', 'Fable 5', '2026-06-13', 556, 'default_neutral');
+const fourSol = entry('openai', 'OpenAI', 'gpt-5.6-sol', 'GPT 5.6 SOL', '2026-07-12', 556, 'default_neutral');
+const fourModelProjection: ModelsDeepProjection = {
+  ...projection,
+  panel: { entries: [fourFable, fourSol], compared_count: 556 },
+  lanes: [
+    {
+      provider: 'anthropic',
+      vendorDisplay: 'Anthropic',
+      latest: fourFable,
+      history: [
+        { model: fourOpus48.model, modelDisplay: fourOpus48.modelDisplay, date: fourOpus48.date, covered_count: fourOpus48.covered_count },
+        fourOpus47,
+      ],
+    },
+    { provider: 'openai', vendorDisplay: 'OpenAI', latest: fourSol, history: [] },
+  ],
+};
+
 describe('models feature view model', () => {
   test('hydrates copy IDs and keeps compact escaped projection JSON', () => {
     const page = buildModelsFeaturePageModel(
@@ -228,26 +249,6 @@ describe('models feature view model', () => {
   });
 
   test('derives the current four model page links from model ids', () => {
-    const fourOpus47 = { model: 'claude-opus-4-7', modelDisplay: 'Opus 4.7', date: '2026-04-25', covered_count: 552 };
-    const fourOpus48 = entry('anthropic', 'Anthropic', 'claude-opus-4-8', 'Opus 4.8', '2026-05-30', 556, 'default_neutral');
-    const fourFable = entry('anthropic', 'Anthropic', 'claude-fable-5', 'Fable 5', '2026-06-13', 556, 'default_neutral');
-    const fourSol = entry('openai', 'OpenAI', 'gpt-5.6-sol', 'GPT 5.6 SOL', '2026-07-12', 556, 'default_neutral');
-    const fourModelProjection: ModelsDeepProjection = {
-      ...projection,
-      panel: { entries: [fourFable, fourSol], compared_count: 556 },
-      lanes: [
-        {
-          provider: 'anthropic',
-          vendorDisplay: 'Anthropic',
-          latest: fourFable,
-          history: [
-            { model: fourOpus48.model, modelDisplay: fourOpus48.modelDisplay, date: fourOpus48.date, covered_count: fourOpus48.covered_count },
-            fourOpus47,
-          ],
-        },
-        { provider: 'openai', vendorDisplay: 'OpenAI', latest: fourSol, history: [] },
-      ],
-    };
     const page = buildModelsFeaturePageModel(
       fourModelProjection,
       { sentences: { default_neutral: '中庸な既定文です。' } },
@@ -265,6 +266,64 @@ describe('models feature view model', () => {
     );
     assert.deepEqual(page.modelRoster.map((card) => card.covered_count), [552, 556, 556, 556]);
     assert.equal(page.coverageRangeText, '552〜556職業');
+  });
+
+  test('derives vendor lanes with hrefs, history order, and summaries from the projection', () => {
+    const page = buildModelsFeaturePageModel(
+      fourModelProjection,
+      { sentences: { default_neutral: '中庸な既定文です。' } },
+      { editorial_sentences: { default_latest_pair_split: '汎用の編集文です。' } },
+    );
+    assert.deepEqual(page.lanes.map((lane) => lane.provider), ['anthropic', 'openai']);
+    assert.equal(page.lanes[0]!.latest.href, '/models/fable-5@2026-06-13');
+    assert.deepEqual(page.lanes[0]!.history.map((entry) => entry.date), ['2026-05-30', '2026-04-25']);
+    assert.equal(page.lanes[0]!.historySummary, '以前のモデル（2件）');
+    assert.equal(page.lanes[1]!.historySummary, '以前のモデルはありません');
+    assert.equal(page.lanes[1]!.history.length, 0);
+  });
+
+  test('panel entries carry hrefs and canonical display names', () => {
+    const page = buildModelsFeaturePageModel(
+      projection,
+      { sentences: { opus: '前回文です。', fable: '固定文です。' } },
+      { editorial_sentences: { default_latest_pair_split: '汎用の編集文です。' } },
+    );
+    assert.deepEqual(
+      page.panel.map((entry) => [entry.modelDisplay, entry.href]),
+      [
+        ['Claude Opus 4.8', '/models/opus-4-8@2026-05-30'],
+        ['Claude Fable 5', '/models/fable-5@2026-06-13'],
+      ],
+    );
+  });
+
+  test('stories carry one score per panel entry with hrefs', () => {
+    const page = buildModelsFeaturePageModel(
+      projection,
+      { sentences: { opus: '前回文です。', fable: '固定文です。' } },
+      { editorial_sentences: { default_latest_pair_split: '汎用の編集文です。' } },
+    );
+    assert.equal(page.stories[0]!.scores.length, page.panel.length);
+    assert.equal(page.stories[0]!.scores[0]!.href, page.panel[0]!.href);
+    assert.equal(page.stories[0]!.scores[1]!.href, page.panel[1]!.href);
+    assert.equal(page.stories[0]!.spread, 3.3);
+  });
+
+  test('consensus summary uses SCORE_PANEL vendor count and newest panel entry', () => {
+    const page = buildModelsFeaturePageModel(
+      projection,
+      { sentences: { opus: '前回文です。', fable: '固定文です。' } },
+      { editorial_sentences: { default_latest_pair_split: '汎用の編集文です。' } },
+      { vendorCount: 3, latestRunDate: '2026-09-07', staleMonths: 6, staleVendorCount: 0 },
+    );
+    assert.equal(page.consensusSummary.vendorCount, 3);
+    assert.equal(page.consensusSummary.latestRunDate, '2026-09-07');
+    assert.equal(page.consensusSummary.latestModelDisplay, 'Claude Fable 5');
+    assert.equal(page.consensusSummary.latestModelHref, '/models/fable-5@2026-06-13');
+    assert.equal(page.pageLastUpdated, '2026-06-13');
+    assert.equal(page.comparedCount, 2);
+    assert.match(page.lead, /これまで2つのAIモデル/);
+    assert.match(page.description, /各回2職業/);
   });
 
   test('formats public model metadata for visitor pages', () => {
