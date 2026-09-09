@@ -99,7 +99,7 @@ replaced GPT 5.6 SOL. `/models` is three vendor lanes.
 - mms-8.34 (#441/#472): `scripts/vendor-update-drift.ts`.
 - mms-8.35 (#442/#473): land Astra batch + update note; promotion text (owner-held; not opened).
 - mms-8.36 (#443/#474): `/models` editorial after Astra.
-- mms-8.37 (#444): close-out. Owner A: keep deprecated median engine as history.
+- mms-8.37 (#444/#475): close-out. Owner A: keep deprecated median engine as history.
 - Tracker #407 closes after this PR. Promotion PR texts: #436 / #442; owner opens.
 
 ## Done — occupation-first /me consolidation (#233, production 2026-08-21)
