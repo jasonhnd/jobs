@@ -40,6 +40,13 @@ describe('formatModelDisplay', () => {
   test('word-only id degrades gracefully', () => {
     assert.equal(formatModelDisplay('claude-fable'), 'Claude Fable');
   });
+  // mms-8: the two new flagships follow the vendors' official ids.
+  test('claude-fable-5-1 → Claude Fable 5.1', () => {
+    assert.equal(formatModelDisplay('claude-fable-5-1'), 'Claude Fable 5.1');
+  });
+  test('gpt-6-astra → GPT 6 Astra', () => {
+    assert.equal(formatModelDisplay('gpt-6-astra'), 'GPT 6 Astra');
+  });
 });
 
 describe('pickAttributionBatch', () => {
@@ -100,6 +107,14 @@ describe('modelSlug and modelIdFromSlug', () => {
     assert.throws(() => modelSlug('claude/opus-4-8'), /invalid model id/);
     assert.throws(() => modelSlug('claude opus-4-8'), /invalid model id/);
     assert.throws(() => modelSlug('claude-opus-4-8\n'), /invalid model id/);
+  });
+
+  test('maps the mms-8 ids to their public slugs', () => {
+    assert.equal(modelSlug('claude-fable-5-1'), 'fable-5-1');
+    assert.equal(modelSlug('gpt-6-astra'), 'gpt-6-astra');
+    assert.equal(modelIdFromSlug('fable-5-1', [...currentModelIds, 'claude-fable-5-1']), 'claude-fable-5-1');
+    assert.equal(modelIdFromSlug('gpt-6-astra', [...currentModelIds, 'gpt-6-astra']), 'gpt-6-astra');
+    assert.notEqual(modelSlug('claude-fable-5-1'), modelSlug('claude-fable-5'));
   });
 });
 
