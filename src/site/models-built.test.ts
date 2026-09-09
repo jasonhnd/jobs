@@ -11,7 +11,12 @@ import {
   listOccupationRuns,
 } from './occupation-runs.js';
 import { formatJapaneseDate } from '../views/models.js';
-import { MODELS_RUN_HISTORY_NOTE, MODELS_RUN_IN_PANEL_NOTE } from './consensus-copy.js';
+import {
+  MODELS_HUB_VENDORS_HEADING,
+  MODELS_RUN_HISTORY_NOTE,
+  MODELS_RUN_IN_PANEL_NOTE,
+} from './consensus-copy.js';
+import { isWhitelistedVendor } from './score-attribution.js';
 
 function builtModelsPath(): string | null {
   const candidates = [
@@ -95,7 +100,10 @@ describe('/models built page contract', () => {
     assert.equal(/\bD(?:[1-9]|10)\b|D1[〜-]D10|drift/i.test(visible), false);
     assert.equal(/バッチ間|方法論メモ|ヒストグラム|散布図/.test(visible), false);
     assert.match(visible, /<h1>AIモデル比較<\/h1>/);
-    assert.match(visible, /<h2 id="models-roster">これまでのモデル<\/h2>/);
+    assert.match(
+      visible,
+      new RegExp(`<h2 id="models-vendors">${escapeRegExp(MODELS_HUB_VENDORS_HEADING)}</h2>`),
+    );
     const runs = listOccupationRuns();
     const coverages = runs.map((run) => run.coveredCount);
     const coverageMin = Math.min(...coverages);
@@ -103,26 +111,43 @@ describe('/models built page contract', () => {
     const coverageText = coverageMin === coverageMax
       ? `${coverageMax}職業`
       : `${coverageMin}〜${coverageMax}職業`;
+    const historyLaneCount = [...runs.reduce((counts, run) => {
+      if (!isWhitelistedVendor(run.provider)) return counts;
+      counts.set(run.provider, (counts.get(run.provider) ?? 0) + 1);
+      return counts;
+    }, new Map<string, number>()).values()].filter((count) => count > 1).length;
     assert.match(visible, /現行の総合/);
     assert.match(visible, /複数のAIによる総合/);
     assert.match(visible, /AI 影響度の算出方法を変更しました/);
     assert.match(visible, /全職業の平均は 5\.23 から 4\.68/);
     assert.match(visible, /全職業の平均は 4\.68 から 4\.73/);
     assert.match(visible, new RegExp(`${SCORE_PANEL.vendorCount}社`));
+    assert.match(visible, /Anthropic/);
+    assert.match(visible, /OpenAI/);
+    assert.match(visible, /xAI/);
     assert.equal(/現行モデル/.test(visible), false);
+    assert.equal(/roster-link/.test(html), false);
     for (const run of runs) {
       assert.match(visible, new RegExp(escapeRegExp(run.modelDisplay)));
     }
     assert.match(visible, new RegExp(`各回の対象は${coverageText}`));
-    assert.match(visible, /共通する 556 職業を比べ/);
+    assert.match(visible, /3社のAIそれぞれの最新モデルによる採点を平均しています/);
+    assert.match(visible, /3社の最新モデルが共通する 556 職業を比べると/);
     assert.equal(
       new RegExp(`556職業を、${runs.length}つのAIモデルがそれぞれ採点`).test(visible),
       false,
     );
     assert.match(
       html,
-      new RegExp(`${SCORE_PANEL.vendorCount}社のAIそれぞれの最新モデルによる採点を総合した、各回${coverageText}の結果から`),
+      new RegExp(`3社のAIそれぞれの最新モデルによる採点を平均した、各回${coverageText}の結果から`),
     );
+    assert.equal(
+      (html.match(/<details class="vendor-history">/g) ?? []).length,
+      historyLaneCount,
+    );
+    const storyCards = html.match(/<article class="story-card">/g) ?? [];
+    assert.equal((html.match(/<div class="score-row">/g) ?? []).length, storyCards.length * 3);
+    assert.equal((html.match(/<figure class="quote-block">/g) ?? []).length, storyCards.length * 3);
   });
 
   test('keeps serif headings at the magazine title size', () => {
@@ -132,6 +157,7 @@ describe('/models built page contract', () => {
     assertModelsSurfaceBodyReset(html);
     assertHeadingsStaySerif(html);
     assertHeroSizeBeatsCanonical(html, 'html body.models-surface .models-hero h1', 'clamp(2rem,4.6vw,4.2rem)');
+    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .vendor-card h3', '1.3rem');
   });
 
   test('renders model detail public metadata without raw ids', () => {

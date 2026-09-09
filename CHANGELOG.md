@@ -21,6 +21,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- `/models` hub is three vendor cards (Anthropic / OpenAI / xAI) with
+  folded history, signed contrast copy, and three-bar / three-quote
+  stories (mms-8.23 / #430).
 - Grok 4.6 scoring path (mms-7a) is in-agent — the running `grok-4.6`
   session, same transport as Opus 4.8 / Fable 5. Frozen prompt identity
   line no longer names Gateway. `inferProvider('grok-…')` → `xai` stays
