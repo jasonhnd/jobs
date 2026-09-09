@@ -51,6 +51,7 @@ export interface GeoScoreRunLike {
   readonly scope: string;
   readonly scorer: {
     readonly model: string;
+    readonly model_provider: string;
   };
   readonly run: {
     readonly run_date: string;
@@ -209,6 +210,7 @@ function histEntryFromGeo(run: GeoScoreRunLike, entry: GeoScoreEntry): ScoreHist
   const t = entry.aiois?.transformation ?? entry.ai_risk;
   return {
     model: run.scorer.model,
+    provider: run.scorer.model_provider,
     date: run.run.run_date,
     ai_risk: t,
     rationale_ja: '',

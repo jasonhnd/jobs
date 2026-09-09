@@ -313,6 +313,7 @@ export function buildOccupationDetailFile(
   const hist = graph.scoreHistoryByOcc.get(occId) ?? [];
   const mapped: ScoreHistEntry[] = hist.map((entry) => ({
     model: entry.model,
+    provider: entry.provider,
     date: entry.date,
     ai_risk: entry.transformation,
     rationale_ja: entry.rationaleJa,
