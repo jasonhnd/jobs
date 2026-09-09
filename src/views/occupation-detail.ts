@@ -13,7 +13,7 @@
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
 import type { Aiois10 } from '@/graph/types';
-import { pickConsensusScore, type ScoreHistEntry } from '@/graph/score-strategy';
+import { pickFlagshipMeanScore, type ScoreHistEntry } from '@/graph/score-strategy';
 import type { Profile5Record } from '@/graph/profile5';
 import type { TransferPathEntry } from '@/graph/transfer-paths';
 import {
@@ -326,12 +326,12 @@ export function buildOccupationDetailFile(
   let usedExpiredVotes = false;
   let consensusVoteCount: number | null = null;
   try {
-    const consensus = pickConsensusScore(mapped);
-    consensusTransformation = consensus.transformation;
-    latestTransformation = consensus.latest.aiois ? consensus.latest.aiois.transformation : null;
-    latestDelta = consensus.latestDelta;
-    usedExpiredVotes = consensus.usedExpiredVotes;
-    consensusVoteCount = consensus.panel.length;
+    const flagship = pickFlagshipMeanScore(mapped);
+    consensusTransformation = flagship.transformation;
+    latestTransformation = flagship.latest.aiois ? flagship.latest.aiois.transformation : null;
+    latestDelta = flagship.latestDelta;
+    usedExpiredVotes = flagship.staleVendors.length > 0;
+    consensusVoteCount = flagship.panel.length;
   } catch {
     // Occupations with no comparable AIOIS-10 votes omit the observation fields.
   }
