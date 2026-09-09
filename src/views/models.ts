@@ -1,5 +1,5 @@
 import { ModelsDeepProjectionSchema, type ModelsDeepProjectionShape } from '@/lib/projection-schemas';
-import { formatModelDisplay, runSlug, SCORE_PANEL, type ScorePanel } from '@/site/score-attribution';
+import { formatModelDisplay, formatVendorDisplay, runSlug, SCORE_PANEL, type ScorePanel } from '@/site/score-attribution';
 import {
   CONSENSUS_AGING_NOTE,
   CONSENSUS_FAQ_SENTENCE,
@@ -122,12 +122,7 @@ export function formatJapaneseDate(date: string): string {
 }
 
 export function formatProviderDisplay(provider: string): string {
-  const trimmed = provider.trim();
-  const providers: Readonly<Record<string, string>> = {
-    anthropic: 'Anthropic',
-    openai: 'OpenAI',
-  };
-  return providers[trimmed.toLowerCase()] ?? trimmed;
+  return formatVendorDisplay(provider);
 }
 
 export function formatEvaluationStandard(promptVersion: string): string {
