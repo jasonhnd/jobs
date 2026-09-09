@@ -9,8 +9,15 @@ import {
   CONSENSUS_HEADLINE_LABEL,
   CONSENSUS_STANDARD_FORMAL,
   LATEST_OBSERVATION_THRESHOLD,
+  MODELS_HUB_HISTORY_EMPTY,
   MODELS_HUB_NOW_LABEL,
   MODELS_HUB_VENDOR_COUNT_LABEL,
+  MODELS_HUB_VENDORS_HEADING,
+  MODELS_HUB_VENDORS_INTRO,
+  formatModelsHubContrastCopy,
+  formatModelsHubDescription,
+  formatModelsHubHistorySummary,
+  formatModelsHubLead,
   MODELS_RUN_HISTORY_NOTE,
   MODELS_RUN_IN_PANEL_NOTE,
   CONSENSUS_SWITCH_NOTE_HEADING,
@@ -90,6 +97,25 @@ describe('formatLatestObservationLine', () => {
     assert.equal(CONSENSUS_DIM_NOTE, '各次元は複数のAIによる採点の平均です。');
     assert.equal(MODELS_HUB_NOW_LABEL, '現行の総合');
     assert.equal(MODELS_HUB_VENDOR_COUNT_LABEL, '採点した会社');
+    assert.equal(MODELS_HUB_VENDORS_HEADING, '各社の最新モデル');
+    assert.equal(
+      MODELS_HUB_VENDORS_INTRO,
+      '公開値は、3社それぞれの最新モデルによる採点の平均です。各社の以前のモデルは、カードの下で開けます。',
+    );
+    assert.equal(MODELS_HUB_HISTORY_EMPTY, '以前のモデルはありません');
+    assert.equal(formatModelsHubHistorySummary(2), '以前のモデル（2件）');
+    assert.equal(
+      formatModelsHubContrastCopy(556),
+      '3社の最新モデルが共通する 556 職業を比べると、いくつかの職業をまったく違う角度から見ています。次のカードでは、差が大きかった職業を、3つのモデルの理由文そのままと一緒に読みます。',
+    );
+    assert.equal(
+      formatModelsHubLead(6, '556職業'),
+      '3社のAIそれぞれの最新モデルによる採点を平均しています。これまで6つのAIモデルの採点を公開し、各回の対象は556職業です。AIの判断にはそれぞれの見方があり、同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。',
+    );
+    assert.equal(
+      formatModelsHubDescription('556職業'),
+      '3社のAIそれぞれの最新モデルによる採点を平均した、各回556職業の結果から、判断が一致した職業・大きく分かれた職業を読むモデル比較ページです。',
+    );
     assert.equal(
       MODELS_RUN_IN_PANEL_NOTE,
       'このモデルの採点は、現在の公開値（3社の最新モデルの平均）に含まれています。',
