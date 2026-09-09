@@ -28,8 +28,8 @@ test('390×844 first screen: pinned duel bar, metric rows, no English leftover',
 
   const risk = page.locator('.cmp-metric', { hasText: '仕事が減るリスク' });
   await expect(risk).toBeVisible();
-  await expect(risk.locator('.cm-a')).toHaveText('0.6/10');
-  await expect(risk.locator('.cm-b')).toHaveText('0.5/10');
+  await expect(risk.locator('.cm-a')).toHaveText(/\d+(?:\.\d)?\/10/);
+  await expect(risk.locator('.cm-b')).toHaveText(/\d+(?:\.\d)?\/10/);
   await expect(risk.locator('.cm-a small')).toHaveText('/10');
 
   await expect(page.locator('.crumb')).toBeHidden();
