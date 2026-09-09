@@ -23,6 +23,7 @@
     "check:docs-links": "bun scripts/check-doc-links.cjs",
     "check:page-class": "bun scripts/check-page-class.cjs",
     "check:score-batch": "bun scripts/check-score-batch.ts",
+    "drift:flagship-switch": "bun scripts/flagship-switch-drift.ts",
     "check:geo-freshness": "bun scripts/check-geo-freshness.ts",
     "assemble:scores": "bun scripts/assemble-scores.ts",
     "check:seo-baseline": "bun scripts/diff-seo-baseline.cjs",
