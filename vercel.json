@@ -228,6 +228,11 @@
       "source": "/models/fable-5-1",
       "destination": "/models/fable-5-1@2026-09-09",
       "permanent": true
+    },
+    {
+      "source": "/models/gpt-6-astra",
+      "destination": "/models/gpt-6-astra@2026-09-10",
+      "permanent": true
     }
   ]
 }
