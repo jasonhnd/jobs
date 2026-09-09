@@ -38,7 +38,7 @@ function scoreRun(
 ): GeoScoreRunLike {
   return {
     scope: 'occupations',
-    scorer: { model },
+    scorer: { model, model_provider: 'test' },
     run: { run_date: date },
     scores: Object.fromEntries([...entries].map(([id, entry]) => [String(id), entry])),
   };
@@ -204,7 +204,7 @@ describe('five-band distribution rounding (issue #216)', () => {
 describe('pickLatestGeoScoreRun', () => {
   const run = (date: string, model: string, aiois: boolean): GeoScoreRunLike => ({
     scope: 'occupations',
-    scorer: { model },
+    scorer: { model, model_provider: 'test' },
     run: { run_date: date },
     scores: { '1': { ai_risk: 1, aiois: aiois ? { displacement: 0.5 } : null } },
   });

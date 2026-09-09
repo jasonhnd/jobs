@@ -22,6 +22,8 @@
 
 export interface ScoreHistEntry {
   model: string;
+  /** Vendor id from the batch's `scorer.model_provider` (`anthropic` / `openai` / `xai`). */
+  provider: string;
   /** ISO date YYYY-MM-DD. */
   date: string;
   ai_risk: number;
@@ -259,6 +261,7 @@ export function pickConsensusScore(history: readonly ScoreHistEntry[]): Consensu
 export function toCanonicalScoreEntry(c: ConsensusScore): ScoreHistEntry {
   return {
     model: c.rationaleEntry.model,
+    provider: c.rationaleEntry.provider,
     date: c.latest.date,
     ai_risk: c.transformation,
     rationale_ja: c.rationaleEntry.rationale_ja,

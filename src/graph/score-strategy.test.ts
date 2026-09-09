@@ -69,6 +69,13 @@ function profile(over: Partial<Aiois10> & Pick<Aiois10, 'transformation'>): Aioi
   };
 }
 
+function providerOf(model: string): string {
+  if (model.startsWith('claude')) return 'anthropic';
+  if (model.startsWith('gpt')) return 'openai';
+  if (model.startsWith('grok')) return 'xai';
+  return 'test';
+}
+
 function vote(
   model: string,
   date: string,
@@ -78,6 +85,7 @@ function vote(
   const aiois = profile({ transformation, ...extra });
   return {
     model,
+    provider: providerOf(model),
     date,
     ai_risk: transformation,
     rationale_ja: `${model}@${date}`,
@@ -106,14 +114,14 @@ describe('pickConsensusScore', () => {
 
   test('throws when every entry is legacy (no comparable aiois)', () => {
     const legacy: ScoreHistEntry = {
-      model: 'old', date: '2026-01-01', ai_risk: 5, rationale_ja: 'x', aiois: null,
+      model: 'old', provider: 'test', date: '2026-01-01', ai_risk: 5, rationale_ja: 'x', aiois: null,
     };
     assert.throws(() => pickConsensusScore([legacy]), /no comparable/);
   });
 
   test('ignores legacy entries mixed with comparable votes', () => {
     const legacy: ScoreHistEntry = {
-      model: 'legacy', date: '2026-07-26', ai_risk: 9, rationale_ja: 'nope', aiois: null,
+      model: 'legacy', provider: 'test', date: '2026-07-26', ai_risk: 9, rationale_ja: 'nope', aiois: null,
     };
     const a = vote('m1', '2026-07-26', 4);
     const b = vote('m2', '2026-06-01', 6);
