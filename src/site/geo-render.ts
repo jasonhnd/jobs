@@ -75,7 +75,7 @@ export function renderLlmsTxt(facts: GeoFacts): string {
   const { attribution } = facts;
   return `# mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> Independent, unofficial analysis of ${facts.occupationCount} Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model ${attribution.standardLabel} consensus (median of ${SCORE_PANEL.voteCount} comparable votes; latest scoring ${attribution.runDate}). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
+> Independent, unofficial analysis of ${facts.occupationCount} Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model ${attribution.standardLabel} consensus (mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; latest scoring ${attribution.runDate}). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
 ## Key facts
 
@@ -85,7 +85,7 @@ export function renderLlmsTxt(facts: GeoFacts): string {
 | Coverage | ${facts.occupationCount} occupations |
 | Total workforce mapped | ${fmtInt(facts.totalWorkforce)} workers |
 | Score source | Multi-model consensus (${attribution.standardLabel}) |
-| Vote count | ${SCORE_PANEL.voteCount} |
+| Vendors in the panel | ${SCORE_PANEL.vendorCount} |
 | Latest scoring date | ${attribution.runDate} |
 | Standard | ${attribution.standardLabel} v1.0 |
 | Mean AI Impact | ${fmtMean(facts.meanAiImpact)} / 10 |
@@ -129,7 +129,7 @@ Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=${fa
 
 ## Methodology
 
-AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are the median of comparable multi-model votes for each dimension and both indices; Transformation is not recomputed from mean(D1, D2) after the median. Per-model scores remain on /models.
+AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are, for each dimension and both indices, the mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; Transformation is not recomputed from mean(D1, D2) after the mean. Per-model scores remain on /models.
 ${crossModelValidationNote(facts)}
 ## FAQ
 
@@ -170,7 +170,7 @@ Extended GEO companion to https://mirai-shigoto.com/llms.txt. This file is gener
 
 ## 1. Summary
 
-mirai-shigoto.com maps ${facts.occupationCount} Japanese occupations against AI Impact using ${attribution.standardLabel} v1.0. Published scores are a multi-model consensus (median of ${SCORE_PANEL.voteCount} comparable votes; latest scoring ${attribution.runDate}). Per-model breakdown: https://mirai-shigoto.com/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
+mirai-shigoto.com maps ${facts.occupationCount} Japanese occupations against AI Impact using ${attribution.standardLabel} v1.0. Published scores are a multi-model consensus (mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; latest scoring ${attribution.runDate}). Per-model breakdown: https://mirai-shigoto.com/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
 
 ## 2. Dataset
 
@@ -337,11 +337,11 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
       isAccessibleForFree: true,
       datePublished: attribution.runDate,
       dateModified: attribution.runDate,
-      version: `consensus:${SCORE_PANEL.voteCount}:${attribution.runDate}`,
+      version: `vendor-mean:${SCORE_PANEL.vendorCount}:${attribution.runDate}`,
       keywords: ['AI', 'labor market', 'Japan', 'occupations', 'AIOIS-10', 'MHLW jobtag', 'JILPT'],
       spatialCoverage: { '@type': 'Place', name: 'Japan' },
       temporalCoverage: '2025/2026',
-      measurementTechnique: `Scored with ${attribution.standardLabel} v1.0. Published value: multi-model median.`,
+      measurementTechnique: `Scored with ${attribution.standardLabel} v1.0. Published value: vendor-flagship mean.`,
       additionalProperty: [
         { '@type': 'PropertyValue', name: 'Mapped occupation count', value: facts.occupationCount },
         { '@type': 'PropertyValue', name: 'Mapped workforce', value: facts.totalWorkforce, unitText: 'people' },
@@ -441,7 +441,7 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
           name: '現在の採点モデルと日付は？',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: `現在の公開値は複数のAIによる総合（AIOIS-10、${SCORE_PANEL.voteCount}票、最新採点 ${attribution.runDate}）です。モデル別の内訳は /models。`,
+            text: `現在の公開値は複数のAIによる総合（AIOIS-10、${SCORE_PANEL.vendorCount}票、最新採点 ${attribution.runDate}）です。モデル別の内訳は /models。`,
           },
         },
       ],

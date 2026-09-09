@@ -49,7 +49,7 @@ export interface ModelsConsensusSummary {
   readonly label: string;
   readonly headline: string;
   readonly oneLiner: string;
-  readonly voteCount: number;
+  readonly vendorCount: number;
   readonly latestRunDate: string;
   readonly agingNote: string | null;
   readonly latestModelDisplay: string;
@@ -176,9 +176,9 @@ export function buildModelsFeaturePageModel(
       label: MODELS_HUB_NOW_LABEL,
       headline: CONSENSUS_HEADLINE_LABEL,
       oneLiner: CONSENSUS_FAQ_SENTENCE,
-      voteCount: panel.voteCount,
+      vendorCount: panel.vendorCount,
       latestRunDate: panel.latestRunDate,
-      agingNote: panel.usedExpiredVotes ? CONSENSUS_AGING_NOTE : null,
+      agingNote: panel.staleVendorCount > 0 ? CONSENSUS_AGING_NOTE : null,
       latestModelDisplay: currentModel.modelDisplay,
       latestModelHref: currentModel.href,
     },

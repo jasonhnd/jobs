@@ -89,6 +89,29 @@ import {
   type FlagshipMeanScore,
 } from '../../graph/score-strategy.js';
 
+/**
+ * Every occupation in the flagship map must share occupation 1's vendor set.
+ * A flagship batch that misses an occupation would silently drop a vendor
+ * from that occupation's public mean.
+ */
+export function assertUniformVendorPanel(
+  flagshipByOcc: ReadonlyMap<number, FlagshipMeanScore>,
+): void {
+  const sample = flagshipByOcc.get(1);
+  if (!sample) {
+    throw new Error('[build] no flagship mean for occupation 1 — cannot write SCORE_PANEL');
+  }
+  const expected = sample.panel.map((p) => p.provider).sort().join(',');
+  for (const [id, f] of flagshipByOcc) {
+    const got = f.panel.map((p) => p.provider).sort().join(',');
+    if (got !== expected) {
+      throw new Error(
+        `[build] occupation ${id} panel vendors [${got}] differ from occupation 1 [${expected}] — a flagship batch must cover every occupation`,
+      );
+    }
+  }
+}
+
 export interface Indexes {
   occById: Map<number, Occupation>;
   transById: Map<number, TranslationEN>;

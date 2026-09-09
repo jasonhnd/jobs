@@ -92,11 +92,10 @@ describe('models feature view model', () => {
         },
       },
       {
-        voteCount: 2,
+        vendorCount: 2,
         latestRunDate: '2026-06-13',
-        windowMonths: 6,
-        floorVotes: 5,
-        usedExpiredVotes: false,
+        staleMonths: 6,
+        staleVendorCount: 0,
       },
     );
 
@@ -108,7 +107,7 @@ describe('models feature view model', () => {
     assert.equal(page.currentModel.href, '/models/fable-5@2026-06-13');
     assert.equal(page.consensusSummary.label, '現行の総合');
     assert.equal(page.consensusSummary.headline, '複数のAIによる総合');
-    assert.equal(page.consensusSummary.voteCount, 2);
+    assert.equal(page.consensusSummary.vendorCount, 2);
     assert.equal(page.consensusSummary.latestRunDate, '2026-06-13');
     assert.equal(page.consensusSummary.latestModelHref, '/models/fable-5@2026-06-13');
     assert.equal(page.consensusSummary.agingNote, null);

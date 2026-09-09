@@ -86,7 +86,7 @@
       "isAccessibleForFree": true,
       "datePublished": "2026-09-07",
       "dateModified": "2026-09-07",
-      "version": "consensus:3:2026-09-07",
+      "version": "vendor-mean:3:2026-09-07",
       "keywords": [
         "AI",
         "labor market",
@@ -101,7 +101,7 @@
         "name": "Japan"
       },
       "temporalCoverage": "2025/2026",
-      "measurementTechnique": "Scored with AIOIS-10 v1.0. Published value: multi-model median.",
+      "measurementTechnique": "Scored with AIOIS-10 v1.0. Published value: vendor-flagship mean.",
       "additionalProperty": [
         {
           "@type": "PropertyValue",
