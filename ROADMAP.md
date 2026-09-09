@@ -10,43 +10,42 @@ Fields:
 - depends_on: List of work unit ids that must finish first; use [] when none.
 -->
 
-## Active — consensus canonical score (mms-6) + Grok onboarding (mms-7)
+## Active — SEO+GEO on existing pages (#236)
 
-Design: `docs/CONSENSUS_SCORE.md` (eight decisions owner-confirmed 2026-08-31;
-PR #363 merged. mms-6-doc locks |Δ|≥1.0, rationale ±0.3, and C-facing copy).
-Canonical flips from `pickLatestScore` (latest model wins) to the median of
-comparable batches (per-model latest vote, 6-month validity, floor of 5).
-C-facing surfaces drop model names entirely; precise attribution stays in the
-history fold, /models, citation fact, footer, and JSON-LD. Vendor whitelist is
-OpenAI / Anthropic / xAI (Gemini excluded for now, owner 2026-08-31).
+Owner 「继续」 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable
+space is occupations, `/answers/*`, `/rankings`, `/methodology`, `/standard`.
+Japanese public copy for new strings is posted on #272.
 
-- mms-6-doc: design approved (PR #363); |Δ|≥1.0, ±0.3, and C-facing
-  copy locked in `docs/CONSENSUS_SCORE.md` (#364). depends_on: []
-- mms-6a: `pickConsensusScore()` engine (median, per-model latest vote,
-  6-month window, floor 5) + rationale selector + unit tests.
-  depends_on: [mms-6-doc]
-- mms-6b: wire canonical projections to the consensus; add panel metadata;
-  keep payload gates. depends_on: [mms-6a]
-- mms-6c: occupation-page surface — consensus headline, unattributed
-  rationale, latest-observation line, attributed history fold.
-  depends_on: [mms-6b]
-- mms-6d: sitewide copy sweep under the no-model-names-on-C-surfaces rule
-  (footer, FAQ templates, citation fact, JSON-LD, OG). depends_on: [mms-6b]
-- mms-6e: /models hub alignment (current-model card becomes consensus summary
-  + latest run); full hub rework stays out of scope. depends_on: [mms-6b]
-- mms-6f: regenerate baselines; consolidate canonical-pinned fixtures.
-  depends_on: [mms-6c, mms-6d, mms-6e]
-- mms-6g: switch release with old-vs-new drift report + on-site update note;
-  owner preview approval before landing. depends_on: [mms-6f]
-- mms-7a: Grok 4.6 scoring path on in-agent (`grok-4.6`) + prompt freeze.
-  No Vercel AI Gateway. No bespoke xAI provider. depends_on: [mms-6g]
-- mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
-  depends_on: [mms-7a]
-- mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
-  depends_on: [mms-6g, mms-7b]
+- seo-geo-1 (#272): four SOP-prompt landings — title / H1 / lead / FAQ JSON-LD
+  use the SOP wording; name AIOIS-10, occupation count, score date above the
+  fold; cross-link `/answers` ↔ `/methodology` ↔ `/rankings`.
+- seo-geo-2: occupation cite-line; drop `代替リスク` as job-loss. Waits on
+  owner-signed JA after #272.
+- seo-geo-3: weekly off-site SOP log including Claude's cited URL.
 
 Parked: /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.
+
+## Done — consensus canonical score (mms-6) + Grok onboarding (mms-7)
+
+Shipped on `preview` (then mms-8 replaced the public value with the vendor
+flagship mean). Design: `docs/CONSENSUS_SCORE.md` (eight decisions
+owner-confirmed 2026-08-31; PR #363).
+
+- mms-6-doc: design approved (PR #363); |Δ|≥1.0, ±0.3, and C-facing
+  copy locked in `docs/CONSENSUS_SCORE.md` (#364).
+- mms-6a: `pickConsensusScore()` engine (median, per-model latest vote,
+  6-month window, floor 5) + rationale selector + unit tests.
+- mms-6b: wire canonical projections to the consensus; add panel metadata.
+- mms-6c: occupation-page surface — consensus headline, unattributed
+  rationale, latest-observation line, attributed history fold.
+- mms-6d: sitewide copy sweep under the no-model-names-on-C-surfaces rule.
+- mms-6e: /models hub alignment (current-model card becomes consensus summary).
+- mms-6f: regenerate baselines; consolidate canonical-pinned fixtures.
+- mms-6g: switch release with old-vs-new drift report + on-site update note.
+- mms-7a: Grok 4.6 scoring path on in-agent (`grok-4.6`) + prompt freeze.
+- mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
+- mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
 
 ## Done — vendor-flagship mean + Claude Fable 5.1 + GPT-6 Astra (mms-8, closed 2026-09-09)
 
@@ -107,9 +106,9 @@ replaced GPT 5.6 SOL. `/models` is three vendor lanes.
 Shipped on `preview`, then promoted (`#273`, `main@b2606e3c`). Umbrella #233
 closes on the product ship. It does **not** wait on #236.
 
-#236 (SEO/GEO) is a separate programme and is parked until the owner starts
-it. #234 closed 2026-08-22 on the existing 17-day cut (~1.5× `me_open`,
-not 10×). Owner: do not wait another 28 days.
+#236 (SEO/GEO) is a separate programme (Active). #234 closed 2026-08-22
+on the existing 17-day cut (~1.5× `me_open`, not 10×). Owner: do not wait
+another 28 days.
 
 - acq-2-funnel (#256 / #261): `shindan_start` + `shindan_step` (`value` 1..9).
 - acq-3-screen2 (#257 / #262): 9 questions on `/me` behind `#meQuizOpen`.

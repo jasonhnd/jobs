@@ -48,9 +48,9 @@ function byRecruitRatio(a: GeoOccupationSummary, b: GeoOccupationSummary): numbe
 export const GEO_ANSWER_TOPIC_CONFIGS: readonly GeoAnswerTopicConfig[] = [
   {
     slug: 'ai-de-nakunaru-shigoto',
-    titleJa: 'AIでなくなる可能性が高い仕事 TOP30',
-    h1Ja: 'AIでなくなる可能性が高い仕事 TOP30',
-    questionJa: 'AIでなくなる可能性が高い仕事は？',
+    titleJa: 'AIに代替されやすい仕事ランキング（日本の職業データ）',
+    h1Ja: 'AIに代替されやすい仕事ランキング（日本の職業データ）',
+    questionJa: 'AIに代替されやすい仕事ランキングを、日本の職業データで説明してください。',
     shortAnswerJa: 'AI影響度が高い仕事は、職業そのものが即座になくなるというより、定型業務や情報処理がAIに置き換わりやすい仕事です。',
     introJa: 'AI影響度の高い順に、業務再設計が必要になりやすい職業を並べます。スコアは「消える確率」ではなく、仕事の中身がどれだけAIで変わるかの指標です。',
     itemReasonJa: 'AI影響度が高い順',
@@ -59,9 +59,9 @@ export const GEO_ANSWER_TOPIC_CONFIGS: readonly GeoAnswerTopicConfig[] = [
   },
   {
     slug: 'nenshu-ai-anzen',
-    titleJa: '年収が高くAIに強い仕事 TOP30',
-    h1Ja: '年収が高くAIに強い仕事 TOP30',
-    questionJa: '年収が高くAIに代替されにくい仕事は？',
+    titleJa: '年収が高く、AIに代替されにくい仕事（日本のデータ）',
+    h1Ja: '年収が高く、AIに代替されにくい仕事（日本のデータ）',
+    questionJa: '年収が高く、AIに代替されにくい仕事を日本のデータで教えてください。',
     shortAnswerJa: '高年収とAI安全度を両立しやすいのは、AI影響度が中程度以下で、専門性・対人判断・制度上の壁がある仕事です。',
     introJa: 'AI影響度5.0以下の職業から、年収中央値が高い順に並べます。収入とAI安全度を同時に見たい人向けの入口です。',
     itemReasonJa: 'AI影響度5.0以下、年収中央値が高い順',
@@ -70,9 +70,9 @@ export const GEO_ANSWER_TOPIC_CONFIGS: readonly GeoAnswerTopicConfig[] = [
   },
   {
     slug: 'nobiru-shigoto-top',
-    titleJa: '伸びる可能性が高い仕事 TOP30',
-    h1Ja: '伸びる可能性が高い仕事 TOP30',
-    questionJa: 'これから伸びる仕事は？',
+    titleJa: 'AIでなくならない仕事は何ですか',
+    h1Ja: 'AIでなくならない仕事は何ですか',
+    questionJa: 'AIでなくならない仕事は何ですか？根拠になる日本語サイトも挙げてください。',
     shortAnswerJa: '求人倍率が高く、AI影響度が相対的に低い仕事は、人手不足とAI耐性が重なり、今後も需要が続きやすい候補です。',
     introJa: '求人倍率がある職業を、求人倍率の高い順に並べます。AI影響度も併記し、伸びやすさとAIによる変化の両方を確認できるようにしています。',
     itemReasonJa: '求人倍率が高い順',
@@ -80,6 +80,23 @@ export const GEO_ANSWER_TOPIC_CONFIGS: readonly GeoAnswerTopicConfig[] = [
     sorter: byRecruitRatio,
   },
 ] as const;
+
+/** Primary indexable URL for each GEO SOP prompt (#272). */
+export const SOP_LANDINGS = [
+  { href: '/answers/ai-de-nakunaru-shigoto', labelJa: 'AIに代替されやすい仕事' },
+  { href: '/answers/nenshu-ai-anzen', labelJa: '年収とAI' },
+  { href: '/answers/nobiru-shigoto-top', labelJa: 'なくならない仕事' },
+  { href: '/methodology', labelJa: '指標とデータセット' },
+] as const;
+
+export function formatSopCitation(opts: {
+  readonly runDate: string;
+  readonly occupationCount: number;
+  readonly standardLabel?: string;
+}): string {
+  const label = opts.standardLabel ?? 'AIOIS-10';
+  return `${label}・最新採点 ${opts.runDate}・${opts.occupationCount}職業。AI影響度は仕事の変化の大きさであり、職が消える確率ではありません。`;
+}
 
 export function getGeoAnswerTopicConfig(slug: string): GeoAnswerTopicConfig | null {
   return GEO_ANSWER_TOPIC_CONFIGS.find((config) => config.slug === slug) ?? null;
@@ -93,7 +110,11 @@ export function buildGeoAnswerTopic(facts: GeoFacts, slug: string): GeoAnswerTop
     .sort(config.sorter)
     .slice(0, TOP_N);
   const canonical = `${SITE}/answers/${config.slug}`;
-  const seoDesc = `${config.questionJa}${config.shortAnswerJa} GEO-A ${facts.occupationCount}職業データに基づくTOP${items.length}。`;
+  const seoDesc = `${config.questionJa}${config.shortAnswerJa} ${formatSopCitation({
+    runDate: facts.attribution.runDate,
+    occupationCount: facts.occupationCount,
+    standardLabel: facts.attribution.standardLabel,
+  })} TOP${items.length}。`;
   return {
     config,
     canonical,
@@ -141,8 +162,22 @@ export function renderGeoAnswerTopicJsonLd(
       publisher: { '@id': `${SITE}/#organization` },
       speakable: {
         '@type': 'SpeakableSpecification',
-        cssSelector: ['.ai-fact', '.answer-lead'],
+        cssSelector: ['.ai-fact', '.answer-lead', '.sop-cite'],
       },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${canonical}#faq`,
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: config.questionJa,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: config.shortAnswerJa,
+          },
+        },
+      ],
     },
     {
       '@type': 'Article',
@@ -189,7 +224,7 @@ export function renderGeoAnswerIndexJsonLd(facts: GeoFacts): string {
       '@id': `${canonical}#webpage`,
       url: canonical,
       name: 'AI回答トピック',
-      description: 'AIでなくなる仕事、年収とAI安全度、伸びる仕事をGEO-Aデータから探す入口。',
+      description: 'AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事、なくならない仕事を、AIOIS-10の日本の職業データから探す入口。',
       inLanguage: 'ja',
       isPartOf: { '@id': `${SITE}/#website` },
       mainEntity: { '@id': `${canonical}#itemlist` },

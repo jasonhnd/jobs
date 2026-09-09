@@ -21,6 +21,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Four GEO SOP prompts now have matching indexable landings (seo-geo-1 /
+  #272): `/answers/ai-de-nakunaru-shigoto`, `/answers/nenshu-ai-anzen`,
+  `/answers/nobiru-shigoto-top`, `/methodology`. Title / H1 / lead / FAQ
+  JSON-LD use the SOP wording; AIOIS-10, occupation count, and score date
+  sit above the fold; `/answers` ↔ `/methodology` ↔ `/rankings` cross-link.
+  Transformation is not P(job loss).
 - Vendor-flagship mean is the public AI-impact value (mms-8 / #407, close-out
   #444). Arithmetic mean of each vendor's latest comparable AIOIS-10 run
   (Anthropic / OpenAI / xAI). Median / 6-month window / floor 5 left the
