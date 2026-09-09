@@ -1,8 +1,7 @@
 {
   "sentences": {
     "default_neutral": "このモデルは、前後の比較だけでははっきりした癖を読み取りにくく、全体として中庸な見方に近い採点です。",
-    "claude_opus_4_7_neutral": "初期の単一軸バッチのため、AIOIS-10 の細かな癖は比較せず、基準点として扱います。",
-    "claude_opus_4_8_d9_positive_strong": "雇用を支える制度や人手不足を、他のモデルよりも重く見る傾向があります。",
+    "claude_fable_5_1_d4_negative_strong": "判断と責任のある仕事にも、他のモデルより変化が及ぶと見る傾向があります。",
     "default_d1_positive_strong": "情報を扱う仕事の変化を、かなり重く見る傾向があります。",
     "default_d1_positive_moderate": "情報を扱う仕事の変化を、やや重く見る傾向があります。",
     "default_d1_negative_strong": "情報を扱う仕事の変化を、かなり慎重に見る傾向があります。",
