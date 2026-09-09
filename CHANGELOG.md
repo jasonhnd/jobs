@@ -21,6 +21,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Claude Fable 5.1 lands as Anthropic's flagship scoring run
+  (mms-8.27 / #434): `data/scores/occupations_claude-fable-5-1_2026-09-09.json`,
+  556/556. `/models/fable-5-1` 308 to the run page. On-site note and
+  drift doc follow in 8.28.
 - Canonical-pinned tests derive the current vendor panel from
   `latestRunPerVendor()` instead of hard-coding Grok 4.6 / Opus 5 /
   GPT 5.6 SOL (mms-8.24 / #431).

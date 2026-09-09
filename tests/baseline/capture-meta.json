@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-09T05:27:59.735Z",
-  "gitCommit": "65d99466daaac5001fe292b9070b326ab4892532",
-  "gitBranch": "feat/mms-8.24-tests-baselines",
-  "distFileCount": 835,
-  "urlCount": 835,
+  "capturedAt": "2026-09-09T08:20:02.531Z",
+  "gitCommit": "d5adfb7c244175dbf6ccd7a0180ae874af7f7428",
+  "gitBranch": "feat/mms-8.27-land-fable-5-1",
+  "distFileCount": 836,
+  "urlCount": 836,
   "dataFileCount": 612,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }
