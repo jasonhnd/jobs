@@ -1,6 +1,6 @@
 # mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model AIOIS-10 consensus (median of 3 comparable votes; latest scoring 2026-09-07). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
+> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model AIOIS-10 consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-09-07). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
 ## Key facts
 
@@ -10,7 +10,7 @@
 | Coverage | 556 occupations |
 | Total workforce mapped | 54,555,970 workers |
 | Score source | Multi-model consensus (AIOIS-10) |
-| Vote count | 3 |
+| Vendors in the panel | 3 |
 | Latest scoring date | 2026-09-07 |
 | Standard | AIOIS-10 v1.0 |
 | Mean AI Impact | 4.98 / 10 |
@@ -58,7 +58,7 @@ Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=142,
 
 ## Methodology
 
-AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are the median of comparable multi-model votes for each dimension and both indices; Transformation is not recomputed from mean(D1, D2) after the median. Per-model scores remain on /models.
+AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are, for each dimension and both indices, the mean of the latest model from each of 3 vendors; Transformation is not recomputed from mean(D1, D2) after the mean. Per-model scores remain on /models.
 
 ## FAQ
 

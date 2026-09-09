@@ -4,7 +4,7 @@ Extended GEO companion to https://mirai-shigoto.com/llms.txt. This file is gener
 
 ## 1. Summary
 
-mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10 v1.0. Published scores are a multi-model consensus (median of 3 comparable votes; latest scoring 2026-09-07). Per-model breakdown: https://mirai-shigoto.com/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
+mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10 v1.0. Published scores are a multi-model consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-09-07). Per-model breakdown: https://mirai-shigoto.com/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
 
 ## 2. Dataset
 

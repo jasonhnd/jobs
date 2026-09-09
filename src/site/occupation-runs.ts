@@ -12,6 +12,7 @@ import { formatModelDisplay, runSlug } from './score-attribution.js';
 export interface OccupationRunSummary {
   readonly model: string;
   readonly modelDisplay: string;
+  readonly provider: string;
   readonly runDate: string;
   readonly slug: string;
   readonly hasAiois: boolean;
@@ -20,7 +21,7 @@ export interface OccupationRunSummary {
 
 interface ScoreFileLite {
   readonly scope?: string;
-  readonly scorer?: { readonly model?: string };
+  readonly scorer?: { readonly model?: string; readonly model_provider?: string };
   readonly run?: { readonly run_date?: string };
   readonly scores?: Record<string, { readonly aiois?: unknown }>;
 }
@@ -28,13 +29,18 @@ interface ScoreFileLite {
 function summarize(file: ScoreFileLite, source: string): OccupationRunSummary {
   const model = file.scorer?.model;
   const runDate = file.run?.run_date;
+  const provider = file.scorer?.model_provider;
   if (!model || !runDate) {
     throw new Error(`occupation-runs: ${source} is missing scorer.model or run.run_date`);
+  }
+  if (!provider) {
+    throw new Error(`occupation-runs: ${source} is missing scorer.model_provider`);
   }
   const scores = file.scores ?? {};
   return {
     model,
     modelDisplay: formatModelDisplay(model),
+    provider,
     runDate,
     slug: runSlug({ model, runDate }),
     hasAiois: Object.values(scores).some((entry) => entry?.aiois != null),

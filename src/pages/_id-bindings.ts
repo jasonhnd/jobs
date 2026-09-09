@@ -399,7 +399,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const consensusT = rec.consensus_transformation ?? risk;
   const scoreHistoryHtml = renderScoreHistoryComparison(input.scoreHistory ?? [], {
     consensusTransformation: consensusT ?? 0,
-    vendorCount: rec.consensus_vendor_count ?? SCORE_PANEL.voteCount,
+    vendorCount: rec.consensus_vendor_count ?? SCORE_PANEL.vendorCount,
     latestRunDate: rec.ai_scored_at ?? SCORE_PANEL.latestRunDate,
     staleVote: rec.stale_vote,
   });

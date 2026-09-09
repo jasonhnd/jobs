@@ -178,12 +178,15 @@ describe('SCORE_PANEL (live repo data)', () => {
     const aiois = comparableAioisRuns();
     const latest = aiois[aiois.length - 1];
     assert.ok(latest);
-    assert.equal(SCORE_PANEL.voteCount, 3); // vendor-flagship panel (mms-8.13 adapter; 8.15 replaces SCORE_PANEL)
+    assert.equal(SCORE_PANEL.vendorCount, 3);
+    assert.equal(SCORE_PANEL.staleMonths, 6);
+    assert.equal(SCORE_PANEL.staleVendorCount, 0);
     assert.equal(SCORE_PANEL.latestRunDate, latest.runDate);
     assert.equal(SCORE_PANEL.latestRunDate, SCORE_ATTRIBUTION.runDate);
-    assert.equal(SCORE_PANEL.windowMonths, 6);
-    assert.equal(SCORE_PANEL.floorVotes, 5);
-    assert.equal(SCORE_PANEL.usedExpiredVotes, false);
+    assert.equal(
+      SCORE_PANEL.vendorCount,
+      new Set(comparableAioisRuns().map((r) => r.provider)).size,
+    );
   });
 });
 
