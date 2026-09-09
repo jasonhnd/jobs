@@ -21,12 +21,19 @@ export interface ModelStoryCopy {
   readonly editorial_sentences: Readonly<Record<string, string>>;
 }
 
+/** Temporary pair-shaped view of the vendor panel until 8.22 rewrites the hub. */
+export interface ModelsFeatureLatestPair {
+  readonly baseline: { readonly model: string; readonly modelDisplay: string; readonly date: string };
+  readonly candidate: { readonly model: string; readonly modelDisplay: string; readonly date: string };
+  readonly compared_count: number;
+}
+
 export interface ModelsFeaturePageModel {
   readonly projectionJson: string;
   readonly pageLastUpdated: string;
   readonly batchDatesText: string;
   readonly modelCount: number;
-  readonly latestPair: ModelsDeepProjection['latest_pair'];
+  readonly latestPair: ModelsFeatureLatestPair;
   readonly currentModel: ModelsFeatureModelCard;
   readonly consensusSummary: ModelsConsensusSummary;
   readonly modelCards: ReadonlyArray<ModelsFeatureModelCard>;
@@ -34,16 +41,31 @@ export interface ModelsFeaturePageModel {
   readonly dateRangeText: string;
   readonly coverageRangeText: string;
   readonly consensus: ModelsDeepProjection['consensus'];
-  readonly stories: ReadonlyArray<ModelsDeepProjection['stories'][number] & {
-    readonly editorial_sentence: string;
-  }>;
+  readonly stories: ReadonlyArray<ModelsFeatureStory>;
 }
 
-export type ModelsFeatureModelCard = ModelsDeepProjection['model_cards'][number] & {
+export interface ModelsFeatureModelCard {
+  readonly model: string;
+  readonly modelDisplay: string;
+  readonly date: string;
+  readonly covered_count: number;
+  readonly personality_sentence_id: string;
   readonly slug: string;
   readonly href: string;
   readonly personality_sentence: string;
-};
+}
+
+export interface ModelsFeatureStory {
+  readonly id: number;
+  readonly title_ja: string;
+  readonly href: string;
+  readonly editorial_sentence_id: string;
+  readonly editorial_sentence: string;
+  readonly baseline_transformation: number;
+  readonly candidate_transformation: number;
+  readonly baseline_rationale_ja: string;
+  readonly candidate_rationale_ja: string;
+}
 
 export interface ModelsConsensusSummary {
   readonly label: string;
@@ -89,11 +111,13 @@ function personalityCopyWithFallback(copy: Readonly<Record<string, string>>, id:
 function editorialCopyWithFallback(
   copy: Readonly<Record<string, string>>,
   story: ModelsDeepProjection['stories'][number],
-  pair: ModelsDeepProjection['latest_pair'],
+  panel: ModelsDeepProjection['panel'],
 ): string {
-  const exactPairId = modelStoryEditorialSentenceId(story.id, pair);
-  if (story.editorial_sentence_id === exactPairId) {
-    const curated = optionalCopy(copy, exactPairId);
+  const exactId = modelStoryEditorialSentenceId(story.id, {
+    entries: panel.entries.map((entry) => ({ model: entry.model, date: entry.date })),
+  });
+  if (story.editorial_sentence_id === exactId) {
+    const curated = optionalCopy(copy, exactId);
     if (curated) return curated;
   }
   return requireCopy(copy, DEFAULT_MODEL_STORY_EDITORIAL_ID, 'editorial fallback');
@@ -106,12 +130,50 @@ function escapeInlineJson(json: string): string {
     .replace(/\u2029/g, '\\u2029');
 }
 
-function canonicalPairBatch(
-  batch: ModelsDeepProjection['latest_pair']['baseline'],
-): ModelsDeepProjection['latest_pair']['baseline'] {
+function flattenLaneCards(
+  projection: ModelsDeepProjection,
+): Array<{
+  readonly model: string;
+  readonly modelDisplay: string;
+  readonly date: string;
+  readonly covered_count: number;
+  readonly personality_sentence_id: string;
+}> {
+  const cards: Array<{
+    readonly model: string;
+    readonly modelDisplay: string;
+    readonly date: string;
+    readonly covered_count: number;
+    readonly personality_sentence_id: string;
+  }> = [];
+  for (const lane of projection.lanes) {
+    cards.push({
+      model: lane.latest.model,
+      modelDisplay: lane.latest.modelDisplay,
+      date: lane.latest.date,
+      covered_count: lane.latest.covered_count,
+      personality_sentence_id: lane.latest.personality_sentence_id,
+    });
+    for (const entry of lane.history) {
+      cards.push({
+        model: entry.model,
+        modelDisplay: entry.modelDisplay,
+        date: entry.date,
+        covered_count: entry.covered_count,
+        personality_sentence_id: 'default_neutral',
+      });
+    }
+  }
+  return cards;
+}
+
+function adapterLatestPair(projection: ModelsDeepProjection): ModelsFeatureLatestPair {
+  const first = projection.panel.entries[0]!;
+  const last = projection.panel.entries[projection.panel.entries.length - 1]!;
   return {
-    ...batch,
-    modelDisplay: formatModelDisplay(batch.model),
+    baseline: { model: first.model, modelDisplay: formatModelDisplay(first.model), date: first.date },
+    candidate: { model: last.model, modelDisplay: formatModelDisplay(last.model), date: last.date },
+    compared_count: projection.panel.compared_count,
   };
 }
 
@@ -138,7 +200,7 @@ export function buildModelsFeaturePageModel(
   panel: ScorePanel = SCORE_PANEL,
 ): ModelsFeaturePageModel {
   const projection = ModelsDeepProjectionSchema.parse(rawProjection);
-  const modelCards = projection.model_cards.map((card) => {
+  const modelCards = flattenLaneCards(projection).map((card) => {
     const slug = runSlug({ model: card.model, runDate: card.date });
     return {
       ...card,
@@ -155,17 +217,14 @@ export function buildModelsFeaturePageModel(
   }
   const dates = modelRoster.map((card) => card.date);
   const coverages = modelRoster.map((card) => card.covered_count);
+  const latestPair = adapterLatestPair(projection);
 
   return {
     projectionJson: escapeInlineJson(JSON.stringify(projection)),
     pageLastUpdated: currentModel.date,
     batchDatesText: dates.join(' / '),
     modelCount: modelRoster.length,
-    latestPair: {
-      ...projection.latest_pair,
-      baseline: canonicalPairBatch(projection.latest_pair.baseline),
-      candidate: canonicalPairBatch(projection.latest_pair.candidate),
-    },
+    latestPair,
     currentModel,
     consensusSummary: {
       label: MODELS_HUB_NOW_LABEL,
@@ -184,10 +243,21 @@ export function buildModelsFeaturePageModel(
       ? `${currentModel.covered_count}職業`
       : `${Math.min(...coverages)}〜${Math.max(...coverages)}職業`,
     consensus: projection.consensus,
-    stories: projection.stories.map((story) => ({
-      ...story,
-      editorial_sentence: editorialCopyWithFallback(storyCopy.editorial_sentences, story, projection.latest_pair),
-    })),
+    stories: projection.stories.map((story) => {
+      const first = story.scores[0]!;
+      const last = story.scores[story.scores.length - 1]!;
+      return {
+        id: story.id,
+        title_ja: story.title_ja,
+        href: story.href,
+        editorial_sentence_id: story.editorial_sentence_id,
+        editorial_sentence: editorialCopyWithFallback(storyCopy.editorial_sentences, story, projection.panel),
+        baseline_transformation: first.transformation,
+        candidate_transformation: last.transformation,
+        baseline_rationale_ja: first.rationale_ja,
+        candidate_rationale_ja: last.rationale_ja,
+      };
+    }),
   };
 }
 

@@ -12,34 +12,45 @@ import {
 } from './models.js';
 import { modelStoryEditorialSentenceId } from '../site/model-editorial.js';
 
-const REVIEWED_PAIR = {
-  baseline: { model: 'claude-opus-4-8', date: '2026-05-30' },
-  candidate: { model: 'claude-fable-5', date: '2026-06-13' },
+const REVIEWED_PANEL = {
+  entries: [
+    { model: 'claude-opus-4-8', date: '2026-05-30' },
+    { model: 'claude-fable-5', date: '2026-06-13' },
+  ],
 };
-const editorialId = (id: number): string => modelStoryEditorialSentenceId(id, REVIEWED_PAIR);
+const editorialId = (id: number): string => modelStoryEditorialSentenceId(id, REVIEWED_PANEL);
+
+function entry(
+  provider: string,
+  vendorDisplay: string,
+  model: string,
+  modelDisplay: string,
+  date: string,
+  covered_count: number,
+  personality_sentence_id: string,
+) {
+  return { provider, vendorDisplay, model, modelDisplay, date, covered_count, personality_sentence_id };
+}
+
+function storyScores(
+  left: { model: string; display: string; provider: string; t: number; reason: string },
+  right: { model: string; display: string; provider: string; t: number; reason: string },
+) {
+  return [
+    { provider: left.provider, model: left.model, modelDisplay: left.display, transformation: left.t, rationale_ja: left.reason },
+    { provider: right.provider, model: right.model, modelDisplay: right.display, transformation: right.t, rationale_ja: right.reason },
+  ];
+}
+
+const opus = entry('anthropic', 'Anthropic', 'claude-opus-4-8', 'Opus 4.8', '2026-05-30', 2, 'opus');
+const fable = entry('openai', 'OpenAI', 'claude-fable-5', 'Fable 5', '2026-06-13', 2, 'fable');
 
 const projection: ModelsDeepProjection = {
   generated_at: '2026-07-12T00:00:00.000Z',
-  latest_pair: {
-    baseline: { model: 'claude-opus-4-8', modelDisplay: 'Opus 4.8', date: '2026-05-30' },
-    candidate: { model: 'claude-fable-5', modelDisplay: 'Fable 5', date: '2026-06-13' },
-    compared_count: 2,
-  },
-  model_cards: [
-    {
-      model: 'claude-opus-4-8',
-      modelDisplay: 'Opus 4.8',
-      date: '2026-05-30',
-      covered_count: 2,
-      personality_sentence_id: 'opus',
-    },
-    {
-      model: 'claude-fable-5',
-      modelDisplay: 'Fable 5',
-      date: '2026-06-13',
-      covered_count: 2,
-      personality_sentence_id: 'fable',
-    },
+  panel: { entries: [opus, fable], compared_count: 2 },
+  lanes: [
+    { provider: 'anthropic', vendorDisplay: 'Anthropic', latest: opus, history: [] },
+    { provider: 'openai', vendorDisplay: 'OpenAI', latest: fable, history: [] },
   ],
   consensus: [
     { id: 1, title_ja: '職業A', href: '/1' },
@@ -51,30 +62,33 @@ const projection: ModelsDeepProjection = {
       id: 4,
       title_ja: '職業D',
       href: '/4',
-      baseline_transformation: 4.2,
-      candidate_transformation: 7.5,
-      baseline_rationale_ja: '前回の理由',
-      candidate_rationale_ja: '今回の理由',
+      scores: storyScores(
+        { provider: 'anthropic', model: 'claude-opus-4-8', display: 'Opus 4.8', t: 4.2, reason: '前回の理由' },
+        { provider: 'openai', model: 'claude-fable-5', display: 'Fable 5', t: 7.5, reason: '今回の理由' },
+      ),
+      spread: 3.3,
       editorial_sentence_id: editorialId(4),
     },
     {
       id: 5,
       title_ja: '職業E',
       href: '/5',
-      baseline_transformation: 2,
-      candidate_transformation: 6,
-      baseline_rationale_ja: '前回の理由',
-      candidate_rationale_ja: '今回の理由',
+      scores: storyScores(
+        { provider: 'anthropic', model: 'claude-opus-4-8', display: 'Opus 4.8', t: 2, reason: '前回の理由' },
+        { provider: 'openai', model: 'claude-fable-5', display: 'Fable 5', t: 6, reason: '今回の理由' },
+      ),
+      spread: 4,
       editorial_sentence_id: editorialId(5),
     },
     {
       id: 6,
       title_ja: '職業F',
       href: '/6',
-      baseline_transformation: 3,
-      candidate_transformation: 8,
-      baseline_rationale_ja: '前回の理由',
-      candidate_rationale_ja: '今回の理由',
+      scores: storyScores(
+        { provider: 'anthropic', model: 'claude-opus-4-8', display: 'Opus 4.8', t: 3, reason: '前回の理由' },
+        { provider: 'openai', model: 'claude-fable-5', display: 'Fable 5', t: 8, reason: '今回の理由' },
+      ),
+      spread: 5,
       editorial_sentence_id: editorialId(6),
     },
   ],
@@ -124,13 +138,14 @@ describe('models feature view model', () => {
   test('falls back when curated copy IDs are missing', () => {
     const missingCopyProjection: ModelsDeepProjection = {
       ...projection,
-      model_cards: [
-        {
-          ...projection.model_cards[0]!,
-          personality_sentence_id: 'future_model_d9_positive_strong',
-        },
+      panel: {
+        ...projection.panel,
+        entries: [{ ...opus, personality_sentence_id: 'future_model_d9_positive_strong' }, fable],
+      },
+      lanes: [
+        { provider: 'anthropic', vendorDisplay: 'Anthropic', latest: { ...opus, personality_sentence_id: 'future_model_d9_positive_strong' }, history: [] },
+        projection.lanes[1]!,
       ],
-      stories: projection.stories,
     };
 
     const page = buildModelsFeaturePageModel(
@@ -153,13 +168,15 @@ describe('models feature view model', () => {
   });
 
   test('falls back when a later pair carries a stale older-pair editorial id', () => {
+    const nextFable = entry('anthropic', 'Anthropic', 'claude-fable-5', 'Fable 5', '2026-06-13', 2, 'fable');
+    const nextSol = entry('openai', 'OpenAI', 'gpt-5.6-sol', 'GPT 5.6 SOL', '2026-07-12', 2, 'opus');
     const nextPairProjection: ModelsDeepProjection = {
       ...projection,
-      latest_pair: {
-        baseline: { model: 'claude-fable-5', modelDisplay: 'Fable 5', date: '2026-06-13' },
-        candidate: { model: 'gpt-5.6-sol', modelDisplay: 'GPT 5.6 SOL', date: '2026-07-12' },
-        compared_count: 2,
-      },
+      panel: { entries: [nextFable, nextSol], compared_count: 2 },
+      lanes: [
+        { provider: 'anthropic', vendorDisplay: 'Anthropic', latest: nextFable, history: [] },
+        { provider: 'openai', vendorDisplay: 'OpenAI', latest: nextSol, history: [] },
+      ],
     };
     const page = buildModelsFeaturePageModel(
       nextPairProjection,
@@ -176,17 +193,13 @@ describe('models feature view model', () => {
   });
 
   test('derives model count and roster links from projection cards', () => {
+    const sol = entry('xai', 'xAI', 'gpt-5.6-sol', 'GPT 5.6 SOL', '2026-07-20', 2, 'gpt_5_6_sol_neutral');
     const twoCardProjection: ModelsDeepProjection = {
       ...projection,
-      model_cards: [
-        ...projection.model_cards,
-        {
-          model: 'gpt-5.6-sol',
-          modelDisplay: 'GPT 5.6 SOL',
-          date: '2026-07-20',
-          covered_count: 2,
-          personality_sentence_id: 'gpt_5_6_sol_neutral',
-        },
+      panel: { entries: [opus, fable, sol], compared_count: 2 },
+      lanes: [
+        ...projection.lanes,
+        { provider: 'xai', vendorDisplay: 'xAI', latest: sol, history: [] },
       ],
     };
 
@@ -202,7 +215,7 @@ describe('models feature view model', () => {
       { editorial_sentences: { default_latest_pair_split: '汎用の編集文です。' } },
     );
 
-    assert.equal(page.modelCount, twoCardProjection.model_cards.length);
+    assert.equal(page.modelCount, 3);
     assert.deepEqual(
       page.modelRoster.map((card) => [card.model, card.href]),
       [
@@ -215,37 +228,24 @@ describe('models feature view model', () => {
   });
 
   test('derives the current four model page links from model ids', () => {
+    const fourOpus47 = { model: 'claude-opus-4-7', modelDisplay: 'Opus 4.7', date: '2026-04-25', covered_count: 552 };
+    const fourOpus48 = entry('anthropic', 'Anthropic', 'claude-opus-4-8', 'Opus 4.8', '2026-05-30', 556, 'default_neutral');
+    const fourFable = entry('anthropic', 'Anthropic', 'claude-fable-5', 'Fable 5', '2026-06-13', 556, 'default_neutral');
+    const fourSol = entry('openai', 'OpenAI', 'gpt-5.6-sol', 'GPT 5.6 SOL', '2026-07-12', 556, 'default_neutral');
     const fourModelProjection: ModelsDeepProjection = {
       ...projection,
-      model_cards: [
+      panel: { entries: [fourFable, fourSol], compared_count: 556 },
+      lanes: [
         {
-          model: 'claude-opus-4-7',
-          modelDisplay: 'Opus 4.7',
-          date: '2026-04-25',
-          covered_count: 552,
-          personality_sentence_id: 'default_neutral',
+          provider: 'anthropic',
+          vendorDisplay: 'Anthropic',
+          latest: fourFable,
+          history: [
+            { model: fourOpus48.model, modelDisplay: fourOpus48.modelDisplay, date: fourOpus48.date, covered_count: fourOpus48.covered_count },
+            fourOpus47,
+          ],
         },
-        {
-          model: 'claude-opus-4-8',
-          modelDisplay: 'Opus 4.8',
-          date: '2026-05-30',
-          covered_count: 556,
-          personality_sentence_id: 'default_neutral',
-        },
-        {
-          model: 'claude-fable-5',
-          modelDisplay: 'Fable 5',
-          date: '2026-06-13',
-          covered_count: 556,
-          personality_sentence_id: 'default_neutral',
-        },
-        {
-          model: 'gpt-5.6-sol',
-          modelDisplay: 'GPT 5.6 SOL',
-          date: '2026-07-12',
-          covered_count: 556,
-          personality_sentence_id: 'default_neutral',
-        },
+        { provider: 'openai', vendorDisplay: 'OpenAI', latest: fourSol, history: [] },
       ],
     };
     const page = buildModelsFeaturePageModel(
