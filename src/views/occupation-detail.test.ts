@@ -13,6 +13,7 @@ import { loadGraph } from '@/graph';
 import { buildOccupationDetailFile } from './occupation-detail.js';
 import type { KnowledgeGraph, OccupationId } from '@/graph';
 import { asOccupationId } from '@/graph/ids';
+import { VENDOR_WHITELIST } from '@/site/score-attribution';
 
 let graph: KnowledgeGraph;
 let firstOccId: OccupationId;
@@ -65,7 +66,7 @@ describe('buildOccupationDetailFile', () => {
 
   test('occ 111 reports three vendors and is not stale on current data', () => {
     const detail = buildOccupationDetailFile(graph, asOccupationId(111));
-    assert.equal(detail.consensus_vendor_count, 3);
+    assert.equal(detail.consensus_vendor_count, VENDOR_WHITELIST.length);
     assert.equal(detail.stale_vote, false);
   });
 
@@ -85,7 +86,7 @@ describe('buildOccupationDetailFile', () => {
     };
     const stale = buildOccupationDetailFile(patched, occId);
     assert.equal(stale.stale_vote, true);
-    assert.equal(stale.consensus_vendor_count, 3);
+    assert.equal(stale.consensus_vendor_count, VENDOR_WHITELIST.length);
 
     const fresh = [
       { model: 'claude-opus-5', provider: 'anthropic', date: '2026-07-26', transformation: 5, rationaleJa: 'a', displacement: 2, dims, confidence: 0.8 },

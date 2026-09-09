@@ -7,7 +7,12 @@
  */
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { formatModelDisplay, runSlug } from './score-attribution.js';
+import {
+  formatModelDisplay,
+  isWhitelistedVendor,
+  runSlug,
+  VENDOR_WHITELIST,
+} from './score-attribution.js';
 
 export interface OccupationRunSummary {
   readonly model: string;
@@ -83,4 +88,25 @@ export function latestAioisPair(
     throw new Error('occupation-runs: need at least two AIOIS-10 occupation batches');
   }
   return { baseline, candidate };
+}
+
+/** One latest comparable AIOIS-10 run per whitelisted vendor, in whitelist order. */
+export function latestRunPerVendor(
+  runs: readonly OccupationRunSummary[] = listOccupationRuns(),
+): OccupationRunSummary[] {
+  const latest = new Map<string, OccupationRunSummary>();
+  for (const run of comparableAioisRuns(runs)) {
+    if (!isWhitelistedVendor(run.provider)) continue;
+    const prev = latest.get(run.provider);
+    if (
+      !prev
+      || run.runDate > prev.runDate
+      || (run.runDate === prev.runDate && run.model.localeCompare(prev.model) > 0)
+    ) {
+      latest.set(run.provider, run);
+    }
+  }
+  return VENDOR_WHITELIST
+    .map((vendor) => latest.get(vendor))
+    .filter((run): run is OccupationRunSummary => run != null);
 }

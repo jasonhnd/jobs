@@ -21,6 +21,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Canonical-pinned tests derive the current vendor panel from
+  `latestRunPerVendor()` instead of hard-coding Grok 4.6 / Opus 5 /
+  GPT 5.6 SOL (mms-8.24 / #431).
 - `/models` hub is three vendor cards (Anthropic / OpenAI / xAI) with
   folded history, signed contrast copy, and three-bar / three-quote
   stories (mms-8.23 / #430).

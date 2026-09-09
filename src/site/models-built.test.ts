@@ -8,6 +8,7 @@ import { SCORE_PANEL } from './score-attribution.js';
 import {
   comparableAioisRuns,
   latestOccupationRun,
+  latestRunPerVendor,
   listOccupationRuns,
 } from './occupation-runs.js';
 import { formatJapaneseDate } from '../views/models.js';
@@ -132,7 +133,7 @@ describe('/models built page contract', () => {
     }
     assert.match(visible, new RegExp(`各回の対象は${coverageText}`));
     assert.match(visible, /3社のAIそれぞれの最新モデルによる採点を平均しています/);
-    assert.match(visible, /3社の最新モデルが共通する 556 職業を比べると/);
+    assert.match(visible, /3社の最新モデルが共通する \d+ 職業を比べると/);
     assert.equal(
       new RegExp(`556職業を、${runs.length}つのAIモデルがそれぞれ採点`).test(visible),
       false,
@@ -146,8 +147,14 @@ describe('/models built page contract', () => {
       historyLaneCount,
     );
     const storyCards = html.match(/<article class="story-card">/g) ?? [];
-    assert.equal((html.match(/<div class="score-row">/g) ?? []).length, storyCards.length * 3);
-    assert.equal((html.match(/<figure class="quote-block">/g) ?? []).length, storyCards.length * 3);
+    assert.equal(
+      (html.match(/<div class="score-row">/g) ?? []).length,
+      storyCards.length * SCORE_PANEL.vendorCount,
+    );
+    assert.equal(
+      (html.match(/<figure class="quote-block">/g) ?? []).length,
+      storyCards.length * SCORE_PANEL.vendorCount,
+    );
   });
 
   test('keeps serif headings at the magazine title size', () => {
@@ -183,17 +190,26 @@ describe('/models built page contract', () => {
     assert.match(latest, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
     assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(latestRun.model)}`).test(latest), false);
 
-    const grokPath = builtModelDetailPath('grok-4.6@2026-09-07');
-    if (grokPath != null) {
-      const grok = visibleHtml(readFileSync(grokPath, 'utf-8'));
-      assert.match(grok, /提供元<\/dt><dd>xAI</);
-      assert.match(grok, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
+    const panel = latestRunPerVendor();
+    const xai = panel.find((run) => run.provider === 'xai');
+    if (xai != null) {
+      const grokPath = builtModelDetailPath(xai.slug);
+      if (grokPath != null) {
+        const grok = visibleHtml(readFileSync(grokPath, 'utf-8'));
+        assert.match(grok, /提供元<\/dt><dd>xAI</);
+        assert.match(grok, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
+      }
     }
-    const fablePath = builtModelDetailPath('fable-5@2026-06-13');
-    if (fablePath != null) {
-      const fable = visibleHtml(readFileSync(fablePath, 'utf-8'));
-      assert.match(fable, new RegExp(escapeRegExp(MODELS_RUN_HISTORY_NOTE)));
-      assert.equal(fable.includes(MODELS_RUN_IN_PANEL_NOTE), false);
+    const historyRun = comparableAioisRuns().find(
+      (run) => isWhitelistedVendor(run.provider) && !panel.some((entry) => entry.slug === run.slug),
+    );
+    if (historyRun != null) {
+      const historyPath = builtModelDetailPath(historyRun.slug);
+      if (historyPath != null) {
+        const history = visibleHtml(readFileSync(historyPath, 'utf-8'));
+        assert.match(history, new RegExp(escapeRegExp(MODELS_RUN_HISTORY_NOTE)));
+        assert.equal(history.includes(MODELS_RUN_IN_PANEL_NOTE), false);
+      }
     }
   });
 
