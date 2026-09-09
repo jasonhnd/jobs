@@ -114,6 +114,7 @@ export function assertCandidateMatchesPickLatestScore(
         return {
           date: run.run.run_date,
           model: run.scorer.model,
+          provider: run.scorer.model_provider,
           aiois: entry.aiois ?? null,
         };
       });

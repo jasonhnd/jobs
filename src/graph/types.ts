@@ -86,6 +86,8 @@ export interface AiRiskScore {
 export interface ScoreHistoryEntry {
   /** Model name (e.g., "claude-fable-5"). */
   readonly model: string;
+  /** Vendor id (`scorer.model_provider`). */
+  readonly provider: string;
   /** ISO date YYYY-MM-DD of the scoring run. */
   readonly date: string;
   /** Headline score. On AIOIS batches this equals `aiois.transformation`. */
