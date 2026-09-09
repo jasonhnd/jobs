@@ -184,17 +184,14 @@ describe('models-deep projection', () => {
     const fable = payload.panel.entries.find((entry) => entry.model === 'claude-fable-5-1');
     assert.equal(fable?.personality_sentence_id, 'claude_fable_5_1_d4_negative_strong');
     assert.ok(
-      payload.stories.every(
-        (story) =>
-          story.editorial_sentence_id.endsWith(panelSuffix) ||
-          story.editorial_sentence_id === DEFAULT_MODEL_STORY_EDITORIAL_ID,
-      ),
+      payload.stories.every((story) => story.editorial_sentence_id.endsWith(panelSuffix)),
       payload.stories.map((story) => story.editorial_sentence_id).join(', '),
     );
     const orphans = reportOrphanedCuration(
       payload,
       payload.stories.map((story) => story.id),
     );
+    assert.deepEqual(orphans.editorialKeys, []);
     assert.deepEqual(orphans.personalityKeys, []);
     assert.ok(payload.stories.every((story) => story.scores.length === payload.panel.entries.length));
     assert.ok(payload.stories.every((story) => story.scores.every((score) => score.rationale_ja.length > 0)));
