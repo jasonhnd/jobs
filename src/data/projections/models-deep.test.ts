@@ -13,10 +13,12 @@ import {
   selectPersonalitySentenceIdForTest,
   selectStoryIdsForTest,
 } from './models-deep.js';
-import { DEFAULT_MODEL_STORY_EDITORIAL_ID } from '../../site/model-editorial.js';
-import { latestAioisPair, listOccupationRuns } from '../../site/occupation-runs.js';
+import { DEFAULT_MODEL_STORY_EDITORIAL_ID, modelStoryEditorialSentenceId } from '../../site/model-editorial.js';
+import { listOccupationRuns } from '../../site/occupation-runs.js';
+import { VENDOR_WHITELIST } from '../../site/score-attribution.js';
+import type { ScoreHistEntry } from '../../graph/score-strategy.js';
 import personalityCopy from '../../content/model-personality.ja.json';
-import type { DriftRow } from '../../graph/aiois-drift.js';
+
 
 let indexesPromise: Promise<Indexes> | null = null;
 
@@ -31,50 +33,50 @@ async function indexesFixture(): Promise<Indexes> {
   return indexesPromise;
 }
 
-function row(id: number, dT: number): DriftRow {
-  return {
-    id,
-    title: `職業${id}`,
-    baseT: 5,
-    candT: 5 + dT,
-    dT,
-    baseD: 5,
-    candD: 5,
-    dD: 0,
-    baseBand: 'mid',
-    candBand: 'mid',
-    baseRank: id,
-    candRank: id,
-    rankShift: 0,
-    confidence: 0.8,
-    flags: [],
-  };
+function row(id: number, spread: number): { id: number; spread: number } {
+  return { id, spread };
 }
 
 describe('models-deep projection', () => {
-  test('selects reviewed editorial copy only for the exact model and date pair', () => {
-    const reviewedPair = {
-      baseline: { model: 'claude-opus-4-8', date: '2026-05-30' },
-      candidate: { model: 'claude-fable-5', date: '2026-06-13' },
+  test('selects reviewed editorial copy only for the exact model and date panel', () => {
+    const reviewedPanel = {
+      entries: [
+        { model: 'claude-opus-4-8', date: '2026-05-30' },
+        { model: 'claude-fable-5', date: '2026-06-13' },
+      ],
     };
     const exactId = '239__claude-opus-4-8@2026-05-30__claude-fable-5@2026-06-13';
     const available = new Set([exactId, 'default_latest_pair_split']);
 
-    assert.equal(selectEditorialSentenceIdForTest(239, reviewedPair, available), exactId);
+    assert.equal(selectEditorialSentenceIdForTest(239, reviewedPanel, available), exactId);
     assert.equal(
       selectEditorialSentenceIdForTest(239, {
-        baseline: reviewedPair.candidate,
-        candidate: { model: 'gpt-5.6-sol', date: '2026-07-12' },
+        entries: [
+          { model: 'claude-fable-5', date: '2026-06-13' },
+          { model: 'gpt-5.6-sol', date: '2026-07-12' },
+        ],
       }, available),
       'default_latest_pair_split',
     );
     assert.equal(
       selectEditorialSentenceIdForTest(239, {
-        ...reviewedPair,
-        candidate: { ...reviewedPair.candidate, date: '2026-06-14' },
+        entries: [
+          reviewedPanel.entries[0]!,
+          { model: 'claude-fable-5', date: '2026-06-14' },
+        ],
       }, available),
       'default_latest_pair_split',
       'a re-run of the same model must not reuse prose from another batch date',
+    );
+    assert.equal(
+      modelStoryEditorialSentenceId(123, {
+        entries: [
+          { model: 'a', date: '2026-01-01' },
+          { model: 'b', date: '2026-02-02' },
+          { model: 'c', date: '2026-03-03' },
+        ],
+      }),
+      '123__a@2026-01-01__b@2026-02-02__c@2026-03-03',
     );
   });
 
@@ -109,8 +111,8 @@ describe('models-deep projection', () => {
     );
   });
 
-  test('orders consensus ascending by absolute delta and stories descending with id ties', () => {
-    const rows = [row(5, 1), row(3, -0.1), row(2, 0.1), row(1, 0), row(4, -2)];
+  test('orders consensus ascending by spread and stories descending with id ties', () => {
+    const rows = [row(5, 1), row(3, 0.1), row(2, 0.1), row(1, 0), row(4, 2)];
 
     assert.deepEqual(selectConsensusRowsForTest(rows), [1, 2, 3]);
     assert.deepEqual(selectAutomaticStoryIdsForTest(rows), [4, 5, 2, 3, 1]);
@@ -146,34 +148,55 @@ describe('models-deep projection', () => {
     );
   });
 
-  test('builds the current payload shape under 30 KB with selected rationale only', async () => {
+  test('builds the vendor-panel payload under 30 KB with one score per panel entry', async () => {
     const payload = buildModelsDeepPayload(await indexesFixture(), '2026-07-12T00:00:00.000Z');
     const runs = listOccupationRuns();
-    const { baseline, candidate } = latestAioisPair(runs);
 
-    assert.equal(payload.latest_pair.baseline.model, baseline.model);
-    assert.equal(payload.latest_pair.candidate.model, candidate.model);
-    assert.equal(payload.latest_pair.baseline.date, baseline.runDate);
-    assert.equal(payload.latest_pair.candidate.date, candidate.runDate);
-    assert.ok(payload.latest_pair.compared_count >= 1);
+    assert.deepEqual(payload.panel.entries.map((entry) => entry.provider), ['openai', 'anthropic', 'xai']);
+    assert.deepEqual(
+      payload.panel.entries.map((entry) => `${entry.model}@${entry.date}`),
+      ['gpt-5.6-sol@2026-07-12', 'claude-opus-5@2026-07-26', 'grok-4.6@2026-09-07'],
+    );
+    assert.ok(payload.panel.compared_count >= 1);
+    assert.deepEqual(payload.lanes.map((lane) => lane.provider), [...VENDOR_WHITELIST]);
+    const anthropic = payload.lanes.find((lane) => lane.provider === 'anthropic')!;
+    assert.ok(anthropic.history.some((entry) => entry.model === 'claude-opus-4-7'));
+    assert.deepEqual(
+      anthropic.history.map((entry) => entry.date),
+      [...anthropic.history.map((entry) => entry.date)].sort((a, b) => b.localeCompare(a)),
+    );
+    const openai = payload.lanes.find((lane) => lane.provider === 'openai')!;
+    assert.deepEqual(openai.history, []);
     assert.equal(payload.consensus.length, 3);
     assert.equal(new Set(payload.consensus.map((row) => row.id)).size, 3);
-    assert.equal(payload.model_cards.length, runs.length);
     assert.ok(payload.stories.length >= 3 && payload.stories.length <= 5);
     assert.equal(new Set(payload.stories.map((story) => story.id)).size, payload.stories.length);
-    const pairSuffix =
-      `__${baseline.model}@${baseline.runDate}__${candidate.model}@${candidate.runDate}`;
+    const panelSuffix = `__${payload.panel.entries.map((entry) => `${entry.model}@${entry.date}`).join('__')}`;
     assert.ok(
       payload.stories.every(
         (story) =>
-          story.editorial_sentence_id.endsWith(pairSuffix) ||
+          story.editorial_sentence_id.endsWith(panelSuffix) ||
           story.editorial_sentence_id === DEFAULT_MODEL_STORY_EDITORIAL_ID,
       ),
       payload.stories.map((story) => story.editorial_sentence_id).join(', '),
     );
-    assert.ok(payload.stories.every((story) => story.baseline_rationale_ja.length > 0));
-    assert.ok(payload.stories.every((story) => story.candidate_rationale_ja.length > 0));
+    assert.ok(payload.stories.every((story) => story.scores.length === payload.panel.entries.length));
+    assert.ok(payload.stories.every((story) => story.scores.every((score) => score.rationale_ja.length > 0)));
     assert.ok(modelsDeepPayloadBytes(payload) <= 30 * 1024);
+    assert.ok(runs.length >= payload.lanes.length);
+  });
+
+  test('throws when a batch provider is outside the whitelist', async () => {
+    const indexes = await indexesFixture();
+    const hist = indexes.historyByOcc.get(1);
+    assert.ok(hist);
+    const extra: ScoreHistEntry = { ...hist[0]!, provider: 'google', model: 'gemini-x', date: '2026-08-01' };
+    const historyByOcc = new Map(indexes.historyByOcc);
+    historyByOcc.set(1, [...hist, extra]);
+    assert.throws(
+      () => buildModelsDeepPayload({ ...indexes, historyByOcc }),
+      /outside VENDOR_WHITELIST/,
+    );
   });
 });
 
@@ -182,28 +205,41 @@ describe('models-deep projection', () => {
 // handover is silent — every reviewed sentence goes dark the day a batch lands
 // and nothing says so.
 describe('orphaned curation reporting', () => {
-  const pairOf = (baseModel: string, baseDate: string, candModel: string, candDate: string) => ({
-    baseline: { model: baseModel, modelDisplay: baseModel, date: baseDate },
-    candidate: { model: candModel, modelDisplay: candModel, date: candDate },
+  const panelOf = (...entries: Array<{ model: string; date: string; personality?: string }>) => ({
+    entries: entries.map((entry, i) => ({
+      provider: 'anthropic',
+      vendorDisplay: 'Anthropic',
+      model: entry.model,
+      modelDisplay: entry.model,
+      date: entry.date,
+      covered_count: 1,
+      personality_sentence_id: entry.personality ?? `m${i}`,
+    })),
     compared_count: 100,
   });
 
   const payloadWith = (
-    latest: ReturnType<typeof pairOf>,
+    panel: ReturnType<typeof panelOf>,
     storyIds: number[],
     personalityIds: string[],
   ) => ({
     generated_at: '2026-01-01T00:00:00.000Z',
-    latest_pair: latest,
-    model_cards: personalityIds.map((id, i) => ({
-      model: `m${i}`, modelDisplay: `M${i}`, date: '2026-01-01',
-      covered_count: 1, personality_sentence_id: id,
-    })),
+    panel: personalityIds.length === 0 ? panel : {
+      ...panel,
+      entries: panel.entries.map((entry, i) => ({
+        ...entry,
+        personality_sentence_id: personalityIds[i] ?? entry.personality_sentence_id,
+      })),
+    },
+    lanes: [],
     consensus: [],
     stories: storyIds.map((id) => ({
       id, title_ja: `t${id}`, href: `/${id}`,
-      baseline_transformation: 1, candidate_transformation: 2,
-      baseline_rationale_ja: 'a', candidate_rationale_ja: 'b',
+      scores: [
+        { provider: 'anthropic', model: 'a', modelDisplay: 'A', transformation: 1, rationale_ja: 'a' },
+        { provider: 'openai', model: 'b', modelDisplay: 'B', transformation: 2, rationale_ja: 'b' },
+      ],
+      spread: 1,
       editorial_sentence_id: 'x',
     })),
   }) as unknown as Parameters<typeof reportOrphanedCuration>[0];
@@ -223,7 +259,7 @@ describe('orphaned curation reporting', () => {
 
   test('flags every sentence scoped to a superseded pair', () => {
     const report = reportOrphanedCuration(
-      payloadWith(pairOf('gpt-5.6-sol', '2026-07-12', 'claude-opus-5', '2026-07-26'), [], []),
+      payloadWith(panelOf({ model: 'gpt-5.6-sol', date: '2026-07-12' }, { model: 'claude-opus-5', date: '2026-07-26' }), [], []),
       [],
       overridesFixture([`239__${OLD_PAIR}`, `74__${OLD_PAIR}`]),
       personalityFixture([]),
@@ -236,7 +272,7 @@ describe('orphaned curation reporting', () => {
 
   test('reports nothing for the pair the copy was written for', () => {
     const report = reportOrphanedCuration(
-      payloadWith(pairOf('gpt-5.6-sol', '2026-07-12', 'claude-opus-5', '2026-07-26'), [], []),
+      payloadWith(panelOf({ model: 'gpt-5.6-sol', date: '2026-07-12' }, { model: 'claude-opus-5', date: '2026-07-26' }), [], []),
       [],
       overridesFixture([`111__${NEW_PAIR}`, `114__${NEW_PAIR}`]),
       personalityFixture([]),
@@ -247,7 +283,7 @@ describe('orphaned curation reporting', () => {
 
   test('only model-specific personality keys can be orphans', () => {
     const report = reportOrphanedCuration(
-      payloadWith(pairOf('a', '2026-01-01', 'b', '2026-02-01'), [], ['claude_x_neutral', 'default_d7_negative_strong']),
+      payloadWith(panelOf({ model: 'a', date: '2026-01-01', personality: 'claude_x_neutral' }, { model: 'b', date: '2026-02-01', personality: 'default_d7_negative_strong' }), [], ['claude_x_neutral', 'default_d7_negative_strong']),
       [],
       overridesFixture([]),
       // `default_*` is a lookup table — most entries are unused by design, and
@@ -263,7 +299,7 @@ describe('orphaned curation reporting', () => {
   test('flags pins that displace the current pair biggest movers', () => {
     // Pinned ids shown, but the automatic shortlist wanted different ones.
     const report = reportOrphanedCuration(
-      payloadWith(pairOf('a', '2026-01-01', 'b', '2026-02-01'), [239, 398, 74, 455, 357], []),
+      payloadWith(panelOf({ model: 'a', date: '2026-01-01' }, { model: 'b', date: '2026-02-01' }), [239, 398, 74, 455, 357], []),
       [111, 114, 29, 106, 170, 338, 576, 74],
       overridesFixture([], [239, 398, 74], [455, 357]),
       personalityFixture([]),
@@ -276,7 +312,7 @@ describe('orphaned curation reporting', () => {
 
   test('does not flag pins that already are the biggest movers', () => {
     const report = reportOrphanedCuration(
-      payloadWith(pairOf('a', '2026-01-01', 'b', '2026-02-01'), [239, 398, 74, 455, 357], []),
+      payloadWith(panelOf({ model: 'a', date: '2026-01-01' }, { model: 'b', date: '2026-02-01' }), [239, 398, 74, 455, 357], []),
       [239, 398, 74, 455, 357, 111],
       overridesFixture([], [239, 398, 74], [455, 357]),
       personalityFixture([]),

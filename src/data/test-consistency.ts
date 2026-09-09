@@ -626,7 +626,7 @@ async function checkModelsDeep(
   }
 
   r.note(
-    `models_deep: cards=${parsed.data.model_cards.length} consensus=${parsed.data.consensus.length} stories=${parsed.data.stories.length} bytes=${bytes}`,
+    `models_deep: lanes=${parsed.data.lanes.length} panel=${parsed.data.panel.entries.length} consensus=${parsed.data.consensus.length} stories=${parsed.data.stories.length} bytes=${bytes}`,
   );
 }
 
