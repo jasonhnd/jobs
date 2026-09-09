@@ -113,8 +113,8 @@ export interface DetailFile {
   latest_transformation?: number | null;
   /** latest − consensus, unrounded. Threshold display is the view layer (mms-6c). */
   latest_delta?: number | null;
-  used_expired_votes?: boolean;
-  consensus_vote_count?: number | null;
+  stale_vote?: boolean;
+  consensus_vendor_count?: number | null;
   stats?: {
     salary_man_yen?: number | null;
     workers?: number | null;
@@ -177,8 +177,8 @@ export interface Rec {
   consensus_transformation: number | null;
   latest_transformation: number | null;
   latest_delta: number | null;
-  used_expired_votes: boolean;
-  consensus_vote_count: number | null;
+  stale_vote: boolean;
+  consensus_vendor_count: number | null;
   /**
    * Pre-computed 5-axis ability profile. Sourced from
    * `graph.occupations.get(id).profile5` in the production page-data
@@ -263,8 +263,8 @@ export function adaptDetailFile(
     consensus_transformation: d.consensus_transformation ?? null,
     latest_transformation: d.latest_transformation ?? null,
     latest_delta: d.latest_delta ?? null,
-    used_expired_votes: d.used_expired_votes ?? false,
-    consensus_vote_count: d.consensus_vote_count ?? null,
+    stale_vote: d.stale_vote ?? false,
+    consensus_vendor_count: d.consensus_vendor_count ?? null,
     profile5,
     transferCandidates,
   };
@@ -323,15 +323,15 @@ export function buildOccupationDetailFile(
   let consensusTransformation: number | null = null;
   let latestTransformation: number | null = null;
   let latestDelta: number | null = null;
-  let usedExpiredVotes = false;
-  let consensusVoteCount: number | null = null;
+  let staleVote = false;
+  let consensusVendorCount: number | null = null;
   try {
     const flagship = pickFlagshipMeanScore(mapped);
     consensusTransformation = flagship.transformation;
     latestTransformation = flagship.latest.aiois ? flagship.latest.aiois.transformation : null;
     latestDelta = flagship.latestDelta;
-    usedExpiredVotes = flagship.staleVendors.length > 0;
-    consensusVoteCount = flagship.panel.length;
+    staleVote = flagship.staleVendors.length > 0;
+    consensusVendorCount = flagship.panel.length;
   } catch {
     // Occupations with no comparable AIOIS-10 votes omit the observation fields.
   }
@@ -381,8 +381,8 @@ export function buildOccupationDetailFile(
     consensus_transformation: consensusTransformation,
     latest_transformation: latestTransformation,
     latest_delta: latestDelta,
-    used_expired_votes: usedExpiredVotes,
-    consensus_vote_count: consensusVoteCount,
+    stale_vote: staleVote,
+    consensus_vendor_count: consensusVendorCount,
     stats: occ.stats
       ? {
           salary_man_yen: occ.stats.salaryManYen,

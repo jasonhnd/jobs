@@ -26,9 +26,9 @@ export interface ScoreHistoryComparisonEntry {
 
 export interface ScoreHistoryComparisonOptions {
   readonly consensusTransformation: number;
-  readonly voteCount: number;
+  readonly vendorCount: number;
   readonly latestRunDate: string;
-  readonly usedExpiredVotes: boolean;
+  readonly staleVote: boolean;
 }
 
 const H2 = 'モデル比較';
@@ -90,7 +90,7 @@ export function renderScoreHistoryComparison(
       `</li>`;
   }
 
-  const aging = options.usedExpiredVotes
+  const aging = options.staleVote
     ? `<p class="score-history-aging">${escapeHtml(CONSENSUS_AGING_NOTE)}</p>`
     : '';
 
@@ -114,7 +114,7 @@ export function renderScoreHistoryComparison(
     `<div class="score-history-current" aria-label="${escapeHtml(CONSENSUS_HEADLINE_LABEL)}">` +
     `<div>` +
     `<span class="score-history-current-label">${escapeHtml(CONSENSUS_HEADLINE_LABEL)}</span>` +
-    `<span class="score-history-current-date">${options.voteCount}票 · 最新採点 ${escapeHtml(formatDate(options.latestRunDate))}</span>` +
+    `<span class="score-history-current-date">${options.vendorCount}票 · 最新採点 ${escapeHtml(formatDate(options.latestRunDate))}</span>` +
     `</div>` +
     `<strong>${escapeHtml(formatScore(options.consensusTransformation))}<span>/10</span></strong>` +
     `</div>` +

@@ -71,6 +71,8 @@ export const DetailFileSchema = z
       .passthrough()
       .nullish(),
     related_certs_ja: z.array(z.string()).optional(),
+    stale_vote: z.boolean().optional(),
+    consensus_vendor_count: z.number().nullable().optional(),
     abilities_top5: z.array(DimensionEntrySchema).nullish(),
     knowledge_top5: z.array(DimensionEntrySchema).nullish(),
     skills_top10: z.array(DimensionEntrySchema).nullish(),
