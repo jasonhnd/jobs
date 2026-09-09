@@ -10,6 +10,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Added
+
+- mms-8 design (#408–#414): the public AI-impact value will become the
+  mean of each vendor's latest flagship run (3 vendors) instead of the
+  multi-model median; Claude Fable 5.1 (`claude-fable-5-1`, in-agent) then
+  GPT-6 Astra (`gpt-6-astra`, Codex CLI) replace their vendors' entries.
+  Frozen prompts, runbook section, roadmap, and id tests landed; no scoring,
+  no `data/scores/`, no engine change yet.
+
 ### Changed
 
 - Grok 4.6 scoring path (mms-7a) is in-agent — the running `grok-4.6`
