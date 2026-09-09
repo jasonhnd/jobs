@@ -1,6 +1,6 @@
 # mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model AIOIS-10 consensus (median of 5 comparable votes; latest scoring 2026-09-07). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
+> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model AIOIS-10 consensus (median of 3 comparable votes; latest scoring 2026-09-07). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
 ## Key facts
 
@@ -10,40 +10,40 @@
 | Coverage | 556 occupations |
 | Total workforce mapped | 54,555,970 workers |
 | Score source | Multi-model consensus (AIOIS-10) |
-| Vote count | 5 |
+| Vote count | 3 |
 | Latest scoring date | 2026-09-07 |
 | Standard | AIOIS-10 v1.0 |
-| Mean AI Impact | 4.73 / 10 |
-| Median AI Impact | 4.60 / 10 |
-| Mean Displacement-Risk | 1.87 / 10 |
-| Occupations at AI Impact >= 5 | 215 |
-| Annual wages in occupations at AI Impact >= 5 | 113.582039 trillion yen |
-| High AI Impact occupations | 37 / 556 (6.7%) |
-| Workers in high AI Impact occupations | 6,822,934 (12.5% of mapped workforce) |
-| Largest occupation | 一般事務 (2,639,330 workers; AI Impact 8.5/10) |
-| Highest AI Impact occupation | データ入力 (9.4/10) |
-| Lowest AI Impact occupation | 潜水士 (2.0/10) |
+| Mean AI Impact | 4.98 / 10 |
+| Median AI Impact | 4.87 / 10 |
+| Mean Displacement-Risk | 1.93 / 10 |
+| Occupations at AI Impact >= 5 | 252 |
+| Annual wages in occupations at AI Impact >= 5 | 128.056612 trillion yen |
+| High AI Impact occupations | 53 / 556 (9.5%) |
+| Workers in high AI Impact occupations | 7,906,554 (14.5% of mapped workforce) |
+| Largest occupation | 一般事務 (2,639,330 workers; AI Impact 8.6/10) |
+| Highest AI Impact occupation | データ入力 (9.5/10) |
+| Lowest AI Impact occupation | 潜水士 (2.2/10) |
 
 ## Distribution
 
 | AI Impact band | Occupations | Share |
 |---|---:|---:|
-| 0-2 | 12 | 2.0% |
-| 3-4 | 259 | 47.0% |
-| 5-6 | 229 | 41.0% |
-| 7-8 | 55 | 10.0% |
-| 9-10 | 1 | 0.0% |
+| 0-2 | 4 | 1.0% |
+| 3-4 | 211 | 38.0% |
+| 5-6 | 259 | 46.0% |
+| 7-8 | 78 | 14.0% |
+| 9-10 | 4 | 1.0% |
 
-Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=162, mid=357, high=37.
+Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=142, mid=361, high=53.
 
 ## Quotable claims
 
-- 一般事務 (#428) — AI Impact 8.5/10; displacement-risk 5.9/10; workers 2,639,330.
-- データ入力 (#429) — AI Impact 9.4/10; displacement-risk 8.0/10; workers 155,710.
-- 潜水士 (#33) — AI Impact 2.0/10; displacement-risk 0.5/10; workers 129,506.
-- Mean AI Impact across all 556 occupations is 4.73/10; mean Displacement-Risk is 1.87/10.
-- 37 occupations score 7.0 or higher on AI Impact, covering 6,822,934 mapped workers (12.5%).
-- Highest-impact sector: 事務・公務 (6.42/10). Lowest-impact sector: 建設・土木 (3.18/10).
+- 一般事務 (#428) — AI Impact 8.6/10; displacement-risk 6.1/10; workers 2,639,330.
+- データ入力 (#429) — AI Impact 9.5/10; displacement-risk 8.0/10; workers 155,710.
+- 潜水士 (#33) — AI Impact 2.2/10; displacement-risk 0.5/10; workers 129,506.
+- Mean AI Impact across all 556 occupations is 4.98/10; mean Displacement-Risk is 1.93/10.
+- 53 occupations score 7.0 or higher on AI Impact, covering 7,906,554 mapped workers (14.5%).
+- Highest-impact sector: 事務・公務 (6.75/10). Lowest-impact sector: 建設・土木 (3.31/10).
 
 ## Pages
 

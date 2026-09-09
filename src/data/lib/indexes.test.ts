@@ -10,7 +10,7 @@ import { strict as assert } from 'node:assert';
 import { buildIndexes, insertById } from './indexes.js';
 import type { LoadError } from '../loaders.js';
 import { isWhitelistedVendor } from '../../site/score-attribution.js';
-import { pickConsensusScore, pickFlagshipMeanScore } from '../../graph/score-strategy.js';
+import { pickFlagshipMeanScore } from '../../graph/score-strategy.js';
 import { fmean } from './fsum.js';
 
 test('buildIndexes: loads occupations and stats with a clean load', async () => {
@@ -62,15 +62,15 @@ test('buildIndexes: carries AIOIS profile into score history and latest score', 
   assert.ok(indexes.canonicalScoreByOcc.get(1)?.aiois, 'canonical score should preserve AIOIS profile');
 });
 
-test('buildIndexes: canonical score for occ 111 is the consensus median, not the latest vote', async () => {
+test('buildIndexes: canonical score for occ 111 is the vendor-flagship mean, not the latest vote', async () => {
   const { indexes } = await buildIndexes();
+  const hist = indexes.historyByOcc.get(111);
   const canonical = indexes.canonicalScoreByOcc.get(111);
   const latest = indexes.latestScoreByOcc.get(111);
-  const consensus = indexes.consensusByOcc.get(111);
+  assert.ok(hist, 'occ 111 should have score history');
   assert.ok(canonical, 'occ 111 should have a canonical score');
   assert.ok(latest, 'occ 111 should have a latest score');
-  assert.ok(consensus, 'occ 111 should have a consensus score');
-  assert.equal(canonical.ai_risk, consensus.transformation);
+  assert.equal(canonical.ai_risk, pickFlagshipMeanScore(hist).transformation);
   assert.notEqual(canonical.ai_risk, latest.ai_risk);
 });
 
@@ -96,13 +96,6 @@ test('buildIndexes: pickFlagshipMeanScore on occ 111 uses exactly one run per wh
   assert.deepEqual(c.panel.map((p) => p.model), ['gpt-5.6-sol', 'claude-opus-5', 'grok-4.6']);
   assert.deepEqual([...c.staleVendors], []);
   assert.ok(Math.abs(c.transformation - fmean(c.panel.map((p) => p.transformation))) < 1e-12);
-});
-
-test('buildIndexes: canonical map is still the median engine (not wired yet)', async () => {
-  const { indexes } = await buildIndexes();
-  const hist = indexes.historyByOcc.get(111);
-  assert.ok(hist);
-  assert.equal(indexes.canonicalScoreByOcc.get(111)!.ai_risk, pickConsensusScore(hist).transformation);
 });
 
 test('buildIndexes: history is sorted by date ascending', async () => {
