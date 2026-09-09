@@ -395,6 +395,7 @@ function computeScoreHistory(runs: readonly ScoreRun[]): ReadonlyMap<OccupationI
       }
       bucket.push({
         model: run.scorer.model,
+        provider: run.scorer.model_provider,
         date: run.run.run_date,
         transformation: entry.ai_risk,
         rationaleJa: entry.rationale_ja,
@@ -417,6 +418,7 @@ function computeScoreHistory(runs: readonly ScoreRun[]): ReadonlyMap<OccupationI
 function asScoreHist(hist: readonly ScoreHistoryEntry[]): ScoreHistEntry[] {
   return hist.map((entry) => ({
     model: entry.model,
+    provider: entry.provider,
     date: entry.date,
     ai_risk: entry.transformation,
     rationale_ja: entry.rationaleJa,

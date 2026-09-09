@@ -179,7 +179,7 @@ test('occupation hero and FAQ share the canonical tied-score rank', () => {
   );
   const scoreRun: GeoScoreRunLike = {
     scope: 'occupations',
-    scorer: { model: 'test-model' },
+    scorer: { model: 'test-model', model_provider: 'test' },
     run: { run_date: '2026-01-01' },
     scores: Object.fromEntries([...scores].map(([id, entry]) => [String(id), entry])),
   };

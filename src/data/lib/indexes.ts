@@ -169,6 +169,7 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
       if (!historyByOcc.has(occId)) historyByOcc.set(occId, []);
       historyByOcc.get(occId)!.push({
         model: run.scorer.model,
+        provider: run.scorer.model_provider,
         date: run.run.run_date,
         ai_risk: entry.ai_risk,
         rationale_ja: entry.rationale_ja,
