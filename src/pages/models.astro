@@ -17,6 +17,7 @@ import {
   CONSENSUS_FIFTH_VOTE_NOTE_LEAD,
   CONSENSUS_SWITCH_NOTE_IMPACT,
   CONSENSUS_SWITCH_NOTE_LEAD,
+  MODELS_HUB_VENDOR_COUNT_LABEL,
 } from '@/site/consensus-copy';
 
 const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_deep.json'), 'utf-8');
@@ -25,7 +26,7 @@ const page = buildModelsFeaturePageModel(projection, personalityCopy, storyCopy)
 
 const pageTitle = 'AIモデル比較 | 未来の仕事';
 const modelCountText = `${page.modelCount}つのAIモデル`;
-const voteCountText = `${page.consensusSummary.vendorCount}つのAIモデル`;
+const voteCountText = `${page.consensusSummary.vendorCount}社のAIそれぞれの最新モデル`;
 const occupationCoverageText = page.coverageRangeText;
 const pageDescription =
   `${voteCountText}による採点を総合した、各回${occupationCoverageText}の結果から、判断が一致した職業・大きく分かれた職業を読むモデル比較ページです。`;
@@ -188,7 +189,7 @@ a:hover{color:var(--accent)}
         <p class="current-label">{page.consensusSummary.label}</p>
         <h2 id="current-model-title">{page.consensusSummary.headline}</h2>
         <dl>
-          <dt>票数</dt><dd>{page.consensusSummary.vendorCount}票</dd>
+          <dt>{MODELS_HUB_VENDOR_COUNT_LABEL}</dt><dd>{page.consensusSummary.vendorCount}社</dd>
           <dt>最新採点</dt><dd>{formatJapaneseDate(page.consensusSummary.latestRunDate)}</dd>
           <dt>最新モデル</dt><dd><a href={page.consensusSummary.latestModelHref}>{page.consensusSummary.latestModelDisplay}</a></dd>
         </dl>

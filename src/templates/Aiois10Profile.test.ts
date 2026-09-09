@@ -40,8 +40,8 @@ describe('renderAiois10Profile', () => {
     assert.ok(html.includes('>0.0<'), 'D5=0.0 shows one decimal');
   });
 
-  test('notes that each dimension is a multi-model median', () => {
+  test('notes that each dimension is a multi-model mean', () => {
     const html = renderAiois10Profile(sample);
-    assert.ok(html.includes('各次元は複数のAIによる採点の中央値です。'));
+    assert.ok(html.includes('各次元は複数のAIによる採点の平均です。'));
   });
 });

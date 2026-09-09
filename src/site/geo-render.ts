@@ -1,5 +1,6 @@
 import type { GeoAttribution, GeoFacts, GeoOccupationSummary, GeoSectorSummary } from './geo-facts.js';
 import { SCORE_PANEL } from './score-attribution.js';
+import { formatHomeFaqCurrentValue } from './consensus-copy.js';
 
 function fmtInt(n: number | null): string {
   return typeof n === 'number' ? n.toLocaleString('en-US') : 'unknown';
@@ -441,7 +442,7 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
           name: '現在の採点モデルと日付は？',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: `現在の公開値は複数のAIによる総合（AIOIS-10、${SCORE_PANEL.vendorCount}票、最新採点 ${attribution.runDate}）です。モデル別の内訳は /models。`,
+            text: formatHomeFaqCurrentValue(attribution.runDate),
           },
         },
       ],
