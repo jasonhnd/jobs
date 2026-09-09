@@ -11,7 +11,7 @@ import {
   listOccupationRuns,
 } from './occupation-runs.js';
 import { formatJapaneseDate } from '../views/models.js';
-import { MODELS_RUN_VOTE_NOTE } from './consensus-copy.js';
+import { MODELS_RUN_IN_PANEL_NOTE } from './consensus-copy.js';
 
 function builtModelsPath(): string | null {
   const candidates = [
@@ -108,7 +108,7 @@ describe('/models built page contract', () => {
     assert.match(visible, /AI 影響度の算出方法を変更しました/);
     assert.match(visible, /全職業の平均は 5\.23 から 4\.68/);
     assert.match(visible, /全職業の平均は 4\.68 から 4\.73/);
-    assert.match(visible, new RegExp(`${SCORE_PANEL.vendorCount}票`));
+    assert.match(visible, new RegExp(`${SCORE_PANEL.vendorCount}社`));
     assert.equal(/現行モデル/.test(visible), false);
     for (const run of runs) {
       assert.match(visible, new RegExp(escapeRegExp(run.modelDisplay)));
@@ -121,7 +121,7 @@ describe('/models built page contract', () => {
     );
     assert.match(
       html,
-      new RegExp(`${SCORE_PANEL.vendorCount}つのAIモデルによる採点を総合した、各回${coverageText}の結果から`),
+      new RegExp(`${SCORE_PANEL.vendorCount}社のAIそれぞれの最新モデルによる採点を総合した、各回${coverageText}の結果から`),
     );
   });
 
@@ -154,7 +154,7 @@ describe('/models built page contract', () => {
     const latestDisplay = escapeRegExp(latestRun.modelDisplay);
     assert.match(latest, new RegExp(`<h1>${latestDisplay} の職業スコア</h1>`));
     assert.match(latest, new RegExp(escapeRegExp(formatJapaneseDate(latestRun.runDate))));
-    assert.match(latest, new RegExp(escapeRegExp(MODELS_RUN_VOTE_NOTE)));
+    assert.match(latest, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
     assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(latestRun.model)}`).test(latest), false);
   });
 
@@ -170,7 +170,7 @@ describe('/models built page contract', () => {
       const legacy = visibleHtml(readFileSync(path, 'utf-8'));
       assert.match(legacy, /AIOIS-10 導入前の旧方式スコア/);
       assert.match(legacy, /D1〜D10 や置換指数を補完せず/);
-      assert.equal(legacy.includes(MODELS_RUN_VOTE_NOTE), false);
+      assert.equal(legacy.includes(MODELS_RUN_IN_PANEL_NOTE), false);
     }
 
     const firstPath = builtModelDetailPath(aiois[0]!.slug);
@@ -188,7 +188,7 @@ describe('/models built page contract', () => {
       const predDate = escapeRegExp(formatJapaneseDate(predecessor.runDate));
       assert.match(page, new RegExp(`${predDisplay}（${predDate}）と比べて`));
       assert.match(page, /共通して比較できた職業は \d+ 件/);
-      assert.match(page, new RegExp(escapeRegExp(MODELS_RUN_VOTE_NOTE)));
+      assert.match(page, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
     }
   });
 
