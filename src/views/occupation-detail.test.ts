@@ -62,4 +62,41 @@ describe('buildOccupationDetailFile', () => {
     );
     assert.notEqual(detail.latest_transformation, detail.consensus_transformation);
   });
+
+  test('occ 111 reports three vendors and is not stale on current data', () => {
+    const detail = buildOccupationDetailFile(graph, asOccupationId(111));
+    assert.equal(detail.consensus_vendor_count, 3);
+    assert.equal(detail.stale_vote, false);
+  });
+
+  test('stale_vote is true when one vendor is more than 6 months behind the panel anchor', () => {
+    const occId = asOccupationId(111);
+    const original = graph.scoreHistoryByOcc.get(occId) ?? [];
+    const dims = original.find((e) => e.dims != null)?.dims;
+    assert.ok(dims);
+    const synthetic = [
+      { model: 'claude-opus-5', provider: 'anthropic', date: '2026-01-01', transformation: 5, rationaleJa: 'a', displacement: 2, dims, confidence: 0.8 },
+      { model: 'gpt-5.6-sol', provider: 'openai', date: '2026-09-07', transformation: 5, rationaleJa: 'b', displacement: 2, dims, confidence: 0.8 },
+      { model: 'grok-4.6', provider: 'xai', date: '2026-09-07', transformation: 5, rationaleJa: 'c', displacement: 2, dims, confidence: 0.8 },
+    ];
+    const patched = {
+      ...graph,
+      scoreHistoryByOcc: new Map(graph.scoreHistoryByOcc).set(occId, synthetic),
+    };
+    const stale = buildOccupationDetailFile(patched, occId);
+    assert.equal(stale.stale_vote, true);
+    assert.equal(stale.consensus_vendor_count, 3);
+
+    const fresh = [
+      { model: 'claude-opus-5', provider: 'anthropic', date: '2026-07-26', transformation: 5, rationaleJa: 'a', displacement: 2, dims, confidence: 0.8 },
+      { model: 'gpt-5.6-sol', provider: 'openai', date: '2026-07-12', transformation: 5, rationaleJa: 'b', displacement: 2, dims, confidence: 0.8 },
+      { model: 'grok-4.6', provider: 'xai', date: '2026-09-07', transformation: 5, rationaleJa: 'c', displacement: 2, dims, confidence: 0.8 },
+    ];
+    const patchedFresh = {
+      ...graph,
+      scoreHistoryByOcc: new Map(graph.scoreHistoryByOcc).set(occId, fresh),
+    };
+    const notStale = buildOccupationDetailFile(patchedFresh, occId);
+    assert.equal(notStale.stale_vote, false);
+  });
 });
