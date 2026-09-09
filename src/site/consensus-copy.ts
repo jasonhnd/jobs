@@ -29,6 +29,29 @@ export const MODELS_HUB_NOW_LABEL = '現行の総合';
 
 export const MODELS_HUB_VENDOR_COUNT_LABEL = '採点した会社';
 
+export const MODELS_HUB_VENDORS_HEADING = '各社の最新モデル';
+
+export const MODELS_HUB_VENDORS_INTRO =
+  '公開値は、3社それぞれの最新モデルによる採点の平均です。各社の以前のモデルは、カードの下で開けます。';
+
+export const MODELS_HUB_HISTORY_EMPTY = '以前のモデルはありません';
+
+export function formatModelsHubHistorySummary(count: number): string {
+  return `以前のモデル（${count}件）`;
+}
+
+export function formatModelsHubContrastCopy(comparedCount: number): string {
+  return `3社の最新モデルが共通する ${comparedCount} 職業を比べると、いくつかの職業をまったく違う角度から見ています。次のカードでは、差が大きかった職業を、3つのモデルの理由文そのままと一緒に読みます。`;
+}
+
+export function formatModelsHubLead(modelCount: number, coverageText: string): string {
+  return `3社のAIそれぞれの最新モデルによる採点を平均しています。これまで${modelCount}つのAIモデルの採点を公開し、各回の対象は${coverageText}です。AIの判断にはそれぞれの見方があり、同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。`;
+}
+
+export function formatModelsHubDescription(coverageText: string): string {
+  return `3社のAIそれぞれの最新モデルによる採点を平均した、各回${coverageText}の結果から、判断が一致した職業・大きく分かれた職業を読むモデル比較ページです。`;
+}
+
 export const MODELS_RUN_IN_PANEL_NOTE =
   'このモデルの採点は、現在の公開値（3社の最新モデルの平均）に含まれています。';
 
