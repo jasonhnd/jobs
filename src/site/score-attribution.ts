@@ -66,6 +66,28 @@ export function modelSlug(modelId: string): string {
 }
 
 /**
+ * Vendors allowed to score (docs/CONSENSUS_SCORE.md 決定 8 / 改訂 2).
+ * Order is the display order of vendor lanes on /models.
+ */
+export const VENDOR_WHITELIST = ['anthropic', 'openai', 'xai'] as const;
+export type VendorId = (typeof VENDOR_WHITELIST)[number];
+
+export function isWhitelistedVendor(provider: string): provider is VendorId {
+  return (VENDOR_WHITELIST as readonly string[]).includes(provider);
+}
+
+/** Public vendor label. Unknown ids come back trimmed and unchanged so a typo is visible, never hidden. */
+export function formatVendorDisplay(provider: string): string {
+  switch (provider.trim().toLowerCase()) {
+    case 'anthropic': return 'Anthropic';
+    case 'openai': return 'OpenAI';
+    case 'xai': return 'xAI';
+    case 'google': return 'Google';
+    default: return provider.trim();
+  }
+}
+
+/**
  * Reverse lookup for model slugs. Unknown, invalid, or non-unique slugs return
  * null; callers must not infer a provider prefix mechanically.
  *
