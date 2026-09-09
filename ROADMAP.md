@@ -10,7 +10,7 @@ Fields:
 - depends_on: List of work unit ids that must finish first; use [] when none.
 -->
 
-## Active — consensus canonical score (mms-6) + Grok onboarding (mms-7) + vendor-flagship mean, Fable 5.1, GPT-6 Astra (mms-8)
+## Active — consensus canonical score (mms-6) + Grok onboarding (mms-7)
 
 Design: `docs/CONSENSUS_SCORE.md` (eight decisions owner-confirmed 2026-08-31;
 PR #363 merged. mms-6-doc locks |Δ|≥1.0, rationale ±0.3, and C-facing copy).
@@ -45,58 +45,62 @@ OpenAI / Anthropic / xAI (Gemini excluded for now, owner 2026-08-31).
 - mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
   depends_on: [mms-6g, mms-7b]
 
-mms-8 (owner decisions 2026-09-08, `docs/CONSENSUS_SCORE.md` 改訂 2): each
-vendor scores with one flagship model; the public value is the arithmetic
-mean of those latest comparable runs (3 vendors today: Anthropic / OpenAI /
-xAI). Median, 6-month vote window, and floor 5 are retired. Claude Fable 5.1
-(`claude-fable-5-1`, in-agent) lands first and replaces Opus 5 as Anthropic's
-entry; GPT-6 Astra (`gpt-6-astra`, owner-machine Codex CLI) lands only after
-that and replaces GPT 5.6 SOL. The rule switch happens on the Fable 5.1
-landing day with one on-site note; Astra gets a later vendor-update note.
-`/models` becomes three vendor lanes. C-facing copy stays 「複数のAI」;
-FAQ and `/standard` say 「現在は3社の最新モデルの平均」. Latest-observation
-and aging notes stay; aging wording 票 → 採点. Gemini stays out.
-
-- mms-8.1: design doc 「改訂 2」 in `docs/CONSENSUS_SCORE.md` (#408). depends_on: []
-- mms-8.2: owner-signed copy → 「確定文案（mms-8）」 (#409). depends_on: [mms-8.1]
-- mms-8.3: `DATA_ARCHITECTURE.md` スコア選択 + `MULTI_MODEL_SCORING.md` 2c-v4 (#410). depends_on: [mms-8.1]
-- mms-8.4: Frozen prompt Claude Fable 5.1 + body-hash test (#411). depends_on: [mms-8.1]
-- mms-8.5: Frozen prompt GPT-6 Astra + body-hash test (#412). depends_on: [mms-8.4]
-- mms-8.6: `SCORING_RUNBOOK.md` mms-8 section + providers table + `TOOLCHAIN.md` §10.1 (#413). depends_on: [mms-8.4, mms-8.5]
-- mms-8.7: ROADMAP, CHANGELOG, display/slug/vendor tests (#414). depends_on: [mms-8.6]
-- mms-8.8: `provider` on `ScoreHistEntry` / `ScoreHistoryEntry` (5 construction sites) (#415). depends_on: [mms-8.7]
-- mms-8.9: `VENDOR_WHITELIST` / `isWhitelistedVendor` / `formatVendorDisplay` + `check-score-batch` advisory (#416). depends_on: [mms-8.8]
-- mms-8.10: Engine `pickFlagshipMeanScore` + `toFlagshipCanonicalScoreEntry` + `flagshipPanelMeta` + unit tests (not wired) (#417). depends_on: [mms-8.9]
-- mms-8.11: Live-data tests; deprecate `pickConsensusScore`; prove not wired (#418). depends_on: [mms-8.10]
-- mms-8.12: Codex runner `--reasoning-effort` flag + audit + frozen-argv test + runbook flag doc (#419). depends_on: [mms-8.6]
-- mms-8.13: Wire `indexes` / `loader` / `geo-facts` to the new engine; `flagshipByOcc` (#420). depends_on: [mms-8.11]
-- mms-8.14: Detail projection fields `stale_vote` / `consensus_vendor_count` (#421). depends_on: [mms-8.13]
-- mms-8.15: `SCORE_PANEL` v2 + build invariant + all readers compile (#422). depends_on: [mms-8.14]
-- mms-8.16: `scripts/flagship-switch-drift.ts` + synthetic test (#423). depends_on: [mms-8.15]
-- mms-8.17: `consensus-copy.ts` constants + direct consumers (#424). depends_on: [mms-8.2, mms-8.15]
-- mms-8.18: `/standard`, `/methodology`, `/about` prose + JSON-LD (#425). depends_on: [mms-8.17]
-- mms-8.19: README + `geo-render.ts` English + regenerate GEO files (#426). depends_on: [mms-8.18]
-- mms-8.20: Per-run page `in_panel` note + `提供元` xAI (#427). depends_on: [mms-8.17]
-- mms-8.21: `models-deep` projection v2 (vendor lanes, 3-way spread) (#428). depends_on: [mms-8.20]
-- mms-8.22: `/models` view model (#429). depends_on: [mms-8.21]
-- mms-8.23: `/models` page markup + CSS (#430). depends_on: [mms-8.22]
-- mms-8.24: Baseline regeneration + pinned-test consolidation + all gates (#431). depends_on: [mms-8.19, mms-8.23]
-- mms-8.25: Fable 5.1 pilot 40 (in-agent) (#432). depends_on: [mms-8.24]
-- mms-8.26: Fable 5.1 full 556 (#433). depends_on: [mms-8.25]
-- mms-8.27: Land Fable 5.1 batch (file, 308, runbook, build, baseline) (#434). depends_on: [mms-8.26]
-- mms-8.28: Switch note: drift doc, numbers, `/data` + `/models`, design-doc 実測 (#435). depends_on: [mms-8.27]
-- mms-8.29: Preview checklist + promotion PR text (#436). depends_on: [mms-8.28]
-- mms-8.30: `/models` content after Fable 5.1 (personality + story sentences) (#437). depends_on: [mms-8.29]
-- mms-8.31: Astra entitlement preflight (owner's machine) (#438). depends_on: [mms-8.27, mms-8.12]
-- mms-8.32: Astra pilot 40 incl. security-type occupations (#439). depends_on: [mms-8.31]
-- mms-8.33: Astra full 556 (#440). depends_on: [mms-8.32]
-- mms-8.34: `scripts/vendor-update-drift.ts` + synthetic test (#441). depends_on: [mms-8.16]
-- mms-8.35: Land Astra batch + update note + promotion text (#442). depends_on: [mms-8.33, mms-8.34]
-- mms-8.36: `/models` content after Astra (#443). depends_on: [mms-8.35]
-- mms-8.37: Close-out: ROADMAP Done, CHANGELOG, deprecated-engine decision (#444). depends_on: [mms-8.36]
-
-Parked (returns after mms-8): /models observatory enhancements — update-history
+Parked: /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.
+
+## Done — vendor-flagship mean + Claude Fable 5.1 + GPT-6 Astra (mms-8, closed 2026-09-09)
+
+Shipped on `preview`. Public value is the arithmetic mean of each vendor's
+latest comparable AIOIS-10 run (Anthropic / OpenAI / xAI). Median, 6-month
+vote window, and floor 5 left the public surface. `pickConsensusScore` and
+the one-off drift scripts stay as history (owner A on #444). Promotion to
+`main` is owner-held: texts posted on #436 and #442; agent does not open
+`preview → main`.
+
+Design: `docs/CONSENSUS_SCORE.md` 改訂 2 (owner 2026-09-08). C-facing copy
+stays 「複数のAI」; FAQ and `/standard` say 「現在は3社の最新モデルの平均」.
+Claude Fable 5.1 (`claude-fable-5-1`, in-agent) replaced Opus 5 as
+Anthropic's entry; GPT-6 Astra (`gpt-6-astra`, owner-machine Codex CLI)
+replaced GPT 5.6 SOL. `/models` is three vendor lanes.
+
+- mms-8.1 (#408/#445): design doc 「改訂 2」.
+- mms-8.2 (#409/#446): owner-signed copy → 「確定文案（mms-8）」.
+- mms-8.3 (#410/#447): `DATA_ARCHITECTURE.md` スコア選択 + `MULTI_MODEL_SCORING.md` 2c-v4.
+- mms-8.4 (#411/#448): frozen prompt Claude Fable 5.1 + body-hash test.
+- mms-8.5 (#412/#449): frozen prompt GPT-6 Astra + body-hash test.
+- mms-8.6 (#413/#450): `SCORING_RUNBOOK.md` mms-8 section + providers table + `TOOLCHAIN.md` §10.1.
+- mms-8.7 (#414/#451): ROADMAP, CHANGELOG, display/slug/vendor tests.
+- mms-8.8 (#415/#452): `provider` on `ScoreHistEntry` / `ScoreHistoryEntry`.
+- mms-8.9 (#416/#453): `VENDOR_WHITELIST` / `isWhitelistedVendor` / `formatVendorDisplay`.
+- mms-8.10 (#417/#454): `pickFlagshipMeanScore` engine (not wired).
+- mms-8.11 (#418/#455): live-data tests; deprecate `pickConsensusScore`.
+- mms-8.12 (#419/#456): Codex `--reasoning-effort` flag + frozen-argv test.
+- mms-8.13 (#420/#457): wire public value to the new engine.
+- mms-8.14 (#421/#458): detail `stale_vote` / `consensus_vendor_count`.
+- mms-8.15 (#422/#459): `SCORE_PANEL` v2.
+- mms-8.16 (#423/#460): `scripts/flagship-switch-drift.ts`.
+- mms-8.17 (#424/#461): `consensus-copy.ts` signed constants.
+- mms-8.18 (#425/#462): `/standard`, `/methodology`, `/about` prose + JSON-LD.
+- mms-8.19 (#426/#463): README + GEO English vendor-mean wording.
+- mms-8.20 (#427/#464): per-run `in_panel` note + `提供元` xAI.
+- mms-8.21 (#428/#465): `models-deep` projection v2 (vendor lanes).
+- mms-8.22 (#429/#466): `/models` view model v2.
+- mms-8.23 (#430/#467): `/models` vendor-lane markup + CSS.
+- mms-8.24 (#431/#468): canonical-pinned tests from `latestRunPerVendor()`.
+- mms-8.25 (#432): Fable 5.1 pilot 40 (in-agent; Issue comments; no PR).
+- mms-8.26 (#433): Fable 5.1 full 556 (in-agent; Issue comments; no PR).
+- mms-8.27 (#434/#469): land Fable 5.1 batch (file, 308, runbook, baseline).
+- mms-8.28 (#435/#470): switch note + `docs/FLAGSHIP_SWITCH_DRIFT.md` (4.73→4.67).
+- mms-8.29 (#436): preview checklist + promotion PR text (owner-held; not opened).
+- mms-8.30 (#437/#471): `/models` editorial after Fable 5.1.
+- mms-8.31 (#438): Astra entitlement preflight (Issue comments; no PR).
+- mms-8.32 (#439): Astra pilot 40 (Codex CLI; Issue comments; no PR).
+- mms-8.33 (#440): Astra full 556 (Codex CLI; Issue comments; no PR).
+- mms-8.34 (#441/#472): `scripts/vendor-update-drift.ts`.
+- mms-8.35 (#442/#473): land Astra batch + update note; promotion text (owner-held; not opened).
+- mms-8.36 (#443/#474): `/models` editorial after Astra.
+- mms-8.37 (#444): close-out. Owner A: keep deprecated median engine as history.
+- Tracker #407 closes after this PR. Promotion PR texts: #436 / #442; owner opens.
 
 ## Done — occupation-first /me consolidation (#233, production 2026-08-21)
 

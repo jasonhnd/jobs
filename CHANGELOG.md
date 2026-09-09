@@ -21,6 +21,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Vendor-flagship mean is the public AI-impact value (mms-8 / #407, close-out
+  #444). Arithmetic mean of each vendor's latest comparable AIOIS-10 run
+  (Anthropic / OpenAI / xAI). Median / 6-month window / floor 5 left the
+  public surface; `pickConsensusScore` and the one-off drift scripts stay as
+  history (owner A). Switch-day with Fable 5.1 land
+  (`docs/FLAGSHIP_SWITCH_DRIFT.md`): site mean 4.73 → 4.67; `|Δ| ≥ 0.5` on
+  32 occupations; 33 band changes; `|Δ| ≥ 1.0` on 1. Claude Fable 5.1
+  (`claude-fable-5-1@2026-09-09`) is Anthropic's flagship. GPT-6 Astra
+  (`gpt-6-astra@2026-09-10`) later replaced GPT 5.6 SOL
+  (`docs/VENDOR_UPDATE_DRIFT_gpt-6-astra_2026-09-10.md`): 4.67 → 4.69;
+  `|Δ| ≥ 0.5` on 8; 17 band changes; none `|Δ| ≥ 1.0`. `/models` is three
+  vendor lanes. Codex runner accepts `--reasoning-effort`.
 - `/models` editorial after GPT-6 Astra (mms-8.36 / #443): five story
   sentences match the Fable 5.1 / Astra / Grok 4.6 panel. Astra keeps the
   generic personality sentence. Superseded GPT 5.6 SOL panel copy removed.

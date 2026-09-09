@@ -1,7 +1,7 @@
 # 総合スコア — 複数モデル中央値への正典切替（mms-6 設計）／3社の最新モデルの平均へ（mms-8 改訂）
 
 Status: 設計承認（PR #363 merged 2026-08-31）。mms-6-doc のパラメータと確定文案は下記。
-Status（mms-8）: 改訂 2 を末尾に追加（2026-09-08）。改訂 2 が決定 2・3・4 を上書きする。
+Status（mms-8）: 改訂 2 実装済み（preview 2026-09-09）。公開値は 3 社旗艦平均。deprecated 中央値エンジンは履歴として残置（owner A、#444）。
 Date: 2026-08-31
 Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は後続 dispatch
 
@@ -197,7 +197,7 @@ AI 影響度の算出方法を変更しました。これまでは、最新の1�
 
 ## 改訂 2 — 3社の最新モデルの平均へ（mms-8、2026-09-08 決定）
 
-Status: オーナー決定済み（2026-09-08）。実装は mms-8.x シリーズ（下表）。
+Status: オーナー決定済み（2026-09-08）。実装は mms-8.x シリーズ完了（preview 2026-09-09）。deprecated 中央値エンジンは履歴として残置（owner A、#444）。
 Owner: Jason（承認・署名ゲート）
 
 現行の公開値は comparable AIOIS-10 票の中央値（`pickConsensusScore()`: 1 model id 1 票、基準日 = 最新 run_date の 6 ヶ月窓、不足は期限切れ票で floor 5 補充）。現行パネルは `claude-opus-4-8` 2026-05-30、`claude-fable-5` 2026-06-13、`gpt-5.6-sol` 2026-07-12、`claude-opus-5` 2026-07-26、`grok-4.6` 2026-09-07 の 5 票。`claude-opus-4-7`（2026-04-25）は `legacy-single-axis` のため投票しない。
