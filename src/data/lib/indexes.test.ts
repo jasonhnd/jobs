@@ -10,6 +10,7 @@ import { strict as assert } from 'node:assert';
 import { assertUniformVendorPanel, buildIndexes, insertById } from './indexes.js';
 import type { LoadError } from '../loaders.js';
 import { isWhitelistedVendor } from '../../site/score-attribution.js';
+import { latestRunPerVendor } from '../../site/occupation-runs.js';
 import { pickFlagshipMeanScore, type FlagshipMeanScore, type ScoreHistEntry } from '../../graph/score-strategy.js';
 import type { Aiois10 } from '../../graph/types.js';
 import { fmean } from './fsum.js';
@@ -93,8 +94,11 @@ test('buildIndexes: pickFlagshipMeanScore on occ 111 uses exactly one run per wh
   const hist = indexes.historyByOcc.get(111);
   assert.ok(hist);
   const c = pickFlagshipMeanScore(hist);
+  const panel = [...latestRunPerVendor()].sort(
+    (a, b) => a.runDate.localeCompare(b.runDate) || a.model.localeCompare(b.model),
+  );
   assert.deepEqual(c.panel.map((p) => p.provider).sort(), ['anthropic', 'openai', 'xai']);
-  assert.deepEqual(c.panel.map((p) => p.model), ['gpt-5.6-sol', 'claude-opus-5', 'grok-4.6']);
+  assert.deepEqual(c.panel.map((p) => p.model), panel.map((run) => run.model));
   assert.deepEqual([...c.staleVendors], []);
   assert.ok(Math.abs(c.transformation - fmean(c.panel.map((p) => p.transformation))) < 1e-12);
 });

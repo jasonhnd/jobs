@@ -14,7 +14,7 @@ import {
   selectStoryIdsForTest,
 } from './models-deep.js';
 import { DEFAULT_MODEL_STORY_EDITORIAL_ID, modelStoryEditorialSentenceId } from '../../site/model-editorial.js';
-import { listOccupationRuns } from '../../site/occupation-runs.js';
+import { latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
 import { VENDOR_WHITELIST } from '../../site/score-attribution.js';
 import type { ScoreHistEntry } from '../../graph/score-strategy.js';
 import personalityCopy from '../../content/model-personality.ja.json';
@@ -152,21 +152,30 @@ describe('models-deep projection', () => {
     const payload = buildModelsDeepPayload(await indexesFixture(), '2026-07-12T00:00:00.000Z');
     const runs = listOccupationRuns();
 
-    assert.deepEqual(payload.panel.entries.map((entry) => entry.provider), ['openai', 'anthropic', 'xai']);
+    const panel = [...latestRunPerVendor(runs)].sort(
+      (a, b) => a.runDate.localeCompare(b.runDate) || a.model.localeCompare(b.model),
+    );
+    assert.deepEqual(payload.panel.entries.map((entry) => entry.provider), panel.map((run) => run.provider));
     assert.deepEqual(
       payload.panel.entries.map((entry) => `${entry.model}@${entry.date}`),
-      ['gpt-5.6-sol@2026-07-12', 'claude-opus-5@2026-07-26', 'grok-4.6@2026-09-07'],
+      panel.map((run) => `${run.model}@${run.runDate}`),
     );
     assert.ok(payload.panel.compared_count >= 1);
     assert.deepEqual(payload.lanes.map((lane) => lane.provider), [...VENDOR_WHITELIST]);
     const anthropic = payload.lanes.find((lane) => lane.provider === 'anthropic')!;
-    assert.ok(anthropic.history.some((entry) => entry.model === 'claude-opus-4-7'));
+    const anthropicLatest = latestRunPerVendor(runs).find((run) => run.provider === 'anthropic')!;
+    const anthropicHistory = runs
+      .filter((run) => run.provider === 'anthropic' && run.slug !== anthropicLatest.slug)
+      .sort((a, b) => b.runDate.localeCompare(a.runDate) || a.model.localeCompare(b.model));
+    assert.deepEqual(anthropic.history.map((entry) => entry.model), anthropicHistory.map((run) => run.model));
     assert.deepEqual(
       anthropic.history.map((entry) => entry.date),
       [...anthropic.history.map((entry) => entry.date)].sort((a, b) => b.localeCompare(a)),
     );
     const openai = payload.lanes.find((lane) => lane.provider === 'openai')!;
-    assert.deepEqual(openai.history, []);
+    const openaiLatest = latestRunPerVendor(runs).find((run) => run.provider === 'openai')!;
+    const openaiHistory = runs.filter((run) => run.provider === 'openai' && run.slug !== openaiLatest.slug);
+    assert.deepEqual(openai.history.map((entry) => entry.model), openaiHistory.map((run) => run.model));
     assert.equal(payload.consensus.length, 3);
     assert.equal(new Set(payload.consensus.map((row) => row.id)).size, 3);
     assert.ok(payload.stories.length >= 3 && payload.stories.length <= 5);
