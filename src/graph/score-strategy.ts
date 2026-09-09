@@ -18,7 +18,13 @@
  *   2026-06-03  same-date tie-break: prefer the AIOIS-10 entry over a legacy
  *               single-axis one (deterministic, not filename-order dependent).
  *               No-op on current data (the two score runs have distinct dates).
+ *
+ * CHANGELOG of pickFlagshipMeanScore:
+ *   2026-09-09  mms-8.10 — pickFlagshipMeanScore: per-vendor latest run →
+ *               arithmetic mean; no window/floor; staleVendors.
  */
+
+import { fmean } from '../data/lib/fsum.js';
 
 export interface ScoreHistEntry {
   model: string;
@@ -271,5 +277,111 @@ export function toCanonicalScoreEntry(c: ConsensusScore): ScoreHistEntry {
       transformation: c.transformation,
       displacement: c.displacement,
     },
+  };
+}
+
+/** Months after which a vendor's latest run counts as stale (aging note). */
+export const VENDOR_STALE_MONTHS = 6;
+
+export interface FlagshipPanelEntry {
+  readonly provider: string;
+  readonly model: string;
+  readonly date: string;
+  readonly transformation: number;
+}
+
+export interface FlagshipMeanScore {
+  readonly transformation: number;
+  readonly displacement: number;
+  readonly dims: ConsensusDims;
+  /** One entry per vendor — that vendor's latest comparable run. `date` ascending, then `model`. */
+  readonly panel: readonly FlagshipPanelEntry[];
+  /** Vendors whose latest run date is strictly older than anchor − VENDOR_STALE_MONTHS. Sorted. */
+  readonly staleVendors: readonly string[];
+  readonly rationaleEntry: ScoreHistEntry;
+  readonly latest: ScoreHistEntry;
+  readonly latestDelta: number;
+}
+
+/**
+ * Public value = arithmetic mean of each vendor's latest comparable AIOIS-10 run.
+ * docs/CONSENSUS_SCORE.md 改訂 2 (mms-8). Supersedes pickConsensusScore (median),
+ * which is kept only for scripts/flagship-switch-drift.ts.
+ * Does not round (display-layer banker rounding is unchanged).
+ */
+export function pickFlagshipMeanScore(history: readonly ScoreHistEntry[]): FlagshipMeanScore {
+  if (history.length === 0) throw new Error('pickFlagshipMeanScore called with empty history');
+  const comparable = history.filter((e) => e.aiois != null);
+  if (comparable.length === 0) throw new Error('pickFlagshipMeanScore called with no comparable (aiois) scores');
+  for (const e of comparable) {
+    if (!e.provider) throw new Error(`pickFlagshipMeanScore: entry ${e.model}@${e.date} has no provider`);
+  }
+
+  const latest = pickLatestScore(comparable);
+
+  const byVendor = new Map<string, ScoreHistEntry>();
+  for (const entry of comparable) {
+    const prev = byVendor.get(entry.provider);
+    // Latest date wins; same-date keeps the later-in-input entry.
+    if (!prev || entry.date >= prev.date) byVendor.set(entry.provider, entry);
+  }
+  const panelEntries = [...byVendor.values()].sort(
+    (a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model),
+  );
+
+  const anchor = panelEntries[panelEntries.length - 1]!.date;
+  const cutoff = subtractMonths(anchor, VENDOR_STALE_MONTHS);
+  const staleVendors = panelEntries.filter((e) => e.date < cutoff).map((e) => e.provider).sort();
+
+  const transformation = fmean(panelEntries.map((e) => e.aiois!.transformation));
+  const displacement = fmean(panelEntries.map((e) => e.aiois!.displacement));
+  const dims = {} as { -readonly [K in DimKey]: number };
+  for (const key of DIM_KEYS) dims[key] = fmean(panelEntries.map((e) => e.aiois![key]));
+
+  const rationaleEntry = selectRationale(panelEntries, transformation);
+  const latestDelta = latest.aiois!.transformation - transformation;
+
+  return {
+    transformation,
+    displacement,
+    dims,
+    panel: panelEntries.map((e) => ({ provider: e.provider, model: e.model, date: e.date, transformation: e.aiois!.transformation })),
+    staleVendors,
+    rationaleEntry,
+    latest,
+    latestDelta,
+  };
+}
+
+/** Flatten into the ScoreHistEntry shape projections consume (same contract as toCanonicalScoreEntry). */
+export function toFlagshipCanonicalScoreEntry(c: FlagshipMeanScore): ScoreHistEntry {
+  return {
+    model: c.rationaleEntry.model,
+    provider: c.rationaleEntry.provider,
+    date: c.latest.date,
+    ai_risk: c.transformation,
+    rationale_ja: c.rationaleEntry.rationale_ja,
+    confidence: c.rationaleEntry.confidence,
+    aiois: { ...c.dims, transformation: c.transformation, displacement: c.displacement },
+  };
+}
+
+/** Site-wide panel metadata baked into SCORE_PANEL at build time (mms-8.15). */
+export interface FlagshipPanelMeta {
+  readonly vendorCount: number;
+  readonly latestRunDate: string;
+  readonly staleMonths: number;
+  readonly staleVendorCount: number;
+  /** Sorted by provider. */
+  readonly vendors: readonly { readonly provider: string; readonly model: string; readonly date: string }[];
+}
+
+export function flagshipPanelMeta(c: FlagshipMeanScore): FlagshipPanelMeta {
+  return {
+    vendorCount: c.panel.length,
+    latestRunDate: c.latest.date,
+    staleMonths: VENDOR_STALE_MONTHS,
+    staleVendorCount: c.staleVendors.length,
+    vendors: [...c.panel].sort((a, b) => a.provider.localeCompare(b.provider)).map((e) => ({ provider: e.provider, model: e.model, date: e.date })),
   };
 }
