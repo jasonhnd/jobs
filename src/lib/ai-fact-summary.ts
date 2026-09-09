@@ -135,7 +135,7 @@ export function buildAiFactSummary(input: AiFactInput): string {
   if (stats.length > 0) parts.push(stats.join('、') + '。');
 
   // 4. Source + date (the attribution that makes the block citable).
-  parts.push(formatConsensusCitation(SCORE_PANEL.voteCount, SCORE_PANEL.latestRunDate));
+  parts.push(formatConsensusCitation(SCORE_PANEL.vendorCount, SCORE_PANEL.latestRunDate));
 
   return parts.join('');
 }
@@ -180,7 +180,7 @@ function fmtSalaryMan(n: number): string {
 }
 
 function geoSource(): string {
-  return formatConsensusCitation(SCORE_PANEL.voteCount, SCORE_PANEL.latestRunDate);
+  return formatConsensusCitation(SCORE_PANEL.vendorCount, SCORE_PANEL.latestRunDate);
 }
 
 function requireGroupOccupation(

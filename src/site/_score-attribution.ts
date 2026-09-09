@@ -7,8 +7,8 @@
  *
  *   - `SCORE_ATTRIBUTION_DATA` is the newest AIOIS-10 occupation batch
  *     under `data/scores/` (最新観測 / /models / deep pages).
- *   - `SCORE_PANEL_DATA` is the comparable-vote panel used by
- *     `pickConsensusScore()` (vote count, newest run date, window/floor).
+ *   - `SCORE_PANEL_DATA` is the vendor panel used by
+ *     `pickFlagshipMeanScore()` (vendor count, newest run date, stale months / stale vendor count).
  *
  * Why a committed default instead of pure auto-generation (same rationale as
  * src/lib/_content-date.ts):
@@ -28,9 +28,8 @@ export const SCORE_ATTRIBUTION_DATA = {
 } as const;
 
 export const SCORE_PANEL_DATA = {
-  voteCount: 3,
+  vendorCount: 3,
   latestRunDate: '2026-09-07',
-  windowMonths: 6,
-  floorVotes: 5,
-  usedExpiredVotes: false,
+  staleMonths: 6,
+  staleVendorCount: 0,
 } as const;
