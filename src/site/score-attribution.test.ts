@@ -44,6 +44,9 @@ describe('formatModelDisplay', () => {
   test('grok-4.6 → Grok 4.6', () => {
     assert.equal(formatModelDisplay('grok-4.6'), 'Grok 4.6');
   });
+  test('grok-4.5 → Grok 4.5 (mms-9 backfill)', () => {
+    assert.equal(formatModelDisplay('grok-4.5'), 'Grok 4.5');
+  });
   test('word-only id degrades gracefully', () => {
     assert.equal(formatModelDisplay('claude-fable'), 'Claude Fable');
   });
@@ -122,6 +125,12 @@ describe('modelSlug and modelIdFromSlug', () => {
     assert.equal(modelIdFromSlug('fable-5-1', [...currentModelIds, 'claude-fable-5-1']), 'claude-fable-5-1');
     assert.equal(modelIdFromSlug('gpt-6-astra', [...currentModelIds, 'gpt-6-astra']), 'gpt-6-astra');
     assert.notEqual(modelSlug('claude-fable-5-1'), modelSlug('claude-fable-5'));
+  });
+
+  test('grok-4.5 keeps its own slug and does not collide with grok-4.6', () => {
+    assert.equal(modelSlug('grok-4.5'), 'grok-4.5');
+    assert.notEqual(modelSlug('grok-4.5'), modelSlug('grok-4.6'));
+    assert.equal(modelIdFromSlug('grok-4.5', [...currentModelIds, 'grok-4.5']), 'grok-4.5');
   });
 });
 
