@@ -137,6 +137,9 @@ describe('/models built page contract', () => {
       assert.match(visible, new RegExp(escapeRegExp(run.modelDisplay)));
     }
     assert.match(visible, new RegExp(`各回の対象は${coverageText}`));
+    assert.equal(/2026-09-10 \/ 2026-09-10/.test(visible), false);
+    assert.match(html, /<details class="data-note-history">/);
+    assert.match(visible, /これまでの変更/);
     assert.match(visible, /3社のAIそれぞれの最新モデルによる採点を平均しています/);
     assert.match(visible, /3社の最新モデルが共通する \d+ 職業を比べると/);
     assert.equal(
