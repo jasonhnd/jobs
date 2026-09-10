@@ -53,10 +53,11 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 
 - 公開値は、各ベンダー（`scorer.model_provider`）の最新 comparable AIOIS-10 run を 1 件ずつ集め、その算術平均とする。規則の正典は [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)「改訂 2」。
 - `src/graph/score-strategy.ts` の `pickFlagshipMeanScore()` が公開値（treemap / ランキング / band / 診断 / detail 見出し / JSON-LD / OG）を供給する（mms-8.10 / 8.13）。`pickConsensusScore()`（中央値）は切替 drift レポート専用に残し、公開面から呼ばない。`pickLatestScore()` は最新観測行と `/models`・`score_history` 用に残す。
-- 1 ベンダー 1 件。ベンダー内では最新 `run_date` の run（同日 tie は入力順の後勝ち）。窓と floor は廃止。いずれかのベンダーの最新採点日が、パネル内の最新 `run_date` より 6 ヶ月超前なら `staleVendors` に記録し、表示層が老化提示を出す。
+- 1 ベンダー 1 件。ベンダー内では **`run.backfill` でない** run のうち最新 `run_date` の run（同日 tie は入力順の後勝ち）。窓と floor は廃止。いずれかのベンダーの最新採点日が、パネル内の最新 `run_date` より 6 ヶ月超前なら `staleVendors` に記録し、表示層が老化提示を出す。
+- `run.backfill: true` の batch（追跡採点、[`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)「改訂 3」）は、公開値・`pickLatestScore()`・`SCORE_ATTRIBUTION`・`CONTENT_DATE`・movers・`/models` パネルのいずれにも入らない。履歴面（職業ページ履歴、`score_history`、`/models` レーンの以前のモデル、per-run ページ、裸 slug 308）にはそのまま出る。
 - transformation / displacement / D1–D10 はそれぞれ独立に算術平均（`src/data/lib/fsum.ts` の `fmean`）。総合 transformation を mean(D1, D2) から再計算しない。丸めは表示層の banker rounding のみ（`src/data/lib/banker-round.ts`）。
 - 職業 detail は正典値に加え `consensus_transformation` / `latest_transformation` / `latest_delta` / `stale_vote` / `consensus_vendor_count` を持つ。最新観測行の表示閾値は表示層（mms-6c）。
-- `SCORE_ATTRIBUTION` は最新 run（最新観測・深層用）。`SCORE_PANEL` はベンダー数・最新採点日・老化ベンダー数（`vendorCount` / `latestRunDate` / `staleMonths` / `staleVendorCount`）。
+- `SCORE_ATTRIBUTION` は `backfill` でない最新 run（最新観測・深層用）。`SCORE_PANEL` はベンダー数・最新採点日・老化ベンダー数（`vendorCount` / `latestRunDate` / `staleMonths` / `staleVendorCount`）。
 - build は全職業のパネルのベンダー集合が同一であることを検証する（旗艦 batch は 556 職業すべてを覆う。不一致は build 停止）。
 - 同じ日付に legacy single-axis と AIOIS-10 entry が両方ある場合、`pickLatestScore()` は AIOIS-10 を優先する。両方 AIOIS-10、または両方 legacy の同日 tie は historical behavior として後勝ちにする。
 
