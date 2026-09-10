@@ -294,9 +294,9 @@ export function compareAiImpactDesc(a: GeoTreemapRow, b: GeoTreemapRow): number 
 }
 
 export function pickLatestGeoScoreRun<T extends GeoScoreRunLike>(runs: Iterable<T>): T {
-  const candidates = [...runs].filter((run) => run.scope === 'occupations');
+  const candidates = [...runs].filter((run) => run.scope === 'occupations' && run.run.backfill !== true);
   if (candidates.length === 0) {
-    throw new Error('geo-facts: no occupations score run');
+    throw new Error('geo-facts: no non-backfill occupations score run');
   }
   let chosen = candidates[0]!;
   for (let i = 1; i < candidates.length; i += 1) {
@@ -318,7 +318,7 @@ function pickPredecessorGeoScoreRun<T extends GeoScoreRunLike>(
   runs: readonly T[],
 ): T | null {
   const candidates = runs.filter((run) =>
-    run.scope === 'occupations' && run.run.run_date < activeRun.run.run_date,
+    run.scope === 'occupations' && run.run.backfill !== true && run.run.run_date < activeRun.run.run_date,
   );
   return candidates.length === 0 ? null : pickLatestGeoScoreRun(candidates);
 }

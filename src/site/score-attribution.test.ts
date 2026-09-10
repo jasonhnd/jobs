@@ -24,8 +24,8 @@ import {
 } from './score-attribution.js';
 import { comparableAioisRuns, listOccupationRuns } from './occupation-runs.js';
 
-const meta = (model: string, runDate: string, hasAiois = true, scope = 'occupations'): BatchMetaForAttribution =>
-  ({ scope, model, runDate, hasAiois });
+const meta = (model: string, runDate: string, hasAiois = true, scope = 'occupations', backfill = false): BatchMetaForAttribution =>
+  ({ scope, model, runDate, hasAiois, backfill });
 const currentModelIds = listOccupationRuns().map((run) => run.model);
 
 describe('formatModelDisplay', () => {
@@ -87,6 +87,28 @@ describe('pickAttributionBatch', () => {
 
   test('throws when no occupations batch exists', () => {
     assert.throws(() => pickAttributionBatch([meta('x', '2026-01-01', true, 'tasks')]));
+  });
+
+  test('skips a backfill meta even when it is the newest (mms-9)', () => {
+    const live = listOccupationRuns().map((run) => ({
+      scope: 'occupations',
+      model: run.model,
+      runDate: run.runDate,
+      hasAiois: run.hasAiois,
+      backfill: run.backfill,
+    }));
+    const synthetic: BatchMetaForAttribution = {
+      scope: 'occupations',
+      model: 'grok-4.5',
+      runDate: '2099-12-31',
+      hasAiois: true,
+      backfill: true,
+    };
+    assert.deepEqual(pickAttributionBatch([...live, synthetic]), pickAttributionBatch(live));
+    assert.throws(
+      () => pickAttributionBatch([synthetic]),
+      /no non-backfill occupations score batch/,
+    );
   });
 });
 

@@ -61,6 +61,13 @@ describe('staleModelTokens', () => {
     assert.deepEqual(stale.identifiers, []);
     assert.deepEqual(stale.displayNames, []);
   });
+
+  test('a backfill run is listed as stale even when its date is newest (mms-9)', () => {
+    const synthetic = run('grok-4.5', '2099-12-31');
+    const stale = staleModelTokens([...RUNS, synthetic], ACTIVE);
+    assert.ok(stale.identifiers.includes('grok-4.5'));
+    assert.ok(stale.identifiers.includes('2099-12-31'));
+  });
 });
 
 describe('firstStaleToken', () => {

@@ -46,4 +46,26 @@ describe('listOccupationRuns', () => {
       assert.equal(run.slug, newest.slug);
     }
   });
+
+  test('latest helpers skip a backfill run; comparableAioisRuns keeps it (mms-9)', () => {
+    const runs = listOccupationRuns();
+    const newestXai = [...runs].reverse().find((run) => run.provider === 'xai' && run.hasAiois);
+    assert.ok(newestXai);
+    const synthetic = {
+      ...newestXai,
+      model: 'grok-4.5',
+      modelDisplay: 'Grok 4.5',
+      runDate: '2099-12-31',
+      slug: 'grok-4.5@2099-12-31',
+      backfill: true,
+    };
+    const withBackfill = [...runs, synthetic];
+    assert.deepEqual(latestOccupationRun(withBackfill), latestOccupationRun(runs));
+    assert.deepEqual(latestAioisPair(withBackfill), latestAioisPair(runs));
+    assert.deepEqual(latestRunPerVendor(withBackfill), latestRunPerVendor(runs));
+    assert.equal(
+      comparableAioisRuns(withBackfill).some((run) => run.model === 'grok-4.5' && run.backfill),
+      true,
+    );
+  });
 });
