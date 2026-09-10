@@ -1,7 +1,8 @@
-# 総合スコア — 複数モデル中央値への正典切替（mms-6 設計）／3社の最新モデルの平均へ（mms-8 改訂）
+# 総合スコア — 複数モデル中央値への正典切替（mms-6 設計）／3社の最新モデルの平均へ（mms-8 改訂）／追跡採点（mms-9 改訂 3）
 
 Status: 設計承認（PR #363 merged 2026-08-31）。mms-6-doc のパラメータと確定文案は下記。
 Status（mms-8）: 改訂 2 実装済み（preview 2026-09-09）。公開値は 3 社旗艦平均。deprecated 中央値エンジンは履歴として残置（owner A、#444）。
+Status（mms-9）: 改訂 3 を末尾に追加（2026-09-10）。
 Date: 2026-08-31
 Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は後続 dispatch
 
@@ -584,3 +585,86 @@ mean of the latest model from each of {V} vendors / Vendors in the panel / vendo
 - ベンダー白名単は OpenAI / Anthropic / xAI（不変）。Gemini は不採用（不変）。
 - pilot 40 の日本語品質審はオーナー署名ゲート（不変）。
 - 範囲外: Mythos 5.1 / Sonnet 5 / Haiku / GPT-5.6 Terra・Luna / Daybreak・Cyber 特供 / Gemini / Vercel AI Gateway / 新しい HTTP provider。
+
+## 改訂 3 — 追跡採点（backfill）（mms-9、2026-09-10 決定）
+
+Status: オーナー決定済み（2026-09-10）。実装は mms-9.x シリーズ。
+Owner: Jason
+
+### 決定事項（2026-09-10 Jason 確認済み）
+
+1. 公開前に出ていたが未採点だった旧モデルを、後日採点して履歴に加えることを「追跡採点（backfill）」と呼ぶ。第 1 号は xAI の `grok-4.5`（`grok-4.6` の前世代）。
+2. 追跡採点の batch は `run.backfill: true` を持つ。このフラグを持つ batch は **公開値・旗艦パネル・「最新」に一切関与しない**。
+3. `run_date` には **実際に採点を実行した日**を書く。モデルの発表日を書いてはならない。`run_date` は「いつ採点したか」という事実であり、公開ページの採点日表示・URL slug・`check-geo-freshness` の新鮮度判定がこれを根拠にする。追跡採点では `run_date` が既存 batch より新しくなるが、`backfill` フラグがあるため順位には一切影響しない。世代の前後は `/models` の「以前のモデル」表示と per-run ページの注記が示す。
+4. 追跡採点の batch は **履歴として全面公開**する: `/models` の該当ベンダー「以前のモデル」折りたたみ、職業ページの履歴折りたたみ（総合との差つき）、per-run ページ（履歴注記）、`score_history` projection、裸 slug の 308。
+5. 公開値は 1 桁も動かないため、站内更新説明は出さない。CHANGELOG のみ。
+6. 採点手順は既存の品質門のまま: in-agent（Grok 4.5 セッション内、`--attest-model grok-4.5`）、pilot 40 → オーナー日本語審 → 556。
+7. drift の比較先は同ベンダーの旗艦（`grok-4.6`）のみとする。
+8. 同一 (model, run_date) 一意・append-only・ベンダー白名単・rubric 凍結は不変。
+
+### 「最新」の定義（改訂 2 の補足）
+
+改訂 2 の「各ベンダーの最新 comparable run」「最新観測 = 最新 run」は、いずれも **`backfill` でない run の中での最新** と読む。`backfill` の run しか無いベンダーは旗艦を持たない（現行データでは起きない）。
+
+### 影響面の表
+
+| 面 | 追跡採点 batch の扱い | 実装 |
+|---|---|---|
+| 公開値（各社最新 run の平均） | 除外 | `pickFlagshipMeanScore` の comparable から除く（9.6） |
+| 最新観測行・`latestDelta` | 除外 | `pickLatestScore` が除く（9.6） |
+| 老化提示の anchor | 除外 | 同上 |
+| `SCORE_ATTRIBUTION`（最新モデル・最新採点）・`CONTENT_DATE`・sitemap lastmod | 除外 | `pickAttributionBatch` が除く（9.7） |
+| `check-geo-freshness` の active run・「現行 batch」3 行 | 除外（3 行は書き換えない） | `pickLatestGeoScoreRun` が除く（9.7） |
+| llms.txt / JSON-LD の前回比 | 除外 | 同上 |
+| `/rankings` と home の movers（最新 2 batch） | 除外 | `selectLatestComparableAioisPair` が除く（9.7） |
+| `/models` パネル・レーンの latest | 除外 | `models-deep` 9.9 |
+| `/models` personality 文の隣接 pair | 除外（後続モデルの文が反転しないため） | 9.9 |
+| per-run ページの「前回モデル」候補 | 除外（既存ページの drift を動かさないため） | `predecessorFor` 9.8 |
+| `/models` レーンの「以前のモデル」 | **含む**（日付降順） | 自動（9.9 で検証） |
+| per-run ページ | **含む**。`in_panel: false`、履歴注記、drift は `backfill_batch` 注記（前回比較を出さない） | 9.8 |
+| per-run ページの nav 前後 | **含む**（日付順の位置） | 変更なし |
+| 職業ページ履歴折りたたみ | **含む**（総合との差を表示） | 変更なし（9.10 で検証） |
+| `score_history` projection | **含む** | 変更なし |
+| 裸 slug 308 | **含む**（`/models/grok-4.5` → 最新 run） | `check-model-redirects` は model 単位（変更なし） |
+| assemble の anchors / caveat 引き継ぎ元 | 除外 | 9.5 |
+
+### 確定文案（mms-9）
+
+オーナー署名済み（Jason、2026-09-10）。`{モデル名}` は実行時にモデル表示名で置換する。
+
+#### per-run ページ drift 節（`note_id: backfill_batch`、`src/pages/models/[model].astro` の `driftSummary`）
+
+```
+{モデル名} は、公開後に日をあけて補完した採点です。公開値と「最新のAI」の行には含めず、履歴として公開しています。前回モデルとの変化は掲載していません。
+```
+
+#### per-run ページ description の比較句（`note_id: backfill_batch`、同ファイルの `comparisonDescription`）
+
+```
+補完採点として履歴に公開し、前回モデルとの変化は掲載していません。
+```
+
+#### 再利用する既存文言（変更なし）
+
+- リード注記: `MODELS_RUN_HISTORY_NOTE`（「このモデルの採点は履歴として公開しています。現在の公開値には含まれていません。」）
+- drift 見出し: 「モデル間比較について」（`isBaseline` 分岐の既存文言）
+
+### 実装分割（mms-9.x）
+
+| # | id | 内容 | 依存 | オーナーの関与 |
+|---|---|---|---|---|
+| 9.1 | #479 | Design doc 「改訂 3 — 追跡採点（backfill）」 + the 2 signed strings | — | |
+| 9.2 | #480 | `DATA_ARCHITECTURE.md`, `MULTI_MODEL_SCORING.md`, runbook Grok 4.5 section, `TOOLCHAIN.md` | 9.1 | |
+| 9.3 | #481 | Frozen prompt `grok-4.5` + constants + body-hash test | 9.1 | |
+| 9.4 | #482 | ROADMAP / CHANGELOG + display / slug / vendor tests | 9.2, 9.3 | |
+| 9.5 | #483 | Schema `run.backfill`; `assemble-scores --backfill true`; carry-from skips backfill; `check-score-batch` prints it | 9.4 | |
+| 9.6 | #484 | Engine: `backfill` on `ScoreHistEntry` / `ScoreHistoryEntry`; `pickLatestScore` and `pickFlagshipMeanScore` skip backfill | 9.5 | |
+| 9.7 | #485 | "Latest" consumers: `pickAttributionBatch` + build metas, `geo-facts`, `occupation-runs`, `ranking-movers` | 9.6 | |
+| 9.8 | #486 | `models-by-model`: `in_panel` skips backfill; backfill page gets `note_id: 'backfill_batch'` (signed copy); predecessor ignores backfill | 9.7 | |
+| 9.9 | #487 | `models-deep`: panel and lane-latest skip backfill; personality pair chain skips backfill; lane history keeps it | 9.8 | |
+| 9.10 | #488 | Pinned tests + baselines + all gates; rehearsal proving zero visible change | 9.9 | preview check |
+| 9.11 | #489 | Grok 4.5 pilot 40 (in-agent, Grok 4.5 session) | 9.10 | **GO**, sign rationale |
+| 9.12 | #490 | Grok 4.5 full 556 | 9.11 | **GO** |
+| 9.13 | #491 | Land the backfill batch: `--backfill true`, `/models/grok-4.5` 308, build, baselines; runbook lines unchanged | 9.12 | |
+| 9.14 | #492 | Preview checklist + promotion PR text | 9.13 | check, **promote** |
+| 9.15 | #493 | Close-out: ROADMAP Done, tracker | 9.14 | |
