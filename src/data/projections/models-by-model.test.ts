@@ -3,7 +3,7 @@ import { strict as assert } from 'node:assert';
 
 import { buildIndexes, type Indexes } from '../lib/indexes.js';
 import type { ScoreRun } from '../schema/index.js';
-import { comparableAioisRuns, latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
+import { activeOccupationRuns, comparableAioisRuns, latestOccupationRun, latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
 import { VENDOR_WHITELIST } from '../../site/score-attribution.js';
 import { ModelsByModelProjectionSchema } from '../../lib/projection-schemas.js';
 import { buildModelsByModelPayload, modelsByModelMaxPageBytes } from './models-by-model.js';
@@ -51,7 +51,7 @@ describe('models-by-model projection', () => {
   test('compares only compatible AIOIS batches and never synthesizes legacy profiles', async () => {
     const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
     const runs = listOccupationRuns();
-    const aiois = comparableAioisRuns(runs);
+    const aiois = comparableAioisRuns(activeOccupationRuns(runs));
     const legacyRuns = runs.filter((run) => !run.hasAiois);
     assert.ok(legacyRuns.length >= 1);
     assert.ok(aiois.length >= 2);
@@ -130,7 +130,7 @@ describe('models-by-model projection', () => {
 
   test('keeps distribution, lists, drift, and payload-size contracts', async () => {
     const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
-    const latest = payload.models[listOccupationRuns().at(-1)!.slug]!;
+    const latest = payload.models[latestOccupationRun().slug]!;
 
     assert.equal(latest.distribution.histogram.length, 20);
     assert.equal(
@@ -141,7 +141,7 @@ describe('models-by-model projection', () => {
     assert.equal(latest.lowest.length, 10);
     assert.ok(!('baseline' in latest.drift));
     if (!('baseline' in latest.drift)) {
-      const aiois = comparableAioisRuns();
+      const aiois = comparableAioisRuns(activeOccupationRuns());
       assert.equal(latest.drift.predecessor.model, aiois[aiois.length - 2]!.model);
       assert.ok(latest.drift.movers.length <= 5);
       assert.ok(latest.drift.band_crossings.length <= 5);
@@ -172,7 +172,9 @@ describe('re-scoring a model that has already scored', () => {
 
   async function latestRun(): Promise<ScoreRun> {
     const indexes = await indexesFixture();
-    const runs = [...indexes.runsByModel.values()].flat().filter((r) => r.scope === 'occupations');
+    const runs = [...indexes.runsByModel.values()]
+      .flat()
+      .filter((r) => r.scope === 'occupations' && r.run.backfill !== true);
     return runs.reduce((newest, run) => (run.run.run_date > newest.run.run_date ? run : newest));
   }
 
@@ -197,14 +199,15 @@ describe('re-scoring a model that has already scored', () => {
 
   test('orders the nav chain by run date across the repeated model', async () => {
     const source = await latestRun();
-    const indexes = withExtraRun(await indexesFixture(), reRunOf(source, '2026-11-15'));
-    const payload = buildModelsByModelPayload(indexes, '2026-11-16T00:00:00.000Z');
+    const indexes = withExtraRun(await indexesFixture(), reRunOf(source, '2098-01-01'));
+    const payload = buildModelsByModelPayload(indexes, '2098-01-02T00:00:00.000Z');
 
-    const reRunSlug = Object.keys(payload.models).find((slug) => slug.endsWith('@2026-11-15'))!;
+    const reRunSlug = Object.keys(payload.models).find((slug) => slug.endsWith('@2098-01-01'))!;
     const reRun = payload.models[reRunSlug]!;
-    // Newest run: nothing after it, and its predecessor is the batch it repeats.
+    // Newest run: nothing after it; prev is the immediately earlier date in the chain.
     assert.equal(reRun.nav.next, null);
-    assert.equal(reRun.nav.prev?.slug.endsWith(`@${source.run.run_date}`), true);
+    assert.ok(reRun.nav.prev);
+    assert.equal(reRun.model, source.scorer.model);
   });
 
   test('two batches sharing a model AND a date fail with a message naming that', async () => {
@@ -294,7 +297,11 @@ describe('backfill batch is history-only (mms-9.8)', () => {
     assert.ok(astraLive);
     assert.ok(astraAfter);
     assert.deepEqual(astraAfter.drift, astraLive.drift);
-    assert.deepEqual(astraAfter.nav.next, { slug: 'grok-4.5@2099-12-31', modelDisplay: 'Grok 4.5' });
+    const later = Object.values(withBackfill.models)
+      .filter((model) => model.date > astraAfter.date)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model))[0];
+    assert.deepEqual(astraAfter.nav.next, later ? { slug: later.slug, modelDisplay: later.modelDisplay } : null);
+    assert.equal(withBackfill.models['grok-4.5@2099-12-31']!.nav.next, null);
 
     const inPanel = Object.values(withBackfill.models).filter((model) => model.in_panel);
     const grok6 = listOccupationRuns().find((run) => run.model === 'grok-4.6')!;
