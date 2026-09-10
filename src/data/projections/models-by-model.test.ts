@@ -5,6 +5,7 @@ import { buildIndexes, type Indexes } from '../lib/indexes.js';
 import type { ScoreRun } from '../schema/index.js';
 import { comparableAioisRuns, latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
 import { VENDOR_WHITELIST } from '../../site/score-attribution.js';
+import { ModelsByModelProjectionSchema } from '../../lib/projection-schemas.js';
 import { buildModelsByModelPayload, modelsByModelMaxPageBytes } from './models-by-model.js';
 
 let indexesPromise: Promise<Indexes> | null = null;
@@ -222,5 +223,111 @@ describe('re-scoring a model that has already scored', () => {
         return true;
       },
     );
+  });
+});
+
+describe('backfill batch is history-only (mms-9.8)', () => {
+  function clip(value: number): number {
+    return Math.min(10, value + 0.5);
+  }
+
+  function syntheticGrok45(source: ScoreRun): ScoreRun {
+    const scores: ScoreRun['scores'] = {};
+    for (const [id, entry] of Object.entries(source.scores)) {
+      scores[id] = {
+        ...entry,
+        ai_risk: clip(entry.ai_risk),
+        aiois: entry.aiois == null ? null : {
+          ...entry.aiois,
+          transformation: clip(entry.aiois.transformation),
+        },
+      };
+    }
+    return {
+      ...source,
+      scorer: { ...source.scorer, model: 'grok-4.5' },
+      run: {
+        ...source.run,
+        run_date: '2099-12-31',
+        run_id: 'grok-4.5-synthetic',
+        backfill: true,
+      },
+      scores,
+    };
+  }
+
+  async function withSynthetic(): Promise<{ live: ReturnType<typeof buildModelsByModelPayload>; withBackfill: ReturnType<typeof buildModelsByModelPayload> }> {
+    const indexes = await indexesFixture();
+    const grok = [...indexes.runsByModel.values()]
+      .flat()
+      .find((run) => run.scorer.model === 'grok-4.6' && run.scope === 'occupations');
+    assert.ok(grok);
+    const extra = syntheticGrok45(grok);
+    const runsByModel = new Map(
+      [...indexes.runsByModel].map(([model, runs]) => [model, [...runs]] as const),
+    );
+    runsByModel.set(extra.scorer.model, [...(runsByModel.get(extra.scorer.model) ?? []), extra]);
+    const live = buildModelsByModelPayload(indexes, '2026-09-10T00:00:00.000Z');
+    const withBackfill = buildModelsByModelPayload(
+      { ...indexes, runsByModel } as Indexes,
+      '2026-09-10T00:00:00.000Z',
+    );
+    return { live, withBackfill };
+  }
+
+  test('in_panel stays false and drift is the backfill note; existing pages do not move', async () => {
+    const { live, withBackfill } = await withSynthetic();
+    const backfill = withBackfill.models['grok-4.5@2099-12-31'];
+    assert.ok(backfill);
+    assert.equal(backfill.in_panel, false);
+    assert.deepEqual(backfill.drift, { baseline: true, note_id: 'backfill_batch' });
+
+    const grokLive = live.models['grok-4.6@2026-09-07'];
+    const grokAfter = withBackfill.models['grok-4.6@2026-09-07'];
+    assert.ok(grokLive);
+    assert.ok(grokAfter);
+    assert.equal(grokAfter.in_panel, true);
+    assert.deepEqual(grokAfter.drift, grokLive.drift);
+
+    const astraLive = live.models['gpt-6-astra@2026-09-10'];
+    const astraAfter = withBackfill.models['gpt-6-astra@2026-09-10'];
+    assert.ok(astraLive);
+    assert.ok(astraAfter);
+    assert.deepEqual(astraAfter.drift, astraLive.drift);
+    assert.deepEqual(astraAfter.nav.next, { slug: 'grok-4.5@2099-12-31', modelDisplay: 'Grok 4.5' });
+
+    const inPanel = Object.values(withBackfill.models).filter((model) => model.in_panel);
+    const grok6 = listOccupationRuns().find((run) => run.model === 'grok-4.6')!;
+    const syntheticSummary = {
+      ...grok6,
+      model: 'grok-4.5',
+      modelDisplay: 'Grok 4.5',
+      runDate: '2099-12-31',
+      slug: 'grok-4.5@2099-12-31',
+      backfill: true,
+    };
+    assert.deepEqual(
+      inPanel.map((model) => model.slug).sort(),
+      latestRunPerVendor([...listOccupationRuns(), syntheticSummary]).map((run) => run.slug).sort(),
+    );
+  });
+
+  test('schema accepts note_id backfill_batch and rejects unknown', async () => {
+    const { withBackfill } = await withSynthetic();
+    const parsed = ModelsByModelProjectionSchema.safeParse(withBackfill);
+    assert.equal(parsed.success, true);
+
+    const page = withBackfill.models['grok-4.5@2099-12-31']!;
+    const bad = {
+      ...withBackfill,
+      models: {
+        ...withBackfill.models,
+        'grok-4.5@2099-12-31': {
+          ...page,
+          drift: { baseline: true as const, note_id: 'unknown' },
+        },
+      },
+    };
+    assert.equal(ModelsByModelProjectionSchema.safeParse(bad).success, false);
   });
 });

@@ -254,6 +254,18 @@ describe('/models built page contract', () => {
     }
   });
 
+  test('no built page today contains the backfill signed string (mms-9)', () => {
+    const marker = '公開後に日をあけて補完した採点です';
+    const hub = builtModelsPath();
+    if (hub == null) return;
+    assert.equal(readFileSync(hub, 'utf-8').includes(marker), false);
+    for (const run of listOccupationRuns()) {
+      const path = builtModelDetailPath(run.slug);
+      if (path == null) return;
+      assert.equal(readFileSync(path, 'utf-8').includes(marker), false, run.slug);
+    }
+  });
+
   test('keeps model-detail serif headings at the magazine title size', () => {
     const detailPath = builtModelDetailPath((comparableAioisRuns()[0] ?? latestOccupationRun()).slug);
     if (detailPath == null) return;
