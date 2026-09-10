@@ -208,6 +208,11 @@ describe('inferProvider', () => {
     assert.equal(inferProvider('openai/gpt-6-astra'), 'openai');
   });
 
+  test('grok-4.5 → xai (mms-9 backfill)', () => {
+    assert.equal(inferProvider('grok-4.5'), 'xai');
+    assert.equal(inferProvider('xai/grok-4.5'), 'xai');
+  });
+
   test('strips an optional creator/slug prefix before matching', () => {
     assert.equal(inferProvider('openai/gpt-5.6-sol'), 'openai');
     assert.equal(inferProvider('anthropic/claude-opus-5'), 'anthropic');

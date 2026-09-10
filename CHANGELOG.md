@@ -12,6 +12,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- mms-9 design (#479–#482): backfill scoring. A batch may carry
+  `run.backfill: true`; such a batch is history only (occupation fold,
+  `/models` lane fold, per-run page, `score_history`, bare-slug 308) and is
+  skipped by every "latest run" rule (public vendor mean, 最新モデル, 最新観測,
+  aging anchor, `SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers). First use:
+  `grok-4.5` (xAI, predates `grok-4.6`). Frozen prompt and docs landed; no
+  scoring, no `data/scores/`, no engine change yet.
 - mms-8 design (#408–#414): the public AI-impact value will become the
   mean of each vendor's latest flagship run (3 vendors) instead of the
   multi-model median; Claude Fable 5.1 (`claude-fable-5-1`, in-agent) then
