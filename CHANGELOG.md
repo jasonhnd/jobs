@@ -12,6 +12,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- Grok 4.5 backfill batch (`run.backfill: true`, 2026-09-10) lands as xAI history only. Public value, 最新モデル and the runbook 「現行 batch」 are unchanged (mms-9.13, #491).
+- Pinned tests that mean "latest" now go through `activeOccupationRuns` / `latestOccupationRun` / `latestRunPerVendor` so a backfill batch cannot become the current model (mms-9.10, #488).
+- `/models` projection: panel, lane-latest and the personality pair chain skip backfill batches; lane history keeps them (mms-9.9, #487).
+- `/models/<run>`: backfill runs are `in_panel: false` with a dedicated 「モデル間比較について」 note (`note_id: backfill_batch`); predecessor search ignores backfill (mms-9.8, #486).
+- Attribution, GEO facts, occupation-run helpers and rankings movers skip backfill batches (mms-9.7, #485).
+- Engine: `backfill` on score-history entries; `pickLatestScore` / `pickFlagshipMeanScore` skip backfill entries (mms-9.6, #484). No public value change.
+- `run.backfill` (optional boolean) in the score-run schema; `assemble-scores --backfill true`; carry-from and `check-score-batch` treat backfill batches as history (mms-9.5, #483).
+- mms-9 design (#479–#482): backfill scoring. A batch may carry
+  `run.backfill: true`; such a batch is history only (occupation fold,
+  `/models` lane fold, per-run page, `score_history`, bare-slug 308) and is
+  skipped by every "latest run" rule (public vendor mean, 最新モデル, 最新観測,
+  aging anchor, `SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers). First use:
+  `grok-4.5` (xAI, predates `grok-4.6`). Frozen prompt and docs landed; no
+  scoring, no `data/scores/`, no engine change yet.
 - mms-8 design (#408–#414): the public AI-impact value will become the
   mean of each vendor's latest flagship run (3 vendors) instead of the
   multi-model median; Claude Fable 5.1 (`claude-fable-5-1`, in-agent) then

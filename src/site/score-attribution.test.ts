@@ -22,10 +22,10 @@ import {
   type ScoreRunRef,
   type BatchMetaForAttribution,
 } from './score-attribution.js';
-import { comparableAioisRuns, listOccupationRuns } from './occupation-runs.js';
+import { latestOccupationRun, latestRunPerVendor, listOccupationRuns } from './occupation-runs.js';
 
-const meta = (model: string, runDate: string, hasAiois = true, scope = 'occupations'): BatchMetaForAttribution =>
-  ({ scope, model, runDate, hasAiois });
+const meta = (model: string, runDate: string, hasAiois = true, scope = 'occupations', backfill = false): BatchMetaForAttribution =>
+  ({ scope, model, runDate, hasAiois, backfill });
 const currentModelIds = listOccupationRuns().map((run) => run.model);
 
 describe('formatModelDisplay', () => {
@@ -43,6 +43,9 @@ describe('formatModelDisplay', () => {
   });
   test('grok-4.6 → Grok 4.6', () => {
     assert.equal(formatModelDisplay('grok-4.6'), 'Grok 4.6');
+  });
+  test('grok-4.5 → Grok 4.5 (mms-9 backfill)', () => {
+    assert.equal(formatModelDisplay('grok-4.5'), 'Grok 4.5');
   });
   test('word-only id degrades gracefully', () => {
     assert.equal(formatModelDisplay('claude-fable'), 'Claude Fable');
@@ -85,6 +88,28 @@ describe('pickAttributionBatch', () => {
   test('throws when no occupations batch exists', () => {
     assert.throws(() => pickAttributionBatch([meta('x', '2026-01-01', true, 'tasks')]));
   });
+
+  test('skips a backfill meta even when it is the newest (mms-9)', () => {
+    const live = listOccupationRuns().map((run) => ({
+      scope: 'occupations',
+      model: run.model,
+      runDate: run.runDate,
+      hasAiois: run.hasAiois,
+      backfill: run.backfill,
+    }));
+    const synthetic: BatchMetaForAttribution = {
+      scope: 'occupations',
+      model: 'grok-4.5',
+      runDate: '2099-12-31',
+      hasAiois: true,
+      backfill: true,
+    };
+    assert.deepEqual(pickAttributionBatch([...live, synthetic]), pickAttributionBatch(live));
+    assert.throws(
+      () => pickAttributionBatch([synthetic]),
+      /no non-backfill occupations score batch/,
+    );
+  });
 });
 
 describe('modelSlug and modelIdFromSlug', () => {
@@ -122,6 +147,12 @@ describe('modelSlug and modelIdFromSlug', () => {
     assert.equal(modelIdFromSlug('fable-5-1', [...currentModelIds, 'claude-fable-5-1']), 'claude-fable-5-1');
     assert.equal(modelIdFromSlug('gpt-6-astra', [...currentModelIds, 'gpt-6-astra']), 'gpt-6-astra');
     assert.notEqual(modelSlug('claude-fable-5-1'), modelSlug('claude-fable-5'));
+  });
+
+  test('grok-4.5 keeps its own slug and does not collide with grok-4.6', () => {
+    assert.equal(modelSlug('grok-4.5'), 'grok-4.5');
+    assert.notEqual(modelSlug('grok-4.5'), modelSlug('grok-4.6'));
+    assert.equal(modelIdFromSlug('grok-4.5', [...currentModelIds, 'grok-4.5']), 'grok-4.5');
   });
 });
 
@@ -175,18 +206,14 @@ describe('SCORE_ATTRIBUTION (live repo data)', () => {
 
 describe('SCORE_PANEL (live repo data)', () => {
   test('matches the current comparable occupation panel', () => {
-    const aiois = comparableAioisRuns();
-    const latest = aiois[aiois.length - 1];
+    const latest = latestOccupationRun();
     assert.ok(latest);
     assert.equal(SCORE_PANEL.vendorCount, 3);
     assert.equal(SCORE_PANEL.staleMonths, 6);
     assert.equal(SCORE_PANEL.staleVendorCount, 0);
     assert.equal(SCORE_PANEL.latestRunDate, latest.runDate);
     assert.equal(SCORE_PANEL.latestRunDate, SCORE_ATTRIBUTION.runDate);
-    assert.equal(
-      SCORE_PANEL.vendorCount,
-      new Set(comparableAioisRuns().map((r) => r.provider)).size,
-    );
+    assert.equal(SCORE_PANEL.vendorCount, latestRunPerVendor().length);
   });
 });
 

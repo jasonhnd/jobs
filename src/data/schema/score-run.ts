@@ -104,6 +104,13 @@ export const RunMetaSchema = z
     run_id: z.string(), // human-readable identifier
     duration_minutes: z.number().min(0).nullish(),
     operator: z.string().nullish(), // GitHub username or similar
+    /**
+     * Backfill batch (docs/CONSENSUS_SCORE.md 改訂 3, mms-9): scored after the
+     * model was superseded. History only — every "latest run" selection skips
+     * it (public vendor mean, 最新観測, SCORE_ATTRIBUTION, CONTENT_DATE, movers,
+     * /models panel). Absent or false = normal batch. Only ever `true` when set.
+     */
+    backfill: z.boolean().optional(),
   })
   .strict();
 

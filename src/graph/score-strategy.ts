@@ -17,10 +17,12 @@
  *   2026-06-03  same-date tie-break: prefer the AIOIS-10 entry over a legacy
  *               single-axis one (deterministic, not filename-order dependent).
  *               No-op on current data (the two score runs have distinct dates).
+ *   2026-09-10  mms-9.6 — skip backfill entries (run.backfill); throw when only backfill remains.
  *
  * CHANGELOG of pickFlagshipMeanScore:
  *   2026-09-09  mms-8.10 — pickFlagshipMeanScore: per-vendor latest run →
  *               arithmetic mean; no window/floor; staleVendors.
+ *   2026-09-10  mms-9.6 — skip backfill entries (run.backfill); throw when only backfill remains.
  */
 
 import { fmean } from '../data/lib/fsum.js';
@@ -31,6 +33,8 @@ export interface ScoreHistEntry {
   provider: string;
   /** ISO date YYYY-MM-DD. */
   date: string;
+  /** True when the batch is a backfill (run.backfill). History only; never "latest". mms-9. */
+  backfill?: boolean;
   ai_risk: number;
   rationale_ja: string;
   confidence?: number | null;
@@ -39,18 +43,21 @@ export interface ScoreHistEntry {
 }
 
 /**
- * Select the canonical current score from a per-occupation score history.
- *
- * Returns: the entry with the latest `date`. Caller guarantees non-empty.
- * Throws if the history is empty.
+ * Select the latest non-backfill entry from a per-occupation score history.
+ * Backfill entries (run.backfill, mms-9) are history only and never "latest".
+ * Throws if the history is empty or contains only backfill entries.
  */
-export function pickLatestScore<T extends { date: string; aiois?: unknown }>(history: T[]): T {
+export function pickLatestScore<T extends { date: string; aiois?: unknown; backfill?: boolean }>(history: T[]): T {
   if (history.length === 0) {
     throw new Error('pickLatestScore called with empty history');
   }
-  let chosen = history[0]!;
-  for (let i = 1; i < history.length; i += 1) {
-    const entry = history[i]!;
+  const eligible = history.filter((entry) => entry.backfill !== true);
+  if (eligible.length === 0) {
+    throw new Error('pickLatestScore called with a history that contains only backfill entries');
+  }
+  let chosen = eligible[0]!;
+  for (let i = 1; i < eligible.length; i += 1) {
+    const entry = eligible[i]!;
     if (entry.date > chosen.date) {
       // Strictly newer run wins.
       chosen = entry;
@@ -330,8 +337,10 @@ export interface FlagshipMeanScore {
  */
 export function pickFlagshipMeanScore(history: readonly ScoreHistEntry[]): FlagshipMeanScore {
   if (history.length === 0) throw new Error('pickFlagshipMeanScore called with empty history');
-  const comparable = history.filter((e) => e.aiois != null);
-  if (comparable.length === 0) throw new Error('pickFlagshipMeanScore called with no comparable (aiois) scores');
+  // Backfill batches (run.backfill, mms-9) are history only: excluded from the
+  // latest row, the per-vendor pick, the aging anchor and the rationale.
+  const comparable = history.filter((e) => e.aiois != null && e.backfill !== true);
+  if (comparable.length === 0) throw new Error('pickFlagshipMeanScore called with no comparable (aiois, non-backfill) scores');
   for (const e of comparable) {
     if (!e.provider) throw new Error(`pickFlagshipMeanScore: entry ${e.model}@${e.date} has no provider`);
   }

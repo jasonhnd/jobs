@@ -22,12 +22,13 @@ export interface OccupationRunSummary {
   readonly slug: string;
   readonly hasAiois: boolean;
   readonly coveredCount: number;
+  readonly backfill: boolean;
 }
 
 interface ScoreFileLite {
   readonly scope?: string;
   readonly scorer?: { readonly model?: string; readonly model_provider?: string };
-  readonly run?: { readonly run_date?: string };
+  readonly run?: { readonly run_date?: string; readonly backfill?: boolean };
   readonly scores?: Record<string, { readonly aiois?: unknown }>;
 }
 
@@ -50,6 +51,7 @@ function summarize(file: ScoreFileLite, source: string): OccupationRunSummary {
     slug: runSlug({ model, runDate }),
     hasAiois: Object.values(scores).some((entry) => entry?.aiois != null),
     coveredCount: Object.keys(scores).length,
+    backfill: file.run?.backfill === true,
   };
 }
 
@@ -70,10 +72,18 @@ export function comparableAioisRuns(
   return runs.filter((run) => run.hasAiois);
 }
 
+/** Runs that may become "latest": everything except backfill batches (mms-9). */
+export function activeOccupationRuns(
+  runs: readonly OccupationRunSummary[] = listOccupationRuns(),
+): OccupationRunSummary[] {
+  return runs.filter((run) => !run.backfill);
+}
+
 export function latestOccupationRun(
   runs: readonly OccupationRunSummary[] = listOccupationRuns(),
 ): OccupationRunSummary {
-  const latest = runs[runs.length - 1];
+  const active = activeOccupationRuns(runs);
+  const latest = active[active.length - 1];
   if (!latest) throw new Error('occupation-runs: no occupations batches in data/scores/');
   return latest;
 }
@@ -81,7 +91,7 @@ export function latestOccupationRun(
 export function latestAioisPair(
   runs: readonly OccupationRunSummary[] = listOccupationRuns(),
 ): { readonly baseline: OccupationRunSummary; readonly candidate: OccupationRunSummary } {
-  const aiois = comparableAioisRuns(runs);
+  const aiois = comparableAioisRuns(activeOccupationRuns(runs));
   const candidate = aiois[aiois.length - 1];
   const baseline = aiois[aiois.length - 2];
   if (!candidate || !baseline) {
@@ -95,7 +105,7 @@ export function latestRunPerVendor(
   runs: readonly OccupationRunSummary[] = listOccupationRuns(),
 ): OccupationRunSummary[] {
   const latest = new Map<string, OccupationRunSummary>();
-  for (const run of comparableAioisRuns(runs)) {
+  for (const run of comparableAioisRuns(activeOccupationRuns(runs))) {
     if (!isWhitelistedVendor(run.provider)) continue;
     const prev = latest.get(run.provider);
     if (

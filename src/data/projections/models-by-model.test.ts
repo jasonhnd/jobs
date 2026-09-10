@@ -3,8 +3,9 @@ import { strict as assert } from 'node:assert';
 
 import { buildIndexes, type Indexes } from '../lib/indexes.js';
 import type { ScoreRun } from '../schema/index.js';
-import { comparableAioisRuns, latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
+import { activeOccupationRuns, comparableAioisRuns, latestOccupationRun, latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
 import { VENDOR_WHITELIST } from '../../site/score-attribution.js';
+import { ModelsByModelProjectionSchema } from '../../lib/projection-schemas.js';
 import { buildModelsByModelPayload, modelsByModelMaxPageBytes } from './models-by-model.js';
 
 let indexesPromise: Promise<Indexes> | null = null;
@@ -50,7 +51,7 @@ describe('models-by-model projection', () => {
   test('compares only compatible AIOIS batches and never synthesizes legacy profiles', async () => {
     const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
     const runs = listOccupationRuns();
-    const aiois = comparableAioisRuns(runs);
+    const aiois = comparableAioisRuns(activeOccupationRuns(runs));
     const legacyRuns = runs.filter((run) => !run.hasAiois);
     assert.ok(legacyRuns.length >= 1);
     assert.ok(aiois.length >= 2);
@@ -129,7 +130,7 @@ describe('models-by-model projection', () => {
 
   test('keeps distribution, lists, drift, and payload-size contracts', async () => {
     const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
-    const latest = payload.models[listOccupationRuns().at(-1)!.slug]!;
+    const latest = payload.models[latestOccupationRun().slug]!;
 
     assert.equal(latest.distribution.histogram.length, 20);
     assert.equal(
@@ -140,7 +141,7 @@ describe('models-by-model projection', () => {
     assert.equal(latest.lowest.length, 10);
     assert.ok(!('baseline' in latest.drift));
     if (!('baseline' in latest.drift)) {
-      const aiois = comparableAioisRuns();
+      const aiois = comparableAioisRuns(activeOccupationRuns());
       assert.equal(latest.drift.predecessor.model, aiois[aiois.length - 2]!.model);
       assert.ok(latest.drift.movers.length <= 5);
       assert.ok(latest.drift.band_crossings.length <= 5);
@@ -171,7 +172,9 @@ describe('re-scoring a model that has already scored', () => {
 
   async function latestRun(): Promise<ScoreRun> {
     const indexes = await indexesFixture();
-    const runs = [...indexes.runsByModel.values()].flat().filter((r) => r.scope === 'occupations');
+    const runs = [...indexes.runsByModel.values()]
+      .flat()
+      .filter((r) => r.scope === 'occupations' && r.run.backfill !== true);
     return runs.reduce((newest, run) => (run.run.run_date > newest.run.run_date ? run : newest));
   }
 
@@ -196,14 +199,15 @@ describe('re-scoring a model that has already scored', () => {
 
   test('orders the nav chain by run date across the repeated model', async () => {
     const source = await latestRun();
-    const indexes = withExtraRun(await indexesFixture(), reRunOf(source, '2026-11-15'));
-    const payload = buildModelsByModelPayload(indexes, '2026-11-16T00:00:00.000Z');
+    const indexes = withExtraRun(await indexesFixture(), reRunOf(source, '2098-01-01'));
+    const payload = buildModelsByModelPayload(indexes, '2098-01-02T00:00:00.000Z');
 
-    const reRunSlug = Object.keys(payload.models).find((slug) => slug.endsWith('@2026-11-15'))!;
+    const reRunSlug = Object.keys(payload.models).find((slug) => slug.endsWith('@2098-01-01'))!;
     const reRun = payload.models[reRunSlug]!;
-    // Newest run: nothing after it, and its predecessor is the batch it repeats.
+    // Newest run: nothing after it; prev is the immediately earlier date in the chain.
     assert.equal(reRun.nav.next, null);
-    assert.equal(reRun.nav.prev?.slug.endsWith(`@${source.run.run_date}`), true);
+    assert.ok(reRun.nav.prev);
+    assert.equal(reRun.model, source.scorer.model);
   });
 
   test('two batches sharing a model AND a date fail with a message naming that', async () => {
@@ -222,5 +226,120 @@ describe('re-scoring a model that has already scored', () => {
         return true;
       },
     );
+  });
+});
+
+describe('backfill batch is history-only (mms-9.8)', () => {
+  function clip(value: number): number {
+    return Math.min(10, value + 0.5);
+  }
+
+  function syntheticGrok45(source: ScoreRun): ScoreRun {
+    const scores: ScoreRun['scores'] = {};
+    for (const [id, entry] of Object.entries(source.scores)) {
+      scores[id] = {
+        ...entry,
+        ai_risk: clip(entry.ai_risk),
+        aiois: entry.aiois == null ? null : {
+          ...entry.aiois,
+          transformation: clip(entry.aiois.transformation),
+        },
+      };
+    }
+    return {
+      ...source,
+      scorer: { ...source.scorer, model: 'grok-4.5' },
+      run: {
+        ...source.run,
+        run_date: '2099-12-31',
+        run_id: 'grok-4.5-synthetic',
+        backfill: true,
+      },
+      scores,
+    };
+  }
+
+  async function withSynthetic(): Promise<{ live: ReturnType<typeof buildModelsByModelPayload>; withBackfill: ReturnType<typeof buildModelsByModelPayload> }> {
+    const indexes = await indexesFixture();
+    const grok = [...indexes.runsByModel.values()]
+      .flat()
+      .find((run) => run.scorer.model === 'grok-4.6' && run.scope === 'occupations');
+    assert.ok(grok);
+    const extra = syntheticGrok45(grok);
+    const runsByModel = new Map(
+      [...indexes.runsByModel].map(([model, runs]) => [model, [...runs]] as const),
+    );
+    runsByModel.set(extra.scorer.model, [...(runsByModel.get(extra.scorer.model) ?? []), extra]);
+    const live = buildModelsByModelPayload(indexes, '2026-09-10T00:00:00.000Z');
+    const withBackfill = buildModelsByModelPayload(
+      { ...indexes, runsByModel } as Indexes,
+      '2026-09-10T00:00:00.000Z',
+    );
+    return { live, withBackfill };
+  }
+
+  test('in_panel stays false and drift is the backfill note; existing pages do not move', async () => {
+    const { live, withBackfill } = await withSynthetic();
+    const backfill = withBackfill.models['grok-4.5@2099-12-31'];
+    assert.ok(backfill);
+    assert.equal(backfill.in_panel, false);
+    assert.deepEqual(backfill.drift, { baseline: true, note_id: 'backfill_batch' });
+
+    const grokLive = live.models['grok-4.6@2026-09-07'];
+    const grokAfter = withBackfill.models['grok-4.6@2026-09-07'];
+    assert.ok(grokLive);
+    assert.ok(grokAfter);
+    assert.equal(grokAfter.in_panel, true);
+    assert.deepEqual(grokAfter.drift, grokLive.drift);
+
+    const astraLive = live.models['gpt-6-astra@2026-09-10'];
+    const astraAfter = withBackfill.models['gpt-6-astra@2026-09-10'];
+    assert.ok(astraLive);
+    assert.ok(astraAfter);
+    assert.deepEqual(astraAfter.drift, astraLive.drift);
+    const ordered = Object.values(withBackfill.models).sort(
+      (a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model),
+    );
+    const astraIndex = ordered.findIndex((model) => model.slug === astraAfter.slug);
+    const next = ordered[astraIndex + 1];
+    assert.deepEqual(
+      astraAfter.nav.next,
+      next ? { slug: next.slug, modelDisplay: next.modelDisplay } : null,
+    );
+    assert.equal(withBackfill.models['grok-4.5@2099-12-31']!.nav.next, null);
+
+    const inPanel = Object.values(withBackfill.models).filter((model) => model.in_panel);
+    const grok6 = listOccupationRuns().find((run) => run.model === 'grok-4.6')!;
+    const syntheticSummary = {
+      ...grok6,
+      model: 'grok-4.5',
+      modelDisplay: 'Grok 4.5',
+      runDate: '2099-12-31',
+      slug: 'grok-4.5@2099-12-31',
+      backfill: true,
+    };
+    assert.deepEqual(
+      inPanel.map((model) => model.slug).sort(),
+      latestRunPerVendor([...listOccupationRuns(), syntheticSummary]).map((run) => run.slug).sort(),
+    );
+  });
+
+  test('schema accepts note_id backfill_batch and rejects unknown', async () => {
+    const { withBackfill } = await withSynthetic();
+    const parsed = ModelsByModelProjectionSchema.safeParse(withBackfill);
+    assert.equal(parsed.success, true);
+
+    const page = withBackfill.models['grok-4.5@2099-12-31']!;
+    const bad = {
+      ...withBackfill,
+      models: {
+        ...withBackfill.models,
+        'grok-4.5@2099-12-31': {
+          ...page,
+          drift: { baseline: true as const, note_id: 'unknown' },
+        },
+      },
+    };
+    assert.equal(ModelsByModelProjectionSchema.safeParse(bad).success, false);
   });
 });

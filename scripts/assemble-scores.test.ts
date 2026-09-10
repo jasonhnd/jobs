@@ -208,6 +208,11 @@ describe('inferProvider', () => {
     assert.equal(inferProvider('openai/gpt-6-astra'), 'openai');
   });
 
+  test('grok-4.5 → xai (mms-9 backfill)', () => {
+    assert.equal(inferProvider('grok-4.5'), 'xai');
+    assert.equal(inferProvider('xai/grok-4.5'), 'xai');
+  });
+
   test('strips an optional creator/slug prefix before matching', () => {
     assert.equal(inferProvider('openai/gpt-5.6-sol'), 'openai');
     assert.equal(inferProvider('anthropic/claude-opus-5'), 'anthropic');
@@ -269,5 +274,24 @@ describe('assembleBatch', () => {
       assert.equal(parsed.data.scorer.scoring_method, 'AIOIS-10 v1.0: in-session single-pass');
       assert.equal(parsed.data.scorer.scoring_method_id, 'aiois-semantic-judgment');
     }
+  });
+});
+
+describe('assembleBatch backfill (mms-9.5)', () => {
+  const { scores } = parseScoreLines(['{"id":1,"ai_risk":6.9,"rationale_ja":"理由","confidence":0.8}'], 'legacy');
+  test('omits run.backfill for a normal batch and the result parses', () => {
+    const out = assembleBatch(scores, META) as { run: Record<string, unknown> };
+    assert.equal('backfill' in out.run, false);
+    assert.equal(ScoreRunSchema.safeParse(out).success, true);
+  });
+  test('emits run.backfill: true and the strict schema accepts it', () => {
+    const out = assembleBatch(scores, { ...META, backfill: true }) as { run: Record<string, unknown> };
+    assert.equal(out.run.backfill, true);
+    assert.equal(ScoreRunSchema.safeParse(out).success, true);
+  });
+  test('schema rejects a non-boolean backfill', () => {
+    const out = assembleBatch(scores, META) as { run: Record<string, unknown> };
+    out.run.backfill = 'yes';
+    assert.equal(ScoreRunSchema.safeParse(out).success, false);
   });
 });

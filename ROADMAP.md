@@ -26,6 +26,32 @@ Japanese public copy for new strings is posted on #272.
 Parked: /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.
 
+## Active — backfill scoring: Grok 4.5 as xAI history (mms-9)
+
+Owner decision 2026-09-10 (`docs/CONSENSUS_SCORE.md` 改訂 3). `grok-4.5` predates
+`grok-4.6` and was never scored; it is scored now and enters the xAI lane as
+history. A batch-level `run.backfill: true` marker makes every "latest run"
+selection skip it: public value, 最新モデル (GPT 6 Astra), 最新観測, aging
+anchor, `SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers, and the `/models` panel
+are unchanged; history surfaces (occupation fold, `/models` lane fold, per-run
+page, `score_history`, bare-slug 308) include it. No on-site update note.
+
+- mms-9.1 (#479): design doc 「改訂 3」 + two signed per-run strings. depends_on: []
+- mms-9.2 (#480): DATA_ARCHITECTURE / MULTI_MODEL_SCORING / runbook / TOOLCHAIN. depends_on: [mms-9.1]
+- mms-9.3 (#481): frozen prompt `grok-4.5` + constants + body-hash test. depends_on: [mms-9.1]
+- mms-9.4 (#482): ROADMAP, CHANGELOG, id tests. depends_on: [mms-9.2, mms-9.3]
+- mms-9.5 (#483): schema `run.backfill`, `assemble-scores --backfill true`, check-score-batch line. depends_on: [mms-9.4]
+- mms-9.6 (#484): engine — `backfill` on history entries; `pickLatestScore` / `pickFlagshipMeanScore` skip it. depends_on: [mms-9.5]
+- mms-9.7 (#485): attribution / geo-facts / occupation-runs / ranking-movers skip it. depends_on: [mms-9.6]
+- mms-9.8 (#486): models-by-model `in_panel`, `backfill_batch` drift note, predecessor logic. depends_on: [mms-9.7]
+- mms-9.9 (#487): models-deep panel / lane-latest / personality chain skip it; lane history keeps it. depends_on: [mms-9.8]
+- mms-9.10 (#488): pinned tests, baselines, gates, zero-visible-change proof. depends_on: [mms-9.9]
+- mms-9.11 (#489): Grok 4.5 pilot 40 (owner GO). depends_on: [mms-9.10]
+- mms-9.12 (#490): Grok 4.5 full 556 (owner GO). depends_on: [mms-9.11]
+- mms-9.13 (#491): land the backfill batch + 308 + baselines; runbook lines unchanged. depends_on: [mms-9.12]
+- mms-9.14 (#492): preview checklist + promotion text (owner promotes). depends_on: [mms-9.13]
+- mms-9.15 (#493): close-out. depends_on: [mms-9.14]
+
 ## Done — consensus canonical score (mms-6) + Grok onboarding (mms-7)
 
 Shipped on `preview` (then mms-8 replaced the public value with the vendor

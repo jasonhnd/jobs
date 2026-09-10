@@ -533,6 +533,8 @@ zero client JS / `<template id="models-projection">` inline / `:root` 禁止 / h
 #### per-run ページ
 `in_panel: boolean` を projection に持ち、パネル内 run は「現在の公開値に含まれる」注記、それ以外は「履歴」注記（確定文案）。`提供元` は `formatVendorDisplay`（xai → xAI）。
 
+`run.backfill: true` の batch（追跡採点、mms-9）はパネルとレーンの latest から除外し、レーンの `history[]` に日付降順で入る。per-run ページは `in_panel: false`、履歴注記、drift は `note_id: 'backfill_batch'`（前回比較を出さない）。personality 文の隣接 pair からも除外する（後続モデルの文が反転しないため）。
+
 ## リスクとトレードオフ（記録）
 
 - **Codex CLI 経路の代償**: batch 割引なし・逐次で遅い・構造化出力の安定性が API より劣る。リトライ + 生レスポンス保存で補う。将来 OpenAI API key を持つことになったら `--provider openai` の Batch 経路を足す余地を残す（JSONL 契約が同じなので runner 追加だけで済む）。

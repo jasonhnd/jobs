@@ -194,6 +194,7 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
         model: run.scorer.model,
         provider: run.scorer.model_provider,
         date: run.run.run_date,
+        backfill: run.run.backfill === true,
         ai_risk: entry.ai_risk,
         rationale_ja: entry.rationale_ja,
         confidence: entry.confidence,
