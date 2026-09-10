@@ -18,6 +18,7 @@
  *     [--input-data-version occupations_2026-06] \
  *     [--anchors anchors.json] [--caveat caveat.txt] [--scoring-method "…"]
  *     [--scoring-method-id aiois-semantic-judgment]
+ *     [--backfill true]   mark as a backfill (history-only) batch — see docs/CONSENSUS_SCORE.md 改訂 3
  *
  * Input JSONL — one line per occupation (Japanese-only site — rationale_ja only):
  *   legacy: {"id":1,"ai_risk":6.9,"rationale_ja":"…","confidence":0.8}
@@ -211,6 +212,13 @@ export interface BatchMeta {
   readonly occupationCountSkipped: number;
   readonly scoringMethod: string;
   readonly scoringMethodId: ScoringMethodId;
+  /**
+   * Backfill batch (docs/CONSENSUS_SCORE.md 改訂 3, mms-9): scored after the
+   * model was superseded. History only — every "latest run" selection skips
+   * it (public vendor mean, 最新観測, SCORE_ATTRIBUTION, CONTENT_DATE, movers,
+   * /models panel). Absent or false = normal batch. Only ever `true` when set.
+   */
+  readonly backfill?: boolean;
 }
 
 /**
@@ -248,7 +256,13 @@ export function assembleBatch(scores: Record<string, ScoreEntry>, meta: BatchMet
       scoring_method: meta.scoringMethod,
       scoring_method_id: meta.scoringMethodId,
     },
-    run: { run_date: meta.date, run_id: meta.runId, duration_minutes: null, operator: meta.operator },
+    run: {
+      run_date: meta.date,
+      run_id: meta.runId,
+      duration_minutes: null,
+      operator: meta.operator,
+      ...(meta.backfill ? { backfill: true } : {}),
+    },
     input: {
       input_data_version: meta.inputDataVersion,
       input_data_sha256: meta.inputDataSha256,
@@ -298,6 +312,10 @@ if (import.meta.main) {
   // Provider: explicit --provider wins; else infer from the model id prefix.
   const provider = args['provider'] ?? inferProvider(model);
   const date = need('date');
+  // Backfill flag: explicit "true" / "false" only (the parser has no boolean flags).
+  const backfillArg = args['backfill'] ?? 'false';
+  if (backfillArg !== 'true' && backfillArg !== 'false') fail(`--backfill must be "true" or "false", got "${backfillArg}"`);
+  const backfill = backfillArg === 'true';
   const promptVersion = need('prompt-version');
   const promptFile = args['prompt-file'] ?? 'data/prompts/prompt.ja.md';
   const inPath = resolve(need('in'));
@@ -344,11 +362,11 @@ if (import.meta.main) {
     try {
       const b = JSON.parse(readFileSync(join(SCORES_DIR, f), 'utf8')) as {
         scope?: string;
-        run?: { run_date?: string };
+        run?: { run_date?: string; backfill?: boolean };
         anchors?: Record<string, string>;
         caveat?: string;
       };
-      if (b.scope === 'occupations' && b.run?.run_date && b.run.run_date > latestDate) {
+      if (b.scope === 'occupations' && b.run?.run_date && b.run.backfill !== true && b.run.run_date > latestDate) {
         latestDate = b.run.run_date;
         carriedAnchors = b.anchors;
         carriedCaveat = b.caveat;
@@ -392,6 +410,7 @@ if (import.meta.main) {
         ? 'AIOIS-10 v1.0: in-session single-pass per occupation; model-judged D1–D10, indices per /standard formulas (re-validated)'
         : 'single-pass per occupation'),
     scoringMethodId: scoringMethodIdResult.data,
+    backfill,
   });
 
   const parsed = ScoreRunSchema.safeParse(batch);
@@ -403,6 +422,9 @@ if (import.meta.main) {
 
   writeFileSync(outPath, `${JSON.stringify(parsed.data, null, 2)}\n`);
   console.log(`[assemble-scores] OK → ${outPath}`);
+  if (backfill) {
+    console.log('[assemble-scores] backfill batch — history only; will not become the active run');
+  }
   console.log(
     `  scored ${scoredIds.length}/${realOccIds.size}; missing ${missing.length}` +
       `${missing.length ? ` (${missing.slice(0, 10).join(', ')}${missing.length > 10 ? ' …' : ''})` : ''}`,
