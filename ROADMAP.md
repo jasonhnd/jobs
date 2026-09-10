@@ -73,7 +73,7 @@ Design: `docs/CONSENSUS_SCORE.md` 改訂 3 (owner 2026-09-10).
 - mms-9.12 (#490): Grok 4.5 full 556 (in-agent; Issue comments; no PR).
 - mms-9.13 (#491/#504): land the backfill batch + 308 + baselines; runbook lines unchanged.
 - mms-9.14 (#492/#506): preview checklist + promotion `preview → main`.
-- mms-9.15 (#493): close-out.
+- mms-9.15 (#493/#508): close-out.
 - Tracker #478 closes after this PR.
 
 ## Done — vendor-flagship mean + Claude Fable 5.1 + GPT-6 Astra (mms-8, closed 2026-09-09)
