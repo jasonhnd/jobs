@@ -38,6 +38,7 @@ interface BatchSummary {
   readonly date: string;
   readonly provider: string;
   readonly inPanel: boolean;
+  readonly backfill: boolean;
   readonly coveredCount: number;
   readonly promptVersion: string;
   readonly rows: readonly OccupationScoreRow[];
@@ -107,7 +108,7 @@ function aioisCoverage(run: ScoreRun): number {
 function inPanelSlugs(runs: readonly ScoreRun[]): Set<string> {
   const latestByProvider = new Map<string, ScoreRun>();
   for (const run of runs) {
-    if (aioisCoverage(run) === 0) continue;
+    if (aioisCoverage(run) === 0 || run.run.backfill === true) continue;
     const prev = latestByProvider.get(run.scorer.model_provider);
     if (
       !prev ||
@@ -159,6 +160,7 @@ function buildBatchSummaries(indexes: Indexes): BatchSummary[] {
       date: run.run.run_date,
       provider: run.scorer.model_provider,
       inPanel: panel.has(slug),
+      backfill: run.run.backfill === true,
       coveredCount: Object.keys(run.scores).length,
       promptVersion: run.prompt.prompt_version,
       rows: buildRows(indexes, run),
@@ -264,7 +266,7 @@ function predecessorFor(batch: BatchSummary, batches: readonly BatchSummary[]): 
   if (candidateScores.size === 0) return null;
 
   const comparableEarlier = batches
-    .filter((candidate) => candidate.date < batch.date)
+    .filter((candidate) => candidate.date < batch.date && !candidate.backfill)
     .filter((candidate) => {
       const predecessorScores = toAioisScoreMap(candidate);
       return [...candidateScores.keys()].some((id) => predecessorScores.has(id));
@@ -289,6 +291,11 @@ function driftFor(
   batches: readonly BatchSummary[],
   titles: ReadonlyMap<number, string>,
 ): DriftRecord {
+  // Backfill batch (run.backfill, mms-9): published as history; no predecessor comparison.
+  if (batch.backfill) {
+    return { baseline: true, note_id: 'backfill_batch' };
+  }
+
   const candidateScores = toAioisScoreMap(batch);
   if (candidateScores.size === 0) {
     return { baseline: true, note_id: 'legacy_batch' };
