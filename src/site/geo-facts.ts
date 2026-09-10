@@ -55,6 +55,7 @@ export interface GeoScoreRunLike {
   };
   readonly run: {
     readonly run_date: string;
+    readonly backfill?: boolean;
   };
   readonly scores: Record<string, GeoScoreEntry>;
 }
@@ -212,6 +213,7 @@ function histEntryFromGeo(run: GeoScoreRunLike, entry: GeoScoreEntry): ScoreHist
     model: run.scorer.model,
     provider: run.scorer.model_provider,
     date: run.run.run_date,
+    backfill: run.run.backfill === true,
     ai_risk: t,
     rationale_ja: '',
     confidence: entry.confidence ?? null,
