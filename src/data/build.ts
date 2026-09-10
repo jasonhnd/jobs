@@ -152,6 +152,7 @@ async function main(): Promise<void> {
         model: run.scorer.model,
         runDate: run.run.run_date,
         hasAiois: Object.values(run.scores).some((entry) => entry.aiois != null),
+        backfill: run.run.backfill === true,
       }));
     const active = pickAttributionBatch(batchMetas);
     const modelDisplay = formatModelDisplay(active.model);

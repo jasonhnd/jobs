@@ -7,6 +7,7 @@
 > この 3 行は `data/scores/` から導出される事実であり、`bun scripts/check-geo-freshness.ts`
 > が実データと突き合わせて検証する。batch を追加したら必ずここも更新すること
 > —— 更新し忘れると gate が落ちる。手で書き換えたまま腐らせることはできない。
+> `run.backfill: true` の追跡採点 batch はここに書かない（`check-geo-freshness` の active run からも除外される）。
 
 - モデル: `gpt-6-astra`
 - run date: `2026-09-10`
@@ -468,6 +469,110 @@ bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_gpt-5.6-sol
 bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fable-5-1_<fable_date>.json --candidate .cache/scoring/mms-8g-full/occupations_gpt-6-astra_<run_date>.json --out .cache/scoring/mms-8g-full/drift_claude-fable-5-1_vs_gpt-6-astra_<run_date>.md
 ```
 
+### Grok 4.5 / in-agent 追跡採点（mms-9.11〜9.13）
+
+| 項目 | Grok 4.5 |
+|---|---|
+| 公式 model id（裸 slug） | `grok-4.5` |
+| 公開表示 / URL slug | Grok 4.5 / `grok-4.5` |
+| `model_provider` | `xai` |
+| 位置づけ | **追跡採点（backfill）**。xAI の旗艦は `grok-4.6` のまま。公開値・最新に入らない |
+| CLI transport | `in-agent`（Grok 4.5 セッション内、`--attest-model grok-4.5`） |
+| Frozen prompt | `data/prompts/2026-09-10_grok-4.5-aiois10.ja.md`（本文は Grok 4.6 版と逐字同一） |
+| prompt_version | `AIOIS-10-v1.0-grok-4.5` |
+| reasoning effort | Grok 4.5 の既定（変更不可なら run report に記録） |
+| drift 比較先 | `grok-4.6`（同ベンダー旗艦）のみ |
+| assemble | `--backfill true` を必ず付ける（付け忘れると着地時に最新扱いになり、9.13 の受け入れで止まる） |
+| artifacts | `.cache/scoring/mms-9-pilot/`, `.cache/scoring/mms-9-full/` |
+| 着地で動くもの | batch 追加、`vercel.json` に `/models/grok-4.5` 308、baseline 再生成。「現行 batch」3 行・`SCORE_ATTRIBUTION`・公開値は**動かない**（受け入れで検証） |
+
+Pilot (mms-9.11). Artifacts under `.cache/scoring/mms-9-pilot/`. Owner GO on #489 before the first command. Session must be Grok 4.5. `--date` is the actual scoring date, never Grok 4.5's release date.
+
+```bash
+# 1. sample (no --explain: it would print baseline scores to the scorer = anchoring)
+bun scripts/make-pilot-sample.ts \
+  --model grok-4.5 \
+  --prompt-file data/prompts/2026-09-10_grok-4.5-aiois10.ja.md \
+  --size 40 --chunk 5 \
+  --baseline data/scores/occupations_grok-4.6_2026-09-07.json \
+  --out .cache/scoring/mms-9-pilot
+
+# 2. emit prompts (40 pending — expected)
+bun scripts/run-scoring.ts \
+  --provider in-agent --model grok-4.5 --attest-model grok-4.5 \
+  --prompt-file data/prompts/2026-09-10_grok-4.5-aiois10.ja.md \
+  --run-name mms-9-pilot \
+  --out .cache/scoring/mms-9-pilot/raw-scores.jsonl \
+  --ids "$(jq -r '.ids | join(",")' .cache/scoring/mms-9-pilot/sample.json)"
+
+# 3. score → .cache/scoring/mms-9-pilot/answers/chunk-01.jsonl … (≤ 20 ids per chunk)
+
+# 4. validate + append (add --verify-subagents <transcript dir> --verify-agent-ids a,b,c if sub-agents were used)
+bun scripts/run-scoring.ts \
+  --provider in-agent --model grok-4.5 --attest-model grok-4.5 \
+  --prompt-file data/prompts/2026-09-10_grok-4.5-aiois10.ja.md \
+  --run-name mms-9-pilot \
+  --out .cache/scoring/mms-9-pilot/raw-scores.jsonl \
+  --ids "$(jq -r '.ids | join(",")' .cache/scoring/mms-9-pilot/sample.json)" \
+  --resume
+wc -l .cache/scoring/mms-9-pilot/raw-scores.jsonl     # 40
+
+# 5. anomaly scan (re-score hits with --resume --ids <bad>)
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-9-pilot/raw-scores.jsonl
+
+# 6. assemble pilot batch (stays in .cache) — NOTE --backfill true
+bun scripts/assemble-scores.ts \
+  --mode aiois --model grok-4.5 --provider xai --date <YYYY-MM-DD> --backfill true \
+  --prompt-version AIOIS-10-v1.0-grok-4.5 \
+  --prompt-file data/prompts/2026-09-10_grok-4.5-aiois10.ja.md \
+  --in .cache/scoring/mms-9-pilot/raw-scores.jsonl \
+  --out .cache/scoring/mms-9-pilot/occupations_grok-4.5_<YYYY-MM-DD>_pilot.json \
+  --run-id mms-9-pilot-<YYYY-MM-DD>
+jq .run .cache/scoring/mms-9-pilot/occupations_grok-4.5_<YYYY-MM-DD>_pilot.json          # "backfill": true
+bun run check:score-batch .cache/scoring/mms-9-pilot/occupations_grok-4.5_<YYYY-MM-DD>_pilot.json   # schema OK; "backfill: true"; "missing 516" expected; freshness n/a
+
+# 7. drift vs Grok 4.6
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.6_2026-09-07.json --candidate .cache/scoring/mms-9-pilot/occupations_grok-4.5_<d>_pilot.json --out .cache/scoring/mms-9-pilot/drift_grok-4.6_vs_grok-4.5_<d>.md
+```
+
+Full 556 (mms-9.12). Artifacts under `.cache/scoring/mms-9-full/`. Owner `全量 GO` on 9.11 and `GO` on #490.
+
+```bash
+# emit 556 prompts
+bun scripts/run-scoring.ts \
+  --provider in-agent --model grok-4.5 --attest-model grok-4.5 \
+  --prompt-file data/prompts/2026-09-10_grok-4.5-aiois10.ja.md \
+  --run-name mms-9-full \
+  --out .cache/scoring/mms-9-full/raw-scores.jsonl
+# score into answers/chunk-01..29.jsonl (≈20 ids each; copy SCORING_INSTRUCTIONS.md from the pilot dir, fix the path)
+bun scripts/run-scoring.ts … --run-name mms-9-full --out .cache/scoring/mms-9-full/raw-scores.jsonl --resume
+wc -l .cache/scoring/mms-9-full/raw-scores.jsonl                                   # 556
+jq -r .id .cache/scoring/mms-9-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-9-full/raw-scores.jsonl   # re-score hits
+
+# caveat file: Grok 4.6 caveat with the model swapped + the backfill sentence appended
+{ jq -r .caveat data/scores/occupations_grok-4.6_2026-09-07.json | sed 's/grok-4\.6 がセッション内（in-agent）で/grok-4.5 がセッション内（in-agent）で/'; } > .cache/scoring/mms-9-full/caveat.txt
+printf '%s' ' 本 batch は追跡採点（backfill）であり、公開値・最新観測・旗艦パネルには含まれず、履歴としてのみ公開する。' >> .cache/scoring/mms-9-full/caveat.txt
+cat .cache/scoring/mms-9-full/caveat.txt   # one line; names grok-4.5; ends with the backfill sentence
+
+bun scripts/assemble-scores.ts \
+  --mode aiois --model grok-4.5 --provider xai --date <run_date> --backfill true \
+  --prompt-version AIOIS-10-v1.0-grok-4.5 \
+  --prompt-file data/prompts/2026-09-10_grok-4.5-aiois10.ja.md \
+  --in .cache/scoring/mms-9-full/raw-scores.jsonl \
+  --out .cache/scoring/mms-9-full/occupations_grok-4.5_<run_date>.json \
+  --run-id grok-4.5-in-agent-backfill-<run_date> \
+  --caveat .cache/scoring/mms-9-full/caveat.txt \
+  --scoring-method "AIOIS-10 v1.0: in-session single-pass per occupation; model-judged D1–D10, indices per /standard formulas (re-validated); backfill run"
+jq .run .cache/scoring/mms-9-full/occupations_grok-4.5_<run_date>.json            # backfill: true
+bun run check:score-batch .cache/scoring/mms-9-full/occupations_grok-4.5_<run_date>.json   # schema OK; backfill: true; 556/556; freshness n/a
+shasum -a 256 .cache/scoring/mms-9-full/occupations_grok-4.5_<run_date>.json
+
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.6_2026-09-07.json --candidate .cache/scoring/mms-9-full/occupations_grok-4.5_<run_date>.json --out .cache/scoring/mms-9-full/drift_grok-4.6_vs_grok-4.5_<run_date>.md
+```
+
+`<run_date>` = the JST calendar date the 556 completed, `YYYY-MM-DD`. **The real scoring date, never Grok 4.5's release date** (改訂 3 決定 3). It will be later than `2026-09-10`; the `backfill` flag is what keeps it out of every "latest" selection, not the date.
+
 ### 着地（mms-8.27 / 8.35）
 
 Landing checklist (Fable 5.1 = 8.27, Astra = 8.35). Owner-gated scoring must already have produced the batch under `.cache/scoring/`.
@@ -905,7 +1010,7 @@ The existing Opus-oriented local commands remain useful as references, but must 
 ```bash
 bun scripts/extract-occ-chunks.ts
 bun scripts/run-scoring.ts --list-providers   # provider-independent scoring entry
-bun scripts/assemble-scores.ts
+bun scripts/assemble-scores.ts        # [--backfill true]
 bun scripts/make-pilot-sample.ts      # Issue #9 Phase 3: 抽样 manifest + pilot extract chunks
 bun scripts/aiois-drift-report.ts     # Issue #9 Phase 6: AIOIS-10 深度 drift report
 bun run build

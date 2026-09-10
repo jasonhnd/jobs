@@ -22,6 +22,7 @@ export interface ComparableAioisBatch {
   readonly runId: string;
   readonly scoreCount: number;
   readonly scores: ReadonlyMap<number, AioisScore>;
+  readonly backfill: boolean;
 }
 
 export interface RankingMover {
@@ -35,8 +36,8 @@ export interface RankingMover {
 
 export interface RankingMovers {
   readonly meta: {
-    readonly baseline: Omit<ComparableAioisBatch, 'scores'>;
-    readonly candidate: Omit<ComparableAioisBatch, 'scores'>;
+    readonly baseline: Omit<ComparableAioisBatch, 'scores' | 'backfill'>;
+    readonly candidate: Omit<ComparableAioisBatch, 'scores' | 'backfill'>;
     readonly comparedCount: number;
     readonly meanDriftT: number;
     readonly meanDriftD: number;
@@ -80,6 +81,7 @@ export function toComparableAioisBatch(run: ScoreRun): ComparableAioisBatch | nu
     runId: run.run.run_id,
     scoreCount: scores.size,
     scores,
+    backfill: run.run.backfill === true,
   };
 }
 
@@ -89,11 +91,12 @@ export function selectLatestComparableAioisPair(
   const batches = runs
     .map((run, index) => ({ batch: toComparableAioisBatch(run), index }))
     .filter((item): item is { batch: ComparableAioisBatch; index: number } => item.batch !== null)
+    .filter((item) => !item.batch.backfill)
     .sort((a, b) => a.batch.date.localeCompare(b.batch.date) || a.index - b.index);
 
   if (batches.length < 2) {
     throw new Error(
-      `[ranking-movers] expected at least two comparable AIOIS-10 occupation batches, found ${batches.length}.`,
+      `[ranking-movers] expected at least two comparable, non-backfill AIOIS-10 occupation batches, found ${batches.length}.`,
     );
   }
 
@@ -115,6 +118,7 @@ export function assertCandidateMatchesPickLatestScore(
           date: run.run.run_date,
           model: run.scorer.model,
           provider: run.scorer.model_provider,
+          backfill: run.run.backfill === true,
           aiois: entry.aiois ?? null,
         };
       });
@@ -128,7 +132,7 @@ export function assertCandidateMatchesPickLatestScore(
   }
 }
 
-function compactBatchMeta(batch: ComparableAioisBatch): Omit<ComparableAioisBatch, 'scores'> {
+function compactBatchMeta(batch: ComparableAioisBatch): Omit<ComparableAioisBatch, 'scores' | 'backfill'> {
   return {
     model: batch.model,
     date: batch.date,

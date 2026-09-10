@@ -6,6 +6,7 @@ import { strict as assert } from 'node:assert';
 import { requireBuiltArtifact } from '../../scripts/lib/built-artifacts.js';
 import { SCORE_PANEL } from './score-attribution.js';
 import {
+  activeOccupationRuns,
   comparableAioisRuns,
   latestOccupationRun,
   latestRunPerVendor,
@@ -136,6 +137,9 @@ describe('/models built page contract', () => {
       assert.match(visible, new RegExp(escapeRegExp(run.modelDisplay)));
     }
     assert.match(visible, new RegExp(`各回の対象は${coverageText}`));
+    assert.equal(/2026-09-10 \/ 2026-09-10/.test(visible), false);
+    assert.match(html, /<details class="data-note-history">/);
+    assert.match(visible, /これまでの変更/);
     assert.match(visible, /3社のAIそれぞれの最新モデルによる採点を平均しています/);
     assert.match(visible, /3社の最新モデルが共通する \d+ 職業を比べると/);
     assert.equal(
@@ -219,7 +223,7 @@ describe('/models built page contract', () => {
 
   test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
     const runs = listOccupationRuns();
-    const aiois = comparableAioisRuns(runs);
+    const aiois = comparableAioisRuns(activeOccupationRuns(runs));
     const legacyRuns = runs.filter((run) => !run.hasAiois);
     if (legacyRuns.length === 0 || aiois.length < 2) return;
 
@@ -251,6 +255,19 @@ describe('/models built page contract', () => {
         page.includes(MODELS_RUN_IN_PANEL_NOTE) || page.includes(MODELS_RUN_HISTORY_NOTE),
         true,
       );
+    }
+  });
+
+  test('no built page today contains the backfill signed string (mms-9)', () => {
+    if (listOccupationRuns().some((run) => run.backfill)) return;
+    const marker = '公開後に日をあけて補完した採点です';
+    const hub = builtModelsPath();
+    if (hub == null) return;
+    assert.equal(readFileSync(hub, 'utf-8').includes(marker), false);
+    for (const run of listOccupationRuns()) {
+      const path = builtModelDetailPath(run.slug);
+      if (path == null) return;
+      assert.equal(readFileSync(path, 'utf-8').includes(marker), false, run.slug);
     }
   });
 

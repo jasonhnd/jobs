@@ -29,6 +29,13 @@ import {
 import { OCCUPATION_COUNT } from '@/site/config';
 import { CONTENT_DATE } from '@/lib/_content-date';
 
+const UPDATE_HISTORY_CSS = `
+.update-history{margin:20px 0 28px;padding:12px 16px;border:1px solid var(--border);border-radius:9px;background:var(--bg2)}
+.update-history summary{cursor:pointer;font-weight:700}
+.update-history[open] summary{margin-bottom:12px}
+.update-history h2{font-size:1.15rem;margin:18px 0 8px}
+`;
+
 // dateModified must track the data, not a calendar date typed once: this page
 // renders score-derived content, so it changes when a batch lands. The frozen
 // value also contradicted sitemapLastmods(), which reports the latest score
@@ -120,7 +127,7 @@ const jsonLd = JSON.stringify({
   ogDescription={`日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアを MIT ライセンスの JSON で公開。開発者・研究者・AI エージェント向けのエンドポイント一覧。`}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
-  <style slot="head" set:html={CANONICAL_DOC_CSS} />
+  <style slot="head" set:html={CANONICAL_DOC_CSS + UPDATE_HISTORY_CSS} />
 
   <div id="wrapper">
     <nav class="crumb" aria-label="パンくずリスト">
@@ -148,17 +155,20 @@ const jsonLd = JSON.stringify({
       <p>{CONSENSUS_VENDOR_UPDATE_NOTE_LEAD}</p>
       <p>{CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT}</p>
 
-      <h2>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_HEADING}</h2>
-      <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD}</p>
-      <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_IMPACT}</p>
+      <details class="update-history">
+        <summary>これまでの変更</summary>
+        <h2>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_HEADING}</h2>
+        <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD}</p>
+        <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_IMPACT}</p>
 
-      <h2>{CONSENSUS_FIFTH_VOTE_NOTE_HEADING}</h2>
-      <p>{CONSENSUS_FIFTH_VOTE_NOTE_LEAD}</p>
-      <p>{CONSENSUS_FIFTH_VOTE_NOTE_IMPACT}</p>
+        <h2>{CONSENSUS_FIFTH_VOTE_NOTE_HEADING}</h2>
+        <p>{CONSENSUS_FIFTH_VOTE_NOTE_LEAD}</p>
+        <p>{CONSENSUS_FIFTH_VOTE_NOTE_IMPACT}</p>
 
-      <h2>{CONSENSUS_SWITCH_NOTE_HEADING}</h2>
-      <p>{CONSENSUS_SWITCH_NOTE_LEAD}</p>
-      <p>{CONSENSUS_SWITCH_NOTE_IMPACT}</p>
+        <h2>{CONSENSUS_SWITCH_NOTE_HEADING}</h2>
+        <p>{CONSENSUS_SWITCH_NOTE_LEAD}</p>
+        <p>{CONSENSUS_SWITCH_NOTE_IMPACT}</p>
+      </details>
 
       <h2>エンドポイント一覧</h2>
       <table class="ex">

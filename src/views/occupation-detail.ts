@@ -315,6 +315,7 @@ export function buildOccupationDetailFile(
     model: entry.model,
     provider: entry.provider,
     date: entry.date,
+    backfill: entry.backfill,
     ai_risk: entry.transformation,
     rationale_ja: entry.rationaleJa,
     confidence: entry.confidence,
