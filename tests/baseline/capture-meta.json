@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-09T14:55:35.175Z",
-  "gitCommit": "d97fb51cfc374f30677a0209a9d1c746b76674fb",
-  "gitBranch": "feat/seo-geo-1-sop-landings",
-  "distFileCount": 837,
-  "urlCount": 837,
+  "capturedAt": "2026-09-10T14:53:07.146Z",
+  "gitCommit": "4be45cbd489ae2398592391b0095b2d32a915fe3",
+  "gitBranch": "feat/mms-9.13-land-backfill",
+  "distFileCount": 838,
+  "urlCount": 838,
   "dataFileCount": 612,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

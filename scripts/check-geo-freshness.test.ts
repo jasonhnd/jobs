@@ -68,6 +68,13 @@ describe('staleModelTokens', () => {
     assert.ok(stale.identifiers.includes('grok-4.5'));
     assert.ok(stale.identifiers.includes('2099-12-31'));
   });
+
+  test('a backfill run sharing the active date does not mark that date stale (mms-9.13)', () => {
+    const synthetic = run('grok-4.5', ACTIVE.run.run_date);
+    const stale = staleModelTokens([...RUNS, synthetic], ACTIVE);
+    assert.ok(stale.identifiers.includes('grok-4.5'));
+    assert.equal(stale.identifiers.includes(ACTIVE.run.run_date), false);
+  });
 });
 
 describe('firstStaleToken', () => {

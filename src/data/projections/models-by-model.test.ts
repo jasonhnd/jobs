@@ -297,10 +297,15 @@ describe('backfill batch is history-only (mms-9.8)', () => {
     assert.ok(astraLive);
     assert.ok(astraAfter);
     assert.deepEqual(astraAfter.drift, astraLive.drift);
-    const later = Object.values(withBackfill.models)
-      .filter((model) => model.date > astraAfter.date)
-      .sort((a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model))[0];
-    assert.deepEqual(astraAfter.nav.next, later ? { slug: later.slug, modelDisplay: later.modelDisplay } : null);
+    const ordered = Object.values(withBackfill.models).sort(
+      (a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model),
+    );
+    const astraIndex = ordered.findIndex((model) => model.slug === astraAfter.slug);
+    const next = ordered[astraIndex + 1];
+    assert.deepEqual(
+      astraAfter.nav.next,
+      next ? { slug: next.slug, modelDisplay: next.modelDisplay } : null,
+    );
     assert.equal(withBackfill.models['grok-4.5@2099-12-31']!.nav.next, null);
 
     const inPanel = Object.values(withBackfill.models).filter((model) => model.in_panel);
