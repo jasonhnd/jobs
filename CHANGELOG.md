@@ -12,6 +12,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- `/models/<run>`: backfill runs are `in_panel: false` with a dedicated 「モデル間比較について」 note (`note_id: backfill_batch`); predecessor search ignores backfill (mms-9.8, #486).
 - Attribution, GEO facts, occupation-run helpers and rankings movers skip backfill batches (mms-9.7, #485).
 - Engine: `backfill` on score-history entries; `pickLatestScore` / `pickFlagshipMeanScore` skip backfill entries (mms-9.6, #484). No public value change.
 - `run.backfill` (optional boolean) in the score-run schema; `assemble-scores --backfill true`; carry-from and `check-score-batch` treat backfill batches as history (mms-9.5, #483).
