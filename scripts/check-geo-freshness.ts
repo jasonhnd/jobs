@@ -87,7 +87,11 @@ export function staleModelTokens(runs: readonly ScoreRun[], active: ScoreRun): S
     const isActive = run.scorer.model === active.scorer.model && run.run.run_date === active.run.run_date;
     if (isActive) continue;
     identifiers.add(run.scorer.model);
-    identifiers.add(run.run.run_date);
+    // A non-active batch may share the active run_date (mms-9 backfill scored
+    // the same JST day as the flagship). That date is live attribution, not a leak.
+    if (run.run.run_date !== active.run.run_date) {
+      identifiers.add(run.run.run_date);
+    }
     const display = formatModelDisplay(run.scorer.model);
     displayNames.add(display);
     // `/models` renders Anthropic models without the vendor prefix, so the
