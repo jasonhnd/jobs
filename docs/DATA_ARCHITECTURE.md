@@ -30,6 +30,7 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `data.models_by_model.json` — `/models/{slug}` per-model data page 用の projection。各 score batch の profile、変化指数分布、上位・下位職業、前回 batch との差分、prev/next nav を持つ。`rationale_ja` は含めず、Astro は該当 model payload だけを HTML に inline する。1 page payload は 24KB 以下。
 - `data.skills/*`, `data.holland.json`, `data.labels/ja.json` — hub 系ページの入力。
 - `data.ai-adoption.json` — `/aiadoption` dashboard。
+- `data.haid-spec.json` — `/haid` の HAID v1.0 定義（10 段階・4 関係・用語・境界事例）。数字を持たない。正典は `src/site/haid-spec.ts`。
 - `data.me-positions.json` — `/me` self-positioning tool。全職業 × 全 ranking の位置を持つ。
 
 古い `data.featured.json`, `data.tasks/*`, `data.score-history/*` は runtime consumer がないため削除済み。`data.score_history.json` は multi-model comparison のため 2026-07 に単一 JSON projection として復活した。
@@ -60,6 +61,12 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `SCORE_ATTRIBUTION` は `backfill` でない最新 run（最新観測・深層用）。`SCORE_PANEL` はベンダー数・最新採点日・老化ベンダー数（`vendorCount` / `latestRunDate` / `staleMonths` / `staleVendorCount`）。
 - build は全職業のパネルのベンダー集合が同一であることを検証する（旗艦 batch は 556 職業すべてを覆う。不一致は build 停止）。
 - 同じ日付に legacy single-axis と AIOIS-10 entry が両方ある場合、`pickLatestScore()` は AIOIS-10 を優先する。両方 AIOIS-10、または両方 legacy の同日 tie は historical behavior として後勝ちにする。
+
+## HAID（人類と AI の距離 10 段階）
+
+- 定義の正典は `src/site/haid-spec.ts`。`data.haid-spec.json` はその直列化で、四半期の人数は別 projection にする（`data/haid/releases/` は次の PR）。
+- 段階番号は固定。定義変更は大版、境界事例追加は小版。`HAID_SPEC_DATE` は定義変更時だけ動かす。
+- 詳細は [`HAID.md`](HAID.md)。
 
 ## AI adoption
 

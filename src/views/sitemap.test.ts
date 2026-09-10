@@ -146,6 +146,7 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
       privacy: '2026-04-30',
       about: '2026-06-13',
       standard: '2026-06-13',
+      haid: '2026-06-13',
       methodology: '2026-06-13',
       models: '2026-06-13',
       data: '2026-06-13',

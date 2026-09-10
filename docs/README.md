@@ -14,6 +14,7 @@
 - [`MBTI_CONTENT.md`](MBTI_CONTENT.md) — `WORKTYPE_VIRALITY.md` §4.C の sub-spec。`/mbti/<type>` content line（未実装）。
 - [`ME_CONSOLIDATION.md`](ME_CONSOLIDATION.md) — 診断を `/me` に統合し、職業を最初に聞く形へ反転させる設計。`/shindan` は無職入口として残し、`?job=` 付きの旧リンクだけ `/me` へ 301 する。
 - [`AIOIS-10.md`](AIOIS-10.md) — AIOIS-10 v1.0 の開発者向け入口。公開ページ `/standard` と score batch / prompt の橋渡し。
+- [`HAID.md`](HAID.md) — HAID v1.0（人類と AI の距離 10 段階）の開発者向け入口。公開ページ `/haid` と四半期リリース `/aiadoption` の橋渡し。
 - [`architecture.md`](architecture.md) — `src/data` / `src/graph` / `src/views` / `src/templates` / `src/pages` の層境界。
 - [`SEO_OG_BASELINE.md`](SEO_OG_BASELINE.md) — sitemap、JSON-LD、OG/Twitter meta、baseline 更新手順。
 - [`EDGE_SECURITY.md`](EDGE_SECURITY.md) — Edge API と OG 画像生成の防御ルール。

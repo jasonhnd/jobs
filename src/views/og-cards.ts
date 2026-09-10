@@ -138,6 +138,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   shindan:          { eyebrow: 'AI働き方診断 · 9問', title: 'AI時代の働き方タイプ診断', subtitle: '9問であなたの働き方タイプを表示。結果はそのままシェアできます' },
   gyakuten:         { eyebrow: 'AI働き方診断 · 図鑑', title: '8家族と24タイプを見る', subtitle: '家族タイプ、代表職業、未解放タイプを見ながら、あなたの1枚を探せます' },
   aiadoption:       { eyebrow: 'AI ADOPTION · 世界の AI 利用率', title: '世界で AI を使う人は何人？', subtitle: '深く使う/有料/無料/端末でふれる/未利用の 5 層で世界人口を分解' },
+  haid:             { eyebrow: 'HAID · 人類と AI の距離', title: '人と AI の関係を 10 段階で測る', subtitle: '無縁・道具・同席・一体の 4 つの関係、10 の段階。利用率ではなく分布で報告する公開基準 v1.0' },
 };
 
 /** N ranking detail card variants — built from the shared RANKING_META.

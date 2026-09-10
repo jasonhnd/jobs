@@ -1,0 +1,293 @@
+---
+/**
+ * haid.astro — HAID 標準ページ（人類と AI の距離 10 段階）。
+ *
+ * 定義だけを置く。人数は置かない（人数は /aiadoption の四半期リリース）。
+ * 定義の正典は src/site/haid-spec.ts。インライン JS なし（CSP ハッシュ追加なし）。
+ * 共通文書 CSS は canonical/doc.ts（CANONICAL_DOC_CSS）を使い、/standard と揃える。
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
+import { siteConfig } from '@/site/config';
+import {
+  HAID_BOUNDARIES,
+  HAID_CANONICAL_PATH,
+  HAID_CASES,
+  HAID_CERTAINTY_JA,
+  HAID_CITATION_JA,
+  HAID_LEVELS,
+  HAID_LICENSE,
+  HAID_NAME_EN,
+  HAID_NAME_JA,
+  HAID_RELATIONS,
+  HAID_SPEC_DATE,
+  HAID_SPEC_VERSION,
+  HAID_TERMS,
+  haidBoundaryBefore,
+  haidRelationOf,
+} from '@/site/haid-spec';
+import { HAID_CSS } from './_haid-css';
+
+const canonical = `${siteConfig.origin}${HAID_CANONICAL_PATH}`;
+// Static by design: this page changes only when the specification changes.
+const pageLastUpdated = HAID_SPEC_DATE;
+
+const relationById = new Map(HAID_RELATIONS.map((r) => [r.id, r]));
+const relationRange = (r: { levels: readonly [number, number] }): string =>
+  `第 ${r.levels[0]}〜${r.levels[1]} 段階`;
+const caseLevelLabel = (levels: readonly number[]): string => {
+  if (levels.length === 0) return '対象外';
+  return levels.map((l) => `第 ${l} 段階`).join(' / ');
+};
+
+const definedTermSet = {
+  '@type': 'DefinedTermSet',
+  '@id': `${canonical}#haid`,
+  name: 'HAID',
+  alternateName: HAID_NAME_JA,
+  description: `${HAID_NAME_EN} — ten behaviourally defined levels of a person's relationship with generative AI, grouped into four relations (Unreached, Tool, Presence, Union).`,
+  hasDefinedTerm: HAID_LEVELS.map((lv) => ({
+    '@type': 'DefinedTerm',
+    '@id': `${canonical}#level-${lv.level}`,
+    termCode: `HAID-${lv.level}`,
+    position: lv.level,
+    name: lv.ja,
+    alternateName: lv.en,
+    description: lv.criterion_ja,
+    inDefinedTermSet: { '@id': `${canonical}#haid` },
+  })),
+};
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      name: `HAID 標準 — ${HAID_NAME_JA}`,
+      url: canonical,
+      description:
+        '人と生成 AI の関係を、行動で判定できる 10 の段階に分けて測る公開基準 HAID v1.0 の定義。無縁・道具・同席・一体の 4 つの関係、用語、判定規則、測定方法、境界事例。',
+      inLanguage: ['ja'],
+      isPartOf: { '@id': 'https://mirai-shigoto.com/#website' },
+      datePublished: HAID_SPEC_DATE,
+      dateModified: pageLastUpdated,
+      breadcrumb: { '@id': `${canonical}#breadcrumb` },
+      mainEntity: { '@id': `${canonical}#techarticle` },
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '.lead'] },
+    },
+    {
+      '@type': 'TechArticle',
+      '@id': `${canonical}#techarticle`,
+      headline: `HAID — ${HAID_NAME_JA}の定義`,
+      description:
+        '人類 83 億人が生成 AI とどれだけ近い関係にあるかを、利用率ではなく 10 の段階の分布として報告するための公開基準。',
+      abstract:
+        'HAID (Human–AI Distance) is a ten-level, behaviourally defined scale of how close a person is to generative AI. Levels nest (each level implies the ones below) and group into four relations: Unreached (1–2), Tool (3–6), Presence (7–8), Union (9–10). Populations are reported as level distributions, never as a single adoption rate. Payment is an attribute, not a level.',
+      keywords: ['HAID', 'Human-AI Distance', '生成 AI', 'AI 利用', '段階', '公開基準', 'adoption levels'],
+      url: canonical,
+      inLanguage: 'ja',
+      datePublished: HAID_SPEC_DATE,
+      dateModified: pageLastUpdated,
+      version: HAID_SPEC_VERSION,
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      author: { '@id': 'https://mirai-shigoto.com/#organization' },
+      publisher: { '@id': 'https://mirai-shigoto.com/#organization' },
+      mainEntityOfPage: { '@id': `${canonical}#webpage` },
+      about: definedTermSet,
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '.lead'] },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonical}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: 'https://mirai-shigoto.com/' },
+        { '@type': 'ListItem', position: 2, name: 'HAID 標準', item: canonical },
+      ],
+    },
+  ],
+});
+---
+<BaseLayout
+  title={`HAID 標準 — ${HAID_NAME_JA} | mirai-shigoto.com`}
+  description="人と生成 AI の関係を、行動で判定できる 10 の段階に分けて測る公開基準 HAID v1.0。無縁・道具・同席・一体の 4 つの関係、用語の定義、判定規則、測定と報告の方法、境界事例。"
+  canonical={canonical}
+  keywords="HAID, 人類と AI の距離, 10 段階, 生成 AI, AI 利用, 公開基準, スタンダード, Human-AI Distance"
+  ogTitle={`HAID 標準 — ${HAID_NAME_JA}`}
+  ogDescription="人と生成 AI の関係を 10 の段階で測る公開基準。無縁・道具・同席・一体の 4 つの関係。利用率ではなく、段階の分布で報告する。"
+  ogImage={`${siteConfig.origin}/api/og?page=haid`}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={CANONICAL_DOC_CSS + HAID_CSS} />
+
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>HAID 標準</span></nav>
+
+    <h1>HAID <span class="accent">10 段階</span></h1>
+    <p class="subtitle">{HAID_NAME_JA} — 人と生成 AI の関係を、行動で測る公開基準（v{HAID_SPEC_VERSION}）</p>
+    <p class="meta-line">制定 {HAID_SPEC_DATE} ・ HAID v{HAID_SPEC_VERSION} ・ {HAID_LICENSE}</p>
+
+    <p class="lead">
+      「AI をどれだけの人が使っているか」を 1 つの利用率で答えると、分母と分子の取り方しだいで数字が動きます。HAID は代わりに、<strong>人と生成 AI の関係</strong>を行動で判定できる 10 の段階に分け、それぞれの段階にいる人数の分布として報告します。
+    </p>
+    <p class="lead">
+      段階は<strong>位置</strong>であって、優劣ではありません。上の段階ほど「進んでいる」わけでも、下の段階が「遅れている」わけでもありません。測るのは人であり、端末や契約の数ではありません。
+    </p>
+    <p>
+      定義は本ページ。世界の現状（各段階の人数）は <a href="/aiadoption">人類と AI の距離 — 現状</a> に四半期ごとに公開します。職業の側から AI を測る基準は <a href="/standard">AIOIS-10</a> です。
+    </p>
+
+    <h2>4 つの関係</h2>
+    <p>10 の段階は 4 つの関係に分かれます。関係のあいだの境目は<strong>程度の差ではなく、種類の差</strong>です。同じ関係の中では、上の段階は下の段階の条件をすべて満たします。</p>
+    <div class="emfo haid-emfo">
+      {HAID_RELATIONS.map((r) => (
+        <div class={`stage s${r.order}`}>
+          <div class="n">{r.tagline_ja}</div>
+          <div class="en">{r.ja}<span style="font-weight:400;color:var(--fg3);font-size:.8rem;margin-left:6px">{r.en}</span></div>
+          <div class="d">{r.description_ja}</div>
+          <div class="lv">{relationRange(r)}</div>
+        </div>
+      ))}
+    </div>
+
+    <h2>10 の段階</h2>
+    <p>各段階の判定条件は、特定の製品や国に依存しない行動で書いてあります。「観測窓」はその行動をいつまでさかのぼって数えるか、「確度」は 2026 年時点でその段階を公開データからどれだけ確からしく推定できるかです。</p>
+    {HAID_LEVELS.map((lv) => {
+      const boundary = haidBoundaryBefore(lv.level);
+      const relation = relationById.get(lv.relation) ?? haidRelationOf(lv.level);
+      return (
+        <>
+          {boundary ? (
+            <div class="haid-boundary" role="separator" aria-label={`境目：${boundary.ja}`}>
+              <span class="c">第 {boundary.from} → {boundary.to} 段階</span>
+              <span class="t">{boundary.ja}</span>
+            </div>
+          ) : null}
+          <div class={`dim haid-rel-${lv.relation}`} id={`level-${lv.level}`}>
+            <div class="head">
+              <span class="code">第 {lv.level} 段階</span>
+              <span class="name">{lv.ja}<span class="en">{lv.en}</span></span>
+              <span class="stage-tag">{relation.ja}</span>
+            </div>
+            <div class="body">{lv.criterion_ja}</div>
+            <div class="haid-meta">
+              <span>観測窓：{lv.window_ja}</span>
+              <span>確度（2026）：{HAID_CERTAINTY_JA[lv.certainty_2026]}</span>
+            </div>
+          </div>
+        </>
+      );
+    })}
+    <p>第 7 段階から上は、2026 年時点では公開データで人数を推定できません。これは基準の欠陥ではなく、現状の報告そのものです。段階の定義は、人数がゼロでも変えません。</p>
+
+    <h2>判定の規則</h2>
+    <ul>
+      <li><strong>最も高い段階に属する</strong>：各人は、条件を満たす段階のうち最も高いものに属する。段階は第 1 から第 10 に向かって「AI に近い」と定義する。</li>
+      <li><strong>入れ子で数える</strong>：集団については、第 k 段階以上にいる人数 N(≥k) と、ちょうど第 k 段階にいる人数 n(k) の両方を報告する。</li>
+      <li><strong>分母は人</strong>：分母は常に人類の総数とし、端末数・契約数・アカウント数を分母にしない。</li>
+    </ul>
+    <div class="formula">
+      <div class="flabel">Nesting</div>
+      <div class="row">
+        <span class="k">N(≥k)</span> ＝ 第 k 段階以上にいる人数。k が大きいほど単調に減る。<br>
+        <span class="k">n(k)</span> ＝ N(≥k) − N(≥k+1)。n(1) から n(10) の合計は人類の総数に一致する。
+      </div>
+    </div>
+    <p>N(≥k) は同心円で、n(k) は人類を分割した点図で描けます。どちらも分母は同じ「人」なので、2 つの図は互いに矛盾しません。</p>
+
+    <h2>用語の定義</h2>
+    <div class="glossary">
+      {HAID_TERMS.map((t) => (
+        <div class="gloss-item">
+          <h3>{t.ja}<span class="term-en">{t.en}</span></h3>
+          <p>{t.definition_ja}</p>
+        </div>
+      ))}
+    </div>
+
+    <h2>測定と報告の方法</h2>
+    <ul>
+      <li><strong>データの 4 等級</strong>：A 政府・国際機関の統計、B 事業者の公式発表、C 第三者パネル（流量・アプリ計測）、D 調査。各段階の数字は、どの等級を使ったかを明記する。第 3〜5 段階は B を錨とし、C で補い、D で交差検証する。</li>
+      <li><strong>口径は 30 日</strong>：週次の数字を月次に直すときは、同じ事業者が同時に公表した比率、または出典を明記した調査の比率だけを使う。手書きの係数は使わない。</li>
+      <li><strong>重なりの控除</strong>：複数の製品にまたがる同一人物の重なりは、第 4・5 段階でのみ引く。重なり率は調査にもとづき、公開する。</li>
+      <li><strong>幅で報告する</strong>：各段階は低・中・高の 3 値で報告する。見出しの数字は有効数字 1 けた、表は 2 けた。</li>
+      <li><strong>時点と周期</strong>：時点は用いた錨点の最新日付。四半期ごとに 1 回公開し、各回に版番号を付ける。過去の回は書き換えない。</li>
+    </ul>
+
+    <h2>確度と図示の規則</h2>
+    <p>数字には必ず確度を添えます。確度は図の描き方も決めます。</p>
+    <div class="scale">
+      <dl>
+        <dt>実測</dt><dd>統計機関の定義にもとづく実測値（第 1 段階）。</dd>
+        <dt>残差</dt><dd>他の段階から引いて出す値（第 2 段階）。</dd>
+        <dt>下限のみ</dt><dd>1 社の公表値だけで下限が決まり、上限は分からない（第 3・6 段階）。</dd>
+        <dt>推定幅</dt><dd>錨点と重なり率から低・中・高で推定できる（第 4・5 段階）。</dd>
+        <dt>データなし</dt><dd>2026 年時点で公開データが存在しない（第 7〜10 段階）。</dd>
+      </dl>
+    </div>
+    <ul>
+      <li>確度が「下限のみ」の段階は、隣の段階との境目を実線で描かない。点図では境目をぼかすか 1 つの帯にまとめ、幅を注記する。</li>
+      <li>人数が極端に少ない段階は、実面積では見えないため最小サイズで描き、「実際の割合より大きく描いている」と明記する。</li>
+      <li>4 つの関係の境目（下記の 3 本）は、段階の境目より太く描く。</li>
+    </ul>
+    <div class="scale">
+      <dl>
+        {HAID_BOUNDARIES.map((b) => (
+          <>
+            <dt>第 {b.from} → {b.to} 段階</dt>
+            <dd>{b.ja}<span style="color:var(--fg3);font-size:.8rem;margin-left:8px">{b.en}</span></dd>
+          </>
+        ))}
+      </dl>
+    </div>
+
+    <h2>境界事例（v{HAID_SPEC_VERSION} の裁定）</h2>
+    <p>判定に迷う場面の裁定です。事例は版を重ねて追加しますが、一度出した裁定は動かしません。</p>
+    <div class="wrap-x">
+      <table class="ex haid-cases">
+        <thead>
+          <tr><th>事例</th><th>段階</th><th>注記</th></tr>
+        </thead>
+        <tbody>
+          {HAID_CASES.map((c) => (
+            <tr>
+              <td>{c.case_ja}</td>
+              <td class="lv">{caseLevelLabel(c.levels)}</td>
+              <td class="note">{c.note_ja ?? ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>準拠</h2>
+    <div class="callout">
+      <strong>完全準拠</strong>：10 の段階すべてを、本ページの定義・観測窓・口径で、確度と出典を付けて報告する。<br>
+      <strong>部分準拠</strong>：一部の段階だけを報告する。ただし定義・観測窓・口径は変えない。表記例：「HAID v{HAID_SPEC_VERSION} に部分準拠（第 4・5 段階）」。
+    </div>
+    <p>調査票に「過去 30 日に、自分から生成 AI に入力しましたか」「過去 7 日に」の 2 問を本ページの定義どおりに置けば、第 4・5 段階への部分準拠になります。</p>
+
+    <h2>改定・引用・ライセンス</h2>
+    <ul>
+      <li><strong>番号は動かさない</strong>：段階の番号は付け直さず、再利用しない。一度「第 7 段階」と引用されたら、その意味は変えない。</li>
+      <li><strong>版の付け方</strong>：境界事例の追加は小版（v1.1）、段階の意味の変更は大版（v2.0）。旧版は消さずに残す。</li>
+      <li><strong>上に足さない</strong>：将来より細かい区別が要るときは、段階の内側で枝分かれさせる（例：8.1）。第 11 段階は作らない。第 10 段階は定義上の天井とする。</li>
+      <li><strong>引用</strong>：{HAID_CITATION_JA}。現状の数字を引くときは、あわせて公開回（例：2026-Q3）を添える。</li>
+      <li><strong>ライセンス</strong>：定義と公開データは {HAID_LICENSE}。機械可読の定義は <a href="/data.haid-spec.json">data.haid-spec.json</a>。</li>
+    </ul>
+
+    <h2>測らないもの（既知の限界）</h2>
+    <ul>
+      <li><strong>仕事での利用</strong>は段階に含めない。世界全体の人数が存在しないため、各国の調査を参照として添えるにとどめる。</li>
+      <li><strong>対価</strong>は段階ではなく属性。「第 4 段階以上のうち、対価を払っている人」として別に報告する。</li>
+      <li><strong>脳と機械の直接接続</strong>のような身体的な関係は、この尺度の外に置く。行動ではなく身体の関係であり、測り方が異なる。</li>
+      <li><strong>AI そのもの</strong>は分母に入れない。分母は人であり、これは版を重ねても変えない。</li>
+      <li>第 3 段階は 1 社の公表値だけで下限が決まるため、真の値はつねにそれより大きい。第 6 段階は現時点ではコーディング用のエージェントしか観測できない。</li>
+    </ul>
+
+    <p>職業の側から見た AI の影響は <a href="/standard">AIOIS-10 標準</a>、日本の 556 職業への当てはめは <a href="/">職業マップ</a> と <a href="/me">自分の現在地</a> へ。</p>
+
+    <Footer />
+  </div>
+</BaseLayout>
