@@ -26,32 +26,6 @@ Japanese public copy for new strings is posted on #272.
 Parked: /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.
 
-## Active — backfill scoring: Grok 4.5 as xAI history (mms-9)
-
-Owner decision 2026-09-10 (`docs/CONSENSUS_SCORE.md` 改訂 3). `grok-4.5` predates
-`grok-4.6` and was never scored; it is scored now and enters the xAI lane as
-history. A batch-level `run.backfill: true` marker makes every "latest run"
-selection skip it: public value, 最新モデル (GPT 6 Astra), 最新観測, aging
-anchor, `SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers, and the `/models` panel
-are unchanged; history surfaces (occupation fold, `/models` lane fold, per-run
-page, `score_history`, bare-slug 308) include it. No on-site update note.
-
-- mms-9.1 (#479): design doc 「改訂 3」 + two signed per-run strings. depends_on: []
-- mms-9.2 (#480): DATA_ARCHITECTURE / MULTI_MODEL_SCORING / runbook / TOOLCHAIN. depends_on: [mms-9.1]
-- mms-9.3 (#481): frozen prompt `grok-4.5` + constants + body-hash test. depends_on: [mms-9.1]
-- mms-9.4 (#482): ROADMAP, CHANGELOG, id tests. depends_on: [mms-9.2, mms-9.3]
-- mms-9.5 (#483): schema `run.backfill`, `assemble-scores --backfill true`, check-score-batch line. depends_on: [mms-9.4]
-- mms-9.6 (#484): engine — `backfill` on history entries; `pickLatestScore` / `pickFlagshipMeanScore` skip it. depends_on: [mms-9.5]
-- mms-9.7 (#485): attribution / geo-facts / occupation-runs / ranking-movers skip it. depends_on: [mms-9.6]
-- mms-9.8 (#486): models-by-model `in_panel`, `backfill_batch` drift note, predecessor logic. depends_on: [mms-9.7]
-- mms-9.9 (#487): models-deep panel / lane-latest / personality chain skip it; lane history keeps it. depends_on: [mms-9.8]
-- mms-9.10 (#488): pinned tests, baselines, gates, zero-visible-change proof. depends_on: [mms-9.9]
-- mms-9.11 (#489): Grok 4.5 pilot 40 (owner GO). depends_on: [mms-9.10]
-- mms-9.12 (#490): Grok 4.5 full 556 (owner GO). depends_on: [mms-9.11]
-- mms-9.13 (#491): land the backfill batch + 308 + baselines; runbook lines unchanged. depends_on: [mms-9.12]
-- mms-9.14 (#492): preview checklist + promotion text (owner promotes). depends_on: [mms-9.13]
-- mms-9.15 (#493): close-out. depends_on: [mms-9.14]
-
 ## Done — consensus canonical score (mms-6) + Grok onboarding (mms-7)
 
 Shipped on `preview` (then mms-8 replaced the public value with the vendor
@@ -72,6 +46,35 @@ owner-confirmed 2026-08-31; PR #363).
 - mms-7a: Grok 4.6 scoring path on in-agent (`grok-4.6`) + prompt freeze.
 - mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
 - mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
+
+## Done — backfill scoring: Grok 4.5 as xAI history (mms-9, closed 2026-09-11)
+
+Shipped on `preview`, then promoted (`#506`, `main@3c5bb0d3`). A batch-level
+`run.backfill: true` marker makes every "latest run" selection skip it:
+public value, 最新モデル (GPT 6 Astra), 最新観測, aging anchor,
+`SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers, and the `/models` panel are
+unchanged. History surfaces (occupation fold, `/models` lane fold, per-run
+page, `score_history`, bare-slug 308) include Grok 4.5
+(`grok-4.5@2026-09-10`, 556). No on-site update note.
+
+Design: `docs/CONSENSUS_SCORE.md` 改訂 3 (owner 2026-09-10).
+
+- mms-9.1 (#479/#494): design doc 「改訂 3」 + two signed per-run strings.
+- mms-9.2 (#480/#495): DATA_ARCHITECTURE / MULTI_MODEL_SCORING / runbook / TOOLCHAIN.
+- mms-9.3 (#481/#496): frozen prompt `grok-4.5` + constants + body-hash test.
+- mms-9.4 (#482/#497): ROADMAP, CHANGELOG, id tests.
+- mms-9.5 (#483/#498): schema `run.backfill`, `assemble-scores --backfill true`, check-score-batch line.
+- mms-9.6 (#484/#499): engine — `backfill` on history entries; `pickLatestScore` / `pickFlagshipMeanScore` skip it.
+- mms-9.7 (#485/#500): attribution / geo-facts / occupation-runs / ranking-movers skip it.
+- mms-9.8 (#486/#501): models-by-model `in_panel`, `backfill_batch` drift note, predecessor logic.
+- mms-9.9 (#487/#502): models-deep panel / lane-latest / personality chain skip it; lane history keeps it.
+- mms-9.10 (#488/#503): pinned tests, baselines, gates, zero-visible-change proof.
+- mms-9.11 (#489): Grok 4.5 pilot 40 (in-agent; Issue comments; no PR).
+- mms-9.12 (#490): Grok 4.5 full 556 (in-agent; Issue comments; no PR).
+- mms-9.13 (#491/#504): land the backfill batch + 308 + baselines; runbook lines unchanged.
+- mms-9.14 (#492/#506): preview checklist + promotion `preview → main`.
+- mms-9.15 (#493): close-out.
+- Tracker #478 closes after this PR.
 
 ## Done — vendor-flagship mean + Claude Fable 5.1 + GPT-6 Astra (mms-8, closed 2026-09-09)
 
