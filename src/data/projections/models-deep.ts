@@ -27,7 +27,7 @@ import type { Indexes } from '../lib/indexes.js';
 import personalityCopy from '../../content/model-personality.ja.json';
 import storyOverridesJson from '../../content/model-story-overrides.ja.json';
 
-const MODEL_PROJECTION_MAX_BYTES = 30 * 1024;
+export const MODEL_PROJECTION_MAX_BYTES = 30 * 1024;
 const STORY_MIN = 3;
 const STORY_MAX = 5;
 const STRONG_THRESHOLD = 0.75;
@@ -46,6 +46,7 @@ interface BatchSummary {
   readonly provider: string;
   readonly coveredCount: number;
   readonly aioisCoverage: number;
+  readonly backfill: boolean;
 }
 
 interface PairSummary {
@@ -121,6 +122,9 @@ function buildBatchSummaries(indexes: Indexes): BatchSummary[] {
           `[models-deep] batch ${key} has model_provider "${first.provider}" outside VENDOR_WHITELIST`,
         );
       }
+      if (entries.some((e) => (e.backfill === true) !== (first.backfill === true))) {
+        throw new Error(`[models-deep] batch ${key} mixes backfill and non-backfill entries`);
+      }
       return {
         key,
         model: first.model,
@@ -129,6 +133,7 @@ function buildBatchSummaries(indexes: Indexes): BatchSummary[] {
         provider: first.provider,
         coveredCount: entries.length,
         aioisCoverage: entries.filter((entry) => entry.aiois != null).length,
+        backfill: first.backfill === true,
       };
     })
     .sort((a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model));
@@ -138,7 +143,7 @@ function newestComparableForProvider(
   batches: readonly BatchSummary[],
   provider: string,
 ): BatchSummary | null {
-  const candidates = batches.filter((batch) => batch.provider === provider && batch.aioisCoverage > 0);
+  const candidates = batches.filter((batch) => batch.provider === provider && batch.aioisCoverage > 0 && !batch.backfill);
   if (candidates.length === 0) return null;
   return [...candidates].sort((a, b) => b.date.localeCompare(a.date) || a.model.localeCompare(b.model))[0]!;
 }
@@ -147,7 +152,7 @@ function newestBatchForProvider(
   batches: readonly BatchSummary[],
   provider: string,
 ): BatchSummary | null {
-  const candidates = batches.filter((batch) => batch.provider === provider);
+  const candidates = batches.filter((batch) => batch.provider === provider && !batch.backfill);
   if (candidates.length === 0) return null;
   return [...candidates].sort((a, b) => b.date.localeCompare(a.date) || a.model.localeCompare(b.model))[0]!;
 }
@@ -211,7 +216,8 @@ function buildLanes(
 
 function buildPairSummaries(indexes: Indexes, batches: readonly BatchSummary[]): PairSummary[] {
   const titles = new Map([...indexes.occById.entries()].map(([id, occ]) => [id, occ.title_ja]));
-  const aioisBatches = batches.filter((batch) => batch.aioisCoverage > 0);
+  // Backfill batches are excluded from the adjacent-pair chain: appending one after the newest run would otherwise make the newest model the *base* of its last pair and flip its personality sign (mms-9).
+  const aioisBatches = batches.filter((batch) => batch.aioisCoverage > 0 && !batch.backfill);
   const pairs: PairSummary[] = [];
 
   for (let i = 1; i < aioisBatches.length; i += 1) {
