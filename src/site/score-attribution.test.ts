@@ -22,7 +22,7 @@ import {
   type ScoreRunRef,
   type BatchMetaForAttribution,
 } from './score-attribution.js';
-import { comparableAioisRuns, listOccupationRuns } from './occupation-runs.js';
+import { latestOccupationRun, latestRunPerVendor, listOccupationRuns } from './occupation-runs.js';
 
 const meta = (model: string, runDate: string, hasAiois = true, scope = 'occupations', backfill = false): BatchMetaForAttribution =>
   ({ scope, model, runDate, hasAiois, backfill });
@@ -206,18 +206,14 @@ describe('SCORE_ATTRIBUTION (live repo data)', () => {
 
 describe('SCORE_PANEL (live repo data)', () => {
   test('matches the current comparable occupation panel', () => {
-    const aiois = comparableAioisRuns();
-    const latest = aiois[aiois.length - 1];
+    const latest = latestOccupationRun();
     assert.ok(latest);
     assert.equal(SCORE_PANEL.vendorCount, 3);
     assert.equal(SCORE_PANEL.staleMonths, 6);
     assert.equal(SCORE_PANEL.staleVendorCount, 0);
     assert.equal(SCORE_PANEL.latestRunDate, latest.runDate);
     assert.equal(SCORE_PANEL.latestRunDate, SCORE_ATTRIBUTION.runDate);
-    assert.equal(
-      SCORE_PANEL.vendorCount,
-      new Set(comparableAioisRuns().map((r) => r.provider)).size,
-    );
+    assert.equal(SCORE_PANEL.vendorCount, latestRunPerVendor().length);
   });
 });
 

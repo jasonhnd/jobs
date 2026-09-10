@@ -445,9 +445,11 @@ describe('backfill batches stay in lane history (mms-9.9)', () => {
 
     assert.deepEqual(withBackfill.panel.entries, live.panel.entries);
     const xai = withBackfill.lanes.find((lane) => lane.provider === 'xai')!;
-    assert.equal(xai.latest.model, 'grok-4.6');
+    assert.equal(xai.latest.model, latestRunPerVendor().find((run) => run.provider === 'xai')!.model);
+    const liveXai = live.lanes.find((lane) => lane.provider === 'xai')!;
     assert.deepEqual(xai.history, [
       { model: 'grok-4.5', modelDisplay: 'Grok 4.5', date: '2099-12-31', covered_count: 556 },
+      ...liveXai.history,
     ]);
     assert.deepEqual(
       withBackfill.lanes.find((lane) => lane.provider === 'anthropic'),
