@@ -199,20 +199,23 @@ export interface BatchMetaForAttribution {
   readonly runDate: string;
   /** True when the batch carries AIOIS-10 profiles (scores entries have aiois). */
   readonly hasAiois: boolean;
+  /** run.backfill — history only; never the attributed batch (mms-9). */
+  readonly backfill: boolean;
 }
 
 /**
  * Pick the batch whose scores the site currently shows. Mirrors
  * `pickLatestScore()`: strictly newer run_date wins; a same-date tie prefers
  * the AIOIS-10 batch; remaining ties keep the later entry in input order.
+ * Backfill batches are never attributed.
  * Throws when no occupations batch exists (fail-fast, same as the graph).
  */
 export function pickAttributionBatch(
   metas: readonly BatchMetaForAttribution[],
 ): BatchMetaForAttribution {
-  const candidates = metas.filter((m) => m.scope === 'occupations');
+  const candidates = metas.filter((m) => m.scope === 'occupations' && !m.backfill);
   if (candidates.length === 0) {
-    throw new Error('score-attribution: no occupations score batch found under data/scores/');
+    throw new Error('score-attribution: no non-backfill occupations score batch found under data/scores/');
   }
   let chosen = candidates[0]!;
   for (let i = 1; i < candidates.length; i += 1) {
