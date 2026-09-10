@@ -35,6 +35,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Backfill scoring (`run.backfill: true`) is history only (mms-9 / #478,
+  close-out #493). Every "latest run" rule skips it (public vendor mean,
+  最新モデル, 最新観測, aging, `SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers,
+  `/models` panel). History surfaces keep it (occupation fold, `/models`
+  lane fold, per-run page, `score_history`, bare-slug 308). First batch:
+  Grok 4.5 (`grok-4.5@2026-09-10`, 556; vs Grok 4.6 mean ΔT −0.12).
+  公開値・最新モデル・パネルは変更なし. `/models/grok-4.5` 308 to the run
+  page. Promotion #506.
 - Four GEO SOP prompts now have matching indexable landings (seo-geo-1 /
   #272): `/answers/ai-de-nakunaru-shigoto`, `/answers/nenshu-ai-anzen`,
   `/answers/nobiru-shigoto-top`, `/methodology`. Title / H1 / lead / FAQ
