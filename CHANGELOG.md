@@ -12,6 +12,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- `run.backfill` (optional boolean) in the score-run schema; `assemble-scores --backfill true`; carry-from and `check-score-batch` treat backfill batches as history (mms-9.5, #483).
 - mms-9 design (#479–#482): backfill scoring. A batch may carry
   `run.backfill: true`; such a batch is history only (occupation fold,
   `/models` lane fold, per-run page, `score_history`, bare-slug 308) and is
