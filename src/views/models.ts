@@ -267,7 +267,7 @@ export function buildModelsFeaturePageModel(
     };
   });
   const modelRoster = flattenBatches(lanes);
-  const dates = modelRoster.map((card) => card.date);
+  const dates = [...new Set(modelRoster.map((card) => card.date))].sort();
   const coverages = modelRoster.map((card) => card.covered_count);
   const coverageRangeText = coverages.length === 1 || Math.min(...coverages) === Math.max(...coverages)
     ? `${newestPanel.covered_count}職業`

@@ -159,6 +159,9 @@ html body.models-surface .vendor-card h3{font-family:var(--font-serif)!important
 .data-note{padding:26px 0;color:var(--fg2);font-size:.92rem;line-height:1.8}
 .data-note p{margin:0;overflow-wrap:break-word;word-break:normal}
 .data-note p + p{margin-top:12px}
+.data-note-history{margin-top:16px}
+.data-note-history summary{cursor:pointer;font-weight:600;color:var(--fg)}
+.data-note-history[open] summary{margin-bottom:12px}
 @media(max-width:880px){
   .models-hero,.vendor-grid,.contrast,.quote-grid,.cta-band{grid-template-columns:1fr}
   .cta-actions{justify-content:flex-start}
@@ -321,17 +324,20 @@ html body.models-surface .vendor-card h3{font-family:var(--font-serif)!important
     </section>
 
     <section class="data-note" aria-label="データについて">
-      <p>{CONSENSUS_VENDOR_UPDATE_NOTE_LEAD}</p>
-      <p>{CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT}</p>
-      <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD}</p>
-      <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_IMPACT}</p>
-      <p>{CONSENSUS_FIFTH_VOTE_NOTE_LEAD}</p>
-      <p>{CONSENSUS_FIFTH_VOTE_NOTE_IMPACT}</p>
-      <p>{CONSENSUS_SWITCH_NOTE_LEAD}</p>
-      <p>{CONSENSUS_SWITCH_NOTE_IMPACT}</p>
       <p>
         公開値は複数のAIによる総合です。このページは {page.batchDatesText} の採点結果をもとにしています。各回の対象範囲は {page.coverageRangeText} です。採点方法は <a href="/methodology">評価プロセス</a> と <a href="/standard">AIOIS-10 標準</a> を参照してください。
       </p>
+      <p>{CONSENSUS_VENDOR_UPDATE_NOTE_LEAD}</p>
+      <p>{CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT}</p>
+      <details class="data-note-history">
+        <summary>これまでの変更</summary>
+        <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD}</p>
+        <p>{CONSENSUS_FLAGSHIP_SWITCH_NOTE_IMPACT}</p>
+        <p>{CONSENSUS_FIFTH_VOTE_NOTE_LEAD}</p>
+        <p>{CONSENSUS_FIFTH_VOTE_NOTE_IMPACT}</p>
+        <p>{CONSENSUS_SWITCH_NOTE_LEAD}</p>
+        <p>{CONSENSUS_SWITCH_NOTE_IMPACT}</p>
+      </details>
     </section>
 
     <template id="models-projection" set:html={page.projectionJson}></template>
