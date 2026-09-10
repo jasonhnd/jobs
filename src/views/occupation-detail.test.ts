@@ -76,9 +76,9 @@ describe('buildOccupationDetailFile', () => {
     const dims = original.find((e) => e.dims != null)?.dims;
     assert.ok(dims);
     const synthetic = [
-      { model: 'claude-opus-5', provider: 'anthropic', date: '2026-01-01', transformation: 5, rationaleJa: 'a', displacement: 2, dims, confidence: 0.8 },
-      { model: 'gpt-5.6-sol', provider: 'openai', date: '2026-09-07', transformation: 5, rationaleJa: 'b', displacement: 2, dims, confidence: 0.8 },
-      { model: 'grok-4.6', provider: 'xai', date: '2026-09-07', transformation: 5, rationaleJa: 'c', displacement: 2, dims, confidence: 0.8 },
+      { model: 'claude-opus-5', provider: 'anthropic', date: '2026-01-01', backfill: false, transformation: 5, rationaleJa: 'a', displacement: 2, dims, confidence: 0.8 },
+      { model: 'gpt-5.6-sol', provider: 'openai', date: '2026-09-07', backfill: false, transformation: 5, rationaleJa: 'b', displacement: 2, dims, confidence: 0.8 },
+      { model: 'grok-4.6', provider: 'xai', date: '2026-09-07', backfill: false, transformation: 5, rationaleJa: 'c', displacement: 2, dims, confidence: 0.8 },
     ];
     const patched = {
       ...graph,
@@ -89,9 +89,9 @@ describe('buildOccupationDetailFile', () => {
     assert.equal(stale.consensus_vendor_count, VENDOR_WHITELIST.length);
 
     const fresh = [
-      { model: 'claude-opus-5', provider: 'anthropic', date: '2026-07-26', transformation: 5, rationaleJa: 'a', displacement: 2, dims, confidence: 0.8 },
-      { model: 'gpt-5.6-sol', provider: 'openai', date: '2026-07-12', transformation: 5, rationaleJa: 'b', displacement: 2, dims, confidence: 0.8 },
-      { model: 'grok-4.6', provider: 'xai', date: '2026-09-07', transformation: 5, rationaleJa: 'c', displacement: 2, dims, confidence: 0.8 },
+      { model: 'claude-opus-5', provider: 'anthropic', date: '2026-07-26', backfill: false, transformation: 5, rationaleJa: 'a', displacement: 2, dims, confidence: 0.8 },
+      { model: 'gpt-5.6-sol', provider: 'openai', date: '2026-07-12', backfill: false, transformation: 5, rationaleJa: 'b', displacement: 2, dims, confidence: 0.8 },
+      { model: 'grok-4.6', provider: 'xai', date: '2026-09-07', backfill: false, transformation: 5, rationaleJa: 'c', displacement: 2, dims, confidence: 0.8 },
     ];
     const patchedFresh = {
       ...graph,
