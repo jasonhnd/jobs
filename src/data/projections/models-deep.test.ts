@@ -3,6 +3,7 @@ import { strict as assert } from 'node:assert';
 
 import { buildIndexes, type Indexes } from '../lib/indexes.js';
 import {
+  MODEL_PROJECTION_MAX_BYTES,
   buildModelsDeepPayload,
   modelsDeepPayloadBytes,
   reportOrphanedCuration,
@@ -13,6 +14,7 @@ import {
   selectPersonalitySentenceIdForTest,
   selectStoryIdsForTest,
 } from './models-deep.js';
+import type { Aiois10 } from '../../graph/types.js';
 import { DEFAULT_MODEL_STORY_EDITORIAL_ID, modelStoryEditorialSentenceId } from '../../site/model-editorial.js';
 import { latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
 import { VENDOR_WHITELIST } from '../../site/score-attribution.js';
@@ -398,5 +400,86 @@ describe('personality copy polarity', () => {
         }
       }
     }
+  });
+});
+
+describe('backfill batches stay in lane history (mms-9.9)', () => {
+  const DIM_KEYS = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10'] as const;
+
+  function clip(value: number): number {
+    return Math.min(10, value + 0.5);
+  }
+
+  function bumpAiois(aiois: Aiois10): Aiois10 {
+    const next = { ...aiois, transformation: clip(aiois.transformation), displacement: clip(aiois.displacement) };
+    for (const key of DIM_KEYS) next[key] = clip(aiois[key]);
+    return next;
+  }
+
+  function asBackfill(entry: ScoreHistEntry): ScoreHistEntry {
+    return {
+      ...entry,
+      model: 'grok-4.5',
+      date: '2099-12-31',
+      backfill: true,
+      ai_risk: clip(entry.ai_risk),
+      aiois: entry.aiois == null ? entry.aiois : bumpAiois(entry.aiois),
+    };
+  }
+
+  function withXaiBackfill(indexes: Indexes): Indexes {
+    const historyByOcc = new Map<number, ScoreHistEntry[]>();
+    for (const [occId, hist] of indexes.historyByOcc) {
+      const clones = hist
+        .filter((entry) => entry.provider === 'xai' && entry.backfill !== true)
+        .map(asBackfill);
+      historyByOcc.set(occId, [...hist, ...clones]);
+    }
+    return { ...indexes, historyByOcc };
+  }
+
+  test('panel, personality, stories and consensus stay put; xAI fold gains grok-4.5', async () => {
+    const indexes = await indexesFixture();
+    const live = buildModelsDeepPayload(indexes);
+    const withBackfill = buildModelsDeepPayload(withXaiBackfill(indexes));
+
+    assert.deepEqual(withBackfill.panel.entries, live.panel.entries);
+    const xai = withBackfill.lanes.find((lane) => lane.provider === 'xai')!;
+    assert.equal(xai.latest.model, 'grok-4.6');
+    assert.deepEqual(xai.history, [
+      { model: 'grok-4.5', modelDisplay: 'Grok 4.5', date: '2099-12-31', covered_count: 556 },
+    ]);
+    assert.deepEqual(
+      withBackfill.lanes.find((lane) => lane.provider === 'anthropic'),
+      live.lanes.find((lane) => lane.provider === 'anthropic'),
+    );
+    assert.deepEqual(
+      withBackfill.lanes.find((lane) => lane.provider === 'openai'),
+      live.lanes.find((lane) => lane.provider === 'openai'),
+    );
+    assert.equal(
+      live.panel.entries.find((entry) => entry.model === 'claude-fable-5-1')?.personality_sentence_id,
+      'claude_fable_5_1_d4_negative_strong',
+    );
+    for (const entry of live.panel.entries) {
+      const after = withBackfill.panel.entries.find((item) => item.model === entry.model);
+      assert.equal(after?.personality_sentence_id, entry.personality_sentence_id);
+    }
+    assert.deepEqual(withBackfill.stories, live.stories);
+    assert.deepEqual(withBackfill.consensus, live.consensus);
+    assert.ok(Buffer.byteLength(JSON.stringify(withBackfill)) <= MODEL_PROJECTION_MAX_BYTES);
+  });
+
+  test('a vendor with only a backfill run has no flagship lane', async () => {
+    const indexes = await indexesFixture();
+    const historyByOcc = new Map<number, ScoreHistEntry[]>();
+    for (const [occId, hist] of indexes.historyByOcc) {
+      const nonXai = hist.filter((entry) => entry.provider !== 'xai');
+      const xai = hist.find((entry) => entry.provider === 'xai' && entry.backfill !== true);
+      historyByOcc.set(occId, xai ? [...nonXai, asBackfill(xai)] : nonXai);
+    }
+    const payload = buildModelsDeepPayload({ ...indexes, historyByOcc });
+    assert.equal(payload.panel.entries.length, 2);
+    assert.deepEqual(payload.lanes.map((lane) => lane.provider), ['anthropic', 'openai']);
   });
 });
