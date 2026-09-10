@@ -3,6 +3,7 @@ import { strict as assert } from 'node:assert';
 
 import type { ScoreRun } from '../data/schema/score-run.js';
 import {
+  assertCandidateMatchesPickLatestScore,
   buildRankingMoversFromPair,
   buildRankingMoversFromRuns,
   selectLatestComparableAioisPair,
@@ -13,6 +14,7 @@ function run(
   model: string,
   date: string,
   scores: Record<string, { t: number; d: number; aiois?: boolean }>,
+  opts: { provider?: string; backfill?: boolean } = {},
 ): ScoreRun {
   const entries: ScoreRun['scores'] = {};
   for (const [id, score] of Object.entries(scores)) {
@@ -41,7 +43,7 @@ function run(
     scope: 'occupations',
     scorer: {
       model,
-      model_provider: 'fixture',
+      model_provider: opts.provider ?? 'fixture',
       model_temperature: null,
       scoring_method: 'fixture',
       scoring_method_id: 'aiois-semantic-judgment',
@@ -51,6 +53,7 @@ function run(
       run_id: `${model}-${date}`,
       duration_minutes: null,
       operator: 'test',
+      ...(opts.backfill ? { backfill: true } : {}),
     },
     input: {
       input_data_version: 'fixture',
@@ -142,5 +145,31 @@ describe('ranking movers helper', () => {
     });
 
     assert.doesNotThrow(() => buildRankingMoversFromRuns([baseline, candidate], titles));
+  });
+
+  test('skips a backfill batch when selecting the latest pair (mms-9)', () => {
+    const grok = run('grok-4.6', '2026-09-07', {
+      1: { t: 4, d: 2 },
+      2: { t: 5, d: 3 },
+    }, { provider: 'xai' });
+    const astra = run('gpt-6-astra', '2026-09-10', {
+      1: { t: 6, d: 3 },
+      2: { t: 4, d: 2 },
+    }, { provider: 'openai' });
+    const synthetic = run('grok-4.5', '2099-12-31', {
+      1: { t: 9, d: 8 },
+      2: { t: 9, d: 8 },
+    }, { provider: 'xai', backfill: true });
+    const runs = [grok, astra];
+    const withBackfill = [...runs, synthetic];
+    const pair = selectLatestComparableAioisPair(withBackfill);
+    const without = selectLatestComparableAioisPair(runs);
+    assert.equal(pair.baseline.model, without.baseline.model);
+    assert.equal(pair.candidate.model, without.candidate.model);
+    assert.equal(pair.candidate.date, without.candidate.date);
+    assert.doesNotThrow(() => assertCandidateMatchesPickLatestScore(pair.candidate, withBackfill));
+    const movers = buildRankingMoversFromRuns(withBackfill, titles);
+    assert.equal('backfill' in movers.meta.candidate, false);
+    assert.equal('backfill' in movers.meta.baseline, false);
   });
 });

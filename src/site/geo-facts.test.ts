@@ -226,6 +226,22 @@ describe('pickLatestGeoScoreRun', () => {
     ]);
     assert.equal(picked.scorer.model, 'aiois-second');
   });
+
+  test('skips a backfill run even when it is the newest (mms-9)', () => {
+    const runs = [
+      scoreRun('2026-09-07', 'grok-4.6', scores, 'xai'),
+      scoreRun('2026-09-09', 'claude-fable-5-1', scores, 'anthropic'),
+      scoreRun('2026-09-10', 'gpt-6-astra', scores, 'openai'),
+    ];
+    const synthetic: GeoScoreRunLike = {
+      ...runs[0]!,
+      scorer: { model: 'grok-4.5', model_provider: 'xai' },
+      run: { run_date: '2099-12-31', backfill: true },
+    };
+    const withBackfill = [...runs, synthetic];
+    assert.equal(pickLatestGeoScoreRun(withBackfill).scorer.model, 'gpt-6-astra');
+    assert.deepEqual(computeGeoFacts(rows, withBackfill), computeGeoFacts(rows, runs));
+  });
 });
 
 describe('geo renderers', () => {
