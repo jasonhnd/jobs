@@ -115,6 +115,7 @@ export function assertCandidateMatchesPickLatestScore(
           date: run.run.run_date,
           model: run.scorer.model,
           provider: run.scorer.model_provider,
+          backfill: run.run.backfill === true,
           aiois: entry.aiois ?? null,
         };
       });

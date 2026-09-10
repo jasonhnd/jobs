@@ -472,3 +472,105 @@ describe('pickFlagshipMeanScore', () => {
     assert.deepEqual(meta.vendors.map((v) => v.provider), ['anthropic', 'openai', 'xai']);
   });
 });
+
+function entry(args: {
+  model: string;
+  provider: string;
+  date: string;
+  t: number;
+  backfill?: boolean;
+}): ScoreHistEntry {
+  const aiois = profile({ transformation: args.t });
+  return {
+    model: args.model,
+    provider: args.provider,
+    date: args.date,
+    backfill: args.backfill,
+    ai_risk: args.t,
+    rationale_ja: `${args.model}@${args.date}`,
+    aiois,
+  };
+}
+
+describe('pickLatestScore / pickFlagshipMeanScore skip backfill (mms-9.6)', () => {
+  test('pickLatestScore ignores a backfill entry even when it is the newest', () => {
+    const a = entry({ model: 'gpt-6-astra', provider: 'openai', date: '2026-09-10', t: 6 });
+    const b = entry({ model: 'grok-4.5', provider: 'xai', date: '2026-12-01', t: 9, backfill: true });
+    assert.deepEqual(pickLatestScore([a, b]), a);
+    assert.deepEqual(pickLatestScore([b, a]), a);
+  });
+
+  test('pickLatestScore throws when only backfill entries exist', () => {
+    const only = entry({ model: 'grok-4.5', provider: 'xai', date: '2026-12-01', t: 9, backfill: true });
+    assert.throws(() => pickLatestScore([only]), /only backfill/);
+  });
+
+  test('pickLatestScore same-date tie still prefers AIOIS over legacy among non-backfill entries', () => {
+    const legacy = { model: 'opus-4-7', date: '2026-05-30', ai_risk: 5, aiois: null };
+    const aiois = { model: 'opus-4-8', date: '2026-05-30', ai_risk: 7, aiois: { d1: 1 } };
+    const extra = entry({ model: 'grok-4.5', provider: 'xai', date: '2026-12-01', t: 9, backfill: true });
+    assert.deepEqual(pickLatestScore([legacy, aiois, extra]), aiois);
+    assert.deepEqual(pickLatestScore([extra, aiois, legacy]), aiois);
+  });
+
+  const panelBase = [
+    entry({ model: 'claude-fable-5-1', provider: 'anthropic', date: '2026-09-09', t: 5 }),
+    entry({ model: 'gpt-6-astra', provider: 'openai', date: '2026-09-10', t: 6 }),
+    entry({ model: 'grok-4.6', provider: 'xai', date: '2026-09-07', t: 4 }),
+  ];
+
+  test('pickFlagshipMeanScore excludes backfill from panel, latest, anchor and rationale', () => {
+    const backfill = entry({ model: 'grok-4.5', provider: 'xai', date: '2026-12-31', t: 9, backfill: true });
+    const got = pickFlagshipMeanScore([...panelBase, backfill]);
+    assert.deepEqual(got.panel.map((p) => p.model), ['grok-4.6', 'claude-fable-5-1', 'gpt-6-astra']);
+    assert.equal(got.transformation, 5);
+    assert.equal(got.latest.model, 'gpt-6-astra');
+    assert.deepEqual(got.staleVendors, []);
+    assert.notEqual(got.rationaleEntry.model, 'grok-4.5');
+    assert.equal(got.latestDelta, 1);
+  });
+
+  test('backfill entry does not rescue the aging note', () => {
+    const backfill = entry({ model: 'grok-4.5', provider: 'xai', date: '2027-06-01', t: 9, backfill: true });
+    const got = pickFlagshipMeanScore([...panelBase, backfill]);
+    assert.equal(got.latest.date, '2026-09-10');
+    assert.deepEqual(got.staleVendors, []);
+  });
+
+  test('a vendor with only a backfill run has no flagship', () => {
+    const got = pickFlagshipMeanScore([
+      entry({ model: 'claude-fable-5-1', provider: 'anthropic', date: '2026-09-09', t: 5 }),
+      entry({ model: 'gpt-6-astra', provider: 'openai', date: '2026-09-10', t: 6 }),
+      entry({ model: 'grok-4.5', provider: 'xai', date: '2026-12-31', t: 9, backfill: true }),
+    ]);
+    assert.equal(got.panel.length, 2);
+    assert.deepEqual(got.panel.map((p) => p.provider).sort(), ['anthropic', 'openai']);
+  });
+
+  test('live data: appending a synthetic xai backfill to every occupation changes nothing', async () => {
+    const { buildIndexes } = await import('../data/lib/indexes.js');
+    const { indexes, errors } = await buildIndexes();
+    assert.equal(errors.length, 0);
+    for (const [, hist] of indexes.historyByOcc) {
+      const before = pickFlagshipMeanScore(hist);
+      const xai = hist.find((e) => e.provider === 'xai' && e.backfill !== true);
+      assert.ok(xai, 'every occupation has a non-backfill xAI run');
+      const shifted = profile({
+        transformation: (xai.aiois?.transformation ?? xai.ai_risk) + 1,
+        displacement: (xai.aiois?.displacement ?? xai.ai_risk) + 1,
+      });
+      const synthetic: ScoreHistEntry = {
+        ...xai,
+        model: 'grok-4.5',
+        date: '2099-12-31',
+        backfill: true,
+        ai_risk: shifted.transformation,
+        aiois: shifted,
+      };
+      const afterHist = [...hist, synthetic];
+      const after = pickFlagshipMeanScore(afterHist);
+      assert.deepEqual(after, before);
+      assert.deepEqual(pickLatestScore(afterHist), pickLatestScore(hist));
+    }
+  });
+});

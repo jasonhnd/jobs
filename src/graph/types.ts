@@ -90,6 +90,8 @@ export interface ScoreHistoryEntry {
   readonly provider: string;
   /** ISO date YYYY-MM-DD of the scoring run. */
   readonly date: string;
+  /** True when the batch is a backfill (run.backfill). History only; never "latest". */
+  readonly backfill: boolean;
   /** Headline score. On AIOIS batches this equals `aiois.transformation`. */
   readonly transformation: number;
   readonly rationaleJa: string;
