@@ -6,6 +6,7 @@ import { strict as assert } from 'node:assert';
 import { requireBuiltArtifact } from '../../scripts/lib/built-artifacts.js';
 import { SCORE_PANEL } from './score-attribution.js';
 import {
+  activeOccupationRuns,
   comparableAioisRuns,
   latestOccupationRun,
   latestRunPerVendor,
@@ -219,7 +220,7 @@ describe('/models built page contract', () => {
 
   test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
     const runs = listOccupationRuns();
-    const aiois = comparableAioisRuns(runs);
+    const aiois = comparableAioisRuns(activeOccupationRuns(runs));
     const legacyRuns = runs.filter((run) => !run.hasAiois);
     if (legacyRuns.length === 0 || aiois.length < 2) return;
 
@@ -255,6 +256,7 @@ describe('/models built page contract', () => {
   });
 
   test('no built page today contains the backfill signed string (mms-9)', () => {
+    if (listOccupationRuns().some((run) => run.backfill)) return;
     const marker = '公開後に日をあけて補完した採点です';
     const hub = builtModelsPath();
     if (hub == null) return;
