@@ -12,6 +12,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- Pinned tests that mean "latest" now go through `activeOccupationRuns` / `latestOccupationRun` / `latestRunPerVendor` so a backfill batch cannot become the current model (mms-9.10, #488).
 - `/models` projection: panel, lane-latest and the personality pair chain skip backfill batches; lane history keeps them (mms-9.9, #487).
 - `/models/<run>`: backfill runs are `in_panel: false` with a dedicated 「モデル間比較について」 note (`note_id: backfill_batch`); predecessor search ignores backfill (mms-9.8, #486).
 - Attribution, GEO facts, occupation-run helpers and rankings movers skip backfill batches (mms-9.7, #485).

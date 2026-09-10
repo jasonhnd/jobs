@@ -2,6 +2,7 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
 import {
+  activeOccupationRuns,
   comparableAioisRuns,
   latestAioisPair,
   latestOccupationRun,
@@ -22,8 +23,8 @@ describe('listOccupationRuns', () => {
       assert.ok(run.coveredCount > 0);
     }
     const latest = latestOccupationRun(runs);
-    assert.equal(latest.runDate, runs[runs.length - 1]!.runDate);
-    const aiois = comparableAioisRuns(runs);
+    assert.equal(latest.runDate, activeOccupationRuns(runs).at(-1)!.runDate);
+    const aiois = comparableAioisRuns(activeOccupationRuns(runs));
     assert.ok(aiois.length >= 2);
     const pair = latestAioisPair(runs);
     assert.equal(pair.candidate.model, aiois[aiois.length - 1]!.model);
@@ -36,7 +37,7 @@ describe('listOccupationRuns', () => {
     assert.deepEqual(panel.map((run) => run.provider), [...VENDOR_WHITELIST]);
     assert.equal(new Set(panel.map((run) => run.provider)).size, panel.length);
     for (const run of panel) {
-      const vendorRuns = comparableAioisRuns(runs).filter((entry) => entry.provider === run.provider);
+      const vendorRuns = comparableAioisRuns(activeOccupationRuns(runs)).filter((entry) => entry.provider === run.provider);
       const newest = vendorRuns.reduce((best, entry) => (
         entry.runDate > best.runDate
         || (entry.runDate === best.runDate && entry.model.localeCompare(best.model) > 0)
