@@ -276,3 +276,22 @@ describe('assembleBatch', () => {
     }
   });
 });
+
+describe('assembleBatch backfill (mms-9.5)', () => {
+  const { scores } = parseScoreLines(['{"id":1,"ai_risk":6.9,"rationale_ja":"理由","confidence":0.8}'], 'legacy');
+  test('omits run.backfill for a normal batch and the result parses', () => {
+    const out = assembleBatch(scores, META) as { run: Record<string, unknown> };
+    assert.equal('backfill' in out.run, false);
+    assert.equal(ScoreRunSchema.safeParse(out).success, true);
+  });
+  test('emits run.backfill: true and the strict schema accepts it', () => {
+    const out = assembleBatch(scores, { ...META, backfill: true }) as { run: Record<string, unknown> };
+    assert.equal(out.run.backfill, true);
+    assert.equal(ScoreRunSchema.safeParse(out).success, true);
+  });
+  test('schema rejects a non-boolean backfill', () => {
+    const out = assembleBatch(scores, META) as { run: Record<string, unknown> };
+    out.run.backfill = 'yes';
+    assert.equal(ScoreRunSchema.safeParse(out).success, false);
+  });
+});

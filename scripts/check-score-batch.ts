@@ -10,7 +10,7 @@
  * What it checks for a candidate data/scores/<...>.json:
  *   1. Schema    — validates against the SAME ScoreRunSchema the build uses.
  *   2. Coverage  — which of the real occupations are scored / missing / extra.
- *   3. Freshness — is run_date newer than every other batch (else it won't win).
+ *   3. Freshness — is run_date newer than every other batch (else it won't win). Skipped for a backfill batch (run.backfill: true), which never wins by design.
  *   4. Drift     — vs the current latest scores: how many changed, and the
  *                  before/after band distribution (low/mid/high).
  *
@@ -69,6 +69,9 @@ if (!parsed.success) {
 const batch = parsed.data;
 console.log(`[check-score-batch] schema OK — scope=${batch.scope}, model=${batch.scorer.model}, run_date=${batch.run.run_date}`);
 console.log(`[check-score-batch] vendor: ${batch.scorer.model_provider}`);
+if (batch.run.backfill === true) {
+  console.log('[check-score-batch] backfill: true — history-only batch (docs/CONSENSUS_SCORE.md 改訂 3); it will not become the active run, the vendor flagship, or CONTENT_DATE.');
+}
 if (!isWhitelistedVendor(batch.scorer.model_provider)) {
   console.log(`  WARNING — model_provider "${batch.scorer.model_provider}" is not in VENDOR_WHITELIST (anthropic / openai / xai); it would form its own vendor lane in the public mean.`);
 }
@@ -106,14 +109,14 @@ let otherBatches = 0;
 for (const f of readdirSync(SCORES_DIR).filter((f) => f.endsWith('.json'))) {
   const p = join(SCORES_DIR, f);
   if (resolve(p) === candidatePath) continue; // exclude the candidate itself
-  let other: { scope?: string; run?: { run_date?: string }; scores?: Record<string, { ai_risk?: number }> };
+  let other: { scope?: string; run?: { run_date?: string; backfill?: boolean }; scores?: Record<string, { ai_risk?: number }> };
   try {
     other = JSON.parse(readFileSync(p, 'utf8'));
   } catch {
     console.log(`  (skipped unreadable batch ${f})`);
     continue;
   }
-  if (other.scope !== 'occupations' || !other.scores || !other.run?.run_date) continue;
+  if (other.scope !== 'occupations' || !other.scores || !other.run?.run_date || other.run.backfill === true) continue;
   otherBatches += 1;
   const date = other.run.run_date;
   for (const [k, v] of Object.entries(other.scores)) {
@@ -128,7 +131,9 @@ for (const f of readdirSync(SCORES_DIR).filter((f) => f.endsWith('.json'))) {
 let maxOtherDate = '';
 for (const { date } of currentLatest.values()) if (date > maxOtherDate) maxOtherDate = date;
 console.log('\n[freshness]');
-if (otherBatches === 0) {
+if (batch.run.backfill === true) {
+  console.log('  n/a — backfill batch; freshness is irrelevant (never wins).');
+} else if (otherBatches === 0) {
   console.log('  no other occupation batches — this would be the only one (all scores brand-new).');
 } else if (batch.run.run_date > maxOtherDate) {
   console.log(`  OK — run_date ${batch.run.run_date} is newer than all ${otherBatches} existing batch(es) (max ${maxOtherDate}); these scores win.`);
