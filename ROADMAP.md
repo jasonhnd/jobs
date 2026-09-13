@@ -23,7 +23,7 @@ arrive with the `/aiadoption` programme (2026-Q3). Canonical text:
 - haid-1.3 (#512/#518): `data.haid-spec.json` projection + `/data` row.
 - haid-1.4 (#513/#519): `/haid` page + OG card.
 - haid-1.5 (#514/#520): footer link + sitemap entry.
-- haid-1.6 (#515): preview checklist + close-out.
+- haid-1.6 (#515/#521): preview checklist + close-out.
 - Tracker #509 closes after this PR.
 
 ## Active — SEO+GEO on existing pages (#236)
