@@ -633,6 +633,7 @@
 /explore/find-your-fit
 /explore/methodology-trust
 /gyakuten
+/haid
 /interests
 /interests/artistic
 /interests/conventional
