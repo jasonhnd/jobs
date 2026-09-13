@@ -12,6 +12,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Added
 
+- `data.haid-spec.json` — machine-readable HAID v1.0 definitions (no counts), listed on `/data` (haid-1.3, #512).
 - Grok 4.5 backfill batch (`run.backfill: true`, 2026-09-10) lands as xAI history only. Public value, 最新モデル and the runbook 「現行 batch」 are unchanged (mms-9.13, #491).
 - Pinned tests that mean "latest" now go through `activeOccupationRuns` / `latestOccupationRun` / `latestRunPerVendor` so a backfill batch cannot become the current model (mms-9.10, #488).
 - `/models` projection: panel, lane-latest and the personality pair chain skip backfill batches; lane history keeps them (mms-9.9, #487).
