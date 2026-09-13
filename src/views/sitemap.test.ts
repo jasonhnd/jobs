@@ -146,6 +146,7 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
       privacy: '2026-04-30',
       about: '2026-06-13',
       standard: '2026-06-13',
+      haid: '2026-06-13',
       methodology: '2026-06-13',
       models: '2026-06-13',
       data: '2026-06-13',
@@ -157,6 +158,14 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
     assert.equal(byPath('/privacy').lastmod, '2026-04-30');
     assert.equal(byPath('/sectors').lastmod, '2026-06-13');
     assert.equal(byPath('/1').lastmod, '2026-06-13');
+    assert.equal(byPath('/haid').changefreq, 'monthly');
+    assert.equal(byPath('/haid').priority, '0.6');
+    const xml = renderSitemapXml(entries);
+    assert.ok(xml.includes('<loc>https://mirai-shigoto.com/haid</loc>'));
+    const haidBlock = xml.slice(xml.indexOf('<loc>https://mirai-shigoto.com/haid</loc>'));
+    const haidUrl = haidBlock.slice(0, haidBlock.indexOf('</url>'));
+    assert.ok(haidUrl.includes('<changefreq>monthly</changefreq>'));
+    assert.ok(haidUrl.includes('<priority>0.6</priority>'));
   });
 
   test('sends occupation 404 to its collision-free canonical', () => {
