@@ -10,6 +10,22 @@ Fields:
 - depends_on: List of work unit ids that must finish first; use [] when none.
 -->
 
+## Done — HAID v1.0 standard page (haid-1, closed 2026-09-14)
+
+`/haid` publishes HAID v1.0 (人類と AI の距離 10 段階): four relations,
+ten levels with 判定 / 観測窓 / 測り方, three named boundaries, terms,
+rules, rulings, conformance, revision policy. Definitions only — counts
+arrive with the `/aiadoption` programme (2026-Q3). Canonical text:
+`docs/HAID.md` (owner-signed 2026-09-11 / 2026-09-13).
+
+- haid-1.1 (#510/#516): `docs/HAID.md` + docs index + DATA_ARCHITECTURE section.
+- haid-1.2 (#511/#517): `src/site/haid-spec.ts` + invariant tests.
+- haid-1.3 (#512/#518): `data.haid-spec.json` projection + `/data` row.
+- haid-1.4 (#513/#519): `/haid` page + OG card.
+- haid-1.5 (#514/#520): footer link + sitemap entry.
+- haid-1.6 (#515): preview checklist + close-out.
+- Tracker #509 closes after this PR.
+
 ## Active — SEO+GEO on existing pages (#236)
 
 Owner 「继续」 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable
