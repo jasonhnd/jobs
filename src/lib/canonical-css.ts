@@ -35,7 +35,10 @@
  *   - footer 0.72rem (11.52px) / fg2 — matches production (was 0.78rem on preview)
  */
 
+import { DESIGN_TOKENS_CSS, DESIGN_VERSION } from './design-tokens.js';
+
 export const CANONICAL_CSS = `
+/* Design v${DESIGN_VERSION} */
 /* ───── Canonical design tokens (single source of truth) ─────
    Design.md §2.1 で定義された 2 層構造:
      第 1 層 semantic primary (--cream/--ink/--orange/--green-deep/--red/--purple)
@@ -111,6 +114,11 @@ export const CANONICAL_CSS = `
      is identical across the map, occupation, hub, sector, and legal pages.
      (2026-05-31: replaced 6 ad-hoc per-page widths 740/760/820/900/980/1080.) */
   --content-max: 1080px;
+  /* 第 5 層 — Design v1.0 tokens。値の正典は src/lib/design-tokens.ts
+     (Design.md §21.2)。移行 step 1 の時点では宣言のみで参照者はゼロであり、
+     未参照のカスタムプロパティは描画に影響しない。消費者は §19.5 の順序で
+     surface ごとに接続していく。 */
+${DESIGN_TOKENS_CSS}
 }
 
 /* Dark mode neutralized: theme は Design.md §3 で NEUTRALIZED 状態。
