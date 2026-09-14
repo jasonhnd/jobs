@@ -29,6 +29,7 @@ git diff --exit-code
 ## 変更時の注意
 
 - 公開 UI は日本語を正本とし、repository content は英語または日本語で記述する。
+- UI・CSS・markup に触れる変更は [`docs/Design.md`](docs/Design.md)（Design v1.0）を正典とする。実装前に §0 早見カードを読む。`font-size` / `color` / `padding` / `border-radius` / `z-index` に生の値を書かず、トークンを `var()` で参照する。段・役割・トークンを増やす場合は先に `docs/Design.md` を更新し、版の変更はオーナー承認を得る（§19.4 / §20）。surface ごとの移行状況と完了チェックリストは [`docs/DESIGN_CONFORMANCE.md`](docs/DESIGN_CONFORMANCE.md) にあり、移行 PR では同じ PR で台帳の行を更新する。
 - score batch は append-only とし、既存 run を上書きしない。
 - URL、数値、SEO、Edge API は既存の canonical helper と schema を再利用する。
 - secret、生成済み `dist-astro/`、個人用設定を commit しない。
