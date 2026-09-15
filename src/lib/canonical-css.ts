@@ -299,11 +299,20 @@ html {
   overflow-x: clip;
 }
 
+/* Design.md §4.3 — 見出しは 4 級 + Display の 5 段。書体の分界は H2 と H3 の間。
+   セリフ (Display / H1 / H2) は配信 1 ファイルで 400–700 が同一に描画されるため
+   字号だけで階層を作る。H3 (18px) / H4 (16px) では字号差が足りず、字重を実際に
+   持っているのはサンセリフだけなので、ここでサンセリフ 700 に切り替える (§4.4)。 */
 html body h1,
-html body h2,
+html body h2 {
+  font-family: var(--font-serif);
+  color: var(--fg);
+  letter-spacing: -0.005em;
+}
+
 html body h3,
 html body h4 {
-  font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-family: var(--font-sans);
   color: var(--fg);
   letter-spacing: -0.005em;
 }
@@ -311,28 +320,41 @@ html body h4 {
 /* !important on h1/h2/h3 forces hero / nav / detail-article variations
    (specificity 0,0,1,1 from class-scoped rules) to fall back to the canonical
    site-wide typography. Trade-off: map's sticky nav h1 will be bigger; index
-   hero h2 retracts; detail h1 normalises. User opted into uniform headings. */
+   hero h2 retracts; detail h1 normalises. User opted into uniform headings.
+   It stays until design-1.9 (§4.9.1): it currently suppresses 66 class-scoped
+   page heading rules, and removing it before those are gone regresses
+   headings site-wide. H4 is new here and deliberately carries no !important —
+   the canon forbids adding one (§4.9), so page-local h4 rules keep winning
+   until their own surface PR deletes them.
+
+   font-weight is NOT declared on h1/h2: the shipped serif renders 400/500/
+   600/700 identically (measured 595.97px at each), so writing a weight there
+   is a claim the font cannot honour (§4.5). */
 html body h1 {
-  font-size: 1.7rem !important;
-  font-weight: 700 !important;
-  line-height: 1.3 !important;
+  font-size: var(--t-h1) !important;
+  line-height: var(--lh-h1) !important;
 }
 
 html body h2 {
-  font-size: 1.15rem !important;
-  font-weight: 600 !important;
-  line-height: 1.4 !important;
+  font-size: var(--t-h2) !important;
+  line-height: var(--lh-h2) !important;
 }
 
 html body h3 {
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  line-height: 1.5 !important;
+  font-size: var(--t-h3) !important;
+  font-weight: 700 !important;
+  line-height: var(--lh-h3) !important;
+}
+
+html body h4 {
+  font-size: var(--t-body);
+  font-weight: 700;
+  line-height: var(--lh-h4);
 }
 
 html body p {
-  font-size: 1rem;
-  line-height: 1.75;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
   color: var(--fg);
 }
 
