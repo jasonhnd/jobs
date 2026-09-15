@@ -23,7 +23,7 @@ a:hover{color:var(--accent)}
 #wrapper{max-width:var(--content-max);margin:0 auto;padding:32px 20px 80px}
 
 /* Breadcrumb */
-.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
+.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
 .crumb a{color:var(--fg2)}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
@@ -31,13 +31,13 @@ a:hover{color:var(--accent)}
 header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
 h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
 h1 .accent{color:var(--accent-deep)}
-.sub{color:var(--fg2);font-size:.95rem}
+.sub{color:var(--fg2);font-size:var(--t-h3)}
 .sub strong{color:var(--accent-deep);font-weight:600}
-.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+.intro{margin:24px 0;color:var(--fg);font-size:var(--t-h3);max-width:64ch}
 
 /* Section spacing + h2 with bottom border */
 section{margin:48px 0}
-h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
 /* Sector class mobile: tighten + reflow h1 */
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}}
