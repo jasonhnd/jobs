@@ -184,13 +184,24 @@ describe('canonical heading rules consume the tokens (§4.3)', () => {
     }
   });
 
-  test('!important stays on h1/h2/h3 and is absent on h4 (§4.9.1)', () => {
-    // It suppresses 66 class-scoped page heading rules and comes off in
-    // design-1.9. h4 is new in design-1.3 and must never gain one (§4.9).
-    for (const tag of ['h1', 'h2', 'h3']) {
-      assert.match(headingBlock(tag), /font-size: var\(--t-[a-z0-9]+\) !important/);
+  test('no !important survives on any heading (§4.9)', () => {
+    // design-1.3 through design-1.8 asserted the opposite here: the
+    // !important had to STAY while it was suppressing class-scoped page
+    // heading rules. design-1.9 removed the last of those rules and then the
+    // !important itself, so the assertion inverts (§4.9.1).
+    for (const tag of ['h1', 'h2', 'h3', 'h4']) {
+      assert.doesNotMatch(headingBlock(tag), /!important/);
     }
-    assert.doesNotMatch(headingBlock('h4'), /!important/);
+    assert.doesNotMatch(CANONICAL_CSS, /font-size:[^;}]*!important/);
+  });
+
+  test('Feature class grants --t-display on the title, by specificity (§4.8)', () => {
+    // body.page-feature h1 is (0,0,1,2) and beats html body h1 (0,0,0,3), so
+    // the result is independent of declaration order and needs no !important.
+    const m = CANONICAL_CSS.match(/html body\.page-feature h1 \{([^}]*)\}/);
+    assert.ok(m, 'canonical must carry the Feature branch');
+    assert.match(m[1] ?? '', /font-size: var\(--t-display\)/);
+    assert.doesNotMatch(m[1] ?? '', /!important/);
   });
 
   test('serif is h1/h2 only; h3/h4 are sans (§4.4)', () => {

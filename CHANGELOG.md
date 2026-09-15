@@ -10,6 +10,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Changed
+
+- Design v1.0 `feature` surface (design-1.9, #532): canonical's
+  `html body h1/h2/h3 { … !important }` is removed. It existed only to suppress
+  class-scoped page heading rules; design-1.4 through design-1.8 deleted all of
+  them, so `html body h1` (0,0,0,3) now governs on its own. Feature class
+  (`/`, `/models`, `/aiadoption`) gets `body.page-feature h1 { font-size:
+  var(--t-display) }`, which wins on specificity (0,0,1,2) with no `!important`.
+  Page titles across the site now render at exactly two values: 28px (H1) and
+  `clamp(32px, 6vw, 40px)` (Display). `/models` 66.24px → 40px,
+  `/aiadoption` 27.2px → 40px, `/models/<slug>` 64px → 28px (it is not one of
+  the three Feature pages, §4.8).
+- **SEO baseline refreshed** for one intentional change: `/` had two H1
+  elements and §4.3-1 allows exactly one, so the mobile hero title
+  (「あなたの仕事は、AIでどう変わる？」) is demoted to H2. `h1Texts` for `/` goes
+  from two entries to one. No other field on any of the 839 URLs moved.
+
 ### Added
 
 - Footer link 「HAID 標準」 and sitemap entry for `/haid` (haid-1.5, #514).

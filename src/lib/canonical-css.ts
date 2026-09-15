@@ -317,33 +317,43 @@ html body h4 {
   letter-spacing: -0.005em;
 }
 
-/* !important on h1/h2/h3 forces hero / nav / detail-article variations
-   (specificity 0,0,1,1 from class-scoped rules) to fall back to the canonical
-   site-wide typography. Trade-off: map's sticky nav h1 will be bigger; index
-   hero h2 retracts; detail h1 normalises. User opted into uniform headings.
-   It stays until design-1.9 (§4.9.1): it currently suppresses 66 class-scoped
-   page heading rules, and removing it before those are gone regresses
-   headings site-wide. H4 is new here and deliberately carries no !important —
-   the canon forbids adding one (§4.9), so page-local h4 rules keep winning
-   until their own surface PR deletes them.
+/* design-1.9 (§4.9.1) removed the !important that used to sit on every one of
+   these declarations. It existed to suppress class-scoped page heading rules;
+   all of them are gone now, so html body h1 (specificity 0,0,0,3) governs on
+   its own and the specificity war is over. Nothing in src/ may reintroduce
+   an !important on font-size (§4.9).
 
    font-weight is NOT declared on h1/h2: the shipped serif renders 400/500/
    600/700 identically (measured 595.97px at each), so writing a weight there
    is a claim the font cannot honour (§4.5). */
 html body h1 {
-  font-size: var(--t-h1) !important;
-  line-height: var(--lh-h1) !important;
+  font-size: var(--t-h1);
+  line-height: var(--lh-h1);
 }
 
 html body h2 {
-  font-size: var(--t-h2) !important;
-  line-height: var(--lh-h2) !important;
+  font-size: var(--t-h2);
+  line-height: var(--lh-h2);
 }
 
 html body h3 {
-  font-size: var(--t-h3) !important;
-  font-weight: 700 !important;
-  line-height: var(--lh-h3) !important;
+  font-size: var(--t-h3);
+  font-weight: 700;
+  line-height: var(--lh-h3);
+}
+
+/* Feature class (§4.8) — exactly / , /models and /aiadoption. The class grants
+   ONE thing: permission to put the page title on --t-display. Everything below
+   H1 is identical to every other class, and arbitrary values are not permitted
+   even here.
+
+   body.page-feature h1 is (0,0,1,2) and beats html body h1 (0,0,0,3) on
+   specificity, so the result does not depend on declaration order and no
+   !important is needed. The class is set through BaseLayout's existing
+   bodyClass prop. */
+html body.page-feature h1 {
+  font-size: var(--t-display);
+  line-height: var(--lh-display);
 }
 
 html body h4 {
@@ -1036,10 +1046,12 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     display: flex;
     align-items: center;
     gap: 9px;
-    font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif !important;
-    font-size: 1.05rem !important;
-    font-weight: 700 !important;
-    line-height: 1.35 !important;
+    /* §4.9 — no !important on font-size anywhere. §4.4-1 — serif is Display /
+       H1 / H2 only, and this drawer title sits at H3 size, so it is sans. */
+    font-family: var(--font-sans);
+    font-size: var(--t-h3);
+    font-weight: 700;
+    line-height: var(--lh-h3);
     color: var(--fg);
     margin: 0 0 5px !important;
     letter-spacing: -0.005em;
