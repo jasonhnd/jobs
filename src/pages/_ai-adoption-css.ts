@@ -35,8 +35,6 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page h1.adoption-title {
   margin: 0 0 10px;
-  font-size: 1.7rem !important;
-  line-height: 1.3 !important;
   letter-spacing: 0 !important;
 }
 
@@ -148,8 +146,6 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .panel-head h2,
 .ai-adoption-page .wide-panel h2 {
   margin: 0;
-  font-size: 1.15rem !important;
-  line-height: 1.4 !important;
   letter-spacing: 0 !important;
 }
 
@@ -459,8 +455,6 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .explain-block h3 {
   margin: 0 0 6px;
   color: var(--accent-deep);
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
   letter-spacing: 0 !important;
 }
 
@@ -657,8 +651,6 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .formula-primer h3 {
   margin: 0 0 10px;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
   letter-spacing: 0 !important;
 }
 
@@ -691,8 +683,6 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .formula-card h3 {
   margin: 0 0 8px;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
   letter-spacing: 0 !important;
 }
 
@@ -723,8 +713,6 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .source-group-head h3 {
   margin: 0 0 4px;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
   letter-spacing: 0 !important;
 }
 
@@ -781,8 +769,6 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .source-card h4 {
   margin: 0;
-  font-size: 0.95rem !important;
-  line-height: 1.45 !important;
   letter-spacing: 0 !important;
 }
 
@@ -970,10 +956,6 @@ export const AI_ADOPTION_CSS = `
     padding: 18px 14px 64px;
   }
 
-  .ai-adoption-page h1.adoption-title {
-    font-size: 1.7rem !important;
-  }
-
   .ai-adoption-page .summary-grid,
   .ai-adoption-page .formula-grid {
     grid-template-columns: 1fr;
@@ -1020,11 +1002,6 @@ export const AI_ADOPTION_CSS = `
   .ai-adoption-page .source-card-top,
   .ai-adoption-page .source-group-head {
     grid-template-columns: 1fr;
-  }
-
-  .ai-adoption-page .panel-head h2,
-  .ai-adoption-page .wide-panel h2 {
-    font-size: 1.15rem !important;
   }
 
   .ai-adoption-page .chart-stage {
