@@ -23,8 +23,8 @@
 | `feature` | `/` `/models` `/aiadoption` | 3 | 個別 | `legacy` | **最終段（§4.9.1）。** canonical の `!important` 撤去 + `body.page-feature` 分岐 + `models-surface` 上書き削除。他の全 surface 完了が前提 |
 | `interactive` | `/map` | 1 | `_map-css.ts` + `_map-inline.js` | `conformant` | 2026-09-15 完了（#527）。`:root` 撤去、タイル 11.2px→12px・省略記号廃止（截断率 PC 54%→0 / SP 73%→0）、見出し規則 3 件除去 |
 | `detail` | `/<id>` | 556 | `canonical/detail.ts` + `_id-css.ts` | `legacy` | `--ink-*` 系。規模最大のため後半に回す |
-| `hub` | genre index / slug / rankings / q / compare 等 | ~37 | `canonical/hub.ts` | `legacy` | `--fg*` alias 系。第 2 層の扱いに注意（§2.1） |
-| `sector` | `/sectors/*` | 17 | `canonical/sector.ts` | `legacy` | Hub とほぼ同じ。`palt` のみ差分 |
+| `hub` | genre index / slug / rankings / q / compare 等 | ~37 | `canonical/hub.ts` + `rank-list-css.ts` + `templates/Hub.ts` | `conformant` | 2026-09-15 完了（#529）。第 2 層 alias は使用箇所数まで不変（検証済） |
+| `sector` | `/sectors/*` | 17 | `canonical/sector.ts` + `sectors/_sector-css.ts` | `conformant` | 2026-09-15 完了（#529）。`palt` は §6.5 の意図的差分として維持 |
 | `doc` | `/standard` `/methodology` `/about` `/data` `/haid` | 5 | `canonical/doc.ts` | `conformant` | 2026-09-15 完了（#528）。等幅を `--font-mono` に統一（CDP 実測で `/aiadoption` の Osaka と一致）、見出し規則除去、39 箇所を役割別トークン化 |
 | `static` | `/privacy` `/compliance` `/404` | 3 | `canonical/static.ts` | `conformant` | 2026-09-15 完了（#528）。`CANONICAL_STATIC_CSS` を 3 ページへ配線（§6.5.1）、`/about` を範囲から除外（§6.5.3）、34 箇所をトークン化 |
 | `misc` | `/shindan` `/me` `/gyakuten` | 3 | 個別 | `legacy` | class 未所属。通常クラスへの収容で足りる見込み |
@@ -32,13 +32,14 @@
 ## 進捗
 
 ```
-conformant   5 / 10 surface
+conformant   7 / 10 surface
 migrating    0 / 10
-legacy       5 / 10
+legacy       3 / 10
 ```
 
-**step 4 完了。** canonical の見出しがトークンを参照し（step 2・全 839 ページで視覚変化済み）、
-`/map`（step 3）と `doc` + `static`（step 4）がトークン化された。次は step 5 `hub` + `sector`。
+**step 5 完了。** canonical の見出し（step 2・全 839 ページ）、`/map`（step 3）、`doc` + `static`
+（step 4）、`hub` + `sector`（step 5）がトークン化された。残るは `detail`・`misc`・`feature`。
+次は step 6 `detail`（556 ページ・最大）。
 
 > **未所属の範囲（2026-09-15 時点）:** `canonical-css.ts` の footer / cookie banner / skip-link
 > ブロックに生 `font-size` が 36 箇所、`z-index: 9999` `10000`（§9.3 で禁止）が残っている。
@@ -78,7 +79,7 @@ legacy       5 / 10
 | 2 | ✅ `canonical-type` | **あり・全站** | 1 |
 | 3 | ✅ `interactive` | あり | 2 |
 | 4 | ✅ `doc` + `static` | あり | 2 |
-| 5 | ⬜ `hub` + `sector` | あり | 2 |
+| 5 | ✅ `hub` + `sector` | あり | 2 |
 | 6 | ⬜ `detail` | あり | 2 |
 | 7 | ⬜ `misc` | あり | 2 |
 | 8 | ⬜ `feature` | あり | **3〜7 すべて完了** |
@@ -133,4 +134,5 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-14 | `tokens` | `src/lib/design-tokens.ts` 新設（40 トークン + 断点定数 + `DESIGN_VERSION`）。`canonical-css.ts` の `:root` から emit。純粋な追加・参照者ゼロ・視覚変化なし。`legacy` → `conformant`（#525） |
 | 2026-09-15 | `canonical-type` | canonical の h1/h2/h3/h4/p をトークン参照へ。h3/h4 をサンセリフ 700 に切替（§4.4）、セリフから `font-weight` を削除（§4.5）。**全 839 ページに視覚変化。** `legacy` → `conformant`（#526） |
 | 2026-09-15 | `interactive` | `/map`。`:root` 撤去（§18.4）、font-size 33 箇所・角丸 20 箇所・z-index 9 箇所を役割別にトークン化、タイルラベルを「全文か非表示か」に（§5.7・実測閾値）、ページ側見出し規則 3 件除去。`legacy` → `conformant`（#527） |
+| 2026-09-15 | `hub` + `sector` | ~54 ルート。ページ側見出し規則 7 件除去（`Hub.ts` 3 / `answers/index` 1 / `_sector-css` 3）、73 箇所を役割別トークン化、角丸を §8.2 へ。**第 2 層 alias は 1 箇所も置換していない**（使用箇所数の前後比較で検証）。`legacy` → `conformant`（#529） |
 | 2026-09-15 | `doc` + `static` | 等幅を `var(--font-mono)` に統一（`/aiadoption` は UA 既定 monospace = Osaka に落ちていた。CDP `getPlatformFontsForNode` で実測・是正）。`CANONICAL_STATIC_CSS` を 3 ページへ配線（§6.5.1）、`/about` を Static の範囲から除外（§6.5.3）、H3 以下のセリフを廃止（§4.4）、12px 未満 3 箇所を是正、73 箇所を役割別トークン化。`legacy` → `conformant`（#528） |
