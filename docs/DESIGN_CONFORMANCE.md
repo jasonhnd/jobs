@@ -21,7 +21,7 @@
 | `tokens` | `:root` トークン宣言 | — | `design-tokens.ts` + `canonical-css.ts` | `conformant` | 2026-09-14 完了（#525）。40 トークンを追加。参照者ゼロ → **視覚変化なし** |
 | `canonical-type` | 全 839 ページの h1/h2/h3/h4 + p | 839 | `canonical-css.ts` | `conformant` | 2026-09-15 完了（#526）。h1 27.2→28 / h2 18.4→22 / h3 16→18 sans700 / h4 新設 16px sans700。**`!important` は h1/h2/h3 に残存**（撤去は design-1.9）|
 | `feature` | `/` `/models` `/aiadoption` | 3 | 個別 | `legacy` | **最終段（§4.9.1）。** canonical の `!important` 撤去 + `body.page-feature` 分岐 + `models-surface` 上書き削除。他の全 surface 完了が前提 |
-| `interactive` | `/map` | 1 | `_map-css.ts` | `legacy` | `--font-serif` 再宣言あり（§18.4 違反）。行間 1.2 |
+| `interactive` | `/map` | 1 | `_map-css.ts` + `_map-inline.js` | `conformant` | 2026-09-15 完了（#527）。`:root` 撤去、タイル 11.2px→12px・省略記号廃止（截断率 PC 54%→0 / SP 73%→0）、見出し規則 3 件除去 |
 | `detail` | `/<id>` | 556 | `canonical/detail.ts` + `_id-css.ts` | `legacy` | `--ink-*` 系。規模最大のため後半に回す |
 | `hub` | genre index / slug / rankings / q / compare 等 | ~37 | `canonical/hub.ts` | `legacy` | `--fg*` alias 系。第 2 層の扱いに注意（§2.1） |
 | `sector` | `/sectors/*` | 17 | `canonical/sector.ts` | `legacy` | Hub とほぼ同じ。`palt` のみ差分 |
@@ -32,19 +32,23 @@
 ## 進捗
 
 ```
-conformant   2 / 10 surface
+conformant   3 / 10 surface
 migrating    0 / 10
-legacy       8 / 10
+legacy       7 / 10
 ```
 
-**step 2 完了。** canonical の見出しがトークンを参照し、**全 839 ページで視覚変化が発生済み**
-（h1 27.2→28 / h2 18.4→22 / h3 16px serif→18px sans 700 / h4 新設）。改前改後の視覚回帰は
-PC 1440×900・SP 390×844 の 11 ページ × 2 で確認済み（#526）。
-次は step 3 `interactive`（`/map`）。
+**step 3 完了。** canonical の見出しがトークンを参照し（step 2・全 839 ページで視覚変化済み）、
+`/map` がトークン化された（step 3）。次は step 4 `doc` + `static`。
 
 > **未所属の範囲（2026-09-15 時点）:** `canonical-css.ts` の footer / cookie banner / skip-link
 > ブロックに生 `font-size` が 36 箇所、`z-index: 9999` `10000`（§9.3 で禁止）が残っている。
 > これらは台帳のどの surface の範囲にも入っていない。オーナー判断待ち。
+>
+> **正典にトークンが無い値（#527 で判明）:** `/map` には (a) 背面幕 `rgba(36,30,24,0.40)`、
+> (b) シートの**上向き**影 `0 -8px 24px`（§8.3 の 3 種はすべて下向きで表現できない）、
+> (c) SVG data URI 内の `stroke='%237A6F5E'`（data URI 内では `var()` が使えない）が残る。
+> `check-color-tokens`（§19.1・未実装）はこれらを検出する。トークン追加か許容宣言か、
+> design-1.10 着手前にオーナー判断が要る。
 
 ## surface ごとの対象ファイル
 
@@ -72,7 +76,7 @@ PC 1440×900・SP 390×844 の 11 ページ × 2 で確認済み（#526）。
 |---|---|---|---|
 | 1 | ✅ `tokens` | なし | — |
 | 2 | ✅ `canonical-type` | **あり・全站** | 1 |
-| 3 | ⬜ `interactive` | あり | 2 |
+| 3 | ✅ `interactive` | あり | 2 |
 | 4 | ⬜ `doc` + `static` | あり | 2 |
 | 5 | ⬜ `hub` + `sector` | あり | 2 |
 | 6 | ⬜ `detail` | あり | 2 |
@@ -128,3 +132,4 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-14 | 順序 | `feature` を 2 番目から最終段へ（§4.9.1）。`canonical-type` を新設 |
 | 2026-09-14 | `tokens` | `src/lib/design-tokens.ts` 新設（40 トークン + 断点定数 + `DESIGN_VERSION`）。`canonical-css.ts` の `:root` から emit。純粋な追加・参照者ゼロ・視覚変化なし。`legacy` → `conformant`（#525） |
 | 2026-09-15 | `canonical-type` | canonical の h1/h2/h3/h4/p をトークン参照へ。h3/h4 をサンセリフ 700 に切替（§4.4）、セリフから `font-weight` を削除（§4.5）。**全 839 ページに視覚変化。** `legacy` → `conformant`（#526） |
+| 2026-09-15 | `interactive` | `/map`。`:root` 撤去（§18.4）、font-size 33 箇所・角丸 20 箇所・z-index 9 箇所を役割別にトークン化、タイルラベルを「全文か非表示か」に（§5.7・実測閾値）、ページ側見出し規則 3 件除去。`legacy` → `conformant`（#527） |
