@@ -395,7 +395,7 @@ ${AI_FACT_CSS}
 .genre-detail-grid h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 10px}
 .genre-detail-grid ul{list-style:disc;padding-left:20px;margin:0}
 .genre-detail-grid li{font-size:.92rem;color:var(--fg);margin-bottom:6px;line-height:1.6}
-.genre-score{font-family:ui-monospace,monospace;font-size:.78rem;color:var(--accent-deep);font-variant-numeric:tabular-nums;font-weight:600}
+.genre-score{font-family:var(--font-mono);font-size:.78rem;color:var(--accent-deep);font-variant-numeric:tabular-nums;font-weight:600}
 .risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
 .risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
 .risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
