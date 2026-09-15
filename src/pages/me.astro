@@ -27,6 +27,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
 import { OCCUPATION_COUNT } from '@/site/config';
 import { NO_OCC_PATH } from '@/site/no-occ-path';
 import { QUESTIONS, SHARE, VARIANT_BUCKETS_BY_FAMILY } from '@/site/worktype-copy';
@@ -118,6 +119,7 @@ const jsonLd = JSON.stringify({
   <link rel="preload" href="/data.search.json" as="fetch" slot="head" />
   <link rel="preload" href="/data.me-positions.json" as="fetch" slot="head" />
 
+  <style slot="head" set:html={CANONICAL_HUB_CSS} />
   <style slot="head" set:html={`
     /* Same page-class body wash as /shindan and hub/static pages.
        Footer only emits :root tokens; without this, body stays browser-white
@@ -125,16 +127,16 @@ const jsonLd = JSON.stringify({
     html { font-size: 16px; }
     body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; line-height: 1.75; }
     .me-wrapper { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
-    .me-crumb { font-size: .85rem; color: var(--fg2); margin-bottom: 24px; }
+    .me-crumb { font-size:var(--t-sm); color: var(--fg2); margin-bottom: 24px; }
     .me-crumb a { color: var(--fg2); }
     .me-crumb span[aria-hidden] { margin: 0 8px; color: var(--fg3); }
     .me-head { margin-bottom: 28px; border-bottom: 1px solid var(--border); padding-bottom: 22px; }
     .me-head h1 {
-      font-family: var(--font-serif); font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 600; line-height: 1.25; color: var(--fg); margin-bottom: 10px;
+       ;
+        color: var(--fg); margin-bottom: 10px;
     }
     .me-head h1 .accent { color: var(--accent-deep); }
-    .me-head .sub { color: var(--fg2); font-size: .95rem; }
+    .me-head .sub { color: var(--fg2); font-size:var(--t-h3); }
     .me-head .sub strong { color: var(--accent-deep); font-weight: 600; }
     .me-search {
       position: relative; margin: 12px 0 0;
@@ -143,11 +145,11 @@ const jsonLd = JSON.stringify({
       width: 100%; height: 48px; padding: 0 18px 0 44px;
       background: var(--bg2); color: var(--fg);
       border: 1px solid var(--border); border-radius: 999px;
-      font-size: 1rem;
+      font-size:var(--t-body);
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237A6F5E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>");
       background-repeat: no-repeat; background-position: 16px center;
     }
-    .me-search-input::placeholder { color: var(--fg2); font-size: 13px; }
+    .me-search-input::placeholder { color: var(--fg2); font-size:var(--t-body); }
     .me-search-input:focus-visible {
       outline: 2px solid var(--accent); outline-offset: 2px;
       border-color: var(--accent);
@@ -171,11 +173,11 @@ const jsonLd = JSON.stringify({
       background: var(--bg3);
     }
     .me-listbox li.focused { outline: 2px solid var(--accent); outline-offset: -2px; }
-    .me-listbox li .me-li-name { font-weight: 500; }
-    .me-listbox li .me-li-sector { font-size: .76rem; color: var(--fg2); margin-top: 2px; }
+    .me-listbox li .me-li-name { font-weight:600; }
+    .me-listbox li .me-li-sector { font-size:var(--t-xs); color: var(--fg2); margin-top: 2px; }
     .me-listbox li .me-li-pill {
       display: inline-block; padding: 2px 10px; border-radius: 12px;
-      font-size: .72rem; font-weight: 600; font-variant-numeric: tabular-nums;
+      font-size:var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums;
     }
     .me-listbox li .me-li-pill.low { background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg); }
     .me-listbox li .me-li-pill.mid { background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg); }
@@ -189,17 +191,17 @@ const jsonLd = JSON.stringify({
     .me-chip {
       min-height: 44px; padding: 10px 14px; border-radius: 999px;
       border: 1px solid var(--border); background: var(--bg2); color: var(--fg);
-      font: inherit; font-size: .86rem; cursor: pointer;
+      font: inherit; font-size:var(--t-sm); cursor: pointer;
     }
     .me-chip:hover, .me-chip:focus-visible {
       border-color: var(--accent); color: var(--accent); outline: none;
     }
     .me-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .me-empty-hint { margin: 10px 0 14px; font-size: 12px; color: var(--fg2); }
+    .me-empty-hint { margin: 10px 0 14px; font-size:var(--t-xs); color: var(--fg2); }
     .me-empty-preview {
       padding: 16px 18px; background: var(--bg2);
       border: 1px solid var(--border); border-radius: 12px;
-      font-size: 14px; line-height: 1.7; color: var(--fg);
+      font-size:var(--t-sm); line-height: 1.7; color: var(--fg);
     }
     .me-results { display: none; }
     .me-results[data-visible="true"] { display: block; }
@@ -209,10 +211,10 @@ const jsonLd = JSON.stringify({
     }
     .me-summary-head { margin-bottom: 14px; }
     .me-summary-head .me-name {
-      font-family: var(--font-serif); font-size: 1.5rem; font-weight: 600;
+      font-family: var(--font-serif); font-size:var(--t-h2); 
       color: var(--fg); margin-bottom: 4px;
     }
-    .me-summary-head .me-sector { font-size: .85rem; color: var(--fg2); }
+    .me-summary-head .me-sector { font-size:var(--t-sm); color: var(--fg2); }
     .me-summary-stats {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 12px;
@@ -222,12 +224,12 @@ const jsonLd = JSON.stringify({
       padding: 10px 14px; border-radius: 6px;
     }
     .me-summary-stats dt {
-      font-size: .72rem; color: var(--fg2);
+      font-size:var(--t-xs); color: var(--fg2);
       text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px;
     }
     .me-summary-stats dd {
-      font-family: var(--font-serif); font-size: 1.1rem;
-      font-weight: 600; color: var(--fg);
+      font-family: var(--font-serif); font-size:var(--t-h2);
+       color: var(--fg);
       font-variant-numeric: tabular-nums;
     }
     .me-share {
@@ -248,14 +250,14 @@ const jsonLd = JSON.stringify({
       border-radius: 999px;
       background: var(--ink);
       color: var(--paper);
-      font-size: 0.9rem;
-      font-weight: 800;
+      font-size:var(--t-sm);
+      font-weight:700;
       cursor: pointer;
     }
     .me-share-open:hover { filter: brightness(1.06); }
     .me-section { margin: 36px 0; }
     .me-section h2 {
-      font-family: var(--font-serif); font-size: 1.25rem; font-weight: 600;
+       ; 
       color: var(--fg); margin-bottom: 14px;
       padding-bottom: 8px; border-bottom: 1px solid var(--border);
     }
@@ -270,29 +272,29 @@ const jsonLd = JSON.stringify({
     }
     .me-rank-list li.in-top { border-left: 3px solid var(--accent-deep); }
     .me-rank-list a {
-      color: var(--fg); text-decoration: none; font-weight: 500;
+      color: var(--fg); text-decoration: none; font-weight:600;
     }
     .me-rank-list a:hover { color: var(--accent); }
-    .me-rank-desc { font-size: .76rem; color: var(--fg2); margin-top: 2px; }
+    .me-rank-desc { font-size:var(--t-xs); color: var(--fg2); margin-top: 2px; }
     .me-rank-pos { text-align: right; font-variant-numeric: tabular-nums; }
     .me-rank-pos .rank-top {
       display: inline-block; padding: 3px 10px; border-radius: 12px;
-      font-size: .8rem; font-weight: 600;
+      font-size:var(--t-xs); font-weight: 600;
       background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg);
     }
     .me-rank-pos .rank-out {
       display: inline-block;
-      font-size: .78rem; color: var(--fg2);
+      font-size:var(--t-xs); color: var(--fg2);
     }
     .me-rank-pos .rank-detail {
-      font-size: .72rem; color: var(--fg3); margin-top: 2px;
+      font-size:var(--t-xs); color: var(--fg3); margin-top: 2px;
     }
     .me-rank-toggle {
       display: block; width: 100%;
       padding: 10px 16px; margin-top: 8px;
       background: var(--bg2); border: 1px dashed var(--border);
       border-radius: 6px; color: var(--accent-deep);
-      font-size: .9rem; font-weight: 500; text-align: center;
+      font-size:var(--t-sm); font-weight:600; text-align: center;
       cursor: pointer;
     }
     .me-rank-toggle:hover { border-color: var(--accent); color: var(--accent); }
@@ -301,11 +303,11 @@ const jsonLd = JSON.stringify({
       display: flex; flex-direction: column;
       padding: 14px 16px; background: var(--bg2);
       border: 1px solid var(--border); border-radius: 6px;
-      text-decoration: none; color: var(--fg); font-weight: 500;
+      text-decoration: none; color: var(--fg); font-weight:600;
     }
     .me-similar a:hover { border-color: var(--accent); color: var(--accent-deep); }
     .me-similar .me-similar-meta {
-      font-size: .76rem; color: var(--fg2); margin-top: 4px;
+      font-size:var(--t-xs); color: var(--fg2); margin-top: 4px;
       display: flex; gap: 8px; align-items: center;
     }
     .me-status {
@@ -322,23 +324,23 @@ const jsonLd = JSON.stringify({
       display: inline-flex; align-items: center; justify-content: center;
       min-height: 44px; padding: 10px 18px; border-radius: 999px;
       border: 1px solid transparent; background: var(--accent); color: #fff;
-      font-weight: 700; font-size: .92rem; cursor: pointer;
+      font-weight: 700; font-size:var(--t-sm); cursor: pointer;
     }
     .me-quiz-open:hover { filter: brightness(1.04); }
     .me-quiz { margin: 8px 0 28px; padding: 22px;
       background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; }
-    .me-quiz h2 { font-family: var(--font-serif); font-size: 1.2rem; margin: 0 0 8px; }
-    .me-quiz .sub { margin: 0 0 18px; color: var(--fg2); font-size: .9rem; line-height: 1.8; }
+    .me-quiz h2 {  ; margin: 0 0 8px; }
+    .me-quiz .sub { margin: 0 0 18px; color: var(--fg2); font-size:var(--t-sm); line-height: 1.8; }
     .me-quiz-question { border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin: 0 0 12px; background: var(--bg); }
     .me-quiz-question legend { padding: 0; margin: 0 0 10px; font-weight: 600; }
-    .me-quiz-meta { margin-right: 8px; color: var(--accent-deep); font-size: .78rem; font-weight: 700; }
+    .me-quiz-meta { margin-right: 8px; color: var(--accent-deep); font-size:var(--t-xs); font-weight: 700; }
     .me-quiz-choice-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .me-quiz-choice input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
     .me-quiz-pair { word-break: keep-all; overflow-wrap: anywhere; }
     .me-quiz-choice-text {
       display: flex; align-items: center; justify-content: center; min-height: 58px;
       padding: 10px 12px; border: 1px solid var(--border); border-radius: 7px;
-      background: var(--bg2); color: var(--fg); font-size: .88rem; line-height: 1.5;
+      background: var(--bg2); color: var(--fg); font-size:var(--t-body); line-height: 1.5;
       text-align: center; cursor: pointer; word-break: keep-all; overflow-wrap: anywhere;
     }
     .me-quiz-choice input:checked + .me-quiz-choice-text {
@@ -354,18 +356,18 @@ const jsonLd = JSON.stringify({
     .me-quiz-submit:disabled { opacity: .45; cursor: not-allowed; }
     .me-gap { margin: 8px 0 28px; padding: 22px;
       background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; }
-    .me-gap h2 { font-family: var(--font-serif); font-size: 1.2rem; margin: 0 0 10px; line-height: 1.45; }
+    .me-gap h2 {  ; margin: 0 0 10px;  }
     .me-gap-reading, .me-gap-action { margin: 0 0 10px; color: var(--fg); line-height: 1.8; }
     .me-gap-action { color: var(--fg2); }
-    .me-gap-meter { margin: 0; color: var(--fg3); font-size: .82rem; }
-    .me-no-occ-entry { margin: 14px 0 0; font-size: .88rem; }
+    .me-gap-meter { margin: 0; color: var(--fg3); font-size:var(--t-xs); }
+    .me-no-occ-entry { margin: 14px 0 0; font-size:var(--t-sm); }
     .me-no-occ-entry a { color: var(--fg2); }
     .me-no-occ-entry a:hover { color: var(--accent-deep); }
     @media (max-width: 600px) {
       .me-wrapper { padding: 20px 16px 60px; }
       .me-search-input { padding: 0 16px; background-image: none; }
       .me-rank-list li { grid-template-columns: 1fr auto; }
-      .me-summary-head .me-name { font-size: 1.25rem; }
+      .me-summary-head .me-name { font-size:var(--t-h2); }
       .me-quiz-choice-row { grid-template-columns: 1fr; }
       .me-quiz-pair {
         position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
