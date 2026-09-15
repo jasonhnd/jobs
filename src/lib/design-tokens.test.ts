@@ -137,15 +137,79 @@ describe('design-tokens — emission into canonical-css', () => {
     assert.ok(CANONICAL_CSS.includes(`/* Design v${DESIGN_VERSION} */`));
   });
 
-  test('step 1 is inert — no selector consumes a new token yet', () => {
-    // Declarations live on the left of a `:` inside :root; a consumer would
-    // appear as var(--token). Zero references is what makes this unit
-    // revertible with no visual consequence (§21.2).
-    for (const name of Object.keys(CANON)) {
-      assert.ok(
-        !CANONICAL_CSS.includes(`var(${name})`),
-        `${name} is referenced — step 1 must stay reference-free`,
+});
+
+/**
+ * Design.md §4.3 / §4.4 / §4.6 — the canonical heading contract, landed by
+ * design-1.3 (#526). design-1.2 asserted the opposite here (zero references,
+ * which is what made the token unit visually inert); step 2 consumes them by
+ * design, so the assertion moved from "nothing references a token" to "the
+ * heading rules reference the right ones".
+ */
+describe('canonical heading rules consume the tokens (§4.3)', () => {
+  /**
+   * `html body h2 {` also appears inside the grouped font-family rule
+   * (`html body h1,\nhtml body h2 {`), so match every block for the tag and
+   * take the one that actually sizes it — the per-level rule.
+   */
+  const headingBlock = (tag: string): string => {
+    const blocks = [
+      ...CANONICAL_CSS.matchAll(
+        new RegExp(`html body ${tag} \\{([^}]*)\\}`, 'g'),
+      ),
+    ].map((m) => m[1] ?? '');
+    const sized = blocks.find((b) => b.includes('font-size'));
+    assert.ok(sized, `no canonical sizing rule for ${tag}`);
+    return sized;
+  };
+
+  test('h1 / h2 / h3 / h4 size and line-height come from tokens', () => {
+    assert.match(headingBlock('h1'), /font-size: var\(--t-h1\)/);
+    assert.match(headingBlock('h1'), /line-height: var\(--lh-h1\)/);
+    assert.match(headingBlock('h2'), /font-size: var\(--t-h2\)/);
+    assert.match(headingBlock('h2'), /line-height: var\(--lh-h2\)/);
+    assert.match(headingBlock('h3'), /font-size: var\(--t-h3\)/);
+    assert.match(headingBlock('h3'), /line-height: var\(--lh-h3\)/);
+    assert.match(headingBlock('h4'), /font-size: var\(--t-body\)/);
+    assert.match(headingBlock('h4'), /line-height: var\(--lh-h4\)/);
+  });
+
+  test('no raw font-size survives in the canonical heading rules', () => {
+    for (const tag of ['h1', 'h2', 'h3', 'h4']) {
+      assert.doesNotMatch(
+        headingBlock(tag),
+        /font-size: *[0-9.]/,
+        `${tag} still carries a raw font-size`,
       );
     }
+  });
+
+  test('!important stays on h1/h2/h3 and is absent on h4 (§4.9.1)', () => {
+    // It suppresses 66 class-scoped page heading rules and comes off in
+    // design-1.9. h4 is new in design-1.3 and must never gain one (§4.9).
+    for (const tag of ['h1', 'h2', 'h3']) {
+      assert.match(headingBlock(tag), /font-size: var\(--t-[a-z0-9]+\) !important/);
+    }
+    assert.doesNotMatch(headingBlock('h4'), /!important/);
+  });
+
+  test('serif is h1/h2 only; h3/h4 are sans (§4.4)', () => {
+    assert.match(CANONICAL_CSS, /html body h1,\nhtml body h2 \{\n  font-family: var\(--font-serif\);/);
+    assert.match(CANONICAL_CSS, /html body h3,\nhtml body h4 \{\n  font-family: var\(--font-sans\);/);
+  });
+
+  test('no font-weight is declared on the serif levels (§4.5)', () => {
+    // The shipped serif renders 400/500/600/700 identically (595.97px each),
+    // so declaring a weight there is a claim the font cannot honour.
+    assert.doesNotMatch(headingBlock('h1'), /font-weight/);
+    assert.doesNotMatch(headingBlock('h2'), /font-weight/);
+    assert.match(headingBlock('h3'), /font-weight: 700/);
+    assert.match(headingBlock('h4'), /font-weight: 700/);
+  });
+
+  test('body paragraphs use the body token', () => {
+    const p = CANONICAL_CSS.match(/\bhtml body p \{([^}]*)\}/)?.[1] ?? '';
+    assert.match(p, /font-size: var\(--t-body\)/);
+    assert.match(p, /line-height: var\(--lh-body\)/);
   });
 });

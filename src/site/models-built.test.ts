@@ -64,16 +64,28 @@ function assertModelsSurfaceBodyReset(html: string): void {
   assert.match(styleCss(html), /html body\.models-surface\{[^}]*\bmargin:0\b/);
 }
 
-function assertHeadingsStaySerif(html: string): void {
+/**
+ * Design.md §4.4 draws the typeface boundary between H2 and H3: serif covers
+ * Display / H1 / H2, and H3 / H4 are sans 700 because the shipped serif has a
+ * single weight and cannot carry contrast below 22px (§4.5).
+ *
+ * This guard therefore checks h1/h2 only. It used to include h3, which pinned
+ * the pre-v1.0 state — the canonical rule that design-1.3 (#526) had to change
+ * is `html body h3, html body h4 { font-family: var(--font-sans) }`, and the
+ * old assertion made the canon unimplementable. Per §20.6 the implementation
+ * is the bug when it disagrees with the canon, so the assertion moved to the
+ * canon's boundary instead of holding the canon back.
+ */
+function assertSerifHeadingsStaySerif(html: string): void {
   const css = styleCss(html);
   for (const rule of css.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
     const selectors = rule[1] ?? '';
     const declarations = rule[2] ?? '';
     if (!/font-family\s*:\s*var\(--font-sans\)/.test(declarations)) continue;
     assert.equal(
-      /(?:^|,)[^{},]*\bh[123]\b/.test(selectors),
+      /(?:^|,)[^{},]*\bh[12]\b/.test(selectors),
       false,
-      `heading selector must not switch to sans: ${selectors.trim()}`,
+      `serif heading selector must not switch to sans: ${selectors.trim()}`,
     );
   }
 }
@@ -170,7 +182,7 @@ describe('/models built page contract', () => {
     const html = readFileSync(htmlPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingsStaySerif(html);
+    assertSerifHeadingsStaySerif(html);
     assertHeroSizeBeatsCanonical(html, 'html body.models-surface .models-hero h1', 'clamp(2rem,4.6vw,4.2rem)');
     assertHeroSizeBeatsCanonical(html, 'html body.models-surface .vendor-card h3', '1.3rem');
   });
@@ -277,7 +289,7 @@ describe('/models built page contract', () => {
     const html = readFileSync(detailPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingsStaySerif(html);
+    assertSerifHeadingsStaySerif(html);
     assertHeroSizeBeatsCanonical(html, 'html body.models-surface .model-hero h1', 'clamp(2rem,4.5vw,4rem)');
   });
 });
