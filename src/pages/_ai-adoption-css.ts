@@ -28,7 +28,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .adoption-kicker {
   margin: 0 0 8px;
   color: var(--accent-deep);
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   letter-spacing: 0;
 }
@@ -42,7 +42,7 @@ export const AI_ADOPTION_CSS = `
   max-width: 820px;
   margin: 0 0 20px;
   color: var(--fg2);
-  font-size: 1rem;
+  font-size: var(--t-h3);
   line-height: 1.8;
 }
 
@@ -66,7 +66,7 @@ export const AI_ADOPTION_CSS = `
   border-radius: 999px;
   background: var(--bg2);
   color: var(--fg2);
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -88,14 +88,14 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .metric-label {
   margin: 0 0 8px;
   color: var(--fg2);
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   line-height: 1.4;
 }
 
 .ai-adoption-page .metric-value {
   margin: 0;
   color: var(--fg);
-  font-size: 1.65rem;
+  font-size: var(--t-h1);
   font-weight: 700;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
@@ -104,7 +104,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .metric-note {
   margin: 8px 0 0;
   color: var(--fg2);
-  font-size: 0.76rem;
+  font-size: var(--t-xs);
   line-height: 1.45;
 }
 
@@ -152,7 +152,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .panel-sub {
   margin: 0;
   color: var(--fg2);
-  font-size: 0.76rem;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -173,8 +173,8 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .impact-number {
   color: var(--fg);
-  font-size: 2.7rem;
-  font-weight: 800;
+  font-size: var(--t-h1);
+  font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -186,7 +186,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .impact-unit {
   margin-left: 3px;
   color: var(--fg);
-  font-size: 1rem;
+  font-size: var(--t-sm);
   font-weight: 700;
 }
 
@@ -200,7 +200,7 @@ export const AI_ADOPTION_CSS = `
   border-radius: 999px;
   background: var(--bg2);
   color: var(--fg2);
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   line-height: 1;
   vertical-align: 8px;
@@ -210,7 +210,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .impact-row p {
   margin: 7px 0 0;
   color: var(--fg2);
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   line-height: 1.45;
 }
 
@@ -232,7 +232,7 @@ export const AI_ADOPTION_CSS = `
   margin: 12px 0 0;
   padding-left: 18px;
   color: var(--fg2);
-  font-size: 0.86rem;
+  font-size: var(--t-sm);
 }
 
 .ai-adoption-page .chart-fallback li {
@@ -269,7 +269,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .waffle-caption {
   fill: var(--fg2);
-  font-size: 12px;
+  font-size: var(--t-xs);
   font-weight: 700;
 }
 
@@ -343,7 +343,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .stack-label {
   fill: var(--fg);
-  font-size: 11px;
+  font-size: var(--t-xs);
   font-weight: 700;
   pointer-events: none;
 }
@@ -356,7 +356,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .touch-label {
   fill: var(--fg);
-  font-size: 11px;
+  font-size: var(--t-xs);
   font-weight: 700;
 }
 
@@ -386,13 +386,13 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .tile-label {
   fill: var(--fg);
-  font-size: 12px;
+  font-size: var(--t-xs);
   font-weight: 700;
 }
 
 .ai-adoption-page .tile-value {
   fill: var(--fg2);
-  font-size: 11px;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -406,12 +406,12 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .chart-label {
   fill: var(--fg);
-  font-size: 13px;
+  font-size: var(--t-xs);
   font-weight: 700;
 }
 
 .ai-adoption-page .chart-value {
-  font-size: 12px;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -422,7 +422,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .explain-title {
   margin: 0 0 6px;
-  font-size: 1rem;
+  font-size: var(--t-h3);
   font-weight: 700;
   line-height: 1.5;
 }
@@ -435,7 +435,7 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page .explain-number {
-  font-size: 1.8rem;
+  font-size: var(--t-h1);
   font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -443,7 +443,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .explain-share {
   color: var(--fg2);
-  font-size: 0.82rem;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -461,7 +461,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .explain-block p {
   margin: 0;
   color: var(--fg);
-  font-size: 0.9rem;
+  font-size: var(--t-body);
   line-height: 1.65;
 }
 
@@ -476,7 +476,7 @@ export const AI_ADOPTION_CSS = `
   border-radius: 6px;
   background: var(--bg3);
   color: var(--fg);
-  font-size: 0.82rem;
+  font-size: var(--t-sm);
   line-height: 1.65;
   white-space: normal;
 }
@@ -497,7 +497,7 @@ export const AI_ADOPTION_CSS = `
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--bg);
-  font-size: 0.8rem;
+  font-size: var(--t-xs);
 }
 
 .ai-adoption-page .source-mini strong {
@@ -516,7 +516,7 @@ export const AI_ADOPTION_CSS = `
   min-height: 24px;
   padding: 3px 8px;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   line-height: 1;
 }
@@ -567,7 +567,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .freshness-note {
   margin: 0 0 10px;
   color: var(--fg2);
-  font-size: 0.84rem;
+  font-size: var(--t-sm);
   line-height: 1.65;
 }
 
@@ -601,13 +601,13 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .review-item strong {
   color: var(--fg);
-  font-size: 0.84rem;
+  font-size: var(--t-sm);
   line-height: 1.35;
 }
 
 .ai-adoption-page .review-head > div > span {
   color: var(--fg2);
-  font-size: 0.76rem;
+  font-size: var(--t-xs);
   line-height: 1.35;
   font-variant-numeric: tabular-nums;
 }
@@ -670,7 +670,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .formula-primer dd {
   margin: 0;
   color: var(--fg);
-  font-size: 0.9rem;
+  font-size: var(--t-body);
   line-height: 1.65;
 }
 
@@ -719,7 +719,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .source-group-head p {
   margin: 0;
   color: var(--fg2);
-  font-size: 0.84rem;
+  font-size: var(--t-sm);
   line-height: 1.55;
 }
 
@@ -732,7 +732,7 @@ export const AI_ADOPTION_CSS = `
   border-radius: 999px;
   background: var(--bg2);
   color: var(--fg2);
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -788,7 +788,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .source-metrics span {
   display: block;
   color: var(--fg2);
-  font-size: 0.7rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   line-height: 1.35;
 }
@@ -797,7 +797,7 @@ export const AI_ADOPTION_CSS = `
   display: block;
   margin-top: 3px;
   color: var(--fg);
-  font-size: 0.9rem;
+  font-size: var(--t-sm);
   line-height: 1.35;
   font-variant-numeric: tabular-nums;
 }
@@ -809,7 +809,7 @@ export const AI_ADOPTION_CSS = `
   justify-content: space-between;
   gap: 4px 10px;
   margin: 0;
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   color: var(--fg2);
   font-variant-numeric: tabular-nums;
 }
@@ -831,7 +831,7 @@ export const AI_ADOPTION_CSS = `
   width: 100%;
   min-width: 920px;
   border-collapse: collapse;
-  font-size: 0.82rem;
+  font-size: var(--t-sm);
 }
 
 .ai-adoption-page .source-table th,
@@ -844,7 +844,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .source-table th {
   color: var(--fg2);
-  font-size: 0.72rem;
+  font-size: var(--t-sm);
   font-weight: 700;
   letter-spacing: 0;
   background: var(--bg2);
@@ -867,7 +867,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .method-note {
   margin: 10px 0 0;
   color: var(--fg2);
-  font-size: 0.84rem;
+  font-size: var(--t-sm);
   line-height: 1.7;
 }
 
@@ -936,13 +936,11 @@ export const AI_ADOPTION_CSS = `
     gap: 10px;
     padding: 8px 12px;
     border-bottom: 0;
-    font-size: 0.8rem;
   }
 
   .ai-adoption-page .source-table td::before {
     content: attr(data-label);
     color: var(--fg2);
-    font-size: 0.72rem;
     font-weight: 700;
   }
 
@@ -977,7 +975,6 @@ export const AI_ADOPTION_CSS = `
 
   .ai-adoption-page .metric-value,
   .ai-adoption-page .explain-number {
-    font-size: 1.45rem;
   }
 
   .ai-adoption-page .impact-row > div {
@@ -986,11 +983,9 @@ export const AI_ADOPTION_CSS = `
   }
 
   .ai-adoption-page .impact-number {
-    font-size: 2.05rem;
   }
 
   .ai-adoption-page .impact-row p {
-    font-size: 0.72rem;
     line-height: 1.4;
   }
 
