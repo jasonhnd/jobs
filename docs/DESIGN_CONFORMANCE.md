@@ -20,7 +20,7 @@
 |---|---|---|---|---|---|
 | `tokens` | `:root` トークン宣言 | — | `design-tokens.ts` + `canonical-css.ts` | `conformant` | 2026-09-14 完了（#525）。40 トークンを追加。参照者ゼロ → **視覚変化なし** |
 | `canonical-type` | 全 839 ページの h1/h2/h3/h4 + p | 839 | `canonical-css.ts` | `conformant` | 2026-09-15 完了（#526）。h1 27.2→28 / h2 18.4→22 / h3 16→18 sans700 / h4 新設 16px sans700。**`!important` は h1/h2/h3 に残存**（撤去は design-1.9）|
-| `feature` | `/` `/models` `/aiadoption` | 3 | 個別 | `legacy` | **最終段（§4.9.1）。** canonical の `!important` 撤去 + `body.page-feature` 分岐 + `models-surface` 上書き削除。他の全 surface 完了が前提 |
+| `feature` | `/` `/models` `/aiadoption` | 3 | `canonical-css.ts`（`body.page-feature`）+ 個別 | `migrating` | 2026-09-15（#532）：`!important` 撤去・Display 分岐・`models-surface` 上書き削除・H1 重複解消は**完了**。ページ CSS の font-size 224 箇所が未トークン化のため `conformant` にはしない |
 | `interactive` | `/map` | 1 | `_map-css.ts` + `_map-inline.js` | `conformant` | 2026-09-15 完了（#527）。`:root` 撤去、タイル 11.2px→12px・省略記号廃止（截断率 PC 54%→0 / SP 73%→0）、見出し規則 3 件除去 |
 | `detail` | `/<id>` | 556 | `canonical/detail.ts` + `_id-css.ts` + 関連ビュー 2 | `conformant` | 2026-09-15 完了（#530）。12px 未満 24 種を是正、`--ink-3` 文字色 31 箇所を `--ink-meta` へ（§2.2）、字重 800/900/500 を 19 箇所是正 |
 | `hub` | genre index / slug / rankings / q / compare 等 | ~37 | `canonical/hub.ts` + `rank-list-css.ts` + `templates/Hub.ts` | `conformant` | 2026-09-15 完了（#529）。第 2 層 alias は使用箇所数まで不変（検証済） |
@@ -33,12 +33,20 @@
 
 ```
 conformant   9 / 10 surface
-migrating    0 / 10
-legacy       1 / 10
+migrating    1 / 10
+legacy       0 / 10
 ```
 
-**step 7 完了。残るは `feature`（step 8・最終段）のみ。**
-§4.9.1 の前提（他の全 surface 完了）が満たされたため、canonical の `!important` 撤去に着手できる。
+**step 8 の構造部分は完了。`legacy` は 0 になった。**
+
+canonical の `!important` は撤去済みで、ページ標題はサイト全体で **2 値**（H1 28px /
+Display `clamp(32px,6vw,40px)`）に収束した。ただし Feature 3 ページのページ CSS には
+生 `font-size` が **224 箇所**（`_index.css` 153 / `_ai-adoption-css.ts` 43 / `models*` 28）
+残っており、役割判断を機械適用で済ませることは §21.3 が禁じている。**`feature` は
+`migrating` とし、CSS のトークン化は独立した単位として別途行う。**
+
+> `check-type-scale`（§19.1）を有効化する前に、この 224 箇所を片付ける必要がある。
+> design-1.10 の前提条件。
 
 > **未所属の範囲（2026-09-15 時点）:** `canonical-css.ts` の footer / cookie banner / skip-link
 > ブロックに生 `font-size` が 36 箇所、`z-index: 9999` `10000`（§9.3 で禁止）が残っている。
@@ -81,7 +89,7 @@ legacy       1 / 10
 | 5 | ✅ `hub` + `sector` | あり | 2 |
 | 6 | ✅ `detail` | あり | 2 |
 | 7 | ✅ `misc` | あり | 2 |
-| 8 | ⬜ `feature` | あり | **3〜7 すべて完了** |
+| 8 | 🔶 `feature` | あり | **3〜7 すべて完了** — 構造部分のみ完了（#532） |
 | 9 | ⬜ CI ゲート有効化 | なし | 8 |
 
 ### `feature` を最後に置く理由
@@ -133,6 +141,7 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-14 | `tokens` | `src/lib/design-tokens.ts` 新設（40 トークン + 断点定数 + `DESIGN_VERSION`）。`canonical-css.ts` の `:root` から emit。純粋な追加・参照者ゼロ・視覚変化なし。`legacy` → `conformant`（#525） |
 | 2026-09-15 | `canonical-type` | canonical の h1/h2/h3/h4/p をトークン参照へ。h3/h4 をサンセリフ 700 に切替（§4.4）、セリフから `font-weight` を削除（§4.5）。**全 839 ページに視覚変化。** `legacy` → `conformant`（#526） |
 | 2026-09-15 | `interactive` | `/map`。`:root` 撤去（§18.4）、font-size 33 箇所・角丸 20 箇所・z-index 9 箇所を役割別にトークン化、タイルラベルを「全文か非表示か」に（§5.7・実測閾値）、ページ側見出し規則 3 件除去。`legacy` → `conformant`（#527） |
+| 2026-09-15 | `feature` | **canonical の `font-size: … !important` を全廃**（§4.9.1）。前提として残存していた class 付き見出し規則 20 件（hub 系ルート・#529 の対象ファイル外）と `models-surface` 覆盖 9 件を除去。`body.page-feature h1 = --t-display` を canonical に追加（特異度 0,0,1,2 で勝つため `!important` 不要）。`/` の H1 重複を解消（§4.3-1）、SEO ベースライン更新。`assertHeroSizeBeatsCanonical` を適合アサーションへ書き換え（§19.2）。`legacy` → `migrating`（#532） |
 | 2026-09-15 | `misc` | `/shindan` `/me` `/gyakuten` を **Hub class** に収容し `CANONICAL_HUB_CSS` を配線（§6.5）。ページ側見出し規則 21 件除去（正典の計数は 7）、87 箇所を役割別トークン化、禁止字重 6 箇所是正。`check-page-class` の `_shindan-css.ts` 例外を削除（`:root{}` はもう無い）。`legacy` → `conformant`（#531） |
 | 2026-09-15 | `detail` | 556 ページ。ページ側見出し規則 10 件除去、`font-weight` 800/900/500 を 19 箇所是正（§4.5）、**12px 未満 24 種を是正**（最小は `.aio-tag` 8.06px）、**`--ink-3` の文字利用 31 箇所を `--ink-meta` へ**（§2.2 で `--ink-3` は Display/H1 のみ）、`--orange` のテキスト利用と `--cream-2` 上の `--orange-hot` を是正。ヒーロー統計は主 `--t-h1` / 次 `--t-h3`（オーナー裁定）。`legacy` → `conformant`（#530） |
 | 2026-09-15 | `hub` + `sector` | ~54 ルート。ページ側見出し規則 7 件除去（`Hub.ts` 3 / `answers/index` 1 / `_sector-css` 3）、73 箇所を役割別トークン化、角丸を §8.2 へ。**第 2 層 alias は 1 箇所も置換していない**（使用箇所数の前後比較で検証）。`legacy` → `conformant`（#529） |

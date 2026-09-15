@@ -104,7 +104,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
   #wrapper{padding-top:12px}
   .crumb{display:none}
   #content{margin:0;padding:8px 0 6px;border-bottom:none}
-  html body #content h1{font-size:17.5px !important;font-weight:600 !important;line-height:1.4 !important;margin:0;color:var(--fg)}
+  html body #content h1{!important;line-height:1.4 !important;margin:0;color:var(--fg)}
   html body #content h1 .accent{color:var(--fg)}
   .cmp-metric{grid-template-columns:86px 1fr 1fr}
   .versus-hero{display:none}
@@ -128,7 +128,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .compare-points li,.decision-hints li{font-size:.93rem;color:var(--fg);margin-bottom:6px;line-height:1.7}
 .points-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
 @media (max-width:600px){.points-grid{grid-template-columns:1fr;gap:14px}}
-.points-grid h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 6px}
+.points-grid h3{color:var(--accent-deep);margin:0 0 6px}
 .compare-table{table-layout:fixed;width:100%;border-collapse:collapse;margin:24px 0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
 /* RA-140 (2026-05-18): table HTML is 4 cols — 項目 | A名 | B名 | 差分.
    Previous CSS treated col 3 as a "VS" spacer and hid the B-name column on
@@ -162,7 +162,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .topskills-compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
 @media (max-width:600px){.topskills-compare{grid-template-columns:1fr;gap:14px}}
 .tsc-side{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px}
-.tsc-side h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 12px}
+.tsc-side h3{color:var(--accent-deep);margin:0 0 12px}
 .ts-list{list-style:none;counter-reset:tsk;padding:0;margin:0}
 .ts-list li{counter-increment:tsk;display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--border);font-size:.88rem}
 .ts-list li:last-child{border-bottom:none}
@@ -184,7 +184,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 /* RA-136 (Sprint 4.2): escape-route strip — low-AI-risk migration
    candidates surfaced when both compared jobs are AI-impact ≥ 7. */
 .escape-routes{margin:48px 0 32px;padding:24px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;border-left:4px solid var(--accent-deep)}
-.escape-routes h2{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--accent-deep);margin:0 0 8px;border-bottom:none;padding-bottom:0}
+.escape-routes h2{color:var(--accent-deep);margin:0 0 8px;border-bottom:none;padding-bottom:0}
 .escape-lede{color:var(--fg2);font-size:.92rem;margin:0 0 16px;line-height:1.6}
 .escape-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:0;padding:0}
 .escape-card a{display:flex;flex-direction:column;gap:6px;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms}
