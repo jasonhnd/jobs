@@ -8,6 +8,7 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
+import { CANONICAL_STATIC_CSS } from '@/lib/canonical/static';
 import { OCCUPATION_COUNT } from '@/site/config';
 ---
 <BaseLayout
@@ -19,6 +20,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
   ogImage="https://mirai-shigoto.com/api/og?page=404"
   noindex={true}
 >
+  <style slot="head" set:html={CANONICAL_STATIC_CSS} />
   <style slot="head">
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     /* Tokens (:root) + dual-theme blocks: removed 2026-05-16.
@@ -54,7 +56,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
     .top-bar .back {
       color: var(--fg2);
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: var(--t-sm);
     }
     .top-bar .back:hover { color: var(--accent); }
     .theme-toggle {
@@ -91,14 +93,13 @@ import { OCCUPATION_COUNT } from '@/site/config';
       transform: translateY(-4%) rotate(-6deg);
     }
     h1.title {
-      font-size: 1.4rem;
       font-weight: 600;
       margin-top: 6px;
       margin-bottom: 8px;
       color: var(--fg);
     }
     p.subtitle {
-      font-size: 0.95rem;
+      font-size: var(--t-h3);
       color: var(--fg2);
       margin-bottom: 26px;
       max-width: 44ch;
@@ -113,7 +114,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       padding: 12px 22px;
       border-radius: 6px;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: var(--t-sm);
       text-decoration: none;
       transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
     }
@@ -133,7 +134,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       border-top: 1px solid var(--border);
     }
     .helpful-links .label {
-      font-size: 0.74rem;
+      font-size: var(--t-xs);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--fg3);
@@ -147,7 +148,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       text-decoration: none;
       padding: 12px 0;
       border-bottom: 1px solid var(--border);
-      font-size: 0.92rem;
+      font-size: var(--t-sm);
       transition: color 150ms ease, border-bottom-color 150ms ease, padding-left 150ms ease;
     }
     .helpful-links a:hover {
@@ -157,7 +158,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
     }
     .helpful-links a .desc {
       color: var(--fg2);
-      font-size: 0.78rem;
+      font-size: var(--t-xs);
       margin-left: 16px;
       flex-shrink: 0;
     }
@@ -167,7 +168,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       margin-top: 56px;
       padding-top: 22px;
       border-top: 1px solid var(--border);
-      font-size: 0.72rem;
+      font-size: var(--t-xs);
       color: var(--fg2);
       text-align: center;
     }
@@ -187,7 +188,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       padding: 5px 14px;
       border: 1px solid var(--border);
       border-radius: 999px;
-      font-size: 0.78rem;
+      font-size: var(--t-xs);
       line-height: 1.2;
       transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
     }
@@ -197,16 +198,16 @@ import { OCCUPATION_COUNT } from '@/site/config';
       background: rgba(217, 107, 61, 0.06);
       text-decoration: none;
     }
-    footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
+    footer .footer-meta { color: var(--fg2); font-size: var(--t-xs); opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
     footer .footer-meta a { color: var(--accent); }
     footer .footer-meta .nowrap { white-space: nowrap; }
 
     @media (max-width: 540px) {
       #wrapper { padding: 18px 16px 60px; }
-      h1.title { font-size: 1.2rem; }
+      h1.title { }
       .four-oh-four { margin: 16px 0 2px; }
       .helpful-links a .desc { display: none; }
-      footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+      footer .footer-meta { font-size: var(--t-xs); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
     }
   </style>
 

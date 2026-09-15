@@ -473,6 +473,11 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .formula-code {
   display: block;
+  /* Design.md §4.4 — this <code> declared no font-family, so it fell to the UA
+     default monospace, which resolves to Osaka on macOS while /methodology and
+     /data resolve to Menlo. Measured with CDP CSS.getPlatformFontsForNode;
+     getComputedStyle only reports the declared stack, not the resolved face. */
+  font-family: var(--font-mono);
   padding: 10px 12px;
   border-radius: 6px;
   background: var(--bg3);
