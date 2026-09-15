@@ -26,6 +26,39 @@ arrive with the `/aiadoption` programme (2026-Q3). Canonical text:
 - haid-1.6 (#515/#521): preview checklist + close-out.
 - Tracker #509 closes after this PR.
 
+## Active — Design v1.0 migration (design-1, #523)
+
+`docs/Design.md` is the UI/UX canon, agreed with the owner over seven rounds
+(§20.3). Production measured 75 font sizes over 803 declarations, 32 radii,
+21 shadows, 19 z-index values and 16 breakpoints; v1.0 collapses these to a
+7-step type scale, 8 spacing steps, 4 radii, 3 shadows, 6 z-index steps and
+3 breakpoints. Minimum font size is 12px with no exception.
+
+Migration is one surface per PR (§21.1) against the one-way conformance
+ledger `docs/DESIGN_CONFORMANCE.md`. Order is fixed by §19.5 — `feature` is
+LAST because canonical's `!important` currently suppresses 66 page-local
+heading rules (§4.9.1); pulling it forward regresses headings site-wide.
+
+- design-1.1 (#524/#522): `docs/Design.md` + `docs/DESIGN_CONFORMANCE.md` +
+  AGENTS/CONTRIBUTING wiring + Vercel `ignoreCommand`. On preview 2026-09-15.
+- design-1.2 (#525/#534): `src/lib/design-tokens.ts` + `:root` emission —
+  40 tokens, 0 references, no visual change. Ledger `tokens` -> `conformant`
+  (1/10). On preview 2026-09-15.
+- design-1.3 (#526): canonical-type — h1 27.2->28 / h2 18.4->22 / h3 16->18.
+  First site-wide visual change (839 pages); `!important` stays.
+- design-1.4 (#527): interactive — /map. Drop the `--font-serif`
+  redeclaration (§18.4 violation), line-height 1.2 -> 1.4.
+- design-1.5 (#528): doc + static — unify monospace, wire
+  `CANONICAL_STATIC_CSS` (import 0 today).
+- design-1.6 (#529): hub + sector — ~54 routes. Layer-2 aliases stay (§21.4).
+- design-1.7 (#530): detail — 556 `/<id>` pages. Largest surface.
+- design-1.8 (#531): misc — /shindan /me /gyakuten.
+- design-1.9 (#532): feature — FINAL. Remove `!important`, add
+  `body.page-feature`. Blocked until 1.3-1.8 land.
+- design-1.10 (#533): CI gates — check-type-scale / check-color-tokens /
+  check-contrast / check-design-sync, enforced per ledger state.
+- Tracker #523 closes after design-1.10.
+
 ## Active — SEO+GEO on existing pages (#236)
 
 Owner 「继续」 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable

@@ -21,8 +21,10 @@
 
 **規範版: Design v1.0（制定 2026-09-14）**
 
-**実装状況: 未着手。** トークンはまだコードに存在しない。値の正典は現時点では**本書のみ**である。
-`src/lib/design-tokens.ts` は移行 step 1 で新設する（§21.2 に完全な定義を置いてある。そこから写す）。
+**実装状況: step 1 完了（#525。preview 着地 2026-09-15）。** 値の機械正典 `src/lib/design-tokens.ts` が存在し、
+`canonical-css.ts` の `:root` から 40 トークンを emit している。ただし**参照者はまだゼロ**であり、
+レンダリング結果は v1.0 制定時点と同一である。次は step 2 `canonical-type`（§19.5）。
+移行の現在地は [`DESIGN_CONFORMANCE.md`](DESIGN_CONFORMANCE.md) が正典。
 
 ### 絶対規則
 
@@ -78,7 +80,7 @@
 ## 現行契約
 
 - **規範: Design v1.0（制定 2026-09-14）**
-- 機械正典（トークンの値）: `src/lib/design-tokens.ts` — **未作成。** 移行 step 1 で新設する（`DESIGN_CONFORMANCE.md`）
+- 機械正典（トークンの値）: [`src/lib/design-tokens.ts`](../src/lib/design-tokens.ts)（#525。preview 着地 2026-09-15）
 - 人間正典（規則と根拠）: 本書
 - CSS 生成: [`src/lib/canonical-css.ts`](../src/lib/canonical-css.ts)（`:root` 宣言はこの 1 ファイルのみ）
 - ページクラス実装: [`src/lib/canonical/`](../src/lib/canonical/)（detail / hub / sector / static）
@@ -1034,6 +1036,7 @@ h1/h2/h3 の字号変更は 839 ページすべてに及ぶ。これを各 surfa
 | 版 | 日付 | 種別 | 変更 |
 |---|---|---|---|
 | v1.0 | 2026-09-14 | 制定 | 初版。全ページ実測を踏まえ、オーナーとの討論 7 回で全条項を合意 |
+| v1.0 | 2026-09-15 | PATCH | §0 と現行契約の実装状況を更新（`design-tokens.ts` 新設・#525）。**規範的変更なし**（§20.1 により版番号は据え置き） |
 
 ### v1.0 制定の討論記録
 
