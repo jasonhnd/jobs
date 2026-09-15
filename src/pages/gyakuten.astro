@@ -9,6 +9,7 @@
 import { join } from 'node:path';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
 import { GYAKUTEN_CSS } from './_gyakuten-css';
 import { strictReadJson } from '@/lib/strict-load';
 import { TreemapFileSummarySchema, type TreemapRecordSummary } from '@/lib/projection-schemas';
@@ -219,6 +220,7 @@ const jsonLd = safeJsonForScript({
   ogImage="https://mirai-shigoto.com/api/og?page=gyakuten"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={CANONICAL_HUB_CSS} />
   <style slot="head" set:html={GYAKUTEN_CSS} />
 
   <div id="wrapper">

@@ -11,6 +11,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
 import { SHINDAN_CSS } from './_shindan-css';
 import {
   DISCLAIMER,
@@ -101,6 +102,7 @@ const jsonLd = safeJsonForScript({
   <link rel="preload" href="/data.treemap.json" as="fetch" slot="head" />
   <link rel="preload" href="/data.search.json" as="fetch" slot="head" />
   <link rel="preload" href="/data.transfer_paths.json" as="fetch" slot="head" />
+  <style slot="head" set:html={CANONICAL_HUB_CSS} />
   <style slot="head" set:html={SHINDAN_CSS} />
 
   <div id="wrapper">
