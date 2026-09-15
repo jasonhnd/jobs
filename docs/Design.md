@@ -679,13 +679,13 @@ canvas の背景はサイト `--bg` に一致させる（§3.2）。
 | **Hub** | 約 37 ルート（13 genre index + genre slug + rankings / q / compare 等） | `canonical/hub.ts` | 980 | `--fg*` alias | ✅ 稼働 |
 | **Sector** | 17 個の `/sectors/` | `canonical/sector.ts` | 980 | — | ✅ 稼働（Hub との差分は `font-feature-settings:"palt"` のみ） |
 | **Doc** | `/standard` `/methodology` `/about` `/data` `/haid` | `canonical/doc.ts` | 1080 | — | ✅ 稼働 |
-| **Static** | `/privacy` `/compliance` `/404` | `canonical/static.ts` | 極狭 | — | ❌ **未配線**（§6.5.1） |
+| **Static** | `/privacy` `/compliance` `/404` | `canonical/static.ts` | 極狭 | — | ✅ 稼働（2026-09-15 配線・#527 系 design-1.5） |
 | **Interactive** | `/` `/map` | 個別 | 個別 | 個別 | ⚠️ class 外 |
 | **Feature** | `/models` `/aiadoption` `/shindan` `/me` `/gyakuten` | なし | 個別 | 個別 | ❌ **未定義**（§6.5.2） |
 
-### §6.5.1 Static class の未配線 `[移行中]`
+### §6.5.1 Static class の配線 `[確定]`
 
-`CANONICAL_STATIC_CSS` は定義・export・文書化されているが、**実際に import しているページが存在しない**。`/privacy` `/compliance` `/404` は class 無しで動いている。配線するか、削除するかを決める。
+**2026-09-15 に配線済み（design-1.5 / #528）。** それまで `CANONICAL_STATIC_CSS` は定義・export・文書化されていながら **import しているページが 0** で、`/privacy` `/compliance` `/404` は class 無しで動いていた。現在は 3 ページとも `<style slot="head" set:html={CANONICAL_STATIC_CSS} />` で読み込む。
 
 ### §6.5.2 Feature class の新設 `[確定]`
 
@@ -713,9 +713,9 @@ Feature class の制約:
 - ただし `!important` と特異度エスカレーションは禁止（§4.9）。分岐は `body[data-page-class="feature"]` で canonical 側が行う。
 - Display 以外の段（H2 以下・本文・ラベル）は**他 class と完全に同じ**。Feature が特別なのは標題 1 段だけである。
 
-### §6.5.3 class 二重所属の解消 `[移行中]`
+### §6.5.3 class 二重所属の解消 `[確定]`
 
-`/about` が Static class と Doc class の双方で範囲宣言されている。Doc class を正とし、Static 側の記述から外す。
+`/about` が Static class と Doc class の双方で範囲宣言されていた。Doc class を正とし、Static 側の記述から外す。**2026-09-15 に `canonical/static.ts` の範囲コメントから削除済み**（design-1.5 / #528）。
 
 ## §6.6 treemap ツールチップ CTA `[確定]`
 
@@ -951,7 +951,7 @@ class 別の wrapper 幅（§6.5 の表）はこの内側での上限であり�
 | 対象 | 状態 |
 |---|---|
 | `styles/mobile-tokens.css` | 「site-wide single source of truth」と自称。**参照 0**。40/32/24/18/15/13/11 の型階層を持つが誰も使っていない |
-| `CANONICAL_STATIC_CSS` | 4 ページ向けに定義・export 済み。**import 0**（§6.5.1） |
+| `CANONICAL_STATIC_CSS` | ~~import 0~~ → **2026-09-15 に 3 ページへ配線済み**（§6.5.1・design-1.5） |
 | `styles/mobile-tokens.css` 内の記述 | 存在しない `styles/mobile-tokens.json` と、削除済みの `docs/MOBILE_DESIGN.md` を現存物として説明している。ファイル冒頭コメントを実態に合わせる |
 
 また、本書が存在しなかった間に `Design.md §2.1 / §3.5 / §6.5 / §18.4` 等を引用していたコード内コメントは、本書の復活により**すべて有効な参照に戻った**。条項番号を再採番しないのはこのためである（§1）。
@@ -1037,6 +1037,7 @@ h1/h2/h3 の字号変更は 839 ページすべてに及ぶ。これを各 surfa
 |---|---|---|---|
 | v1.0 | 2026-09-14 | 制定 | 初版。全ページ実測を踏まえ、オーナーとの討論 7 回で全条項を合意 |
 | v1.0 | 2026-09-15 | PATCH | §0 と現行契約の実装状況を更新（`design-tokens.ts` 新設・#525）。**規範的変更なし**（§20.1 により版番号は据え置き） |
+| v1.0 | 2026-09-15 | PATCH | §6.5 の Static class を「未配線」→「稼働」に、§6.5.1 / §6.5.3 / §19.3 の実装状況を更新（design-1.5・#528）。**規範的変更なし。** §20.3 の「制定時点で判明していた不適合」表は当時の記録として一切変更しない |
 
 ### v1.0 制定の討論記録
 
