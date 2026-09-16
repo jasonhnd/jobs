@@ -56,8 +56,8 @@ button,input{font:inherit}
 .shindan-choice input:focus-visible + .shindan-choice-text{outline:2px solid var(--accent);outline-offset:2px}
 .shindan-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}
 .shindan-primary,.shindan-secondary,.shindan-share-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:999px;border:1px solid transparent;text-decoration:none;cursor:pointer;font-weight:700;font-size:var(--t-sm);line-height:1.2}
-.shindan-primary{background:var(--accent);color:#fff}
-.shindan-primary:hover{filter:brightness(1.04);text-decoration:none;color:#fff}
+.shindan-primary{background:var(--accent);color:var(--paper)}
+.shindan-primary:hover{filter:brightness(1.04);text-decoration:none;color:var(--paper)}
 .shindan-primary:disabled{opacity:.45;cursor:not-allowed;filter:none}
 .shindan-secondary{background:transparent;color:var(--accent-deep);border-color:var(--border)}
 .shindan-secondary:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
@@ -140,9 +140,9 @@ button,input{font:inherit}
 .shindan-share-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .shindan-share-btn{background:var(--bg);border-color:var(--border);color:var(--fg)}
 .shindan-share-btn:hover{text-decoration:none;transform:translateY(-1px)}
-.shindan-share-btn[data-platform="x"]{background:#111;color:#fff;border-color:#111}
-.shindan-share-btn[data-platform="line"]{background:#06C755;color:#fff;border-color:#06C755}
-.shindan-share-btn[data-platform="native"]{background:var(--accent-deep);color:#fff;border-color:var(--accent-deep)}
+.shindan-share-btn[data-platform="x"]{background:#111;color:var(--paper);border-color:#111}
+.shindan-share-btn[data-platform="line"]{background:#06C755;color:var(--paper);border-color:#06C755}
+.shindan-share-btn[data-platform="native"]{background:var(--accent-deep);color:var(--paper);border-color:var(--accent-deep)}
 .shindan-share-btn[data-platform="copy"]{color:var(--accent-deep)}
 .shindan-og-link{font-size:var(--t-sm);color:var(--fg2)}
 .shindan-toast{color:var(--accent);font-size:var(--t-sm);opacity:0;transition:opacity .18s ease}

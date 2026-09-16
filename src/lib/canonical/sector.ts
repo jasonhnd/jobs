@@ -29,7 +29,7 @@ a:hover{color:var(--accent)}
 
 /* Header + h1 (sector class can have flex layout for switch widgets) */
 header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
-h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
+h1{color:var(--fg);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
 h1 .accent{color:var(--accent-deep)}
 .sub{color:var(--fg2);font-size:var(--t-h3)}
 .sub strong{color:var(--accent-deep);font-weight:600}

@@ -199,7 +199,7 @@ table.bands td.sc{font-variant-numeric:tabular-nums;font-weight:700;white-space:
 /* ── Numbered steps ── */
 .steps{counter-reset:step;margin:14px 0}
 .step-item{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:13px 16px 13px 50px;margin:8px 0;position:relative}
-.step-item::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;width:24px;height:24px;border-radius:999px;background:var(--accent);color:#fff;font-size:var(--t-xs);font-weight:700;display:flex;align-items:center;justify-content:center}
+.step-item::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;width:24px;height:24px;border-radius:999px;background:var(--accent);color:var(--paper);font-size:var(--t-xs);font-weight:700;display:flex;align-items:center;justify-content:center}
 .step-item .t{font-weight:600;margin-bottom:2px;color:var(--fg)}
 .step-item .d{font-size:var(--t-sm);color:var(--fg2);line-height:1.7;max-width:none}
 

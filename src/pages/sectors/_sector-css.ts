@@ -21,7 +21,7 @@ import { RANK_LIST_CSS } from '@/lib/rank-list-css';
 
 const SECTOR_PAGE_SPECIFIC_CSS = `
 .top-banner{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 16px;font-size:var(--t-sm);color:var(--fg2);display:flex;gap:12px;align-items:center;justify-content:center}
-.badge{background:var(--accent);color:#fff;padding:2px 8px;font-size:var(--t-xs);letter-spacing:.05em;font-weight:700;border-radius:2px}
+.badge{background:var(--accent);color:var(--paper);padding:2px 8px;font-size:var(--t-xs);letter-spacing:.05em;font-weight:700;border-radius:2px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:32px 0}
 @media (max-width:768px){.stats{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){.stats{grid-template-columns:1fr}}
