@@ -55,7 +55,15 @@ legacy       0 / 10
 > 4. **統計数値の書体** — §4.7 は serif（討論 4）。`/<id>` は準拠済みだが
 >    `/aiadoption` `/` `/models` は sans。トークン化ではなくブランド判断のため未着手。
 > 5. **裸の `<small>`** — UA 既定 0.8em のため `--t-xs` の親の中で 9.6px に落ちる。
->    `check-type-scale` は継承後の実効値も見る必要がある。
+>    `check-type-scale` は宣言値のみを見る。継承後の実効値検査は未実装。
+>
+> **CI ゲート稼働後に判明した残件（2026-09-16・#533）**
+>
+> - **§18.7 class 所属**: 14 ページが class CSS を import していない
+>   （`rankings/[type]` `compare/*` `skills/*` `interests/*` ほか）。`check-page-class`
+>   が警告で列挙する。§18.7 自体が `[移行中]` のため失敗にはしていない。
+> - **`check-color-tokens`**: 71 箇所（rgba 色調 54 / 生 hex 17）。アルファ・色調の
+>   トークンが正典に無いため報告のみ。`bun run drift:design` で内訳が出る。
 
 > **未所属の範囲（2026-09-15 時点）:** `canonical-css.ts` の footer / cookie banner / skip-link
 > ブロックに生 `font-size` が 36 箇所、`z-index: 9999` `10000`（§9.3 で禁止）が残っている。
@@ -99,7 +107,7 @@ legacy       0 / 10
 | 6 | ✅ `detail` | あり | 2 |
 | 7 | ✅ `misc` | あり | 2 |
 | 8 | ✅ `feature` | あり | **3〜7 すべて完了**（#532・3 PR に分割） |
-| 9 | ⬜ CI ゲート有効化 | なし | 8 |
+| 9 | ✅ CI ゲート有効化 | なし | 8 |
 
 ### `feature` を最後に置く理由
 
@@ -150,6 +158,7 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-14 | `tokens` | `src/lib/design-tokens.ts` 新設（40 トークン + 断点定数 + `DESIGN_VERSION`）。`canonical-css.ts` の `:root` から emit。純粋な追加・参照者ゼロ・視覚変化なし。`legacy` → `conformant`（#525） |
 | 2026-09-15 | `canonical-type` | canonical の h1/h2/h3/h4/p をトークン参照へ。h3/h4 をサンセリフ 700 に切替（§4.4）、セリフから `font-weight` を削除（§4.5）。**全 839 ページに視覚変化。** `legacy` → `conformant`（#526） |
 | 2026-09-15 | `interactive` | `/map`。`:root` 撤去（§18.4）、font-size 33 箇所・角丸 20 箇所・z-index 9 箇所を役割別にトークン化、タイルラベルを「全文か非表示か」に（§5.7・実測閾値）、ページ側見出し規則 3 件除去。`legacy` → `conformant`（#527） |
+| 2026-09-16 | ゲート | `check-type-scale` / `check-contrast` / `check-design-sync` を実装し `verify:gates` へ接続。`check-page-class` に §18.7 class 所属検査（警告）を追加。`check-color-tokens` は `drift:design` の報告として実装（正典にアルファ・色調トークンが無いため）。実装時に **type-scale が 14 件の見落としを検出**（`canonical/detail.ts` と `sector.ts` の**裸 `h1{}`** を含む。#532 の検証 grep はセレクタ前置を要求していたため裸要素セレクタを取りこぼしていた）。すべて是正済み（#533） |
 | 2026-09-15 | `feature` | ページ CSS の font-size 224 箇所を役割別トークン化（`/aiadoption` 43 / `/models` 系 27 / `/` 152）。禁止字重 28 箇所是正。裸 `<small>` が `--t-xs` の親で 9.6px に落ちる問題を是正。`migrating` → `conformant`。**全 10 surface 完了**（#532） |
 | 2026-09-15 | `feature` | **canonical の `font-size: … !important` を全廃**（§4.9.1）。前提として残存していた class 付き見出し規則 20 件（hub 系ルート・#529 の対象ファイル外）と `models-surface` 覆盖 9 件を除去。`body.page-feature h1 = --t-display` を canonical に追加（特異度 0,0,1,2 で勝つため `!important` 不要）。`/` の H1 重複を解消（§4.3-1）、SEO ベースライン更新。`assertHeroSizeBeatsCanonical` を適合アサーションへ書き換え（§19.2）。`legacy` → `migrating`（#532） |
 | 2026-09-15 | `misc` | `/shindan` `/me` `/gyakuten` を **Hub class** に収容し `CANONICAL_HUB_CSS` を配線（§6.5）。ページ側見出し規則 21 件除去（正典の計数は 7）、87 箇所を役割別トークン化、禁止字重 6 箇所是正。`check-page-class` の `_shindan-css.ts` 例外を削除（`:root{}` はもう無い）。`legacy` → `conformant`（#531） |
