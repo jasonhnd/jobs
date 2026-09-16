@@ -279,8 +279,8 @@ html body :focus-visible {
 
 html body {
   font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
   /* RA-006 audit (2026-05-18): defence-in-depth against horizontal-swipe
@@ -1180,7 +1180,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
 }
 .me-cta-strip p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--t-sm);
   color: var(--fg, #241E18);
   line-height: 1.5;
   flex: 1 1 320px;
@@ -1199,7 +1199,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   color: var(--bg, #FAF6EE);
   text-decoration: none;
   border-radius: 999px;
-  font-size: 0.92rem;
+  font-size: var(--t-sm);
   font-weight: 600;
   white-space: nowrap;
   transition: background 120ms, transform 120ms;
@@ -1237,7 +1237,7 @@ html body details.chap > summary {
   padding: 12px 16px;
   min-height: 44px;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: var(--t-body);
   color: var(--fg);
 }
 html body details.chap > summary::-webkit-details-marker { display: none; }
@@ -1245,7 +1245,7 @@ html body details.chap > summary::after {
   content: "›";
   flex-shrink: 0;
   color: var(--fg3);
-  font-size: 1.15rem;
+  font-size: var(--t-h3);
   line-height: 1;
   transform: rotate(90deg);
 }

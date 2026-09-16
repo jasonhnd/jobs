@@ -37,7 +37,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .verdict-share{position:absolute;top:14px;right:14px;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border-radius:10px;background:var(--cream, var(--bg3));color:var(--ink);text-decoration:none}
     .verdict-share svg{width:17px;height:17px;fill:currentColor}
     .verdict-share span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-    .verdict-share:hover,.verdict-share:focus-visible{background:var(--orange-hot);color:#fff;text-decoration:none;outline:none}
+    .verdict-share:hover,.verdict-share:focus-visible{background:var(--orange-hot);color:var(--paper);text-decoration:none;outline:none}
     .verdict-grid{display:flex;flex-direction:column;gap:10px;padding-right:8px}
     .v-nums{display:flex;gap:22px;align-items:flex-end}
     .v-num{min-width:0;display:flex;flex-direction:column;gap:4px}
@@ -55,7 +55,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .v-facts{margin:0;font-size:var(--t-sm);line-height:1.55;color:var(--ink-meta)}
     .v-doors{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
     .v-doors a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 13px;border-radius:999px;font-size:var(--t-sm);font-weight:700;text-decoration:none;line-height:1.2;white-space:nowrap}
-    .v-doors a.solid{background:var(--accent);color:#fff;border:1.5px solid var(--accent)}
+    .v-doors a.solid{background:var(--accent);color:var(--paper);border:1.5px solid var(--accent)}
     .v-doors a.ghost{background:var(--paper);color:var(--ink);border:1.5px solid rgba(36,30,24,0.16)}
     .v-doors a:hover{text-decoration:none;opacity:0.92}
     .aiois-disc{margin:10px 4px 16px;font-size:var(--t-xs);line-height:1.65;color:var(--ink-meta)}
@@ -68,7 +68,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .chipnav::-webkit-scrollbar{display:none}
     .chipnav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:7px 13px;border:1px solid rgba(163,151,133,.4);border-radius:999px;font-size:var(--t-xs);font-weight:700;color:var(--ink-meta);text-decoration:none;background:var(--paper);white-space:nowrap}
     .chipnav a:hover{text-decoration:none;color:var(--ink)}
-    .chipnav a[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:#FAF6EE}
+    .chipnav a[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--cream)}
     @media (max-width:768px){
       body>header{position:sticky;top:0;z-index:100;background:var(--bg)}
       .chipnav{position:sticky;top:48px;z-index:90}

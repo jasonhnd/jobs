@@ -37,7 +37,7 @@ export const CANONICAL_DETAIL_CSS = `
 
     /* Hero h1 — detail class signature */
     header#content{margin-bottom:6px}
-    h1{font-size:clamp(1.9rem,1.5rem+1.4vw,3.2rem);font-weight:700;letter-spacing:-0.015em;line-height:1.06;margin:0;color:var(--ink)}
+    h1{letter-spacing:-0.015em;margin:0;color:var(--ink)}
     h1 .accent{color:var(--ink);font-style:normal}
     h1 .h1-sub{font-size:var(--t-sm);color:var(--ink-meta);font-weight:600;margin-left:8px}
 

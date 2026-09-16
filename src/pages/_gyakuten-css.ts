@@ -21,8 +21,8 @@ a:hover{color:var(--accent);text-decoration:underline}
 .gyakuten-lead{max-width:68ch;margin:0;color:var(--fg);font-size:var(--t-h3);line-height:1.85}
 .gyakuten-hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center}
 .gyakuten-primary,.gyakuten-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:var(--t-sm);line-height:1.2;text-decoration:none}
-.gyakuten-primary{background:var(--accent);color:#fff}
-.gyakuten-primary:hover{filter:brightness(1.04);color:#fff;text-decoration:none}
+.gyakuten-primary{background:var(--accent);color:var(--paper)}
+.gyakuten-primary:hover{filter:brightness(1.04);color:var(--paper);text-decoration:none}
 .gyakuten-secondary{background:var(--bg2);color:var(--accent-deep);border-color:var(--border)}
 .gyakuten-secondary:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
 .gyakuten-proof{display:grid;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px}
@@ -68,7 +68,7 @@ a:hover{color:var(--accent);text-decoration:underline}
 .final-cta h2{letter-spacing:0;margin:0 0 8px;color:var(--bg)}
 .final-cta p{margin:0;color:rgba(250,246,238,.86);font-size:var(--t-sm);line-height:1.75}
 .final-cta .gyakuten-primary{background:var(--orange-soft);color:var(--fg)}
-.final-cta .gyakuten-primary:hover{background:#fff;color:var(--fg)}
+.final-cta .gyakuten-primary:hover{background:var(--paper);color:var(--fg)}
 .gyakuten-note{margin:18px 0 0;padding:13px 15px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);border-radius:7px;color:var(--fg2);font-size:var(--t-xs);line-height:1.7}
 .family-cpb{--family-accent:#D96B3D;--family-soft:rgba(217,107,61,.09)}
 .family-cpk{--family-accent:#8D6E63;--family-soft:rgba(141,110,99,.1)}
