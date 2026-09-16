@@ -26,38 +26,48 @@ arrive with the `/aiadoption` programme (2026-Q3). Canonical text:
 - haid-1.6 (#515/#521): preview checklist + close-out.
 - Tracker #509 closes after this PR.
 
-## Active — Design v1.0 migration (design-1, #523)
+## Done — Design v1.0 migration (design-1, closed 2026-09-16)
 
 `docs/Design.md` is the UI/UX canon, agreed with the owner over seven rounds
 (§20.3). Production measured 75 font sizes over 803 declarations, 32 radii,
-21 shadows, 19 z-index values and 16 breakpoints; v1.0 collapses these to a
+21 shadows, 19 z-index values and 16 breakpoints. v1.0 collapses these to a
 7-step type scale, 8 spacing steps, 4 radii, 3 shadows, 6 z-index steps and
-3 breakpoints. Minimum font size is 12px with no exception.
+3 breakpoints, with a 12px floor and no exceptions.
 
-Migration is one surface per PR (§21.1) against the one-way conformance
-ledger `docs/DESIGN_CONFORMANCE.md`. Order is fixed by §19.5 — `feature` is
-LAST because canonical's `!important` currently suppresses 66 page-local
-heading rules (§4.9.1); pulling it forward regresses headings site-wide.
+Migration ran one surface per PR against the one-way conformance ledger
+`docs/DESIGN_CONFORMANCE.md`. `feature` went last because canonical's
+`!important` was suppressing 66 page-local heading rules (§4.9.1).
 
-- design-1.1 (#524/#522): `docs/Design.md` + `docs/DESIGN_CONFORMANCE.md` +
-  AGENTS/CONTRIBUTING wiring + Vercel `ignoreCommand`. On preview 2026-09-15.
-- design-1.2 (#525/#534): `src/lib/design-tokens.ts` + `:root` emission —
-  40 tokens, 0 references, no visual change. Ledger `tokens` -> `conformant`
-  (1/10). On preview 2026-09-15.
-- design-1.3 (#526): canonical-type — h1 27.2->28 / h2 18.4->22 / h3 16->18.
-  First site-wide visual change (839 pages); `!important` stays.
-- design-1.4 (#527): interactive — /map. Drop the `--font-serif`
-  redeclaration (§18.4 violation), line-height 1.2 -> 1.4.
-- design-1.5 (#528): doc + static — unify monospace, wire
-  `CANONICAL_STATIC_CSS` (import 0 today).
-- design-1.6 (#529): hub + sector — ~54 routes. Layer-2 aliases stay (§21.4).
-- design-1.7 (#530): detail — 556 `/<id>` pages. Largest surface.
-- design-1.8 (#531): misc — /shindan /me /gyakuten.
-- design-1.9 (#532): feature — FINAL. Remove `!important`, add
-  `body.page-feature`. Blocked until 1.3-1.8 land.
-- design-1.10 (#533): CI gates — check-type-scale / check-color-tokens /
-  check-contrast / check-design-sync, enforced per ledger state.
-- Tracker #523 closes after design-1.10.
+- design-1.1 (#524/#522): canon + ledger + AGENTS wiring + Vercel ignoreCommand.
+- design-1.2 (#525/#534): `design-tokens.ts`, 40 tokens, zero references.
+- design-1.3 (#526/#536): canonical-type — h1 27.2→28 / h2 18.4→22 /
+  h3 16→18 sans, h4 added. First site-wide visual change, 839 pages.
+- design-1.4 (#527/#537): `/map` — tile labels full-or-none; truncation
+  PC 54%→0, SP 73%→0, threshold measured not hardcoded (§5.7).
+- design-1.5 (#528/#538): doc + static — one monospace (`/aiadoption` was
+  falling to Osaka), `CANONICAL_STATIC_CSS` finally wired (§6.5.1).
+- design-1.6 (#529/#539): hub + sector — ~54 routes; layer-2 aliases verified
+  untouched by per-file occurrence counts (§21.4).
+- design-1.7 (#530/#540): detail — 556 pages; sub-12px 250→70 (smallest was
+  8.06px), 31 `--ink-3` text colours moved to `--ink-meta` (§2.2).
+- design-1.8 (#531/#541): misc — three pages into Hub class, wired not just
+  declared.
+- design-1.9 (#532/#542,#543,#544): feature — canonical `!important` removed,
+  `body.page-feature h1` Display branch by specificity, 224 page-CSS values
+  tokenised. Page titles now render at exactly two values site-wide.
+- design-1.10 (#533/#545): CI gates — type-scale / contrast / design-sync
+  enforce per surface from the ledger; color-tokens reports.
+- Tracker #523 closes with this entry.
+
+Open, needing an owner decision:
+
+- **alpha / tint tokens.** `check-color-tokens` is a report, not a gate: 71 raw
+  colours remain, 54 of them `rgba()` tints the canon cannot express.
+- **the unassigned range** — `canonical-css.ts`'s top nav, footer, cookie
+  banner and skip link belong to no surface, and hold the last sub-12px text.
+- **§18.7** — 14 pages import no page-class CSS.
+- **statistics typeface** — §4.7 says serif; only `/<id>` complies.
+- **`.four-oh-four`** — a decorative numeral with no role in §4.7.
 
 ## Active — SEO+GEO on existing pages (#236)
 
