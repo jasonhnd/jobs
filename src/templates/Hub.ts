@@ -390,7 +390,7 @@ ${AI_FACT_CSS}
 .stats dt{font-size:var(--t-xs);color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .stats dd{font-family:var(--font-serif);font-size:var(--t-h2);color:var(--fg)}
 .genre-detail{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:24px 0}
-.genre-detail h2{margin-top:0;color:var(--accent);border:none;padding:0;margin-bottom:14px}
+.genre-detail h2{margin-top:0;color:var(--orange-hot);border:none;padding:0;margin-bottom:14px}
 .genre-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:18px}
 @media (max-width:600px){.genre-detail-grid{grid-template-columns:1fr;gap:14px}}
 .genre-detail-grid h3{color:var(--accent-deep);margin:0 0 10px}
@@ -411,11 +411,11 @@ ${AI_FACT_CSS}
 .sb-label{color:var(--fg2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sb-track{height:14px;background:var(--bg3);border-radius:3px;overflow:hidden}
 .sb-fill{display:block;height:100%;background:var(--accent-deep);border-radius:3px;min-width:3px}
-.sb-count{color:var(--fg3);font-variant-numeric:tabular-nums;text-align:right}
+.sb-count{color:var(--ink-meta);font-variant-numeric:tabular-nums;text-align:right}
 .faq{margin:48px 0}
 .faq details{background:var(--bg2);border:1px solid var(--border);border-radius:6px;margin-bottom:8px}
 .faq summary{padding:14px 18px;cursor:pointer;font-weight:600;font-size:var(--t-body);color:var(--fg);list-style:none}
-.faq summary::before{content:"Q. ";color:var(--accent);font-weight:700}
+.faq summary::before{content:"Q. ";color:var(--orange-hot);font-weight:700}
 .faq summary::-webkit-details-marker{display:none}
 .faq .faq-a{padding:0 18px 14px;font-size:var(--t-body);color:var(--fg2);line-height:1.7}
 .related-genre{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;padding:0;margin:0;grid-auto-rows:1fr}
@@ -429,7 +429,7 @@ ${AI_FACT_CSS}
 .gci-name{display:block;font-family:var(--font-serif);font-size:var(--t-h3);font-weight:600;color:var(--accent-deep);margin-bottom:10px}
 .gci-desc{display:-webkit-box;font-size:var(--t-sm);color:var(--fg2);line-height:1.6;margin-bottom:10px;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
 .iri-preview{display:block;font-size:var(--t-xs);color:var(--fg2);line-height:1.4;margin-bottom:8px;min-height:1.96em;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.gci-count{font-size:var(--t-xs);color:var(--fg3);font-variant-numeric:tabular-nums}
+.gci-count{font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums}
 /* RA-016 (2026-05-18): unified Q&A details list — see renderQGroupsHtml */
 .qa-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px}
 .qa-item details{background:var(--bg2);border:1px solid var(--border);border-radius:10px;transition:border-color 150ms,box-shadow 150ms}
@@ -439,10 +439,10 @@ ${AI_FACT_CSS}
 .qa-item summary::-webkit-details-marker{display:none}
 .qa-item summary::after{content:"+";font-family:var(--font-sans);font-weight:400;font-size:var(--t-h2);color:var(--fg2);transition:transform 150ms;flex-shrink:0;line-height:1}
 .qa-item details[open] summary::after{content:"\\00d7"}
-.qa-item summary:hover{color:var(--accent)}
+.qa-item summary:hover{color:var(--orange-hot)}
 .qa-item .qa-body{padding:0 22px 18px;border-top:1px solid var(--line)}
 .qa-item .qa-short{margin:14px 0 12px;color:var(--fg);line-height:1.7;font-size:var(--t-body)}
-.qa-item .qa-detail-link{display:inline-block;font-size:var(--t-sm);color:var(--accent);text-decoration:none;font-weight:600;padding:6px 0}
+.qa-item .qa-detail-link{display:inline-block;font-size:var(--t-sm);color:var(--orange-hot);text-decoration:none;font-weight:600;padding:6px 0}
 .qa-item .qa-detail-link:hover{text-decoration:underline}
 /* 2026-06-04 (Batch 1-B'): genre index spotlight — 各軸の代表職業 occupation links */
 .gsp-lead{color:var(--fg2);font-size:var(--t-sm);margin:0 0 14px}

@@ -23,12 +23,15 @@
     var openJobId = null;
 
     var RISK_PALETTE = ['#0F8A66', '#5BA84F', '#D9A03B', '#E27A33', '#C4422F'];
+    function bandForRisk(risk) {
+      if (risk <= 2) return 0;
+      if (risk <= 4) return 1;
+      if (risk <= 6) return 2;
+      if (risk <= 8) return 3;
+      return 4;
+    }
     function colorForRisk(risk) {
-      if (risk <= 2) return RISK_PALETTE[0];
-      if (risk <= 4) return RISK_PALETTE[1];
-      if (risk <= 6) return RISK_PALETTE[2];
-      if (risk <= 8) return RISK_PALETTE[3];
-      return RISK_PALETTE[4];
+      return RISK_PALETTE[bandForRisk(risk)];
     }
 
     var $content = document.getElementById('mapContent');
@@ -363,6 +366,7 @@
           var cellH = Math.max(rect.h - 2, 28);
           cell.style.width  = cellW.toFixed(1) + 'px';
           cell.style.height = cellH.toFixed(1) + 'px';
+          cell.dataset.band = String(bandForRisk(r.ai_risk || 5));
           cell.style.background = colorForRisk(r.ai_risk || 5);
           if (r.__synthetic) cell.style.background = 'repeating-linear-gradient(45deg, ' + colorForRisk(r.ai_risk) + ', ' + colorForRisk(r.ai_risk) + ' 6px, rgba(255,255,255,0.18) 6px, rgba(255,255,255,0.18) 12px)';
           if (fits(r.name_ja, cellW, cellH, !!r.__synthetic)) {

@@ -12,7 +12,7 @@ export const SHINDAN_CSS = `
 *,*::before,*::after{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75}
 a{color:var(--accent-deep);text-decoration:none}
-a:hover{text-decoration:underline;color:var(--accent)}
+a:hover{text-decoration:underline;color:var(--orange-hot)}
 button,input{font:inherit}
 #wrapper{
   --shindan-panel:var(--bg2);
@@ -30,7 +30,7 @@ button,input{font:inherit}
 .shindan-hero{margin-bottom:28px}
 .shindan-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;color:var(--accent-deep);font-size:var(--t-xs);font-weight:700;letter-spacing:.08em}
 .shindan-hero h1{letter-spacing:0;margin:0 0 12px;color:var(--fg)}
-.shindan-hero h1 .accent{color:var(--accent);font-style:italic}
+.shindan-hero h1 .accent{color:var(--orange-hot);font-style:italic}
 .shindan-lead{max-width:66ch;margin:0;color:var(--fg);font-size:var(--t-h3);line-height:1.8}
 .shindan-proof{display:grid;gap:8px;padding:16px 18px;margin:18px 0 0;background:var(--bg);border:1px solid var(--border);border-radius:var(--shindan-radius)}
 .shindan-proof span{display:flex;align-items:baseline;justify-content:space-between;gap:16px;color:var(--fg2);font-size:var(--t-xs)}
@@ -56,11 +56,11 @@ button,input{font:inherit}
 .shindan-choice input:focus-visible + .shindan-choice-text{outline:2px solid var(--accent);outline-offset:2px}
 .shindan-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}
 .shindan-primary,.shindan-secondary,.shindan-share-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:999px;border:1px solid transparent;text-decoration:none;cursor:pointer;font-weight:700;font-size:var(--t-sm);line-height:1.2}
-.shindan-primary{background:var(--accent);color:var(--paper)}
+.shindan-primary{background:var(--orange-hot);color:var(--paper)}
 .shindan-primary:hover{filter:brightness(1.04);text-decoration:none;color:var(--paper)}
 .shindan-primary:disabled{opacity:.45;cursor:not-allowed;filter:none}
 .shindan-secondary{background:transparent;color:var(--accent-deep);border-color:var(--border)}
-.shindan-secondary:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.shindan-secondary:hover{border-color:var(--accent);color:var(--orange-hot);text-decoration:none}
 .shindan-side{position:sticky;top:76px;display:grid;gap:14px}
 .shindan-side-note{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);border-radius:var(--shindan-radius);padding:16px;color:var(--fg2);font-size:var(--t-sm);line-height:1.7}
 .shindan-side-note strong{display:block;color:var(--fg);margin-bottom:4px}
@@ -71,7 +71,7 @@ button,input{font:inherit}
 .shindan-result-label{font-size:var(--t-xs);letter-spacing:.08em;color:var(--accent-deep);font-weight:700;margin:0 0 8px}
 .shindan-result-name{font-family:var(--font-serif);font-size:var(--t-h2);line-height:1.25;margin:0;color:var(--fg)}
 .shindan-result-name>span:first-child{display:block;color:var(--fg);font-size:var(--t-h3)}
-.shindan-result-name>span+span{display:block;color:var(--accent);font-size:var(--t-xs);margin-top:4px}
+.shindan-result-name>span+span{display:block;color:var(--orange-hot);font-size:var(--t-xs);margin-top:4px}
 .shindan-result-body{padding:22px 24px 24px}
 .shindan-identity{margin:0 0 16px;font-size:var(--t-body);line-height:1.8;color:var(--fg)}
 .shindan-copy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0 22px}
@@ -145,7 +145,7 @@ button,input{font:inherit}
 .shindan-share-btn[data-platform="native"]{background:var(--accent-deep);color:var(--paper);border-color:var(--accent-deep)}
 .shindan-share-btn[data-platform="copy"]{color:var(--accent-deep)}
 .shindan-og-link{font-size:var(--t-sm);color:var(--fg2)}
-.shindan-toast{color:var(--accent);font-size:var(--t-sm);opacity:0;transition:opacity .18s ease}
+.shindan-toast{color:var(--orange-hot);font-size:var(--t-sm);opacity:0;transition:opacity .18s ease}
 .shindan-toast.visible{opacity:1}
 .shindan-error{padding:14px 16px;border:1px solid color-mix(in srgb, var(--red) 35%, transparent);border-radius:7px;background:color-mix(in srgb, var(--red) 8%, transparent);color:var(--fg)}
 .sr-only{position:absolute;inline-size:1px;block-size:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

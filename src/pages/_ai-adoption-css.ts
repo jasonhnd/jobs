@@ -17,7 +17,7 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page a {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: none;
 }
 
@@ -535,7 +535,7 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page .status-stale {
-  background: var(--risk-soft-4);
+  background: var(--risk-pill-high-bg);
   color: var(--risk-pill-high-fg);
 }
 

@@ -17,7 +17,7 @@ export const CANONICAL_STATIC_CSS = `
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.75}
-a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a{color:var(--orange-hot);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 a:hover{color:var(--accent-deep)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 .theme-toggle{display:none !important}
@@ -28,7 +28,7 @@ a:hover{color:var(--accent-deep)}
 /* Breadcrumb */
 nav.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
 nav.crumb a{color:var(--fg2);text-decoration:none}
-nav.crumb a:hover{color:var(--accent);text-decoration:underline}
+nav.crumb a:hover{color:var(--orange-hot);text-decoration:underline}
 nav.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* Header + h1 — static class signature (smaller, calmer than hero) */
@@ -36,7 +36,7 @@ header{margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--bord
 /* Heading typography lives in canonical-css.ts (§4.9). Page-class CSS keeps
    only colour and spacing. */
 h1{color:var(--fg);margin-bottom:8px}
-h1 .accent{color:var(--accent);font-style:italic}
+h1 .accent{color:var(--orange-hot);font-style:italic}
 .sub{color:var(--fg2);font-size:var(--t-h3)}
 
 /* Long-form body paragraphs */

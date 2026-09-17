@@ -80,12 +80,12 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-f
 /* ── Breadcrumb ── */
 nav.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
 nav.crumb a{color:var(--fg2);text-decoration:none}
-nav.crumb a:hover{color:var(--accent);text-decoration:underline}
+nav.crumb a:hover{color:var(--orange-hot);text-decoration:underline}
 nav.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* ── Header ── */
 h1{letter-spacing:-.01em;color:var(--fg);margin-bottom:8px}
-h1 .accent{color:var(--accent);font-style:italic}
+h1 .accent{color:var(--orange-hot);font-style:italic}
 .subtitle{color:var(--fg2);font-size:var(--t-h3);margin-bottom:8px;max-width:74ch}
 .meta-line{display:inline-flex;align-items:center;gap:8px;color:var(--ink-meta);font-size:var(--t-xs);margin-bottom:28px;padding:4px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-variant-numeric:tabular-nums}
 
@@ -94,16 +94,20 @@ h1 .accent{color:var(--accent);font-style:italic}
 
 /* ── Sections ── */
 h2{color:var(--fg);margin:48px 0 14px;padding-left:13px;border-left:3px solid var(--accent)}
-h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:6px}
+h2 .num{color:var(--orange-hot);font-variant-numeric:tabular-nums;margin-right:6px}
 h3{color:var(--fg);margin:22px 0 6px}
 p{margin:0 0 14px;line-height:1.8;color:var(--fg);max-width:74ch}
 ul,ol{margin:0 0 14px 22px;max-width:74ch}
 li{margin-bottom:7px;line-height:1.7}
 strong{color:var(--fg);font-weight:600}
-em{color:var(--fg2);font-style:italic}
-a{color:var(--accent);text-decoration:none}
+em{color:var(--ink-2);font-style:italic}
+a{color:var(--orange-hot);text-decoration:none}
 a:hover{text-decoration:underline}
-code{font-family:var(--font-mono);font-size:var(--t-sm);background:var(--bg2);padding:1px 6px;border-radius:4px;color:var(--accent);border:1px solid var(--border)}
+/* WCAG 1.4.1 — a link sitting inside running text may not be distinguished by
+   colour alone. Prose containers get a resting underline; standalone links
+   (breadcrumb, legend, FAQ summary, card lists) keep the clean treatment. */
+p a,li a,.step-item .d a,.callout a{text-decoration:underline;text-decoration-thickness:0.06em;text-underline-offset:0.16em}
+code{font-family:var(--font-mono);font-size:var(--t-sm);background:var(--bg2);padding:1px 6px;border-radius:4px;color:var(--orange-hot);border:1px solid var(--border)}
 
 /* ── Direction legend (▲ ■ ◐) ── */
 .legend{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
@@ -138,9 +142,9 @@ code{font-family:var(--font-mono);font-size:var(--t-sm);background:var(--bg2);pa
 .dim.friction{border-left-color:var(--risk-2)}
 .dim .head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:4px}
 .dim .code{font-weight:700;font-variant-numeric:tabular-nums;font-family:var(--font-mono)}
-.dim.up .code{color:var(--risk-3)}.dim.moat .code{color:var(--green-deep)}.dim.friction .code{color:var(--risk-2)}
+.dim.up .code{color:var(--orange-hot)}.dim.moat .code{color:var(--green-deep)}.dim.friction .code{color:var(--risk-pill-mid-fg)}
 .dim .name{font-weight:700;font-size:var(--t-h3);color:var(--fg)}
-.dim .name .en{font-size:var(--t-xs);color:var(--fg3);font-weight:400;margin-left:7px;font-style:italic}
+.dim .name .en{font-size:var(--t-xs);color:var(--ink-meta);font-weight:400;margin-left:7px;font-style:italic}
 .dim .stage-tag{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:var(--t-xs);color:var(--fg2);border:1px solid var(--border);border-radius:999px;padding:2px 10px;white-space:nowrap}
 .dim.up .stage-tag .gly{color:var(--risk-3)}.dim.moat .stage-tag .gly{color:var(--green-deep)}.dim.friction .stage-tag .gly{color:var(--risk-2)}
 .dim .body{font-size:var(--t-body);color:var(--fg);line-height:1.7;max-width:none}
@@ -149,10 +153,11 @@ code{font-family:var(--font-mono);font-size:var(--t-sm);background:var(--bg2);pa
 .formula{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);border-radius:9px;padding:14px 18px;margin:10px 0 18px}
 .formula .flabel{font-size:var(--t-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);font-weight:600;margin-bottom:8px}
 .formula .row{font-family:var(--font-mono);font-size:var(--t-sm);line-height:1.9;color:var(--fg);overflow-x:auto}
-.formula .k{color:var(--accent);font-weight:600}
+.formula .k{color:var(--orange-hot);font-weight:600}
 
 /* ── Example heat table ── */
 .wrap-x{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--border);border-radius:9px}
+.wrap-x:focus-visible{outline:2px solid var(--orange-hot);outline-offset:2px}
 table.ex{width:100%;border-collapse:collapse;font-size:var(--t-sm);font-variant-numeric:tabular-nums}
 table.ex th,table.ex td{padding:7px 6px;text-align:right;border-bottom:1px solid var(--border)}
 table.ex tbody tr:last-child td{border-bottom:none}
@@ -171,7 +176,7 @@ table.ex td.idx{font-weight:700;font-variant-numeric:tabular-nums;background:var
 .radar-card .rc-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
 .radar-card .rc-name{font-weight:700;font-size:var(--t-h3);color:var(--fg)}
 .radar-card .rc-nums{font-size:var(--t-xs);color:var(--fg2);font-variant-numeric:tabular-nums}
-.radar-card .rc-nums b{color:var(--accent)}
+.radar-card .rc-nums b{color:var(--orange-hot)}
 .radar svg{width:100%;height:auto;display:block}
 .radar .grid{fill:none;stroke:var(--border)}
 .radar .axis{stroke:var(--border)}
@@ -193,13 +198,13 @@ table.bands td.sc{font-variant-numeric:tabular-nums;font-weight:700;white-space:
 /* ── Scale dl ── */
 .scale{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:14px 18px;margin:12px 0 18px}
 .scale dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px}
-.scale dt{font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent);font-size:var(--t-sm);white-space:nowrap}
+.scale dt{font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);font-size:var(--t-sm);white-space:nowrap}
 .scale dd{margin:0;font-size:var(--t-sm);color:var(--fg)}
 
 /* ── Numbered steps ── */
 .steps{counter-reset:step;margin:14px 0}
 .step-item{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:13px 16px 13px 50px;margin:8px 0;position:relative}
-.step-item::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;width:24px;height:24px;border-radius:999px;background:var(--accent);color:var(--paper);font-size:var(--t-xs);font-weight:700;display:flex;align-items:center;justify-content:center}
+.step-item::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;width:24px;height:24px;border-radius:999px;background:var(--orange-hot);color:var(--paper);font-size:var(--t-xs);font-weight:700;display:flex;align-items:center;justify-content:center}
 .step-item .t{font-weight:600;margin-bottom:2px;color:var(--fg)}
 .step-item .d{font-size:var(--t-sm);color:var(--fg2);line-height:1.7;max-width:none}
 
@@ -211,7 +216,7 @@ table.bands td.sc{font-variant-numeric:tabular-nums;font-weight:700;white-space:
 .faq details{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:12px 16px;margin-bottom:10px}
 .faq summary{font-weight:700;cursor:pointer;font-weight:600;color:var(--fg);font-size:var(--t-body);list-style:none;position:relative;padding-right:26px}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";position:absolute;right:2px;top:-1px;color:var(--accent);font-weight:700;font-size:var(--t-h3);transition:transform .2s ease}
+.faq summary::after{content:"+";position:absolute;right:2px;top:-1px;color:var(--orange-hot);font-weight:700;font-size:var(--t-h3);transition:transform .2s ease}
 .faq details[open] summary::after{content:"–"}
 .faq details[open] summary{margin-bottom:8px}
 .faq p{margin-bottom:0;font-size:var(--t-body);color:var(--fg2);max-width:none}
@@ -221,7 +226,7 @@ table.bands td.sc{font-variant-numeric:tabular-nums;font-weight:700;white-space:
 .glossary{display:flex;flex-direction:column;gap:10px}
 .gloss-item{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:14px 18px}
 .gloss-item h3{margin:0 0 6px;color:var(--accent-deep);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.gloss-item .term-en{font-size:var(--t-xs);color:var(--fg3);font-family:var(--font-mono);font-weight:400}
+.gloss-item .term-en{font-size:var(--t-xs);color:var(--ink-meta);font-family:var(--font-mono);font-weight:400}
 .gloss-item p{margin:0;font-size:var(--t-body);line-height:1.7;color:var(--fg);max-width:none}
 
 /* ── Non-official banner (top of /about) ── */
