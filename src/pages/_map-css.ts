@@ -109,7 +109,7 @@ export const MAP_PAGE_CSS = `
       max-height: 320px; overflow-y: auto;
       background: var(--bg2);
       border: 1px solid var(--border); border-radius: var(--r-md);
-      box-shadow: 0 8px 24px rgba(36, 30, 24, 0.10);
+      box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 10%, transparent);
       list-style: none; z-index: var(--z-overlay); display: none;
     }
     .map-suggest.open { display: block; }
@@ -330,7 +330,7 @@ export const MAP_PAGE_CSS = `
 
     .sheet-backdrop {
       position: fixed; inset: 0; z-index: var(--z-overlay);
-      background: rgba(36, 30, 24, 0.40);
+      background: color-mix(in srgb, var(--ink) 40%, transparent);
       opacity: 0; pointer-events: none;
       transition: opacity 200ms ease;
     }

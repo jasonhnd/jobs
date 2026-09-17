@@ -78,7 +78,7 @@ const CANON: Record<string, string> = {
 
 describe('design-tokens — values match docs/Design.md §21.2', () => {
   test('version is declared as 1.0 (§20.2)', () => {
-    assert.equal(DESIGN_VERSION, '1.0');
+    assert.equal(DESIGN_VERSION, '1.1');
   });
 
   for (const [name, value] of Object.entries(CANON)) {

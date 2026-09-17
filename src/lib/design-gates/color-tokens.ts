@@ -3,9 +3,13 @@
  *
  * §2.1 keeps every colour in the single :root of canonical-css.ts, so a raw
  * `#hex` or `rgba()` on a conformant surface means a colour escaped the
- * palette. §19.1 states the rule broadly; the exemptions below are the places
- * the canon currently has no token for, each recorded in the ledger rather
- * than hidden here.
+ * palette.
+ *
+ * §2.5 (v1.1) draws the enforceable line: a tint whose BASE is a palette token
+ * can be written as color-mix() and is therefore a failure. A colour with no
+ * palette base — a brand colour such as LINE's #06C755, a gradient stop —
+ * cannot be expressed today and is reported instead. `derivable` carries that
+ * distinction so the CLI can fail on one and warn on the other.
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -19,6 +23,8 @@ export interface ColourViolation {
   readonly property: string;
   readonly value: string;
   readonly state: SurfaceState;
+  /** True when the base is a palette token, so §2.5's color-mix() applies. */
+  readonly derivable: boolean;
 }
 
 /** Properties whose colour the canon tokenises (§2.1 / §2.2). */
@@ -49,6 +55,43 @@ function exempt(file: string, line: string): boolean {
   return NO_TOKEN_YET.some((e) => (e.file === '' || e.file === file) && e.test.test(line));
 }
 
+/**
+ * rgb(r,g,b) -> token name, built from canonical-css.ts's :root.
+ *
+ * Cached PER ROOT: the unit tests run the gates against synthetic repos, and a
+ * cache keyed on nothing would leak the real palette into them. A root with no
+ * canonical-css.ts simply has an empty palette, so nothing is derivable there.
+ */
+const paletteCache = new Map<string, Map<string, string>>();
+function paletteByRgb(root: string): Map<string, string> {
+  const cached = paletteCache.get(root);
+  if (cached != null) return cached;
+  const m = new Map<string, string>();
+  let css = '';
+  try {
+    css = readFileSync(join(root, 'src/lib/canonical-css.ts'), 'utf-8');
+  } catch {
+    paletteCache.set(root, m);
+    return m;
+  }
+  for (const hit of css.matchAll(/(--[a-z0-9-]+):\s*(#[0-9a-fA-F]{3,6})\s*;/g)) {
+    let h = (hit[2] ?? '').replace('#', '');
+    if (h.length === 3) h = [...h].map((c) => c + c).join('');
+    const key = [0, 2, 4].map((i) => Number.parseInt(h.slice(i, i + 2), 16)).join(',');
+    if (!m.has(key)) m.set(key, hit[1] ?? '');
+  }
+  paletteCache.set(root, m);
+  return m;
+}
+
+function isPaletteDerived(value: string, root: string): boolean {
+  const pal = paletteByRgb(root);
+  for (const m of value.matchAll(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/g)) {
+    if (pal.has(`${m[1]},${m[2]},${m[3]}`)) return true;
+  }
+  return false;
+}
+
 export function findColourViolations(root: string = process.cwd()): ColourViolation[] {
   const surfaces = readLedger(root);
   const out: ColourViolation[] = [];
@@ -70,7 +113,11 @@ export function findColourViolations(root: string = process.cwd()): ColourViolat
         // colour. Strip the var() calls before looking for one.
         const bare = value.replace(/var\([^()]*(?:\([^()]*\)[^()]*)*\)/g, '');
         if (!RAW.test(bare)) continue;
-        out.push({ file, line: idx + 1, selector, property, value: value.slice(0, 60), state });
+        out.push({
+          file, line: idx + 1, selector, property,
+          value: value.slice(0, 60), state,
+          derivable: isPaletteDerived(bare, root),
+        });
       }
     });
   }
