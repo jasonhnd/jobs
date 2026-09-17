@@ -63,6 +63,7 @@ const CANON: Record<string, string> = {
   '--sh-card': '0 1px 0 rgba(0,0,0,0.03), 0 6px 18px rgba(120,80,30,0.04)',
   '--sh-raised': '0 1px 0 rgba(0,0,0,0.03), 0 12px 28px rgba(120,80,30,0.06)',
   '--sh-accent': '0 4px 14px rgba(217,107,61,0.28)',
+  '--sh-sheet': '0 -8px 24px rgba(120,80,30,0.16)',
   // §9.3 z-index
   '--z-base': '0',
   '--z-raised': '10',
@@ -77,8 +78,8 @@ const CANON: Record<string, string> = {
 };
 
 describe('design-tokens — values match docs/Design.md §21.2', () => {
-  test('version is declared as 1.0 (§20.2)', () => {
-    assert.equal(DESIGN_VERSION, '1.1');
+  test('version is declared as 1.2 (§20.2)', () => {
+    assert.equal(DESIGN_VERSION, '1.2');
   });
 
   for (const [name, value] of Object.entries(CANON)) {

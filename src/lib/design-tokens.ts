@@ -27,7 +27,7 @@
  * this constant, and the leading comment of the generated CSS. `check-design-sync`
  * (§19.1, not yet implemented) will assert the three agree.
  */
-export const DESIGN_VERSION = '1.1';
+export const DESIGN_VERSION = '1.2';
 
 /** §4.2 — the type scale. Seven steps, no others. Site-wide minimum is 12px. */
 export const TYPE_SCALE = {
@@ -97,6 +97,12 @@ export const SHADOW = {
   '--sh-card': '0 1px 0 rgba(0,0,0,0.03), 0 6px 18px rgba(120,80,30,0.04)',
   '--sh-raised': '0 1px 0 rgba(0,0,0,0.03), 0 12px 28px rgba(120,80,30,0.06)',
   '--sh-accent': '0 4px 14px rgba(217,107,61,0.28)',
+  /**
+   * v1.2 — 下端から立ち上がる面。上の 3 種はすべて下向きで、ボトムシートや
+   * cookie バナーの影を表現できなかった。色調は §8.3 の原則どおり暖色寄りで、
+   * 置き換え前の `rgba(0,0,0,·)` は中性グレーゆえ本節に反していた。
+   */
+  '--sh-sheet': '0 -8px 24px rgba(120,80,30,0.16)',
 } as const;
 
 /** §9.3 — six layers, replacing 19. `9999` / `10000` are prohibited. */
