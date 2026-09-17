@@ -82,11 +82,27 @@ export function readLedger(root: string = process.cwd()): Surface[] {
  * `tokens` implementation and the `canonical-type` one). The strictest state
  * wins, so a gate never under-enforces because of an alias.
  */
+/**
+ * A ledger path matches a file when it names it exactly, or when it ends in
+ * `/` and the file sits under it.
+ *
+ * Exact-only matching is how the coverage hole opened: the table named
+ * `src/pages/_index-css.ts` (3.5 KB) while the homepage's real stylesheet is
+ * `src/pages/_index.css` (75 KB), so every gate skipped the latter. Naming a
+ * directory keeps the table readable — it is documentation for whoever picks
+ * up a surface — while still reaching every file inside it.
+ */
+function claims(ledgerPath: string, relPath: string): boolean {
+  return ledgerPath.endsWith('/')
+    ? relPath.startsWith(ledgerPath)
+    : ledgerPath === relPath;
+}
+
 export function surfaceStateFor(
   relPath: string,
   surfaces: readonly Surface[],
 ): SurfaceState | null {
-  const owning = surfaces.filter((s) => s.files.includes(relPath));
+  const owning = surfaces.filter((s) => s.files.some((f) => claims(f, relPath)));
   if (owning.length === 0) return null;
   if (owning.some((s) => s.state === 'conformant')) return 'conformant';
   if (owning.some((s) => s.state === 'migrating')) return 'migrating';
