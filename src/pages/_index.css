@@ -87,8 +87,11 @@
         font-family: var(--font-sans);
         -webkit-font-smoothing: antialiased;
       }
-      /* Direction C convergence: serif headlines (warm editorial voice). */
-      h1, h2, h3,
+      /* Direction C convergence: serif headlines (warm editorial voice).
+         h1/h2/h3 were in this selector and are gone: canonical-css.ts owns the
+         heading branch (§4.9), and it makes h3 SANS (§4.4) — so listing h3 here
+         claimed a typeface the canon does not give it. The two classes are not
+         headings by markup and keep the treatment. */
       .dh-title, .mobile-hero-title {
         font-family: var(--font-serif);
         font-weight: 600;
@@ -172,7 +175,7 @@
         text-decoration: none;
         color: var(--fg);
         position: relative;
-        box-shadow: 0 1px 0 rgba(36,30,24,0.04), 0 8px 24px -12px rgba(36,30,24,0.10);
+        box-shadow: 0 1px 0 rgba(36,30,24,0.04), 0 8px 24px -12px color-mix(in srgb, var(--ink) 10%, transparent);
       }
       .m-top10-card:hover { text-decoration: none; }
       .m-top10-card-rank {
@@ -283,7 +286,7 @@
       .m-top10-bar {
         flex: 1;
         height: 3px;
-        background: rgba(36,30,24,0.10);
+        background: color-mix(in srgb, var(--ink) 10%, transparent);
         border-radius: 999px;
         overflow: hidden;
       }
@@ -358,7 +361,7 @@
           margin: 8px 0 16px;
           padding: 14px 15px;
           background: var(--bg2);
-          border: 1px solid rgba(163,151,133,.30);
+          border: 1px solid color-mix(in srgb, var(--fg3) 30%, transparent);
           border-radius: 14px;
         }
         .home-movers-head { margin: 0 0 10px; }
@@ -388,7 +391,7 @@
           min-height: 44px;
           padding: 14px;
           background: var(--bg2);
-          border: 1px solid rgba(163,151,133,.30);
+          border: 1px solid color-mix(in srgb, var(--fg3) 30%, transparent);
           border-radius: 16px;
           text-decoration: none;
           color: inherit;
@@ -415,7 +418,7 @@
           flex-direction: column;
           margin: 0;
           padding: 14px;
-          border: 1px solid rgba(163,151,133,.30);
+          border: 1px solid color-mix(in srgb, var(--fg3) 30%, transparent);
           border-radius: 16px;
           background: var(--bg2);
           color: var(--fg);
@@ -553,7 +556,7 @@
         pointer-events: none;
         border: 2px solid #fff;
         border-radius: 2px;
-        background: rgba(255, 255, 255, 0.08);
+        background: color-mix(in srgb, var(--paper) 8%, transparent);
         display: none;
         will-change: transform, width, height;
         transition: left 60ms linear, top 60ms linear, width 60ms linear, height 60ms linear;
@@ -1010,7 +1013,7 @@
         right: 8px;
         width: 32px;
         height: 32px;
-        background: rgba(255, 255, 255, 0.06);
+        background: color-mix(in srgb, var(--paper) 6%, transparent);
         border: 1px solid var(--border);
         border-radius: 50%;
         color: var(--fg2);
@@ -1173,7 +1176,7 @@
       footer .footer-links a:hover {
         color: var(--orange-hot);
         border-color: var(--accent);
-        background: rgba(217, 107, 61, 0.06);
+        background: color-mix(in srgb, var(--orange) 6%, transparent);
         text-decoration: none;
       }
       footer .footer-meta { color: var(--ink-meta); font-size: var(--t-xs); text-wrap: pretty; line-height: 1.65; }
@@ -1435,7 +1438,7 @@
       }
       .search-suggest li:last-child { border-bottom: none; }
       .search-suggest li:hover,
-      .search-suggest li.focused { background: rgba(217, 107, 61, 0.10); }
+      .search-suggest li.focused { background: color-mix(in srgb, var(--orange) 10%, transparent); }
       .search-suggest .ss-name { color: var(--fg); }
       .search-suggest .ss-risk {
         color: var(--fg2);
@@ -1453,12 +1456,12 @@
         font-size: var(--t-xs);
         font-style: italic;
         padding: 6px 14px;
-        background: rgba(255, 255, 255, 0.025);
+        background: color-mix(in srgb, var(--paper) 2.5%, transparent);
         pointer-events: none;
         border-bottom: 1px solid var(--border);
         justify-content: flex-start;
       }
-      .search-suggest .ss-hint:hover { background: rgba(255, 255, 255, 0.025); }
+      .search-suggest .ss-hint:hover { background: color-mix(in srgb, var(--paper) 2.5%, transparent); }
       .search-noresult {
         display: none;
         text-align: center;
@@ -2010,7 +2013,7 @@
       .hub-card:hover {
         color: var(--orange-hot);
         border-color: var(--accent);
-        background: rgba(217, 107, 61, 0.08);
+        background: color-mix(in srgb, var(--orange) 8%, transparent);
         text-decoration: none;
       }
       .hc-eyebrow {
@@ -2084,7 +2087,7 @@
       .hub-rankings-more > summary:hover {
         color: var(--orange-hot);
         border-color: var(--accent);
-        background: rgba(217, 107, 61, 0.05);
+        background: color-mix(in srgb, var(--orange) 5%, transparent);
       }
       .hub-rankings-more > summary::-webkit-details-marker { display: none; }
       .hub-rankings-more > summary::after {
