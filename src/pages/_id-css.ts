@@ -99,7 +99,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .verdict-copy{min-width:0}
     .verdict-kicker{margin:0 0 9px;font-size:var(--t-xs);line-height:1.2;color:var(--ink-meta);font-weight:700;letter-spacing:0;text-transform:uppercase}
     .verdict-title-row{display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;margin:0 0 10px}
-    .type-block h2{font-family:var(--font-serif);line-height:1.2;margin:0;color:var(--ink);font-weight:700;letter-spacing:0}
+    .type-block h2{line-height:1.2;margin:0;color:var(--ink);letter-spacing:0}
     @media (min-width:900px){}
     .verdict-lede{font-family:var(--font-serif);font-size:var(--t-h3);line-height:1.8;color:var(--ink);margin:0 0 16px}
     @media (min-width:900px){.verdict-lede{line-height:1.9}}
@@ -157,13 +157,13 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     /* AI risk detail (rendered if rationale_long_ja data exists; usually empty for now) */
     .ai-risk-detail{background:var(--paper);border:1px solid var(--line-strong);border-radius:14px;padding:20px 22px;margin:14px 0 22px;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
     @media (min-width:900px){.ai-risk-detail{max-width:var(--content-max);margin-left:auto;margin-right:auto;padding:28px 32px}}
-    .ai-risk-detail h2{font-family:var(--font-serif);color:var(--orange-hot);margin:0 0 12px;font-weight:700}
+    .ai-risk-detail h2{color:var(--orange-hot);margin:0 0 12px}
     @media (min-width:900px){.ai-risk-detail h2{margin:0 0 16px}}
     .ai-risk-detail .ai-rationale-long{font-family:var(--font-serif);font-size:var(--t-body);line-height:1.85;color:var(--ink-2);margin:0 0 18px}
     @media (min-width:900px){.ai-risk-detail .ai-rationale-long{line-height:1.95}}
     .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px}
     @media (min-width:768px){.ai-risk-detail .ai-task-grid{grid-template-columns:1fr 1fr;gap:24px}}
-    .ai-risk-detail .ai-task-block h3{letter-spacing:0.06em;text-transform:uppercase;color:var(--green-deep);margin:0 0 8px;font-weight:700}
+    .ai-risk-detail .ai-task-block h3{letter-spacing:0.06em;text-transform:uppercase;color:var(--green-deep);margin:0 0 8px}
     .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:var(--t-sm);line-height:1.7;color:var(--ink-2);font-family:var(--font-serif)}
     .ai-risk-detail .ai-task-block li{margin-bottom:5px}
     .ai-risk-detail .ai-horizon{font-size:var(--t-sm);line-height:1.7;color:var(--ink-meta);margin:0;padding-top:14px;border-top:1px solid var(--line);font-family:var(--font-serif)}
@@ -220,7 +220,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:900px){.topn-grid{grid-template-columns:1.4fr 1fr 1fr;gap:18px}}
     .topn-block{background:var(--paper);border-radius:14px;padding:16px 18px;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04);border:1px solid rgba(0,0,0,0.04)}
     @media (min-width:900px){.topn-block{padding:20px 22px}}
-    .topn-block h3{font-family:var(--font-serif);color:var(--orange-hot);margin:0 0 10px;font-weight:700;font-style:normal}
+    .topn-block h3{color:var(--orange-hot);margin:0 0 10px;font-style:normal}
     @media (min-width:900px){.topn-block h3{margin:0 0 14px}}
     .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
     .topn-block li{counter-increment:rank;display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dotted var(--line-strong);font-size:var(--t-sm)}
@@ -276,7 +276,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
        width instead of being stranded at half; two blocks still split 50/50. */
     @media (min-width:768px){.org-cert-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}}
     .org-cert-block{background:var(--paper);border:1px solid var(--line-strong);border-radius:12px;padding:16px 18px}
-    .org-cert-block h3{font-family:var(--font-serif);color:var(--orange-hot);margin:0 0 10px;font-weight:700}
+    .org-cert-block h3{color:var(--orange-hot);margin:0 0 10px}
     .org-list,.cert-list{list-style:none;padding:0;margin:0}
     .org-list li{padding:5px 0;font-size:var(--t-sm);color:var(--ink);border-bottom:1px dashed var(--line-strong)}
     .org-list li:last-child{border-bottom:none}

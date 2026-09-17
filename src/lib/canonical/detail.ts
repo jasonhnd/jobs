@@ -17,7 +17,7 @@
 export const CANONICAL_DETAIL_CSS = `
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html,body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.6}
-    h1,h2,h3,h4{font-family:var(--font-serif);font-weight:700;letter-spacing:-0.005em;color:var(--ink)}
+    h1,h2,h3,h4{letter-spacing:-0.005em;color:var(--ink)}
     a{color:var(--orange-hot);text-decoration:none}a:hover{text-decoration:underline}
     /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
     .theme-toggle{display:none !important}
@@ -44,6 +44,6 @@ export const CANONICAL_DETAIL_CSS = `
     /* Section spacing + section h2 (sec-h pattern) */
     section{margin-top:26px}
     @media (min-width:900px){section{margin-top:44px}}
-    section > h2{font-family:var(--font-serif);font-weight:700;color:var(--orange-hot);letter-spacing:-0.005em;margin:0 0 12px;padding:0}
+    section > h2{color:var(--orange-hot);letter-spacing:-0.005em;margin:0 0 12px;padding:0}
     @media (min-width:900px){section > h2{margin:0 0 18px}}
 `;
