@@ -705,7 +705,11 @@ const jsonLd = JSON.stringify({
         const svg = d3.select(el)
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
-          .attr('role', 'img')
+          // `role=img` would make the whole subtree presentational, which hides
+          // the ten real `role=button` controls built below (5 stack segments +
+          // 5 layer tiles) from assistive tech even though they are keyboard
+          // operable. A labelled `group` keeps the description and exposes them.
+          .attr('role', 'group')
           .attr('aria-label', `AI 利用率を ${WAFFLE_UNITS} 点で見た 5 グループ。点 1 つは ${(100 / WAFFLE_UNITS).toFixed(1)}%。`);
 
         svg.append('rect')

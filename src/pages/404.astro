@@ -58,7 +58,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       text-decoration: none;
       font-size: var(--t-sm);
     }
-    .top-bar .back:hover { color: var(--accent); }
+    .top-bar .back:hover { color: var(--orange-hot); }
     .theme-toggle {
       background: transparent;
       border: 1px solid var(--border);
@@ -70,7 +70,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       padding: 0; margin-left: 4px;
       transition: color 150ms ease, border-color 150ms ease;
     }
-    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+    .theme-toggle:hover { color: var(--orange-hot); border-color: var(--accent); }
     .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; }
     .theme-toggle .icon-sun { display: inline-block; }
@@ -87,7 +87,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       user-select: none;
     }
     .four-oh-four .accent {
-      color: var(--accent);
+      color: var(--orange-hot);
       font-style: italic;
       display: inline-block;
       transform: translateY(-4%) rotate(-6deg);
@@ -109,7 +109,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--accent);
+      background: var(--orange-hot);
       color: var(--paper);
       padding: 12px 22px;
       border-radius: 6px;
@@ -137,7 +137,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       font-size: var(--t-xs);
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--fg3);
+      color: var(--ink-meta);
       margin-bottom: 6px;
     }
     .helpful-links a {
@@ -152,8 +152,8 @@ import { OCCUPATION_COUNT } from '@/site/config';
       transition: color 150ms ease, border-bottom-color 150ms ease, padding-left 150ms ease;
     }
     .helpful-links a:hover {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
+      color: var(--orange-hot);
+      border-bottom-color: var(--orange-hot);
       padding-left: 4px;
     }
     .helpful-links a .desc {
@@ -162,7 +162,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       margin-left: 16px;
       flex-shrink: 0;
     }
-    .helpful-links a:hover .desc { color: var(--accent); }
+    .helpful-links a:hover .desc { color: var(--orange-hot); }
 
     footer {
       margin-top: 56px;
@@ -172,7 +172,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       color: var(--fg2);
       text-align: center;
     }
-    footer a { color: var(--accent); text-decoration: none; }
+    footer a { color: var(--orange-hot); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
     footer .footer-links {
       display: flex;
@@ -193,13 +193,13 @@ import { OCCUPATION_COUNT } from '@/site/config';
       transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
     }
     footer .footer-links a:hover {
-      color: var(--accent);
+      color: var(--orange-hot);
       border-color: var(--accent);
       background: color-mix(in srgb, var(--orange) 6%, transparent);
       text-decoration: none;
     }
-    footer .footer-meta { color: var(--fg2); font-size: var(--t-xs); opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
-    footer .footer-meta a { color: var(--accent); }
+    footer .footer-meta { color: var(--fg2); font-size: var(--t-xs); text-wrap: pretty; line-height: 1.65; }
+    footer .footer-meta a { color: var(--orange-hot); }
     footer .footer-meta .nowrap { white-space: nowrap; }
 
     @media (max-width: 540px) {

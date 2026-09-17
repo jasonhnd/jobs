@@ -50,7 +50,7 @@
         transition: color 150ms ease, border-color 150ms ease;
         vertical-align: middle;
       }
-      .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+      .theme-toggle:hover { color: var(--orange-hot); border-color: var(--accent); }
       .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       .theme-toggle svg { width: 14px; height: 14px; fill: currentColor; }
       .theme-toggle .icon-sun { display: inline-block; }
@@ -96,7 +96,7 @@
       }
       /* Direction C signature: italic terra-cotta emphasis on accent words. */
       .dh-title .acc, .mobile-hero-title .acc, h1 .accent {
-        color: var(--accent);
+        color: var(--orange-hot);
         font-style: italic;
         font-weight: 600;
       }
@@ -178,7 +178,7 @@
       .m-top10-card-rank {
         position: absolute;
         top: 14px; right: 14px;
-        background: var(--accent);
+        background: var(--orange-hot);
         color: #fff;
         padding: 2px 9px;
         border-radius: 999px;
@@ -219,7 +219,7 @@
         font-size: var(--t-h1);
         font-weight: 600;
         line-height: 1;
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       .m-top10-card-score .denom {
         font-family: var(--font-sans);
@@ -232,7 +232,7 @@
         gap: 5px;
         font-family: var(--font-sans);
         font-size: var(--t-xs);
-        color: var(--accent);
+        color: var(--orange-hot);
         font-weight: 600;
       }
       .m-top10-card-tag::before {
@@ -373,7 +373,7 @@
         .home-movers ol { list-style: none; margin: 0; padding: 0; }
         .home-movers li { display: flex; justify-content: space-between; gap: 8px; font-size: var(--t-sm); padding: 3px 0; }
         .home-movers li a { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .home-movers .up { color: var(--accent); font-variant-numeric: tabular-nums; font-weight: 700; }
+        .home-movers .up { color: var(--orange-hot); font-variant-numeric: tabular-nums; font-weight: 700; }
         .home-movers .down { color: var(--accent-deep); font-variant-numeric: tabular-nums; font-weight: 700; }
         .home-doors {
           display: grid;
@@ -397,7 +397,7 @@
         .home-door:hover { text-decoration: none; }
         .home-door-title { font-family: var(--font-serif); font-size: var(--t-h3); font-weight: 700; color: var(--fg); }
         .home-door-desc { font-size: var(--t-xs); color: var(--fg2); line-height: 1.45; }
-        .home-door-meta { font-size: var(--t-xs); font-weight: 700; color: var(--accent); margin-top: auto; letter-spacing: 0.02em; }
+        .home-door-meta { font-size: var(--t-xs); font-weight: 700; color: var(--orange-hot); margin-top: auto; letter-spacing: 0.02em; }
         .home-doors .m-map-preview {
           margin: 0;
           padding: 14px;
@@ -447,7 +447,7 @@
         font-family: var(--font-sans);
         font-size: var(--t-xs);
         font-weight: 600;
-        color: var(--accent);
+        color: var(--orange-hot);
         font-variant-numeric: tabular-nums;
       }
       .m-map-preview-legend {
@@ -476,7 +476,7 @@
         font-family: var(--font-sans);
         font-size: var(--t-sm);
         font-weight: 600;
-        color: var(--accent);
+        color: var(--orange-hot);
         padding: 12px 16px;
         border: 1.5px solid var(--accent);
         border-radius: 999px;
@@ -574,7 +574,7 @@
         flex-wrap: wrap;
       }
       .page-banner .accent {
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       .lang-switch {
         display: inline-flex;
@@ -595,13 +595,13 @@
       }
       .lang-switch button[aria-pressed="true"] {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       .page-banner .h1-sub {
         color: var(--fg2);
       }
       .page-banner .h1-sub strong {
-        color: var(--accent);
+        color: var(--orange-hot);
         font-weight: 600;
       }
       .page-banner .byline {
@@ -611,7 +611,7 @@
         margin-left: 6px;
       }
       .page-banner .byline a {
-        color: var(--accent);
+        color: var(--orange-hot);
         text-decoration: none;
         border-bottom: 1px dotted var(--accent);
       }
@@ -643,7 +643,7 @@
         font-weight: 600;
       }
       .dimension-hint .hint-piece .hint-value {
-        color: var(--accent);
+        color: var(--orange-hot);
         font-weight: 600;
       }
       .dimension-hint .hint-divider {
@@ -678,7 +678,7 @@
         color: var(--fg);
       }
       .meta-card a {
-        color: var(--accent);
+        color: var(--orange-hot);
         text-decoration: none;
       }
       .meta-card a:hover { text-decoration: underline; }
@@ -711,7 +711,7 @@
       .methodology-title {
         font-size: var(--t-h3);
         font-weight: 600;
-        color: var(--accent);
+        color: var(--orange-hot);
         margin: 0 0 4px;
         line-height: 1.4;
       }
@@ -808,7 +808,7 @@
       .layer-toggle button.active {
         background: rgba(255, 184, 77, 0.15);
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       .gradient-legend {
         display: flex;
@@ -876,7 +876,7 @@
         padding: 6px 14px;
         background: transparent;
         border: 1px solid var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
         border-radius: 4px;
         cursor: pointer;
         font: inherit;
@@ -919,7 +919,7 @@
       .palette-toggle.active {
         background: rgba(255, 184, 77, 0.15);
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       .stats-panel {
         display: grid;
@@ -1034,7 +1034,7 @@
       }
       #tooltip .tt-close:hover,
       #tooltip .tt-close:focus-visible {
-        color: var(--accent);
+        color: var(--orange-hot);
         border-color: var(--accent);
         outline: none;
       }
@@ -1074,7 +1074,7 @@
         box-shadow: 0 1px 4px rgba(192, 65, 30, 0.28);
       }
       .top-banner .banner-text strong {
-        color: var(--accent);
+        color: var(--orange-hot);
         font-weight: 700;
       }
       .visually-hidden {
@@ -1146,7 +1146,7 @@
         text-align: center;
       }
       footer a {
-        color: var(--accent);
+        color: var(--orange-hot);
         text-decoration: none;
       }
       footer a:hover {
@@ -1171,13 +1171,13 @@
         transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
       }
       footer .footer-links a:hover {
-        color: var(--accent);
+        color: var(--orange-hot);
         border-color: var(--accent);
         background: rgba(217, 107, 61, 0.06);
         text-decoration: none;
       }
-      footer .footer-meta { color: var(--fg2); font-size: var(--t-xs); opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
-      footer .footer-meta a { color: var(--accent); }
+      footer .footer-meta { color: var(--ink-meta); font-size: var(--t-xs); text-wrap: pretty; line-height: 1.65; }
+      footer .footer-meta a { color: var(--orange-hot); }
       footer .footer-meta .m-only { display: none; }
       footer .footer-meta .nowrap { white-space: nowrap; }
       @media (max-width: 540px) {
@@ -1202,8 +1202,7 @@
       }
       .desktop-hero-utility .dh-brand em {
         font-style: normal;
-        color: var(--fg2);
-        opacity: 0.7;
+        color: var(--ink-meta);
       }
       .desktop-hero-utility .lang-switch {
         margin-left: auto;
@@ -1218,7 +1217,7 @@
         margin: 0 0 14px;
         letter-spacing: -0.01em;
       }
-      .desktop-hero h1.dh-title .acc { color: var(--accent); }
+      .desktop-hero h1.dh-title .acc { color: var(--orange-hot); }
       .desktop-hero .dh-lead {
         color: var(--fg2);
         font-size: var(--t-h3);
@@ -1299,7 +1298,7 @@
       .desktop-hero-chips button:hover,
       .desktop-hero-chips button:focus-visible {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
         outline: none;
       }
       /* ============ Homepage diagnostic entry band (VIRALITY-1) ============ */
@@ -1332,7 +1331,7 @@
       }
       .home-entry-copy p:not(.home-entry-kicker) {
         margin: 0;
-        color: var(--fg2);
+        color: var(--ink-2);
         font-size: var(--t-body);
         line-height: 1.7;
       }
@@ -1359,9 +1358,9 @@
         transition: border-color 150ms ease, color 150ms ease, background 150ms ease, transform 120ms ease;
       }
       .home-entry-primary {
-        background: var(--accent);
+        background: var(--orange-hot);
         color: #fff;
-        border: 1px solid var(--accent);
+        border: 1px solid var(--orange-hot);
       }
       .home-entry-secondary {
         background: var(--bg2);
@@ -1380,7 +1379,7 @@
       }
       .home-entry-secondary:hover {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       @media (max-width: 768px) {
         .home-entry-band {
@@ -1445,7 +1444,7 @@
         font-variant-numeric: tabular-nums;
       }
       .search-suggest .ss-risk.high { color: var(--risk-4); }
-      .search-suggest .ss-risk.mid  { color: var(--accent); }
+      .search-suggest .ss-risk.mid  { color: var(--orange-hot); }
       .search-suggest .ss-risk.low  { color: var(--green-deep); }
       /* P0-C: keyboard hint row at top of suggestions (desktop only — hidden on touch via JS render). */
       .search-suggest .ss-hint {
@@ -1491,7 +1490,7 @@
         font-size: var(--t-xs);
         font-weight: 700;
         letter-spacing: 0.04em;
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       /* §4.9 — canonical owns heading size / weight / line-height. This is an
          H2 since design-1.9 demoted it (§4.3-1: one H1 per page). */
@@ -1500,7 +1499,7 @@
         margin: 10px 0 16px;
         color: var(--fg);
       }
-      .mobile-hero-title .acc { color: var(--accent); }
+      .mobile-hero-title .acc { color: var(--orange-hot); }
       .mobile-hero-trust {
         font-size: var(--t-xs);
         color: var(--fg2);
@@ -1538,7 +1537,7 @@
         right: 5px;
         top: 50%;
         transform: translateY(-50%);
-        background: var(--accent);
+        background: var(--orange-hot);
         color: #fff;
         border: 0;
         min-height: 44px;
@@ -1585,12 +1584,12 @@
       .mobile-hero-chips button:hover,
       .mobile-hero-chips button:focus-visible {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
         outline: none;
       }
       .mobile-hero-chips button.active {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
         background: rgba(255, 184, 77, 0.08);
       }
 
@@ -1872,7 +1871,7 @@
       }
       .share-toast {
         font-size: var(--t-xs);
-        color: var(--accent);
+        color: var(--orange-hot);
         margin-left: 6px;
         opacity: 0;
         transition: opacity 200ms ease;
@@ -1903,7 +1902,7 @@
         font-size: var(--t-h1);
         font-weight: 400;
         line-height: 1;
-        color: var(--accent);
+        color: var(--orange-hot);
         font-variant-numeric: lining-nums;
         letter-spacing: 0.01em;
       }
@@ -1919,7 +1918,7 @@
         font-weight: 700;
         letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: var(--accent);
+        color: var(--orange-hot);
         margin-bottom: 6px;
       }
       .hub-section-title {
@@ -1979,11 +1978,10 @@
       }
       .hub-subgroup-title em {
         font-style: normal;
-        color: var(--fg3, var(--fg2));
+        color: var(--ink-meta);
         font-size: var(--t-xs);
         margin-left: 6px;
         font-variant-numeric: tabular-nums;
-        opacity: 0.75;
       }
       .hub-card-grid {
         list-style: none;
@@ -2010,7 +2008,7 @@
         transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
       }
       .hub-card:hover {
-        color: var(--accent);
+        color: var(--orange-hot);
         border-color: var(--accent);
         background: rgba(217, 107, 61, 0.08);
         text-decoration: none;
@@ -2020,7 +2018,12 @@
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: var(--accent);
+        /* §2.2 規則 1 — .hub-card は --cream-2 面なので --orange-hot ですら 4.37 で
+           届かない。使えるのは --ink / --ink-2 / --ink-meta / --green-deep のみ。
+           この span は「AI 影響 低/中/大」という影響度ラベルなので、--green-deep を
+           当てると §2.3 で「低」を意味する緑が「中」の札に付いてしまう。意味を持たない
+           --ink-meta を選び、影響度は文字そのものに担わせる（§11）。 */
+        color: var(--ink-meta);
         margin-bottom: 4px;
       }
       .hc-name {
@@ -2029,7 +2032,7 @@
         line-height: 1.3;
         color: var(--fg);
       }
-      .hub-card:hover .hc-name { color: var(--accent); }
+      .hub-card:hover .hc-name { color: var(--orange-hot); }
       .hc-lead {
         display: -webkit-box;
         -webkit-line-clamp: 1;
@@ -2044,7 +2047,7 @@
       }
       .hc-desc {
         font-size: var(--t-xs);
-        color: var(--fg2);
+        color: var(--ink-meta);
         font-weight: 400;
         margin-top: 2px;
       }
@@ -2079,7 +2082,7 @@
         transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
       }
       .hub-rankings-more > summary:hover {
-        color: var(--accent);
+        color: var(--orange-hot);
         border-color: var(--accent);
         background: rgba(217, 107, 61, 0.05);
       }
@@ -2175,7 +2178,6 @@
       }
       .follow-cta .follow-text small {
         font-size: var(--t-xs);
-        opacity: 0.8;
         font-weight: 600;
       }
       .share-divider {
@@ -2210,7 +2212,7 @@
       .kpi-row li strong { display: block; font-family: var(--font-serif); font-size: var(--t-h1); font-weight: 700; color: var(--accent-deep); line-height: 1.1; font-variant-numeric: tabular-nums; }
       .kpi-row li strong small { font-size: var(--t-sm); color: var(--fg2); font-weight: 600; margin-left: 2px; }
       .kpi-row li span { display: block; margin-top: 4px; font-size: var(--t-xs); color: var(--fg2); }
-      .kpi-row li span .kpi-meta { display: block; font-size: var(--t-xs); color: var(--fg3); margin-top: 2px; }
+      .kpi-row li span .kpi-meta { display: block; font-size: var(--t-xs); color: var(--ink-meta); margin-top: 2px; }
       .risk-distribution-label { font-size: var(--t-sm); color: var(--fg2); margin: 0 0 8px; font-weight: 600; }
       .risk-distribution { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; }
       .risk-distribution li { flex: 0 1 var(--w); position: relative; padding: 8px 6px; border-radius: 4px; font-size: var(--t-xs); line-height: 1.3; overflow: hidden; min-width: 56px; }
@@ -2223,7 +2225,7 @@
          lands at 9.6px inside a --t-xs parent. The floor has no exception. */
       .risk-distribution li .rd-text small { font-size: var(--t-xs); }
       .risk-distribution li .rd-text strong { display: block; font-weight: 600; color: var(--fg); font-size: var(--t-xs); }
-      .risk-distribution li .rd-text small { color: var(--fg2); }
+      .risk-distribution li .rd-text small { color: var(--ink-meta); }
       @media (max-width: 768px) {
         .kpi-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .kpi-row li strong { font-size: var(--t-h1); }

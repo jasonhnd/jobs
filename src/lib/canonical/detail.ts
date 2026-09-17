@@ -18,7 +18,7 @@ export const CANONICAL_DETAIL_CSS = `
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html,body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.6}
     h1,h2,h3,h4{font-family:var(--font-serif);font-weight:700;letter-spacing:-0.005em;color:var(--ink)}
-    a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+    a{color:var(--orange-hot);text-decoration:none}a:hover{text-decoration:underline}
     /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
     .theme-toggle{display:none !important}
 
@@ -31,7 +31,7 @@ export const CANONICAL_DETAIL_CSS = `
     nav.crumb{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
     nav.crumb a{color:var(--ink-meta);text-decoration:none;background:transparent;border:none;padding:0}
     nav.crumb a::before{content:none}
-    nav.crumb a:hover{color:var(--accent);text-decoration:none;background:transparent}
+    nav.crumb a:hover{color:var(--orange-hot);text-decoration:none;background:transparent}
     nav.crumb > span[aria-hidden]{color:var(--ink-4)}
     nav.crumb > span:not([aria-hidden]){color:var(--ink);font-weight:600}
 
