@@ -33,7 +33,7 @@ export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
 export function renderRankItem(o: GenreOccupation, shortJa: string): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
-  const scoreStr = o.ai_risk === null ? '—' : `${o.ai_risk}/10`;
+  const scoreStr = formatRiskScore(o.ai_risk);
   const band = riskClass(o.ai_risk);
   const metaParts: string[] = [];
   if (o.sector_ja) metaParts.push(escapeHtml(o.sector_ja));
@@ -223,7 +223,7 @@ export function renderGenreIndexSpotlight(occs: ReadonlyArray<GenreOccupation>):
   const items = occs
     .map((o) => {
       const band = riskClass(o.ai_risk);
-      const riskStr = o.ai_risk !== null ? `${o.ai_risk}/10` : '—';
+      const riskStr = formatRiskScore(o.ai_risk);
       const salaryStr = o.salary !== null ? `${Math.trunc(o.salary)} 万円` : '—';
       return (
         `<li><a href="${occupationPath(o.id)}">` +
@@ -380,6 +380,7 @@ export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc:
 // `_<page>-bindings.ts` パターンの 13 hub-index page がこれを `set:html` で食べる。
 
 import { CANONICAL_HUB_CSS } from '../lib/canonical/hub';
+import { formatRiskScore } from '../lib/score-format.js';
 
 const HUB_PAGE_SPECIFIC_CSS = `
 .intro{margin:24px 0;color:var(--fg);font-size:var(--t-h3);max-width:64ch}

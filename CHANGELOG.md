@@ -10,6 +10,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Fixed
+
+- **AI-impact scores rendered at full float precision on 793 of 839 pages.**
+  The public value is a mean of several models' scores, so it arrives as
+  `6.233333333333334`; twelve-plus call sites interpolated it raw instead of
+  going through `displayScore()` (banker's rounding to one decimal), which
+  `views/occupation-display.ts` had always used. Result: `6.233333333333334/10`
+  in **8,923 visible strings** and **547 inside `<script>`**, including
+  JSON-LD `name` and `text` fields that Google and AI crawlers read.
+  All score display now goes through `src/lib/score-format.ts`
+  (`formatRiskScore`), which wraps `displayScore` and lives in `src/lib` so
+  templates can import it — `check-architecture` forbids them reaching into
+  `src/data/lib`. Long decimals in the built output: **0**.
+- **SEO baseline refreshed** for that fix: 475 URLs have JSON-LD changes.
+  Verified mechanically that every one differs **only** in a score string —
+  masking all `N/10` occurrences makes the before and after payloads
+  byte-identical, and the URL set is unchanged.
+
 ### Changed
 
 - Design v1.0 `feature` surface (design-1.9, #532): canonical's
