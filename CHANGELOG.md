@@ -12,6 +12,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Fixed
 
+- **The homepage had no visible `<h1>` at 768px and below** — the viewport
+  Google crawls. `<h1 class="dh-title">` lives inside `.desktop-hero`, which is
+  `display: none` there, and the title that actually rendered
+  (`.mobile-hero-title`) was an `<h2>`. `tests/e2e/visual.spec.ts` was written
+  for the intended shape ("responsive layouts keep multiple h1s in the DOM, one
+  visible per breakpoint") and had been failing on it unnoticed, because the e2e
+  suite ran in no CI. The mobile title is now the `<h1>`.
+
+  **SEO baseline drift, intentional and refreshed:** `/` now reports two
+  `h1Texts` instead of one. Both are in the DOM; exactly one renders per
+  breakpoint. Multiple `<h1>` elements are valid HTML5 and Google states they
+  are not a ranking problem — a crawled viewport with *no* h1 is the real
+  defect, and that is what this removes. Per §4.8 the Feature-page title is the
+  Display step, so the mobile title goes 22px → 32px (40px at 768px, matching
+  desktop).
+
 - **AI-impact scores rendered at full float precision on 793 of 839 pages.**
   The public value is a mean of several models' scores, so it arrives as
   `6.233333333333334`; twelve-plus call sites interpolated it raw instead of

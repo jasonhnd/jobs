@@ -40,17 +40,42 @@ export function walkSource(root: string, dir = 'src'): string[] {
 /**
  * Blank out comment bodies while keeping line numbering intact, so a reported
  * line still points at the right source line.
+ *
+ * Two things are NOT a comment and were being treated as one until 2026-09-17:
+ *
+ *   - `//` inside a quoted string. `xmlns='http://www.w3.org/2000/svg'` in a
+ *     data URI blanked the rest of the line, so every gate went blind past it.
+ *     Measured when this was fixed: 313 lines across 74 files were truncated,
+ *     6 of them carrying a design declaration after the URL.
+ *   - `//` immediately after `:`, which is a URL scheme even unquoted.
+ *
+ * This is the same shape as the coverage hole (design-1.16): the checker
+ * reported clean because it could not see, not because there was nothing there.
  */
 export function stripComments(src: string): string {
   let out = '';
   let i = 0;
   let mode: 'code' | 'block' | 'line' = 'code';
+  /** The quote character we are inside, or '' in code. Reset at newline. */
+  let quote = '';
   while (i < src.length) {
+    const ch = src[i] ?? '';
     const two = src.slice(i, i + 2);
+
+    if (mode === 'code' && quote !== '') {
+      if (ch === '\\') { out += src.slice(i, i + 2); i += 2; continue; }
+      if (ch === quote) quote = '';
+      if (ch === '\n') quote = '';
+      out += ch; i += 1; continue;
+    }
+    if (mode === 'code' && (ch === '"' || ch === "'" || ch === '`')) {
+      quote = ch; out += ch; i += 1; continue;
+    }
     if (mode === 'code' && two === '/*') { mode = 'block'; out += '  '; i += 2; continue; }
     if (mode === 'block' && two === '*/') { mode = 'code'; out += '  '; i += 2; continue; }
-    if (mode === 'code' && two === '//') { mode = 'line'; out += '  '; i += 2; continue; }
-    const ch = src[i] ?? '';
+    if (mode === 'code' && two === '//' && src[i - 1] !== ':') {
+      mode = 'line'; out += '  '; i += 2; continue;
+    }
     if (mode === 'line' && ch === '\n') mode = 'code';
     out += mode === 'code' || ch === '\n' ? ch : ' ';
     i += 1;

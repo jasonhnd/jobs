@@ -352,7 +352,7 @@ export const MAP_PAGE_CSS = `
       position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-modal);
       background: var(--bg2);
       border-radius: var(--r-lg) var(--r-lg) 0 0;
-      box-shadow: 0 -8px 24px rgba(0,0,0,0.16);
+      box-shadow: var(--sh-sheet);
       padding: 8px 20px calc(20px + env(safe-area-inset-bottom)) 20px;
       max-height: 56vh; overflow-y: auto;
       transform: translateY(100%);

@@ -13,14 +13,15 @@
  *   4. No leaked tokens in body text (`-->`, comment fragments, build markers)
  */
 import { test, expect } from '@playwright/test';
+import { visit } from './_visit';
 
 const PAGES = [
   { url: '/',                            name: 'home' },
-  { url: '/ja/sectors',                  name: 'sectors index' },
-  { url: '/ja/sectors/iryo',             name: 'sector item (iryo)' },
-  { url: '/ja/156',                      name: 'occupation detail (looker)' },
-  { url: '/ja/q/ai-de-kienai',           name: 'Q&A item' },
-  { url: '/ja/rankings/ai-risk-low',     name: 'ranking item' },
+  { url: '/sectors',                  name: 'sectors index' },
+  { url: '/sectors/iryo',             name: 'sector item (iryo)' },
+  { url: '/156',                      name: 'occupation detail (looker)' },
+  { url: '/q/ai-de-kienai',           name: 'Q&A item' },
+  { url: '/rankings/ai-risk-low',     name: 'ranking item' },
 ];
 
 // Strings that should NEVER appear in the user-visible body of any page.
@@ -63,13 +64,13 @@ for (const page of PAGES) {
 }
 
 test('smoke: home page X follow CTA renders', async ({ page }) => {
-  await page.goto('/');
+  await visit(page, '/');
   await expect(page.locator('a#x-follow-cta')).toBeVisible();
 });
 
 test('smoke: drawer opens and closes (mobile)', async ({ page, browserName }) => {
   test.skip(browserName !== 'chromium' || (await page.viewportSize())?.width !== 393, 'mobile only');
-  await page.goto('/ja/sectors');
+  await visit(page, '/sectors');
   const burger = page.locator('#mobBurger');
   await expect(burger).toBeVisible();
   await burger.click();

@@ -66,7 +66,7 @@ const HERO_SELECTOR = 'h1';
 const PAGES: ReadonlyArray<PageUnderTest> = [
   { url: '/',         name: 'home'       },
   { url: '/map',      name: 'map'        },
-  { url: '/ja/156',   name: 'occupation' },
+  { url: '/156',   name: 'occupation' },
 ];
 
 // 1px tolerance for sub-pixel rounding of viewport widths.
