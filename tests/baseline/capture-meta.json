@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-09-15T14:36:00.181Z",
-  "gitCommit": "191dcf5cfe9b0075d5e8a56f7d99cd21a0dfa8b4",
-  "gitBranch": "feat/design-1.9-feature",
+  "capturedAt": "2026-09-17T05:11:42.604Z",
+  "gitCommit": "2cf221e748a7bd8a3f13035af0c1483dff24ce65",
+  "gitBranch": "fix/score-display-rounding",
   "distFileCount": 839,
   "urlCount": 839,
   "dataFileCount": 613,

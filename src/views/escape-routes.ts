@@ -12,6 +12,7 @@
  */
 import type { Occupation } from './ranking/config.js';
 import { occupationPath } from '../lib/urls.js';
+import { formatRiskScore } from '../lib/score-format.js';
 
 /**
  * AI 影響度 threshold for "safe" jobs surfaced as escape routes.
@@ -102,7 +103,7 @@ export function renderEscapeRouteSection(
         `<a href="${occupationPath(c.id)}">` +
         `<span class="ec-name">${escapeHtml(c.nameJa)}</span>` +
         `<span class="ec-meta">` +
-        `<span class="risk-pill low">AI ${c.aiRisk}/10</span>` +
+        `<span class="risk-pill low">AI ${formatRiskScore(c.aiRisk)}</span>` +
         (c.sectorJa
           ? `<span class="ec-sector">${escapeHtml(c.sectorJa)}</span>`
           : '') +

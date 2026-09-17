@@ -28,6 +28,7 @@
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { occupationPath } from '../lib/urls.js';
+import { formatRiskScore } from '../lib/score-format.js';
 
 export interface SpokeNeighbor {
   id: number;
@@ -139,7 +140,7 @@ export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, s
     n === null ? '—' : Math.trunc(n).toLocaleString('en-US');
 
   const cards = neighbors.map((n) => {
-    const ai = n.ai_risk === null ? '—' : `${n.ai_risk}/10`;
+    const ai = formatRiskScore(n.ai_risk);
     const sec = n.sector_ja ?? '';
     const wkr = fmtInt(n.workers);
     return `<a class="srn-card" href="${occupationPath(n.id)}">` +
@@ -150,7 +151,7 @@ export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, s
            `</span></a>`;
   }).join('');
 
-  const riskLabel = sourceRisk !== null ? `${sourceRisk}/10` : '—';
+  const riskLabel = formatRiskScore(sourceRisk);
   return (`<section class="same-risk-neighbors" aria-label="同 AI 影響度の他職業（クロスセクター）">
     <h2>同 AI 影響度（${escapeHtml(riskLabel)} ±1）の他職業</h2>
     <p class="srn-subtitle">業界をまたいで、AI 影響度が同水準の代表職業（規模順）。</p>
