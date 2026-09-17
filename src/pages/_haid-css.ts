@@ -4,11 +4,11 @@
  */
 export const HAID_CSS = `
 .haid-rel-none     { border-left-color: var(--fg3); }
-.haid-rel-tool     { border-left-color: var(--accent); }
+.haid-rel-tool     { border-left-color: var(--orange-hot); }
 .haid-rel-presence { border-left-color: var(--green-deep); }
 .haid-rel-union    { border-left-color: var(--accent-deep); }
-.haid-rel-none .code     { color: var(--fg3); }
-.haid-rel-tool .code     { color: var(--accent); }
+.haid-rel-none .code     { color: var(--ink-meta); }
+.haid-rel-tool .code     { color: var(--orange-hot); }
 .haid-rel-presence .code { color: var(--green-deep); }
 .haid-rel-union .code    { color: var(--accent-deep); }
 
@@ -20,7 +20,7 @@ export const HAID_CSS = `
 .haid-boundary .t { font-family: var(--font-serif); font-weight: 600; font-size: 1rem; white-space: nowrap; }
 
 .haid-emfo .stage.s1 { border-top-color: var(--fg3); }
-.haid-emfo .stage.s2 { border-top-color: var(--accent); }
+.haid-emfo .stage.s2 { border-top-color: var(--orange-hot); }
 .haid-emfo .stage.s3 { border-top-color: var(--green-deep); }
 .haid-emfo .stage.s4 { border-top-color: var(--accent-deep); }
 .haid-emfo .stage .lv { margin-top: 6px; font-size: .74rem; color: var(--fg2); font-variant-numeric: tabular-nums; }

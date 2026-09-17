@@ -106,8 +106,8 @@ export const CANONICAL_CSS = `
   --risk-soft-3: #F6E0CC;
   --risk-soft-4: #F0D6CC;
   /* Pills: soft-tint background (from the scale) + readable dark text. */
-  --risk-pill-low-bg: var(--risk-soft-0);  --risk-pill-low-fg: #48705F;
-  --risk-pill-mid-bg: var(--risk-soft-2);  --risk-pill-mid-fg: #8A6A2A;
+  --risk-pill-low-bg: var(--risk-soft-0);  --risk-pill-low-fg: #446a5a;
+  --risk-pill-mid-bg: var(--risk-soft-2);  --risk-pill-mid-fg: #826427;
   --risk-pill-high-bg: var(--risk-soft-3); --risk-pill-high-fg: #A24A28;
   /* 第 4 層 — layout. Single content-column width: every page's #wrapper / main
      references this, and the top-nav + footer align to it, so the content edge
@@ -245,7 +245,7 @@ html body a.skip-link {
   top: 12px;
   left: 12px;
   z-index: var(--z-toast);
-  background: var(--orange);
+  background: var(--orange-hot);
   color: #fff;
   padding: 10px 16px;
   border-radius: 8px;
@@ -389,7 +389,7 @@ html body footer.site-footer {
   line-height: 1.65;
 }
 html body footer.site-footer a {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: none;
 }
 html body footer.site-footer a:hover {
@@ -419,7 +419,7 @@ html body footer.site-footer .footer-links a {
   transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
 }
 html body footer.site-footer .footer-links a:hover {
-  color: var(--accent);
+  color: var(--orange-hot);
   border-color: var(--accent);
   background: color-mix(in srgb, var(--orange) 6%, transparent);
   text-decoration: none;
@@ -441,8 +441,7 @@ html body footer.site-footer .footer-group-label {
   text-align: right;
   font-size: var(--t-xs);
   font-weight: 600;
-  color: var(--fg2);
-  opacity: 0.7;
+  color: var(--ink-meta);
   letter-spacing: 0.03em;
   white-space: nowrap;
   padding-top: 5px;
@@ -465,12 +464,11 @@ html body footer.site-footer .footer-legal a {
   text-decoration: none;
 }
 html body footer.site-footer .footer-legal a:hover {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: underline;
 }
 html body footer.site-footer .footer-legal span {
-  color: var(--fg2);
-  opacity: 0.4;
+  color: var(--ink-meta);
 }
 @media (max-width: 560px) {
   html body footer.site-footer .footer-group {
@@ -489,14 +487,13 @@ html body footer.site-footer .footer-legal span {
   }
 }
 html body footer.site-footer .footer-meta {
-  color: var(--fg2);
+  color: var(--ink-meta);
   font-size: var(--t-xs);
-  opacity: 0.92;
   text-wrap: pretty;
   line-height: 1.65;
 }
 html body footer.site-footer .footer-meta a {
-  color: var(--accent);
+  color: var(--orange-hot);
 }
 html body footer.site-footer .footer-meta em a {
   /* RA follow-up (2026-05-29): this disclaimer link sits inside body text, so
@@ -598,7 +595,7 @@ html body footer.site-footer .share-btn:focus-visible {
 
 html body footer.site-footer .share-toast {
   font-size: var(--t-xs);
-  color: var(--accent);
+  color: var(--orange-hot);
   margin-left: 6px;
   opacity: 0;
   transition: opacity 200ms ease;
@@ -671,7 +668,7 @@ html body nav.top-nav .top-nav-brand {
   letter-spacing: -0.005em;
 }
 html body nav.top-nav .top-nav-brand:hover {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: none;
 }
 html body nav.top-nav .top-nav-brand-mark {
@@ -687,17 +684,21 @@ html body nav.top-nav a:not(.top-nav-brand) {
   transition: color 150ms ease;
 }
 html body nav.top-nav a:not(.top-nav-brand):hover {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: none;
 }
+/* Design.md §4 role table — グローバルナビの現在地は --orange-hot + 下線。
+   色だけで現在地を示さない。 */
 html body nav.top-nav a[aria-current="page"] {
-  color: var(--accent);
+  color: var(--orange-hot);
   font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.2em;
 }
 
 html body nav.top-nav .sep {
-  color: var(--fg2);
-  opacity: 0.6;
+  color: var(--ink-meta);
   font-size: var(--t-xs);
   user-select: none;
 }
@@ -772,7 +773,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     padding: 6px 4px;
     min-height: 44px;
   }
-  html body header.mob-topbar a.mob-topbar-brand:hover { color: var(--accent); }
+  html body header.mob-topbar a.mob-topbar-brand:hover { color: var(--orange-hot); }
   html body header.mob-topbar a.mob-topbar-brand svg {
     color: var(--accent);
     flex-shrink: 0;
@@ -987,7 +988,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   }
   html body div.mob-search .mob-search-door-row a:hover {
     border-color: var(--accent);
-    color: var(--accent);
+    color: var(--orange-hot);
     text-decoration: none;
   }
 
@@ -1150,7 +1151,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   }
   html body div.mob-drawer a.mob-drawer-item:hover .mob-drawer-arrow,
   html body div.mob-drawer a.mob-drawer-item:active .mob-drawer-arrow {
-    color: var(--accent);
+    color: var(--orange-hot);
     transform: translateX(2px);
   }
 
@@ -1195,7 +1196,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   gap: 6px;
   padding: 11px 20px;
   min-height: 44px;
-  background: var(--accent, #D96B3D);
+  background: var(--orange-hot, #c0411e);
   color: var(--bg, #FAF6EE);
   text-decoration: none;
   border-radius: 999px;
@@ -1244,7 +1245,7 @@ html body details.chap > summary::-webkit-details-marker { display: none; }
 html body details.chap > summary::after {
   content: "›";
   flex-shrink: 0;
-  color: var(--fg3);
+  color: var(--ink-meta);
   font-size: var(--t-h3);
   line-height: 1;
   transform: rotate(90deg);
