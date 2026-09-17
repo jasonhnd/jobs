@@ -22,6 +22,7 @@ import { fmtInt } from '../lib/num.js';
 import { OCCUPATION_COUNT } from '../site/config.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { occupationPath } from '../lib/urls.js';
+import { formatRiskScore } from '../lib/score-format.js';
 
 // Local mirror of views/rankings.ts:safeMean — takes occupation objects +
 // numeric key, returns the mean over non-null values. Templates can't import
@@ -91,7 +92,7 @@ export function renderRankingSummary(items: Occupation[]): SafeHtml {
   if (items.length === 0) return '' as SafeHtml;
   const top = items[0];
   const name = escapeHtml(top.title_ja ?? `#${top.id}`);
-  const scoreHtml = top.ai_risk === null ? '—' : `${top.ai_risk}/10`;
+  const scoreHtml = formatRiskScore(top.ai_risk);
   const meanVals = items
     .map((o) => o.ai_risk)
     .filter((v): v is number => typeof v === 'number');
@@ -113,7 +114,7 @@ export function renderRankItem(
 ): SafeHtml {
   const title = o.title_ja ?? `#${o.id}`;
   const score = o.ai_risk;
-  const scoreStr = score === null ? '—' : `${score}/10`;
+  const scoreStr = formatRiskScore(score);
   const band = riskBand(score);
   const sector = o.sector_ja || '';
   const salary = o.salary;
@@ -168,7 +169,7 @@ export function renderHighlights(items: Occupation[], slug: RankingSlug): SafeHt
   const hl: string[] = [];
 
   if (slug === 'ai-risk-high' || slug === 'ai-risk-low') {
-    hl.push(`1位は「${name}」（AI影響度 ${top.ai_risk}/10）`);
+    hl.push(`1位は「${name}」（AI影響度 ${formatRiskScore(top.ai_risk)}）`);
   } else if (slug === 'salary') {
     hl.push(`1位は「${name}」（年収 ${Math.trunc(top.salary ?? 0)}万円）`);
   } else if (slug === 'entry-salary') {
