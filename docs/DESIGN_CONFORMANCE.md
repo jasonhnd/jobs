@@ -60,9 +60,10 @@ legacy       0 / 11
 >
 > **CI ゲート稼働後に判明した残件（2026-09-16・#533）**
 >
-> - **§18.7 class 所属**: 14 ページが class CSS を import していない
->   （`rankings/[type]` `compare/*` `skills/*` `interests/*` ほか）。`check-page-class`
->   が警告で列挙する。§18.7 自体が `[移行中]` のため失敗にはしていない。
+> - ~~§18.7 class 所属~~ → **解消済み**（2026-09-17 / design-1.14）。`answers/*`
+>   `rankings/*` `compare/*` `skills/*` `interests/*` の 10 ページに Hub class、
+>   `sectors/index` に Sector class を配線。`models/[model]` は Feature 家族として
+>   明示的に例外登録。`check-page-class` の §18.7 検査が OK になった。
 > - **`check-color-tokens`**: 71 箇所（rgba 色調 54 / 生 hex 17）。アルファ・色調の
 >   トークンが正典に無いため報告のみ。`bun run drift:design` で内訳が出る。
 
