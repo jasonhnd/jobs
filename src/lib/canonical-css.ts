@@ -143,7 +143,7 @@ html body .cookie-banner {
   background: var(--ink);
   color: #fff;
   padding: 2px 8px calc(2px + env(safe-area-inset-bottom, 0px));
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
+  box-shadow: var(--sh-sheet);
   font-size: var(--t-xs);
   line-height: 1.2;
 }

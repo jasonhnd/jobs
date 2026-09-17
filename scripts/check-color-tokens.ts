@@ -10,7 +10,7 @@
  * Colours with no palette base — brand colours, gradient stops — cannot be
  * expressed today and are reported by `drift:design` instead of failing here.
  */
-import { findColourViolations } from '../src/lib/design-gates/color-tokens.js';
+import { findColourViolations, findDataUriDrift } from '../src/lib/design-gates/color-tokens.js';
 
 const all = findColourViolations();
 const fail = all.filter((x) => x.state === 'conformant' && x.derivable);
@@ -25,6 +25,19 @@ if (fail.length > 0) {
   console.error('  Same colour, no new token — §2.5.');
   process.exit(1);
 }
+// §2.4 example 2 — a data URI may write a colour out, but it has to still be a
+// palette colour. Without this the exception is a hole: move a token and the
+// icons keep the old value with nothing to say so.
+const drift = findDataUriDrift();
+if (drift.length > 0) {
+  console.error('[check-color-tokens] FAIL — colour inside a data URI matches no palette token (Design.md §2.4):');
+  for (const x of drift) console.error(`  ${x.file}:${x.line}  ${x.colour}`);
+  console.error('\n  var() cannot be resolved inside a data URI, so the value is written out —');
+  console.error('  but it must equal a token in canonical-css.ts, or the icon drifts when the');
+  console.error('  token moves. Use the token\'s current value, or inline the SVG.');
+  process.exit(1);
+}
+
 console.log(
-  `[check-color-tokens] OK — no palette tint written raw (${report.length} off-palette colour(s) reported by drift:design)`,
+  `[check-color-tokens] OK — no palette tint written raw, ${drift.length === 0 ? 'data URI colours on palette' : ''} (${report.length} off-palette colour(s) reported by drift:design)`,
 );

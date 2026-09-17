@@ -39,15 +39,14 @@ const RAW = /#[0-9a-fA-F]{3,8}\b|rgba?\(/;
  */
 const NO_TOKEN_YET: ReadonlyArray<{ file: string; test: RegExp; why: string }> = [
   {
-    file: 'src/pages/_map-css.ts',
-    test: /sheet-backdrop/,
-    why: 'the sheet scrim rgba(36,30,24,0.40) — the canon has no scrim token',
-  },
-  {
-    // A data URI cannot resolve var(); the stroke is --fg2 written out.
+    // A data URI cannot resolve var(), so the colour has to be written out.
+    // §2.4 example 2 allows it ON CONDITION that the value equals a palette
+    // token's — checked separately by findDataUriDrift below, because the real
+    // risk is not the literal hex, it is the icon silently keeping an old
+    // colour after the token moves.
     file: '',
     test: /data:image\/svg\+xml/,
-    why: 'var() does not work inside a data URI',
+    why: 'var() does not work inside a data URI (value verified against the palette)',
   },
 ];
 
@@ -118,6 +117,61 @@ export function findColourViolations(root: string = process.cwd()): ColourViolat
           value: value.slice(0, 60), state,
           derivable: isPaletteDerived(bare, root),
         });
+      }
+    });
+  }
+  return out;
+}
+
+/** A colour inside a data URI that matches no palette token. */
+export interface DataUriDrift {
+  readonly file: string;
+  readonly line: number;
+  readonly colour: string;
+  readonly state: SurfaceState;
+}
+
+/**
+ * Design.md §2.4 example 2 — a `data:image/svg+xml` cannot resolve `var()`, so
+ * its colours are written out. That is allowed, but only while the value still
+ * equals a palette token's.
+ *
+ * The literal hex is not the danger; the drift is. Four data URIs carry
+ * `stroke='%237A6F5E'`, which is `--fg2` today. Move `--fg2` and the icons keep
+ * the old colour with nothing to say so. This check is what makes the exception
+ * safe to grant.
+ */
+export function findDataUriDrift(root: string = process.cwd()): DataUriDrift[] {
+  const surfaces = readLedger(root);
+  const pal = paletteByRgb(root);
+  const known = new Set(
+    [...pal.keys()].map((rgb) => {
+      const [r, g, b] = rgb.split(',').map(Number);
+      return [r, g, b]
+        .map((v) => (v ?? 0).toString(16).padStart(2, '0'))
+        .join('')
+        .toLowerCase();
+    }),
+  );
+  const out: DataUriDrift[] = [];
+
+  for (const file of walkSource(root)) {
+    const state = surfaceStateFor(file, surfaces);
+    if (state == null || state === 'legacy') continue;
+    const lines = stripComments(readFileSync(join(root, file), 'utf-8')).split('\n');
+    lines.forEach((text, idx) => {
+      if (!text.includes('data:image/svg+xml')) return;
+      // A `rel="icon"` data URI is a brand asset, not site chrome. Its colours
+      // are the mark's own — the same category as LINE's #06C755, which §2.4
+      // already treats as having no palette base. The rule here is about a UI
+      // icon drifting away from the token it was copied from.
+      const near = lines.slice(Math.max(0, idx - 4), idx + 1).join(' ');
+      if (/rel=["']icon["']|rel=["']apple-touch-icon["']/.test(near)) return;
+      for (const m of text.matchAll(/%23([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b/g)) {
+        let hex = (m[1] ?? '').toLowerCase();
+        if (hex.length === 3) hex = [...hex].map((c) => c + c).join('');
+        if (known.has(hex)) continue;
+        out.push({ file, line: idx + 1, colour: `#${hex}`, state });
       }
     });
   }
