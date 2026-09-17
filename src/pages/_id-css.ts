@@ -42,7 +42,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .v-nums{display:flex;gap:22px;align-items:flex-end}
     .v-num{min-width:0;display:flex;flex-direction:column;gap:4px}
     .score-label{font-size:var(--t-xs);line-height:1.35;color:var(--ink-meta);font-weight:700;letter-spacing:0.02em;line-break:strict;overflow-wrap:anywhere;word-break:normal}
-    .score-num{font-family:var(--font-serif);font-weight:700;line-height:1;letter-spacing:0;color:var(--ink);font-variant-numeric:tabular-nums}
+    .score-num{font-family:var(--font-serif);line-height:1;letter-spacing:0;color:var(--ink);font-variant-numeric:tabular-nums}
     .v-num.main .score-num{font-size:var(--t-h1);margin-top:4px}
     .v-num.subn .score-num{font-size:var(--t-h3);margin-top:8px}
     .score-num small{font-size:var(--t-sm);font-weight:600;color:var(--fg3, var(--ink-3));margin-left:2px}
