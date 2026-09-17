@@ -90,9 +90,15 @@
         <!-- Mobile-only hero block (Design.md §7.11) — visible on ≤768px only. Gives anxious-job-seeker users a one-screen tool entry: H2 + trust signal + search input + 5 occupation chips, sitting just above the treemap on mobile. -->
         <div class="mobile-hero" aria-label="モバイルクイック検索">
           <p class="mobile-hero-kicker">日本の__OCCUPATION_COUNT_SCORED__職業 × AI · 毎月更新</p>
-          <h2 class="mobile-hero-title">
+          <!-- The page title at <=768px. It has to be an h1: .dh-title (the
+               desktop hero's h1) is display:none here, so an h2 left mobile —
+               the viewport Google crawls — with no visible h1 at all.
+               visual.spec.ts was written for the intended shape ("responsive
+               layouts keep multiple h1s in the DOM, one visible per
+               breakpoint") and had been failing on it unnoticed. -->
+          <h1 class="mobile-hero-title">
             あなたの仕事は、<br class="ja-phrase-break">AIでどう変わる？
-          </h2>
+          </h1>
           <form class="mobile-hero-search" id="mhSearchForm" role="search" autocomplete="off">
             <input id="searchInputMobile" type="search" autocomplete="off"
                    placeholder="気になる職業を入力"

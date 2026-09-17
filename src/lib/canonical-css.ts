@@ -303,6 +303,17 @@ html {
    セリフ (Display / H1 / H2) は配信 1 ファイルで 400–700 が同一に描画されるため
    字号だけで階層を作る。H3 (18px) / H4 (16px) では字号差が足りず、字重を実際に
    持っているのはサンセリフだけなので、ここでサンセリフ 700 に切り替える (§4.4)。 */
+/* §4.2 — the 12px floor has no exception, and a bare <small> is the one way to
+   fall through it without declaring anything: the UA default is 0.83em, so a
+   <small> inside a --t-sm parent renders at 11.67px and inside --t-xs at 10px.
+   check-type-scale reads declared values and cannot see an inherited one, which
+   is why /haid shipped an 11.67px <small> through a green board. Give the
+   element the caption step (§4.7 caption・出典) so the floor holds by default;
+   a page that wants a different size still sets it with a class. */
+html body small {
+  font-size: var(--t-xs);
+}
+
 html body h1,
 html body h2 {
   font-family: var(--font-serif);
