@@ -29,13 +29,14 @@
 | `static` | `/privacy` `/compliance` `/404` | 3 | `canonical/static.ts` | `conformant` | 2026-09-15 完了（#528）。`CANONICAL_STATIC_CSS` を 3 ページへ配線（§6.5.1）、`/about` を範囲から除外（§6.5.3）、34 箇所をトークン化 |
 | `chrome` | 全 839 ページ共通のクロム（top-nav / footer / cookie banner / skip-link / mobile nav） | 839 | `canonical-css.ts` | `conformant` | 2026-09-17 新設・完了（design-1.13）。どの page class にも属さないがサイト全体に描画されるため独立 surface とした |
 | `misc` | `/shindan` `/me` `/gyakuten` | 3 | **Hub class** + 個別 | `conformant` | 2026-09-15 完了（#531）。3 ページとも Hub class に収容し `CANONICAL_HUB_CSS` を配線。見出し規則 21 件除去 |
+| `og` | OG 画像レンダラ（1200×630 PNG） | — | `src/lib/og-renderers/` | `legacy` | 2026-09-17 新設（design-1.18）。**意図的に `legacy`。** Satori のスタイルオブジェクトで PNG を組む別媒体であり、§4.2 の**網頁**字階（12px 下限・7 段）は 1200×630 の画像に 適用されない。一方 §2.3 の影響度色は参照しており、色の正典は共通。台帳に**在る**こと が重要で、不在は「きれい」と読めてしまう（design-1.16） |
 
 ## 進捗
 
 ```
-conformant  11 / 11 surface
-migrating    0 / 11
-legacy       0 / 11
+conformant  11 / 12 surface
+migrating    0 / 12
+legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 ```
 
 **全 10 surface が `conformant`。移行完了（2026-09-15）。**
@@ -230,6 +231,49 @@ legacy       0 / 11
 > であって、構造は不変である（高さ差は最大 −146px、大半は ±50px 未満）。claim して
 > いないページ（`/` `/map` など）は footer のビルド時刻ノイズ 35 画素のみ。
 
+> **被覆を閉じ、ゲートを失敗へ昇格（2026-09-17 / design-1.18）**
+>
+> design-1.16 が穴を測り、design-1.17 が `hub` を閉じた。本単位で残りを閉じる。
+>
+> | | design-1.16 前 | 1.16 | 1.17 | **1.18** |
+> |---|---|---|---|---|
+> | claim 済みファイル | 28 | 28 | 127 | **274（全件）** |
+> | ゲート未達（生 font-size） | 255 | 243 | 20 | **0** |
+> | ページ側見出し規則（§4.9） | 48 | 36 | 5 | **0** |
+> | 生 rgba 色調（§2.5） | — | — | 13 | **0** |
+>
+> `check-surface-coverage` は **`DESIGN_COVERAGE_WARN=1` を付けない限り失敗する**。
+> design-1.16 で報告のみにしたのは 244 ファイルが未 claim だったからであって、
+> そのままにすれば**このゲートが防ぐべき状態そのものを温存する**ことになる。
+> 台帳から `og` 行を外して失敗する（exit 1）ことを確認済み。
+>
+> **新設 `og` surface（`legacy`）。** OG 画像レンダラは Satori のスタイル
+> オブジェクトで 1200×630 の PNG を組む別媒体であり、§4.2 の**網頁**字階
+> （12px 下限・7 段）は適用されない。一方 §2.3 の影響度色は参照している。
+> `legacy` は「まだ」という正直な申告であり、ゲートは無視する。**不在にしない
+> ことが要点**で、不在は「きれい」と読めてしまう。
+>
+> **`check-surface-coverage` 自身の誤検出を 1 件修正。** `color:` を素で拾って
+> いたため、`src/data/projections/ai-adoption.ts` の Zod スキーマ
+> （`color: z.string()`）とデータ受け渡し（`color: l.color`）を「設計宣言 3 件」と
+> 数えていた。値が**色か寸法に見えること**を条件に加え、あわせて camelCase の
+> `fontSize` 等を対象に入れた（OG レンダラは CSS ではないが設計判断ではある）。
+>
+> **`_index.css` は claim するだけでほぼ無風だった。** design-1.9c が 152 宣言を
+> 既に役割で割り当てており、生 `font-size` は 0 件。**ゲートに見えていなかった
+> だけで、中身は正しかった。** これは穴の性質をよく表している — 問題は実装では
+> なく、実装が検査されていなかったことである。
+>
+> 残った §4.9 違反は `_index.css` の 1 件だけで、`h1, h2, h3, .dh-title,
+> .mobile-hero-title` という**見出しと非見出しが同居する選択器**だった。
+> 一括削除はできないので分割した。h3 をここに並べることは §4.4（h3 はサンセリフ）
+> と矛盾しており、実際には特異性で正典に負けて死んでいた宣言である。
+>
+> 視覚回帰（12 ページ × 2 視口）: `/sectors` 14.0% PC / 34.6% SP（高さ −29 / −219）、
+> `/haid` 6.0% / 14.2%、`/` 1.2% / 1.7%。`/sectors` はカード内の字号が役割へ
+> 収束したもので、**カード枚数は前後とも 32 で不変**。他の 9 ページは footer の
+> ビルド時刻ノイズ（119 画素）のみ。
+
 ## surface ごとの対象ファイル
 
 移行担当が最初に開くファイル。ここに無いファイルに手を広げる場合は、その理由を PR に書く。
@@ -237,15 +281,16 @@ legacy       0 / 11
 | surface | 主な対象ファイル |
 |---|---|
 | `tokens` | `src/lib/design-tokens.ts`（新設）, `src/lib/canonical-css.ts` |
-| `feature` | `src/pages/index.astro`, `src/pages/_index-css.ts`, `src/pages/models.astro`, `src/pages/models/[model].astro`, `src/pages/aiadoption.astro`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
+| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/models.astro`, `src/pages/models/[model].astro`, `src/pages/aiadoption.astro`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
 | `interactive` | `src/pages/map.astro`, `src/pages/_map-css.ts` |
-| `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro` |
-| `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/compare/`, `src/pages/skills/`, `src/pages/interests/`, `src/pages/answers/`, `src/pages/q/`, `src/pages/yearly/`, `src/pages/abilities/`, `src/pages/careers/`, `src/pages/education/`, `src/pages/employment-types/`, `src/pages/entry-paths/`, `src/pages/explore/`, `src/pages/knowledge/`, `src/pages/licenses/`, `src/pages/life-balance/`, `src/pages/training/`, `src/pages/values/`, `src/pages/work-styles/` |
-| `sector` | `src/lib/canonical/sector.ts`, `src/pages/sectors/_sector-css.ts` |
-| `doc` | `src/lib/canonical/doc.ts` |
+| `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_StatsGrid.astro`, `src/pages/_JobtagAnchor.astro`, `src/pages/_IdPageScript.astro` |
+| `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/compare/`, `src/pages/skills/`, `src/pages/interests/`, `src/pages/answers/`, `src/pages/q/`, `src/pages/yearly/`, `src/pages/abilities/`, `src/pages/careers/`, `src/pages/education/`, `src/pages/employment-types/`, `src/pages/entry-paths/`, `src/pages/explore/`, `src/pages/knowledge/`, `src/pages/licenses/`, `src/pages/life-balance/`, `src/pages/training/`, `src/pages/values/`, `src/pages/work-styles/`, `src/lib/ai-fact-css.ts` |
+| `sector` | `src/lib/canonical/sector.ts`, `src/pages/sectors/` |
+| `doc` | `src/lib/canonical/doc.ts`, `src/pages/_haid-css.ts`, `src/pages/haid.astro`, `src/pages/standard.astro`, `src/pages/methodology.astro`, `src/pages/about.astro`, `src/pages/data.astro` |
 | `static` | `src/lib/canonical/static.ts`, `src/pages/privacy.astro`, `src/pages/compliance.astro`, `src/pages/404.astro` |
-| `chrome` | `src/lib/canonical-css.ts` |
+| `chrome` | `src/lib/canonical-css.ts`, `src/components/TopNav.astro`, `src/components/Footer.astro`, `src/components/MobileNav.astro`, `src/components/MeEntry.astro`, `src/layouts/BaseLayout.astro` |
 | `misc` | `src/pages/shindan.astro`, `src/pages/_shindan-css.ts`, `src/pages/me.astro`, `src/pages/gyakuten.astro`, `src/pages/_gyakuten-css.ts`（すべて Hub class） |
+| `og` | `src/lib/og-renderers/` |
 
 **共通:** 見出しの分岐は `src/lib/canonical-css.ts` 側に置く。ページ CSS に見出しのサイズ・書体・字重を書かない（Design.md §4.9）。
 

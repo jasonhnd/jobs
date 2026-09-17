@@ -11,7 +11,10 @@
  */
 import { findUnclaimedFiles } from '../src/lib/design-gates/coverage.js';
 
-const FAIL = process.env.DESIGN_COVERAGE_STRICT === '1';
+// Failing since design-1.18, when the last range was claimed. It shipped as a
+// report in design-1.16 only because 244 files were still unclaimed; leaving it
+// that way would have preserved the exact condition it exists to prevent.
+const FAIL = process.env.DESIGN_COVERAGE_WARN !== '1';
 const unclaimed = findUnclaimedFiles();
 
 if (unclaimed.length === 0) {

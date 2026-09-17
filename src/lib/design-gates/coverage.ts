@@ -34,9 +34,24 @@ import { join } from 'node:path';
 import { readLedger, surfaceStateFor } from './ledger.js';
 import { stripComments, walkSource } from './scan.js';
 
-/** Declarations the design canon governs. A file with none is not in scope. */
-const DESIGN_DECL =
-  /(^|[\s;{])(font-size|font-family|font-weight|line-height|z-index|color|background-color)\s*:/;
+/**
+ * Declarations the design canon governs. A file with none is not in scope.
+ *
+ * The value has to look like one too. `color: z.string()` in a Zod schema and
+ * `color: l.color` passing data through are not design declarations, and
+ * counting them put src/data/projections/ai-adoption.ts in the report with
+ * three phantom "declarations".
+ *
+ * `fontSize` in camelCase is included on purpose: the OG renderers build Satori
+ * style objects, which are design decisions even though they are not CSS.
+ */
+const CSS_PROP = '(?:font-size|font-family|font-weight|line-height|z-index|color|background-color)';
+const JS_PROP = '(?:fontSize|fontFamily|fontWeight|lineHeight|zIndex)';
+const COLOUR_OR_LENGTH =
+  '(?:var\\(--|#[0-9a-fA-F]{3,8}\\b|rgba?\\(|hsla?\\(|color-mix\\(|[0-9.]+(?:px|rem|em|%|vw|vh)|clamp\\(|calc\\(|inherit|normal|bold|[0-9]{3}\\b)';
+const DESIGN_DECL = new RegExp(
+  `(?:(?:^|[\\s;{])${CSS_PROP}\\s*:|\\b${JS_PROP}\\s*:)\\s*['"\`]?\\s*${COLOUR_OR_LENGTH}`,
+);
 
 export interface Unclaimed {
   readonly file: string;
