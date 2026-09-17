@@ -117,6 +117,9 @@ const CLASS_EXCEPTIONS = new Set([
   'src/pages/map.astro',        // Interactive, _map-css.ts
   'src/pages/models.astro',     // Feature, page-local
   'src/pages/aiadoption.astro', // Feature, _ai-adoption-css.ts
+  // Feature family: a model page is not one of §4.8's three Feature pages, but
+  // it shares their page-local CSS rather than a class.
+  'src/pages/models/[model].astro',
 ]);
 
 function checkClassMembership(files) {
