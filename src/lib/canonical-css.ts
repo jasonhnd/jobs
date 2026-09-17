@@ -73,8 +73,8 @@ export const CANONICAL_CSS = `
   --red: #c95a3a;
   --purple: #8b5fb0;
   --purple-soft: #ddd5fb;
-  --line: rgba(36, 30, 24, 0.06);
-  --line-strong: rgba(36, 30, 24, 0.12);
+  --line: color-mix(in srgb, var(--ink) 6%, transparent);
+  --line-strong: color-mix(in srgb, var(--ink) 12%, transparent);
   /* 第 2 層 — alias (legacy 互換、値固定。Design.md §2.1 警告参照: --fg2/--fg3/--accent-2/--border の RGB は --ink-2 等と厳密に等しくない、これは意図) */
   --bg: #FAF6EE;
   --bg2: #FFFFFF;
@@ -85,7 +85,7 @@ export const CANONICAL_CSS = `
   --accent: #D96B3D;
   --accent-2: #6E9B89;
   --accent-deep: #48705F;
-  --border: rgba(36, 30, 24, 0.10);
+  --border: color-mix(in srgb, var(--ink) 10%, transparent);
   --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
   /* 第 3 層 — AI-impact (risk) color scale. SINGLE source for every surface
@@ -128,7 +128,7 @@ ${DESIGN_TOKENS_CSS}
   --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
   --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
   --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
-  --border: rgba(36, 30, 24, 0.10);
+  --border: color-mix(in srgb, var(--ink) 10%, transparent);
 }
 
 /* ───── Cookie consent banner (RA-013, 2026-05-18; compact #320) ─────
@@ -214,10 +214,10 @@ html body .cookie-banner .cb-btn-accept::before { background: var(--accent); }
 html body .cookie-banner .cb-btn-accept:hover::before { filter: brightness(1.08); }
 html body .cookie-banner .cb-btn-reject { color: #fff; }
 html body .cookie-banner .cb-btn-reject::before {
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid color-mix(in srgb, var(--paper) 40%, transparent);
 }
 html body .cookie-banner .cb-btn-reject:hover::before {
-  background: rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--paper) 8%, transparent);
 }
 html body .cookie-banner .cb-btn:focus-visible {
   outline: 2px solid var(--orange-soft);
@@ -251,7 +251,7 @@ html body a.skip-link {
   border-radius: 8px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(217, 107, 61, 0.28);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--orange) 28%, transparent);
   /* Hide visually without removing from focus order: zero size + clip-path */
   transform: translateY(-200%);
   transition: transform 150ms ease;
@@ -421,7 +421,7 @@ html body footer.site-footer .footer-links a {
 html body footer.site-footer .footer-links a:hover {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(217, 107, 61, 0.06);
+  background: color-mix(in srgb, var(--orange) 6%, transparent);
   text-decoration: none;
 }
 /* Footer nav grouped by purpose (2026-05-31): a right-aligned label column
@@ -923,7 +923,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     min-height: 44px;
     padding: 12px 14px;
     background: var(--bg2);
-    border: 1px solid rgba(163, 151, 133, 0.30);
+    border: 1px solid color-mix(in srgb, var(--fg3) 30%, transparent);
     border-radius: 12px;
     text-decoration: none;
     color: inherit;
@@ -1099,13 +1099,13 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     transition: transform 100ms ease, border-color 150ms ease, background 150ms ease;
   }
   html body div.mob-drawer a.mob-drawer-item:hover {
-    background: rgba(217, 107, 61, 0.04);
+    background: color-mix(in srgb, var(--orange) 4%, transparent);
     border-color: var(--accent);
     text-decoration: none;
   }
   html body div.mob-drawer a.mob-drawer-item:active {
     transform: scale(0.98);
-    background: rgba(217, 107, 61, 0.08);
+    background: color-mix(in srgb, var(--orange) 8%, transparent);
     border-color: var(--accent);
   }
 
@@ -1169,7 +1169,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   margin: 48px 0 24px;
   padding: 20px 24px;
   background: var(--bg2, #FFFFFF);
-  border: 1px solid var(--border, rgba(36,30,24,0.10));
+  border: 1px solid var(--border, color-mix(in srgb, var(--ink) 10%, transparent));
   border-left: 4px solid var(--accent, #D96B3D);
   border-radius: 8px;
   display: flex;

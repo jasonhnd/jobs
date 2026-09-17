@@ -289,7 +289,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .waffle-dot {
   cursor: pointer;
-  stroke: rgba(255, 255, 255, 0.92);
+  stroke: color-mix(in srgb, var(--paper) 92%, transparent);
   stroke-width: 1.3;
   vector-effect: non-scaling-stroke;
   transition:
@@ -309,7 +309,7 @@ export const AI_ADOPTION_CSS = `
   opacity: 1;
   stroke: var(--bg2);
   stroke-width: 2;
-  filter: drop-shadow(0 2px 4px rgba(36, 30, 24, 0.24));
+  filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--ink) 24%, transparent));
   outline: none;
 }
 
@@ -339,7 +339,7 @@ export const AI_ADOPTION_CSS = `
   opacity: 1;
   stroke: var(--fg);
   stroke-width: 2.4;
-  filter: drop-shadow(0 2px 5px rgba(36, 30, 24, 0.22));
+  filter: drop-shadow(0 2px 5px color-mix(in srgb, var(--ink) 22%, transparent));
   outline: none;
 }
 
@@ -382,7 +382,7 @@ export const AI_ADOPTION_CSS = `
   fill: var(--bg3);
   stroke: var(--fg);
   stroke-width: 2;
-  filter: drop-shadow(0 2px 6px rgba(36, 30, 24, 0.16));
+  filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--ink) 16%, transparent));
   outline: none;
 }
 

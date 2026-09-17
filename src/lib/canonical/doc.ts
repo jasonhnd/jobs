@@ -109,9 +109,9 @@ code{font-family:var(--font-mono);font-size:var(--t-sm);background:var(--bg2);pa
 .legend{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
 .chip{display:inline-flex;align-items:center;gap:7px;font-size:var(--t-xs);font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--border);background:var(--bg2);color:var(--fg)}
 .chip .gly{font-size:var(--t-xs);line-height:1}
-.chip-up{border-color:rgba(226,122,51,.4)}.chip-up .gly{color:var(--risk-3)}
-.chip-moat{border-color:rgba(72,112,95,.4)}.chip-moat .gly{color:var(--green-deep)}
-.chip-friction{border-color:rgba(217,160,59,.45)}.chip-friction .gly{color:var(--risk-2)}
+.chip-up{border-color:color-mix(in srgb, var(--risk-3) 40%, transparent)}.chip-up .gly{color:var(--risk-3)}
+.chip-moat{border-color:color-mix(in srgb, var(--green-deep) 40%, transparent)}.chip-moat .gly{color:var(--green-deep)}
+.chip-friction{border-color:color-mix(in srgb, var(--risk-2) 45%, transparent)}.chip-friction .gly{color:var(--risk-2)}
 
 /* ── EMFO funnel ── */
 .emfo{display:flex;align-items:stretch;gap:0;margin:10px 0 22px;flex-wrap:nowrap}
@@ -175,7 +175,7 @@ table.ex td.idx{font-weight:700;font-variant-numeric:tabular-nums;background:var
 .radar svg{width:100%;height:auto;display:block}
 .radar .grid{fill:none;stroke:var(--border)}
 .radar .axis{stroke:var(--border)}
-.radar .poly{fill:rgba(217,107,61,.16);stroke:var(--accent);stroke-width:2;stroke-linejoin:round}
+.radar .poly{fill:color-mix(in srgb, var(--orange) 16%, transparent);stroke:var(--accent);stroke-width:2;stroke-linejoin:round}
 .radar .alabel{fill:var(--fg3);font-size:var(--t-xs);font-family:var(--font-sans)}
 
 /* ── Source card (key/value rows) ── */
@@ -225,7 +225,7 @@ table.bands td.sc{font-variant-numeric:tabular-nums;font-weight:700;white-space:
 .gloss-item p{margin:0;font-size:var(--t-body);line-height:1.7;color:var(--fg);max-width:none}
 
 /* ── Non-official banner (top of /about) ── */
-.top-banner{background:linear-gradient(90deg,rgba(201,90,58,.16),rgba(217,107,61,.12));border:1px solid rgba(201,90,58,.4);border-radius:9px;padding:10px 16px;margin:0 0 24px;font-size:var(--t-sm);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;text-align:center;color:var(--fg)}
+.top-banner{background:linear-gradient(90deg,color-mix(in srgb, var(--red) 16%, transparent),color-mix(in srgb, var(--orange) 12%, transparent));border:1px solid color-mix(in srgb, var(--red) 40%, transparent);border-radius:9px;padding:10px 16px;margin:0 0 24px;font-size:var(--t-sm);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;text-align:center;color:var(--fg)}
 .top-banner .badge{background:var(--orange-hot);color:var(--paper);padding:3px 10px;border-radius:5px;font-size:var(--t-xs);font-weight:700;letter-spacing:.06em}
 
 @media(max-width:600px){

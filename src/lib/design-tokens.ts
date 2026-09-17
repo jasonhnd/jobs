@@ -27,7 +27,7 @@
  * this constant, and the leading comment of the generated CSS. `check-design-sync`
  * (§19.1, not yet implemented) will assert the three agree.
  */
-export const DESIGN_VERSION = '1.0';
+export const DESIGN_VERSION = '1.1';
 
 /** §4.2 — the type scale. Seven steps, no others. Site-wide minimum is 12px. */
 export const TYPE_SCALE = {
