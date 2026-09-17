@@ -95,8 +95,9 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .metric-value {
   margin: 0;
   color: var(--fg);
+  /* §4.7 統計数値（大） — serif, single weight, tabular-nums */
+  font-family: var(--font-serif);
   font-size: var(--t-h1);
-  font-weight: 700;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
 }
@@ -173,8 +174,9 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .impact-number {
   color: var(--fg);
+  /* §4.7 統計数値（大） — serif, single weight, tabular-nums */
+  font-family: var(--font-serif);
   font-size: var(--t-h1);
-  font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -435,8 +437,9 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page .explain-number {
+  /* §4.7 統計数値（大） — serif, single weight, tabular-nums */
+  font-family: var(--font-serif);
   font-size: var(--t-h1);
-  font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
