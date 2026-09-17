@@ -96,10 +96,13 @@ describe('design gates — the per-surface ratchet (§19.1)', () => {
 });
 
 describe('design gates — ledger parsing', () => {
-  test('reads the real ledger and finds all ten surfaces', () => {
+  test('reads the real ledger and every surface has a valid state', () => {
+    // Not pinned to a count: design-1.13 added `chrome`, and the ledger is
+    // allowed to grow. What must hold is that every row parses.
     const s = readLedger();
-    assert.equal(s.length, 10);
+    assert.ok(s.length >= 10, `expected at least 10 surfaces, got ${s.length}`);
     assert.ok(s.every((x) => ['conformant', 'migrating', 'legacy'].includes(x.state)));
+    assert.ok(s.some((x) => x.name === 'chrome'), 'chrome surface must be in the ledger');
   });
 
   test('a file no surface claims returns null, so gates skip it', () => {
