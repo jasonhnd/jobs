@@ -12,7 +12,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { readLedger, surfaceStateFor } from './ledger.js';
 import { findTypeScaleViolations } from './type-scale.js';
-import { findColourViolations } from './color-tokens.js';
+import { findColourViolations, findDataUriDrift } from './color-tokens.js';
 import { contrastRatio, luminance, requiredRatio, parseRoleTable, findContrastProblems } from './contrast.js';
 import { stripComments } from './scan.js';
 import { findSyncProblems } from './design-sync.js';
@@ -295,6 +295,62 @@ describe('check-heading-rules — §4.9', () => {
     const root = headingFixture('h2 { margin: 0 0 12px; color: red }');
     try {
       assert.deepEqual(findHeadingRuleViolations(root), []);
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+});
+
+describe('stripComments — a URL is not a comment', () => {
+  test("// inside a quoted string does not blank the rest of the line", () => {
+    // The data URI case: xmlns='http://www.w3.org/2000/svg' used to blank
+    // everything after it, so every gate went blind past the URL. 313 lines
+    // across 74 files were affected when this was found.
+    const src = "a { background: url('http://x/y.svg'); color: #abc }";
+    assert.equal(stripComments(src), src);
+  });
+
+  test('// straight after a colon is a scheme, not a comment', () => {
+    const src = 'a { background: url(http://x/y.svg); color: #abc }';
+    assert.equal(stripComments(src), src);
+  });
+
+  test('a real line comment is still blanked', () => {
+    assert.equal(stripComments('a { color: red } // note').trimEnd(), 'a { color: red }');
+  });
+
+  test('a real block comment is still blanked', () => {
+    assert.equal(stripComments('/* x */ a { color: red }').trim(), 'a { color: red }');
+  });
+
+  test('line numbering survives either way', () => {
+    const src = "x\n// c\ny: url('http://z')\n";
+    assert.equal(stripComments(src).split('\n').length, src.split('\n').length);
+  });
+});
+
+describe('check-color-tokens — data URI colours must stay on the palette (§2.4)', () => {
+  test('a colour that matches no token is reported', () => {
+    const root = mkdtempSync(join(tmpdir(), 'design-uri-'));
+    try {
+      mkdirSync(join(root, 'docs'), { recursive: true });
+      mkdirSync(join(root, 'src/lib'), { recursive: true });
+      mkdirSync(join(root, 'src/pages'), { recursive: true });
+      writeFileSync(
+        join(root, 'docs/DESIGN_CONFORMANCE.md'),
+        [
+          '| surface | 範囲 | ページ数 | 実装 | 状態 | 備考 |', '|---|---|---|---|---|---|',
+          '| `demo` | x | 1 | `demo.ts` | `conformant` | — |', '',
+          '| surface | 主な対象ファイル |', '|---|---|',
+          '| `demo` | `src/pages/demo.ts` |', '',
+        ].join('\n'),
+      );
+      writeFileSync(join(root, 'src/lib/canonical-css.ts'), ':root { --fg2: #7A6F5E; }');
+      writeFileSync(
+        join(root, 'src/pages/demo.ts'),
+        "export const CSS = `\n.a { background-image: url(\"data:image/svg+xml;utf8,<svg stroke='%237A6F5E'/>\") }\n.b { background-image: url(\"data:image/svg+xml;utf8,<svg stroke='%23123456'/>\") }\n`;\n",
+      );
+      const d = findDataUriDrift(root);
+      assert.equal(d.length, 1, 'only the off-palette colour is reported');
+      assert.equal(d[0]?.colour, '#123456');
     } finally { rmSync(root, { recursive: true, force: true }); }
   });
 });

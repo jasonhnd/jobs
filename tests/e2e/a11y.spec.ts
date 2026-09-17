@@ -9,13 +9,13 @@
  * Covers one URL per page family that emits HTML at build time:
  *   - homepage (/) — biggest hand-curated content surface
  *   - /map — interactive treemap (a11y-sensitive)
- *   - /ja/sectors — sectors index
- *   - /ja/sectors/iryo — sector hub
- *   - /ja/156 — occupation detail (the per-page family with 556 routes)
- *   - /ja/rankings/ai-risk-low — ranking page
- *   - /ja/skills — skills index
- *   - /ja/compare — compare hub
- *   - /ja/q/ai-de-kienai — Q&A item
+ *   - /sectors — sectors index
+ *   - /sectors/iryo — sector hub
+ *   - /156 — occupation detail (the per-page family with 556 routes)
+ *   - /rankings/ai-risk-low — ranking page
+ *   - /skills — skills index
+ *   - /compare — compare hub
+ *   - /q/ai-de-kienai — Q&A item
  *   - /privacy — legal page
  *
  * NOTE: @axe-core/playwright is in package.json optionalDependencies
@@ -31,32 +31,36 @@
 import { test, expect } from '@playwright/test';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AxeBuilder from '@axe-core/playwright';
+import { visit } from './_visit';
 
 const PAGES: ReadonlyArray<{ url: string; name: string }> = [
   { url: '/',                            name: 'home' },
   { url: '/map',                         name: 'map (treemap)' },
-  { url: '/ja/sectors',                  name: 'sectors index' },
-  { url: '/ja/sectors/iryo',             name: 'sector hub (iryo)' },
-  { url: '/ja/156',                      name: 'occupation detail (looker)' },
-  { url: '/ja/rankings/ai-risk-low',     name: 'ranking item' },
-  { url: '/ja/skills',                   name: 'skills index' },
-  { url: '/ja/compare',                  name: 'compare hub index' },
-  { url: '/ja/q/ai-de-kienai',           name: 'Q&A item' },
+  { url: '/sectors',                     name: 'sectors index' },
+  { url: '/sectors/iryo',                name: 'sector hub (iryo)' },
+  { url: '/156',                         name: 'occupation detail (looker)' },
+  { url: '/rankings/ai-risk-low',        name: 'ranking item' },
+  { url: '/skills',                      name: 'skills index' },
+  { url: '/compare',                     name: 'compare hub index' },
+  { url: '/q/ai-de-kienai',              name: 'Q&A item' },
   { url: '/privacy',                     name: 'privacy legal page' },
   { url: '/models',                      name: 'models comparison page' },
 ];
 
 // Rules we intentionally skip:
-//   - 'color-contrast' — our warm-cream palette has documented edge
-//     cases that need a design-pass to resolve (see Design.md §3.2);
-//     not a per-commit blocker.
 //   - 'meta-viewport' — Astro sets viewport at the layout level;
 //     false-positive when the viewport tag appears later in <head>.
-const DISABLED_RULES = ['color-contrast', 'meta-viewport'];
+//
+// 'color-contrast' WAS in this list, disabled as "documented edge cases that
+// need a design-pass; not a per-commit blocker". The design pass happened
+// (#552): 46 failing foreground/background combinations went to 0, and §2.2 is
+// `[確定]` as of Design v1.2. Leaving the rule off would keep the one check
+// that reads rendered pixels switched off over the one contract that needs it.
+const DISABLED_RULES = ['meta-viewport'];
 
 for (const page of PAGES) {
   test(`a11y: ${page.name} — no critical/serious axe violations`, async ({ page: browser }) => {
-    await browser.goto(page.url, { waitUntil: 'domcontentloaded' });
+    await visit(browser, page.url, { waitUntil: 'domcontentloaded' });
 
     const results = await new AxeBuilder({ page: browser })
       .disableRules(DISABLED_RULES)

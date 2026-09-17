@@ -403,6 +403,10 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .chart-value {
   fill: var(--fg2);
   font-family: var(--font-sans);
+  /* d3-axis writes font-size: 10px onto the axis group, and nothing here
+     overrode it — so the tick labels rendered below §4.2's floor. The rule is
+     about text, and an SVG <text> is text. */
+  font-size: var(--t-xs);
   letter-spacing: 0;
 }
 
