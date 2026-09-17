@@ -19,6 +19,7 @@ import { riskClass } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { occupationPath } from '../lib/urls.js';
+import { formatRiskScore } from '../lib/score-format.js';
 
 // Re-export escapeHtml so pages can import it from the template entrypoint.
 export { escapeHtml };
@@ -31,7 +32,7 @@ export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
 export function renderSkillItem(o: SkillOccupation, shortJa: string): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
-  const scoreStr = o.ai_risk === null ? '—' : `${o.ai_risk}/10`;
+  const scoreStr = formatRiskScore(o.ai_risk);
   const band = riskClass(o.ai_risk);
   const metaParts: string[] = [];
   if (o.sector_ja) metaParts.push(escapeHtml(o.sector_ja));

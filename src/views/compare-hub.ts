@@ -106,6 +106,7 @@ function detailToSide(d: DetailFile): CompareSide {
 
 import { fmtInt } from '../lib/num.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
+import { formatRiskScore } from '../lib/score-format.js';
 
 function fmtDiff(a: number | null, b: number | null, suffix = ''): string {
   if (a === null || b === null) return '';
@@ -119,8 +120,8 @@ function buildRows(a: CompareSide, b: CompareSide): CompareResult['rows'] {
   const rows: CompareResult['rows'] = [
     {
       label: 'AI 影響度',
-      a_val: a.ai_risk !== null ? `${a.ai_risk}/10` : '—',
-      b_val: b.ai_risk !== null ? `${b.ai_risk}/10` : '—',
+      a_val: formatRiskScore(a.ai_risk),
+      b_val: formatRiskScore(b.ai_risk),
       note: fmtDiff(a.ai_risk, b.ai_risk),
     },
     {
@@ -185,13 +186,13 @@ function buildFaqs(meta: CompareMeta, a: CompareSide, b: CompareSide): Array<rea
     if (a.ai_risk !== b.ai_risk) {
       faqs.push([
         `AI 影響度はどちらが低い？`,
-        `${winner.name_ja} (${winner.ai_risk}/10) の方が ${loser.name_ja} (${loser.ai_risk}/10) より AI 影響度が低い傾向です。` +
+        `${winner.name_ja} (${formatRiskScore(winner.ai_risk)}) の方が ${loser.name_ja} (${formatRiskScore(loser.ai_risk)}) より AI 影響度が低い傾向です。` +
           CONSENSUS_FAQ_SENTENCE,
       ]);
     } else {
       faqs.push([
         `AI 影響度はどちらが低い？`,
-        `両者とも ${a.ai_risk}/10 で同程度の AI 影響度。具体的な業務内容での違いを見る必要があります。`,
+        `両者とも ${formatRiskScore(a.ai_risk)} で同程度の AI 影響度。具体的な業務内容での違いを見る必要があります。`,
       ]);
     }
   }

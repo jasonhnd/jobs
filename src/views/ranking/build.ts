@@ -31,6 +31,7 @@ import { buildEmploymentRankings } from './rankings/employment.js';
 import { buildEducationRankings } from './rankings/education.js';
 import { buildIntentRankings } from './rankings/intent.js';
 import { OCCUPATION_COUNT } from '../../site/config.js';
+import { formatRiskScore } from '../../lib/score-format.js';
 
 export interface BuildRankingsOptions {
   /**
@@ -132,8 +133,8 @@ export function buildRankings(
 
   const cards: RankingsBundle['hub']['cards'] = [
     // ── Phase 1 baseline (9) ──
-    { slug: 'ai-risk-high', name: 'AIに奪われる仕事 TOP30', desc: 'AI影響度が高い職業ランキング', count: highRisk.aiHigh.length, preview: makePreview(highRisk.aiHigh, (o) => `AI影響 ${o.ai_risk}/10`) },
-    { slug: 'ai-risk-low', name: 'AI影響が少ない仕事 TOP30', desc: 'AIリスクが低く将来性のある職業', count: lowRisk.aiLow.length, preview: makePreview(lowRisk.aiLow, (o) => `AI影響 ${o.ai_risk}/10`) },
+    { slug: 'ai-risk-high', name: 'AIに奪われる仕事 TOP30', desc: 'AI影響度が高い職業ランキング', count: highRisk.aiHigh.length, preview: makePreview(highRisk.aiHigh, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
+    { slug: 'ai-risk-low', name: 'AI影響が少ない仕事 TOP30', desc: 'AIリスクが低く将来性のある職業', count: lowRisk.aiLow.length, preview: makePreview(lowRisk.aiLow, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
     { slug: 'salary-safe', name: '高年収×低AIリスク TOP30', desc: '年収が高くAI代替リスクが低い職業', count: lowRisk.salarySafe.length, preview: makePreview(lowRisk.salarySafe, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
     { slug: 'workers', name: '就業者数ランキング TOP30', desc: '日本で最も就業者が多い職業', count: workforce.byWorkers.length, preview: makePreview(workforce.byWorkers, (o) => `${fmtInt(o.workers)}人`) },
     { slug: 'salary', name: '年収ランキング TOP30', desc: '年収が最も高い職業', count: salary.bySalary.length, preview: makePreview(salary.bySalary, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
@@ -148,24 +149,24 @@ export function buildRankings(
     { slug: 'monthly-hours-long', name: '労働時間が長い職業 TOP30', desc: '月間労働時間が長い職業', count: workConditions.byHoursLong.length, preview: makePreview(workConditions.byHoursLong, (o) => `月${Math.trunc(o.monthly_hours ?? 0)}時間`) },
     { slug: 'recruit-ratio-low', name: '求人倍率が低い職業 TOP30', desc: '採用競争が厳しい買い手市場', count: workConditions.byRecruitLow.length, preview: makePreview(workConditions.byRecruitLow, (o) => `${(o.recruit_ratio ?? 0).toFixed(2)}倍`) },
     // ── Phase 2 AI 軸派生 (6) ──
-    { slug: 'ai-replaced-soon', name: 'AI 置き換えが進む職業', desc: 'AI 影響度 8 以上、業務再設計が急務', count: highRisk.aiReplacedSoon.length, preview: makePreview(highRisk.aiReplacedSoon, (o) => `AI影響 ${o.ai_risk}/10`) },
-    { slug: 'ai-resistant-craft', name: '伝統技能で AI に強い職業', desc: '製造・建設・メンテ系の技能職', count: highRisk.aiResistantCraft.length, preview: makePreview(highRisk.aiResistantCraft, (o) => `AI影響 ${o.ai_risk}/10`) },
+    { slug: 'ai-replaced-soon', name: 'AI 置き換えが進む職業', desc: 'AI 影響度 8 以上、業務再設計が急務', count: highRisk.aiReplacedSoon.length, preview: makePreview(highRisk.aiReplacedSoon, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
+    { slug: 'ai-resistant-craft', name: '伝統技能で AI に強い職業', desc: '製造・建設・メンテ系の技能職', count: highRisk.aiResistantCraft.length, preview: makePreview(highRisk.aiResistantCraft, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
     { slug: 'ai-at-risk-but-paid', name: 'AI リスク高 × 高年収', desc: 'AI 影響度高でも現状年収高の要注意組', count: highRisk.aiAtRiskPaid.length, preview: makePreview(highRisk.aiAtRiskPaid, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
-    { slug: 'ai-augmented', name: 'AI で補強される職業', desc: 'AI 影響度 4-6 の AI 共存域', count: highRisk.aiAugmented.length, preview: makePreview(highRisk.aiAugmented, (o) => `AI影響 ${o.ai_risk}/10`) },
+    { slug: 'ai-augmented', name: 'AI で補強される職業', desc: 'AI 影響度 4-6 の AI 共存域', count: highRisk.aiAugmented.length, preview: makePreview(highRisk.aiAugmented, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
     { slug: 'ai-frontier', name: 'AI を使いこなす側の職業', desc: 'IT・通信セクターの AI フロンティア職', count: highRisk.aiFrontier.length, preview: makePreview(highRisk.aiFrontier, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
     { slug: 'ai-stable-employment', name: 'AI 安全 × 正規雇用率高', desc: '低 AI 影響かつ正社員中心の安定職', count: employment.aiStableEmployment.length, preview: makePreview(employment.aiStableEmployment, (o) => `正規 ${empPct(o, EMP.regular).toFixed(0)}%`) },
     // ── Phase 2 組合せ (8) ──
     { slug: 'ai-safe-high-demand', name: '高需要 × AI 安全', desc: '人手不足かつ AI 影響度が低い', count: intent.aiSafeHighDemand.length, preview: makePreview(intent.aiSafeHighDemand, (o) => demandLabel(o.demand_band)) },
     { slug: 'ai-safe-short-hours', name: '低労働時間 × AI 安全', desc: '労働時間が短く AI 影響も低い', count: intent.aiSafeShortHours.length, preview: makePreview(intent.aiSafeShortHours, (o) => `月${Math.trunc(o.monthly_hours ?? 0)}h`) },
     { slug: 'ai-safe-young-workforce', name: '若手中心 × AI 安全', desc: '平均年齢が若くて AI 影響も低い', count: intent.aiSafeYoung.length, preview: makePreview(intent.aiSafeYoung, (o) => `平均${(o.average_age ?? 0).toFixed(1)}歳`) },
-    { slug: 'ai-safe-no-license', name: '無資格 × AI 安全', desc: '資格なしで就けて AI 影響も低い', count: intent.aiSafeNoLicense.length, preview: makePreview(intent.aiSafeNoLicense, (o) => `AI影響 ${o.ai_risk}/10`) },
-    { slug: 'ai-safe-physical', name: '身体性 × AI 安全', desc: '身体技能職で AI 影響も低い', count: intent.aiSafePhysical.length, preview: makePreview(intent.aiSafePhysical, (o) => `AI影響 ${o.ai_risk}/10`) },
-    { slug: 'ai-safe-interpersonal', name: '対人 × AI 安全', desc: '対人スキル中心で AI 影響も低い', count: intent.aiSafeInterpersonal.length, preview: makePreview(intent.aiSafeInterpersonal, (o) => `AI影響 ${o.ai_risk}/10`) },
+    { slug: 'ai-safe-no-license', name: '無資格 × AI 安全', desc: '資格なしで就けて AI 影響も低い', count: intent.aiSafeNoLicense.length, preview: makePreview(intent.aiSafeNoLicense, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
+    { slug: 'ai-safe-physical', name: '身体性 × AI 安全', desc: '身体技能職で AI 影響も低い', count: intent.aiSafePhysical.length, preview: makePreview(intent.aiSafePhysical, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
+    { slug: 'ai-safe-interpersonal', name: '対人 × AI 安全', desc: '対人スキル中心で AI 影響も低い', count: intent.aiSafeInterpersonal.length, preview: makePreview(intent.aiSafeInterpersonal, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
     { slug: 'high-salary-high-demand', name: '高年収 × 高需要', desc: '年収が高くかつ人手不足の職業', count: salary.highSalaryHighDemand.length, preview: makePreview(salary.highSalaryHighDemand, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
     { slug: 'high-salary-young-entry', name: '初任給が高い × 若手活躍', desc: '初任給が高くて若手が多い', count: salary.highSalaryYoungEntry.length, preview: makePreview(salary.highSalaryYoungEntry, (o) => `初任給 ${Math.trunc(o.recruit_wage ?? 0)}万円`) },
     // ── Phase 2 教育・資格軸 (5) ──
     { slug: 'license-required', name: '国家資格が必要な職業', desc: '関連資格が多い高度専門職', count: education.licenseRequired.length, preview: makePreview(education.licenseRequired, (o) => `資格 ${o.certs.length}`) },
-    { slug: 'no-license-required', name: '無資格で就ける × AI 安全', desc: '資格不要かつ AI リスク低', count: education.noLicenseRequired.length, preview: makePreview(education.noLicenseRequired, (o) => `AI影響 ${o.ai_risk}/10`) },
+    { slug: 'no-license-required', name: '無資格で就ける × AI 安全', desc: '資格不要かつ AI リスク低', count: education.noLicenseRequired.length, preview: makePreview(education.noLicenseRequired, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
     { slug: 'high-school-ok', name: '高卒で目指せる職業', desc: '高卒比率 30% 以上の職業', count: education.highSchoolOk.length, preview: makePreview(education.highSchoolOk, (o) => `高卒 ${eduPct(o, EDU.highSchool).toFixed(0)}%`) },
     { slug: 'university-required', name: '大卒以上が中心の職業', desc: '大卒比率 50% 以上の職業', count: education.universityRequired.length, preview: makePreview(education.universityRequired, (o) => `大卒 ${eduPct(o, EDU.university).toFixed(0)}%`) },
     { slug: 'graduate-school-required', name: '大学院卒中心の職業', desc: '修士・博士課程修了者が多い', count: education.graduateSchoolRequired.length, preview: makePreview(education.graduateSchoolRequired, (o) => `院卒 ${gradPct(o).toFixed(0)}%`) },

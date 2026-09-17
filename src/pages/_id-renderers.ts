@@ -30,6 +30,7 @@ import { renderOccupationJsonLd } from '@/views/occupation-jsonld';
 import { jaUrl } from '@/lib/urls';
 import type { SafeHtml } from '@/lib/safe-html';
 import type { GeoFacts } from '@/site/geo-facts';
+import { formatRiskScore } from '../lib/score-format.js';
 
 const TRANSFER_TOP_N = 5;
 
@@ -168,7 +169,7 @@ export function renderOccupationJsonLdFromRec(
     id,
     canonical: jaUrl(id),
     pageName:
-      risk !== null ? `${nameJa} — AI 影響 ${risk}/10` : `${nameJa} — mirai-shigoto.com`,
+      risk !== null ? `${nameJa} — AI 影響 ${formatRiskScore(risk)}` : `${nameJa} — mirai-shigoto.com`,
     pageDesc: makeOccupationDefinitionFromRec(rec) || rationaleJa || descJa || nameJa,
     nameJa,
     aliasesJa: rec.aliases_ja ?? [],

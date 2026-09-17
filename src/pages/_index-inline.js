@@ -4,6 +4,13 @@
       // follow-up. `name_en` is kept on the data side for analytics event
       // payloads + alternate-name search.
       const lang = "ja";
+      // One decimal, matching displayScore() on the server. This runs in the
+      // browser and cannot import src/lib/score-format.ts, so the rule is
+      // restated. Used by the search fallback list.
+      function fmtRisk(v) {
+        const n = Number(v);
+        return Number.isFinite(n) ? String(Math.round(n * 10) / 10) : "0";
+      }
       let layer = "ai_risk";
       let palette = "redgreen"; // or "viridis"
       let data = [];
@@ -1822,7 +1829,7 @@
                 : "職業一覧",
             );
             fb.innerHTML = rows.map(d =>
-              `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${Number(d.ai_risk) || 0}/10</a></li>`
+              `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${fmtRisk(d.ai_risk)}/10</a></li>`
             ).join("") + fullListLink;
           };
           if ("requestIdleCallback" in window) {

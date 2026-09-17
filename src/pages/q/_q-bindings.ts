@@ -17,6 +17,7 @@ import type { GeoFacts } from '@/site/geo-facts';
 import { occupationPath } from '@/lib/urls';
 import { riskClass } from '@/lib/risk';
 import { safeMean } from '@/lib/num';
+import { formatRiskScore } from '../../lib/score-format.js';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -41,8 +42,7 @@ function eyebrowStem(qa: QAItem): string {
 }
 
 function scoreLabel(score: number | null | undefined): string {
-  if (score === null || score === undefined) return '—';
-  return `${score}/10`;
+  return formatRiskScore(score);
 }
 
 /**
@@ -99,7 +99,7 @@ export function renderExampleList(examples: ReadonlyArray<DetailFileMin>): strin
   const items = examples.map((d) => {
     const name = d.title?.ja ?? `#${d.id}`;
     const ai = d.ai_risk?.score;
-    const aiStr = ai === null || ai === undefined ? '—' : `${ai}/10`;
+    const aiStr = formatRiskScore(ai);
     const band = riskClass(ai === null || ai === undefined ? null : ai);
     const sec = d.sector?.ja ?? '';
     const salary = d.stats?.salary_man_yen;
