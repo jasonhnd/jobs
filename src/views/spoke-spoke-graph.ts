@@ -161,7 +161,7 @@ export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, s
 
 export const SAME_RISK_CSS = `
 .same-risk-neighbors{margin:36px 0}
-.same-risk-neighbors h2{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 6px;font-weight:600}
+.same-risk-neighbors h2{font-family:var(--font-serif);font-size:1.05rem;color:var(--orange-hot);margin:0 0 6px;font-weight:600}
 .same-risk-neighbors .srn-subtitle{font-size:var(--t-sm);color:var(--fg2);margin:0 0 14px;line-height:1.55}
 .srn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
 .srn-card{display:flex;flex-direction:column;gap:6px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms}
@@ -170,6 +170,6 @@ export const SAME_RISK_CSS = `
 .srn-card .srn-meta{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:var(--t-xs);color:var(--fg2);align-items:baseline}
 .srn-card .srn-risk{font-family:var(--font-mono);color:var(--accent-deep);font-variant-numeric:tabular-nums}
 .srn-card .srn-sector{color:var(--fg2)}
-.srn-card .srn-workers{font-variant-numeric:tabular-nums;color:var(--fg3)}
+.srn-card .srn-workers{font-variant-numeric:tabular-nums;color:var(--ink-meta)}
 @media (max-width:600px){.srn-grid{grid-template-columns:1fr}}
 `;

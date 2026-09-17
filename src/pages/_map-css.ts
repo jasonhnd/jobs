@@ -66,7 +66,7 @@ export const MAP_PAGE_CSS = `
       font-size: var(--t-sm); color: var(--fg2);
       padding: 8px 4px; min-height: 44px; min-width: 44px;
     }
-    .map-head .back:hover, .map-head .back:focus-visible { color: var(--accent); }
+    .map-head .back:hover, .map-head .back:focus-visible { color: var(--orange-hot); }
     /* Heading typography lives in canonical-css.ts (§4.9). Only the page's
        own letter-spacing / margin / colour stay. canonical's !important
        already governed the size, so removing it changes nothing today. */
@@ -97,7 +97,7 @@ export const MAP_PAGE_CSS = `
     .map-search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
     .map-search-btn {
       height: 40px; padding: 0 16px;
-      background: var(--accent); color: var(--paper);
+      background: var(--orange-hot); color: var(--paper);
       border-radius: var(--r-pill);
       font-size: var(--t-sm); font-weight: 700; white-space: nowrap;
     }
@@ -122,7 +122,7 @@ export const MAP_PAGE_CSS = `
     .map-suggest li:last-child { border-bottom: 0; }
     .map-suggest li:hover, .map-suggest li.focused { background: var(--bg3); }
     .map-suggest li .risk {
-      color: var(--fg3); font-size: var(--t-xs);
+      color: var(--ink-meta); font-size: var(--t-xs);
       font-variant-numeric: tabular-nums; white-space: nowrap;
     }
 
@@ -153,8 +153,8 @@ export const MAP_PAGE_CSS = `
     }
     .map-chips .chip:hover { color: var(--fg); border-color: var(--fg3); }
     .map-chips .chip.active {
-      background: var(--accent); color: var(--paper);
-      border-color: var(--accent);
+      background: var(--orange-hot); color: var(--paper);
+      border-color: var(--orange-hot);
     }
     .map-chips .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .map-sort {
@@ -177,10 +177,10 @@ export const MAP_PAGE_CSS = `
       color: var(--fg2);
     }
     .map-view-toggle:hover, .map-view-toggle:focus-visible {
-      color: var(--accent); border-color: var(--accent); outline: none;
+      color: var(--orange-hot); border-color: var(--accent); outline: none;
     }
     .map-view-toggle[aria-pressed="true"] {
-      background: var(--accent); color: var(--paper); border-color: var(--accent);
+      background: var(--orange-hot); color: var(--paper); border-color: var(--orange-hot);
     }
 
     /* List view (Design-Mobile.md §4.13 — a11y fallback) */
@@ -207,7 +207,7 @@ export const MAP_PAGE_CSS = `
       content: counter(rownum) ".";
       flex: 0 0 32px;
       font-variant-numeric: tabular-nums;
-      color: var(--fg3); font-size: var(--t-xs);
+      color: var(--ink-meta); font-size: var(--t-xs);
       text-align: right;
     }
     .map-list-section ol li a .swatch {
@@ -306,6 +306,19 @@ export const MAP_PAGE_CSS = `
       white-space: nowrap;
       text-shadow: 0 1px 2px rgba(0,0,0,0.25);
     }
+    /* Design.md §2.2 — the tile name is --t-xs/600, i.e. normal text, so it
+       needs 4.5:1 against its own tile. A single white for all five bands does
+       not reach it: white on --risk-1 is 3.43, on --risk-2 2.74, on --risk-3
+       3.48. §5.7 calls the label colour 文脈色, so pick it per band: --ink
+       clears 4.5 on the three light-to-mid bands (5.62 / 7.10 / 5.55) and white
+       stays on the dark ends. The shadow flips with it — a dark shadow under
+       dark text only muddies the glyph. */
+    .cell[data-band="1"] .name,
+    .cell[data-band="2"] .name,
+    .cell[data-band="3"] .name {
+      color: var(--ink);
+      text-shadow: 0 1px 2px rgba(255,255,255,0.35);
+    }
     .cell-others .name { font-style: italic; opacity: 0.92; }
     /* Legacy .sector-grid kept only for the loading skeleton (below). */
     .sector-grid {
@@ -324,7 +337,7 @@ export const MAP_PAGE_CSS = `
     }
     .map-error p { color: var(--fg2); margin-bottom: 12px; font-size: var(--t-sm); }
     .map-error button {
-      padding: 10px 20px; background: var(--accent); color: var(--paper);
+      padding: 10px 20px; background: var(--orange-hot); color: var(--paper);
       border-radius: var(--r-pill); font-weight: 700; font-size: var(--t-sm);
     }
 
@@ -360,7 +373,7 @@ export const MAP_PAGE_CSS = `
       display: inline-flex; align-items: center; justify-content: center;
       background: var(--bg3);
     }
-    .sheet-close:hover { color: var(--accent); }
+    .sheet-close:hover { color: var(--orange-hot); }
     .sheet-close::before { content: ""; position: absolute; inset: -6px; }
     /* Margin only — it keeps the title clear of the 32px close button at
        right:14px. Size / typeface / weight come from canonical (§4.9). */
@@ -386,7 +399,7 @@ export const MAP_PAGE_CSS = `
       display: block; text-align: center;
       margin-top: 6px;
       padding: 14px 18px;
-      background: var(--accent); color: var(--paper);
+      background: var(--orange-hot); color: var(--paper);
       border-radius: var(--r-pill);
       font-weight: 700; font-size: var(--t-sm);
     }
@@ -410,8 +423,8 @@ export const MAP_PAGE_CSS = `
       border: 1px solid var(--border); border-radius: var(--r-pill);
       color: var(--fg2); font-size: var(--t-xs);
     }
-    .footer-links a:hover { color: var(--accent); border-color: var(--accent); }
-    .footer-meta { margin-top: 14px; font-size: var(--t-xs); color: var(--fg3); line-height: 1.7; }
+    .footer-links a:hover { color: var(--orange-hot); border-color: var(--accent); }
+    .footer-meta { margin-top: 14px; font-size: var(--t-xs); color: var(--ink-meta); line-height: 1.7; }
     .footer-meta em { font-style: normal; color: var(--fg2); }
     .nowrap { white-space: nowrap; }
   `;

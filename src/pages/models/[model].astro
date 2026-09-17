@@ -165,11 +165,11 @@ const localCss = `
 html{font-size:16px}
 html body.models-surface{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75;line-break:strict}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
-a:hover{color:var(--accent)}
+a:hover{color:var(--orange-hot)}
 #wrapper{max-width:1120px;margin:0 auto;padding:32px 20px 80px}
 .crumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 26px;color:var(--fg2);font-size:var(--t-sm);line-height:1.5;overflow-wrap:anywhere}
 .crumb a{color:var(--fg2);text-decoration:none}
-.crumb a:hover{color:var(--accent);text-decoration:underline}
+.crumb a:hover{color:var(--orange-hot);text-decoration:underline}
 .crumb span[aria-hidden]{color:var(--fg3)}
 .model-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:28px;align-items:end;padding:18px 0 30px;border-bottom:1px solid var(--border)}
 .eyebrow{margin:0 0 12px;color:var(--accent-deep);font-weight:700;font-size:var(--t-xs)}
@@ -181,7 +181,7 @@ h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break
 .profile-box dd{margin:0;font-weight:700;overflow-wrap:break-word;word-break:normal}
 .profile-links{margin:16px 0 0;display:flex;flex-wrap:wrap;gap:10px}
 .profile-links a,.nav-links a,.back-link{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid var(--border);border-radius:6px;padding:0 12px;background:var(--bg);font-weight:700;text-decoration:none;color:var(--fg)}
-.profile-links a:hover,.nav-links a:hover,.back-link:hover{border-color:var(--accent);color:var(--accent)}
+.profile-links a:hover,.nav-links a:hover,.back-link:hover{border-color:var(--accent);color:var(--orange-hot)}
 .section{padding:38px 0;border-bottom:1px solid var(--border)}
 .section h2{margin:0 0 16px;color:var(--fg);letter-spacing:0;overflow-wrap:break-word;word-break:normal}
 .section-intro{max-width:760px;margin:0 0 22px;color:var(--fg2);line-height:1.9;overflow-wrap:break-word;word-break:normal}
@@ -190,6 +190,7 @@ h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break
 .stat dt{margin:0 0 6px;color:var(--fg2);font-size:var(--t-xs)}
 .stat dd{margin:0;font-family:var(--font-serif);font-size:var(--t-h2);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .histogram-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:12px}
+.histogram-wrap:focus-visible{outline:2px solid var(--orange-hot);outline-offset:2px}
 .histogram{display:block;min-width:680px;width:100%;height:auto}
 .histogram text{font-family:var(--font-sans);fill:var(--fg2);font-size:var(--t-xs)}
 .histogram .axis{stroke:var(--border)}
@@ -201,9 +202,9 @@ h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break
 .rank-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .rank-list li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(92,82,60,.16)}
 .rank-list li:last-child{border-bottom:0}
-.rank-no{color:var(--fg3);font-variant-numeric:tabular-nums;font-weight:700;text-align:right}
+.rank-no{color:var(--ink-meta);font-variant-numeric:tabular-nums;font-weight:700;text-align:right}
 .rank-title{font-weight:700;min-width:0;overflow-wrap:anywhere;text-decoration:none;color:var(--fg)}
-.rank-title:hover{color:var(--accent);text-decoration:underline}
+.rank-title:hover{color:var(--orange-hot);text-decoration:underline}
 .score-pill,.band-pill{display:inline-flex;align-items:center;justify-content:center;min-height:26px;border-radius:999px;padding:0 10px;font-size:var(--t-xs);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 .score-pill{background:var(--bg);border:1px solid var(--border);color:var(--fg)}
 .band-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
@@ -288,7 +289,7 @@ template{display:none}
         <div class="stat"><dt>高リスク帯</dt><dd>{page.distribution.bands.high.count} 件</dd></div>
         <div class="stat"><dt>中リスク帯</dt><dd>{page.distribution.bands.mid.count} 件</dd></div>
       </dl>
-      <div class="histogram-wrap">
+      <div class="histogram-wrap" tabindex="0" role="region" aria-label="横スクロールできる分布図">
         <svg
           class="histogram"
           viewBox={`0 0 ${histogramWidth} ${histogramHeight}`}

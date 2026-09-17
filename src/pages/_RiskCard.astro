@@ -14,12 +14,11 @@ interface Props {
   readonly id: number;
   readonly nameJa: string;
   readonly riskClass: string;
-  readonly riskColor?: string;
   readonly riskNumDisp: number | string;
   readonly verdict: VerdictBinding;
 }
 
-const { id, nameJa, riskClass, riskColor, riskNumDisp, verdict } = Astro.props;
+const { id, nameJa, riskClass, riskNumDisp, verdict } = Astro.props;
 
 const shareTitle = `${nameJa}のAI働き方診断`;
 const ogHref = `/api/og?id=${id}`;
@@ -50,7 +49,7 @@ const ogHref = `/api/og?id=${id}`;
       <div class="v-num main">
         <span class="score-label">{verdict.scoreLabel}</span>
         {verdict.scored ? (
-          <span class="score-num" style={riskColor ? `color:${riskColor}` : undefined}>{verdict.transformationDisp}<small>/10</small></span>
+          <span class="score-num">{verdict.transformationDisp}<small>/10</small></span>
         ) : (
           <span class="score-num unscored">{verdict.transformationDisp}</span>
         )}

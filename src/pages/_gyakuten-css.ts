@@ -9,7 +9,7 @@ export const GYAKUTEN_CSS = `
 *,*::before,*::after{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75}
 a{color:var(--accent-deep);text-decoration:none}
-a:hover{color:var(--accent);text-decoration:underline}
+a:hover{color:var(--orange-hot);text-decoration:underline}
 #wrapper{max-width:var(--content-max);margin:0 auto;padding:28px 24px 84px}
 .gyakuten-crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
 .gyakuten-crumb a{color:var(--fg2)}
@@ -17,14 +17,14 @@ a:hover{color:var(--accent);text-decoration:underline}
 .gyakuten-hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:end;margin:0 0 32px}
 .gyakuten-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;color:var(--accent-deep);font-size:var(--t-xs);font-weight:700;letter-spacing:0}
 .gyakuten-hero h1{letter-spacing:0;margin:0 0 14px;color:var(--fg)}
-.gyakuten-hero h1 .accent{color:var(--accent);font-style:italic}
+.gyakuten-hero h1 .accent{color:var(--orange-hot);font-style:italic}
 .gyakuten-lead{max-width:68ch;margin:0;color:var(--fg);font-size:var(--t-h3);line-height:1.85}
 .gyakuten-hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center}
 .gyakuten-primary,.gyakuten-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:var(--t-sm);line-height:1.2;text-decoration:none}
-.gyakuten-primary{background:var(--accent);color:var(--paper)}
+.gyakuten-primary{background:var(--orange-hot);color:var(--paper)}
 .gyakuten-primary:hover{filter:brightness(1.04);color:var(--paper);text-decoration:none}
 .gyakuten-secondary{background:var(--bg2);color:var(--accent-deep);border-color:var(--border)}
-.gyakuten-secondary:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.gyakuten-secondary:hover{border-color:var(--accent);color:var(--orange-hot);text-decoration:none}
 .gyakuten-proof{display:grid;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px}
 .gyakuten-proof span{display:flex;align-items:baseline;justify-content:space-between;gap:18px;color:var(--fg2);font-size:var(--t-xs)}
 .gyakuten-proof strong{font-family:var(--font-serif);color:var(--fg);font-size:var(--t-h2);font-variant-numeric:tabular-nums}
@@ -59,7 +59,7 @@ a:hover{color:var(--accent);text-decoration:underline}
 .variant-status{display:inline-flex;width:max-content;max-width:100%;padding:4px 9px;border-radius:999px;background:var(--bg3);border:1px solid var(--border);color:var(--fg2);font-size:var(--t-xs);font-weight:700;line-height:1.2}
 .variant-card h4{letter-spacing:0;margin:0;color:var(--fg)}
 .variant-card p{margin:0;color:var(--fg2);font-size:var(--t-sm);line-height:1.65}
-.variant-card .variant-lock{margin-top:auto;color:var(--fg3);font-size:var(--t-xs);line-height:1.5}
+.variant-card .variant-lock{margin-top:auto;color:var(--ink-meta);font-size:var(--t-xs);line-height:1.5}
 .pair-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .pair-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px}
 .pair-card h3{letter-spacing:0;margin:0 0 8px;color:var(--fg)}

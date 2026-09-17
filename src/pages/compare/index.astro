@@ -58,7 +58,7 @@ const pairMapJson = JSON.stringify(Object.fromEntries(pairMapEntries))
 html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
-a:hover{color:var(--accent)}
+a:hover{color:var(--orange-hot)}
 #wrapper{max-width:var(--content-max);margin:0 auto;padding:32px 20px 80px}
 .crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
 .crumb a{color:var(--fg2)}
@@ -80,7 +80,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .cci-pair{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
 .cci-side{display:flex;align-items:center;gap:8px;min-width:0}
 .cci-name{flex:1;font-weight:500;color:var(--fg);font-size:.95rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cci-vs-row{font-size:.7rem;color:var(--fg3);font-weight:700;letter-spacing:.12em;padding-left:2px}
+.cci-vs-row{font-size:.7rem;color:var(--ink-meta);font-weight:700;letter-spacing:.12em;padding-left:2px}
 .cci-desc{display:-webkit-box;font-size:.88rem;color:var(--fg2);line-height:1.7;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:auto;padding-top:14px;border-top:1px dashed var(--border)}
 .risk-pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.7rem;font-weight:600;font-variant-numeric:tabular-nums;flex-shrink:0}
 .risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
@@ -88,14 +88,14 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
 /* compact chip 一覧 — 説明文を出さず title + 双方名 + risk pill のみ */
 .compare-section-heading{font-family:var(--font-sans);font-size:1.15rem;font-weight:700;color:var(--fg);margin:48px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.compare-section-heading .ccq-count{color:var(--fg3);font-weight:500;font-size:.85rem;margin-left:8px}
+.compare-section-heading .ccq-count{color:var(--ink-meta);font-weight:500;font-size:.85rem;margin-left:8px}
 .compare-chips{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;padding:0;margin:0;grid-auto-rows:1fr}
 .compare-chips li a{display:flex;flex-direction:column;gap:8px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;height:100%}
 .compare-chips li a:hover{border-color:var(--accent);transform:translateY(-1px)}
 .ccq-title{font-family:var(--font-sans);font-size:1rem;font-weight:700;color:var(--fg);line-height:1.3}
 .ccq-pair{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.82rem}
 .ccq-name{font-weight:500;color:var(--fg2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
-.ccq-vs{color:var(--fg3);font-size:.7rem;font-weight:700;letter-spacing:.1em}
+.ccq-vs{color:var(--ink-meta);font-size:.7rem;font-weight:700;letter-spacing:.1em}
 .compare-chips .risk-pill{font-size:.68rem;padding:1px 6px}
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{font-size:1.5rem}.compare-cards{grid-template-columns:1fr;gap:14px}.compare-cards li a{padding:22px 20px}.cci-title{font-size:1.2rem}.compare-chips{grid-template-columns:1fr}}
 
@@ -119,10 +119,10 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .cc-opt-meta{display:flex;gap:8px;font-size:.74rem;color:var(--fg2);align-items:center;flex-wrap:wrap}
 .cc-opt-meta .risk-pill{font-size:.68rem;padding:1px 6px}
 .cc-hint{display:block;font-size:.74rem;color:var(--fg2);margin-top:4px;min-height:1.1em}
-.cc-vs{font-family:var(--font-serif);font-weight:700;font-size:1.1rem;color:var(--accent);padding-top:28px;text-align:center;align-self:start}
+.cc-vs{font-family:var(--font-serif);font-weight:700;font-size:1.1rem;color:var(--orange-hot);padding-top:28px;text-align:center;align-self:start}
 @media (max-width:600px){.cc-vs{padding:0;font-size:.78rem;color:var(--fg2)}}
 .cc-submit-wrapper{grid-column:1/-1;margin-top:6px}
-#ccSubmit{width:100%;padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;min-height:44px;font-family:inherit}
+#ccSubmit{width:100%;padding:12px 24px;background:var(--orange-hot);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;min-height:44px;font-family:inherit}
 #ccSubmit:hover:not(:disabled){filter:brightness(1.05)}
 #ccSubmit:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 #ccSubmit:disabled{opacity:.55;cursor:not-allowed}
@@ -139,10 +139,10 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .cc-chip-btn:hover{border-color:var(--accent);color:var(--accent-deep)}
 .cc-chip-btn.is-a{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg);border-color:#cad8cc}
 .cc-chip-btn.is-b{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg);border-color:#e4d4ad}
-.cc-chip-vs{color:var(--fg3);font-size:.74rem;font-weight:600;margin:0 2px}
+.cc-chip-vs{color:var(--ink-meta);font-size:.74rem;font-weight:600;margin:0 2px}
 .cc-recent-clear{background:none;border:none;color:var(--fg2);font-size:.78rem;cursor:pointer;text-decoration:underline;padding:0;font-family:inherit}
 .cc-recent-clear:hover{color:var(--accent-deep)}
-.cc-recent-note{font-size:.7rem;color:var(--fg3);margin:4px 0 0}
+.cc-recent-note{font-size:.7rem;color:var(--ink-meta);margin:4px 0 0}
 `} />
 
   <div id="wrapper">

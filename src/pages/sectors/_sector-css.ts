@@ -21,7 +21,7 @@ import { RANK_LIST_CSS } from '@/lib/rank-list-css';
 
 const SECTOR_PAGE_SPECIFIC_CSS = `
 .top-banner{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 16px;font-size:var(--t-sm);color:var(--fg2);display:flex;gap:12px;align-items:center;justify-content:center}
-.badge{background:var(--accent);color:var(--paper);padding:2px 8px;font-size:var(--t-xs);letter-spacing:.05em;font-weight:700;border-radius:2px}
+.badge{background:var(--orange-hot);color:var(--paper);padding:2px 8px;font-size:var(--t-xs);letter-spacing:.05em;font-weight:700;border-radius:2px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:32px 0}
 @media (max-width:768px){.stats{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){.stats{grid-template-columns:1fr}}
@@ -53,9 +53,9 @@ ${AI_FACT_CSS}
 footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:var(--t-xs);color:var(--fg2);text-align:center}
 footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
 footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:var(--t-xs);line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
-footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb, var(--orange) 6%, transparent);text-decoration:none}
-footer .footer-meta{color:var(--fg2);font-size:var(--t-xs);opacity:.92;text-wrap:pretty;line-height:1.65}
-footer .footer-meta a{color:var(--accent)}
+footer .footer-links a:hover{color:var(--orange-hot);border-color:var(--accent);background:color-mix(in srgb, var(--orange) 6%, transparent);text-decoration:none}
+footer .footer-meta{color:var(--fg2);font-size:var(--t-xs);text-wrap:pretty;line-height:1.65}
+footer .footer-meta a{color:var(--orange-hot)}
 footer .footer-meta .nowrap{white-space:nowrap}
 @media (max-width:540px){footer .footer-meta{line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
 /* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
@@ -66,13 +66,13 @@ section.faq{margin:48px 0}
 .faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:var(--t-body);font-weight:600;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
 .faq-item summary::-webkit-details-marker{display:none}
 .faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:var(--t-h2);color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
-.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--orange-hot)}
 .faq-item summary:hover{color:var(--accent-deep)}
 .faq-answer{padding:0 18px 16px;color:var(--fg);font-size:var(--t-body);line-height:1.75}
 @media (max-width:600px){.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{padding:14px 16px;padding-right:38px}}
 /* Phase 2: AI 時代の特性 essay + データから見えるパターン */
 .ai-era-essay{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:32px 0}
-.ai-era-essay h2{color:var(--accent);margin:0 0 14px;padding:0;border:none}
+.ai-era-essay h2{color:var(--orange-hot);margin:0 0 14px;padding:0;border:none}
 .ai-era-essay p{font-size:var(--t-body);line-height:1.85;color:var(--fg);margin:0}
 .patterns{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:32px 0}
 .patterns h2{color:var(--accent-deep);margin:0 0 16px;padding:0;border:none}
