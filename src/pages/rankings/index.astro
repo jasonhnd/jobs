@@ -6,6 +6,7 @@
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
+import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
 import MeEntry from '@/components/MeEntry.astro';
 import { buildRankings } from '@/views/ranking';
 import {
@@ -45,6 +46,8 @@ const jsonLd = renderHubJsonLd();
   ogDescription={seoDesc}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={CANONICAL_HUB_CSS} />
 
   <style slot="head" set:html={`
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
