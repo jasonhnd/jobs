@@ -82,6 +82,25 @@ describe('design gates — the per-surface ratchet (§19.1)', () => {
     finally { rmSync(root, { recursive: true, force: true }); }
   });
 
+  test('a tint of a palette token is derivable; an off-palette colour is not (§2.5)', () => {
+    // The synthetic repo has no canonical-css.ts, so its palette is empty and
+    // nothing is derivable — which is what keeps the real palette out of the
+    // fixtures.
+    const root = fixture('conformant', 'export const CSS = `\n.x { color: rgba(217,107,61,.16); }\n`;\n');
+    try {
+      const v = findColourViolations(root);
+      assert.equal(v.length, 1);
+      assert.equal(v[0]?.derivable, false);
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('against the real palette, an --orange tint IS derivable', () => {
+    // Regression guard for §2.5's gate: rgba(217,107,61,·) is --orange.
+    const real = findColourViolations();
+    assert.ok(real.every((x) => !(x.state === 'conformant' && x.derivable)),
+      'no palette tint may be written raw on a conformant surface');
+  });
+
   test('var() with a hex fallback is a token, not a raw colour', () => {
     const root = fixture('conformant', 'export const CSS = `\n.x { color: var(--fg, #241E18); }\n`;\n');
     try { assert.equal(findColourViolations(root).length, 0); }

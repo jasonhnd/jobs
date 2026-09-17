@@ -33,7 +33,7 @@ a:hover{color:var(--accent);text-decoration:underline}
 .gyakuten-section-head h2{letter-spacing:0;margin:0;color:var(--fg)}
 .gyakuten-section-head p{max-width:58ch;margin:0;color:var(--fg2);font-size:var(--t-sm);line-height:1.7}
 .family-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.family-card{--family-accent:var(--accent);--family-soft:rgba(217,107,61,.08);background:var(--bg2);border:1px solid var(--border);border-top:4px solid var(--family-accent);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.family-card{--family-accent:var(--accent);--family-soft:color-mix(in srgb, var(--orange) 8%, transparent);background:var(--bg2);border:1px solid var(--border);border-top:4px solid var(--family-accent);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
 .family-card-head{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:start}
 .family-card h3{letter-spacing:0;margin:0;color:var(--fg)}
 .family-share{margin:4px 0 0;color:var(--fg2);font-size:var(--t-sm);line-height:1.65}
@@ -54,7 +54,7 @@ a:hover{color:var(--accent);text-decoration:underline}
 .zukan-family-head h3{letter-spacing:0;margin:0 0 8px;color:var(--fg)}
 .zukan-family-head p{margin:0;color:var(--fg2);font-size:var(--t-sm);line-height:1.6}
 .variant-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.variant-card{--family-accent:var(--accent);min-height:164px;border:1px solid var(--border);border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(242,234,219,.46));padding:16px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;filter:grayscale(.75);opacity:.74}
+.variant-card{--family-accent:var(--accent);min-height:164px;border:1px solid var(--border);border-radius:8px;background:linear-gradient(180deg,color-mix(in srgb, var(--paper) 70%, transparent),color-mix(in srgb, var(--cream-2) 46%, transparent));padding:16px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;filter:grayscale(.75);opacity:.74}
 .variant-card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--family-accent);opacity:.55}
 .variant-status{display:inline-flex;width:max-content;max-width:100%;padding:4px 9px;border-radius:999px;background:var(--bg3);border:1px solid var(--border);color:var(--fg2);font-size:var(--t-xs);font-weight:700;line-height:1.2}
 .variant-card h4{letter-spacing:0;margin:0;color:var(--fg)}
@@ -66,18 +66,18 @@ a:hover{color:var(--accent);text-decoration:underline}
 .pair-card p{margin:0;color:var(--fg2);font-size:var(--t-sm);line-height:1.7}
 .final-cta{margin:46px 0 18px;padding:26px 28px;background:var(--fg);border-radius:8px;color:var(--bg);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:center}
 .final-cta h2{letter-spacing:0;margin:0 0 8px;color:var(--bg)}
-.final-cta p{margin:0;color:rgba(250,246,238,.86);font-size:var(--t-sm);line-height:1.75}
+.final-cta p{margin:0;color:color-mix(in srgb, var(--cream) 86%, transparent);font-size:var(--t-sm);line-height:1.75}
 .final-cta .gyakuten-primary{background:var(--orange-soft);color:var(--fg)}
 .final-cta .gyakuten-primary:hover{background:var(--paper);color:var(--fg)}
 .gyakuten-note{margin:18px 0 0;padding:13px 15px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);border-radius:7px;color:var(--fg2);font-size:var(--t-xs);line-height:1.7}
-.family-cpb{--family-accent:#D96B3D;--family-soft:rgba(217,107,61,.09)}
+.family-cpb{--family-accent:#D96B3D;--family-soft:color-mix(in srgb, var(--orange) 9%, transparent)}
 .family-cpk{--family-accent:#8D6E63;--family-soft:rgba(141,110,99,.1)}
 .family-cdb{--family-accent:#D4A749;--family-soft:rgba(212,167,73,.12)}
 .family-cdk{--family-accent:#4E8FA8;--family-soft:rgba(78,143,168,.1)}
-.family-rpb{--family-accent:#6E9B89;--family-soft:rgba(110,155,137,.12)}
+.family-rpb{--family-accent:#6E9B89;--family-soft:color-mix(in srgb, var(--accent-2) 12%, transparent)}
 .family-rpk{--family-accent:#B26D3D;--family-soft:rgba(178,109,61,.1)}
 .family-rdb{--family-accent:#5F8F6B;--family-soft:rgba(95,143,107,.12)}
-.family-rdk{--family-accent:#7A6F5E;--family-soft:rgba(122,111,94,.12)}
+.family-rdk{--family-accent:#7A6F5E;--family-soft:color-mix(in srgb, var(--fg2) 12%, transparent)}
 @media (max-width:960px){
   .gyakuten-hero,.family-grid,.final-cta{grid-template-columns:1fr}
   .zukan-family{grid-template-columns:1fr}

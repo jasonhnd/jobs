@@ -2,7 +2,7 @@
 
 [`Design.md`](Design.md) §20.4 の適合台帳。**surface 単位で規範への適合を宣言し、CI はその surface にのみ規範を強制する。**
 
-対象規範: **Design v1.0**（制定 2026-09-14）
+対象規範: **Design v1.1**（制定 2026-09-14 / 改訂 2026-09-17）
 
 ## 状態の意味
 
@@ -64,8 +64,10 @@ legacy       0 / 11
 >   `rankings/*` `compare/*` `skills/*` `interests/*` の 10 ページに Hub class、
 >   `sectors/index` に Sector class を配線。`models/[model]` は Feature 家族として
 >   明示的に例外登録。`check-page-class` の §18.7 検査が OK になった。
-> - **`check-color-tokens`**: 71 箇所（rgba 色調 54 / 生 hex 17）。アルファ・色調の
->   トークンが正典に無いため報告のみ。`bun run drift:design` で内訳が出る。
+> - ~~`check-color-tokens` は報告のみ~~ → **§2.5 新設（v1.1）で失敗ゲートに昇格**
+>   （2026-09-17 / design-1.15）。調色板トークン由来の色調 65 箇所を `color-mix()` へ
+>   移行し、以後は生で書くとビルドが落ちる。残る 52 箇所はブランド色・グラデーション
+>   の停止色・中性の影であり、調色板に基色が無いため `drift:design` の報告のまま。
 
 > **未所属の範囲（2026-09-15 時点）:** `canonical-css.ts` の footer / cookie banner / skip-link
 > ブロックに生 `font-size` が 36 箇所、`z-index: 9999` `10000`（§9.3 で禁止）が残っている。
@@ -161,6 +163,7 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-14 | `tokens` | `src/lib/design-tokens.ts` 新設（40 トークン + 断点定数 + `DESIGN_VERSION`）。`canonical-css.ts` の `:root` から emit。純粋な追加・参照者ゼロ・視覚変化なし。`legacy` → `conformant`（#525） |
 | 2026-09-15 | `canonical-type` | canonical の h1/h2/h3/h4/p をトークン参照へ。h3/h4 をサンセリフ 700 に切替（§4.4）、セリフから `font-weight` を削除（§4.5）。**全 839 ページに視覚変化。** `legacy` → `conformant`（#526） |
 | 2026-09-15 | `interactive` | `/map`。`:root` 撤去（§18.4）、font-size 33 箇所・角丸 20 箇所・z-index 9 箇所を役割別にトークン化、タイルラベルを「全文か非表示か」に（§5.7・実測閾値）、ページ側見出し規則 3 件除去。`legacy` → `conformant`（#527） |
+| 2026-09-17 | 色 | **Design v1.1 / §2.5 新設**（オーナー裁定）。色調は既存トークンから `color-mix()` で作る。65 箇所を移行し `check-color-tokens` を失敗ゲートへ昇格。トークンは 1 つも増えていない（#532 系 design-1.15） |
 | 2026-09-16 | ゲート | `check-type-scale` / `check-contrast` / `check-design-sync` を実装し `verify:gates` へ接続。`check-page-class` に §18.7 class 所属検査（警告）を追加。`check-color-tokens` は `drift:design` の報告として実装（正典にアルファ・色調トークンが無いため）。実装時に **type-scale が 14 件の見落としを検出**（`canonical/detail.ts` と `sector.ts` の**裸 `h1{}`** を含む。#532 の検証 grep はセレクタ前置を要求していたため裸要素セレクタを取りこぼしていた）。すべて是正済み（#533） |
 | 2026-09-15 | `feature` | ページ CSS の font-size 224 箇所を役割別トークン化（`/aiadoption` 43 / `/models` 系 27 / `/` 152）。禁止字重 28 箇所是正。裸 `<small>` が `--t-xs` の親で 9.6px に落ちる問題を是正。`migrating` → `conformant`。**全 10 surface 完了**（#532） |
 | 2026-09-15 | `feature` | **canonical の `font-size: … !important` を全廃**（§4.9.1）。前提として残存していた class 付き見出し規則 20 件（hub 系ルート・#529 の対象ファイル外）と `models-surface` 覆盖 9 件を除去。`body.page-feature h1 = --t-display` を canonical に追加（特異度 0,0,1,2 で勝つため `!important` 不要）。`/` の H1 重複を解消（§4.3-1）、SEO ベースライン更新。`assertHeroSizeBeatsCanonical` を適合アサーションへ書き換え（§19.2）。`legacy` → `migrating`（#532） |
