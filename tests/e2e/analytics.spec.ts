@@ -20,12 +20,13 @@
  * verification requires hitting production and checking GA4 Realtime.
  */
 import { test, expect, type Request as PWRequest } from '@playwright/test';
+import { visit } from './_visit';
 
 const PAGES_TO_CHECK = [
   { url: '/',                    name: 'home (src/index-source.html — non-BaseLayout)' },
-  { url: '/ja/sectors',          name: 'sectors hub (BaseLayout)' },
-  { url: '/ja/156',              name: 'occupation detail (BaseLayout)' },
-  { url: '/ja/rankings/ai-risk-low', name: 'ranking item (BaseLayout)' },
+  { url: '/sectors',          name: 'sectors hub (BaseLayout)' },
+  { url: '/156',              name: 'occupation detail (BaseLayout)' },
+  { url: '/rankings/ai-risk-low', name: 'ranking item (BaseLayout)' },
 ];
 
 /** Network requests we expect to see on every traffic page. */
@@ -84,7 +85,7 @@ for (const target of PAGES_TO_CHECK) {
     const seenRequests: string[] = [];
     page.on('request', (req) => seenRequests.push(req.url()));
 
-    await page.goto(target.url, { waitUntil: 'load' });
+    await visit(page, target.url, { waitUntil: 'load' });
     // Wait for window.load handlers (X Ads, GA4 dynamic injection) to fire.
     await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {
       // networkidle may not be reached because of long-poll connections; not fatal.
@@ -104,7 +105,7 @@ for (const target of PAGES_TO_CHECK) {
 // ─── Per-page tracker-library SEMANTIC checks (not just network) ──────────
 
 test('GA4: window.gtag becomes a function and dataLayer accepts pushes', async ({ page }) => {
-  await page.goto('/ja/sectors', { waitUntil: 'load' });
+  await visit(page, '/sectors', { waitUntil: 'load' });
   // The inline stub sets window.gtag immediately; the library (loaded on
   // window.load) is what creates google_tag_manager['G-…']. Wait for that,
   // not just typeof gtag — otherwise the assertion races the network.
@@ -152,7 +153,7 @@ test('GA4: window.gtag becomes a function and dataLayer accepts pushes', async (
 });
 
 test('X Ads: window.twq becomes a function with non-empty pixel ID', async ({ page }) => {
-  await page.goto('/ja/sectors', { waitUntil: 'load' });
+  await visit(page, '/sectors', { waitUntil: 'load' });
   await page.waitForFunction(
     () => typeof (window as unknown as { twq?: unknown }).twq === 'function',
     null,
@@ -172,7 +173,7 @@ test('X Ads: window.twq becomes a function with non-empty pixel ID', async ({ pa
 });
 
 test('Google Ads: AW- config queued when PUBLIC_GOOGLE_ADS_ID is set', async ({ page }) => {
-  await page.goto('/ja/sectors', { waitUntil: 'load' });
+  await visit(page, '/sectors', { waitUntil: 'load' });
   // Ads is optional and shares GA4's gtag.js library — when
   // PUBLIC_GOOGLE_ADS_ID is unset the <meta> is absent and the gtag
   // block's `if (adsId)` short-circuits. Only assert the semantic
@@ -203,7 +204,7 @@ test('Google Ads: AW- config queued when PUBLIC_GOOGLE_ADS_ID is set', async ({ 
 // ─── CSP must list every analytics origin our code references ────────────
 
 test('CSP allows all analytics origins our code calls into', async ({ page }) => {
-  const resp = await page.goto('/ja/sectors');
+  const resp = await visit(page, '/sectors');
   expect(resp).not.toBeNull();
   const csp = resp!.headers()['content-security-policy'] ?? '';
   expect(csp, 'CSP header must be set').toBeTruthy();
@@ -262,7 +263,7 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
 // itself is still clean of 'unsafe-inline').
 
 test('CSP script-src does NOT include unsafe-inline (CODE-012 hardening)', async ({ page }) => {
-  const resp = await page.goto('/ja/sectors');
+  const resp = await visit(page, '/sectors');
   expect(resp).not.toBeNull();
   const csp = resp!.headers()['content-security-policy'] ?? '';
   expect(csp, 'CSP header must be set').toBeTruthy();
@@ -302,7 +303,7 @@ test('GA4 actually sends a g/collect request after page load', async ({ page }) 
     /(?:www\.google-analytics\.com|analytics\.google\.com)\/g\/collect/,
     12_000,
   );
-  await page.goto('/ja/sectors', { waitUntil: 'load' });
+  await visit(page, '/sectors', { waitUntil: 'load' });
   const req = await seenGCollect;
   expect(
     req,

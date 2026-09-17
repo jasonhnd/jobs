@@ -34,8 +34,13 @@ test('390×844 first screen: pinned duel bar, metric rows, no English leftover',
 
   await expect(page.locator('.crumb')).toBeHidden();
   await expect(bar.locator('.duel-name').nth(1)).toHaveText('ホームヘルパー');
+  // Design v1.0 §4.8 fixed page titles at two values site-wide: H1 28px, or
+  // Display on the three Feature pages. /compare/<pair> is Hub class, so 28px.
+  // This assertion used to demand <= 18.5px, which was the pre-canon hero size;
+  // it has contradicted the canon since #526 landed and nobody noticed, because
+  // the e2e suite was not running anywhere (see playwright.config.ts).
   const h1Size = await page.locator('#content h1').evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
-  expect(h1Size, `h1 ${h1Size}px must be compact`).toBeLessThanOrEqual(18.5);
+  expect(h1Size, `h1 is ${h1Size}px; §4.8 fixes the Hub-class title at 28px`).toBe(28);
   const salary = page.locator('.cmp-metric', { hasText: '年収' });
   await expect(salary.locator('.cm-a small')).toHaveText('万円');
 
@@ -45,7 +50,16 @@ test('390×844 first screen: pinned duel bar, metric rows, no English leftover',
 
   const barBox = await bar.boundingBox();
   expect(barBox, 'duel bar must paint').not.toBeNull();
-  expect(barBox!.y, 'duel bar starts on the first screen under the H1').toBeLessThan(160);
+  // The intent is "the duel bar is on the first screen without scrolling", not
+  // a particular offset. The old threshold of 160 was arithmetic against an
+  // 18.5px H1; §4.8 made it 28px (#526), which moved the bar down ~50px and
+  // broke a number that was never the point. Assert the intent instead, so the
+  // test survives a legitimate type change but still fails if the bar falls
+  // below the fold.
+  expect(
+    barBox!.y + barBox!.height,
+    `duel bar must sit entirely within the 844px first screen (starts at ${barBox!.y})`,
+  ).toBeLessThanOrEqual(844);
 
   const lastMetric = page.locator('.cmp-metric').last();
   const lastBox = await lastMetric.boundingBox();
