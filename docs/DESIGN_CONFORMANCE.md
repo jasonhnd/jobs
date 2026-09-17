@@ -27,14 +27,15 @@
 | `sector` | `/sectors/*` | 17 | `canonical/sector.ts` + `sectors/_sector-css.ts` | `conformant` | 2026-09-15 完了（#529）。`palt` は §6.5 の意図的差分として維持 |
 | `doc` | `/standard` `/methodology` `/about` `/data` `/haid` | 5 | `canonical/doc.ts` | `conformant` | 2026-09-15 完了（#528）。等幅を `--font-mono` に統一（CDP 実測で `/aiadoption` の Osaka と一致）、見出し規則除去、39 箇所を役割別トークン化 |
 | `static` | `/privacy` `/compliance` `/404` | 3 | `canonical/static.ts` | `conformant` | 2026-09-15 完了（#528）。`CANONICAL_STATIC_CSS` を 3 ページへ配線（§6.5.1）、`/about` を範囲から除外（§6.5.3）、34 箇所をトークン化 |
+| `chrome` | 全 839 ページ共通のクロム（top-nav / footer / cookie banner / skip-link / mobile nav） | 839 | `canonical-css.ts` | `conformant` | 2026-09-17 新設・完了（design-1.13）。どの page class にも属さないがサイト全体に描画されるため独立 surface とした |
 | `misc` | `/shindan` `/me` `/gyakuten` | 3 | **Hub class** + 個別 | `conformant` | 2026-09-15 完了（#531）。3 ページとも Hub class に収容し `CANONICAL_HUB_CSS` を配線。見出し規則 21 件除去 |
 
 ## 進捗
 
 ```
-conformant  10 / 10 surface
-migrating    0 / 10
-legacy       0 / 10
+conformant  11 / 11 surface
+migrating    0 / 11
+legacy       0 / 11
 ```
 
 **全 10 surface が `conformant`。移行完了（2026-09-15）。**
@@ -44,11 +45,11 @@ legacy       0 / 10
 - ページ CSS に見出しの字号・書体・字重を書く箇所は **0**
 - 本文サイズ以下で 12px 未満の描画は、**サイト共通 footer を除き 0**
 
-> **残作業（design-1.10 の前に判断が要る）**
+> **オーナー裁定（2026-09-17）と対応**
 >
-> 1. **未所属の範囲** — `canonical-css.ts` の footer / cookie banner / skip-link。
->    生 `font-size` 36 箇所、`z-index: 9999` `10000`（§9.3 で禁止）。全 839 ページに
->    描画される唯一の 12px 未満テキストでもある。台帳のどの surface にも属さない。
+> 1. ~~未所属の範囲~~ → **`chrome` surface として新設・移行済み**（design-1.13）。
+>    生 `font-size` 30 箇所をトークン化、`z-index: 9999` `10000` `500` を §9.3 の
+>    6 段へ収容。**全 839 ページで 12px 未満の描画が 0 になった。**
 > 2. **正典にトークンが無い値** — `/map` の背面幕 `rgba(36,30,24,0.40)`、シートの
 >    **上向き**影、SVG data URI 内の `stroke`。
 > 3. **`check-contrast` の除外** — `[aria-hidden]` の装飾グリフ（パンくずの区切り等）。
@@ -89,6 +90,7 @@ legacy       0 / 10
 | `sector` | `src/lib/canonical/sector.ts`, `src/pages/sectors/_sector-css.ts` |
 | `doc` | `src/lib/canonical/doc.ts` |
 | `static` | `src/lib/canonical/static.ts`, `src/pages/privacy.astro`, `src/pages/compliance.astro`, `src/pages/404.astro` |
+| `chrome` | `src/lib/canonical-css.ts` |
 | `misc` | `src/pages/shindan.astro`, `src/pages/_shindan-css.ts`, `src/pages/me.astro`, `src/pages/gyakuten.astro`, `src/pages/_gyakuten-css.ts`（すべて Hub class） |
 
 **共通:** 見出しの分岐は `src/lib/canonical-css.ts` 側に置く。ページ CSS に見出しのサイズ・書体・字重を書かない（Design.md §4.9）。

@@ -69,10 +69,12 @@ export function scan(root: string, file: string, re: RegExp): Hit[] {
 }
 
 /**
- * Ranges the ledger assigns to no surface, recorded in DESIGN_CONFORMANCE.md's
- * 未所属の範囲 note. The gates skip them because enforcing there would mean
- * enforcing on a surface that does not exist — §19.1's ratchet is per surface,
- * and out-of-scope per the design-1.10 issue.
+ * Ranges the ledger assigns to no surface. The gates skip them because
+ * enforcing there would mean enforcing on a surface that does not exist —
+ * §19.1's ratchet is per surface.
+ *
+ * design-1.13 emptied the canonical-css.ts entry by giving the site chrome its
+ * own ledger row, so only the 404 numeral remains.
  *
  * Each entry cites the ledger. Removing an entry is how the owner brings that
  * range under a surface; the gates then start failing on it, which is the
@@ -84,11 +86,6 @@ export const UNASSIGNED: ReadonlyArray<{
   readonly selector: RegExp;
   readonly why: string;
 }> = [
-  {
-    file: 'src/lib/canonical-css.ts',
-    selector: /footer\.site-footer|\.cookie-banner|\.skip-link|\.mob-|\.m-share|div\.mob-search|nav\.top-nav/,
-    why: 'ledger 未所属の範囲: canonical-css.ts site chrome — top nav, footer, cookie banner, skip link, mobile nav. No surface claims them.',
-  },
   {
     // The 404 numeral is a decorative glyph at 80-144px; the page's real title
     // is the h1 beneath it. §4.2's scale has no role for it and §4.8 reserves

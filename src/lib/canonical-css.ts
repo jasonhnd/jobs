@@ -139,12 +139,12 @@ ${DESIGN_TOKENS_CSS}
 html body .cookie-banner {
   position: fixed;
   inset: auto 0 0 0;
-  z-index: 10000;
+  z-index: var(--z-toast);
   background: var(--ink);
   color: #fff;
   padding: 2px 8px calc(2px + env(safe-area-inset-bottom, 0px));
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
-  font-size: 12px;
+  font-size: var(--t-xs);
   line-height: 1.2;
 }
 html body .cookie-banner .cb-inner {
@@ -161,7 +161,7 @@ html body .cookie-banner .cb-text {
   flex: 1 1 auto;
   min-width: 0;
   color: #fff;
-  font-size: 12px;
+  font-size: var(--t-xs);
   line-height: 1.2;
 }
 html body .cookie-banner .cb-text a {
@@ -191,7 +191,7 @@ html body .cookie-banner .cb-btn {
   background: transparent;
   color: #fff;
   font-weight: 600;
-  font-size: 12px;
+  font-size: var(--t-xs);
   line-height: 1;
   cursor: pointer;
   font-family: inherit;
@@ -244,7 +244,7 @@ html body a.skip-link {
   position: fixed;
   top: 12px;
   left: 12px;
-  z-index: 9999;
+  z-index: var(--z-toast);
   background: var(--orange);
   color: #fff;
   padding: 10px 16px;
@@ -382,7 +382,7 @@ html body footer.site-footer {
   margin: 48px auto 0;
   padding: 22px 16px 24px;
   border-top: 1px solid var(--border);
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
   color: var(--fg2);
   text-align: center;
   font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
@@ -414,7 +414,7 @@ html body footer.site-footer .footer-links a {
   align-items: center;
   border: 1px solid var(--border);
   border-radius: 999px;
-  font-size: 0.74rem;
+  font-size: var(--t-xs);
   line-height: 1.2;
   transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
 }
@@ -439,7 +439,7 @@ html body footer.site-footer .footer-group {
 html body footer.site-footer .footer-group-label {
   flex: 0 0 84px;
   text-align: right;
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
   font-weight: 600;
   color: var(--fg2);
   opacity: 0.7;
@@ -458,7 +458,7 @@ html body footer.site-footer .footer-legal {
   margin: 16px auto 14px;
   padding-top: 14px;
   border-top: 1px solid var(--border);
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
 }
 html body footer.site-footer .footer-legal a {
   color: var(--fg2);
@@ -490,7 +490,7 @@ html body footer.site-footer .footer-legal span {
 }
 html body footer.site-footer .footer-meta {
   color: var(--fg2);
-  font-size: 0.7rem;
+  font-size: var(--t-xs);
   opacity: 0.92;
   text-wrap: pretty;
   line-height: 1.65;
@@ -521,7 +521,7 @@ html body footer.site-footer time {
    color appears on hover. */
 
 html body footer.site-footer .share-divider {
-  font-size: 0.74rem;
+  font-size: var(--t-xs);
   color: var(--fg2);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -597,7 +597,7 @@ html body footer.site-footer .share-btn:focus-visible {
 }
 
 html body footer.site-footer .share-toast {
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   color: var(--accent);
   margin-left: 6px;
   opacity: 0;
@@ -646,7 +646,7 @@ html body nav.top-nav {
   backdrop-filter: saturate(140%) blur(8px);
   -webkit-backdrop-filter: saturate(140%) blur(8px);
   border-bottom: 1px solid var(--border);
-  font-size: 0.9rem;
+  font-size: var(--t-sm);
   line-height: 1.4;
   font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
 }
@@ -664,7 +664,7 @@ html body nav.top-nav .top-nav-brand {
   gap: 6px;
   font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: var(--t-body);
   color: var(--fg);
   text-decoration: none;
   margin-right: 6px;
@@ -683,7 +683,7 @@ html body nav.top-nav a:not(.top-nav-brand) {
   color: var(--fg2);
   text-decoration: none;
   padding: 2px 0;
-  font-size: 0.9rem;
+  font-size: var(--t-sm);
   transition: color 150ms ease;
 }
 html body nav.top-nav a:not(.top-nav-brand):hover {
@@ -698,7 +698,7 @@ html body nav.top-nav a[aria-current="page"] {
 html body nav.top-nav .sep {
   color: var(--fg2);
   opacity: 0.6;
-  font-size: 0.85rem;
+  font-size: var(--t-xs);
   user-select: none;
 }
 
@@ -706,9 +706,9 @@ html body nav.top-nav .sep {
   html body nav.top-nav {
     padding: 9px 14px;
     gap: 4px 10px;
-    font-size: 0.78rem;
+    font-size: var(--t-sm);
   }
-  html body nav.top-nav .top-nav-brand { font-size: 0.92rem; }
+  html body nav.top-nav .top-nav-brand { font-size: var(--t-body); }
 }
 
 /* When the page <header id="content"> sits directly under the sticky nav,
@@ -764,7 +764,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     align-items: center;
     gap: 8px;
     font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
-    font-size: 1rem;
+    font-size: var(--t-body);
     font-weight: 600;
     color: var(--fg);
     text-decoration: none;
@@ -846,7 +846,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-search {
     position: fixed;
     inset: 0;
-    z-index: 500;
+    z-index: var(--z-modal);
     display: flex;
     flex-direction: column;
     background: var(--bg);
@@ -870,7 +870,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     background: var(--bg2);
     color: var(--fg);
     font: inherit;
-    font-size: 16px;
+    font-size: var(--t-body);
   }
   html body div.mob-search .mob-search-bar input:focus-visible {
     outline: 2px solid var(--accent);
@@ -885,14 +885,14 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     background: transparent;
     color: var(--fg2);
     font: inherit;
-    font-size: 14px;
+    font-size: var(--t-sm);
     font-weight: 700;
     cursor: pointer;
     word-break: keep-all;
   }
   html body div.mob-search .mob-search-hint {
     margin: 10px 4px 12px;
-    font-size: 12.5px;
+    font-size: var(--t-xs);
     color: var(--fg2);
   }
   html body div.mob-search .mob-search-results,
@@ -909,7 +909,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-search .mob-search-kicker,
   html body div.mob-search .mob-search-empty-head {
     margin: 0 4px 8px;
-    font-size: 12.5px;
+    font-size: var(--t-xs);
     color: var(--fg2);
     font-weight: 700;
   }
@@ -932,7 +932,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-search .mob-search-name {
     grid-column: 1;
     grid-row: 1;
-    font-size: 15.5px;
+    font-size: var(--t-h3);
     font-weight: 600;
     line-height: 1.3;
     color: var(--fg);
@@ -942,7 +942,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-search .mob-search-sub {
     grid-column: 1;
     grid-row: 2;
-    font-size: 12.5px;
+    font-size: var(--t-xs);
     color: var(--fg2);
   }
   html body div.mob-search .mob-search-pill {
@@ -952,7 +952,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     align-items: center;
     padding: 3px 9px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: var(--t-xs);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
@@ -981,7 +981,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     background: var(--bg2);
     color: var(--fg);
     text-decoration: none;
-    font-size: 13px;
+    font-size: var(--t-sm);
     font-weight: 700;
     word-break: keep-all;
   }
@@ -1066,7 +1066,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   }
   html body div.mob-drawer p.mob-drawer-lede {
     font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-    font-size: 0.8rem;
+    font-size: var(--t-xs);
     font-style: italic;
     color: var(--fg2);
     line-height: 1.5;
@@ -1094,7 +1094,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     border-radius: 8px;
     color: var(--fg);
     text-decoration: none;
-    font-size: 1rem;
+    font-size: var(--t-body);
     font-weight: 500;
     transition: transform 100ms ease, border-color 150ms ease, background 150ms ease;
   }
@@ -1116,14 +1116,14 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     line-height: 1.35;
   }
   html body div.mob-drawer .mob-drawer-meta {
-    font-size: 0.76rem;
+    font-size: var(--t-xs);
     color: var(--fg2);
     font-weight: 400;
     flex-shrink: 0;
     text-align: right;
   }
   html body div.mob-drawer .mob-drawer-count {
-    font-size: 0.78rem;
+    font-size: var(--t-xs);
     color: var(--fg2);
     font-variant-numeric: tabular-nums;
     background: var(--bg2);
@@ -1141,7 +1141,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
      row is a "go to" button, not just static text. */
   html body div.mob-drawer .mob-drawer-arrow {
     color: var(--fg2);
-    font-size: 1.3rem;
+    font-size: var(--t-h2);
     font-weight: 300;
     line-height: 1;
     flex-shrink: 0;
