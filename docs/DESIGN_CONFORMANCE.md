@@ -188,6 +188,48 @@ legacy       0 / 11
 > hub / sector ほかを claim して違反を潰す作業は後続の PR で行い、最後に本ゲートを
 > `DESIGN_COVERAGE_STRICT=1` で失敗ゲートへ昇格させる。
 
+> **`hub` の被覆（2026-09-17 / design-1.17）**
+>
+> design-1.16 が報告した被覆の穴のうち、`hub` の分を閉じた。台帳の `hub` 行が
+> claim していたのは共有モジュール 3 本だけで、**実際に描画される 19 のルート
+> ディレクトリはどのゲートからも見えていなかった**。
+>
+> | | before | after |
+>|---|---|---|
+> | claim 済みファイル（全 surface） | 28 | **127** |
+> | `hub` 範囲の生 `font-size` | **223** | **0** |
+> | `hub` 範囲のページ側見出し規則（§4.9） | **31** | **0** |
+> | `hub` 範囲の生 rgba 色調（§2.5） | **11** | **0** |
+>
+> 223 宣言は §4.7 の役割表で 1 件ずつ割り当てた。数値の近さで機械適用していない
+> （§21.3）。同じ 15.2px でも役割で行き先が違う例:
+>
+> ```
+> .sub            h1 直下の副題    → --t-h3    （リード文・副題）
+> .sop-cite       注記            → --t-sm    （補助説明・注記）
+> .cci-name       カード内の職業名  → --t-sm
+> .cc-typeahead input  フォーム入力 → --t-body （16px 必須・iOS の自動ズーム回避）
+> ```
+>
+> 12px 下限（§4.2）を割っていた実描画もここで消えた（`.duel-bar .risk-pill` 11px、
+> `.cc-recent-note` `.ccq-vs` `.cci-vs-row` 11.2px、`.rxh-genre` 11.2px ほか）。
+>
+> **ページ側 footer ブロックの削除。** `chrome` が footer を持つのは design-1.13
+> からで、ページ側の複製は正典が宣言する性質については特異性で負けて死んでいる。
+> ところが**正典が宣言していない性質については生きて勝つ** — #552 で見つかった
+> `opacity: .92` がまさにそれだった。トークン化して延命させるのではなく削除した
+> （`rankings/index` `rankings/[type]` の 2 ファイル、計 16 規則）。
+>
+> **`src/views/` を `hub` に入れた影響。** 関連職業・関連ハブのフラグメントは
+> hub 由来だが、描画されるのは詳細ページと業種ページである。`.same-risk-neighbors h2`
+> の見出し規則を外した結果、`/<id>` のその区画見出しが 16.8px → 22px（正典の h2）に
+> なり、同ページの他の区画見出しと揃った。
+>
+> 視覚回帰（20 ページ × 2 視口）は hub 系で 8〜33% の画素が動く。これは字号の
+> 再割り当てで各行が数 px ずつ縦に動き、`>8/255` 指標が位置ずれに寛容でないため
+> であって、構造は不変である（高さ差は最大 −146px、大半は ±50px 未満）。claim して
+> いないページ（`/` `/map` など）は footer のビルド時刻ノイズ 35 画素のみ。
+
 ## surface ごとの対象ファイル
 
 移行担当が最初に開くファイル。ここに無いファイルに手を広げる場合は、その理由を PR に書く。
@@ -198,7 +240,7 @@ legacy       0 / 11
 | `feature` | `src/pages/index.astro`, `src/pages/_index-css.ts`, `src/pages/models.astro`, `src/pages/models/[model].astro`, `src/pages/aiadoption.astro`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
 | `interactive` | `src/pages/map.astro`, `src/pages/_map-css.ts` |
 | `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro` |
-| `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts` |
+| `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/compare/`, `src/pages/skills/`, `src/pages/interests/`, `src/pages/answers/`, `src/pages/q/`, `src/pages/yearly/`, `src/pages/abilities/`, `src/pages/careers/`, `src/pages/education/`, `src/pages/employment-types/`, `src/pages/entry-paths/`, `src/pages/explore/`, `src/pages/knowledge/`, `src/pages/licenses/`, `src/pages/life-balance/`, `src/pages/training/`, `src/pages/values/`, `src/pages/work-styles/` |
 | `sector` | `src/lib/canonical/sector.ts`, `src/pages/sectors/_sector-css.ts` |
 | `doc` | `src/lib/canonical/doc.ts` |
 | `static` | `src/lib/canonical/static.ts`, `src/pages/privacy.astro`, `src/pages/compliance.astro`, `src/pages/404.astro` |
