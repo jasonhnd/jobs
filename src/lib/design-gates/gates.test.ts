@@ -16,6 +16,8 @@ import { findColourViolations } from './color-tokens.js';
 import { contrastRatio, luminance, requiredRatio, parseRoleTable, findContrastProblems } from './contrast.js';
 import { stripComments } from './scan.js';
 import { findSyncProblems } from './design-sync.js';
+import { findUnclaimedFiles } from './coverage.js';
+import { findHeadingRuleViolations } from './heading-rules.js';
 
 /** A minimal repo: a ledger with one surface in `state`, and one CSS file. */
 function fixture(state: string, css: string): string {
@@ -179,5 +181,120 @@ describe('check-contrast — the large-text rule (§2.2)', () => {
 describe('check-design-sync (§20.2)', () => {
   test('Design.md §21.2 and design-tokens.ts agree', () => {
     assert.deepEqual(findSyncProblems(), []);
+  });
+});
+
+/**
+ * §20.4 — the ratchet only bites where the ledger reaches. These two gates
+ * exist because it reached 28 of 272 files while reading `conformant 11/11`.
+ */
+describe('ledger — a path ending in / claims the directory', () => {
+  /** A ledger whose file table names `claim`, plus two files under src/pages/. */
+  function dirFixture(claim: string): string {
+    const root = mkdtempSync(join(tmpdir(), 'design-cov-'));
+    mkdirSync(join(root, 'docs'), { recursive: true });
+    mkdirSync(join(root, 'src/pages/hub'), { recursive: true });
+    writeFileSync(
+      join(root, 'docs/DESIGN_CONFORMANCE.md'),
+      [
+        '| surface | 範囲 | ページ数 | 実装 | 状態 | 備考 |',
+        '|---|---|---|---|---|---|',
+        '| `demo` | x | 1 | `demo.ts` | `conformant` | — |',
+        '',
+        '| surface | 主な対象ファイル |',
+        '|---|---|',
+        `| \`demo\` | \`${claim}\` |`,
+        '',
+      ].join('\n'),
+    );
+    writeFileSync(join(root, 'src/pages/hub/a.ts'), 'export const A = `\n.a { font-size: 13px; }\n`;\n');
+    writeFileSync(join(root, 'src/pages/loose.ts'), 'export const B = `\n.b { font-size: 15px; }\n`;\n');
+    return root;
+  }
+
+  test('an exact path claims only that file', () => {
+    const root = dirFixture('src/pages/hub/a.ts');
+    try {
+      const s = readLedger(root);
+      assert.equal(surfaceStateFor('src/pages/hub/a.ts', s), 'conformant');
+      assert.equal(surfaceStateFor('src/pages/loose.ts', s), null);
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('a trailing slash claims everything beneath it', () => {
+    const root = dirFixture('src/pages/');
+    try {
+      const s = readLedger(root);
+      assert.equal(surfaceStateFor('src/pages/hub/a.ts', s), 'conformant');
+      assert.equal(surfaceStateFor('src/pages/loose.ts', s), 'conformant');
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('coverage reports a file no surface claims, and stays quiet once claimed', () => {
+    const loose = dirFixture('src/pages/hub/a.ts');
+    try {
+      const u = findUnclaimedFiles(loose);
+      assert.deepEqual(u.map((x) => x.file), ['src/pages/loose.ts']);
+    } finally { rmSync(loose, { recursive: true, force: true }); }
+
+    const all = dirFixture('src/pages/');
+    try {
+      assert.deepEqual(findUnclaimedFiles(all), []);
+    } finally { rmSync(all, { recursive: true, force: true }); }
+  });
+});
+
+describe('check-heading-rules — §4.9', () => {
+  function headingFixture(css: string): string {
+    const root = mkdtempSync(join(tmpdir(), 'design-head-'));
+    mkdirSync(join(root, 'docs'), { recursive: true });
+    mkdirSync(join(root, 'src/pages'), { recursive: true });
+    writeFileSync(
+      join(root, 'docs/DESIGN_CONFORMANCE.md'),
+      [
+        '| surface | 範囲 | ページ数 | 実装 | 状態 | 備考 |',
+        '|---|---|---|---|---|---|',
+        '| `demo` | x | 1 | `demo.ts` | `conformant` | — |',
+        '',
+        '| surface | 主な対象ファイル |',
+        '|---|---|',
+        '| `demo` | `src/pages/demo.ts` |',
+        '',
+      ].join('\n'),
+    );
+    writeFileSync(join(root, 'src/pages/demo.ts'), `export const CSS = \`\n${css}\n\`;\n`);
+    return root;
+  }
+
+  test('a page rule that sizes a heading fails', () => {
+    const root = headingFixture('.card h2 { font-size: 1.35rem; margin: 0 }');
+    try {
+      const v = findHeadingRuleViolations(root);
+      assert.equal(v.length, 1);
+      assert.equal(v[0]?.state, 'conformant');
+      assert.deepEqual(v[0]?.declarations, ['font-size: 1.35rem']);
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('typeface and weight count too — §4.9 names all three', () => {
+    const root = headingFixture('h1 { font-family: serif; font-weight: 700 }');
+    try {
+      assert.equal(findHeadingRuleViolations(root)[0]?.declarations.length, 2);
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('a descendant of a heading is not a heading rule', () => {
+    // `h1 .h1-sub` styles a span inside the title, not the title.
+    const root = headingFixture('h1 .h1-sub { font-size: 14px }');
+    try {
+      assert.deepEqual(findHeadingRuleViolations(root), []);
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('non-type properties on a heading are allowed', () => {
+    const root = headingFixture('h2 { margin: 0 0 12px; color: red }');
+    try {
+      assert.deepEqual(findHeadingRuleViolations(root), []);
+    } finally { rmSync(root, { recursive: true, force: true }); }
   });
 });
