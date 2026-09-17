@@ -11,16 +11,54 @@
  *   5. Server-side middleware.ts not running on the matched path
  *
  * Runs against the locally-built dist-astro/ served by http-server (see
- * playwright.config.ts). Invoked manually via `bun run test:e2e` — GitHub
- * Actions was removed 2026-05-28, so this is no longer wired into CI.
+ * playwright.config.ts). The suite runs in CI as of 2026-09-17, but THIS spec
+ * skips there: it needs PUBLIC_GA4_MEASUREMENT_ID at build time (see below).
  *
  * NOTE: server-side middleware MP requests fire from the Edge to GA4
  * directly — they NEVER appear in the browser's Network panel. The MW
  * assertion checks only that the env wiring is correct; observable
  * verification requires hitting production and checking GA4 Realtime.
  */
+import { readFileSync } from 'node:fs';
 import { test, expect, type Request as PWRequest } from '@playwright/test';
 import { visit } from './_visit';
+
+/**
+ * These assertions need PUBLIC_GA4_MEASUREMENT_ID to have been set AT BUILD
+ * TIME — without it BaseLayout elides the whole script block, so there is
+ * nothing to fire and every case fails for a reason that is not a defect.
+ *
+ * Locally that comes from .env.local. CI does not have it and should not: a
+ * measurement ID is not worth wiring a secret for, and what this spec really
+ * verifies (env → build → browser) can only be verified where the env exists.
+ *
+ * Skipped LOUDLY rather than silently: the built output is inspected, and the
+ * skip reason names the missing variable. A check that quietly asserts nothing
+ * is the failure mode this whole suite was just repaired for.
+ *
+ * Detect on the gtag SCRIPT, not the meta tag, and on a BaseLayout page rather
+ * than the homepage. Verified by rebuilding with .env.local moved aside:
+ * `googletagmanager.com/gtag/js` disappears, while `<meta name=
+ * "ga4-measurement-id">` stays — the homepage is built from
+ * src/index-source.html and carries its own copy. Probing the meta on / would
+ * report "GA4 present" in exactly the environment that has none.
+ */
+const GA4_IN_BUILD = (() => {
+  try {
+    return readFileSync('dist-astro/sectors.html', 'utf-8').includes(
+      'googletagmanager.com/gtag/js',
+    );
+  } catch {
+    return false;
+  }
+})();
+
+test.skip(
+  !GA4_IN_BUILD,
+  'PUBLIC_GA4_MEASUREMENT_ID was not set when dist-astro/ was built, so no ' +
+    'analytics markup exists to assert against. Run `bun run build` with ' +
+    '.env.local present (or set the variable) to exercise these.',
+);
 
 const PAGES_TO_CHECK = [
   { url: '/',                    name: 'home (src/index-source.html — non-BaseLayout)' },
