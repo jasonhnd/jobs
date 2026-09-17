@@ -53,7 +53,7 @@ ${AI_FACT_CSS}
 footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:var(--t-xs);color:var(--fg2);text-align:center}
 footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
 footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:var(--t-xs);line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
-footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
+footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb, var(--orange) 6%, transparent);text-decoration:none}
 footer .footer-meta{color:var(--fg2);font-size:var(--t-xs);opacity:.92;text-wrap:pretty;line-height:1.65}
 footer .footer-meta a{color:var(--accent)}
 footer .footer-meta .nowrap{white-space:nowrap}
