@@ -2,30 +2,45 @@
    未来の仕事 — Design Tokens (Direction C: Warm Editorial)
 
    Source : Claude Design handoff (n1vYPf6nRu2Q7YzDBIsG3Q), 2026-05-04
-   Origin : Was authored as MOBILE-only token set for v1.1.0 `/m/*`
-            architecture. v1.2.0 PC convergence promoted this file to
-            the LIVE site-wide token source — referenced from index.html,
-            about.html, privacy.html, compliance.html, 404.html, and all
-            ja/<id>.html pages (synced into each page's <style> block).
-   Scope  : Site-wide (since v1.2.0). The "mobile-tokens.css" filename
-            is historical; do not be misled — this is now the desktop
-            token source as well. Filename retained because 559+ HTML
-            files quote it in "synced from styles/mobile-tokens.css"
-            comments; renaming would require a coordinated repo-wide
-            sweep + production verification.
+   Origin : Authored as the MOBILE-only token set for the v1.1.0 `/m/*`
+            architecture. v1.2.0 PC convergence adopted the same visual
+            language site-wide, and this file was described as the
+            site-wide token source from then on.
 
-   Editing rule:
-     - This file is the single source of truth for site-wide colors,
-       fonts, spacing, radius, shadow, and risk-band semantics.
-     - Any visual change starts HERE, then propagates (re-syncs) into
-       component CSS / HTML <style> blocks.
-     - styles/mobile-tokens.json is a machine-readable mirror with
-       0 known consumers; safe to delete in a follow-up cleanup.
-     - Spec doc `docs/MOBILE_DESIGN.md` (former §2 / §15) was deleted
-       2026-05-06 along with the v1.1.0 archive. Current design spec
-       lives in `docs/Design.md` + `docs/Design-Mobile.md`; visual
-       token decisions follow Design.md §2 on the desktop side and
-       Design-Mobile.md cross-references.
+   STATUS : NOT the cascade. Reference values only.
+            Design.md §19.3 records this file as one of the "dead canons"
+            — self-declared single source of truth, **zero references**.
+            That is still true: no file links or imports it, nothing reads
+            a `--m-*` custom property (only prose in docs/MOBILE_SHAPES.md
+            names them), and the `.m-t-*` / `.m-risk-*` classes are unused.
+            Editing this file alone changes nothing on the site.
+
+            The live cascade is:
+              docs/Design.md         — the rules (Design v1.2)
+              src/lib/design-tokens.ts — the machine canon for values
+              src/lib/canonical-css.ts — the single `:root`, emitted on
+                                         every page via Footer.astro (§18.4)
+              DESIGN_CONFORMANCE.md  — which surfaces the gates enforce
+
+            §19.3 leaves this file's fate open: wire it up or delete it,
+            owner's call. Until that is decided, do not add tokens here —
+            new tokens go through Design.md §21.2 first (§19.4).
+
+   Corrections to this header (2026-09-18), per §19.3's own row:
+     - `styles/mobile-tokens.json` was described as an existing mirror.
+       It has been deleted from the repository.
+     - `docs/MOBILE_DESIGN.md` was already noted as deleted; the pointer
+       to `docs/Design-Mobile.md` is removed because no such file exists.
+       `docs/Design.md` does exist and is the canon — see STATUS above.
+     - The filename was justified by "559+ HTML files quote it in
+       'synced from styles/mobile-tokens.css' comments". Those files are
+       build output under `dist-astro/`; the repository tracks three
+       `.html` files and no `ja/*.html`. In tracked source the string
+       appears here and in `src/lib/og-renderers/_frame.ts`.
+     - The risk-band block pointed at `lib/bands.py` for the thresholds.
+       No such file exists; the classifiers are `src/data/lib/bands.ts`
+       (data layer, null-preserving) and `src/lib/risk.ts` (render layer,
+       null → 'mid'). Both cut at 4.0 / 7.0.
    ───────────────────────────────────────────────────────────── */
 
 :root {
@@ -105,7 +120,7 @@
    Used to tint pills / chips that show ai_risk visually.
    The `risk_band` field on every occupation tile (treemap /
    search / detail) maps directly: low/mid/high → these classes.
-   See lib/bands.py for the JS-side equivalent thresholds.
+   Thresholds: src/data/lib/bands.ts and src/lib/risk.ts (4.0 / 7.0).
    ────────────────────────────────────────────────────────── */
 .m-risk-low   { color: var(--m-color-sage-deep); background: rgba(110, 155, 137, 0.12); }
 .m-risk-mid   { color: #8B6B2A;                  background: rgba(212, 167,  73, 0.16); }
