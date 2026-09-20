@@ -99,8 +99,7 @@
       }
       /* Direction C signature: italic terra-cotta emphasis on accent words. */
       .dh-title .acc, .mobile-hero-title .acc, h1 .accent {
-        color: var(--orange-hot);
-        font-style: italic;
+        color: var(--ink);
         font-weight: 600;
       }
       /* Mobile hero title line-break point: "AIの時代でも、" stays on line 1, "あなたらしい働き方を。" stays on line 2 — semantic Japanese phrase boundary instead of mid-word "を。" orphan. Hidden on wider viewports where the title fits on one line. */
@@ -216,18 +215,6 @@
         display: flex;
         align-items: baseline;
         gap: 8px;
-      }
-      .m-top10-card-score .num {
-        font-family: var(--font-serif);
-        font-size: var(--t-h1);
-        font-weight: 600;
-        line-height: 1;
-        color: var(--orange-hot);
-      }
-      .m-top10-card-score .denom {
-        font-family: var(--font-sans);
-        font-size: var(--t-sm);
-        color: var(--fg2);
       }
       .m-top10-card-tag {
         display: inline-flex;
@@ -346,8 +333,6 @@
         }
         .m-top10-card-head { padding-right: 0; }
         .m-top10-card-name { font-size: var(--t-h3); min-height: 2.4em; }
-        .m-top10-card:has(.risk-pill) .m-top10-card-score .num,
-        .m-top10-card:has(.risk-pill) .m-top10-card-score .denom,
         .m-top10-card:has(.risk-pill) .m-top10-card-tag,
         .m-top10-card:has(.risk-pill) .m-top10-card-rationale,
         .m-top10-card:has(.risk-pill) .m-top10-card-stats,
@@ -375,7 +360,12 @@
         .home-movers h3 { margin: 0 0 4px; color: var(--fg2); }
         .home-movers ol { list-style: none; margin: 0; padding: 0; }
         .home-movers li { display: flex; justify-content: space-between; gap: 8px; font-size: var(--t-sm); padding: 3px 0; }
-        .home-movers li a { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        /* Grid items default to min-width:auto, so a nowrap name inside a
+           1fr track pushed the second column 192px past a 375px viewport with
+           no way to scroll to it (design-1.21). min-width:0 lets the track win. */
+        .home-movers-grid .hm-col, .home-movers ol { min-width: 0; }
+        .home-movers li a { color: var(--fg); text-decoration: none; min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .home-movers li .up, .home-movers li .down { flex: 0 0 auto; }
         .home-movers .up { color: var(--orange-hot); font-variant-numeric: tabular-nums; font-weight: 700; }
         .home-movers .down { color: var(--accent-deep); font-variant-numeric: tabular-nums; font-weight: 700; }
         .home-doors {
@@ -1454,7 +1444,6 @@
         cursor: default;
         color: var(--fg2);
         font-size: var(--t-xs);
-        font-style: italic;
         padding: 6px 14px;
         background: color-mix(in srgb, var(--paper) 2.5%, transparent);
         pointer-events: none;
@@ -1972,7 +1961,6 @@
       .hub-subgroup:first-of-type { margin-top: 0; }
       .hub-subgroup-title {
         font-family: var(--font-serif);
-        font-style: italic;
         font-size: var(--t-sm);
         font-weight: 600;
         color: var(--fg2);
@@ -2212,7 +2200,7 @@
       .home-kpi-band { margin: 32px 0; padding: 24px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; }
       .kpi-row { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 0 0 24px; padding: 0; }
       .kpi-row li { text-align: center; padding: 8px; }
-      .kpi-row li strong { display: block; font-family: var(--font-serif); font-size: var(--t-h1); font-weight: 700; color: var(--accent-deep); line-height: 1.1; font-variant-numeric: tabular-nums; }
+      .kpi-row li strong { display: block; font-family: var(--font-serif); font-size: var(--t-h1); font-weight: 700; color: var(--ink); line-height: 1.1; font-variant-numeric: tabular-nums; }
       .kpi-row li strong small { font-size: var(--t-sm); color: var(--fg2); font-weight: 600; margin-left: 2px; }
       .kpi-row li span { display: block; margin-top: 4px; font-size: var(--t-xs); color: var(--fg2); }
       .kpi-row li span .kpi-meta { display: block; font-size: var(--t-xs); color: var(--ink-meta); margin-top: 2px; }

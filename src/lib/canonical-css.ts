@@ -503,9 +503,6 @@ html body footer.site-footer .footer-meta em a {
 html body footer.site-footer .footer-meta .nowrap {
   white-space: nowrap;
 }
-html body footer.site-footer .footer-meta em {
-  font-style: italic;
-}
 html body footer.site-footer time {
   font-variant-numeric: tabular-nums;
 }
@@ -1067,7 +1064,6 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-drawer p.mob-drawer-lede {
     font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
     font-size: var(--t-xs);
-    font-style: italic;
     color: var(--fg2);
     line-height: 1.5;
     margin: 0 0 0 17px;  /* align under the dot+title baseline */
@@ -1186,7 +1182,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   flex: 1 1 320px;
 }
 .me-cta-strip p strong {
-  color: var(--accent-deep, #48705F);
+  color: var(--ink);
   font-weight: 600;
 }
 .me-cta-strip a {

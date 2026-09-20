@@ -355,7 +355,7 @@ export function renderSpokeHubsSection(result: SpokeHubsResult): SafeHtml {
 /** CSS for the related-hubs section — to be injected into the spoke <style>. */
 export const RELATED_HUBS_CSS = `
 .related-hubs{margin:48px 0 24px;padding:24px 22px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
-.related-hubs h2{color:var(--accent-deep);margin:0 0 18px}
+.related-hubs h2{color:var(--ink);margin:0 0 18px}
 /* RA-118 (2026-05-18): grid-auto-rows + flex height:100% chain so groups
    with fewer links don't show large empty space below; rh-link cards in
    different groups stay aligned even when one has rh-desc and another

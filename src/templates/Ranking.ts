@@ -549,8 +549,8 @@ export function renderRankingsMovers(movers: RankingsMoversView): SafeHtml {
     `<div class="mover-grid">` +
     `${renderMoverList('変化指数が上がった職業', movers.transformation.up, 'up')}` +
     `${renderMoverList('変化指数が下がった職業', movers.transformation.down, 'down')}` +
-    `${renderMoverList('代替リスクが上がった職業', movers.displacement.up, 'up')}` +
-    `${renderMoverList('代替リスクが下がった職業', movers.displacement.down, 'down')}` +
+    `${renderMoverList('仕事が減るリスクが上がった職業', movers.displacement.up, 'up')}` +
+    `${renderMoverList('仕事が減るリスクが下がった職業', movers.displacement.down, 'down')}` +
     `</div>` +
     `</section>`
   ) as SafeHtml;

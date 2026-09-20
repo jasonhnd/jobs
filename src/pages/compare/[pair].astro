@@ -75,9 +75,9 @@ a:hover{color:var(--orange-hot)}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 #content{margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:14px}
 h1{line-height:1.25;color:var(--fg);margin-bottom:12px}
-h1 .accent{color:var(--accent-deep)}
+h1 .accent{color:var(--ink)}
 .sub{color:var(--fg2);font-size:var(--t-h3)}
-.sub strong{color:var(--accent-deep);font-weight:600}
+.sub strong{color:var(--ink);font-weight:700}
 .intro{margin:24px 0;color:var(--fg);font-size:var(--t-body);max-width:64ch}
 ${AI_FACT_CSS}
 section{margin:48px 0}
@@ -88,7 +88,7 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
 .versus-hero .vh-name:hover{color:var(--orange-hot);text-decoration:underline}
 .versus-hero .vh-sector{font-size:var(--t-xs);color:var(--fg2)}
 .versus-hero .vh-vs{font-family:var(--font-serif);font-size:var(--t-h2);font-weight:700;color:var(--orange-hot);background:var(--bg);border:2px solid var(--accent);border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.risk-pill{display:inline-block;padding:3px 12px;border-radius:12px;font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums}
+.risk-pill{display:inline-block;padding:3px 12px;border-radius:var(--r-md);font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums}
 .risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
 .risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
 .risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
@@ -108,7 +108,7 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
   .crumb{display:none}
   #content{margin:0;padding:8px 0 6px;border-bottom:none}
   html body #content h1{!important;line-height:1.4 !important;margin:0;color:var(--fg)}
-  html body #content h1 .accent{color:var(--fg)}
+  html body #content h1 .accent{color:var(--ink)}
   .cmp-metric{grid-template-columns:86px 1fr 1fr}
   .versus-hero{display:none}
   .duel-bar{display:grid;grid-template-columns:1fr 34px 1fr;align-items:center;position:sticky;top:48px;z-index:90;background:var(--bg2);border-top:1px solid var(--border);border-bottom:2px solid var(--ink);margin:0 -20px 10px;padding:10px 16px;gap:0}
@@ -131,7 +131,7 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
 .compare-points li,.decision-hints li{font-size:var(--t-sm);color:var(--fg);margin-bottom:6px;line-height:1.7}
 .points-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
 @media (max-width:600px){.points-grid{grid-template-columns:1fr;gap:14px}}
-.points-grid h3{color:var(--accent-deep);margin:0 0 6px}
+.points-grid h3{color:var(--ink);margin:0 0 6px}
 .compare-table{table-layout:fixed;width:100%;border-collapse:collapse;margin:24px 0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
 /* RA-140 (2026-05-18): table HTML is 4 cols — 項目 | A名 | B名 | 差分.
    Previous CSS treated col 3 as a "VS" spacer and hid the B-name column on
@@ -146,7 +146,7 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
 .compare-table thead th.ct-note{font-size:var(--t-xs);color:var(--fg2)}
 .compare-table tbody th{font-weight:500;color:var(--fg2);width:30%}
 .compare-table tbody td{color:var(--fg);font-variant-numeric:tabular-nums}
-.compare-table .ct-note{color:var(--ink-meta);font-size:var(--t-xs);font-style:italic}
+.compare-table .ct-note{color:var(--ink-meta);font-size:var(--t-xs)}
 .compare-table tr:last-child th,.compare-table tr:last-child td{border-bottom:none}
 /* RA-140 (2026-05-18): mobile — hide 差分 (col 4), keep BOTH names side by
    side at 42% / 42%. Previous RA-119 hid col 3 (B name) by mistake. */
@@ -165,7 +165,7 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
 .topskills-compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
 @media (max-width:600px){.topskills-compare{grid-template-columns:1fr;gap:14px}}
 .tsc-side{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px}
-.tsc-side h3{color:var(--accent-deep);margin:0 0 12px}
+.tsc-side h3{color:var(--ink);margin:0 0 12px}
 .ts-list{list-style:none;counter-reset:tsk;padding:0;margin:0}
 .ts-list li{counter-increment:tsk;display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--border);font-size:var(--t-sm)}
 .ts-list li:last-child{border-bottom:none}
@@ -187,7 +187,7 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
 /* RA-136 (Sprint 4.2): escape-route strip — low-AI-risk migration
    candidates surfaced when both compared jobs are AI-impact ≥ 7. */
 .escape-routes{margin:48px 0 32px;padding:24px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;border-left:4px solid var(--accent-deep)}
-.escape-routes h2{color:var(--accent-deep);margin:0 0 8px;border-bottom:none;padding-bottom:0}
+.escape-routes h2{color:var(--ink);margin:0 0 8px;border-bottom:none;padding-bottom:0}
 .escape-lede{color:var(--fg2);font-size:var(--t-sm);margin:0 0 16px;line-height:1.6}
 .escape-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:0;padding:0}
 .escape-card a{display:flex;flex-direction:column;gap:6px;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms}
@@ -195,7 +195,7 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
 .ec-name{font-weight:500;font-size:var(--t-body)}
 .ec-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .ec-sector{font-size:var(--t-xs);color:var(--fg2)}
-.ec-reason{font-size:var(--t-xs);color:var(--ink-meta);font-style:italic}
+.ec-reason{font-size:var(--t-xs);color:var(--ink-meta)}
 @media (max-width:600px){.escape-cards{grid-template-columns:1fr}}
 `} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />

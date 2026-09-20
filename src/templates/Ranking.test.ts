@@ -54,6 +54,7 @@ import {
   renderJsonLd,
   renderHubJsonLd,
   renderHomeMovers,
+  renderRankingsMovers,
 } from './Ranking.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import type { Occupation } from '../views/ranking.js';
@@ -442,6 +443,27 @@ describe('renderHomeMovers', () => {
     assert.match(html, /-1\.2/);
     assert.match(html, /↑上がった/);
     assert.match(html, /↓下がった/);
+  });
+});
+
+describe('renderRankingsMovers', () => {
+  test('labels the displacement columns 仕事が減るリスク, the axis name the occupation page uses (design-1.21)', () => {
+    const html = renderRankingsMovers({
+      meta: {
+        baseline: { model: 'a', date: '2026-06-13', scoreCount: 556 },
+        candidate: { model: 'b', date: '2026-07-26', scoreCount: 556 },
+        comparedCount: 556,
+      },
+      transformation: { up: [], down: [] },
+      displacement: {
+        up: [{ id: 10, name: '上がった職', base: 3, current: 3.4, delta: 0.4, familyCode: null }],
+        down: [{ id: 20, name: '下がった職', base: 5, current: 3.8, delta: -1.2, familyCode: null }],
+      },
+    });
+    assert.match(html, /仕事が減るリスクが上がった職業/);
+    assert.match(html, /仕事が減るリスクが下がった職業/);
+    assert.doesNotMatch(html, /代替リスク/);
+    assert.match(html, /変化指数が上がった職業/);
   });
 });
 
