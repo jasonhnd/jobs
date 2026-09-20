@@ -92,7 +92,7 @@ section.faq{margin:48px 0}
 .pattern-observations li{padding:10px 14px;background:var(--bg3);border-radius:4px;font-size:var(--t-sm);color:var(--fg);line-height:1.65}
 .pattern-observations li strong{color:var(--ink);font-weight:700}
 @media (max-width:600px){.ai-dist-legend{gap:8px}}
-header{margin-bottom:16px;padding-bottom:14px}
+:where(main) header{margin-bottom:16px;padding-bottom:14px}
 .sec-list-sec{margin:8px 0 28px}
 .sec-list-sec h2{color:var(--ink);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;word-break:keep-all;overflow-wrap:anywhere}
 .chap-body .stats{margin:16px 0}
