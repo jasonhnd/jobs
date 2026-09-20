@@ -103,3 +103,36 @@ for (const viewport of VIEWPORTS) {
     });
   }
 }
+
+/**
+ * §6 chrome — the top-nav wrapper is not a page header.
+ *
+ * BaseLayout wraps MobileNav + TopNav in a bare <header> (the banner landmark).
+ * From 2026-06-03 the Hub / Sector / Static classes styled `header` — meant for
+ * the page's own hero — and so drew a second rule and 24px of padding under the
+ * top nav on every page of those classes; the design-1.x migration then spread
+ * it to /me, /shindan, /gyakuten, /privacy, /compliance, /404 and /answers.
+ * Only a rendered check sees it: the source gates read declarations, not
+ * which element they land on.
+ */
+for (const url of PAGES) {
+  test(`chrome header carries no page-header styling: ${url}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await visit(page, url, { waitUntil: 'load' });
+    const wrapper = await page.evaluate(() => {
+      const h = Array.from(document.querySelectorAll('body > header')).find((e) => e.querySelector('nav.top-nav'));
+      if (!h) return null;
+      const s = getComputedStyle(h);
+      return {
+        borderBottom: s.borderBottomWidth,
+        paddingBottom: s.paddingBottom,
+        height: Math.round(h.getBoundingClientRect().height),
+      };
+    });
+    expect(wrapper, `${url}: no <body> > <header> wrapping nav.top-nav`).not.toBeNull();
+    expect(wrapper?.borderBottom, `${url}: the chrome wrapper has a border — a page-class header rule leaked onto it`).toBe('0px');
+    expect(wrapper?.paddingBottom, `${url}: the chrome wrapper has bottom padding`).toBe('0px');
+    // margin is layout spacing (the home page sets 24px under the nav on purpose); the
+    // defect is the rule and the padded gap above it, so those two are what is pinned.
+  });
+}

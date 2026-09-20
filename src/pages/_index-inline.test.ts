@@ -32,6 +32,9 @@ test('home shows one decimal everywhere a score is printed, via fmtRisk (design-
   // The treemap tile sub-info and the TOP10 pill both go through fmtRisk.
   assert.match(source, /return d\.ai_risk != null \? fmtRisk\(d\.ai_risk\) \+ "\/10" : "";/);
   assert.match(source, /const scoreLabel = \(rec\.ai_risk != null\) \? fmtRisk\(rec\.ai_risk\) : "—";/);
+  // The hover tooltip's AI リスク row (was `d.ai_risk + "/10"` — 4.266666666666667/10 on screen).
+  assert.match(source, /\? fmtRisk\(d\.ai_risk\) \+ "\/10" \+ \(riskPctTop/);
+  assert.doesNotMatch(source, /[^t]\bd\.ai_risk \+ "\/10"/);
   assert.doesNotMatch(source, /score\.toFixed\(1\)/);
   // The dead raw-float spans are gone (they only ever hid behind :has()).
   assert.doesNotMatch(source, /class="num"/);
