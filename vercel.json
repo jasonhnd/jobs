@@ -3,7 +3,7 @@
   "framework": "astro",
   "buildCommand": "rm -rf dist-astro node_modules/.astro && bun run typecheck && bun run build && bun run verify:gates && bun run test",
   "ignoreCommand": "bash scripts/vercel-ignore-build.sh",
-  "installCommand": "bunx bun@1.4.0 install --frozen-lockfile",
+  "installCommand": "bun install --frozen-lockfile",
   "bunVersion": "1.4.x",
   "outputDirectory": "dist-astro",
   "crons": [
