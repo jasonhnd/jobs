@@ -45,6 +45,7 @@ export const ROLE = {
   inline: '本文中の行内強調（`strong` / `em`）',
   statLarge: '統計数値（大）',
   statMedium: '統計数値（中）',
+  rawScore: 'ID・スコア生値',
 } as const;
 
 /**
@@ -55,6 +56,16 @@ const EXACT_SELECTORS: ReadonlyMap<string, string> = new Map([
   ['.kpi-row li strong', ROLE.statLarge],
   ['.rank', ROLE.statMedium],
   ['.qa-item summary', ROLE.h4],
+  // /<id>: the two AIOIS-10 index numbers, the consensus score, the model-history rows
+  ['.aio-idx-num', ROLE.statLarge],
+  ['.aio-idx.idx-t .aio-idx-num', ROLE.statLarge],
+  ['.aio-idx.idx-d .aio-idx-num', ROLE.statLarge],
+  ['.score-num', ROLE.statLarge],
+  ['.score-history-item-facts .sh-num', ROLE.statMedium],
+  // mono --t-xs raw values on hub / skill / detail cards
+  ['.genre-score', ROLE.rawScore],
+  ['.skill-score', ROLE.rawScore],
+  ['.srn-card .srn-risk', ROLE.rawScore],
 ]);
 
 const RULE = /([^{};]*)\{([^{}]*)\}/g;
@@ -83,7 +94,8 @@ export function roleForSelector(part: string): string | null {
   };
   const direct = heading(subject);
   if (direct != null) return direct;
-  if (/^\.(accent|acc)(?![a-z0-9-])/.test(subject)) {
+  // The title's accent word and a numbered heading's numeral are the heading.
+  if (/^\.(accent|acc|num)(?![a-z0-9-])/.test(subject)) {
     for (const c of compounds.slice(0, -1)) {
       const h = heading(c);
       if (h != null) return h;

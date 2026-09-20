@@ -471,6 +471,14 @@ describe('check-role-color — §4.7 colour column is enforced, not just contras
     } finally { rmSync(root, { recursive: true, force: true }); }
   });
 
+  test('statistic numbers, raw score values and a heading numeral are roles too', () => {
+    assert.equal(roleForSelector('.aio-idx.idx-t .aio-idx-num'), '統計数値（大）');
+    assert.equal(roleForSelector('.score-num'), '統計数値（大）');
+    assert.equal(roleForSelector('.genre-score'), 'ID・スコア生値');
+    assert.equal(roleForSelector('h2 .num'), '区画見出し');
+    assert.equal(roleForSelector('.card .num'), null);
+  });
+
   test('only the color property counts — background-color and border-color are not text colour', () => {
     const root = roleFixture('conformant', wrap('h2 { background-color: var(--accent-deep); border-color: var(--accent-deep) }'));
     try { assert.deepEqual(findRoleColourViolations(root), []); }
