@@ -177,13 +177,22 @@
       // bright red). Synced with /map's RISK_PALETTE so the homepage hero
       // treemap, mobile preview, and the dedicated map page all look the same.
       // User feedback: the vivid (15,195,105)→(235,40,55) ramp was 刺眼.
-      const MAP_PALETTE_STOPS = [
-        [15, 138, 102],   // #0F8A66 muted dark green (low risk)
-        [91, 168, 79],    // #5BA84F sage
-        [217, 160, 59],   // #D9A03B amber
-        [226, 122, 51],   // #E27A33 burnt orange
-        [196, 66, 47],    // #C4422F terracotta red (high risk)
-      ];
+      // Design.md §2.3 — the five band colours (and the per-band label
+      // foreground, --risk-fg-N) come from the :root tokens canonical-css.ts
+      // emits from design-tokens.ts. This deferred script cannot import the
+      // module, so it reads the computed values once at start.
+      function readRootToken(name, fallback) {
+        const v = window.getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        if (!v && typeof console !== "undefined") console.warn("[home] " + name + " is not defined on :root");
+        return v || fallback;
+      }
+      function hexToRgb(hex) {
+        const h = hex.replace("#", "");
+        const f = h.length === 3 ? h.split("").map(c => c + c).join("") : h;
+        return [0, 2, 4].map(i => parseInt(f.slice(i, i + 2), 16));
+      }
+      const MAP_PALETTE_STOPS = [0, 1, 2, 3, 4].map(i => hexToRgb(readRootToken("--risk-" + i, "#888888")));
+      const MAP_LABEL_FG = [0, 1, 2, 3, 4].map(i => readRootToken("--risk-fg-" + i, "#FFFFFF"));
       // Discrete 5-bucket palette — matches /map's colorForRisk(risk) exactly:
       //   risk 0-2 → stop 0 (dark green)
       //   risk 2-4 → stop 1 (sage)

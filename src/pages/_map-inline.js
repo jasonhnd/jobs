@@ -22,7 +22,20 @@
     var currentSort = 'ai_risk_desc';
     var openJobId = null;
 
-    var RISK_PALETTE = ['#0F8A66', '#5BA84F', '#D9A03B', '#E27A33', '#C4422F'];
+    // Design.md §2.3 — the five band colours come from the :root tokens that
+    // canonical-css.ts emits from design-tokens.ts. This script is inlined and
+    // cannot import the module, so it reads the computed values once at start;
+    // `tests/e2e/design-contract.spec.ts` asserts they resolve.
+    var RISK_PALETTE = (function () {
+      var cs = window.getComputedStyle(document.documentElement);
+      var out = [];
+      for (var i = 0; i < 5; i++) {
+        var v = cs.getPropertyValue('--risk-' + i).trim();
+        if (!v && typeof console !== 'undefined') console.warn('[map] --risk-' + i + ' is not defined on :root');
+        out.push(v || '#888888');
+      }
+      return out;
+    })();
     function bandForRisk(risk) {
       if (risk <= 2) return 0;
       if (risk <= 4) return 1;
