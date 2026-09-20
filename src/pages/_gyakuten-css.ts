@@ -10,7 +10,7 @@ export const GYAKUTEN_CSS = `
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75}
 a{color:var(--accent-deep);text-decoration:none}
 a:hover{color:var(--orange-hot);text-decoration:underline}
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:28px var(--s-5) 84px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:28px var(--gutter) 84px}
 .gyakuten-crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
 .gyakuten-crumb a{color:var(--fg2)}
 .gyakuten-crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
@@ -83,8 +83,8 @@ a:hover{color:var(--orange-hot);text-decoration:underline}
   .zukan-family{grid-template-columns:1fr}
   .zukan-family-head{position:static}
 }
-@media (max-width:720px){
-  #wrapper{padding:20px 16px 64px}
+@media (max-width:599px){
+  #wrapper{padding:20px var(--gutter) 64px}
   .gyakuten-hero h1{}
   .gyakuten-section-head{display:block}
   .gyakuten-section-head p{margin-top:8px}

@@ -74,7 +74,7 @@ html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.75}
 
 /* ── Layout: single content column, aligns with nav + footer edge ── */
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:28px var(--s-5) 88px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:28px var(--gutter) 88px}
 .doc-prose{max-width:74ch}
 
 /* ── Breadcrumb ── */
@@ -233,8 +233,8 @@ table.bands td.sc{font-variant-numeric:tabular-nums;font-weight:700;white-space:
 .top-banner{background:linear-gradient(90deg,color-mix(in srgb, var(--red) 16%, transparent),color-mix(in srgb, var(--orange) 12%, transparent));border:1px solid color-mix(in srgb, var(--red) 40%, transparent);border-radius:9px;padding:10px 16px;margin:0 0 24px;font-size:var(--t-sm);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;text-align:center;color:var(--fg)}
 .top-banner .badge{background:var(--orange-hot);color:var(--paper);padding:3px 10px;border-radius:5px;font-size:var(--t-xs);font-weight:700;letter-spacing:.06em}
 
-@media(max-width:600px){
-  #wrapper{padding:20px 16px 64px}
+@media(max-width:599px){
+  #wrapper{padding:20px var(--gutter) 64px}
   .src-row{grid-template-columns:1fr;gap:2px}
   .scale dl{grid-template-columns:1fr;gap:2px 0}
   .scale dt{margin-top:8px}

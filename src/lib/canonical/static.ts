@@ -23,7 +23,7 @@ a:hover{color:var(--accent-deep)}
 .theme-toggle{display:none !important}
 
 /* Static class layout: shared content-column width, generous padding */
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:48px var(--s-5) 96px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:48px var(--gutter) 96px}
 
 /* Breadcrumb */
 nav.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
@@ -51,5 +51,5 @@ section > h2{color:var(--fg);margin:0 0 16px;padding-bottom:8px;border-bottom:1p
 p{margin:0 0 14px;line-height:1.85;color:var(--fg)}
 p:last-child{margin-bottom:0}
 
-@media (max-width:600px){#wrapper{padding:32px 16px 64px}}
+@media (max-width:599px){#wrapper{padding:32px var(--gutter) 64px}}
 `;
