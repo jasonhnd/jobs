@@ -69,6 +69,50 @@ export const COLOR = {
   '--red-text': '#ad4d32',
 } as const;
 
+/**
+ * §2.3 — the AI-impact scale, layer 3. The SINGLE source for every surface:
+ * map tiles, sector nav, distribution bar, risk pills, OG cards, the home
+ * canvas treemap, the detail-page gradient. Moved here from canonical-css.ts's
+ * literal declarations on 2026-09-20 (design-1.21) so that OG renderers and
+ * inline scripts can consume the same values the CSS does.
+ *
+ * `--risk-fg-*` is the tile-label foreground per band (§2.3 タイル前景): white
+ * on the two dark ends, `--ink` on the three light-to-mid bands. Kept as
+ * literal hex on purpose — canvas and Satori cannot resolve `var()` — and
+ * equal by value to `--paper` / `--ink`.
+ *
+ * `--risk-0` is `#0F8663`, not the historical `#0F8A66`: white on the old
+ * value was 4.33:1, short of §2.2's 4.5:1 with no exemption allowed. G −4,
+ * B −3 — not visible to the eye, 4.56:1.
+ */
+export const RISK = {
+  '--risk-0': '#0F8663',
+  '--risk-1': '#5BA84F',
+  '--risk-2': '#D9A03B',
+  '--risk-3': '#E27A33',
+  '--risk-4': '#C4422F',
+  '--risk-soft-0': '#D0E3D6',
+  '--risk-soft-1': '#DDE8D1',
+  '--risk-soft-2': '#F4E7CE',
+  '--risk-soft-3': '#F6E0CC',
+  '--risk-soft-4': '#F0D6CC',
+  '--risk-fg-0': '#FFFFFF',
+  '--risk-fg-1': '#241E18',
+  '--risk-fg-2': '#241E18',
+  '--risk-fg-3': '#241E18',
+  '--risk-fg-4': '#FFFFFF',
+} as const;
+
+/** The five saturated band colours, index = band, for code that needs a list. */
+export const RISK_BAND_HEX: readonly [string, string, string, string, string] = [
+  RISK['--risk-0'], RISK['--risk-1'], RISK['--risk-2'], RISK['--risk-3'], RISK['--risk-4'],
+];
+
+/** The five tile-label foregrounds, index = band. */
+export const RISK_BAND_FG: readonly [string, string, string, string, string] = [
+  RISK['--risk-fg-0'], RISK['--risk-fg-1'], RISK['--risk-fg-2'], RISK['--risk-fg-3'], RISK['--risk-fg-4'],
+];
+
 /** §8.1 — 4px grid, eight steps. "padding inside, gap between." */
 export const SPACE = {
   '--s-1': '4px',
@@ -161,6 +205,7 @@ export const DESIGN_TOKEN_GROUPS: ReadonlyArray<{
   { clause: '§4.6', label: 'line height', tokens: LINE_HEIGHT },
   { clause: '§4.4', label: 'monospace', tokens: FONT },
   { clause: '§2.1', label: 'AA-safe negative text', tokens: COLOR },
+  { clause: '§2.3', label: 'AI-impact scale (layer 3)', tokens: RISK },
   { clause: '§8.1', label: 'spacing (4px grid)', tokens: SPACE },
   { clause: '§8.2', label: 'radius', tokens: RADIUS },
   { clause: '§8.3', label: 'shadow', tokens: SHADOW },

@@ -461,7 +461,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .explain-block h3 {
   margin: 0 0 6px;
-  color: var(--accent-deep);
+  color: var(--ink);
   letter-spacing: 0 !important;
 }
 

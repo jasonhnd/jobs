@@ -85,7 +85,7 @@ nav.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* ── Header ── */
 h1{letter-spacing:-.01em;color:var(--fg);margin-bottom:8px}
-h1 .accent{color:var(--orange-hot);font-style:italic}
+h1 .accent{color:var(--ink)}
 .subtitle{color:var(--fg2);font-size:var(--t-h3);margin-bottom:8px;max-width:74ch}
 .meta-line{display:inline-flex;align-items:center;gap:8px;color:var(--ink-meta);font-size:var(--t-xs);margin-bottom:28px;padding:4px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-variant-numeric:tabular-nums}
 
@@ -94,13 +94,13 @@ h1 .accent{color:var(--orange-hot);font-style:italic}
 
 /* ── Sections ── */
 h2{color:var(--fg);margin:48px 0 14px;padding-left:13px;border-left:3px solid var(--accent)}
-h2 .num{color:var(--orange-hot);font-variant-numeric:tabular-nums;margin-right:6px}
+h2 .num{color:var(--ink);font-variant-numeric:tabular-nums;margin-right:6px}
 h3{color:var(--fg);margin:22px 0 6px}
 p{margin:0 0 14px;line-height:1.8;color:var(--fg);max-width:74ch}
 ul,ol{margin:0 0 14px 22px;max-width:74ch}
 li{margin-bottom:7px;line-height:1.7}
-strong{color:var(--fg);font-weight:600}
-em{color:var(--ink-2);font-style:italic}
+strong{color:var(--ink);font-weight:700}
+em{color:var(--ink);font-weight:700}
 a{color:var(--orange-hot);text-decoration:none}
 a:hover{text-decoration:underline}
 /* WCAG 1.4.1 — a link sitting inside running text may not be distinguished by
@@ -144,7 +144,7 @@ code{font-family:var(--font-mono);font-size:var(--t-sm);background:var(--bg2);pa
 .dim .code{font-weight:700;font-variant-numeric:tabular-nums;font-family:var(--font-mono)}
 .dim.up .code{color:var(--orange-hot)}.dim.moat .code{color:var(--green-deep)}.dim.friction .code{color:var(--risk-pill-mid-fg)}
 .dim .name{font-weight:700;font-size:var(--t-h3);color:var(--fg)}
-.dim .name .en{font-size:var(--t-xs);color:var(--ink-meta);font-weight:400;margin-left:7px;font-style:italic}
+.dim .name .en{font-size:var(--t-xs);color:var(--ink-meta);font-weight:400;margin-left:7px}
 .dim .stage-tag{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:var(--t-xs);color:var(--fg2);border:1px solid var(--border);border-radius:999px;padding:2px 10px;white-space:nowrap}
 .dim.up .stage-tag .gly{color:var(--risk-3)}.dim.moat .stage-tag .gly{color:var(--green-deep)}.dim.friction .stage-tag .gly{color:var(--risk-2)}
 .dim .body{font-size:var(--t-body);color:var(--fg);line-height:1.7;max-width:none}
@@ -210,7 +210,7 @@ table.bands td.sc{font-variant-numeric:tabular-nums;font-weight:700;white-space:
 
 /* ── Callout ── */
 .callout{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);border-radius:9px;padding:13px 16px;margin:14px 0;font-size:var(--t-body);line-height:1.75;color:var(--fg)}
-.callout strong{color:var(--accent-deep)}
+.callout strong{color:var(--ink);font-weight:700}
 
 /* ── FAQ ── */
 .faq details{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:12px 16px;margin-bottom:10px}
@@ -225,7 +225,7 @@ table.bands td.sc{font-variant-numeric:tabular-nums;font-weight:700;white-space:
 /* ── Glossary ── */
 .glossary{display:flex;flex-direction:column;gap:10px}
 .gloss-item{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:14px 18px}
-.gloss-item h3{margin:0 0 6px;color:var(--accent-deep);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.gloss-item h3{margin:0 0 6px;color:var(--ink);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .gloss-item .term-en{font-size:var(--t-xs);color:var(--ink-meta);font-family:var(--font-mono);font-weight:400}
 .gloss-item p{margin:0;font-size:var(--t-body);line-height:1.7;color:var(--fg);max-width:none}
 

@@ -13,11 +13,12 @@ import { join } from 'node:path';
 import { readLedger, surfaceStateFor } from './ledger.js';
 import { findTypeScaleViolations } from './type-scale.js';
 import { findColourViolations, findDataUriDrift } from './color-tokens.js';
-import { contrastRatio, luminance, requiredRatio, parseRoleTable, findContrastProblems } from './contrast.js';
+import { contrastRatio, luminance, requiredRatio, parseRoleTable, findContrastProblems, readColourTokens } from './contrast.js';
 import { stripComments } from './scan.js';
 import { findSyncProblems } from './design-sync.js';
 import { findUnclaimedFiles } from './coverage.js';
 import { findHeadingRuleViolations } from './heading-rules.js';
+import { findRoleColourViolations, roleForSelector } from './role-color.js';
 
 /** A minimal repo: a ledger with one surface in `state`, and one CSS file. */
 function fixture(state: string, css: string): string {
@@ -40,6 +41,16 @@ function fixture(state: string, css: string): string {
   writeFileSync(join(root, 'src/pages/demo.ts'), css);
   return root;
 }
+
+describe('colour tokens — literal and emitted declarations are both visible (design-1.21)', () => {
+  test('readColourTokens sees tokens emitted from design-tokens.ts', () => {
+    const tokens = readColourTokens();
+    assert.equal(tokens.get('--ink'), '#241E18'); // literal in canonical-css.ts
+    assert.equal(tokens.get('--red-text'), '#ad4d32'); // emitted (§2.1) — was invisible before
+    assert.equal(tokens.get('--risk-0'), '#0F8663'); // emitted (§2.3)
+    assert.equal(tokens.get('--risk-fg-2'), '#241E18');
+  });
+});
 
 describe('design gates — the per-surface ratchet (§19.1)', () => {
   const bad = 'export const CSS = `\n.x { font-size: 13px; color: #abcdef; }\n`;\n';
@@ -352,5 +363,125 @@ describe('check-color-tokens — data URI colours must stay on the palette (§2.
       assert.equal(d.length, 1, 'only the off-palette colour is reported');
       assert.equal(d[0]?.colour, '#123456');
     } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+});
+
+describe('check-role-color — §4.7 colour column is enforced, not just contrast-checked (design-1.21)', () => {
+  const ROLE_TABLE = [
+    '## §4.7 役割別 早見表',
+    '',
+    '| 役割 | サイズ | 書体 | 字重 | 色 | 備考 |',
+    '|---|---|---|---|---|---|',
+    '| ページ標題 | `--t-h1` | serif | 単一 | `--ink` | |',
+    '| 区画見出し | `--t-h2` | serif | 単一 | `--ink` | |',
+    '| 小区画・カード標題 | `--t-h3` | sans | 700 | `--ink` | |',
+    '| 本文中の行内強調（`strong` / `em`） | `--t-body` | sans | 700 | `--ink` | |',
+    '| **統計数値（大）** | `--t-h1` | serif | 単一 | `--ink` | |',
+    '',
+    '## §4.8 next',
+  ];
+  /** A repo with a ledger, a §4.7 table, a :root with --ink / --fg / --paper, and one CSS file. */
+  function roleFixture(state: string, css: string, table: string[] = ROLE_TABLE): string {
+    const root = mkdtempSync(join(tmpdir(), 'design-role-'));
+    mkdirSync(join(root, 'docs'), { recursive: true });
+    mkdirSync(join(root, 'src/pages'), { recursive: true });
+    mkdirSync(join(root, 'src/lib'), { recursive: true });
+    writeFileSync(
+      join(root, 'docs/DESIGN_CONFORMANCE.md'),
+      [
+        '| surface | 範囲 | ページ数 | 実装 | 状態 | 備考 |',
+        '|---|---|---|---|---|---|',
+        `| \`demo\` | x | 1 | \`demo.ts\` | \`${state}\` | — |`,
+        '',
+        '| surface | 主な対象ファイル |',
+        '|---|---|',
+        '| `demo` | `src/pages/demo.ts` |',
+        '',
+      ].join('\n'),
+    );
+    writeFileSync(join(root, 'docs/Design.md'), table.join('\n'));
+    writeFileSync(
+      join(root, 'src/lib/canonical-css.ts'),
+      'export const CSS = `:root{ --ink: #241E18; --fg: #241E18; --paper: #FFFFFF; --cream: #FAF6EE; --accent-deep: #48705F; }`;\n',
+    );
+    writeFileSync(join(root, 'src/pages/demo.ts'), css);
+    return root;
+  }
+  const wrap = (css: string): string => `export const CSS = \`\n${css}\n\`;\n`;
+
+  test('a heading coloured with a token the role does not name fails on a conformant surface', () => {
+    const root = roleFixture('conformant', wrap('.card h2 { color: var(--accent-deep); margin: 0 }'));
+    try {
+      const v = findRoleColourViolations(root);
+      assert.equal(v.length, 1);
+      assert.equal(v[0]?.role, '区画見出し');
+      assert.equal(v[0]?.expected, '--ink');
+      assert.equal(v[0]?.actual, 'var(--accent-deep)');
+      assert.equal(v[0]?.state, 'conformant');
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('the same rule on a legacy surface is ignored', () => {
+    const root = roleFixture('legacy', wrap('.card h2 { color: var(--accent-deep) }'));
+    try { assert.deepEqual(findRoleColourViolations(root), []); }
+    finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('the role token, a same-hex alias, inherit, and a canvas colour on a dark fill all pass', () => {
+    const root = roleFixture('conformant', wrap([
+      'h1 .accent { color: var(--ink) }',
+      '.sub strong { color: var(--fg); font-weight: 700 }',
+      '.x h3 { color: inherit }',
+      '.cta-band h2 { color: var(--paper) }',
+      '.kpi-row li strong { color: var(--ink) }',
+    ].join('\n')));
+    try { assert.deepEqual(findRoleColourViolations(root), []); }
+    finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('h1 .accent takes the title role; statistics and strong are caught', () => {
+    const root = roleFixture('conformant', wrap([
+      'h1 .accent { color: var(--accent-deep) }',
+      '.kpi-row li strong { display: block; color: var(--accent-deep) }',
+      '.callout strong { color: var(--accent-deep) }',
+    ].join('\n')));
+    try {
+      const roles = findRoleColourViolations(root).map((x) => x.role).sort();
+      // .kpi-row li strong is an exact-selector role (統計数値（大）), so it is one violation, not two.
+      assert.deepEqual(roles, ['ページ標題', '統計数値（大）', '本文中の行内強調（`strong` / `em`）'].sort());
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('links, hover states, kickers, card names and descendants of headings have no row and are not matched', () => {
+    for (const sel of ['a', '.sub a:hover', '.shindan-kicker', '.rg-name', 'h1 .h1-sub', '.four-oh-four .accent', '.faq summary', 'h2 span']) {
+      assert.equal(roleForSelector(sel), null, sel);
+    }
+    const root = roleFixture('conformant', wrap('a { color: var(--accent-deep) } .kicker { color: var(--accent-deep) } h1 .h1-sub { color: var(--ink-meta) }'));
+    try { assert.deepEqual(findRoleColourViolations(root), []); }
+    finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('the table drives the gate: without the inline-emphasis row, strong is unchecked', () => {
+    const noInline = ROLE_TABLE.filter((l) => !l.includes('行内強調'));
+    const root = roleFixture('conformant', wrap('.callout strong { color: var(--accent-deep) } h2 { color: var(--accent-deep) }'), noInline);
+    try {
+      const v = findRoleColourViolations(root);
+      assert.equal(v.length, 1);
+      assert.equal(v[0]?.role, '区画見出し');
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('statistic numbers, raw score values and a heading numeral are roles too', () => {
+    assert.equal(roleForSelector('.aio-idx.idx-t .aio-idx-num'), '統計数値（大）');
+    assert.equal(roleForSelector('.score-num'), '統計数値（大）');
+    assert.equal(roleForSelector('.genre-score'), 'ID・スコア生値');
+    assert.equal(roleForSelector('h2 .num'), '区画見出し');
+    assert.equal(roleForSelector('.card .num'), null);
+  });
+
+  test('only the color property counts — background-color and border-color are not text colour', () => {
+    const root = roleFixture('conformant', wrap('h2 { background-color: var(--accent-deep); border-color: var(--accent-deep) }'));
+    try { assert.deepEqual(findRoleColourViolations(root), []); }
+    finally { rmSync(root, { recursive: true, force: true }); }
   });
 });

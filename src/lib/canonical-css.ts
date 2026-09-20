@@ -88,23 +88,11 @@ export const CANONICAL_CSS = `
   --border: color-mix(in srgb, var(--ink) 10%, transparent);
   --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-  /* 第 3 層 — AI-impact (risk) color scale. SINGLE source for every surface
-     (map tiles, sector nav, distribution bar, risk pills, search, OG cards,
-     detail gradient). Was 7 ad-hoc hardcoded ramps; 2026-05-31. */
-  /* Saturated 5-band: band 0 = lowest impact → band 4 = highest. */
-  --risk-0: #0F8A66;
-  --risk-1: #5BA84F;
-  --risk-2: #D9A03B;
-  --risk-3: #E27A33;
-  --risk-4: #C4422F;
-  /* Soft tints of the same 5-band scale (each ≈ 18% of the saturated color over
-     cream) — for the home distribution bar + pill backgrounds, so the soft
-     surfaces share the scale's hues instead of an unrelated pastel set. */
-  --risk-soft-0: #D0E3D6;
-  --risk-soft-1: #DDE8D1;
-  --risk-soft-2: #F4E7CE;
-  --risk-soft-3: #F6E0CC;
-  --risk-soft-4: #F0D6CC;
+  /* 第 3 層 — AI-impact (risk) color scale: --risk-0..4, --risk-soft-0..4 and
+     the per-band tile foreground --risk-fg-0..4. Declared in
+     src/lib/design-tokens.ts (RISK, §2.3) and emitted below with the other
+     tokens (2026-09-20, design-1.21) — one source for CSS, OG renderers and
+     the inline map/treemap scripts. Was 7 ad-hoc hardcoded ramps; 2026-05-31. */
   /* Pills: soft-tint background (from the scale) + readable dark text. */
   --risk-pill-low-bg: var(--risk-soft-0);  --risk-pill-low-fg: #446a5a;
   --risk-pill-mid-bg: var(--risk-soft-2);  --risk-pill-mid-fg: #826427;
@@ -497,6 +485,16 @@ html body footer.site-footer .footer-legal span {
     justify-content: center;
   }
 }
+/* Design.md §4.7 本文中の行内強調 — em reads like strong: ink, 700, upright.
+   The UA stylesheet makes em italic; the shipped fonts have no italic faces
+   (scripts/subset-fonts.ts emits font-style:normal only), so any italic on
+   this site is a synthesised oblique. Site-wide base; page CSS may not
+   reintroduce font-style:italic (design-1.21). */
+html body em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+}
 html body footer.site-footer .footer-meta {
   color: var(--ink-meta);
   font-size: var(--t-xs);
@@ -514,9 +512,6 @@ html body footer.site-footer .footer-meta em a {
 }
 html body footer.site-footer .footer-meta .nowrap {
   white-space: nowrap;
-}
-html body footer.site-footer .footer-meta em {
-  font-style: italic;
 }
 html body footer.site-footer time {
   font-variant-numeric: tabular-nums;
@@ -1079,7 +1074,6 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-drawer p.mob-drawer-lede {
     font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
     font-size: var(--t-xs);
-    font-style: italic;
     color: var(--fg2);
     line-height: 1.5;
     margin: 0 0 0 17px;  /* align under the dot+title baseline */
@@ -1198,7 +1192,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   flex: 1 1 320px;
 }
 .me-cta-strip p strong {
-  color: var(--accent-deep, #48705F);
+  color: var(--ink);
   font-weight: 600;
 }
 .me-cta-strip a {

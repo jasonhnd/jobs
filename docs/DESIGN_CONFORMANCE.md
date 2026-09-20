@@ -2,7 +2,7 @@
 
 [`Design.md`](Design.md) §20.4 の適合台帳。**surface 単位で規範への適合を宣言し、CI はその surface にのみ規範を強制する。**
 
-対象規範: **Design v1.1**（制定 2026-09-14 / 改訂 2026-09-17）
+対象規範: **Design v1.2**（制定 2026-09-14 / 改訂 2026-09-20）
 
 ## 状態の意味
 
@@ -93,6 +93,14 @@ legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 > 実測は **46 種 → 0 種**、axe の WCAG 2.0/2.1 A+AA 違反は **3 種 → 0 種**。
 >
 > 根本原因は 5 つで、いずれも個々の色の選択ミスではなく仕組みの問題だった。
+>
+> **2026-09-20 追記（design-1.21）。** もう半分の盲点が残っていた。`check-contrast` は
+> 「その色のコントラストが足りるか」しか見ず、「その役割にその色を使ってよいか」は
+> 見ていない。§4.7 が `--ink` と定める見出し・`h1 .accent`・`strong`/`em`・統計数値の
+> **82 箇所**が `--accent-deep` / `--orange-hot` / `--fg2` / 生 hex で塗られたまま緑だった
+> （`/` の統計「高影響職業の賃金 105.7兆」が安全緑、など）。`check-role-color` を新設し、
+> §4.7 の役割 → トークンの対応を CSS 実装と照合する。canvas 内の文字（`/` の treemap）は
+> 引き続きどのゲートにも見えない — §5.7 のオーナー裁定を参照。
 >
 > 1. **文字への `opacity`** — `--fg2` は cream で 4.57 と余裕が無く、`opacity: .92`
 >    でも契約を割る。§2.2 の表は alpha を掛けた後の色を見られない。ページ側に複製
@@ -496,3 +504,8 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-15 | `detail` | 556 ページ。ページ側見出し規則 10 件除去、`font-weight` 800/900/500 を 19 箇所是正（§4.5）、**12px 未満 24 種を是正**（最小は `.aio-tag` 8.06px）、**`--ink-3` の文字利用 31 箇所を `--ink-meta` へ**（§2.2 で `--ink-3` は Display/H1 のみ）、`--orange` のテキスト利用と `--cream-2` 上の `--orange-hot` を是正。ヒーロー統計は主 `--t-h1` / 次 `--t-h3`（オーナー裁定）。`legacy` → `conformant`（#530） |
 | 2026-09-15 | `hub` + `sector` | ~54 ルート。ページ側見出し規則 7 件除去（`Hub.ts` 3 / `answers/index` 1 / `_sector-css` 3）、73 箇所を役割別トークン化、角丸を §8.2 へ。**第 2 層 alias は 1 箇所も置換していない**（使用箇所数の前後比較で検証）。`legacy` → `conformant`（#529） |
 | 2026-09-15 | `doc` + `static` | 等幅を `var(--font-mono)` に統一（`/aiadoption` は UA 既定 monospace = Osaka に落ちていた。CDP `getPlatformFontsForNode` で実測・是正）。`CANONICAL_STATIC_CSS` を 3 ページへ配線（§6.5.1）、`/about` を Static の範囲から除外（§6.5.3）、H3 以下のセリフを廃止（§4.4）、12px 未満 3 箇所を是正、73 箇所を役割別トークン化。`legacy` → `conformant`（#528） |
+| 2026-09-20 | canon + `tokens` | **design-1.21（第 2 回レビュー）。** §4.7 に行内強調行、§2.3 `--risk-0` → `#0F8663` + タイル前景列、§5.7 に `/` canvas のオーナー裁定、§21.2 に risk 15 トークン（`canonical-css.ts` の字面宣言から移動）。版番号は据え置き（オーナー裁定）。§20.2 表・§0・台帳ヘッダの版号漂移 3 箇所を是正 |
+| 2026-09-20 | `interactive` `og` `feature` | 調色板の硬編碼 7 箇所 → トークン（OG ×2、`/map` 凡例、inline script ×2 は `:root` から読む、`/` 地図プレビュー SVG の fill 31 個）。`/map` のタイル前景は `--risk-fg-N` |
+| 2026-09-20 | `feature`（`/`） | canvas treemap: `fmtRisk` を `banker-round.ts` の移植に（556 中 439 タイルが生の浮動小数を表示していた）、ラベルを段別前景色に（白 0.92 は band 2 で 2.18:1）、`:has()` の裏に隠れていた `.num`/`.denom` を削除。375px で 192px はみ出していた 今月の変動 第 2 列を `min-width:0` で収容 |
+| 2026-09-20 | 全 surface | §4.7 が `--ink` と定める **82 箇所**を是正（`h1 .accent` 19 / 見出し 24 / `strong`・`em` 25 / 統計 2 / FAQ 1 ほか。`--accent-deep`・`--orange-hot`・`--fg2`・生 hex）。合成斜体 18 箇所を全廃。`.risk-pill` の生 `12px` 角丸 6 箇所 → `--r-md`。movers 文言を「仕事が減るリスク」へ |
+| 2026-09-20 | ゲート | `check-role-color` 新設・`verify:gates` へ接続。§4.7 の役割 → トークンを CSS 実装と照合（`check-contrast` の残り半分） |

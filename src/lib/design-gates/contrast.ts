@@ -76,12 +76,20 @@ export function requiredRatio(px: number, weight: number, family: 'serif' | 'san
   return px >= 24 || boldAllowance ? 3.0 : 4.5;
 }
 
-/** Hex values live in canonical-css.ts's :root (§18.4 — the only one). */
+/**
+ * Hex values live in canonical-css.ts's :root (§18.4 — the only one) — either
+ * written there literally, or emitted into it from design-tokens.ts. Both are
+ * read: until 2026-09-20 only the literal ones were, so `--red-text` (the
+ * エラー文 role, declared in the module) was silently skipped by check-contrast.
+ */
 export function readColourTokens(root: string = process.cwd()): Map<string, string> {
   const css = readFileSync(join(root, 'src/lib/canonical-css.ts'), 'utf-8');
   const out = new Map<string, string>();
   for (const m of css.matchAll(/(--[a-z0-9-]+):\s*(#[0-9a-fA-F]{3,6})\s*;/g)) {
     out.set(m[1] ?? '', m[2] ?? '');
+  }
+  for (const [name, value] of Object.entries(DESIGN_TOKENS)) {
+    if (/^#[0-9a-fA-F]{3,6}$/.test(value) && !out.has(name)) out.set(name, value);
   }
   return out;
 }
