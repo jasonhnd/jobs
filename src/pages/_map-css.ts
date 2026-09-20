@@ -412,7 +412,6 @@ export const MAP_PAGE_CSS = `
     footer {
       max-width: var(--content-max); margin: 40px auto 0;
       padding: 24px 16px 40px;
-      border-top: 1px solid var(--border);
       font-size: var(--t-xs);
     }
     .footer-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
