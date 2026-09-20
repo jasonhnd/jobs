@@ -6,9 +6,10 @@
  */
 export const AI_ADOPTION_CSS = `
 .ai-adoption-page {
+  box-sizing: border-box; /* the gutter is inside the column, like every other wrapper */
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 28px 20px 84px;
+  padding: 28px var(--s-5) 84px;
   color: var(--fg);
 }
 

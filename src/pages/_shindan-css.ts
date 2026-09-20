@@ -22,7 +22,7 @@ button,input{font:inherit}
   --shindan-radius:8px;
   max-width:var(--content-max);
   margin:0 auto;
-  padding:28px 24px 84px;
+  padding:28px var(--s-5) 84px;
 }
 .shindan-crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
 .shindan-crumb a{color:var(--fg2)}
