@@ -157,17 +157,17 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     /* AI risk detail (rendered if rationale_long_ja data exists; usually empty for now) */
     .ai-risk-detail{background:var(--paper);border:1px solid var(--line-strong);border-radius:14px;padding:20px 22px;margin:14px 0 22px;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
     @media (min-width:900px){.ai-risk-detail{max-width:var(--content-max);margin-left:auto;margin-right:auto;padding:28px 32px}}
-    .ai-risk-detail h2{color:var(--orange-hot);margin:0 0 12px}
+    .ai-risk-detail h2{color:var(--ink);margin:0 0 12px}
     @media (min-width:900px){.ai-risk-detail h2{margin:0 0 16px}}
     .ai-risk-detail .ai-rationale-long{font-family:var(--font-serif);font-size:var(--t-body);line-height:1.85;color:var(--ink-2);margin:0 0 18px}
     @media (min-width:900px){.ai-risk-detail .ai-rationale-long{line-height:1.95}}
     .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px}
     @media (min-width:768px){.ai-risk-detail .ai-task-grid{grid-template-columns:1fr 1fr;gap:24px}}
-    .ai-risk-detail .ai-task-block h3{letter-spacing:0.06em;text-transform:uppercase;color:var(--green-deep);margin:0 0 8px}
+    .ai-risk-detail .ai-task-block h3{letter-spacing:0.06em;text-transform:uppercase;color:var(--ink);margin:0 0 8px}
     .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:var(--t-sm);line-height:1.7;color:var(--ink-2);font-family:var(--font-serif)}
     .ai-risk-detail .ai-task-block li{margin-bottom:5px}
     .ai-risk-detail .ai-horizon{font-size:var(--t-sm);line-height:1.7;color:var(--ink-meta);margin:0;padding-top:14px;border-top:1px solid var(--line);font-family:var(--font-serif)}
-    .ai-risk-detail .ai-horizon strong{color:var(--green-deep);font-weight:700}
+    .ai-risk-detail .ai-horizon strong{color:var(--ink);font-weight:700}
 
     /* Stat grid (was dl.stats) — 2x2 mobile, 4-col desktop. Trimmed: drop 求人倍率 / 時給 hidden later via JS or kept. */
     dl.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 0;padding:0;background:transparent;border:none;list-style:none;grid-auto-rows:1fr}
@@ -220,7 +220,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:900px){.topn-grid{grid-template-columns:1.4fr 1fr 1fr;gap:18px}}
     .topn-block{background:var(--paper);border-radius:14px;padding:16px 18px;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04);border:1px solid rgba(0,0,0,0.04)}
     @media (min-width:900px){.topn-block{padding:20px 22px}}
-    .topn-block h3{color:var(--orange-hot);margin:0 0 10px;font-style:normal}
+    .topn-block h3{color:var(--ink);margin:0 0 10px;font-style:normal}
     @media (min-width:900px){.topn-block h3{margin:0 0 14px}}
     .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
     .topn-block li{counter-increment:rank;display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dotted var(--line-strong);font-size:var(--t-sm)}
@@ -231,7 +231,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
 
     /* Transfer (転職先候補) — restyled .transfer-card to look like unified occ-card */
     section.transfer{margin-top:26px}
-    section.transfer > h2{color:var(--green-deep)}
+    section.transfer > h2{color:var(--ink)}
     .transfer-grid{display:grid;grid-template-columns:1fr;gap:8px;margin:0}
     @media (min-width:768px){.transfer-grid{grid-template-columns:1fr 1fr;gap:12px}}
     .transfer-card{display:block;padding:14px 16px;background:var(--paper);border-radius:12px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.05);text-decoration:none;color:inherit;transition:transform 0.18s ease,box-shadow 0.18s ease,border-color 0.18s ease}
@@ -276,7 +276,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
        width instead of being stranded at half; two blocks still split 50/50. */
     @media (min-width:768px){.org-cert-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}}
     .org-cert-block{background:var(--paper);border:1px solid var(--line-strong);border-radius:12px;padding:16px 18px}
-    .org-cert-block h3{color:var(--orange-hot);margin:0 0 10px}
+    .org-cert-block h3{color:var(--ink);margin:0 0 10px}
     .org-list,.cert-list{list-style:none;padding:0;margin:0}
     .org-list li{padding:5px 0;font-size:var(--t-sm);color:var(--ink);border-bottom:1px dashed var(--line-strong)}
     .org-list li:last-child{border-bottom:none}

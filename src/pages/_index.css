@@ -357,7 +357,7 @@
           text-decoration: none;
         }
         .home-movers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; }
-        .home-movers h3 { margin: 0 0 4px; color: var(--fg2); }
+        .home-movers h3 { margin: 0 0 4px; color: var(--ink); }
         .home-movers ol { list-style: none; margin: 0; padding: 0; }
         .home-movers li { display: flex; justify-content: space-between; gap: 8px; font-size: var(--t-sm); padding: 3px 0; }
         /* Grid items default to min-width:auto, so a nowrap name inside a
@@ -594,7 +594,7 @@
         color: var(--fg2);
       }
       .page-banner .h1-sub strong {
-        color: var(--orange-hot);
+        color: var(--ink);
         font-weight: 600;
       }
       .page-banner .byline {
@@ -744,7 +744,7 @@
       }
       .disclaimer p { margin: 0; }
       .disclaimer p + p { margin-top: 10px; }
-      .disclaimer strong { color: #ffb84d; font-weight: 600; }
+      .disclaimer strong { color: var(--ink); font-weight: 600; }
       .usage-notice {
         margin: 24px 0 0;
         padding: 16px 18px;
@@ -1067,7 +1067,7 @@
         box-shadow: 0 1px 4px rgba(192, 65, 30, 0.28);
       }
       .top-banner .banner-text strong {
-        color: var(--orange-hot);
+        color: var(--ink);
         font-weight: 700;
       }
       .visually-hidden {
@@ -1195,7 +1195,7 @@
       }
       .desktop-hero-utility .dh-brand em {
         font-style: normal;
-        color: var(--ink-meta);
+        color: var(--ink);
       }
       .desktop-hero-utility .lang-switch {
         margin-left: auto;
@@ -1210,7 +1210,7 @@
         margin: 0 0 14px;
         letter-spacing: -0.01em;
       }
-      .desktop-hero h1.dh-title .acc { color: var(--orange-hot); }
+      .desktop-hero h1.dh-title .acc { color: var(--ink); }
       .desktop-hero .dh-lead {
         color: var(--fg2);
         font-size: var(--t-h3);
@@ -1969,7 +1969,7 @@
       }
       .hub-subgroup-title em {
         font-style: normal;
-        color: var(--ink-meta);
+        color: var(--ink);
         font-size: var(--t-xs);
         margin-left: 6px;
         font-variant-numeric: tabular-nums;
@@ -2165,7 +2165,7 @@
       .follow-cta .follow-text strong {
         font-size: var(--t-body);
         font-weight: 700;
-        color: #1a1206;
+        color: var(--ink);
       }
       .follow-cta .follow-text small {
         font-size: var(--t-xs);
