@@ -97,7 +97,7 @@ legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 > **2026-09-20 追記（design-1.21）。** もう半分の盲点が残っていた。`check-contrast` は
 > 「その色のコントラストが足りるか」しか見ず、「その役割にその色を使ってよいか」は
 > 見ていない。§4.7 が `--ink` と定める見出し・`h1 .accent`・`strong`/`em`・統計数値の
-> **77 箇所**が `--accent-deep` / `--orange-hot` / `--fg2` / 生 hex で塗られたまま緑だった
+> **82 箇所**が `--accent-deep` / `--orange-hot` / `--fg2` / 生 hex で塗られたまま緑だった
 > （`/` の統計「高影響職業の賃金 105.7兆」が安全緑、など）。`check-role-color` を新設し、
 > §4.7 の役割 → トークンの対応を CSS 実装と照合する。canvas 内の文字（`/` の treemap）は
 > 引き続きどのゲートにも見えない — §5.7 のオーナー裁定を参照。
@@ -507,5 +507,5 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-20 | canon + `tokens` | **design-1.21（第 2 回レビュー）。** §4.7 に行内強調行、§2.3 `--risk-0` → `#0F8663` + タイル前景列、§5.7 に `/` canvas のオーナー裁定、§21.2 に risk 15 トークン（`canonical-css.ts` の字面宣言から移動）。版番号は据え置き（オーナー裁定）。§20.2 表・§0・台帳ヘッダの版号漂移 3 箇所を是正 |
 | 2026-09-20 | `interactive` `og` `feature` | 調色板の硬編碼 7 箇所 → トークン（OG ×2、`/map` 凡例、inline script ×2 は `:root` から読む、`/` 地図プレビュー SVG の fill 31 個）。`/map` のタイル前景は `--risk-fg-N` |
 | 2026-09-20 | `feature`（`/`） | canvas treemap: `fmtRisk` を `banker-round.ts` の移植に（556 中 439 タイルが生の浮動小数を表示していた）、ラベルを段別前景色に（白 0.92 は band 2 で 2.18:1）、`:has()` の裏に隠れていた `.num`/`.denom` を削除。375px で 192px はみ出していた 今月の変動 第 2 列を `min-width:0` で収容 |
-| 2026-09-20 | 全 surface | §4.7 が `--ink` と定める **77 箇所**を是正（`h1 .accent` 19 / 見出し 24 / `strong`・`em` 25 / 統計 2 / FAQ 1 ほか。`--accent-deep`・`--orange-hot`・`--fg2`・生 hex）。合成斜体 18 箇所を全廃。`.risk-pill` の生 `12px` 角丸 6 箇所 → `--r-md`。movers 文言を「仕事が減るリスク」へ |
+| 2026-09-20 | 全 surface | §4.7 が `--ink` と定める **82 箇所**を是正（`h1 .accent` 19 / 見出し 24 / `strong`・`em` 25 / 統計 2 / FAQ 1 ほか。`--accent-deep`・`--orange-hot`・`--fg2`・生 hex）。合成斜体 18 箇所を全廃。`.risk-pill` の生 `12px` 角丸 6 箇所 → `--r-md`。movers 文言を「仕事が減るリスク」へ |
 | 2026-09-20 | ゲート | `check-role-color` 新設・`verify:gates` へ接続。§4.7 の役割 → トークンを CSS 実装と照合（`check-contrast` の残り半分） |

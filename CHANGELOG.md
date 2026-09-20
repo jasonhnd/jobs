@@ -26,7 +26,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Fixed
 
-- **77 headings, title accents, inline emphases and statistics were coloured
+- **82 headings, title accents, inline emphases and statistics were coloured
   against §4.7** — safety-green (`--accent-deep`), hot orange, dimmed `--fg2`
   or raw hex where the canon says ink. Includes the homepage KPI 「高影響職業の
   賃金 105.7兆」 in green, the detail template's orange section headings, and a
