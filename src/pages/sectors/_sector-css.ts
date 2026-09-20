@@ -34,7 +34,7 @@ ${AI_FACT_CSS}
 .top-list a{color:var(--fg);text-decoration:none;font-weight:600}
 .top-list a:hover{color:var(--accent-deep);text-decoration:underline}
 .top-list .meta{color:var(--fg2);font-size:var(--t-sm);white-space:nowrap;font-variant-numeric:tabular-nums}
-.risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums;margin-right:8px}
+.risk-pill{display:inline-block;padding:2px 10px;border-radius:var(--r-md);font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums;margin-right:8px}
 .risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
 .risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
 .risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
@@ -72,10 +72,10 @@ section.faq{margin:48px 0}
 @media (max-width:600px){.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{padding:14px 16px;padding-right:38px}}
 /* Phase 2: AI 時代の特性 essay + データから見えるパターン */
 .ai-era-essay{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:32px 0}
-.ai-era-essay h2{color:var(--orange-hot);margin:0 0 14px;padding:0;border:none}
+.ai-era-essay h2{color:var(--ink);margin:0 0 14px;padding:0;border:none}
 .ai-era-essay p{font-size:var(--t-body);line-height:1.85;color:var(--fg);margin:0}
 .patterns{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:32px 0}
-.patterns h2{color:var(--accent-deep);margin:0 0 16px;padding:0;border:none}
+.patterns h2{color:var(--ink);margin:0 0 16px;padding:0;border:none}
 .ai-distribution{margin-bottom:18px}
 .ai-dist-bar{display:flex;height:18px;border-radius:4px;overflow:hidden;margin-bottom:10px;background:var(--bg3)}
 .ai-dist-bar span{display:block;height:100%}
@@ -90,11 +90,11 @@ section.faq{margin:48px 0}
 .ai-dist-legend strong{color:var(--fg);font-variant-numeric:tabular-nums}
 .pattern-observations{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:8px}
 .pattern-observations li{padding:10px 14px;background:var(--bg3);border-radius:4px;font-size:var(--t-sm);color:var(--fg);line-height:1.65}
-.pattern-observations li strong{color:var(--accent-deep)}
+.pattern-observations li strong{color:var(--ink);font-weight:700}
 @media (max-width:600px){.ai-dist-legend{gap:8px}}
 header{margin-bottom:16px;padding-bottom:14px}
 .sec-list-sec{margin:8px 0 28px}
-.sec-list-sec h2{color:var(--fg2);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;word-break:keep-all;overflow-wrap:anywhere}
+.sec-list-sec h2{color:var(--ink);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;word-break:keep-all;overflow-wrap:anywhere}
 .chap-body .stats{margin:16px 0}
 .chap-body .ai-fact{margin-bottom:16px}
 .chap-body .ai-era-essay{margin:16px 0;padding:16px 18px}

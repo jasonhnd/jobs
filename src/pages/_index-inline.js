@@ -4,12 +4,34 @@
       // follow-up. `name_en` is kept on the data side for analytics event
       // payloads + alternate-name search.
       const lang = "ja";
-      // One decimal, matching displayScore() on the server. This runs in the
-      // browser and cannot import src/lib/score-format.ts, so the rule is
-      // restated. Used by the search fallback list.
+      // One decimal, matching displayScore() on the server — banker's rounding
+      // over the exact stored double, ported from src/data/lib/banker-round.ts
+      // (this deferred script cannot import it). `Math.round(n*10)/10` and
+      // `toFixed(1)` are half-away-from-zero and add float-multiply error, so
+      // they were NOT the same rule; that is why 8.366666666666667 must go
+      // through here and nowhere else. Used by the treemap tile sub-info, the
+      // TOP10 pill and the search fallback list.
       function fmtRisk(v) {
         const n = Number(v);
-        return Number.isFinite(n) ? String(Math.round(n * 10) / 10) : "0";
+        if (!Number.isFinite(n)) return "0";
+        const sign = n < 0 ? "-" : "";
+        const wide = Math.abs(n).toFixed(18); // 1 + 17 digits disambiguates any double
+        const dot = wide.indexOf(".");
+        if (dot === -1) return String(n);
+        const intStr = wide.slice(0, dot);
+        const frac = wide.slice(dot + 1);
+        const keep = frac.charAt(0);
+        const decisive = frac.charAt(1);
+        const tail = frac.slice(2);
+        let roundUp;
+        if (decisive < "5") roundUp = false;
+        else if (decisive > "5") roundUp = true;
+        else if (/[1-9]/.test(tail)) roundUp = true;
+        else roundUp = Number(keep) % 2 !== 0; // genuine halfway → round to even
+        const truncated = Number(sign + intStr + "." + keep);
+        if (!roundUp) return String(truncated);
+        const inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
+        return String(Number(inc.toFixed(1)));
       }
       let layer = "ai_risk";
       let palette = "redgreen"; // or "viridis"
@@ -177,13 +199,22 @@
       // bright red). Synced with /map's RISK_PALETTE so the homepage hero
       // treemap, mobile preview, and the dedicated map page all look the same.
       // User feedback: the vivid (15,195,105)→(235,40,55) ramp was 刺眼.
-      const MAP_PALETTE_STOPS = [
-        [15, 138, 102],   // #0F8A66 muted dark green (low risk)
-        [91, 168, 79],    // #5BA84F sage
-        [217, 160, 59],   // #D9A03B amber
-        [226, 122, 51],   // #E27A33 burnt orange
-        [196, 66, 47],    // #C4422F terracotta red (high risk)
-      ];
+      // Design.md §2.3 — the five band colours (and the per-band label
+      // foreground, --risk-fg-N) come from the :root tokens canonical-css.ts
+      // emits from design-tokens.ts. This deferred script cannot import the
+      // module, so it reads the computed values once at start.
+      function readRootToken(name, fallback) {
+        const v = window.getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        if (!v && typeof console !== "undefined") console.warn("[home] " + name + " is not defined on :root");
+        return v || fallback;
+      }
+      function hexToRgb(hex) {
+        const h = hex.replace("#", "");
+        const f = h.length === 3 ? h.split("").map(c => c + c).join("") : h;
+        return [0, 2, 4].map(i => parseInt(f.slice(i, i + 2), 16));
+      }
+      const MAP_PALETTE_STOPS = [0, 1, 2, 3, 4].map(i => hexToRgb(readRootToken("--risk-" + i, "#888888")));
+      const MAP_LABEL_FG = [0, 1, 2, 3, 4].map(i => readRootToken("--risk-fg-" + i, "#FFFFFF"));
       // Discrete 5-bucket palette — matches /map's colorForRisk(risk) exactly:
       //   risk 0-2 → stop 0 (dark green)
       //   risk 2-4 → stop 1 (sage)
@@ -193,15 +224,41 @@
       // Was previously interpolating between stops + boostContrast + alpha 0.85
       // which produced muddy brown/olive midtones absent from /map's flat blocks.
       // User wants the two pages to look identical — switching to flat discrete.
-      function mapPaletteCSS(t, alpha) {
+      // t ∈ [0,1] → band 0..4, the same cut points as /map's bandForRisk
+      // (risk ≤2 / ≤4 / ≤6 / ≤8 / else). Fill and label colour both go
+      // through here so a tile can never get a mismatched pair.
+      function bandForT(t) {
         t = clamp(t);
-        let stop;
-        if (t < 0.2) stop = MAP_PALETTE_STOPS[0];
-        else if (t < 0.4) stop = MAP_PALETTE_STOPS[1];
-        else if (t < 0.6) stop = MAP_PALETTE_STOPS[2];
-        else if (t < 0.8) stop = MAP_PALETTE_STOPS[3];
-        else stop = MAP_PALETTE_STOPS[4];
+        if (t < 0.2) return 0;
+        if (t < 0.4) return 1;
+        if (t < 0.6) return 2;
+        if (t < 0.8) return 3;
+        return 4;
+      }
+      function mapPaletteCSS(t, alpha) {
+        const stop = MAP_PALETTE_STOPS[bandForT(t)];
         return `rgba(${stop[0]},${stop[1]},${stop[2]},${alpha})`;
+      }
+      // WCAG 2.1 relative luminance / contrast, for the palettes the §2.3
+      // table does not cover (viridis toggle, the grey no-data tile).
+      function relLum(rgb) {
+        const f = c => { const s = c / 255; return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4); };
+        return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]);
+      }
+      function contrastRatio(a, b) {
+        const la = relLum(a), lb = relLum(b);
+        return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+      }
+      // Label foreground for a tile. Map palette: the §2.3 token for the band
+      // (white on bands 0/4, --ink on 1/2/3 — 4.5:1 by construction). Any other
+      // fill: whichever of white / --ink contrasts more with the drawn colour.
+      function tileLabelFg(d) {
+        const t = layerT(d);
+        if (t != null && palette !== "viridis") return MAP_LABEL_FG[bandForT(t)];
+        const m = tileColorCSS(d, 1).match(/(\d+),\s*(\d+),\s*(\d+)/);
+        const fill = m ? [Number(m[1]), Number(m[2]), Number(m[3])] : [120, 120, 120];
+        const white = MAP_LABEL_FG[0], ink = MAP_LABEL_FG[1];
+        return contrastRatio(fill, hexToRgb(white)) >= contrastRatio(fill, hexToRgb(ink)) ? white : ink;
       }
       function greenRedCSSDark(t, alpha) { return mapPaletteCSS(t, alpha); }
       function greenRedCSSLight(t, alpha) { return mapPaletteCSS(t, alpha); }
@@ -352,7 +409,7 @@
           if (idx < 0) return "";
           return EDU_LABELS[idx];
         }
-        if (layer === "ai_risk") return d.ai_risk != null ? d.ai_risk + "/10" : "";
+        if (layer === "ai_risk") return d.ai_risk != null ? fmtRisk(d.ai_risk) + "/10" : "";
         return "";
       }
 
@@ -386,13 +443,19 @@
             ctx.save(); ctx.beginPath(); ctx.rect(rx + 3, ry + 2, rw - 6, rh - 4); ctx.clip();
             const fontSize = Math.min(fontMax, Math.max(fontMin, Math.min(rw / 8, rh / 3)));
             ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
-            ctx.fillStyle = "rgba(255,255,255,0.92)";
+            // Design.md §2.3 タイル前景 / §2.2: the label is text on the tile's
+            // own colour and needs 4.5:1 — opaque, per band (white on the two
+            // dark ends, --ink on the three light-to-mid bands), same rule as
+            // /map. The sub-info line is text too, so it gets the same colour
+            // and is told apart by size and weight only.
+            const labelFg = tileLabelFg(r);
+            ctx.fillStyle = labelFg;
             ctx.textBaseline = "top";
             const label = r.name_ja;
             ctx.fillText(label, rx + 4, ry + 3);
             if (rh > subInfoMinH && rw > subInfoMinW) {
               ctx.font = `400 ${Math.max(fontMin - 1, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
-              ctx.fillStyle = "rgba(255,255,255,0.55)";
+              ctx.fillStyle = labelFg;
               ctx.fillText(tileSubInfo(r), rx + 4, ry + 3 + fontSize + 2);
             }
             ctx.restore();
@@ -1750,7 +1813,7 @@
           const display = nameJa || nameEn;
           const sub = nameEn;
           const score = (rec.ai_risk != null) ? Number(rec.ai_risk) : 0;
-          const scoreLabel = (rec.ai_risk != null) ? score.toFixed(1) : "—";
+          const scoreLabel = (rec.ai_risk != null) ? fmtRisk(rec.ai_risk) : "—";
           const rationaleRaw = rec.ai_rationale_ja || "";
           const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
           const sValue = fmtSalary(rec.salary);
@@ -1763,8 +1826,6 @@
                 (sub ? '<span class="m-top10-card-name-en">' + escapeHtml(sub) + '</span>' : "") +
               '</div>' +
               '<div class="m-top10-card-score">' +
-                '<span class="num">' + score + '</span>' +
-                '<span class="denom">/ 10</span>' +
                 '<span class="risk-pill ' + pillBand(score) + '">' + scoreLabel + '/10</span>' +
                 '<span class="m-top10-card-tag">' + escapeHtml(tag) + '</span>' +
               '</div>' +

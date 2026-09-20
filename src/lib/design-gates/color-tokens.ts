@@ -13,6 +13,7 @@
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { DESIGN_TOKENS } from '../design-tokens.js';
 import { readLedger, surfaceStateFor, type SurfaceState } from './ledger.js';
 import { isUnassigned, stripComments, walkSource } from './scan.js';
 
@@ -73,11 +74,19 @@ function paletteByRgb(root: string): Map<string, string> {
     paletteCache.set(root, m);
     return m;
   }
-  for (const hit of css.matchAll(/(--[a-z0-9-]+):\s*(#[0-9a-fA-F]{3,6})\s*;/g)) {
-    let h = (hit[2] ?? '').replace('#', '');
+  const add = (name: string, hex: string): void => {
+    let h = hex.replace('#', '');
     if (h.length === 3) h = [...h].map((c) => c + c).join('');
     const key = [0, 2, 4].map((i) => Number.parseInt(h.slice(i, i + 2), 16)).join(',');
-    if (!m.has(key)) m.set(key, hit[1] ?? '');
+    if (!m.has(key)) m.set(key, name);
+  };
+  for (const hit of css.matchAll(/(--[a-z0-9-]+):\s*(#[0-9a-fA-F]{3,6})\s*;/g)) {
+    add(hit[1] ?? '', hit[2] ?? '');
+  }
+  // Tokens emitted into :root from design-tokens.ts (--red-text, --risk-*) are
+  // part of the palette too; they are not literal in the file's text.
+  for (const [name, value] of Object.entries(DESIGN_TOKENS)) {
+    if (/^#[0-9a-fA-F]{3,6}$/.test(value)) add(name, value);
   }
   paletteCache.set(root, m);
   return m;

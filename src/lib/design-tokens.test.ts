@@ -45,6 +45,22 @@ const CANON: Record<string, string> = {
   '--font-mono': 'ui-monospace, SFMono-Regular, Menlo, monospace',
   // §2.1 AA-safe negative text
   '--red-text': '#ad4d32',
+  // §2.3 AI-impact scale (added 2026-09-20)
+  '--risk-0': '#0F8663',
+  '--risk-1': '#5BA84F',
+  '--risk-2': '#D9A03B',
+  '--risk-3': '#E27A33',
+  '--risk-4': '#C4422F',
+  '--risk-soft-0': '#D0E3D6',
+  '--risk-soft-1': '#DDE8D1',
+  '--risk-soft-2': '#F4E7CE',
+  '--risk-soft-3': '#F6E0CC',
+  '--risk-soft-4': '#F0D6CC',
+  '--risk-fg-0': '#FFFFFF',
+  '--risk-fg-1': '#241E18',
+  '--risk-fg-2': '#241E18',
+  '--risk-fg-3': '#241E18',
+  '--risk-fg-4': '#FFFFFF',
   // §8.1 spacing
   '--s-1': '4px',
   '--s-2': '8px',
