@@ -30,7 +30,7 @@ const jsonLd = renderGeoAnswerIndexJsonLd(facts);
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={CANONICAL_HUB_CSS} />
   <style slot="head">
-    .answers-wrap{max-width:var(--content-max);margin:0 auto;padding:32px var(--s-5) 56px}
+    .answers-wrap{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 56px}
     .crumb{font-size:var(--t-sm);margin-bottom:22px;color:var(--fg2)}
     .crumb a{color:inherit}
     h1{line-height:1.15;margin:0 0 14px;color:var(--fg)}
@@ -45,7 +45,7 @@ const jsonLd = renderGeoAnswerIndexJsonLd(facts);
     .sop-related a{color:var(--accent-deep)}
     .meta{display:flex;flex-wrap:wrap;gap:10px}
     .meta span{border:1px solid var(--border);background:var(--bg2);border-radius:6px;padding:8px 10px;color:var(--fg2);font-size:var(--t-sm)}
-    @media (max-width:640px){.answers-wrap{padding:24px 16px 44px}}
+    @media (max-width:599px){.answers-wrap{padding:24px var(--gutter) 44px}}
   </style>
 
   <article class="answers-wrap">

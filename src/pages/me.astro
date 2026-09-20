@@ -126,7 +126,7 @@ const jsonLd = JSON.stringify({
        against cream (--bg #FAF6EE) used everywhere else. */
     html { font-size: 16px; }
     body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; line-height: 1.75; }
-    .me-wrapper { max-width: var(--content-max); margin: 0 auto; padding: 32px var(--s-5) 80px; }
+    .me-wrapper { max-width: var(--content-max); margin: 0 auto; padding: 32px var(--gutter) 80px; }
     .me-crumb { font-size:var(--t-sm); color: var(--fg2); margin-bottom: 24px; }
     .me-crumb a { color: var(--fg2); }
     .me-crumb span[aria-hidden] { margin: 0 8px; color: var(--fg3); }
@@ -363,8 +363,8 @@ const jsonLd = JSON.stringify({
     .me-no-occ-entry { margin: 14px 0 0; font-size:var(--t-sm); }
     .me-no-occ-entry a { color: var(--fg2); }
     .me-no-occ-entry a:hover { color: var(--accent-deep); }
-    @media (max-width: 600px) {
-      .me-wrapper { padding: 20px 16px 60px; }
+    @media (max-width: 599px) {
+      .me-wrapper { padding: 20px var(--gutter) 60px; }
       .me-search-input { padding: 0 16px; background-image: none; }
       .me-rank-list li { grid-template-columns: 1fr auto; }
       .me-summary-head .me-name { font-size:var(--t-h2); }

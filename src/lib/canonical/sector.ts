@@ -20,7 +20,7 @@ a:hover{color:var(--orange-hot)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 
 /* Sector class layout: shared content-column width, same as Hub class */
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--s-5) 80px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 80px}
 
 /* Breadcrumb */
 .crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
@@ -46,5 +46,5 @@ section{margin:48px 0}
 h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
 /* Sector class mobile: tighten + reflow h1 */
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}}
+@media (max-width:599px){#wrapper{padding:20px var(--gutter) 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}}
 `;
