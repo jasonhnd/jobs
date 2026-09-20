@@ -94,7 +94,7 @@ label truncation kept (§5.7 ruling); no `check-radius`.
 - `/` treemap: `fmtRisk` is now a port of `banker-round.ts` (439/556 tiles
   printed raw floats); labels in `--risk-fg-N`; dead `.num`/`.denom` gone.
 - `/` 375px: 今月の変動 second column sat 192px off-screen — `min-width:0`.
-- colours: 77 declarations §4.7 assigns to `--ink` (h1 .accent 19, headings 24,
+- colours: 82 declarations §4.7 assigns to `--ink` (h1 .accent 19, headings 24,
   strong/em 25, statistics 2, FAQ 1, …) stop using `--accent-deep` /
   `--orange-hot` / `--fg2` / raw hex. 18 synthetic italics removed. 6 pill
   radii → `var(--r-md)`. Movers labels → 「仕事が減るリスクが上がった／下がった職業」.
