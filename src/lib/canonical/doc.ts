@@ -74,7 +74,7 @@ html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.75}
 
 /* ── Layout: single content column, aligns with nav + footer edge ── */
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:28px 28px 88px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:28px var(--s-5) 88px}
 .doc-prose{max-width:74ch}
 
 /* ── Breadcrumb ── */

@@ -643,10 +643,13 @@ html body nav.top-nav {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 14px;
-  /* Full-bleed sticky bar, but the brand + links align to the same centered
-     content column as the page body (no inner wrapper needed). On viewports
-     narrower than --content-max the max() floor keeps a 20px gutter. */
-  padding: 11px max(20px, calc((100% - var(--content-max)) / 2));
+  /* Full-bleed sticky bar, but the brand + links align to the TEXT edge of
+     the centered content column: column edge + the --s-5 gutter every page
+     wrapper uses (§9.1). Until 2026-09-20 the nav sat on the column's outer
+     edge while page text started 20–32px further in, so the brand and the
+     first line of every page were visibly out of line. On viewports narrower
+     than --content-max the max() floor keeps the same --s-5 gutter. */
+  padding: 11px max(var(--s-5), calc((100% - var(--content-max)) / 2 + var(--s-5)));
   background: rgba(252, 248, 241, 0.92);
   backdrop-filter: saturate(140%) blur(8px);
   -webkit-backdrop-filter: saturate(140%) blur(8px);
