@@ -10,7 +10,37 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Changed
+
+- **Design canon (still v1.2)** — §4.7 gains a row for inline emphasis
+  (`strong` / `em`: ink, 700, no italics); §2.3's `--risk-0` moves from
+  `#0F8A66` to `#0F8663` so white tile labels clear 4.5:1, and gains a
+  per-band tile foreground `--risk-fg-0..4`; §5.7 records the owner's ruling on
+  the home canvas treemap. The 15 risk tokens now live in `design-tokens.ts`
+  and every consumer (OG renderers, `/map` legend and scripts, the home
+  treemap, the mobile map preview SVG) reads them — `#0F8A66` was written out in
+  seven places.
+- **`check-role-color`** — a new gate in `verify:gates`: §4.7's role → colour
+  token mapping is checked against the CSS. `check-contrast` only ever asked
+  whether a colour was readable, never whether the role was allowed to use it.
+
 ### Fixed
+
+- **77 headings, title accents, inline emphases and statistics were coloured
+  against §4.7** — safety-green (`--accent-deep`), hot orange, dimmed `--fg2`
+  or raw hex where the canon says ink. Includes the homepage KPI 「高影響職業の
+  賃金 105.7兆」 in green, the detail template's orange section headings, and a
+  `#ffb84d` disclaimer emphasis at 1.7:1. All 18 synthetic italics are gone
+  (the shipped fonts have no italic faces).
+- **The home treemap printed raw floats** (`8.366666666666667/10` on 439 of
+  556 tiles) and drew every label in translucent white (2.18:1 on the amber
+  band). Scores now round like the server (banker's, one decimal); labels use
+  the per-band foreground.
+- **`/` at 375px: the 「↓下がった」 column of 今月の変動 was 192px outside the
+  viewport** and unreachable (grid item `min-width:auto`).
+- `/rankings` movers: 「代替リスクが上がった／下がった職業」 →
+  「仕事が減るリスクが上がった／下がった職業」, the axis name the occupation
+  page uses. Six `.risk-pill` copies had a literal 12px radius; now `--r-md`.
 
 - **The homepage had no visible `<h1>` at 768px and below** — the viewport
   Google crawls. `<h1 class="dh-title">` lives inside `.desktop-hero`, which is
