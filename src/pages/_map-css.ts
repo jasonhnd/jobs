@@ -253,7 +253,7 @@ export const MAP_PAGE_CSS = `
       position: absolute;
       padding: 6px 8px;
       border-radius: var(--r-sm);
-      color: var(--paper);
+      color: var(--risk-fg-0);
       font-size: var(--t-xs); font-weight: 600;
       line-height: var(--lh-dense);
       cursor: pointer; overflow: hidden;
@@ -306,19 +306,17 @@ export const MAP_PAGE_CSS = `
       white-space: nowrap;
       text-shadow: 0 1px 2px rgba(0,0,0,0.25);
     }
-    /* Design.md §2.2 — the tile name is --t-xs/600, i.e. normal text, so it
-       needs 4.5:1 against its own tile. A single white for all five bands does
-       not reach it: white on --risk-1 is 3.43, on --risk-2 2.74, on --risk-3
-       3.48. §5.7 calls the label colour 文脈色, so pick it per band: --ink
-       clears 4.5 on the three light-to-mid bands (5.62 / 7.10 / 5.55) and white
-       stays on the dark ends. The shadow flips with it — a dark shadow under
-       dark text only muddies the glyph. */
-    .cell[data-band="1"] .name,
-    .cell[data-band="2"] .name,
-    .cell[data-band="3"] .name {
-      color: var(--ink);
-      text-shadow: 0 1px 2px rgba(255,255,255,0.35);
-    }
+    /* Design.md §2.3 タイル前景 — the tile name is --t-xs/600, i.e. normal
+       text, so it needs 4.5:1 against its own tile (§2.2). A single white for
+       all five bands does not reach it, so the foreground is a per-band token:
+       --risk-fg-0/4 are white on the dark ends, --risk-fg-1/2/3 are --ink on
+       the light-to-mid bands (5.62 / 7.10 / 5.55). The shadow flips with it —
+       a dark shadow under dark text only muddies the glyph. */
+    .cell[data-band="0"] .name { color: var(--risk-fg-0); }
+    .cell[data-band="4"] .name { color: var(--risk-fg-4); }
+    .cell[data-band="1"] .name { color: var(--risk-fg-1); text-shadow: 0 1px 2px rgba(255,255,255,0.35); }
+    .cell[data-band="2"] .name { color: var(--risk-fg-2); text-shadow: 0 1px 2px rgba(255,255,255,0.35); }
+    .cell[data-band="3"] .name { color: var(--risk-fg-3); text-shadow: 0 1px 2px rgba(255,255,255,0.35); }
     .cell-others .name { font-style: italic; opacity: 0.92; }
     /* Legacy .sector-grid kept only for the loading skeleton (below). */
     .sector-grid {

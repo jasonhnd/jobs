@@ -23,20 +23,21 @@ import {
   SectorsProjectionSchema,
   WorktypesProjectionSchema,
 } from "./projection-schemas.js";
+import { RISK_BAND_HEX } from "./design-tokens.js";
 
 // ─── Risk / hue palettes ──────────────────────────────────────────────────
 
 /**
- * Risk-band → tile color. Mirrors the canonical --risk-0..4 scale in
- * canonical-css.ts (satori needs a literal hex, not a CSS var, so the
- * values are kept in sync by hand). Green for low impact → red for high.
+ * Risk (0–10, rounded) → tile color. The canonical --risk-0..4 scale from
+ * design-tokens.ts (§2.3) — satori needs a literal hex, not a CSS var, and
+ * the module is where the literal lives. Green for low impact → red for high.
  */
 export const RISK_COLORS: Record<number, string> = {
-  0: "#0F8A66", 1: "#0F8A66", 2: "#0F8A66",   // --risk-0 teal-green — low
-  3: "#5BA84F", 4: "#5BA84F",                   // --risk-1 green — mid-low
-  5: "#D9A03B", 6: "#D9A03B",                   // --risk-2 gold — mid
-  7: "#E27A33", 8: "#E27A33",                   // --risk-3 orange — high
-  9: "#C4422F", 10: "#C4422F",                  // --risk-4 red — max
+  0: RISK_BAND_HEX[0], 1: RISK_BAND_HEX[0], 2: RISK_BAND_HEX[0],   // --risk-0 — low
+  3: RISK_BAND_HEX[1], 4: RISK_BAND_HEX[1],                        // --risk-1 — mid-low
+  5: RISK_BAND_HEX[2], 6: RISK_BAND_HEX[2],                        // --risk-2 — mid
+  7: RISK_BAND_HEX[3], 8: RISK_BAND_HEX[3],                        // --risk-3 — high
+  9: RISK_BAND_HEX[4], 10: RISK_BAND_HEX[4],                       // --risk-4 — max
 };
 
 /** Sector hue → Direction C accent color for the OG card border. */
