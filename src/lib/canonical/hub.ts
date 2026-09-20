@@ -30,9 +30,9 @@ a:hover{color:var(--orange-hot)}
 /* Header + h1 — hub class signature */
 header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
 h1{color:var(--fg);margin-bottom:12px}
-h1 .accent{color:var(--accent-deep)}
+h1 .accent{color:var(--ink)}
 .sub{color:var(--fg2);font-size:var(--t-h3)}
-.sub strong{color:var(--accent-deep);font-weight:600}
+.sub strong{color:var(--ink);font-weight:700}
 .intro{margin:24px 0;color:var(--fg);font-size:var(--t-h3);max-width:64ch}
 
 /* Section spacing + h2 with bottom border */

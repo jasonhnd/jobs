@@ -317,7 +317,7 @@ export const MAP_PAGE_CSS = `
     .cell[data-band="1"] .name { color: var(--risk-fg-1); text-shadow: 0 1px 2px rgba(255,255,255,0.35); }
     .cell[data-band="2"] .name { color: var(--risk-fg-2); text-shadow: 0 1px 2px rgba(255,255,255,0.35); }
     .cell[data-band="3"] .name { color: var(--risk-fg-3); text-shadow: 0 1px 2px rgba(255,255,255,0.35); }
-    .cell-others .name { font-style: italic; opacity: 0.92; }
+    .cell-others .name { opacity: 0.92; }
     /* Legacy .sector-grid kept only for the loading skeleton (below). */
     .sector-grid {
       background: var(--bg3);

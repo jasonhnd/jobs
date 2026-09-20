@@ -36,7 +36,7 @@ header{margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--bord
 /* Heading typography lives in canonical-css.ts (§4.9). Page-class CSS keeps
    only colour and spacing. */
 h1{color:var(--fg);margin-bottom:8px}
-h1 .accent{color:var(--orange-hot);font-style:italic}
+h1 .accent{color:var(--ink)}
 .sub{color:var(--fg2);font-size:var(--t-h3)}
 
 /* Long-form body paragraphs */
