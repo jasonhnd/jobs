@@ -485,6 +485,16 @@ html body footer.site-footer .footer-legal span {
     justify-content: center;
   }
 }
+/* Design.md §4.7 本文中の行内強調 — em reads like strong: ink, 700, upright.
+   The UA stylesheet makes em italic; the shipped fonts have no italic faces
+   (scripts/subset-fonts.ts emits font-style:normal only), so any italic on
+   this site is a synthesised oblique. Site-wide base; page CSS may not
+   reintroduce font-style:italic (design-1.21). */
+html body em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+}
 html body footer.site-footer .footer-meta {
   color: var(--ink-meta);
   font-size: var(--t-xs);
