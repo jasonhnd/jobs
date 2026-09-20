@@ -94,7 +94,7 @@ h1 .accent{color:var(--ink)}
 
 /* ── Sections ── */
 h2{color:var(--fg);margin:48px 0 14px;padding-left:13px;border-left:3px solid var(--accent)}
-h2 .num{color:var(--orange-hot);font-variant-numeric:tabular-nums;margin-right:6px}
+h2 .num{color:var(--ink);font-variant-numeric:tabular-nums;margin-right:6px}
 h3{color:var(--fg);margin:22px 0 6px}
 p{margin:0 0 14px;line-height:1.8;color:var(--fg);max-width:74ch}
 ul,ol{margin:0 0 14px 22px;max-width:74ch}

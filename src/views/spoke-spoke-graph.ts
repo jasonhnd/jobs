@@ -168,7 +168,7 @@ export const SAME_RISK_CSS = `
 .srn-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
 .srn-card .srn-name{font-size:var(--t-h3);color:var(--fg);line-height:1.35}
 .srn-card .srn-meta{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:var(--t-xs);color:var(--fg2);align-items:baseline}
-.srn-card .srn-risk{font-family:var(--font-mono);color:var(--accent-deep);font-variant-numeric:tabular-nums}
+.srn-card .srn-risk{font-family:var(--font-mono);color:var(--ink-meta);font-variant-numeric:tabular-nums}
 .srn-card .srn-sector{color:var(--fg2)}
 .srn-card .srn-workers{font-variant-numeric:tabular-nums;color:var(--ink-meta)}
 @media (max-width:600px){.srn-grid{grid-template-columns:1fr}}

@@ -304,7 +304,6 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .aio-idx.idx-d{border-left:4px solid var(--ink-3)}
     .aio-idx-lbl{font-family:var(--font-sans);font-size:var(--t-xs);font-weight:700;letter-spacing:0.04em;color:var(--ink-meta)}
     .aio-idx-num{font-family:var(--font-sans);font-size:var(--t-h1);font-weight:700;line-height:1;letter-spacing:-0.03em;color:var(--ink)}
-    .aio-idx.idx-t .aio-idx-num{color:var(--orange-hot)}
     .aio-idx-num small{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta);margin-left:3px}
     .aio-idx-sub{font-size:var(--t-xs);color:var(--ink-meta)}
     .aio-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px}
