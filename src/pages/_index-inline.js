@@ -533,7 +533,7 @@
           if (topEmp) rowsJa.push(["最多雇用形態", topEmp[0] + " " + topEmp[1].toFixed(0) + "%"]);
           if (hourlyWage != null) rowsJa.push(["時給", Math.round(hourlyWage).toLocaleString() + " 円"]);
           rowsJa.push(["AI リスク", d.ai_risk != null
-            ? d.ai_risk + "/10" + (riskPctTop != null ? "（上位 " + riskPctTop + "%）" : "")
+            ? fmtRisk(d.ai_risk) + "/10" + (riskPctTop != null ? "（上位 " + riskPctTop + "%）" : "")
             : "—"]);
           rowsJa.push(["理由", d.ai_rationale_ja || "—"]);
 

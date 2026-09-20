@@ -66,6 +66,34 @@
     var currentJobId = null;
 
     // ── format helpers ──────────────────────────────────────────────
+    // One decimal, the server's rule: banker's rounding over the exact stored
+    // double, ported from src/data/lib/banker-round.ts (inline scripts cannot
+    // import it). toFixed / Math.round are half-away-from-zero and were NOT
+    // the same rule — and the treemap projection stores raw floats such as
+    // 4.266666666666667, which this page used to print verbatim (design-1.21).
+    function fmtRisk(v) {
+      if (v == null) return '—';
+      var n = Number(v);
+      if (!Number.isFinite(n)) return '—';
+      var sign = n < 0 ? '-' : '';
+      var wide = Math.abs(n).toFixed(18);
+      var dot = wide.indexOf('.');
+      if (dot === -1) return String(n);
+      var intStr = wide.slice(0, dot);
+      var frac = wide.slice(dot + 1);
+      var keep = frac.charAt(0);
+      var decisive = frac.charAt(1);
+      var tail = frac.slice(2);
+      var roundUp;
+      if (decisive < '5') roundUp = false;
+      else if (decisive > '5') roundUp = true;
+      else if (/[1-9]/.test(tail)) roundUp = true;
+      else roundUp = Number(keep) % 2 !== 0;
+      var truncated = Number(sign + intStr + '.' + keep);
+      if (!roundUp) return String(truncated);
+      var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
+      return String(Number(inc.toFixed(1)));
+    }
     function fmtSalary(s) { if (s == null) return '—'; return Math.round(s) + ' 万円'; }
     function fmtWorkers(w) {
       if (w == null) return '—';
@@ -190,7 +218,7 @@
         var pill = document.createElement('span');
         var band = riskBand(d.ai_risk);
         pill.className = 'me-li-pill ' + (band || 'mid');
-        pill.textContent = 'AI ' + (d.ai_risk != null ? d.ai_risk : '?') + '/10';
+        pill.textContent = 'AI ' + fmtRisk(d.ai_risk) + '/10';
         li.appendChild(nameWrap);
         li.appendChild(pill);
         $listbox.appendChild(li);
@@ -739,7 +767,7 @@
         meta.className = 'me-similar-meta';
         var pill = document.createElement('span');
         pill.className = 'me-li-pill ' + (riskBand(r2.ai_risk) || 'mid');
-        pill.textContent = 'AI ' + r2.ai_risk + '/10';
+        pill.textContent = 'AI ' + fmtRisk(r2.ai_risk) + '/10';
         var workers = document.createElement('span');
         workers.textContent = fmtWorkers(r2.workers);
         meta.appendChild(pill);
