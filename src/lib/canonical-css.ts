@@ -380,7 +380,9 @@ html body footer.site-footer {
   max-width: none;
   margin: 48px auto 0;
   padding: 22px 16px 24px;
-  border-top: 1px solid var(--border);
+  /* No border-top: the share divider 23px below it already draws the rule
+     that separates the footer from the page, so this was a second line on
+     every page (owner ruling 2026-09-20). */
   font-size: var(--t-xs);
   color: var(--fg2);
   text-align: center;

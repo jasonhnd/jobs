@@ -1133,7 +1133,6 @@
       footer {
         margin-top: 22px;
         padding-top: 22px;
-        border-top: 1px solid var(--border);
         font-size: var(--t-xs);
         color: var(--fg2);
         text-align: center;
