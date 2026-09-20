@@ -32,7 +32,13 @@ nav.crumb a:hover{color:var(--orange-hot);text-decoration:underline}
 nav.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* Header + h1 — static class signature (smaller, calmer than hero) */
-header{margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+/* Page hero header only. BaseLayout wraps the site chrome (MobileNav + TopNav)
+   in a bare header element for the banner landmark; a bare header selector painted
+   a second rule and 24px of padding under the top nav on every page of this
+   class (2026-06-03 → 2026-09-20). The hero sits inside the main element; the
+   chrome does not. :where() keeps the specificity at (0,0,1), so page rules such as
+   /me's .me-head still win exactly as they did against the bare selector. */
+:where(main) header{margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--border)}
 /* Heading typography lives in canonical-css.ts (§4.9). Page-class CSS keeps
    only colour and spacing. */
 h1{color:var(--fg);margin-bottom:8px}
