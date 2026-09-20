@@ -9,7 +9,7 @@ export const AI_ADOPTION_CSS = `
   box-sizing: border-box; /* the gutter is inside the column, like every other wrapper */
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 28px var(--s-5) 84px;
+  padding: 28px var(--gutter) 84px;
   color: var(--fg);
 }
 
@@ -957,9 +957,9 @@ export const AI_ADOPTION_CSS = `
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 599px) {
   .ai-adoption-page {
-    padding: 18px 14px 64px;
+    padding: 18px var(--gutter) 64px;
   }
 
   .ai-adoption-page .summary-grid,

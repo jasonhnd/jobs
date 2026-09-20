@@ -22,7 +22,7 @@ button,input{font:inherit}
   --shindan-radius:8px;
   max-width:var(--content-max);
   margin:0 auto;
-  padding:28px var(--s-5) 84px;
+  padding:28px var(--gutter) 84px;
 }
 .shindan-crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
 .shindan-crumb a{color:var(--fg2)}
@@ -154,7 +154,7 @@ button,input{font:inherit}
   .shindan-side{position:static}
 }
 @media (max-width:768px){
-  #wrapper{padding:12px 16px 64px}
+  #wrapper{padding:12px var(--gutter) 64px}
   .shindan-crumb{margin-bottom:10px;padding-bottom:8px}
   .shindan-hero{margin-bottom:12px}
   .shindan-kicker{margin:0 0 6px}
@@ -168,8 +168,8 @@ button,input{font:inherit}
   .shindan-question-pair{position:absolute;inline-size:1px;block-size:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   .shindan-proof{margin-top:14px;padding:12px 14px}
 }
-@media (max-width:640px){
-  #wrapper{padding:12px 16px 64px}
+@media (max-width:599px){
+  #wrapper{padding:12px var(--gutter) 64px}
   .shindan-result-body,.shindan-share{padding:18px}
   .shindan-result-head{grid-template-columns:1fr;padding:20px}
   .shindan-choice-row,.shindan-copy-grid{grid-template-columns:1fr}

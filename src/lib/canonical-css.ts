@@ -51,6 +51,16 @@ export const CANONICAL_CSS = `
    Page class CSS (src/lib/canonical/{detail,hub,sector,static}.ts) はトークンを
    var() で参照するだけで、再宣言しない。 */
 
+/* The UA gives body an 8px margin; every class used to reset it in its own
+   CSS and /aiadoption did not, so its whole page sat 8px in (2026-09-20). */
+html body { margin: 0; }
+
+/* 文節 break for headings: a <br class="ja-phrase-break"> renders only on
+   narrow viewports, so a title breaks between phrases instead of inside a
+   number or a word (「…を9 / 問で見る」). Was home-only until 2026-09-20. */
+html body .ja-phrase-break { display: inline; }
+@media (min-width: 769px) { html body .ja-phrase-break { display: none; } }
+
 :root {
   /* 第 1 層 — semantic primary */
   --cream: #FAF6EE;
@@ -102,11 +112,22 @@ export const CANONICAL_CSS = `
      is identical across the map, occupation, hub, sector, and legal pages.
      (2026-05-31: replaced 6 ad-hoc per-page widths 740/760/820/900/980/1080.) */
   --content-max: 1080px;
+  /* §9.1 — the column's inside gutter: --s-5 (24px) from 600px, --s-4 (16px)
+     below (see the html rule after this block). Every wrapper, the top nav,
+     the mobile topbar and full-bleed bands reference this and nothing else,
+     so the brand and the first line of every page share a left edge at every
+     width. */
+  --gutter: var(--s-5);
   /* 第 5 層 — Design v1.0 tokens。値の正典は src/lib/design-tokens.ts
      (Design.md §21.2)。移行 step 1 の時点では宣言のみで参照者はゼロであり、
      未参照のカスタムプロパティは描画に影響しない。消費者は §19.5 の順序で
      surface ごとに接続していく。 */
 ${DESIGN_TOKENS_CSS}
+}
+/* :root, not html — the declaration above is on :root (0,1,0) and would beat an
+   html rule (0,0,1) regardless of order. */
+@media (max-width: 599px) {
+  :root { --gutter: var(--s-4); }
 }
 
 /* Dark mode neutralized: theme は Design.md §3 で NEUTRALIZED 状態。
@@ -649,7 +670,7 @@ html body nav.top-nav {
      edge while page text started 20–32px further in, so the brand and the
      first line of every page were visibly out of line. On viewports narrower
      than --content-max the max() floor keeps the same --s-5 gutter. */
-  padding: 11px max(var(--s-5), calc((100% - var(--content-max)) / 2 + var(--s-5)));
+  padding: 11px max(var(--gutter), calc((100% - var(--content-max)) / 2 + var(--gutter)));
   background: rgba(252, 248, 241, 0.92);
   backdrop-filter: saturate(140%) blur(8px);
   -webkit-backdrop-filter: saturate(140%) blur(8px);
@@ -758,7 +779,8 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     align-items: center;
     justify-content: space-between;
     height: 48px;
-    padding: 0 12px 0 16px;
+    /* §9.1: the brand sits on the column's text edge (--gutter). */
+    padding: 0 12px 0 var(--gutter);
     background: rgba(252, 248, 241, 0.94);
     backdrop-filter: saturate(140%) blur(10px);
     -webkit-backdrop-filter: saturate(140%) blur(10px);

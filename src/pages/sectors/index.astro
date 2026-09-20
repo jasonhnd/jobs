@@ -29,7 +29,7 @@ a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;t
 a:hover{color:var(--orange-hot)}
 .top-banner{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 16px;font-size:var(--t-sm);color:var(--fg2);display:flex;gap:12px;align-items:center;justify-content:center}
 .badge{background:var(--orange-hot);color:#fff;padding:2px 8px;font-size:var(--t-xs);letter-spacing:.05em;font-weight:700;border-radius:2px}
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--s-5) 80px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 80px}
 .crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
 .crumb a{color:var(--fg2)}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
@@ -75,7 +75,7 @@ section.faq{margin:48px 0}
 .faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--orange-hot)}
 .faq-item summary:hover{color:var(--accent-deep)}
 .faq-answer{padding:0 18px 16px;color:var(--fg);font-size:var(--t-sm);line-height:1.75}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:var(--t-body);padding:14px 16px;padding-right:38px}}
+@media (max-width:600px){#wrapper{padding:20px var(--gutter) 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:var(--t-body);padding:14px 16px;padding-right:38px}}
 
 .sector-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:0;padding:0;grid-auto-rows:1fr}
 .sector-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;transition:border-color 150ms ease, transform 150ms ease;height:100%;position:relative}

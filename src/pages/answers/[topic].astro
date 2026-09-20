@@ -47,7 +47,7 @@ const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
   <script type="application/ld+json" slot="jsonLd" set:html={topic.jsonLd} />
   <style slot="head" set:html={CANONICAL_HUB_CSS} />
   <style slot="head">
-    .answers-wrap{max-width:var(--content-max);margin:0 auto;padding:32px var(--s-5) 56px}
+    .answers-wrap{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 56px}
     .crumb{font-size:var(--t-sm);margin-bottom:22px;color:var(--fg2)}
     .crumb a{color:inherit}
     h1{line-height:1.15;margin:0 0 14px;color:var(--fg)}
@@ -74,7 +74,7 @@ const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
     .back{margin:34px 0 0}
     .back a{color:var(--accent-deep)}
     @media (max-width:640px){
-      .answers-wrap{padding:24px 16px 44px}
+      .answers-wrap{padding:24px var(--gutter) 44px}
       .answer-item{grid-template-columns:1fr;gap:8px}
       .rank{text-align:left}
     }
