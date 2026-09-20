@@ -58,16 +58,52 @@ Migration ran one surface per PR against the one-way conformance ledger
 - design-1.10 (#533/#545): CI gates — type-scale / contrast / design-sync
   enforce per surface from the ledger; color-tokens reports.
 - Tracker #523 closes with this entry.
+- design-1.11 (#546): close-out docs on preview.
+- design-1.12 (#547): statistics onto serif on the two outlier surfaces (§4.7).
+- design-1.13 (#548): new `chrome` surface — the last sub-12px text is gone.
+- design-1.14 (#549): wire the page classes §18.7 was warning about.
+- design-1.15 (#550): Design v1.1 — §2.5 color-mix; `check-color-tokens` becomes a gate.
+- #551 / #552 (no unit number): round AI-impact scores (8,923 raw floats on 793
+  pages); §2.2 contrast contract — 46 rendered violations to 0.
+- design-1.16 (#553): make the ratchet engage — gate coverage + §4.9 `check-heading-rules`.
+- design-1.17 (#554): claim the hub routes the gates never saw.
+- design-1.18 (#555): close the coverage hole; `og` surface added as intentional `legacy`.
+- design-1.19 (#556): Design v1.2 — close the canon's open items (`--sh-sheet`, §2.4, §2.2 rule 7).
+- design-1.20 (#557): CI runs the checks that read rendered output again.
 
-Open, needing an owner decision:
+Of the five items once listed here as open, four closed in 1.12–1.15 (tint
+tokens → §2.5 `color-mix`; the unassigned range → `chrome`; §18.7 → 1.14;
+statistics typeface → 1.12). Still open: **`.four-oh-four`** — a decorative
+numeral with no role in §4.7 (its synthetic italic was removed in design-1.21).
 
-- **alpha / tint tokens.** `check-color-tokens` is a report, not a gate: 71 raw
-  colours remain, 54 of them `rgba()` tints the canon cannot express.
-- **the unassigned range** — `canonical-css.ts`'s top nav, footer, cookie
-  banner and skip link belong to no surface, and hold the last sub-12px text.
-- **§18.7** — 14 pages import no page-class CSS.
-- **statistics typeface** — §4.7 says serif; only `/<id>` complies.
-- **`.four-oh-four`** — a decorative numeral with no role in §4.7.
+## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
+
+Owner review 2026-09-18/19 of the rendered site (1440×900 / 375×812, Vercel Web
+Analytics 2026-08-19→09-18: 83.6 % of visitors on mobile, 92 % on `/`). Owner
+rulings 2026-09-19/20: fix everything the review found; **no canon version
+bump** (stays v1.2, changes recorded in the revision history); continue the
+`design-1.N` numbering; `/rankings/ai-risk-high` title unchanged; treemap
+label truncation kept (§5.7 ruling); no `check-radius`.
+
+- canon: §4.7 gains 「本文中の行内強調（`strong` / `em`）」 = `--ink` 700, no
+  italics; §2.3 `--risk-0` `#0F8A66` → `#0F8663` (white 4.33 → 4.56:1) and a
+  タイル前景 column `--risk-fg-0..4`; §5.7 records the home canvas ruling;
+  §21.2 carries the 15 risk tokens (moved out of `canonical-css.ts` literals).
+- palette: 7 hard-coded `#0F8A66` sites → tokens (OG ×2, `/map` legend, both
+  inline scripts read `:root`, home preview SVG 31 fills).
+- `/` treemap: `fmtRisk` is now a port of `banker-round.ts` (439/556 tiles
+  printed raw floats); labels in `--risk-fg-N`; dead `.num`/`.denom` gone.
+- `/` 375px: 今月の変動 second column sat 192px off-screen — `min-width:0`.
+- colours: 77 declarations §4.7 assigns to `--ink` (h1 .accent 19, headings 24,
+  strong/em 25, statistics 2, FAQ 1, …) stop using `--accent-deep` /
+  `--orange-hot` / `--fg2` / raw hex. 18 synthetic italics removed. 6 pill
+  radii → `var(--r-md)`. Movers labels → 「仕事が減るリスクが上がった／下がった職業」.
+- gate: `check-role-color` — §4.7 role → token checked against CSS; wired
+  into `verify:gates`.
+
+Parked for the next owner discussion (no §4.7 row yet): link colour on hub
+surfaces (`--accent-deep` vs doc's `--orange-hot`), hover states, kickers /
+eyebrows, card names, raw score values, movers delta colours.
 
 ## Active — SEO+GEO on existing pages (#236)
 
