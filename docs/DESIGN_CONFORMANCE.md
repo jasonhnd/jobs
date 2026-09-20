@@ -508,4 +508,5 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-20 | `interactive` `og` `feature` | 調色板の硬編碼 7 箇所 → トークン（OG ×2、`/map` 凡例、inline script ×2 は `:root` から読む、`/` 地図プレビュー SVG の fill 31 個）。`/map` のタイル前景は `--risk-fg-N` |
 | 2026-09-20 | `feature`（`/`） | canvas treemap: `fmtRisk` を `banker-round.ts` の移植に（556 中 439 タイルが生の浮動小数を表示していた）、ラベルを段別前景色に（白 0.92 は band 2 で 2.18:1）、`:has()` の裏に隠れていた `.num`/`.denom` を削除。375px で 192px はみ出していた 今月の変動 第 2 列を `min-width:0` で収容 |
 | 2026-09-20 | 全 surface | §4.7 が `--ink` と定める **82 箇所**を是正（`h1 .accent` 19 / 見出し 24 / `strong`・`em` 25 / 統計 2 / FAQ 1 ほか。`--accent-deep`・`--orange-hot`・`--fg2`・生 hex）。合成斜体 18 箇所を全廃。`.risk-pill` の生 `12px` 角丸 6 箇所 → `--r-md`。movers 文言を「仕事が減るリスク」へ |
+| 2026-09-20 | 全 surface | §9.1 内側余白を `--s-5` に統一（hub/sector 20・doc 28・static 24・detail 32・feature 28 → 24）、ナビの brand を本文左端に、`/me` `/models` `/answers` `/aiadoption` の独自幅を `--content-max` に。`design-contract.spec.ts` に左端一致の検査を追加 |
 | 2026-09-20 | ゲート | `check-role-color` 新設・`verify:gates` へ接続。§4.7 の役割 → トークンを CSS 実装と照合（`check-contrast` の残り半分） |

@@ -23,7 +23,7 @@ a:hover{color:var(--accent-deep)}
 .theme-toggle{display:none !important}
 
 /* Static class layout: shared content-column width, generous padding */
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:48px 24px 96px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:48px var(--s-5) 96px}
 
 /* Breadcrumb */
 nav.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}

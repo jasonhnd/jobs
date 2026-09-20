@@ -136,3 +136,41 @@ for (const url of PAGES) {
     // defect is the rule and the padded gap above it, so those two are what is pinned.
   });
 }
+
+/**
+ * §9.1 — the nav brand and the page's first line share a left edge.
+ *
+ * Every wrapper pads the column by --s-5 and the nav pads by the same amount
+ * past the column edge, so at ≥ content-max + 2×gutter the brand and the
+ * first text in <main> start at the same x. Until 2026-09-20 they were
+ * 20–70px apart depending on the page class.
+ */
+for (const url of PAGES) {
+  test(`§9.1 left edge: nav brand and first line align: ${url}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await visit(page, url, { waitUntil: 'load' });
+    const edges = await page.evaluate(() => {
+      const brand = document.querySelector('nav.top-nav a');
+      const main = document.querySelector('main');
+      if (!brand || !main) return null;
+      let first: Element | null = null;
+      for (const el of Array.from(main.querySelectorAll('*'))) {
+        const own = Array.from(el.childNodes).filter((n) => n.nodeType === Node.TEXT_NODE).map((n) => n.textContent?.trim() ?? '').join('');
+        if (!own) continue;
+        const r = el.getBoundingClientRect();
+        if (r.height === 0 || getComputedStyle(el).visibility === 'hidden') continue;
+        first = el; break;
+      }
+      if (!first) return null;
+      // Measure the glyphs, not the box: a link may pad its hit area (/map's
+      // 「← トップ」 has 4px) and pull the box back with a negative margin.
+      const textNode = Array.from(first.childNodes).find((n) => n.nodeType === Node.TEXT_NODE && (n.textContent ?? '').trim() !== '');
+      const range = document.createRange();
+      range.selectNodeContents(textNode ?? first);
+      const glyphs = range.getBoundingClientRect();
+      return { brand: Math.round(brand.getBoundingClientRect().left), first: Math.round(glyphs.left), what: `${first.tagName.toLowerCase()}.${String((first as HTMLElement).className).split(' ')[0]}` };
+    });
+    expect(edges, `${url}: no nav brand or no text in <main>`).not.toBeNull();
+    expect(Math.abs((edges?.brand ?? 0) - (edges?.first ?? 0)), `${url}: nav brand at x=${edges?.brand}, first line (${edges?.what}) at x=${edges?.first} — the column gutter is not --s-5 on this page (§9.1)`).toBeLessThanOrEqual(1);
+  });
+}
