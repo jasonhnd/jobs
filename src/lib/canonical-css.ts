@@ -88,23 +88,11 @@ export const CANONICAL_CSS = `
   --border: color-mix(in srgb, var(--ink) 10%, transparent);
   --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-  /* 第 3 層 — AI-impact (risk) color scale. SINGLE source for every surface
-     (map tiles, sector nav, distribution bar, risk pills, search, OG cards,
-     detail gradient). Was 7 ad-hoc hardcoded ramps; 2026-05-31. */
-  /* Saturated 5-band: band 0 = lowest impact → band 4 = highest. */
-  --risk-0: #0F8A66;
-  --risk-1: #5BA84F;
-  --risk-2: #D9A03B;
-  --risk-3: #E27A33;
-  --risk-4: #C4422F;
-  /* Soft tints of the same 5-band scale (each ≈ 18% of the saturated color over
-     cream) — for the home distribution bar + pill backgrounds, so the soft
-     surfaces share the scale's hues instead of an unrelated pastel set. */
-  --risk-soft-0: #D0E3D6;
-  --risk-soft-1: #DDE8D1;
-  --risk-soft-2: #F4E7CE;
-  --risk-soft-3: #F6E0CC;
-  --risk-soft-4: #F0D6CC;
+  /* 第 3 層 — AI-impact (risk) color scale: --risk-0..4, --risk-soft-0..4 and
+     the per-band tile foreground --risk-fg-0..4. Declared in
+     src/lib/design-tokens.ts (RISK, §2.3) and emitted below with the other
+     tokens (2026-09-20, design-1.21) — one source for CSS, OG renderers and
+     the inline map/treemap scripts. Was 7 ad-hoc hardcoded ramps; 2026-05-31. */
   /* Pills: soft-tint background (from the scale) + readable dark text. */
   --risk-pill-low-bg: var(--risk-soft-0);  --risk-pill-low-fg: #446a5a;
   --risk-pill-mid-bg: var(--risk-soft-2);  --risk-pill-mid-fg: #826427;

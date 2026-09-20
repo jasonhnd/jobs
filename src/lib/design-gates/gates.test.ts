@@ -13,7 +13,7 @@ import { join } from 'node:path';
 import { readLedger, surfaceStateFor } from './ledger.js';
 import { findTypeScaleViolations } from './type-scale.js';
 import { findColourViolations, findDataUriDrift } from './color-tokens.js';
-import { contrastRatio, luminance, requiredRatio, parseRoleTable, findContrastProblems } from './contrast.js';
+import { contrastRatio, luminance, requiredRatio, parseRoleTable, findContrastProblems, readColourTokens } from './contrast.js';
 import { stripComments } from './scan.js';
 import { findSyncProblems } from './design-sync.js';
 import { findUnclaimedFiles } from './coverage.js';
@@ -40,6 +40,16 @@ function fixture(state: string, css: string): string {
   writeFileSync(join(root, 'src/pages/demo.ts'), css);
   return root;
 }
+
+describe('colour tokens — literal and emitted declarations are both visible (design-1.21)', () => {
+  test('readColourTokens sees tokens emitted from design-tokens.ts', () => {
+    const tokens = readColourTokens();
+    assert.equal(tokens.get('--ink'), '#241E18'); // literal in canonical-css.ts
+    assert.equal(tokens.get('--red-text'), '#ad4d32'); // emitted (§2.1) — was invisible before
+    assert.equal(tokens.get('--risk-0'), '#0F8663'); // emitted (§2.3)
+    assert.equal(tokens.get('--risk-fg-2'), '#241E18');
+  });
+});
 
 describe('design gates — the per-surface ratchet (§19.1)', () => {
   const bad = 'export const CSS = `\n.x { font-size: 13px; color: #abcdef; }\n`;\n';
