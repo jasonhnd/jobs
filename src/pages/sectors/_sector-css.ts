@@ -50,7 +50,7 @@ ${AI_FACT_CSS}
 .related-sectors a:hover{background:var(--bg3);color:var(--accent-deep)}
 .related-sectors .ja-name{font-family:var(--font-serif);font-weight:600}
 .related-sectors .count{color:var(--fg2);font-size:var(--t-xs);display:block;margin-top:2px}
-footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:var(--t-xs);color:var(--fg2);text-align:center}
+footer{margin-top:64px;padding-top:24px;font-size:var(--t-xs);color:var(--fg2);text-align:center}
 footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
 footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:var(--t-xs);line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
 footer .footer-links a:hover{color:var(--orange-hot);border-color:var(--accent);background:color-mix(in srgb, var(--orange) 6%, transparent);text-decoration:none}
