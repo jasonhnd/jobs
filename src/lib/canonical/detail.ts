@@ -23,9 +23,12 @@ export const CANONICAL_DETAIL_CSS = `
     .theme-toggle{display:none !important}
 
     /* Detail class layout: mobile-first single column, scale up on desktop. */
-    #wrapper{max-width:480px;margin:0 auto;padding:env(safe-area-inset-top,12px) 18px env(safe-area-inset-bottom,24px)}
-    @media (min-width:640px){#wrapper{max-width:640px;padding:18px 24px 32px}}
-    @media (min-width:900px){#wrapper{max-width:var(--content-max);padding:24px var(--s-5) 48px}}
+    /* §9.1: one column, the same gutter as every other class — --s-4 on SP,
+       --s-5 from 600px. The old 480/640px centred measures left the text
+       88px from the brand at tablet widths. */
+    #wrapper{max-width:var(--content-max);margin:0 auto;padding:env(safe-area-inset-top,12px) var(--gutter) env(safe-area-inset-bottom,24px)}
+    @media (min-width:600px){#wrapper{padding:18px var(--gutter) 32px}}
+    @media (min-width:900px){#wrapper{padding:24px var(--gutter) 48px}}
 
     /* Breadcrumb */
     nav.crumb{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}

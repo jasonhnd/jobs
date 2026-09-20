@@ -103,8 +103,7 @@
         font-weight: 600;
       }
       /* Mobile hero title line-break point: "AIの時代でも、" stays on line 1, "あなたらしい働き方を。" stays on line 2 — semantic Japanese phrase boundary instead of mid-word "を。" orphan. Hidden on wider viewports where the title fits on one line. */
-      .ja-phrase-break { display: inline; }
-      @media (min-width: 769px) { .ja-phrase-break { display: none; } }
+      /* .ja-phrase-break is a site-wide utility in canonical-css.ts (design-1.21). */
 
       /* ═══════════ v1.2.x mobile TOP 10 horizontal-swipe carousel ═══════════ */
       /* Hidden on desktop (≥769px) — desktop keeps the 6 stat-cards block. At ≤768px, swap: TOP 10 carousel replaces the stat panel block visually. */
@@ -537,7 +536,7 @@
       #wrapper {
         max-width: var(--content-max);
         margin: 0 auto;
-        padding: 24px var(--s-5) 80px;
+        padding: 24px var(--gutter) 80px;
         position: relative; /* anchor for #tileHighlight overlay */
       }
       /* CSS overlay highlight — replaces per-frame canvas redraw on hover/select. Lets every interaction skip the 556-tile loop in draw() and just move a div. Killed mobile INP from ~768ms to ~30ms. */
@@ -1302,8 +1301,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 22px;
-        margin: 0 -28px 32px;
-        padding: 22px 28px;
+        margin: 0 calc(-1 * var(--gutter)) 32px;
+        padding: 22px var(--gutter);
         background: var(--bg3);
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
@@ -1381,8 +1380,8 @@
           flex-direction: column;
           align-items: flex-start;
           gap: 14px;
-          margin: 10px -16px 22px;
-          padding: 18px 16px;
+          margin: 10px calc(-1 * var(--gutter)) 22px;
+          padding: 18px var(--gutter);
         }
         .home-entry-actions {
           width: 100%;
@@ -1589,7 +1588,7 @@
 
       @media (max-width: 768px) {
         #wrapper {
-          padding: 16px 16px 60px;
+          padding: 16px var(--gutter) 60px;
           display: flex;
           flex-direction: column;
         }
@@ -1789,7 +1788,7 @@
         .meta-card { font-size: var(--t-sm); padding: 12px; }
         .intro-details { padding: 10px 12px; font-size: var(--t-sm); }
         .intro-details-content { line-height: 1.65; }
-        #wrapper { padding: 14px 12px 50px; }
+        #wrapper { padding: 14px var(--gutter) 50px; }
         #searchInput {
           padding: 7px 10px;
           font-size: var(--t-body);

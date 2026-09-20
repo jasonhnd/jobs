@@ -225,7 +225,8 @@ export const MAP_PAGE_CSS = `
       background: var(--bg2); outline: none;
     }
 
-    main { max-width: var(--content-max); margin: 0 auto; padding: 16px var(--s-5) 96px; }
+    main { max-width: var(--content-max); margin: 0 auto; padding: 16px var(--gutter) 96px; }
+    @media (max-width: 599px) { main { padding: 16px var(--gutter) 96px; } }
     .legend {
       display: flex; align-items: center; gap: 12px;
       margin: 4px 0 18px;

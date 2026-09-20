@@ -145,12 +145,15 @@ for (const url of PAGES) {
  * first text in <main> start at the same x. Until 2026-09-20 they were
  * 20–70px apart depending on the page class.
  */
-for (const url of PAGES) {
-  test(`§9.1 left edge: nav brand and first line align: ${url}`, async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
+for (const width of [1440, 768, 375]) for (const url of PAGES) {
+  test(`§9.1 left edge: brand and first line align: ${url} @${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
     await visit(page, url, { waitUntil: 'load' });
     const edges = await page.evaluate(() => {
-      const brand = document.querySelector('nav.top-nav a');
+      const visible = (e: Element | null): e is Element => !!e && getComputedStyle(e).display !== 'none' && e.getBoundingClientRect().height > 0;
+      const topbar = document.querySelector('header.mob-topbar');
+      const nav = document.querySelector('nav.top-nav');
+      const brand = visible(topbar) ? topbar.querySelector('a') : (visible(nav) ? nav.querySelector('a') : null);
       const main = document.querySelector('main');
       if (!brand || !main) return null;
       let first: Element | null = null;
