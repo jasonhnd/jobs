@@ -390,7 +390,7 @@ ${AI_FACT_CSS}
 .stats dt{font-size:var(--t-xs);color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .stats dd{font-family:var(--font-serif);font-size:var(--t-h2);color:var(--fg)}
 .genre-detail{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:24px 0}
-.genre-detail h2{margin-top:0;color:var(--orange-hot);border:none;padding:0;margin-bottom:14px}
+.genre-detail h2{margin-top:0;color:var(--ink);border:none;padding:0;margin-bottom:14px}
 .genre-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:18px}
 @media (max-width:600px){.genre-detail-grid{grid-template-columns:1fr;gap:14px}}
 .genre-detail-grid h3{color:var(--ink);margin:0 0 10px}
@@ -455,7 +455,7 @@ ${AI_FACT_CSS}
 @media (max-width:600px){.sb-row{grid-template-columns:80px 1fr 36px}.genre-spotlight{grid-template-columns:1fr}}
 .hub-slug header{margin-bottom:16px;padding-bottom:14px}
 .hub-list-sec{margin:8px 0 28px}
-.hub-list-sec h2{color:var(--fg2);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;word-break:keep-all;overflow-wrap:anywhere}
+.hub-list-sec h2{color:var(--ink);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;word-break:keep-all;overflow-wrap:anywhere}
 .chap-body .stats{margin:16px 0}
 .chap-body .ai-fact{margin-bottom:16px}
 .chap-body .intro{margin:12px 0 16px}

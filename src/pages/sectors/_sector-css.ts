@@ -72,7 +72,7 @@ section.faq{margin:48px 0}
 @media (max-width:600px){.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{padding:14px 16px;padding-right:38px}}
 /* Phase 2: AI 時代の特性 essay + データから見えるパターン */
 .ai-era-essay{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:32px 0}
-.ai-era-essay h2{color:var(--orange-hot);margin:0 0 14px;padding:0;border:none}
+.ai-era-essay h2{color:var(--ink);margin:0 0 14px;padding:0;border:none}
 .ai-era-essay p{font-size:var(--t-body);line-height:1.85;color:var(--fg);margin:0}
 .patterns{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:32px 0}
 .patterns h2{color:var(--ink);margin:0 0 16px;padding:0;border:none}
@@ -94,7 +94,7 @@ section.faq{margin:48px 0}
 @media (max-width:600px){.ai-dist-legend{gap:8px}}
 header{margin-bottom:16px;padding-bottom:14px}
 .sec-list-sec{margin:8px 0 28px}
-.sec-list-sec h2{color:var(--fg2);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;word-break:keep-all;overflow-wrap:anywhere}
+.sec-list-sec h2{color:var(--ink);letter-spacing:.04em;border:none;padding:0;margin:0 0 8px;word-break:keep-all;overflow-wrap:anywhere}
 .chap-body .stats{margin:16px 0}
 .chap-body .ai-fact{margin-bottom:16px}
 .chap-body .ai-era-essay{margin:16px 0;padding:16px 18px}

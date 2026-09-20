@@ -44,6 +44,6 @@ export const CANONICAL_DETAIL_CSS = `
     /* Section spacing + section h2 (sec-h pattern) */
     section{margin-top:26px}
     @media (min-width:900px){section{margin-top:44px}}
-    section > h2{color:var(--orange-hot);letter-spacing:-0.005em;margin:0 0 12px;padding:0}
+    section > h2{color:var(--ink);letter-spacing:-0.005em;margin:0 0 12px;padding:0}
     @media (min-width:900px){section > h2{margin:0 0 18px}}
 `;

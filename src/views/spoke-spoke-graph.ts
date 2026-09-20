@@ -161,7 +161,7 @@ export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, s
 
 export const SAME_RISK_CSS = `
 .same-risk-neighbors{margin:36px 0}
-.same-risk-neighbors h2{color:var(--orange-hot);margin:0 0 6px}
+.same-risk-neighbors h2{color:var(--ink);margin:0 0 6px}
 .same-risk-neighbors .srn-subtitle{font-size:var(--t-sm);color:var(--fg2);margin:0 0 14px;line-height:1.55}
 .srn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
 .srn-card{display:flex;flex-direction:column;gap:6px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms}

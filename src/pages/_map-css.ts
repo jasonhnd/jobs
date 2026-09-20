@@ -423,6 +423,6 @@ export const MAP_PAGE_CSS = `
     }
     .footer-links a:hover { color: var(--orange-hot); border-color: var(--accent); }
     .footer-meta { margin-top: 14px; font-size: var(--t-xs); color: var(--ink-meta); line-height: 1.7; }
-    .footer-meta em { font-style: normal; color: var(--fg2); }
+    .footer-meta em { font-style: normal; color: var(--ink); }
     .nowrap { white-space: nowrap; }
   `;
