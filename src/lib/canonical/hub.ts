@@ -28,7 +28,13 @@ a:hover{color:var(--orange-hot)}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* Header + h1 — hub class signature */
-header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+/* Page hero header only. BaseLayout wraps the site chrome (MobileNav + TopNav)
+   in a bare header element for the banner landmark; a bare header selector painted
+   a second rule and 24px of padding under the top nav on every page of this
+   class (2026-06-03 → 2026-09-20). The hero sits inside the main element; the
+   chrome does not. :where() keeps the specificity at (0,0,1), so page rules such as
+   /me's .me-head still win exactly as they did against the bare selector. */
+:where(main) header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
 h1{color:var(--fg);margin-bottom:12px}
 h1 .accent{color:var(--ink)}
 .sub{color:var(--fg2);font-size:var(--t-h3)}
