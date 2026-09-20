@@ -20,7 +20,7 @@ a:hover{color:var(--orange-hot)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 
 /* Sector class layout: shared content-column width, same as Hub class */
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px 20px 80px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--s-5) 80px}
 
 /* Breadcrumb */
 .crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}

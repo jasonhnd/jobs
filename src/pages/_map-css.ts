@@ -56,7 +56,7 @@ export const MAP_PAGE_CSS = `
       position: sticky; top: 0; z-index: var(--z-sticky);
       height: var(--h-head);
       display: flex; align-items: center; gap: 14px;
-      padding: 0 16px;
+      padding: 0;
       background: var(--bg);
       border-bottom: 1px solid var(--border);
       transform: translate3d(0,0,0);
@@ -65,6 +65,7 @@ export const MAP_PAGE_CSS = `
       display: inline-flex; align-items: center;
       font-size: var(--t-sm); color: var(--fg2);
       padding: 8px 4px; min-height: 44px; min-width: 44px;
+      margin-left: -4px; /* the 4px hit-area pad must not push the text off the column's left edge (§9.1) */
     }
     .map-head .back:hover, .map-head .back:focus-visible { color: var(--orange-hot); }
     /* Heading typography lives in canonical-css.ts (§4.9). Only the page's
@@ -79,7 +80,7 @@ export const MAP_PAGE_CSS = `
       position: sticky; top: var(--h-head); z-index: var(--z-sticky);
       height: var(--h-search);
       display: flex; align-items: center; gap: 8px;
-      padding: 8px 16px;
+      padding: 8px 0; /* on the column's text edge like the title row (§9.1) */
       background: var(--bg);
       border-bottom: 1px solid var(--border);
       transform: translate3d(0,0,0);
@@ -130,7 +131,7 @@ export const MAP_PAGE_CSS = `
       position: sticky; top: calc(var(--h-head) + var(--h-search)); z-index: var(--z-sticky);
       height: var(--h-chips);
       display: flex; align-items: center; gap: 8px;
-      padding: 8px 0 8px 16px;
+      padding: 8px 0 8px 0; /* column text edge (§9.1) */
       background: var(--bg);
       border-bottom: 1px solid var(--border);
       transform: translate3d(0,0,0);
@@ -224,10 +225,10 @@ export const MAP_PAGE_CSS = `
       background: var(--bg2); outline: none;
     }
 
-    main { max-width: var(--content-max); margin: 0 auto; padding: 16px 16px 96px; }
+    main { max-width: var(--content-max); margin: 0 auto; padding: 16px var(--s-5) 96px; }
     .legend {
       display: flex; align-items: center; gap: 12px;
-      margin: 4px 4px 18px;
+      margin: 4px 0 18px;
       font-size: var(--t-xs); color: var(--fg2);
       letter-spacing: 0.02em;
     }
@@ -236,7 +237,7 @@ export const MAP_PAGE_CSS = `
     .sector-section { margin-bottom: 28px; }
     .sector-head {
       display: flex; align-items: baseline; justify-content: space-between;
-      gap: 10px; margin: 0 4px 8px;
+      gap: 10px; margin: 0 0 8px;
     }
     .sector-name { color: var(--fg); }
     .sector-meta { font-size: var(--t-xs); color: var(--fg2); font-variant-numeric: tabular-nums; }
