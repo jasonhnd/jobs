@@ -68,11 +68,40 @@
       if (w >= 10000) return (w / 10000).toFixed(0) + ' 万人';
       return w.toLocaleString('ja-JP') + ' 人';
     }
+    // One decimal, the server's rule: banker's rounding over the exact stored
+    // double, ported from src/data/lib/banker-round.ts (inline scripts cannot
+    // import it). toFixed / Math.round are half-away-from-zero and were NOT
+    // the same rule — and the treemap projection stores raw floats such as
+    // 4.266666666666667, which this page used to print verbatim (design-1.21).
+    function fmtRisk(v) {
+      if (v == null) return '—';
+      var n = Number(v);
+      if (!Number.isFinite(n)) return '—';
+      var sign = n < 0 ? '-' : '';
+      var wide = Math.abs(n).toFixed(18);
+      var dot = wide.indexOf('.');
+      if (dot === -1) return String(n);
+      var intStr = wide.slice(0, dot);
+      var frac = wide.slice(dot + 1);
+      var keep = frac.charAt(0);
+      var decisive = frac.charAt(1);
+      var tail = frac.slice(2);
+      var roundUp;
+      if (decisive < '5') roundUp = false;
+      else if (decisive > '5') roundUp = true;
+      else if (/[1-9]/.test(tail)) roundUp = true;
+      else roundUp = Number(keep) % 2 !== 0;
+      var truncated = Number(sign + intStr + '.' + keep);
+      if (!roundUp) return String(truncated);
+      var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
+      return String(Number(inc.toFixed(1)));
+    }
     function riskLabel(r) {
-      if (r >= 9) return r + '/10 ▲ 大きく変わる仕事';
-      if (r >= 7) return r + '/10 ▲ 影響大';
-      if (r >= 4) return r + '/10 ▼ 中程度';
-      return r + '/10 ◎ 影響小';
+      var s = fmtRisk(r) + '/10';
+      if (r >= 9) return s + ' ▲ 大きく変わる仕事';
+      if (r >= 7) return s + ' ▲ 影響大';
+      if (r >= 4) return s + ' ▼ 中程度';
+      return s + ' ◎ 影響小';
     }
     /**
      * Design.md §5.7 — a treemap tile shows its label in full or not at all.
@@ -341,7 +370,7 @@
         name.textContent = sm.ja;
         var meta = document.createElement('span');
         meta.className = 'sector-meta';
-        meta.textContent = recs.length + ' 職業 ・ 平均 AI ' + (sm.mean_ai_risk != null ? sm.mean_ai_risk.toFixed(1) : '—');
+        meta.textContent = recs.length + ' 職業 ・ 平均 AI ' + fmtRisk(sm.mean_ai_risk);
         head.appendChild(name);
         head.appendChild(meta);
         section.appendChild(head);
@@ -368,7 +397,7 @@
           if (!r.__synthetic) cell.dataset.id = r.id;
           cell.setAttribute('aria-label', r.__synthetic
             ? r.name_ja + '（小規模職業をまとめた領域）'
-            : r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、就業者数 ' + fmtWorkers(r.workers));
+            : r.name_ja + '：AI 影響 ' + fmtRisk(r.ai_risk) + '/10、就業者数 ' + fmtWorkers(r.workers));
           cell.style.left   = rect.x.toFixed(1) + 'px';
           cell.style.top    = rect.y.toFixed(1) + 'px';
           // Min 28px enforces a tappable cell — squarified geometry can
@@ -538,7 +567,7 @@
         if (ttHideTimer) { clearTimeout(ttHideTimer); ttHideTimer = null; }
         $ttName.textContent = r.name_ja || '';
         $ttRisk.className = 'ct-risk risk-pill ' + riskClass(r.ai_risk);
-        $ttRisk.textContent = 'AI ' + r.ai_risk + '/10';
+        $ttRisk.textContent = 'AI ' + fmtRisk(r.ai_risk) + '/10';
         $ttSalary.textContent = fmtSalary(r.salary);
         $ttWorkers.textContent = fmtWorkers(r.workers);
         $ttSector.textContent = r.sector_ja || '';
@@ -645,7 +674,7 @@
         nameSpan.textContent = d.title_ja || '';
         var riskSpan = document.createElement('span');
         riskSpan.className = 'risk';
-        riskSpan.textContent = 'AI ' + (d.ai_risk != null ? d.ai_risk : '?') + '/10';
+        riskSpan.textContent = 'AI ' + fmtRisk(d.ai_risk) + '/10';
         li.appendChild(nameSpan);
         li.appendChild(riskSpan);
         $suggest.appendChild(li);
@@ -794,7 +823,7 @@
           var li = document.createElement('li');
           var a = document.createElement('a');
           a.href = occupationPath(r.id);
-          a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
+          a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + fmtRisk(r.ai_risk) + '/10、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
           var sw = document.createElement('span');
           sw.className = 'swatch';
           sw.style.background = colorForRisk(r.ai_risk || 5);
@@ -803,7 +832,7 @@
           nm.textContent = r.name_ja;
           var st = document.createElement('span');
           st.className = 'stats';
-          st.textContent = 'AI ' + (r.ai_risk || '?') + '/10 ・ ' + fmtWorkers(r.workers);
+          st.textContent = 'AI ' + fmtRisk(r.ai_risk) + '/10 ・ ' + fmtWorkers(r.workers);
           a.appendChild(sw); a.appendChild(nm); a.appendChild(st);
           li.appendChild(a);
           ol.appendChild(li);
