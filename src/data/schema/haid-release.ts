@@ -13,21 +13,23 @@
  *
  * Contract enforced by `validateHaidRelease()`:
  *   - exactly levels 1..10, certainty vocabulary from HAID
- *   - `n_at_least` shape follows the certainty (measured/range need all
- *     three values, lower_bound needs low only, none is null)
- *   - population anchor exists and equals N(≥1)
+ *   - every level names a method; the method decides the certainty and how
+ *     many anchors it cites (the projection does the arithmetic)
+ *   - anchor windows fit the level's window (a 7-day count may floor a
+ *     30-day level, never the reverse)
+ *   - level 1 is the population anchor
  *   - every referenced anchor / overlap key exists
  *   - a `final` release has no placeholder anchor or overlap and carries
  *     `published_at`; a `draft` may hold placeholders (2026-09-21 ruling)
  *
  * Monotonicity of N(≥k) is *not* an input invariant: a lower bound for
  * level 3 may sit below the estimate for level 4. The projection clamps by
- * nesting (N(≥k) ≥ N(≥k+1)) and records that it did.
+ * nesting (N(≥k) ≥ N(≥k+1)) and records that it did (derivation.floored).
  */
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { z } from 'zod';
-import { HAID_LEVELS, HAID_SPEC_VERSION } from '../../site/haid-spec.js';
+import { HAID_LEVELS, HAID_SPEC_VERSION, type HaidWindow } from '../../site/haid-spec.js';
 
 export const HAID_RELEASE_ROOT = join('data', 'haid-release');
 
@@ -90,38 +92,55 @@ const Triple = z
   .strict();
 export type HaidTriple = z.infer<typeof Triple>;
 
+export const HaidMethodSchema = z.enum(['single', 'max_single', 'sum_minus_overlap', 'none']);
+export type HaidMethod = z.infer<typeof HaidMethodSchema>;
+
+/** Which certainty each method yields. `single` may be measured or residual. */
+export const METHOD_CERTAINTY: Readonly<Record<HaidMethod, readonly HaidReleaseCertainty[]>> = {
+  single: ['measured', 'residual'],
+  max_single: ['lower_bound'],
+  sum_minus_overlap: ['range'],
+  none: ['none'],
+};
+
 export const HaidLevelInputSchema = z
   .object({
     certainty: HaidCertaintySchema,
-    n_at_least: Triple.nullable(),
+    /**
+     * How N(≥k) is computed from the cited anchors (the projection does the
+     * arithmetic and records it):
+     *   single             — the one anchor's value
+     *   max_single         — the largest single anchor (lower bound)
+     *   sum_minus_overlap  — low = largest single, high = sum, mid = sum × (1 − overlap rate)
+     *   none               — no anchor; データなし
+     */
+    method: HaidMethodSchema,
     anchors: z.array(z.string()),
     overlap: z.enum(['level_4', 'level_5']).optional(),
     method_ja: z.string().min(1),
   })
   .strict()
   .superRefine((lv, ctx) => {
-    const t = lv.n_at_least;
     const need = (cond: boolean, message: string) => {
       if (!cond) ctx.addIssue({ code: 'custom', message });
     };
-    switch (lv.certainty) {
+    need(METHOD_CERTAINTY[lv.method].includes(lv.certainty), `method ${lv.method} cannot yield certainty ${lv.certainty}`);
+    switch (lv.method) {
       case 'none':
-        need(t === null, 'certainty none requires n_at_least null');
-        need(lv.anchors.length === 0, 'certainty none must not cite anchors');
+        need(lv.anchors.length === 0, 'method none must not cite anchors');
+        need(lv.overlap === undefined, 'method none takes no overlap');
         break;
-      case 'lower_bound':
-        need(t !== null && t.low !== null && t.mid === null && t.high === null, 'lower_bound requires low only');
-        need(lv.anchors.length >= 1, 'lower_bound must cite at least one anchor');
+      case 'single':
+        need(lv.anchors.length === 1, 'method single cites exactly one anchor');
+        need(lv.overlap === undefined, 'method single takes no overlap');
         break;
-      case 'range':
-        need(t !== null && t.low !== null && t.mid !== null && t.high !== null, 'range requires low, mid, high');
-        need(t !== null && t.low !== null && t.mid !== null && t.high !== null && t.low <= t.mid && t.mid <= t.high, 'range must satisfy low <= mid <= high');
-        need(lv.anchors.length >= 1, 'range must cite at least one anchor');
+      case 'max_single':
+        need(lv.anchors.length >= 1, 'method max_single cites at least one anchor');
+        need(lv.overlap === undefined, 'method max_single takes no overlap');
         break;
-      case 'measured':
-      case 'residual':
-        need(t !== null && t.low !== null && t.mid !== null && t.high !== null && t.low === t.mid && t.mid === t.high, `${lv.certainty} requires low == mid == high`);
-        need(lv.anchors.length >= 1, `${lv.certainty} must cite at least one anchor`);
+      case 'sum_minus_overlap':
+        need(lv.anchors.length >= 2, 'method sum_minus_overlap cites at least two anchors');
+        need(lv.overlap !== undefined, 'method sum_minus_overlap needs an overlap rate');
         break;
     }
   });
@@ -172,14 +191,22 @@ export function validateHaidRelease(input: HaidRelease): string[] {
     problems.push(`population_anchor ${release.population_anchor} not found`);
   } else {
     const l1 = release.levels['1'];
-    if (l1.certainty !== 'measured' || l1.n_at_least?.mid !== pop.value) {
-      problems.push('level 1 must be measured and equal to the population anchor');
+    if (l1.method !== 'single' || l1.certainty !== 'measured' || l1.anchors[0] !== release.population_anchor) {
+      problems.push('level 1 must be method single, measured, citing the population anchor');
     }
   }
 
   for (const [k, lv] of Object.entries(release.levels)) {
+    const spec = HAID_LEVELS.find((l) => String(l.level) === k)!;
     for (const id of lv.anchors) {
-      if (!anchorById.has(id)) problems.push(`level ${k} cites unknown anchor ${id}`);
+      const a = anchorById.get(id);
+      if (!a) {
+        problems.push(`level ${k} cites unknown anchor ${id}`);
+        continue;
+      }
+      if (!windowFits(spec.window, a.window)) {
+        problems.push(`level ${k} (${spec.window}) cannot use anchor ${id} with window ${a.window}`);
+      }
     }
     if (lv.overlap && overlap[lv.overlap] === null) {
       problems.push(`level ${k} cites overlap ${lv.overlap} which is null`);
@@ -207,6 +234,27 @@ export function validateHaidRelease(input: HaidRelease): string[] {
     }
   }
   return problems;
+}
+
+/**
+ * An anchor's window must not be wider than the level's. A 7-day count may
+ * serve a 30-day level (as a floor: weekly users are monthly users); a 30-day
+ * count may not serve the 7-day level. Levels 1 and 2 take ITU / state
+ * figures; levels 9–10 are judged as a state.
+ */
+export function windowFits(levelWindow: HaidWindow, anchorWindow: HaidAnchor['window']): boolean {
+  switch (levelWindow) {
+    case 'itu_3m':
+    case 'residual':
+      return anchorWindow === 'itu_3m' || anchorWindow === 'state';
+    case 'days_30':
+      return anchorWindow === 'days_30' || anchorWindow === 'days_7';
+    case 'days_7':
+      return anchorWindow === 'days_7';
+    case 'state':
+    case 'counterfactual':
+      return anchorWindow === 'state';
+  }
 }
 
 async function readJson(path: string): Promise<unknown> {
