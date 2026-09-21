@@ -1,0 +1,14 @@
+{
+  "level_4": {
+    "rate": 0.38,
+    "low": 0.30,
+    "high": 0.45,
+    "grade": "D",
+    "source_name": "調査（未特定）",
+    "source_url": null,
+    "as_of": null,
+    "status": "placeholder",
+    "note": "Share of monthly users of one product who also use another. Carried over from data/ai-adoption assumptions (free_upper_layer_overlap_rate). HAID requires a survey-based, published rate; replace before final."
+  },
+  "level_5": null
+}
