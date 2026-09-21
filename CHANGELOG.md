@@ -12,6 +12,90 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **Occupation titles state where a salary sits, not what it is — supersedes
+  #276.** All 556 `/[id]` titles go from
+  `花火師の年収約536万円｜AI影響2.5/10｜未来の仕事` to
+  `花火師の年収は544職業中上位38%｜AI影響2.5/10`, and the meta description's
+  opening clause changes the same way. #276 put the yen figure in the title on
+  2026-08-24 on the hypothesis that 年収 queries impressed without converting
+  because the title carried no number; it was shipped and never measured.
+  Measured now against the two page families #276 did not touch —
+  occupation `/[id]` CTR 0.96% → 0.83% (−14%) while its position improved
+  8.7 → 8.3, against `/rankings/*` 4.86% → 5.05% (+4%) and everything else
+  2.44% → 2.71% (+11%). Both controls rose; only the family that got the yen
+  figure fell. The figure answers the query inside the SERP, so nothing is
+  left to click for. The 年収 token itself stays — adding it is what moved
+  position 8.7 → 8.3 — and only the answer is withheld.
+  New `salaryStanding()` (src/site/geo-facts.ts) derives the standing from the
+  same salary-desc / id tie-break `/rankings/salary` uses, so a title and the
+  ranking page cannot disagree. It reports a percentile rather than a rank
+  because 544 occupations carry only 138 distinct salary figures and the
+  largest tie group is 35 — an exact rank would print the identical 「124位」
+  on 35 pages and claim precision jobtag does not have. Tied occupations take
+  the midpoint of their group, not its head. The denominator is 544, not
+  `OCCUPATION_COUNT.SCORED` (556): jobtag publishes no salary for 12
+  statutory-pay or self-employed occupations (警察官 / 裁判官 / 検察官 /
+  自衛官×3 / 海上保安官 / 麻薬取締官 / 刑務官 / 国会議員 / 会社経営者 /
+  起業), which keep the existing no-salary title. SEO baseline refreshed.
+
+- **Four ranking pages withheld from search.** `self-employed-typical`,
+  `freelance-friendly`, `ai-safe-young-workforce` and `ai-safe-short-hours`
+  now render `noindex, follow`. GSC 2026-08-22 → 09-19: the 40 ranking pages
+  split hard — 11 carry 861 of 928 clicks (93%), all of them plain
+  single-axis rankings people search for (就業者数 / 労働時間 / 時給 /
+  求人倍率 / 年収 / 平均年齢) — while these four sit at position 22.8, 23.5,
+  38.2 and 47.5. Google has looked at them and placed them past the second
+  page, which is a signal about the page rather than about demand. The bar
+  is position, not clicks: the other 25 low-click rankings rank at position
+  5-10 and simply have no search volume, and withholding those would be the
+  wrong call. `noindex` rather than deletion — pages stay reachable, internal
+  links keep flowing, reversible in one line. They stay in the sitemap; the
+  robots meta wins over a sitemap entry and 4 URLs of 839 does not justify
+  threading an exclusion through `views/sitemap.ts` and its floor assertion.
+  Whoever re-measures the title change above must exclude these four slugs
+  from both sides of the `/rankings/*` control group.
+
+- **Non-production hosts are withheld from search indexes.** The middleware
+  now stamps `X-Robots-Tag: noindex, nofollow` on every response whose
+  request `Host` is not `mirai-shigoto.com`. Verified 2026-09-21:
+  `pre.mirai-shigoto.com` served robots.txt `Allow: /` and
+  `<meta name="robots" content="index, follow">`, and Google had already
+  picked up `pre.mirai-shigoto.com/data` — a complete 839-URL mirror
+  competing with the canonical host. Decided per request rather than at build
+  time: Astro loads `.env.local` into the build and this repo's own
+  `.env.local` carries `VERCEL=1` and `VERCEL_ENV="preview"` (it comes from
+  `vercel env pull`), so no build-time env signal distinguishes a local build
+  from a preview one — and `capture:seo-baseline` runs locally, so a
+  build-time noindex would bake `noindex` into the baseline for all 839 pages
+  and drift against every production build. Deciding at the edge leaves the
+  static HTML, and therefore the baseline, untouched. Allow-list, not
+  deny-list: only the exact production host is indexable, so every preview
+  URL, `*.vercel.app` deployment URL and future alias is covered without
+  enumeration, and a missing or malformed `Host` is withheld too. Applied
+  only to `next()` / `rewrite()` results — `Response.redirect()` headers are
+  immutable per the Fetch spec, and a redirect is not indexed anyway.
+
+### Fixed
+
+- **`bun run test:e2e` no longer writes real sessions into production GA4.**
+  `dist-astro/` is built from `.env.local`, which carries the production
+  `PUBLIC_GA4_MEASUREMENT_ID`, and gtag.js does not care that it is running
+  on localhost — it loads, queues and posts `g/collect`. Measured 2026-09-21:
+  ~1,870 synthetic sessions across seven runs between 8/25 and 9/17, 12% of
+  the 8/15–9/20 window and 47% of 9/17 alone. Signature: 100% Chrome,
+  desktop/mobile in near-1:1 pairs, screen resolutions `1280x800` and
+  `393x727` (the config's two projects — `393x727` appears on no other day),
+  average session duration 0.0006–0.014s, landing on exactly the URLs the
+  suite visits. Vercel Web Analytics is first-party and is not served on
+  localhost, so it recorded none of them; 9/17 read 1,184 users in GA4
+  against 322 in Vercel, which is how the divergence surfaced. `run-e2e.sh`
+  now always rebuilds with `PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000` — a
+  well-formed id for no property, so every assertion in `analytics.spec.ts`
+  still holds while GA4 discards the hit — and the spec asserts the embedded
+  id matches `/^G-E2E/` so a production-keyed build fails loudly.
+
+### Changed
+
 - **The site has one name: 「未来の仕事」.** It was already the nav brand, the
   domain, the WebSite schema and 826 of 839 `<title>`s, but `og:site_name` and
   the breadcrumb root on 578 pages (every occupation page, `/models`,
