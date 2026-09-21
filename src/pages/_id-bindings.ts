@@ -34,7 +34,7 @@ import {
   renderAiFactParagraph,
 } from '@/lib/ai-fact-summary';
 import { loadGeoFacts } from '@/page-data/geo-facts-loader';
-import { findGeoOccupation, type GeoFacts } from '@/site/geo-facts';
+import { findGeoOccupation, salaryStanding, type GeoFacts } from '@/site/geo-facts';
 import { strictReadJson } from '@/lib/strict-load';
 import { buildOccupationSeo } from '@/views/occupation-seo';
 import {
@@ -350,7 +350,9 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const seo = buildOccupationSeo({
     nameJa,
     aiRisk: risk,
-    salaryMan,
+    // Percentile, not the yen figure — see occupation-seo.ts for the
+    // measured reason (#276 supersede).
+    salaryStanding: salaryStanding(geoFacts, id),
     workers,
     aliasesJa: aliases,
   });

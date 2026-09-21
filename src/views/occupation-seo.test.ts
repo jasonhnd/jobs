@@ -10,20 +10,50 @@ import { buildOccupationSeo, type OccupationSeoInput } from './occupation-seo.js
 const baseInput: OccupationSeoInput = {
   nameJa: '看護師',
   aiRisk: null,
-  salaryMan: null,
+  salaryStanding: null,
   workers: null,
   aliasesJa: [],
 };
 
 describe('buildOccupationSeo', () => {
-  test('title with salary leads with the yen figure then AI impact (#276)', () => {
-    const { title } = buildOccupationSeo({ ...baseInput, aiRisk: 3, salaryMan: 536.5 });
-    assert.equal(title, '看護師の年収約536万円｜AI影響3/10｜未来の仕事');
+  test('title states salary standing, never the yen figure (supersedes #276)', () => {
+    const { title } = buildOccupationSeo({
+      ...baseInput,
+      aiRisk: 3,
+      salaryStanding: { topPercent: 39, universe: 544 },
+    });
+    assert.equal(title, '看護師の年収は544職業中上位39%｜AI影響3/10');
   });
 
   test('title banker-rounds even-count medians to one decimal', () => {
-    const { title } = buildOccupationSeo({ ...baseInput, aiRisk: 4.25, salaryMan: 500 });
-    assert.equal(title, '看護師の年収約500万円｜AI影響4.2/10｜未来の仕事');
+    const { title } = buildOccupationSeo({
+      ...baseInput,
+      aiRisk: 4.25,
+      salaryStanding: { topPercent: 39, universe: 544 },
+    });
+    assert.equal(title, '看護師の年収は544職業中上位39%｜AI影響4.2/10');
+  });
+
+  test('title prints the universe it was given, not a hardcoded 556', () => {
+    const { title } = buildOccupationSeo({
+      ...baseInput,
+      aiRisk: 3,
+      salaryStanding: { topPercent: 6, universe: 540 },
+    });
+    assert.ok(title.includes('540職業中上位6%'));
+    assert.ok(!title.includes('556'));
+  });
+
+  test('no title or description anywhere prints a 万円 figure', () => {
+    const { title, description, ogTitle, ogDescription } = buildOccupationSeo({
+      ...baseInput,
+      aiRisk: 3,
+      salaryStanding: { topPercent: 39, universe: 544 },
+      workers: 692975,
+    });
+    for (const s of [title, description, ogTitle, ogDescription]) {
+      assert.ok(!s.includes('万円'), `leaked a yen figure: ${s}`);
+    }
   });
 
   test('title without salary still carries AI impact', () => {
@@ -32,20 +62,24 @@ describe('buildOccupationSeo', () => {
   });
 
   test('title with null aiRisk uses 未評価', () => {
-    const { title } = buildOccupationSeo({ ...baseInput, aiRisk: null, salaryMan: 480 });
-    assert.equal(title, '看護師の年収約480万円｜AI影響未評価｜未来の仕事');
+    const { title } = buildOccupationSeo({
+      ...baseInput,
+      aiRisk: null,
+      salaryStanding: { topPercent: 50, universe: 544 },
+    });
+    assert.equal(title, '看護師の年収は544職業中上位50%｜AI影響未評価');
   });
 
-  test('description leads with jobtag salary, then workers, then AI-impact tier', () => {
+  test('description leads with the salary standing, then workers, then AI-impact tier', () => {
     const { description } = buildOccupationSeo({
       ...baseInput,
       aiRisk: 5,
-      salaryMan: 480,
+      salaryStanding: { topPercent: 39, universe: 544 },
       workers: 1500000,
     });
     assert.equal(
       description,
-      '看護師の平均年収は約480万円（厚生労働省 jobtag）。就業者は1,500,000人。看護師のAI影響度は10段階中5と中程度です。仕事の中身がAIで変わる度合いであり、失業の確率ではありません。将来性やなり方、必要なスキルを詳しく解説。',
+      '看護師の年収は544職業中で上位39%（厚生労働省 jobtag 2026年版）。就業者は1,500,000人。看護師のAI影響度は10段階中5と中程度です。仕事の中身がAIで変わる度合いであり、失業の確率ではありません。将来性やなり方、必要なスキルを詳しく解説。',
     );
   });
 
@@ -65,7 +99,11 @@ describe('buildOccupationSeo', () => {
   });
 
   test('description never says AI代替リスク', () => {
-    const { description } = buildOccupationSeo({ ...baseInput, aiRisk: 8, salaryMan: 500 });
+    const { description } = buildOccupationSeo({
+      ...baseInput,
+      aiRisk: 8,
+      salaryStanding: { topPercent: 20, universe: 544 },
+    });
     assert.ok(!description.includes('代替リスク'));
   });
 

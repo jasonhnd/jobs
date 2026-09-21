@@ -7,13 +7,32 @@
  * derivation; consolidating it here keeps the formula in one
  * tested place and out of the page frontmatter.
  *
- * Title format (#276 — GSC: occupation 年収 queries impress, titles
- * did not show a yen figure, so CTR collapsed):
- *   with salary:  `${nameJa}の年収約${N}万円｜AI影響${riskStr}｜未来の仕事`
+ * Title format:
+ *   with salary:  `${nameJa}の年収は${universe}職業中上位${pct}%｜AI影響${riskStr}`
  *   no salary:    `${nameJa}のAI影響${riskStr}｜未来の仕事`
  *   unscored AI:  `未評価` instead of `{n}/10`
  *
- * Description: salary (jobtag) → workers → AI-impact tier →
+ * Why the percentile and not the yen figure (2026-09-21, supersedes #276):
+ * #276 put the yen figure in the title on 2026-08-24 on the hypothesis that
+ * 年収 queries impressed but did not convert because the title showed no
+ * number. It was never measured afterwards. Measured now against the two
+ * page families the change did not touch:
+ *
+ *   occupation /<id>   CTR 0.96% → 0.83%  (-14%), position 8.7 → 8.3
+ *   /rankings/*        CTR 4.86% → 5.05%  (+4%)   ← untouched control
+ *   everything else    CTR 2.44% → 2.71%  (+11%)  ← untouched control
+ *
+ * Both controls rose over the same window; the only family that fell is the
+ * one that got the yen figure, and it fell while its ranking improved. The
+ * figure answers the query in the SERP, so there is nothing left to click
+ * for. The 年収 token itself is kept — adding it is what moved position
+ * 8.7 → 8.3 — and only the ANSWER is withheld.
+ *
+ * `universe` comes from salaryStanding() and is 544, not 556: jobtag
+ * publishes no salary for 12 statutory-pay / self-employed occupations. Do
+ * not substitute OCCUPATION_COUNT.SCORED here.
+ *
+ * Description: salary standing (jobtag) → workers → AI-impact tier →
  * "degree of work change, not unemployment probability" when scored →
  * the 将来性 tail. Do not say AI代替リスク in the meta description.
  *
@@ -30,8 +49,12 @@ export interface OccupationSeoInput {
   readonly nameJa: string;
   /** 0-10 AI risk score; null/missing → "AI影響度を分析" generic copy. */
   readonly aiRisk: number | null;
-  /** Annual salary in 万円. Falsy → omitted from description's data clause. */
-  readonly salaryMan: number | null | undefined;
+  /**
+   * Position in the salary distribution, from salaryStanding(). null when
+   * jobtag publishes no salary for this occupation — the title then drops
+   * the 年収 clause entirely rather than inventing a standing.
+   */
+  readonly salaryStanding: { readonly topPercent: number; readonly universe: number } | null;
   /** Workforce count in persons. Falsy → omitted. */
   readonly workers: number | null | undefined;
   /** Up to 8 aliases ride into the keywords meta. */
@@ -62,7 +85,7 @@ function fmtIntCommas(n: number): string {
 }
 
 export function buildOccupationSeo(input: OccupationSeoInput): OccupationSeoOutput {
-  const { nameJa, aiRisk, salaryMan, workers, aliasesJa } = input;
+  const { nameJa, aiRisk, salaryStanding, workers, aliasesJa } = input;
   // SEO fix 2026-05-17 (H1): when aiRisk is null (the 4 new IPD
   // occupations 581-584 not yet scored), render the readable
   // '未評価' instead of an em dash that looked like missing data in
@@ -70,13 +93,15 @@ export function buildOccupationSeo(input: OccupationSeoInput): OccupationSeoOutp
   const shown = aiRisk !== null ? displayScore(aiRisk) : null;
   const riskStr = shown !== null ? `${shown}/10` : '未評価';
 
-  const title = salaryMan
-    ? `${nameJa}の年収約${Math.trunc(salaryMan)}万円｜AI影響${riskStr}｜未来の仕事`
+  const title = salaryStanding
+    ? `${nameJa}の年収は${salaryStanding.universe}職業中上位${salaryStanding.topPercent}%｜AI影響${riskStr}`
     : `${nameJa}のAI影響${riskStr}｜未来の仕事`;
 
   const clauses: string[] = [];
-  if (salaryMan) {
-    clauses.push(`${nameJa}の平均年収は約${Math.trunc(salaryMan)}万円（厚生労働省 jobtag）。`);
+  if (salaryStanding) {
+    clauses.push(
+      `${nameJa}の年収は${salaryStanding.universe}職業中で上位${salaryStanding.topPercent}%（厚生労働省 jobtag 2026年版）。`,
+    );
   }
   if (workers) {
     clauses.push(`就業者は${fmtIntCommas(workers)}人。`);
