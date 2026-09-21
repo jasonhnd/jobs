@@ -75,6 +75,43 @@ export type RankingSlug =
   | 'regulated-protected'
   | 'low-stress-stable';
 
+/**
+ * Rankings kept in the site but withheld from search (2026-09-21).
+ *
+ * Measured over GSC 2026-08-22 → 09-19. The 40 ranking pages split hard:
+ * 11 carry 861 of 928 clicks (93%), and they are all plain single-axis
+ * rankings people actually search for — 就業者数 / 労働時間 / 時給 /
+ * 求人倍率 / 年収 / 平均年齢. These four are the opposite end: Google
+ * has looked at them and placed them past the second page, which is a
+ * quality signal about the page, not about demand.
+ *
+ *   self-employed-typical    pos 47.5   373 impr   2 clicks
+ *   freelance-friendly       pos 38.2   113 impr   0 clicks
+ *   ai-safe-young-workforce  pos 23.5    13 impr   1 click
+ *   ai-safe-short-hours      pos 22.8     4 impr   0 clicks
+ *
+ * The bar is POSITION, not clicks. The other 25 low-click rankings sit at
+ * position 5-10 — they rank fine and simply have no search volume, and
+ * withholding those would be the wrong call.
+ *
+ * `noindex, follow` rather than deletion: the pages stay reachable, their
+ * internal links keep flowing, and the decision is reversible in one line
+ * if a rewrite lifts them. They are deliberately left in the sitemap —
+ * 4 URLs of 839 is not worth threading an exclusion through
+ * views/sitemap.ts and its build-time floor assertion; the robots meta
+ * wins over a sitemap entry either way.
+ *
+ * NOTE for whoever re-measures the 2026-08-24 title change (#577): the
+ * /rankings/* family is the control group for it. Exclude these four
+ * slugs from BOTH sides of that comparison or the control moves under you.
+ */
+export const DEINDEXED_RANKINGS: ReadonlySet<RankingSlug> = new Set([
+  'self-employed-typical',
+  'freelance-friendly',
+  'ai-safe-young-workforce',
+  'ai-safe-short-hours',
+]);
+
 export interface RankingMeta {
   slug: RankingSlug;
   /** JA title — used as ranking page <h1>, OG card title, sitemap label. */
