@@ -10,6 +10,101 @@ Fields:
 - depends_on: List of work unit ids that must finish first; use [] when none.
 -->
 
+## Done — HAID v1.0 standard page (haid-1, closed 2026-09-14)
+
+`/haid` publishes HAID v1.0 (人類と AI の距離 10 段階): four relations,
+ten levels with 判定 / 観測窓 / 測り方, three named boundaries, terms,
+rules, rulings, conformance, revision policy. Definitions only — counts
+arrive with the `/aiadoption` programme (2026-Q3). Canonical text:
+`docs/HAID.md` (owner-signed 2026-09-11 / 2026-09-13).
+
+- haid-1.1 (#510/#516): `docs/HAID.md` + docs index + DATA_ARCHITECTURE section.
+- haid-1.2 (#511/#517): `src/site/haid-spec.ts` + invariant tests.
+- haid-1.3 (#512/#518): `data.haid-spec.json` projection + `/data` row.
+- haid-1.4 (#513/#519): `/haid` page + OG card.
+- haid-1.5 (#514/#520): footer link + sitemap entry.
+- haid-1.6 (#515/#521): preview checklist + close-out.
+- Tracker #509 closes after this PR.
+
+## Done — Design v1.0 migration (design-1, closed 2026-09-16)
+
+`docs/Design.md` is the UI/UX canon, agreed with the owner over seven rounds
+(§20.3). Production measured 75 font sizes over 803 declarations, 32 radii,
+21 shadows, 19 z-index values and 16 breakpoints. v1.0 collapses these to a
+7-step type scale, 8 spacing steps, 4 radii, 3 shadows, 6 z-index steps and
+3 breakpoints, with a 12px floor and no exceptions.
+
+Migration ran one surface per PR against the one-way conformance ledger
+`docs/DESIGN_CONFORMANCE.md`. `feature` went last because canonical's
+`!important` was suppressing 66 page-local heading rules (§4.9.1).
+
+- design-1.1 (#524/#522): canon + ledger + AGENTS wiring + Vercel ignoreCommand.
+- design-1.2 (#525/#534): `design-tokens.ts`, 40 tokens, zero references.
+- design-1.3 (#526/#536): canonical-type — h1 27.2→28 / h2 18.4→22 /
+  h3 16→18 sans, h4 added. First site-wide visual change, 839 pages.
+- design-1.4 (#527/#537): `/map` — tile labels full-or-none; truncation
+  PC 54%→0, SP 73%→0, threshold measured not hardcoded (§5.7).
+- design-1.5 (#528/#538): doc + static — one monospace (`/aiadoption` was
+  falling to Osaka), `CANONICAL_STATIC_CSS` finally wired (§6.5.1).
+- design-1.6 (#529/#539): hub + sector — ~54 routes; layer-2 aliases verified
+  untouched by per-file occurrence counts (§21.4).
+- design-1.7 (#530/#540): detail — 556 pages; sub-12px 250→70 (smallest was
+  8.06px), 31 `--ink-3` text colours moved to `--ink-meta` (§2.2).
+- design-1.8 (#531/#541): misc — three pages into Hub class, wired not just
+  declared.
+- design-1.9 (#532/#542,#543,#544): feature — canonical `!important` removed,
+  `body.page-feature h1` Display branch by specificity, 224 page-CSS values
+  tokenised. Page titles now render at exactly two values site-wide.
+- design-1.10 (#533/#545): CI gates — type-scale / contrast / design-sync
+  enforce per surface from the ledger; color-tokens reports.
+- Tracker #523 closes with this entry.
+- design-1.11 (#546): close-out docs on preview.
+- design-1.12 (#547): statistics onto serif on the two outlier surfaces (§4.7).
+- design-1.13 (#548): new `chrome` surface — the last sub-12px text is gone.
+- design-1.14 (#549): wire the page classes §18.7 was warning about.
+- design-1.15 (#550): Design v1.1 — §2.5 color-mix; `check-color-tokens` becomes a gate.
+- #551 / #552 (no unit number): round AI-impact scores (8,923 raw floats on 793
+  pages); §2.2 contrast contract — 46 rendered violations to 0.
+- design-1.16 (#553): make the ratchet engage — gate coverage + §4.9 `check-heading-rules`.
+- design-1.17 (#554): claim the hub routes the gates never saw.
+- design-1.18 (#555): close the coverage hole; `og` surface added as intentional `legacy`.
+- design-1.19 (#556): Design v1.2 — close the canon's open items (`--sh-sheet`, §2.4, §2.2 rule 7).
+- design-1.20 (#557): CI runs the checks that read rendered output again.
+
+Of the five items once listed here as open, four closed in 1.12–1.15 (tint
+tokens → §2.5 `color-mix`; the unassigned range → `chrome`; §18.7 → 1.14;
+statistics typeface → 1.12). Still open: **`.four-oh-four`** — a decorative
+numeral with no role in §4.7 (its synthetic italic was removed in design-1.21).
+
+## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
+
+Owner review 2026-09-18/19 of the rendered site (1440×900 / 375×812, Vercel Web
+Analytics 2026-08-19→09-18: 83.6 % of visitors on mobile, 92 % on `/`). Owner
+rulings 2026-09-19/20: fix everything the review found; **no canon version
+bump** (stays v1.2, changes recorded in the revision history); continue the
+`design-1.N` numbering; `/rankings/ai-risk-high` title unchanged; treemap
+label truncation kept (§5.7 ruling); no `check-radius`.
+
+- canon: §4.7 gains 「本文中の行内強調（`strong` / `em`）」 = `--ink` 700, no
+  italics; §2.3 `--risk-0` `#0F8A66` → `#0F8663` (white 4.33 → 4.56:1) and a
+  タイル前景 column `--risk-fg-0..4`; §5.7 records the home canvas ruling;
+  §21.2 carries the 15 risk tokens (moved out of `canonical-css.ts` literals).
+- palette: 7 hard-coded `#0F8A66` sites → tokens (OG ×2, `/map` legend, both
+  inline scripts read `:root`, home preview SVG 31 fills).
+- `/` treemap: `fmtRisk` is now a port of `banker-round.ts` (439/556 tiles
+  printed raw floats); labels in `--risk-fg-N`; dead `.num`/`.denom` gone.
+- `/` 375px: 今月の変動 second column sat 192px off-screen — `min-width:0`.
+- colours: 82 declarations §4.7 assigns to `--ink` (h1 .accent 19, headings 24,
+  strong/em 25, statistics 2, FAQ 1, …) stop using `--accent-deep` /
+  `--orange-hot` / `--fg2` / raw hex. 18 synthetic italics removed. 6 pill
+  radii → `var(--r-md)`. Movers labels → 「仕事が減るリスクが上がった／下がった職業」.
+- gate: `check-role-color` — §4.7 role → token checked against CSS; wired
+  into `verify:gates`.
+
+Parked for the next owner discussion (no §4.7 row yet): link colour on hub
+surfaces (`--accent-deep` vs doc's `--orange-hot`), hover states, kickers /
+eyebrows, card names, raw score values, movers delta colours.
+
 ## Active — SEO+GEO on existing pages (#236)
 
 Owner 「继续」 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable
@@ -25,32 +120,6 @@ Japanese public copy for new strings is posted on #272.
 
 Parked: /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.
-
-## Active — backfill scoring: Grok 4.5 as xAI history (mms-9)
-
-Owner decision 2026-09-10 (`docs/CONSENSUS_SCORE.md` 改訂 3). `grok-4.5` predates
-`grok-4.6` and was never scored; it is scored now and enters the xAI lane as
-history. A batch-level `run.backfill: true` marker makes every "latest run"
-selection skip it: public value, 最新モデル (GPT 6 Astra), 最新観測, aging
-anchor, `SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers, and the `/models` panel
-are unchanged; history surfaces (occupation fold, `/models` lane fold, per-run
-page, `score_history`, bare-slug 308) include it. No on-site update note.
-
-- mms-9.1 (#479): design doc 「改訂 3」 + two signed per-run strings. depends_on: []
-- mms-9.2 (#480): DATA_ARCHITECTURE / MULTI_MODEL_SCORING / runbook / TOOLCHAIN. depends_on: [mms-9.1]
-- mms-9.3 (#481): frozen prompt `grok-4.5` + constants + body-hash test. depends_on: [mms-9.1]
-- mms-9.4 (#482): ROADMAP, CHANGELOG, id tests. depends_on: [mms-9.2, mms-9.3]
-- mms-9.5 (#483): schema `run.backfill`, `assemble-scores --backfill true`, check-score-batch line. depends_on: [mms-9.4]
-- mms-9.6 (#484): engine — `backfill` on history entries; `pickLatestScore` / `pickFlagshipMeanScore` skip it. depends_on: [mms-9.5]
-- mms-9.7 (#485): attribution / geo-facts / occupation-runs / ranking-movers skip it. depends_on: [mms-9.6]
-- mms-9.8 (#486): models-by-model `in_panel`, `backfill_batch` drift note, predecessor logic. depends_on: [mms-9.7]
-- mms-9.9 (#487): models-deep panel / lane-latest / personality chain skip it; lane history keeps it. depends_on: [mms-9.8]
-- mms-9.10 (#488): pinned tests, baselines, gates, zero-visible-change proof. depends_on: [mms-9.9]
-- mms-9.11 (#489): Grok 4.5 pilot 40 (owner GO). depends_on: [mms-9.10]
-- mms-9.12 (#490): Grok 4.5 full 556 (owner GO). depends_on: [mms-9.11]
-- mms-9.13 (#491): land the backfill batch + 308 + baselines; runbook lines unchanged. depends_on: [mms-9.12]
-- mms-9.14 (#492): preview checklist + promotion text (owner promotes). depends_on: [mms-9.13]
-- mms-9.15 (#493): close-out. depends_on: [mms-9.14]
 
 ## Done — consensus canonical score (mms-6) + Grok onboarding (mms-7)
 
@@ -72,6 +141,35 @@ owner-confirmed 2026-08-31; PR #363).
 - mms-7a: Grok 4.6 scoring path on in-agent (`grok-4.6`) + prompt freeze.
 - mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
 - mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
+
+## Done — backfill scoring: Grok 4.5 as xAI history (mms-9, closed 2026-09-11)
+
+Shipped on `preview`, then promoted (`#506`, `main@3c5bb0d3`). A batch-level
+`run.backfill: true` marker makes every "latest run" selection skip it:
+public value, 最新モデル (GPT 6 Astra), 最新観測, aging anchor,
+`SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers, and the `/models` panel are
+unchanged. History surfaces (occupation fold, `/models` lane fold, per-run
+page, `score_history`, bare-slug 308) include Grok 4.5
+(`grok-4.5@2026-09-10`, 556). No on-site update note.
+
+Design: `docs/CONSENSUS_SCORE.md` 改訂 3 (owner 2026-09-10).
+
+- mms-9.1 (#479/#494): design doc 「改訂 3」 + two signed per-run strings.
+- mms-9.2 (#480/#495): DATA_ARCHITECTURE / MULTI_MODEL_SCORING / runbook / TOOLCHAIN.
+- mms-9.3 (#481/#496): frozen prompt `grok-4.5` + constants + body-hash test.
+- mms-9.4 (#482/#497): ROADMAP, CHANGELOG, id tests.
+- mms-9.5 (#483/#498): schema `run.backfill`, `assemble-scores --backfill true`, check-score-batch line.
+- mms-9.6 (#484/#499): engine — `backfill` on history entries; `pickLatestScore` / `pickFlagshipMeanScore` skip it.
+- mms-9.7 (#485/#500): attribution / geo-facts / occupation-runs / ranking-movers skip it.
+- mms-9.8 (#486/#501): models-by-model `in_panel`, `backfill_batch` drift note, predecessor logic.
+- mms-9.9 (#487/#502): models-deep panel / lane-latest / personality chain skip it; lane history keeps it.
+- mms-9.10 (#488/#503): pinned tests, baselines, gates, zero-visible-change proof.
+- mms-9.11 (#489): Grok 4.5 pilot 40 (in-agent; Issue comments; no PR).
+- mms-9.12 (#490): Grok 4.5 full 556 (in-agent; Issue comments; no PR).
+- mms-9.13 (#491/#504): land the backfill batch + 308 + baselines; runbook lines unchanged.
+- mms-9.14 (#492/#506): preview checklist + promotion `preview → main`.
+- mms-9.15 (#493/#508): close-out.
+- Tracker #478 closes after this PR.
 
 ## Done — vendor-flagship mean + Claude Fable 5.1 + GPT-6 Astra (mms-8, closed 2026-09-09)
 

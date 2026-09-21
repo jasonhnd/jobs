@@ -35,7 +35,10 @@
  *   - footer 0.72rem (11.52px) / fg2 — matches production (was 0.78rem on preview)
  */
 
+import { DESIGN_TOKENS_CSS, DESIGN_VERSION } from './design-tokens.js';
+
 export const CANONICAL_CSS = `
+/* Design v${DESIGN_VERSION} */
 /* ───── Canonical design tokens (single source of truth) ─────
    Design.md §2.1 で定義された 2 層構造:
      第 1 層 semantic primary (--cream/--ink/--orange/--green-deep/--red/--purple)
@@ -47,6 +50,16 @@ export const CANONICAL_CSS = `
    するため、page-local <style> で :root{} を再宣言する必要はない (Design.md §18.4)。
    Page class CSS (src/lib/canonical/{detail,hub,sector,static}.ts) はトークンを
    var() で参照するだけで、再宣言しない。 */
+
+/* The UA gives body an 8px margin; every class used to reset it in its own
+   CSS and /aiadoption did not, so its whole page sat 8px in (2026-09-20). */
+html body { margin: 0; }
+
+/* 文節 break for headings: a <br class="ja-phrase-break"> renders only on
+   narrow viewports, so a title breaks between phrases instead of inside a
+   number or a word (「…を9 / 問で見る」). Was home-only until 2026-09-20. */
+html body .ja-phrase-break { display: inline; }
+@media (min-width: 769px) { html body .ja-phrase-break { display: none; } }
 
 :root {
   /* 第 1 層 — semantic primary */
@@ -70,8 +83,8 @@ export const CANONICAL_CSS = `
   --red: #c95a3a;
   --purple: #8b5fb0;
   --purple-soft: #ddd5fb;
-  --line: rgba(36, 30, 24, 0.06);
-  --line-strong: rgba(36, 30, 24, 0.12);
+  --line: color-mix(in srgb, var(--ink) 6%, transparent);
+  --line-strong: color-mix(in srgb, var(--ink) 12%, transparent);
   /* 第 2 層 — alias (legacy 互換、値固定。Design.md §2.1 警告参照: --fg2/--fg3/--accent-2/--border の RGB は --ink-2 等と厳密に等しくない、これは意図) */
   --bg: #FAF6EE;
   --bg2: #FFFFFF;
@@ -82,35 +95,39 @@ export const CANONICAL_CSS = `
   --accent: #D96B3D;
   --accent-2: #6E9B89;
   --accent-deep: #48705F;
-  --border: rgba(36, 30, 24, 0.10);
+  --border: color-mix(in srgb, var(--ink) 10%, transparent);
   --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-  /* 第 3 層 — AI-impact (risk) color scale. SINGLE source for every surface
-     (map tiles, sector nav, distribution bar, risk pills, search, OG cards,
-     detail gradient). Was 7 ad-hoc hardcoded ramps; 2026-05-31. */
-  /* Saturated 5-band: band 0 = lowest impact → band 4 = highest. */
-  --risk-0: #0F8A66;
-  --risk-1: #5BA84F;
-  --risk-2: #D9A03B;
-  --risk-3: #E27A33;
-  --risk-4: #C4422F;
-  /* Soft tints of the same 5-band scale (each ≈ 18% of the saturated color over
-     cream) — for the home distribution bar + pill backgrounds, so the soft
-     surfaces share the scale's hues instead of an unrelated pastel set. */
-  --risk-soft-0: #D0E3D6;
-  --risk-soft-1: #DDE8D1;
-  --risk-soft-2: #F4E7CE;
-  --risk-soft-3: #F6E0CC;
-  --risk-soft-4: #F0D6CC;
+  /* 第 3 層 — AI-impact (risk) color scale: --risk-0..4, --risk-soft-0..4 and
+     the per-band tile foreground --risk-fg-0..4. Declared in
+     src/lib/design-tokens.ts (RISK, §2.3) and emitted below with the other
+     tokens (2026-09-20, design-1.21) — one source for CSS, OG renderers and
+     the inline map/treemap scripts. Was 7 ad-hoc hardcoded ramps; 2026-05-31. */
   /* Pills: soft-tint background (from the scale) + readable dark text. */
-  --risk-pill-low-bg: var(--risk-soft-0);  --risk-pill-low-fg: #48705F;
-  --risk-pill-mid-bg: var(--risk-soft-2);  --risk-pill-mid-fg: #8A6A2A;
+  --risk-pill-low-bg: var(--risk-soft-0);  --risk-pill-low-fg: #446a5a;
+  --risk-pill-mid-bg: var(--risk-soft-2);  --risk-pill-mid-fg: #826427;
   --risk-pill-high-bg: var(--risk-soft-3); --risk-pill-high-fg: #A24A28;
   /* 第 4 層 — layout. Single content-column width: every page's #wrapper / main
      references this, and the top-nav + footer align to it, so the content edge
      is identical across the map, occupation, hub, sector, and legal pages.
      (2026-05-31: replaced 6 ad-hoc per-page widths 740/760/820/900/980/1080.) */
   --content-max: 1080px;
+  /* §9.1 — the column's inside gutter: --s-5 (24px) from 600px, --s-4 (16px)
+     below (see the html rule after this block). Every wrapper, the top nav,
+     the mobile topbar and full-bleed bands reference this and nothing else,
+     so the brand and the first line of every page share a left edge at every
+     width. */
+  --gutter: var(--s-5);
+  /* 第 5 層 — Design v1.0 tokens。値の正典は src/lib/design-tokens.ts
+     (Design.md §21.2)。移行 step 1 の時点では宣言のみで参照者はゼロであり、
+     未参照のカスタムプロパティは描画に影響しない。消費者は §19.5 の順序で
+     surface ごとに接続していく。 */
+${DESIGN_TOKENS_CSS}
+}
+/* :root, not html — the declaration above is on :root (0,1,0) and would beat an
+   html rule (0,0,1) regardless of order. */
+@media (max-width: 599px) {
+  :root { --gutter: var(--s-4); }
 }
 
 /* Dark mode neutralized: theme は Design.md §3 で NEUTRALIZED 状態。
@@ -120,7 +137,7 @@ export const CANONICAL_CSS = `
   --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
   --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
   --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
-  --border: rgba(36, 30, 24, 0.10);
+  --border: color-mix(in srgb, var(--ink) 10%, transparent);
 }
 
 /* ───── Cookie consent banner (RA-013, 2026-05-18; compact #320) ─────
@@ -131,12 +148,12 @@ export const CANONICAL_CSS = `
 html body .cookie-banner {
   position: fixed;
   inset: auto 0 0 0;
-  z-index: 10000;
+  z-index: var(--z-toast);
   background: var(--ink);
   color: #fff;
   padding: 2px 8px calc(2px + env(safe-area-inset-bottom, 0px));
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
-  font-size: 12px;
+  box-shadow: var(--sh-sheet);
+  font-size: var(--t-xs);
   line-height: 1.2;
 }
 html body .cookie-banner .cb-inner {
@@ -153,7 +170,7 @@ html body .cookie-banner .cb-text {
   flex: 1 1 auto;
   min-width: 0;
   color: #fff;
-  font-size: 12px;
+  font-size: var(--t-xs);
   line-height: 1.2;
 }
 html body .cookie-banner .cb-text a {
@@ -183,7 +200,7 @@ html body .cookie-banner .cb-btn {
   background: transparent;
   color: #fff;
   font-weight: 600;
-  font-size: 12px;
+  font-size: var(--t-xs);
   line-height: 1;
   cursor: pointer;
   font-family: inherit;
@@ -206,10 +223,10 @@ html body .cookie-banner .cb-btn-accept::before { background: var(--accent); }
 html body .cookie-banner .cb-btn-accept:hover::before { filter: brightness(1.08); }
 html body .cookie-banner .cb-btn-reject { color: #fff; }
 html body .cookie-banner .cb-btn-reject::before {
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid color-mix(in srgb, var(--paper) 40%, transparent);
 }
 html body .cookie-banner .cb-btn-reject:hover::before {
-  background: rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--paper) 8%, transparent);
 }
 html body .cookie-banner .cb-btn:focus-visible {
   outline: 2px solid var(--orange-soft);
@@ -236,14 +253,14 @@ html body a.skip-link {
   position: fixed;
   top: 12px;
   left: 12px;
-  z-index: 9999;
-  background: var(--orange);
+  z-index: var(--z-toast);
+  background: var(--orange-hot);
   color: #fff;
   padding: 10px 16px;
   border-radius: 8px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(217, 107, 61, 0.28);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--orange) 28%, transparent);
   /* Hide visually without removing from focus order: zero size + clip-path */
   transform: translateY(-200%);
   transition: transform 150ms ease;
@@ -271,8 +288,8 @@ html body :focus-visible {
 
 html body {
   font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
   /* RA-006 audit (2026-05-18): defence-in-depth against horizontal-swipe
@@ -291,40 +308,83 @@ html {
   overflow-x: clip;
 }
 
+/* Design.md §4.3 — 見出しは 4 級 + Display の 5 段。書体の分界は H2 と H3 の間。
+   セリフ (Display / H1 / H2) は配信 1 ファイルで 400–700 が同一に描画されるため
+   字号だけで階層を作る。H3 (18px) / H4 (16px) では字号差が足りず、字重を実際に
+   持っているのはサンセリフだけなので、ここでサンセリフ 700 に切り替える (§4.4)。 */
+/* §4.2 — the 12px floor has no exception, and a bare <small> is the one way to
+   fall through it without declaring anything: the UA default is 0.83em, so a
+   <small> inside a --t-sm parent renders at 11.67px and inside --t-xs at 10px.
+   check-type-scale reads declared values and cannot see an inherited one, which
+   is why /haid shipped an 11.67px <small> through a green board. Give the
+   element the caption step (§4.7 caption・出典) so the floor holds by default;
+   a page that wants a different size still sets it with a class. */
+html body small {
+  font-size: var(--t-xs);
+}
+
 html body h1,
-html body h2,
-html body h3,
-html body h4 {
-  font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+html body h2 {
+  font-family: var(--font-serif);
   color: var(--fg);
   letter-spacing: -0.005em;
 }
 
-/* !important on h1/h2/h3 forces hero / nav / detail-article variations
-   (specificity 0,0,1,1 from class-scoped rules) to fall back to the canonical
-   site-wide typography. Trade-off: map's sticky nav h1 will be bigger; index
-   hero h2 retracts; detail h1 normalises. User opted into uniform headings. */
+html body h3,
+html body h4 {
+  font-family: var(--font-sans);
+  color: var(--fg);
+  letter-spacing: -0.005em;
+}
+
+/* design-1.9 (§4.9.1) removed the !important that used to sit on every one of
+   these declarations. It existed to suppress class-scoped page heading rules;
+   all of them are gone now, so html body h1 (specificity 0,0,0,3) governs on
+   its own and the specificity war is over. Nothing in src/ may reintroduce
+   an !important on font-size (§4.9).
+
+   font-weight is NOT declared on h1/h2: the shipped serif renders 400/500/
+   600/700 identically (measured 595.97px at each), so writing a weight there
+   is a claim the font cannot honour (§4.5). */
 html body h1 {
-  font-size: 1.7rem !important;
-  font-weight: 700 !important;
-  line-height: 1.3 !important;
+  font-size: var(--t-h1);
+  line-height: var(--lh-h1);
 }
 
 html body h2 {
-  font-size: 1.15rem !important;
-  font-weight: 600 !important;
-  line-height: 1.4 !important;
+  font-size: var(--t-h2);
+  line-height: var(--lh-h2);
 }
 
 html body h3 {
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  line-height: 1.5 !important;
+  font-size: var(--t-h3);
+  font-weight: 700;
+  line-height: var(--lh-h3);
+}
+
+/* Feature class (§4.8) — exactly / , /models and /aiadoption. The class grants
+   ONE thing: permission to put the page title on --t-display. Everything below
+   H1 is identical to every other class, and arbitrary values are not permitted
+   even here.
+
+   body.page-feature h1 is (0,0,1,2) and beats html body h1 (0,0,0,3) on
+   specificity, so the result does not depend on declaration order and no
+   !important is needed. The class is set through BaseLayout's existing
+   bodyClass prop. */
+html body.page-feature h1 {
+  font-size: var(--t-display);
+  line-height: var(--lh-display);
+}
+
+html body h4 {
+  font-size: var(--t-body);
+  font-weight: 700;
+  line-height: var(--lh-h4);
 }
 
 html body p {
-  font-size: 1rem;
-  line-height: 1.75;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
   color: var(--fg);
 }
 
@@ -341,15 +401,17 @@ html body footer.site-footer {
   max-width: none;
   margin: 48px auto 0;
   padding: 22px 16px 24px;
-  border-top: 1px solid var(--border);
-  font-size: 0.72rem;
+  /* No border-top: the share divider 23px below it already draws the rule
+     that separates the footer from the page, so this was a second line on
+     every page (owner ruling 2026-09-20). */
+  font-size: var(--t-xs);
   color: var(--fg2);
   text-align: center;
   font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
   line-height: 1.65;
 }
 html body footer.site-footer a {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: none;
 }
 html body footer.site-footer a:hover {
@@ -374,14 +436,14 @@ html body footer.site-footer .footer-links a {
   align-items: center;
   border: 1px solid var(--border);
   border-radius: 999px;
-  font-size: 0.74rem;
+  font-size: var(--t-xs);
   line-height: 1.2;
   transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
 }
 html body footer.site-footer .footer-links a:hover {
-  color: var(--accent);
+  color: var(--orange-hot);
   border-color: var(--accent);
-  background: rgba(217, 107, 61, 0.06);
+  background: color-mix(in srgb, var(--orange) 6%, transparent);
   text-decoration: none;
 }
 /* Footer nav grouped by purpose (2026-05-31): a right-aligned label column
@@ -399,10 +461,9 @@ html body footer.site-footer .footer-group {
 html body footer.site-footer .footer-group-label {
   flex: 0 0 84px;
   text-align: right;
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
   font-weight: 600;
-  color: var(--fg2);
-  opacity: 0.7;
+  color: var(--ink-meta);
   letter-spacing: 0.03em;
   white-space: nowrap;
   padding-top: 5px;
@@ -418,19 +479,18 @@ html body footer.site-footer .footer-legal {
   margin: 16px auto 14px;
   padding-top: 14px;
   border-top: 1px solid var(--border);
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
 }
 html body footer.site-footer .footer-legal a {
   color: var(--fg2);
   text-decoration: none;
 }
 html body footer.site-footer .footer-legal a:hover {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: underline;
 }
 html body footer.site-footer .footer-legal span {
-  color: var(--fg2);
-  opacity: 0.4;
+  color: var(--ink-meta);
 }
 @media (max-width: 560px) {
   html body footer.site-footer .footer-group {
@@ -448,15 +508,24 @@ html body footer.site-footer .footer-legal span {
     justify-content: center;
   }
 }
+/* Design.md §4.7 本文中の行内強調 — em reads like strong: ink, 700, upright.
+   The UA stylesheet makes em italic; the shipped fonts have no italic faces
+   (scripts/subset-fonts.ts emits font-style:normal only), so any italic on
+   this site is a synthesised oblique. Site-wide base; page CSS may not
+   reintroduce font-style:italic (design-1.21). */
+html body em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+}
 html body footer.site-footer .footer-meta {
-  color: var(--fg2);
-  font-size: 0.7rem;
-  opacity: 0.92;
+  color: var(--ink-meta);
+  font-size: var(--t-xs);
   text-wrap: pretty;
   line-height: 1.65;
 }
 html body footer.site-footer .footer-meta a {
-  color: var(--accent);
+  color: var(--orange-hot);
 }
 html body footer.site-footer .footer-meta em a {
   /* RA follow-up (2026-05-29): this disclaimer link sits inside body text, so
@@ -466,9 +535,6 @@ html body footer.site-footer .footer-meta em a {
 }
 html body footer.site-footer .footer-meta .nowrap {
   white-space: nowrap;
-}
-html body footer.site-footer .footer-meta em {
-  font-style: italic;
 }
 html body footer.site-footer time {
   font-variant-numeric: tabular-nums;
@@ -481,7 +547,7 @@ html body footer.site-footer time {
    color appears on hover. */
 
 html body footer.site-footer .share-divider {
-  font-size: 0.74rem;
+  font-size: var(--t-xs);
   color: var(--fg2);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -557,8 +623,8 @@ html body footer.site-footer .share-btn:focus-visible {
 }
 
 html body footer.site-footer .share-toast {
-  font-size: 0.78rem;
-  color: var(--accent);
+  font-size: var(--t-xs);
+  color: var(--orange-hot);
   margin-left: 6px;
   opacity: 0;
   transition: opacity 200ms ease;
@@ -598,15 +664,18 @@ html body nav.top-nav {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 14px;
-  /* Full-bleed sticky bar, but the brand + links align to the same centered
-     content column as the page body (no inner wrapper needed). On viewports
-     narrower than --content-max the max() floor keeps a 20px gutter. */
-  padding: 11px max(20px, calc((100% - var(--content-max)) / 2));
+  /* Full-bleed sticky bar, but the brand + links align to the TEXT edge of
+     the centered content column: column edge + the --s-5 gutter every page
+     wrapper uses (§9.1). Until 2026-09-20 the nav sat on the column's outer
+     edge while page text started 20–32px further in, so the brand and the
+     first line of every page were visibly out of line. On viewports narrower
+     than --content-max the max() floor keeps the same --s-5 gutter. */
+  padding: 11px max(var(--gutter), calc((100% - var(--content-max)) / 2 + var(--gutter)));
   background: rgba(252, 248, 241, 0.92);
   backdrop-filter: saturate(140%) blur(8px);
   -webkit-backdrop-filter: saturate(140%) blur(8px);
   border-bottom: 1px solid var(--border);
-  font-size: 0.9rem;
+  font-size: var(--t-sm);
   line-height: 1.4;
   font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
 }
@@ -624,14 +693,14 @@ html body nav.top-nav .top-nav-brand {
   gap: 6px;
   font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: var(--t-body);
   color: var(--fg);
   text-decoration: none;
   margin-right: 6px;
   letter-spacing: -0.005em;
 }
 html body nav.top-nav .top-nav-brand:hover {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: none;
 }
 html body nav.top-nav .top-nav-brand-mark {
@@ -643,22 +712,26 @@ html body nav.top-nav a:not(.top-nav-brand) {
   color: var(--fg2);
   text-decoration: none;
   padding: 2px 0;
-  font-size: 0.9rem;
+  font-size: var(--t-sm);
   transition: color 150ms ease;
 }
 html body nav.top-nav a:not(.top-nav-brand):hover {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: none;
 }
+/* Design.md §4 role table — グローバルナビの現在地は --orange-hot + 下線。
+   色だけで現在地を示さない。 */
 html body nav.top-nav a[aria-current="page"] {
-  color: var(--accent);
+  color: var(--orange-hot);
   font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.2em;
 }
 
 html body nav.top-nav .sep {
-  color: var(--fg2);
-  opacity: 0.6;
-  font-size: 0.85rem;
+  color: var(--ink-meta);
+  font-size: var(--t-xs);
   user-select: none;
 }
 
@@ -666,9 +739,9 @@ html body nav.top-nav .sep {
   html body nav.top-nav {
     padding: 9px 14px;
     gap: 4px 10px;
-    font-size: 0.78rem;
+    font-size: var(--t-sm);
   }
-  html body nav.top-nav .top-nav-brand { font-size: 0.92rem; }
+  html body nav.top-nav .top-nav-brand { font-size: var(--t-body); }
 }
 
 /* When the page <header id="content"> sits directly under the sticky nav,
@@ -706,7 +779,8 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     align-items: center;
     justify-content: space-between;
     height: 48px;
-    padding: 0 12px 0 16px;
+    /* §9.1: the brand sits on the column's text edge (--gutter). */
+    padding: 0 12px 0 var(--gutter);
     background: rgba(252, 248, 241, 0.94);
     backdrop-filter: saturate(140%) blur(10px);
     -webkit-backdrop-filter: saturate(140%) blur(10px);
@@ -724,7 +798,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     align-items: center;
     gap: 8px;
     font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
-    font-size: 1rem;
+    font-size: var(--t-body);
     font-weight: 600;
     color: var(--fg);
     text-decoration: none;
@@ -732,7 +806,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     padding: 6px 4px;
     min-height: 44px;
   }
-  html body header.mob-topbar a.mob-topbar-brand:hover { color: var(--accent); }
+  html body header.mob-topbar a.mob-topbar-brand:hover { color: var(--orange-hot); }
   html body header.mob-topbar a.mob-topbar-brand svg {
     color: var(--accent);
     flex-shrink: 0;
@@ -806,7 +880,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-search {
     position: fixed;
     inset: 0;
-    z-index: 500;
+    z-index: var(--z-modal);
     display: flex;
     flex-direction: column;
     background: var(--bg);
@@ -830,7 +904,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     background: var(--bg2);
     color: var(--fg);
     font: inherit;
-    font-size: 16px;
+    font-size: var(--t-body);
   }
   html body div.mob-search .mob-search-bar input:focus-visible {
     outline: 2px solid var(--accent);
@@ -845,14 +919,14 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     background: transparent;
     color: var(--fg2);
     font: inherit;
-    font-size: 14px;
+    font-size: var(--t-sm);
     font-weight: 700;
     cursor: pointer;
     word-break: keep-all;
   }
   html body div.mob-search .mob-search-hint {
     margin: 10px 4px 12px;
-    font-size: 12.5px;
+    font-size: var(--t-xs);
     color: var(--fg2);
   }
   html body div.mob-search .mob-search-results,
@@ -869,7 +943,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-search .mob-search-kicker,
   html body div.mob-search .mob-search-empty-head {
     margin: 0 4px 8px;
-    font-size: 12.5px;
+    font-size: var(--t-xs);
     color: var(--fg2);
     font-weight: 700;
   }
@@ -883,7 +957,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     min-height: 44px;
     padding: 12px 14px;
     background: var(--bg2);
-    border: 1px solid rgba(163, 151, 133, 0.30);
+    border: 1px solid color-mix(in srgb, var(--fg3) 30%, transparent);
     border-radius: 12px;
     text-decoration: none;
     color: inherit;
@@ -892,7 +966,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-search .mob-search-name {
     grid-column: 1;
     grid-row: 1;
-    font-size: 15.5px;
+    font-size: var(--t-h3);
     font-weight: 600;
     line-height: 1.3;
     color: var(--fg);
@@ -902,7 +976,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-search .mob-search-sub {
     grid-column: 1;
     grid-row: 2;
-    font-size: 12.5px;
+    font-size: var(--t-xs);
     color: var(--fg2);
   }
   html body div.mob-search .mob-search-pill {
@@ -912,7 +986,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     align-items: center;
     padding: 3px 9px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: var(--t-xs);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
@@ -941,13 +1015,13 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     background: var(--bg2);
     color: var(--fg);
     text-decoration: none;
-    font-size: 13px;
+    font-size: var(--t-sm);
     font-weight: 700;
     word-break: keep-all;
   }
   html body div.mob-search .mob-search-door-row a:hover {
     border-color: var(--accent);
-    color: var(--accent);
+    color: var(--orange-hot);
     text-decoration: none;
   }
 
@@ -1006,10 +1080,12 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     display: flex;
     align-items: center;
     gap: 9px;
-    font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif !important;
-    font-size: 1.05rem !important;
-    font-weight: 700 !important;
-    line-height: 1.35 !important;
+    /* §4.9 — no !important on font-size anywhere. §4.4-1 — serif is Display /
+       H1 / H2 only, and this drawer title sits at H3 size, so it is sans. */
+    font-family: var(--font-sans);
+    font-size: var(--t-h3);
+    font-weight: 700;
+    line-height: var(--lh-h3);
     color: var(--fg);
     margin: 0 0 5px !important;
     letter-spacing: -0.005em;
@@ -1024,8 +1100,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   }
   html body div.mob-drawer p.mob-drawer-lede {
     font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-    font-size: 0.8rem;
-    font-style: italic;
+    font-size: var(--t-xs);
     color: var(--fg2);
     line-height: 1.5;
     margin: 0 0 0 17px;  /* align under the dot+title baseline */
@@ -1052,18 +1127,18 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     border-radius: 8px;
     color: var(--fg);
     text-decoration: none;
-    font-size: 1rem;
+    font-size: var(--t-body);
     font-weight: 500;
     transition: transform 100ms ease, border-color 150ms ease, background 150ms ease;
   }
   html body div.mob-drawer a.mob-drawer-item:hover {
-    background: rgba(217, 107, 61, 0.04);
+    background: color-mix(in srgb, var(--orange) 4%, transparent);
     border-color: var(--accent);
     text-decoration: none;
   }
   html body div.mob-drawer a.mob-drawer-item:active {
     transform: scale(0.98);
-    background: rgba(217, 107, 61, 0.08);
+    background: color-mix(in srgb, var(--orange) 8%, transparent);
     border-color: var(--accent);
   }
 
@@ -1074,14 +1149,14 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     line-height: 1.35;
   }
   html body div.mob-drawer .mob-drawer-meta {
-    font-size: 0.76rem;
+    font-size: var(--t-xs);
     color: var(--fg2);
     font-weight: 400;
     flex-shrink: 0;
     text-align: right;
   }
   html body div.mob-drawer .mob-drawer-count {
-    font-size: 0.78rem;
+    font-size: var(--t-xs);
     color: var(--fg2);
     font-variant-numeric: tabular-nums;
     background: var(--bg2);
@@ -1099,7 +1174,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
      row is a "go to" button, not just static text. */
   html body div.mob-drawer .mob-drawer-arrow {
     color: var(--fg2);
-    font-size: 1.3rem;
+    font-size: var(--t-h2);
     font-weight: 300;
     line-height: 1;
     flex-shrink: 0;
@@ -1108,7 +1183,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   }
   html body div.mob-drawer a.mob-drawer-item:hover .mob-drawer-arrow,
   html body div.mob-drawer a.mob-drawer-item:active .mob-drawer-arrow {
-    color: var(--accent);
+    color: var(--orange-hot);
     transform: translateX(2px);
   }
 
@@ -1127,7 +1202,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   margin: 48px 0 24px;
   padding: 20px 24px;
   background: var(--bg2, #FFFFFF);
-  border: 1px solid var(--border, rgba(36,30,24,0.10));
+  border: 1px solid var(--border, color-mix(in srgb, var(--ink) 10%, transparent));
   border-left: 4px solid var(--accent, #D96B3D);
   border-radius: 8px;
   display: flex;
@@ -1138,13 +1213,13 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
 }
 .me-cta-strip p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--t-sm);
   color: var(--fg, #241E18);
   line-height: 1.5;
   flex: 1 1 320px;
 }
 .me-cta-strip p strong {
-  color: var(--accent-deep, #48705F);
+  color: var(--ink);
   font-weight: 600;
 }
 .me-cta-strip a {
@@ -1153,11 +1228,11 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   gap: 6px;
   padding: 11px 20px;
   min-height: 44px;
-  background: var(--accent, #D96B3D);
+  background: var(--orange-hot, #c0411e);
   color: var(--bg, #FAF6EE);
   text-decoration: none;
   border-radius: 999px;
-  font-size: 0.92rem;
+  font-size: var(--t-sm);
   font-weight: 600;
   white-space: nowrap;
   transition: background 120ms, transform 120ms;
@@ -1195,15 +1270,15 @@ html body details.chap > summary {
   padding: 12px 16px;
   min-height: 44px;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: var(--t-body);
   color: var(--fg);
 }
 html body details.chap > summary::-webkit-details-marker { display: none; }
 html body details.chap > summary::after {
   content: "›";
   flex-shrink: 0;
-  color: var(--fg3);
-  font-size: 1.15rem;
+  color: var(--ink-meta);
+  font-size: var(--t-h3);
   line-height: 1;
   transform: rotate(90deg);
 }

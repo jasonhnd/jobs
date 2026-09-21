@@ -18,16 +18,16 @@ import { createElement as h } from 'react';
 import { loadGoogleFont } from '../og-helpers.js';
 import { COLORS, FRAME_SUBSET, ogShell, topBar, footer, eyebrow } from './_frame.js';
 import { OCCUPATION_COUNT } from '../../site/config.js';
+import { RISK_BAND_HEX } from '../design-tokens.js';
 
 const EYEBROW = `OCCUPATION MAP / 全 ${OCCUPATION_COUNT.SCORED} 職業`;
 const TITLE = '職業マップ';
 const SUBTITLE = 'AI 影響度 × 就業者数 ヒートマップ';
 const BOTTOM_LABEL = '面積 = 就業者数 ・ 色 = AI 影響(低 → 高)';
 
-// 5-tier risk palette (matches the page's inline thumbnail in
-// build_occupations.py generate_map_thumbnail()).
-// Cool → warm to read as "spectrum of AI impact".
-const RISK_BAND_COLORS = ['#0F8A66', '#5BA84F', '#D9A03B', '#E27A33', '#C4422F'] as const;
+// 5-tier risk palette — the §2.3 scale from design-tokens.ts, the same
+// values the page's :root emits. Cool → warm to read as "spectrum of AI impact".
+const RISK_BAND_COLORS = RISK_BAND_HEX;
 
 export async function renderMapOgCard(): Promise<Response> {
   const subsetText = `${EYEBROW} ${TITLE} ${SUBTITLE} ${BOTTOM_LABEL} ${FRAME_SUBSET}`;

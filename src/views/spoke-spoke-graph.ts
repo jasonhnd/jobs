@@ -28,6 +28,7 @@
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { occupationPath } from '../lib/urls.js';
+import { formatRiskScore } from '../lib/score-format.js';
 
 export interface SpokeNeighbor {
   id: number;
@@ -139,7 +140,7 @@ export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, s
     n === null ? '—' : Math.trunc(n).toLocaleString('en-US');
 
   const cards = neighbors.map((n) => {
-    const ai = n.ai_risk === null ? '—' : `${n.ai_risk}/10`;
+    const ai = formatRiskScore(n.ai_risk);
     const sec = n.sector_ja ?? '';
     const wkr = fmtInt(n.workers);
     return `<a class="srn-card" href="${occupationPath(n.id)}">` +
@@ -150,7 +151,7 @@ export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, s
            `</span></a>`;
   }).join('');
 
-  const riskLabel = sourceRisk !== null ? `${sourceRisk}/10` : '—';
+  const riskLabel = formatRiskScore(sourceRisk);
   return (`<section class="same-risk-neighbors" aria-label="同 AI 影響度の他職業（クロスセクター）">
     <h2>同 AI 影響度（${escapeHtml(riskLabel)} ±1）の他職業</h2>
     <p class="srn-subtitle">業界をまたいで、AI 影響度が同水準の代表職業（規模順）。</p>
@@ -160,15 +161,15 @@ export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, s
 
 export const SAME_RISK_CSS = `
 .same-risk-neighbors{margin:36px 0}
-.same-risk-neighbors h2{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 6px;font-weight:600}
-.same-risk-neighbors .srn-subtitle{font-size:.84rem;color:var(--fg2);margin:0 0 14px;line-height:1.55}
+.same-risk-neighbors h2{color:var(--ink);margin:0 0 6px}
+.same-risk-neighbors .srn-subtitle{font-size:var(--t-sm);color:var(--fg2);margin:0 0 14px;line-height:1.55}
 .srn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
 .srn-card{display:flex;flex-direction:column;gap:6px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms}
 .srn-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
-.srn-card .srn-name{font-family:var(--font-serif);font-size:1rem;color:var(--fg);line-height:1.35}
-.srn-card .srn-meta{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:.74rem;color:var(--fg2);align-items:baseline}
-.srn-card .srn-risk{font-family:ui-monospace,monospace;color:var(--accent-deep);font-variant-numeric:tabular-nums}
+.srn-card .srn-name{font-size:var(--t-h3);color:var(--fg);line-height:1.35}
+.srn-card .srn-meta{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:var(--t-xs);color:var(--fg2);align-items:baseline}
+.srn-card .srn-risk{font-family:var(--font-mono);color:var(--ink-meta);font-variant-numeric:tabular-nums}
 .srn-card .srn-sector{color:var(--fg2)}
-.srn-card .srn-workers{font-variant-numeric:tabular-nums;color:var(--fg3)}
+.srn-card .srn-workers{font-variant-numeric:tabular-nums;color:var(--ink-meta)}
 @media (max-width:600px){.srn-grid{grid-template-columns:1fr}}
 `;

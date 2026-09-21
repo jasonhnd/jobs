@@ -152,7 +152,7 @@ const jsonLd = JSON.stringify({
       '@type': 'BreadcrumbList',
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: `${siteConfig.origin}/` },
+        { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${siteConfig.origin}/` },
         { '@type': 'ListItem', position: 2, name: 'モデル比較', item: `${siteConfig.origin}/models` },
         { '@type': 'ListItem', position: 3, name: modelDisplay, item: canonical },
       ],
@@ -164,50 +164,48 @@ const localCss = `
 *,*::before,*::after{box-sizing:border-box}
 html{font-size:16px}
 html body.models-surface{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.75;line-break:strict}
-html body.models-surface .model-hero h1{font-family:var(--font-serif)!important;font-size:clamp(2rem,4.5vw,4rem)!important;font-weight:700!important;line-height:1.12!important}
-html body.models-surface .section h2{font-family:var(--font-serif)!important;font-size:1.45rem!important;font-weight:700!important;line-height:1.3!important}
-html body.models-surface .rank-card h3{font-family:var(--font-serif)!important;font-size:1.05rem!important;font-weight:700!important;line-height:1.3!important}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
-a:hover{color:var(--accent)}
-#wrapper{max-width:1120px;margin:0 auto;padding:32px 20px 80px}
-.crumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 26px;color:var(--fg2);font-size:.86rem;line-height:1.5;overflow-wrap:anywhere}
+a:hover{color:var(--orange-hot)}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 80px}
+.crumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 26px;color:var(--fg2);font-size:var(--t-sm);line-height:1.5;overflow-wrap:anywhere}
 .crumb a{color:var(--fg2);text-decoration:none}
-.crumb a:hover{color:var(--accent);text-decoration:underline}
+.crumb a:hover{color:var(--orange-hot);text-decoration:underline}
 .crumb span[aria-hidden]{color:var(--fg3)}
 .model-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:28px;align-items:end;padding:18px 0 30px;border-bottom:1px solid var(--border)}
-.eyebrow{margin:0 0 12px;color:var(--accent-deep);font-weight:700;font-size:.84rem}
+.eyebrow{margin:0 0 12px;color:var(--accent-deep);font-weight:700;font-size:var(--t-xs)}
 h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break:normal}
-.lead{max-width:720px;margin:18px 0 0;color:var(--fg2);font-size:1.02rem;line-height:1.9;overflow-wrap:break-word;word-break:normal}
+.lead{max-width:720px;margin:18px 0 0;color:var(--fg2);font-size:var(--t-h3);line-height:1.9;overflow-wrap:break-word;word-break:normal}
 .profile-box{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px}
 .profile-box dl{display:grid;grid-template-columns:104px 1fr;gap:10px 14px;margin:0}
-.profile-box dt{color:var(--fg2);font-size:.8rem}
+.profile-box dt{color:var(--fg2);font-size:var(--t-xs)}
 .profile-box dd{margin:0;font-weight:700;overflow-wrap:break-word;word-break:normal}
 .profile-links{margin:16px 0 0;display:flex;flex-wrap:wrap;gap:10px}
 .profile-links a,.nav-links a,.back-link{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid var(--border);border-radius:6px;padding:0 12px;background:var(--bg);font-weight:700;text-decoration:none;color:var(--fg)}
-.profile-links a:hover,.nav-links a:hover,.back-link:hover{border-color:var(--accent);color:var(--accent)}
+.profile-links a:hover,.nav-links a:hover,.back-link:hover{border-color:var(--accent);color:var(--orange-hot)}
 .section{padding:38px 0;border-bottom:1px solid var(--border)}
 .section h2{margin:0 0 16px;color:var(--fg);letter-spacing:0;overflow-wrap:break-word;word-break:normal}
 .section-intro{max-width:760px;margin:0 0 22px;color:var(--fg2);line-height:1.9;overflow-wrap:break-word;word-break:normal}
 .stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 24px}
 .stat{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:14px;min-width:0}
-.stat dt{margin:0 0 6px;color:var(--fg2);font-size:.78rem}
-.stat dd{margin:0;font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat dt{margin:0 0 6px;color:var(--fg2);font-size:var(--t-xs)}
+.stat dd{margin:0;font-family:var(--font-serif);font-size:var(--t-h2);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .histogram-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:12px}
+.histogram-wrap:focus-visible{outline:2px solid var(--orange-hot);outline-offset:2px}
 .histogram{display:block;min-width:680px;width:100%;height:auto}
-.histogram text{font-family:var(--font-sans);fill:var(--fg2);font-size:12px}
+.histogram text{font-family:var(--font-sans);fill:var(--fg2);font-size:var(--t-xs)}
 .histogram .axis{stroke:var(--border)}
 .histogram .bar{fill:var(--accent)}
-.fallback{margin:14px 0 0;color:var(--fg2);font-size:.92rem}
+.fallback{margin:14px 0 0;color:var(--fg2);font-size:var(--t-sm)}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .rank-card{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px}
 .rank-card h3{margin:0 0 12px}
 .rank-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .rank-list li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(92,82,60,.16)}
 .rank-list li:last-child{border-bottom:0}
-.rank-no{color:var(--fg3);font-variant-numeric:tabular-nums;font-weight:700;text-align:right}
+.rank-no{color:var(--ink-meta);font-variant-numeric:tabular-nums;font-weight:700;text-align:right}
 .rank-title{font-weight:700;min-width:0;overflow-wrap:anywhere;text-decoration:none;color:var(--fg)}
-.rank-title:hover{color:var(--accent);text-decoration:underline}
-.score-pill,.band-pill{display:inline-flex;align-items:center;justify-content:center;min-height:26px;border-radius:999px;padding:0 10px;font-size:.78rem;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rank-title:hover{color:var(--orange-hot);text-decoration:underline}
+.score-pill,.band-pill{display:inline-flex;align-items:center;justify-content:center;min-height:26px;border-radius:999px;padding:0 10px;font-size:var(--t-xs);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 .score-pill{background:var(--bg);border:1px solid var(--border);color:var(--fg)}
 .band-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
 .band-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
@@ -219,7 +217,7 @@ h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break
 .mini-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:baseline;border-bottom:1px solid rgba(92,82,60,.16);padding:8px 0}
 .mini-list li:last-child{border-bottom:0}
 .mini-list a{font-weight:700;color:var(--fg);overflow-wrap:anywhere}
-.delta{font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent-deep)}
+.delta{font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent-deep)}
 .nav-links{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 template{display:none}
 @media(max-width:860px){
@@ -227,7 +225,7 @@ template{display:none}
   .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:560px){
-  #wrapper{padding:22px 16px 64px}
+  #wrapper{padding:22px var(--gutter) 64px}
   .profile-box dl{grid-template-columns:1fr}
   .stats-grid{grid-template-columns:1fr}
   .rank-list li{grid-template-columns:24px minmax(0,1fr);align-items:start}
@@ -250,7 +248,7 @@ template{display:none}
 
   <div id="wrapper">
     <nav class="crumb" aria-label="パンくずリスト">
-      <a href="/" rel="up">日本の職業 AI 影響マップ</a>
+      <a href="/" rel="up">未来の仕事</a>
       <span aria-hidden="true">›</span>
       <a href="/models" rel="up">モデル比較</a>
       <span aria-hidden="true">›</span>
@@ -291,7 +289,7 @@ template{display:none}
         <div class="stat"><dt>高リスク帯</dt><dd>{page.distribution.bands.high.count} 件</dd></div>
         <div class="stat"><dt>中リスク帯</dt><dd>{page.distribution.bands.mid.count} 件</dd></div>
       </dl>
-      <div class="histogram-wrap">
+      <div class="histogram-wrap" tabindex="0" role="region" aria-label="横スクロールできる分布図">
         <svg
           class="histogram"
           viewBox={`0 0 ${histogramWidth} ${histogramHeight}`}

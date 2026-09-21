@@ -40,7 +40,7 @@ const LICENSE_CHAP_CSS = '.hub-slug .chap-body .cert-examples li,.hub-slug .chap
         <section class="genre-detail" aria-label={`${hub.short_ja}の代表資格`}>
           <h2>{hub.short_ja} の代表資格</h2>
           <Fragment set:html={b.examplesHtml} />
-          <p style="margin-top:14px;font-size:.9rem;color:var(--fg2);"><strong>取得難度:</strong> {hub.difficulty_ja}</p>
+          <p style="margin-top:14px;font-size:var(--t-sm);color:var(--ink-2);"><strong>取得難度:</strong> {hub.difficulty_ja}</p>
         </section>
         <Fragment set:html={b.statsHtml} />
         <Fragment set:html={b.highlightsHtml} />

@@ -67,5 +67,18 @@ jobs:
       - name: Run repository gates
         run: bun run verify:gates
 
+      # Every other gate reads SOURCE. These read what a browser actually
+      # renders, which is the only way to see an inherited font-size or the
+      # colour that reached a pixel. The suite existed since before 2026-05-28
+      # but ran nowhere, and rotted: 16 of its 47 URLs had become 404s (a spec
+      # that scans a missing page passes — it finds no violations because there
+      # is no page), and axe's `color-contrast` rule had been switched off.
+      # Both are fixed; running it here is what keeps them fixed.
+      - name: Install Chromium for rendered-output checks
+        run: bun x playwright install --with-deps chromium
+
+      - name: Run rendered-output checks (a11y, §4.2 floor, layout invariants)
+        run: bun x playwright test --reporter=line
+
       - name: Verify generated tracked files are committed
         run: git diff --exit-code

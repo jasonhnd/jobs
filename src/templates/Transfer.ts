@@ -18,6 +18,7 @@
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { occupationPath } from '../lib/urls.js';
+import { formatRiskScore } from '../lib/score-format.js';
 
 /** One candidate row. `name` is pre-resolved by the caller. */
 export interface TransferCard {
@@ -39,7 +40,7 @@ export function renderTransfer(cards: ReadonlyArray<TransferCard>): SafeHtml {
   let cardsHtml = '';
   for (const c of cards) {
     const href = occupationPath(c.id);
-    const riskStr = c.aiRisk !== null && c.aiRisk !== undefined ? `${c.aiRisk}/10` : '—';
+    const riskStr = formatRiskScore(c.aiRisk);
     const riskLabel = `AI 影響 ${riskStr}`;
     const simLabel =
       c.similarity !== null && c.similarity !== undefined

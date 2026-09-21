@@ -94,6 +94,51 @@ function checkFile(relPath) {
   return violations;
 }
 
+// ─── §18.7 class membership ───────────────────────────────────────
+// Every routed page must belong to a page class (Design.md §6.5 / §18.7).
+// Membership is real when the page imports its class CSS — §6.5.1's lesson was
+// that a class declared but never imported is the worst of the options.
+const CLASS_IMPORTS = [
+  'CANONICAL_DOC_CSS',
+  'CANONICAL_HUB_CSS',
+  'CANONICAL_SECTOR_CSS',
+  'CANONICAL_STATIC_CSS',
+  'CANONICAL_DETAIL_CSS',
+  // Aggregates that begin with a class CSS and append page-specific rules —
+  // e.g. `GENRE_HUB_CSS = CANONICAL_HUB_CSS + HUB_PAGE_SPECIFIC_CSS`. Importing
+  // one is class membership just as directly.
+  'GENRE_HUB_CSS',
+  'SECTOR_PAGE_CSS',
+];
+
+// Pages that legitimately carry their own class CSS instead of importing one.
+const CLASS_EXCEPTIONS = new Set([
+  'src/pages/index.astro',      // Interactive + Feature, _index.css
+  'src/pages/map.astro',        // Interactive, _map-css.ts
+  'src/pages/models.astro',     // Feature, page-local
+  'src/pages/aiadoption.astro', // Feature, _ai-adoption-css.ts
+  // Feature family: a model page is not one of §4.8's three Feature pages, but
+  // it shares their page-local CSS rather than a class.
+  'src/pages/models/[model].astro',
+]);
+
+function checkClassMembership(files) {
+  const missing = [];
+  for (const rel of files) {
+    if (!rel.startsWith('src/pages/')) continue;
+    if (!rel.endsWith('.astro')) continue;
+    if (path.basename(rel).startsWith('_')) continue;
+    if (CLASS_EXCEPTIONS.has(rel)) continue;
+    const src = fs.readFileSync(path.join(PROJECT_ROOT, rel), 'utf-8');
+    if (!/BaseLayout/.test(src)) continue; // not a rendered page
+    if (CLASS_IMPORTS.some((n) => src.includes(n))) continue;
+    // A page may also inherit its class from a sibling _*-css.ts it imports.
+    if (/from '\.\/_[a-z0-9-]+-css'/.test(src) || /_[a-z0-9-]+-css'/.test(src)) continue;
+    missing.push(rel);
+  }
+  return missing;
+}
+
 function main() {
   const files = walkSources(SRC_DIR);
   /** @type {Array<{file: string, rule: string, hint: string}>} */
@@ -104,6 +149,21 @@ function main() {
 
   console.log(`[check-page-class] Scanned ${files.length} source files`);
   console.log(`[check-page-class] Exceptions (Interactive class + canonical sources): ${EXCEPTIONS.size}`);
+
+  // §18.7 is still `[移行中]` in the canon: the rule is agreed, the
+  // implementation is not complete. Pages that import no class CSS are
+  // reported, not failed — assigning them to a class is its own unit, and a
+  // gate that fails on known-open work just gets muted.
+  const noClass = checkClassMembership(files);
+  if (noClass.length > 0) {
+    console.warn(
+      `[check-page-class] \u00a718.7 WARN — ${noClass.length} page(s) import no page-class CSS:`,
+    );
+    for (const f of noClass) console.warn(`    ${f}`);
+    console.warn('    Import a CANONICAL_*_CSS (or an aggregate of one) to make membership real (\u00a76.5.1).');
+  } else {
+    console.log('[check-page-class] \u00a718.7 class membership: OK');
+  }
 
   if (allViolations.length === 0) {
     console.log('[check-page-class] ✓ Page Class System invariants respected');

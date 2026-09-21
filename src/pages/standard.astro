@@ -155,7 +155,7 @@ const jsonLd = `{
       "@type": "BreadcrumbList",
       "@id": "https://mirai-shigoto.com/standard#breadcrumb",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "日本の職業 AI 影響マップ", "item": "https://mirai-shigoto.com/" },
+        { "@type": "ListItem", "position": 1, "name": "未来の仕事", "item": "https://mirai-shigoto.com/" },
         { "@type": "ListItem", "position": 2, "name": "AIOIS-10 標準", "item": "https://mirai-shigoto.com/standard" }
       ]
     }
@@ -163,7 +163,7 @@ const jsonLd = `{
 }`;
 ---
 <BaseLayout
-  title="AIOIS-10 標準 — AI 職業影響スタンダード | mirai-shigoto.com"
+  title="AIOIS-10 標準 — AI 職業影響スタンダード | 未来の仕事"
   description="AI が仕事に与える影響を 10 次元と 2 つの指数で測る公開リファレンス基準 AIOIS-10。EMFO の 4 段階、各次元の定義、変化の大きさ・仕事が減るリスクの算出。"
   canonical="https://mirai-shigoto.com/standard"
   keywords="AIOIS-10, AI 影響, 職業, 10次元, 変化の大きさ, 仕事が減るリスク, EMFO, 人間の強み, 標準, スタンダード, Frey Osborne, Eloundou, Acemoglu"
@@ -278,7 +278,7 @@ const jsonLd = `{
 
     <h2>採点例（日本版・現行 AI 時点）</h2>
     <p>本サイトの採点（複数のAIによる総合、最新採点 {SCORE_PANEL.latestRunDate}、D9＝日本）からの抜粋。T＝変化の大きさ、DR＝仕事が減るリスク。</p>
-    <div class="wrap-x">
+    <div class="wrap-x" tabindex="0" role="region" aria-label="横スクロールできる表">
       <table class="ex">
         <thead>
           <tr>

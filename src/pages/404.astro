@@ -8,17 +8,19 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
+import { CANONICAL_STATIC_CSS } from '@/lib/canonical/static';
 import { OCCUPATION_COUNT } from '@/site/config';
 ---
 <BaseLayout
-  title="ページが見つかりません — mirai-shigoto.com"
+  title="ページが見つかりません | 未来の仕事"
   description="404 — 指定されたページは存在しないか、移動した可能性があります。"
   canonical="https://mirai-shigoto.com/404"
-  ogTitle="ページが見つかりません — mirai-shigoto.com"
+  ogTitle="ページが見つかりません | 未来の仕事"
   ogDescription="404 — 指定されたページは存在しないか、移動した可能性があります。"
   ogImage="https://mirai-shigoto.com/api/og?page=404"
   noindex={true}
 >
+  <style slot="head" set:html={CANONICAL_STATIC_CSS} />
   <style slot="head">
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     /* Tokens (:root) + dual-theme blocks: removed 2026-05-16.
@@ -32,8 +34,6 @@ import { OCCUPATION_COUNT } from '@/site/config';
       min-height: 100vh;
     }
     h1, h2, h3 {
-      font-family: var(--font-serif);
-      font-weight: 600;
       letter-spacing: -0.005em;
     }
     .theme-toggle { display: none !important; }
@@ -54,9 +54,9 @@ import { OCCUPATION_COUNT } from '@/site/config';
     .top-bar .back {
       color: var(--fg2);
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: var(--t-sm);
     }
-    .top-bar .back:hover { color: var(--accent); }
+    .top-bar .back:hover { color: var(--orange-hot); }
     .theme-toggle {
       background: transparent;
       border: 1px solid var(--border);
@@ -68,7 +68,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       padding: 0; margin-left: 4px;
       transition: color 150ms ease, border-color 150ms ease;
     }
-    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+    .theme-toggle:hover { color: var(--orange-hot); border-color: var(--accent); }
     .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; }
     .theme-toggle .icon-sun { display: inline-block; }
@@ -85,20 +85,17 @@ import { OCCUPATION_COUNT } from '@/site/config';
       user-select: none;
     }
     .four-oh-four .accent {
-      color: var(--accent);
-      font-style: italic;
+      color: var(--orange-hot);
       display: inline-block;
       transform: translateY(-4%) rotate(-6deg);
     }
     h1.title {
-      font-size: 1.4rem;
-      font-weight: 600;
       margin-top: 6px;
       margin-bottom: 8px;
       color: var(--fg);
     }
     p.subtitle {
-      font-size: 0.95rem;
+      font-size: var(--t-h3);
       color: var(--fg2);
       margin-bottom: 26px;
       max-width: 44ch;
@@ -108,20 +105,20 @@ import { OCCUPATION_COUNT } from '@/site/config';
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--accent);
-      color: #fff;
+      background: var(--orange-hot);
+      color: var(--paper);
       padding: 12px 22px;
       border-radius: 6px;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: var(--t-sm);
       text-decoration: none;
       transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
     }
     .cta-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(217, 107, 61, 0.28);
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--orange) 28%, transparent);
       background: var(--accent-deep);
-      color: #fff;
+      color: var(--paper);
       text-decoration: none;
     }
     .cta-primary .arrow { display: inline-block; transition: transform 200ms ease; }
@@ -133,10 +130,10 @@ import { OCCUPATION_COUNT } from '@/site/config';
       border-top: 1px solid var(--border);
     }
     .helpful-links .label {
-      font-size: 0.74rem;
+      font-size: var(--t-xs);
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--fg3);
+      color: var(--ink-meta);
       margin-bottom: 6px;
     }
     .helpful-links a {
@@ -147,31 +144,31 @@ import { OCCUPATION_COUNT } from '@/site/config';
       text-decoration: none;
       padding: 12px 0;
       border-bottom: 1px solid var(--border);
-      font-size: 0.92rem;
+      font-size: var(--t-sm);
       transition: color 150ms ease, border-bottom-color 150ms ease, padding-left 150ms ease;
     }
     .helpful-links a:hover {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
+      color: var(--orange-hot);
+      border-bottom-color: var(--orange-hot);
       padding-left: 4px;
     }
     .helpful-links a .desc {
       color: var(--fg2);
-      font-size: 0.78rem;
+      font-size: var(--t-xs);
       margin-left: 16px;
       flex-shrink: 0;
     }
-    .helpful-links a:hover .desc { color: var(--accent); }
+    .helpful-links a:hover .desc { color: var(--orange-hot); }
 
     footer {
       margin-top: 56px;
       padding-top: 22px;
       border-top: 1px solid var(--border);
-      font-size: 0.72rem;
+      font-size: var(--t-xs);
       color: var(--fg2);
       text-align: center;
     }
-    footer a { color: var(--accent); text-decoration: none; }
+    footer a { color: var(--orange-hot); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
     footer .footer-links {
       display: flex;
@@ -187,26 +184,26 @@ import { OCCUPATION_COUNT } from '@/site/config';
       padding: 5px 14px;
       border: 1px solid var(--border);
       border-radius: 999px;
-      font-size: 0.78rem;
+      font-size: var(--t-xs);
       line-height: 1.2;
       transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
     }
     footer .footer-links a:hover {
-      color: var(--accent);
+      color: var(--orange-hot);
       border-color: var(--accent);
-      background: rgba(217, 107, 61, 0.06);
+      background: color-mix(in srgb, var(--orange) 6%, transparent);
       text-decoration: none;
     }
-    footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
-    footer .footer-meta a { color: var(--accent); }
+    footer .footer-meta { color: var(--fg2); font-size: var(--t-xs); text-wrap: pretty; line-height: 1.65; }
+    footer .footer-meta a { color: var(--orange-hot); }
     footer .footer-meta .nowrap { white-space: nowrap; }
 
     @media (max-width: 540px) {
-      #wrapper { padding: 18px 16px 60px; }
-      h1.title { font-size: 1.2rem; }
+      #wrapper { padding: 18px var(--gutter) 60px; }
+      h1.title { }
       .four-oh-four { margin: 16px 0 2px; }
       .helpful-links a .desc { display: none; }
-      footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+      footer .footer-meta { font-size: var(--t-xs); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
     }
   </style>
 

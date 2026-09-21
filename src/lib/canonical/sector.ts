@@ -16,29 +16,35 @@ export const CANONICAL_SECTOR_CSS = `
 html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65;font-feature-settings:"palt"}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
-a:hover{color:var(--accent)}
+a:hover{color:var(--orange-hot)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 
 /* Sector class layout: shared content-column width, same as Hub class */
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px 20px 80px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 80px}
 
 /* Breadcrumb */
-.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
+.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
 .crumb a{color:var(--fg2)}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* Header + h1 (sector class can have flex layout for switch widgets) */
-header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
-h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
-h1 .accent{color:var(--accent-deep)}
-.sub{color:var(--fg2);font-size:.95rem}
-.sub strong{color:var(--accent-deep);font-weight:600}
-.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+/* Page hero header only. BaseLayout wraps the site chrome (MobileNav + TopNav)
+   in a bare header element for the banner landmark; a bare header selector painted
+   a second rule and 24px of padding under the top nav on every page of this
+   class (2026-06-03 → 2026-09-20). The hero sits inside the main element; the
+   chrome does not. :where() keeps the specificity at (0,0,1), so page rules such as
+   /me's .me-head still win exactly as they did against the bare selector. */
+:where(main) header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+h1{color:var(--fg);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
+h1 .accent{color:var(--ink)}
+.sub{color:var(--fg2);font-size:var(--t-h3)}
+.sub strong{color:var(--ink);font-weight:700}
+.intro{margin:24px 0;color:var(--fg);font-size:var(--t-h3);max-width:64ch}
 
 /* Section spacing + h2 with bottom border */
 section{margin:48px 0}
-h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
 /* Sector class mobile: tighten + reflow h1 */
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}}
+@media (max-width:599px){#wrapper{padding:20px var(--gutter) 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}}
 `;

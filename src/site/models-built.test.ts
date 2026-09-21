@@ -60,31 +60,86 @@ function styleCss(html: string): string {
 }
 
 function assertModelsSurfaceBodyReset(html: string): void {
-  assert.match(html, /<body class="models-surface">/);
+  assert.match(html, /<body class="models-surface(?: page-feature)?">/);
   assert.match(styleCss(html), /html body\.models-surface\{[^}]*\bmargin:0\b/);
 }
 
-function assertHeadingsStaySerif(html: string): void {
+/**
+ * Design.md §4.4 draws the typeface boundary between H2 and H3: serif covers
+ * Display / H1 / H2, and H3 / H4 are sans 700 because the shipped serif has a
+ * single weight and cannot carry contrast below 22px (§4.5).
+ *
+ * This guard therefore checks h1/h2 only. It used to include h3, which pinned
+ * the pre-v1.0 state — the canonical rule that design-1.3 (#526) had to change
+ * is `html body h3, html body h4 { font-family: var(--font-sans) }`, and the
+ * old assertion made the canon unimplementable. Per §20.6 the implementation
+ * is the bug when it disagrees with the canon, so the assertion moved to the
+ * canon's boundary instead of holding the canon back.
+ */
+function assertSerifHeadingsStaySerif(html: string): void {
   const css = styleCss(html);
   for (const rule of css.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
     const selectors = rule[1] ?? '';
     const declarations = rule[2] ?? '';
     if (!/font-family\s*:\s*var\(--font-sans\)/.test(declarations)) continue;
     assert.equal(
-      /(?:^|,)[^{},]*\bh[123]\b/.test(selectors),
+      /(?:^|,)[^{},]*\bh[12]\b/.test(selectors),
       false,
-      `heading selector must not switch to sans: ${selectors.trim()}`,
+      `serif heading selector must not switch to sans: ${selectors.trim()}`,
     );
   }
 }
 
-function assertHeroSizeBeatsCanonical(html: string, selector: string, size: string): void {
+/**
+ * Design.md §19.2 — this replaces assertHeroSizeBeatsCanonical(), which
+ * asserted that a page override BEAT canonical. That was a regression test
+ * protecting the drift: it made the canon unimplementable by contract, and it
+ * is exactly the kind of invariant §19.2 says to rewrite rather than keep.
+ *
+ * The contract now is conformance: /models is Feature class (§4.8), so its
+ * title comes from body.page-feature h1 in canonical-css.ts, and the page
+ * itself declares no heading size, typeface, weight or !important at all.
+ */
+function assertNoPageHeadingOverrides(html: string): void {
   const css = styleCss(html);
-  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  assert.match(
+
+  assert.doesNotMatch(
     css,
-    new RegExp(`${escaped}\\{[^}]*font-family:var\\(--font-serif\\)!important[^}]*font-size:${size.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}!important`),
-    `${selector} must keep serif and beat canonical html body h1 { font-size: 1.7rem !important }`,
+    /font-size:[^;}]*!important/,
+    'no !important on font-size may survive on a Feature page (§4.9)',
+  );
+
+  // canonical-css.ts legitimately sizes html body h1/h2/h3 and
+  // body.page-feature h1 — those are the canon. What must not exist is a
+  // CLASS-scoped page rule sizing a heading, which is what the specificity
+  // war was made of. Comments are stripped first so a /* … */ block cannot be
+  // mistaken for a selector.
+  const bare = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  for (const rule of bare.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
+    const selectors = (rule[1] ?? '').trim();
+    const declarations = rule[2] ?? '';
+    if (!/\bh[1-6]\b/.test(selectors)) continue;
+    if (!selectors.includes('.')) continue;
+    if (/^html body\.page-feature h1$/.test(selectors)) continue;
+    assert.doesNotMatch(
+      declarations,
+      /font-size:/,
+      `page CSS must not size a heading — canonical owns it (§4.9): ${selectors}`,
+    );
+  }
+
+  assert.doesNotMatch(
+    css,
+    /body\.models-surface[^{]*h[1-6]/,
+    'the models-surface heading overrides are gone (design-1.9)',
+  );
+}
+
+function assertFeatureClass(html: string): void {
+  assert.match(
+    html,
+    /<body class="[^"]*\bpage-feature\b/,
+    'Feature class is carried by BaseLayout bodyClass, not by page CSS (§4.8)',
   );
 }
 
@@ -170,9 +225,9 @@ describe('/models built page contract', () => {
     const html = readFileSync(htmlPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingsStaySerif(html);
-    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .models-hero h1', 'clamp(2rem,4.6vw,4.2rem)');
-    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .vendor-card h3', '1.3rem');
+    assertSerifHeadingsStaySerif(html);
+    assertNoPageHeadingOverrides(html);
+    assertFeatureClass(html);
   });
 
   test('renders model detail public metadata without raw ids', () => {
@@ -277,7 +332,7 @@ describe('/models built page contract', () => {
     const html = readFileSync(detailPath, 'utf-8');
 
     assertModelsSurfaceBodyReset(html);
-    assertHeadingsStaySerif(html);
-    assertHeroSizeBeatsCanonical(html, 'html body.models-surface .model-hero h1', 'clamp(2rem,4.5vw,4rem)');
+    assertSerifHeadingsStaySerif(html);
+    assertNoPageHeadingOverrides(html);
   });
 });
