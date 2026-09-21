@@ -33,6 +33,14 @@ export const AI_ADOPTION_CSS = `
 .haid-page .haid-meta span + span::before { content: "・"; margin-right: var(--s-2); color: var(--ink-4); }
 .haid-page .haid-draft { display: inline-block; padding: 0 var(--s-2); border-radius: var(--r-md); background: var(--orange-soft); color: var(--orange-hot); font-size: var(--t-xs); font-weight: 600; line-height: 20px; }
 .haid-page .haid-draft-note { margin: 0 0 var(--s-5); color: var(--ink-2); font-size: var(--t-sm); }
+.haid-page .haid-switch { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); margin: 0 0 var(--s-5); }
+.haid-page .haid-switch-label { color: var(--ink-meta); font-size: var(--t-sm); font-weight: 600; margin-right: var(--s-1); }
+.haid-page .haid-switch-pill { display: inline-flex; align-items: center; gap: var(--s-1); padding: 0 var(--s-3); border-radius: var(--r-pill); border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-size: var(--t-sm); font-weight: 600; line-height: 30px; text-decoration: none; }
+.haid-page .haid-switch-pill:hover { border-color: var(--ink-4); text-decoration: none; }
+.haid-page .haid-switch-pill.current { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.haid-page .haid-switch-pill small { font-size: var(--t-xs); font-weight: 600; color: var(--ink-meta); }
+.haid-page .haid-switch-pill.current small { color: var(--cream-2); }
+.haid-page .haid-switch-perma { margin-left: var(--s-2); color: var(--orange-hot); font-size: var(--t-sm); }
 
 /* ── card ── */
 .haid-page .haid-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--s-5); margin: 0 0 var(--s-5); box-shadow: var(--sh-card); }
@@ -152,6 +160,9 @@ export const AI_ADOPTION_CSS = `
 .haid-page table.haid-anchors td.dt { white-space: nowrap; color: var(--ink-2); }
 .haid-page table.haid-anchors .grade { display: inline-block; min-width: 20px; text-align: center; border-radius: var(--r-sm); background: var(--cream-2); color: var(--ink-meta); font-size: var(--t-xs); font-weight: 600; line-height: 20px; }
 .haid-page .wrap-x { overflow-x: auto; }
+.haid-page table.haid-delta tr.kind-up td:last-child { color: var(--green-deep); font-weight: 600; }
+.haid-page table.haid-delta tr.kind-down td:last-child { color: var(--red-text); font-weight: 600; }
+.haid-page table.haid-delta tr.kind-method td:last-child, .haid-page table.haid-delta tr.kind-none td:last-child { color: var(--ink-meta); }
 
 /* ── fact ── */
 .haid-page .haid-fact { margin: var(--s-5) 0; padding: var(--s-4) var(--s-5); background: var(--paper); border: 1px solid var(--line); border-left: 4px solid var(--orange-hot); border-radius: var(--r-md); font-size: var(--t-sm); line-height: var(--lh-body); color: var(--ink); }

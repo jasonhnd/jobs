@@ -62,6 +62,36 @@ export const HAID_RELEASE_LIST_JA = {
 export const HAID_RELEASE_DELTA_JA = {
   heading: '前回との変動',
   first: '今回は第 1 回のため比較はありません。次回（{next}）から、増えた段階・減った段階を並べます。',
+  intro: '前回（{previous}）と今回の、第 k 段階以上にいる人数の差。錨点や確度が変わった段階は、差ではなく「数え方が変わった」と示します。',
+  up: '増えた',
+  down: '減った',
+  flat: '変わらず',
+  methodChanged: '数え方が変わった',
+  noData: 'どちらかにデータなし',
+  colLevel: '段階',
+  colPrevious: '前回',
+  colNow: '今回',
+  colDelta: '差',
+} as const;
+
+/** 回の切り替え（見出し下のピル）. */
+export const HAID_RELEASE_SWITCH_JA = {
+  label: '公開回',
+  latest: '最新',
+  permalink: 'この回の URL',
+} as const;
+
+/** Global nav / drawer / footer label and the drawer's one-line meta. */
+export const HAID_RELEASE_NAV_JA = {
+  label: '人類と AI の距離',
+  drawerMeta: '人類 83 億人が生成 AI からどれだけ離れているか',
+} as const;
+
+/** OG card (src/views/og-cards.ts). */
+export const HAID_RELEASE_OG_JA = {
+  eyebrow: 'HAID · 人類と AI の距離',
+  title: '人類と AI の距離 — 四半期の現状',
+  subtitle: '人類 83 億人を HAID 10 段階に置いた地図。無縁・道具・同席・一体、確度と出典つき',
 } as const;
 
 /** 公開されている数字 (anchor table). */
@@ -81,6 +111,9 @@ export const HAID_RELEASE_FACT_JA = {
   label: '{label} の引用用ファクト：',
   body:
     '人類 {population} 人のうち、インターネットに届いていない人は {unreached} 人。自分から生成 AI に話しかけた人（HAID 第 4 段階以上）は およそ {prompted} 人、週に 1 回以上使う人（第 5 段階以上）は およそ {weekly} 人。第 7 段階以上は公開データなし。（出典：各社公表値 ＋ HAID v{version}、時点 {asOf}、mirai-shigoto.com）',
+  /** Used when the release has no 7-day figure (第 5 段階 データなし). */
+  bodyNoWeekly:
+    '人類 {population} 人のうち、インターネットに届いていない人は {unreached} 人。自分から生成 AI に話しかけた人（HAID 第 4 段階以上）は およそ {prompted} 人。第 5 段階以上はこの回は公開データなし。（出典：各社公表値 ＋ HAID v{version}、時点 {asOf}、mirai-shigoto.com）',
 } as const;
 
 /** Footer sentence. {diagnosis} is the diagnosis page path. */

@@ -121,6 +121,39 @@ describe('HAID release projection', () => {
     assert.throws(() => pickLatestRelease([]));
   });
 
+  test('a データなし level between two data levels is floored to the next level, n = 0, certainty none', () => {
+    const f = fixture();
+    f.release.levels['3'] = { certainty: 'none', n_at_least: null, anchors: [], method_ja: 'なし' };
+    const p = buildHaidReleasePayload(f);
+    const l3 = p.levels[2];
+    assert.equal(l3.n_at_least.certainty, 'none');
+    assert.equal(l3.n_at_least.display, 15, 'floored to N(≥4)');
+    assert.equal(l3.n_at_least.clamped, true);
+    assert.equal(l3.n.certainty, 'none');
+    assert.equal(l3.n.display, 0);
+    const sum = p.levels.reduce((acc, l) => acc + (l.n.display ?? 0), 0);
+    assert.equal(sum, p.population);
+  });
+
+  test('round and previous_levels come from the context; a missing previous payload throws', () => {
+    const first = buildHaidReleasePayload(fixture(), { releases: ['2026-q3', '2026-q4'], previous: null });
+    assert.equal(first.round, 1);
+    assert.equal(first.previous_levels, null);
+    assert.deepEqual(first.releases, ['2026-q3', '2026-q4']);
+    const g = fixture();
+    g.release.release = '2026-q4';
+    g.release.version = '2026-Q4.0';
+    g.release.previous = '2026-q3';
+    const second = buildHaidReleasePayload(g, { releases: ['2026-q3', '2026-q4'], previous: first });
+    assert.equal(second.round, 2);
+    assert.equal(second.previous_levels?.length, 10);
+    assert.equal(second.previous_levels?.[3].n_at_least_display, 15);
+    assert.deepEqual(second.previous_levels?.[3].anchor_grades, ['B']);
+    assert.deepEqual(second.previous_levels?.[6].anchor_grades, []);
+    assert.throws(() => buildHaidReleasePayload(g, { releases: ['2026-q3', '2026-q4'], previous: null }), /no payload/);
+    assert.throws(() => buildHaidReleasePayload(g, { releases: ['2026-q3'], previous: first }), /not in the release list/);
+  });
+
   test('buildHaidRelease writes one file per checked-in release plus latest', async () => {
     const out = await mkdtemp(join(tmpdir(), 'haid-release-'));
     try {
@@ -131,6 +164,10 @@ describe('HAID release projection', () => {
       const latest = JSON.parse(await readFile(join(out, 'data.haid-latest.json'), 'utf-8'));
       assert.equal(latest.release, r.latest);
       assert.deepEqual(latest.releases, r.releases);
+      assert.ok(r.releases.includes('2026-q2'));
+      assert.equal(latest.previous, '2026-q2');
+      assert.equal(latest.round, r.releases.length);
+      assert.equal(latest.previous_levels.length, 10);
       const q3 = JSON.parse(await readFile(join(out, 'data.haid-2026-q3.json'), 'utf-8'));
       assert.equal(q3.population, 8_300_000_000);
       const sum = q3.levels.reduce((acc: number, l: { n: { display: number | null } }) => acc + (l.n.display ?? 0), 0);
@@ -141,7 +178,8 @@ describe('HAID release projection', () => {
   });
 
   test('the checked-in 2026-q3 draft derives without a clamp on levels 1, 2 and 4', async () => {
-    const p = buildHaidReleasePayload(await loadHaidRelease(join(HAID_RELEASE_ROOT, '2026-q3')));
+    const q2 = buildHaidReleasePayload(await loadHaidRelease(join(HAID_RELEASE_ROOT, '2026-q2')), { releases: ['2026-q2', '2026-q3'], previous: null });
+    const p = buildHaidReleasePayload(await loadHaidRelease(join(HAID_RELEASE_ROOT, '2026-q3')), { releases: ['2026-q2', '2026-q3'], previous: q2 });
     assert.equal(p.levels[0].n_at_least.clamped, false);
     assert.equal(p.levels[1].n_at_least.clamped, false);
     assert.equal(p.levels[3].n_at_least.clamped, false);

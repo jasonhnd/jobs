@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-21T14:37:27.475Z",
-  "gitCommit": "dbe56d0a2982d6c20d16219ab84af47eb46968d7",
-  "gitBranch": "preview",
-  "distFileCount": 839,
-  "urlCount": 839,
-  "dataFileCount": 615,
+  "capturedAt": "2026-09-21T14:51:41.635Z",
+  "gitCommit": "18c78ddc0cc24cf7e604eb0cc988a9f6aa38bd8f",
+  "gitBranch": "feat/aiadoption-1.4-releases",
+  "distFileCount": 841,
+  "urlCount": 841,
+  "dataFileCount": 616,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

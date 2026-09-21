@@ -418,7 +418,7 @@ legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 | surface | 主な対象ファイル |
 |---|---|
 | `tokens` | `src/lib/design-tokens.ts`（新設）, `src/lib/canonical-css.ts` |
-| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/models.astro`, `src/pages/models/[model].astro`, `src/pages/aiadoption.astro`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
+| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/models.astro`, `src/pages/models/[model].astro`, `src/pages/aiadoption.astro`, `src/pages/aiadoption/[release].astro`, `src/pages/_HaidReleasePage.astro`, `src/pages/_haid-release-labels.ts`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
 | `interactive` | `src/pages/map.astro`, `src/pages/_map-css.ts` |
 | `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_StatsGrid.astro`, `src/pages/_JobtagAnchor.astro`, `src/pages/_IdPageScript.astro` |
 | `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/compare/`, `src/pages/skills/`, `src/pages/interests/`, `src/pages/answers/`, `src/pages/q/`, `src/pages/yearly/`, `src/pages/abilities/`, `src/pages/careers/`, `src/pages/education/`, `src/pages/employment-types/`, `src/pages/entry-paths/`, `src/pages/explore/`, `src/pages/knowledge/`, `src/pages/licenses/`, `src/pages/life-balance/`, `src/pages/training/`, `src/pages/values/`, `src/pages/work-styles/`, `src/lib/ai-fact-css.ts` |

@@ -180,3 +180,15 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
     assert.ok(!locations.includes('https://mirai-shigoto.com/404'));
   });
 });
+
+describe('HAID release archive URLs', () => {
+  test('each release id becomes /aiadoption/<id>; none without extras', async () => {
+    const { buildSitemapEntries } = await import('./sitemap.js');
+    const { loadGraph } = await import('../graph/index.js');
+    const graph = await loadGraph();
+    const none = buildSitemapEntries(graph, '2026-06-13').filter((e) => e.loc.includes('/aiadoption/'));
+    assert.equal(none.length, 0);
+    const some = buildSitemapEntries(graph, '2026-06-13', { haidReleases: ['2026-q3', '2026-q2'] }).filter((e) => e.loc.includes('/aiadoption/'));
+    assert.deepEqual(some.map((e) => e.loc), ['https://mirai-shigoto.com/aiadoption/2026-q2', 'https://mirai-shigoto.com/aiadoption/2026-q3']);
+  });
+});
