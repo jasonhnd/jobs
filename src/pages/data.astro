@@ -60,7 +60,7 @@ const ENDPOINTS: Endpoint[] = [
   { path: '/data.profile5.json', desc: '5 軸プロファイル（職業 → スコアベクトル）', shape: 'JSON' },
   { path: '/data.holland.json', desc: 'Holland / RIASEC コード（R/I/A/S/E/C 6 次元）', shape: 'JSON' },
   { path: '/data.transfer_paths.json', desc: '職業間の転職パス推薦（スキル重複ベース）', shape: 'JSON' },
-  { path: '/data.ai-adoption.json', desc: 'AI 採用率ダッシュボード（/aiadoption）の層別データ', shape: 'JSON' },
+  { path: '/data.ai-adoption.json', desc: '停止（旧 5 層モデル、2026-Q2 まで）。後継は data.haid-latest.json。URL は案内用のスタブとして残す', shape: 'JSON（スタブ）' },
   { path: '/data.haid-spec.json', desc: 'HAID 10 段階（/haid）の定義・4 つの関係・3 つの境目・用語・境界事例。数字は含まない', shape: 'JSON' },
   { path: '/data.haid-latest.json', desc: 'HAID の最新の四半期リリース（/aiadoption）。段階ごとの N(≥k)・n(k)・確度・錨点・重なり率', shape: 'JSON' },
   { path: '/data.haid-{release}.json', desc: '四半期ごとの HAID リリース（release は yyyy-qN、例 /data.haid-2026-q3.json）。過去の回は書き換えない', shape: 'JSON × 回数' },

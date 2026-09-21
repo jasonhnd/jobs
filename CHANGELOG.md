@@ -10,6 +10,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Removed
+
+- **The 5-layer AI adoption model is retired (aiadoption-1.5).**
+  `data/ai-adoption/` (observations / sources / assumptions / model) and
+  `src/data/projections/ai-adoption.ts` are deleted; `d3` and `@types/d3`,
+  used only by the old dot-matrix and line chart, leave `package.json`.
+  `/data.ai-adoption.json` keeps its URL as a deprecated stub
+  (`deprecated: true`, `last_period: 2026-Q2`, `successor:
+  /data.haid-latest.json`) — no redirect, `vercel.json` untouched. The Q2
+  observation set lives on as grade-C anchors of the 2026-Q2 HAID release.
+
 ### Changed
 
 - **Non-production hosts are withheld from search indexes.** The middleware

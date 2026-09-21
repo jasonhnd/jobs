@@ -4,7 +4,7 @@
 
 ## 全体像
 
-- ソースデータは `data/occupations/`, `data/stats_legacy/`, `data/scores/`, `data/labels/`, `data/sectors/`, `data/ai-adoption/` に置く。
+- ソースデータは `data/occupations/`, `data/stats_legacy/`, `data/scores/`, `data/labels/`, `data/sectors/`, `data/haid-release/` に置く。
 - `src/data/lib/indexes.ts` がソースを読み、Zod schema と重複 ID 検査を通して build-time index を作る。
 - `src/graph/` はページ・view が読む in-memory knowledge graph。projection と view の間で同じ派生値を使うため、丸めやスコア選択の helper はここか `src/data/lib/` に集約する。
 - `src/data/build.ts` は projection を staging dir に書き、全 projection 成功後に `public/` へ atomic promote する。Astro build は `public/` を `dist-astro/` にコピーする。
@@ -29,7 +29,7 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `data.models_deep.json` — `/models` feature page 用の compact projection。最新 comparable pair、モデルカードの personality sentence id、一致職業、3〜5 件の story card（選抜された両 batch の `rationale_ja` 原文と editorial sentence id）だけを持つ。30KB 以下、browser fetch なしで HTML に inline する。
 - `data.models_by_model.json` — `/models/{slug}` per-model data page 用の projection。各 score batch の profile、変化指数分布、上位・下位職業、前回 batch との差分、prev/next nav を持つ。`rationale_ja` は含めず、Astro は該当 model payload だけを HTML に inline する。1 page payload は 24KB 以下。
 - `data.skills/*`, `data.holland.json`, `data.labels/ja.json` — hub 系ページの入力。
-- `data.ai-adoption.json` — `/aiadoption` dashboard。
+- `data.ai-adoption.json` — **停止スタブ**（aiadoption-1.5）。旧 5 層モデルの出力先だった URL を、後継 `data.haid-latest.json` への案内だけを持つ固定 JSON として残す。301 は張らない（`vercel.json` を触らない、オーナー裁定 2026-09-21）。
 - `data.haid-spec.json` — `/haid` の HAID v1.0 定義（10 段階・4 関係・3 境目・用語・境界事例）。数字を持たない。正典は `src/site/haid-spec.ts`、文言の正本は `docs/HAID.md`。（haid-1.3 で生成）
 - `data.haid-<yyyy-qN>.json` / `data.haid-latest.json` — HAID の四半期リリース（`/aiadoption`）。段階ごとの N(≥k)（低・中・高・display・clamped）、n(k)（display・share・確度）、錨点、重なり率、対価。`latest` は最新回のコピーに `releases` 一覧を足したもの。（aiadoption-1.2 で生成）
 - `data.me-positions.json` — `/me` self-positioning tool。全職業 × 全 ranking の位置を持つ。
@@ -79,12 +79,10 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - N(≥k) の単調性は入力の不変条件にしない（第 3 段階の下限が第 4 段階の推定を下回ることがある）。projection が入れ子で clamp し、clamp したことを出力に記録する。
 - projection（`src/data/projections/haid-release.ts`、aiadoption-1.2）の導出規則: `display(k)` は measured / residual / range なら `mid`、lower_bound なら `low`、none なら `null`。上から下へ `display(k) ≥ display(k+1)` に clamp し `clamped: true` を残す。`n(k) = display(k) − display(k+1)`（`display(11) = 0`）なので n(1..10) の合計は必ず総人口に一致する。n(k) の確度は、N(≥k) が none なら none、第 2 段階は残差（仕様どおり）、それ以外は N(≥k) と N(≥k+1) の弱いほう。`as_of` は引用された錨点の最新 `as_of`（引用されない錨点は無視）。数値は人数のまま持ち、有効数字（見出し 1 けた・表 2 けた）はページ側で丸める。
 
-## AI adoption
+## AI adoption（旧 5 層モデル、2026-09-22 停止）
 
-- `data/ai-adoption/` の observations、sources、assumptions、model から `data.ai-adoption.json` を作る。
-- primary denominator と auxiliary denominator は 0 より大きくなければならない。0 は share/rate を壊すため build error にする。
-- reached layer は個別に round し、`N_unreached` は `round(N_total) - reached layers` の残差で出す。公開値の 5 layer 合計が必ず total と一致するようにする。
-- `updated_at` は build clock ではなく、観測データの最新 `as_of_date` から決める。JSON-LD と表示更新日を毎日 drift させないため。
+- `data/ai-adoption/` と `src/data/projections/ai-adoption.ts` は aiadoption-1.5 で削除した。分母の異なる人群を 1 つの利用率に足していた点が HAID 制定の動機（`HAID.md`）。
+- 旧観測集（2026-Q2）の錨点は `data/haid-release/2026-q2/anchors.json` に C 等級として引き継いだ。`data.ai-adoption.json` は上記の停止スタブ。
 
 ## Ranking と me-positions
 
