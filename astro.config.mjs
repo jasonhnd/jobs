@@ -1,6 +1,49 @@
 // @ts-check
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
+import { transform } from 'esbuild';
+
+/**
+ * Minify `.js` files that Vite emits as plain assets.
+ *
+ * A `?url` import hands the file to Vite's asset pipeline, not its JS
+ * pipeline: the bytes are hashed and copied verbatim, so minification never
+ * runs. `src/pages/index.astro` loads `_index-inline.js` that way, and the
+ * homepage was shipping all 101 KB of it — comments, indentation and all
+ * (47 KB after minification; 29.5 KB → 15.0 KB over the wire). Lighthouse
+ * flagged it as `unminified-javascript` on 2026-09-21.
+ *
+ * `generateBundle` runs after Rollup has named the asset, so the emitted file
+ * keeps the hash derived from the *source* bytes. That is still correct as a
+ * cache key — any source edit rotates it — but it does mean the first deploy
+ * after this change reuses the current hash, so already-cached clients keep
+ * the un-minified copy until their `immutable` entry expires.
+ *
+ * `transform()` is called without `format`/`target`, so the file stays a
+ * classic script with its top-level declarations intact (page JS relies on
+ * script scope) and no syntax is down-levelled.
+ */
+function minifyEmittedJsAssets() {
+  return {
+    name: 'minify-emitted-js-assets',
+    apply: 'build',
+    /**
+     * @param {unknown} _options
+     * @param {Record<string, any>} bundle
+     */
+    async generateBundle(_options, bundle) {
+      for (const emitted of Object.values(bundle)) {
+        if (emitted.type !== 'asset' || !emitted.fileName.endsWith('.js')) continue;
+        const source =
+          typeof emitted.source === 'string'
+            ? emitted.source
+            : Buffer.from(emitted.source).toString('utf-8');
+        const { code } = await transform(source, { minify: true, loader: 'js' });
+        emitted.source = code;
+      }
+    },
+  };
+}
 
 // https://astro.build/config
 //
@@ -36,6 +79,7 @@ export default defineConfig({
     format: 'file',
   },
   vite: {
+    plugins: [minifyEmittedJsAssets()],
     resolve: {
       alias: {
         // fileURLToPath returns a real OS path on every platform.
