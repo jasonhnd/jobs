@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-09-17T13:17:20.304Z",
-  "gitCommit": "0c01fdcd33a13c9c6264864f7082008cd5809619",
-  "gitBranch": "feat/design-1.20-rendered-gate",
+  "capturedAt": "2026-09-21T00:42:36.725Z",
+  "gitCommit": "ee9ad54fa882af70306cc195efb1c5ff10e3c583",
+  "gitBranch": "fix/one-site-name",
   "distFileCount": 839,
   "urlCount": 839,
   "dataFileCount": 613,
