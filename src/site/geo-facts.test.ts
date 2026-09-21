@@ -10,7 +10,10 @@ import {
   compareAiImpactDesc,
   computeGeoFacts,
   pickLatestGeoScoreRun,
+  salaryStanding,
   summarizeGeoOccupationIds,
+  type GeoFacts,
+  type GeoOccupationSummary,
   type GeoScoreEntry,
   type GeoScoreRunLike,
   type GeoTreemapRow,
@@ -295,5 +298,83 @@ describe('buildGeoSurfaces', () => {
       await rm(distRoot, { recursive: true, force: true });
       await rm(repoRoot, { recursive: true, force: true });
     }
+  });
+});
+
+// ── salaryStanding: the tie behaviour is the whole point ─────────────
+// 544 of 556 occupations carry a salary and they share only 138 distinct
+// figures (largest tie group: 35). An exact rank would print the same
+// "124位" on 35 pages, so standing is a percentile and ties take the
+// midpoint of their group.
+
+function occ(id: number, salaryMan: number | null): GeoOccupationSummary {
+  return {
+    id,
+    nameJa: `occ-${String(id)}`,
+    aiImpact: 5,
+    aiImpactRank: id,
+    displacementRisk: null,
+    salaryMan,
+    workers: null,
+    recruitRatio: null,
+    demandBand: null,
+    sectorJa: null,
+  };
+}
+
+/** salaryStanding reads only `occupations`; the rest of GeoFacts is inert here. */
+function factsOf(occupations: readonly GeoOccupationSummary[]): GeoFacts {
+  return { occupations } as unknown as GeoFacts;
+}
+
+describe('salaryStanding', () => {
+  test('orders by salary desc and reports the universe it measured', () => {
+    const facts = factsOf([occ(1, 300), occ(2, 900), occ(3, 600)]);
+    assert.deepEqual(salaryStanding(facts, 2), { topPercent: 33, universe: 3 });
+    assert.deepEqual(salaryStanding(facts, 3), { topPercent: 67, universe: 3 });
+    assert.deepEqual(salaryStanding(facts, 1), { topPercent: 100, universe: 3 });
+  });
+
+  test('tied salaries share one percentile — the midpoint of their group', () => {
+    // Four occupations tie at 500 (positions 2-5 of 6).
+    const facts = factsOf([
+      occ(1, 900), occ(2, 500), occ(3, 500), occ(4, 500), occ(5, 500), occ(6, 100),
+    ]);
+    const tied = [2, 3, 4, 5].map((id) => salaryStanding(facts, id));
+    for (const standing of tied) {
+      assert.deepEqual(standing, tied[0], 'every tied occupation gets the same standing');
+    }
+    // Midpoint of ranks 2..5 is 3.5 → 3.5/6 = 58%.
+    assert.equal(tied[0]?.topPercent, 58);
+  });
+
+  test('a tie group is not flattered into its best-paid member rank', () => {
+    const facts = factsOf([occ(1, 900), occ(2, 500), occ(3, 500), occ(4, 500), occ(5, 100)]);
+    // Head of the tie is rank 2 → 40%. Midpoint is rank 3 → 60%.
+    assert.equal(salaryStanding(facts, 2)?.topPercent, 60);
+  });
+
+  test('occupations without a salary are excluded from the universe, not imputed', () => {
+    const facts = factsOf([occ(1, 900), occ(2, null), occ(3, 300)]);
+    assert.equal(salaryStanding(facts, 1)?.universe, 2);
+    assert.equal(salaryStanding(facts, 2), null);
+  });
+
+  test('unknown occupation id returns null rather than a bogus standing', () => {
+    assert.equal(salaryStanding(factsOf([occ(1, 900)]), 999), null);
+  });
+
+  test('topPercent stays within 1-100 at both ends', () => {
+    const many = Array.from({ length: 300 }, (_, i) => occ(i + 1, 1000 - i));
+    const facts = factsOf(many);
+    assert.equal(salaryStanding(facts, 1)?.topPercent, 1);
+    assert.equal(salaryStanding(facts, 300)?.topPercent, 100);
+  });
+
+  test('ordering matches /rankings/salary — id ascending breaks equal salaries', () => {
+    const facts = factsOf([occ(7, 500), occ(3, 500), occ(9, 900)]);
+    // Both 500s tie, so they share a percentile regardless of id; the id
+    // tie-break only fixes the array order the ranking page also uses.
+    assert.deepEqual(salaryStanding(facts, 7), salaryStanding(facts, 3));
   });
 });

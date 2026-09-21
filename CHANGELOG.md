@@ -12,6 +12,33 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **Occupation titles state where a salary sits, not what it is — supersedes
+  #276.** All 556 `/[id]` titles go from
+  `花火師の年収約536万円｜AI影響2.5/10｜未来の仕事` to
+  `花火師の年収は544職業中上位38%｜AI影響2.5/10`, and the meta description's
+  opening clause changes the same way. #276 put the yen figure in the title on
+  2026-08-24 on the hypothesis that 年収 queries impressed without converting
+  because the title carried no number; it was shipped and never measured.
+  Measured now against the two page families #276 did not touch —
+  occupation `/[id]` CTR 0.96% → 0.83% (−14%) while its position improved
+  8.7 → 8.3, against `/rankings/*` 4.86% → 5.05% (+4%) and everything else
+  2.44% → 2.71% (+11%). Both controls rose; only the family that got the yen
+  figure fell. The figure answers the query inside the SERP, so nothing is
+  left to click for. The 年収 token itself stays — adding it is what moved
+  position 8.7 → 8.3 — and only the answer is withheld.
+  New `salaryStanding()` (src/site/geo-facts.ts) derives the standing from the
+  same salary-desc / id tie-break `/rankings/salary` uses, so a title and the
+  ranking page cannot disagree. It reports a percentile rather than a rank
+  because 544 occupations carry only 138 distinct salary figures and the
+  largest tie group is 35 — an exact rank would print the identical 「124位」
+  on 35 pages and claim precision jobtag does not have. Tied occupations take
+  the midpoint of their group, not its head. The denominator is 544, not
+  `OCCUPATION_COUNT.SCORED` (556): jobtag publishes no salary for 12
+  statutory-pay or self-employed occupations (警察官 / 裁判官 / 検察官 /
+  自衛官×3 / 海上保安官 / 麻薬取締官 / 刑務官 / 国会議員 / 会社経営者 /
+  起業), which keep the existing no-salary title. SEO baseline refreshed
+  (2,176 title / description / OG / Twitter drifts, all intended).
+
 - **`/aiadoption` is now the HAID current-state page (aiadoption-1.3).** The
   5-layer 「世界の AI 利用率モニター」 (dot matrix, line chart, formula blocks)
   is replaced by one object: a treemap of humanity — area = people, four
