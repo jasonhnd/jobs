@@ -84,3 +84,11 @@ On a Cursor Cloud Agent, `.cursor/install.sh` provisions this toolchain at
 checkout. What that VM can and cannot verify on its own — e2e, scoring
 providers, and everything that needs a Vercel deployment — is
 [`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) §10.
+
+## 子代理约定
+
+本仓 Cursor 子代理定义见 `.cursor/agents/`。本节不重复、不覆盖 [`docs/WORKFLOW.md`](docs/WORKFLOW.md)、[`.delivery.yml`](.delivery.yml) 与上文 Hard rules。
+
+1. 子代理起 agent 按「[角色][JOBS] 任务」命名。
+2. 面向 Jason 的输出，技术术语第一次出现必须带大白话解释。
+3. 每个任务的计划写成 `plans/` 下的 markdown；目录不存在就一并创建。
