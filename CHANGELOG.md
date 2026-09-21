@@ -12,6 +12,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **Four ranking pages withheld from search.** `self-employed-typical`,
+  `freelance-friendly`, `ai-safe-young-workforce` and `ai-safe-short-hours`
+  now render `noindex, follow`. GSC 2026-08-22 → 09-19: the 40 ranking pages
+  split hard — 11 carry 861 of 928 clicks (93%), all of them plain
+  single-axis rankings people search for (就業者数 / 労働時間 / 時給 /
+  求人倍率 / 年収 / 平均年齢) — while these four sit at position 22.8, 23.5,
+  38.2 and 47.5. Google has looked at them and placed them past the second
+  page, which is a signal about the page rather than about demand. The bar
+  is position, not clicks: the other 25 low-click rankings rank at position
+  5-10 and simply have no search volume, and withholding those would be the
+  wrong call. `noindex` rather than deletion — pages stay reachable, internal
+  links keep flowing, reversible in one line. They stay in the sitemap; the
+  robots meta wins over a sitemap entry and 4 URLs of 839 does not justify
+  threading an exclusion through `views/sitemap.ts` and its floor assertion.
+  Whoever re-measures #577 must exclude these four slugs from both sides of
+  the `/rankings/*` control group.
+
 - **Occupation titles state where a salary sits, not what it is — supersedes
   #276.** All 556 `/[id]` titles go from
   `花火師の年収約536万円｜AI影響2.5/10｜未来の仕事` to
