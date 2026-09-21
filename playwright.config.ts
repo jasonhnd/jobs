@@ -15,8 +15,19 @@
  *
  * That entrypoint (scripts/run-e2e.sh) runs `bun install --frozen-lockfile`,
  * installs the Chromium binary, then runs the tests against a built
- * dist-astro/. GitHub Actions was removed 2026-05-28, so E2E is not part of
- * any automated CI — it is a manual pre-merge / release gate.
+ * dist-astro/.
+ *
+ * 2026-09-17: this suite RUNS IN CI again (.github/workflows/ci.yml). It had
+ * been manual-only since 2026-05-28, and in that time it rotted without anyone
+ * seeing it — 16 of its 47 URLs had become 404s, and axe's `color-contrast`
+ * rule was switched off. A spec that loads a missing page and asserts "no
+ * violations" PASSES, so the board stayed green while a11y.spec.ts scanned the
+ * 404 page for 7 of its 11 targets.
+ *
+ * Every other gate in this repo reads source. This is the only layer that reads
+ * what a browser renders, which is the only place an inherited font-size or a
+ * computed colour can be seen. Leaving it un-run is what let 46 contrast
+ * failures and a 9.6px <small> ship past a green board.
  */
 import { defineConfig, devices } from '@playwright/test';
 

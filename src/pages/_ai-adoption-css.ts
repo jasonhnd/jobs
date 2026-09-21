@@ -6,9 +6,10 @@
  */
 export const AI_ADOPTION_CSS = `
 .ai-adoption-page {
+  box-sizing: border-box; /* the gutter is inside the column, like every other wrapper */
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 28px 20px 84px;
+  padding: 28px var(--gutter) 84px;
   color: var(--fg);
 }
 
@@ -17,7 +18,7 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page a {
-  color: var(--accent);
+  color: var(--orange-hot);
   text-decoration: none;
 }
 
@@ -28,15 +29,13 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .adoption-kicker {
   margin: 0 0 8px;
   color: var(--accent-deep);
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   letter-spacing: 0;
 }
 
 .ai-adoption-page h1.adoption-title {
   margin: 0 0 10px;
-  font-size: 1.7rem !important;
-  line-height: 1.3 !important;
   letter-spacing: 0 !important;
 }
 
@@ -44,7 +43,7 @@ export const AI_ADOPTION_CSS = `
   max-width: 820px;
   margin: 0 0 20px;
   color: var(--fg2);
-  font-size: 1rem;
+  font-size: var(--t-h3);
   line-height: 1.8;
 }
 
@@ -68,7 +67,7 @@ export const AI_ADOPTION_CSS = `
   border-radius: 999px;
   background: var(--bg2);
   color: var(--fg2);
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -90,15 +89,16 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .metric-label {
   margin: 0 0 8px;
   color: var(--fg2);
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   line-height: 1.4;
 }
 
 .ai-adoption-page .metric-value {
   margin: 0;
   color: var(--fg);
-  font-size: 1.65rem;
-  font-weight: 700;
+  /* §4.7 統計数値（大） — serif, single weight, tabular-nums */
+  font-family: var(--font-serif);
+  font-size: var(--t-h1);
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
 }
@@ -106,7 +106,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .metric-note {
   margin: 8px 0 0;
   color: var(--fg2);
-  font-size: 0.76rem;
+  font-size: var(--t-xs);
   line-height: 1.45;
 }
 
@@ -148,15 +148,13 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .panel-head h2,
 .ai-adoption-page .wide-panel h2 {
   margin: 0;
-  font-size: 1.15rem !important;
-  line-height: 1.4 !important;
   letter-spacing: 0 !important;
 }
 
 .ai-adoption-page .panel-sub {
   margin: 0;
   color: var(--fg2);
-  font-size: 0.76rem;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -177,8 +175,9 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .impact-number {
   color: var(--fg);
-  font-size: 2.7rem;
-  font-weight: 800;
+  /* §4.7 統計数値（大） — serif, single weight, tabular-nums */
+  font-family: var(--font-serif);
+  font-size: var(--t-h1);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -190,7 +189,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .impact-unit {
   margin-left: 3px;
   color: var(--fg);
-  font-size: 1rem;
+  font-size: var(--t-sm);
   font-weight: 700;
 }
 
@@ -204,7 +203,7 @@ export const AI_ADOPTION_CSS = `
   border-radius: 999px;
   background: var(--bg2);
   color: var(--fg2);
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   line-height: 1;
   vertical-align: 8px;
@@ -214,7 +213,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .impact-row p {
   margin: 7px 0 0;
   color: var(--fg2);
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   line-height: 1.45;
 }
 
@@ -236,7 +235,7 @@ export const AI_ADOPTION_CSS = `
   margin: 12px 0 0;
   padding-left: 18px;
   color: var(--fg2);
-  font-size: 0.86rem;
+  font-size: var(--t-sm);
 }
 
 .ai-adoption-page .chart-fallback li {
@@ -273,7 +272,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .waffle-caption {
   fill: var(--fg2);
-  font-size: 12px;
+  font-size: var(--t-xs);
   font-weight: 700;
 }
 
@@ -291,7 +290,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .waffle-dot {
   cursor: pointer;
-  stroke: rgba(255, 255, 255, 0.92);
+  stroke: color-mix(in srgb, var(--paper) 92%, transparent);
   stroke-width: 1.3;
   vector-effect: non-scaling-stroke;
   transition:
@@ -311,7 +310,7 @@ export const AI_ADOPTION_CSS = `
   opacity: 1;
   stroke: var(--bg2);
   stroke-width: 2;
-  filter: drop-shadow(0 2px 4px rgba(36, 30, 24, 0.24));
+  filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--ink) 24%, transparent));
   outline: none;
 }
 
@@ -341,13 +340,13 @@ export const AI_ADOPTION_CSS = `
   opacity: 1;
   stroke: var(--fg);
   stroke-width: 2.4;
-  filter: drop-shadow(0 2px 5px rgba(36, 30, 24, 0.22));
+  filter: drop-shadow(0 2px 5px color-mix(in srgb, var(--ink) 22%, transparent));
   outline: none;
 }
 
 .ai-adoption-page .stack-label {
   fill: var(--fg);
-  font-size: 11px;
+  font-size: var(--t-xs);
   font-weight: 700;
   pointer-events: none;
 }
@@ -360,7 +359,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .touch-label {
   fill: var(--fg);
-  font-size: 11px;
+  font-size: var(--t-xs);
   font-weight: 700;
 }
 
@@ -384,19 +383,19 @@ export const AI_ADOPTION_CSS = `
   fill: var(--bg3);
   stroke: var(--fg);
   stroke-width: 2;
-  filter: drop-shadow(0 2px 6px rgba(36, 30, 24, 0.16));
+  filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--ink) 16%, transparent));
   outline: none;
 }
 
 .ai-adoption-page .tile-label {
   fill: var(--fg);
-  font-size: 12px;
+  font-size: var(--t-xs);
   font-weight: 700;
 }
 
 .ai-adoption-page .tile-value {
   fill: var(--fg2);
-  font-size: 11px;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -405,17 +404,21 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .chart-value {
   fill: var(--fg2);
   font-family: var(--font-sans);
+  /* d3-axis writes font-size: 10px onto the axis group, and nothing here
+     overrode it — so the tick labels rendered below §4.2's floor. The rule is
+     about text, and an SVG <text> is text. */
+  font-size: var(--t-xs);
   letter-spacing: 0;
 }
 
 .ai-adoption-page .chart-label {
   fill: var(--fg);
-  font-size: 13px;
+  font-size: var(--t-xs);
   font-weight: 700;
 }
 
 .ai-adoption-page .chart-value {
-  font-size: 12px;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -426,7 +429,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .explain-title {
   margin: 0 0 6px;
-  font-size: 1rem;
+  font-size: var(--t-h3);
   font-weight: 700;
   line-height: 1.5;
 }
@@ -439,15 +442,16 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page .explain-number {
-  font-size: 1.8rem;
-  font-weight: 700;
+  /* §4.7 統計数値（大） — serif, single weight, tabular-nums */
+  font-family: var(--font-serif);
+  font-size: var(--t-h1);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
 .ai-adoption-page .explain-share {
   color: var(--fg2);
-  font-size: 0.82rem;
+  font-size: var(--t-xs);
   font-variant-numeric: tabular-nums;
 }
 
@@ -458,26 +462,29 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .explain-block h3 {
   margin: 0 0 6px;
-  color: var(--accent-deep);
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
+  color: var(--ink);
   letter-spacing: 0 !important;
 }
 
 .ai-adoption-page .explain-block p {
   margin: 0;
   color: var(--fg);
-  font-size: 0.9rem;
+  font-size: var(--t-body);
   line-height: 1.65;
 }
 
 .ai-adoption-page .formula-code {
   display: block;
+  /* Design.md §4.4 — this <code> declared no font-family, so it fell to the UA
+     default monospace, which resolves to Osaka on macOS while /methodology and
+     /data resolve to Menlo. Measured with CDP CSS.getPlatformFontsForNode;
+     getComputedStyle only reports the declared stack, not the resolved face. */
+  font-family: var(--font-mono);
   padding: 10px 12px;
   border-radius: 6px;
   background: var(--bg3);
   color: var(--fg);
-  font-size: 0.82rem;
+  font-size: var(--t-sm);
   line-height: 1.65;
   white-space: normal;
 }
@@ -498,7 +505,7 @@ export const AI_ADOPTION_CSS = `
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--bg);
-  font-size: 0.8rem;
+  font-size: var(--t-xs);
 }
 
 .ai-adoption-page .source-mini strong {
@@ -517,7 +524,7 @@ export const AI_ADOPTION_CSS = `
   min-height: 24px;
   padding: 3px 8px;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   line-height: 1;
 }
@@ -533,7 +540,7 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page .status-stale {
-  background: var(--risk-soft-4);
+  background: var(--risk-pill-high-bg);
   color: var(--risk-pill-high-fg);
 }
 
@@ -568,7 +575,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .freshness-note {
   margin: 0 0 10px;
   color: var(--fg2);
-  font-size: 0.84rem;
+  font-size: var(--t-sm);
   line-height: 1.65;
 }
 
@@ -602,13 +609,13 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .review-item strong {
   color: var(--fg);
-  font-size: 0.84rem;
+  font-size: var(--t-sm);
   line-height: 1.35;
 }
 
 .ai-adoption-page .review-head > div > span {
   color: var(--fg2);
-  font-size: 0.76rem;
+  font-size: var(--t-xs);
   line-height: 1.35;
   font-variant-numeric: tabular-nums;
 }
@@ -652,8 +659,6 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .formula-primer h3 {
   margin: 0 0 10px;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
   letter-spacing: 0 !important;
 }
 
@@ -673,7 +678,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .formula-primer dd {
   margin: 0;
   color: var(--fg);
-  font-size: 0.9rem;
+  font-size: var(--t-body);
   line-height: 1.65;
 }
 
@@ -686,8 +691,6 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .formula-card h3 {
   margin: 0 0 8px;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
   letter-spacing: 0 !important;
 }
 
@@ -718,15 +721,13 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .source-group-head h3 {
   margin: 0 0 4px;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
   letter-spacing: 0 !important;
 }
 
 .ai-adoption-page .source-group-head p {
   margin: 0;
   color: var(--fg2);
-  font-size: 0.84rem;
+  font-size: var(--t-sm);
   line-height: 1.55;
 }
 
@@ -739,7 +740,7 @@ export const AI_ADOPTION_CSS = `
   border-radius: 999px;
   background: var(--bg2);
   color: var(--fg2);
-  font-size: 0.72rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -776,8 +777,6 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .source-card h4 {
   margin: 0;
-  font-size: 0.95rem !important;
-  line-height: 1.45 !important;
   letter-spacing: 0 !important;
 }
 
@@ -797,7 +796,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .source-metrics span {
   display: block;
   color: var(--fg2);
-  font-size: 0.7rem;
+  font-size: var(--t-xs);
   font-weight: 700;
   line-height: 1.35;
 }
@@ -806,7 +805,7 @@ export const AI_ADOPTION_CSS = `
   display: block;
   margin-top: 3px;
   color: var(--fg);
-  font-size: 0.9rem;
+  font-size: var(--t-sm);
   line-height: 1.35;
   font-variant-numeric: tabular-nums;
 }
@@ -818,7 +817,7 @@ export const AI_ADOPTION_CSS = `
   justify-content: space-between;
   gap: 4px 10px;
   margin: 0;
-  font-size: 0.78rem;
+  font-size: var(--t-xs);
   color: var(--fg2);
   font-variant-numeric: tabular-nums;
 }
@@ -840,7 +839,7 @@ export const AI_ADOPTION_CSS = `
   width: 100%;
   min-width: 920px;
   border-collapse: collapse;
-  font-size: 0.82rem;
+  font-size: var(--t-sm);
 }
 
 .ai-adoption-page .source-table th,
@@ -853,7 +852,7 @@ export const AI_ADOPTION_CSS = `
 
 .ai-adoption-page .source-table th {
   color: var(--fg2);
-  font-size: 0.72rem;
+  font-size: var(--t-sm);
   font-weight: 700;
   letter-spacing: 0;
   background: var(--bg2);
@@ -876,7 +875,7 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .method-note {
   margin: 10px 0 0;
   color: var(--fg2);
-  font-size: 0.84rem;
+  font-size: var(--t-sm);
   line-height: 1.7;
 }
 
@@ -945,13 +944,11 @@ export const AI_ADOPTION_CSS = `
     gap: 10px;
     padding: 8px 12px;
     border-bottom: 0;
-    font-size: 0.8rem;
   }
 
   .ai-adoption-page .source-table td::before {
     content: attr(data-label);
     color: var(--fg2);
-    font-size: 0.72rem;
     font-weight: 700;
   }
 
@@ -960,13 +957,9 @@ export const AI_ADOPTION_CSS = `
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 599px) {
   .ai-adoption-page {
-    padding: 18px 14px 64px;
-  }
-
-  .ai-adoption-page h1.adoption-title {
-    font-size: 1.7rem !important;
+    padding: 18px var(--gutter) 64px;
   }
 
   .ai-adoption-page .summary-grid,
@@ -990,7 +983,6 @@ export const AI_ADOPTION_CSS = `
 
   .ai-adoption-page .metric-value,
   .ai-adoption-page .explain-number {
-    font-size: 1.45rem;
   }
 
   .ai-adoption-page .impact-row > div {
@@ -999,11 +991,9 @@ export const AI_ADOPTION_CSS = `
   }
 
   .ai-adoption-page .impact-number {
-    font-size: 2.05rem;
   }
 
   .ai-adoption-page .impact-row p {
-    font-size: 0.72rem;
     line-height: 1.4;
   }
 
@@ -1015,11 +1005,6 @@ export const AI_ADOPTION_CSS = `
   .ai-adoption-page .source-card-top,
   .ai-adoption-page .source-group-head {
     grid-template-columns: 1fr;
-  }
-
-  .ai-adoption-page .panel-head h2,
-  .ai-adoption-page .wide-panel h2 {
-    font-size: 1.15rem !important;
   }
 
   .ai-adoption-page .chart-stage {

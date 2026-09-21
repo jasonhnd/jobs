@@ -27,7 +27,7 @@ const jsonLd = `{
   "url": "https://mirai-shigoto.com/map",
   "license": "https://opensource.org/licenses/MIT",
   "isAccessibleForFree": true,
-  "creator": { "@type": "Organization", "name": "Mirai-Shigoto" },
+  "creator": { "@type": "Organization", "name": "未来の仕事" },
   "distribution": [{
     "@type": "DataDownload",
     "encodingFormat": "application/json",
@@ -38,7 +38,7 @@ const jsonLd = `{
 }`;
 ---
 <BaseLayout
-  title={`職業マップ｜全 ${OCCUPATION_COUNT.SCORED} 職業 × AI 影響度ヒートマップ — Mirai-Shigoto`}
+  title={`職業マップ｜全 ${OCCUPATION_COUNT.SCORED} 職業 × AI 影響度ヒートマップ | 未来の仕事`}
   description={`日本の全 ${OCCUPATION_COUNT.SCORED} 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。タップで職業詳細へ。`}
   canonical="https://mirai-shigoto.com/map"
   ogTitle={`職業マップ｜全 ${OCCUPATION_COUNT.SCORED} 職業 × AI 影響度ヒートマップ`}
@@ -94,11 +94,11 @@ const jsonLd = `{
     <div class="legend" aria-hidden="true">
       <span>面積 ≈ 就業者数</span>
       <span class="swatches">
-        <span style="background:#0F8A66"></span>
-        <span style="background:#5BA84F"></span>
-        <span style="background:#D9A03B"></span>
-        <span style="background:#E27A33"></span>
-        <span style="background:#C4422F"></span>
+        <span style="background:var(--risk-0)"></span>
+        <span style="background:var(--risk-1)"></span>
+        <span style="background:var(--risk-2)"></span>
+        <span style="background:var(--risk-3)"></span>
+        <span style="background:var(--risk-4)"></span>
       </span>
       <span>色 = AI 影響(低 → 高)</span>
     </div>

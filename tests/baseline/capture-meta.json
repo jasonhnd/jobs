@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-10T14:53:07.146Z",
-  "gitCommit": "4be45cbd489ae2398592391b0095b2d32a915fe3",
-  "gitBranch": "feat/mms-9.13-land-backfill",
-  "distFileCount": 838,
-  "urlCount": 838,
-  "dataFileCount": 612,
+  "capturedAt": "2026-09-21T00:42:36.725Z",
+  "gitCommit": "ee9ad54fa882af70306cc195efb1c5ff10e3c583",
+  "gitBranch": "fix/one-site-name",
+  "distFileCount": 839,
+  "urlCount": 839,
+  "dataFileCount": 613,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

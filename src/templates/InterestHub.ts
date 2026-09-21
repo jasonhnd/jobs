@@ -19,6 +19,7 @@ import { fmtInt } from '../lib/num.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { OCCUPATION_COUNT } from '../site/config.js';
 import { occupationPath } from '../lib/urls.js';
+import { formatRiskScore } from '../lib/score-format.js';
 
 export { escapeHtml };
 
@@ -56,7 +57,7 @@ export function renderInterestItem(
   primary: 'R' | 'I' | 'A' | 'S' | 'E' | 'C',
 ): string {
   const title = o.name_ja || `#${o.id}`;
-  const scoreStr = o.ai_risk === null ? '—' : `${o.ai_risk}/10`;
+  const scoreStr = formatRiskScore(o.ai_risk);
   const band = riskClass(o.ai_risk);
   const metaParts: string[] = [];
   if (o.sector_ja) metaParts.push(escapeHtml(o.sector_ja));

@@ -2,7 +2,8 @@
  * src/lib/canonical/static.ts — Static page class の canonical CSS。
  *
  * Design.md §6.5 Page Class System で定義された "Static class" の共通 CSS:
- *   - 範囲: 4 page — /about、/privacy、/compliance、/404
+ *   - 範囲: 3 page — /privacy、/compliance、/404
+ *     (/about は Doc class が正。Design.md §6.5.3 により Static 側の範囲から外した)
  *   - 視覚言語: 法務・説明文書、長文垂直配置、極狭 wrapper、高余白
  *   - 特徴: 強制 light-only (theme toggle 隠匿、dead `@media (prefers-color-scheme: light)`
  *     を含めない ── Design.md §3.5 で "やらないこと" と明示済)
@@ -16,31 +17,39 @@ export const CANONICAL_STATIC_CSS = `
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.75}
-a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a{color:var(--orange-hot);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 a:hover{color:var(--accent-deep)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 .theme-toggle{display:none !important}
 
 /* Static class layout: shared content-column width, generous padding */
-#wrapper{max-width:var(--content-max);margin:0 auto;padding:48px 24px 96px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:48px var(--gutter) 96px}
 
 /* Breadcrumb */
-nav.crumb{font-size:0.85rem;color:var(--fg2);margin-bottom:24px}
+nav.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
 nav.crumb a{color:var(--fg2);text-decoration:none}
-nav.crumb a:hover{color:var(--accent);text-decoration:underline}
+nav.crumb a:hover{color:var(--orange-hot);text-decoration:underline}
 nav.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* Header + h1 — static class signature (smaller, calmer than hero) */
-header{margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--border)}
-h1{font-family:var(--font-serif);font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:600;line-height:1.3;color:var(--fg);margin-bottom:8px}
-h1 .accent{color:var(--accent);font-style:italic}
-.sub{color:var(--fg2);font-size:.95rem}
+/* Page hero header only. BaseLayout wraps the site chrome (MobileNav + TopNav)
+   in a bare header element for the banner landmark; a bare header selector painted
+   a second rule and 24px of padding under the top nav on every page of this
+   class (2026-06-03 → 2026-09-20). The hero sits inside the main element; the
+   chrome does not. :where() keeps the specificity at (0,0,1), so page rules such as
+   /me's .me-head still win exactly as they did against the bare selector. */
+:where(main) header{margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+/* Heading typography lives in canonical-css.ts (§4.9). Page-class CSS keeps
+   only colour and spacing. */
+h1{color:var(--fg);margin-bottom:8px}
+h1 .accent{color:var(--ink)}
+.sub{color:var(--fg2);font-size:var(--t-h3)}
 
 /* Long-form body paragraphs */
 section{margin:32px 0}
-section > h2{font-family:var(--font-serif);font-size:1.25rem;font-weight:600;color:var(--fg);margin:0 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+section > h2{color:var(--fg);margin:0 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 p{margin:0 0 14px;line-height:1.85;color:var(--fg)}
 p:last-child{margin-bottom:0}
 
-@media (max-width:600px){#wrapper{padding:32px 16px 64px}h1{font-size:1.4rem}}
+@media (max-width:599px){#wrapper{padding:32px var(--gutter) 64px}}
 `;

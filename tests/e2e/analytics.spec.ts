@@ -11,21 +11,60 @@
  *   5. Server-side middleware.ts not running on the matched path
  *
  * Runs against the locally-built dist-astro/ served by http-server (see
- * playwright.config.ts). Invoked manually via `bun run test:e2e` — GitHub
- * Actions was removed 2026-05-28, so this is no longer wired into CI.
+ * playwright.config.ts). The suite runs in CI as of 2026-09-17, but THIS spec
+ * skips there: it needs PUBLIC_GA4_MEASUREMENT_ID at build time (see below).
  *
  * NOTE: server-side middleware MP requests fire from the Edge to GA4
  * directly — they NEVER appear in the browser's Network panel. The MW
  * assertion checks only that the env wiring is correct; observable
  * verification requires hitting production and checking GA4 Realtime.
  */
+import { readFileSync } from 'node:fs';
 import { test, expect, type Request as PWRequest } from '@playwright/test';
+import { visit } from './_visit';
+
+/**
+ * These assertions need PUBLIC_GA4_MEASUREMENT_ID to have been set AT BUILD
+ * TIME — without it BaseLayout elides the whole script block, so there is
+ * nothing to fire and every case fails for a reason that is not a defect.
+ *
+ * Locally that comes from .env.local. CI does not have it and should not: a
+ * measurement ID is not worth wiring a secret for, and what this spec really
+ * verifies (env → build → browser) can only be verified where the env exists.
+ *
+ * Skipped LOUDLY rather than silently: the built output is inspected, and the
+ * skip reason names the missing variable. A check that quietly asserts nothing
+ * is the failure mode this whole suite was just repaired for.
+ *
+ * Detect on the gtag SCRIPT, not the meta tag, and on a BaseLayout page rather
+ * than the homepage. Verified by rebuilding with .env.local moved aside:
+ * `googletagmanager.com/gtag/js` disappears, while `<meta name=
+ * "ga4-measurement-id">` stays — the homepage is built from
+ * src/index-source.html and carries its own copy. Probing the meta on / would
+ * report "GA4 present" in exactly the environment that has none.
+ */
+const GA4_IN_BUILD = (() => {
+  try {
+    return readFileSync('dist-astro/sectors.html', 'utf-8').includes(
+      'googletagmanager.com/gtag/js',
+    );
+  } catch {
+    return false;
+  }
+})();
+
+test.skip(
+  !GA4_IN_BUILD,
+  'PUBLIC_GA4_MEASUREMENT_ID was not set when dist-astro/ was built, so no ' +
+    'analytics markup exists to assert against. Run `bun run build` with ' +
+    '.env.local present (or set the variable) to exercise these.',
+);
 
 const PAGES_TO_CHECK = [
   { url: '/',                    name: 'home (src/index-source.html — non-BaseLayout)' },
-  { url: '/ja/sectors',          name: 'sectors hub (BaseLayout)' },
-  { url: '/ja/156',              name: 'occupation detail (BaseLayout)' },
-  { url: '/ja/rankings/ai-risk-low', name: 'ranking item (BaseLayout)' },
+  { url: '/sectors',          name: 'sectors hub (BaseLayout)' },
+  { url: '/156',              name: 'occupation detail (BaseLayout)' },
+  { url: '/rankings/ai-risk-low', name: 'ranking item (BaseLayout)' },
 ];
 
 /** Network requests we expect to see on every traffic page. */
@@ -84,7 +123,7 @@ for (const target of PAGES_TO_CHECK) {
     const seenRequests: string[] = [];
     page.on('request', (req) => seenRequests.push(req.url()));
 
-    await page.goto(target.url, { waitUntil: 'load' });
+    await visit(page, target.url, { waitUntil: 'load' });
     // Wait for window.load handlers (X Ads, GA4 dynamic injection) to fire.
     await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {
       // networkidle may not be reached because of long-poll connections; not fatal.
@@ -104,7 +143,7 @@ for (const target of PAGES_TO_CHECK) {
 // ─── Per-page tracker-library SEMANTIC checks (not just network) ──────────
 
 test('GA4: window.gtag becomes a function and dataLayer accepts pushes', async ({ page }) => {
-  await page.goto('/ja/sectors', { waitUntil: 'load' });
+  await visit(page, '/sectors', { waitUntil: 'load' });
   // The inline stub sets window.gtag immediately; the library (loaded on
   // window.load) is what creates google_tag_manager['G-…']. Wait for that,
   // not just typeof gtag — otherwise the assertion races the network.
@@ -152,7 +191,7 @@ test('GA4: window.gtag becomes a function and dataLayer accepts pushes', async (
 });
 
 test('X Ads: window.twq becomes a function with non-empty pixel ID', async ({ page }) => {
-  await page.goto('/ja/sectors', { waitUntil: 'load' });
+  await visit(page, '/sectors', { waitUntil: 'load' });
   await page.waitForFunction(
     () => typeof (window as unknown as { twq?: unknown }).twq === 'function',
     null,
@@ -172,7 +211,7 @@ test('X Ads: window.twq becomes a function with non-empty pixel ID', async ({ pa
 });
 
 test('Google Ads: AW- config queued when PUBLIC_GOOGLE_ADS_ID is set', async ({ page }) => {
-  await page.goto('/ja/sectors', { waitUntil: 'load' });
+  await visit(page, '/sectors', { waitUntil: 'load' });
   // Ads is optional and shares GA4's gtag.js library — when
   // PUBLIC_GOOGLE_ADS_ID is unset the <meta> is absent and the gtag
   // block's `if (adsId)` short-circuits. Only assert the semantic
@@ -203,7 +242,7 @@ test('Google Ads: AW- config queued when PUBLIC_GOOGLE_ADS_ID is set', async ({ 
 // ─── CSP must list every analytics origin our code references ────────────
 
 test('CSP allows all analytics origins our code calls into', async ({ page }) => {
-  const resp = await page.goto('/ja/sectors');
+  const resp = await visit(page, '/sectors');
   expect(resp).not.toBeNull();
   const csp = resp!.headers()['content-security-policy'] ?? '';
   expect(csp, 'CSP header must be set').toBeTruthy();
@@ -262,7 +301,7 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
 // itself is still clean of 'unsafe-inline').
 
 test('CSP script-src does NOT include unsafe-inline (CODE-012 hardening)', async ({ page }) => {
-  const resp = await page.goto('/ja/sectors');
+  const resp = await visit(page, '/sectors');
   expect(resp).not.toBeNull();
   const csp = resp!.headers()['content-security-policy'] ?? '';
   expect(csp, 'CSP header must be set').toBeTruthy();
@@ -302,7 +341,7 @@ test('GA4 actually sends a g/collect request after page load', async ({ page }) 
     /(?:www\.google-analytics\.com|analytics\.google\.com)\/g\/collect/,
     12_000,
   );
-  await page.goto('/ja/sectors', { waitUntil: 'load' });
+  await visit(page, '/sectors', { waitUntil: 'load' });
   const req = await seenGCollect;
   expect(
     req,

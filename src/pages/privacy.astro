@@ -7,6 +7,7 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
+import { CANONICAL_STATIC_CSS } from '@/lib/canonical/static';
 
 const jsonLd = `{
   "@context": "https://schema.org",
@@ -14,7 +15,7 @@ const jsonLd = `{
     {
       "@type": "WebPage",
       "@id": "https://mirai-shigoto.com/privacy#webpage",
-      "name": "プライバシーポリシー — mirai-shigoto.com",
+      "name": "プライバシーポリシー | 未来の仕事",
       "url": "https://mirai-shigoto.com/privacy",
       "description": "mirai-shigoto.com のプライバシーポリシー — 運営者、収集情報、第三者サービス（Google / Cloudflare / Vercel）、Cookie、保持期間、利用者の権利、お問い合わせ。",
       "inLanguage": ["ja"],
@@ -38,7 +39,7 @@ const jsonLd = `{
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "日本の職業 AI 影響マップ",
+          "name": "未来の仕事",
           "item": "https://mirai-shigoto.com/"
         },
         {
@@ -53,23 +54,24 @@ const jsonLd = `{
 }`;
 ---
 <BaseLayout
-  title="プライバシーポリシー — mirai-shigoto.com"
+  title="プライバシーポリシー | 未来の仕事"
   description="mirai-shigoto.com のプライバシーポリシー。収集する情報、利用目的、第三者提供、Cookie、保持期間、利用者の権利、お問い合わせ。"
   canonical="https://mirai-shigoto.com/privacy"
   keywords="未来の仕事, プライバシーポリシー, 個人情報保護, Cookie, 第三者提供, GA4, Cloudflare, Vercel, 利用者の権利, APPI, GDPR, mirai shigoto, privacy policy, data handling"
   ogImage="https://mirai-shigoto.com/api/og?page=privacy"
-  ogTitle="プライバシーポリシー — mirai-shigoto.com"
+  ogTitle="プライバシーポリシー | 未来の仕事"
   ogDescription="mirai-shigoto.com のプライバシーポリシー。収集情報、利用目的、第三者提供（GA4 / Cloudflare / Vercel）、Cookie、保持期間、利用者の権利、お問い合わせ。"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
 
+  <style slot="head" set:html={CANONICAL_STATIC_CSS} />
   <style slot="head">
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     /* Tokens (:root) + dual-theme blocks: removed 2026-05-16.
        Now emitted globally by Footer.astro via canonical-css.ts (Design.md §18.4). */
     body { font-family: var(--font-sans) !important; }
     /* Heading font-family/weight/letter-spacing inherited from canonical CSS. */
-    h1 .accent, h2 .accent { color: var(--accent); font-style: italic; }
+    h1 .accent, h2 .accent { color: var(--ink);  }
     .theme-toggle { display: none !important; }
     .theme-toggle-orig {
       background: transparent;
@@ -84,7 +86,7 @@ const jsonLd = `{
       transition: color 150ms ease, border-color 150ms ease;
       vertical-align: middle;
     }
-    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+    .theme-toggle:hover { color: var(--orange-hot); border-color: var(--accent); }
     .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; }
     .theme-toggle .icon-sun { display: inline-block; }
@@ -99,7 +101,7 @@ const jsonLd = `{
     #wrapper {
       max-width: var(--content-max);
       margin: 0 auto;
-      padding: 24px 28px 80px;
+      padding: 24px var(--gutter) 80px;
     }
     .top-bar {
       display: flex;
@@ -112,24 +114,23 @@ const jsonLd = `{
     .top-bar .back {
       color: var(--fg2);
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: var(--t-sm);
     }
-    .top-bar .back:hover { color: var(--accent); }
+    .top-bar .back:hover { color: var(--orange-hot); }
     h1 {
       /* font-size/weight/letter-spacing inherited from canonical (src/lib/canonical-css.ts) */
       margin-bottom: 6px;
     }
-    h1 .accent { color: var(--accent); }
+    h1 .accent { color: var(--ink) }
     .subtitle {
       color: var(--fg2);
-      font-size: 0.9rem;
+      font-size: var(--t-h3);
       margin-bottom: 8px;
     }
     .meta-line {
-      color: var(--fg2);
-      font-size: 0.78rem;
+      color: var(--ink-meta);
+      font-size: var(--t-xs);
       margin-bottom: 28px;
-      opacity: 0.75;
     }
     h2 {
       /* font-size/weight inherited from canonical (1.15rem / 600) */
@@ -155,18 +156,18 @@ const jsonLd = `{
     }
     li { margin-bottom: 6px; }
     a {
-      color: var(--accent);
+      color: var(--orange-hot);
       text-decoration: none;
     }
     a:hover { text-decoration: underline; }
     strong { color: var(--fg); font-weight: 600; }
     code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.85em;
+      font-family: var(--font-mono);
+      font-size: var(--t-sm);
       background: var(--bg2);
       padding: 1px 6px;
       border-radius: 4px;
-      color: var(--accent);
+      color: var(--orange-hot);
     }
     .third-party {
       background: var(--bg2);
@@ -174,7 +175,7 @@ const jsonLd = `{
       border-radius: 8px;
       padding: 14px 18px;
       margin: 12px 0;
-      font-size: 0.88rem;
+      font-size: var(--t-sm);
     }
     .third-party-row {
       display: grid;
@@ -191,12 +192,12 @@ const jsonLd = `{
       margin-top: 40px;
       padding-top: 22px;
       border-top: 1px solid var(--border);
-      font-size: 0.72rem;
+      font-size: var(--t-xs);
       color: var(--fg2);
       text-align: center;
     }
     footer a {
-      color: var(--accent);
+      color: var(--orange-hot);
       text-decoration: none;
     }
     footer a:hover {
@@ -216,23 +217,23 @@ const jsonLd = `{
       padding: 5px 14px;
       border: 1px solid var(--border);
       border-radius: 999px;
-      font-size: 0.78rem;
+      font-size: var(--t-xs);
       line-height: 1.2;
       transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
     }
     footer .footer-links a:hover {
-      color: var(--accent);
+      color: var(--orange-hot);
       border-color: var(--accent);
-      background: rgba(217, 107, 61, 0.06);
+      background: color-mix(in srgb, var(--orange) 6%, transparent);
       text-decoration: none;
     }
-    footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
-    footer .footer-meta a { color: var(--accent); }
+    footer .footer-meta { color: var(--fg2); font-size: var(--t-xs); text-wrap: pretty; line-height: 1.65; }
+    footer .footer-meta a { color: var(--orange-hot); }
     footer .footer-meta .nowrap { white-space: nowrap; }
     @media (max-width: 540px) {
-      #wrapper { padding: 18px 16px 60px; }
+      #wrapper { padding: 18px var(--gutter) 60px; }
       .third-party-row { grid-template-columns: 1fr; gap: 2px; }
-      footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+      footer .footer-meta { font-size: var(--t-xs); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
     }
   </style>
 

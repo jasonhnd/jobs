@@ -50,7 +50,7 @@
         transition: color 150ms ease, border-color 150ms ease;
         vertical-align: middle;
       }
-      .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+      .theme-toggle:hover { color: var(--orange-hot); border-color: var(--accent); }
       .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       .theme-toggle svg { width: 14px; height: 14px; fill: currentColor; }
       .theme-toggle .icon-sun { display: inline-block; }
@@ -87,8 +87,11 @@
         font-family: var(--font-sans);
         -webkit-font-smoothing: antialiased;
       }
-      /* Direction C convergence: serif headlines (warm editorial voice). */
-      h1, h2, h3,
+      /* Direction C convergence: serif headlines (warm editorial voice).
+         h1/h2/h3 were in this selector and are gone: canonical-css.ts owns the
+         heading branch (§4.9), and it makes h3 SANS (§4.4) — so listing h3 here
+         claimed a typeface the canon does not give it. The two classes are not
+         headings by markup and keep the treatment. */
       .dh-title, .mobile-hero-title {
         font-family: var(--font-serif);
         font-weight: 600;
@@ -96,13 +99,11 @@
       }
       /* Direction C signature: italic terra-cotta emphasis on accent words. */
       .dh-title .acc, .mobile-hero-title .acc, h1 .accent {
-        color: var(--accent);
-        font-style: italic;
+        color: var(--ink);
         font-weight: 600;
       }
       /* Mobile hero title line-break point: "AIの時代でも、" stays on line 1, "あなたらしい働き方を。" stays on line 2 — semantic Japanese phrase boundary instead of mid-word "を。" orphan. Hidden on wider viewports where the title fits on one line. */
-      .ja-phrase-break { display: inline; }
-      @media (min-width: 769px) { .ja-phrase-break { display: none; } }
+      /* .ja-phrase-break is a site-wide utility in canonical-css.ts (design-1.21). */
 
       /* ═══════════ v1.2.x mobile TOP 10 horizontal-swipe carousel ═══════════ */
       /* Hidden on desktop (≥769px) — desktop keeps the 6 stat-cards block. At ≤768px, swap: TOP 10 carousel replaces the stat panel block visually. */
@@ -130,7 +131,7 @@
       }
       .m-top10-eyebrow {
         font-family: var(--font-sans);
-        font-size: 0.74rem;
+        font-size: var(--t-xs);
         letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--accent-deep);
@@ -139,7 +140,7 @@
       .m-top10-eyebrow:not(.active) { display: none; }
       .m-top10-title {
         font-family: var(--font-serif);
-        font-size: 1.6rem;
+        font-size: var(--t-h1);
         font-weight: 600;
         color: var(--fg);
         margin: 0;
@@ -172,18 +173,18 @@
         text-decoration: none;
         color: var(--fg);
         position: relative;
-        box-shadow: 0 1px 0 rgba(36,30,24,0.04), 0 8px 24px -12px rgba(36,30,24,0.10);
+        box-shadow: 0 1px 0 rgba(36,30,24,0.04), 0 8px 24px -12px color-mix(in srgb, var(--ink) 10%, transparent);
       }
       .m-top10-card:hover { text-decoration: none; }
       .m-top10-card-rank {
         position: absolute;
         top: 14px; right: 14px;
-        background: var(--accent);
+        background: var(--orange-hot);
         color: #fff;
         padding: 2px 9px;
         border-radius: 999px;
         font-family: var(--font-sans);
-        font-size: 0.68rem;
+        font-size: var(--t-xs);
         font-weight: 600;
         letter-spacing: 0.06em;
       }
@@ -193,7 +194,7 @@
       }
       .m-top10-card-name {
         font-family: var(--font-serif);
-        font-size: 1.18rem;
+        font-size: var(--t-h3);
         font-weight: 600;
         line-height: 1.25;
         color: var(--fg);
@@ -205,42 +206,30 @@
       }
       .m-top10-card-name-en {
         font-family: var(--font-sans);
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
-        font-weight: 500;
+        font-weight: 600;
       }
       .m-top10-card-score {
         display: flex;
         align-items: baseline;
         gap: 8px;
       }
-      .m-top10-card-score .num {
-        font-family: var(--font-serif);
-        font-size: 2.6rem;
-        font-weight: 600;
-        line-height: 1;
-        color: var(--accent);
-      }
-      .m-top10-card-score .denom {
-        font-family: var(--font-sans);
-        font-size: 0.84rem;
-        color: var(--fg2);
-      }
       .m-top10-card-tag {
         display: inline-flex;
         align-items: center;
         gap: 5px;
         font-family: var(--font-sans);
-        font-size: 0.74rem;
-        color: var(--accent);
-        font-weight: 500;
+        font-size: var(--t-xs);
+        color: var(--orange-hot);
+        font-weight: 600;
       }
       .m-top10-card-tag::before {
         content: "▲";
-        font-size: 0.66em;
+        font-size: var(--t-xs);
       }
       .m-top10-card-rationale {
-        font-size: 0.84rem;
+        font-size: var(--t-sm);
         line-height: 1.5;
         color: var(--fg2);
         margin: 0;
@@ -264,13 +253,13 @@
       }
       .m-top10-card-stat .v {
         font-family: var(--font-serif);
-        font-size: 1.08rem;
+        font-size: var(--t-h3);
         font-weight: 600;
         color: var(--fg);
       }
       .m-top10-card-stat .l {
         font-family: var(--font-sans);
-        font-size: 0.66rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         letter-spacing: 0.04em;
       }
@@ -283,7 +272,7 @@
       .m-top10-bar {
         flex: 1;
         height: 3px;
-        background: rgba(36,30,24,0.10);
+        background: color-mix(in srgb, var(--ink) 10%, transparent);
         border-radius: 999px;
         overflow: hidden;
       }
@@ -297,7 +286,7 @@
       }
       .m-top10-counter {
         font-family: var(--font-sans);
-        font-size: 0.74rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         font-variant-numeric: tabular-nums;
         letter-spacing: 0.04em;
@@ -308,7 +297,7 @@
         margin-top: 6px;
         padding: 3px 9px;
         border-radius: 999px;
-        font-size: 12px;
+        font-size: var(--t-xs);
         font-weight: 600;
         font-variant-numeric: tabular-nums;
       }
@@ -321,13 +310,13 @@
           align-items: baseline;
           gap: 8px;
           margin-bottom: 10px;
-          font-size: 13px;
+          font-size: var(--t-sm);
           color: var(--fg2);
           font-weight: 600;
         }
         .m-top10-title {
           font-family: var(--font-sans);
-          font-size: 13px;
+          font-size: var(--t-h1);
           font-weight: 700;
           letter-spacing: 0.04em;
         }
@@ -338,13 +327,11 @@
           background: transparent;
           color: var(--fg2);
           padding: 0;
-          font-size: 11px;
+          font-size: var(--t-xs);
           letter-spacing: 0;
         }
         .m-top10-card-head { padding-right: 0; }
-        .m-top10-card-name { font-size: 15.5px; min-height: 2.4em; }
-        .m-top10-card:has(.risk-pill) .m-top10-card-score .num,
-        .m-top10-card:has(.risk-pill) .m-top10-card-score .denom,
+        .m-top10-card-name { font-size: var(--t-h3); min-height: 2.4em; }
         .m-top10-card:has(.risk-pill) .m-top10-card-tag,
         .m-top10-card:has(.risk-pill) .m-top10-card-rationale,
         .m-top10-card:has(.risk-pill) .m-top10-card-stats,
@@ -358,22 +345,27 @@
           margin: 8px 0 16px;
           padding: 14px 15px;
           background: var(--bg2);
-          border: 1px solid rgba(163,151,133,.30);
+          border: 1px solid color-mix(in srgb, var(--fg3) 30%, transparent);
           border-radius: 14px;
         }
         .home-movers-head { margin: 0 0 10px; }
         .home-movers-head a {
-          font-size: 13px;
+          font-size: var(--t-sm);
           font-weight: 700;
           color: var(--fg2);
           text-decoration: none;
         }
         .home-movers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; }
-        .home-movers h3 { margin: 0 0 4px; font-size: 12px; font-weight: 700; color: var(--fg2); font-family: var(--font-sans); }
+        .home-movers h3 { margin: 0 0 4px; color: var(--ink); }
         .home-movers ol { list-style: none; margin: 0; padding: 0; }
-        .home-movers li { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; padding: 3px 0; }
-        .home-movers li a { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .home-movers .up { color: var(--accent); font-variant-numeric: tabular-nums; font-weight: 700; }
+        .home-movers li { display: flex; justify-content: space-between; gap: 8px; font-size: var(--t-sm); padding: 3px 0; }
+        /* Grid items default to min-width:auto, so a nowrap name inside a
+           1fr track pushed the second column 192px past a 375px viewport with
+           no way to scroll to it (design-1.21). min-width:0 lets the track win. */
+        .home-movers-grid .hm-col, .home-movers ol { min-width: 0; }
+        .home-movers li a { color: var(--fg); text-decoration: none; min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .home-movers li .up, .home-movers li .down { flex: 0 0 auto; }
+        .home-movers .up { color: var(--orange-hot); font-variant-numeric: tabular-nums; font-weight: 700; }
         .home-movers .down { color: var(--accent-deep); font-variant-numeric: tabular-nums; font-weight: 700; }
         .home-doors {
           display: grid;
@@ -388,16 +380,16 @@
           min-height: 44px;
           padding: 14px;
           background: var(--bg2);
-          border: 1px solid rgba(163,151,133,.30);
+          border: 1px solid color-mix(in srgb, var(--fg3) 30%, transparent);
           border-radius: 16px;
           text-decoration: none;
           color: inherit;
           box-shadow: 0 1px 0 rgba(36,30,24,.04);
         }
         .home-door:hover { text-decoration: none; }
-        .home-door-title { font-family: var(--font-serif); font-size: 15px; font-weight: 700; color: var(--fg); }
-        .home-door-desc { font-size: 12px; color: var(--fg2); line-height: 1.45; }
-        .home-door-meta { font-size: 11px; font-weight: 700; color: var(--accent); margin-top: auto; letter-spacing: 0.02em; }
+        .home-door-title { font-family: var(--font-serif); font-size: var(--t-h3); font-weight: 700; color: var(--fg); }
+        .home-door-desc { font-size: var(--t-xs); color: var(--fg2); line-height: 1.45; }
+        .home-door-meta { font-size: var(--t-xs); font-weight: 700; color: var(--orange-hot); margin-top: auto; letter-spacing: 0.02em; }
         .home-doors .m-map-preview {
           margin: 0;
           padding: 14px;
@@ -415,7 +407,7 @@
           flex-direction: column;
           margin: 0;
           padding: 14px;
-          border: 1px solid rgba(163,151,133,.30);
+          border: 1px solid color-mix(in srgb, var(--fg3) 30%, transparent);
           border-radius: 16px;
           background: var(--bg2);
           color: var(--fg);
@@ -436,7 +428,7 @@
       }
       .m-map-preview-title {
         font-family: var(--font-serif, var(--font-sans));
-        font-size: 1.15rem;
+        font-size: var(--t-h3);
         font-weight: 700;
         line-height: 1.2;
         margin: 0;
@@ -445,14 +437,14 @@
       }
       .m-map-preview-count {
         font-family: var(--font-sans);
-        font-size: 0.82rem;
+        font-size: var(--t-xs);
         font-weight: 600;
-        color: var(--accent);
+        color: var(--orange-hot);
         font-variant-numeric: tabular-nums;
       }
       .m-map-preview-legend {
         font-family: var(--font-sans);
-        font-size: 0.72rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         margin: 0 0 14px;
         letter-spacing: 0.02em;
@@ -474,9 +466,9 @@
         display: block;
         text-align: center;
         font-family: var(--font-sans);
-        font-size: 0.92rem;
+        font-size: var(--t-sm);
         font-weight: 600;
-        color: var(--accent);
+        color: var(--orange-hot);
         padding: 12px 16px;
         border: 1.5px solid var(--accent);
         border-radius: 999px;
@@ -526,7 +518,7 @@
         }
         .m-map-title {
           font-family: var(--font-serif);
-          font-size: 1.4rem;
+          font-size: var(--t-h2);
           font-weight: 600;
           color: var(--fg);
           margin: 0;
@@ -534,7 +526,7 @@
         }
         .m-map-meta {
           font-family: var(--font-sans);
-          font-size: 0.74rem;
+          font-size: var(--t-xs);
           color: var(--fg2);
           letter-spacing: 0.02em;
         }
@@ -544,16 +536,16 @@
       #wrapper {
         max-width: var(--content-max);
         margin: 0 auto;
-        padding: 24px 28px 80px;
+        padding: 24px var(--gutter) 80px;
         position: relative; /* anchor for #tileHighlight overlay */
       }
       /* CSS overlay highlight — replaces per-frame canvas redraw on hover/select. Lets every interaction skip the 556-tile loop in draw() and just move a div. Killed mobile INP from ~768ms to ~30ms. */
       #tileHighlight {
         position: absolute;
         pointer-events: none;
-        border: 2px solid #fff;
-        border-radius: 2px;
-        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid var(--paper);
+        border-radius: var(--r-sm); /* the tiles are 6px-cornered like /map's cells */
+        background: color-mix(in srgb, var(--paper) 8%, transparent);
         display: none;
         will-change: transform, width, height;
         transition: left 60ms linear, top 60ms linear, width 60ms linear, height 60ms linear;
@@ -563,7 +555,7 @@
         margin-bottom: 24px;
       }
       .page-banner {
-        font-size: clamp(0.9rem, 0.75rem + 0.4vw, 1rem);
+        font-size: var(--t-sm);
         font-weight: 400;
         letter-spacing: 0;
         color: var(--fg2);
@@ -574,12 +566,12 @@
         flex-wrap: wrap;
       }
       .page-banner .accent {
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       .lang-switch {
         display: inline-flex;
         gap: 4px;
-        font-size: 0.8rem;
+        font-size: var(--t-xs);
       }
       .page-banner .lang-switch {
         margin-left: auto;
@@ -595,25 +587,23 @@
       }
       .lang-switch button[aria-pressed="true"] {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       .page-banner .h1-sub {
-        font-size: 0.85rem;
-        font-weight: 400;
         color: var(--fg2);
       }
       .page-banner .h1-sub strong {
-        color: var(--accent);
+        color: var(--ink);
         font-weight: 600;
       }
       .page-banner .byline {
-        font-size: 0.82rem;
+        font-size: var(--t-xs);
         font-weight: 400;
         color: var(--fg2);
         margin-left: 6px;
       }
       .page-banner .byline a {
-        color: var(--accent);
+        color: var(--orange-hot);
         text-decoration: none;
         border-bottom: 1px dotted var(--accent);
       }
@@ -631,7 +621,7 @@
         background: rgba(255, 184, 77, 0.06);
         border: 1px dashed rgba(255, 184, 77, 0.35);
         border-radius: 6px;
-        font-size: 0.8rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         line-height: 1.5;
       }
@@ -642,10 +632,10 @@
       }
       .dimension-hint .hint-piece strong {
         color: var(--fg);
-        font-weight: 500;
+        font-weight: 600;
       }
       .dimension-hint .hint-piece .hint-value {
-        color: var(--accent);
+        color: var(--orange-hot);
         font-weight: 600;
       }
       .dimension-hint .hint-divider {
@@ -661,7 +651,7 @@
         border: 1px solid var(--border);
         border-left: 3px solid var(--accent);
         border-radius: 8px;
-        font-size: 0.86rem;
+        font-size: var(--t-sm);
         line-height: 1.5;
         max-width: 880px;
       }
@@ -672,7 +662,7 @@
         color: var(--fg2);
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        font-size: 0.72rem;
+        font-size: var(--t-xs);
         padding-top: 3px;
         white-space: nowrap;
       }
@@ -680,14 +670,14 @@
         color: var(--fg);
       }
       .meta-card a {
-        color: var(--accent);
+        color: var(--orange-hot);
         text-decoration: none;
       }
       .meta-card a:hover { text-decoration: underline; }
       .intro + .intro { margin-top: -4px; }
       .intro {
         color: var(--fg2);
-        font-size: 0.95rem;
+        font-size: var(--t-h3);
         line-height: 1.85;
         margin-bottom: 18px;
         max-width: 880px;
@@ -708,12 +698,12 @@
         padding: 12px 16px;
         margin: 14px 0 22px;
         color: var(--fg2);
-        font-size: 0.9rem;
+        font-size: var(--t-sm);
       }
       .methodology-title {
-        font-size: 0.95rem;
+        font-size: var(--t-h3);
         font-weight: 600;
-        color: var(--accent);
+        color: var(--orange-hot);
         margin: 0 0 4px;
         line-height: 1.4;
       }
@@ -732,12 +722,12 @@
         border-top: 1px solid var(--border);
       }
       .explainer-heading {
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         text-transform: uppercase;
         letter-spacing: 0.08em;
         color: var(--fg2);
         margin: 0 0 18px;
-        font-weight: 500;
+        font-weight: 600;
       }
       .disclaimer {
         background: rgba(255, 184, 77, 0.08);
@@ -747,13 +737,13 @@
         padding: 16px 20px;
         margin: 0 0 24px;
         color: var(--fg);
-        font-size: 0.9rem;
+        font-size: var(--t-sm);
         line-height: 1.7;
         max-width: 880px;
       }
       .disclaimer p { margin: 0; }
       .disclaimer p + p { margin-top: 10px; }
-      .disclaimer strong { color: #ffb84d; font-weight: 600; }
+      .disclaimer strong { color: var(--ink); font-weight: 600; }
       .usage-notice {
         margin: 24px 0 0;
         padding: 16px 18px;
@@ -761,17 +751,15 @@
         border: 1px solid var(--border);
         border-radius: 8px;
         color: var(--fg2);
-        font-size: 0.88rem;
+        font-size: var(--t-sm);
         line-height: 1.7;
         max-width: 880px;
       }
       .usage-notice h3 {
-        font-size: 0.82rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
         color: var(--fg);
         margin: 0 0 10px;
-        font-weight: 500;
       }
       .usage-notice p { margin: 0; }
       .usage-notice p + p { margin-top: 8px; }
@@ -788,7 +776,7 @@
         border: 1px solid var(--border);
       }
       .controls label {
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         text-transform: uppercase;
         letter-spacing: 0.06em;
         color: var(--fg2);
@@ -801,7 +789,7 @@
       }
       .layer-toggle button {
         padding: 5px 12px;
-        font-size: 0.82rem;
+        font-size: var(--t-sm);
         border: 1px solid var(--border);
         background: transparent;
         color: var(--fg2);
@@ -812,13 +800,13 @@
       .layer-toggle button.active {
         background: rgba(255, 184, 77, 0.15);
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       .gradient-legend {
         display: flex;
         align-items: center;
         gap: 6px;
-        font-size: 0.72rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         margin-left: auto;
       }
@@ -827,12 +815,12 @@
         gap: 28px;
         flex-wrap: wrap;
         margin-bottom: 14px;
-        font-size: 0.85rem;
+        font-size: var(--t-sm);
         color: var(--fg2);
       }
       .stat-item strong {
         color: var(--fg);
-        font-size: 1rem;
+        font-size: var(--t-body);
       }
       canvas#treemap {
         display: block;
@@ -860,7 +848,7 @@
         padding: 40px;
         text-align: center;
         color: var(--fg2);
-        font-size: 0.95rem;
+        font-size: var(--t-sm);
         background: var(--bg2);
         border: 1px solid var(--border);
         border-radius: 8px;
@@ -880,7 +868,7 @@
         padding: 6px 14px;
         background: transparent;
         border: 1px solid var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
         border-radius: 4px;
         cursor: pointer;
         font: inherit;
@@ -900,18 +888,18 @@
         color: var(--fg);
         border-radius: 6px;
         font: inherit;
-        font-size: 0.88rem;
+        font-size: var(--t-body);
       }
       #searchInput::placeholder {
         color: var(--fg2);
       }
       .search-count {
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
       }
       .palette-toggle {
         padding: 5px 12px;
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         border: 1px solid var(--border);
         background: transparent;
         color: var(--fg2);
@@ -923,7 +911,7 @@
       .palette-toggle.active {
         background: rgba(255, 184, 77, 0.15);
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       .stats-panel {
         display: grid;
@@ -948,19 +936,19 @@
         justify-content: center;
       }
       .stat-block .stat-label {
-        font-size: 0.7rem;
+        font-size: var(--t-xs);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: var(--fg2);
         margin-bottom: 4px;
       }
       .stat-block .stat-value {
-        font-size: 1.1rem;
+        font-size: var(--t-h3);
         font-weight: 600;
         color: var(--fg);
       }
       .stat-block .stat-sub {
-        font-size: 0.72rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         margin-top: 4px;
       }
@@ -979,7 +967,7 @@
       }
       .tier-table {
         width: 100%;
-        font-size: 0.78rem;
+        font-size: var(--t-sm);
         border-collapse: collapse;
         margin-top: 6px;
       }
@@ -996,7 +984,7 @@
         border: 1px solid var(--border);
         border-radius: 8px;
         padding: 14px 16px;
-        font-size: 0.92rem;
+        font-size: var(--t-sm);
         line-height: 1.55;
         max-width: 400px;
         opacity: 0;
@@ -1014,11 +1002,11 @@
         right: 8px;
         width: 32px;
         height: 32px;
-        background: rgba(255, 255, 255, 0.06);
+        background: color-mix(in srgb, var(--paper) 6%, transparent);
         border: 1px solid var(--border);
         border-radius: 50%;
         color: var(--fg2);
-        font-size: 1.1rem;
+        font-size: var(--t-h3);
         cursor: pointer;
         padding: 0;
         line-height: 1;
@@ -1038,7 +1026,7 @@
       }
       #tooltip .tt-close:hover,
       #tooltip .tt-close:focus-visible {
-        color: var(--accent);
+        color: var(--orange-hot);
         border-color: var(--accent);
         outline: none;
       }
@@ -1062,23 +1050,23 @@
         align-items: center;
         gap: 12px;
         flex-wrap: wrap;
-        font-size: 0.82rem;
+        font-size: var(--t-sm);
         color: var(--fg);
         line-height: 1.5;
       }
       .top-banner .badge {
         background: var(--orange-hot);
         color: #fff;
-        font-weight: 800;
+        font-weight: 700;
         padding: 3px 10px;
         border-radius: 4px;
-        font-size: 0.74rem;
+        font-size: var(--t-xs);
         letter-spacing: 0.08em;
         white-space: nowrap;
         box-shadow: 0 1px 4px rgba(192, 65, 30, 0.28);
       }
       .top-banner .banner-text strong {
-        color: var(--accent);
+        color: var(--ink);
         font-weight: 700;
       }
       .visually-hidden {
@@ -1097,7 +1085,7 @@
       }
       #tooltip .tt-title {
         font-weight: 600;
-        font-size: 1.06rem;
+        font-size: var(--t-h3);
         margin-bottom: 8px;
         color: var(--fg);
       }
@@ -1123,7 +1111,7 @@
         color: #1a1206;
         text-decoration: none;
         font-weight: 600;
-        font-size: 0.88rem;
+        font-size: var(--t-sm);
         text-align: center;
         border-radius: 8px;
         transition: filter 150ms ease;
@@ -1144,13 +1132,12 @@
       footer {
         margin-top: 22px;
         padding-top: 22px;
-        border-top: 1px solid var(--border);
-        font-size: 0.72rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         text-align: center;
       }
       footer a {
-        color: var(--accent);
+        color: var(--orange-hot);
         text-decoration: none;
       }
       footer a:hover {
@@ -1170,22 +1157,22 @@
         padding: 5px 14px;
         border: 1px solid var(--border);
         border-radius: 999px;
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         line-height: 1.2;
         transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
       }
       footer .footer-links a:hover {
-        color: var(--accent);
+        color: var(--orange-hot);
         border-color: var(--accent);
-        background: rgba(217, 107, 61, 0.06);
+        background: color-mix(in srgb, var(--orange) 6%, transparent);
         text-decoration: none;
       }
-      footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
-      footer .footer-meta a { color: var(--accent); }
+      footer .footer-meta { color: var(--ink-meta); font-size: var(--t-xs); text-wrap: pretty; line-height: 1.65; }
+      footer .footer-meta a { color: var(--orange-hot); }
       footer .footer-meta .m-only { display: none; }
       footer .footer-meta .nowrap { white-space: nowrap; }
       @media (max-width: 540px) {
-        footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+        footer .footer-meta { font-size: var(--t-xs); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
         footer .footer-meta .m-only { display: inline; }
       }
       /* ============ Desktop Hero (Design.md §7.12 — search-first) ============ */
@@ -1197,17 +1184,16 @@
         gap: 12px;
         max-width: var(--content-max);
         margin: 0 auto;
-        padding: 14px 28px 0;
-        font-size: 0.8rem;
+        padding: 14px 0 0;
+        font-size: var(--t-xs);
       }
       .desktop-hero-utility .dh-brand {
         color: var(--fg2);
-        font-weight: 500;
+        font-weight: 600;
       }
       .desktop-hero-utility .dh-brand em {
         font-style: normal;
-        color: var(--fg2);
-        opacity: 0.7;
+        color: var(--ink);
       }
       .desktop-hero-utility .lang-switch {
         margin-left: auto;
@@ -1219,21 +1205,21 @@
         text-align: center;
       }
       .desktop-hero h1.dh-title {
-        font-size: 40px !important;
-        font-weight: 700 !important;
-        line-height: 1.3 !important;
         margin: 0 0 14px;
         letter-spacing: -0.01em;
       }
-      .desktop-hero h1.dh-title .acc { color: var(--accent); }
+      .desktop-hero h1.dh-title .acc { color: var(--ink); }
       .desktop-hero .dh-lead {
         color: var(--fg2);
-        font-size: 0.95rem;
+        font-size: var(--t-h3);
         line-height: 1.75;
         margin: 0 auto 26px;
-        max-width: 640px;             /* widened from 540 — first JA sentence orphaned "析。" at 540 */
-        text-wrap: pretty;            /* progressive enhancement: avoids single-char orphans on supporting browsers */
+        max-width: none;              /* the hero inner (760 − 2×16) is the measure; 640 wrapped the first
+                                         sentence with 「に分析。」 alone on line 2 (owner, 2026-09-20) */
+        text-wrap: balance;           /* two lines of equal weight instead of a long line + a stub */
       }
+      /* 文節 units: the lead may only break between these, never inside one. */
+      .desktop-hero .dh-lead .ph { display: inline-block; }
       .desktop-hero-search {
         position: relative;
         display: flex;
@@ -1246,7 +1232,7 @@
         min-width: 0;
         padding: 13px 18px;
         font: inherit;
-        font-size: 1rem;
+        font-size: var(--t-body);
         background: var(--bg2);
         color: var(--fg);
         border: 1px solid var(--border);
@@ -1263,7 +1249,7 @@
         padding: 13px 22px;
         font: inherit;
         font-weight: 600;
-        font-size: 0.95rem;
+        font-size: var(--t-sm);
         background: var(--accent);
         color: #1a1206;
         border: none;
@@ -1278,7 +1264,7 @@
         outline-offset: 2px;
       }
       .desktop-hero-popular-label {
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         letter-spacing: 0.06em;
         margin: 0 0 10px;
@@ -1299,14 +1285,14 @@
         min-height: 44px;
         border-radius: 999px;
         font: inherit;
-        font-size: 0.86rem;
+        font-size: var(--t-sm);
         cursor: pointer;
         transition: border-color 150ms ease, color 150ms ease;
       }
       .desktop-hero-chips button:hover,
       .desktop-hero-chips button:focus-visible {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
         outline: none;
       }
       /* ============ Homepage diagnostic entry band (VIRALITY-1) ============ */
@@ -1315,8 +1301,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 22px;
-        margin: 0 -28px 32px;
-        padding: 22px 28px;
+        margin: 0 calc(-1 * var(--gutter)) 32px;
+        padding: 22px var(--gutter);
         background: var(--bg3);
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
@@ -1328,23 +1314,19 @@
       .home-entry-kicker {
         margin: 0 0 6px;
         color: var(--accent-deep);
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         font-weight: 700;
         letter-spacing: 0.08em;
       }
       .home-entry-copy h2 {
         margin: 0 0 7px;
         color: var(--fg);
-        font-family: var(--font-serif);
-        font-size: 1.45rem !important;
-        font-weight: 700 !important;
-        line-height: 1.35 !important;
         letter-spacing: 0;
       }
       .home-entry-copy p:not(.home-entry-kicker) {
         margin: 0;
-        color: var(--fg2);
-        font-size: 0.95rem;
+        color: var(--ink-2);
+        font-size: var(--t-body);
         line-height: 1.7;
       }
       .home-entry-actions {
@@ -1362,7 +1344,7 @@
         min-height: 44px;
         padding: 10px 18px;
         border-radius: 999px;
-        font-size: 0.92rem;
+        font-size: var(--t-sm);
         font-weight: 700;
         line-height: 1.2;
         text-decoration: none;
@@ -1370,9 +1352,9 @@
         transition: border-color 150ms ease, color 150ms ease, background 150ms ease, transform 120ms ease;
       }
       .home-entry-primary {
-        background: var(--accent);
+        background: var(--orange-hot);
         color: #fff;
-        border: 1px solid var(--accent);
+        border: 1px solid var(--orange-hot);
       }
       .home-entry-secondary {
         background: var(--bg2);
@@ -1391,18 +1373,15 @@
       }
       .home-entry-secondary:hover {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
       }
       @media (max-width: 768px) {
         .home-entry-band {
           flex-direction: column;
           align-items: flex-start;
           gap: 14px;
-          margin: 10px -16px 22px;
-          padding: 18px 16px;
-        }
-        .home-entry-copy h2 {
-          font-size: 1.28rem !important;
+          margin: 10px calc(-1 * var(--gutter)) 22px;
+          padding: 18px var(--gutter);
         }
         .home-entry-actions {
           width: 100%;
@@ -1446,38 +1425,37 @@
         align-items: center;
         gap: 12px;
         border-bottom: 1px solid var(--border);
-        font-size: 0.92rem;
+        font-size: var(--t-sm);
       }
       .search-suggest li:last-child { border-bottom: none; }
       .search-suggest li:hover,
-      .search-suggest li.focused { background: rgba(217, 107, 61, 0.10); }
+      .search-suggest li.focused { background: color-mix(in srgb, var(--orange) 10%, transparent); }
       .search-suggest .ss-name { color: var(--fg); }
       .search-suggest .ss-risk {
         color: var(--fg2);
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         white-space: nowrap;
         font-variant-numeric: tabular-nums;
       }
       .search-suggest .ss-risk.high { color: var(--risk-4); }
-      .search-suggest .ss-risk.mid  { color: var(--accent); }
+      .search-suggest .ss-risk.mid  { color: var(--orange-hot); }
       .search-suggest .ss-risk.low  { color: var(--green-deep); }
       /* P0-C: keyboard hint row at top of suggestions (desktop only — hidden on touch via JS render). */
       .search-suggest .ss-hint {
         cursor: default;
         color: var(--fg2);
-        font-size: 0.74rem;
-        font-style: italic;
+        font-size: var(--t-xs);
         padding: 6px 14px;
-        background: rgba(255, 255, 255, 0.025);
+        background: color-mix(in srgb, var(--paper) 2.5%, transparent);
         pointer-events: none;
         border-bottom: 1px solid var(--border);
         justify-content: flex-start;
       }
-      .search-suggest .ss-hint:hover { background: rgba(255, 255, 255, 0.025); }
+      .search-suggest .ss-hint:hover { background: color-mix(in srgb, var(--paper) 2.5%, transparent); }
       .search-noresult {
         display: none;
         text-align: center;
-        font-size: 0.85rem;
+        font-size: var(--t-sm);
         color: var(--fg2);
         margin: 8px auto 0;
         max-width: 560px;
@@ -1502,22 +1480,21 @@
       .mobile-hero { display: none; }
       .mobile-hero-kicker {
         margin: 8px 0 0;
-        font-size: 12.5px;
+        font-size: var(--t-xs);
         font-weight: 700;
         letter-spacing: 0.04em;
-        color: var(--accent);
+        color: var(--orange-hot);
       }
+      /* §4.9 — canonical owns heading size / weight / line-height. This is an
+         H2 since design-1.9 demoted it (§4.3-1: one H1 per page). */
       .mobile-hero-title {
-        font-size: 1.7rem !important;
-        font-weight: 700 !important;
-        line-height: 1.32 !important;
         letter-spacing: -0.01em;
         margin: 10px 0 16px;
         color: var(--fg);
       }
-      .mobile-hero-title .acc { color: var(--accent); }
+      .mobile-hero-title .acc { color: var(--orange-hot); }
       .mobile-hero-trust {
-        font-size: 0.74rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         margin: 0 0 14px;
         letter-spacing: 0.02em;
@@ -1531,7 +1508,7 @@
         left: 14px;
         top: 50%;
         transform: translateY(-50%);
-        font-size: 0.95rem;
+        font-size: var(--t-body);
         opacity: 0.7;
         pointer-events: none;
         z-index: 2;
@@ -1545,7 +1522,7 @@
         border-radius: 999px;
         color: var(--fg);
         font: inherit;
-        font-size: 16px;
+        font-size: var(--t-body);
         outline: none;
       }
       .mobile-hero-search .mhs-cta {
@@ -1553,7 +1530,7 @@
         right: 5px;
         top: 50%;
         transform: translateY(-50%);
-        background: var(--accent);
+        background: var(--orange-hot);
         color: #fff;
         border: 0;
         min-height: 44px;
@@ -1562,7 +1539,7 @@
         font: inherit;
         font-family: var(--font-sans);
         font-weight: 700;
-        font-size: 0.86rem;
+        font-size: var(--t-sm);
         cursor: pointer;
         white-space: nowrap;
         transition: filter 150ms ease, transform 100ms ease;
@@ -1593,25 +1570,25 @@
         min-height: 44px;
         border-radius: 999px;
         font: inherit;
-        font-size: 0.78rem;
+        font-size: var(--t-sm);
         cursor: pointer;
         transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
       }
       .mobile-hero-chips button:hover,
       .mobile-hero-chips button:focus-visible {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
         outline: none;
       }
       .mobile-hero-chips button.active {
         border-color: var(--accent);
-        color: var(--accent);
+        color: var(--orange-hot);
         background: rgba(255, 184, 77, 0.08);
       }
 
       @media (max-width: 768px) {
         #wrapper {
-          padding: 16px 16px 60px;
+          padding: 16px var(--gutter) 60px;
           display: flex;
           flex-direction: column;
         }
@@ -1635,7 +1612,6 @@
         .search-row { display: none !important; }
         /* stats-panel already hidden by earlier rule (~line 417). */
         h1 {
-          font-size: 1.3rem;
           flex-direction: column;
           align-items: flex-start;
           gap: 8px;
@@ -1652,7 +1628,7 @@
           margin-left: 0;
         }
         .intro {
-          font-size: 0.88rem;
+          font-size: var(--t-h3);
           line-height: 1.75;
         }
         .controls {
@@ -1668,7 +1644,7 @@
         .layer-toggle button {
           flex-shrink: 0;
           padding: 6px 10px;
-          font-size: 0.78rem;
+          font-size: var(--t-sm);
         }
         .gradient-legend {
           margin-left: 0;
@@ -1677,10 +1653,10 @@
         }
         .stats-row {
           gap: 14px;
-          font-size: 0.78rem;
+          font-size: var(--t-sm);
         }
         .stat-item strong {
-          font-size: 0.92rem;
+          font-size: var(--t-body);
         }
         #tooltip {
           max-width: calc(100vw - 32px);
@@ -1688,18 +1664,18 @@
           overflow-y: auto;
           overscroll-behavior: contain;
           -webkit-overflow-scrolling: touch;
-          font-size: 0.78rem;
+          font-size: var(--t-sm);
           padding: 10px 12px;
         }
         .intro-details {
           padding: 10px 12px;
-          font-size: 0.85rem;
+          font-size: var(--t-sm);
         }
         .meta-card {
           grid-template-columns: 1fr;
           gap: 2px;
           padding: 12px 14px;
-          font-size: 0.82rem;
+          font-size: var(--t-sm);
         }
         .meta-card .meta-row {
           display: block;
@@ -1712,36 +1688,29 @@
           display: block;
           margin-bottom: 2px;
         }
-
-        /* New components (post-v0.3.0) — mobile rules */
-        .page-banner .h1-sub {
-          font-size: 0.82rem;
-          line-height: 1.5;
-        }
         .page-banner .byline {
           margin-left: 0;
-          font-size: 0.8rem;
+          font-size: var(--t-xs);
         }
         .dimension-hint {
           gap: 8px 12px;
           padding: 8px 12px;
-          font-size: 0.78rem;
+          font-size: var(--t-xs);
         }
         .dimension-hint .hint-divider { display: none; }
         .disclaimer {
           padding: 14px 16px;
-          font-size: 0.85rem;
+          font-size: var(--t-sm);
           line-height: 1.65;
           margin: 0 0 18px;
         }
         .usage-notice {
           padding: 14px 16px;
-          font-size: 0.84rem;
+          font-size: var(--t-sm);
           line-height: 1.65;
         }
-        .usage-notice h3 { font-size: 0.78rem; }
         .methodology-title {
-          font-size: 0.88rem;
+          font-size: var(--t-h3);
           line-height: 1.45;
         }
         .explainer {
@@ -1752,7 +1721,7 @@
           margin: 0 0 14px;
         }
         footer {
-          font-size: 0.7rem;
+          font-size: var(--t-xs);
           line-height: 1.55;
         }
         footer em {
@@ -1766,26 +1735,20 @@
         .top-banner {
           padding: 8px 12px;
           gap: 8px;
-          font-size: 0.74rem;
+          font-size: var(--t-sm);
         }
         .top-banner .badge {
-          font-size: 0.66rem;
+          font-size: var(--t-xs);
           padding: 2px 7px;
-        }
-        h1 {
-          font-size: 1.2rem;
-        }
-        .page-banner .h1-sub {
-          font-size: 0.78rem;
         }
         .stats-panel {
           grid-template-columns: repeat(2, 1fr);
           gap: 8px;
         }
         .stat-block { padding: 10px 12px; }
-        .stat-block .stat-value { font-size: 1rem; }
-        .stat-block .stat-sub { font-size: 0.68rem; }
-        .tier-table { font-size: 0.7rem; }
+        .stat-block .stat-value { font-size: var(--t-h3); }
+        .stat-block .stat-sub { font-size: var(--t-xs); }
+        .tier-table { font-size: var(--t-sm); }
         .tier-table td { padding: 1px 2px; }
         .mini-hist { height: 28px; }
         .dimension-hint {
@@ -1803,34 +1766,34 @@
         }
         .layer-toggle button {
           padding: 5px 9px;
-          font-size: 0.74rem;
+          font-size: var(--t-sm);
         }
         .controls {
           padding: 8px 10px;
           gap: 8px;
         }
-        .gradient-legend { font-size: 0.68rem; }
+        .gradient-legend { font-size: var(--t-xs); }
         .palette-toggle {
           margin-left: 0;
-          font-size: 0.74rem;
+          font-size: var(--t-xs);
           padding: 5px 10px;
         }
         .controls label {
-          font-size: 0.74rem;
+          font-size: var(--t-xs);
         }
-        .disclaimer { padding: 12px 14px; font-size: 0.82rem; }
-        .usage-notice { padding: 12px 14px; font-size: 0.8rem; }
-        .methodology-title { font-size: 0.84rem; }
-        .intro { font-size: 0.85rem; }
-        .meta-card { font-size: 0.78rem; padding: 12px; }
-        .intro-details { padding: 10px 12px; font-size: 0.82rem; }
+        .disclaimer { padding: 12px 14px; font-size: var(--t-sm); }
+        .usage-notice { padding: 12px 14px; font-size: var(--t-sm); }
+        .methodology-title { font-size: var(--t-h3); }
+        .intro { font-size: var(--t-h3); }
+        .meta-card { font-size: var(--t-sm); padding: 12px; }
+        .intro-details { padding: 10px 12px; font-size: var(--t-sm); }
         .intro-details-content { line-height: 1.65; }
-        #wrapper { padding: 14px 12px 50px; }
+        #wrapper { padding: 14px var(--gutter) 50px; }
         #searchInput {
           padding: 7px 10px;
-          font-size: 0.84rem;
+          font-size: var(--t-body);
         }
-        footer { font-size: 0.66rem; }
+        footer { font-size: var(--t-xs); }
       }
 
       /* Smallest phones (<= 360px) — iPhone SE 1st gen, etc. */
@@ -1840,16 +1803,15 @@
           gap: 6px;
         }
         .stat-block { padding: 10px 12px; }
-        .page-banner { font-size: 0.85rem; }
-        .page-banner .h1-sub { font-size: 0.74rem; }
+        .page-banner { font-size: var(--t-sm); }
         .layer-toggle button {
           padding: 4px 7px;
-          font-size: 0.7rem;
+          font-size: var(--t-sm);
         }
-        .disclaimer { padding: 11px 13px; font-size: 0.8rem; line-height: 1.6; }
-        .usage-notice { padding: 11px 13px; font-size: 0.78rem; line-height: 1.6; }
-        .methodology-title { font-size: 0.82rem; }
-        .intro-details-content { font-size: 0.78rem; }
+        .disclaimer { padding: 11px 13px; font-size: var(--t-sm); line-height: 1.6; }
+        .usage-notice { padding: 11px 13px; font-size: var(--t-sm); line-height: 1.6; }
+        .methodology-title { font-size: var(--t-h3); }
+        .intro-details-content { font-size: var(--t-xs); }
         .intro-details-content ul { margin-left: 16px; }
       }
 
@@ -1901,8 +1863,8 @@
         outline-offset: 2px;
       }
       .share-toast {
-        font-size: 0.78rem;
-        color: var(--accent);
+        font-size: var(--t-xs);
+        color: var(--orange-hot);
         margin-left: 6px;
         opacity: 0;
         transition: opacity 200ms ease;
@@ -1930,10 +1892,10 @@
       .hub-numeral {
         flex-shrink: 0;
         font-family: var(--font-serif);
-        font-size: 3rem;
+        font-size: var(--t-h1);
         font-weight: 400;
         line-height: 1;
-        color: var(--accent);
+        color: var(--orange-hot);
         font-variant-numeric: lining-nums;
         letter-spacing: 0.01em;
       }
@@ -1945,23 +1907,23 @@
       .hub-eyebrow {
         display: inline-block;
         font-family: var(--font-sans);
-        font-size: 0.7rem;
+        font-size: var(--t-xs);
         font-weight: 700;
         letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: var(--accent);
+        color: var(--orange-hot);
         margin-bottom: 6px;
       }
       .hub-section-title {
         font-family: var(--font-serif);
-        font-size: 1.4rem;
+        font-size: var(--t-h2);
         font-weight: 600;
         color: var(--fg);
         margin: 0 0 4px;
         line-height: 1.25;
       }
       .hub-section-sub {
-        font-size: 0.85rem;
+        font-size: var(--t-sm);
         color: var(--fg2);
         margin: 0;
         font-variant-numeric: tabular-nums;
@@ -1974,10 +1936,10 @@
       }
       @media (max-width: 540px) {
         .hub-section-head { gap: 13px; }
-        .hub-numeral { font-size: 2.2rem; }
+        .hub-numeral { font-size: var(--t-h1); }
         .hub-head-text { padding-left: 13px; }
-        .hub-eyebrow { font-size: 0.65rem; }
-        .hub-section-title { font-size: 1.15rem; }
+        .hub-eyebrow { font-size: var(--t-xs); }
+        .hub-section-title { font-size: var(--t-h2); }
         .hub-section-divider { margin: 24px auto; }
       }
 
@@ -2000,20 +1962,18 @@
       .hub-subgroup:first-of-type { margin-top: 0; }
       .hub-subgroup-title {
         font-family: var(--font-serif);
-        font-style: italic;
-        font-size: 0.82rem;
-        font-weight: 500;
+        font-size: var(--t-sm);
+        font-weight: 600;
         color: var(--fg2);
         margin: 0 0 10px 4px;
         letter-spacing: 0.02em;
       }
       .hub-subgroup-title em {
         font-style: normal;
-        color: var(--fg3, var(--fg2));
-        font-size: 0.72rem;
+        color: var(--ink);
+        font-size: var(--t-xs);
         margin-left: 6px;
         font-variant-numeric: tabular-nums;
-        opacity: 0.75;
       }
       .hub-card-grid {
         list-style: none;
@@ -2040,32 +2000,37 @@
         transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
       }
       .hub-card:hover {
-        color: var(--accent);
+        color: var(--orange-hot);
         border-color: var(--accent);
-        background: rgba(217, 107, 61, 0.08);
+        background: color-mix(in srgb, var(--orange) 8%, transparent);
         text-decoration: none;
       }
       .hc-eyebrow {
-        font-size: 0.68rem;
+        font-size: var(--t-xs);
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: var(--accent);
+        /* §2.2 規則 1 — .hub-card は --cream-2 面なので --orange-hot ですら 4.37 で
+           届かない。使えるのは --ink / --ink-2 / --ink-meta / --green-deep のみ。
+           この span は「AI 影響 低/中/大」という影響度ラベルなので、--green-deep を
+           当てると §2.3 で「低」を意味する緑が「中」の札に付いてしまう。意味を持たない
+           --ink-meta を選び、影響度は文字そのものに担わせる（§11）。 */
+        color: var(--ink-meta);
         margin-bottom: 4px;
       }
       .hc-name {
-        font-size: 0.92rem;
+        font-size: var(--t-sm);
         font-weight: 600;
         line-height: 1.3;
         color: var(--fg);
       }
-      .hub-card:hover .hc-name { color: var(--accent); }
+      .hub-card:hover .hc-name { color: var(--orange-hot); }
       .hc-lead {
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        font-size: 0.78rem;
+        font-size: var(--t-xs);
         color: var(--fg);
         font-variant-numeric: tabular-nums;
         margin-top: 6px;
@@ -2073,8 +2038,8 @@
         flex: 1;
       }
       .hc-desc {
-        font-size: 0.76rem;
-        color: var(--fg2);
+        font-size: var(--t-xs);
+        color: var(--ink-meta);
         font-weight: 400;
         margin-top: 2px;
       }
@@ -2082,9 +2047,9 @@
         .sector-nav { margin: 22px 0 14px; padding: 16px 14px; }
         .hub-card-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
         .hub-card { padding: 11px 13px; }
-        .hc-eyebrow { font-size: 0.62rem; }
-        .hc-name { font-size: 0.85rem; }
-        .hc-lead { font-size: 0.72rem; }
+        .hc-eyebrow { font-size: var(--t-xs); }
+        .hc-name { font-size: var(--t-sm); }
+        .hc-lead { font-size: var(--t-xs); }
       }
 
       .ranking-nav {
@@ -2103,15 +2068,15 @@
         text-align: center;
         border: 1px dashed var(--border);
         border-radius: 8px;
-        font-size: 0.88rem;
-        font-weight: 500;
+        font-size: var(--t-sm);
+        font-weight: 600;
         color: var(--fg);
         transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
       }
       .hub-rankings-more > summary:hover {
-        color: var(--accent);
+        color: var(--orange-hot);
         border-color: var(--accent);
-        background: rgba(217, 107, 61, 0.05);
+        background: color-mix(in srgb, var(--orange) 5%, transparent);
       }
       .hub-rankings-more > summary::-webkit-details-marker { display: none; }
       .hub-rankings-more > summary::after {
@@ -2188,7 +2153,7 @@
         outline-offset: 3px;
       }
       .follow-cta .follow-icon {
-        font-size: 1.5rem;
+        font-size: var(--t-h2);
         line-height: 1;
       }
       .follow-cta .follow-text {
@@ -2199,17 +2164,16 @@
         text-align: left;
       }
       .follow-cta .follow-text strong {
-        font-size: 1.02rem;
+        font-size: var(--t-body);
         font-weight: 700;
-        color: #1a1206;
+        color: var(--ink);
       }
       .follow-cta .follow-text small {
-        font-size: 0.78rem;
-        opacity: 0.8;
-        font-weight: 500;
+        font-size: var(--t-xs);
+        font-weight: 600;
       }
       .share-divider {
-        font-size: 0.74rem;
+        font-size: var(--t-xs);
         color: var(--fg2);
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -2229,36 +2193,39 @@
       }
       @media (max-width: 480px) {
         .follow-cta { padding: 12px 20px; gap: 10px; }
-        .follow-cta .follow-text strong { font-size: 0.95rem; }
-        .follow-cta .follow-text small { font-size: 0.72rem; }
+        .follow-cta .follow-text strong { font-size: var(--t-body); }
+        .follow-cta .follow-text small { font-size: var(--t-xs); }
       }
 
       /* RA-135 — Home KPI band: 4 headline numbers + 5-segment AI-impact distribution bar, placed above the fold between hero and treemap. Segment widths driven by the inline custom property --w on each <li> (style-src 'self' 'unsafe-inline' covers inline style attrs). */
       .home-kpi-band { margin: 32px 0; padding: 24px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; }
       .kpi-row { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 0 0 24px; padding: 0; }
       .kpi-row li { text-align: center; padding: 8px; }
-      .kpi-row li strong { display: block; font-family: var(--font-serif); font-size: 2.2rem; font-weight: 700; color: var(--accent-deep); line-height: 1.1; font-variant-numeric: tabular-nums; }
-      .kpi-row li strong small { font-size: 1rem; color: var(--fg2); font-weight: 500; margin-left: 2px; }
-      .kpi-row li span { display: block; margin-top: 4px; font-size: .86rem; color: var(--fg2); }
-      .kpi-row li span .kpi-meta { display: block; font-size: .7rem; color: var(--fg3); margin-top: 2px; }
-      .risk-distribution-label { font-size: .86rem; color: var(--fg2); margin: 0 0 8px; font-weight: 500; }
+      .kpi-row li strong { display: block; font-family: var(--font-serif); font-size: var(--t-h1); font-weight: 700; color: var(--ink); line-height: 1.1; font-variant-numeric: tabular-nums; }
+      .kpi-row li strong small { font-size: var(--t-sm); color: var(--fg2); font-weight: 600; margin-left: 2px; }
+      .kpi-row li span { display: block; margin-top: 4px; font-size: var(--t-xs); color: var(--fg2); }
+      .kpi-row li span .kpi-meta { display: block; font-size: var(--t-xs); color: var(--ink-meta); margin-top: 2px; }
+      .risk-distribution-label { font-size: var(--t-sm); color: var(--fg2); margin: 0 0 8px; font-weight: 600; }
       .risk-distribution { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; }
-      .risk-distribution li { flex: 0 1 var(--w); position: relative; padding: 8px 6px; border-radius: 4px; font-size: .7rem; line-height: 1.3; overflow: hidden; min-width: 56px; }
+      .risk-distribution li { flex: 0 1 var(--w); position: relative; padding: 8px 6px; border-radius: 4px; font-size: var(--t-xs); line-height: 1.3; overflow: hidden; min-width: 56px; }
       .risk-distribution li[data-band="0-2"] { background: var(--risk-soft-0); }
       .risk-distribution li[data-band="3-4"] { background: var(--risk-soft-1); }
       .risk-distribution li[data-band="5-6"] { background: var(--risk-soft-2); }
       .risk-distribution li[data-band="7-8"] { background: var(--risk-soft-3); }
       .risk-distribution li[data-band="9-10"] { background: var(--risk-soft-4); }
-      .risk-distribution li .rd-text strong { display: block; font-weight: 600; color: var(--fg); font-size: .78rem; }
-      .risk-distribution li .rd-text small { color: var(--fg2); }
+      /* Design.md §4.2 — a bare <small> takes the UA default 0.8em, which
+         lands at 9.6px inside a --t-xs parent. The floor has no exception. */
+      .risk-distribution li .rd-text small { font-size: var(--t-xs); }
+      .risk-distribution li .rd-text strong { display: block; font-weight: 600; color: var(--fg); font-size: var(--t-xs); }
+      .risk-distribution li .rd-text small { color: var(--ink-meta); }
       @media (max-width: 768px) {
         .kpi-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .kpi-row li strong { font-size: 1.7rem; }
+        .kpi-row li strong { font-size: var(--t-h1); }
         .risk-distribution { flex-direction: column; gap: 6px; }
         .risk-distribution li { flex: 1 0 auto; width: 100%; display: flex; align-items: center; gap: 8px; min-width: 0; }
         .risk-distribution li .rd-text { display: flex; gap: 8px; align-items: center; }
       }
       @media (max-width: 360px) {
         .kpi-row { grid-template-columns: 1fr; }
-        .kpi-row li strong { font-size: 2rem; }
+        .kpi-row li strong { font-size: var(--t-h1); }
       }

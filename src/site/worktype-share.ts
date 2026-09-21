@@ -5,10 +5,11 @@
  * when a job title and AI-impact score are present.
  */
 import { LABELS, SHARE } from './worktype-copy.js';
+import { formatRiskScore } from '../lib/score-format.js';
 
 export function formatShareScore(score: number | null | undefined): string | null {
   if (score == null || typeof score !== 'number' || Number.isNaN(score)) return null;
-  return `${score}/10`;
+  return formatRiskScore(score);
 }
 
 export function hasMeasurementShare(

@@ -10,8 +10,100 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Changed
+
+- **The site has one name: 「未来の仕事」.** It was already the nav brand, the
+  domain, the WebSite schema and 826 of 839 `<title>`s, but `og:site_name` and
+  the breadcrumb root on 578 pages (every occupation page, `/models`,
+  `/answers`, `/data`, …) said 「日本の職業 AI 影響マップ」, and eleven titles
+  ended in `mirai-shigoto.com` / `Mirai-Shigoto` / `- 未来の仕事`. Now
+  `siteConfig.siteName` is the one source; 「日本の職業 AI 影響マップ」 stays as
+  the tagline (home kicker, README). Baselines regenerated: JSON-LD roots
+  (833), `og:site_name` (839), 11 titles.
+- **Design canon (still v1.2)** — §4.7 gains a row for inline emphasis
+  (`strong` / `em`: ink, 700, no italics); §2.3's `--risk-0` moves from
+  `#0F8A66` to `#0F8663` so white tile labels clear 4.5:1, and gains a
+  per-band tile foreground `--risk-fg-0..4`; §5.7 records the owner's ruling on
+  the home canvas treemap. The 15 risk tokens now live in `design-tokens.ts`
+  and every consumer (OG renderers, `/map` legend and scripts, the home
+  treemap, the mobile map preview SVG) reads them — `#0F8A66` was written out in
+  seven places.
+- **`check-role-color`** — a new gate in `verify:gates`: §4.7's role → colour
+  token mapping is checked against the CSS. `check-contrast` only ever asked
+  whether a colour was readable, never whether the role was allowed to use it.
+
+### Fixed
+
+- **82 headings, title accents, inline emphases and statistics were coloured
+  against §4.7** — safety-green (`--accent-deep`), hot orange, dimmed `--fg2`
+  or raw hex where the canon says ink. Includes the homepage KPI 「高影響職業の
+  賃金 105.7兆」 in green, the detail template's orange section headings, and a
+  `#ffb84d` disclaimer emphasis at 1.7:1. All 18 synthetic italics are gone
+  (the shipped fonts have no italic faces).
+- **The home treemap printed raw floats** (`8.366666666666667/10` on 439 of
+  556 tiles) and drew every label in translucent white (2.18:1 on the amber
+  band). Scores now round like the server (banker's, one decimal); labels use
+  the per-band foreground.
+- **`/` at 375px: the 「↓下がった」 column of 今月の変動 was 192px outside the
+  viewport** and unreachable (grid item `min-width:auto`).
+- `/rankings` movers: 「代替リスクが上がった／下がった職業」 →
+  「仕事が減るリスクが上がった／下がった職業」, the axis name the occupation
+  page uses. Six `.risk-pill` copies had a literal 12px radius; now `--r-md`.
+
+- **The homepage had no visible `<h1>` at 768px and below** — the viewport
+  Google crawls. `<h1 class="dh-title">` lives inside `.desktop-hero`, which is
+  `display: none` there, and the title that actually rendered
+  (`.mobile-hero-title`) was an `<h2>`. `tests/e2e/visual.spec.ts` was written
+  for the intended shape ("responsive layouts keep multiple h1s in the DOM, one
+  visible per breakpoint") and had been failing on it unnoticed, because the e2e
+  suite ran in no CI. The mobile title is now the `<h1>`.
+
+  **SEO baseline drift, intentional and refreshed:** `/` now reports two
+  `h1Texts` instead of one. Both are in the DOM; exactly one renders per
+  breakpoint. Multiple `<h1>` elements are valid HTML5 and Google states they
+  are not a ranking problem — a crawled viewport with *no* h1 is the real
+  defect, and that is what this removes. Per §4.8 the Feature-page title is the
+  Display step, so the mobile title goes 22px → 32px (40px at 768px, matching
+  desktop).
+
+- **AI-impact scores rendered at full float precision on 793 of 839 pages.**
+  The public value is a mean of several models' scores, so it arrives as
+  `6.233333333333334`; twelve-plus call sites interpolated it raw instead of
+  going through `displayScore()` (banker's rounding to one decimal), which
+  `views/occupation-display.ts` had always used. Result: `6.233333333333334/10`
+  in **8,923 visible strings** and **547 inside `<script>`**, including
+  JSON-LD `name` and `text` fields that Google and AI crawlers read.
+  All score display now goes through `src/lib/score-format.ts`
+  (`formatRiskScore`), which wraps `displayScore` and lives in `src/lib` so
+  templates can import it — `check-architecture` forbids them reaching into
+  `src/data/lib`. Long decimals in the built output: **0**.
+- **SEO baseline refreshed** for that fix: 475 URLs have JSON-LD changes.
+  Verified mechanically that every one differs **only** in a score string —
+  masking all `N/10` occurrences makes the before and after payloads
+  byte-identical, and the URL set is unchanged.
+
+### Changed
+
+- Design v1.0 `feature` surface (design-1.9, #532): canonical's
+  `html body h1/h2/h3 { … !important }` is removed. It existed only to suppress
+  class-scoped page heading rules; design-1.4 through design-1.8 deleted all of
+  them, so `html body h1` (0,0,0,3) now governs on its own. Feature class
+  (`/`, `/models`, `/aiadoption`) gets `body.page-feature h1 { font-size:
+  var(--t-display) }`, which wins on specificity (0,0,1,2) with no `!important`.
+  Page titles across the site now render at exactly two values: 28px (H1) and
+  `clamp(32px, 6vw, 40px)` (Display). `/models` 66.24px → 40px,
+  `/aiadoption` 27.2px → 40px, `/models/<slug>` 64px → 28px (it is not one of
+  the three Feature pages, §4.8).
+- **SEO baseline refreshed** for one intentional change: `/` had two H1
+  elements and §4.3-1 allows exactly one, so the mobile hero title
+  (「あなたの仕事は、AIでどう変わる？」) is demoted to H2. `h1Texts` for `/` goes
+  from two entries to one. No other field on any of the 839 URLs moved.
+
 ### Added
 
+- Footer link 「HAID 標準」 and sitemap entry for `/haid` (haid-1.5, #514).
+- `/haid` — HAID v1.0 standard page (人類と AI の距離 10 段階) on the /standard template: four relations, ten level cards with 判定 / 観測窓 / 測り方, three boundary rows, rules, glossary, rulings, conformance, revision policy. Definitions only; no inline script (haid-1.4, #513).
+- `data.haid-spec.json` — machine-readable HAID v1.0 definitions (no counts), listed on `/data` (haid-1.3, #512).
 - Grok 4.5 backfill batch (`run.backfill: true`, 2026-09-10) lands as xAI history only. Public value, 最新モデル and the runbook 「現行 batch」 are unchanged (mms-9.13, #491).
 - Pinned tests that mean "latest" now go through `activeOccupationRuns` / `latestOccupationRun` / `latestRunPerVendor` so a backfill batch cannot become the current model (mms-9.10, #488).
 - `/models` projection: panel, lane-latest and the personality pair chain skip backfill batches; lane history keeps them (mms-9.9, #487).
@@ -35,6 +127,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- Backfill scoring (`run.backfill: true`) is history only (mms-9 / #478,
+  close-out #493). Every "latest run" rule skips it (public vendor mean,
+  最新モデル, 最新観測, aging, `SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers,
+  `/models` panel). History surfaces keep it (occupation fold, `/models`
+  lane fold, per-run page, `score_history`, bare-slug 308). First batch:
+  Grok 4.5 (`grok-4.5@2026-09-10`, 556; vs Grok 4.6 mean ΔT −0.12).
+  公開値・最新モデル・パネルは変更なし. `/models/grok-4.5` 308 to the run
+  page. Promotion #506.
 - Four GEO SOP prompts now have matching indexable landings (seo-geo-1 /
   #272): `/answers/ai-de-nakunaru-shigoto`, `/answers/nenshu-ai-anzen`,
   `/answers/nobiru-shigoto-top`, `/methodology`. Title / H1 / lead / FAQ

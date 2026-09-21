@@ -35,8 +35,6 @@ export interface OccupationDisplay {
   readonly riskStr: string;
   /** Band class for the card wrapper: risk-low / risk-mid / risk-high / risk-na. */
   readonly riskClass: string;
-  /** Inline hex for the .risk-num digit (continuous gradient); '' when no score. */
-  readonly riskColor: string;
   readonly riskNumDisp: number | string;
   readonly salaryInt: number | string;
   readonly ageDisp: number | string;
@@ -51,42 +49,6 @@ export interface OccupationDisplay {
 
 const EMDASH = '—';
 
-// Continuous risk-score → digit color. Anchors are the canonical --risk-0..4
-// scale (canonical-css.ts); one-decimal scores interpolate smoothly between
-// them, so the detail digit matches the map / OG / sector colors. RGB literals
-// (not CSS vars) because the value is computed in JS. Returns '' for null.
-const RISK_COLOR_STOPS: ReadonlyArray<readonly [number, readonly [number, number, number]]> = [
-  [0, [15, 138, 102]], // --risk-0 #0F8A66
-  [2.5, [91, 168, 79]], // --risk-1 #5BA84F
-  [5, [217, 160, 59]], // --risk-2 #D9A03B
-  [7.5, [226, 122, 51]], // --risk-3 #E27A33
-  [10, [196, 66, 47]], // --risk-4 #C4422F
-];
-
-function rgbHex([r, g, b]: readonly [number, number, number]): string {
-  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')}`;
-}
-
-function riskNumColor(score: number): string {
-  const s = Math.max(0, Math.min(10, score));
-  const first = RISK_COLOR_STOPS[0]!;
-  const last = RISK_COLOR_STOPS[RISK_COLOR_STOPS.length - 1]!;
-  if (s <= first[0]) return rgbHex(first[1]);
-  if (s >= last[0]) return rgbHex(last[1]);
-  for (let i = 1; i < RISK_COLOR_STOPS.length; i += 1) {
-    const [x1, c1] = RISK_COLOR_STOPS[i - 1]!;
-    const [x2, c2] = RISK_COLOR_STOPS[i]!;
-    if (s <= x2) {
-      const t = (s - x1) / (x2 - x1);
-      return rgbHex([
-        Math.round(c1[0] + (c2[0] - c1[0]) * t),
-        Math.round(c1[1] + (c2[1] - c1[1]) * t),
-        Math.round(c1[2] + (c2[2] - c1[2]) * t),
-      ]);
-    }
-  }
-  return rgbHex(last[1]);
-}
 
 export function buildOccupationDisplay(input: OccupationDisplayInput): OccupationDisplay {
   const { aiRisk, salaryMan, workers, age, hours, recruitRatio, hourlyWage } = input;
@@ -94,7 +56,6 @@ export function buildOccupationDisplay(input: OccupationDisplayInput): Occupatio
   const shown = aiRisk !== null ? displayScore(aiRisk) : null;
   const riskStr = shown !== null ? `${shown}/10` : EMDASH;
   const riskClass = aiRisk !== null ? `risk-${riskBandClass(aiRisk)}` : 'risk-na';
-  const riskColor = aiRisk !== null ? riskNumColor(aiRisk) : '';
   const riskNumDisp: number | string = shown !== null ? shown : EMDASH;
 
   const salaryInt: number | string = salaryMan ? Math.trunc(salaryMan) : EMDASH;
@@ -115,7 +76,6 @@ export function buildOccupationDisplay(input: OccupationDisplayInput): Occupatio
   return {
     riskStr,
     riskClass,
-    riskColor,
     riskNumDisp,
     salaryInt,
     ageDisp,

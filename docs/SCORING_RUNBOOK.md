@@ -469,7 +469,7 @@ bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_gpt-5.6-sol
 bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fable-5-1_<fable_date>.json --candidate .cache/scoring/mms-8g-full/occupations_gpt-6-astra_<run_date>.json --out .cache/scoring/mms-8g-full/drift_claude-fable-5-1_vs_gpt-6-astra_<run_date>.md
 ```
 
-### Grok 4.5 / in-agent 追跡採点（mms-9.11〜9.13）
+### Grok 4.5 / in-agent 追跡採点（mms-9.11〜9.13）（完了: #489 / #490 / #491）
 
 | 項目 | Grok 4.5 |
 |---|---|

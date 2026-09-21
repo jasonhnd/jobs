@@ -2,7 +2,7 @@
 
 Status: 設計承認（PR #363 merged 2026-08-31）。mms-6-doc のパラメータと確定文案は下記。
 Status（mms-8）: 改訂 2 実装済み（preview 2026-09-09）。公開値は 3 社旗艦平均。deprecated 中央値エンジンは履歴として残置（owner A、#444）。
-Status（mms-9）: 改訂 3 を末尾に追加（2026-09-10）。
+Status（mms-9）: 改訂 3 実装済み（preview 2026-09-10、本番 2026-09-10、promotion #506）。Grok 4.5 は xAI 履歴。公開値は不変。
 Date: 2026-08-31
 Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は後続 dispatch
 
@@ -589,6 +589,7 @@ mean of the latest model from each of {V} vendors / Vendors in the panel / vendo
 ## 改訂 3 — 追跡採点（backfill）（mms-9、2026-09-10 決定）
 
 Status: オーナー決定済み（2026-09-10）。実装は mms-9.x シリーズ。
+Status（着地）: mms-9.13 #491 で着地、2026-09-10 本番反映（promotion PR #506）。
 Owner: Jason
 
 ### 決定事項（2026-09-10 Jason 確認済み）

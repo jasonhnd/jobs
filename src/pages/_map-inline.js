@@ -22,13 +22,29 @@
     var currentSort = 'ai_risk_desc';
     var openJobId = null;
 
-    var RISK_PALETTE = ['#0F8A66', '#5BA84F', '#D9A03B', '#E27A33', '#C4422F'];
+    // Design.md §2.3 — the five band colours come from the :root tokens that
+    // canonical-css.ts emits from design-tokens.ts. This script is inlined and
+    // cannot import the module, so it reads the computed values once at start;
+    // `tests/e2e/design-contract.spec.ts` asserts they resolve.
+    var RISK_PALETTE = (function () {
+      var cs = window.getComputedStyle(document.documentElement);
+      var out = [];
+      for (var i = 0; i < 5; i++) {
+        var v = cs.getPropertyValue('--risk-' + i).trim();
+        if (!v && typeof console !== 'undefined') console.warn('[map] --risk-' + i + ' is not defined on :root');
+        out.push(v || '#888888');
+      }
+      return out;
+    })();
+    function bandForRisk(risk) {
+      if (risk <= 2) return 0;
+      if (risk <= 4) return 1;
+      if (risk <= 6) return 2;
+      if (risk <= 8) return 3;
+      return 4;
+    }
     function colorForRisk(risk) {
-      if (risk <= 2) return RISK_PALETTE[0];
-      if (risk <= 4) return RISK_PALETTE[1];
-      if (risk <= 6) return RISK_PALETTE[2];
-      if (risk <= 8) return RISK_PALETTE[3];
-      return RISK_PALETTE[4];
+      return RISK_PALETTE[bandForRisk(risk)];
     }
 
     var $content = document.getElementById('mapContent');
@@ -52,12 +68,80 @@
       if (w >= 10000) return (w / 10000).toFixed(0) + ' 万人';
       return w.toLocaleString('ja-JP') + ' 人';
     }
-    function riskLabel(r) {
-      if (r >= 9) return r + '/10 ▲ 大きく変わる仕事';
-      if (r >= 7) return r + '/10 ▲ 影響大';
-      if (r >= 4) return r + '/10 ▼ 中程度';
-      return r + '/10 ◎ 影響小';
+    // One decimal, the server's rule: banker's rounding over the exact stored
+    // double, ported from src/data/lib/banker-round.ts (inline scripts cannot
+    // import it). toFixed / Math.round are half-away-from-zero and were NOT
+    // the same rule — and the treemap projection stores raw floats such as
+    // 4.266666666666667, which this page used to print verbatim (design-1.21).
+    function fmtRisk(v) {
+      if (v == null) return '—';
+      var n = Number(v);
+      if (!Number.isFinite(n)) return '—';
+      var sign = n < 0 ? '-' : '';
+      var wide = Math.abs(n).toFixed(18);
+      var dot = wide.indexOf('.');
+      if (dot === -1) return String(n);
+      var intStr = wide.slice(0, dot);
+      var frac = wide.slice(dot + 1);
+      var keep = frac.charAt(0);
+      var decisive = frac.charAt(1);
+      var tail = frac.slice(2);
+      var roundUp;
+      if (decisive < '5') roundUp = false;
+      else if (decisive > '5') roundUp = true;
+      else if (/[1-9]/.test(tail)) roundUp = true;
+      else roundUp = Number(keep) % 2 !== 0;
+      var truncated = Number(sign + intStr + '.' + keep);
+      if (!roundUp) return String(truncated);
+      var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
+      return String(Number(inc.toFixed(1)));
     }
+    function riskLabel(r) {
+      var s = fmtRisk(r) + '/10';
+      if (r >= 9) return s + ' ▲ 大きく変わる仕事';
+      if (r >= 7) return s + ' ▲ 影響大';
+      if (r >= 4) return s + ' ▼ 中程度';
+      return s + ' ◎ 影響小';
+    }
+    /**
+     * Design.md §5.7 — a treemap tile shows its label in full or not at all.
+     *
+     * The threshold is measured, never hardcoded: the tile's own computed
+     * font, padding and line-height come from a probe element carrying the
+     * real `.cell` class, and the string is measured with canvas measureText
+     * against the tile's own box. Change the CSS and this follows.
+     *
+     * Cached per render because getComputedStyle forces style resolution.
+     */
+    var _labelFit = null;
+    function labelFitter() {
+      if (_labelFit) return _labelFit;
+      var probe = document.createElement('button');
+      probe.className = 'cell';
+      probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden';
+      document.body.appendChild(probe);
+      var cs = getComputedStyle(probe);
+      var size = parseFloat(cs.fontSize) || 12;
+      var fontBase = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+      var padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
+      var padY = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+      var lineH = parseFloat(cs.lineHeight);
+      if (!lineH) lineH = size * 1.4;
+      probe.remove();
+      var ctx = null;
+      try { ctx = document.createElement('canvas').getContext('2d'); } catch (e) { ctx = null; }
+      _labelFit = function (text, cellW, cellH, italic) {
+        if (!text) return false;
+        // Without a 2D context we cannot measure, so show nothing rather than
+        // risk re-introducing clipped labels.
+        if (!ctx) return false;
+        if (cellH - padY < lineH) return false;
+        ctx.font = (italic ? 'italic ' : '') + fontBase;
+        return ctx.measureText(text).width <= cellW - padX;
+      };
+      return _labelFit;
+    }
+
     function ga(name, params) {
       try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch (e) {
         if (typeof console !== 'undefined') console.warn('[analytics] gtag event failed:', e);
@@ -286,7 +370,7 @@
         name.textContent = sm.ja;
         var meta = document.createElement('span');
         meta.className = 'sector-meta';
-        meta.textContent = recs.length + ' 職業 ・ 平均 AI ' + (sm.mean_ai_risk != null ? sm.mean_ai_risk.toFixed(1) : '—');
+        meta.textContent = recs.length + ' 職業 ・ 平均 AI ' + fmtRisk(sm.mean_ai_risk);
         head.appendChild(name);
         head.appendChild(meta);
         section.appendChild(head);
@@ -299,6 +383,7 @@
         });
         squarify(items, container_w, container_h);
 
+        var fits = labelFitter();
         var canvas = document.createElement('div');
         canvas.className = 'sector-canvas';
         canvas.style.height = container_h + 'px';
@@ -312,21 +397,26 @@
           if (!r.__synthetic) cell.dataset.id = r.id;
           cell.setAttribute('aria-label', r.__synthetic
             ? r.name_ja + '（小規模職業をまとめた領域）'
-            : r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、就業者数 ' + fmtWorkers(r.workers));
+            : r.name_ja + '：AI 影響 ' + fmtRisk(r.ai_risk) + '/10、就業者数 ' + fmtWorkers(r.workers));
           cell.style.left   = rect.x.toFixed(1) + 'px';
           cell.style.top    = rect.y.toFixed(1) + 'px';
-          // Min 28px enforces a tappable, label-readable cell — squarified
-          // geometry can produce slivers smaller than the font line-height
-          // even after mergeSmallCells(); clamping at 28 lets the label's
-          // text-overflow: ellipsis (see _map-css.ts .cell .name) take over.
-          cell.style.width  = Math.max(rect.w - 2, 28).toFixed(1) + 'px';
-          cell.style.height = Math.max(rect.h - 2, 28).toFixed(1) + 'px';
+          // Min 28px enforces a tappable cell — squarified geometry can
+          // produce slivers smaller than the font line-height even after
+          // mergeSmallCells(). Tiles below the label threshold simply render
+          // without one (§5.7); they stay tap- and tooltip-addressable.
+          var cellW = Math.max(rect.w - 2, 28);
+          var cellH = Math.max(rect.h - 2, 28);
+          cell.style.width  = cellW.toFixed(1) + 'px';
+          cell.style.height = cellH.toFixed(1) + 'px';
+          cell.dataset.band = String(bandForRisk(r.ai_risk || 5));
           cell.style.background = colorForRisk(r.ai_risk || 5);
           if (r.__synthetic) cell.style.background = 'repeating-linear-gradient(45deg, ' + colorForRisk(r.ai_risk) + ', ' + colorForRisk(r.ai_risk) + ' 6px, rgba(255,255,255,0.18) 6px, rgba(255,255,255,0.18) 12px)';
-          var span = document.createElement('span');
-          span.className = 'name';
-          span.textContent = r.name_ja;
-          cell.appendChild(span);
+          if (fits(r.name_ja, cellW, cellH, !!r.__synthetic)) {
+            var span = document.createElement('span');
+            span.className = 'name';
+            span.textContent = r.name_ja;
+            cell.appendChild(span);
+          }
           canvas.appendChild(cell);
         });
         section.appendChild(canvas);
@@ -477,7 +567,7 @@
         if (ttHideTimer) { clearTimeout(ttHideTimer); ttHideTimer = null; }
         $ttName.textContent = r.name_ja || '';
         $ttRisk.className = 'ct-risk risk-pill ' + riskClass(r.ai_risk);
-        $ttRisk.textContent = 'AI ' + r.ai_risk + '/10';
+        $ttRisk.textContent = 'AI ' + fmtRisk(r.ai_risk) + '/10';
         $ttSalary.textContent = fmtSalary(r.salary);
         $ttWorkers.textContent = fmtWorkers(r.workers);
         $ttSector.textContent = r.sector_ja || '';
@@ -584,7 +674,7 @@
         nameSpan.textContent = d.title_ja || '';
         var riskSpan = document.createElement('span');
         riskSpan.className = 'risk';
-        riskSpan.textContent = 'AI ' + (d.ai_risk != null ? d.ai_risk : '?') + '/10';
+        riskSpan.textContent = 'AI ' + fmtRisk(d.ai_risk) + '/10';
         li.appendChild(nameSpan);
         li.appendChild(riskSpan);
         $suggest.appendChild(li);
@@ -733,7 +823,7 @@
           var li = document.createElement('li');
           var a = document.createElement('a');
           a.href = occupationPath(r.id);
-          a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
+          a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + fmtRisk(r.ai_risk) + '/10、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
           var sw = document.createElement('span');
           sw.className = 'swatch';
           sw.style.background = colorForRisk(r.ai_risk || 5);
@@ -742,7 +832,7 @@
           nm.textContent = r.name_ja;
           var st = document.createElement('span');
           st.className = 'stats';
-          st.textContent = 'AI ' + (r.ai_risk || '?') + '/10 ・ ' + fmtWorkers(r.workers);
+          st.textContent = 'AI ' + fmtRisk(r.ai_risk) + '/10 ・ ' + fmtWorkers(r.workers);
           a.appendChild(sw); a.appendChild(nm); a.appendChild(st);
           li.appendChild(a);
           ol.appendChild(li);

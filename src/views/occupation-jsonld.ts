@@ -195,7 +195,7 @@ const AIOIS_DIMS: ReadonlyArray<readonly [key: 'd1' | 'd2' | 'd3' | 'd4' | 'd5' 
 ];
 
 // Static identifiers shared across all occupation pages.
-const BREADCRUMB_ROOT = '日本の職業 AI 影響マップ';
+const BREADCRUMB_ROOT = '未来の仕事'; // = siteConfig.siteName; the site's one name
 const HOME_URL = 'https://mirai-shigoto.com/';
 const WEBSITE_REF = 'https://mirai-shigoto.com/#website';
 const ORG_REF = 'https://mirai-shigoto.com/#organization';

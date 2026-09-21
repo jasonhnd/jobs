@@ -10,6 +10,13 @@ this repository.
   non-trivial work.
 - [`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) — canonical pins for Bun / Node /
   Astro / Vercel planes. Do not guess versions.
+- [`docs/Design.md`](docs/Design.md) — UI/UX canon: colour tokens, type scale,
+  heading levels, page classes, spacing, breakpoints, contrast contract.
+  **Read §0 (a 40-line quick card) before touching any CSS, markup, or visual
+  copy.** Do not guess a font size or a colour — every value is a token.
+- [`docs/DESIGN_CONFORMANCE.md`](docs/DESIGN_CONFORMANCE.md) — per-surface
+  migration ledger. Tells you which surfaces the Design gates enforce on, what
+  the next migration step is, and the completion checklist for each surface.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — PR flow and required verification.
 
 ## Hard rules
@@ -31,6 +38,21 @@ this repository.
     Rate-limit exceeded action is `log` or `deny` (429) only.
 - Score batches are append-only; never overwrite existing runs.
 - Do not commit secrets or generated `dist-astro/`.
+- UI work follows [`docs/Design.md`](docs/Design.md) (Design v1.0):
+  - No raw `font-size`, `color`, `padding`, `border-radius`, or `z-index` in
+    page CSS. Use the `var(--*)` tokens.
+  - No `!important` on `font-size`. Heading variants branch on
+    `body[data-page-class]` inside `canonical-css.ts` (§4.9).
+  - No `:root{}` in a page `<style>` (§18.4).
+  - Serif is Display / H1 / H2 only. H3 and below are sans (§4.4). Minimum
+    font size site-wide is 12px (§4.2).
+  - Every new page belongs to a page class (§6.5).
+  - Adding a scale step, a role, or a token means updating `docs/Design.md`
+    **first** (§19.4). A version bump is owner-approved — an agent must never
+    revise the canon on its own (§20.6).
+  - Before starting a surface migration, read its row in
+    [`docs/DESIGN_CONFORMANCE.md`](docs/DESIGN_CONFORMANCE.md); when finished,
+    update that row in the same PR.
 
 ## Operational commands (read-only)
 
