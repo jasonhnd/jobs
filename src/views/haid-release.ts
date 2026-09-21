@@ -24,6 +24,7 @@ import {
 import {
   HAID_RELEASE_ANCHORS_JA,
   HAID_RELEASE_DELTA_JA,
+  HAID_RELEASE_SWITCH_JA,
   HAID_RELEASE_FACT_JA,
   HAID_RELEASE_LEAD_TEMPLATE_JA,
   HAID_RELEASE_LEGEND_JA,
@@ -109,8 +110,31 @@ export interface AnchorRow {
   readonly placeholder: boolean;
 }
 
+export interface DeltaRow {
+  readonly level: number;
+  readonly ja: string;
+  readonly previous: PeopleJa | null;
+  readonly now: PeopleJa | null;
+  /** signed people difference; null when not comparable */
+  readonly delta: number | null;
+  readonly deltaJa: string;       // "+1.2 億" / "−5.8 億" / label
+  readonly kind: 'up' | 'down' | 'flat' | 'method' | 'none';
+  readonly kindJa: string;
+}
+
+export interface ReleaseSwitchItem {
+  readonly release: string;
+  readonly labelJa: string;
+  readonly href: string;
+  readonly current: boolean;
+  readonly latest: boolean;
+}
+
 export interface HaidReleasePageModel {
   readonly release: string;
+  readonly round: number;
+  readonly isLatest: boolean;
+  readonly switcher: { readonly label: string; readonly items: readonly ReleaseSwitchItem[]; readonly permalink: string };
   readonly labelJa: string;
   readonly version: string;
   readonly isDraft: boolean;
@@ -126,7 +150,7 @@ export interface HaidReleasePageModel {
   readonly legend: { readonly area: string; readonly relations: readonly { readonly id: HaidRelationId; readonly ja: string; readonly hatched: boolean }[]; readonly hatch: string; readonly axis: string };
   readonly map: { readonly columns: readonly MapColumn[]; readonly boundaries: readonly MapBoundaryLine[]; readonly notes: readonly string[] };
   readonly list: { readonly heading: string; readonly intro: string; readonly rows: readonly ListRow[]; readonly levelsNote: string; readonly paymentNote: string };
-  readonly delta: { readonly heading: string; readonly body: string };
+  readonly delta: { readonly heading: string; readonly body: string; readonly rows: readonly DeltaRow[]; readonly cols: { readonly level: string; readonly previous: string; readonly now: string; readonly delta: string } };
   readonly anchorsTable: { readonly heading: string; readonly intro: string; readonly rows: readonly AnchorRow[] };
   readonly fact: { readonly label: string; readonly body: string };
   readonly seo: { readonly title: string; readonly description: string; readonly ogTitle: string; readonly ogDescription: string; readonly keywords: string };
@@ -154,7 +178,19 @@ function levelListJa(levels: readonly number[]): string {
   return runs.map(([a, b]) => (a === b ? `第 ${a} 段階` : `第 ${a}〜${b} 段階`)).join('と');
 }
 
-export function buildHaidReleasePageModel(p: HaidReleasePayload, levelsNoteJa: string): HaidReleasePageModel {
+/** Release id → 日本語ラベル for the switcher (the page reads the other payloads' label_ja). */
+export type ReleaseLabels = Readonly<Record<string, string>>;
+
+export function releaseLabelJa(release: string): string {
+  const m = /^(\d{4})-q([1-4])$/.exec(release);
+  return m ? `${m[1]} 年 第 ${m[2]} 四半期` : release;
+}
+
+export function buildHaidReleasePageModel(
+  p: HaidReleasePayload,
+  levelsNoteJa: string,
+  labels: ReleaseLabels = {},
+): HaidReleasePageModel {
   const population = p.population;
   const byLevel = new Map(p.levels.map((l) => [l.level, l]));
   const anchorById = new Map(p.anchors.map((a) => [a.id, a]));
@@ -164,7 +200,7 @@ export function buildHaidReleasePageModel(p: HaidReleasePayload, levelsNoteJa: s
   const relationPeople = HAID_RELATIONS.map((r) => {
     const levels = p.levels.filter((l) => l.relation === r.id);
     const people = levels.reduce((acc, l) => acc + (l.n.display ?? 0), 0);
-    const hatched = levels.every((l) => l.n.display === null);
+    const hatched = levels.every((l) => l.n.certainty === 'none');
     return { r, levels, people, hatched };
   });
   const hatchedCount = relationPeople.filter((x) => x.hatched).length;
@@ -204,10 +240,10 @@ export function buildHaidReleasePageModel(p: HaidReleasePayload, levelsNoteJa: s
         heightPct: row.pct,
         certainty: row.l.n.certainty,
         certaintyJa: HAID_CERTAINTY_JA[row.l.n.certainty],
-        people: row.l.n.display === null ? null : formatPeopleJa(row.l.n.display, TABLE_SIG),
-        shareJa: row.l.n.share === null ? null : formatShareJa(row.l.n.share),
+        people: row.l.n.certainty === 'none' || row.l.n.display === null ? null : formatPeopleJa(row.l.n.display, TABLE_SIG),
+        shareJa: row.l.n.certainty === 'none' || row.l.n.share === null ? null : formatShareJa(row.l.n.share),
         inflated: inflated.includes(row.l.level),
-        hatched: row.l.n.display === null,
+        hatched: row.l.n.certainty === 'none',
       };
       top += row.pct;
       return cell;
@@ -271,7 +307,7 @@ export function buildHaidReleasePageModel(p: HaidReleasePayload, levelsNoteJa: s
       atLeastCertainty: l.n_at_least.certainty,
       atLeastCertaintyJa: HAID_CERTAINTY_JA[l.n_at_least.certainty],
       atLeastRangeJa: rangeJa,
-      exactly: l.n.display === null ? null : formatPeopleJa(l.n.display, TABLE_SIG),
+      exactly: l.n.certainty === 'none' || l.n.display === null ? null : formatPeopleJa(l.n.display, TABLE_SIG),
       exactlyLabel: fillTemplate(HAID_RELEASE_LIST_JA.exactly, { level: String(spec.level) }),
       criterionJa: spec.criterion_ja,
       windowJa: spec.window_ja,
@@ -292,16 +328,64 @@ export function buildHaidReleasePageModel(p: HaidReleasePayload, levelsNoteJa: s
   const [before, rest] = leadTemplate.split('{population}');
   const [middle, after] = rest.split('{prompted}');
 
-  const roundNo = p.previous === null ? 1 : 0; // previous chains are counted by the page when releases > 1
   const metaParts = [
     p.label_ja,
     fillTemplate(HAID_RELEASE_META_JA.asOf, { asOf: p.as_of }),
     p.published_at
       ? fillTemplate(HAID_RELEASE_META_JA.published, { published: p.published_at })
       : fillTemplate(HAID_RELEASE_META_JA.plannedPublish, { planned: p.planned_publish }),
-    ...(roundNo > 0 ? [fillTemplate(HAID_RELEASE_META_JA.round, { n: String(roundNo) })] : []),
+    fillTemplate(HAID_RELEASE_META_JA.round, { n: String(p.round) }),
     fillTemplate(HAID_RELEASE_META_JA.spec, { version: p.spec_version }),
   ];
+
+  // ── release switcher ──
+  const latestId = [...p.releases].sort().at(-1) ?? p.release;
+  const isLatest = p.release === latestId;
+  const switcher = {
+    label: HAID_RELEASE_SWITCH_JA.label,
+    permalink: HAID_RELEASE_SWITCH_JA.permalink,
+    items: [...p.releases].sort().reverse().map((id) => ({
+      release: id,
+      labelJa: id === p.release ? p.label_ja : labels[id] ?? releaseLabelJa(id),
+      href: id === latestId ? HAID_RELEASE_BASE_PATH : `${HAID_RELEASE_BASE_PATH}/${id}`,
+      current: id === p.release,
+      latest: id === latestId,
+    })),
+  };
+
+  // ── 前回との変動 ──
+  const prevById = new Map((p.previous_levels ?? []).map((x) => [x.level, x]));
+  const deltaRows: DeltaRow[] = p.previous_levels === null ? [] : HAID_LEVELS.map((spec) => {
+    const now = byLevel.get(spec.level)!;
+    const prev = prevById.get(spec.level)!;
+    const a = prev.n_at_least_display;
+    const b = now.n_at_least.display;
+    const aNone = prev.n_at_least_certainty === 'none';
+    const bNone = now.n_at_least.certainty === 'none';
+    let kind: DeltaRow['kind'];
+    let delta: number | null = null;
+    const gradesNow = [...new Set(now.anchors.map((id) => anchorById.get(id)?.grade).filter((g): g is 'A' | 'B' | 'C' | 'D' => g !== undefined))].sort();
+    const gradesPrev = [...prev.anchor_grades].sort();
+    const gradesChanged = gradesNow.length !== gradesPrev.length || gradesNow.some((g, i) => g !== gradesPrev[i]);
+    if (aNone || bNone || a === null || b === null) kind = 'none';
+    else if (prev.n_at_least_certainty !== now.n_at_least.certainty || gradesChanged) kind = 'method';
+    else {
+      delta = b - a;
+      kind = delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat';
+    }
+    const kindJa = { up: HAID_RELEASE_DELTA_JA.up, down: HAID_RELEASE_DELTA_JA.down, flat: HAID_RELEASE_DELTA_JA.flat, method: HAID_RELEASE_DELTA_JA.methodChanged, none: HAID_RELEASE_DELTA_JA.noData }[kind];
+    const deltaJa = delta === null ? kindJa : delta === 0 ? '±0' : `${delta > 0 ? '+' : '−'}${formatPeopleJaText(Math.abs(delta), TABLE_SIG)}`;
+    return {
+      level: spec.level,
+      ja: spec.ja,
+      previous: aNone || a === null ? null : formatPeopleJa(a, TABLE_SIG),
+      now: bNone || b === null ? null : formatPeopleJa(b, TABLE_SIG),
+      delta,
+      deltaJa,
+      kind,
+      kindJa,
+    };
+  });
 
   const payment = p.payment.certainty === 'none' || p.payment.count?.mid == null
     ? HAID_RELEASE_LIST_JA.paymentNone
@@ -321,12 +405,15 @@ export function buildHaidReleasePageModel(p: HaidReleasePayload, levelsNoteJa: s
 
   return {
     release: p.release,
+    round: p.round,
+    isLatest,
+    switcher,
     labelJa: p.label_ja,
     version: p.version,
     isDraft: p.status === 'draft',
     asOf: p.as_of,
     path: `${HAID_RELEASE_BASE_PATH}/${p.release}`,
-    canonicalPath: HAID_RELEASE_BASE_PATH,
+    canonicalPath: isLatest ? HAID_RELEASE_BASE_PATH : `${HAID_RELEASE_BASE_PATH}/${p.release}`,
     specVersion: p.spec_version,
     specHref: HAID_CANONICAL_PATH,
     h1: '人類と AI の距離',
@@ -349,7 +436,11 @@ export function buildHaidReleasePageModel(p: HaidReleasePayload, levelsNoteJa: s
     },
     delta: {
       heading: HAID_RELEASE_DELTA_JA.heading,
-      body: fillTemplate(HAID_RELEASE_DELTA_JA.first, { next: nextQuarterLabel(p.release) }),
+      body: p.previous === null
+        ? fillTemplate(HAID_RELEASE_DELTA_JA.first, { next: nextQuarterLabel(p.release) })
+        : fillTemplate(HAID_RELEASE_DELTA_JA.intro, { previous: labels[p.previous] ?? releaseLabelJa(p.previous) }),
+      rows: deltaRows,
+      cols: { level: HAID_RELEASE_DELTA_JA.colLevel, previous: HAID_RELEASE_DELTA_JA.colPrevious, now: HAID_RELEASE_DELTA_JA.colNow, delta: HAID_RELEASE_DELTA_JA.colDelta },
     },
     anchorsTable: {
       heading: HAID_RELEASE_ANCHORS_JA.heading,
@@ -358,7 +449,7 @@ export function buildHaidReleasePageModel(p: HaidReleasePayload, levelsNoteJa: s
     },
     fact: {
       label: fillTemplate(HAID_RELEASE_FACT_JA.label, { label: p.label_ja }),
-      body: fillTemplate(HAID_RELEASE_FACT_JA.body, factValues),
+      body: fillTemplate(byLevel.get(5)!.n_at_least.certainty === 'none' ? HAID_RELEASE_FACT_JA.bodyNoWeekly : HAID_RELEASE_FACT_JA.body, factValues),
     },
     seo: {
       title: fillTemplate(HAID_RELEASE_SEO_JA.title, seoValues),

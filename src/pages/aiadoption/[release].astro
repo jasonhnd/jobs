@@ -1,0 +1,23 @@
+---
+/**
+ * aiadoption/[release].astro — archived HAID releases (/aiadoption/2026-q3 …).
+ *
+ * One static page per directory under data/haid-release/. The newest
+ * release is also served at /aiadoption; its archive URL carries a canonical
+ * pointing to itself (permalink) — see _HaidReleasePage.astro.
+ */
+import HaidReleasePage from '../_HaidReleasePage.astro';
+import { loadHaidReleaseLabels, loadHaidReleasePayload } from '../_haid-release-labels';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+
+export async function getStaticPaths() {
+  const latest = JSON.parse(await readFile(join(process.cwd(), 'public', 'data.haid-latest.json'), 'utf-8')) as { releases: string[] };
+  return latest.releases.map((release) => ({ params: { release } }));
+}
+
+const { release } = Astro.params;
+const payload = await loadHaidReleasePayload(release!);
+const labels = await loadHaidReleaseLabels(payload.releases);
+---
+<HaidReleasePage payload={payload} labels={labels} />

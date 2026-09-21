@@ -1,0 +1,302 @@
+---
+/**
+ * src/pages/_HaidReleasePage.astro — the HAID current-state page body,
+ * shared by /aiadoption (latest release) and /aiadoption/<release>
+ * (archive). Page-local sibling (Astro `_`-prefix → not routed).
+ *
+ * One object: a treemap of humanity (area = people, four relation columns
+ * left → right = far → near AI, the three boundaries drawn thick), then the
+ * N(≥k) list, 前回との変動, the anchor table and a quotable fact block.
+ * Zero inline JS: cell highlight is :target (#dan-<k>), rows are <details>.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import { siteConfig } from '@/site/config';
+import { HAID_LEVELS_NOTE_JA, HAID_NAME_JA } from '@/site/haid-spec';
+import { HAID_RELEASE_CRUMB_JA, HAID_RELEASE_FOOT_JA, HAID_RELEASE_YOU_ARE_HERE_JA, fillTemplate } from '@/site/haid-release-copy';
+import type { HaidReleasePayload } from '@/site/haid-release-types';
+import { buildHaidReleasePageModel, type ReleaseLabels } from '@/views/haid-release';
+import { AI_ADOPTION_CSS } from './_ai-adoption-css';
+
+interface Props {
+  readonly payload: HaidReleasePayload;
+  readonly labels: ReleaseLabels;
+}
+
+const { payload, labels } = Astro.props;
+const m = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA, labels);
+const canonical = `${siteConfig.origin}${m.canonicalPath}`;
+const DIAGNOSIS_PATH = '/shindan';
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      name: m.seo.ogTitle,
+      url: canonical,
+      description: m.seo.description,
+      inLanguage: 'ja',
+      isPartOf: { '@id': `${siteConfig.origin}/#website` },
+      dateModified: m.asOf,
+      breadcrumb: { '@id': `${canonical}#breadcrumb` },
+      mainEntity: { '@id': `${canonical}#dataset` },
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '.haid-lead'] },
+    },
+    {
+      '@type': 'Dataset',
+      '@id': `${canonical}#dataset`,
+      name: `${HAID_NAME_JA} — ${m.labelJa}`,
+      description: m.seo.description,
+      url: canonical,
+      inLanguage: 'ja',
+      isAccessibleForFree: true,
+      license: payload.license_url,
+      version: m.version,
+      dateModified: m.asOf,
+      creator: { '@id': `${siteConfig.origin}/#organization` },
+      isBasedOn: `${siteConfig.origin}${m.specHref}`,
+      measurementTechnique: 'HAID v1.0: per-level N(≥k) from vendor-published user counts (grade B), official statistics (grade A) and surveys (grade D), nested and reported with a certainty label.',
+      distribution: [
+        ...(m.isLatest ? [{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: `${siteConfig.origin}/data.haid-latest.json` }] : []),
+        { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: `${siteConfig.origin}/data.haid-${m.release}.json` },
+      ],
+      variableMeasured: payload.levels
+        .filter((l) => l.n_at_least.certainty !== 'none' && l.n_at_least.display !== null)
+        .map((l) => ({
+          '@type': 'PropertyValue',
+          name: `HAID 第 ${l.level} 段階以上 ${l.ja}`,
+          value: l.n_at_least.display,
+          unitText: 'people',
+        })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonical}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${siteConfig.origin}/` },
+        { '@type': 'ListItem', position: 2, name: HAID_RELEASE_CRUMB_JA, item: `${siteConfig.origin}/aiadoption` },
+        ...(m.isLatest ? [] : [{ '@type': 'ListItem', position: 3, name: m.labelJa, item: canonical }]),
+      ],
+    },
+  ],
+});
+---
+<BaseLayout
+  bodyClass="page-feature"
+  title={m.seo.title}
+  description={m.seo.description}
+  canonical={canonical}
+  keywords={m.seo.keywords}
+  ogTitle={m.seo.ogTitle}
+  ogDescription={m.seo.ogDescription}
+  ogType="article"
+  ogImage={`${siteConfig.origin}/api/og?page=aiadoption`}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={AI_ADOPTION_CSS} />
+
+  <div id="wrapper" class="haid-page">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      {m.isLatest ? <span>{HAID_RELEASE_CRUMB_JA}</span> : <a href="/aiadoption">{HAID_RELEASE_CRUMB_JA}</a>}
+      <span aria-hidden="true">›</span>
+      <span>{m.labelJa}</span>
+    </nav>
+
+    <header id="content">
+      <h1>{m.h1}</h1>
+      <p class="haid-lead">
+        {m.lead.before}<span class="num">{m.lead.population.value}</span><span class="unit">{m.lead.population.unit}</span>{m.lead.middle}<span class="num">{m.lead.prompted.value}</span><span class="unit">{m.lead.prompted.unit}</span>{m.lead.after}
+      </p>
+      <p class="haid-meta">
+        {m.isDraft && <span class="haid-draft">草稿</span>}
+        {m.metaParts.map((part, i) => (
+          <span>{i === m.metaParts.length - 1 ? <a href={m.specHref}>{part}</a> : part}</span>
+        ))}
+      </p>
+      <nav class="haid-switch" aria-label={m.switcher.label}>
+        <span class="haid-switch-label">{m.switcher.label}</span>
+        {m.switcher.items.map((it) => (
+          it.current
+            ? <span class="haid-switch-pill current" aria-current="page">{it.labelJa}{it.latest ? <small>最新</small> : null}</span>
+            : <a class="haid-switch-pill" href={it.href}>{it.labelJa}{it.latest ? <small>最新</small> : null}</a>
+        ))}
+        {m.isLatest && <a class="haid-switch-perma" href={m.path}>{m.switcher.permalink} ›</a>}
+      </nav>
+      {m.draftNote && <p class="haid-draft-note">{m.draftNote}</p>}
+    </header>
+
+    <section class="haid-card" aria-label="人類の地図">
+      <p class="haid-legend">
+        <span>{m.legend.area}</span>
+        {m.legend.relations.map((r) => (
+          <span><i class={`sw-${r.id}`}></i>{r.ja}</span>
+        ))}
+        <span>{m.legend.hatch}</span>
+        <span>{m.legend.axis}</span>
+      </p>
+
+      <div class="haid-map" role="img" aria-label={`${HAID_NAME_JA}の地図。面積は人数。`}>
+        {m.map.columns.map((col) => (
+          <div class={`haid-col${col.widthPct < 30 ? ' narrow' : ''}`} style={`left:${col.leftPct.toFixed(3)}%;width:${col.widthPct.toFixed(3)}%`}>
+            {col.cells.map((cell) => {
+              const dark = !cell.hatched && (cell.level === 5 || cell.level === 6);
+              const thin = !cell.hatched && cell.heightPct <= 8;
+              const cls = ['haid-cell', `rel-${cell.relation}`, `lv-${cell.level}`, dark ? 'dark' : '', thin ? 'thin' : '', cell.hatched ? 'hatched' : ''].filter(Boolean).join(' ');
+              return (
+                <a class={cls} id={cell.id} href={`#${cell.id}`} style={`top:${cell.topPct.toFixed(3)}%;height:${cell.heightPct.toFixed(3)}%`} aria-label={`第 ${cell.level} 段階 ${cell.ja}${cell.people ? ` ${cell.people.value} ${cell.people.unit}` : ` ${cell.certaintyJa}`}`}>
+                  <span class="no">{cell.level}</span>
+                  <span class="nm">{cell.ja}</span>
+                  <span class="n">{cell.people ? `${cell.people.value} ${cell.people.unit}${cell.shareJa ? ` ・ ${cell.shareJa}` : ''}${cell.certainty === 'lower_bound' ? ` ・ ${cell.certaintyJa}` : ''}` : cell.certaintyJa}</span>
+                  <span class="pin">{HAID_RELEASE_YOU_ARE_HERE_JA}</span>
+                </a>
+              );
+            })}
+          </div>
+        ))}
+        {m.map.boundaries.map((b) => (
+          <div class={`haid-bd${b.dashed ? ' dashed' : ''}`} style={`left:${b.leftPct.toFixed(3)}%`} aria-hidden="true"></div>
+        ))}
+      </div>
+
+      <p class="haid-bounds">
+        {m.map.boundaries.map((b) => (
+          <span class={b.dashed ? 'dashed' : ''}>{b.from}→{b.to} <b>{b.ja}</b></span>
+        ))}
+      </p>
+      {m.map.notes.map((n) => <p class="haid-note">{n}</p>)}
+    </section>
+
+    <section class="haid-card" aria-labelledby="haid-list-h">
+      <h2 id="haid-list-h">{m.list.heading}</h2>
+      <p class="haid-intro">{m.list.intro}</p>
+      {m.list.rows.map((row) => (
+        <>
+          {row.boundaryBefore && (
+            <div class="haid-boundary-row" role="separator" aria-label={`境目：${row.boundaryBefore.ja}`}>
+              <span>{row.boundaryBefore.from}→{row.boundaryBefore.to}</span>
+              <b>{row.boundaryBefore.ja}</b>
+            </div>
+          )}
+          {row.groupStart && (
+            <div class="haid-group">
+              <h3>{row.groupStart.ja}<span>{row.groupStart.tagline}</span></h3>
+              <span class="g">{row.groupStart.range}</span>
+            </div>
+          )}
+          <details class={`haid-row rel-${row.relation}`} id={row.id}>
+            <summary>
+              <span class="code">第 {row.level}</span>
+              <span class="name">{row.ja}</span>
+              <span class="track" aria-hidden="true">
+                {row.barPct !== null && row.atLeastCertainty !== 'none' && (
+                  <span class={`fill${row.atLeastCertainty === 'lower_bound' ? ' lower' : ''}`} style={`width:${Math.max(row.barPct, 0.8).toFixed(2)}%`}></span>
+                )}
+                {row.barPct !== null && row.atLeastCertainty === 'lower_bound' && (
+                  <span class="ext" style={`left:${Math.max(row.barPct, 0.8).toFixed(2)}%`}></span>
+                )}
+              </span>
+              <span class="val">
+                {row.atLeast && row.atLeastCertainty !== 'none' ? (
+                  <>
+                    <span class="v">{row.atLeast.value} {row.atLeast.unit}{row.atLeastCertainty === 'lower_bound' ? '+' : ''}</span>
+                    <span class="c">{row.atLeastRangeJa ?? row.atLeastCertaintyJa}</span>
+                  </>
+                ) : (
+                  <span class="chip">{row.atLeastCertaintyJa}</span>
+                )}
+              </span>
+            </summary>
+            <div class="haid-detail">
+              <div>
+                <h4>判定</h4>
+                <p>{row.criterionJa}（{row.windowJa}）</p>
+                <h4>{row.exactlyLabel}</h4>
+                <p>{row.exactly ? `${row.exactly.value} ${row.exactly.unit}人` : row.atLeastCertaintyJa}</p>
+                <h4>どう数えたか</h4>
+                <p>{row.methodJa} <span class={`chip ${row.atLeastCertainty === 'lower_bound' ? 'lower' : row.atLeastCertainty === 'range' ? 'range' : ''}`}>{row.atLeastCertaintyJa}</span></p>
+                <p class="def"><a href={row.definitionHref}>定義を見る ›</a></p>
+              </div>
+              <div>
+                {row.anchors.length > 0 && (
+                  <>
+                    <h4>使った数字</h4>
+                    <ol>
+                      {row.anchors.map((a) => (
+                        <li>
+                          <span class="src">{a.entityJa} {a.metricJa}</span>
+                          <span class="amt">{a.valueJa} ・ {a.asOf}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </>
+                )}
+              </div>
+            </div>
+          </details>
+        </>
+      ))}
+      <p class="haid-note">{m.list.levelsNote}</p>
+      <p class="haid-note">{m.list.paymentNote}</p>
+    </section>
+
+    <div class="haid-two">
+      <section class="haid-card" aria-labelledby="haid-delta-h">
+        <h2 id="haid-delta-h">{m.delta.heading}</h2>
+        <p class="haid-intro">{m.delta.body}</p>
+        {m.delta.rows.length > 0 && (
+          <div class="wrap-x" tabindex="0" role="region" aria-label="横スクロールできる表">
+            <table class="haid-anchors haid-delta">
+              <thead>
+                <tr><th>{m.delta.cols.level}</th><th>{m.delta.cols.previous}</th><th>{m.delta.cols.now}</th><th>{m.delta.cols.delta}</th></tr>
+              </thead>
+              <tbody>
+                {m.delta.rows.map((r) => (
+                  <tr class={`kind-${r.kind}`}>
+                    <td>第 {r.level} {r.ja}</td>
+                    <td class="num">{r.previous ? `${r.previous.value} ${r.previous.unit}` : '—'}</td>
+                    <td class="num">{r.now ? `${r.now.value} ${r.now.unit}` : '—'}</td>
+                    <td class={r.delta === null ? '' : 'num'}>{r.deltaJa}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+      <section class="haid-card" aria-labelledby="haid-anchors-h">
+        <h2 id="haid-anchors-h">{m.anchorsTable.heading}</h2>
+        <p class="haid-intro">{m.anchorsTable.intro}</p>
+        <div class="wrap-x" tabindex="0" role="region" aria-label="横スクロールできる表">
+          <table class="haid-anchors">
+            <thead>
+              <tr><th>数字</th><th>何の数字か</th><th>値</th><th>日付</th><th>等級</th></tr>
+            </thead>
+            <tbody>
+              {m.anchorsTable.rows.map((a) => (
+                <tr>
+                  <td>{a.sourceUrl ? <a href={a.sourceUrl} rel="noopener">{a.entityJa}</a> : a.entityJa}{a.placeholder && <> <span class="chip">未照合</span></>}</td>
+                  <td>{a.metricJa}</td>
+                  <td class="num">{a.valueJa}</td>
+                  <td class="dt">{a.asOf}</td>
+                  <td><span class="grade" title={a.gradeJa}>{a.grade}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <p class="haid-fact"><strong>{m.fact.label}</strong>{m.fact.body}</p>
+
+    <p class="haid-foot">
+      {HAID_RELEASE_FOOT_JA.basedOn} <a href={m.specHref}>{fillTemplate(HAID_RELEASE_FOOT_JA.spec, { version: m.specVersion })}</a> {HAID_RELEASE_FOOT_JA.basedOnTail}
+      {HAID_RELEASE_FOOT_JA.diagnosis} <a href={DIAGNOSIS_PATH}>{HAID_RELEASE_FOOT_JA.diagnosisLink}</a> {HAID_RELEASE_FOOT_JA.diagnosisTail}
+    </p>
+    <Footer />
+  </div>
+</BaseLayout>

@@ -568,6 +568,8 @@
 /abilities/visualization
 /about
 /aiadoption
+/aiadoption/2026-q2
+/aiadoption/2026-q3
 /answers
 /answers/ai-de-nakunaru-shigoto
 /answers/nenshu-ai-anzen
