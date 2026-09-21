@@ -10,6 +10,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Added
+
+- **HAID quarterly releases as data (aiadoption-1.1 / 1.2).** `/aiadoption`
+  is being rebuilt as the current-state page of HAID (人類と AI の距離). Each
+  quarter is one append-only directory `data/haid-release/<yyyy-qN>/`
+  (anchors, overlap rates, per-level N(≥k) with a HAID certainty) validated by
+  `src/data/schema/haid-release.ts`; the projection derives n(k) by nesting
+  and writes `data.haid-<release>.json` plus `data.haid-latest.json`, both
+  listed on `/data` (its JSON-LD `distribution` grew by two entries — baseline
+  refreshed). 2026-Q3 ships as a `draft` with placeholder anchors carried over
+  from the old 5-layer model; a `final` release refuses placeholders.
+
 ### Changed
 
 - **The site has one name: 「未来の仕事」.** It was already the nav brand, the
