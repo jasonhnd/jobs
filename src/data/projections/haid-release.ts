@@ -249,5 +249,27 @@ export async function buildHaidRelease(
   const latestPath = join(distRoot, 'data.haid-latest.json');
   await writeFile(latestPath, JSON.stringify(latestOut, null, 2) + '\n', 'utf-8');
   files.push(latestPath);
+  // The retired 5-layer model's file keeps its URL as a stub that points at
+  // the successor (owner ruling 2026-09-21: no redirect, no vercel.json change).
+  const stubPath = join(distRoot, RETIRED_AI_ADOPTION_FILE);
+  await writeFile(stubPath, JSON.stringify(retiredAiAdoptionStub(latest), null, 2) + '\n', 'utf-8');
+  files.push(stubPath);
   return { files, releases: ids, latest };
+}
+
+export const RETIRED_AI_ADOPTION_FILE = 'data.ai-adoption.json';
+
+/** What /data.ai-adoption.json serves after aiadoption-1.5. Shape is frozen; consumers should move on. */
+export function retiredAiAdoptionStub(latestRelease: string) {
+  return {
+    deprecated: true,
+    retired_on: '2026-09-22',
+    last_period: '2026-Q2',
+    last_model_version: '0.1.0',
+    successor: '/data.haid-latest.json',
+    successor_release: `/data.haid-${latestRelease}.json`,
+    standard: 'HAID',
+    standard_url: `https://mirai-shigoto.com${HAID_CANONICAL_PATH}`,
+    note: 'The 5-layer AI adoption model (深く使う/有料/無料/端末でふれる/未利用) was retired. Quarterly HAID releases replace it: ten nested levels, per-level certainty, anchors with grades.',
+  };
 }

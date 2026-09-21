@@ -17,7 +17,7 @@ import { SOP_LANDINGS, formatSopCitation } from '@/views/geo-answer-topics';
 
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
-// every new UTC day. See ai-adoption.ts for the data-derived equivalent.
+// every new UTC day. See src/data/projections/haid-release.ts (as_of from anchors) for the data-derived equivalent.
 // dateModified must track the data, not a calendar date typed once: this page
 // renders score-derived content, so it changes when a batch lands. The frozen
 // value also contradicted sitemapLastmods(), which reports the latest score
