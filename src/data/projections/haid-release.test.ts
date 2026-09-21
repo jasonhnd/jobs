@@ -160,7 +160,6 @@ describe('HAID release projection', () => {
       const r = await buildHaidRelease(out);
       assert.ok(r.releases.includes('2026-q3'));
       assert.equal(r.latest, r.releases.at(-1));
-      assert.equal(r.files.length, r.releases.length + 1);
       const latest = JSON.parse(await readFile(join(out, 'data.haid-latest.json'), 'utf-8'));
       assert.equal(latest.release, r.latest);
       assert.deepEqual(latest.releases, r.releases);
@@ -168,6 +167,11 @@ describe('HAID release projection', () => {
       assert.equal(latest.previous, '2026-q2');
       assert.equal(latest.round, r.releases.length);
       assert.equal(latest.previous_levels.length, 10);
+      const stub = JSON.parse(await readFile(join(out, 'data.ai-adoption.json'), 'utf-8'));
+      assert.equal(stub.deprecated, true);
+      assert.equal(stub.successor, '/data.haid-latest.json');
+      assert.equal(stub.successor_release, `/data.haid-${r.latest}.json`);
+      assert.equal(r.files.length, r.releases.length + 2, 'one per release + latest + the retired stub');
       const q3 = JSON.parse(await readFile(join(out, 'data.haid-2026-q3.json'), 'utf-8'));
       assert.equal(q3.population, 8_300_000_000);
       const sum = q3.levels.reduce((acc: number, l: { n: { display: number | null } }) => acc + (l.n.display ?? 0), 0);
