@@ -17,7 +17,7 @@ export const siteConfig = {
   /** Canonical absolute origin (no trailing slash). */
   origin: 'https://mirai-shigoto.com',
   /** Open Graph `og:site_name` + screen-reader-friendly site label. */
-  siteName: '未来の仕事', // the brand: nav, <title> suffix, WebSite schema, breadcrumb roots, og:site_name. 「日本の職業 AI 影響マップ」 is the tagline, not the name (owner, 2026-09-21)
+  siteName: '未来の仕事', // the brand — nav, title suffix, WebSite schema, breadcrumb roots, share-card name. The tagline (home kicker, README) is not the name (owner, 2026-09-21)
   /** `<html lang="…">` value. */
   htmlLang: 'ja',
   /** `og:locale` value (BCP 47-style with underscore per OG spec). */
