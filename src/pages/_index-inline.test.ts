@@ -30,7 +30,6 @@ test('home reapplies only the latest queued query before the loaded treemap is r
 
 test('home shows one decimal everywhere a score is printed, via fmtRisk (design-1.21)', () => {
   // The treemap tile sub-info and the TOP10 pill both go through fmtRisk.
-  assert.match(source, /return d\.ai_risk != null \? fmtRisk\(d\.ai_risk\) \+ "\/10" : "";/);
   assert.match(source, /const scoreLabel = \(rec\.ai_risk != null\) \? fmtRisk\(rec\.ai_risk\) : "—";/);
   // The hover tooltip's AI リスク row (was `d.ai_risk + "/10"` — 4.266666666666667/10 on screen).
   assert.match(source, /\? fmtRisk\(d\.ai_risk\) \+ "\/10" \+ \(riskPctTop/);
@@ -52,6 +51,14 @@ test('home fmtRisk is banker\'s rounding over the exact double, like displayScor
   }
   assert.equal(fmtRisk('abc'), '0');
   assert.equal(fmtRisk(null), '0');
+});
+
+test('home treemap tiles are drawn like /map cells: 2px gap, 6px corners, 12px/600 label, whole name or nothing (§5.7)', () => {
+  assert.match(source, /const MARGIN = 4, GAP = 2, TILE_RADIUS = 6, TILE_PAD_X = 8, TILE_PAD_Y = 6;/);
+  assert.match(source, /const TILE_FONT = "600 12px " \+ \(readRootToken\("--font-sans"/);
+  assert.match(source, /ctx\.measureText\(label\)\.width <= rw - TILE_PAD_X \* 2/);
+  assert.doesNotMatch(source, /ctx\.clip\(\)/); // no clipped labels any more
+  assert.doesNotMatch(source, /function tileSubInfo/); // the value lives in the tooltip
 });
 
 test('home treemap labels take the per-band foreground from :root (§2.3 タイル前景)', () => {

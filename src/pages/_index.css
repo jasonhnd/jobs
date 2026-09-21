@@ -543,8 +543,8 @@
       #tileHighlight {
         position: absolute;
         pointer-events: none;
-        border: 2px solid #fff;
-        border-radius: 2px;
+        border: 2px solid var(--paper);
+        border-radius: var(--r-sm); /* the tiles are 6px-cornered like /map's cells */
         background: color-mix(in srgb, var(--paper) 8%, transparent);
         display: none;
         will-change: transform, width, height;
