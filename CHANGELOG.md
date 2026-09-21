@@ -10,6 +10,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Changed
+
+- **`/aiadoption` is now the HAID current-state page (aiadoption-1.3).** The
+  5-layer 「世界の AI 利用率モニター」 (dot matrix, line chart, formula blocks)
+  is replaced by one object: a treemap of humanity — area = people, four
+  relation columns left → right = far → near AI, the three HAID boundaries
+  drawn thick (dashed next to a 下限のみ level), `#dan-<k>` highlights a level
+  for the diagnosis page to land on — followed by the N(≥k) list (rows are
+  `<details>`), 前回との変動, the anchor table and a quotable fact block. Zero
+  inline JS; page-local CSS is token-only. Title, description, OG and JSON-LD
+  (`Dataset` with `variableMeasured` per level) change accordingly — baseline
+  refreshed. The 2026-Q3 release is a draft and says so.
+
 ### Added
 
 - **HAID quarterly releases as data (aiadoption-1.1 / 1.2).** `/aiadoption`
