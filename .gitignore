@@ -32,6 +32,8 @@ desktop.ini
 .cursor/*
 !.cursor/environment.json
 !.cursor/install.sh
+!.cursor/agents/
+!.cursor/agents/**
 .codeium/
 .continue/
 .aider*
