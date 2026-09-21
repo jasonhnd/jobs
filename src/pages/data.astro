@@ -62,6 +62,8 @@ const ENDPOINTS: Endpoint[] = [
   { path: '/data.transfer_paths.json', desc: '職業間の転職パス推薦（スキル重複ベース）', shape: 'JSON' },
   { path: '/data.ai-adoption.json', desc: 'AI 採用率ダッシュボード（/aiadoption）の層別データ', shape: 'JSON' },
   { path: '/data.haid-spec.json', desc: 'HAID 10 段階（/haid）の定義・4 つの関係・3 つの境目・用語・境界事例。数字は含まない', shape: 'JSON' },
+  { path: '/data.haid-latest.json', desc: 'HAID の最新の四半期リリース（/aiadoption）。段階ごとの N(≥k)・n(k)・確度・錨点・重なり率', shape: 'JSON' },
+  { path: '/data.haid-{release}.json', desc: '四半期ごとの HAID リリース（release は yyyy-qN、例 /data.haid-2026-q3.json）。過去の回は書き換えない', shape: 'JSON × 回数' },
   { path: '/data.me-positions.json', desc: '各ランキングでの職業ごとの順位', shape: 'JSON' },
   { path: '/data.score_history.json', desc: '採点バッチ履歴（/models のモデル比較に使用）', shape: 'JSON' },
 ];

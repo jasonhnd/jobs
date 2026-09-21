@@ -555,6 +555,8 @@ data.detail/0581.json
 data.detail/0582.json
 data.detail/0583.json
 data.detail/0584.json
+data.haid-2026-q3.json
+data.haid-latest.json
 data.haid-spec.json
 data.holland.json
 data.labels/ja.json
