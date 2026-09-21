@@ -150,6 +150,20 @@ export const AI_ADOPTION_CSS = `
 .haid-page .haid-detail li .amt { color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .haid-page .haid-detail .def { font-size: var(--t-sm); }
 
+/* ── 数字の出どころと計算 ── */
+.haid-page .haid-rules { margin: 0 0 var(--s-4); padding-left: var(--s-5); color: var(--ink); font-size: var(--t-sm); line-height: var(--lh-body); }
+.haid-page .haid-rules li { margin: 0 0 var(--s-1); }
+.haid-page .haid-prov { display: grid; grid-template-columns: 200px minmax(0, 1fr) 96px 260px; font-size: var(--t-sm); }
+.haid-page .haid-prov-head, .haid-page .haid-prov-row { display: contents; }
+.haid-page .haid-prov-head span { padding: var(--s-1) var(--s-2); color: var(--ink-meta); font-weight: 600; border-bottom: 1px solid var(--line); }
+.haid-page .haid-prov-row span { padding: var(--s-2); border-bottom: 1px solid var(--line); line-height: var(--lh-dense); color: var(--ink); }
+.haid-page .haid-prov-row .pl b { font-weight: 700; margin-right: var(--s-1); }
+.haid-page .haid-prov-row .pl .chip { margin-left: var(--s-2); }
+.haid-page .haid-prov-row .pf .line { display: block; font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--ink); }
+.haid-page .haid-prov-row .pf .line + .line { margin-top: var(--s-1); color: var(--ink-2); font-family: var(--font-sans); }
+.haid-page .haid-prov-row .pa, .haid-page .haid-prov-row .pn { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.haid-page .haid-prov-row.cert-none span { color: var(--ink-meta); }
+
 /* ── two-up: delta + anchors ── */
 .haid-page .haid-two { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--s-5); }
 .haid-page .haid-two .haid-card { margin: 0; }
@@ -173,6 +187,13 @@ export const AI_ADOPTION_CSS = `
 @media (max-width: 899px) {
   .haid-page .haid-two { grid-template-columns: 1fr; }
   .haid-page .haid-detail { grid-template-columns: 1fr; }
+  .haid-page .haid-prov { display: block; }
+  .haid-page .haid-prov-head { display: none; }
+  .haid-page .haid-prov-row { display: block; padding: var(--s-2) 0; border-bottom: 1px solid var(--line); }
+  .haid-page .haid-prov-row span { display: block; padding: 0; border-bottom: 0; }
+  .haid-page .haid-prov-row .pf { margin: var(--s-1) 0; }
+  .haid-page .haid-prov-row .pa::before { content: "N(≥k) = "; color: var(--ink-meta); font-family: var(--font-sans); }
+  .haid-page .haid-prov-row .pa, .haid-page .haid-prov-row .pn { white-space: normal; }
 }
 @media (max-width: 599px) {
   .haid-page { padding: var(--s-4) var(--gutter) var(--s-7); }

@@ -9,6 +9,7 @@ import {
   HaidReleaseFileSchema,
   loadHaidRelease,
   validateHaidRelease,
+  windowFits,
   type HaidAnchor,
   type HaidRelease,
 } from './haid-release.js';
@@ -32,8 +33,7 @@ function anchor(overrides: Partial<HaidAnchor> & Pick<HaidAnchor, 'id' | 'value'
 }
 
 function fixture(): HaidRelease {
-  const triple = (v: number) => ({ low: v, mid: v, high: v });
-  const none = { certainty: 'none' as const, n_at_least: null, anchors: [], method_ja: 'なし' };
+  const none = { certainty: 'none' as const, method: 'none' as const, anchors: [], method_ja: 'なし' };
   return {
     anchors: [
       anchor({ id: 'pop', value: 8_000_000_000, grade: 'A', window: 'state' }),
@@ -59,12 +59,12 @@ function fixture(): HaidRelease {
       population_anchor: 'pop',
       previous: null,
       levels: {
-        '1': { certainty: 'measured', n_at_least: triple(8_000_000_000), anchors: ['pop'], method_ja: '総人口' },
-        '2': { certainty: 'measured', n_at_least: triple(6_000_000_000), anchors: ['net'], method_ja: 'インターネット' },
-        '3': { certainty: 'lower_bound', n_at_least: { low: 2_000_000_000, mid: null, high: null }, anchors: ['shown'], method_ja: '下限' },
-        '4': { certainty: 'range', n_at_least: { low: 1_000_000_000, mid: 1_050_000_000, high: 1_500_000_000 }, anchors: ['a', 'b'], overlap: 'level_4', method_ja: '幅' },
-        '5': { certainty: 'lower_bound', n_at_least: { low: 800_000_000, mid: null, high: null }, anchors: ['w'], method_ja: '下限' },
-        '6': { certainty: 'lower_bound', n_at_least: { low: 30_000_000, mid: null, high: null }, anchors: ['agent'], method_ja: '下限' },
+        '1': { certainty: 'measured', method: 'single', anchors: ['pop'], method_ja: '総人口' },
+        '2': { certainty: 'measured', method: 'single', anchors: ['net'], method_ja: 'インターネット' },
+        '3': { certainty: 'lower_bound', method: 'max_single', anchors: ['shown'], method_ja: '下限' },
+        '4': { certainty: 'range', method: 'sum_minus_overlap', anchors: ['a', 'b'], overlap: 'level_4', method_ja: '幅' },
+        '5': { certainty: 'lower_bound', method: 'max_single', anchors: ['w'], method_ja: '下限' },
+        '6': { certainty: 'lower_bound', method: 'max_single', anchors: ['agent'], method_ja: '下限' },
         '7': none, '8': none, '9': none, '10': none,
       },
       payment: { certainty: 'none', count: null, anchors: [], method_ja: 'なし' },
@@ -77,15 +77,31 @@ describe('HAID release schema', () => {
     assert.deepEqual(validateHaidRelease(fixture()), []);
   });
 
-  test('level input shape follows the certainty', () => {
+  test('the method decides the certainty and the anchor count', () => {
     const ok = (v: unknown) => HaidLevelInputSchema.safeParse(v).success;
-    assert.equal(ok({ certainty: 'none', n_at_least: null, anchors: [], method_ja: 'x' }), true);
-    assert.equal(ok({ certainty: 'none', n_at_least: { low: 1, mid: null, high: null }, anchors: [], method_ja: 'x' }), false);
-    assert.equal(ok({ certainty: 'lower_bound', n_at_least: { low: 1, mid: null, high: null }, anchors: ['a'], method_ja: 'x' }), true);
-    assert.equal(ok({ certainty: 'lower_bound', n_at_least: { low: 1, mid: 2, high: null }, anchors: ['a'], method_ja: 'x' }), false);
-    assert.equal(ok({ certainty: 'range', n_at_least: { low: 3, mid: 2, high: 4 }, anchors: ['a'], method_ja: 'x' }), false);
-    assert.equal(ok({ certainty: 'measured', n_at_least: { low: 1, mid: 1, high: 2 }, anchors: ['a'], method_ja: 'x' }), false);
-    assert.equal(ok({ certainty: 'measured', n_at_least: { low: 1, mid: 1, high: 1 }, anchors: [], method_ja: 'x' }), false);
+    assert.equal(ok({ certainty: 'none', method: 'none', anchors: [], method_ja: 'x' }), true);
+    assert.equal(ok({ certainty: 'none', method: 'none', anchors: ['a'], method_ja: 'x' }), false);
+    assert.equal(ok({ certainty: 'measured', method: 'single', anchors: ['a'], method_ja: 'x' }), true);
+    assert.equal(ok({ certainty: 'measured', method: 'single', anchors: ['a', 'b'], method_ja: 'x' }), false);
+    assert.equal(ok({ certainty: 'lower_bound', method: 'max_single', anchors: ['a'], method_ja: 'x' }), true);
+    assert.equal(ok({ certainty: 'range', method: 'max_single', anchors: ['a'], method_ja: 'x' }), false, 'max_single cannot yield range');
+    assert.equal(ok({ certainty: 'range', method: 'sum_minus_overlap', anchors: ['a', 'b'], overlap: 'level_4', method_ja: 'x' }), true);
+    assert.equal(ok({ certainty: 'range', method: 'sum_minus_overlap', anchors: ['a'], overlap: 'level_4', method_ja: 'x' }), false, 'needs two anchors');
+    assert.equal(ok({ certainty: 'range', method: 'sum_minus_overlap', anchors: ['a', 'b'], method_ja: 'x' }), false, 'needs an overlap');
+    assert.equal(ok({ certainty: 'measured', method: 'single', anchors: ['a'], overlap: 'level_4', method_ja: 'x' }), false);
+  });
+
+  test('anchor windows must fit the level window', () => {
+    assert.equal(windowFits('days_30', 'days_7'), true, 'weekly floors a monthly level');
+    assert.equal(windowFits('days_7', 'days_30'), false);
+    assert.equal(windowFits('itu_3m', 'state'), true);
+    assert.equal(windowFits('days_30', 'state'), false);
+    const f = fixture();
+    const bad: HaidRelease = {
+      ...f,
+      release: { ...f.release, levels: { ...f.release.levels, '5': { ...f.release.levels['5'], anchors: ['a'] } } },
+    };
+    assert.ok(validateHaidRelease(bad).some((p) => p.includes('level 5 (days_7) cannot use anchor a')));
   });
 
   test('exactly levels 1..10 are required, no extras', () => {
@@ -100,11 +116,11 @@ describe('HAID release schema', () => {
     const f = fixture();
     const wrongId: HaidRelease = { ...f, release: { ...f.release, population_anchor: 'nope' } };
     assert.ok(validateHaidRelease(wrongId).some((p) => p.includes('population_anchor')));
-    const wrongValue: HaidRelease = {
+    const wrongAnchor: HaidRelease = {
       ...f,
-      release: { ...f.release, levels: { ...f.release.levels, '1': { ...f.release.levels['1'], n_at_least: { low: 1, mid: 1, high: 1 } } } },
+      release: { ...f.release, levels: { ...f.release.levels, '1': { ...f.release.levels['1'], anchors: ['net'] } } },
     };
-    assert.ok(validateHaidRelease(wrongValue).some((p) => p.includes('level 1')));
+    assert.ok(validateHaidRelease(wrongAnchor).some((p) => p.includes('level 1')));
   });
 
   test('unknown anchor and overlap references are reported', () => {

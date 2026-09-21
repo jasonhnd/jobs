@@ -36,6 +36,37 @@ export interface HaidReleaseLevelOut {
   anchors: string[];
   overlap: string | null;
   method_ja: string;
+  /** How N(≥k) was computed — every number the page prints comes from here. */
+  derivation: HaidDerivation;
+}
+
+export interface HaidDerivationTerm {
+  id: string;
+  entity_ja: string;
+  metric_ja: string;
+  value: number;
+  window: 'itu_3m' | 'days_30' | 'days_7' | 'state';
+  grade: 'A' | 'B' | 'C' | 'D';
+  /** true when a 7-day count serves a 30-day level (it is a floor). */
+  narrower_window: boolean;
+}
+
+export interface HaidDerivation {
+  method: 'single' | 'max_single' | 'sum_minus_overlap' | 'none';
+  terms: HaidDerivationTerm[];
+  /** largest single term, when terms exist */
+  max: number | null;
+  /** plain sum of terms, sum_minus_overlap only */
+  sum: number | null;
+  overlap_rate: number | null;
+  /** computed before nesting */
+  low: number | null;
+  mid: number | null;
+  high: number | null;
+  /** input display value before nesting; null for none */
+  computed: number | null;
+  /** N(≥k+1) the value was raised to, when nesting applied; null otherwise */
+  floored_to: number | null;
 }
 
 export interface HaidReleasePayload {
