@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-09-21T15:10:15.750Z",
-  "gitCommit": "0caf719ec041170bc1318bcfabc9a493b3acea8a",
-  "gitBranch": "feat/aiadoption-1.5-retire-old-model",
+  "capturedAt": "2026-09-21T15:15:39.511Z",
+  "gitCommit": "f91bf731b7cccc6daa6cba2299f0ba6f0917da77",
+  "gitBranch": "feat/aiadoption-1.6-provenance",
   "distFileCount": 841,
   "urlCount": 841,
   "dataFileCount": 616,

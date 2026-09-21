@@ -137,6 +137,23 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.equal(byLevel[7].kind, 'none');
   });
 
+  test('数字の出どころと計算 prints one formula per level from the derivation trace', () => {
+    const rows = model.provenance.rows;
+    assert.equal(rows.length, 10);
+    assert.equal(model.provenance.rules.length, 6);
+    const by = Object.fromEntries(rows.map((r) => [r.level, r]));
+    assert.equal(by[1].lines[0], '世界人口 総人口 = 83 億');
+    assert.equal(by[1].exactlyJa, 'n(1) = 83 億 − 61 億 = 22 億');
+    assert.ok(by[3].lines[0].startsWith('最大の 1 社 = Google 検索の AI による概要 月間利用者 = 20 億'), by[3].lines[0]);
+    assert.equal(by[3].atLeastJa, '20 億+');
+    assert.equal(by[4].lines[0], '低 = 最大の 1 社 = 10 億　高 = 8 億 + 6.5 億 + 10 億 = 25 億　中 = 25 億 × (1 − 0.38) = 15 億');
+    assert.ok(by[4].lines.some((l) => l.includes('ChatGPT 週間利用者 は 7 日口径')), by[4].lines.join('|'));
+    assert.equal(by[4].exactlyJa, 'n(4) = 15 億 − 8 億 = 7.2 億');
+    assert.equal(by[7].lines[0], '公表値なし。');
+    assert.equal(by[7].atLeastJa, '—');
+    assert.equal(by[7].exactlyJa, '—');
+  });
+
   test('an archived release is not latest and gets its own canonical', () => {
     const q2: HaidReleasePayload = JSON.parse(readFileSync(join(process.cwd(), 'public', 'data.haid-2026-q2.json'), 'utf-8'));
     const a = buildHaidReleasePageModel(q2, HAID_LEVELS_NOTE_JA, { '2026-q3': '2026 年 第 3 四半期' });
@@ -148,6 +165,10 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.equal(a.map.columns[1].cells.find((c) => c.level === 3)?.hatched, true, 'Q2 level 3 is データなし inside the 道具 column');
     assert.equal(a.map.columns[1].cells.find((c) => c.level === 5)?.people, null);
     assert.ok(a.fact.body.includes('第 5 段階以上はこの回は公開データなし'), a.fact.body);
+    const p3 = a.provenance.rows.find((r) => r.level === 3)!;
+    assert.equal(p3.lines[0], '公表値なし。');
+    assert.ok(p3.lines[1].startsWith('N(≥4) = 21 億 を下回れないため'), p3.lines[1]);
+    assert.equal(p3.atLeastJa, '—');
     assert.ok(!a.fact.body.includes('3,000 万'));
   });
 
