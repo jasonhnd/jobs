@@ -12,6 +12,30 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **Non-production hosts are withheld from search indexes.** The middleware
+  now stamps `X-Robots-Tag: noindex, nofollow` on every response whose
+  request `Host` is not `mirai-shigoto.com`. Verified 2026-09-21:
+  `pre.mirai-shigoto.com` served robots.txt `Allow: /` and
+  `<meta name="robots" content="index, follow">`, and Google had already
+  picked up `pre.mirai-shigoto.com/data` — a complete 839-URL mirror
+  competing with the canonical host.
+  Decided per request rather than at build time, for two reasons. Astro
+  loads `.env.local` into the build and this repo's own `.env.local`
+  carries `VERCEL=1` and `VERCEL_ENV="preview"` (it comes from
+  `vercel env pull`), so no build-time env signal distinguishes a local
+  build from a preview one. And `capture:seo-baseline` runs locally, so a
+  build-time noindex would bake `noindex` into
+  `tests/baseline/seo-metadata.jsonl` for all 839 pages and make
+  `verify:gates` drift against every production build. Deciding at the edge
+  leaves the static HTML, and therefore the baseline, untouched — verified
+  clean.
+  Allow-list, not deny-list: only the exact production host is indexable, so
+  every preview URL, `*.vercel.app` deployment URL and future alias is
+  covered without enumeration, and a missing or malformed `Host` is withheld
+  too. Applied only to `next()` / `rewrite()` results — `Response.redirect()`
+  headers are immutable per the Fetch spec, and a redirect is not indexed
+  anyway.
+
 - **Four ranking pages withheld from search.** `self-employed-typical`,
   `freelance-friendly`, `ai-safe-young-workforce` and `ai-safe-short-hours`
   now render `noindex, follow`. GSC 2026-08-22 → 09-19: the 40 ranking pages
