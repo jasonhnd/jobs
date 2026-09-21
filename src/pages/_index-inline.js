@@ -106,7 +106,9 @@
         });
       }
       let dpr = window.devicePixelRatio || 1;
-      const MARGIN = 4, GAP = 1;
+      // Tile geometry, the same as /map's DOM cells: a 2px gap (rect.w - 2 there),
+      // 6px corners (--r-sm), 6px/8px inner padding for the label.
+      const MARGIN = 4, GAP = 2, TILE_RADIUS = 6, TILE_PAD_X = 8, TILE_PAD_Y = 6;
       const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
 
       // Build the per-occupation URL. v1.4.0: JA-only. Keep the ID 404
@@ -399,32 +401,33 @@
         rects = squarify(items, MARGIN, MARGIN, w - MARGIN * 2, h - MARGIN * 2);
       }
 
-      function tileSubInfo(d) {
-        if (layer === "salary") return d.salary != null ? d.salary + "万円" : "";
-        if (layer === "age") return d.age != null ? d.age + "歳" : "";
-        if (layer === "hours") return d.hours != null ? d.hours + "h" : "";
-        if (layer === "recruit_ratio") return d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) + "x" : "";
-        if (layer === "education") {
-          const idx = dominantEduIdx(d.education_pct || {});
-          if (idx < 0) return "";
-          return EDU_LABELS[idx];
-        }
-        if (layer === "ai_risk") return d.ai_risk != null ? fmtRisk(d.ai_risk) + "/10" : "";
-        return "";
-      }
 
+      // Rounded tile path; roundRect is Chrome 99+/Safari 16+/Firefox 112+, with a
+      // manual-arc fallback for anything older.
+      function tilePath(x, y, w, h, rad) {
+        const rr = Math.min(rad, w / 2, h / 2);
+        ctx.beginPath();
+        if (typeof ctx.roundRect === "function") { ctx.roundRect(x, y, w, h, rr); return; }
+        ctx.moveTo(x + rr, y);
+        ctx.arcTo(x + w, y, x + w, y + h, rr);
+        ctx.arcTo(x + w, y + h, x, y + h, rr);
+        ctx.arcTo(x, y + h, x, y, rr);
+        ctx.arcTo(x, y, x + w, y, rr);
+        ctx.closePath();
+      }
+      // The label is drawn exactly as /map's .cell .name: --t-xs (12px) at 600 in
+      // --font-sans, bottom-left inside the 6/8 padding, with the same 1px text
+      // shadow, and only when the whole name fits (§5.7 — no clipping, no
+      // ellipsis). Read once; the tokens live on :root.
+      const TILE_FONT = "600 12px " + (readRootToken("--font-sans", "") || "-apple-system, system-ui, sans-serif");
+      const TILE_LINE_H = 12 * 1.4;
       function draw() {
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        // Design.md §5.5: theme-aware bg matches site --bg so canvas seam is invisible.
-        ctx.fillStyle = isLightThemeNow() ? "#fafafa" : "#0b0d10";
+        // Design.md §5.5: the gaps between tiles show the page canvas, so the
+        // canvas is painted in --bg (cream), not an approximation of it.
+        ctx.fillStyle = isLightThemeNow() ? (readRootToken("--bg", "#FAF6EE")) : "#0b0d10";
         ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
-        const isMobile = window.innerWidth < 768;
-        const labelMinW = isMobile ? 30 : 50;
-        const labelMinH = isMobile ? 14 : 18;
-        const subInfoMinW = isMobile ? 50 : 70;
-        const subInfoMinH = isMobile ? 26 : 32;
-        const fontMin = isMobile ? 8 : 9;
-        const fontMax = isMobile ? 12 : 13;
+        ctx.font = TILE_FONT;
         for (const r of rects) {
           const isDimmed = dimmedIds && !dimmedIds.has(r.id);
           // Hover/select indication is handled by the #tileHighlight overlay,
@@ -438,28 +441,26 @@
           const rx = r.rx + g, ry = r.ry + g, rw = r.rw - g * 2, rh = r.rh - g * 2;
           if (rw <= 0 || rh <= 0) continue;
           ctx.fillStyle = tileColorCSS(r, baseAlpha);
-          ctx.fillRect(rx, ry, rw, rh);
-          if (rw > labelMinW && rh > labelMinH && !isDimmed) {
-            ctx.save(); ctx.beginPath(); ctx.rect(rx + 3, ry + 2, rw - 6, rh - 4); ctx.clip();
-            const fontSize = Math.min(fontMax, Math.max(fontMin, Math.min(rw / 8, rh / 3)));
-            ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
-            // Design.md §2.3 タイル前景 / §2.2: the label is text on the tile's
-            // own colour and needs 4.5:1 — opaque, per band (white on the two
-            // dark ends, --ink on the three light-to-mid bands), same rule as
-            // /map. The sub-info line is text too, so it gets the same colour
-            // and is told apart by size and weight only.
-            const labelFg = tileLabelFg(r);
-            ctx.fillStyle = labelFg;
-            ctx.textBaseline = "top";
-            const label = r.name_ja;
-            ctx.fillText(label, rx + 4, ry + 3);
-            if (rh > subInfoMinH && rw > subInfoMinW) {
-              ctx.font = `400 ${Math.max(fontMin - 1, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
-              ctx.fillStyle = labelFg;
-              ctx.fillText(tileSubInfo(r), rx + 4, ry + 3 + fontSize + 2);
-            }
-            ctx.restore();
-          }
+          tilePath(rx, ry, rw, rh, TILE_RADIUS);
+          ctx.fill();
+          if (isDimmed) continue;
+          // Whole name or nothing (§5.7): it must fit inside the padding on both
+          // axes. The tooltip carries the name and the score for every tile.
+          const label = r.name_ja;
+          const fits = rh >= TILE_LINE_H + TILE_PAD_Y * 2 && ctx.measureText(label).width <= rw - TILE_PAD_X * 2;
+          if (!fits) continue;
+          // Design.md §2.3 タイル前景 / §2.2: opaque per-band foreground (white on
+          // the two dark ends, --ink on the three light-to-mid bands), and the
+          // shadow flips with it — the same pair /map's .cell .name uses.
+          const labelFg = tileLabelFg(r);
+          const onInk = labelFg.toLowerCase() === MAP_LABEL_FG[1].toLowerCase();
+          ctx.save();
+          ctx.shadowColor = onInk ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.25)";
+          ctx.shadowBlur = 2; ctx.shadowOffsetY = 1;
+          ctx.fillStyle = labelFg;
+          ctx.textBaseline = "alphabetic";
+          ctx.fillText(label, rx + TILE_PAD_X, ry + rh - TILE_PAD_Y - (TILE_LINE_H - 12) / 2 - 2);
+          ctx.restore();
         }
       }
 
