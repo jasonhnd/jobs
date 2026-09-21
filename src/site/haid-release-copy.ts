@@ -58,6 +58,31 @@ export const HAID_RELEASE_LIST_JA = {
   paymentNone: '今回は公表値がないため報告しません。',
 } as const;
 
+/** 数字の出どころと計算 — every N(≥k) with its arithmetic. */
+export const HAID_RELEASE_PROVENANCE_JA = {
+  heading: '数字の出どころと計算',
+  intro: '各段階の「第 k 段階以上にいる人数」N(≥k) は、公開されている数字から次の規則で出しています。式の中の数字は公表値そのままで、丸めるのは表示のときだけです。',
+  rules: [
+    '錨点が 1 つの段階は、その公表値をそのまま使う。',
+    '錨点が複数あって重なりが分からない段階は、最大の 1 社を下限とする。',
+    '第 4・5 段階だけは幅で示す。低 = 最大の 1 社、高 = 単純合計、中 = 合計 × (1 − 重なり率)。',
+    '7 日口径の公表値を 30 日口径の段階に使うときは、そのまま下限として数える（週に使う人は月にも使う）。',
+    '上の段階は下の段階を含むため、N(≥k) が N(≥k+1) を下回ったときは N(≥k+1) に合わせる。',
+    'ちょうどその段階にいる人数は n(k) = N(≥k) − N(≥k+1)。n(1) から n(10) の合計は総人口に一致する。',
+  ],
+  single: '{term} = {value}',
+  maxSingle: '最大の 1 社 = {maxTerm} = {max}（{count} 件のうち）',
+  sumRange: '低 = 最大の 1 社 = {max}　高 = {termsSum} = {sum}　中 = {sum} × (1 − {rate}) = {mid}',
+  weeklyFloor: '{term} は 7 日口径。30 日口径ではこれ以上。',
+  floored: 'N(≥{next}) = {nextValue} を下回れないため、{nextValue} に合わせた。',
+  none: '公表値なし。',
+  exactly: 'n({k}) = {a} − {b} = {n}',
+  colLevel: '段階',
+  colFormula: '式',
+  colAtLeast: 'N(≥k)',
+  colExactly: 'n(k)',
+} as const;
+
 /** 前回との変動. */
 export const HAID_RELEASE_DELTA_JA = {
   heading: '前回との変動',

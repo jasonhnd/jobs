@@ -37,12 +37,17 @@ import {
 import {
   HAID_RELEASE_ROOT,
   loadHaidRelease,
+  type HaidAnchor,
+  type HaidLevelInput,
+  type HaidOverlap,
   type HaidRelease,
   type HaidReleaseCertainty,
   type HaidTriple,
 } from '../schema/haid-release.js';
 import {
   HAID_RELEASE_BASE_PATH,
+  type HaidDerivation,
+  type HaidDerivationTerm,
   type HaidLatestPayload,
   type HaidPreviousLevel,
   type HaidReleaseLevelOut,
@@ -70,15 +75,53 @@ function weaker(a: HaidReleaseCertainty, b: HaidReleaseCertainty): HaidReleaseCe
   return CERTAINTY_RANK[a] >= CERTAINTY_RANK[b] ? a : b;
 }
 
-function displayOf(certainty: HaidReleaseCertainty, t: HaidTriple | null): number | null {
-  if (t === null) return null;
-  switch (certainty) {
-    case 'lower_bound':
-      return t.low;
+interface Computed {
+  readonly triple: HaidTriple | null;
+  readonly derivation: HaidDerivation;
+}
+
+/** The arithmetic behind N(≥k). Every branch is spelled out so the page can print it. */
+export function computeLevel(
+  lv: HaidLevelInput,
+  levelWindow: string,
+  anchorById: ReadonlyMap<string, HaidAnchor>,
+  overlap: HaidOverlap,
+): Computed {
+  const terms: HaidDerivationTerm[] = lv.anchors.map((id) => {
+    const a = anchorById.get(id);
+    if (!a) throw new Error(`[haid-release] unknown anchor ${id}`);
+    return {
+      id: a.id,
+      entity_ja: a.entity_ja,
+      metric_ja: a.metric_ja,
+      value: a.value,
+      window: a.window,
+      grade: a.grade,
+      narrower_window: levelWindow === 'days_30' && a.window === 'days_7',
+    };
+  });
+  const values = terms.map((t) => t.value);
+  const max = values.length ? Math.max(...values) : null;
+  const base = { method: lv.method, terms, max, sum: null, overlap_rate: null, floored_to: null } as const;
+  switch (lv.method) {
     case 'none':
-      return null;
-    default:
-      return t.mid;
+      return { triple: null, derivation: { ...base, low: null, mid: null, high: null, computed: null } };
+    case 'single': {
+      const v = values[0];
+      return { triple: { low: v, mid: v, high: v }, derivation: { ...base, low: v, mid: v, high: v, computed: v } };
+    }
+    case 'max_single':
+      return { triple: { low: max, mid: null, high: null }, derivation: { ...base, low: max, mid: null, high: null, computed: max } };
+    case 'sum_minus_overlap': {
+      const o = lv.overlap ? overlap[lv.overlap] : null;
+      if (!o) throw new Error('[haid-release] sum_minus_overlap without an overlap rate');
+      const sum = values.reduce((a, b) => a + b, 0);
+      const mid = Math.round(sum * (1 - o.rate));
+      return {
+        triple: { low: max, mid, high: sum },
+        derivation: { ...base, sum, overlap_rate: o.rate, low: max, mid, high: sum, computed: mid },
+      };
+    }
   }
 }
 
@@ -95,16 +138,18 @@ export function buildHaidReleasePayload(
   }
   const round = context.releases.indexOf(release.release) + 1;
   if (round === 0) throw new Error(`[haid-release] ${release.release} is not in the release list`);
-  const population = release.levels['1'].n_at_least?.mid;
-  if (population === null || population === undefined || population <= 0) {
-    throw new Error('[haid-release] level 1 must carry the population');
-  }
+  const anchorById = new Map(anchors.map((a) => [a.id, a]));
 
-  // 1. display values, then clamp by nesting from the top down.
+  // 1. compute N(≥k) from the anchors per method, then clamp by nesting from the top down.
   const raw = HAID_LEVELS.map((spec) => {
     const lv = release.levels[String(spec.level)];
-    return { spec, lv, display: displayOf(lv.certainty, lv.n_at_least), clamped: false };
+    const c = computeLevel(lv, spec.window, anchorById, overlap);
+    return { spec, lv, triple: c.triple, derivation: c.derivation, display: c.derivation.computed, clamped: false };
   });
+  const population = raw[0].display;
+  if (population === null || population <= 0) {
+    throw new Error('[haid-release] level 1 must carry the population');
+  }
   for (let i = raw.length - 2; i >= 0; i -= 1) {
     const next = raw[i + 1].display;
     const here = raw[i].display;
@@ -114,6 +159,7 @@ export function buildHaidReleasePayload(
     if (here === null || here < next) {
       raw[i].display = next;
       raw[i].clamped = true;
+      raw[i].derivation = { ...raw[i].derivation, floored_to: next };
     }
   }
 
@@ -126,7 +172,7 @@ export function buildHaidReleasePayload(
     else if (r.spec.level === 2) nCert = 'residual';
     else nCert = weaker(r.lv.certainty, nextCert === 'none' ? 'measured' : nextCert);
     const nDisplay = r.display === null ? null : r.display - nextDisplay;
-    const t = r.lv.n_at_least;
+    const t = r.triple;
     return {
       level: r.spec.level,
       relation: r.spec.relation,
@@ -148,6 +194,7 @@ export function buildHaidReleasePayload(
       anchors: [...r.lv.anchors],
       overlap: r.lv.overlap ?? null,
       method_ja: r.lv.method_ja,
+      derivation: r.derivation,
     };
   });
 

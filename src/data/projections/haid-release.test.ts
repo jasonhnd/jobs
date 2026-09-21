@@ -24,8 +24,7 @@ function anchor(overrides: Partial<HaidAnchor> & Pick<HaidAnchor, 'id' | 'value'
 }
 
 function fixture(): HaidRelease {
-  const triple = (v: number) => ({ low: v, mid: v, high: v });
-  const none = { certainty: 'none' as const, n_at_least: null, anchors: [], method_ja: 'なし' };
+  const none = { certainty: 'none' as const, method: 'none' as const, anchors: [], method_ja: 'なし' };
   return {
     anchors: [
       anchor({ id: 'pop', value: 80, as_of: '2026-01-01', grade: 'A', window: 'state' }),
@@ -51,13 +50,14 @@ function fixture(): HaidRelease {
       population_anchor: 'pop',
       previous: null,
       levels: {
-        '1': { certainty: 'measured', n_at_least: triple(80), anchors: ['pop'], method_ja: '総人口' },
-        '2': { certainty: 'measured', n_at_least: triple(60), anchors: ['net'], method_ja: 'インターネット' },
-        // lower bound (10) below the level-4 estimate (15): nesting must clamp it up.
-        '3': { certainty: 'lower_bound', n_at_least: { low: 10, mid: null, high: null }, anchors: ['shown'], method_ja: '下限' },
-        '4': { certainty: 'range', n_at_least: { low: 12, mid: 15, high: 20 }, anchors: ['a'], overlap: 'level_4', method_ja: '幅' },
-        '5': { certainty: 'lower_bound', n_at_least: { low: 8, mid: null, high: null }, anchors: ['w'], method_ja: '下限' },
-        '6': { certainty: 'lower_bound', n_at_least: { low: 1, mid: null, high: null }, anchors: ['agent'], method_ja: '下限' },
+        '1': { certainty: 'measured', method: 'single', anchors: ['pop'], method_ja: '総人口' },
+        '2': { certainty: 'measured', method: 'single', anchors: ['net'], method_ja: 'インターネット' },
+        // lower bound (10) below the level-4 estimate (14): nesting must clamp it up.
+        '3': { certainty: 'lower_bound', method: 'max_single', anchors: ['shown'], method_ja: '下限' },
+        // a (12, monthly) + w (8, weekly floor) = 20; max 12; mid = 20 × 0.7 = 14
+        '4': { certainty: 'range', method: 'sum_minus_overlap', anchors: ['a', 'w'], overlap: 'level_4', method_ja: '幅' },
+        '5': { certainty: 'lower_bound', method: 'max_single', anchors: ['w'], method_ja: '下限' },
+        '6': { certainty: 'lower_bound', method: 'max_single', anchors: ['agent'], method_ja: '下限' },
         '7': none, '8': none, '9': none, '10': none,
       },
       payment: { certainty: 'none', count: null, anchors: [], method_ja: 'なし' },
@@ -69,9 +69,10 @@ describe('HAID release projection', () => {
   test('display values nest: a level-3 lower bound below level 4 is clamped and recorded', () => {
     const p = buildHaidReleasePayload(fixture());
     const l3 = p.levels[2];
-    assert.equal(l3.n_at_least.display, 15);
+    assert.equal(l3.n_at_least.display, 14);
     assert.equal(l3.n_at_least.clamped, true);
-    assert.equal(l3.n_at_least.low, 10, 'the input is kept as given');
+    assert.equal(l3.n_at_least.low, 10, 'the computed value is kept as computed');
+    assert.equal(l3.derivation.floored_to, 14);
     assert.equal(p.levels[3].n_at_least.clamped, false);
     for (let i = 0; i + 1 < p.levels.length; i += 1) {
       const a = p.levels[i].n_at_least.display;
@@ -86,7 +87,7 @@ describe('HAID release projection', () => {
     assert.equal(sum, p.population);
     const shares = p.levels.reduce((acc, l) => acc + (l.n.share ?? 0), 0);
     assert.ok(Math.abs(shares - 1) < 1e-12);
-    assert.deepEqual(p.levels.map((l) => l.n.display), [20, 45, 0, 7, 7, 1, null, null, null, null]);
+    assert.deepEqual(p.levels.map((l) => l.n.display), [20, 46, 0, 6, 7, 1, null, null, null, null]);
   });
 
   test('n(k) certainty: none stays none, level 2 is residual, otherwise the weaker side', () => {
@@ -95,6 +96,25 @@ describe('HAID release projection', () => {
       p.levels.map((l) => l.n.certainty),
       ['measured', 'residual', 'lower_bound', 'lower_bound', 'lower_bound', 'lower_bound', 'none', 'none', 'none', 'none'],
     );
+  });
+
+  test('the derivation trace spells out every method', () => {
+    const p = buildHaidReleasePayload(fixture());
+    const d4 = p.levels[3].derivation;
+    assert.equal(d4.method, 'sum_minus_overlap');
+    assert.deepEqual(d4.terms.map((t) => [t.id, t.value, t.narrower_window]), [['a', 12, false], ['w', 8, true]]);
+    assert.equal(d4.sum, 20);
+    assert.equal(d4.max, 12);
+    assert.equal(d4.overlap_rate, 0.3);
+    assert.deepEqual([d4.low, d4.mid, d4.high], [12, 14, 20]);
+    const d1 = p.levels[0].derivation;
+    assert.equal(d1.method, 'single');
+    assert.equal(d1.computed, 80);
+    const d6 = p.levels[5].derivation;
+    assert.equal(d6.method, 'max_single');
+    assert.equal(d6.max, 1);
+    assert.equal(p.levels[6].derivation.method, 'none');
+    assert.equal(p.levels[6].derivation.computed, null);
   });
 
   test('as_of is the latest cited anchor, ignoring uncited ones', () => {
@@ -123,11 +143,11 @@ describe('HAID release projection', () => {
 
   test('a データなし level between two data levels is floored to the next level, n = 0, certainty none', () => {
     const f = fixture();
-    f.release.levels['3'] = { certainty: 'none', n_at_least: null, anchors: [], method_ja: 'なし' };
+    f.release.levels['3'] = { certainty: 'none', method: 'none', anchors: [], method_ja: 'なし' };
     const p = buildHaidReleasePayload(f);
     const l3 = p.levels[2];
     assert.equal(l3.n_at_least.certainty, 'none');
-    assert.equal(l3.n_at_least.display, 15, 'floored to N(≥4)');
+    assert.equal(l3.n_at_least.display, 14, 'floored to N(≥4)');
     assert.equal(l3.n_at_least.clamped, true);
     assert.equal(l3.n.certainty, 'none');
     assert.equal(l3.n.display, 0);
@@ -147,7 +167,7 @@ describe('HAID release projection', () => {
     const second = buildHaidReleasePayload(g, { releases: ['2026-q3', '2026-q4'], previous: first });
     assert.equal(second.round, 2);
     assert.equal(second.previous_levels?.length, 10);
-    assert.equal(second.previous_levels?.[3].n_at_least_display, 15);
+    assert.equal(second.previous_levels?.[3].n_at_least_display, 14);
     assert.deepEqual(second.previous_levels?.[3].anchor_grades, ['B']);
     assert.deepEqual(second.previous_levels?.[6].anchor_grades, []);
     assert.throws(() => buildHaidReleasePayload(g, { releases: ['2026-q3', '2026-q4'], previous: null }), /no payload/);

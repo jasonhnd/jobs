@@ -243,6 +243,30 @@ const jsonLd = JSON.stringify({
       <p class="haid-note">{m.list.paymentNote}</p>
     </section>
 
+    <section class="haid-card" aria-labelledby="haid-prov-h">
+      <h2 id="haid-prov-h">{m.provenance.heading}</h2>
+      <p class="haid-intro">{m.provenance.intro}</p>
+      <ol class="haid-rules">
+        {m.provenance.rules.map((r) => <li>{r}</li>)}
+      </ol>
+      <div class="haid-prov" role="table" aria-label={m.provenance.heading}>
+        <div class="haid-prov-head" role="row">
+          <span role="columnheader">{m.provenance.cols.level}</span>
+          <span role="columnheader">{m.provenance.cols.formula}</span>
+          <span role="columnheader">{m.provenance.cols.atLeast}</span>
+          <span role="columnheader">{m.provenance.cols.exactly}</span>
+        </div>
+        {m.provenance.rows.map((r) => (
+          <div class={`haid-prov-row cert-${r.certainty}`} role="row">
+            <span class="pl" role="cell"><b>第 {r.level}</b> {r.ja}<span class={`chip ${r.certainty === 'lower_bound' ? 'lower' : r.certainty === 'range' ? 'range' : ''}`}>{r.certaintyJa}</span></span>
+            <span class="pf" role="cell">{r.lines.map((line) => <span class="line">{line}</span>)}</span>
+            <span class="pa" role="cell">{r.atLeastJa}</span>
+            <span class="pn" role="cell">{r.exactlyJa}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
     <div class="haid-two">
       <section class="haid-card" aria-labelledby="haid-delta-h">
         <h2 id="haid-delta-h">{m.delta.heading}</h2>

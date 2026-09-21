@@ -31,6 +31,7 @@ import {
   HAID_RELEASE_LIST_JA,
   HAID_RELEASE_MAP_NOTE_JA,
   HAID_RELEASE_META_JA,
+  HAID_RELEASE_PROVENANCE_JA,
   HAID_RELEASE_SEO_JA,
   fillTemplate,
 } from '../site/haid-release-copy.js';
@@ -130,9 +131,21 @@ export interface ReleaseSwitchItem {
   readonly latest: boolean;
 }
 
+export interface ProvenanceRow {
+  readonly level: number;
+  readonly ja: string;
+  readonly certainty: HaidReleaseCertainty;
+  readonly certaintyJa: string;
+  /** one line per step: the method's formula, a weekly-floor note, the nesting note */
+  readonly lines: readonly string[];
+  readonly atLeastJa: string;   // "15 億" / "20 億+" / "—"
+  readonly exactlyJa: string;   // "n(4) = 15 億 − 8 億 = 7.2 億" / "—"
+}
+
 export interface HaidReleasePageModel {
   readonly release: string;
   readonly round: number;
+  readonly provenance: { readonly heading: string; readonly intro: string; readonly rules: readonly string[]; readonly rows: readonly ProvenanceRow[]; readonly cols: { readonly level: string; readonly formula: string; readonly atLeast: string; readonly exactly: string } };
   readonly isLatest: boolean;
   readonly switcher: { readonly label: string; readonly items: readonly ReleaseSwitchItem[]; readonly permalink: string };
   readonly labelJa: string;
@@ -353,6 +366,49 @@ export function buildHaidReleasePageModel(
     })),
   };
 
+  // ── 数字の出どころと計算 ──
+  const provenanceRows: ProvenanceRow[] = HAID_LEVELS.map((spec, i) => {
+    const l = byLevel.get(spec.level)!;
+    const d = l.derivation;
+    const lines: string[] = [];
+    const P = HAID_RELEASE_PROVENANCE_JA;
+    switch (d.method) {
+      case 'single':
+        lines.push(fillTemplate(P.single, { term: `${d.terms[0].entity_ja} ${d.terms[0].metric_ja}`, value: formatPeopleJaText(d.terms[0].value, TABLE_SIG) }));
+        break;
+      case 'max_single': {
+        const maxTerm = d.terms.find((t) => t.value === d.max)!;
+        lines.push(fillTemplate(P.maxSingle, { maxTerm: `${maxTerm.entity_ja} ${maxTerm.metric_ja}`, max: formatPeopleJaText(d.max!, TABLE_SIG), count: String(d.terms.length) }));
+        break;
+      }
+      case 'sum_minus_overlap':
+        lines.push(fillTemplate(P.sumRange, {
+          max: formatPeopleJaText(d.max!, TABLE_SIG),
+          termsSum: d.terms.map((t) => formatPeopleJaText(t.value, TABLE_SIG)).join(' + '),
+          sum: formatPeopleJaText(d.sum!, TABLE_SIG),
+          rate: String(d.overlap_rate),
+          mid: formatPeopleJaText(d.mid!, TABLE_SIG),
+        }));
+        break;
+      case 'none':
+        lines.push(P.none);
+        break;
+    }
+    for (const t of d.terms) {
+      if (t.narrower_window) lines.push(fillTemplate(P.weeklyFloor, { term: `${t.entity_ja} ${t.metric_ja}` }));
+    }
+    if (d.floored_to !== null) {
+      lines.push(fillTemplate(P.floored, { next: String(spec.level + 1), nextValue: formatPeopleJaText(d.floored_to, TABLE_SIG) }));
+    }
+    const dv = l.n_at_least.display;
+    const atLeastJa = l.n_at_least.certainty === 'none' ? '—' : dv === null ? '—' : `${formatPeopleJaText(dv, TABLE_SIG)}${l.n_at_least.certainty === 'lower_bound' ? '+' : ''}`;
+    const nextDv = i + 1 < HAID_LEVELS.length ? byLevel.get(spec.level + 1)!.n_at_least.display ?? 0 : 0;
+    const exactlyJa = l.n.certainty === 'none' || dv === null || l.n.display === null
+      ? '—'
+      : fillTemplate(P.exactly, { k: String(spec.level), a: formatPeopleJaText(dv, TABLE_SIG), b: formatPeopleJaText(nextDv, TABLE_SIG), n: formatPeopleJaText(l.n.display, TABLE_SIG) });
+    return { level: spec.level, ja: spec.ja, certainty: l.n_at_least.certainty, certaintyJa: HAID_CERTAINTY_JA[l.n_at_least.certainty], lines, atLeastJa, exactlyJa };
+  });
+
   // ── 前回との変動 ──
   const prevById = new Map((p.previous_levels ?? []).map((x) => [x.level, x]));
   const deltaRows: DeltaRow[] = p.previous_levels === null ? [] : HAID_LEVELS.map((spec) => {
@@ -406,6 +462,13 @@ export function buildHaidReleasePageModel(
   return {
     release: p.release,
     round: p.round,
+    provenance: {
+      heading: HAID_RELEASE_PROVENANCE_JA.heading,
+      intro: HAID_RELEASE_PROVENANCE_JA.intro,
+      rules: HAID_RELEASE_PROVENANCE_JA.rules,
+      rows: provenanceRows,
+      cols: { level: HAID_RELEASE_PROVENANCE_JA.colLevel, formula: HAID_RELEASE_PROVENANCE_JA.colFormula, atLeast: HAID_RELEASE_PROVENANCE_JA.colAtLeast, exactly: HAID_RELEASE_PROVENANCE_JA.colExactly },
+    },
     isLatest,
     switcher,
     labelJa: p.label_ja,
