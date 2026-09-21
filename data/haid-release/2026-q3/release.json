@@ -1,0 +1,60 @@
+{
+  "release": "2026-q3",
+  "label_ja": "2026 年 第 3 四半期",
+  "version": "2026-Q3.0",
+  "status": "draft",
+  "spec_version": "1.0",
+  "planned_publish": "2026-10-24",
+  "published_at": null,
+  "population_anchor": "population_2026",
+  "previous": null,
+  "levels": {
+    "1": {
+      "certainty": "measured",
+      "n_at_least": { "low": 8300000000, "mid": 8300000000, "high": 8300000000 },
+      "anchors": ["population_2026"],
+      "method_ja": "世界の総人口。第 1 段階以上は全員。"
+    },
+    "2": {
+      "certainty": "measured",
+      "n_at_least": { "low": 6100000000, "mid": 6100000000, "high": 6100000000 },
+      "anchors": ["internet_users_2026"],
+      "method_ja": "インターネット利用者数。ちょうど第 2 段階にいる人は、ここから第 3 段階以上を引いた残差。"
+    },
+    "3": {
+      "certainty": "lower_bound",
+      "n_at_least": { "low": 2000000000, "mid": null, "high": null },
+      "anchors": ["google_ai_overviews_monthly_2025"],
+      "method_ja": "1 社の公表値（検索の AI による概要の月間利用者）だけで下限が決まる。上限は測れない。"
+    },
+    "4": {
+      "certainty": "range",
+      "n_at_least": { "low": 1000000000, "mid": 1520000000, "high": 2450000000 },
+      "anchors": ["chatgpt_weekly_2025", "gemini_app_monthly_2025", "meta_ai_monthly_2025"],
+      "overlap": "level_4",
+      "method_ja": "各社が公表した月間・週間利用者を 30 日口径にそろえ、低 = 最大の 1 社、高 = 単純合計、中 = 合計から重なり率を引いた値。"
+    },
+    "5": {
+      "certainty": "lower_bound",
+      "n_at_least": { "low": 800000000, "mid": null, "high": null },
+      "anchors": ["chatgpt_weekly_2025"],
+      "method_ja": "7 日口径の公表値が 1 社しかないため、下限として扱う。"
+    },
+    "6": {
+      "certainty": "lower_bound",
+      "n_at_least": { "low": 34000000, "mid": null, "high": null },
+      "anchors": ["github_copilot_users_2026", "cursor_users_2026"],
+      "method_ja": "現時点で観測できるのはコーディング用エージェントのみ。重なりが分からないため、最大の 1 社を下限とする。"
+    },
+    "7":  { "certainty": "none", "n_at_least": null, "anchors": [], "method_ja": "事業者の公表値は存在しない。" },
+    "8":  { "certainty": "none", "n_at_least": null, "anchors": [], "method_ja": "事業者の公表値は存在しない。" },
+    "9":  { "certainty": "none", "n_at_least": null, "anchors": [], "method_ja": "事業者の公表値は存在しない。" },
+    "10": { "certainty": "none", "n_at_least": null, "anchors": [], "method_ja": "事業者の公表値は存在しない。" }
+  },
+  "payment": {
+    "certainty": "none",
+    "count": null,
+    "anchors": [],
+    "method_ja": "有料契約者数を公表している事業者がないため、今回は報告しない。"
+  }
+}

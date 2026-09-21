@@ -68,6 +68,15 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - 段階番号は固定。定義変更は大版、境界事例の追加は小版。`HAID_SPEC_DATE` は定義変更時だけ動かす（build clock を使わない）。
 - 詳細は [`HAID.md`](HAID.md)。
 
+### HAID release（四半期の現状。aiadoption-1.1）
+
+- 1 回 = 1 ディレクトリ `data/haid-release/<yyyy-qN>/`。追加のみで、過去の回は書き換えない（`/models` の batch と同じ扱い）。
+- `anchors.json` — 錨点 1 行 1 件。`value` は人数のみ（端末数・契約数は錨点にしない）、`window` は `itu_3m` / `days_30` / `days_7` / `state`、`grade` は A〜D、`status` は `placeholder`（出典と未照合）か `verified`。
+- `overlap.json` — 第 4・5 段階だけの重なり率（`rate` / `low` / `high`、調査ベース）。他の段階には持たせない。
+- `release.json` — 段階ごとの入力は **N(≥k)**（第 k 段階以上の人数）の低・中・高と確度。`measured` / `residual` は 3 値同一、`lower_bound` は `low` のみ、`range` は 3 値、`none` は `null`。n(k)（ちょうど第 k 段階）は projection が引き算で出す。`status` は `draft` か `final`。
+- スキーマと不変条件は `src/data/schema/haid-release.ts`（`loadHaidRelease()`）。`final` の回は placeholder の錨点・重なり率を 1 件も持てず、`published_at` が必須。`draft` は placeholder を許す（オーナー裁定 2026-09-21: 2026-Q3 は草稿で先に組み、10 月の照合後に値だけ差し替える）。
+- N(≥k) の単調性は入力の不変条件にしない（第 3 段階の下限が第 4 段階の推定を下回ることがある）。projection が入れ子で clamp し、clamp したことを出力に記録する。
+
 ## AI adoption
 
 - `data/ai-adoption/` の observations、sources、assumptions、model から `data.ai-adoption.json` を作る。

@@ -76,6 +76,30 @@ tokens → §2.5 `color-mix`; the unassigned range → `chrome`; §18.7 → 1.14
 statistics typeface → 1.12). Still open: **`.four-oh-four`** — a decorative
 numeral with no role in §4.7 (its synthetic italic was removed in design-1.21).
 
+## Active — /aiadoption as the HAID current-state page (aiadoption-1)
+
+Owner rulings 2026-09-11 / 09-21: `/aiadoption` becomes the quarterly
+current-state page of HAID (人類と AI の距離), one object — a treemap of
+humanity (area = people, four relation columns left→right = far→near, the
+three boundaries drawn thick, `#dan-k` highlights a level) — plus the
+N(≥k) list, the anchor table and a quotable fact block. No KPI card grid,
+no segmented bar, no quiz on this page. Nav / drawer / footer label becomes
+「人類と AI の距離」. 2026-Q3 ships as a `draft` release built from carried-over
+anchors; the October verification only swaps values. The old
+`data.ai-adoption.json` stays as a deprecated stub (no redirect).
+Mock: `/tmp/haid-mock3/` (local). Public Japanese copy is owner-signed
+before the page PR.
+
+- aiadoption-1.1: `data/haid-release/2026-q3/` + schema + invariants.
+- aiadoption-1.2: `data.haid-<release>.json` + `data.haid-latest.json`
+  projection, `/data` rows, DATA_ARCHITECTURE.
+- aiadoption-1.3: the page (treemap, list, anchors, fact block).
+- aiadoption-1.4: `/aiadoption/<release>` archive route, nav rename,
+  sitemap, OG.
+- aiadoption-1.5: retire the 5-layer model (`data/ai-adoption/`,
+  `ai-adoption.ts`), deprecated stub for `data.ai-adoption.json`.
+- aiadoption-1.6: preview check at 1440 / 768 / 375, ROADMAP close-out.
+
 ## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
 
 Owner review 2026-09-18/19 of the rendered site (1440×900 / 375×812, Vercel Web
