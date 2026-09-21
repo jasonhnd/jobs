@@ -97,8 +97,13 @@ before the page PR.
 - aiadoption-1.4: `/aiadoption/<release>` archive route, nav rename,
   sitemap, OG.
 - aiadoption-1.5: retire the 5-layer model (`data/ai-adoption/`,
-  `ai-adoption.ts`), deprecated stub for `data.ai-adoption.json`.
-- aiadoption-1.6: preview check at 1440 / 768 / 375, ROADMAP close-out.
+  `ai-adoption.ts`, `d3`), deprecated stub for `data.ai-adoption.json`.
+- aiadoption-1.6: 「数字の出どころと計算」 — the projection computes every
+  N(≥k) from anchors + a named method (single / max_single /
+  sum_minus_overlap) and emits a derivation trace; the page shows the
+  arithmetic per level (owner ask 2026-09-22: the numbers must say where
+  they come from and how they were recomputed).
+- aiadoption-1.7: preview check at 1440 / 768 / 375, ROADMAP close-out.
 
 ## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
 
