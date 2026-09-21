@@ -7,7 +7,7 @@
   "planned_publish": "2026-10-24",
   "published_at": null,
   "population_anchor": "population_2026",
-  "previous": null,
+  "previous": "2026-q2",
   "levels": {
     "1": {
       "certainty": "measured",

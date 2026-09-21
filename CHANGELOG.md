@@ -80,6 +80,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
   起業), which keep the existing no-salary title. SEO baseline refreshed
   (2,176 title / description / OG / Twitter drifts, all intended).
 
+- **Every HAID release has its own page; the nav says 「人類と AI の距離」
+  (aiadoption-1.4).** `/aiadoption/<yyyy-qN>` renders each archived round
+  (`src/pages/aiadoption/[release].astro`, sharing `_HaidReleasePage.astro`
+  with `/aiadoption`); a 公開回 pill row under the meta line switches rounds and
+  links the permanent URL. A retro **2026-Q2 draft** is built from the retired
+  model's Q2 observation set (third-party panels, grade C) so 前回との変動 has
+  a previous round: the table compares N(≥k), and marks levels whose certainty
+  changed as 「数え方が変わった」 rather than as a difference. A データなし level
+  below a level with data is floored to that level (nesting) and drawn hatched.
+  Top nav, mobile drawer and footer: 「AI 利用率」 → 「人類と AI の距離」; the
+  OG card text follows. Sitemap gains the archive URLs (baseline: +2 URLs,
+  +1 data file, +2 sitemap lines).
 - **`/aiadoption` is now the HAID current-state page (aiadoption-1.3).** The
   5-layer 「世界の AI 利用率モニター」 (dot matrix, line chart, formula blocks)
   is replaced by one object: a treemap of humanity — area = people, four

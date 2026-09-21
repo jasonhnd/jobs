@@ -44,11 +44,19 @@ import {
 import {
   HAID_RELEASE_BASE_PATH,
   type HaidLatestPayload,
+  type HaidPreviousLevel,
   type HaidReleaseLevelOut,
   type HaidReleasePayload,
 } from '../../site/haid-release-types.js';
 
 export { HAID_RELEASE_BASE_PATH, type HaidLatestPayload, type HaidReleaseLevelOut, type HaidReleasePayload };
+
+export interface HaidReleaseContext {
+  /** Every release id, oldest first. */
+  readonly releases: readonly string[];
+  /** Payload of `release.previous`, when it exists. */
+  readonly previous: HaidReleasePayload | null;
+}
 
 const CERTAINTY_RANK: Record<HaidReleaseCertainty, number> = {
   measured: 0,
@@ -74,8 +82,19 @@ function displayOf(certainty: HaidReleaseCertainty, t: HaidTriple | null): numbe
   }
 }
 
-export function buildHaidReleasePayload(input: HaidRelease): HaidReleasePayload {
+export function buildHaidReleasePayload(
+  input: HaidRelease,
+  context: HaidReleaseContext = { releases: [input.release.release], previous: null },
+): HaidReleasePayload {
   const { release, anchors, overlap } = input;
+  if (release.previous !== null && context.previous === null) {
+    throw new Error(`[haid-release] ${release.release} names previous ${release.previous} but no payload was given`);
+  }
+  if (context.previous !== null && context.previous.release !== release.previous) {
+    throw new Error(`[haid-release] ${release.release}: previous payload is ${context.previous.release}, expected ${release.previous}`);
+  }
+  const round = context.releases.indexOf(release.release) + 1;
+  if (round === 0) throw new Error(`[haid-release] ${release.release} is not in the release list`);
   const population = release.levels['1'].n_at_least?.mid;
   if (population === null || population === undefined || population <= 0) {
     throw new Error('[haid-release] level 1 must carry the population');
@@ -89,7 +108,10 @@ export function buildHaidReleasePayload(input: HaidRelease): HaidReleasePayload 
   for (let i = raw.length - 2; i >= 0; i -= 1) {
     const next = raw[i + 1].display;
     const here = raw[i].display;
-    if (next !== null && here !== null && here < next) {
+    if (next === null) continue;
+    // A データなし level below a level that has data is still at least that
+    // many people (nesting); draw it at the floor with n(k) = 0, certainty none.
+    if (here === null || here < next) {
       raw[i].display = next;
       raw[i].clamped = true;
     }
@@ -165,7 +187,28 @@ export function buildHaidReleasePayload(input: HaidRelease): HaidReleasePayload 
     certainty_labels_ja: HAID_CERTAINTY_JA,
     grade_labels_ja: HAID_GRADE_JA,
     placeholder_anchors: anchors.filter((a) => a.status === 'placeholder').map((a) => a.id),
+    releases: [...context.releases],
+    round,
+    previous_levels: context.previous === null ? null : previousLevelsOf(context.previous),
   };
+}
+
+function previousLevelsOf(prev: HaidReleasePayload): HaidPreviousLevel[] {
+  return prev.levels.map((l) => ({
+    level: l.level,
+    n_at_least_display: l.n_at_least.display,
+    n_at_least_certainty: l.n_at_least.certainty,
+    n_display: l.n.display,
+    anchor_grades: anchorGradesOf(prev, l.level),
+  }));
+}
+
+/** Sorted unique grades of the anchors a level cites — a change means 「数え方が変わった」. */
+export function anchorGradesOf(p: HaidReleasePayload, level: number): string[] {
+  const l = p.levels.find((x) => x.level === level);
+  if (!l) return [];
+  const byId = new Map(p.anchors.map((a) => [a.id, a.grade]));
+  return [...new Set(l.anchors.map((id) => byId.get(id)).filter((g): g is 'A' | 'B' | 'C' | 'D' => g !== undefined))].sort();
 }
 
 /** Newest release id wins; ids sort lexically because they are yyyy-qN. */
@@ -186,18 +229,23 @@ export async function buildHaidRelease(
   const ids = await listHaidReleaseIds(root);
   const latest = pickLatestRelease(ids);
   const files: string[] = [];
-  let latestPayload: HaidReleasePayload | null = null;
+  const built = new Map<string, HaidReleasePayload>();
   for (const id of ids) {
-    const payload = buildHaidReleasePayload(await loadHaidRelease(join(root, id)));
-    if (payload.release !== id) {
-      throw new Error(`[haid-release] directory ${id} declares release ${payload.release}`);
+    const input = await loadHaidRelease(join(root, id));
+    if (input.release.release !== id) {
+      throw new Error(`[haid-release] directory ${id} declares release ${input.release.release}`);
     }
+    const prevId = input.release.previous;
+    if (prevId !== null && !built.has(prevId)) {
+      throw new Error(`[haid-release] ${id} names previous ${prevId}, which is missing or not older`);
+    }
+    const payload = buildHaidReleasePayload(input, { releases: ids, previous: prevId === null ? null : built.get(prevId)! });
+    built.set(id, payload);
     const outPath = join(distRoot, `data.haid-${id}.json`);
     await writeFile(outPath, JSON.stringify(payload, null, 2) + '\n', 'utf-8');
     files.push(outPath);
-    if (id === latest) latestPayload = payload;
   }
-  const latestOut: HaidLatestPayload = { ...latestPayload!, releases: ids };
+  const latestOut: HaidLatestPayload = built.get(latest)!;
   const latestPath = join(distRoot, 'data.haid-latest.json');
   await writeFile(latestPath, JSON.stringify(latestOut, null, 2) + '\n', 'utf-8');
   files.push(latestPath);
