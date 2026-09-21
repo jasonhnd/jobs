@@ -66,9 +66,23 @@ export interface HaidReleasePayload {
   grade_labels_ja: typeof HAID_GRADE_JA;
   /** Anchors still marked placeholder — non-empty only for a draft. */
   placeholder_anchors: string[];
+  /** Every release id, oldest first (yyyy-qN sorts lexically). */
+  releases: string[];
+  /** 1-based position of this release in `releases`. */
+  round: number;
+  /** N(≥k) / n(k) display values of `previous`, for 前回との変動. null for the first round. */
+  previous_levels: HaidPreviousLevel[] | null;
 }
 
-export interface HaidLatestPayload extends HaidReleasePayload {
-  releases: string[];
+export interface HaidPreviousLevel {
+  level: number;
+  n_at_least_display: number | null;
+  n_at_least_certainty: HaidReleaseCertainty;
+  n_display: number | null;
+  /** Sorted, unique grades of the anchors the level cited (A–D). */
+  anchor_grades: string[];
 }
+
+/** data.haid-latest.json is the newest release payload, unchanged. */
+export type HaidLatestPayload = HaidReleasePayload;
 

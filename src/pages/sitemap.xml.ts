@@ -8,6 +8,8 @@
 import type { APIRoute } from 'astro';
 import { loadGraph } from '@/graph';
 import { nowIso } from '../lib/now.js';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { buildSitemapEntries, renderSitemapXml, sitemapLastmods } from '@/views/sitemap';
 
 /**
@@ -27,7 +29,9 @@ export const GET: APIRoute = async () => {
   // the 2026-06-03 ai-adoption fix addressed). nowIso() now only serves as the
   // fallback for the degenerate case of a graph with no scored occupation.
   const lastmods = sitemapLastmods(graph, nowIso().slice(0, 10));
-  const entries = buildSitemapEntries(graph, lastmods);
+  // HAID release ids come from the projection, not the graph (aiadoption-1.4).
+  const haidLatest = JSON.parse(await readFile(join(process.cwd(), 'public', 'data.haid-latest.json'), 'utf-8')) as { releases: string[] };
+  const entries = buildSitemapEntries(graph, lastmods, { haidReleases: haidLatest.releases });
 
   if (entries.length < SITEMAP_MIN_URL_COUNT) {
     // The sitemap is the single biggest crawl-budget signal we send to

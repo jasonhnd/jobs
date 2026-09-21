@@ -135,9 +135,15 @@ function normalizeLastmods(lastmods: string | SitemapLastmods): SitemapLastmods 
  * surfaces use the latest score-run date; static legal pages can keep their
  * own content dates instead of being bumped as a group on every data update.
  */
+export interface SitemapExtras {
+  /** HAID release ids (yyyy-qN). Each gets /aiadoption/<id>; the newest is also /aiadoption. */
+  readonly haidReleases?: readonly string[];
+}
+
 export function buildSitemapEntries(
   graph: KnowledgeGraph,
   lastmodsInput: string | SitemapLastmods,
+  extras: SitemapExtras = {},
 ): SitemapEntry[] {
   const lastmods = normalizeLastmods(lastmodsInput);
   const sectorIds = [...graph.sectors.keys()].map((id) => String(id));
@@ -156,6 +162,11 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/`, lastmods.content, 'weekly', '1.0'));
   entries.push(entry(`${SITE_ORIGIN}/map`, lastmods.content, 'monthly', '0.9'));
   entries.push(entry(`${SITE_ORIGIN}/aiadoption`, lastmods.content, 'monthly', '0.7'));
+  // Archived HAID releases (aiadoption-1.4). The newest release is served at
+  // /aiadoption itself; every release has its permanent /aiadoption/<id>.
+  for (const id of [...(extras.haidReleases ?? [])].sort()) {
+    entries.push(entry(`${SITE_ORIGIN}/aiadoption/${id}`, lastmods.content, 'monthly', '0.5'));
+  }
   // /me is the "self-positioning" tool linked from MobileNav + 3 hub pages —
   // a real indexable surface that was previously missing from the sitemap
   // (2026-06-03 SEO audit). Weekly because the per-job position changes

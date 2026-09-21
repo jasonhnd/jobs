@@ -101,14 +101,54 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.ok(model.fact.body.includes('HAID v1.0'));
   });
 
-  test('draft meta: 草稿 note, planned publish date, first round, next quarter label', () => {
+  test('draft meta: 草稿 note, planned publish date, round number, permalink, latest canonical', () => {
     assert.equal(model.isDraft, true);
     assert.ok(model.draftNote);
     assert.ok(model.metaParts.some((m) => m.startsWith('公開予定 2026-10-24')));
-    assert.ok(model.metaParts.includes('第 1 回'));
-    assert.ok(model.delta.body.includes('2026-Q4'));
+    assert.ok(model.metaParts.includes('第 2 回'));
+    assert.equal(model.round, 2);
+    assert.equal(model.isLatest, true);
     assert.equal(model.path, '/aiadoption/2026-q3');
+    assert.equal(model.canonicalPath, '/aiadoption');
     assert.equal(model.seo.title, '人類と AI の距離 — 2026 年 第 3 四半期 | 未来の仕事');
+  });
+
+  test('switcher lists every release newest first; the latest points at /aiadoption', () => {
+    const items = model.switcher.items;
+    assert.deepEqual(items.map((i) => i.release), ['2026-q3', '2026-q2']);
+    assert.equal(items[0].current, true);
+    assert.equal(items[0].latest, true);
+    assert.equal(items[0].href, '/aiadoption');
+    assert.equal(items[1].href, '/aiadoption/2026-q2');
+    assert.equal(items[1].labelJa, '2026 年 第 2 四半期');
+  });
+
+  test('前回との変動 compares N(≥k) with 2026-q2 and flags method changes and missing data', () => {
+    assert.ok(model.delta.body.includes('2026 年 第 2 四半期'));
+    const rows = model.delta.rows;
+    assert.equal(rows.length, 10);
+    const byLevel = Object.fromEntries(rows.map((r) => [r.level, r]));
+    assert.equal(byLevel[1].kind, 'flat');
+    assert.equal(byLevel[4].kind, 'method', 'both range, but Q2 cited grade-C panels and Q3 grade-B announcements');
+    assert.equal(byLevel[4].deltaJa, '数え方が変わった');
+    assert.equal(byLevel[3].kind, 'none', 'Q2 had no level-3 data');
+    assert.equal(byLevel[5].kind, 'none');
+    assert.equal(byLevel[6].kind, 'flat');
+    assert.equal(byLevel[7].kind, 'none');
+  });
+
+  test('an archived release is not latest and gets its own canonical', () => {
+    const q2: HaidReleasePayload = JSON.parse(readFileSync(join(process.cwd(), 'public', 'data.haid-2026-q2.json'), 'utf-8'));
+    const a = buildHaidReleasePageModel(q2, HAID_LEVELS_NOTE_JA, { '2026-q3': '2026 年 第 3 四半期' });
+    assert.equal(a.isLatest, false);
+    assert.equal(a.round, 1);
+    assert.equal(a.canonicalPath, '/aiadoption/2026-q2');
+    assert.ok(a.delta.body.includes('2026-Q3'));
+    assert.equal(a.delta.rows.length, 0);
+    assert.equal(a.map.columns[1].cells.find((c) => c.level === 3)?.hatched, true, 'Q2 level 3 is データなし inside the 道具 column');
+    assert.equal(a.map.columns[1].cells.find((c) => c.level === 5)?.people, null);
+    assert.ok(a.fact.body.includes('第 5 段階以上はこの回は公開データなし'), a.fact.body);
+    assert.ok(!a.fact.body.includes('3,000 万'));
   });
 
   test('anchor table lists every anchor with grade and placeholder flag', () => {
