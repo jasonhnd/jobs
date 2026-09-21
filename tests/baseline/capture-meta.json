@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-21T00:42:36.725Z",
-  "gitCommit": "ee9ad54fa882af70306cc195efb1c5ff10e3c583",
-  "gitBranch": "fix/one-site-name",
+  "capturedAt": "2026-09-21T12:29:03.585Z",
+  "gitCommit": "c8294ecc36fdee8bf4912681aaba470950421d14",
+  "gitBranch": "feat/aiadoption-1.2-haid-release-projection",
   "distFileCount": 839,
   "urlCount": 839,
-  "dataFileCount": 613,
+  "dataFileCount": 615,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }
