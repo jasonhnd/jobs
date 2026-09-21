@@ -169,7 +169,7 @@ export function renderOccupationJsonLdFromRec(
     id,
     canonical: jaUrl(id),
     pageName:
-      risk !== null ? `${nameJa} — AI 影響 ${formatRiskScore(risk)}` : `${nameJa} — mirai-shigoto.com`,
+      risk !== null ? `${nameJa} — AI 影響 ${formatRiskScore(risk)}` : `${nameJa} | 未来の仕事`,
     pageDesc: makeOccupationDefinitionFromRec(rec) || rationaleJa || descJa || nameJa,
     nameJa,
     aliasesJa: rec.aliases_ja ?? [],

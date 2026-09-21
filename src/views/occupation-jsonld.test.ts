@@ -210,7 +210,7 @@ describe('renderOccupationJsonLd', () => {
     };
     const items = out['@graph'][2].itemListElement!;
     assert.equal(items[0].position, 1);
-    assert.equal(items[0].name, '日本の職業 AI 影響マップ');
+    assert.equal(items[0].name, '未来の仕事');
     assert.equal(items[1].position, 2);
     assert.equal(items[1].name, 'プログラマー');
   });
