@@ -12,6 +12,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **The site has one name: 「未来の仕事」.** It was already the nav brand, the
+  domain, the WebSite schema and 826 of 839 `<title>`s, but `og:site_name` and
+  the breadcrumb root on 578 pages (every occupation page, `/models`,
+  `/answers`, `/data`, …) said 「日本の職業 AI 影響マップ」, and eleven titles
+  ended in `mirai-shigoto.com` / `Mirai-Shigoto` / `- 未来の仕事`. Now
+  `siteConfig.siteName` is the one source; 「日本の職業 AI 影響マップ」 stays as
+  the tagline (home kicker, README). Baselines regenerated: JSON-LD roots
+  (833), `og:site_name` (839), 11 titles.
 - **Design canon (still v1.2)** — §4.7 gains a row for inline emphasis
   (`strong` / `em`: ink, 700, no italics); §2.3's `--risk-0` moves from
   `#0F8A66` to `#0F8663` so white tile labels clear 4.5:1, and gains a
