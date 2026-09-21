@@ -47,7 +47,8 @@ test('the site has one name — no breadcrumb root, schema name or og:site_name 
   walk('src');
   const offenders: string[] = [];
   for (const f of files) {
-    const src = readFileSync(f, 'utf-8');
+    // comments may mention the tagline; only code and markup are name slots
+    const src = readFileSync(f, 'utf-8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
     for (const re of [/name['"]?\s*:\s*['"]日本の職業 AI 影響マップ['"]/g, /rel="up"[^>]*>日本の職業 AI 影響マップ</g, /href="\/"\s*>日本の職業 AI 影響マップ</g, /site_name.*日本の職業 AI 影響マップ/g, /Mirai-Shigoto['"`]/g]) {
       if (re.test(src)) offenders.push(`${f}: ${re.source}`);
     }
