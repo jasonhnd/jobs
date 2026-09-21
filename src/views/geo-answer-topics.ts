@@ -206,7 +206,7 @@ export function renderGeoAnswerTopicJsonLd(
       '@type': 'BreadcrumbList',
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
         { '@type': 'ListItem', position: 2, name: 'AI回答トピック', item: `${SITE}/answers` },
         { '@type': 'ListItem', position: 3, name: config.h1Ja, item: canonical },
       ],
