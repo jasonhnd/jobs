@@ -31,6 +31,7 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `data.skills/*`, `data.holland.json`, `data.labels/ja.json` — hub 系ページの入力。
 - `data.ai-adoption.json` — `/aiadoption` dashboard。
 - `data.haid-spec.json` — `/haid` の HAID v1.0 定義（10 段階・4 関係・3 境目・用語・境界事例）。数字を持たない。正典は `src/site/haid-spec.ts`、文言の正本は `docs/HAID.md`。（haid-1.3 で生成）
+- `data.haid-<yyyy-qN>.json` / `data.haid-latest.json` — HAID の四半期リリース（`/aiadoption`）。段階ごとの N(≥k)（低・中・高・display・clamped）、n(k)（display・share・確度）、錨点、重なり率、対価。`latest` は最新回のコピーに `releases` 一覧を足したもの。（aiadoption-1.2 で生成）
 - `data.me-positions.json` — `/me` self-positioning tool。全職業 × 全 ranking の位置を持つ。
 
 古い `data.featured.json`, `data.tasks/*`, `data.score-history/*` は runtime consumer がないため削除済み。`data.score_history.json` は multi-model comparison のため 2026-07 に単一 JSON projection として復活した。
@@ -76,6 +77,7 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `release.json` — 段階ごとの入力は **N(≥k)**（第 k 段階以上の人数）の低・中・高と確度。`measured` / `residual` は 3 値同一、`lower_bound` は `low` のみ、`range` は 3 値、`none` は `null`。n(k)（ちょうど第 k 段階）は projection が引き算で出す。`status` は `draft` か `final`。
 - スキーマと不変条件は `src/data/schema/haid-release.ts`（`loadHaidRelease()`）。`final` の回は placeholder の錨点・重なり率を 1 件も持てず、`published_at` が必須。`draft` は placeholder を許す（オーナー裁定 2026-09-21: 2026-Q3 は草稿で先に組み、10 月の照合後に値だけ差し替える）。
 - N(≥k) の単調性は入力の不変条件にしない（第 3 段階の下限が第 4 段階の推定を下回ることがある）。projection が入れ子で clamp し、clamp したことを出力に記録する。
+- projection（`src/data/projections/haid-release.ts`、aiadoption-1.2）の導出規則: `display(k)` は measured / residual / range なら `mid`、lower_bound なら `low`、none なら `null`。上から下へ `display(k) ≥ display(k+1)` に clamp し `clamped: true` を残す。`n(k) = display(k) − display(k+1)`（`display(11) = 0`）なので n(1..10) の合計は必ず総人口に一致する。n(k) の確度は、N(≥k) が none なら none、第 2 段階は残差（仕様どおり）、それ以外は N(≥k) と N(≥k+1) の弱いほう。`as_of` は引用された錨点の最新 `as_of`（引用されない錨点は無視）。数値は人数のまま持ち、有効数字（見出し 1 けた・表 2 けた）はページ側で丸める。
 
 ## AI adoption
 
