@@ -76,38 +76,53 @@ tokens → §2.5 `color-mix`; the unassigned range → `chrome`; §18.7 → 1.14
 statistics typeface → 1.12). Still open: **`.four-oh-four`** — a decorative
 numeral with no role in §4.7 (its synthetic italic was removed in design-1.21).
 
-## Active — /aiadoption as the HAID current-state page (aiadoption-1)
+## Done — /aiadoption as the HAID current-state page (aiadoption-1, closed 2026-09-22)
 
-Owner rulings 2026-09-11 / 09-21: `/aiadoption` becomes the quarterly
-current-state page of HAID (人類と AI の距離), one object — a treemap of
+Owner rulings 2026-09-11 / 09-21 / 09-22: `/aiadoption` is the quarterly
+current-state page of HAID (人類と AI の距離) — one object, a treemap of
 humanity (area = people, four relation columns left→right = far→near, the
-three boundaries drawn thick, `#dan-k` highlights a level) — plus the
-N(≥k) list, the anchor table and a quotable fact block. No KPI card grid,
-no segmented bar, no quiz on this page. Nav / drawer / footer label becomes
-「人類と AI の距離」. 2026-Q3 ships as a `draft` release built from carried-over
-anchors; the October verification only swaps values. The old
-`data.ai-adoption.json` stays as a deprecated stub (no redirect).
-Mock: `/tmp/haid-mock3/` (local). Public Japanese copy is owner-signed
-before the page PR.
+three boundaries drawn thick, `#dan-k` highlights a level for the diagnosis
+page to land on), then the N(≥k) list, 「数字の出どころと計算」 with every
+formula spelled out, 前回との変動, the anchor table and a quotable fact
+block. Zero inline JS. Every round has its own URL (`/aiadoption/<yyyy-qN>`)
+and `/aiadoption` is the newest. Nav / drawer / footer say 「人類と AI の距離」.
+The 5-layer model and `d3` are gone; `data.ai-adoption.json` is a deprecated
+stub. Preview check 2026-09-22 on pre at 1440 / 768 / 375 for `/aiadoption`,
+`/2026-q2`, `/2026-q3`: no overflow, no text under 12px, 10 cells + 10 rows,
+drawer label correct.
 
-- aiadoption-1.1: `data/haid-release/2026-q3/` + schema + invariants.
-- aiadoption-1.2: `data.haid-<release>.json` + `data.haid-latest.json`
-  projection, `/data` rows, DATA_ARCHITECTURE.
-- aiadoption-1.3: the page (treemap, list, anchors, fact block).
-- aiadoption-1.4: `/aiadoption/<release>` archive route, nav rename,
-  sitemap, OG.
-- aiadoption-1.5: retire the 5-layer model (`data/ai-adoption/`,
-  `ai-adoption.ts`, `d3`), deprecated stub for `data.ai-adoption.json`.
-- aiadoption-1.6: 「数字の出どころと計算」 — the projection computes every
-  N(≥k) from anchors + a named method (single / max_single /
-  sum_minus_overlap) and emits a derivation trace; the page shows the
-  arithmetic per level (owner ask 2026-09-22: the numbers must say where
-  they come from and how they were recomputed).
-- aiadoption-1.7: 2026-Q3 anchors from the quarter's own vendor statements
-  (Alphabet 2026-06-03 / 07-22, OpenAI 03-31 / 06-02, Microsoft 07-29, ITU
-  2025-11-17, UN WPP 2024; overlap from Pew 2026-06-17); `cumulative` window
-  (listed, never cited); a round's as_of must fall inside its quarter.
-- aiadoption-1.8: preview check at 1440 / 768 / 375, ROADMAP close-out.
+Data contract (`data/haid-release/<yyyy-qN>/`, append-only): anchors carry
+grade A–D, window, market (cn / row / world), kind (product / union /
+top_down / base) and `placeholder` / `verified`; levels name a method
+(single / max_single / sum_minus_overlap / market_union_topdown / none) and
+the projection does the arithmetic, records a derivation trace, floors by
+nesting, flags anchors older than 12 months, and refuses a round whose
+latest cited anchor lies outside its quarter. Level 4 in 2026-Q3: China =
+QuestMobile's deduplicated total; rest of world = vendor sum × (1 − Pew
+overlap); reconciled with Microsoft AI Diffusion top-down → 低 9.6 億 /
+高 20 億 / 中 14 億.
+
+- aiadoption-1.1 (#573): release directory + schema + invariants.
+- aiadoption-1.2 (#575): projection `data.haid-<release>.json` / `-latest`.
+- aiadoption-1.3 (#576): the page.
+- aiadoption-1.4 (#581): archive routes, 2026-Q2 retro draft, 前回との変動,
+  nav rename, sitemap, OG.
+- aiadoption-1.5 (#583): retire the 5-layer model, deprecated stub.
+- aiadoption-1.6 (#584): methods instead of numbers; 「数字の出どころと計算」.
+- aiadoption-1.7 (#585, #586, #595): 2026-Q3 anchors from the quarter's
+  vendor statements, every vendor with a published or panel count,
+  per-market union + top-down reconciliation, Meta AI to level 3, stale
+  flag, in-quarter as_of rule.
+- aiadoption-1.8 (#598): preview check + close-out.
+- aiadoption-1.9: 「数字の出どころと計算」 as per-level cards (inputs → steps
+  → result) for desktop and phone.
+
+Still open, owner-side (tracked here until 2026-Q3 goes `final` in October):
+all 21 anchors are `placeholder` (未照合); the Pew overlap (U.S., ever-use)
+and the Microsoft diffusion share (quarter window, telemetry model) are
+working assumptions; the public Japanese copy in `haid-release-copy.ts`,
+`og-cards.ts` and `release.json` `method_ja` is unsigned. The 2026-Q3 `final`
+flip is a data-only PR: verify anchors, set `published_at`, `status: final`.
 
 ## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
 
