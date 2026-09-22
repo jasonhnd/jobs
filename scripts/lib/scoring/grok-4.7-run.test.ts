@@ -45,6 +45,8 @@ describe('Grok 4.7 path on grok-cli', () => {
     assert.equal(GROK_4_7_PREDECESSOR_SLUG, 'grok-4.6');
     assert.equal(GROK_4_7_BACKFILL, false);
     assert.equal(inferProvider('grok-4.7-build-fast'), 'xai');
+    assert.equal(formatModelDisplay('grok-4.7'), 'Grok 4.7');
+    assert.equal(modelSlug('grok-4.7'), 'grok-4.7');
     assert.equal(formatModelDisplay('grok-4.7-build-fast'), 'Grok 4.7 Build Fast');
     assert.equal(modelSlug('grok-4.7-build-fast'), 'grok-4.7-build-fast');
     assert.equal(GROK_4_7_SCORING_PROVIDER in PROVIDERS, true);

@@ -22,8 +22,8 @@
  * Do NOT edit by hand — the next `build:data` will overwrite it.
  */
 export const SCORE_ATTRIBUTION_DATA = {
-  modelId: 'grok-4.7-build-fast',
-  modelDisplay: 'Grok 4.7 Build Fast',
+  modelId: 'grok-4.7',
+  modelDisplay: 'Grok 4.7',
   runDate: '2026-09-22',
 } as const;
 
