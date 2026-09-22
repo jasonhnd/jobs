@@ -17,8 +17,11 @@ import {
   grokHelpRejectsHigh,
   grokIsolateDir,
   grokPromptPath,
+  grokSandboxPromptPath,
+  promptFileIsInsideIsolate,
   grokScoreSchemaJson,
   interpretGrokEnvelope,
+  modelUsageMatchesRequest,
   parseGrokReasoningEffort,
   readGrokVersion,
   GROK_CLI_MIN_VERSION,
@@ -70,10 +73,22 @@ describe('grok-cli argv', () => {
     const args = buildGrokExecArgs({
       isolateCwd: '/run/isolate/12',
       model: 'grok-4.7',
-      promptFile: '/run/prompts/12.txt',
+      promptFile: '/run/isolate/12/prompt.txt',
       reasoningEffort: 'high',
       schemaJson,
     });
+    assert.equal(promptFileIsInsideIsolate('/run/isolate/12', '/run/isolate/12/prompt.txt'), true);
+    assert.equal(promptFileIsInsideIsolate('/run/isolate/12', '/run/prompts/12.txt'), false);
+    assert.throws(
+      () => buildGrokExecArgs({
+        isolateCwd: '/run/isolate/12',
+        model: 'grok-4.7',
+        promptFile: '/run/prompts/12.txt',
+        reasoningEffort: 'high',
+        schemaJson,
+      }),
+      /must sit inside --cwd/,
+    );
     assert.deepEqual(args, [
       '--cwd', '/run/isolate/12',
       '--sandbox', 'strict',
@@ -85,7 +100,7 @@ describe('grok-cli argv', () => {
       '--permission-mode', 'dontAsk',
       '--output-format', 'json',
       '--json-schema', schemaJson,
-      '--prompt-file', '/run/prompts/12.txt',
+      '--prompt-file', '/run/isolate/12/prompt.txt',
       '--reasoning-effort', 'high',
       '--model', 'grok-4.7',
     ]);
@@ -103,7 +118,7 @@ describe('grok-cli argv', () => {
       const args = buildGrokExecArgs({
         isolateCwd: '/run/isolate/1',
         model,
-        promptFile: '/run/prompts/1.txt',
+        promptFile: '/run/isolate/1/prompt.txt',
         reasoningEffort: 'high',
         schemaJson: '{}',
       });
@@ -151,6 +166,23 @@ describe('grok-cli preflight fixtures', () => {
 });
 
 describe('grok-cli envelope', () => {
+  test('grok-4.7 usage may be reported as grok-4.7-build, and structuredOutput is the score', () => {
+    assert.equal(modelUsageMatchesRequest('grok-4.7', ['grok-4.7']), true);
+    assert.equal(modelUsageMatchesRequest('grok-4.7', ['grok-4.7-build']), true);
+    assert.equal(modelUsageMatchesRequest('grok-4.7', ['grok-4.7-build-fast']), false);
+    assert.equal(modelUsageMatchesRequest('grok-4.6', ['grok-4.7-build']), false);
+    const result = interpretGrokEnvelope(
+      envelope({
+        modelUsage: { 'grok-4.7-build': { inputTokens: 1 } },
+        structuredOutput: { id: 12, source: 'camel' },
+        text: JSON.stringify({ id: 12, source: 'text' }),
+      }),
+      'grok-4.7',
+    );
+    assert.equal(result.ok, true);
+    assert.deepEqual(JSON.parse(result.rawText), { id: 12, source: 'camel' });
+  });
+
   test('structured_output wins, otherwise text that parses as an object', () => {
     const structured = interpretGrokEnvelope(
       envelope({ structured_output: { id: 12, source: 'structured' } }),
@@ -206,6 +238,7 @@ describe('grok-cli ask', () => {
       const spawnGrok: GrokSpawn = async (args) => {
         calls.push([...args]);
         assert.equal(readFileSync(grokPromptPath(dir, 12), 'utf8'), 'PROMPT-BODY');
+        assert.equal(readFileSync(grokSandboxPromptPath(dir, 12), 'utf8'), 'PROMPT-BODY');
         return {
           exitCode: 0,
           stdout: envelope({ structured_output: { id: 12, source: 'structured' } }),
@@ -229,7 +262,7 @@ describe('grok-cli ask', () => {
         buildGrokExecArgs({
           isolateCwd: grokIsolateDir(dir, 12),
           model: 'grok-4.7',
-          promptFile: grokPromptPath(dir, 12),
+          promptFile: grokSandboxPromptPath(dir, 12),
           reasoningEffort: 'high',
           schemaJson: grokScoreSchemaJson(),
         }),
@@ -280,6 +313,7 @@ describe('grok-cli ask', () => {
       assert.notEqual(response.exitCode, 0);
       assert.equal(response.rawText, '');
       assert.throws(() => readFileSync(grokPromptPath(dir, 12), 'utf8'));
+      assert.throws(() => readFileSync(grokSandboxPromptPath(dir, 12), 'utf8'));
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
