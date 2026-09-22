@@ -36,6 +36,7 @@ import {
 } from '../../site/haid-spec.js';
 import {
   HAID_RELEASE_ROOT,
+  isStale,
   loadHaidRelease,
   quarterBounds,
   type HaidAnchor,
@@ -49,6 +50,7 @@ import {
   HAID_RELEASE_BASE_PATH,
   type HaidDerivation,
   type HaidDerivationTerm,
+  type HaidMarketBlock,
   type HaidLatestPayload,
   type HaidPreviousLevel,
   type HaidReleaseLevelOut,
@@ -87,10 +89,12 @@ export function computeLevel(
   levelWindow: string,
   anchorById: ReadonlyMap<string, HaidAnchor>,
   overlap: HaidOverlap,
+  quarterEnd: string,
 ): Computed {
   const terms: HaidDerivationTerm[] = lv.anchors.map((id) => {
     const a = anchorById.get(id);
     if (!a) throw new Error(`[haid-release] unknown anchor ${id}`);
+    const base = a.kind === 'top_down' ? anchorById.get(a.base_anchor!) ?? null : null;
     return {
       id: a.id,
       entity_ja: a.entity_ja,
@@ -99,11 +103,20 @@ export function computeLevel(
       window: a.window,
       grade: a.grade,
       narrower_window: levelWindow === 'days_30' && a.window === 'days_7',
+      market: a.market,
+      kind: a.kind,
+      stale: isStale(a.as_of, quarterEnd),
+      share: a.share ?? null,
+      base_value: base?.value ?? null,
+      base_label_ja: base ? `${base.entity_ja} ${base.metric_ja}` : null,
     };
   });
   const values = terms.map((t) => t.value);
   const max = values.length ? Math.max(...values) : null;
-  const base = { method: lv.method, terms, max, sum: null, overlap_rate: null, floored_to: null } as const;
+  const base = {
+    method: lv.method, terms, max, sum: null, overlap_rate: null, floored_to: null,
+    markets: null, bottom_up: null, top_down: null, raw_sum: null,
+  } as const;
   switch (lv.method) {
     case 'none':
       return { triple: null, derivation: { ...base, low: null, mid: null, high: null, computed: null } };
@@ -114,13 +127,43 @@ export function computeLevel(
     case 'max_single':
       return { triple: { low: max, mid: null, high: null }, derivation: { ...base, low: max, mid: null, high: null, computed: max } };
     case 'sum_minus_overlap': {
-      const o = lv.overlap ? overlap[lv.overlap] : null;
-      if (!o) throw new Error('[haid-release] sum_minus_overlap without an overlap rate');
+      const market = terms[0]?.market ?? 'world';
+      const o = lv.overlap ? overlap[lv.overlap][market] : null;
+      if (!o) throw new Error(`[haid-release] sum_minus_overlap without an overlap rate for market ${market}`);
       const sum = values.reduce((a, b) => a + b, 0);
       const mid = Math.round(sum * (1 - o.rate));
       return {
         triple: { low: max, mid, high: sum },
-        derivation: { ...base, sum, overlap_rate: o.rate, low: max, mid, high: sum, computed: mid },
+        derivation: { ...base, sum, overlap_rate: o.rate, low: max, mid, high: sum, computed: mid, raw_sum: sum },
+      };
+    }
+    case 'market_union_topdown': {
+      if (!lv.overlap) throw new Error('[haid-release] market_union_topdown without an overlap table');
+      const table = overlap[lv.overlap];
+      const marketsSeen = [...new Set(terms.filter((t) => t.kind === 'product' || t.kind === 'union').map((t) => t.market))];
+      const markets: HaidMarketBlock[] = marketsSeen.map((m) => {
+        const products = terms.filter((t) => t.kind === 'product' && t.market === m);
+        const unionAnchor = terms.find((t) => t.kind === 'union' && t.market === m) ?? null;
+        const sum = products.length ? products.reduce((a, t) => a + t.value, 0) : null;
+        const mx = products.length ? Math.max(...products.map((t) => t.value)) : null;
+        if (unionAnchor) {
+          return { market: m, union_anchor: unionAnchor.id, products: products.map((t) => t.id), sum, max: mx, overlap_rate: null, union: unionAnchor.value };
+        }
+        const o = table[m];
+        if (!o) throw new Error(`[haid-release] market ${m} has products but no union anchor and no overlap rate`);
+        return { market: m, union_anchor: null, products: products.map((t) => t.id), sum, max: mx, overlap_rate: o.rate, union: Math.round((sum ?? 0) * (1 - o.rate)) };
+      });
+      const bottomUp = markets.reduce((a, b) => a + b.union, 0);
+      const topDownTerms = terms.filter((t) => t.kind === 'top_down');
+      const topDown = topDownTerms.reduce((a, t) => a + t.value, 0);
+      const rawSum = terms.filter((t) => t.kind === 'product').reduce((a, t) => a + t.value, 0)
+        + markets.filter((b) => b.union_anchor && b.products.length === 0).reduce((a, b) => a + b.union, 0);
+      const low = Math.min(bottomUp, topDown);
+      const high = Math.max(bottomUp, topDown);
+      const mid = Math.round(Math.sqrt(low * high));
+      return {
+        triple: { low, mid, high },
+        derivation: { ...base, markets, bottom_up: bottomUp, top_down: topDown, raw_sum: rawSum, sum: null, low, mid, high, computed: mid },
       };
     }
   }
@@ -144,7 +187,7 @@ export function buildHaidReleasePayload(
   // 1. compute N(≥k) from the anchors per method, then clamp by nesting from the top down.
   const raw = HAID_LEVELS.map((spec) => {
     const lv = release.levels[String(spec.level)];
-    const c = computeLevel(lv, spec.window, anchorById, overlap);
+    const c = computeLevel(lv, spec.window, anchorById, overlap, quarterBounds(release.release).end);
     return { spec, lv, triple: c.triple, derivation: c.derivation, display: c.derivation.computed, clamped: false };
   });
   const population = raw[0].display;

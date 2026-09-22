@@ -6,6 +6,7 @@ import {
   HAID_RELEASE_ROOT,
   HaidAnchorSchema,
   HaidLevelInputSchema,
+  isStale,
   HaidReleaseFileSchema,
   loadHaidRelease,
   quarterBounds,
@@ -29,9 +30,13 @@ function anchor(overrides: Partial<HaidAnchor> & Pick<HaidAnchor, 'id' | 'value'
     source_url: 'https://example.test/',
     status: 'verified',
     note: '',
+    market: 'row',
+    kind: 'product',
     ...overrides,
   };
 }
+
+const NO_OVERLAP = { cn: null, row: null, world: null } as const;
 
 function fixture(): HaidRelease {
   const none = { certainty: 'none' as const, method: 'none' as const, anchors: [], method_ja: 'なし' };
@@ -46,8 +51,8 @@ function fixture(): HaidRelease {
       anchor({ id: 'agent', value: 30_000_000 }),
     ],
     overlap: {
-      level_4: { rate: 0.3, low: 0.2, high: 0.4, grade: 'D', source_name: 'Survey', source_url: 'https://example.test/s', as_of: '2026-05-01', status: 'verified', note: '' },
-      level_5: null,
+      level_4: { ...NO_OVERLAP, row: { rate: 0.3, low: 0.2, high: 0.4, grade: 'D', source_name: 'Survey', source_url: 'https://example.test/s', as_of: '2026-05-01', status: 'verified', note: '' } },
+      level_5: { ...NO_OVERLAP },
     },
     release: {
       release: '2026-q3',
@@ -133,8 +138,8 @@ describe('HAID release schema', () => {
       release: { ...f.release, levels: { ...f.release.levels, '4': { ...f.release.levels['4'], anchors: ['ghost'] } } },
     };
     assert.ok(validateHaidRelease(badAnchor).some((p) => p.includes('unknown anchor ghost')));
-    const badOverlap: HaidRelease = { ...f, overlap: { level_4: null, level_5: null } };
-    assert.ok(validateHaidRelease(badOverlap).some((p) => p.includes('overlap level_4')));
+    const badOverlap: HaidRelease = { ...f, overlap: { level_4: { ...NO_OVERLAP }, level_5: { ...NO_OVERLAP } } };
+    assert.ok(validateHaidRelease(badOverlap).some((p) => p.includes('overlap level_4.row')));
     const overlapOnLevel3: HaidRelease = {
       ...f,
       release: { ...f.release, levels: { ...f.release.levels, '3': { ...f.release.levels['3'], overlap: 'level_4' } } },
@@ -150,11 +155,65 @@ describe('HAID release schema', () => {
     assert.ok(validateHaidRelease(unpublished).some((p) => p.includes('published_at')));
     const draft: HaidRelease = { ...placeholder, release: { ...placeholder.release, status: 'draft', published_at: null } };
     assert.deepEqual(validateHaidRelease(draft), []);
+    const staleOverlap: HaidRelease = { ...f, overlap: { ...f.overlap, level_4: { ...f.overlap.level_4, row: { ...f.overlap.level_4.row!, status: 'placeholder' } } } };
+    assert.ok(validateHaidRelease(staleOverlap).some((p) => p.includes('overlap level_4.row is still placeholder')));
   });
 
   test('anchor rows are strict and reject unknown units', () => {
     assert.equal(HaidAnchorSchema.safeParse({ ...anchor({ id: 'x', value: 1 }), unit: 'devices' }).success, false);
     assert.equal(HaidAnchorSchema.safeParse({ ...anchor({ id: 'x', value: 1 }), extra: 1 }).success, false);
+  });
+});
+
+describe('anchor kinds, markets and staleness', () => {
+  test('top_down anchors need share + base_anchor; other kinds must not carry them', () => {
+    const ok = (v: unknown) => HaidAnchorSchema.safeParse(v).success;
+    assert.equal(ok(anchor({ id: 't', value: 10, kind: 'top_down', share: 0.1, base_anchor: 'b' })), true);
+    assert.equal(ok(anchor({ id: 't', value: 10, kind: 'top_down' })), false);
+    assert.equal(ok(anchor({ id: 'p', value: 10, share: 0.1 })), false);
+    assert.equal(ok({ ...anchor({ id: 'p', value: 10 }), market: 'mars' }), false);
+  });
+
+  test('a top_down value must equal share × base, and a base anchor cannot be cited by a level', () => {
+    const f = fixture();
+    const withTd: HaidRelease = {
+      ...f,
+      anchors: [
+        ...f.anchors,
+        anchor({ id: 'base15', value: 5_000_000_000, kind: 'base', market: 'world', window: 'state', grade: 'A' }),
+        anchor({ id: 'td', value: 999, kind: 'top_down', share: 0.2, base_anchor: 'base15', market: 'world' }),
+      ],
+    };
+    assert.ok(validateHaidRelease(withTd).some((p) => p.includes('is not share × base')));
+    const cited: HaidRelease = {
+      ...withTd,
+      release: { ...withTd.release, levels: { ...withTd.release.levels, '4': { ...withTd.release.levels['4'], anchors: ['a', 'base15'] } } },
+    };
+    assert.ok(validateHaidRelease(cited).some((p) => p.includes('cites base anchor base15')));
+  });
+
+  test('isStale: older than 12 months at the quarter end', () => {
+    assert.equal(isStale('2025-05-28', '2026-09-30'), true);
+    assert.equal(isStale('2025-10-29', '2026-09-30'), false);
+    assert.equal(isStale('2026-07-22', '2026-09-30'), false);
+  });
+
+  test('a level whose anchors are all older than 12 months is refused', () => {
+    const f = fixture();
+    const old: HaidRelease = { ...f, anchors: f.anchors.map((a) => (a.id === 'shown' ? { ...a, as_of: '2025-01-01', published_at: '2025-01-01' } : a)) };
+    assert.ok(validateHaidRelease(old).some((p) => p.includes('level 3: every cited anchor is older than 12 months')));
+  });
+
+  test('market_union_topdown needs an overlap or union per market and a top_down anchor', () => {
+    const f = fixture();
+    const g: HaidRelease = {
+      ...f,
+      anchors: [...f.anchors, anchor({ id: 'cnp', value: 100, market: 'cn' })],
+      release: { ...f.release, levels: { ...f.release.levels, '4': { certainty: 'range', method: 'market_union_topdown', anchors: ['a', 'b', 'cnp'], overlap: 'level_4', method_ja: 'x' } } },
+    };
+    const problems = validateHaidRelease(g);
+    assert.ok(problems.some((p) => p.includes('market cn has products but neither a union anchor nor an overlap rate')), problems.join('|'));
+    assert.ok(problems.some((p) => p.includes('needs at least one top_down anchor')), problems.join('|'));
   });
 });
 

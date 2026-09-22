@@ -29,29 +29,31 @@
       "certainty": "lower_bound",
       "method": "max_single",
       "anchors": [
-        "google_ai_overviews_monthly_2026"
+        "google_ai_overviews_monthly_2026",
+        "meta_ai_monthly_2025"
       ],
-      "method_ja": "1 社の公表値（検索の AI による概要の月間利用者）だけで下限が決まる。上限は測れない。"
+      "method_ja": "「見せられた」人数を公表しているのは 2 社。重なりが分からないため最大の 1 社を下限とする。"
     },
     "4": {
       "certainty": "range",
-      "method": "sum_minus_overlap",
+      "method": "market_union_topdown",
       "anchors": [
         "google_ai_mode_monthly_2026",
         "gemini_app_monthly_2026",
         "chatgpt_weekly_2026",
         "microsoft_copilot_family_monthly_2025",
-        "meta_ai_monthly_2025",
         "grok_monthly_2026",
         "perplexity_monthly_2026",
+        "sensortower_claude_2026_05",
+        "questmobile_ai_native_union_2026_05",
         "questmobile_doubao_2026_06",
         "questmobile_qwen_2026_06",
         "questmobile_deepseek_2026_06",
         "questmobile_yuanbao_2026_06",
-        "sensortower_claude_2026_05"
+        "microsoft_ai_diffusion_2026q1"
       ],
       "overlap": "level_4",
-      "method_ja": "各社の公表値（B）に第三者パネルの推計（C）を足して 30 日口径にそろえ、低 = 最大の 1 社、高 = 単純合計、中 = 合計から重なり率を引いた値。"
+      "method_ja": "市場ごとに積み上げる。中国はパネルの重複除去済み合計をそのまま使い、中国以外は各社の公表値と推計を足して重なり率を引く。積み上げの合計と、独立した上からの推計（人口 × 利用率）を突き合わせ、小さいほうを低、大きいほうを高、幾何平均を中とする。"
     },
     "5": {
       "certainty": "lower_bound",
