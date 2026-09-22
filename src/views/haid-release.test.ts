@@ -138,27 +138,44 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.equal(byLevel[7].kind, 'none');
   });
 
-  test('数字の出どころと計算 prints one formula per level from the derivation trace', () => {
-    const rows = model.provenance.rows;
-    assert.equal(rows.length, 10);
-    assert.equal(model.provenance.rules.length, 6);
-    const by = Object.fromEntries(rows.map((r) => [r.level, r]));
-    assert.equal(by[1].lines[0], '国連 世界人口推計 総人口（2026 年 7 月 1 日） = 83 億');
-    assert.equal(by[1].exactlyJa, 'n(1) = 83 億 − 60 億 = 23 億');
-    assert.ok(by[3].lines[0].startsWith('最大の 1 社 = Google 検索の AI による概要 月間利用者 = 25 億（2 件のうち）'), by[3].lines[0]);
-    assert.ok(by[3].lines.some((l) => l.includes('Meta AI') && l.includes('12 か月より古い')), by[3].lines.join('|'));
+  test('数字の出どころと計算 builds one card per level: inputs → steps → result', () => {
+    const cards = model.provenance.cards;
+    assert.equal(model.provenance.rules.length, 3);
+    assert.deepEqual(cards.map((c) => c.levelJa), ['第 1 段階', '第 2 段階', '第 3 段階', '第 4 段階', '第 5 段階', '第 6 段階', '第 7〜10 段階']);
+    const by = Object.fromEntries(cards.map((c) => [c.level, c]));
+    assert.equal(by[1].howJa, '公表値が 1 つなので、そのまま使う。');
+    assert.equal(by[1].inputs[0].entityJa, '国連 世界人口推計');
+    assert.equal(by[1].inputs[0].valueJa, '83 億');
+    assert.equal(by[1].atLeastJa, '83 億');
+    assert.equal(by[1].exactlyJa, 'ちょうどこの段階 n(1) = 83 億 − 60 億 = 23 億');
+    assert.equal(by[3].howJa, '2 件の公表値は重なりが分からないため、最大の 1 社を下限とする。');
+    assert.equal(by[3].steps[0].label, '最大の 1 社');
+    assert.equal(by[3].steps[0].text, 'Google 検索の AI による概要 月間利用者 25 億');
+    assert.equal(by[3].inputs.find((t) => t.picked)!.entityJa, 'Google 検索の AI による概要');
+    assert.deepEqual(by[3].inputs.find((t) => t.entityJa === 'Meta AI')!.flags, ['古い']);
+    assert.ok(by[3].notes.some((n) => n.includes('Meta AI') && n.includes('12 か月より古い')), by[3].notes.join('|'));
     assert.equal(by[3].atLeastJa, '25 億+');
-    assert.equal(by[4].lines[0], '中国以外 = 10 億 + 9.5 億 + 9 億 + 1.5 億 + 1.2 億 + 1 億 + 2.5 億 = 35 億 × (1 − 0.58) = 15 億');
-    assert.equal(by[4].lines[1], '中国（QuestMobile、重複除去済み）= 5 億');
-    assert.equal(by[4].lines[2], '積み上げ = 15 億 + 5 億 = 20 億');
-    assert.ok(by[4].lines[3].startsWith('上から = 17.8% × 国連 世界人口推計 15〜64 歳人口（2026 年） 54 億 = 9.6 億'), by[4].lines[3]);
-    assert.equal(by[4].lines[4], '低 = 9.6 億　高 = 20 億　中 = √(9.6 億 × 20 億) = 14 億');
-    assert.equal(by[4].lines[5], '単純合計（参考）= 42 億');
-    assert.ok(by[4].lines.some((l) => l.includes('ChatGPT 週間利用者 は 7 日口径')), by[4].lines.join('|'));
-    assert.equal(by[4].exactlyJa, 'n(4) = 14 億 − 9 億 = 4.7 億');
-    assert.equal(by[7].lines[0], '公表値なし。');
+    assert.equal(by[4].howJa, '市場ごとに積み上げ、独立した上からの推計（人口 × 利用率）と突き合わせる。');
+    assert.deepEqual(by[4].steps.map((s) => s.label), ['中国以外', '中国', '積み上げ', '上から', '参考']);
+    assert.equal(by[4].steps[0].text, '7 社を足すと 35 億。重なり率 58% を引いて 15 億');
+    assert.equal(by[4].steps[1].text, 'QuestMobile の重複除去済み合計をそのまま使う → 5 億');
+    assert.equal(by[4].steps[2].text, '15 億 + 5 億 = 20 億');
+    assert.ok(by[4].steps[3].text.startsWith('国連 世界人口推計 15〜64 歳人口（2026 年） 54 億 × 利用率 17.8% = 9.6 億'), by[4].steps[3].text);
+    assert.equal(by[4].steps[4].text, '重なりを引かない単純合計は 42 億');
+    assert.deepEqual(by[4].range, { lowJa: '9.6 億', highJa: '20 億', midJa: '14 億', lowFromJa: '低（上から）', highFromJa: '高（積み上げ）', midRuleJa: '中 = √(低 × 高)', midPct: 41.2 });
+    assert.equal(by[4].inputs.find((t) => t.id === 'chatgpt_weekly_2026')!.marketJa, '中国以外');
+    assert.deepEqual(by[4].inputGroups.map((g) => [g.labelJa, g.items.length]), [['中国以外', 7], ['中国', 5], ['世界', 1]]);
+    assert.deepEqual(by[1].inputGroups.map((g) => g.labelJa), [null]);
+    assert.deepEqual(by[4].inputs.find((t) => t.id === 'chatgpt_weekly_2026')!.flags, ['7 日口径']);
+    assert.equal(by[4].inputs.find((t) => t.id === 'questmobile_ai_native_union_2026_05')!.kind, 'union');
+    assert.ok(by[4].notes.some((n) => n.includes('ChatGPT 週間利用者 は 7 日口径')), by[4].notes.join('|'));
+    assert.equal(by[4].exactlyJa, 'ちょうどこの段階 n(4) = 14 億 − 9 億 = 4.7 億');
+    assert.equal(by[1].inputs[0].marketJa, null, 'market shown only on the split level');
+    assert.deepEqual(by[7].levels, [7, 8, 9, 10]);
+    assert.equal(by[7].howJa, 'この段階以上の人数を示す公表値がない。');
     assert.equal(by[7].atLeastJa, '—');
-    assert.equal(by[7].exactlyJa, '—');
+    assert.equal(by[7].exactlyJa, null);
+    assert.equal(by[7].ja, '');
   });
 
   test('an archived release is not latest and gets its own canonical', () => {
@@ -172,10 +189,14 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.equal(a.map.columns[1].cells.find((c) => c.level === 3)?.hatched, true, 'Q2 level 3 is データなし inside the 道具 column');
     assert.equal(a.map.columns[1].cells.find((c) => c.level === 5)?.people, null);
     assert.ok(a.fact.body.includes('第 5 段階以上はこの回は公開データなし'), a.fact.body);
-    const p3 = a.provenance.rows.find((r) => r.level === 3)!;
-    assert.equal(p3.lines[0], '公表値なし。');
-    assert.ok(p3.lines[1].startsWith('N(≥4) = 21 億 を下回れないため'), p3.lines[1]);
+    const p3 = a.provenance.cards.find((c) => c.level === 3)!;
+    assert.deepEqual(p3.levels, [3], 'a nested-only level keeps its own card');
+    assert.equal(p3.inputs.length, 0);
+    assert.equal(p3.notes[0], '公表値はないが、N(≥4) = 21 億 を下回れないため、21 億 に合わせた。');
     assert.equal(p3.atLeastJa, '—');
+    const p4 = a.provenance.cards.find((c) => c.level === 4)!;
+    assert.equal(p4.range?.midRuleJa, '中 = 高 × (1 − 重なり率)');
+    assert.equal(a.provenance.cards[a.provenance.cards.length - 1].levelJa, '第 7〜10 段階');
     assert.ok(!a.fact.body.includes('3,000 万'));
   });
 
