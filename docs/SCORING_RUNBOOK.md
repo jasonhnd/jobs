@@ -9,9 +9,9 @@
 > —— 更新し忘れると gate が落ちる。手で書き換えたまま腐らせることはできない。
 > `run.backfill: true` の追跡採点 batch はここに書かない（`check-geo-freshness` の active run からも除外される）。
 
-- モデル: `gpt-6-astra`
-- run date: `2026-09-10`
-- Score output: `data/scores/occupations_gpt-6-astra_2026-09-10.json`
+- モデル: `grok-4.7-build-fast`
+- run date: `2026-09-22`
+- Score output: `data/scores/occupations_grok-4.7-build-fast_2026-09-22.json`
 
 - 標準: AIOIS-10 v1.0
 - 対象: JILPT IPD v7.00 の 556 職業

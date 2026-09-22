@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-22T04:32:30.289Z",
-  "gitCommit": "7856c5ede751c8fef11b2392966e15cc4adbf6b7",
-  "gitBranch": "feat/aiadoption-1.7c-market-union",
-  "distFileCount": 841,
-  "urlCount": 841,
+  "capturedAt": "2026-09-22T11:26:56.175Z",
+  "gitCommit": "a5cdb23dc8f6ed0b3f94d0071f1ed46399b050b2",
+  "gitBranch": "mms-10.6-land-grok-4.7-fast",
+  "distFileCount": 842,
+  "urlCount": 842,
   "dataFileCount": 616,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

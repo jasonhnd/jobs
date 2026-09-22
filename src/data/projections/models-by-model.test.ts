@@ -289,7 +289,7 @@ describe('backfill batch is history-only (mms-9.8)', () => {
     const grokAfter = withBackfill.models['grok-4.6@2026-09-07'];
     assert.ok(grokLive);
     assert.ok(grokAfter);
-    assert.equal(grokAfter.in_panel, true);
+    assert.equal(grokAfter.in_panel, grokLive.in_panel);
     assert.deepEqual(grokAfter.drift, grokLive.drift);
 
     const astraLive = live.models['gpt-6-astra@2026-09-10'];
