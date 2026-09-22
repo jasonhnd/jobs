@@ -8,6 +8,7 @@ import {
   HaidLevelInputSchema,
   HaidReleaseFileSchema,
   loadHaidRelease,
+  quarterBounds,
   validateHaidRelease,
   windowFits,
   type HaidAnchor,
@@ -96,6 +97,8 @@ describe('HAID release schema', () => {
     assert.equal(windowFits('days_7', 'days_30'), false);
     assert.equal(windowFits('itu_3m', 'state'), true);
     assert.equal(windowFits('days_30', 'state'), false);
+    assert.equal(windowFits('days_30', 'cumulative'), false, 'an all-time count bounds nothing in a window');
+    assert.equal(windowFits('state', 'cumulative'), false);
     const f = fixture();
     const bad: HaidRelease = {
       ...f,
@@ -152,6 +155,16 @@ describe('HAID release schema', () => {
   test('anchor rows are strict and reject unknown units', () => {
     assert.equal(HaidAnchorSchema.safeParse({ ...anchor({ id: 'x', value: 1 }), unit: 'devices' }).success, false);
     assert.equal(HaidAnchorSchema.safeParse({ ...anchor({ id: 'x', value: 1 }), extra: 1 }).success, false);
+  });
+});
+
+describe('quarter bounds', () => {
+  test('q1..q4 map to calendar quarters', () => {
+    assert.deepEqual(quarterBounds('2026-q1'), { start: '2026-01-01', end: '2026-03-31' });
+    assert.deepEqual(quarterBounds('2026-q2'), { start: '2026-04-01', end: '2026-06-30' });
+    assert.deepEqual(quarterBounds('2026-q3'), { start: '2026-07-01', end: '2026-09-30' });
+    assert.deepEqual(quarterBounds('2026-q4'), { start: '2026-10-01', end: '2026-12-31' });
+    assert.throws(() => quarterBounds('2026-Q3'));
   });
 });
 

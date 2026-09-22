@@ -87,17 +87,17 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.equal(rows[6].barPct, null);
     assert.equal(rows[6].atLeastCertaintyJa, 'データなし');
     assert.equal(rows[2].atLeastCertaintyJa, '下限のみ');
-    assert.equal(rows[3].atLeastRangeJa, '10 億〜25 億');
+    assert.equal(rows[3].atLeastRangeJa, '10 億〜29 億');
     assert.equal(rows[3].anchors.length, 3);
     assert.equal(rows[0].definitionHref, '/haid#level-1');
   });
 
   test('headline and fact block use 1 significant figure for estimates, 2 for the population', () => {
     assert.deepEqual(model.lead.population, { value: '83', unit: '億' });
-    assert.deepEqual(model.lead.prompted, { value: '20', unit: '億' });
+    assert.deepEqual(model.lead.prompted, { value: '10', unit: '億' });
     assert.ok(model.fact.body.includes('人類 83 億 人のうち'));
-    assert.ok(model.fact.body.includes('およそ 20 億 人'));
-    assert.ok(model.fact.body.includes('およそ 8 億 人'));
+    assert.ok(model.fact.body.includes('およそ 10 億 人'), model.fact.body);
+    assert.ok(model.fact.body.includes('およそ 9 億 人'), model.fact.body);
     assert.ok(model.fact.body.includes('HAID v1.0'));
   });
 
@@ -130,10 +130,11 @@ describe('HAID release page model (2026-q3 draft)', () => {
     const byLevel = Object.fromEntries(rows.map((r) => [r.level, r]));
     assert.equal(byLevel[1].kind, 'flat');
     assert.equal(byLevel[4].kind, 'method', 'both range, but Q2 cited grade-C panels and Q3 grade-B announcements');
+    assert.equal(byLevel[2].kind, 'method', 'level 2: DataReportal (C) → ITU (A)');
     assert.equal(byLevel[4].deltaJa, '数え方が変わった');
     assert.equal(byLevel[3].kind, 'none', 'Q2 had no level-3 data');
     assert.equal(byLevel[5].kind, 'none');
-    assert.equal(byLevel[6].kind, 'flat');
+    assert.equal(byLevel[6].kind, 'method', 'level 6: GitHub Copilot (Q2) → Codex (Q3), a different anchor');
     assert.equal(byLevel[7].kind, 'none');
   });
 
@@ -142,13 +143,13 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.equal(rows.length, 10);
     assert.equal(model.provenance.rules.length, 6);
     const by = Object.fromEntries(rows.map((r) => [r.level, r]));
-    assert.equal(by[1].lines[0], '世界人口 総人口 = 83 億');
-    assert.equal(by[1].exactlyJa, 'n(1) = 83 億 − 61 億 = 22 億');
-    assert.ok(by[3].lines[0].startsWith('最大の 1 社 = Google 検索の AI による概要 月間利用者 = 20 億'), by[3].lines[0]);
-    assert.equal(by[3].atLeastJa, '20 億+');
-    assert.equal(by[4].lines[0], '低 = 最大の 1 社 = 10 億　高 = 8 億 + 6.5 億 + 10 億 = 25 億　中 = 25 億 × (1 − 0.38) = 15 億');
+    assert.equal(by[1].lines[0], '国連 世界人口推計 総人口（2026 年 7 月 1 日） = 83 億');
+    assert.equal(by[1].exactlyJa, 'n(1) = 83 億 − 60 億 = 23 億');
+    assert.ok(by[3].lines[0].startsWith('最大の 1 社 = Google 検索の AI による概要 月間利用者 = 25 億'), by[3].lines[0]);
+    assert.equal(by[3].atLeastJa, '25 億+');
+    assert.equal(by[4].lines[0], '低 = 最大の 1 社 = 10 億　高 = 10 億 + 9.5 億 + 9 億 = 29 億　中 = 29 億 × (1 − 0.58) = 12 億');
     assert.ok(by[4].lines.some((l) => l.includes('ChatGPT 週間利用者 は 7 日口径')), by[4].lines.join('|'));
-    assert.equal(by[4].exactlyJa, 'n(4) = 15 億 − 8 億 = 7.2 億');
+    assert.equal(by[4].exactlyJa, 'n(4) = 12 億 − 9 億 = 3 億');
     assert.equal(by[7].lines[0], '公表値なし。');
     assert.equal(by[7].atLeastJa, '—');
     assert.equal(by[7].exactlyJa, '—');
@@ -173,8 +174,9 @@ describe('HAID release page model (2026-q3 draft)', () => {
   });
 
   test('anchor table lists every anchor with grade and placeholder flag', () => {
-    assert.equal(model.anchorsTable.rows.length, 8);
+    assert.equal(model.anchorsTable.rows.length, 9);
     assert.ok(model.anchorsTable.rows.every((r) => r.placeholder));
-    assert.ok(model.anchorsTable.rows.some((r) => r.valueJa === '3,400 万'));
+    assert.ok(model.anchorsTable.rows.some((r) => r.valueJa === '5,000 万'));
+    assert.ok(model.list.paymentNote.includes('少なくとも 5,000 万 人'), model.list.paymentNote);
   });
 });

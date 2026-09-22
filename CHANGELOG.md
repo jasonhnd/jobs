@@ -10,6 +10,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Changed
+
+- **2026-Q3 now rests on the quarter's own published figures (aiadoption-1.7).**
+  Owner ask 2026-09-22: the anchor table showed only May / June dates. The
+  Q3 anchors are now vendor statements read on 2026-09-22 — Alphabet investor
+  presentation 2026-06-03 (AI Overviews 2.5B monthly) and Q2 2026 call
+  2026-07-22 (Gemini app 950M, AI Mode 1B monthly actives), OpenAI 2026-03-31
+  (ChatGPT 900M weekly, 50M subscribers → the 対価 attribute) and 2026-06-02
+  (Codex 5M weekly), Microsoft FY26 Q4 call 2026-07-29 (GitHub Copilot 50M
+  users, listed only: window unstated), ITU Facts and Figures 2025 (6.0B
+  online), UN WPP 2024 (8.30B mid-2026). The level-4 overlap rate (0.58)
+  is derived from Pew's Americans and AI 2026 survey (49% use any chatbot,
+  per-tool shares sum to 116%). Meta AI is dropped: no 2026 vendor count.
+  All rows stay 未照合 until the owner checks them. Two new rules: an anchor
+  window `cumulative` can be listed but never cited, and a round's `as_of`
+  (latest cited anchor) must fall inside its own quarter or the build stops.
+  Headline moves from およそ 20 億 to およそ 10 億 (the survey-based overlap is
+  larger than the old assumption); baseline refreshed.
+
 ### Removed
 
 - **The 5-layer AI adoption model is retired (aiadoption-1.5).**

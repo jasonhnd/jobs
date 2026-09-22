@@ -45,7 +45,7 @@ export interface HaidDerivationTerm {
   entity_ja: string;
   metric_ja: string;
   value: number;
-  window: 'itu_3m' | 'days_30' | 'days_7' | 'state';
+  window: 'itu_3m' | 'days_30' | 'days_7' | 'state' | 'cumulative';
   grade: 'A' | 'B' | 'C' | 'D';
   /** true when a 7-day count serves a 30-day level (it is a floor). */
   narrower_window: boolean;
@@ -112,6 +112,8 @@ export interface HaidPreviousLevel {
   n_display: number | null;
   /** Sorted, unique grades of the anchors the level cited (A–D). */
   anchor_grades: string[];
+  /** Sorted anchor ids the level cited — a different set means 「数え方が変わった」. */
+  anchor_ids: string[];
 }
 
 /** data.haid-latest.json is the newest release payload, unchanged. */

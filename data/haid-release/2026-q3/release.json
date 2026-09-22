@@ -21,7 +21,7 @@
       "certainty": "measured",
       "method": "single",
       "anchors": [
-        "internet_users_2026"
+        "itu_internet_users_2025"
       ],
       "method_ja": "インターネット利用者数。ちょうど第 2 段階にいる人は、ここから第 3 段階以上を引いた残差。"
     },
@@ -29,7 +29,7 @@
       "certainty": "lower_bound",
       "method": "max_single",
       "anchors": [
-        "google_ai_overviews_monthly_2025"
+        "google_ai_overviews_monthly_2026"
       ],
       "method_ja": "1 社の公表値（検索の AI による概要の月間利用者）だけで下限が決まる。上限は測れない。"
     },
@@ -37,9 +37,9 @@
       "certainty": "range",
       "method": "sum_minus_overlap",
       "anchors": [
-        "chatgpt_weekly_2025",
-        "gemini_app_monthly_2025",
-        "meta_ai_monthly_2025"
+        "google_ai_mode_monthly_2026",
+        "gemini_app_monthly_2026",
+        "chatgpt_weekly_2026"
       ],
       "overlap": "level_4",
       "method_ja": "各社が公表した月間・週間利用者を 30 日口径にそろえ、低 = 最大の 1 社、高 = 単純合計、中 = 合計から重なり率を引いた値。"
@@ -48,7 +48,7 @@
       "certainty": "lower_bound",
       "method": "max_single",
       "anchors": [
-        "chatgpt_weekly_2025"
+        "chatgpt_weekly_2026"
       ],
       "method_ja": "7 日口径の公表値が 1 社しかないため、下限として扱う。"
     },
@@ -56,10 +56,9 @@
       "certainty": "lower_bound",
       "method": "max_single",
       "anchors": [
-        "github_copilot_users_2026",
-        "cursor_users_2026"
+        "codex_weekly_2026"
       ],
-      "method_ja": "現時点で観測できるのはコーディング用エージェントのみ。重なりが分からないため、最大の 1 社を下限とする。"
+      "method_ja": "現時点で観測できるのはコーディング用エージェントのみ。7 日口径の公表値を下限とする。"
     },
     "7": {
       "certainty": "none",
@@ -87,9 +86,15 @@
     }
   },
   "payment": {
-    "certainty": "none",
-    "count": null,
-    "anchors": [],
-    "method_ja": "有料契約者数を公表している事業者がないため、今回は報告しない。"
+    "certainty": "lower_bound",
+    "count": {
+      "low": 50000000,
+      "mid": null,
+      "high": null
+    },
+    "anchors": [
+      "chatgpt_subscribers_2026"
+    ],
+    "method_ja": "有料契約者数を公表しているのは 1 社のみ。その値を下限とする。"
   }
 }
