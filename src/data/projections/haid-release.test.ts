@@ -32,7 +32,7 @@ function fixture(): HaidRelease {
       anchor({ id: 'shown', value: 10, as_of: '2026-03-01' }),
       anchor({ id: 'a', value: 12, as_of: '2026-04-01' }),
       anchor({ id: 'w', value: 8, as_of: '2026-05-01', window: 'days_7' }),
-      anchor({ id: 'agent', value: 1, as_of: '2026-06-01' }),
+      anchor({ id: 'agent', value: 1, as_of: '2026-07-15' }),
       anchor({ id: 'uncited', value: 1, as_of: '2026-12-31', status: 'placeholder' }),
     ],
     overlap: {
@@ -117,9 +117,15 @@ describe('HAID release projection', () => {
     assert.equal(p.levels[6].derivation.computed, null);
   });
 
+  test('a round whose latest cited anchor falls outside its quarter is refused', () => {
+    const f = fixture();
+    const g: HaidRelease = { ...f, anchors: f.anchors.map((a) => (a.id === 'agent' ? { ...a, as_of: '2026-06-30' } : a)) };
+    assert.throws(() => buildHaidReleasePayload(g), /outside 2026-07-01\.\.2026-09-30/);
+  });
+
   test('as_of is the latest cited anchor, ignoring uncited ones', () => {
     const p = buildHaidReleasePayload(fixture());
-    assert.equal(p.as_of, '2026-06-01');
+    assert.equal(p.as_of, '2026-07-15');
     assert.deepEqual(p.placeholder_anchors, ['uncited']);
   });
 
@@ -160,15 +166,17 @@ describe('HAID release projection', () => {
     assert.equal(first.round, 1);
     assert.equal(first.previous_levels, null);
     assert.deepEqual(first.releases, ['2026-q3', '2026-q4']);
-    const g = fixture();
-    g.release.release = '2026-q4';
-    g.release.version = '2026-Q4.0';
-    g.release.previous = '2026-q3';
+    const g0 = fixture();
+    g0.release.release = '2026-q4';
+    g0.release.version = '2026-Q4.0';
+    g0.release.previous = '2026-q3';
+    const g: HaidRelease = { ...g0, anchors: g0.anchors.map((a) => (a.id === 'agent' ? { ...a, as_of: '2026-10-15' } : a)) };
     const second = buildHaidReleasePayload(g, { releases: ['2026-q3', '2026-q4'], previous: first });
     assert.equal(second.round, 2);
     assert.equal(second.previous_levels?.length, 10);
     assert.equal(second.previous_levels?.[3].n_at_least_display, 14);
     assert.deepEqual(second.previous_levels?.[3].anchor_grades, ['B']);
+    assert.deepEqual(second.previous_levels?.[3].anchor_ids, ['a', 'w']);
     assert.deepEqual(second.previous_levels?.[6].anchor_grades, []);
     assert.throws(() => buildHaidReleasePayload(g, { releases: ['2026-q3', '2026-q4'], previous: null }), /no payload/);
     assert.throws(() => buildHaidReleasePayload(g, { releases: ['2026-q3'], previous: first }), /not in the release list/);

@@ -103,7 +103,11 @@ before the page PR.
   sum_minus_overlap) and emits a derivation trace; the page shows the
   arithmetic per level (owner ask 2026-09-22: the numbers must say where
   they come from and how they were recomputed).
-- aiadoption-1.7: preview check at 1440 / 768 / 375, ROADMAP close-out.
+- aiadoption-1.7: 2026-Q3 anchors from the quarter's own vendor statements
+  (Alphabet 2026-06-03 / 07-22, OpenAI 03-31 / 06-02, Microsoft 07-29, ITU
+  2025-11-17, UN WPP 2024; overlap from Pew 2026-06-17); `cumulative` window
+  (listed, never cited); a round's as_of must fall inside its quarter.
+- aiadoption-1.8: preview check at 1440 / 768 / 375, ROADMAP close-out.
 
 ## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
 

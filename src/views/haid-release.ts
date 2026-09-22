@@ -423,8 +423,11 @@ export function buildHaidReleasePageModel(
     const gradesNow = [...new Set(now.anchors.map((id) => anchorById.get(id)?.grade).filter((g): g is 'A' | 'B' | 'C' | 'D' => g !== undefined))].sort();
     const gradesPrev = [...prev.anchor_grades].sort();
     const gradesChanged = gradesNow.length !== gradesPrev.length || gradesNow.some((g, i) => g !== gradesPrev[i]);
+    const idsNow = [...now.anchors].sort();
+    const idsPrev = [...prev.anchor_ids].sort();
+    const anchorsChanged = idsNow.length !== idsPrev.length || idsNow.some((id, i) => id !== idsPrev[i]);
     if (aNone || bNone || a === null || b === null) kind = 'none';
-    else if (prev.n_at_least_certainty !== now.n_at_least.certainty || gradesChanged) kind = 'method';
+    else if (prev.n_at_least_certainty !== now.n_at_least.certainty || gradesChanged || anchorsChanged) kind = 'method';
     else {
       delta = b - a;
       kind = delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat';
@@ -443,9 +446,12 @@ export function buildHaidReleasePageModel(
     };
   });
 
-  const payment = p.payment.certainty === 'none' || p.payment.count?.mid == null
+  const paymentValue = p.payment.certainty === 'lower_bound' ? p.payment.count?.low ?? null : p.payment.count?.mid ?? null;
+  const payment = p.payment.certainty === 'none' || paymentValue === null
     ? HAID_RELEASE_LIST_JA.paymentNone
-    : `第 4 段階以上のうち およそ ${formatPeopleJaText(p.payment.count.mid, HEADLINE_SIG)} 人。`;
+    : p.payment.certainty === 'lower_bound'
+      ? fillTemplate(HAID_RELEASE_LIST_JA.paymentLower, { n: formatPeopleJaText(paymentValue, HEADLINE_SIG) })
+      : fillTemplate(HAID_RELEASE_LIST_JA.paymentAbout, { n: formatPeopleJaText(paymentValue, HEADLINE_SIG) });
 
   const factValues = {
     population: formatPeopleJaText(population, TABLE_SIG),
