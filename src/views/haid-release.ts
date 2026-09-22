@@ -100,6 +100,9 @@ export interface ListRow {
 
 export interface AnchorRow {
   readonly id: string;
+  readonly stale: boolean;
+  readonly kind: 'product' | 'union' | 'top_down' | 'base';
+  readonly marketJa: string;
   readonly entityJa: string;
   readonly metricJa: string;
   readonly valueJa: string;
@@ -171,6 +174,14 @@ export interface HaidReleasePageModel {
 
 const HEADLINE_SIG = 1;
 const TABLE_SIG = 2;
+
+function quarterEndOf(release: string): string {
+  const m = /^(\d{4})-q([1-4])$/.exec(release);
+  if (!m) return '9999-12-31';
+  const q = Number(m[2]);
+  const month = q * 3;
+  return `${m[1]}-${String(month).padStart(2, '0')}-${q === 1 || q === 4 ? 31 : 30}`;
+}
 
 function nextQuarterLabel(release: string): string {
   const m = /^(\d{4})-q([1-4])$/.exec(release);
@@ -390,12 +401,39 @@ export function buildHaidReleasePageModel(
           mid: formatPeopleJaText(d.mid!, TABLE_SIG),
         }));
         break;
+      case 'market_union_topdown': {
+        const marketJa = (m: string) => (m === 'cn' ? P.marketCn : m === 'row' ? P.marketRow : P.marketWorld);
+        const parts: string[] = [];
+        for (const b of d.markets ?? []) {
+          if (b.union_anchor) {
+            const u = d.terms.find((t) => t.id === b.union_anchor)!;
+            lines.push(fillTemplate(P.marketUnion, { market: marketJa(b.market), unionTerm: u.entity_ja, union: formatPeopleJaText(b.union, TABLE_SIG) }));
+          } else {
+            lines.push(fillTemplate(P.marketSum, {
+              market: marketJa(b.market),
+              termsSum: b.products.map((id) => formatPeopleJaText(d.terms.find((t) => t.id === id)!.value, TABLE_SIG)).join(' + '),
+              sum: formatPeopleJaText(b.sum ?? 0, TABLE_SIG),
+              rate: String(b.overlap_rate),
+              union: formatPeopleJaText(b.union, TABLE_SIG),
+            }));
+          }
+          parts.push(formatPeopleJaText(b.union, TABLE_SIG));
+        }
+        lines.push(fillTemplate(P.bottomUp, { parts: parts.join(' + '), bottomUp: formatPeopleJaText(d.bottom_up ?? 0, TABLE_SIG) }));
+        for (const t of d.terms.filter((x) => x.kind === 'top_down')) {
+          lines.push(fillTemplate(P.topDown, { share: `${Math.round((t.share ?? 0) * 1000) / 10}%`, baseLabel: t.base_label_ja ?? '', base: formatPeopleJaText(t.base_value ?? 0, TABLE_SIG), topDown: formatPeopleJaText(t.value, TABLE_SIG), term: t.entity_ja }));
+        }
+        lines.push(fillTemplate(P.reconcile, { low: formatPeopleJaText(d.low!, TABLE_SIG), high: formatPeopleJaText(d.high!, TABLE_SIG), mid: formatPeopleJaText(d.mid!, TABLE_SIG) }));
+        if (d.raw_sum !== null) lines.push(fillTemplate(P.rawSum, { rawSum: formatPeopleJaText(d.raw_sum, TABLE_SIG) }));
+        break;
+      }
       case 'none':
         lines.push(P.none);
         break;
     }
     for (const t of d.terms) {
       if (t.narrower_window) lines.push(fillTemplate(P.weeklyFloor, { term: `${t.entity_ja} ${t.metric_ja}` }));
+      if (t.stale) lines.push(fillTemplate(P.stale, { term: `${t.entity_ja} ${t.metric_ja}` }));
     }
     if (d.floored_to !== null) {
       lines.push(fillTemplate(P.floored, { next: String(spec.level + 1), nextValue: formatPeopleJaText(d.floored_to, TABLE_SIG) }));
@@ -514,7 +552,7 @@ export function buildHaidReleasePageModel(
     anchorsTable: {
       heading: HAID_RELEASE_ANCHORS_JA.heading,
       intro: HAID_RELEASE_ANCHORS_JA.intro,
-      rows: p.anchors.map(anchorRow),
+      rows: p.anchors.map((a) => anchorRow(a, quarterEndOf(p.release))),
     },
     fact: {
       label: fillTemplate(HAID_RELEASE_FACT_JA.label, { label: p.label_ja }),
@@ -530,9 +568,14 @@ export function buildHaidReleasePageModel(
   };
 }
 
-function anchorRow(a: HaidReleasePayload['anchors'][number]): AnchorRow {
+function anchorRow(a: HaidReleasePayload['anchors'][number], quarterEnd = '9999-12-31'): AnchorRow {
+  const cutoff = new Date(quarterEnd);
+  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 1);
   return {
     id: a.id,
+    stale: new Date(a.as_of) < cutoff,
+    kind: a.kind ?? 'product',
+    marketJa: a.market === 'cn' ? HAID_RELEASE_PROVENANCE_JA.marketCn : a.market === 'row' ? HAID_RELEASE_PROVENANCE_JA.marketRow : HAID_RELEASE_PROVENANCE_JA.marketWorld,
     entityJa: a.entity_ja,
     metricJa: a.metric_ja,
     valueJa: formatPeopleJaText(a.value, TABLE_SIG),

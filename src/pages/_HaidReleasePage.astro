@@ -297,13 +297,14 @@ const jsonLd = JSON.stringify({
         <div class="wrap-x" tabindex="0" role="region" aria-label="横スクロールできる表">
           <table class="haid-anchors">
             <thead>
-              <tr><th>数字</th><th>何の数字か</th><th>値</th><th>日付</th><th>等級</th></tr>
+              <tr><th>数字</th><th>何の数字か</th><th>市場</th><th>値</th><th>日付</th><th>等級</th></tr>
             </thead>
             <tbody>
               {m.anchorsTable.rows.map((a) => (
                 <tr>
-                  <td>{a.sourceUrl ? <a href={a.sourceUrl} rel="noopener">{a.entityJa}</a> : a.entityJa}{a.placeholder && <> <span class="chip">未照合</span></>}</td>
+                  <td>{a.sourceUrl ? <a href={a.sourceUrl} rel="noopener">{a.entityJa}</a> : a.entityJa}{a.placeholder && <> <span class="chip">未照合</span></>}{a.stale && <> <span class="chip lower">古い</span></>}</td>
                   <td>{a.metricJa}</td>
+                  <td class="dt">{a.marketJa}</td>
                   <td class="num">{a.valueJa}</td>
                   <td class="dt">{a.asOf}</td>
                   <td><span class="grade" title={a.gradeJa}>{a.grade}</span></td>
