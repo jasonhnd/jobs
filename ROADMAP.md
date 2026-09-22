@@ -113,7 +113,9 @@ overlap); reconciled with Microsoft AI Diffusion top-down → 低 9.6 億 /
   vendor statements, every vendor with a published or panel count,
   per-market union + top-down reconciliation, Meta AI to level 3, stale
   flag, in-quarter as_of rule.
-- aiadoption-1.8: preview check + this close-out.
+- aiadoption-1.8 (#598): preview check + close-out.
+- aiadoption-1.9: 「数字の出どころと計算」 as per-level cards (inputs → steps
+  → result) for desktop and phone.
 
 Still open, owner-side (tracked here until 2026-Q3 goes `final` in October):
 all 21 anchors are `placeholder` (未照合); the Pew overlap (U.S., ever-use)
