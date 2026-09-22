@@ -48,17 +48,15 @@
     "@vercel/functions": "3.9.5",
     "@vercel/og": "^1.0.1",
     "astro": "^7.2.4",
-    "d3": "^7.9.0",
     "react": "^19.2.8",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@typescript/native": "npm:typescript@^7.0.2",
     "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.62.1",
-    "@types/d3": "^7.4.3",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "exceljs": "^4.4.0",
     "fontkitten": "1.0.3",
     "subset-font": "^2.5.0",

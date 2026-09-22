@@ -182,11 +182,10 @@ describe('models-deep projection', () => {
     assert.equal(new Set(payload.consensus.map((row) => row.id)).size, 3);
     assert.ok(payload.stories.length >= 3 && payload.stories.length <= 5);
     assert.equal(new Set(payload.stories.map((story) => story.id)).size, payload.stories.length);
-    const panelSuffix = `__${payload.panel.entries.map((entry) => `${entry.model}@${entry.date}`).join('__')}`;
     const fable = payload.panel.entries.find((entry) => entry.model === 'claude-fable-5-1');
     assert.equal(fable?.personality_sentence_id, 'claude_fable_5_1_d4_negative_strong');
     assert.ok(
-      payload.stories.every((story) => story.editorial_sentence_id.endsWith(panelSuffix)),
+      payload.stories.every((story) => story.editorial_sentence_id === 'default_latest_pair_split'),
       payload.stories.map((story) => story.editorial_sentence_id).join(', '),
     );
     const orphans = reportOrphanedCuration(
@@ -430,9 +429,11 @@ describe('backfill batches stay in lane history (mms-9.9)', () => {
   function withXaiBackfill(indexes: Indexes): Indexes {
     const historyByOcc = new Map<number, ScoreHistEntry[]>();
     for (const [occId, hist] of indexes.historyByOcc) {
-      const clones = hist
+      const latest = hist
         .filter((entry) => entry.provider === 'xai' && entry.backfill !== true)
-        .map(asBackfill);
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .at(-1);
+      const clones = latest == null ? [] : [asBackfill(latest)];
       historyByOcc.set(occId, [...hist, ...clones]);
     }
     return { ...indexes, historyByOcc };

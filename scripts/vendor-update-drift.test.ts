@@ -112,6 +112,19 @@ describe('vendor-update drift', () => {
     assert.match(markdown, /職業10/);
   });
 
+  test('a later backfill batch is not the vendor predecessor', () => {
+    const history: ScoreHistEntry[] = [
+      vote('grok-4.6', 'xai', '2026-09-07', 4),
+      { ...vote('grok-4.5', 'xai', '2026-09-10', 5), backfill: true },
+      vote('grok-4.7-build-fast', 'xai', '2026-09-22', 3),
+      vote('claude-fable-5-1', 'anthropic', '2026-09-09', 5),
+      vote('gpt-6-astra', 'openai', '2026-09-10', 5),
+    ];
+    const swap = resolveVendorSwap(new Map([[1, history]]), 'grok-4.7-build-fast');
+    assert.equal(swap.oldModel, 'grok-4.6');
+    assert.equal(swap.oldDate, '2026-09-07');
+  });
+
   test('incoming model absent throws', () => {
     const historyByOcc = new Map<number, ScoreHistEntry[]>([
       [1, [

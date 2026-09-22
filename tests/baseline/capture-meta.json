@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-21T00:42:36.725Z",
-  "gitCommit": "ee9ad54fa882af70306cc195efb1c5ff10e3c583",
-  "gitBranch": "fix/one-site-name",
-  "distFileCount": 839,
-  "urlCount": 839,
-  "dataFileCount": 613,
+  "capturedAt": "2026-09-22T13:56:02.349Z",
+  "gitCommit": "d0906e188e4ca78cc1addd2e67d4bfd146c988c3",
+  "gitBranch": "mms-10.8-grok-4.7-public-name",
+  "distFileCount": 842,
+  "urlCount": 842,
+  "dataFileCount": 616,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }
