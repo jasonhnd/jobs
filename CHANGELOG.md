@@ -12,6 +12,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **「数字の出どころと計算」 is now one card per level: 使った数字 → 計算 →
+  結果 (aiadoption-1.9).** The four-column grid of monospace formula strings
+  is replaced by a card for each level: the anchors used (grouped by market
+  on level 4, with grade and 古い / 7 日口径 tags), a plain-language sentence
+  for the method, numbered steps, and — for the reconciled level — a number
+  line with 低 / 中 / 高. The result N(≥k) sits in the card header so the
+  answer comes before the working. Levels 7–10 with no data collapse into a
+  single card. Six rules become three (the level-specific ones moved into
+  the cards). Desktop is two columns; tablet and phone stack. No number,
+  method, or URL changed. Copy remains unsigned.
 - **Level 4 is now computed per market and reconciled top-down
   (aiadoption-1.7c, owner ruling 2026-09-22 「A」).** Anchors carry a
   `market` (cn / row / world) and a `kind` (product / union / top_down /
