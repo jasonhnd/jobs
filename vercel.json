@@ -226,8 +226,8 @@
       "permanent": true
     },
     {
-      "source": "/models/grok-4.7-build-fast",
-      "destination": "/models/grok-4.7-build-fast@2026-09-22",
+      "source": "/models/grok-4.7",
+      "destination": "/models/grok-4.7@2026-09-22",
       "permanent": true
     },
     {
