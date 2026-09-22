@@ -9,12 +9,14 @@
  * Scoring needs a separate owner GO — mms-10.3 / 10.4 / 10.5.
  */
 export const GROK_4_7_SCORING_PROVIDER = 'grok-cli';
-export const GROK_4_7_MODEL_SLUG = 'grok-4.7';
+/** Grok 4.7 Fast. Owner switched the full run to this id on 2026-09-22. */
+export const GROK_4_7_MODEL_SLUG = 'grok-4.7-build-fast';
 export const GROK_4_7_MODEL_PROVIDER = 'xai';
 export const GROK_4_7_PROMPT_FILE = 'data/prompts/2026-09-22_grok-4.7-aiois10.ja.md';
 export const GROK_4_7_PROMPT_VERSION = 'AIOIS-10-v1.0-grok-4.7';
 export const GROK_4_7_RUBRIC_SOURCE = '2026-09-06_grok-4.6-aiois10.ja.md';
-export const GROK_4_7_REASONING_EFFORT = 'high';
+/** Owner set the full run to xhigh on 2026-09-22. */
+export const GROK_4_7_REASONING_EFFORT = 'xhigh';
 /** Oldest grok CLI observed with `-m`, `--json-schema`, `--prompt-file`, and `--reasoning-effort`. */
 export const GROK_4_7_MIN_CLI_VERSION = '1.0.40';
 export const GROK_4_7_PREDECESSOR_SLUG = 'grok-4.6';

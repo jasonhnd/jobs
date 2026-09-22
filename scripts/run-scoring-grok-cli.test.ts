@@ -346,7 +346,7 @@ describe('grok-cli prepareRun', () => {
       });
       assert.equal(withEffort.audit?.reasoning_effort, 'high');
       assert.equal(withEffort.audit?.reasoning_effort_source, 'cli-flag');
-      assert.equal(grokCliProvider.maxConcurrency, 4);
+      assert.equal(grokCliProvider.maxConcurrency, 10);
       assert.equal(grokCliProvider.supportsNativeSchema, true);
     } finally {
       grokCliProvider.prepareRun({ cwd: dir, model: 'grok-4.7', runDir: dir, options: {} });

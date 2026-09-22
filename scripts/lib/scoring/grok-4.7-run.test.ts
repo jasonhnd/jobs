@@ -38,15 +38,15 @@ function rubricBody(markdown: string): string {
 describe('Grok 4.7 path on grok-cli', () => {
   test('locks grok-cli transport and maps the slug to xai', () => {
     assert.equal(GROK_4_7_SCORING_PROVIDER, 'grok-cli');
-    assert.equal(GROK_4_7_MODEL_SLUG, 'grok-4.7');
+    assert.equal(GROK_4_7_MODEL_SLUG, 'grok-4.7-build-fast');
     assert.equal(GROK_4_7_MODEL_PROVIDER, 'xai');
-    assert.equal(GROK_4_7_REASONING_EFFORT, 'high');
+    assert.equal(GROK_4_7_REASONING_EFFORT, 'xhigh');
     assert.equal(GROK_4_7_MIN_CLI_VERSION, '1.0.40');
     assert.equal(GROK_4_7_PREDECESSOR_SLUG, 'grok-4.6');
     assert.equal(GROK_4_7_BACKFILL, false);
-    assert.equal(inferProvider('grok-4.7'), 'xai');
-    assert.equal(formatModelDisplay('grok-4.7'), 'Grok 4.7');
-    assert.equal(modelSlug('grok-4.7'), 'grok-4.7');
+    assert.equal(inferProvider('grok-4.7-build-fast'), 'xai');
+    assert.equal(formatModelDisplay('grok-4.7-build-fast'), 'Grok 4.7 Build Fast');
+    assert.equal(modelSlug('grok-4.7-build-fast'), 'grok-4.7-build-fast');
     assert.equal(GROK_4_7_SCORING_PROVIDER in PROVIDERS, true);
   });
 
@@ -66,7 +66,7 @@ describe('Grok 4.7 path on grok-cli', () => {
     assert.match(prompt, new RegExp(GROK_4_7_PROMPT_VERSION.replace(/\./g, '\\.')));
     assert.match(prompt, /--provider grok-cli/);
     assert.match(prompt, /--model grok-4\.7/);
-    assert.match(prompt, /--reasoning-effort high/);
+    assert.match(prompt, /--reasoning-effort xhigh/);
     assert.match(prompt, /grok-4\.6/);
     assert.match(prompt, /silent fallback/);
     assert.doesNotMatch(prompt, /Vercel AI Gateway|ai-gateway|providers\/xai\.ts/i);
