@@ -37,6 +37,7 @@ import {
 import {
   HAID_RELEASE_ROOT,
   loadHaidRelease,
+  quarterBounds,
   type HaidAnchor,
   type HaidLevelInput,
   type HaidOverlap,
@@ -206,6 +207,12 @@ export function buildHaidReleasePayload(
     .sort()
     .at(-1);
   if (!asOf) throw new Error('[haid-release] no cited anchor — as_of cannot be derived');
+  // A round's 時点 must fall inside its own quarter (owner ruling 2026-09-22: a Q3
+  // round built only from Q2-dated anchors is not a Q3 round).
+  const { start, end } = quarterBounds(release.release);
+  if (asOf < start || asOf > end) {
+    throw new Error(`[haid-release] ${release.release}: as_of ${asOf} (latest cited anchor) is outside ${start}..${end} — cite at least one anchor published in the quarter`);
+  }
 
   return {
     schema_version: '1.0.0',
@@ -247,6 +254,7 @@ function previousLevelsOf(prev: HaidReleasePayload): HaidPreviousLevel[] {
     n_at_least_certainty: l.n_at_least.certainty,
     n_display: l.n.display,
     anchor_grades: anchorGradesOf(prev, l.level),
+    anchor_ids: [...l.anchors].sort(),
   }));
 }
 

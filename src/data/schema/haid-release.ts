@@ -44,7 +44,7 @@ export const HaidAnchorSchema = z
     metric_ja: z.string().min(1),
     value: z.number().positive(),
     unit: z.enum(['people']),
-    window: z.enum(['itu_3m', 'days_30', 'days_7', 'state']),
+    window: z.enum(['itu_3m', 'days_30', 'days_7', 'state', 'cumulative']),
     as_of: IsoDate,
     published_at: IsoDate,
     grade: z.enum(['A', 'B', 'C', 'D']),
@@ -243,6 +243,8 @@ export function validateHaidRelease(input: HaidRelease): string[] {
  * figures; levels 9–10 are judged as a state.
  */
 export function windowFits(levelWindow: HaidWindow, anchorWindow: HaidAnchor['window']): boolean {
+  // A cumulative count (all-time users) bounds nothing within a window: list it, never cite it.
+  if (anchorWindow === 'cumulative') return false;
   switch (levelWindow) {
     case 'itu_3m':
     case 'residual':
@@ -255,6 +257,17 @@ export function windowFits(levelWindow: HaidWindow, anchorWindow: HaidAnchor['wi
     case 'counterfactual':
       return anchorWindow === 'state';
   }
+}
+
+/** [start, end] ISO dates of a release id's quarter. */
+export function quarterBounds(release: string): { readonly start: string; readonly end: string } {
+  const m = /^(\d{4})-q([1-4])$/.exec(release);
+  if (!m) throw new Error(`[haid-release] bad release id ${release}`);
+  const y = m[1];
+  const q = Number(m[2]);
+  const startMonth = (q - 1) * 3 + 1;
+  const endDay = q === 1 || q === 4 ? 31 : 30;
+  return { start: `${y}-${String(startMonth).padStart(2, '0')}-01`, end: `${y}-${String(startMonth + 2).padStart(2, '0')}-${endDay}` };
 }
 
 async function readJson(path: string): Promise<unknown> {

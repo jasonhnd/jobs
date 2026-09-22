@@ -56,6 +56,8 @@ export const HAID_RELEASE_LIST_JA = {
   definition: '定義を見る',
   payment: '対価を払っている人は段階ではなく属性として別に数えます。{payment}',
   paymentNone: '今回は公表値がないため報告しません。',
+  paymentLower: '第 4 段階以上のうち、少なくとも {n} 人（有料契約者数を公表している 1 社の値）。',
+  paymentAbout: '第 4 段階以上のうち およそ {n} 人。',
 } as const;
 
 /** 数字の出どころと計算 — every N(≥k) with its arithmetic. */
