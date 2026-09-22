@@ -2,15 +2,15 @@
   "schema_version": "2.2",
   "scope": "occupations",
   "scorer": {
-    "model": "grok-4.7-build-fast",
+    "model": "grok-4.7",
     "model_provider": "xai",
     "model_temperature": null,
-    "scoring_method": "AIOIS-10 v1.0: grok CLI single-pass per occupation; model-judged D1-D10, indices per /standard formulas (re-validated); reasoning effort xhigh (explicit); model grok-4.7-build-fast",
+    "scoring_method": "AIOIS-10 v1.0: grok CLI single-pass per occupation; model-judged D1-D10, indices per /standard formulas (re-validated); reasoning effort xhigh (explicit); model grok-4.7",
     "scoring_method_id": "aiois-semantic-judgment"
   },
   "run": {
     "run_date": "2026-09-22",
-    "run_id": "grok-4.7-build-fast-grok-cli-2026-09-22",
+    "run_id": "grok-4.7-grok-cli-2026-09-22",
     "duration_minutes": null,
     "operator": null
   },
@@ -23,7 +23,7 @@
   "prompt": {
     "prompt_version": "AIOIS-10-v1.0-grok-4.7",
     "prompt_file": "data/prompts/2026-09-22_grok-4.7-aiois10.ja.md",
-    "prompt_sha256": "ba7cf08d91caf89c1d48d67cf7409f15277514c8315ee3b8f25538b51316ca3e",
+    "prompt_sha256": "854533769f1920c67440d80958490fc353b359a8795b97e85dcef041d11b766f",
     "rubric_source": "data/prompts/2026-09-22_grok-4.7-aiois10.ja.md"
   },
   "anchors": {
@@ -41,7 +41,7 @@
     "D9": "制度・労働市場文脈(日本版)",
     "D10": "雇用需要の趨勢"
   },
-  "caveat": "AIOIS-10 v1.0 による10次元評価。D1–D10 の全次元を grok-4.7-build-fast が grok CLI 経由で職務記述（extract）から意味判定し、指数（Transformation=mean(D1,D2)、Displacement=E×(1−M/10)×(0.6+0.4×(P+D10)/20)）は /standard の公式に従いモデルが算出、assembler が再検証。現行AIフロンティア時点の推定であり、企業・個人差は confidence に反映。D9 は日本の労働市場（人手不足の深刻度等）に基づくローカル次元。小数は帯内の相対精度であり測定精度ではない。",
+  "caveat": "AIOIS-10 v1.0 による10次元評価。D1–D10 の全次元を grok-4.7 が grok CLI 経由で職務記述（extract）から意味判定し、指数（Transformation=mean(D1,D2)、Displacement=E×(1−M/10)×(0.6+0.4×(P+D10)/20)）は /standard の公式に従いモデルが算出、assembler が再検証。現行AIフロンティア時点の推定であり、企業・個人差は confidence に反映。D9 は日本の労働市場（人手不足の深刻度等）に基づくローカル次元。小数は帯内の相対精度であり測定精度ではない。",
   "scores": {
     "1": {
       "ai_risk": 4.6,

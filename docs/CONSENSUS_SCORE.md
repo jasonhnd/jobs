@@ -283,7 +283,7 @@ OpenAI 旗艦 GPT 5.6 SOL → GPT 6 Astra。公開値は 3 社旗艦平均のま
 
 ### ベンダー更新の影響実測（mms-10.6、2026-09-22）
 
-xAI 旗艦 Grok 4.6 → Grok 4.7 Fast（`grok-4.7-build-fast`）。公開値は 3 社旗艦平均のまま。`grok-4.5` は `run.backfill` のまま、旗艦席に入らない。数字は [`VENDOR_UPDATE_DRIFT_grok-4.7-build-fast_2026-09-22.md`](VENDOR_UPDATE_DRIFT_grok-4.7-build-fast_2026-09-22.md) の Summary 表と同一。
+xAI 旗艦 Grok 4.6 → Grok 4.7。公開値は 3 社旗艦平均のまま。`grok-4.5` は `run.backfill` のまま、旗艦席に入らない。数字は [`VENDOR_UPDATE_DRIFT_grok-4.7_2026-09-22.md`](VENDOR_UPDATE_DRIFT_grok-4.7_2026-09-22.md) の Summary 表と同一。
 
 | 項目 | 着地前（旗艦平均） | 着地後（旗艦平均） |
 |---|---:|---:|
