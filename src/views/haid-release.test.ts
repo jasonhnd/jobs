@@ -87,16 +87,16 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.equal(rows[6].barPct, null);
     assert.equal(rows[6].atLeastCertaintyJa, 'データなし');
     assert.equal(rows[2].atLeastCertaintyJa, '下限のみ');
-    assert.equal(rows[3].atLeastRangeJa, '10 億〜52 億');
-    assert.equal(rows[3].anchors.length, 12);
+    assert.equal(rows[3].atLeastRangeJa, '9.6 億〜20 億');
+    assert.equal(rows[3].anchors.length, 13);
     assert.equal(rows[0].definitionHref, '/haid#level-1');
   });
 
   test('headline and fact block use 1 significant figure for estimates, 2 for the population', () => {
     assert.deepEqual(model.lead.population, { value: '83', unit: '億' });
-    assert.deepEqual(model.lead.prompted, { value: '20', unit: '億' });
+    assert.deepEqual(model.lead.prompted, { value: '10', unit: '億' });
     assert.ok(model.fact.body.includes('人類 83 億 人のうち'));
-    assert.ok(model.fact.body.includes('およそ 20 億 人'), model.fact.body);
+    assert.ok(model.fact.body.includes('およそ 10 億 人'), model.fact.body);
     assert.ok(model.fact.body.includes('およそ 9 億 人'), model.fact.body);
     assert.ok(model.fact.body.includes('HAID v1.0'));
   });
@@ -145,12 +145,17 @@ describe('HAID release page model (2026-q3 draft)', () => {
     const by = Object.fromEntries(rows.map((r) => [r.level, r]));
     assert.equal(by[1].lines[0], '国連 世界人口推計 総人口（2026 年 7 月 1 日） = 83 億');
     assert.equal(by[1].exactlyJa, 'n(1) = 83 億 − 60 億 = 23 億');
-    assert.ok(by[3].lines[0].startsWith('最大の 1 社 = Google 検索の AI による概要 月間利用者 = 25 億'), by[3].lines[0]);
+    assert.ok(by[3].lines[0].startsWith('最大の 1 社 = Google 検索の AI による概要 月間利用者 = 25 億（2 件のうち）'), by[3].lines[0]);
+    assert.ok(by[3].lines.some((l) => l.includes('Meta AI') && l.includes('12 か月より古い')), by[3].lines.join('|'));
     assert.equal(by[3].atLeastJa, '25 億+');
-    assert.ok(by[4].lines[0].startsWith('低 = 最大の 1 社 = 10 億　高 = 10 億 + 9.5 億 + 9 億 + 1.5 億 + 10 億 + 1.2 億 + 1 億 + 3.8 億 + 1.7 億 + 1.3 億 + 5,000 万 + 2.5 億 = 52 億'), by[4].lines[0]);
-    assert.ok(by[4].lines[0].endsWith('中 = 52 億 × (1 − 0.58) = 22 億'), by[4].lines[0]);
+    assert.equal(by[4].lines[0], '中国以外 = 10 億 + 9.5 億 + 9 億 + 1.5 億 + 1.2 億 + 1 億 + 2.5 億 = 35 億 × (1 − 0.58) = 15 億');
+    assert.equal(by[4].lines[1], '中国（QuestMobile、重複除去済み）= 5 億');
+    assert.equal(by[4].lines[2], '積み上げ = 15 億 + 5 億 = 20 億');
+    assert.ok(by[4].lines[3].startsWith('上から = 17.8% × 国連 世界人口推計 15〜64 歳人口（2026 年） 54 億 = 9.6 億'), by[4].lines[3]);
+    assert.equal(by[4].lines[4], '低 = 9.6 億　高 = 20 億　中 = √(9.6 億 × 20 億) = 14 億');
+    assert.equal(by[4].lines[5], '単純合計（参考）= 42 億');
     assert.ok(by[4].lines.some((l) => l.includes('ChatGPT 週間利用者 は 7 日口径')), by[4].lines.join('|'));
-    assert.equal(by[4].exactlyJa, 'n(4) = 22 億 − 9 億 = 13 億');
+    assert.equal(by[4].exactlyJa, 'n(4) = 14 億 − 9 億 = 4.7 億');
     assert.equal(by[7].lines[0], '公表値なし。');
     assert.equal(by[7].atLeastJa, '—');
     assert.equal(by[7].exactlyJa, '—');
@@ -175,7 +180,9 @@ describe('HAID release page model (2026-q3 draft)', () => {
   });
 
   test('anchor table lists every anchor with grade and placeholder flag', () => {
-    assert.equal(model.anchorsTable.rows.length, 18);
+    assert.equal(model.anchorsTable.rows.length, 21);
+    assert.ok(model.anchorsTable.rows.find((r) => r.id === 'meta_ai_monthly_2025')!.stale, 'Meta AI 2025-05 is 古い');
+    assert.equal(model.anchorsTable.rows.find((r) => r.id === 'questmobile_ai_native_union_2026_05')!.marketJa, '中国');
     assert.ok(model.anchorsTable.rows.every((r) => r.placeholder));
     assert.ok(model.anchorsTable.rows.some((r) => r.valueJa === '5,000 万'));
     assert.ok(model.list.paymentNote.includes('少なくとも 5,000 万 人'), model.list.paymentNote);

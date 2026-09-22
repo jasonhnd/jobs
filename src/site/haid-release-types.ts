@@ -49,11 +49,37 @@ export interface HaidDerivationTerm {
   grade: 'A' | 'B' | 'C' | 'D';
   /** true when a 7-day count serves a 30-day level (it is a floor). */
   narrower_window: boolean;
+  market: 'cn' | 'row' | 'world';
+  kind: 'product' | 'union' | 'top_down' | 'base';
+  /** older than 12 months at the quarter's end */
+  stale: boolean;
+  /** top_down only */
+  share: number | null;
+  base_value: number | null;
+  base_label_ja: string | null;
+}
+
+export interface HaidMarketBlock {
+  market: 'cn' | 'row' | 'world';
+  /** id of the union anchor when the market is taken as-is */
+  union_anchor: string | null;
+  products: string[];
+  sum: number | null;
+  max: number | null;
+  overlap_rate: number | null;
+  /** the market's contribution to the bottom-up total */
+  union: number;
 }
 
 export interface HaidDerivation {
-  method: 'single' | 'max_single' | 'sum_minus_overlap' | 'none';
+  method: 'single' | 'max_single' | 'sum_minus_overlap' | 'market_union_topdown' | 'none';
   terms: HaidDerivationTerm[];
+  /** market_union_topdown only */
+  markets: HaidMarketBlock[] | null;
+  bottom_up: number | null;
+  top_down: number | null;
+  /** plain sum of every product term across markets (単純合計, reference only) */
+  raw_sum: number | null;
   /** largest single term, when terms exist */
   max: number | null;
   /** plain sum of terms, sum_minus_overlap only */

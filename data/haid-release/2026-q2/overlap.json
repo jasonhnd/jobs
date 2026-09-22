@@ -1,14 +1,22 @@
 {
   "level_4": {
-    "rate": 0.38,
-    "low": 0.30,
-    "high": 0.45,
-    "grade": "D",
-    "source_name": "調査（未特定）",
-    "source_url": null,
-    "as_of": null,
-    "status": "placeholder",
-    "note": "Carried over from data/ai-adoption assumptions (free_upper_layer_overlap_rate)."
+    "cn": null,
+    "row": null,
+    "world": {
+      "rate": 0.38,
+      "low": 0.3,
+      "high": 0.45,
+      "grade": "D",
+      "source_name": "調査（未特定）",
+      "source_url": null,
+      "as_of": null,
+      "status": "placeholder",
+      "note": "Carried over from data/ai-adoption assumptions (free_upper_layer_overlap_rate)."
+    }
   },
-  "level_5": null
+  "level_5": {
+    "cn": null,
+    "row": null,
+    "world": null
+  }
 }

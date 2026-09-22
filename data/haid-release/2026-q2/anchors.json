@@ -13,7 +13,9 @@
     "source_name": "UN World Population Prospects",
     "source_url": "https://population.un.org/wpp/",
     "status": "placeholder",
-    "note": "Carried over from data/ai-adoption (2026-Q2 observation set)."
+    "note": "Carried over from data/ai-adoption (2026-Q2 observation set).",
+    "market": "world",
+    "kind": "product"
   },
   {
     "id": "internet_users_2026",
@@ -29,7 +31,9 @@
     "source_name": "DataReportal Digital 2026",
     "source_url": "https://datareportal.com/reports/digital-2026-six-billion-internet-users",
     "status": "placeholder",
-    "note": "Carried over from data/ai-adoption. HAID level 1 asks for grade A (ITU)."
+    "note": "Carried over from data/ai-adoption. HAID level 1 asks for grade A (ITU).",
+    "market": "world",
+    "kind": "product"
   },
   {
     "id": "chatgpt_monthly_proxy_2026q2",
@@ -45,7 +49,9 @@
     "source_name": "Similarweb",
     "source_url": "https://www.similarweb.com/website/chatgpt.com/",
     "status": "placeholder",
-    "note": "Third-party traffic panel (grade C), carried over from data/ai-adoption 2026-Q2. Not a vendor announcement."
+    "note": "Third-party traffic panel (grade C), carried over from data/ai-adoption 2026-Q2. Not a vendor announcement.",
+    "market": "world",
+    "kind": "product"
   },
   {
     "id": "gemini_monthly_proxy_2026q2",
@@ -61,7 +67,9 @@
     "source_name": "Similarweb",
     "source_url": "https://www.similarweb.com/website/gemini.google.com/",
     "status": "placeholder",
-    "note": "Third-party traffic panel (grade C), carried over from data/ai-adoption 2026-Q2."
+    "note": "Third-party traffic panel (grade C), carried over from data/ai-adoption 2026-Q2.",
+    "market": "world",
+    "kind": "product"
   },
   {
     "id": "claude_monthly_proxy_2026q2",
@@ -77,7 +85,9 @@
     "source_name": "Similarweb",
     "source_url": "https://www.similarweb.com/website/claude.ai/",
     "status": "placeholder",
-    "note": "Third-party traffic panel (grade C), carried over from data/ai-adoption 2026-Q2."
+    "note": "Third-party traffic panel (grade C), carried over from data/ai-adoption 2026-Q2.",
+    "market": "world",
+    "kind": "product"
   },
   {
     "id": "perplexity_monthly_proxy_2026q2",
@@ -93,7 +103,9 @@
     "source_name": "Similarweb",
     "source_url": "https://www.similarweb.com/website/perplexity.ai/",
     "status": "placeholder",
-    "note": "Third-party traffic panel (grade C), carried over from data/ai-adoption 2026-Q2."
+    "note": "Third-party traffic panel (grade C), carried over from data/ai-adoption 2026-Q2.",
+    "market": "world",
+    "kind": "product"
   },
   {
     "id": "regional_apps_monthly_proxy_2026q2",
@@ -109,7 +121,9 @@
     "source_name": "Similarweb",
     "source_url": "https://www.similarweb.com/",
     "status": "placeholder",
-    "note": "Aggregated third-party panel figure, carried over from data/ai-adoption 2026-Q2."
+    "note": "Aggregated third-party panel figure, carried over from data/ai-adoption 2026-Q2.",
+    "market": "world",
+    "kind": "product"
   },
   {
     "id": "github_copilot_users_2026",
@@ -125,7 +139,9 @@
     "source_name": "GitHub Blog",
     "source_url": "https://github.blog/",
     "status": "placeholder",
-    "note": "Carried over from data/ai-adoption. Largest single coding-agent vendor = level 6 floor."
+    "note": "Carried over from data/ai-adoption. Largest single coding-agent vendor = level 6 floor.",
+    "market": "world",
+    "kind": "product"
   },
   {
     "id": "cursor_users_2026",
@@ -141,6 +157,8 @@
     "source_name": "Cursor",
     "source_url": "https://www.cursor.com/",
     "status": "placeholder",
-    "note": "Carried over from data/ai-adoption."
+    "note": "Carried over from data/ai-adoption.",
+    "market": "world",
+    "kind": "product"
   }
 ]

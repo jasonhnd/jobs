@@ -19,9 +19,13 @@ function anchor(overrides: Partial<HaidAnchor> & Pick<HaidAnchor, 'id' | 'value'
     source_url: 'https://example.test/',
     status: 'verified',
     note: '',
+    market: 'row',
+    kind: 'product',
     ...overrides,
   };
 }
+
+const NO_OVERLAP = { cn: null, row: null, world: null } as const;
 
 function fixture(): HaidRelease {
   const none = { certainty: 'none' as const, method: 'none' as const, anchors: [], method_ja: 'なし' };
@@ -36,8 +40,8 @@ function fixture(): HaidRelease {
       anchor({ id: 'uncited', value: 1, as_of: '2026-12-31', status: 'placeholder' }),
     ],
     overlap: {
-      level_4: { rate: 0.3, low: 0.2, high: 0.4, grade: 'D', source_name: 'Survey', source_url: null, as_of: null, status: 'verified', note: '' },
-      level_5: null,
+      level_4: { ...NO_OVERLAP, row: { rate: 0.3, low: 0.2, high: 0.4, grade: 'D', source_name: 'Survey', source_url: null, as_of: null, status: 'verified', note: '' } },
+      level_5: { ...NO_OVERLAP },
     },
     release: {
       release: '2026-q3',
@@ -121,6 +125,48 @@ describe('HAID release projection', () => {
     const f = fixture();
     const g: HaidRelease = { ...f, anchors: f.anchors.map((a) => (a.id === 'agent' ? { ...a, as_of: '2026-06-30' } : a)) };
     assert.throws(() => buildHaidReleasePayload(g), /outside 2026-07-01\.\.2026-09-30/);
+  });
+
+  test('market_union_topdown: union market as-is, product market sum × (1 − rate), top-down reconciled by geometric mean', () => {
+    const f = fixture();
+    const g: HaidRelease = {
+      ...f,
+      anchors: [
+        ...f.anchors,
+        anchor({ id: 'cn_union', value: 5, market: 'cn', kind: 'union', as_of: '2026-07-10' }),
+        anchor({ id: 'cn_p1', value: 4, market: 'cn', as_of: '2026-07-10' }),
+        anchor({ id: 'cn_p2', value: 3, market: 'cn', as_of: '2026-07-10' }),
+        anchor({ id: 'base', value: 100, market: 'world', kind: 'base', window: 'state', grade: 'A', as_of: '2026-07-01' }),
+        anchor({ id: 'td', value: 9, market: 'world', kind: 'top_down', share: 0.09, base_anchor: 'base', grade: 'C', as_of: '2026-07-01' }),
+      ],
+      release: {
+        ...f.release,
+        levels: { ...f.release.levels, '4': { certainty: 'range', method: 'market_union_topdown', anchors: ['a', 'w', 'cn_union', 'cn_p1', 'cn_p2', 'td'], overlap: 'level_4', method_ja: 'x' } },
+      },
+    };
+    const p = buildHaidReleasePayload(g);
+    const d = p.levels[3].derivation;
+    assert.equal(d.method, 'market_union_topdown');
+    const row = d.markets!.find((m) => m.market === 'row')!;
+    const cn = d.markets!.find((m) => m.market === 'cn')!;
+    assert.deepEqual([row.sum, row.max, row.overlap_rate, row.union], [20, 12, 0.3, 14]);
+    assert.deepEqual([cn.union_anchor, cn.sum, cn.union], ['cn_union', 7, 5]);
+    assert.equal(d.bottom_up, 19);
+    assert.equal(d.top_down, 9);
+    assert.equal(d.raw_sum, 27, 'products only: 12 + 8 + 4 + 3');
+    assert.deepEqual([d.low, d.mid, d.high], [9, Math.round(Math.sqrt(9 * 19)), 19]);
+    assert.equal(p.levels[3].n_at_least.display, d.mid);
+    const tdTerm = d.terms.find((t) => t.id === 'td')!;
+    assert.deepEqual([tdTerm.kind, tdTerm.share, tdTerm.base_value], ['top_down', 0.09, 100]);
+  });
+
+  test('terms carry a stale flag relative to the quarter end', () => {
+    const f = fixture();
+    const g: HaidRelease = { ...f, anchors: f.anchors.map((a) => (a.id === 'a' ? { ...a, as_of: '2025-06-01' } : a)) };
+    const p = buildHaidReleasePayload(g);
+    const t = p.levels[3].derivation.terms.find((x) => x.id === 'a')!;
+    assert.equal(t.stale, true);
+    assert.equal(p.levels[3].derivation.terms.find((x) => x.id === 'w')!.stale, false);
   });
 
   test('as_of is the latest cited anchor, ignoring uncited ones', () => {
