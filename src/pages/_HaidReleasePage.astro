@@ -285,7 +285,7 @@ const jsonLd = JSON.stringify({
                   </ol>
                 ) : null}
                 {c.range ? (
-                  <div class="pc-range" role="img" aria-label={`低 ${c.range.lowJa}（${c.range.lowFromJa}）、高 ${c.range.highJa}（${c.range.highFromJa}）、中 ${c.range.midJa}`}>
+                  <div class="pc-range" role="img" aria-label={`${c.range.lowFromJa} ${c.range.lowJa}、${c.range.highFromJa} ${c.range.highJa}、中 ${c.range.midJa}`}>
                     <span class="mid" style={`left:${c.range.midPct}%`}><b>{c.range.midJa}</b><i>{c.range.midRuleJa}</i></span>
                     <span class="track"><span class="dot" style={`left:${c.range.midPct}%`} /></span>
                     <span class="end lo"><b>{c.range.lowJa}</b><i>{c.range.lowFromJa}</i></span>
