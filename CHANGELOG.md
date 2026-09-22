@@ -26,8 +26,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
   All rows stay 未照合 until the owner checks them. Two new rules: an anchor
   window `cumulative` can be listed but never cited, and a round's `as_of`
   (latest cited anchor) must fall inside its own quarter or the build stops.
-  Headline moves from およそ 20 億 to およそ 10 億 (the survey-based overlap is
-  larger than the old assumption); baseline refreshed.
+  Level 4 then widens to every vendor with a published or panel count
+  (owner ask: 「なぜ ChatGPT だけ？」): Microsoft Copilot family 150M
+  (2025-10-29), Meta AI 1B (last official, 2025-05-28), Grok 117M (SpaceX
+  S-1, as of 2026-03-31), Perplexity 100M (CEO via FT 2026-04-08) as grade
+  B, and grade-C panels for the rest — QuestMobile June 2026 for 豆包 382M /
+  千問 167M / DeepSeek 130M / 元宝 50M, Sensor Tower for Claude 245M. Twelve
+  terms sum to 52 億; 中 = 52 億 × (1 − 0.58) = 22 億, headline およそ 20 億.
+  Baseline refreshed.
 
 ### Removed
 
