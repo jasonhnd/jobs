@@ -12,7 +12,7 @@
  * does not inherit the machine's effort.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, isAbsolute, join, relative } from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 
 import { SCORE_OUTPUT_JSON_SCHEMA } from '../contract.js';
@@ -21,6 +21,12 @@ import type { AskOptions, PrepareRunContext, ProviderResponse, RunPreparation, S
 export const GROK_MAX_CONCURRENCY = 4;
 export const GROK_CLI_MIN_VERSION = '1.0.40';
 export const GROK_REASONING_EFFORTS = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'] as const;
+/**
+ * grok 1.0.40 lists the flagship as `grok-4.7` and, when that slug is
+ * requested, reports usage under `grok-4.7-build`. That alias is the flagship.
+ * `grok-4.7-build-fast` is a different model and stays rejected.
+ */
+export const GROK_47_USAGE_ALIAS = 'grok-4.7-build';
 export type GrokReasoningEffort = (typeof GROK_REASONING_EFFORTS)[number];
 
 /** Set by prepareRun. Null is not an inherited default — preflight rejects a real run that has none. */
@@ -182,7 +188,16 @@ export function grokScoreSchemaJson(): string {
   return JSON.stringify(SCORE_OUTPUT_JSON_SCHEMA);
 }
 
+/** `--sandbox strict` can read only under `--cwd`. The prompt file grok opens must live there. */
+export function promptFileIsInsideIsolate(isolateCwd: string, promptFile: string): boolean {
+  const rel = relative(isolateCwd, promptFile);
+  return rel.length > 0 && !rel.startsWith('..') && !isAbsolute(rel);
+}
+
 export function buildGrokExecArgs(options: GrokExecOptions): string[] {
+  if (!promptFileIsInsideIsolate(options.isolateCwd, options.promptFile)) {
+    throw new Error('--prompt-file must sit inside --cwd; grok --sandbox strict cannot read outside it');
+  }
   return [
     '--cwd', options.isolateCwd,
     '--sandbox', 'strict',
@@ -202,6 +217,19 @@ export function buildGrokExecArgs(options: GrokExecOptions): string[] {
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+export function modelUsageMatchesRequest(requestedModel: string, keys: readonly string[]): boolean {
+  if (keys.length !== 1) return false;
+  const key = keys[0]!;
+  if (key === requestedModel) return true;
+  return requestedModel === 'grok-4.7' && key === GROK_47_USAGE_ALIAS;
+}
+
+function structuredScore(envelope: Record<string, unknown>): Record<string, unknown> | null {
+  if (isPlainObject(envelope.structured_output)) return envelope.structured_output;
+  if (isPlainObject(envelope.structuredOutput)) return envelope.structuredOutput;
+  return null;
 }
 
 function scoreFromText(text: unknown): Record<string, unknown> | null {
@@ -247,7 +275,7 @@ export function interpretGrokEnvelope(stdout: string, requestedModel: string): G
     };
   }
   const keys = isPlainObject(envelope.modelUsage) ? Object.keys(envelope.modelUsage) : [];
-  if (keys.length !== 1 || keys[0] !== requestedModel) {
+  if (!modelUsageMatchesRequest(requestedModel, keys)) {
     const shown = keys.length > 0 ? keys.join(',') : 'missing';
     return {
       ok: false,
@@ -257,9 +285,7 @@ export function interpretGrokEnvelope(stdout: string, requestedModel: string): G
       envelope,
     };
   }
-  const score = isPlainObject(envelope.structured_output)
-    ? envelope.structured_output
-    : scoreFromText(envelope.text);
+  const score = structuredScore(envelope) ?? scoreFromText(envelope.text);
   if (!score) {
     return {
       ok: false,
@@ -278,6 +304,11 @@ export function grokIsolateDir(runDir: string, occId: number): string {
 
 export function grokPromptPath(runDir: string, occId: number): string {
   return join(runDir, 'prompts', `${occId}.txt`);
+}
+
+/** Copy grok actually opens. `prompts/<id>.txt` is the audit record and sits outside the sandbox. */
+export function grokSandboxPromptPath(runDir: string, occId: number): string {
+  return join(grokIsolateDir(runDir, occId), 'prompt.txt');
 }
 
 export function grokEnvelopePath(options: AskOptions): string | null {
@@ -327,10 +358,12 @@ export async function executeGrokAsk(
   if (!options.outputSchemaPath || options.occId == null || !options.runDir) {
     return unprepared('grok provider requires outputSchemaPath (prepareRun did not run)');
   }
-  const promptFile = grokPromptPath(options.runDir, options.occId);
+  const auditPrompt = grokPromptPath(options.runDir, options.occId);
+  const promptFile = grokSandboxPromptPath(options.runDir, options.occId);
   const isolateCwd = grokIsolateDir(options.runDir, options.occId);
   mkdirSync(join(options.runDir, 'prompts'), { recursive: true });
   mkdirSync(isolateCwd, { recursive: true });
+  writeFileSync(auditPrompt, prompt, 'utf8');
   writeFileSync(promptFile, prompt, 'utf8');
   const args = buildGrokExecArgs({
     isolateCwd,
