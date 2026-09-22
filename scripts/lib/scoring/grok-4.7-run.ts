@@ -9,7 +9,10 @@
  * Scoring needs a separate owner GO — mms-10.3 / 10.4 / 10.5.
  */
 export const GROK_4_7_SCORING_PROVIDER = 'grok-cli';
-/** Grok 4.7 Fast. Owner switched the full run to this id on 2026-09-22. */
+/**
+ * CLI id for the fast transport. The published batch name is `grok-4.7`,
+ * the same shape as `grok-4.6` and `grok-4.5`.
+ */
 export const GROK_4_7_MODEL_SLUG = 'grok-4.7-build-fast';
 export const GROK_4_7_MODEL_PROVIDER = 'xai';
 export const GROK_4_7_PROMPT_FILE = 'data/prompts/2026-09-22_grok-4.7-aiois10.ja.md';

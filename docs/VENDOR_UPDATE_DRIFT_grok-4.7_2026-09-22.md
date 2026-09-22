@@ -1,7 +1,7 @@
 # 旗艦入れ替え drift（mms-8.34）
 
-生成: 2026-09-22 / incoming: grok-4.7-build-fast@2026-09-22
-vendor swapped: xAI grok-4.6@2026-09-07 → grok-4.7-build-fast@2026-09-22
+生成: 2026-09-22 / incoming: grok-4.7@2026-09-22
+vendor swapped: xAI grok-4.6@2026-09-07 → grok-4.7@2026-09-22
 
 ## Summary
 | 項目 | 着地前（旗艦平均） | 着地後（旗艦平均） |
