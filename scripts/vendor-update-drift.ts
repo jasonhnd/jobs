@@ -78,7 +78,7 @@ function bump(counts: { low: number; mid: number; high: number }, band: RiskBand
 }
 
 function comparableOf(history: readonly ScoreHistEntry[]): ScoreHistEntry[] {
-  return history.filter((entry) => entry.aiois != null);
+  return history.filter((entry) => entry.aiois != null && entry.backfill !== true);
 }
 
 /**
