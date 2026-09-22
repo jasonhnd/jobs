@@ -18,7 +18,8 @@ import { spawn, spawnSync } from 'node:child_process';
 import { SCORE_OUTPUT_JSON_SCHEMA } from '../contract.js';
 import type { AskOptions, PrepareRunContext, ProviderResponse, RunPreparation, ScoringProvider } from '../provider.js';
 
-export const GROK_MAX_CONCURRENCY = 4;
+/** Owner raised the full-run cap to 10 on 2026-09-22. The pilot stays at --concurrency 2. */
+export const GROK_MAX_CONCURRENCY = 10;
 export const GROK_CLI_MIN_VERSION = '1.0.40';
 export const GROK_REASONING_EFFORTS = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'] as const;
 /**
