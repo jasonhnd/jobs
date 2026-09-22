@@ -39,10 +39,19 @@
       "anchors": [
         "google_ai_mode_monthly_2026",
         "gemini_app_monthly_2026",
-        "chatgpt_weekly_2026"
+        "chatgpt_weekly_2026",
+        "microsoft_copilot_family_monthly_2025",
+        "meta_ai_monthly_2025",
+        "grok_monthly_2026",
+        "perplexity_monthly_2026",
+        "questmobile_doubao_2026_06",
+        "questmobile_qwen_2026_06",
+        "questmobile_deepseek_2026_06",
+        "questmobile_yuanbao_2026_06",
+        "sensortower_claude_2026_05"
       ],
       "overlap": "level_4",
-      "method_ja": "各社が公表した月間・週間利用者を 30 日口径にそろえ、低 = 最大の 1 社、高 = 単純合計、中 = 合計から重なり率を引いた値。"
+      "method_ja": "各社の公表値（B）に第三者パネルの推計（C）を足して 30 日口径にそろえ、低 = 最大の 1 社、高 = 単純合計、中 = 合計から重なり率を引いた値。"
     },
     "5": {
       "certainty": "lower_bound",
