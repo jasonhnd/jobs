@@ -134,21 +134,61 @@ export interface ReleaseSwitchItem {
   readonly latest: boolean;
 }
 
-export interface ProvenanceRow {
+export interface ProvenanceInput {
+  readonly id: string;
+  readonly entityJa: string;
+  readonly metricJa: string;
+  readonly valueJa: string;       // "10 億"
+  readonly grade: 'A' | 'B' | 'C' | 'D';
+  /** shown only when the level is split by market */
+  readonly marketJa: string | null;
+  readonly kind: 'product' | 'union' | 'top_down' | 'base';
+  /** "古い" / "7 日口径" */
+  readonly flags: readonly string[];
+  /** the term the method actually took (max_single) */
+  readonly picked: boolean;
+}
+
+export interface ProvenanceStep {
+  readonly label: string;
+  readonly text: string;
+}
+
+export interface ProvenanceRange {
+  readonly lowJa: string;
+  readonly highJa: string;
+  readonly midJa: string;
+  readonly lowFromJa: string;
+  readonly highFromJa: string;
+  readonly midRuleJa: string;
+  /** 0–100, position of mid between low and high */
+  readonly midPct: number;
+}
+
+export interface ProvenanceCard {
+  /** first level of the card; 7 for the 7〜10 group */
   readonly level: number;
-  readonly ja: string;
+  readonly levels: readonly number[];
+  readonly levelJa: string;        // "第 4 段階" / "第 7〜10 段階"
+  readonly ja: string;             // level name; '' for the group
   readonly certainty: HaidReleaseCertainty;
   readonly certaintyJa: string;
-  /** one line per step: the method's formula, a weekly-floor note, the nesting note */
-  readonly lines: readonly string[];
-  readonly atLeastJa: string;   // "15 億" / "20 億+" / "—"
-  readonly exactlyJa: string;   // "n(4) = 15 億 − 8 億 = 7.2 億" / "—"
+  readonly howJa: string;
+  readonly inputs: readonly ProvenanceInput[];
+  /** inputs grouped by market when the level is split; one unlabeled group otherwise */
+  readonly inputGroups: readonly { readonly labelJa: string | null; readonly items: readonly ProvenanceInput[] }[];
+  readonly steps: readonly ProvenanceStep[];
+  readonly range: ProvenanceRange | null;
+  readonly atLeastLabelJa: string; // "N(≥4)"
+  readonly atLeastJa: string;      // "15 億" / "20 億+" / "—"
+  readonly exactlyJa: string | null; // "ちょうどこの段階 n(4) = …"
+  readonly notes: readonly string[];
 }
 
 export interface HaidReleasePageModel {
   readonly release: string;
   readonly round: number;
-  readonly provenance: { readonly heading: string; readonly intro: string; readonly rules: readonly string[]; readonly rows: readonly ProvenanceRow[]; readonly cols: { readonly level: string; readonly formula: string; readonly atLeast: string; readonly exactly: string } };
+  readonly provenance: { readonly heading: string; readonly intro: string; readonly rules: readonly string[]; readonly cards: readonly ProvenanceCard[]; readonly cols: { readonly inputs: string; readonly calc: string; readonly result: string } };
   readonly isLatest: boolean;
   readonly switcher: { readonly label: string; readonly items: readonly ReleaseSwitchItem[]; readonly permalink: string };
   readonly labelJa: string;
@@ -378,74 +418,113 @@ export function buildHaidReleasePageModel(
   };
 
   // ── 数字の出どころと計算 ──
-  const provenanceRows: ProvenanceRow[] = HAID_LEVELS.map((spec, i) => {
+  const P = HAID_RELEASE_PROVENANCE_JA;
+  const people = (v: number) => formatPeopleJaText(v, TABLE_SIG);
+  const pct = (r: number) => `${Math.round(r * 1000) / 10}%`;
+  const marketJa = (m: string) => (m === 'cn' ? P.marketCn : m === 'row' ? P.marketRow : P.marketWorld);
+  const midPct = (low: number, mid: number, high: number) => (high <= low ? 50 : Math.round(Math.min(100, Math.max(0, ((mid - low) / (high - low)) * 100)) * 10) / 10);
+  const levelCards: ProvenanceCard[] = HAID_LEVELS.map((spec, i) => {
     const l = byLevel.get(spec.level)!;
     const d = l.derivation;
-    const lines: string[] = [];
-    const P = HAID_RELEASE_PROVENANCE_JA;
+    const split = d.method === 'market_union_topdown';
+    const inputs: ProvenanceInput[] = d.terms.map((t) => ({
+      id: t.id,
+      entityJa: t.entity_ja,
+      metricJa: t.metric_ja,
+      valueJa: people(t.value),
+      grade: t.grade,
+      marketJa: split ? marketJa(t.market) : null,
+      kind: t.kind,
+      flags: [...(t.stale ? [P.flagStale] : []), ...(t.narrower_window ? [P.flagWeekly] : [])],
+      picked: d.method === 'max_single' && t.value === d.max,
+    }));
+    const inputGroups: { labelJa: string | null; items: ProvenanceInput[] }[] = [];
+    for (const t of inputs) {
+      const g = inputGroups.find((x) => x.labelJa === t.marketJa);
+      if (g) g.items.push(t);
+      else inputGroups.push({ labelJa: t.marketJa, items: [t] });
+    }
+    const steps: ProvenanceStep[] = [];
+    let range: ProvenanceRange | null = null;
+    let howJa: string;
     switch (d.method) {
       case 'single':
-        lines.push(fillTemplate(P.single, { term: `${d.terms[0].entity_ja} ${d.terms[0].metric_ja}`, value: formatPeopleJaText(d.terms[0].value, TABLE_SIG) }));
+        howJa = P.howSingle;
         break;
       case 'max_single': {
         const maxTerm = d.terms.find((t) => t.value === d.max)!;
-        lines.push(fillTemplate(P.maxSingle, { maxTerm: `${maxTerm.entity_ja} ${maxTerm.metric_ja}`, max: formatPeopleJaText(d.max!, TABLE_SIG), count: String(d.terms.length) }));
+        howJa = fillTemplate(P.howMaxSingle, { count: String(d.terms.length) });
+        steps.push({ label: P.stepPicked, text: fillTemplate(P.stepPickedText, { term: `${maxTerm.entity_ja} ${maxTerm.metric_ja}`, max: people(d.max!) }) });
         break;
       }
       case 'sum_minus_overlap':
-        lines.push(fillTemplate(P.sumRange, {
-          max: formatPeopleJaText(d.max!, TABLE_SIG),
-          termsSum: d.terms.map((t) => formatPeopleJaText(t.value, TABLE_SIG)).join(' + '),
-          sum: formatPeopleJaText(d.sum!, TABLE_SIG),
-          rate: String(d.overlap_rate),
-          mid: formatPeopleJaText(d.mid!, TABLE_SIG),
-        }));
+        howJa = P.howSumRange;
+        steps.push({ label: P.marketWorld, text: fillTemplate(P.stepSumText, { count: String(d.terms.length), sum: people(d.sum!), ratePct: pct(d.overlap_rate!), mid: people(d.mid!) }) });
+        range = { lowJa: people(d.low!), highJa: people(d.high!), midJa: people(d.mid!), lowFromJa: `${P.rangeLow}（${P.rangeFromMax}）`, highFromJa: `${P.rangeHigh}（${P.rangeFromSum}）`, midRuleJa: P.rangeMidOverlap, midPct: midPct(d.low!, d.mid!, d.high!) };
         break;
       case 'market_union_topdown': {
-        const marketJa = (m: string) => (m === 'cn' ? P.marketCn : m === 'row' ? P.marketRow : P.marketWorld);
+        howJa = P.howMarketUnion;
         const parts: string[] = [];
         for (const b of d.markets ?? []) {
           if (b.union_anchor) {
             const u = d.terms.find((t) => t.id === b.union_anchor)!;
-            lines.push(fillTemplate(P.marketUnion, { market: marketJa(b.market), unionTerm: u.entity_ja, union: formatPeopleJaText(b.union, TABLE_SIG) }));
+            steps.push({ label: marketJa(b.market), text: fillTemplate(P.stepMarketUnionText, { unionTerm: u.entity_ja, union: people(b.union) }) });
           } else {
-            lines.push(fillTemplate(P.marketSum, {
-              market: marketJa(b.market),
-              termsSum: b.products.map((id) => formatPeopleJaText(d.terms.find((t) => t.id === id)!.value, TABLE_SIG)).join(' + '),
-              sum: formatPeopleJaText(b.sum ?? 0, TABLE_SIG),
-              rate: String(b.overlap_rate),
-              union: formatPeopleJaText(b.union, TABLE_SIG),
-            }));
+            steps.push({ label: marketJa(b.market), text: fillTemplate(P.stepMarketSumText, { count: String(b.products.length), sum: people(b.sum ?? 0), ratePct: pct(b.overlap_rate ?? 0), union: people(b.union) }) });
           }
-          parts.push(formatPeopleJaText(b.union, TABLE_SIG));
+          parts.push(people(b.union));
         }
-        lines.push(fillTemplate(P.bottomUp, { parts: parts.join(' + '), bottomUp: formatPeopleJaText(d.bottom_up ?? 0, TABLE_SIG) }));
+        steps.push({ label: P.stepBottomUp, text: fillTemplate(P.stepBottomUpText, { parts: parts.join(' + '), bottomUp: people(d.bottom_up ?? 0) }) });
         for (const t of d.terms.filter((x) => x.kind === 'top_down')) {
-          lines.push(fillTemplate(P.topDown, { share: `${Math.round((t.share ?? 0) * 1000) / 10}%`, baseLabel: t.base_label_ja ?? '', base: formatPeopleJaText(t.base_value ?? 0, TABLE_SIG), topDown: formatPeopleJaText(t.value, TABLE_SIG), term: t.entity_ja }));
+          steps.push({ label: P.stepTopDown, text: fillTemplate(P.stepTopDownText, { share: pct(t.share ?? 0), baseLabel: t.base_label_ja ?? '', base: people(t.base_value ?? 0), topDown: people(t.value), term: t.entity_ja }) });
         }
-        lines.push(fillTemplate(P.reconcile, { low: formatPeopleJaText(d.low!, TABLE_SIG), high: formatPeopleJaText(d.high!, TABLE_SIG), mid: formatPeopleJaText(d.mid!, TABLE_SIG) }));
-        if (d.raw_sum !== null) lines.push(fillTemplate(P.rawSum, { rawSum: formatPeopleJaText(d.raw_sum, TABLE_SIG) }));
+        const bottomIsLow = (d.bottom_up ?? 0) <= (d.top_down ?? 0);
+        range = {
+          lowJa: people(d.low!), highJa: people(d.high!), midJa: people(d.mid!),
+          lowFromJa: `${P.rangeLow}（${bottomIsLow ? P.rangeFromBottomUp : P.rangeFromTopDown}）`,
+          highFromJa: `${P.rangeHigh}（${bottomIsLow ? P.rangeFromTopDown : P.rangeFromBottomUp}）`,
+          midRuleJa: P.rangeMidGeo,
+          midPct: midPct(d.low!, d.mid!, d.high!),
+        };
+        if (d.raw_sum !== null) steps.push({ label: P.stepRawSum, text: fillTemplate(P.stepRawSumText, { rawSum: people(d.raw_sum) }) });
         break;
       }
-      case 'none':
-        lines.push(P.none);
-        break;
+      default:
+        howJa = P.howNone;
     }
+    const notes: string[] = [];
     for (const t of d.terms) {
-      if (t.narrower_window) lines.push(fillTemplate(P.weeklyFloor, { term: `${t.entity_ja} ${t.metric_ja}` }));
-      if (t.stale) lines.push(fillTemplate(P.stale, { term: `${t.entity_ja} ${t.metric_ja}` }));
+      if (t.narrower_window) notes.push(fillTemplate(P.noteWeekly, { term: `${t.entity_ja} ${t.metric_ja}` }));
+      if (t.stale) notes.push(fillTemplate(P.noteStale, { term: `${t.entity_ja} ${t.metric_ja}` }));
     }
     if (d.floored_to !== null) {
-      lines.push(fillTemplate(P.floored, { next: String(spec.level + 1), nextValue: formatPeopleJaText(d.floored_to, TABLE_SIG) }));
+      const v = { next: String(spec.level + 1), nextValue: people(d.floored_to) };
+      notes.push(d.computed === null ? fillTemplate(P.noteFlooredNone, v) : fillTemplate(P.noteFloored, { ...v, computed: people(d.computed) }));
     }
     const dv = l.n_at_least.display;
-    const atLeastJa = l.n_at_least.certainty === 'none' ? '—' : dv === null ? '—' : `${formatPeopleJaText(dv, TABLE_SIG)}${l.n_at_least.certainty === 'lower_bound' ? '+' : ''}`;
+    const atLeastJa = l.n_at_least.certainty === 'none' || dv === null ? '—' : `${people(dv)}${l.n_at_least.certainty === 'lower_bound' ? '+' : ''}`;
     const nextDv = i + 1 < HAID_LEVELS.length ? byLevel.get(spec.level + 1)!.n_at_least.display ?? 0 : 0;
     const exactlyJa = l.n.certainty === 'none' || dv === null || l.n.display === null
-      ? '—'
-      : fillTemplate(P.exactly, { k: String(spec.level), a: formatPeopleJaText(dv, TABLE_SIG), b: formatPeopleJaText(nextDv, TABLE_SIG), n: formatPeopleJaText(l.n.display, TABLE_SIG) });
-    return { level: spec.level, ja: spec.ja, certainty: l.n_at_least.certainty, certaintyJa: HAID_CERTAINTY_JA[l.n_at_least.certainty], lines, atLeastJa, exactlyJa };
+      ? null
+      : fillTemplate(P.exactly, { k: String(spec.level), a: people(dv), b: people(nextDv), n: people(l.n.display) });
+    return {
+      level: spec.level, levels: [spec.level], levelJa: fillTemplate(P.levelOne, { k: String(spec.level) }), ja: spec.ja,
+      certainty: l.n_at_least.certainty, certaintyJa: HAID_CERTAINTY_JA[l.n_at_least.certainty],
+      howJa, inputs, inputGroups, steps, range, atLeastLabelJa: fillTemplate(P.atLeast, { k: String(spec.level) }), atLeastJa, exactlyJa, notes,
+    };
   });
+  // Trailing levels with nothing at all (no data, no nesting) collapse into one card.
+  const isEmpty = (c: ProvenanceCard) => c.certainty === 'none' && c.inputs.length === 0 && c.notes.length === 0;
+  let tail = levelCards.length;
+  while (tail > 0 && isEmpty(levelCards[tail - 1])) tail -= 1;
+  const provenanceCards: ProvenanceCard[] = levelCards.slice(0, tail);
+  if (tail < levelCards.length - 1) {
+    const group = levelCards.slice(tail);
+    const first = group[0];
+    provenanceCards.push({ ...first, levels: group.map((c) => c.level), levelJa: fillTemplate(P.levelSpan, { from: String(first.level), to: String(group[group.length - 1].level) }), ja: '', atLeastLabelJa: '' });
+  } else if (tail === levelCards.length - 1) {
+    provenanceCards.push(levelCards[tail]);
+  }
 
   // ── 前回との変動 ──
   const prevById = new Map((p.previous_levels ?? []).map((x) => [x.level, x]));
@@ -507,11 +586,11 @@ export function buildHaidReleasePageModel(
     release: p.release,
     round: p.round,
     provenance: {
-      heading: HAID_RELEASE_PROVENANCE_JA.heading,
-      intro: HAID_RELEASE_PROVENANCE_JA.intro,
-      rules: HAID_RELEASE_PROVENANCE_JA.rules,
-      rows: provenanceRows,
-      cols: { level: HAID_RELEASE_PROVENANCE_JA.colLevel, formula: HAID_RELEASE_PROVENANCE_JA.colFormula, atLeast: HAID_RELEASE_PROVENANCE_JA.colAtLeast, exactly: HAID_RELEASE_PROVENANCE_JA.colExactly },
+      heading: P.heading,
+      intro: P.intro,
+      rules: P.rules,
+      cards: provenanceCards,
+      cols: { inputs: P.colInputs, calc: P.colCalc, result: P.colResult },
     },
     isLatest,
     switcher,

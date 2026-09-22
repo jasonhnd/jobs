@@ -249,20 +249,58 @@ const jsonLd = JSON.stringify({
       <ol class="haid-rules">
         {m.provenance.rules.map((r) => <li>{r}</li>)}
       </ol>
-      <div class="haid-prov" role="table" aria-label={m.provenance.heading}>
-        <div class="haid-prov-head" role="row">
-          <span role="columnheader">{m.provenance.cols.level}</span>
-          <span role="columnheader">{m.provenance.cols.formula}</span>
-          <span role="columnheader">{m.provenance.cols.atLeast}</span>
-          <span role="columnheader">{m.provenance.cols.exactly}</span>
-        </div>
-        {m.provenance.rows.map((r) => (
-          <div class={`haid-prov-row cert-${r.certainty}`} role="row">
-            <span class="pl" role="cell"><b>第 {r.level}</b> {r.ja}<span class={`chip ${r.certainty === 'lower_bound' ? 'lower' : r.certainty === 'range' ? 'range' : ''}`}>{r.certaintyJa}</span></span>
-            <span class="pf" role="cell">{r.lines.map((line) => <span class="line">{line}</span>)}</span>
-            <span class="pa" role="cell">{r.atLeastJa}</span>
-            <span class="pn" role="cell">{r.exactlyJa}</span>
-          </div>
+      <div class="haid-pcs">
+        {m.provenance.cards.map((c) => (
+          <article class={`haid-pc cert-${c.certainty}`}>
+            <header class="pc-head">
+              <h3><span class="lv">{c.levelJa}</span>{c.ja ? <span class="nm">{c.ja}</span> : null}</h3>
+              <span class={`chip ${c.certainty === 'lower_bound' ? 'lower' : c.certainty === 'range' ? 'range' : ''}`}>{c.certaintyJa}</span>
+              <span class="res">{c.atLeastLabelJa ? <span class="k">{c.atLeastLabelJa}</span> : null}<span class="v">{c.atLeastJa}</span></span>
+            </header>
+            <div class="pc-body">
+              {c.inputs.length > 0 ? (
+                <div class="pc-in">
+                  <p class="lab">{m.provenance.cols.inputs}</p>
+                  {c.inputGroups.map((g) => (
+                    <div class="pc-grp">
+                      {g.labelJa ? <p class="mk">{g.labelJa}</p> : null}
+                      <ul>
+                        {g.items.map((t) => (
+                          <li class={`${t.picked ? 'picked' : ''} k-${t.kind}`}>
+                            <span class="who"><b>{t.entityJa}</b> {t.metricJa}{t.flags.map((f) => <span class="tag warn">{f}</span>)}<span class="grade">{t.grade}</span></span>
+                            <span class="val">{t.valueJa}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              <div class="pc-calc">
+                <p class="lab">{m.provenance.cols.calc}</p>
+                <p class="how">{c.howJa}</p>
+                {c.steps.length > 0 ? (
+                  <ol class="pc-steps">
+                    {c.steps.map((st) => <li><b>{st.label}</b><span>{st.text}</span></li>)}
+                  </ol>
+                ) : null}
+                {c.range ? (
+                  <div class="pc-range" role="img" aria-label={`低 ${c.range.lowJa}（${c.range.lowFromJa}）、高 ${c.range.highJa}（${c.range.highFromJa}）、中 ${c.range.midJa}`}>
+                    <span class="mid" style={`left:${c.range.midPct}%`}><b>{c.range.midJa}</b><i>{c.range.midRuleJa}</i></span>
+                    <span class="track"><span class="dot" style={`left:${c.range.midPct}%`} /></span>
+                    <span class="end lo"><b>{c.range.lowJa}</b><i>{c.range.lowFromJa}</i></span>
+                    <span class="end hi"><b>{c.range.highJa}</b><i>{c.range.highFromJa}</i></span>
+                  </div>
+                ) : null}
+                {c.exactlyJa || c.notes.length > 0 ? (
+                  <div class="pc-res">
+                    {c.exactlyJa ? <p class="ex">{c.exactlyJa}</p> : null}
+                    {c.notes.map((n) => <p class="note">{n}</p>)}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </article>
         ))}
       </div>
     </section>
