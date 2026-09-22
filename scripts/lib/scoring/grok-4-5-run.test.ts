@@ -53,7 +53,7 @@ describe('Grok 4.5 backfill path on in-agent', () => {
   });
 
   test('does not register a Gateway or bespoke xai provider', () => {
-    assert.deepEqual(Object.keys(PROVIDERS).sort(), ['codex', 'in-agent']);
+    assert.deepEqual(Object.keys(PROVIDERS).sort(), ['codex', 'grok-cli', 'in-agent']);
     assert.equal(existsSync(join(ROOT, 'scripts/lib/scoring/providers/ai-gateway.ts')), false);
     assert.equal(existsSync(join(ROOT, 'scripts/lib/scoring/providers/xai.ts')), false);
   });

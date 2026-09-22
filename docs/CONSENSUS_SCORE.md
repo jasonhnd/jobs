@@ -201,6 +201,8 @@ AI 影響度の算出方法を変更しました。これまでは、最新の1�
 Status: オーナー決定済み（2026-09-08）。実装は mms-8.x シリーズ完了（preview 2026-09-09）。deprecated 中央値エンジンは履歴として残置（owner A、#444）。
 Owner: Jason（承認・署名ゲート）
 
+The public-value formula is unchanged, and from Grok 4.7 on the xAI flagship transport is grok-cli.
+
 現行の公開値は comparable AIOIS-10 票の中央値（`pickConsensusScore()`: 1 model id 1 票、基準日 = 最新 run_date の 6 ヶ月窓、不足は期限切れ票で floor 5 補充）。現行パネルは `claude-opus-4-8` 2026-05-30、`claude-fable-5` 2026-06-13、`gpt-5.6-sol` 2026-07-12、`claude-opus-5` 2026-07-26、`grok-4.6` 2026-09-07 の 5 票。`claude-opus-4-7`（2026-04-25）は `legacy-single-axis` のため投票しない。
 
 ### 決定事項（2026-09-08 Jason 確認済み）
@@ -278,6 +280,18 @@ OpenAI 旗艦 GPT 5.6 SOL → GPT 6 Astra。公開値は 3 社旗艦平均のま
 | \|Δ\| ≥ 1.0 | — | 0 |
 | リスク帯 low / mid / high | 173 / 352 / 31 | 170 / 355 / 31（変化 17 職業） |
 | 最新観測行の表示 | — | 15 職業 |
+
+### ベンダー更新の影響実測（mms-10.6、2026-09-22）
+
+xAI 旗艦 Grok 4.6 → Grok 4.7 Fast（`grok-4.7-build-fast`）。公開値は 3 社旗艦平均のまま。`grok-4.5` は `run.backfill` のまま、旗艦席に入らない。数字は [`VENDOR_UPDATE_DRIFT_grok-4.7-build-fast_2026-09-22.md`](VENDOR_UPDATE_DRIFT_grok-4.7-build-fast_2026-09-22.md) の Summary 表と同一。
+
+| 項目 | 着地前（旗艦平均） | 着地後（旗艦平均） |
+|---|---:|---:|
+| 全職業平均 | 4.69 | 4.54 |
+| \|Δ\| ≥ 0.5 | — | 62 |
+| \|Δ\| ≥ 1.0 | — | 1 |
+| リスク帯 low / mid / high | 170 / 355 / 31 | 180 / 352 / 24（変化 43 職業） |
+| 最新観測行の表示 | — | 10 職業 |
 
 ### 確定文案（mms-8）
 

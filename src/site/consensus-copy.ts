@@ -96,7 +96,7 @@ export const CONSENSUS_VENDOR_UPDATE_NOTE_LEAD =
   '3社のAIの最新モデルのうち、1社の採点を新しいモデルの採点に更新しました。公開値はこれまでどおり、3社の最新モデルによる採点の平均です。';
 
 export const CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT =
-  '今回の変更では、全職業の平均は 4.67 から 4.69 になります。公開値が 0.5 以上変わる職業は 8、リスク帯が変わる職業は 17 です。公開値が 1.0 以上変わる職業はありません。';
+  '今回の変更では、全職業の平均は 4.69 から 4.54 になります。公開値が 0.5 以上変わる職業は 62、リスク帯が変わる職業は 43 です。公開値が 1.0 以上変わる職業は 1 です。';
 
 export function formatRunDateJa(isoDate: string): string {
   const [year, month, day] = isoDate.split('-').map((part) => Number.parseInt(part, 10));
