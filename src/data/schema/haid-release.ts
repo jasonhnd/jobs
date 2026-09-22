@@ -52,9 +52,32 @@ export const HaidAnchorSchema = z
     source_url: z.url().nullable(),
     status: z.enum(['placeholder', 'verified']),
     note: z.string(),
+    /** Which population the figure covers. Product sets barely overlap across markets. */
+    market: z.enum(['cn', 'row', 'world']),
+    /**
+     * product   — one product's users (summed inside a market, overlap subtracted)
+     * union     — a panel's deduplicated total for a market (used as-is; products listed only)
+     * top_down  — share × population, an independent estimate for cross-checking
+     * base      — a population figure other anchors refer to (never cited by a level)
+     */
+    kind: z.enum(['product', 'union', 'top_down', 'base']).default('product'),
+    /** top_down only: the published share (0..1) and the base anchor it multiplies. */
+    share: z.number().min(0).max(1).optional(),
+    base_anchor: z.string().optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((a, ctx) => {
+    const need = (cond: boolean, message: string) => {
+      if (!cond) ctx.addIssue({ code: 'custom', message });
+    };
+    if (a.kind === 'top_down') {
+      need(a.share !== undefined && a.base_anchor !== undefined, 'top_down anchors carry share and base_anchor');
+    } else {
+      need(a.share === undefined && a.base_anchor === undefined, `${a.kind} anchors carry no share / base_anchor`);
+    }
+  });
 export type HaidAnchor = z.infer<typeof HaidAnchorSchema>;
+export type HaidMarket = HaidAnchor['market'];
 
 export const HaidOverlapEntrySchema = z
   .object({
@@ -72,10 +95,18 @@ export const HaidOverlapEntrySchema = z
   .refine((o) => o.low <= o.rate && o.rate <= o.high, { message: 'low <= rate <= high' });
 export type HaidOverlapEntry = z.infer<typeof HaidOverlapEntrySchema>;
 
+/** Overlap rates are per market: a U.S. survey says nothing about 豆包 vs 千問. */
+const OverlapByMarket = z
+  .object({
+    cn: HaidOverlapEntrySchema.nullable().default(null),
+    row: HaidOverlapEntrySchema.nullable().default(null),
+    world: HaidOverlapEntrySchema.nullable().default(null),
+  })
+  .strict();
 export const HaidOverlapSchema = z
   .object({
-    level_4: HaidOverlapEntrySchema.nullable(),
-    level_5: HaidOverlapEntrySchema.nullable(),
+    level_4: OverlapByMarket,
+    level_5: OverlapByMarket,
   })
   .strict();
 export type HaidOverlap = z.infer<typeof HaidOverlapSchema>;
@@ -92,7 +123,7 @@ const Triple = z
   .strict();
 export type HaidTriple = z.infer<typeof Triple>;
 
-export const HaidMethodSchema = z.enum(['single', 'max_single', 'sum_minus_overlap', 'none']);
+export const HaidMethodSchema = z.enum(['single', 'max_single', 'sum_minus_overlap', 'market_union_topdown', 'none']);
 export type HaidMethod = z.infer<typeof HaidMethodSchema>;
 
 /** Which certainty each method yields. `single` may be measured or residual. */
@@ -100,6 +131,7 @@ export const METHOD_CERTAINTY: Readonly<Record<HaidMethod, readonly HaidReleaseC
   single: ['measured', 'residual'],
   max_single: ['lower_bound'],
   sum_minus_overlap: ['range'],
+  market_union_topdown: ['range'],
   none: ['none'],
 };
 
@@ -112,6 +144,9 @@ export const HaidLevelInputSchema = z
      *   single             — the one anchor's value
      *   max_single         — the largest single anchor (lower bound)
      *   sum_minus_overlap  — low = largest single, high = sum, mid = sum × (1 − overlap rate)
+     *   market_union_topdown — per market: a union anchor as-is, else sum × (1 − that
+     *                          market's overlap); bottom-up = Σ markets; top-down =
+     *                          Σ top_down anchors; low = min, high = max, mid = √(low·high)
      *   none               — no anchor; データなし
      */
     method: HaidMethodSchema,
@@ -141,6 +176,10 @@ export const HaidLevelInputSchema = z
       case 'sum_minus_overlap':
         need(lv.anchors.length >= 2, 'method sum_minus_overlap cites at least two anchors');
         need(lv.overlap !== undefined, 'method sum_minus_overlap needs an overlap rate');
+        break;
+      case 'market_union_topdown':
+        need(lv.anchors.length >= 2, 'method market_union_topdown cites at least two anchors');
+        need(lv.overlap !== undefined, 'method market_union_topdown needs the overlap table for its level');
         break;
     }
   });
@@ -196,23 +235,54 @@ export function validateHaidRelease(input: HaidRelease): string[] {
     }
   }
 
+  for (const a of anchors) {
+    if (a.kind === 'top_down') {
+      const base = anchorById.get(a.base_anchor!);
+      if (!base) problems.push(`anchor ${a.id} names unknown base_anchor ${a.base_anchor}`);
+      else if (base.kind !== 'base') problems.push(`anchor ${a.id}: base_anchor ${a.base_anchor} is not a base anchor`);
+      else {
+        const expected = a.share! * base.value;
+        if (Math.abs(a.value - expected) > Math.max(1, expected * 0.01)) {
+          problems.push(`anchor ${a.id}: value ${a.value} is not share × base = ${a.share} × ${base.value} = ${Math.round(expected)}`);
+        }
+      }
+    }
+  }
+
+  const { end: quarterEnd } = quarterBounds(release.release);
   for (const [k, lv] of Object.entries(release.levels)) {
     const spec = HAID_LEVELS.find((l) => String(l.level) === k)!;
+    const cited: HaidAnchor[] = [];
     for (const id of lv.anchors) {
       const a = anchorById.get(id);
       if (!a) {
         problems.push(`level ${k} cites unknown anchor ${id}`);
         continue;
       }
+      cited.push(a);
+      if (a.kind === 'base') problems.push(`level ${k} cites base anchor ${id}; bases are only multiplied by top_down anchors`);
       if (!windowFits(spec.window, a.window)) {
         problems.push(`level ${k} (${spec.window}) cannot use anchor ${id} with window ${a.window}`);
       }
     }
-    if (lv.overlap && overlap[lv.overlap] === null) {
-      problems.push(`level ${k} cites overlap ${lv.overlap} which is null`);
+    if (cited.length > 0 && cited.every((a) => isStale(a.as_of, quarterEnd))) {
+      problems.push(`level ${k}: every cited anchor is older than 12 months at ${quarterEnd}`);
     }
     if (lv.overlap && k !== '4' && k !== '5') {
       problems.push(`level ${k} must not carry an overlap (HAID subtracts overlap at levels 4 and 5 only)`);
+    }
+    if (lv.method === 'sum_minus_overlap' && lv.overlap) {
+      const markets = new Set(cited.map((a) => a.market));
+      if (markets.size !== 1) problems.push(`level ${k}: sum_minus_overlap needs all anchors in one market, got ${[...markets].join(',')}`);
+      const m = [...markets][0];
+      if (m && overlap[lv.overlap][m] === null) problems.push(`level ${k} cites overlap ${lv.overlap}.${m} which is null`);
+    }
+    if (lv.method === 'market_union_topdown' && lv.overlap) {
+      for (const m of new Set(cited.filter((a) => a.kind === 'product').map((a) => a.market))) {
+        const hasUnion = cited.some((a) => a.kind === 'union' && a.market === m);
+        if (!hasUnion && overlap[lv.overlap][m] === null) problems.push(`level ${k}: market ${m} has products but neither a union anchor nor an overlap rate`);
+      }
+      if (!cited.some((a) => a.kind === 'top_down')) problems.push(`level ${k}: market_union_topdown needs at least one top_down anchor`);
     }
   }
   for (const id of release.payment.anchors) {
@@ -229,8 +299,10 @@ export function validateHaidRelease(input: HaidRelease): string[] {
       if (a.source_url === null) problems.push(`final release: anchor ${a.id} has no source_url`);
     }
     for (const key of ['level_4', 'level_5'] as const) {
-      const o = overlap[key];
-      if (o && o.status !== 'verified') problems.push(`final release: overlap ${key} is still ${o.status}`);
+      for (const m of ['cn', 'row', 'world'] as const) {
+        const o = overlap[key][m];
+        if (o && o.status !== 'verified') problems.push(`final release: overlap ${key}.${m} is still ${o.status}`);
+      }
     }
   }
   return problems;
@@ -268,6 +340,13 @@ export function quarterBounds(release: string): { readonly start: string; readon
   const startMonth = (q - 1) * 3 + 1;
   const endDay = q === 1 || q === 4 ? 31 : 30;
   return { start: `${y}-${String(startMonth).padStart(2, '0')}-01`, end: `${y}-${String(startMonth + 2).padStart(2, '0')}-${endDay}` };
+}
+
+/** Older than 12 months at the quarter's end → 古い. */
+export function isStale(asOf: string, quarterEnd: string): boolean {
+  const cutoff = new Date(quarterEnd);
+  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 1);
+  return new Date(asOf) < cutoff;
 }
 
 async function readJson(path: string): Promise<unknown> {

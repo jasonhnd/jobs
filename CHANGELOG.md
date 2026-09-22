@@ -12,6 +12,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **Level 4 is now computed per market and reconciled top-down
+  (aiadoption-1.7c, owner ruling 2026-09-22 「A」).** Anchors carry a
+  `market` (cn / row / world) and a `kind` (product / union / top_down /
+  base). China uses QuestMobile's own deduplicated total of AI-native app
+  users (4.99 億, May 2026) instead of a summed guess; the rest of the world
+  sums vendor figures and subtracts the survey overlap; the bottom-up total
+  (19.5 億) is set against an independent top-down estimate — Microsoft AI
+  Diffusion's 17.8 % of the world's 15–64 population (9.6 億) — and the
+  release reports 低 = 9.6 億, 高 = 20 億, 中 = √(低 × 高) = 14 億. Headline
+  およそ 10 億. Meta AI's 1 B (people answered inside the apps) moves to
+  level 3 (見せられている). Anchors older than 12 months are flagged 古い;
+  a level cannot rest on stale anchors alone. The anchor table gains a 市場
+  column; 「数字の出どころと計算」 prints the per-market lines, the top-down
+  line, the reconciliation and the raw sum for reference.
+
+### Changed
+
 - **2026-Q3 now rests on the quarter's own published figures (aiadoption-1.7).**
   Owner ask 2026-09-22: the anchor table showed only May / June dates. The
   Q3 anchors are now vendor statements read on 2026-09-22 — Alphabet investor
