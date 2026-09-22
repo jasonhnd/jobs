@@ -9,9 +9,9 @@
 > —— 更新し忘れると gate が落ちる。手で書き換えたまま腐らせることはできない。
 > `run.backfill: true` の追跡採点 batch はここに書かない（`check-geo-freshness` の active run からも除外される）。
 
-- モデル: `gpt-6-astra`
-- run date: `2026-09-10`
-- Score output: `data/scores/occupations_gpt-6-astra_2026-09-10.json`
+- モデル: `grok-4.7`
+- run date: `2026-09-22`
+- Score output: `data/scores/occupations_grok-4.7_2026-09-22.json`
 
 - 標準: AIOIS-10 v1.0
 - 対象: JILPT IPD v7.00 の 556 職業
@@ -145,6 +145,7 @@ Registered providers:
 | --- | --- | --- | --- |
 | `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. `claude-fable-5-1` (mms-8.25/8.26) uses the same transport. |
 | `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8.32/8.33) rides the same transport with an explicit `--model` and `--reasoning-effort high`; the default model stays `gpt-5.6-sol`. |
+| `grok-cli` | Locally logged-in grok CLI subscription | yes (`--json-schema` inline) | xAI flagship transport from Grok 4.7 on (mms-10). Every call passes `--model` and `--reasoning-effort`. Owner machine only. Grok 4.6 and the Grok 4.5 backfill stay `in-agent`. |
 
 There is no Vercel AI Gateway provider. Do not add one.
 
@@ -162,15 +163,15 @@ The downstream `assemble:scores` step takes the bare model slug plus an
 explicit `--provider` (the vendor 提供元: `xai` / `anthropic` / `openai`,
 not the CLI transport).
 
-Whitelist vendors are OpenAI / Anthropic / xAI. A new `providers/<name>.ts`
-is only for a genuinely different transport (Codex-CLI-like). Do not add a
-bespoke xAI API provider for Grok — Grok scores in-agent.
+Whitelist vendors are OpenAI / Anthropic / xAI. A new providers/<name>.ts is only for a genuinely different transport — a locally logged-in subscription CLI, the class codex already occupies. grok-cli is that transport for the grok CLI. Do not add a bespoke xAI HTTP/API provider (providers/xai.ts) and do not add a Vercel AI Gateway provider. Grok 4.6 and the Grok 4.5 backfill stay --provider in-agent; those batches are history. From Grok 4.7 on, an xAI flagship run uses --provider grok-cli. Every call passes -m explicitly. The CLI's default model is not a scoring model.
 
 ### Adding a vendor
 
 1. Prefer `--provider in-agent` when the running session is the scoring
-   model (Claude, Grok, …). Prefer `--provider codex` for the local Codex
-   CLI. Do not add a Vercel AI Gateway provider.
+   model (Claude, and the historical Grok 4.6 and Grok 4.5 batches).
+   Prefer `--provider codex` for the local Codex CLI. From Grok 4.7 on,
+   an xAI flagship run uses `--provider grok-cli`. Do not add a Vercel
+   AI Gateway provider or `providers/xai.ts`.
 2. Otherwise write `scripts/lib/scoring/providers/<name>.ts` exporting a
    `ScoringProvider` (interface in `lib/scoring/provider.ts`). Typically
    40–80 lines.
@@ -222,6 +223,8 @@ bun scripts/assemble-scores.ts \
 
 bun run check:score-batch .cache/scoring/<run>/occupations_grok-4.6_<date>.json
 ```
+
+Grok 4.7 flagship runs use --provider grok-cli (mms-10). This section is the historical in-agent record for Grok 4.6 and stays as written.
 
 ### In-agent scoring flow
 

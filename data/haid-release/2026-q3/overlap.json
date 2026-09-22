@@ -1,0 +1,22 @@
+{
+  "level_4": {
+    "cn": null,
+    "row": {
+      "rate": 0.58,
+      "low": 0.58,
+      "high": 0.58,
+      "grade": "D",
+      "source_name": "Pew Research Center, Americans and AI 2026 (fieldwork 2026-02-17〜23, n = 5,119 U.S. adults)",
+      "source_url": "https://www.pewresearch.org/internet/2026/06/17/americans-and-ai-2026-chatbots-smart-devices-and-views-on-impact/",
+      "as_of": "2026-06-17",
+      "status": "placeholder",
+      "note": "49% of U.S. adults use AI chatbots; per-tool shares ChatGPT 44 / Gemini 24 / Copilot 17 / Meta AI 14 / Grok 8 / Claude 6 / Character.ai 3 sum to 116%. rate = 1 − 49/116 = 0.58: the share of tool-user counts that are the same people. 'Ever use', U.S. only — a proxy for 30-day global overlap until a better survey is found. Applied to the rest-of-world market only; China uses the QuestMobile deduplicated total."
+    },
+    "world": null
+  },
+  "level_5": {
+    "cn": null,
+    "row": null,
+    "world": null
+  }
+}

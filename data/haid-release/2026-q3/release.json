@@ -1,0 +1,111 @@
+{
+  "release": "2026-q3",
+  "label_ja": "2026 年 第 3 四半期",
+  "version": "2026-Q3.0",
+  "status": "draft",
+  "spec_version": "1.0",
+  "planned_publish": "2026-10-24",
+  "published_at": null,
+  "population_anchor": "population_2026",
+  "previous": "2026-q2",
+  "levels": {
+    "1": {
+      "certainty": "measured",
+      "method": "single",
+      "anchors": [
+        "population_2026"
+      ],
+      "method_ja": "世界の総人口。第 1 段階以上は全員。"
+    },
+    "2": {
+      "certainty": "measured",
+      "method": "single",
+      "anchors": [
+        "itu_internet_users_2025"
+      ],
+      "method_ja": "インターネット利用者数。ちょうど第 2 段階にいる人は、ここから第 3 段階以上を引いた残差。"
+    },
+    "3": {
+      "certainty": "lower_bound",
+      "method": "max_single",
+      "anchors": [
+        "google_ai_overviews_monthly_2026",
+        "meta_ai_monthly_2025"
+      ],
+      "method_ja": "「見せられた」人数を公表しているのは 2 社。重なりが分からないため最大の 1 社を下限とする。"
+    },
+    "4": {
+      "certainty": "range",
+      "method": "market_union_topdown",
+      "anchors": [
+        "google_ai_mode_monthly_2026",
+        "gemini_app_monthly_2026",
+        "chatgpt_weekly_2026",
+        "microsoft_copilot_family_monthly_2025",
+        "grok_monthly_2026",
+        "perplexity_monthly_2026",
+        "sensortower_claude_2026_05",
+        "questmobile_ai_native_union_2026_05",
+        "questmobile_doubao_2026_06",
+        "questmobile_qwen_2026_06",
+        "questmobile_deepseek_2026_06",
+        "questmobile_yuanbao_2026_06",
+        "microsoft_ai_diffusion_2026q1"
+      ],
+      "overlap": "level_4",
+      "method_ja": "市場ごとに積み上げる。中国はパネルの重複除去済み合計をそのまま使い、中国以外は各社の公表値と推計を足して重なり率を引く。積み上げの合計と、独立した上からの推計（人口 × 利用率）を突き合わせ、小さいほうを低、大きいほうを高、幾何平均を中とする。"
+    },
+    "5": {
+      "certainty": "lower_bound",
+      "method": "max_single",
+      "anchors": [
+        "chatgpt_weekly_2026"
+      ],
+      "method_ja": "7 日口径の公表値が 1 社しかないため、下限として扱う。"
+    },
+    "6": {
+      "certainty": "lower_bound",
+      "method": "max_single",
+      "anchors": [
+        "codex_weekly_2026"
+      ],
+      "method_ja": "現時点で観測できるのはコーディング用エージェントのみ。7 日口径の公表値を下限とする。"
+    },
+    "7": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "事業者の公表値は存在しない。"
+    },
+    "8": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "事業者の公表値は存在しない。"
+    },
+    "9": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "事業者の公表値は存在しない。"
+    },
+    "10": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "事業者の公表値は存在しない。"
+    }
+  },
+  "payment": {
+    "certainty": "lower_bound",
+    "count": {
+      "low": 50000000,
+      "mid": null,
+      "high": null
+    },
+    "anchors": [
+      "chatgpt_subscribers_2026"
+    ],
+    "method_ja": "有料契約者数を公表しているのは 1 社のみ。その値を下限とする。"
+  }
+}

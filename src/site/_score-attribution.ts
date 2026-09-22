@@ -22,14 +22,14 @@
  * Do NOT edit by hand — the next `build:data` will overwrite it.
  */
 export const SCORE_ATTRIBUTION_DATA = {
-  modelId: 'gpt-6-astra',
-  modelDisplay: 'GPT 6 Astra',
-  runDate: '2026-09-10',
+  modelId: 'grok-4.7',
+  modelDisplay: 'Grok 4.7',
+  runDate: '2026-09-22',
 } as const;
 
 export const SCORE_PANEL_DATA = {
   vendorCount: 3,
-  latestRunDate: '2026-09-10',
+  latestRunDate: '2026-09-22',
   staleMonths: 6,
   staleVendorCount: 0,
 } as const;

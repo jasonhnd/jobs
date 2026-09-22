@@ -39,7 +39,7 @@ import { stripComments, walkSource } from './scan.js';
  *
  * The value has to look like one too. `color: z.string()` in a Zod schema and
  * `color: l.color` passing data through are not design declarations, and
- * counting them put src/data/projections/ai-adoption.ts in the report with
+ * counting them put src/data/projections/haid-release.ts in the report with
  * three phantom "declarations".
  *
  * `fontSize` in camelCase is included on purpose: the OG renderers build Satori

@@ -226,6 +226,11 @@
       "permanent": true
     },
     {
+      "source": "/models/grok-4.7",
+      "destination": "/models/grok-4.7@2026-09-22",
+      "permanent": true
+    },
+    {
       "source": "/models/fable-5-1",
       "destination": "/models/fable-5-1@2026-09-09",
       "permanent": true

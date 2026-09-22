@@ -34,12 +34,24 @@ bun install --frozen-lockfile
 echo "[e2e] Installing chromium browser binary…"
 bun x playwright install --with-deps chromium
 
-# Build must have run before this — playwright.config.ts serves
-# dist-astro/ via scripts/e2e-server.cjs. If the directory is missing, build now.
-if [ ! -d "dist-astro" ]; then
-  echo "[e2e] dist-astro/ missing; running build first…"
-  bun run build
-fi
+# playwright.config.ts serves dist-astro/ via scripts/e2e-server.cjs.
+#
+# The build is ALWAYS redone here, with a throwaway measurement ID. A build
+# made from .env.local carries the production ID, and gtag.js does not care
+# that it is running on localhost — every e2e run then wrote real sessions
+# into GA4 property 298707336. Measured 2026-09-21: seven runs between 8/25
+# and 9/17 put ~1,870 sessions (12% of the clean window, 47% of 9/17 alone)
+# into production analytics, each ~0.006s long, landing on exactly the URLs
+# this suite visits. Vercel Web Analytics — first-party, and not loaded on
+# localhost — saw none of them, which is how the divergence was caught.
+#
+# G-E2E0000000 is a well-formed ID for no property, so gtag.js still loads,
+# still queues, and still fires g/collect (every assertion in
+# analytics.spec.ts holds) while GA4 discards the hit. Do not remove the
+# override to "save a rebuild": the build takes ~7s and the alternative is
+# silently corrupting the only analytics the project has.
+echo "[e2e] Rebuilding with a throwaway GA4 id (never write to production)…"
+PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000 bun run build
 
 echo "[e2e] Running Playwright tests…"
 bun x playwright test "$@"
