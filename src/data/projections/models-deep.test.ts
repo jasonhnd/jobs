@@ -192,13 +192,7 @@ describe('models-deep projection', () => {
       payload,
       payload.stories.map((story) => story.id),
     );
-    assert.deepEqual(orphans.editorialKeys, [
-      '317__grok-4.6@2026-09-07__claude-fable-5-1@2026-09-09__gpt-6-astra@2026-09-10',
-      '333__grok-4.6@2026-09-07__claude-fable-5-1@2026-09-09__gpt-6-astra@2026-09-10',
-      '352__grok-4.6@2026-09-07__claude-fable-5-1@2026-09-09__gpt-6-astra@2026-09-10',
-      '354__grok-4.6@2026-09-07__claude-fable-5-1@2026-09-09__gpt-6-astra@2026-09-10',
-      '445__grok-4.6@2026-09-07__claude-fable-5-1@2026-09-09__gpt-6-astra@2026-09-10',
-    ]);
+    assert.deepEqual(orphans.editorialKeys, []);
     assert.deepEqual(orphans.personalityKeys, []);
     assert.ok(payload.stories.every((story) => story.scores.length === payload.panel.entries.length));
     assert.ok(payload.stories.every((story) => story.scores.every((score) => score.rationale_ja.length > 0)));
