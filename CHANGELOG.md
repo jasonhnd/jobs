@@ -12,6 +12,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **Anthropic's seat in the public value is now Claude Opus 5.5 (mms-11 /
+  #605).** `data/scores/occupations_claude-opus-5-5_2026-09-23.json`,
+  556/556, scored in-agent through chunked
+  `claude -p --model claude-opus-5-5 --effort high` runs, replaces Claude
+  Fable 5.1 (`claude-fable-5-1@2026-09-09`, now history).
+  `/models/opus-5-5` 308 to the run page. Site mean 4.54 → 4.65;
+  `|Δ| ≥ 0.5` on 9 occupations; 32 band changes; none `|Δ| ≥ 1.0`.
+  Drift report: `docs/VENDOR_UPDATE_DRIFT_claude-opus-5-5_2026-09-23.md`.
+  The flagship-seat rule is amended: a vendor's seat holds the newest model
+  the owner chose to score, not necessarily its top tier (mms-11.1). The
+  stale Claude Fable 5.1 personality sentence is removed (mms-11.7).
 - **「数字の出どころと計算」 is now one card per level: 使った数字 → 計算 →
   結果 (aiadoption-1.9).** The four-column grid of monospace formula strings
   is replaced by a card for each level: the anchors used (grouped by market
