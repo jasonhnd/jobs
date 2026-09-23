@@ -257,7 +257,7 @@ code it bootstraps: a branch that moves the Bun pin carries its own environment.
 | --- | --- | --- |
 | Config | `.cursor/environment.json` | `install` only. No `start`, no `terminals`, no Dockerfile — nothing here needs a live service. |
 | Bootstrap | `.cursor/install.sh` | Node `.nvmrc` major via nvm, Bun **1.4.0**, `bun install --frozen-lockfile`, Chromium (best effort). Idempotent. |
-| Ignore rule | `.gitignore` | `.cursor/*` with `!environment.json` and `!install.sh`. The rest of `.cursor/` stays per-machine LLM-tool state. |
+| Ignore rule | `.gitignore` | `.cursor/*` with `!environment.json`, `!install.sh`, and `!.cursor/agents/`. Shared Cursor sub-agent definitions in `.cursor/agents/` are project config. The rest of `.cursor/` stays per-machine LLM-tool state. |
 
 `install` runs after checkout, and once into the baseline snapshot when
 environment builds are enabled, so it may only produce on-disk state that
