@@ -20,7 +20,9 @@ describe('/me and /shindan measurement-led share (#237)', () => {
   test('/me share text uses the job score, not the type name', () => {
     assert.match(meJs, /textTemplateWithJob/);
     assert.match(meJs, /function currentSharePayload/);
-    assert.match(meJs, /pos\.summary\.aiRisk \+ '\/10'/);
+    // One decimal in the shared text, never the raw three-vendor mean (#631).
+    assert.match(meJs, /fmtRisk\(pos\.summary\.aiRisk\) \+ '\/10'/);
+    assert.doesNotMatch(meJs, /pos\.summary\.aiRisk \+ '\/10'/);
     assert.match(meJs, /ga\('share_click'/);
     assert.doesNotMatch(meJs, /私は【/);
   });
@@ -29,5 +31,8 @@ describe('/me and /shindan measurement-led share (#237)', () => {
     assert.match(shindanJs, /function fillShareTemplate/);
     assert.match(shindanJs, /textTemplateWithJob/);
     assert.match(shindanJs, /AI影響度は/);
+    // One decimal in the shared text, never the raw three-vendor mean (#631).
+    assert.match(shindanJs, /fmtRisk\(fields\.score\) \+ '\/10'/);
+    assert.doesNotMatch(shindanJs, /fields\.score \+ '\/10'/);
   });
 });
