@@ -141,8 +141,10 @@ export function computeVendorUpdateDrift(
   generatedAt: string = new Date().toISOString().slice(0, 10),
 ): VendorUpdateDriftSummary {
   const swap = resolveVendorSwap(historyByOcc, incomingModel);
-  const beforeVals: number[] = [];
-  const afterVals: number[] = [];
+  // Aggregate means use the unrounded public values; per-occupation counts
+  // (|Δ|, bands) use the displayed one-decimal values (#631).
+  const unroundedBefore: number[] = [];
+  const unroundedAfter: number[] = [];
   const movers: VendorUpdateMover[] = [];
   const bandBefore = emptyBands();
   const bandAfter = emptyBands();
@@ -176,8 +178,8 @@ export function computeVendorUpdateDrift(
     const afterBand = riskBand(after);
     if (beforeBand === null || afterBand === null) continue;
 
-    beforeVals.push(before);
-    afterVals.push(after);
+    unroundedBefore.push(beforeUnrounded);
+    unroundedAfter.push(afterUnrounded);
     if (abs >= 0.5) absDeltaGe05 += 1;
     if (abs >= 1.0) absDeltaGe10 += 1;
     bump(bandBefore, beforeBand);
@@ -205,8 +207,8 @@ export function computeVendorUpdateDrift(
     incomingDate: swap.incomingDate,
     generatedAt,
     swap,
-    meanBefore: round2(fmean(beforeVals)),
-    meanAfter: round2(fmean(afterVals)),
+    meanBefore: round2(fmean(unroundedBefore)),
+    meanAfter: round2(fmean(unroundedAfter)),
     absDeltaGe05,
     absDeltaGe10,
     bandBefore,

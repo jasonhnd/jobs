@@ -17,6 +17,8 @@
  * Pinned by tests + the SEO baseline diff at build time.
  */
 
+import { displayScore } from '../data/lib/banker-round.js';
+
 const NOT_EVALUATED = 'AI 影響度未評価。';
 const VERY_HIGH = '定型業務が中心。AI による自動化候補が多く、今すぐ転職方向を考えるレベル。';
 const HIGH = 'AI 影響度が高い。業務再設計や転職方向の検討が早めに必要。';
@@ -29,8 +31,10 @@ const MID_FLOOR = 4;
 
 export function pickRiskOneLineCallout(aiRisk: number | null): string {
   if (aiRisk === null) return NOT_EVALUATED;
-  if (aiRisk >= VERY_HIGH_FLOOR) return VERY_HIGH;
-  if (aiRisk >= HIGH_FLOOR) return HIGH;
-  if (aiRisk >= MID_FLOOR) return MID;
+  // Compare the one-decimal value the page prints, not the unrounded mean (#631).
+  const shown = displayScore(aiRisk);
+  if (shown >= VERY_HIGH_FLOOR) return VERY_HIGH;
+  if (shown >= HIGH_FLOOR) return HIGH;
+  if (shown >= MID_FLOOR) return MID;
   return LOW;
 }

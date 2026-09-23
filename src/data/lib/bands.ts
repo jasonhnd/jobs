@@ -42,20 +42,25 @@
  *
  * Do not merge into `src/lib/risk.ts`; the split is the point.
  */
+import { displayScore } from './banker-round.js';
 
 // ───── Risk band ─────
 // Aligned with the Direction C design tokens: .risk-low / .risk-mid / .risk-high.
 export type RiskBand = 'low' | 'mid' | 'high';
-// Half-open intervals (decimal-safe): [0,4.0) low / [4.0,7.0) mid / [7.0,10] high.
-// Boundary moved 3.9→4.0 / 6.9→7.0 for one-decimal scores; integer scores unaffected.
+// Half-open intervals on the DISPLAYED value: [0,4.0) low / [4.0,7.0) mid / [7.0,10] high,
+// applied to displayScore(x) — the one-decimal banker-rounded number the site prints
+// (docs/DATA_ARCHITECTURE.md, owner rule 2026-09-24, #631). A three-vendor mean of
+// 3.9666… prints 4.0, so it is mid. Every band colour and tier word derives from this
+// helper or from its UI twin riskClass() in src/lib/risk.ts — never from a local threshold.
 export const RISK_LOW_MAX = 4.0; // < 4.0 → low (sage)
 export const RISK_MID_MAX = 7.0; // < 7.0 → mid (sand); ≥ 7.0 → high (terracotta)
 
-/** Map ai_risk score (0-10) to design's three-color risk band. */
+/** Map an ai_risk score (0-10) to the three-colour band of the value the site displays. */
 export function riskBand(aiRisk: number | null | undefined): RiskBand | null {
   if (aiRisk === null || aiRisk === undefined) return null;
-  if (aiRisk < RISK_LOW_MAX) return 'low';
-  if (aiRisk < RISK_MID_MAX) return 'mid';
+  const shown = Number.isFinite(aiRisk) ? displayScore(aiRisk) : aiRisk;
+  if (shown < RISK_LOW_MAX) return 'low';
+  if (shown < RISK_MID_MAX) return 'mid';
   return 'high';
 }
 
