@@ -18,6 +18,7 @@
 
 import { ImageResponse } from '@vercel/og';
 import { createElement as h } from 'react';
+import { displayScore } from '../../data/lib/banker-round.js';
 import {
   RISK_COLORS,
   loadGoogleFont,
@@ -100,7 +101,9 @@ export async function renderOccupationOgCard(
     rec.stats?.workers ?? null,
     rec.stats?.salary_man_yen ?? null,
   );
-  const riskNumberStr = risk != null ? String(risk) : '—';
+  // Print the one-decimal public value. The detail projection stores the raw
+  // three-vendor mean (e.g. 3.9666666666666663), which overflowed the card (#631).
+  const riskNumberStr = risk != null ? String(displayScore(risk)) : '—';
 
   // Subset string covers every glyph we are about to render (incl. the
   // shared chrome + the "0 5 10" scale labels). Keeps the Google Fonts

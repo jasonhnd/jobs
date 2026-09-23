@@ -126,6 +126,7 @@ function loadTreemapMap(): Map<number, TreemapRecord> {
 // ─── Helpers ────────────────────────────────────────────────────
 
 import { fmtInt, safeMean } from '../lib/num.js';
+import { displayScore } from '../data/lib/banker-round.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 
 // ─── FAQ generation (per type, mostly templated from meta) ───────
@@ -153,10 +154,12 @@ function buildFaqs(meta: InterestMeta, items: InterestOccupation[]): Array<reado
   // Q3: AI 影響度
   const meanRisk = safeMean(items.map((o) => o.ai_risk));
   if (meanRisk > 0) {
-    const tier = meanRisk <= 3.5 ? '低め' : meanRisk <= 5.5 ? '中程度' : 'やや高め';
+    // Judge the tier on the printed one-decimal mean (#631); the cut points stay.
+    const shownMean = displayScore(meanRisk);
+    const tier = shownMean <= 3.5 ? '低め' : shownMean <= 5.5 ? '中程度' : 'やや高め';
     faqs.push([
       `${meta.name_ja}タイプの職業は AI に置き換えられる？`,
-      `本 hub の TOP ${items.length} の平均 AI 影響度は ${meanRisk.toFixed(1)}/10 で ${tier} の水準です。` +
+      `本 hub の TOP ${items.length} の平均 AI 影響度は ${shownMean.toFixed(1)}/10 で ${tier} の水準です。` +
         `タイプによって AI 適合度の傾向が異なるため、個別の職業ごとの確認が重要です。` +
         CONSENSUS_FAQ_SENTENCE,
     ]);

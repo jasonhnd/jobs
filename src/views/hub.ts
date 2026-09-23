@@ -18,16 +18,10 @@
  */
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
+import { riskBand } from '../data/lib/bands.js';
 import type { DetailFileMin } from './genre-hub';
 
 type TopNEntry = { key: string; label_ja: string; score: number };
-
-function riskBand(score: number | null): 'low' | 'mid' | 'high' | null {
-  if (score === null || score === undefined) return null;
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
-}
 
 function topN(
   edges: ReadonlyArray<{ to: string | { toString(): string }; weight: number }>,
