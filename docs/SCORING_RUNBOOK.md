@@ -590,6 +590,121 @@ Landing checklist (Fable 5.1 = 8.27, Astra = 8.35). Owner-gated scoring must alr
 8. On-site note from 確定文案（mms-8）, numbers from the drift script (`flagship-switch-drift.ts` for 8.28, `vendor-update-drift.ts` for 8.35)
 9. Promotion PR text for the owner (`preview` → `main`). Agents do not merge to `main`.
 
+## mms-11: Claude Opus 5.5 (Anthropic flagship seat)
+
+From 2026-09-23 a vendor's flagship seat holds the newest model the owner chose to score for that vendor, not necessarily its top tier. claude-opus-5-5 takes Anthropic's seat from claude-fable-5-1 (mms-11) and gpt-6-sol takes OpenAI's seat from gpt-6-astra (mms-12). The public-value formula is unchanged: the arithmetic mean of each vendor's latest comparable AIOIS-10 run.
+
+| Item | Value |
+|---|---|
+| model id | `claude-opus-5-5` |
+| display / URL slug | Claude Opus 5.5 / `opus-5-5` |
+| `model_provider` | `anthropic` |
+| predecessor | `claude-fable-5-1` (2026-09-09) |
+| transport | `in-agent`. Answers are written by chunked `claude -p --model claude-opus-5-5 --effort high` runs (Claude Code 2.1.280). The orchestrating session never scores. |
+| frozen prompt | `data/prompts/2026-09-23_claude-opus-5-5-aiois10.ja.md` |
+| `prompt_version` | `AIOIS-10-v1.0-claude-opus-5-5` |
+| reasoning effort | `high` |
+| drift baselines | `claude-fable-5-1` and `grok-4.7` |
+| artifacts | `.cache/scoring/mms-11-preflight/`, `.cache/scoring/mms-11-pilot/`, `.cache/scoring/mms-11-full/` |
+| issues | preflight #608, pilot #609, full #610, landing #611 |
+
+The chunk runner is a local script under `.cache/`, not a repository file: `/Users/ms23m2/AgenticCoder/jobs/.cache/handoff/2026-09-23-mms-11-12/opus55_score_chunks.py`, adapted from `.cache/scoring/mms-8f-full/score_chunks.py` (Claude Fable 5.1, mms-8.26). It starts one `claude -p --model claude-opus-5-5 --effort high` process per chunk and only checks what that process wrote. It stops on a rate limit, a non-zero exit, `is_error`, a missing or foreign `modelUsage` key (a `claude-haiku-*` helper is allowed), a spawned sub-agent, a malformed chunk, or a changed tracked file. Re-running skips chunks that are already valid. Do not put any file into `answers/` by hand: the in-agent provider loads every `*.jsonl` there, in file-name order, and the later definition of an id wins.
+
+Pilot 40 (#609). Owner GO on #609 before the first command. Run from the lane worktree root, detached at `origin/preview`.
+
+```bash
+H=/Users/ms23m2/AgenticCoder/jobs/.cache/handoff/2026-09-23-mms-11-12
+P=data/prompts/2026-09-23_claude-opus-5-5-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-11-pilot
+# 1. sample. Pass --baseline explicitly: the default is the newest batch (grok-4.7).
+#    Do not pass --explain: it would show baseline scores to the scorer (anchoring).
+bun scripts/make-pilot-sample.ts --model claude-opus-5-5 --prompt-file "$P" --size 40 --chunk 5 \
+  --baseline data/scores/occupations_claude-fable-5-1_2026-09-09.json --out $R
+IDS="$(jq -r '.ids | join(",")' $R/sample.json)"
+# 2. emit prompts (40 pending is expected)
+bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
+  --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$IDS"
+ls $R/prompts | wc -l                                  # 40
+# 3. answers: 8 chunks of 5, each written by claude -p --model claude-opus-5-5 --effort high
+python3 "$H/opus55_score_chunks.py" --run $R --chunk 5 --expect 40 --dry-run
+python3 "$H/opus55_score_chunks.py" --run $R --chunk 5 --expect 40
+# 4. validate + append
+bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
+  --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$IDS" --resume
+wc -l < $R/raw-scores.jsonl                             # 40
+jq '{attested_model, subagent_verification, answers_loaded}' $R/provider-preflight.json
+# 5. anomaly scan (the existing quality gates)
+jq -r 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12) | .id' $R/raw-scores.jsonl
+```
+
+Re-score, only if step 5 lists ids. At most two rounds; the second round uses `--name rescored-2`. A row still below 0.7 after two rounds is accepted and reported. A row with `aiois.transformation == 0` is never accepted: stop and ask the owner.
+
+```bash
+BAD=<comma-separated ids>
+jq -c --argjson bad "[$BAD]" 'select(.id as $i | ($bad | index($i)) | not)' $R/raw-scores.jsonl > $R/raw-scores.tmp && mv $R/raw-scores.tmp $R/raw-scores.jsonl
+python3 "$H/opus55_score_chunks.py" --run $R --ids "$BAD" --name rescored
+bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
+  --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$BAD" --resume
+```
+
+Assemble the pilot (it stays under `.cache/`; do not pass `--backfill`) and write both drift reports:
+
+```bash
+D=<today, JST, YYYY-MM-DD>
+bun scripts/assemble-scores.ts --mode aiois --model claude-opus-5-5 --provider anthropic --date $D \
+  --prompt-version AIOIS-10-v1.0-claude-opus-5-5 --prompt-file "$P" \
+  --in $R/raw-scores.jsonl --out $R/occupations_claude-opus-5-5_${D}_pilot.json --run-id mms-11-pilot-$D
+bun run check:score-batch $R/occupations_claude-opus-5-5_${D}_pilot.json   # schema OK; 516 missing is expected
+```
+
+```bash
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fable-5-1_2026-09-09.json --candidate $R/occupations_claude-opus-5-5_${D}_pilot.json --out $R/drift_claude-fable-5-1_vs_claude-opus-5-5_${D}.md
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.7_2026-09-22.json --candidate $R/occupations_claude-opus-5-5_${D}_pilot.json --out $R/drift_grok-4.7_vs_claude-opus-5-5_${D}.md
+```
+
+Full 556 (#610). `Owner FULL GO` on #609 and GO on #610 before the first command. `P` and `H` as above. `run_date` is the JST date when all 556 rows, re-scores included, are in; it must be later than `2026-09-22`.
+
+```bash
+R=.cache/scoring/mms-11-full
+bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
+  --prompt-file "$P" --run-name mms-11-full --out $R/raw-scores.jsonl
+ls $R/prompts | wc -l                                   # 556
+python3 "$H/opus55_score_chunks.py" --run $R --chunk 20 --expect 556 --dry-run    # 28 chunks
+python3 "$H/opus55_score_chunks.py" --run $R --chunk 20 --expect 556
+#   STOP: RATE_LIMIT -> wait for the Claude usage window, then re-run the same command (valid chunks are skipped)
+#   any other STOP   -> read the error; the rejected chunk is moved to $R/logs/*.rejected-*.jsonl, and a re-run rewrites it
+bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
+  --prompt-file "$P" --run-name mms-11-full --out $R/raw-scores.jsonl --resume
+wc -l < $R/raw-scores.jsonl                              # 556
+jq -r .id $R/raw-scores.jsonl | sort -n | uniq -d        # no output
+jq -r 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12) | .id' $R/raw-scores.jsonl
+```
+
+Caveat (from the Fable 5.1 caveat, model id only), assemble without `--backfill`, and both drift reports:
+
+```bash
+jq -r .caveat data/scores/occupations_claude-fable-5-1_2026-09-09.json | sed 's/claude-fable-5-1/claude-opus-5-5/' > $R/caveat.txt
+grep -c 'claude-opus-5-5' $R/caveat.txt    # 1
+grep -c 'fable' $R/caveat.txt              # 0
+```
+
+```bash
+RD=<run_date>
+bun scripts/assemble-scores.ts --mode aiois --model claude-opus-5-5 --provider anthropic --date $RD \
+  --prompt-version AIOIS-10-v1.0-claude-opus-5-5 --prompt-file "$P" \
+  --in $R/raw-scores.jsonl --out $R/occupations_claude-opus-5-5_$RD.json \
+  --run-id claude-opus-5-5-in-agent-$RD --caveat $R/caveat.txt \
+  --scoring-method "AIOIS-10 v1.0: in-session single-pass per occupation; model-judged D1–D10, indices per /standard formulas (re-validated); reasoning effort high (adaptive)"
+bun run check:score-batch $R/occupations_claude-opus-5-5_$RD.json   # schema OK; 556/556; vendor anthropic; newer than every existing batch
+jq .run $R/occupations_claude-opus-5-5_$RD.json                     # no backfill field
+shasum -a 256 $R/occupations_claude-opus-5-5_$RD.json
+```
+
+```bash
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fable-5-1_2026-09-09.json --candidate $R/occupations_claude-opus-5-5_$RD.json --out $R/drift_claude-fable-5-1_vs_claude-opus-5-5_$RD.md
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.7_2026-09-22.json --candidate $R/occupations_claude-opus-5-5_$RD.json --out $R/drift_grok-4.7_vs_claude-opus-5-5_$RD.md
+```
+
 ## GPT-5.6-SOL / Codex-CLI scoring
 
 This section is the Codex CLI path for `mms-5-prep` / Issue #141 and the gated GPT 5.6 SOL execution in Issue #126. It is added alongside the Fable 5 / Issue #9 path above; it does not replace the Fable 5 runbook.
