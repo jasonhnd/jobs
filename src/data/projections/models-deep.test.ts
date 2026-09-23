@@ -193,7 +193,7 @@ describe('models-deep projection', () => {
       payload.stories.map((story) => story.id),
     );
     assert.deepEqual(orphans.editorialKeys, []);
-    assert.deepEqual(orphans.personalityKeys, ['claude_fable_5_1_d4_negative_strong']);
+    assert.deepEqual(orphans.personalityKeys, []);
     assert.ok(payload.stories.every((story) => story.scores.length === payload.panel.entries.length));
     assert.ok(payload.stories.every((story) => story.scores.every((score) => score.rationale_ja.length > 0)));
     assert.ok(modelsDeepPayloadBytes(payload) <= 30 * 1024);
@@ -368,13 +368,6 @@ describe('personality copy polarity', () => {
         );
       }
     }
-    const fableSpecific = sentences.claude_fable_5_1_d4_negative_strong;
-    assert.ok(fableSpecific);
-    assert.equal(
-      fableSpecific.includes('防壁'),
-      false,
-      `claude_fable_5_1_d4_negative_strong should NOT describe a barrier, got: ${fableSpecific}`,
-    );
   });
 
   test('open dimensions read as weighing the dimension, not as a barrier', () => {
