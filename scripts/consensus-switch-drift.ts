@@ -10,7 +10,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import { buildIndexes } from '../src/data/lib/indexes.js';
-import { riskBand } from '../src/data/lib/bands.js';
+import { RISK_LOW_MAX, RISK_MID_MAX, type RiskBand } from '../src/data/lib/bands.js';
 import { fmean } from '../src/data/lib/fsum.js';
 import { pickConsensusScore, pickLatestScore } from '../src/graph/score-strategy.js';
 
@@ -46,6 +46,18 @@ function round2(n: number): number {
   return Math.round(n * 100) / 100;
 }
 
+/**
+ * Frozen for the historical record. The switch-day report (published as
+ * 「リスク帯が変わる職業は 133」) classified the unrounded value; riskBand()
+ * classifies the displayed value since #631. This one-off tool keeps the old
+ * rule so it still reproduces what was published. Do not reuse.
+ */
+function switchDayRiskBand(t: number): RiskBand {
+  if (t < RISK_LOW_MAX) return 'low';
+  if (t < RISK_MID_MAX) return 'mid';
+  return 'high';
+}
+
 /** 6g switch-day latest run. Later votes must not rewrite those locked figures. */
 export const SWITCH_DAY = '2026-07-26';
 
@@ -73,8 +85,8 @@ export function computeSwitchDrift(
     consensusVals.push(consensusT);
     if (abs >= 0.5) absDeltaGe05 += 1;
     if (abs >= 1.0) absDeltaGe10 += 1;
-    const latestBand = riskBand(latestT)!;
-    const consensusBand = riskBand(consensusT)!;
+    const latestBand = switchDayRiskBand(latestT);
+    const consensusBand = switchDayRiskBand(consensusT);
     if (latestBand !== consensusBand) bandChanges += 1;
     movers.push({
       id,

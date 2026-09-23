@@ -43,6 +43,7 @@
  */
 
 import { displayScore } from '../data/lib/banker-round.js';
+import { riskBand } from '../data/lib/bands.js';
 
 /** Narrow input — only the Rec fields the SEO derivation reads. */
 export interface OccupationSeoInput {
@@ -73,8 +74,6 @@ export interface OccupationSeoOutput {
 const OG_TITLE_MAX = 120;
 const OG_DESCRIPTION_MAX = 300;
 const KEYWORDS_ALIAS_MAX = 8;
-const RISK_LOW_CEILING = 3;
-const RISK_MID_CEILING = 6;
 const NATIONAL_AVG_TAIL = '将来性やなり方、必要なスキルを詳しく解説。';
 
 /** Locale-aware comma rendering for the workers count in the
@@ -107,8 +106,9 @@ export function buildOccupationSeo(input: OccupationSeoInput): OccupationSeoOutp
     clauses.push(`就業者は${fmtIntCommas(workers)}人。`);
   }
   if (aiRisk !== null && shown !== null) {
-    const tier =
-      aiRisk <= RISK_LOW_CEILING ? '低め' : aiRisk <= RISK_MID_CEILING ? '中程度' : '高め';
+    // The tier word describes the number printed next to it (#631).
+    const band = riskBand(shown);
+    const tier = band === 'low' ? '低め' : band === 'mid' ? '中程度' : '高め';
     clauses.push(`${nameJa}のAI影響度は10段階中${shown}と${tier}です。`);
     clauses.push('仕事の中身がAIで変わる度合いであり、失業の確率ではありません。');
   } else {
