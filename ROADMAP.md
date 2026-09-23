@@ -210,7 +210,7 @@ Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
 - mms-12.3 (#617): pilot 45 (40 stratified + 5 refusal probes), no refusals (Issue comments; no PR).
 - mms-12.4 (#618): full 556, `run_date` 2026-09-23 (Issue comments; no PR).
 - mms-12.5 (#619/#627): land the batch + `/models/gpt-6-sol` 308 + drift doc + impact sentence + baselines; `/models` predecessor tests follow `predecessorFor` for same-date runs.
-- mms-12.6 (#620): close-out.
+- mms-12.6 (#620/#629): close-out.
 - Tracker #614 closes after this PR.
 
 ## Done — Claude Opus 5.5 takes Anthropic's flagship seat (mms-11, closed 2026-09-23)
