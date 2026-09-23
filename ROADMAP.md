@@ -190,6 +190,32 @@ owner-confirmed 2026-08-31; PR #363).
 - mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
 - mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
 
+## Done — Claude Opus 5.5 takes Anthropic's flagship seat (mms-11, closed 2026-09-23)
+
+Shipped on `preview` (#621, #623–#625); not promoted to `main` when this
+block was written (promotion text on #611). Claude Opus 5.5
+(`claude-opus-5-5@2026-09-23`, 556, in-agent through chunked
+`claude -p --model claude-opus-5-5 --effort high` runs) replaces Claude
+Fable 5.1 as Anthropic's seat in the vendor mean; GPT 6 Astra and Grok 4.7
+stay. The public mean moves 4.54 → 4.65: 9 occupations move by 0.5 or
+more, none by 1.0 or more, and 32 change risk band. The seat rule is
+amended: a vendor's flagship seat holds the newest model the owner chose to
+score for that vendor, not necessarily its top tier. Claude Fable 5.1 stays
+as history; its model-specific `/models` personality sentence is removed.
+
+Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
+2026-09-23 (owner). Sister lane mms-12 (GPT-6 SOL) lands after this one.
+
+- mms-11.1 (#606/#621): seat rule amended (canon sentence + two signed Japanese lines).
+- mms-11.2 (#607/#623): frozen prompt `claude-opus-5-5` + constants + body-hash test + runbook section + TOOLCHAIN row.
+- mms-11.3 (#608): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
+- mms-11.4 (#609): pilot 40 (in-agent, chunked `claude -p`; Issue comments; no PR).
+- mms-11.5 (#610): full 556, `run_date` 2026-09-23 (Issue comments; no PR).
+- mms-11.6 (#611/#624): land the batch + `/models/opus-5-5` 308 + drift doc + impact sentence + baselines.
+- mms-11.7 (#612/#625): drop the stale Claude Fable 5.1 personality sentence (owner A).
+- mms-11.8 (#613/#<PR>): close-out; runbook re-score naming corrected.
+- Tracker #605 closes after this PR.
+
 ## Done — backfill scoring: Grok 4.5 as xAI history (mms-9, closed 2026-09-11)
 
 Shipped on `preview`, then promoted (`#506`, `main@3c5bb0d3`). A batch-level
