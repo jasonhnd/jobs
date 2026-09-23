@@ -679,6 +679,165 @@ Full run gate:
 - The approved full run writes raw/audit artifacts under `.cache/scoring/` first, then assembles one append-only batch at `data/scores/occupations_gpt-5.6-sol_<YYYY-MM-DD>.json`.
 - Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun run test`. The landing PR must acknowledge that `pickLatestScore()` flips all public projections/pages to GPT 5.6 SOL.
 
+## mms-12: GPT-6 SOL (OpenAI flagship seat)
+
+From 2026-09-23 a vendor's flagship seat holds the newest model the owner chose to score for that vendor, not necessarily its top tier. claude-opus-5-5 takes Anthropic's seat from claude-fable-5-1 (mms-11) and gpt-6-sol takes OpenAI's seat from gpt-6-astra (mms-12). The public-value formula is unchanged: the arithmetic mean of each vendor's latest comparable AIOIS-10 run.
+
+| Item | GPT-6 SOL |
+|---|---|
+| Model id (bare slug) | `gpt-6-sol` |
+| Display / URL slug | GPT 6 SOL / `gpt-6-sol` |
+| `model_provider` | `openai` |
+| Predecessor (the OpenAI seat it replaces) | `gpt-6-astra` (2026-09-10) |
+| Transport | `codex`, owner machine only (logged-in Codex CLI 0.156.0 or newer). Every call passes `--model gpt-6-sol --reasoning-effort high`. |
+| Frozen prompt | `data/prompts/2026-09-23_gpt-6-sol-aiois10.ja.md` |
+| `prompt_version` | `AIOIS-10-v1.0-gpt-6-sol` |
+| Constants | `scripts/lib/scoring/gpt-6-sol-run.ts` |
+| Drift against | `gpt-6-astra` (predecessor) and `grok-4.7` |
+| Artifacts | `.cache/scoring/mms-12-preflight/`, `.cache/scoring/mms-12-pilot/`, `.cache/scoring/mms-12-full/` |
+| Issues | mms-12.2 preflight #616, mms-12.3 pilot #617, mms-12.4 full 556 #618, mms-12.5 landing #619 |
+
+The owner's `~/.codex/config.toml` defaults to `gpt-6-astra` at effort `low`; a call without `--model` / `--reasoning-effort` silently scores with those, and the Codex JSON stream does not show it. Copy the commands below; do not retype them. `provider-preflight.json` must record `"reasoning_effort_source": "cli-flag"`; `inherited-from-user-config` voids the run. Resume only with the same command plus `--resume`: a run without `--resume` truncates `raw-scores.jsonl`.
+
+Preflight (mms-12.2, not scoring). Manual probes always pass `--ephemeral`; without it the CLI hung for 180 seconds on the owner's machine. The `chronicle` and `skills context budget` error events, and the skill-name errors in stderr, are local CLI noise, not a permission failure.
+
+```bash
+F=.cache/scoring/mms-12-preflight; mkdir -p $F/isolate
+codex --version                                                   # >= 0.156.0
+NO_COLOR=1 codex exec --help | grep -E -- '-m, --model <MODEL>'
+NO_COLOR=1 codex exec --help | grep -E -- '-c, --config <key=value>'
+NO_COLOR=1 codex exec --help | grep -E -- '--output-schema <FILE>'
+python3 -c "import json;d=json.load(open('/Users/ms23m2/.codex/models_cache.json'));m=[x for x in d['models'] if x['slug']=='gpt-6-sol'];print(m[0]['slug'],m[0]['display_name'],[l['effort'] for l in m[0]['supported_reasoning_levels']]) if m else print('MISSING')"
+# entitlement probe — not scoring
+codex exec --ephemeral --color never --json -c model_reasoning_effort=high --model gpt-6-sol 'Reply with the single word ok.' > $F/probe.jsonl 2> $F/probe.stderr.log; echo "exit=$?"
+grep -o '"model":"[^"]*"' $F/probe.jsonl | sort -u                  # nothing, or only gpt-6-sol
+grep -iE 'not found|unavailable|unsupported|not entitled|forbidden|permission' $F/probe.jsonl || echo "no entitlement errors"
+grep -o '"type":"agent_message","text":"[^"]*"' $F/probe.jsonl       # text "ok"
+# structured-output probe — not scoring (trivial schema, not the score schema)
+printf '%s' '{"type":"object","properties":{"ok":{"type":"boolean"}},"required":["ok"],"additionalProperties":false}' > $F/ok.schema.json
+printf '%s' 'Return a JSON object with ok set to true.' | codex exec --ephemeral --cd $F/isolate --skip-git-repo-check --color never --output-schema $F/ok.schema.json --output-last-message $F/last.txt -c model_reasoning_effort=high --model gpt-6-sol -; echo "exit=$?"
+cat $F/last.txt                                                     # {"ok":true}
+```
+
+Pilot (mms-12.3): 40 stratified ids plus 321, 520, 533, 534, and 140 (the refusal probes of the GPT-6 Astra pilot, #439), 40 to 45 ids after de-duplication, concurrency 2.
+
+```bash
+P=data/prompts/2026-09-23_gpt-6-sol-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-12-pilot
+# explicit --baseline is required (the default is the newest batch); no --explain
+bun scripts/make-pilot-sample.ts --model gpt-6-sol --prompt-file "$P" --size 40 --chunk 5 \
+  --baseline data/scores/occupations_gpt-6-astra_2026-09-10.json --out $R
+IDS="$(jq -r '(.ids + [321,520,533,534,140]) | unique | join(",")' $R/sample.json)"
+echo "$IDS" | tr ',' '\n' | wc -l                      # 40–45
+NO_COLOR=1 bun scripts/run-scoring.ts --provider codex --model gpt-6-sol --reasoning-effort high \
+  --prompt-file "$P" --run-name mms-12-pilot --out $R/raw-scores.jsonl --ids "$IDS" --concurrency 2
+cat $R/provider-preflight.json          # requested_model gpt-6-sol; reasoning_effort "high"; reasoning_effort_source "cli-flag"; codex_version 0.156.x
+wc -l < $R/raw-scores.jsonl             # = number of ids; if short, re-run the same command plus --resume
+for f in $R/raw/*.failures.jsonl; do echo "== $f"; cat "$f"; done 2>/dev/null
+jq -r 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12) | .id' $R/raw-scores.jsonl
+```
+
+Pilot re-score: rows with `aiois.transformation == 0`, `confidence < 0.7`, or `rationale_ja` shorter than 12 characters, at most two rounds. A row still below 0.7 after two rounds is kept and reported; a `transformation == 0` row is never kept. A single call hung for more than 15 minutes: end the runner and its `codex` child, then re-run with `--resume`.
+
+```bash
+P=data/prompts/2026-09-23_gpt-6-sol-aiois10.ja.md; R=.cache/scoring/mms-12-pilot
+BAD=<comma-separated ids>
+jq -c --argjson bad "[$BAD]" 'select(.id as $i | ($bad | index($i)) | not)' $R/raw-scores.jsonl > $R/raw-scores.tmp && mv $R/raw-scores.tmp $R/raw-scores.jsonl
+NO_COLOR=1 bun scripts/run-scoring.ts --provider codex --model gpt-6-sol --reasoning-effort high \
+  --prompt-file "$P" --run-name mms-12-pilot --out $R/raw-scores.jsonl --ids "$BAD" --concurrency 2 --resume
+```
+
+Pilot assemble and drift (stays under `.cache/`; no `--backfill`):
+
+```bash
+P=data/prompts/2026-09-23_gpt-6-sol-aiois10.ja.md; R=.cache/scoring/mms-12-pilot
+D=<today's JST date>
+bun scripts/assemble-scores.ts --mode aiois --model gpt-6-sol --provider openai --date $D \
+  --prompt-version AIOIS-10-v1.0-gpt-6-sol --prompt-file "$P" \
+  --in $R/raw-scores.jsonl --out $R/occupations_gpt-6-sol_${D}_pilot.json --run-id mms-12-pilot-$D
+bun run check:score-batch $R/occupations_gpt-6-sol_${D}_pilot.json          # schema OK; vendor openai; 511–516 missing ids is expected for a pilot
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_gpt-6-astra_2026-09-10.json --candidate $R/occupations_gpt-6-sol_${D}_pilot.json --out $R/drift_gpt-6-astra_vs_gpt-6-sol_${D}.md
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.7_2026-09-22.json --candidate $R/occupations_gpt-6-sol_${D}_pilot.json --out $R/drift_grok-4.7_vs_gpt-6-sol_${D}.md
+```
+
+Pilot rationale table. The owner reads every row in the working session; the rationale is never pasted into an issue.
+
+```bash
+R=.cache/scoring/mms-12-pilot
+python3 - "$R/raw-scores.jsonl" data/scores/occupations_gpt-6-astra_2026-09-10.json <<'EOF'
+import json, glob, sys
+titles = {}
+for f in glob.glob('data/occupations/*.json'):
+    d = json.load(open(f, encoding='utf-8')); titles[d['id']] = d.get('title_ja')
+base = json.load(open(sys.argv[2], encoding='utf-8'))['scores']
+rows = [json.loads(l) for l in open(sys.argv[1], encoding='utf-8') if l.strip()]
+print('| id | title | Astra T | SOL T | conf | rationale_ja |'); print('|---|---|---:|---:|---:|---|')
+for r in sorted(rows, key=lambda r: r['id']):
+    b = base.get(str(r['id']), {}).get('ai_risk')
+    print(f"| {r['id']} | {titles.get(r['id'])} | {b} | {r['aiois']['transformation']} | {r['confidence']} | {r['rationale_ja']} |")
+EOF
+```
+
+Full 556 (mms-12.4). Gates: `Owner FULL GO` on #617; the mms-11.5 result comment on #610 starts with `run_date: <RA>`; the JST date is later than `<RA>`, so the two batches never share a run date. The halt comment on the mms-11 tracker (#605) waives the last two gates.
+
+```bash
+gh issue view 617 --comments --json comments --jq '.comments[].body' | grep -F 'Owner FULL GO'
+gh issue view 610 --comments --json comments --jq '.comments[].body' | grep -m1 '^run_date: '
+TZ=Asia/Tokyo date +%F
+gh issue view 605 --comments --json comments --jq '.comments[].body' | grep -F 'mms-11 halted by the owner'   # the exception
+```
+
+```bash
+P=data/prompts/2026-09-23_gpt-6-sol-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-12-full
+NO_COLOR=1 bun scripts/run-scoring.ts --provider codex --model gpt-6-sol --reasoning-effort high \
+  --prompt-file "$P" --run-name mms-12-full --out $R/raw-scores.jsonl --concurrency 4
+# interrupted or failed: the same command plus --resume. Never change --model. Hung > 15 min: end the process, then --resume.
+cat $R/provider-preflight.json                              # reasoning_effort_source "cli-flag"
+wc -l < $R/raw-scores.jsonl                                 # 556
+jq -r .id $R/raw-scores.jsonl | sort -n | uniq -d           # no output
+for f in $R/raw/*.failures.jsonl; do cat "$f"; done 2>/dev/null | grep -c '"kind":"refusal"'
+jq -r 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12) | .id' $R/raw-scores.jsonl
+```
+
+Full-run re-score, same rules as the pilot:
+
+```bash
+P=data/prompts/2026-09-23_gpt-6-sol-aiois10.ja.md; R=.cache/scoring/mms-12-full
+BAD=<comma-separated ids>
+jq -c --argjson bad "[$BAD]" 'select(.id as $i | ($bad | index($i)) | not)' $R/raw-scores.jsonl > $R/raw-scores.tmp && mv $R/raw-scores.tmp $R/raw-scores.jsonl
+NO_COLOR=1 bun scripts/run-scoring.ts --provider codex --model gpt-6-sol --reasoning-effort high \
+  --prompt-file "$P" --run-name mms-12-full --out $R/raw-scores.jsonl --ids "$BAD" --concurrency 4 --resume
+```
+
+`run_date` is the JST date when all 556 rows are complete, re-scores included. It is later than 2026-09-22 and later than `<RA>`, never a model release date.
+
+Caveat: the GPT-6 Astra caveat names its model once, in the transport clause. Swapping that model id is the only change.
+
+```bash
+R=.cache/scoring/mms-12-full
+jq -r .caveat data/scores/occupations_gpt-6-astra_2026-09-10.json | sed 's/gpt-6-astra/gpt-6-sol/' > $R/caveat.txt
+grep -c 'gpt-6-sol' $R/caveat.txt      # 1
+grep -c 'astra' $R/caveat.txt          # 0
+```
+
+Full assemble and drift (no `--backfill`; `D1–D10` uses an en dash):
+
+```bash
+P=data/prompts/2026-09-23_gpt-6-sol-aiois10.ja.md; R=.cache/scoring/mms-12-full
+RB=<run_date>
+bun scripts/assemble-scores.ts --mode aiois --model gpt-6-sol --provider openai --date $RB \
+  --prompt-version AIOIS-10-v1.0-gpt-6-sol --prompt-file "$P" \
+  --in $R/raw-scores.jsonl --out $R/occupations_gpt-6-sol_$RB.json \
+  --run-id gpt-6-sol-codex-$RB --caveat $R/caveat.txt \
+  --scoring-method "AIOIS-10 v1.0: Codex CLI single-pass per occupation; model-judged D1–D10, indices per /standard formulas (re-validated); reasoning effort high (explicit)"
+bun run check:score-batch $R/occupations_gpt-6-sol_$RB.json     # schema OK; 556/556; vendor openai; newer than every existing batch
+jq .run $R/occupations_gpt-6-sol_$RB.json                       # no backfill field
+shasum -a 256 $R/occupations_gpt-6-sol_$RB.json
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_gpt-6-astra_2026-09-10.json --candidate $R/occupations_gpt-6-sol_$RB.json --out $R/drift_gpt-6-astra_vs_gpt-6-sol_$RB.md
+bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.7_2026-09-22.json --candidate $R/occupations_gpt-6-sol_$RB.json --out $R/drift_grok-4.7_vs_gpt-6-sol_$RB.md
+```
+
 ## Prompt requirements
 
 Fable 5 prompt は、新規ファイルとして追加する。既存 Opus prompt を上書きしない。
