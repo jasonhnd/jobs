@@ -203,11 +203,14 @@ Owner: Jason（承認・署名ゲート）
 
 The public-value formula is unchanged, and from Grok 4.7 on the xAI flagship transport is grok-cli.
 
+From 2026-09-23 a vendor's flagship seat holds the newest model the owner chose to score for that vendor, not necessarily its top tier. claude-opus-5-5 takes Anthropic's seat from claude-fable-5-1 (mms-11) and gpt-6-sol takes OpenAI's seat from gpt-6-astra (mms-12). The public-value formula is unchanged: the arithmetic mean of each vendor's latest comparable AIOIS-10 run.
+
 現行の公開値は comparable AIOIS-10 票の中央値（`pickConsensusScore()`: 1 model id 1 票、基準日 = 最新 run_date の 6 ヶ月窓、不足は期限切れ票で floor 5 補充）。現行パネルは `claude-opus-4-8` 2026-05-30、`claude-fable-5` 2026-06-13、`gpt-5.6-sol` 2026-07-12、`claude-opus-5` 2026-07-26、`grok-4.6` 2026-09-07 の 5 票。`claude-opus-4-7`（2026-04-25）は `legacy-single-axis` のため投票しない。
 
 ### 決定事項（2026-09-08 Jason 確認済み）
 
 1. 今後、各ベンダーはその時点の最上位（旗艦）モデル 1 件だけで採点する。ベンダーは現在 3 社: Anthropic（`anthropic`）/ OpenAI（`openai`）/ xAI（`xai`）。将来の追加はあり得る。Gemini は引き続き不採用。
+   - 2026-09-23 改定（Jason 決定）: 各ベンダーの旗艦席には、オーナーが採点対象に選んだそのベンダーの最新モデル 1 件を置く。そのベンダーの最上位モデルに限らない。第 1 号は Anthropic の `claude-opus-5-5`（Claude Opus 5.5、前任 `claude-fable-5-1`）と OpenAI の `gpt-6-sol`（GPT 6 SOL、前任 `gpt-6-astra`）。公開値の算定規則（各ベンダーの最新 comparable run の算術平均）は変えない。
 2. 公開値 = 各ベンダーの最新 comparable run（1 社 1 件）の算術平均。中央値・6 ヶ月窓・floor 5 は廃止。同一ベンダーの旧 run は `data/scores/`・`/models`・職業ページ履歴に残るが公開値には入らない。
 3. `claude-fable-5-1`（Claude Fable 5.1、2026-09-01 公開）が着地した時点で Anthropic の旗艦は `claude-opus-5` から Fable 5.1 へ。`gpt-6-astra`（GPT 6 Astra、2026-09-03 公開）が着地した時点で OpenAI の旗艦は `gpt-5.6-sol` から Astra へ。順序は **Fable 5.1 が先、GPT-6 Astra は Fable 5.1 着地後**（ハードゲート）。
 4. 規則の切替は Fable 5.1 batch 着地日に同時に行い、站内更新説明 1 本で「算出方法の変更」と「採点 1 件追加」を説明する。Astra は後日別の更新説明。
@@ -595,7 +598,7 @@ mean of the latest model from each of {V} vendors / Vendors in the panel / vendo
 
 ### 採点ポリシーの改訂
 
-- 入列単位はベンダー。各ベンダーは当時の最上位（旗艦）モデル 1 件で採点し、その最新 run だけが公開値に入る。同一ベンダーの旧モデルは履歴。
+- 入列単位はベンダー。各ベンダーは当時の最上位（旗艦）モデル 1 件で採点し、その最新 run だけが公開値に入る。同一ベンダーの旧モデルは履歴。（2026-09-23 改定: 最上位モデルに限らず、オーナーが採点対象に選んだそのベンダーの最新モデル 1 件。改訂 2 決定 1 の改定を参照。）
 - ベンダー白名単は OpenAI / Anthropic / xAI（不変）。Gemini は不採用（不変）。
 - pilot 40 の日本語品質審はオーナー署名ゲート（不変）。
 - 範囲外: Mythos 5.1 / Sonnet 5 / Haiku / GPT-5.6 Terra・Luna / Daybreak・Cyber 特供 / Gemini / Vercel AI Gateway / 新しい HTTP provider。
