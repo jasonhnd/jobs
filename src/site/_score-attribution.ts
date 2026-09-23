@@ -22,8 +22,8 @@
  * Do NOT edit by hand — the next `build:data` will overwrite it.
  */
 export const SCORE_ATTRIBUTION_DATA = {
-  modelId: 'claude-opus-5-5',
-  modelDisplay: 'Claude Opus 5.5',
+  modelId: 'gpt-6-sol',
+  modelDisplay: 'GPT 6 SOL',
   runDate: '2026-09-23',
 } as const;
 

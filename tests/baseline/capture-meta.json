@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-23T08:57:46.428Z",
-  "gitCommit": "73b8ee6e10baecb0448b901581106b6573eb6881",
-  "gitBranch": "mms-11.6-land-claude-opus-5-5",
-  "distFileCount": 843,
-  "urlCount": 843,
+  "capturedAt": "2026-09-23T13:13:31.981Z",
+  "gitCommit": "7fde2f9a37bbe1d8d9076acb052acec42530c06e",
+  "gitBranch": "mms-12.5-land-gpt-6-sol",
+  "distFileCount": 844,
+  "urlCount": 844,
   "dataFileCount": 616,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

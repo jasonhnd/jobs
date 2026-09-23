@@ -29,6 +29,13 @@ function containsKey(value: unknown, forbiddenKey: string): boolean {
   return false;
 }
 
+/** predecessorFor(): the newest comparable run dated strictly earlier. A same-date run is not a predecessor. */
+function expectedPredecessor<T extends { readonly runDate: string }>(aiois: readonly T[], run: { readonly runDate: string }): T | undefined {
+  const earlier = aiois.filter((candidate) => candidate.runDate < run.runDate);
+  const date = earlier.at(-1)?.runDate;
+  return earlier.find((candidate) => candidate.runDate === date);
+}
+
 describe('models-by-model projection', () => {
   test('builds one per-model page payload for each current score batch', async () => {
     const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
@@ -70,7 +77,7 @@ describe('models-by-model projection', () => {
       const page = payload.models[aiois[i]!.slug]!;
       assert.equal('baseline' in page.drift, false);
       if (!('baseline' in page.drift)) {
-        assert.equal(page.drift.predecessor.model, aiois[i - 1]!.model);
+        assert.equal(page.drift.predecessor.model, expectedPredecessor(aiois, aiois[i]!)?.model);
         assert.ok(page.drift.compared_count >= 1);
       }
     }
@@ -142,7 +149,7 @@ describe('models-by-model projection', () => {
     assert.ok(!('baseline' in latest.drift));
     if (!('baseline' in latest.drift)) {
       const aiois = comparableAioisRuns(activeOccupationRuns());
-      assert.equal(latest.drift.predecessor.model, aiois[aiois.length - 2]!.model);
+      assert.equal(latest.drift.predecessor.model, expectedPredecessor(aiois, latestOccupationRun())?.model);
       assert.ok(latest.drift.movers.length <= 5);
       assert.ok(latest.drift.band_crossings.length <= 5);
     }
