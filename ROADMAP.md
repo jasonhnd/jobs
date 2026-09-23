@@ -190,6 +190,29 @@ owner-confirmed 2026-08-31; PR #363).
 - mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
 - mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
 
+## Done — GPT-6 SOL takes OpenAI's flagship seat (mms-12, closed 2026-09-23)
+
+Shipped on `preview` (#622, #627); not promoted to `main` when this block
+was written (promotion text on #619). GPT 6 SOL (`gpt-6-sol@2026-09-23`,
+556, Codex CLI with `--model gpt-6-sol --reasoning-effort high`) replaces
+GPT 6 Astra as OpenAI's seat in the vendor mean; Claude Opus 5.5 and Grok
+4.7 stay. The public mean moves 4.65 → 4.56: 2 occupations move by 0.5 or
+more, none by 1.0 or more, and 28 change risk band. The run date equals
+the Claude Opus 5.5 run date (owner decision on #614), so GPT 6 SOL wins the
+latest-run tie by file order and its `/models` page compares against Grok
+4.7. GPT 6 Astra stays as history.
+
+Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
+2026-09-23 (mms-11.1). Sister lane mms-11 (Claude Opus 5.5) landed first.
+
+- mms-12.1 (#615/#622): frozen prompt `gpt-6-sol` + constants + body-hash test + runbook section.
+- mms-12.2 (#616): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
+- mms-12.3 (#617): pilot 45 (40 stratified + 5 refusal probes), no refusals (Issue comments; no PR).
+- mms-12.4 (#618): full 556, `run_date` 2026-09-23 (Issue comments; no PR).
+- mms-12.5 (#619/#627): land the batch + `/models/gpt-6-sol` 308 + drift doc + impact sentence + baselines; `/models` predecessor tests follow `predecessorFor` for same-date runs.
+- mms-12.6 (#620/#629): close-out.
+- Tracker #614 closes after this PR.
+
 ## Done — Claude Opus 5.5 takes Anthropic's flagship seat (mms-11, closed 2026-09-23)
 
 Shipped on `preview` (#621, #623–#625); not promoted to `main` when this

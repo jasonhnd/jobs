@@ -176,7 +176,9 @@ describe('models-deep projection', () => {
     );
     const openai = payload.lanes.find((lane) => lane.provider === 'openai')!;
     const openaiLatest = latestRunPerVendor(runs).find((run) => run.provider === 'openai')!;
-    const openaiHistory = runs.filter((run) => run.provider === 'openai' && run.slug !== openaiLatest.slug);
+    const openaiHistory = runs
+      .filter((run) => run.provider === 'openai' && run.slug !== openaiLatest.slug)
+      .sort((a, b) => b.runDate.localeCompare(a.runDate) || a.model.localeCompare(b.model));
     assert.deepEqual(openai.history.map((entry) => entry.model), openaiHistory.map((run) => run.model));
     assert.equal(payload.consensus.length, 3);
     assert.equal(new Set(payload.consensus.map((row) => row.id)).size, 3);
