@@ -28,6 +28,7 @@ import {
   trustedFetchOrigin,
 } from '../og-helpers.js';
 import { WORKTYPE_CARDS } from '../../views/og-cards.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 import {
   DISCLAIMER,
   FAMILIES,
@@ -98,7 +99,8 @@ export async function renderWorktypeOgCard(
   const visual = WORKTYPE_CARDS[input.family];
   const jobContext = input.job ? await fetchJobContext(url, input.job, projection) : null;
   const score = jobContext?.score ?? null;
-  const scoreLabel = score != null && !Number.isNaN(score) ? String(score) : null;
+  // Print the one-decimal public value; the detail projection stores the raw mean (#631).
+  const scoreLabel = score != null && !Number.isNaN(score) ? String(displayScore(score)) : null;
   const scoreColor =
     score != null ? (RISK_COLORS[Math.round(score)] ?? visual.accent) : visual.accent;
   const accent = scoreLabel ? scoreColor : visual.accent;

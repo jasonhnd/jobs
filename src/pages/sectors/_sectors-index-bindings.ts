@@ -9,6 +9,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { fmtInt } from '@/lib/num';
 import { riskClass } from '@/lib/risk';
+import { displayScore } from '@/data/lib/banker-round';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -29,7 +30,7 @@ export interface SectorsIndexBindings {
   readonly totalOcc: number;
 }
 
-export { fmtInt, riskClass };
+export { displayScore, fmtInt, riskClass };
 
 export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBindings {
   const view = sectorIndexView(graph);

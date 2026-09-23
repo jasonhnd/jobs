@@ -17,6 +17,7 @@
  * SEO copy contract and is pinned by tests + the SEO baseline diff.
  */
 import type { Aiois10 } from '../graph/types.js';
+import { displayScore } from '../data/lib/banker-round.js';
 import { SCORE_PANEL } from '../site/score-attribution.js';
 import { formatConsensusCitation } from '../site/consensus-copy.js';
 import {
@@ -167,8 +168,9 @@ function fmtInt(n: number): string {
   return new Intl.NumberFormat('ja-JP').format(Math.round(n));
 }
 
+/** The one-decimal public display of a score — the value its tier words are judged on (#631). */
 function fmtScore(n: number): string {
-  return n.toFixed(1);
+  return displayScore(n).toFixed(1);
 }
 
 function fmtScore2(n: number): string {
@@ -197,7 +199,8 @@ export function buildOccupationGeoFactSummary(input: OccupationGeoFactInput): st
   const occupation = facts.occupations.find((candidate) => candidate.id === occupationId);
   if (!occupation) return '';
 
-  const relative = occupation.aiImpact >= facts.meanAiImpact ? '上回る' : '下回る';
+  // Words attached to a printed score are judged on the printed value (#631).
+  const relative = displayScore(occupation.aiImpact) >= facts.meanAiImpact ? '上回る' : '下回る';
   const parts: string[] = [
     `${occupation.nameJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
       `${occupation.nameJa}のAI影響度は${fmtScore(occupation.aiImpact)}/10です。` +
@@ -206,10 +209,11 @@ export function buildOccupationGeoFactSummary(input: OccupationGeoFactInput): st
   ];
 
   if (occupation.displacementRisk !== null) {
+    const shownDisplacement = displayScore(occupation.displacementRisk);
     const displacement =
-      occupation.displacementRisk < 4
+      shownDisplacement < 4
         ? '職そのものが大きく減るリスクは低め'
-        : occupation.displacementRisk < 7
+        : shownDisplacement < 7
           ? '業務の再設計が進みやすい中程度のリスク'
           : '職そのものが縮小するリスクも相対的に高め';
     parts.push(`AIOIS-10の仕事が減るリスクは${fmtScore(occupation.displacementRisk)}/10で、${displacement}です。`);

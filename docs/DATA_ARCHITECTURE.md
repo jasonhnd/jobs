@@ -43,7 +43,8 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 ## 数値契約
 
 - 丸めの正典は `src/data/lib/banker-round.ts`。projection と ranking loader は同じ helper を使う。
-- `riskBand()` の境界は `low < 4.0`, `mid 4.0-6.9`, `high >= 7.0`。consistency check もこの helper に従う。
+- `riskBand()` は表示値（`displayScore()`、banker rounding 小数 1 桁）で判定する。境界は `low < 4.0`, `mid 4.0-6.9`, `high >= 7.0`。3社平均の 3.9666… は表示が 4.0 なので `mid`。帯に付く色と文言（低め / 中程度 / 高め など）はこの helper と、同じ規則の UI 側 `riskClass()` だけから決める。view・テンプレート・ブラウザ側スクリプトに独自の閾値を置かない。consistency check もこの helper に従う。
+- 平均などの集計値は丸め前の値で計算し、表示するときだけ丸める（例: 全職業平均 4.5535 → 4.55）。集計値に付ける色・文言も、表示した値から決める。業種・関心タイプの平均に付ける文言は 3.5 / 5.5 / 7.0 区切りの別尺度のまま（比べるのは表示値）。
 - `profile5` は IPD の contributor 平均を `SOURCE_MAX = 5.0` で 0-100 に正規化し、100 を超える値は 100 に clamp する。radar の視覚上限と一致させるためで、7.0 で再スケールしない。
 - worker total は compensated sum (`fsum`) を使い、丸めが必要な場所では banker rounding に寄せる。
 - education / employment percentage は graph/ranking/detail 間で同じ 1 桁 banker rounding を使う。
