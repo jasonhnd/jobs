@@ -120,10 +120,10 @@ export function buildOccupationFaqs(
 
     const outlook =
       band === 'low'
-        ? 'AI に代替されにくく、将来性は比較的安定'
+        ? 'AI に代替されにくく、将来性は比較的安定した'
         : band === 'high'
-          ? 'AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に'
-          : 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性';
+          ? 'AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に入れたい'
+          : 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性がある';
     const workersStr = factWorkers ? `日本での就業者数は約${fmtInt(factWorkers)}人。` : '';
     const recruitStr =
       factRecruitRatio !== null && factRecruitRatio !== undefined
@@ -131,7 +131,7 @@ export function buildOccupationFaqs(
         : '';
     faqs.push([
       `${name}の将来性はどうですか？`,
-      `AI影響度 ${fmtScore(factAiRisk)}/10。${outlook}な職業です。${workersStr}${recruitStr}個別の状況に応じた判断が重要です。`,
+      `AI影響度 ${fmtScore(factAiRisk)}/10。${outlook}職業です。${workersStr}${recruitStr}個別の状況に応じた判断が重要です。`,
     ]);
   }
 
