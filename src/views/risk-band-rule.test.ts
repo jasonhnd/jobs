@@ -27,9 +27,9 @@ const FAQ1_WORD: Record<RiskBand, string> = {
   high: '高めで、業務の多くが AI による代替・補助の対象となる可能性',
 };
 const FAQ2_WORD: Record<RiskBand, string> = {
-  low: 'AI に代替されにくく、将来性は比較的安定',
-  mid: 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性',
-  high: 'AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に',
+  low: 'AI に代替されにくく、将来性は比較的安定した',
+  mid: 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性がある',
+  high: 'AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に入れたい',
 };
 
 function expectedBand(x: number): RiskBand {
@@ -107,9 +107,11 @@ describe('one band rule (#631)', () => {
         `faq answer 1 (${x})`,
       );
       assert.ok(
-        answers.some((a) => a.includes(`AI影響度 ${shown}/10。${FAQ2_WORD[want]}な職業です。`)),
+        answers.some((a) => a.includes(`AI影響度 ${shown}/10。${FAQ2_WORD[want]}職業です。`)),
         `faq answer 2 (${x})`,
       );
+      // 「可能性な職業」「視野にな職業」 were live until the owner-signed fix (2026-09-24).
+      assert.ok(!answers.some((a) => /(可能性|視野に|安定)な職業/.test(a)), `faq answer 2 grammar (${x})`);
     }
   });
 
