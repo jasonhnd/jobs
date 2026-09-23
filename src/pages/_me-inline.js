@@ -100,17 +100,19 @@
       if (w >= 10000) return (w / 10000).toFixed(0) + ' 万人';
       return w.toLocaleString('ja-JP') + ' 人';
     }
+    // Band and label follow the printed one-decimal value, not the raw mean (#631).
     function riskBand(r) {
       if (r == null) return null;
-      if (r < 4.0) return 'low';
-      if (r < 7.0) return 'mid';
+      var d = Number(fmtRisk(r));
+      if (d < 4.0) return 'low';
+      if (d < 7.0) return 'mid';
       return 'high';
     }
     function riskLabel(r) {
       if (r == null) return '—';
       var band = riskBand(r);
       var prefix = band === 'high' ? '▲ 影響大' : band === 'low' ? '◎ 影響小' : '▼ 中程度';
-      return r + '/10 ' + prefix;
+      return fmtRisk(r) + '/10 ' + prefix;
     }
 
     function ga(name, params) {
@@ -846,7 +848,7 @@
       var url = location.origin + location.pathname + (location.search || '');
       var text = template
         .replace(/\{職業\}/g, pos.nameJa)
-        .replace(/\{点数\}/g, pos.summary.aiRisk + '/10')
+        .replace(/\{点数\}/g, fmtRisk(pos.summary.aiRisk) + '/10')
         .replace(/\{リンク\}/g, url)
         .replace(/\s+/g, ' ')
         .trim();

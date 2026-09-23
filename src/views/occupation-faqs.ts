@@ -23,6 +23,8 @@
  * 220-char cap) live here too.
  */
 
+import { displayScore } from '../data/lib/banker-round.js';
+import { riskBand } from '../data/lib/bands.js';
 import { fmtInt } from '../lib/num.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 import { findGeoOccupation, type GeoFacts } from '../site/geo-facts.js';
@@ -52,15 +54,12 @@ const SALARY_NATIONAL_AVG = '日本全体の平均年収（約460万円）';
 const SALARY_HIGH_THRESHOLD = 500; // 万円
 const SALARY_LOW_THRESHOLD = 420; // 万円
 
-const RISK_LOW_CEILING = 3;
-const RISK_HIGH_FLOOR = 7;
-const RISK_MID_CEILING = 6;
-
 const HOWTO_TRUNCATE_LENGTH = 220;
 const HOWTO_FALLBACK_SLICE = 200;
 
+/** The one-decimal public display of a score — the same number riskBand() classifies (#631). */
 function fmtScore(n: number): string {
-  return n.toFixed(1);
+  return displayScore(n).toFixed(1);
 }
 
 function fmtScore2(n: number): string {
@@ -99,10 +98,12 @@ export function buildOccupationFaqs(
   }
 
   if (factAiRisk !== null && factAiRisk !== undefined) {
+    // One band for both answers, from the number they print (#631) — they cannot disagree.
+    const band = riskBand(factAiRisk);
     const tier =
-      factAiRisk <= RISK_LOW_CEILING
+      band === 'low'
         ? '低めで、AI に代替されにくい職業'
-        : factAiRisk <= RISK_MID_CEILING
+        : band === 'mid'
           ? '中程度で、業務の一部が AI 補助に移行する可能性'
           : '高めで、業務の多くが AI による代替・補助の対象となる可能性';
     const rationaleStr = rationale ? `主な要因は「${rationale}」。` : '';
@@ -118,9 +119,9 @@ export function buildOccupationFaqs(
     ]);
 
     const outlook =
-      factAiRisk <= RISK_LOW_CEILING
+      band === 'low'
         ? 'AI に代替されにくく、将来性は比較的安定'
-        : factAiRisk >= RISK_HIGH_FLOOR
+        : band === 'high'
           ? 'AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に'
           : 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性';
     const workersStr = factWorkers ? `日本での就業者数は約${fmtInt(factWorkers)}人。` : '';

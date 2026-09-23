@@ -17,8 +17,8 @@ mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10
 | Mean Displacement-Risk | 1.80 / 10 |
 | Occupations at AI Impact >= 5 | 169 |
 | Annual wages at AI Impact >= 5 | 94.864419 trillion yen |
-| Low / mid / high risk-band counts | 189 / 345 / 22 |
-| High-impact workforce | 5,563,491 (10.2%) |
+| Low / mid / high risk-band counts | 179 / 354 / 23 |
+| High-impact workforce | 5,612,211 (10.3%) |
 
 ### AI Impact distribution
 
