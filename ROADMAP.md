@@ -213,7 +213,7 @@ Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
 - mms-11.5 (#610): full 556, `run_date` 2026-09-23 (Issue comments; no PR).
 - mms-11.6 (#611/#624): land the batch + `/models/opus-5-5` 308 + drift doc + impact sentence + baselines.
 - mms-11.7 (#612/#625): drop the stale Claude Fable 5.1 personality sentence (owner A).
-- mms-11.8 (#613/#<PR>): close-out; runbook re-score naming corrected.
+- mms-11.8 (#613/#626): close-out; runbook re-score naming corrected.
 - Tracker #605 closes after this PR.
 
 ## Done — backfill scoring: Grok 4.5 as xAI history (mms-9, closed 2026-09-11)
