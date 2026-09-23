@@ -12,6 +12,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **OpenAI's seat in the public value is now GPT 6 SOL (mms-12 / #614).**
+  `data/scores/occupations_gpt-6-sol_2026-09-23.json`, 556/556, scored
+  through the Codex CLI with `--model gpt-6-sol --reasoning-effort high`,
+  replaces GPT 6 Astra (`gpt-6-astra@2026-09-10`, now history).
+  `/models/gpt-6-sol` 308 to the run page. Site mean 4.65 → 4.56;
+  `|Δ| ≥ 0.5` on 2 occupations; 28 band changes; none `|Δ| ≥ 1.0`.
+  Drift report: `docs/VENDOR_UPDATE_DRIFT_gpt-6-sol_2026-09-23.md`. The run
+  date equals Claude Opus 5.5's (owner decision, #614); the `/models`
+  predecessor tests now follow `predecessorFor` for same-date runs.
 - **Anthropic's seat in the public value is now Claude Opus 5.5 (mms-11 /
   #605).** `data/scores/occupations_claude-opus-5-5_2026-09-23.json`,
   556/556, scored in-agent through chunked
