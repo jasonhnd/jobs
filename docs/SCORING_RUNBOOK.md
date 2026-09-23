@@ -637,12 +637,12 @@ jq '{attested_model, subagent_verification, answers_loaded}' $R/provider-preflig
 jq -r 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12) | .id' $R/raw-scores.jsonl
 ```
 
-Re-score, only if step 5 lists ids. At most two rounds; the second round uses `--name rescored-2`. A row still below 0.7 after two rounds is accepted and reported. A row with `aiois.transformation == 0` is never accepted: stop and ask the owner.
+Re-score, only if step 5 lists ids. At most two rounds. Name each re-score chunk by round, so a later round sorts after an earlier one: round one `--name rescored-r1a` (then `rescored-r1b`, and so on; the runner takes at most 20 ids per call), round two `--name rescored-r2a`. The in-agent provider reads `answers/*.jsonl` in file-name order, and the later definition of an id wins. `chunk-rescored-2.jsonl` sorts before `chunk-rescored.jsonl` (`-` < `.`), so a second round named `rescored-2` would be overridden by the first. A row still below 0.7 after two rounds is accepted and reported. A row with `aiois.transformation == 0` is never accepted: stop and ask the owner.
 
 ```bash
-BAD=<comma-separated ids>
+BAD=<comma-separated ids, at most 20 per runner call>
 jq -c --argjson bad "[$BAD]" 'select(.id as $i | ($bad | index($i)) | not)' $R/raw-scores.jsonl > $R/raw-scores.tmp && mv $R/raw-scores.tmp $R/raw-scores.jsonl
-python3 "$H/opus55_score_chunks.py" --run $R --ids "$BAD" --name rescored
+python3 "$H/opus55_score_chunks.py" --run $R --ids "$BAD" --name rescored-r1a   # round two: --name rescored-r2a
 bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
   --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$BAD" --resume
 ```
@@ -679,6 +679,8 @@ wc -l < $R/raw-scores.jsonl                              # 556
 jq -r .id $R/raw-scores.jsonl | sort -n | uniq -d        # no output
 jq -r 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12) | .id' $R/raw-scores.jsonl
 ```
+
+Re-score hits as for the pilot, with the same round naming and run name `mms-11-full`. The 2026-09-23 run re-scored 22 ids in round one (`rescored-r1a`, `rescored-r1b`) and 4 in round two (`rescored-r2a`); id 151 stayed below 0.7 and was accepted.
 
 Caveat (from the Fable 5.1 caveat, model id only), assemble without `--backfill`, and both drift reports:
 
