@@ -37,7 +37,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
 | `@vercel/og` | **1.0.1** (exact pin; 1.0.2/1.0.3 abort — vercel/satori#801). overrides.fflate ^0.7.5. | same | `api/og` `runtime: "nodejs"` + Bun 1.4. Named `GET`. |
 | `@vercel/functions` | **3.9.9** | same | `middleware.ts` (`next`, `rewrite`, `waitUntil`). `@vercel/edge` removed. |
-| React | **19.2.8** (OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Bun 1.4 bundle |
+| React | **19.3.0** (`@types/react` **19.3.0**; OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Bun 1.4 bundle |
 | Playwright / axe | **1.62.1** / **4.13.0** (exact pins, no `^`) | **executed** since design-1.20 (f05ba940, 2026-09-17): bun x playwright install --with-deps chromium, then bun x playwright test --reporter=line | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
 | `api/og` Function | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **18,051,748** bytes, `[hnd1, kix1]`. Named `GET`. (Issue 287 Edge was 855.83 KB.) CLI inspect may still draw `λ` — that glyph is not proof of Edge; read `lambda.runtime`. |
 | `api/shindan-share` | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **373,416** bytes, `[hnd1, kix1]`. Named `GET`. |
