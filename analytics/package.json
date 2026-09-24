@@ -13,11 +13,11 @@
     "test": "node --test ga4-spec-validation.test.mjs"
   },
   "dependencies": {
-    "googleapis": "^173",
-    "js-yaml": "^5"
+    "googleapis": "^181",
+    "js-yaml": "^5.4.2"
   },
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "pnpm@11.9.0"
+  "packageManager": "pnpm@12.6.0"
 }
