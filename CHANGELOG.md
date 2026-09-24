@@ -18,6 +18,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **CI: actions/checkout and actions/setup-node v4 → v7** — clears the Node 20 deprecation warning; no behaviour change.
+- **@playwright/test 1.62.1 → 1.63.0 (Chromium 153)**; playwright-core deduped to one 1.63.0. CI rendered-output suite unchanged: 356 passed.
 - **@types/node 24.13.3 → 24.13.6** — stays on Node 24 (Vercel does not accept Node 26 yet).
 - **typescript 6.0.3 → 7.0.2; @typescript/native alias removed** — typecheck now runs node_modules/typescript/bin/tsc (owner ruling 2026-09-24).
 - **subset-font 2.5.0 → 2.9.0 (harfbuzzjs 1.6)** — font subsets byte-identical.
