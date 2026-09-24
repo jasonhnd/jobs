@@ -22,9 +22,9 @@
 
 set -euo pipefail
 
-# Must match .github/workflows/ci.yml `bun-version` and the `bunx bun@…` in
-# vercel.json `installCommand`.
-BUN_VERSION="1.4.0"
+# Must match .github/workflows/ci.yml bun-version. Vercel installs with its
+# build-image Bun (bunVersion 1.4.x); see docs/TOOLCHAIN.md §1.
+BUN_VERSION="1.4.2"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
