@@ -305,7 +305,7 @@ prepends the nvm Node and Bun.
 | 4 | code | #640 | Bun 1.4.0 → **1.4.2**: CI `bun-version`, `.cursor/install.sh`, CONTRIBUTING, docs (Vercel `1.4.x` observed at 1.4.1) |
 | 5 | code | #641 | `react` + `@types/react` → **19.3.0** (OG only; 6 PNGs byte-identical) |
 | 6 | code | #642 | `zod` 4.4.3 → **4.6.5** — done (#655) |
-| 7 | code | #643 | `subset-font` 2.5.0 → **2.9.0** (font hashes) |
+| 7 | code | #643 | `subset-font` 2.5.0 → **2.9.0** (font hashes) — done (#656) |
 | 8 | code | #644 | `typescript` 6.0.3 → **7.0.2**; drop the `@typescript/native` alias |
 | 9 | code | #645 | `@types/node` 24.13.3 → **24.13.6** (stay on 24) |
 | 10 | code | #646 | `@playwright/test` 1.62.1 → **1.63.0** + dedupe `playwright-core` (CI runs Playwright + axe since design-1.20 `f05ba940`) |
