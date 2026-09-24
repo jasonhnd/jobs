@@ -33,8 +33,8 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | Node | **v24.20.0** (`nvm alias default` → 24). Non-interactive shells may still see Hermes **22** first via `~/.local/bin/node`. | `24.x` via `actions/setup-node` | Builds: **no `engines.node`** (#302). Node **24.x** via Vercel default ([Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)). Functions do **not** use this — they use `bunVersion`. |
 | Bun | **1.4.2** (`744846f84`) | **`bun-version: 1.4.2`** | Install Command: `bun install --frozen-lockfile` (build image 1.4.x (observed **1.4.1** on 2026-09-23); the bunx pin was dropped 2026-09-20, see §1 plane A). **`"bunVersion": "1.4.x"`**. `#303`–`#305`: `api/og`, `api/shindan-share`, **and middleware** all `lambda.runtime: "bun1.4.x"` (`edge: null`). After there are no Edge entries, the post-build pack step on `aa1e7e40` printed `bun install v1.4.0` twice (not 1.3.14). Keep lockfileVersion 1 until a dedicated Issue proves v2. |
 | Astro | lockfile **7.3.5** | same lockfile | same |
-| `typescript` (JS package) | **6.0.3** | same | same |
-| typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
+| `typescript` (JS package) | **7.0.2** (native compiler; platform binary via optional deps) | same | same |
+| typecheck binary | `typescript` **7.0.2** via `node node_modules/typescript/bin/tsc --noEmit` (the `@typescript/native` alias was removed in #635 order 8) | same | same (`bun run typecheck` in `buildCommand`) |
 | `@vercel/og` | **1.0.1** (exact pin; 1.0.2/1.0.3 abort — vercel/satori#801). overrides.fflate ^0.7.5. | same | `api/og` `runtime: "nodejs"` + Bun 1.4. Named `GET`. |
 | `@vercel/functions` | **3.9.9** | same | `middleware.ts` (`next`, `rewrite`, `waitUntil`). `@vercel/edge` removed. |
 | React | **19.3.0** (`@types/react` **19.3.0**; OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Bun 1.4 bundle |
@@ -306,7 +306,7 @@ prepends the nvm Node and Bun.
 | 5 | code | #641 | `react` + `@types/react` → **19.3.0** (OG only; 6 PNGs byte-identical) |
 | 6 | code | #642 | `zod` 4.4.3 → **4.6.5** — done (#655) |
 | 7 | code | #643 | `subset-font` 2.5.0 → **2.9.0** (font hashes) — done (#656) |
-| 8 | code | #644 | `typescript` 6.0.3 → **7.0.2**; drop the `@typescript/native` alias |
+| 8 | code | #644 | `typescript` 6.0.3 → **7.0.2**; drop the `@typescript/native` alias — done (#657) |
 | 9 | code | #645 | `@types/node` 24.13.3 → **24.13.6** (stay on 24) |
 | 10 | code | #646 | `@playwright/test` 1.62.1 → **1.63.0** + dedupe `playwright-core` (CI runs Playwright + axe since design-1.20 `f05ba940`) |
 | 11 | code | #647 | `.github/workflows/ci.yml`: `actions/checkout` v4 → **v7**, `actions/setup-node` v4 → **v7** |
