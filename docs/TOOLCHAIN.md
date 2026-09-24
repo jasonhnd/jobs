@@ -304,7 +304,7 @@ prepends the nvm Node and Bun.
 | 3 | code | #639 | `@vercel/functions` 3.9.5 → **3.9.9** (middleware) — done (#652) |
 | 4 | code | #640 | Bun 1.4.0 → **1.4.2**: CI `bun-version`, `.cursor/install.sh`, CONTRIBUTING, docs (Vercel `1.4.x` observed at 1.4.1) |
 | 5 | code | #641 | `react` + `@types/react` → **19.3.0** (OG only; 6 PNGs byte-identical) |
-| 6 | code | #642 | `zod` 4.4.3 → **4.6.5** |
+| 6 | code | #642 | `zod` 4.4.3 → **4.6.5** — done (#655) |
 | 7 | code | #643 | `subset-font` 2.5.0 → **2.9.0** (font hashes) |
 | 8 | code | #644 | `typescript` 6.0.3 → **7.0.2**; drop the `@typescript/native` alias |
 | 9 | code | #645 | `@types/node` 24.13.3 → **24.13.6** (stay on 24) |
