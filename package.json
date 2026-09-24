@@ -8,7 +8,7 @@
     "dev": "astro dev",
     "build": "bun scripts/check-lockfile-sync.cjs && bun scripts/check-analytics-config.cjs && bun scripts/check-nested-html-comments.cjs && bun src/data/build.ts && astro build && bun scripts/subset-fonts.ts && bun scripts/check-geo-freshness.ts && bun scripts/check-rendered-leaks.cjs && bun scripts/compute-csp-hashes.cjs",
     "preview": "astro preview",
-    "typecheck": "node node_modules/@typescript/native/bin/tsc --noEmit",
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
     "test": "bun run build:data && bun test src scripts analytics/ga4-spec-validation.test.mjs",
     "test:consistency": "bun src/data/test-consistency.ts",
     "build:data": "bun src/data/build.ts",
@@ -56,11 +56,10 @@
     "@playwright/test": "1.62.1",
     "@types/node": "^24.13.3",
     "@types/react": "^19.3.0",
-    "@typescript/native": "npm:typescript@^7.0.2",
     "exceljs": "^4.4.0",
     "fontkitten": "1.0.3",
     "subset-font": "^2.9.0",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "overrides": {
     "devalue": "^5.9.1",
