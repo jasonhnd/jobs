@@ -12,6 +12,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Security
 
+- **@vercel/og pinned to exactly 1.0.1 + overrides.fflate ^0.7.5** — closes GHSA-px8p-9vwx-vf98. 1.0.2/1.0.3 are not adopted: they ship no hb.wasm and abort on import (vercel/satori#801); the old ^1.0.1 range would have pulled them in on any re-resolve. OG PNGs byte-identical on 6 cards.
 - **Astro 7.2.4 → 7.3.5 + overrides.sharp ^0.35.4** — closes GHSA-26w7-cxv4-gfx2 (critical, AVIF RCE; not reachable here: no astro:assets), plus transitive js-yaml 4.3.2 and sharp 0.35.4. CSP hashes: unchanged. SEO baseline unchanged.
 
 ### Changed
