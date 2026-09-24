@@ -1820,7 +1820,7 @@
           const sValue = fmtSalary(rec.salary);
           const href = occUrl(rec);
           return (
-            '<a class="m-top10-card" role="listitem" href="' + href + '">' +
+            '<a class="m-top10-card" href="' + href + '">' +
               '<span class="m-top10-card-rank">' + rank + " 位" + '</span>' +
               '<div class="m-top10-card-head">' +
                 '<span class="m-top10-card-name">' + escapeHtml(display) + '</span>' +

@@ -47,14 +47,14 @@ Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=179,
 
 ## Pages
 
-- Main map: https://mirai-shigoto.com/
-- AIOIS-10 standard: https://mirai-shigoto.com/standard
-- Methodology: https://mirai-shigoto.com/methodology
-- Public data: https://mirai-shigoto.com/data
-- Rankings: https://mirai-shigoto.com/rankings
-- Sectors: https://mirai-shigoto.com/sectors
-- Answers: https://mirai-shigoto.com/answers
-- Extended GEO companion: https://mirai-shigoto.com/llms-full.txt
+- [Main map](https://mirai-shigoto.com/)
+- [AIOIS-10 standard](https://mirai-shigoto.com/standard)
+- [Methodology](https://mirai-shigoto.com/methodology)
+- [Public data](https://mirai-shigoto.com/data)
+- [Rankings](https://mirai-shigoto.com/rankings)
+- [Sectors](https://mirai-shigoto.com/sectors)
+- [Answers](https://mirai-shigoto.com/answers)
+- [Extended GEO companion](https://mirai-shigoto.com/llms-full.txt)
 
 ## Methodology
 
