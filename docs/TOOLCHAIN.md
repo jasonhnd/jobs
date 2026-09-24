@@ -32,7 +32,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | --- | --- | --- | --- |
 | Node | **v24.20.0** (`nvm alias default` → 24). Non-interactive shells may still see Hermes **22** first via `~/.local/bin/node`. | `24.x` via `actions/setup-node` | Builds: **no `engines.node`** (#302). Node **24.x** via Vercel default ([Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)). Functions do **not** use this — they use `bunVersion`. |
 | Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bun install --frozen-lockfile` (build-image Bun via bunVersion; the bunx pin was dropped 2026-09-20, see §1 plane A). **`"bunVersion": "1.4.x"`**. `#303`–`#305`: `api/og`, `api/shindan-share`, **and middleware** all `lambda.runtime: "bun1.4.x"` (`edge: null`). After there are no Edge entries, the post-build pack step on `aa1e7e40` printed `bun install v1.4.0` twice (not 1.3.14). Keep lockfileVersion 1 until a dedicated Issue proves v2. |
-| Astro | lockfile **7.2.4** | same lockfile | same |
+| Astro | lockfile **7.3.5** | same lockfile | same |
 | `typescript` (JS package) | **6.0.3** | same | same |
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
 | `@vercel/og` | **1.0.1** | same | `api/og` `runtime: "nodejs"` + Bun 1.4. Named `GET`. |
@@ -43,6 +43,8 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | `api/shindan-share` | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **373,416** bytes, `[hnd1, kix1]`. Named `GET`. |
 | middleware | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **57,461** bytes, `[iad1, hnd1]`. Default export + `@vercel/functions`. |
 | Vercel plan Edge gzip limit | — | — | Unused while there are **no** Edge entries. Historical: Hobby 1MB / Pro 2MB / Enterprise 4MB. |
+
+overrides.sharp ^0.35.4 (GHSA-rgj7-g3m4-5g8c; astro and @vercel/og only declare sharp as optional ^0.35).
 
 `bun.lock` today: **`lockfileVersion: 1`**. CI pins Bun **1.4.0**; Vercel installs with the build-image Bun selected by bunVersion 1.4.x (1.4 can read v1). A v2 lockfile previously broke a preview while Edge packing still ran `bun install v1.3.14`. After #305 there are no Edge entries; `aa1e7e40` packed with **1.4.0**. Still do not migrate to v2 without a dedicated Issue.
 
@@ -297,7 +299,7 @@ prepends the nvm Node and Bun.
 | Order | Kind | Issue | Target |
 | --- | --- | --- | --- |
 | 0 | docs | #636 | `docs/TOOLCHAIN.md`: this queue, §2 drift fixes, §4 TypeScript rule change (owner ruling 2026-09-24 「A」) |
-| 1 | code | #637 | `astro` 7.2.4 → **7.3.5** + `overrides.sharp` **^0.35.4** (+ transitive `js-yaml` 4.3.2) |
+| 1 | code | #637 | `astro` 7.2.4 → **7.3.5** + `overrides.sharp` **^0.35.4** (+ transitive `js-yaml` 4.3.2) — done (#650) |
 | 2 | code | #638 | `@vercel/og` `^1.0.1` → exact **`1.0.1`** + `overrides.fflate` **^0.7.5** (1.0.2/1.0.3 abort on import — vercel/satori#801) |
 | 3 | code | #639 | `@vercel/functions` 3.9.5 → **3.9.9** (middleware) |
 | 4 | code | #640 | Bun 1.4.0 → **1.4.2**: CI `bun-version`, `.cursor/install.sh`, CONTRIBUTING, docs (Vercel `1.4.x` observed at 1.4.1) |
