@@ -59,7 +59,7 @@
     "@typescript/native": "npm:typescript@^7.0.2",
     "exceljs": "^4.4.0",
     "fontkitten": "1.0.3",
-    "subset-font": "^2.5.0",
+    "subset-font": "^2.9.0",
     "typescript": "^6.0.3"
   },
   "overrides": {
