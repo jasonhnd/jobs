@@ -308,7 +308,7 @@ prepends the nvm Node and Bun.
 | 7 | code | #643 | `subset-font` 2.5.0 → **2.9.0** (font hashes) — done (#656) |
 | 8 | code | #644 | `typescript` 6.0.3 → **7.0.2**; drop the `@typescript/native` alias — done (#657) |
 | 9 | code | #645 | `@types/node` 24.13.3 → **24.13.6** (stay on 24) — done (#658) |
-| 10 | code | #646 | `@playwright/test` 1.62.1 → **1.63.0** + dedupe `playwright-core` (CI runs Playwright + axe since design-1.20 `f05ba940`) |
+| 10 | code | #646 | `@playwright/test` 1.62.1 → **1.63.0** + dedupe `playwright-core` (CI runs Playwright + axe since design-1.20 `f05ba940`) — done (#659) |
 | 11 | code | #647 | `.github/workflows/ci.yml`: `actions/checkout` v4 → **v7**, `actions/setup-node` v4 → **v7** |
 | 12 | code | #648 | `analytics/`: `js-yaml` → **5.4.2**, `googleapis` → **181**, `qs` override **^6.16.0**, pnpm 11.9.0 → **12.6.0** |
 
