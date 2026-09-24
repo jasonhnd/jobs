@@ -300,7 +300,7 @@ prepends the nvm Node and Bun.
 | --- | --- | --- | --- |
 | 0 | docs | #636 | `docs/TOOLCHAIN.md`: this queue, §2 drift fixes, §4 TypeScript rule change (owner ruling 2026-09-24 「A」) |
 | 1 | code | #637 | `astro` 7.2.4 → **7.3.5** + `overrides.sharp` **^0.35.4** (+ transitive `js-yaml` 4.3.2) — done (#650) |
-| 2 | code | #638 | `@vercel/og` `^1.0.1` → exact **`1.0.1`** + `overrides.fflate` **^0.7.5** (1.0.2/1.0.3 abort on import — vercel/satori#801) |
+| 2 | code | #638 | `@vercel/og` `^1.0.1` → exact **`1.0.1`** + `overrides.fflate` **^0.7.5** (1.0.2/1.0.3 abort on import — vercel/satori#801) — done (#651) |
 | 3 | code | #639 | `@vercel/functions` 3.9.5 → **3.9.9** (middleware) |
 | 4 | code | #640 | Bun 1.4.0 → **1.4.2**: CI `bun-version`, `.cursor/install.sh`, CONTRIBUTING, docs (Vercel `1.4.x` observed at 1.4.1) |
 | 5 | code | #641 | `react` + `@types/react` → **19.3.0** (OG only; 6 PNGs byte-identical) |
