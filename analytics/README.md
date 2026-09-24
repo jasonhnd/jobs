@@ -10,7 +10,7 @@ mirai-shigoto.com の GA4 計測設定の正典:
 | `package.json` | 依存: `googleapis`、`js-yaml` |
 
 `spec.yaml` を編集した後、リポジトリルートから
-`GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup`
+`GA4_PROPERTY_ID=298707336 corepack pnpm@12.6.0 --dir analytics run setup`
 を再実行して GA4 に同期する。
 
 ## 3 つの実行モード — 違いは「プロパティを読むか」
@@ -39,7 +39,7 @@ mirai-shigoto.com の GA4 計測設定の正典:
 
 `setup-ga4.mjs` は 2 つの認証経路をサポートし、以下の順で試す:
 
-1. **OAuth ユーザー認証情報**(`~/.config/mirai-shigoto/oauth-token.json`)— ログイン済の人間(あなた)として動き、既に持っている GA4 admin アクセスを継承する。**推奨**。クロス組織 / 個人アカウント構成で service-account メールが GA4 から「このメールアドレスに対応する Google アカウントはありません」(英語ロケールでは "This email address does not have a Google Account") として拒否される既知問題を回避できる。一回だけ `corepack pnpm@11.9.0 --dir analytics run oauth-init` で設定(下記「OAuth クイックスタート」参照)、その後はすべて非対話で実行できる
+1. **OAuth ユーザー認証情報**(`~/.config/mirai-shigoto/oauth-token.json`)— ログイン済の人間(あなた)として動き、既に持っている GA4 admin アクセスを継承する。**推奨**。クロス組織 / 個人アカウント構成で service-account メールが GA4 から「このメールアドレスに対応する Google アカウントはありません」(英語ロケールでは "This email address does not have a Google Account") として拒否される既知問題を回避できる。一回だけ `corepack pnpm@12.6.0 --dir analytics run oauth-init` で設定(下記「OAuth クイックスタート」参照)、その後はすべて非対話で実行できる
 
 2. **Service account JSON**(`GOOGLE_APPLICATION_CREDENTIALS` env var)— ヒトの OAuth フローが適さない CI / 共有環境向けのフォールバック。GA4 アカウントの Admin → Account Access Management で service-account メールにアクセス許可を付与する必要がある。**実際に必要でない限りこの経路は使わない**
 
@@ -51,13 +51,13 @@ mirai-shigoto.com の GA4 計測設定の正典:
 
 ```bash
 # (a) トークンを作り直す
-corepack pnpm@11.9.0 --dir analytics run oauth-init
+corepack pnpm@12.6.0 --dir analytics run oauth-init
 
 # (b) トークンファイルを完全に無視して service account を使う
 GA4_AUTH=service_account \
 GOOGLE_APPLICATION_CREDENTIALS=~/.config/mirai-shigoto/ga4-admin-sa.json \
 GA4_PROPERTY_ID=298707336 \
-  corepack pnpm@11.9.0 --dir analytics run setup:check
+  corepack pnpm@12.6.0 --dir analytics run setup:check
 ```
 
 `GA4_AUTH=service_account` は優先順位を飛ばして service account を直接使う。このプロパティでは service-account 経路は動作確認済み(2026-07-30 に読み取りで検証)。README 冒頭の「service-account 経路は 2026-05 にブロックされた」という記述はその時点の事実で、現在は解消している。
@@ -89,8 +89,8 @@ chmod 600 ~/.config/mirai-shigoto/oauth-client.json
 ### 3. 一回限りの OAuth フローを実行
 
 ```bash
-corepack pnpm@11.9.0 --dir analytics install --frozen-lockfile
-corepack pnpm@11.9.0 --dir analytics run oauth-init
+corepack pnpm@12.6.0 --dir analytics install --frozen-lockfile
+corepack pnpm@12.6.0 --dir analytics run oauth-init
 ```
 
 これによりブラウザが Google の OAuth 同意ページに開く。「Advanced → Go to mirai-shigoto-cli (unsafe)」をクリックして未検証アプリ警告を超え、GA4 を持つ Google アカウントでサインインし、`analytics.edit` スコープを許可する。ブラウザに「✓ Authentication successful」が表示される。スクリプトが refresh token を `~/.config/mirai-shigoto/oauth-token.json`(perms 600)に書き、終了する。
@@ -98,12 +98,12 @@ corepack pnpm@11.9.0 --dir analytics run oauth-init
 ### 4. property を発見して spec を適用
 
 ```bash
-corepack pnpm@11.9.0 --dir analytics run discover
-GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup:dry
-GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup
+corepack pnpm@12.6.0 --dir analytics run discover
+GA4_PROPERTY_ID=298707336 corepack pnpm@12.6.0 --dir analytics run setup:dry
+GA4_PROPERTY_ID=298707336 corepack pnpm@12.6.0 --dir analytics run setup
 ```
 
-最初の成功実行後、その後の `corepack pnpm@11.9.0 --dir analytics run setup` はすべて非対話で動く(refresh token は自動更新される)。
+最初の成功実行後、その後の `corepack pnpm@12.6.0 --dir analytics run setup` はすべて非対話で動く(refresh token は自動更新される)。
 
 ---
 
@@ -166,7 +166,7 @@ https://analytics.google.com を開く → ⚙️ Admin → property `mirai-shig
 ### 6. Node 依存をインストール
 
 ```bash
-corepack pnpm@11.9.0 --dir analytics install --frozen-lockfile
+corepack pnpm@12.6.0 --dir analytics install --frozen-lockfile
 ```
 
 `googleapis` と `js-yaml` を `analytics/node_modules`(gitignored)に取り込む。
@@ -175,7 +175,7 @@ corepack pnpm@11.9.0 --dir analytics install --frozen-lockfile
 
 ```bash
 GOOGLE_APPLICATION_CREDENTIALS=~/.config/mirai-shigoto/ga4-admin-sa.json \
-  corepack pnpm@11.9.0 --dir analytics run discover
+  corepack pnpm@12.6.0 --dir analytics run discover
 ```
 
 出力例:
@@ -194,7 +194,7 @@ Account: ZKSC_KK  (name=accountSummaries/12345)
 ```bash
 GOOGLE_APPLICATION_CREDENTIALS=~/.config/mirai-shigoto/ga4-admin-sa.json \
 GA4_PROPERTY_ID=298707336 \
-  corepack pnpm@11.9.0 --dir analytics run setup:dry
+  corepack pnpm@12.6.0 --dir analytics run setup:dry
 ```
 
 問題なければ:
@@ -202,7 +202,7 @@ GA4_PROPERTY_ID=298707336 \
 ```bash
 GOOGLE_APPLICATION_CREDENTIALS=~/.config/mirai-shigoto/ga4-admin-sa.json \
 GA4_PROPERTY_ID=298707336 \
-  corepack pnpm@11.9.0 --dir analytics run setup
+  corepack pnpm@12.6.0 --dir analytics run setup
 ```
 
 出力:
@@ -264,7 +264,7 @@ Explore → New → Funnel exploration。ステップ:
 
 ## spec 適用後
 
-1. spec はバージョン管理下にある。将来の schema 変更は `spec.yaml` + `corepack pnpm@11.9.0 --dir analytics run setup` 経由、ダッシュボードクリックではない
+1. spec はバージョン管理下にある。将来の schema 変更は `spec.yaml` + `corepack pnpm@12.6.0 --dir analytics run setup` 経由、ダッシュボードクリックではない
 2. 実際の `gtag('event', ...)` 呼び出しはクライアントサイド `index.html` で実行される(別タスクで処理 — OPC plan の `Phase 0 D5` 参照)
 3. これらのイベント呼び出しが追加されるまで dimension は空のまま(データが流れない)。それで OK — まず schema、次にデータ
 

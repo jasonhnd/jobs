@@ -286,7 +286,7 @@ prepends the nvm Node and Bun.
 | `test` / `typecheck` / `build` / `verify:gates` / `git diff --exit-code` | Yes | The whole `quality` chain runs on the VM. This is the §6 green bar minus the deploy half. |
 | `bun run test:e2e` | Partial | `tests/e2e/analytics.spec.ts` always fails here: with no `PUBLIC_*` env the tracker blocks are never emitted, which is the failure mode that spec documents at its head. Any other red belongs to the mobile work in flight on the branch, so diff against the branch point before blaming a change. e2e is in neither `ci.yml` nor `buildCommand` and gates nothing. |
 | Scoring batches | Yes, `in-agent` only | The `in-agent` provider needs no credential — the agent session is the model, as for `claude-opus-4-8`, `claude-fable-5`, `grok-4.6`, `claude-fable-5-1`, the `grok-4.5` backfill, and `claude-opus-5-5`. Any keyed provider is owner-only. The `codex` provider (gpt-5.6-sol, gpt-6-astra, gpt-6-sol) is owner-machine only. The `grok-cli` provider is owner-machine only, alongside `codex`. See [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md). |
-| `bun run audit` | No | `analytics/` pins `pnpm@11.9.0` for corepack to fetch, and the GA4 scripts need credentials. |
+| `bun run audit` | No | `analytics/` pins `pnpm@12.6.0` for corepack to fetch, and the GA4 scripts need credentials. |
 | Vercel CLI (`alerts`, `ls`, `inspect`, `firewall overview`) | No | Not installed, not authenticated. §8's refresh procedure needs an operator. |
 | Preview deployment | No | Verification ends at `git push`. §6 and §9.5 — `lambda.runtime`, OG pixels, the SEO baseline as a *deploy* gate — still need a human.
 
@@ -310,7 +310,7 @@ prepends the nvm Node and Bun.
 | 9 | code | #645 | `@types/node` 24.13.3 → **24.13.6** (stay on 24) — done (#658) |
 | 10 | code | #646 | `@playwright/test` 1.62.1 → **1.63.0** + dedupe `playwright-core` (CI runs Playwright + axe since design-1.20 `f05ba940`) — done (#659) |
 | 11 | code | #647 | `.github/workflows/ci.yml`: `actions/checkout` v4 → **v7**, `actions/setup-node` v4 → **v7** — done (#660) |
-| 12 | code | #648 | `analytics/`: `js-yaml` → **5.4.2**, `googleapis` → **181**, `qs` override **^6.16.0**, pnpm 11.9.0 → **12.6.0** |
+| 12 | code | #648 | `analytics/`: `js-yaml` → **5.4.2**, `googleapis` → **181**, `qs` override **^6.16.0**, pnpm 11.9.0 → **12.6.0** — done (#661) |
 
 ### Not in this series
 
