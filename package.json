@@ -54,7 +54,7 @@
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.62.1",
-    "@types/node": "^24.13.3",
+    "@types/node": "^24.13.6",
     "@types/react": "^19.3.0",
     "exceljs": "^4.4.0",
     "fontkitten": "1.0.3",

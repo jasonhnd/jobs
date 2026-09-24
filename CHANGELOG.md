@@ -17,6 +17,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **@types/node 24.13.3 → 24.13.6** — stays on Node 24 (Vercel does not accept Node 26 yet).
 - **typescript 6.0.3 → 7.0.2; @typescript/native alias removed** — typecheck now runs node_modules/typescript/bin/tsc (owner ruling 2026-09-24).
 - **subset-font 2.5.0 → 2.9.0 (harfbuzzjs 1.6)** — font subsets byte-identical.
 - **zod 4.4.3 → 4.6.5** — build-time schemas only; 616 ETL outputs identical (ignoring generated_at).
