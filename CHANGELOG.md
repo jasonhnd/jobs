@@ -10,6 +10,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Security
+
+- **Astro 7.2.4 → 7.3.5 + overrides.sharp ^0.35.4** — closes GHSA-26w7-cxv4-gfx2 (critical, AVIF RCE; not reachable here: no astro:assets), plus transitive js-yaml 4.3.2 and sharp 0.35.4. CSP hashes: unchanged. SEO baseline unchanged.
+
 ### Changed
 
 - **TOOLCHAIN.md: 2026-09 upgrade queue recorded; §2/§6/§7 drift fixed; typescript 7 allowed (owner ruling 2026-09-24).** Docs only.
