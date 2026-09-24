@@ -12,6 +12,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **TOOLCHAIN.md: 2026-09 upgrade queue recorded; §2/§6/§7 drift fixed; typescript 7 allowed (owner ruling 2026-09-24).** Docs only.
 - **OpenAI's seat in the public value is now GPT 6 SOL (mms-12 / #614).**
   `data/scores/occupations_gpt-6-sol_2026-09-23.json`, 556/556, scored
   through the Codex CLI with `--model gpt-6-sol --reasoning-effort high`,
