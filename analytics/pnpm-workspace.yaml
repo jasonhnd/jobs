@@ -2,4 +2,4 @@
 # (same rationale as repo-root pnpm-workspace.yaml). Defaults to
 # pnpm's OS-conventional per-user store.
 overrides:
-  qs: ^6.15.3
+  qs: ^6.16.0

@@ -34,9 +34,9 @@ The corresponding GA4 event-scoped custom dimensions are declared in
 dependencies, preview the validated spec, and then apply it:
 
 ```bash
-corepack pnpm@11.9.0 --dir analytics install --frozen-lockfile
-GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup:dry
-GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup
+corepack pnpm@12.6.0 --dir analytics install --frozen-lockfile
+GA4_PROPERTY_ID=298707336 corepack pnpm@12.6.0 --dir analytics run setup:dry
+GA4_PROPERTY_ID=298707336 corepack pnpm@12.6.0 --dir analytics run setup
 ```
 
 ## 2. Engine Classification
