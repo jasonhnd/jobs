@@ -31,7 +31,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 | Item | Local (this machine, 2026-08-24) | CI `quality` (`.github/workflows/ci.yml`) | Vercel |
 | --- | --- | --- | --- |
 | Node | **v24.20.0** (`nvm alias default` → 24). Non-interactive shells may still see Hermes **22** first via `~/.local/bin/node`. | `24.x` via `actions/setup-node` | Builds: **no `engines.node`** (#302). Node **24.x** via Vercel default ([Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)). Functions do **not** use this — they use `bunVersion`. |
-| Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bun install --frozen-lockfile` (build-image Bun via bunVersion; the bunx pin was dropped 2026-09-20, see §1 plane A). **`"bunVersion": "1.4.x"`**. `#303`–`#305`: `api/og`, `api/shindan-share`, **and middleware** all `lambda.runtime: "bun1.4.x"` (`edge: null`). After there are no Edge entries, the post-build pack step on `aa1e7e40` printed `bun install v1.4.0` twice (not 1.3.14). Keep lockfileVersion 1 until a dedicated Issue proves v2. |
+| Bun | **1.4.2** (`744846f84`) | **`bun-version: 1.4.2`** | Install Command: `bun install --frozen-lockfile` (build image 1.4.x (observed **1.4.1** on 2026-09-23); the bunx pin was dropped 2026-09-20, see §1 plane A). **`"bunVersion": "1.4.x"`**. `#303`–`#305`: `api/og`, `api/shindan-share`, **and middleware** all `lambda.runtime: "bun1.4.x"` (`edge: null`). After there are no Edge entries, the post-build pack step on `aa1e7e40` printed `bun install v1.4.0` twice (not 1.3.14). Keep lockfileVersion 1 until a dedicated Issue proves v2. |
 | Astro | lockfile **7.3.5** | same lockfile | same |
 | `typescript` (JS package) | **6.0.3** | same | same |
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
@@ -260,7 +260,7 @@ code it bootstraps: a branch that moves the Bun pin carries its own environment.
 | Item | Where | Value |
 | --- | --- | --- |
 | Config | `.cursor/environment.json` | `install` only. No `start`, no `terminals`, no Dockerfile — nothing here needs a live service. |
-| Bootstrap | `.cursor/install.sh` | Node `.nvmrc` major via nvm, Bun **1.4.0**, `bun install --frozen-lockfile`, Chromium (best effort). Idempotent. |
+| Bootstrap | `.cursor/install.sh` | Node `.nvmrc` major via nvm, Bun **1.4.2**, `bun install --frozen-lockfile`, Chromium (best effort). Idempotent. |
 | Ignore rule | `.gitignore` | `.cursor/*` with `!environment.json` and `!install.sh`. The rest of `.cursor/` stays per-machine LLM-tool state. |
 
 `install` runs after checkout, and once into the baseline snapshot when
