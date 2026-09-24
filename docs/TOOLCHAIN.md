@@ -6,6 +6,8 @@ Issue-first / docs-first order: [`WORKFLOW.md`](WORKFLOW.md). Contributor comman
 
 Recorded **as of 2026-08-25** on `preview` `aa1e7e40` (PR 310 merged; alias `pre.mirai-shigoto.com` → `dpl_H6SSo3shrsTzHvMAtr8TyZwV56yz`). Re-read Vercel **Build** logs (not email) and `vercel inspect --format=json` (`lambda.runtime`, not the CLI `λ` glyph) when changing Bun, `bunVersion`, `engines.node`, or Function `runtime`.
 
+Refreshed 2026-09-24 on preview 9b4e7197 for the 2026-09 series (#635).
+
 **PR 299** set `"bunVersion": "1.4.x"` and did **not** put Functions on Bun 1.4 (`engines.node` won; inspect was still Edge). **#302–#305** (PRs 307–310) removed `engines.node` and moved `api/og`, `api/shindan-share`, and middleware to `runtime: "nodejs"`. On that preview they run as `lambda.runtime: "bun1.4.x"`, `edge: null`. §9 is the shipped series, not remaining work.
 
 ---
@@ -28,21 +30,21 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 
 | Item | Local (this machine, 2026-08-24) | CI `quality` (`.github/workflows/ci.yml`) | Vercel |
 | --- | --- | --- | --- |
-| Node | **v24.18.0** (`nvm alias default` → 24). Non-interactive shells may still see Hermes **22** first via `~/.local/bin/node`. | `24.x` via `actions/setup-node` | Builds: **no `engines.node`** (#302). Node **24.x** via Vercel default ([Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)). Functions do **not** use this — they use `bunVersion`. |
-| Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bunx bun@1.4.0 install --frozen-lockfile`. **`"bunVersion": "1.4.x"`**. `#303`–`#305`: `api/og`, `api/shindan-share`, **and middleware** all `lambda.runtime: "bun1.4.x"` (`edge: null`). After there are no Edge entries, the post-build pack step on `aa1e7e40` printed `bun install v1.4.0` twice (not 1.3.14). Keep lockfileVersion 1 until a dedicated Issue proves v2. |
+| Node | **v24.20.0** (`nvm alias default` → 24). Non-interactive shells may still see Hermes **22** first via `~/.local/bin/node`. | `24.x` via `actions/setup-node` | Builds: **no `engines.node`** (#302). Node **24.x** via Vercel default ([Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)). Functions do **not** use this — they use `bunVersion`. |
+| Bun | **1.4.0** (`34cbb9a40`) | **`bun-version: 1.4.0`** | Install Command: `bun install --frozen-lockfile` (build-image Bun via bunVersion; the bunx pin was dropped 2026-09-20, see §1 plane A). **`"bunVersion": "1.4.x"`**. `#303`–`#305`: `api/og`, `api/shindan-share`, **and middleware** all `lambda.runtime: "bun1.4.x"` (`edge: null`). After there are no Edge entries, the post-build pack step on `aa1e7e40` printed `bun install v1.4.0` twice (not 1.3.14). Keep lockfileVersion 1 until a dedicated Issue proves v2. |
 | Astro | lockfile **7.2.4** | same lockfile | same |
 | `typescript` (JS package) | **6.0.3** | same | same |
 | typecheck binary | `@typescript/native` **7.0.2** via `node node_modules/@typescript/native/bin/tsc --noEmit` | same | same (`bun run typecheck` in `buildCommand`) |
 | `@vercel/og` | **1.0.1** | same | `api/og` `runtime: "nodejs"` + Bun 1.4. Named `GET`. |
 | `@vercel/functions` | **3.9.5** | same | `middleware.ts` (`next`, `rewrite`, `waitUntil`). `@vercel/edge` removed. |
 | React | **19.2.8** (OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Bun 1.4 bundle |
-| Playwright / axe | **1.62.1** / **4.13.0** (exact pins, no `^`) | **not executed** | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
+| Playwright / axe | **1.62.1** / **4.13.0** (exact pins, no `^`) | **executed** since design-1.20 (f05ba940, 2026-09-17): bun x playwright install --with-deps chromium, then bun x playwright test --reporter=line | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
 | `api/og` Function | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **18,051,748** bytes, `[hnd1, kix1]`. Named `GET`. (Issue 287 Edge was 855.83 KB.) CLI inspect may still draw `λ` — that glyph is not proof of Edge; read `lambda.runtime`. |
 | `api/shindan-share` | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **373,416** bytes, `[hnd1, kix1]`. Named `GET`. |
 | middleware | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **57,461** bytes, `[iad1, hnd1]`. Default export + `@vercel/functions`. |
 | Vercel plan Edge gzip limit | — | — | Unused while there are **no** Edge entries. Historical: Hobby 1MB / Pro 2MB / Enterprise 4MB. |
 
-`bun.lock` today: **`lockfileVersion: 1`**. CI and Vercel `installCommand` are Bun **1.4.0** (1.4 can read v1). A v2 lockfile previously broke a preview while Edge packing still ran `bun install v1.3.14`. After #305 there are no Edge entries; `aa1e7e40` packed with **1.4.0**. Still do not migrate to v2 without a dedicated Issue.
+`bun.lock` today: **`lockfileVersion: 1`**. CI pins Bun **1.4.0**; Vercel installs with the build-image Bun selected by bunVersion 1.4.x (1.4 can read v1). A v2 lockfile previously broke a preview while Edge packing still ran `bun install v1.3.14`. After #305 there are no Edge entries; `aa1e7e40` packed with **1.4.0**. Still do not migrate to v2 without a dedicated Issue.
 
 `.nvmrc` contains `24`. Use that locally before Astro compiler work. `astro build` is Node. Do **not** put `engines.node` back after §9.1 — Vercel treats it as winning over `bunVersion` for Function runtime.
 
@@ -77,7 +79,7 @@ Citations include the document date so they can go stale on purpose.
 
 - `engines.node` → 26 or `@types/node@26`.
 - Removing `runtime: "edge"` from `api/og` / `api/shindan-share` / middleware *inside a version-bump PR* because `"bunVersion": "1.4.x"` is set. The flag does not apply to Edge; flipping runtime is an architecture change (now §9).
-- Replacing the npm package name `typescript` with 7.0.2. Typecheck already uses `@typescript/native@7.0.2`. The JS compiler API is not in 7.0; Microsoft’s side-by-side layout keeps 6.x under `typescript` until 7.1.
+- ~~Replacing the npm package name typescript with 7.0.2~~ — **lifted by owner ruling 2026-09-24 「A」** (#635 order 8). Nothing in the repo imports the TypeScript JS API (grep in #636), so waiting for 7.1 protected nothing. After order 8, typecheck is node node_modules/typescript/bin/tsc --noEmit and the @typescript/native alias is gone.
 - Adding `@astrojs/vercel` “so Astro 7.2 works”.
 - Silently changing `api/og.tsx`, `api/shindan-share.ts`, or `middleware.ts` from `runtime: "edge"` to `nodejs` or Bun **inside a package bump**. If `@vercel/og@1.0` cannot boot on Edge, **stop** and open an architecture Issue (that Issue is now §9).
 - Enabling Astro `experimental.incrementalBuild`, `session: false`, or other flags unused today as part of a bump.
@@ -85,7 +87,7 @@ Citations include the document date so they can go stale on purpose.
 
 ---
 
-## 5. Upgrade queue (#280)
+## 5. Upgrade queue (#280) — historical
 
 One Issue → one PR → `preview` (`quality` + `Vercel`) → next Issue. Do not combine lockfiles. Do not stack on product branches.
 
@@ -112,8 +114,8 @@ Not in the series: Node 26; `typescript` package → 7; analytics/ `googleapis` 
 
 | Check | Proves | Does not prove |
 | --- | --- | --- |
-| GitHub **`quality`** | CI Bun pin can `bun install --frozen-lockfile`; unit tests; native typecheck; production `build`; `home-css-loading` + `models-built` with `REQUIRE_BUILT_ARTIFACTS=1`; `verify:gates`; no uncommitted generated files (`git diff --exit-code`) | Playwright, axe, a real `/api/og` PNG, production alias |
-| GitHub **`Vercel`** | Preview ran `installCommand` + `buildCommand` on Vercel’s image, including `verify:gates` (SEO baseline is a **deploy** gate). Install must show `bunx bun@1.4.0` succeeding. | e2e; OG pixels. A green check is not enough — read `inspect --format=json` `lambda.runtime` (`bun1.4.x` after #303–#305). |
+| GitHub **`quality`** | CI Bun pin can `bun install --frozen-lockfile`; unit tests; native typecheck; production `build`; `home-css-loading` + `models-built` with `REQUIRE_BUILT_ARTIFACTS=1`; `verify:gates`; no uncommitted generated files (`git diff --exit-code`); Playwright + axe rendered-output suite against the CI build (design-1.20) | a real `/api/og` PNG, production alias |
+| GitHub **`Vercel`** | Preview ran `installCommand` + `buildCommand` on Vercel’s image, including `verify:gates` (SEO baseline is a **deploy** gate). Install log must show `bun install` succeeding with the build-image Bun (1.4.x). | e2e; OG pixels. A green check is not enough — read `inspect --format=json` `lambda.runtime` (`bun1.4.x` after #303–#305). |
 | Local `bun run test:e2e` | Chromium against `dist-astro/` via `scripts/e2e-server.cjs`. Analytics specs need `PUBLIC_*` tracker IDs baked into that dist (`vercel env pull` writes empty strings for Encrypted vars — fill from production HTML or a real preview). | CI/Vercel |
 | Preview `/api/og` | Function boots and returns PNG. After #303: Bun 1.4 (`lambda.runtime: "bun1.4.x"`). | `astro preview` (it does **not** serve `/api/`) |
 
@@ -132,8 +134,8 @@ Occupation bodies are mostly `src/templates/` SafeHtml injected from `[...id].as
 
 ## 7. Known drift (record here; do not “fix” in a docs-only PR)
 
-1. **Local Node is 24.18.0** (`nvm alias default 24`). Hermes 22 remains at `~/.hermes/node/bin/node` for its CLI shims. Do not jump **Node 26**.
-2. **CI / local Bun 1.4.0**; Vercel **installCommand** is `bunx bun@1.4.0`; **`bunVersion`: `1.4.x`**. `#302` removed `engines.node`. `#303`–`#305` moved `api/og`, `api/shindan-share`, and middleware to `runtime: "nodejs"` (Bun 1.4). OG/share use named `GET`. Middleware keeps the Routing Middleware default export. `bun.lock` stays **lockfileVersion 1**.
+1. **Local Node is 24.20.0** (`nvm alias default 24`). Hermes 22 remains at `~/.hermes/node/bin/node` for its CLI shims. Do not jump **Node 26**.
+2. **CI / local Bun 1.4.0**; Vercel installCommand is plain `bun install` (build-image Bun 1.4.x); **`bunVersion`: `1.4.x`**. `#302` removed `engines.node`. `#303`–`#305` moved `api/og`, `api/shindan-share`, and middleware to `runtime: "nodejs"` (Bun 1.4). OG/share use named `GET`. Middleware keeps the Routing Middleware default export. `bun.lock` stays **lockfileVersion 1**.
 3. **No Edge entries** on preview after #305. The Edge gzip cap is unused. OG on Bun is ~18 MB uncompressed (not an Edge gzip budget).
 
 ---
@@ -285,3 +287,37 @@ prepends the nvm Node and Bun.
 | `bun run audit` | No | `analytics/` pins `pnpm@11.9.0` for corepack to fetch, and the GA4 scripts need credentials. |
 | Vercel CLI (`alerts`, `ls`, `inspect`, `firewall overview`) | No | Not installed, not authenticated. §8's refresh procedure needs an operator. |
 | Preview deployment | No | Verification ends at `git push`. §6 and §9.5 — `lambda.runtime`, OG pixels, the SEO baseline as a *deploy* gate — still need a human.
+
+---
+
+## 11. 2026-09 upgrade queue (#635)
+
+### Queue
+
+| Order | Kind | Issue | Target |
+| --- | --- | --- | --- |
+| 0 | docs | #636 | `docs/TOOLCHAIN.md`: this queue, §2 drift fixes, §4 TypeScript rule change (owner ruling 2026-09-24 「A」) |
+| 1 | code | #637 | `astro` 7.2.4 → **7.3.5** + `overrides.sharp` **^0.35.4** (+ transitive `js-yaml` 4.3.2) |
+| 2 | code | #638 | `@vercel/og` `^1.0.1` → exact **`1.0.1`** + `overrides.fflate` **^0.7.5** (1.0.2/1.0.3 abort on import — vercel/satori#801) |
+| 3 | code | #639 | `@vercel/functions` 3.9.5 → **3.9.9** (middleware) |
+| 4 | code | #640 | Bun 1.4.0 → **1.4.2**: CI `bun-version`, `.cursor/install.sh`, CONTRIBUTING, docs (Vercel `1.4.x` observed at 1.4.1) |
+| 5 | code | #641 | `react` + `@types/react` → **19.3.0** (OG only; 6 PNGs byte-identical) |
+| 6 | code | #642 | `zod` 4.4.3 → **4.6.5** |
+| 7 | code | #643 | `subset-font` 2.5.0 → **2.9.0** (font hashes) |
+| 8 | code | #644 | `typescript` 6.0.3 → **7.0.2**; drop the `@typescript/native` alias |
+| 9 | code | #645 | `@types/node` 24.13.3 → **24.13.6** (stay on 24) |
+| 10 | code | #646 | `@playwright/test` 1.62.1 → **1.63.0** + dedupe `playwright-core` (CI runs Playwright + axe since design-1.20 `f05ba940`) |
+| 11 | code | #647 | `.github/workflows/ci.yml`: `actions/checkout` v4 → **v7**, `actions/setup-node` v4 → **v7** |
+| 12 | code | #648 | `analytics/`: `js-yaml` → **5.4.2**, `googleapis` → **181**, `qs` override **^6.16.0**, pnpm 11.9.0 → **12.6.0** |
+
+### Not in this series
+
+| Item | Why | Trigger to reopen |
+| --- | --- | --- |
+| Node 26 / `@types/node@26` | Vercel Builds/Functions reject `26.x` as of 2026-09-24 (Sandbox only). Node 26 is not LTS until October. | Vercel changelog announces 26.x for Builds. Separate Issue. |
+| `overrides.devalue` → 6 | `astro@7.3.5` declares `devalue: ^5.8.1`. Forcing a major under Astro is not an upgrade, it is a fork. Keep `^5.9.1`. | Astro itself moves to devalue 6. |
+| `@vercel/og` ≥ 1.0.2 | Ships no `dist/hb.wasm`; satori 0.33's harfbuzz aborts on import (reproduced 2026-09-24; vercel/satori#801 OPEN). | A release whose tarball contains `dist/hb.wasm` and passes the 6-card local oracle in order 2. |
+| `bun.lock` lockfileVersion 2 | Still forbidden without a dedicated Issue (TOOLCHAIN §2). | — |
+| `@astrojs/vercel`, `experimental.*` | Forbidden (TOOLCHAIN §3–4). | — |
+
+When an item ships, update §2 in the same PR (same rule as §5).
