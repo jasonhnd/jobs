@@ -18,6 +18,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **AGENTS.md is now the shared contract for every executor** — branches and merge authority, one Issue / one PR delivery, forbidden operations, the full acceptance chain (no lint script exists), and repository constraints (Japanese-only owner-signed copy, independence wording, 1440/768/375, production-crawl limits, score rounding, toolchain pins). Design canon reference corrected to v1.2.
 - **CI: actions/checkout and actions/setup-node v4 → v7** — clears the Node 20 deprecation warning; no behaviour change.
 - **@playwright/test 1.62.1 → 1.63.0 (Chromium 153)**; playwright-core deduped to one 1.63.0. CI rendered-output suite unchanged: 356 passed.
 - **@types/node 24.13.3 → 24.13.6** — stays on Node 24 (Vercel does not accept Node 26 yet).
