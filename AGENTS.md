@@ -64,8 +64,8 @@ file and a brief disagree, stop and say so in the PR instead of guessing.
 
 | Branch | Role | Who may push | Who may merge into it |
 | --- | --- | --- | --- |
-| `preview` | Integration branch. Every topic branch starts from the latest `origin/preview`; every PR targets it. | Nobody pushes directly. | The supervisor (the person or agent that dispatched the work), after reading the diff and an independent review. Never the executor. |
-| `main` | Vercel production. | Nobody pushes directly. | Only a promotion PR with head=`preview`, merged after the owner explicitly approves that promotion. CI enforces the head rule (`Enforce preview-to-main promotion` in `.github/workflows/ci.yml`). |
+| `preview` | Integration branch. Every topic branch starts from the latest `origin/preview`; every PR targets it. | Nobody pushes directly. | The supervisor — the owner, or a supervising agent the owner has delegated `preview` merges to — after reading the diff and an independent review, with `quality` and `Vercel` successful and all review conversations resolved. Never the executor. |
+| `main` | Vercel production. | Nobody pushes directly. | Only a promotion PR with head=`preview`, merged by the owner (a human) after explicitly approving that promotion, using a merge commit. CI enforces the head rule (`Enforce preview-to-main promotion` in `.github/workflows/ci.yml`). |
 | topic branch | One Issue, one focused change. | The executor assigned to that Issue. | — |
 
 - `pre.mirai-shigoto.com` is the preview **alias**, not a branch. There is no
@@ -116,31 +116,40 @@ Run these from the repository root before opening a PR. All of them were
 confirmed to pass on `preview` (`66ec643e`, 2026-09-25):
 
 ```bash
-unset PUBLIC_GA4_MEASUREMENT_ID PUBLIC_X_PIXEL_ID PUBLIC_META_PIXEL_ID
+export PUBLIC_GA4_MEASUREMENT_ID='' PUBLIC_X_PIXEL_ID='' PUBLIC_META_PIXEL_ID=''
+export PUBLIC_CF_BEACON_TOKEN='' PUBLIC_GOOGLE_ADS_ID=''
 bun install --frozen-lockfile
 bun run test          # read the "N pass" / "N fail" lines, not only the last line
 bun run typecheck
 bun run build
 REQUIRE_BUILT_ARTIFACTS=1 bun test scripts/home-css-loading.test.ts src/site/models-built.test.ts
 bun run verify:gates
-bun x playwright test --reporter=line   # the CI "rendered-output checks" step
+bun x playwright install --with-deps chromium   # the browser binary is not a package dependency
+bun x playwright test --reporter=line           # the CI "rendered-output checks" step
 git diff --exit-code
 ```
 
 - Docs-only changes still require `bun run check:docs-links`.
 - There is **no lint script** in this repository. Do not invent one; the
   gates above (`verify:gates`, `check:*`) are the static checks.
-- Unset the `PUBLIC_*` analytics variables before building: with them set,
-  the build emits tracker blocks, which changes the CSP hashes written into
-  `vercel.json` and sends local test traffic to production analytics.
+- Override the `PUBLIC_*` analytics variables with **empty values** before
+  building, as above. Unsetting them is not enough: the build also reads
+  `.env*` files (for example `.env.local`), which can supply production IDs.
+  With an ID present the build emits tracker blocks, which changes the CSP
+  hashes written into `vercel.json` and sends local test traffic to
+  production analytics.
 - Playwright uses port 4321 (fixed in `playwright.config.ts`); do not run two
   suites on the same machine at the same time.
-- CI (`quality`) runs the same chain plus the Playwright suite on Ubuntu.
+- CI (`quality`) runs this acceptance chain on Ubuntu, including the
+  Chromium installation and the Playwright suite.
 
 On a Cursor Cloud Agent, `.cursor/install.sh` provisions this toolchain at
 checkout. What that VM can and cannot verify on its own — e2e, scoring
 providers, and everything that needs a Vercel deployment — is
-[`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) §10.
+[`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) §10. Its e2e row in §10.1 is
+outdated: CI does run Playwright, and the analytics specs skip themselves
+when the build carries no GA4 markup. Follow the acceptance commands above
+for rendered-output checks.
 
 ## Repository-specific constraints
 
