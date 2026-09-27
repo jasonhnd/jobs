@@ -18,6 +18,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **TOOLCHAIN §10.1 e2e row corrected** — CI runs the Playwright suite and it gates merges; analytics specs skip without GA4 markup. The matching "outdated" note in AGENTS.md is removed. §11 queue rows 0/4/5 marked done.
 - **AGENTS.md is now the shared contract for every executor** — branches and merge authority, one Issue / one PR delivery, forbidden operations, the full acceptance chain (no lint script exists), and repository constraints (Japanese-only owner-signed copy, independence wording, 1440/768/375, production-crawl limits, score rounding, toolchain pins). Design canon reference corrected to v1.2.
 - **CI: actions/checkout and actions/setup-node v4 → v7** — clears the Node 20 deprecation warning; no behaviour change.
 - **@playwright/test 1.62.1 → 1.63.0 (Chromium 153)**; playwright-core deduped to one 1.63.0. CI rendered-output suite unchanged: 356 passed.
