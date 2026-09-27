@@ -146,10 +146,7 @@ git diff --exit-code
 On a Cursor Cloud Agent, `.cursor/install.sh` provisions this toolchain at
 checkout. What that VM can and cannot verify on its own — e2e, scoring
 providers, and everything that needs a Vercel deployment — is
-[`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) §10. Its e2e row in §10.1 is
-outdated: CI does run Playwright, and the analytics specs skip themselves
-when the build carries no GA4 markup. Follow the acceptance commands above
-for rendered-output checks.
+[`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) §10.
 
 ## Repository-specific constraints
 
