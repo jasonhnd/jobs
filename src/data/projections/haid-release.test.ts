@@ -255,13 +255,17 @@ describe('HAID release projection', () => {
     }
   });
 
-  test('the checked-in 2026-q3 draft derives without a clamp on levels 1, 2 and 4', async () => {
+  test('the checked-in 2026-q3 final derives without a clamp on levels 1, 2 and 4', async () => {
     const q2 = buildHaidReleasePayload(await loadHaidRelease(join(HAID_RELEASE_ROOT, '2026-q2')), { releases: ['2026-q2', '2026-q3'], previous: null });
     const p = buildHaidReleasePayload(await loadHaidRelease(join(HAID_RELEASE_ROOT, '2026-q3')), { releases: ['2026-q2', '2026-q3'], previous: q2 });
     assert.equal(p.levels[0].n_at_least.clamped, false);
     assert.equal(p.levels[1].n_at_least.clamped, false);
     assert.equal(p.levels[3].n_at_least.clamped, false);
-    assert.equal(p.status, 'draft');
-    assert.ok(p.placeholder_anchors.length > 0, 'a draft carries placeholders');
+    assert.equal(p.status, 'final');
+    assert.equal(p.published_at, '2026-09-29');
+    assert.deepEqual(p.placeholder_anchors, []);
+    assert.equal(p.levels[3].n_at_least.low, 964_978_525);
+    assert.equal(p.levels[3].n_at_least.mid, 1_372_822_515);
+    assert.equal(p.levels[3].n_at_least.high, 1_953_040_000);
   });
 });
