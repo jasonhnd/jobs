@@ -18,6 +18,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **2026-Q3 is a final release (#667).** Owner sign-off 2026-09-29: all 21
+  anchors and the Pew overlap are `verified`, `status` is `final`, and
+  `published_at` is 2026-09-29 (`version` stays `2026-Q3.0`;
+  `planned_publish` stays 2026-10-24 because the schema requires the
+  field). The working-age base is the WPP 2024 15–64 sum 5,421,227,666,
+  so Microsoft AI Diffusion at 17.8% is 964,978,525 (was 961,200,000 on a
+  5.4 billion round). Level 4 N(≥4) moves from 低 961,200,000 /
+  中 1,370,132,128 / 高 1,953,040,000 to 低 964,978,525 / 中 1,372,822,515
+  / 高 1,953,040,000. The displayed headline stays およそ 10 億. The
+  2026-09-21 diffusion update (June, 18.8%) is noted and not used.
+  Japanese copy is unchanged. SEO baseline JSON-LD for `/aiadoption`
+  and `/aiadoption/2026-q3` records the new level-4 midpoint
+  (1,372,822,515).
 - **TOOLCHAIN §10.1 e2e row corrected** — CI runs the Playwright suite and it gates merges; analytics specs skip without GA4 markup. The matching "outdated" note in AGENTS.md is removed. §11 queue rows 0/4/5 marked done.
 - **AGENTS.md is now the shared contract for every executor** — branches and merge authority, one Issue / one PR delivery, forbidden operations, the full acceptance chain (no lint script exists), and repository constraints (Japanese-only owner-signed copy, independence wording, 1440/768/375, production-crawl limits, score rounding, toolchain pins). Design canon reference corrected to v1.2.
 - **CI: actions/checkout and actions/setup-node v4 → v7** — clears the Node 20 deprecation warning; no behaviour change.

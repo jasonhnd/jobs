@@ -10,7 +10,7 @@ function loadLatest(): HaidReleasePayload {
   return JSON.parse(readFileSync(join(process.cwd(), 'public', 'data.haid-latest.json'), 'utf-8'));
 }
 
-describe('HAID release page model (2026-q3 draft)', () => {
+describe('HAID release page model (2026-q3 final)', () => {
   const model = buildHaidReleasePageModel(loadLatest(), HAID_LEVELS_NOTE_JA);
 
   test('four columns left to right in relation order, widths sum to 100', () => {
@@ -101,10 +101,12 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.ok(model.fact.body.includes('HAID v1.0'));
   });
 
-  test('draft meta: 草稿 note, planned publish date, round number, permalink, latest canonical', () => {
-    assert.equal(model.isDraft, true);
-    assert.ok(model.draftNote);
-    assert.ok(model.metaParts.some((m) => m.startsWith('公開予定 2026-10-24')));
+  test('final meta: no 草稿 note, published date, round number, permalink, latest canonical', () => {
+    assert.equal(model.isDraft, false);
+    assert.equal(model.draftNote, null);
+    assert.ok(model.metaParts.some((m) => m.startsWith('公開 2026-09-29')));
+    assert.ok(!model.metaParts.some((m) => m.includes('草稿')));
+    assert.ok(!model.metaParts.some((m) => m.includes('未照合')));
     assert.ok(model.metaParts.includes('第 2 回'));
     assert.equal(model.round, 2);
     assert.equal(model.isLatest, true);
@@ -162,7 +164,7 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.equal(by[4].steps[2].text, '15 億 + 5 億 = 20 億');
     assert.ok(by[4].steps[3].text.startsWith('国連 世界人口推計 15〜64 歳人口（2026 年） 54 億 × 利用率 17.8% = 9.6 億'), by[4].steps[3].text);
     assert.equal(by[4].steps[4].text, '重なりを引かない単純合計は 42 億');
-    assert.deepEqual(by[4].range, { lowJa: '9.6 億', highJa: '20 億', midJa: '14 億', lowFromJa: '低（上から）', highFromJa: '高（積み上げ）', midRuleJa: '中 = √(低 × 高)', midPct: 41.2 });
+    assert.deepEqual(by[4].range, { lowJa: '9.6 億', highJa: '20 億', midJa: '14 億', lowFromJa: '低（上から）', highFromJa: '高（積み上げ）', midRuleJa: '中 = √(低 × 高)', midPct: 41.3 });
     assert.equal(by[4].inputs.find((t) => t.id === 'chatgpt_weekly_2026')!.marketJa, '中国以外');
     assert.deepEqual(by[4].inputGroups.map((g) => [g.labelJa, g.items.length]), [['中国以外', 7], ['中国', 5], ['世界', 1]]);
     assert.deepEqual(by[1].inputGroups.map((g) => g.labelJa), [null]);
@@ -204,7 +206,7 @@ describe('HAID release page model (2026-q3 draft)', () => {
     assert.equal(model.anchorsTable.rows.length, 21);
     assert.ok(model.anchorsTable.rows.find((r) => r.id === 'meta_ai_monthly_2025')!.stale, 'Meta AI 2025-05 is 古い');
     assert.equal(model.anchorsTable.rows.find((r) => r.id === 'questmobile_ai_native_union_2026_05')!.marketJa, '中国');
-    assert.ok(model.anchorsTable.rows.every((r) => r.placeholder));
+    assert.ok(model.anchorsTable.rows.every((r) => !r.placeholder));
     assert.ok(model.anchorsTable.rows.some((r) => r.valueJa === '5,000 万'));
     assert.ok(model.list.paymentNote.includes('少なくとも 5,000 万 人'), model.list.paymentNote);
   });

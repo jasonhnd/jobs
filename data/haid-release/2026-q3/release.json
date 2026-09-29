@@ -2,10 +2,10 @@
   "release": "2026-q3",
   "label_ja": "2026 年 第 3 四半期",
   "version": "2026-Q3.0",
-  "status": "draft",
+  "status": "final",
   "spec_version": "1.0",
   "planned_publish": "2026-10-24",
-  "published_at": null,
+  "published_at": "2026-09-29",
   "population_anchor": "population_2026",
   "previous": "2026-q2",
   "levels": {
