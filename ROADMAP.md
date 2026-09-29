@@ -117,12 +117,12 @@ overlap); reconciled with Microsoft AI Diffusion top-down → 低 9.6 億 /
 - aiadoption-1.9: 「数字の出どころと計算」 as per-level cards (inputs → steps
   → result) for desktop and phone.
 
-Still open, owner-side (tracked here until 2026-Q3 goes `final` in October):
-all 21 anchors are `placeholder` (未照合); the Pew overlap (U.S., ever-use)
-and the Microsoft diffusion share (quarter window, telemetry model) are
-working assumptions; the public Japanese copy in `haid-release-copy.ts`,
-`og-cards.ts` and `release.json` `method_ja` is unsigned. The 2026-Q3 `final`
-flip is a data-only PR: verify anchors, set `published_at`, `status: final`.
+- aiadoption-1.10 (#667): 2026-Q3 published `final` on 2026-09-29. All 21
+  anchors and the Pew overlap are `verified`. Working-age base is the WPP
+  15–64 sum 5,421,227,666; Microsoft AI Diffusion 17.8% is 964,978,525.
+  The 2026-09-21 update (June, 18.8%) is noted and not used. Japanese copy
+  in `haid-release-copy.ts`, `og-cards.ts` and `release.json` `method_ja`
+  stays as signed. `version` stays `2026-Q3.0`.
 
 ## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
 
