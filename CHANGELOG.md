@@ -28,7 +28,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
   中 1,370,132,128 / 高 1,953,040,000 to 低 964,978,525 / 中 1,372,822,515
   / 高 1,953,040,000. The displayed headline stays およそ 10 億. The
   2026-09-21 diffusion update (June, 18.8%) is noted and not used.
-  Japanese copy is unchanged.
+  Japanese copy is unchanged. SEO baseline JSON-LD for `/aiadoption`
+  and `/aiadoption/2026-q3` records the new level-4 midpoint
+  (1,372,822,515).
 - **TOOLCHAIN §10.1 e2e row corrected** — CI runs the Playwright suite and it gates merges; analytics specs skip without GA4 markup. The matching "outdated" note in AGENTS.md is removed. §11 queue rows 0/4/5 marked done.
 - **AGENTS.md is now the shared contract for every executor** — branches and merge authority, one Issue / one PR delivery, forbidden operations, the full acceptance chain (no lint script exists), and repository constraints (Japanese-only owner-signed copy, independence wording, 1440/768/375, production-crawl limits, score rounding, toolchain pins). Design canon reference corrected to v1.2.
 - **CI: actions/checkout and actions/setup-node v4 → v7** — clears the Node 20 deprecation warning; no behaviour change.
