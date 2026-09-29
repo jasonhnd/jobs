@@ -10,8 +10,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Security
+
+- **analytics/: js-yaml 5.4.2, googleapis 181, qs override ^6.16.0, pnpm 12.6.0** — clears 1 high + 4 moderate pnpm audit findings; setup-ga4 --dry-run output identical.
+- **@vercel/og pinned to exactly 1.0.1 + overrides.fflate ^0.7.5** — closes GHSA-px8p-9vwx-vf98. 1.0.2/1.0.3 are not adopted: they ship no hb.wasm and abort on import (vercel/satori#801); the old ^1.0.1 range would have pulled them in on any re-resolve. OG PNGs byte-identical on 6 cards.
+- **Astro 7.2.4 → 7.3.5 + overrides.sharp ^0.35.4** — closes GHSA-26w7-cxv4-gfx2 (critical, AVIF RCE; not reachable here: no astro:assets), plus transitive js-yaml 4.3.2 and sharp 0.35.4. CSP hashes: unchanged. SEO baseline unchanged.
+
 ### Changed
 
+- **TOOLCHAIN §10.1 e2e row corrected** — CI runs the Playwright suite and it gates merges; analytics specs skip without GA4 markup. The matching "outdated" note in AGENTS.md is removed. §11 queue rows 0/4/5 marked done.
+- **AGENTS.md is now the shared contract for every executor** — branches and merge authority, one Issue / one PR delivery, forbidden operations, the full acceptance chain (no lint script exists), and repository constraints (Japanese-only owner-signed copy, independence wording, 1440/768/375, production-crawl limits, score rounding, toolchain pins). Design canon reference corrected to v1.2.
+- **CI: actions/checkout and actions/setup-node v4 → v7** — clears the Node 20 deprecation warning; no behaviour change.
+- **@playwright/test 1.62.1 → 1.63.0 (Chromium 153)**; playwright-core deduped to one 1.63.0. CI rendered-output suite unchanged: 356 passed.
+- **@types/node 24.13.3 → 24.13.6** — stays on Node 24 (Vercel does not accept Node 26 yet).
+- **typescript 6.0.3 → 7.0.2; @typescript/native alias removed** — typecheck now runs node_modules/typescript/bin/tsc (owner ruling 2026-09-24).
+- **subset-font 2.5.0 → 2.9.0 (harfbuzzjs 1.6)** — font subsets byte-identical.
+- **zod 4.4.3 → 4.6.5** — build-time schemas only; 616 ETL outputs identical (ignoring generated_at).
+- **react / @types/react 19.3.0** — OG renderers only; 6 OG PNGs byte-identical.
+- **@vercel/functions 3.9.5 → 3.9.9** — dependency-only (@vercel/oidc 3.8.9); no runtime code changed. Middleware 301/rewrite/noindex verified on preview.
+- **TOOLCHAIN.md: 2026-09 upgrade queue recorded; §2/§6/§7 drift fixed; typescript 7 allowed (owner ruling 2026-09-24).** Docs only.
 - **OpenAI's seat in the public value is now GPT 6 SOL (mms-12 / #614).**
   `data/scores/occupations_gpt-6-sol_2026-09-23.json`, 556/556, scored
   through the Codex CLI with `--model gpt-6-sol --reasoning-effort high`,
