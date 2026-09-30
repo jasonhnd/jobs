@@ -254,6 +254,11 @@
       "source": "/models/gpt-6-sol",
       "destination": "/models/gpt-6-sol@2026-09-23",
       "permanent": true
+    },
+    {
+      "source": "/models/gpt-6.1-sol",
+      "destination": "/models/gpt-6.1-sol@2026-10-01",
+      "permanent": true
     }
   ]
 }
