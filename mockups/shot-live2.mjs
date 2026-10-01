@@ -52,7 +52,9 @@ function requirePreviewOrigin() {
     console.error('MOCKUP_BASE_URL must be http(s)');
     process.exit(1);
   }
-  const host = url.hostname.toLowerCase();
+  // WHATWG hostname keeps a trailing DNS dot (absolute FQDN). Strip it
+  // before comparing so https://mirai-shigoto.com./ cannot bypass the guard.
+  const host = url.hostname.toLowerCase().replace(/\.+$/, '');
   if (host === 'mirai-shigoto.com' || host === 'www.mirai-shigoto.com') {
     console.error(
       'Refusing to capture the production host. Use pre.mirai-shigoto.com or a deployment alias, once, concurrency <= 4.',
@@ -63,5 +65,5 @@ function requirePreviewOrigin() {
     console.error('MOCKUP_BASE_URL must be an origin, not a path');
     process.exit(1);
   }
-  return url.origin + '/';
+  return `${url.protocol}//${host}/`;
 }
