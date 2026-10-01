@@ -67,7 +67,7 @@ describe('suggestEscapeRoutes', () => {
 
   test('caps worker weighting, defaults missing fields, and keeps inputs unchanged', () => {
     const jobs = [
-      makeOccupation({ id: 2, workers: 500_000, title_ja: null, sector_ja: null }),
+      makeOccupation({ id: 2, workers: 500_000, title_ja: null, sector_ja: undefined }),
       makeOccupation({ id: 3, workers: 1_000_000 }),
       makeOccupation({ id: 4, workers: null }),
     ];
