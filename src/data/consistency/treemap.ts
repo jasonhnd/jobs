@@ -38,7 +38,8 @@ export async function checkTreemap(distRoot: string, r: Report): Promise<unknown
   if (!existsSync(f)) return [];
   const result = await readJsonOrFail<unknown>(r, f, `data.treemap.json is invalid JSON`);
   if (!result.ok) return [];
-  const data = result.data;
+  let data: typeof result.data;
+  data = result.data;
 
   if (!Array.isArray(data)) {
     r.fail(`data.treemap.json must be a top-level array (got ${typeof data})`);
@@ -140,7 +141,8 @@ export async function checkTop10(
 
   const result = await readJsonOrFail<unknown>(r, f, `data.top10.json is invalid JSON`);
   if (!result.ok) return;
-  const data = result.data;
+  let data: typeof result.data;
+  data = result.data;
 
   if (!Array.isArray(data)) {
     r.fail(`data.top10.json must be a top-level array (got ${typeof data})`);
@@ -197,7 +199,8 @@ export async function checkSectors(distRoot: string, r: Report): Promise<Set<str
   if (!existsSync(f)) return null;
   const result = await readJsonOrFail<{ sectors?: SectorEntry[] }>(r, f, `data.sectors.json invalid JSON`);
   if (!result.ok) return null;
-  const data = result.data;
+  let data: typeof result.data;
+  data = result.data;
   const sectors = data.sectors ?? [];
   if (sectors.length === 0) {
     r.fail('data.sectors.json has no sectors');
@@ -235,7 +238,8 @@ export async function checkReviewQueue(distRoot: string, r: Report): Promise<voi
   if (!existsSync(f)) return;
   const result = await readJsonOrFail<{ summary?: Record<string, number> }>(r, f, `data.review_queue.json invalid JSON`);
   if (!result.ok) return;
-  const data = result.data;
+  let data: typeof result.data;
+  data = result.data;
   const s = data.summary ?? {};
   const uncat = s.uncategorized ?? 0;
   const ambig = s.ambiguous ?? 0;

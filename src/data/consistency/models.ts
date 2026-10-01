@@ -31,7 +31,8 @@ export async function checkScoreHistory(
 
   const result = await readJsonOrFail<unknown>(r, f, `data.score_history.json invalid JSON`);
   if (!result.ok) return;
-  const data = result.data;
+  let data: typeof result.data;
+  data = result.data;
 
   const parsed = ScoreHistoryProjectionSchema.safeParse(data);
   if (!parsed.success) {
@@ -91,7 +92,8 @@ export async function checkModelsDeep(
 
   const result = await readJsonOrFail<unknown>(r, f, `data.models_deep.json invalid JSON`);
   if (!result.ok) return;
-  const data = result.data;
+  let data: typeof result.data;
+  data = result.data;
 
   const parsed = ModelsDeepProjectionSchema.safeParse(data);
   if (!parsed.success) {
@@ -131,7 +133,8 @@ export async function checkModelsByModel(
 
   const result = await readJsonOrFail<unknown>(r, f, `data.models_by_model.json invalid JSON`);
   if (!result.ok) return;
-  const data = result.data;
+  let data: typeof result.data;
+  data = result.data;
 
   const parsed = ModelsByModelProjectionSchema.safeParse(data);
   if (!parsed.success) {
