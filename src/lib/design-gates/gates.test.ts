@@ -522,7 +522,7 @@ describe('check-role-color — §4.7 colour column is enforced, not just contras
     const root = roleFixture('conformant', wrap([
       '.light h2 { color: var(--paper) }',
       '.dark { background: var(--ink) }',
-      '.dark .card { background: var(--cream) }',
+      '.card { background: var(--cream) }',
       '.dark .card h3 { color: var(--paper) }',
       '.dark h2 { color: var(--cream) }',
       '.direct h3 { color: var(--paper); background: var(--orange-hot) }',
