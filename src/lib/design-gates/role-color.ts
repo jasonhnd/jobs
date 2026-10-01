@@ -198,7 +198,7 @@ export function findRoleColourViolations(root: string = process.cwd()): RoleColo
       for (const decl of (rule[2] ?? '').matchAll(/(?:^|;)\s*background(?:-color)?\s*:\s*([^;}]+)/g)) {
         const value = (decl[1] ?? '').trim();
         for (const part of (rule[1] ?? '').split(',')) {
-          backgrounds.set(part.trim().replace(/\s+/g, ' '), value);
+          backgrounds.set(part.replace(/^[\s\S]*<style[^>]*>/i, '').trim().replace(/\s+/g, ' '), value);
         }
       }
     }
@@ -207,7 +207,10 @@ export function findRoleColourViolations(root: string = process.cwd()): RoleColo
       // the first declared surface: a light child cannot borrow a dark parent.
       let context = part.trim().replace(/\s+/g, ' ');
       while (context !== '') {
-        const bg = backgrounds.get(context);
+        // A simple class/tag rule also applies to this compound even when it
+        // was not written with the complete ancestor selector.
+        const compound = context.split(/\s+|>/).filter(Boolean).at(-1) ?? context;
+        const bg = backgrounds.get(context) ?? backgrounds.get(compound);
         if (bg != null) {
           const token = tokenOf(bg);
           if (token == null || !/^var\(\s*--[a-z0-9-]+\s*\)\s*$/i.test(bg)) return false;
