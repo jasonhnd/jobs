@@ -34,48 +34,11 @@ data/
 | 新しい AI risk スコアを追加 | `data/scores/` に新しいファイルを置く(古い実行を上書きしない) | `npm run build:data` |
 | ラベル翻訳を更新 | `data/labels/<dimension>.ja-en.json` | `npm run build:data` |
 
-## 実例 — 1 つの職業
+## 職業レコードの形
 
-`data/occupations/0001.json`(slim スケッチ — フル契約は `src/data/schema/occupation.ts` の `OccupationSchema` を参照):
+コピー用の部分 JSON は置かない。形がまた古くなるため、現行レコードは [`occupations/0001.json`](occupations/0001.json) を、契約は [`src/data/schema/occupation.ts`](../src/data/schema/occupation.ts) の `OccupationSchema` を直接見る。
 
-```json
-{
-  "id": 1,
-  "schema_version": "1.2",
-  "title": {
-    "ja": "豆腐製造、豆腐職人",
-    "aliases_ja": ["豆腐製造工", "豆腐職人"]
-  },
-  "classifications": {
-    "mhlw_main": "12_072-06",
-    "mhlw_all": ["12_072-06"],
-    "jsoc_main": "H533",
-    "jsoc_all": ["H533"]
-  },
-  "description": {
-    "summary_ja": "豆腐店やメーカーの工場で、豆腐、油揚げ、生揚げを作る。",
-    "what_it_is_ja": "...",
-    "how_to_become_ja": "...",
-    "working_conditions_ja": "..."
-  },
-  "tasks": ["...", "..."],
-  "tasks_lead_ja": "...",
-  "skills":     { /* skill ごとの数値プロファイル */ },
-  "knowledge":  { /* knowledge ごとの数値プロファイル */ },
-  "abilities":  { /* ability ごとの数値プロファイル */ },
-  "work_activities":      { /* ... */ },
-  "work_characteristics": { /* ... */ },
-  "interests":            { /* ... */ },
-  "work_values":          { /* ... */ },
-  "education":            { /* ... */ },
-  "employment_type":      { /* ... */ },
-  "related_orgs":  [{ "name_ja": "全国豆腐連合会", "url": "http://..." }],
-  "related_certs_ja": ["食品衛生責任者"],
-  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/1"
-}
-```
-
-12 個の数値サブディビジョン(skills、knowledge、abilities 等)は `OccupationSchema` の null 規則に従う: 各ブロックは完全に埋まっているか、もしくは完全に null か、どちらか。半分埋まったすべて None 値の辞書にはならない。
+現行の必須メタは `ipd_id` と `ingested_at`、`schema_version` は `7.00`、名称は `title_ja` と `aliases_ja`、`tasks` は `TaskSchema` のオブジェクト配列（文字列の配列ではない）。数値サブディビジョンはスキーマの null 規則に従う: 各ブロックは完全に埋まっているか、完全に null か、どちらか。
 
 ## `public/data.*` には何があるか
 
