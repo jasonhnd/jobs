@@ -426,7 +426,7 @@ ${AI_FACT_CSS}
 .genre-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:0;margin:0;grid-auto-rows:1fr}
 .genre-cards li a{display:flex;flex-direction:column;padding:22px 22px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;min-height:160px;height:100%}
 .genre-cards li a:hover{border-color:var(--accent);transform:translateY(-1px)}
-.gci-name{display:block;font-family:var(--font-serif);font-size:var(--t-h3);font-weight:600;color:var(--accent-deep);margin-bottom:10px}
+.gci-name{display:block;font-family:var(--font-sans);font-size:var(--t-h3);font-weight:700;color:var(--ink);margin-bottom:10px}
 .gci-desc{display:-webkit-box;font-size:var(--t-sm);color:var(--fg2);line-height:1.6;margin-bottom:10px;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
 .iri-preview{display:block;font-size:var(--t-xs);color:var(--fg2);line-height:1.4;margin-bottom:8px;min-height:1.96em;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .gci-count{font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums}

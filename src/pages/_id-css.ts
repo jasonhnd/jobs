@@ -237,7 +237,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .transfer-card{display:block;padding:14px 16px;background:var(--paper);border-radius:12px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.05);text-decoration:none;color:inherit;transition:transform 0.18s ease,box-shadow 0.18s ease,border-color 0.18s ease}
     @media (min-width:900px){.transfer-card{padding:20px 22px}}
     .transfer-card:hover,.transfer-card:focus-visible{transform:translateY(-2px);border-color:color-mix(in srgb, var(--orange) 30%, transparent);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 12px 28px color-mix(in srgb, var(--orange) 10%, transparent);outline:none;text-decoration:none}
-    .transfer-card .tc-name{display:block;font-family:var(--font-serif);font-size:var(--t-h3);color:var(--ink);font-weight:600;line-height:1.2;margin-bottom:8px}
+    .transfer-card .tc-name{display:block;font-family:var(--font-sans);font-size:var(--t-h3);color:var(--ink);font-weight:700;line-height:1.2;margin-bottom:8px}
     @media (min-width:900px){.transfer-card .tc-name{margin-bottom:10px}}
     .transfer-card .tc-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:var(--t-xs);color:var(--ink-meta)}
     @media (min-width:900px){.transfer-card .tc-meta{gap:12px}}
