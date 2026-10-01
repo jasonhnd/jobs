@@ -32,8 +32,8 @@
 - **Direction C ウォームエディトリアル・テーマ** — 暖米色パレット、Noto Serif JP 見出し、テラコッタのアクセント。`prefers-color-scheme` による検出は組み込み済み、手動ライト/ダーク切替トグルは現在非表示。
 - **職業名でリアルタイム検索**。
 - **タイルにマウスオーバー（PC）またはタップ（スマホ）** で tooltip — AI 影響度、年収、就業者数、LLM の評価理由を表示。
-- **556 職業の専用詳細ページ** — `/ja/<id>.html`（JILPT IPD v7.00 の職業を全量反映）、各ページに評価理由のフルテキスト、AIOIS-10 プロファイル、年収 / 平均年齢 / 労働時間 / 求人倍率 / 学歴の内訳、転職パス推薦、検索エンジン向けの構造化データ（Schema.org `Occupation` JSON-LD）を含む。
-- **17 のセクターハブページ** — `/ja/sectors/` に 16 業種の一覧インデックスと各業種専用ハブ。各ハブは AI 影響 TOP 5（高/低）、就業者数 TOP 5、全職業ソート一覧を集約。
+- **556 職業の専用詳細ページ** — `/{id}`（JILPT IPD v7.00 の職業を全量反映。職業 ID 404 だけは `/404` をカスタム 404 に残すため `/occupations/404`）。各ページに評価理由のフルテキスト、AIOIS-10 プロファイル、年収 / 平均年齢 / 労働時間 / 求人倍率 / 学歴の内訳、転職パス推薦、検索エンジン向けの構造化データ（Schema.org `Occupation` JSON-LD）を含む。言語プレフィックス付き URL は 2026-06-02 の撤去後の移行用で、`vercel.json` が `/ja/:path*` と `/en/:path*` を `/:path*` へ恒久リダイレクトする。
+- **セクターハブ** — `/sectors/` の一覧と、16 業種それぞれの `/sectors/<sector>`。各ハブは AI 影響 TOP 5（高/低）、就業者数 TOP 5、全職業ソート一覧を集約。
 - **専用ページ** — データについて（`/about`）、コンプライアンス（`/compliance`）、プライバシー（`/privacy`）、カスタム 404。
 - **ソーシャル共有ボタン** — X、LINE、Hatena Bookmark、LinkedIn、Copy Link、モバイルでは Web Share API。
 - **クッキーレス解析レイヤー** を Google Analytics と並走。クッキーを許可していなくても主要な集計は機能します。
@@ -145,19 +145,20 @@ TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データ�
 
 ```text
 jobs/
-├── src/
-│   ├── pages/              # Astro ルート（index、about、map、ja/[id] など）
+├── src/                    # ソース配置は src/README.md
+│   ├── pages/              # Astro ルート（言語プレフィックスなし。[...id] は /{id}、ID 404 は /occupations/404）
 │   ├── components/         # 共通 Astro コンポーネント（Footer など）
 │   ├── layouts/            # BaseLayout
-│   ├── data/               # TypeScript ETL（build.ts + projections + schemas）
-│   └── lib/                # サイト全体のユーティリティ（canonical-css など）
-├── api/                    # Vercel Edge Function（OG 画像、診断結果の共有）
+│   ├── data/               # TypeScript ETL（build.ts が projection を public/ に書く）
+│   ├── graph/              # score-strategy、sector-resolver、知識グラフ
+│   └── lib/                # urls、canonical-css など
+├── api/                    # Vercel Functions（runtime nodejs + bunVersion。OG、診断共有、cron）
 ├── assets/fonts-src/       # OFL font sources used by build-time WOFF2 subsetting
 ├── analytics/              # GA4 計測スペック + 同期スクリプト
 ├── data/                   # ソースデータ（職業別 JSON、スコア、ラベル、セクター）
-├── dist/                   # ビルド済み projection + SEO 静的（Astro publicDir）
-├── dist-astro/             # Vercel がデプロイする最終ビルド出力（gitignored）
-├── astro.config.mjs        # Astro 設定
+├── public/                 # Astro publicDir。追跡する SEO 静的と、build 時の projection
+├── dist-astro/             # astro build の出力。Vercel がデプロイする（gitignored）
+├── astro.config.mjs        # Astro 設定（outDir は dist-astro）
 ├── vercel.json             # Vercel デプロイ設定 + キャッシュヘッダ
 ├── CHANGELOG.md            # リリース履歴
 └── README.md（日本語、正本）
