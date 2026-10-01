@@ -62,6 +62,7 @@ const CSP_ENV_GATED_INLINE_SCRIPT_VARS = [
 // Single definition, shared with compute-csp-hashes.test.ts — see that module
 // for why the list exists and how to refresh it.
 const { CSP_ANALYTICS_FALLBACK_HASHES } = require('./lib/csp-analytics-manifest.cjs');
+const { walkFiles } = require('./lib/walk-files.cjs');
 
 function missingCspInlineScriptEnv() {
   return CSP_ENV_GATED_INLINE_SCRIPT_VARS.filter((name) => !process.env[name]);
@@ -93,27 +94,14 @@ if (!fs.existsSync(DIST)) {
 }
 
 // ─── Walk dist-astro/ for all *.html files ──────────────────────────────────
-// IMPORTANT (Dropbox quirk): on this repo's working tree, Dropbox presents
-// every directory entry as a symlink rather than a real file/dir.
-// `Dirent.isDirectory()` returns false for those, so we use `fs.statSync()`
-// (which follows the link) to determine the underlying type — mirrors
-// scripts/check-rendered-leaks.cjs.
-function walk(dir, out = []) {
-  for (const e of fs.readdirSync(dir)) {
-    const full = path.join(dir, e);
-    let stat;
-    try {
-      stat = fs.statSync(full);
-    } catch {
-      continue;
-    }
-    if (stat.isDirectory()) {
-      walk(full, out);
-    } else if (stat.isFile() && e.endsWith('.html')) {
-      out.push(full);
-    }
-  }
-  return out;
+// No skip set: every HTML file under dist-astro/ is hashed. An unreadable
+// path fails this step instead of dropping that file from the hash set.
+let files;
+try {
+  files = walkFiles(DIST, { ext: /\.html$/ });
+} catch (err) {
+  console.error(`[compute-csp-hashes] FAIL — ${err.message}`);
+  process.exit(1);
 }
 
 // ─── Extract inline <script> bodies ─────────────────────────────────────────
@@ -214,7 +202,6 @@ function extractInlineStyles(html) {
 }
 
 // ─── Walk all pages, collect every unique inline script + style body ──────
-const files = walk(DIST);
 const uniqueBodies = new Map();
 const uniqueStyleBodies = new Map();
 // Map<body-text, { hash: string, samplePage: string, occurrences: number }>
