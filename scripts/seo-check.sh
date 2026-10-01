@@ -17,10 +17,14 @@
 #       <html lang>, viewport meta.
 #
 # Usage:
-#   ./scripts/seo-check.sh                                       # production, full sitemap
-#   ./scripts/seo-check.sh https://mirai-shigoto.com             # explicit URL
-#   ./scripts/seo-check.sh http://localhost:8765                 # local dev server
-#   ./scripts/seo-check.sh https://mirai-shigoto.com --sample 5  # sample 4 sentinels + 5 occupation pages
+#   ./scripts/seo-check.sh                                          # production host; refused unless ALLOW_PROD=1
+#   ALLOW_PROD=1 ./scripts/seo-check.sh https://mirai-shigoto.com   # explicit production opt-in
+#   ./scripts/seo-check.sh https://pre.mirai-shigoto.com --sample 5 # preview alias (npm test:seo)
+#   ./scripts/seo-check.sh http://localhost:8765                    # local dev server
+#
+# Production hosts (mirai-shigoto.com, www.mirai-shigoto.com) exit 2 before
+# any request unless ALLOW_PROD=1. Preview, localhost, and other hosts are
+# unchanged. `bun run test:seo` targets the preview alias with --sample 5.
 #
 # Exit codes:
 #   0 = all green
@@ -40,6 +44,31 @@ SAMPLE=0
 if [ "${2:-}" = "--sample" ] && [ -n "${3:-}" ]; then
   SAMPLE="$3"
 fi
+
+# Refuse the production apex before any curl. AGENTS.md: do not crawl
+# mirai-shigoto.com from a script (platform mitigation can challenge the IP
+# and break the GEO policy). pre.mirai-shigoto.com and other hosts are allowed.
+# Set ALLOW_PROD=1 to opt in; that path prints a warning and continues.
+request_host() {
+  local rest host
+  rest="${1#*://}"
+  rest="${rest%%\?*}"
+  rest="${rest%%/*}"
+  host="${rest##*@}"
+  host="${host%%:*}"
+  printf '%s' "$host" | tr '[:upper:]' '[:lower:]'
+}
+
+HOST=$(request_host "$BASE")
+case "$HOST" in
+  mirai-shigoto.com|www.mirai-shigoto.com)
+    if [ "${ALLOW_PROD:-}" != "1" ]; then
+      printf '%s\n' "seo-check: refusing production host ${HOST}. Crawling mirai-shigoto.com from this script can trip platform mitigation and break the GEO policy. Use https://pre.mirai-shigoto.com/ (bun run test:seo does this with --sample 5), or set ALLOW_PROD=1 to opt in." >&2
+      exit 2
+    fi
+    printf '%s\n' "seo-check: warning: probing production host ${HOST} because ALLOW_PROD=1" >&2
+    ;;
+esac
 
 # Colors only on TTY
 if [ -t 1 ]; then
