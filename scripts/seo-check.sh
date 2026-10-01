@@ -23,8 +23,9 @@
 #   ./scripts/seo-check.sh http://localhost:8765                    # local dev server
 #
 # Production hosts (mirai-shigoto.com, www.mirai-shigoto.com) exit 2 before
-# any request unless ALLOW_PROD=1. Preview, localhost, and other hosts are
-# unchanged. `bun run test:seo` targets the preview alias with --sample 5.
+# any request unless ALLOW_PROD=1. Sitemap <loc> values are rewritten onto
+# the requested host, so a preview run does not follow canonical production
+# URLs. `bun run test:seo` targets the preview alias with --sample 5.
 #
 # Exit codes:
 #   0 = all green
@@ -69,6 +70,42 @@ case "$HOST" in
     printf '%s\n' "seo-check: warning: probing production host ${HOST} because ALLOW_PROD=1" >&2
     ;;
 esac
+
+# Map a sitemap loc onto BASE. Preview (and local) sitemaps advertise the
+# production canonical host; requesting those locs would crawl production.
+rewrite_onto_base() {
+  local url rest path
+  url="$1"
+  case "$url" in
+    *://*)
+      rest="${url#*://}"
+      case "$rest" in
+        */*) path="/${rest#*/}" ;;
+        *) path="/" ;;
+      esac
+      printf '%s%s\n' "$BASE" "$path"
+      ;;
+    /*)
+      printf '%s%s\n' "$BASE" "$url"
+      ;;
+    *)
+      printf '%s/%s\n' "$BASE" "$url"
+      ;;
+  esac
+}
+
+refuse_production_url() {
+  local page_host
+  page_host=$(request_host "$1")
+  case "$page_host" in
+    mirai-shigoto.com|www.mirai-shigoto.com)
+      if [ "${ALLOW_PROD:-}" != "1" ]; then
+        printf '%s\n' "seo-check: refusing production URL ${1}. Set ALLOW_PROD=1 to opt in." >&2
+        exit 2
+      fi
+      ;;
+  esac
+}
 
 # Colors only on TTY
 if [ -t 1 ]; then
@@ -144,6 +181,12 @@ else
     URLS=$(printf '%s\n%s' "$HEAD_URLS" "$OCC_URLS")
     note "sampling: 4 sentinel + $(echo "$OCC_URLS" | wc -l | tr -d ' ') occupation URLs (of $OCC_TOTAL total)"
   fi
+  rewritten=""
+  while IFS= read -r loc; do
+    [ -z "$loc" ] && continue
+    rewritten="${rewritten}$(rewrite_onto_base "$loc")"$'\n'
+  done <<< "$URLS"
+  URLS="$rewritten"
 fi
 
 # ---- llms.txt (GEO) ------------------------------------------------------
@@ -194,6 +237,7 @@ if [ -z "$URLS" ]; then
   warn "no URLs to check (sitemap empty/missing)"
 else
   for URL in $URLS; do
+    refuse_production_url "$URL"
     section "Page: $URL"
     HTML_RAW=$(fetch_body "$URL")
     HEADERS=$(fetch_header "$URL")
