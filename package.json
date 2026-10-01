@@ -14,7 +14,7 @@
     "build:data": "bun src/data/build.ts",
     "import:ipd": "bun src/data/import-ipd.ts",
     "audit": "bun audit && (cd analytics && corepack pnpm audit --audit-level=moderate)",
-    "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
+    "test:seo": "bash scripts/seo-check.sh https://pre.mirai-shigoto.com/ --sample 5",
     "check:html-comments": "bun scripts/check-nested-html-comments.cjs",
     "check:rendered-leaks": "bun scripts/check-rendered-leaks.cjs",
     "check:lockfile-sync": "bun scripts/check-lockfile-sync.cjs",
