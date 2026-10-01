@@ -66,7 +66,8 @@ export async function checkNonEmptyJsonShape(
   if (!existsSync(p)) return;  // existence already reported above
   const result = await readJsonOrFail<unknown>(r, p, `${filename} invalid JSON`);
   if (!result.ok) return;
-  const data = result.data;
+  let data: typeof result.data;
+  data = result.data;
   if (!data || typeof data !== 'object') {
     r.fail(`${filename} top-level must be an object/array (got ${typeof data})`);
     return;
@@ -111,7 +112,8 @@ export async function checkSearch(distRoot: string, r: Report, expectedCount: nu
   if (!existsSync(f)) return;
   const result = await readJsonOrFail<{ documents?: Array<Record<string, unknown>> }>(r, f, `data.search.json is invalid JSON`);
   if (!result.ok) return;
-  const data = result.data;
+  let data: typeof result.data;
+  data = result.data;
   const docs = data.documents ?? [];
   if (expectedCount > 0 && docs.length !== expectedCount) {
     r.fail(`search document_count (${docs.length}) != total source occupations (${expectedCount})`);
@@ -149,7 +151,8 @@ export async function checkDetailFiles(
       r, join(d, fname), `detail/${fname} invalid JSON`,
     );
     if (!result.ok) continue;
-    const data = result.data;
+    let data: typeof result.data;
+    data = result.data;
     if (data.id !== stemId) {
       r.fail(`detail/${fname} inner id ${data.id} != filename stem ${stemId}`);
     }
@@ -176,7 +179,8 @@ export async function checkLabels(distRoot: string, r: Report): Promise<void> {
     if (!existsSync(f)) continue;
     const result = await readJsonOrFail<Record<string, unknown>>(r, f, `data.labels/${lang}.json invalid JSON`);
     if (!result.ok) continue;
-    const data = result.data;
+    let data: typeof result.data;
+    data = result.data;
     if (data.lang !== lang) {
       r.fail(`data.labels/${lang}.json has wrong lang field: ${data.lang}`);
     }

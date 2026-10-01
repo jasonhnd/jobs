@@ -30,7 +30,8 @@ export function relPath(p: string): string {
  * Preserve the caller's diagnostic prefix. The tagged result distinguishes a
  * read/parse failure from valid JSON values such as null, false, or zero.
  * Type parameters retain the existing shape assertions; this does not validate
- * or change the accepted projection schemas.
+ * or change the accepted projection schemas. Callers keep separate data
+ * declarations and assignments to retain Bun's existing property-error text.
  */
 export async function readJsonOrFail<T = unknown>(
   r: Report,
