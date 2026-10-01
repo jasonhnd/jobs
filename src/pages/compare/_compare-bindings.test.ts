@@ -1,8 +1,11 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { asOccupationId, type KnowledgeGraph, type OccupationNode } from '@/graph';
-import type { CompareSide } from '@/views/compare-hub.js';
+import type { CompareResult, CompareSide } from '@/views/compare-hub.js';
+import { COMPARE_META } from '@/views/compare-meta';
+import { computeGeoFacts } from '@/site/geo-facts';
 import {
+  buildComparePairBindings,
   buildCompareMetricRows,
   renderCompareMetricRows,
 } from './_compare-bindings.ts';
@@ -31,6 +34,8 @@ function graphWithDisplacement(pairs: ReadonlyArray<readonly [number, number | n
   const occupations = new Map();
   for (const [id, displacement] of pairs) {
     occupations.set(asOccupationId(id), {
+      titleJa: `job-${id}`,
+      aliasesJa: [],
       aiRisk: displacement === null
         ? { aiois: null }
         : { aiois: { displacement } },
@@ -89,7 +94,95 @@ describe('buildCompareMetricRows', () => {
   });
 });
 
+describe('buildComparePairBindings', () => {
+  const graph = graphWithDisplacement([[1, 1], [404, 2], [3, null]]);
+  const facts = computeGeoFacts([
+    { id: 1, name_ja: 'job-1', ai_risk: 3, workers: 100, sector_id: null, sector_ja: null },
+    { id: 404, name_ja: 'job-404', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
+  ], [{ scope: 'occupations', scorer: { model: 'grok-4.6', model_provider: 'xai' },
+    run: { run_date: '2026-09-01' }, scores: {
+      '1': { ai_risk: 3, aiois: { displacement: 1 } },
+      '404': { ai_risk: 7, aiois: { displacement: 2 } },
+    } }]);
+  const result: CompareResult = {
+    meta: { ...COMPARE_META.find(meta => meta.slug === 'kango-vs-helper')!,
+      occ_a_id: 1, occ_b_id: 404, title_ja: 'Compare & <title>',
+      description_ja: 'job-1 job-404 job-3 & <intro>',
+      comparison_points_ja: ['Point & <x>'], decision_hints_ja: ['Hint & <x>'] },
+    a: side({ id: 1, salary: 520, workers: 100, top_skills: [{ key: 's', label_ja: 'Skill & <x>', score: 4.5 }] }),
+    b: side({ id: 404, ai_risk: 7, salary: 400, workers: 200 }),
+    rows: [{ label: 'Metric <x>', a_val: 'A & x', b_val: 'B <x>', note: 'Note & x' }],
+    faqItems: [['Question <x>?', 'Answer & x']],
+  };
+
+  test('assembles escaped sections, GEO data, related links, metadata and JSON-LD', () => {
+    const before = structuredClone(result);
+    const bindings = buildComparePairBindings(result, graph, facts);
+    assert.equal(bindings.canonical, 'https://mirai-shigoto.com/compare/kango-vs-helper');
+    assert.equal(bindings.ogImage, 'https://mirai-shigoto.com/api/og?compare=kango-vs-helper');
+    assert.ok(bindings.title.startsWith(result.meta.title_ja));
+    assert.ok(bindings.seoDesc.startsWith(`${result.a.name_ja} と ${result.b.name_ja}`));
+    assert.ok(bindings.seoDesc.endsWith(result.meta.description_ja + '…'));
+    assert.match(bindings.heroHtml, /href="\/1"/);
+    assert.match(bindings.heroHtml, /href="\/occupations\/404"/);
+    assert.match(bindings.duelBarHtml, /class="duel-bar"/);
+    assert.match(bindings.metricRowsHtml, /class="cm-a win num"/);
+    assert.match(bindings.tableHtml, /Metric &lt;x&gt;/);
+    assert.match(bindings.tableHtml, /A &amp; x/);
+    assert.match(bindings.tableHtml, /B &lt;x&gt;/);
+    assert.match(bindings.skillsHtml, /Skill &amp; &lt;x&gt;/);
+    assert.match(bindings.faqHtml, /Question &lt;x&gt;\?/);
+    assert.match(bindings.faqHtml, /Answer &amp; x/);
+    assert.equal(bindings.pointsHtml, '<ul class="compare-points"><li>Point &amp; &lt;x&gt;</li></ul>');
+    assert.equal(bindings.hintsHtml, '<ul class="decision-hints"><li>Hint &amp; &lt;x&gt;</li></ul>');
+    assert.match(bindings.introHtml, /href="\/3"/);
+    assert.ok(!bindings.introHtml.includes('href="/1"'));
+    assert.ok(!bindings.introHtml.includes('href="/occupations/404"'));
+    assert.match(bindings.introHtml, /&amp; &lt;intro&gt;/);
+    assert.match(bindings.aiFactHtml, /5\.00\/10/);
+    assert.match(bindings.aiFactHtml, /300人/);
+    assert.match(bindings.crossHubHtml, /href="\//);
+    assert.ok(!bindings.relatedHtml.includes('href="/compare/kango-vs-helper"'));
+    assert.equal([...bindings.relatedHtml.matchAll(/class="rc-title"/g)].length, 6);
+    const nodes = JSON.parse(bindings.jsonLd)['@graph'];
+    const [web, article, breadcrumb, faq] = nodes;
+    assert.equal(web.url, bindings.canonical);
+    assert.equal(web.description, bindings.seoDesc);
+    assert.equal(web.breadcrumb['@id'], breadcrumb['@id']);
+    assert.equal(article.headline, result.meta.title_ja);
+    assert.equal(article.image, bindings.ogImage);
+    assert.deepEqual(article.about.map((item: { url: string }) => item.url),
+      ['https://mirai-shigoto.com/1', 'https://mirai-shigoto.com/occupations/404']);
+    assert.equal(faq['@type'], 'FAQPage');
+    assert.equal(faq.mainEntity[0].acceptedAnswer.text, result.faqItems[0]![1]);
+    assert.deepEqual(result, before);
+  });
+
+  test('empty optional lists omit FAQ JSON-LD and keep a valid table and text lists', () => {
+    const bindings = buildComparePairBindings({ ...result, rows: [], faqItems: [],
+      meta: { ...result.meta, comparison_points_ja: [], decision_hints_ja: [], description_ja: 'x'.repeat(120) },
+    }, graph, facts);
+    assert.equal(bindings.pointsHtml, '<ul class="compare-points"></ul>');
+    assert.equal(bindings.hintsHtml, '<ul class="decision-hints"></ul>');
+    assert.equal(bindings.faqHtml, '');
+    assert.match(bindings.tableHtml, /<tbody><\/tbody>/);
+    assert.ok(bindings.seoDesc.endsWith('x'.repeat(100) + '…'));
+    assert.deepEqual(JSON.parse(bindings.jsonLd)['@graph'].map((node: { '@type': string }) => node['@type']),
+      ['WebPage', 'Article', 'BreadcrumbList']);
+  });
+
+  test('rejects an incomplete GEO comparison rather than emitting mismatched facts', () => {
+    assert.throws(() => buildComparePairBindings({ ...result, b: side({ id: 3 }) }, graph, facts),
+      /expected 2 GEO occupations/);
+  });
+});
+
 describe('renderCompareMetricRows', () => {
+  test('empty rows and numeric text without a recognized unit', () => {
+    assert.equal(renderCompareMetricRows([]), '');
+    assert.match(renderCompareMetricRows([{ label: 'Metric', a: '<1>', b: '2', win: 'b', kind: 'num' }]),
+      /class="cm-a num">&lt;1&gt;<\/span>/);
+  });
   test('marks the winning cell, splits units, and escapes labels', () => {
     const html = renderCompareMetricRows([
       { label: '年収 (平均)', a: '520万円', b: '381万円', win: 'a', kind: 'num' },
