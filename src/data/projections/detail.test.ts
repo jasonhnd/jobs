@@ -104,8 +104,6 @@ function occupation(id: number, overrides: Record<string, unknown> = {}): Occupa
     },
     last_updated_per_section: {},
     ...overrides,
-    id,
-    ipd_id: `IPD_01_01_${id}`,
   });
 }
 
@@ -121,7 +119,6 @@ function stats(id: number, overrides: Record<string, unknown> = {}): StatsLegacy
     recruit_wage_man_yen: null,
     recruit_ratio: null,
     ...overrides,
-    id,
   });
 }
 
