@@ -378,6 +378,15 @@ describe('check-role-color — §4.7 colour column is enforced, not just contras
     '| 本文中の行内強調（`strong` / `em`） | `--t-body` | sans | 700 | `--ink` | |',
     '| **統計数値（大）** | `--t-h1` | serif | 単一 | `--ink` | |',
     '',
+    '| カードのメタ情報 | `--t-sm` | sans | 400 | `--ink-2` | |',
+    '| 項目ラベル（値と対） | `--t-sm` | sans | 600 | `--ink-meta` | |',
+    '| 統計ラベル | `--t-xs` | sans | 600 | `--ink-meta` | |',
+    '| caption・出典 | `--t-xs` | sans | 400 | `--ink-meta` | |',
+    '| ID・スコア生値 | `--t-xs` | mono | 600 | `--ink-meta` | |',
+    '| 統計数値（中） | `--t-h2` | serif | 単一 | `--ink` | |',
+    '| パンくず | `--t-sm` | sans | 400 | `--ink-meta` | |',
+    '| グローバルナビ | `--t-sm` | sans | 600 | `--ink` | |',
+    '| 表セル（文字） | `--t-sm` | sans | 400 | `--ink` | |',
     '## §4.8 next',
   ];
   /** A repo with a ledger, a §4.7 table, a :root with --ink / --fg / --paper, and one CSS file. */
@@ -402,7 +411,7 @@ describe('check-role-color — §4.7 colour column is enforced, not just contras
     writeFileSync(join(root, 'docs/Design.md'), table.join('\n'));
     writeFileSync(
       join(root, 'src/lib/canonical-css.ts'),
-      'export const CSS = `:root{ --ink: #241E18; --fg: #241E18; --paper: #FFFFFF; --cream: #FAF6EE; --accent-deep: #48705F; }`;\n',
+      'export const CSS = `:root{ --ink: #241E18; --fg: #241E18; --paper: #FFFFFF; --cream: #FAF6EE; --accent-deep: #48705F; --ink-2: #6F6254; --ink-meta: #776B5D; --orange-hot: #C44B13; }`;\n',
     );
     writeFileSync(join(root, 'src/pages/demo.ts'), css);
     return root;
@@ -432,6 +441,7 @@ describe('check-role-color — §4.7 colour column is enforced, not just contras
       'h1 .accent { color: var(--ink) }',
       '.sub strong { color: var(--fg); font-weight: 700 }',
       '.x h3 { color: inherit }',
+      '.cta-band { background: var(--fg) }',
       '.cta-band h2 { color: var(--paper) }',
       '.kpi-row li strong { color: var(--ink) }',
     ].join('\n')));
@@ -452,13 +462,92 @@ describe('check-role-color — §4.7 colour column is enforced, not just contras
     } finally { rmSync(root, { recursive: true, force: true }); }
   });
 
-  test('links, hover states, kickers, card names and descendants of headings have no row and are not matched', () => {
-    for (const sel of ['a', '.sub a:hover', '.shindan-kicker', '.rg-name', 'h1 .h1-sub', '.four-oh-four .accent', '.faq summary', 'h2 span']) {
+  test('parked link states, kickers, deltas, decoration and unrelated heading descendants stay out of scope', () => {
+    for (const sel of ['a', '.sub a:hover', '.shindan-kicker', '.rg-name', 'h1 .h1-sub', '.four-oh-four .accent', '.delta', '.sh-delta', '.score-pill', '.risk-pill', '.vendor-card h3 a:hover', '.sector-card:hover .sc-name', '.crumb a:focus-visible', 'html body nav.top-nav a[aria-current="page"]', '.faq summary', 'h2 span']) {
       assert.equal(roleForSelector(sel), null, sel);
     }
     const root = roleFixture('conformant', wrap('a { color: var(--accent-deep) } .kicker { color: var(--accent-deep) } h1 .h1-sub { color: var(--ink-meta) }'));
     try { assert.deepEqual(findRoleColourViolations(root), []); }
     finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('confirmed consumers reject the wrong token and preserve canonical roles', () => {
+    const cases = [
+      ['.vendor-card h3 a', '--ink'], ['.sc-name', '--ink'],
+      ['.sci-name', '--ink'], ['.gci-name', '--ink'], ['.iri-name', '--ink'],
+      ['.m-top10-card-name', '--ink'], ['.transfer-card .tc-name', '--ink'],
+      ['.rr-title', '--ink'], ['.ranking-group-title', '--ink'], ['.home-door-title', '--ink'],
+      ['.vendor-history-date', '--ink-2'], ['.vendor-history-count', '--ink-meta'],
+      ['.vendor-facts dt', '--ink-meta'], ['.current-model-card dt', '--ink-meta'],
+      ['.profile-box dt', '--ink-meta'], ['.stat dt', '--ink-meta'],
+      ['.score-history-current-date', '--ink-meta'],
+      ['.score-history-item-model span', '--ink-meta'], ['.score-history-item-facts dt', '--ink-meta'],
+      ['.score-value', '--ink-meta'], ['.stat dd', '--ink'],
+      ['.topn-block .topn-name', '--ink'], ['section.related .r-name', '--ink'],
+      ['.rank-list .rl-name', '--ink'], ['.mover-name', '--ink'],
+      ['html body nav.top-nav a:not(.top-nav-brand)', '--ink'],
+    ];
+    for (const [sel, expected] of cases) {
+      const root = roleFixture('conformant', wrap(`${sel} { color: var(--accent-deep) }`));
+      try {
+        const violations = findRoleColourViolations(root);
+        assert.equal(violations.length, 1, sel);
+        assert.equal(violations[0]?.expected, expected, sel);
+        writeFileSync(join(root, 'src/pages/demo.ts'), wrap(`${sel} { color: var(${expected}) }`));
+        assert.deepEqual(findRoleColourViolations(root), [], sel);
+      } finally { rmSync(root, { recursive: true, force: true }); }
+    }
+  });
+
+  test('breadcrumb consumers are file-scoped and decoration is not breadcrumb text', () => {
+    for (const sel of ['.crumb', '.crumb a', 'nav.crumb', 'nav.crumb a']) {
+      assert.equal(roleForSelector(sel, 'src/pages/models.astro'), 'パンくず');
+      assert.equal(roleForSelector(sel, 'src/lib/canonical/doc.ts'), 'パンくず');
+      assert.equal(roleForSelector(sel, 'src/pages/unclaimed.astro'), null);
+    }
+    assert.equal(roleForSelector('.crumb span[aria-hidden]'), null);
+    assert.equal(roleForSelector('html body nav.top-nav .top-nav-brand'), null);
+    const root = roleFixture('conformant', wrap(''));
+    try {
+      writeFileSync(join(root, 'src/pages/models.astro'), wrap('.crumb a { color: var(--fg) }'));
+      const wrong = findRoleColourViolations(root);
+      assert.equal(wrong.length, 1);
+      assert.equal(wrong[0]?.expected, '--ink-meta');
+      writeFileSync(join(root, 'src/pages/models.astro'), wrap('.crumb a { color: var(--ink-meta) } .crumb a:hover { color: var(--orange-hot) }'));
+      assert.deepEqual(findRoleColourViolations(root), []);
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('white text needs a declared dark fill and cannot borrow a dark ancestor through a light surface', () => {
+    const root = roleFixture('conformant', wrap([
+      '.light h2 { color: var(--paper) }',
+      '.dark { background: var(--ink) }',
+      '.dark .card { background: var(--cream) }',
+      '.dark .card h3 { color: var(--paper) }',
+      '.dark h2 { color: var(--cream) }',
+      '.direct h3 { color: var(--paper); background: var(--orange-hot) }',
+      '.other h2 { color: var(--paper) }',
+      '.other { background: var(--paper) }',
+      '.ambiguous { background: linear-gradient(var(--ink), var(--cream)) }',
+      '.ambiguous h2 { color: var(--paper) }',
+    ].join('\n')));
+    try {
+      assert.deepEqual(findRoleColourViolations(root).map((v) => v.selector),
+        ['.light h2', '.dark .card h3', '.other h2', '.ambiguous h2']);
+    } finally { rmSync(root, { recursive: true, force: true }); }
+  });
+
+  test('comma-separated roles prove dark fills independently and background resets revoke permission', () => {
+    const root = roleFixture('conformant', wrap([
+      '.dark { background: var(--ink) }',
+      '.dark h2, .light h2 { color: var(--paper) }',
+      '.reset { background-color: var(--ink); background: transparent }',
+      '.reset h3 { color: var(--cream) }',
+      '.dark + h2 { color: var(--paper) }',
+    ].join('\n')));
+    try {
+      assert.equal(findRoleColourViolations(root).length, 3);
+    } finally { rmSync(root, { recursive: true, force: true }); }
   });
 
   test('the table drives the gate: without the inline-emphasis row, strong is unchecked', () => {
