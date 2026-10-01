@@ -35,7 +35,7 @@ Issue、PR、commit message、`docs/` は **英語または日本語のみ**で�
 5. **PR を作る**
    - Base branch は `preview` とし、Issue を `Closes #...` でリンクする。
    - 変更内容、文書/baseline 影響、実行した検証を本文に残す。
-   - `quality`（GitHub UI では `CI / quality`）と `Vercel` が成功し、review conversation がすべて解決してから human merge する。
+   - `quality`（GitHub UI では `CI / quality`）と `Vercel` が成功し、review conversation がすべて解決してから、監督者（オーナー、またはオーナーが `preview` への merge を委任した監督 agent）が diff と独立レビューを確認して merge する。実装担当（executor）は merge しない。
 
 ## 公開境界
 

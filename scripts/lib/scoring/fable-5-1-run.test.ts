@@ -46,7 +46,7 @@ describe('Claude Fable 5.1 path on in-agent', () => {
   });
 
   test('does not register a Gateway, anthropic-api, or bespoke xai provider', () => {
-    assert.deepEqual(Object.keys(PROVIDERS).sort(), ['codex', 'in-agent']);
+    assert.deepEqual(Object.keys(PROVIDERS).sort(), ['codex', 'grok-cli', 'in-agent']);
     assert.equal(existsSync(join(ROOT, 'scripts/lib/scoring/providers/anthropic-api.ts')), false);
     assert.equal(existsSync(join(ROOT, 'scripts/lib/scoring/providers/ai-gateway.ts')), false);
     assert.equal(existsSync(join(ROOT, 'scripts/lib/scoring/providers/xai.ts')), false);

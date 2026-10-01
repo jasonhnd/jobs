@@ -190,6 +190,21 @@ describe('GEO page fact summaries', () => {
     assert.ok(s.endsWith(formatConsensusCitation(SCORE_PANEL.latestRunDate)), s);
   });
 
+  test('occupation summary judges its words on the printed values (#631)', () => {
+    const facts: GeoFacts = {
+      ...geoFacts,
+      occupations: [{
+        ...geoFacts.occupations[3]!,
+        aiImpact: 5.433333333333334, // prints 5.4 — below the 5.42 mean as printed
+        displacementRisk: 3.9666666666666663, // prints 4.0 — the mid wording
+      }],
+    };
+    const s = buildOccupationGeoFactSummary({ facts, occupationId: 4 });
+    assert.ok(s.includes('DのAI影響度は5.4/10'), s);
+    assert.ok(s.includes('全体平均5.42/10を下回る水準'), s);
+    assert.ok(s.includes('仕事が減るリスクは4.0/10で、業務の再設計が進みやすい中程度のリスクです。'), s);
+  });
+
   test('occupation-set summary aggregates only through geo-facts helper', () => {
     const s = buildOccupationSetGeoFactSummary({
       facts: geoFacts,

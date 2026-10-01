@@ -60,6 +60,28 @@ test.skip(
     '.env.local present (or set the variable) to exercise these.',
 );
 
+/**
+ * The suite must never run against a build carrying a real measurement ID —
+ * see scripts/run-e2e.sh for what that cost. run-e2e.sh guarantees the
+ * throwaway ID; this asserts it, so invoking `playwright test` directly
+ * against a production-keyed dist-astro/ fails here instead of quietly
+ * writing sessions into GA4.
+ */
+test('build carries a throwaway measurement id, not a real property', () => {
+  const html = readFileSync('dist-astro/sectors.html', 'utf-8');
+  const embedded = /<meta name="ga4-measurement-id" content="([^"]*)"/.exec(html)?.[1];
+  expect(
+    embedded,
+    'dist-astro/ has no ga4-measurement-id meta — rebuild via `bun run test:e2e`',
+  ).toBeTruthy();
+  expect(
+    embedded,
+    `dist-astro/ was built with ${String(embedded)}, a real GA4 property. Every ` +
+      'page this suite visits would be recorded as a live session. Rebuild via ' +
+      '`bun run test:e2e`, which sets PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000.',
+  ).toMatch(/^G-E2E/);
+});
+
 const PAGES_TO_CHECK = [
   { url: '/',                    name: 'home (src/index-source.html — non-BaseLayout)' },
   { url: '/sectors',          name: 'sectors hub (BaseLayout)' },
