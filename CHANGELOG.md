@@ -18,6 +18,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **Unit-test coverage report includes never-loaded source files.** `bun test --coverage` still omits files no test imports. `bun run test:coverage` appends those files at 0% (`scripts/append-untested-coverage.ts`, `docs/COVERAGE_REPORT.md`). Runtime behavior is unchanged.
 - **OpenAI's seat in the public value is now GPT 6.1 SOL (mms-13 / #670).**
   `data/scores/occupations_gpt-6.1-sol_2026-10-01.json`, 556/556, scored
   through the Codex CLI with `--model gpt-6.1-sol --reasoning-effort high`,
