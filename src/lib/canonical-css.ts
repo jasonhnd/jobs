@@ -709,7 +709,8 @@ html body nav.top-nav .top-nav-brand-mark {
 }
 
 html body nav.top-nav a:not(.top-nav-brand) {
-  color: var(--fg2);
+  color: var(--ink);
+  font-weight: 600;
   text-decoration: none;
   padding: 2px 0;
   font-size: var(--t-sm);
