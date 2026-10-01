@@ -226,7 +226,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .topn-block li{counter-increment:rank;display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dotted var(--line-strong);font-size:var(--t-sm)}
     .topn-block li:last-child{border-bottom:none}
     .topn-block li::before{content:counter(rank);font-family:var(--font-sans);color:var(--ink-meta);font-size:var(--t-xs);font-variant-numeric:tabular-nums;font-weight:600}
-    .topn-block .topn-name{color:var(--ink);font-family:var(--font-serif)}
+    .topn-block .topn-name{color:var(--ink);font-family:var(--font-sans);;font-weight:400;}
     .topn-block .topn-score{font-family:var(--font-sans);color:var(--ink-2);font-size:var(--t-xs);font-variant-numeric:tabular-nums;font-weight:700}
 
     /* Transfer (転職先候補) — restyled .transfer-card to look like unified occ-card */
@@ -266,7 +266,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:768px){section.related ul{grid-template-columns:1fr 1fr;gap:10px}}
     section.related li{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;background:var(--paper);border:1px solid rgba(0,0,0,0.06);border-radius:10px;font-size:var(--t-sm);align-items:baseline;margin:0}
     section.related li:hover{border-color:var(--accent)}
-    section.related .r-name{flex:1;color:var(--ink);font-family:var(--font-serif);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    section.related .r-name{flex:1;color:var(--ink);font-family:var(--font-sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400;}
     section.related .r-risk{font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums}
 
     /* Orgs + Certs — certs styled as a grid card */
@@ -310,7 +310,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .aio-row{display:grid;grid-template-columns:34px 1.7fr 2fr 34px;align-items:center;gap:8px;font-size:var(--t-xs);line-height:1.35}
     @media (max-width:560px){.aio-row{grid-template-columns:30px 1.6fr 1.3fr 28px;gap:6px}}
     .aio-code{font-family:var(--font-sans);font-weight:700;font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums}
-    .aio-name{color:var(--ink);font-family:var(--font-serif)}
+    .aio-name{color:var(--ink);font-family:var(--font-sans);;font-weight:600;}
     .aio-tag{font-size:var(--t-xs);margin-right:5px;color:var(--ink-meta)}
     .aio-bar{display:block;height:9px;background:var(--cream);border-radius:999px;overflow:hidden}
     .aio-fill{display:block;height:100%;border-radius:999px;min-width:2px}
