@@ -274,8 +274,16 @@ Explore → New → Funnel exploration。ステップ:
 
 これらは決定済の選択で、監査のたびに再検討したくない。GA4 セットアップを監査していてこれらの 1 つを検討する場合、**やる前に** サイトオーナーと議論を再開する。
 
-- **Consent Mode v2(GDPR / DMA cookie consent)** — *実装しない*。
-  2026-05-06 決定。サイトには計測可能な EU/UK トラフィックが無く、オーディエンスは日本中心。Consent Mode v2 の 3-4 時間コスト + 継続的な cookie バナー UX オーバーヘッドは、規制エクスポージャに見合わない。EU トラフィックが session の > 5% を超えた場合に再検討。
+- **Consent Mode v2** — 2026-05-06 の「実装しない」は、後続の実装で置き換わった（PR #5、2026-05-23）。
+  `src/layouts/BaseLayout.astro` が consent default / update とバナーを出している。既定は opt-out（明示的な `rejected` 以外は granted）。`localStorage` キー `cookieConsent`:
+
+  | 状態 | 保存値 | GA4 `ad_storage` / `analytics_storage` / `ad_user_data` / `ad_personalization` / `personalization_storage` |
+  | --- | --- | --- |
+  | 未設定 | キーなし（`null`。バナーを表示） | default `granted` |
+  | 同意 | `accepted` | default `granted`。同意クリックで `gtag('consent', 'update', …)` も `granted` |
+  | 拒否 | `rejected` | default `denied`。拒否クリックで `update` も `denied` |
+
+  default の `functionality_storage` と `security_storage` は常に `granted`。Meta Pixel は `rejected` のときだけ読み込まない。この節は現行挙動の記録であり、default を denied に戻す変更はここではしない。
 
 - **A/B テストフレームワーク(GrowthBook / LaunchDarkly / Statsig)** —
   *無期限延期*。2026-05-06 決定。サイトトラフィック量はほとんどの UI 変更について統計的に意味のある A/B テストには低すぎる。現在の規模では before/after analytics 比較で十分。継続 sessions/day がコホート分割の閾値を超えたら再検討。
