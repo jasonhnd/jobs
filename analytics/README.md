@@ -239,14 +239,13 @@ Admin → Data Streams → Web → stream クリック → 「Enhanced measureme
 
 ### Audiences
 
-`spec.yaml` の `audiences_manual:` 配下に audience が記載されている。各々を以下で作成:
-
-Admin → Audiences → **New audience** → Custom(または template)。
+現行の作成手順は Returning visitors だけ。Admin → Audiences → **New audience** → Custom(または template)。
 
 | Audience | フィルタ |
 | --- | --- |
-| High-intent occupations | Event `occupation_modal_open` で `risk_tier` = `high`、duration 90 日 |
 | Returning visitors | 28 日窓内で Event count `session_start` ≥ 2、duration 28 日 |
+
+High-intent occupations（`occupation_modal_open` かつ `risk_tier = high`、duration 90 日）は 2026-05-02 にそのイベントの emit が無くなったため退役。新規作成しない。`result_view` は詳細ページの表示であり、旧モーダルの意向と同じ定義ではない。置き換えるときは owner 承認の別 Issue で GA4 を変える。この文書の更新ではダッシュボードを変更しない。
 
 ### Funnel exploration: Navigation funnel
 
@@ -265,8 +264,8 @@ Explore → New → Funnel exploration。ステップ:
 ## spec 適用後
 
 1. spec はバージョン管理下にある。将来の schema 変更は `spec.yaml` + `corepack pnpm@12.6.0 --dir analytics run setup` 経由、ダッシュボードクリックではない
-2. 実際の `gtag('event', ...)` 呼び出しはクライアントサイド `index.html` で実行される(別タスクで処理 — OPC plan の `Phase 0 D5` 参照)
-3. これらのイベント呼び出しが追加されるまで dimension は空のまま(データが流れない)。それで OK — まず schema、次にデータ
+2. `gtag('event', ...)` は既にクライアントから送っている。ホームは `src/pages/_index-inline.js`（`src/index-source.html` を `src/pages/index.astro` が埋め込む）。職業詳細の `result_view` は `src/pages/_IdPageScript.astro`。`jobtag_outbound_click` は `src/pages/_JobtagAnchor.astro` の `data-track-event` を `src/components/Footer.astro` が送る。`/map`・`/me`・診断は `src/pages/_map-inline.js`、`src/pages/_me-inline.js`、`src/pages/_shindan.js`。職業 URL は `/{id}`（職業 ID 404 は `/occupations/404`）。`/ja/<id>` と `/en/<id>` は 2026-06-02 のプレフィックス撤去より前のルートで、現行の emit 先ではない
+3. 上の呼び出しは未実装の別タスクではない。dimension が空に見えるのは、計測 ID の無いプレビューか、そのイベントがまだ起きていない場合であり、未配線とは限らない
 
 ---
 
