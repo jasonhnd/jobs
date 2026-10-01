@@ -166,7 +166,6 @@ function requireBuildOutput() {
     console.error(`[verify-internal-links] ${DIST_ROOT} does not exist. Run \`pnpm build\` first.`);
     process.exit(2);
   }
-
 }
 
 function collectEmittedUrls(htmlFiles) {
@@ -295,9 +294,6 @@ function reportKnownBrokenHrefs(sawKnown, stale) {
       console.log(`    ${href}`);
     }
   }
-}
-
-function reportNewBrokenHrefs(newBroken) {
   if (stale.length > 0) {
     console.error(`\n❌ ${stale.length} entries in KNOWN_BROKEN_HREFS are no longer broken — please remove from the set:`);
     for (const href of stale.sort()) {
@@ -306,7 +302,7 @@ function reportNewBrokenHrefs(newBroken) {
   }
 }
 
-function reportBrokenFragments(fragmentFailures) {
+function reportNewBrokenHrefs(newBroken) {
   if (newBroken.length > 0) {
     console.error(`\n❌ ${newBroken.length} NEW broken internal href(s):\n`);
     for (const [href, sources] of newBroken.sort()) {
@@ -315,7 +311,9 @@ function reportBrokenFragments(fragmentFailures) {
       console.error(`    linked from: ${srcArr.slice(0, 3).join(', ')}${srcArr.length > 3 ? ` (and ${srcArr.length - 3} more)` : ''}`);
     }
   }
+}
 
+function reportBrokenFragments(fragmentFailures) {
   // C4 (2026-05-17): broken fragment anchors. Treated as warnings on
   // first introduction (so this commit doesn't fail CI for pre-existing
   // dead fragments). Promote to hard failures in a follow-up after
