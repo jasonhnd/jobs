@@ -248,10 +248,39 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
       function occupationPath(id) {
         return Number(id) === 404 ? '/occupations/404' : '/' + id;
       }
+      // One decimal, the server's rule: banker's rounding over the exact stored
+      // double — copied from _me-inline.js (a port of src/data/lib/banker-round.ts;
+      // inline scripts cannot import it). The search projection stores raw floats
+      // such as 4.266666666666667 (#631).
+      function fmtRisk(v) {
+        if (v == null) return '—';
+        var n = Number(v);
+        if (!Number.isFinite(n)) return '—';
+        var sign = n < 0 ? '-' : '';
+        var wide = Math.abs(n).toFixed(18);
+        var dot = wide.indexOf('.');
+        if (dot === -1) return String(n);
+        var intStr = wide.slice(0, dot);
+        var frac = wide.slice(dot + 1);
+        var keep = frac.charAt(0);
+        var decisive = frac.charAt(1);
+        var tail = frac.slice(2);
+        var roundUp;
+        if (decisive < '5') roundUp = false;
+        else if (decisive > '5') roundUp = true;
+        else if (/[1-9]/.test(tail)) roundUp = true;
+        else roundUp = Number(keep) % 2 !== 0;
+        var truncated = Number(sign + intStr + '.' + keep);
+        if (!roundUp) return String(truncated);
+        var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
+        return String(Number(inc.toFixed(1)));
+      }
+      // The band follows the printed one-decimal value (#631).
       function riskBand(score) {
         if (score == null) return 'mid';
-        if (score < 4.0) return 'low';
-        if (score < 7.0) return 'mid';
+        var d = Number(fmtRisk(score));
+        if (d < 4.0) return 'low';
+        if (d < 7.0) return 'mid';
         return 'high';
       }
 
@@ -285,7 +314,7 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
           var o = matches[i];
           var band = riskBand(o.ai_risk);
           var sectorJa = sectorMap[o.sector_id] || o.sector_id || '';
-          var riskStr = o.ai_risk != null ? ('AI ' + o.ai_risk + '/10') : 'AI —';
+          var riskStr = o.ai_risk != null ? ('AI ' + fmtRisk(o.ai_risk) + '/10') : 'AI —';
           html += '<li role="option" data-id="' + o.id + '" data-name="' + escapeHtml(o.title_ja) + '" id="' + fieldId + '-opt-' + i + '">' +
                   '<span class="cc-opt-name">' + escapeHtml(o.title_ja) + '</span>' +
                   '<span class="cc-opt-meta">' +

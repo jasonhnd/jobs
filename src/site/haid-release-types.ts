@@ -1,0 +1,147 @@
+/**
+ * Shapes of data.haid-<release>.json / data.haid-latest.json.
+ * Written by src/data/projections/haid-release.ts, read by src/views/haid-release.ts.
+ */
+import type {
+  HAID_BOUNDARIES,
+  HAID_CERTAINTY_JA,
+  HAID_GRADE_JA,
+  HAID_RELATIONS,
+} from './haid-spec.js';
+import type { HaidRelease, HaidReleaseCertainty } from '../data/schema/haid-release.js';
+
+export const HAID_RELEASE_BASE_PATH = '/aiadoption';
+
+export interface HaidReleaseLevelOut {
+  level: number;
+  relation: string;
+  ja: string;
+  en: string;
+  n_at_least: {
+    certainty: HaidReleaseCertainty;
+    low: number | null;
+    mid: number | null;
+    high: number | null;
+    /** Value the page draws and quotes. null when データなし. */
+    display: number | null;
+    /** true when nesting raised display above the input (see file header). */
+    clamped: boolean;
+  };
+  n: {
+    certainty: HaidReleaseCertainty;
+    display: number | null;
+    /** display / population, 0..1. null when データなし. */
+    share: number | null;
+  };
+  anchors: string[];
+  overlap: string | null;
+  method_ja: string;
+  /** How N(≥k) was computed — every number the page prints comes from here. */
+  derivation: HaidDerivation;
+}
+
+export interface HaidDerivationTerm {
+  id: string;
+  entity_ja: string;
+  metric_ja: string;
+  value: number;
+  window: 'itu_3m' | 'days_30' | 'days_7' | 'state' | 'cumulative';
+  grade: 'A' | 'B' | 'C' | 'D';
+  /** true when a 7-day count serves a 30-day level (it is a floor). */
+  narrower_window: boolean;
+  market: 'cn' | 'row' | 'world';
+  kind: 'product' | 'union' | 'top_down' | 'base';
+  /** older than 12 months at the quarter's end */
+  stale: boolean;
+  /** top_down only */
+  share: number | null;
+  base_value: number | null;
+  base_label_ja: string | null;
+}
+
+export interface HaidMarketBlock {
+  market: 'cn' | 'row' | 'world';
+  /** id of the union anchor when the market is taken as-is */
+  union_anchor: string | null;
+  products: string[];
+  sum: number | null;
+  max: number | null;
+  overlap_rate: number | null;
+  /** the market's contribution to the bottom-up total */
+  union: number;
+}
+
+export interface HaidDerivation {
+  method: 'single' | 'max_single' | 'sum_minus_overlap' | 'market_union_topdown' | 'none';
+  terms: HaidDerivationTerm[];
+  /** market_union_topdown only */
+  markets: HaidMarketBlock[] | null;
+  bottom_up: number | null;
+  top_down: number | null;
+  /** plain sum of every product term across markets (単純合計, reference only) */
+  raw_sum: number | null;
+  /** largest single term, when terms exist */
+  max: number | null;
+  /** plain sum of terms, sum_minus_overlap only */
+  sum: number | null;
+  overlap_rate: number | null;
+  /** computed before nesting */
+  low: number | null;
+  mid: number | null;
+  high: number | null;
+  /** input display value before nesting; null for none */
+  computed: number | null;
+  /** N(≥k+1) the value was raised to, when nesting applied; null otherwise */
+  floored_to: number | null;
+}
+
+export interface HaidReleasePayload {
+  schema_version: string;
+  standard: 'HAID';
+  name_ja: string;
+  spec_version: string;
+  spec_url: string;
+  license: string;
+  license_url: string;
+  release: string;
+  label_ja: string;
+  version: string;
+  status: 'draft' | 'final';
+  as_of: string;
+  planned_publish: string;
+  published_at: string | null;
+  previous: string | null;
+  url: string;
+  population: number;
+  levels: HaidReleaseLevelOut[];
+  relations: typeof HAID_RELATIONS;
+  boundaries: typeof HAID_BOUNDARIES;
+  anchors: HaidRelease['anchors'];
+  overlap: HaidRelease['overlap'];
+  payment: HaidRelease['release']['payment'];
+  certainty_labels_ja: typeof HAID_CERTAINTY_JA;
+  grade_labels_ja: typeof HAID_GRADE_JA;
+  /** Anchors still marked placeholder — non-empty only for a draft. */
+  placeholder_anchors: string[];
+  /** Every release id, oldest first (yyyy-qN sorts lexically). */
+  releases: string[];
+  /** 1-based position of this release in `releases`. */
+  round: number;
+  /** N(≥k) / n(k) display values of `previous`, for 前回との変動. null for the first round. */
+  previous_levels: HaidPreviousLevel[] | null;
+}
+
+export interface HaidPreviousLevel {
+  level: number;
+  n_at_least_display: number | null;
+  n_at_least_certainty: HaidReleaseCertainty;
+  n_display: number | null;
+  /** Sorted, unique grades of the anchors the level cited (A–D). */
+  anchor_grades: string[];
+  /** Sorted anchor ids the level cited — a different set means 「数え方が変わった」. */
+  anchor_ids: string[];
+}
+
+/** data.haid-latest.json is the newest release payload, unchanged. */
+export type HaidLatestPayload = HaidReleasePayload;
+

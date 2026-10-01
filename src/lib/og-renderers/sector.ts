@@ -15,6 +15,7 @@
 
 import { ImageResponse } from '@vercel/og';
 import { createElement as h } from 'react';
+import { displayScore } from '../../data/lib/banker-round.js';
 import {
   SECTOR_HUE_COLOR,
   loadGoogleFont,
@@ -65,7 +66,7 @@ export async function renderSectorOgCard(
   const nameLoc = sector.ja;
 
   const countLabel = `${sector.occupation_count} 職業`;
-  const riskLabel = `平均 AI 影響 ${sector.mean_ai_risk.toFixed(1)} / 10`;
+  const riskLabel = `平均 AI 影響 ${displayScore(sector.mean_ai_risk).toFixed(1)} / 10`;
   const workforceLabel = `就業者 計 ${fmtNumber(sector.total_workforce)} 人`;
   const samples = (sector.sample_titles_ja ?? []).slice(0, 3).join('　・　');
 

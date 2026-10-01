@@ -48,6 +48,13 @@ function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+/** predecessorFor(): the newest comparable run dated strictly earlier. A same-date run is not a predecessor. */
+function expectedPredecessor<T extends { readonly runDate: string }>(aiois: readonly T[], run: { readonly runDate: string }): T | undefined {
+  const earlier = aiois.filter((candidate) => candidate.runDate < run.runDate);
+  const date = earlier.at(-1)?.runDate;
+  return earlier.find((candidate) => candidate.runDate === date);
+}
+
 function visibleHtml(html: string): string {
   return html
     .replace(/<template id="models-projection"[\s\S]*?<\/template>/, '')
@@ -301,7 +308,7 @@ describe('/models built page contract', () => {
       const path = builtModelDetailPath(aiois[i]!.slug);
       if (path == null) return;
       const page = visibleHtml(readFileSync(path, 'utf-8'));
-      const predecessor = aiois[i - 1]!;
+      const predecessor = expectedPredecessor(aiois, aiois[i]!)!;
       const predDisplay = escapeRegExp(predecessor.modelDisplay);
       const predDate = escapeRegExp(formatJapaneseDate(predecessor.runDate));
       assert.match(page, new RegExp(`${predDisplay}（${predDate}）と比べて`));

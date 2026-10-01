@@ -12,7 +12,9 @@
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { readFileSync } from 'node:fs';
-import { RANKING_META } from './rankings-meta.js';
+import { RANKING_META,
+  DEINDEXED_RANKINGS,
+} from './rankings-meta.js';
 import { ALL_RANKINGS } from './ranking.js';
 
 test('RANKING_META: every slug is unique', () => {
@@ -115,5 +117,34 @@ test('ranking subsystem: does NOT contain hardcoded ALL_RANKINGS literal array',
     hardcodedPatternMatches,
     null,
     'ranking subsystem contains the hardcoded ALL_RANKINGS literal — drift reverted',
+  );
+});
+
+test('every withheld slug is a real ranking', () => {
+  const slugs = new Set(RANKING_META.map((m) => m.slug));
+  for (const slug of DEINDEXED_RANKINGS) {
+    assert.ok(slugs.has(slug), `${slug} is withheld but is not a ranking`);
+  }
+});
+
+test('none of the 11 pages carrying 93% of ranking clicks is withheld', () => {
+  // GSC 2026-08-22 → 09-19. Withholding any of these would be a
+  // self-inflicted traffic loss, so pin them explicitly.
+  const earners = [
+    'workers', 'short-hours', 'hourly-wage', 'high-demand', 'recruit-ratio',
+    'recruit-ratio-low', 'monthly-hours-long', 'salary', 'young-workforce',
+    'entry-salary', 'aging-workforce',
+  ] as const;
+  for (const slug of earners) {
+    assert.ok(!DEINDEXED_RANKINGS.has(slug), `${slug} earns clicks and must stay indexed`);
+  }
+});
+
+test('the withheld set stays small — deindexing is not a bulk tool', () => {
+  assert.ok(
+    DEINDEXED_RANKINGS.size <= 6,
+    `${String(DEINDEXED_RANKINGS.size)} rankings withheld. The bar is "Google placed it past ` +
+      'page 2", which described 4 pages on 2026-09-21. Growing this set means ' +
+      're-measuring, not lowering the bar.',
   );
 });
