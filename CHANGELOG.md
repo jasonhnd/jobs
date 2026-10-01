@@ -18,6 +18,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **OpenAI's seat in the public value is now GPT 6.1 SOL (mms-13 / #670).**
+  `data/scores/occupations_gpt-6.1-sol_2026-10-01.json`, 556/556, scored
+  through the Codex CLI with `--model gpt-6.1-sol --reasoning-effort high`,
+  replaces GPT 6 SOL (`gpt-6-sol@2026-09-23`, now history).
+  `/models/gpt-6.1-sol` 308 to the run page. Site mean 4.55 → 4.68;
+  `|Δ| ≥ 0.5` on 12 occupations; 34 band changes; none `|Δ| ≥ 1.0`.
+  Drift report: `docs/VENDOR_UPDATE_DRIFT_gpt-6.1-sol_2026-10-01.md`.
 - **2026-Q3 is a final release (#667).** Owner sign-off 2026-09-29: all 21
   anchors and the Pew overlap are `verified`, `status` is `final`, and
   `published_at` is 2026-09-29 (`version` stays `2026-Q3.0`;

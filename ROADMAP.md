@@ -190,6 +190,28 @@ owner-confirmed 2026-08-31; PR #363).
 - mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
 - mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
 
+## Done — GPT-6.1 SOL takes OpenAI's flagship seat (mms-13, closed 2026-10-01)
+
+Shipped on `preview` (#677, #678); as of this close-out PR it has not been
+promoted to `main` (the owner decides that promotion). GPT 6.1 SOL
+(`gpt-6.1-sol@2026-10-01`, 556, Codex CLI with `--model gpt-6.1-sol
+--reasoning-effort high`) replaces GPT 6 SOL as OpenAI's seat in the vendor
+mean; Claude Opus 5.5 and Grok 4.7 stay, and GPT 6 SOL stays as history.
+The public mean moves 4.55 → 4.68: 12 occupations move by 0.5 or more, none
+by 1.0 or more, and 34 change risk band
+(`docs/VENDOR_UPDATE_DRIFT_gpt-6.1-sol_2026-10-01.md`). The seat rule is the
+one set on 2026-09-23: a vendor's flagship seat holds the newest model the
+owner chose to score for that vendor. The owner delegated the scoring gates
+(13.2, 13.3, 13.4, and landing) to the supervisor on 2026-10-01.
+
+- mms-13.1 (#671/#677): frozen prompt `gpt-6.1-sol` + constants + body-hash test + runbook section + TOOLCHAIN row.
+- mms-13.2 (#672): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
+- mms-13.3 (#673): pilot 40 (+5 security ids) (Issue comments; no PR).
+- mms-13.4 (#674): full 556, `run_date` 2026-10-01 (Issue comments; no PR).
+- mms-13.5 (#675/#678): land the batch + `/models/gpt-6.1-sol` 308 + drift doc + baselines.
+- mms-13.6 (#676): close-out (this PR).
+- Tracker #670 closes after this PR.
+
 ## Done — GPT-6 SOL takes OpenAI's flagship seat (mms-12, closed 2026-09-23)
 
 Shipped on `preview` (#622, #627); not promoted to `main` when this block
