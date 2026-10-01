@@ -10,14 +10,14 @@ import {
 
 const ROOT = process.cwd();
 
-let cachedGeoFacts: GeoFacts | null = null;
+const cachedGeoFacts = new Map<string, GeoFacts>();
 
-function readText(rel: string): string {
-  return readFileSync(join(ROOT, rel), 'utf-8');
+function readText(root: string, rel: string): string {
+  return readFileSync(join(root, rel), 'utf-8');
 }
 
-function loadScoreRuns(): ScoreRun[] {
-  const dir = join(ROOT, 'data', 'scores');
+function loadScoreRuns(root: string): ScoreRun[] {
+  const dir = join(root, 'data', 'scores');
   const runs: ScoreRun[] = [];
   for (const name of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
     const parsed = JSON.parse(readFileSync(join(dir, name), 'utf-8'));
@@ -26,11 +26,13 @@ function loadScoreRuns(): ScoreRun[] {
   return runs;
 }
 
-export function loadGeoFacts(): GeoFacts {
-  if (cachedGeoFacts) return cachedGeoFacts;
+/** The default root and lifetime cache are unchanged; fixture roots are isolated. */
+export function loadGeoFacts(root: string = ROOT): GeoFacts {
+  const cached = cachedGeoFacts.get(root);
+  if (cached) return cached;
 
-  const scoreRuns = loadScoreRuns();
-  const treemapRows = GeoTreemapRowsSchema.parse(JSON.parse(readText('public/data.treemap.json')));
+  const scoreRuns = loadScoreRuns(root);
+  const treemapRows = GeoTreemapRowsSchema.parse(JSON.parse(readText(root, 'public/data.treemap.json')));
   const facts = computeGeoFacts(treemapRows, scoreRuns);
   if (SCORE_ATTRIBUTION.modelId !== facts.attribution.modelId) {
     throw new Error(
@@ -42,6 +44,6 @@ export function loadGeoFacts(): GeoFacts {
       `geo-facts-loader: SCORE_ATTRIBUTION date ${SCORE_ATTRIBUTION.runDate} != active score run ${facts.attribution.runDate}`,
     );
   }
-  cachedGeoFacts = facts;
-  return cachedGeoFacts;
+  cachedGeoFacts.set(root, facts);
+  return facts;
 }
