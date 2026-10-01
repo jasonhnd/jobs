@@ -128,6 +128,10 @@ const BREADCRUMB_FILES = new Set([
   'src/lib/canonical/hub.ts', 'src/lib/canonical/doc.ts',
   'src/lib/canonical/static.ts', 'src/lib/canonical/detail.ts',
   'src/pages/models.astro', 'src/pages/models/[model].astro',
+  'src/pages/sectors/index.astro', 'src/pages/skills/index.astro',
+  'src/pages/skills/[skill].astro', 'src/pages/interests/index.astro',
+  'src/pages/interests/[type].astro', 'src/pages/rankings/index.astro',
+  'src/pages/compare/[pair].astro',
 ]);
 
 export function roleForSelector(part: string, file?: string): string | null {
