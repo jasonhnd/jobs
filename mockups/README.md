@@ -21,15 +21,22 @@ Numbers shown are real 2026-07-26 AIOIS-10 scores (看護師 3.6/0.6 · 483rd,
 経理事務 8.5/5.5 · 6th, データ入力 9.4 · 1st). The home "今月の変動" riser
 column, Q&A row order, and 求人倍率 15.0 for helper are illustrative.
 
-Re-render the boards from the repository root. Screenshot files are written next to these scripts (`mockups/shots/`), so the shell does not need to `cd mockups`.
+Re-render the boards from the repository root. Screenshot files are written next to these scripts (`mockups/shots/`). The board server stays in the foreground, so keep it in one terminal and run the render scripts in another. Both shells start at the repository root.
+
+Terminal A — leave this running (`http://localhost:8823/mobile-redesign.html` and `http://localhost:8823/before-after.html`). Stop it with Ctrl-C after Terminal B finishes.
 
 ```bash
-python3 -m http.server 8823 --directory mockups   # http://localhost:8823/mobile-redesign.html
+python3 -m http.server 8823 --directory mockups
+```
+
+Terminal B — after Terminal A is listening:
+
+```bash
 node mockups/shot.mjs        # 9 frames  → mockups/shots/frame-0N.png
 node mockups/shot-pairs.mjs  # 10 pairs  → mockups/shots/pair-N.png
 ```
 
-Network re-capture is optional and has no default host. Set `MOCKUP_BASE_URL` to `https://pre.mirai-shigoto.com` or a deployment alias (origin only). The scripts refuse `mirai-shigoto.com` and `www.mirai-shigoto.com`. Run each script once; pages are requested one at a time (concurrency 1, limit 4). Doing so overwrites the historical `shots/live-*.png` names. Do not crawl `mirai-shigoto.com`.
+Network re-capture is optional and has no default host. Set `MOCKUP_BASE_URL` to `https://pre.mirai-shigoto.com` or a deployment alias (origin only). The scripts refuse `mirai-shigoto.com` and `www.mirai-shigoto.com`, including the absolute DNS spelling with a trailing dot (`mirai-shigoto.com.` / `www.mirai-shigoto.com.`). Run each script once; pages are requested one at a time (concurrency 1, limit 4). Doing so overwrites the historical `shots/live-*.png` names. Do not crawl `mirai-shigoto.com`.
 
 ```bash
 MOCKUP_BASE_URL=https://pre.mirai-shigoto.com node mockups/shot-live.mjs
