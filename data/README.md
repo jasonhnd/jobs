@@ -1,19 +1,19 @@
 # `data/` — build パイプラインの正典ソース
 
-ここにあるすべてのファイルは `npm run build:data` の **入力**。TypeScript ETL(`src/data/build.ts`)がこのディレクトリから読み、対応する Zod スキーマで各ファイルを検証し、同ファイルの `runProjection(...)` が定義する projection を `public/data.*` に書き出す(その後 Astro build がそれを `dist-astro/` に焼き込む)。ファミリー数は `src/data/build.ts` が正。この README には書かない。
+ここにあるすべてのファイルは `npm run build:data` の **入力**。TypeScript ETL (`src/data/build.ts`) reads this directory, validates each file against its Zod schema, and writes the projections defined by `runProjection(...)` in that file to `public/data.*` (the Astro build then copies them into `dist-astro/`). The projection-family count lives in `src/data/build.ts` and is not fixed in this README.
 
 ## レイアウト
 
 ```
 data/
 ├── occupations/       <padded>.json × 556    — 職業ごと 1 ファイル、正典ソース
-├── stats_legacy/      <padded>.json          — 労働市場統計(年収、就業者数等)。件数はこのディレクトリの実ファイル数(`src/data/build.ts` の stats_legacy ログ)
+├── stats_legacy/      <padded>.json          — labour-market stats (pay, workforce, and so on). The file count is whatever is in this directory (the `stats_legacy` log from `src/data/build.ts`).
 ├── scores/            <scope>_<model>_<date>.json — AI risk スコア実行(append-only)
 ├── labels/            <dimension>.ja-en.json × 7 — グローバルな skills/knowledge/abilities ラベル
 ├── sectors/
 │   ├── sectors.ja-en.json                    — 16 sector の分類定義
 │   └── overrides.json                        — 手動の occ→sector オーバーライド
-├── prompts/           *.ja.md                — LLM スコアリングプロンプトテンプレート(監査トレイル)。ファイル名は `data/prompts/` の実ファイル
+├── prompts/           *.ja.md                — LLM scoring-prompt templates (audit trail). Filenames are the `*.ja.md` files in `data/prompts/`.
 ├── rationales/        <batch>.json × 55      — 手動キュレーション rationale のステージング領域
 ├── _archive/          translations-en/...    — アーカイブされた EN 翻訳(v1.4.0 で廃止)
 ├── .archive/v0.6/                            — フリーズした v0.6 監査トレイル(編集禁止)
