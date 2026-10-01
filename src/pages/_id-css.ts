@@ -124,7 +124,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .score-history-current > div{min-width:0;display:grid;gap:4px}
     .score-history-current-label{font-size:var(--t-xs);line-height:1.2;color:var(--orange-hot);font-weight:700;overflow-wrap:break-word;word-break:normal}
     .score-history-current-model{font-size:var(--t-h3);line-height:1.35;font-weight:700;color:var(--ink);overflow-wrap:break-word;word-break:normal}
-    .score-history-current-date{font-size:var(--t-xs);line-height:1.35;color:var(--ink-meta);font-weight:700}
+    .score-history-current-date{font-size:var(--t-xs);line-height:1.35;color:var(--ink-meta);font-weight:400;}
     .score-history-current strong{font-family:var(--font-sans);font-size:var(--t-h1);line-height:1;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
     .score-history-current strong span{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta);margin-left:2px}
     .score-history-details{max-width:var(--content-max);margin:0;background:transparent}
@@ -140,7 +140,8 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .score-history-item{min-width:0;background:var(--paper);border:1px solid var(--line-strong);border-radius:8px;padding:14px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,2fr);gap:12px;align-items:start;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
     @media (min-width:900px){.score-history-item{padding:16px 18px}}
     .score-history-item-model{min-width:0;display:grid;gap:4px}
-    .score-history-item-model span,.score-history-item-facts dt{font-size:var(--t-xs);line-height:1.25;color:var(--ink-meta);font-weight:700}
+    .score-history-item-facts dt{font-family:var(--font-sans);font-size:var(--t-sm);font-weight:600;color:var(--ink-meta)}
+    .score-history-item-model span{font-size:var(--t-xs);line-height:1.25;color:var(--ink-meta);font-weight:400;}
     .score-history-item-model a{font-size:var(--t-body);line-height:1.35;font-weight:700;color:var(--ink);overflow-wrap:break-word;word-break:normal}
     .score-history-item-facts{min-width:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
     .score-history-item-facts div{min-width:0}
