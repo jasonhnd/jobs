@@ -33,7 +33,8 @@ const cases: readonly { url: string; consumers: readonly Consumer[] }[] = [
   { url: '/rankings/ai-risk-low', consumers: [['.rank-list .rl-name', title]] },
   { url: '/compare/kango-vs-helper', consumers: [['.duel-name', { family: 'sans', weight: '700', px: '16px' }], ['.related-compares .rc-title', { ...list, px: '14px' }]] },
   { url: '/about', consumers: [crumb] },
-  { url: '/privacy', consumers: [crumb] },
+  // Static pages currently have no rendered crumb; preserve their real title instead.
+  { url: '/privacy', consumers: [['h1', { family: 'serif', px: '28px', colour: '--ink' }]] },
   { url: '/156', consumers: [crumb, ['.transfer-card .tc-name', title], ['.topn-block .topn-name', { ...list, px: '14px' }],
     ['.aio-name', { family: 'sans', weight: '600', px: '12px', colour: '--ink' }],
     ['.score-history-current-date', caption], ['.score-history-item-model span', caption], ['.score-history-item-facts dt', label]] },
