@@ -58,6 +58,14 @@ describe('buildIdPageBindings', () => {
       ai_rationale_ja: '  Rationale & <text>  ',
       ai_scored_at: '2026-08-04',
       salary: 519.6, workers: 690_000, hours: 155.4,
+      age: 42, recruit_ratio: 2.2, hourly_wage: 1200,
+      sector: { id: 'iryo', ja: 'Sector & <label>' },
+      risk_band: 'high', workforce_band: 'large', demand_band: 'hot',
+      profile5: { creative: 11, social: 22, judgment: 33, physical: 44, routine: 55 },
+      skills_top10: [{ key: 's', label_ja: 'Skill <x>', score: 4 }],
+      related_orgs: [{ name_ja: 'Org <x>', url: 'https://example.test/' }],
+      related_certs_ja: ['Cert <x>'],
+      ai_rationale_long_ja: 'Long & <text>',
       what_it_is_ja: 'Context & <text>',
       how_to_become_ja: 'Training & <text>',
       working_conditions_ja: 'Conditions & <text>',
@@ -87,6 +95,13 @@ describe('buildIdPageBindings', () => {
     assert.equal(bindings.verdict.latestObsHref, '#score-history-details');
     assert.equal(bindings.salaryInt, 519);
     assert.equal(bindings.salaryCell, '519 万円');
+    assert.equal(bindings.riskStr, '8.2/10');
+    assert.equal(bindings.riskClass, 'risk-high');
+    assert.equal(bindings.workersCell, '690,000 人');
+    assert.equal(bindings.ageCell, '42 歳');
+    assert.equal(bindings.hoursCell, '155 時間/月');
+    assert.equal(bindings.recruitDisp, 2.2);
+    assert.equal(bindings.hourlyDisp, '¥1,200');
     assert.ok(bindings.title.includes('Fixture & <job>'));
     assert.ok(bindings.seoDesc.length > 0 && bindings.ogTitle.length > 0 && bindings.ogDesc.length > 0);
     assert.ok(bindings.keywords.includes('Fixture & <job>'));
@@ -97,6 +112,12 @@ describe('buildIdPageBindings', () => {
     assert.match(bindings.transferHtml, /Lookup &amp; &lt;job&gt;/);
     assert.equal(bindings.legacyRelatedHtml, '');
     assert.match(bindings.aioisHtml, /class="aiois10"/);
+    assert.match(bindings.metaRowHtml, /href="\/sectors\/iryo"/);
+    assert.match(bindings.profileHtml, /<dd>55<\/dd>/);
+    assert.match(bindings.topnHtml, /Skill &lt;x&gt;/);
+    assert.match(bindings.orgsCertsHtml, /Org &lt;x&gt;/);
+    assert.match(bindings.orgsCertsHtml, /Cert &lt;x&gt;/);
+    assert.match(bindings.aiRiskDetailHtml, /Long &amp; &lt;text&gt;/);
     assert.match(bindings.aiFactHtml, /class="ai-fact"/);
     const worktypes = WorktypesDataSchema.parse(JSON.parse(readFileSync('public/data.worktypes.json', 'utf8')));
     const worktype = worktypes.occupations['156']!;
