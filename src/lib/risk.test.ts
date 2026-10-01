@@ -1,6 +1,7 @@
 /**
- * risk.test.ts — pin the riskClass contract that 5 legacy copies all
- * implemented identically (null→'mid', ≤3→'low', ≤6→'mid', else→'high').
+ * risk.test.ts — pin the riskClass contract: null→'mid'; otherwise the band
+ * of the DISPLAYED value (displayScore, one-decimal banker rounding) with
+ * low < 4.0 <= mid < 7.0 <= high (#631).
  */
 
 import { describe, test } from 'node:test';
@@ -30,15 +31,20 @@ describe('riskClass', () => {
     }
   });
 
-  test('boundary: < 4.0 is low (3.5, 3.95); 4.0 is mid', () => {
+  test('boundary: a value displayed below 4.0 is low; displayed 4.0 is mid', () => {
     assert.equal(riskClass(3.5), 'low');
-    assert.equal(riskClass(3.95), 'low');
+    assert.equal(riskClass(3.94), 'low'); // displays 3.9
+    assert.equal(riskClass(3.9333333333333336), 'low'); // displays 3.9
+    assert.equal(riskClass(3.95), 'mid'); // displays 4.0
+    assert.equal(riskClass(3.9666666666666663), 'mid'); // three-vendor mean, displays 4.0
     assert.equal(riskClass(4.0), 'mid');
   });
 
-  test('boundary: < 7.0 is mid (6.5, 6.95); 7.0 is high', () => {
+  test('boundary: a value displayed below 7.0 is mid; displayed 7.0 is high', () => {
     assert.equal(riskClass(6.5), 'mid');
-    assert.equal(riskClass(6.95), 'mid');
+    assert.equal(riskClass(6.94), 'mid'); // displays 6.9
+    assert.equal(riskClass(6.95), 'high'); // displays 7.0
+    assert.equal(riskClass(6.966666666666667), 'high'); // displays 7.0
     assert.equal(riskClass(7.0), 'high');
   });
 });

@@ -4,7 +4,7 @@ import { CANONICAL_SECTOR_CSS } from '@/lib/canonical/sector';
 import Footer from '@/components/Footer.astro';
 import MeEntry from '@/components/MeEntry.astro';
 import { loadGraph } from '@/graph';
-import { buildSectorsIndexBindings, fmtInt, riskClass } from './_sectors-index-bindings';
+import { buildSectorsIndexBindings, displayScore, fmtInt, riskClass } from './_sectors-index-bindings';
 import { occupationPath } from '@/lib/urls';
 
 const b = buildSectorsIndexBindings(await loadGraph());
@@ -142,7 +142,7 @@ section.faq{margin:48px 0}
                   <span class="sc-count">{s.occupationCount} 職業</span>
                 </div>
                 <div class="sc-stats">
-                  <span class={`sc-risk risk-pill ${cls}`}>AI 影響 平均 {mean.toFixed(1)}/10</span>
+                  <span class={`sc-risk risk-pill ${cls}`}>AI 影響 平均 {displayScore(mean).toFixed(1)}/10</span>
                   <span class="sc-workers">{fmtInt(s.totalWorkforce)} 人</span>
                 </div>
                 <p class="sc-samples">

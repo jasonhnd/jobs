@@ -96,11 +96,13 @@
       var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
       return String(Number(inc.toFixed(1)));
     }
+    // The label word is judged on the printed number, not the raw mean (#631).
     function riskLabel(r) {
       var s = fmtRisk(r) + '/10';
-      if (r >= 9) return s + ' ▲ 大きく変わる仕事';
-      if (r >= 7) return s + ' ▲ 影響大';
-      if (r >= 4) return s + ' ▼ 中程度';
+      var d = Number(fmtRisk(r));
+      if (d >= 9) return s + ' ▲ 大きく変わる仕事';
+      if (d >= 7) return s + ' ▲ 影響大';
+      if (d >= 4) return s + ' ▼ 中程度';
       return s + ' ◎ 影響小';
     }
     /**
@@ -539,7 +541,7 @@
       var $ttSector = $tooltip.querySelector('.ct-sector');
       var ttHideTimer = null;
       var ttCurrentId = null;
-      function riskClass(n) { return n < 4.0 ? 'low' : n < 7.0 ? 'mid' : 'high'; }
+      function riskClass(n) { var d = n == null ? n : Number(fmtRisk(n)); return d < 4.0 ? 'low' : d < 7.0 ? 'mid' : 'high'; }
       function fmtSalary(s) { return (s == null) ? '' : '年収 ' + s + ' 万円'; }
       function fmtWorkers(w) {
         if (w == null) return '';

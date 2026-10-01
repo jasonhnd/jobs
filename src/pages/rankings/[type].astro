@@ -11,6 +11,7 @@ import { buildRankingsSlugBindings } from './_rankings-bindings';
 import { suggestEscapeRoutes, renderEscapeRouteSection } from '@/views/escape-routes';
 import { AI_FACT_CSS } from '@/lib/ai-fact-css';
 import { RANK_LIST_CSS } from '@/lib/rank-list-css';
+import { DEINDEXED_RANKINGS } from '@/views/rankings-meta';
 
 const HIGH_RISK_SLUGS = new Set(['ai-risk-high', 'ai-replaced-soon', 'ai-at-risk-but-paid']);
 
@@ -43,6 +44,7 @@ if (HIGH_RISK_SLUGS.has(result.slug) && result.items.length > 0) {
   ogImage={b.ogImage}
   ogTitle={result.title.slice(0, 120)}
   ogDescription={result.seoDesc}
+  noindex={DEINDEXED_RANKINGS.has(result.slug)}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
 

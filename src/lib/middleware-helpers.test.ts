@@ -28,6 +28,7 @@ import {
   landingFamily,
   isGoogleHost,
   classifyGeoReferral,
+  shouldWithholdFromIndex,
 } from './middleware-helpers.js';
 
 function requestWithHeaders(headers: Record<string, string>): Request {
@@ -929,4 +930,35 @@ describe('server-side identity (GA4 phantom-user fix)', () => {
       assert.equal(p.events[0]!.params.engagement_time_msec, 1);
     });
   });
+});
+
+test('shouldWithholdFromIndex: only the production host is indexable', () => {
+  assert.equal(shouldWithholdFromIndex('mirai-shigoto.com'), false);
+  assert.equal(shouldWithholdFromIndex('MIRAI-SHIGOTO.COM'), false);
+  assert.equal(shouldWithholdFromIndex('mirai-shigoto.com:443'), false);
+});
+
+test('shouldWithholdFromIndex: preview, deployment and alias hosts are withheld', () => {
+  for (const host of [
+    'pre.mirai-shigoto.com',
+    'www.mirai-shigoto.com',
+    'jobs-85xboe97k-zkscio.vercel.app',
+    'jobs-git-preview-zkscio.vercel.app',
+    'status.mirai-shigoto.com',
+    'localhost:4321',
+  ]) {
+    assert.equal(shouldWithholdFromIndex(host), true, `${host} must be withheld`);
+  }
+});
+
+test('shouldWithholdFromIndex: an absent or empty Host is withheld, not indexed', () => {
+  // Fail closed for indexing: an unidentifiable request is not production.
+  assert.equal(shouldWithholdFromIndex(null), true);
+  assert.equal(shouldWithholdFromIndex(undefined), true);
+  assert.equal(shouldWithholdFromIndex(''), true);
+});
+
+test('shouldWithholdFromIndex: a subdomain cannot spoof its way to indexable', () => {
+  assert.equal(shouldWithholdFromIndex('evil-mirai-shigoto.com'), true);
+  assert.equal(shouldWithholdFromIndex('mirai-shigoto.com.evil.test'), true);
 });

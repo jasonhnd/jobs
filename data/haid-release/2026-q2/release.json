@@ -1,0 +1,93 @@
+{
+  "release": "2026-q2",
+  "label_ja": "2026 年 第 2 四半期",
+  "version": "2026-Q2.0",
+  "status": "draft",
+  "spec_version": "1.0",
+  "planned_publish": "2026-10-24",
+  "published_at": null,
+  "population_anchor": "population_2026",
+  "previous": null,
+  "levels": {
+    "1": {
+      "certainty": "measured",
+      "method": "single",
+      "anchors": [
+        "population_2026"
+      ],
+      "method_ja": "世界の総人口。第 1 段階以上は全員。"
+    },
+    "2": {
+      "certainty": "measured",
+      "method": "single",
+      "anchors": [
+        "internet_users_2026"
+      ],
+      "method_ja": "インターネット利用者数。ちょうど第 2 段階にいる人は、ここから第 3 段階以上を引いた残差。"
+    },
+    "3": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "この回には「見せられた」人数の公表値がない。第 4 段階以上の人数を下回らないことだけが分かる。"
+    },
+    "4": {
+      "certainty": "range",
+      "method": "sum_minus_overlap",
+      "anchors": [
+        "chatgpt_monthly_proxy_2026q2",
+        "gemini_monthly_proxy_2026q2",
+        "claude_monthly_proxy_2026q2",
+        "perplexity_monthly_proxy_2026q2",
+        "regional_apps_monthly_proxy_2026q2"
+      ],
+      "overlap": "level_4",
+      "method_ja": "第三者パネル（C 等級）の月間利用者推計を用い、低 = 最大の 1 社、高 = 単純合計、中 = 合計から重なり率を引いた値。"
+    },
+    "5": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "この回には 7 日口径の公表値がない。"
+    },
+    "6": {
+      "certainty": "lower_bound",
+      "method": "max_single",
+      "anchors": [
+        "github_copilot_users_2026",
+        "cursor_users_2026"
+      ],
+      "method_ja": "現時点で観測できるのはコーディング用エージェントのみ。重なりが分からないため、最大の 1 社を下限とする。"
+    },
+    "7": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "事業者の公表値は存在しない。"
+    },
+    "8": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "事業者の公表値は存在しない。"
+    },
+    "9": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "事業者の公表値は存在しない。"
+    },
+    "10": {
+      "certainty": "none",
+      "method": "none",
+      "anchors": [],
+      "method_ja": "事業者の公表値は存在しない。"
+    }
+  },
+  "payment": {
+    "certainty": "none",
+    "count": null,
+    "anchors": [],
+    "method_ja": "有料契約者数を公表している事業者がないため、今回は報告しない。"
+  }
+}

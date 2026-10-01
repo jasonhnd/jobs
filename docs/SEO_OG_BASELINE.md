@@ -24,7 +24,7 @@
 
 ## /aiadoption
 
-`/aiadoption` の `dateModified` と画面上の更新表示は、`data.ai-adoption.json` の `updated_at` を使う。これは build clock ではなく、入力 observation の最新 `as_of_date` 由来。
+`/aiadoption` の `dateModified` と画面上の「時点」は、`data.haid-latest.json` の `as_of`（引用された錨点の最新 `as_of`）を使う。build clock ではない（aiadoption-1.3）。title / description / OG は `src/site/haid-release-copy.ts` のテンプレートに回のラベルと人数を埋めたもので、回が進むと変わる（意図的な drift）。
 
 OG/Twitter image は `https://mirai-shigoto.com/api/og?page=aiadoption` を使う。`page=home` へ戻る drift は accidental と見なす。
 

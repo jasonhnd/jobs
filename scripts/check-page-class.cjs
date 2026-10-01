@@ -117,6 +117,7 @@ const CLASS_EXCEPTIONS = new Set([
   'src/pages/map.astro',        // Interactive, _map-css.ts
   'src/pages/models.astro',     // Feature, page-local
   'src/pages/aiadoption.astro', // Feature, _ai-adoption-css.ts
+  'src/pages/aiadoption/[release].astro', // Feature, archived HAID releases; same _ai-adoption-css.ts via _HaidReleasePage.astro
   // Feature family: a model page is not one of §4.8's three Feature pages, but
   // it shares their page-local CSS rather than a class.
   'src/pages/models/[model].astro',

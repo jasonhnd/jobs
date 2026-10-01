@@ -11,14 +11,8 @@
  */
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
+import { riskBand } from '../data/lib/bands.js';
 import type { DetailFile } from './compare-hub';
-
-function riskBand(score: number | null): string | undefined {
-  if (score === null) return undefined;
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
-}
 
 /**
  * Returns a `(id: number) => DetailFile` function backed by `graph`.
