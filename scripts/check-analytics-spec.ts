@@ -283,59 +283,81 @@ function paramsAfter(text: string, afterName: number): string[] {
   return body === null ? [] : topLevelKeys(body);
 }
 
-function scan(): { emissions: Emission[]; undeclaredDynamic: string[] } {
+interface SourceFile {
+  readonly file: string;
+  readonly text: string;
+}
+
+interface ScanResult {
+  emissions: Emission[];
+  undeclaredDynamic: string[];
+}
+
+function collectSources(): SourceFile[] {
+  return sourceFiles().map((full) => ({
+    file: relative(ROOT, full),
+    text: readFileSync(full, 'utf-8'),
+  }));
+}
+
+/** Shape 1 — literal name. */
+function extractLiteralEmissions({ file, text }: SourceFile): Emission[] {
   const emissions: Emission[] = [];
-  const undeclaredDynamic: string[] = [];
-  const siteByFile = new Map(DYNAMIC_EMIT_SITES.map((s) => [s.file, s]));
-  const seenSites = new Set<string>();
+  const literal = /gtag\(\s*["']event["']\s*,\s*(["'])([a-z0-9_]+)\1/g;
+  for (let m = literal.exec(text); m; m = literal.exec(text)) {
+    emissions.push({
+      event: m[2]!,
+      params: paramsAfter(text, m.index + m[0].length),
+      file,
+    });
+  }
+  return emissions;
+}
 
-  for (const full of sourceFiles()) {
-    const rel = relative(ROOT, full);
-    const text = readFileSync(full, 'utf-8');
-
-    // Shape 1 — literal name.
-    const literal = /gtag\(\s*["']event["']\s*,\s*(["'])([a-z0-9_]+)\1/g;
-    for (let m = literal.exec(text); m; m = literal.exec(text)) {
-      emissions.push({
-        event: m[2]!,
-        params: paramsAfter(text, m.index + m[0].length),
-        file: rel,
-      });
+/** Shapes 2-4 — anything else must be declared. */
+function scanDynamicEmissions(
+  { file, text }: SourceFile,
+  site: DynamicEmitSite | undefined,
+  result: ScanResult,
+  seenSites: Set<string>,
+): void {
+  const dynamic = /gtag\(\s*["']event["']\s*,\s*/g;
+  for (let m = dynamic.exec(text); m; m = dynamic.exec(text)) {
+    const next = text[m.index + m[0].length];
+    if (next === '"' || next === "'") continue; // already counted above
+    if (!site) {
+      result.undeclaredDynamic.push(file);
+      continue;
     }
-
-    // Shapes 2-4 — anything else must be declared.
-    const dynamic = /gtag\(\s*["']event["']\s*,\s*/g;
-    for (let m = dynamic.exec(text); m; m = dynamic.exec(text)) {
-      const next = text[m.index + m[0].length];
-      if (next === '"' || next === "'") continue; // already counted above
-      const site = siteByFile.get(rel);
-      if (!site) {
-        undeclaredDynamic.push(rel);
-        continue;
-      }
-      seenSites.add(rel);
-      for (const event of site.emits ?? []) {
-        emissions.push({ event, params: [], file: rel });
-      }
-    }
-
-    // Wrapper call sites carry the real names and params.
-    const site = siteByFile.get(rel);
-    if (site?.wrapper) {
-      const call = new RegExp(
-        `(?<![\\w.])${site.wrapper}\\(\\s*(["'])([a-z0-9_]+)\\1`,
-        'g',
-      );
-      for (let m = call.exec(text); m; m = call.exec(text)) {
-        emissions.push({
-          event: m[2]!,
-          params: paramsAfter(text, m.index + m[0].length),
-          file: rel,
-        });
-      }
+    seenSites.add(file);
+    for (const event of site.emits ?? []) {
+      result.emissions.push({ event, params: [], file });
     }
   }
+}
 
+/** Wrapper call sites carry the real names and params. */
+function extractWrapperEmissions(
+  { file, text }: SourceFile,
+  site: DynamicEmitSite | undefined,
+): Emission[] {
+  const emissions: Emission[] = [];
+  if (!site?.wrapper) return emissions;
+  const call = new RegExp(
+    `(?<![\\w.])${site.wrapper}\\(\\s*(["'])([a-z0-9_]+)\\1`,
+    'g',
+  );
+  for (let m = call.exec(text); m; m = call.exec(text)) {
+    emissions.push({
+      event: m[2]!,
+      params: paramsAfter(text, m.index + m[0].length),
+      file,
+    });
+  }
+  return emissions;
+}
+
+function validateDynamicEmitSites(seenSites: ReadonlySet<string>): void {
   // A declared site that no longer has a dynamic call is stale — drop it from
   // the registry rather than leaving a rule nobody can trace to code.
   for (const site of DYNAMIC_EMIT_SITES) {
@@ -354,7 +376,20 @@ function scan(): { emissions: Emission[]; undeclaredDynamic: string[] } {
     }
   }
 
-  return { emissions, undeclaredDynamic: [...new Set(undeclaredDynamic)] };
+}
+
+function scan(sources: readonly SourceFile[]): ScanResult {
+  const result: ScanResult = { emissions: [], undeclaredDynamic: [] };
+  const siteByFile = new Map(DYNAMIC_EMIT_SITES.map((s) => [s.file, s]));
+  const seenSites = new Set<string>();
+  for (const source of sources) {
+    const site = siteByFile.get(source.file);
+    result.emissions.push(...extractLiteralEmissions(source));
+    scanDynamicEmissions(source, site, result, seenSites);
+    result.emissions.push(...extractWrapperEmissions(source, site));
+  }
+  validateDynamicEmitSites(seenSites);
+  return { ...result, undeclaredDynamic: [...new Set(result.undeclaredDynamic)] };
 }
 
 function serverParams(): string[] {
@@ -451,20 +486,14 @@ function unquote(value: string): string {
   return quoted ? quoted[1]! : trimmed;
 }
 
-function main(): void {
-  if (!existsSync(SPEC)) fail('analytics/spec.yaml is missing.');
-  const lines = readFileSync(SPEC, 'utf-8').split('\n');
+interface AnalyticsSpec {
+  readonly eventDims: readonly DimensionEntry[];
+  readonly eventHeadroom: number;
+  readonly registeredEvents: ReadonlySet<string>;
+  readonly declaredDims: ReadonlySet<string>;
+}
 
-  // GA4 Admin API contract — same rules setup-ga4.mjs enforces at sync time.
-  const eventDims = parseDimensions(
-    specSection(lines, 'event_scoped_dimensions:'),
-    'event_scoped_dimensions',
-  );
-  const userDims = parseDimensions(
-    specSection(lines, 'user_scoped_dimensions:'),
-    'user_scoped_dimensions',
-  );
-  if (eventDims.length === 0) fail('parsed zero event-scoped dimensions — the parser is broken.');
+function validateDimensionContract(eventDims: DimensionEntry[], userDims: DimensionEntry[]): void {
   try {
     validateCustomDimensionSpec({
       event_scoped_dimensions: eventDims,
@@ -477,7 +506,9 @@ function main(): void {
         (error instanceof Error ? error.message : String(error)),
     );
   }
+}
 
+function validateDimensionCaps(eventDims: readonly DimensionEntry[], userDims: readonly DimensionEntry[]): void {
   // Per-property caps. GA4 refuses creation at the cap and archiving is the only
   // way back, so a spec that outgrows it fails at sync time — halfway through,
   // having already created whatever came earlier in the list. Issue #240.
@@ -495,6 +526,24 @@ function main(): void {
       );
     }
   }
+}
+
+function readSpec(): AnalyticsSpec {
+  if (!existsSync(SPEC)) fail('analytics/spec.yaml is missing.');
+  const lines = readFileSync(SPEC, 'utf-8').split('\n');
+
+  // GA4 Admin API contract — same rules setup-ga4.mjs enforces at sync time.
+  const eventDims = parseDimensions(
+    specSection(lines, 'event_scoped_dimensions:'),
+    'event_scoped_dimensions',
+  );
+  const userDims = parseDimensions(
+    specSection(lines, 'user_scoped_dimensions:'),
+    'user_scoped_dimensions',
+  );
+  if (eventDims.length === 0) fail('parsed zero event-scoped dimensions — the parser is broken.');
+  validateDimensionContract(eventDims, userDims);
+  validateDimensionCaps(eventDims, userDims);
   const eventHeadroom = CUSTOM_DIMENSION_LIMITS.perProperty.event - eventDims.length;
 
   const registeredEvents = new Set(
@@ -511,7 +560,10 @@ function main(): void {
   if (registeredEvents.size === 0) fail('spec.yaml registers zero events — the scan is broken.');
   if (declaredDims.size === 0) fail('spec.yaml declares zero dimensions — the scan is broken.');
 
-  const { emissions, undeclaredDynamic } = scan();
+  return { eventDims, eventHeadroom, registeredEvents, declaredDims };
+}
+
+function validateScan({ emissions, undeclaredDynamic }: ScanResult): void {
   if (undeclaredDynamic.length > 0) {
     fail(
       `these files call gtag('event', …) with a non-literal event name and are ` +
@@ -523,18 +575,31 @@ function main(): void {
     );
   }
   if (emissions.length === 0) fail('found zero gtag events in src/ — the scan is broken.');
+}
 
-  const problems: string[] = [];
+interface EmissionOwners {
+  readonly firedBy: ReadonlyMap<string, ReadonlySet<string>>;
+  readonly paramOwners: ReadonlyMap<string, ReadonlySet<string>>;
+}
 
+function collectEventOwners(emissions: readonly Emission[], serverEvent: string): Map<string, Set<string>> {
   const firedBy = new Map<string, Set<string>>();
   for (const e of emissions) {
     if (!firedBy.has(e.event)) firedBy.set(e.event, new Set());
     firedBy.get(e.event)!.add(e.file);
   }
   // The middleware emit is real but invisible to a gtag() scan.
-  const serverEvent = serverEventName();
   if (!firedBy.has(serverEvent)) firedBy.set(serverEvent, new Set());
   firedBy.get(serverEvent)!.add(`${SERVER_PARAM_SOURCE} (Edge middleware)`);
+
+  return firedBy;
+}
+
+function compareEvents(
+  registeredEvents: ReadonlySet<string>,
+  firedBy: EmissionOwners['firedBy'],
+): string[] {
+  const problems: string[] = [];
 
   const unregistered = [...firedBy.keys()].filter((e) => !registeredEvents.has(e)).sort();
   if (unregistered.length > 0) {
@@ -557,6 +622,10 @@ function main(): void {
     );
   }
 
+  return problems;
+}
+
+function collectParamOwners(emissions: readonly Emission[], serverEvent: string): Map<string, Set<string>> {
   const paramOwners = new Map<string, Set<string>>();
   for (const e of emissions) {
     for (const p of e.params) {
@@ -569,6 +638,14 @@ function main(): void {
     paramOwners.get(p)!.add(`${serverEvent} (middleware)`);
   }
 
+  return paramOwners;
+}
+
+function compareParameters(
+  declaredDims: ReadonlySet<string>,
+  paramOwners: EmissionOwners['paramOwners'],
+): string[] {
+  const problems: string[] = [];
   const undeclared = [...paramOwners.keys()]
     .filter((p) => !declaredDims.has(p) && !GA4_BUILTIN_PARAMS.has(p))
     .sort();
@@ -591,6 +668,14 @@ function main(): void {
     );
   }
 
+  return problems;
+}
+
+function reportResult(
+  { eventDims, eventHeadroom }: AnalyticsSpec,
+  { firedBy, paramOwners }: EmissionOwners,
+  problems: readonly string[],
+): void {
   if (problems.length > 0) {
     fail(`analytics/spec.yaml has drifted from the code.\n\n  ${problems.join('\n\n  ')}`);
   }
@@ -615,6 +700,19 @@ function main(): void {
       `this spec. Verify with \`node analytics/setup-ga4.mjs --check\` (read-only, ` +
       `needs credentials); apply with the same script without --check.`,
   );
+}
+
+function main(): void {
+  const spec = readSpec();
+  const result = scan(collectSources());
+  validateScan(result);
+  const serverEvent = serverEventName();
+  const firedBy = collectEventOwners(result.emissions, serverEvent);
+  // Keep event comparison ahead of server-param validation, as in the original gate.
+  const eventProblems = compareEvents(spec.registeredEvents, firedBy);
+  const paramOwners = collectParamOwners(result.emissions, serverEvent);
+  const problems = [...eventProblems, ...compareParameters(spec.declaredDims, paramOwners)];
+  reportResult(spec, { firedBy, paramOwners }, problems);
 }
 
 main();
