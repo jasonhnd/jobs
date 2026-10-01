@@ -375,7 +375,6 @@ function validateDynamicEmitSites(seenSites: ReadonlySet<string>): void {
       );
     }
   }
-
 }
 
 function scan(sources: readonly SourceFile[]): ScanResult {
@@ -493,7 +492,10 @@ interface AnalyticsSpec {
   readonly declaredDims: ReadonlySet<string>;
 }
 
-function validateDimensionContract(eventDims: DimensionEntry[], userDims: DimensionEntry[]): void {
+function validateDimensionContract(
+  eventDims: DimensionEntry[],
+  userDims: DimensionEntry[],
+): void {
   try {
     validateCustomDimensionSpec({
       event_scoped_dimensions: eventDims,
@@ -508,7 +510,10 @@ function validateDimensionContract(eventDims: DimensionEntry[], userDims: Dimens
   }
 }
 
-function validateDimensionCaps(eventDims: readonly DimensionEntry[], userDims: readonly DimensionEntry[]): void {
+function validateDimensionCaps(
+  eventDims: readonly DimensionEntry[],
+  userDims: readonly DimensionEntry[],
+): void {
   // Per-property caps. GA4 refuses creation at the cap and archiving is the only
   // way back, so a spec that outgrows it fails at sync time — halfway through,
   // having already created whatever came earlier in the list. Issue #240.
@@ -582,7 +587,10 @@ interface EmissionOwners {
   readonly paramOwners: ReadonlyMap<string, ReadonlySet<string>>;
 }
 
-function collectEventOwners(emissions: readonly Emission[], serverEvent: string): Map<string, Set<string>> {
+function collectEventOwners(
+  emissions: readonly Emission[],
+  serverEvent: string,
+): Map<string, Set<string>> {
   const firedBy = new Map<string, Set<string>>();
   for (const e of emissions) {
     if (!firedBy.has(e.event)) firedBy.set(e.event, new Set());
@@ -625,7 +633,10 @@ function compareEvents(
   return problems;
 }
 
-function collectParamOwners(emissions: readonly Emission[], serverEvent: string): Map<string, Set<string>> {
+function collectParamOwners(
+  emissions: readonly Emission[],
+  serverEvent: string,
+): Map<string, Set<string>> {
   const paramOwners = new Map<string, Set<string>>();
   for (const e of emissions) {
     for (const p of e.params) {
