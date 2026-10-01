@@ -39,7 +39,7 @@ function graphWithDisplacement(pairs: ReadonlyArray<readonly [number, number | n
       aiRisk: displacement === null
         ? { aiois: null }
         : { aiois: { displacement } },
-    } as OccupationNode);
+    } as unknown as OccupationNode);
   }
   return { occupations } as unknown as KnowledgeGraph;
 }
