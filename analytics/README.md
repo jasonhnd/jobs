@@ -239,14 +239,13 @@ Admin → Data Streams → Web → stream クリック → 「Enhanced measureme
 
 ### Audiences
 
-`spec.yaml` の `audiences_manual:` 配下に audience が記載されている。各々を以下で作成:
-
-Admin → Audiences → **New audience** → Custom(または template)。
+現行の作成手順は Returning visitors だけ。Admin → Audiences → **New audience** → Custom(または template)。
 
 | Audience | フィルタ |
 | --- | --- |
-| High-intent occupations | Event `occupation_modal_open` で `risk_tier` = `high`、duration 90 日 |
 | Returning visitors | 28 日窓内で Event count `session_start` ≥ 2、duration 28 日 |
+
+High-intent occupations（`occupation_modal_open` かつ `risk_tier = high`、duration 90 日）は 2026-05-02 にそのイベントの emit が無くなったため退役。新規作成しない。`result_view` は詳細ページの表示であり、旧モーダルの意向と同じ定義ではない。置き換えるときは owner 承認の別 Issue で GA4 を変える。この文書の更新ではダッシュボードを変更しない。
 
 ### Funnel exploration: Navigation funnel
 
@@ -265,8 +264,8 @@ Explore → New → Funnel exploration。ステップ:
 ## spec 適用後
 
 1. spec はバージョン管理下にある。将来の schema 変更は `spec.yaml` + `corepack pnpm@12.6.0 --dir analytics run setup` 経由、ダッシュボードクリックではない
-2. 実際の `gtag('event', ...)` 呼び出しはクライアントサイド `index.html` で実行される(別タスクで処理 — OPC plan の `Phase 0 D5` 参照)
-3. これらのイベント呼び出しが追加されるまで dimension は空のまま(データが流れない)。それで OK — まず schema、次にデータ
+2. `gtag('event', ...)` は既にクライアントから送っている。ホームは `src/pages/_index-inline.js`（`src/index-source.html` を `src/pages/index.astro` が埋め込む）。職業詳細の `result_view` は `src/pages/_IdPageScript.astro`。`jobtag_outbound_click` は `src/pages/_JobtagAnchor.astro` の `data-track-event` を `src/components/Footer.astro` が送る。`/map`・`/me`・診断は `src/pages/_map-inline.js`、`src/pages/_me-inline.js`、`src/pages/_shindan.js`。職業 URL は `/{id}`（職業 ID 404 は `/occupations/404`）。`/ja/<id>` と `/en/<id>` は 2026-06-02 のプレフィックス撤去より前のルートで、現行の emit 先ではない
+3. 上の呼び出しは未実装の別タスクではない。dimension が空に見えるのは、計測 ID の無いプレビューか、そのイベントがまだ起きていない場合であり、未配線とは限らない
 
 ---
 
@@ -274,8 +273,16 @@ Explore → New → Funnel exploration。ステップ:
 
 これらは決定済の選択で、監査のたびに再検討したくない。GA4 セットアップを監査していてこれらの 1 つを検討する場合、**やる前に** サイトオーナーと議論を再開する。
 
-- **Consent Mode v2(GDPR / DMA cookie consent)** — *実装しない*。
-  2026-05-06 決定。サイトには計測可能な EU/UK トラフィックが無く、オーディエンスは日本中心。Consent Mode v2 の 3-4 時間コスト + 継続的な cookie バナー UX オーバーヘッドは、規制エクスポージャに見合わない。EU トラフィックが session の > 5% を超えた場合に再検討。
+- **Consent Mode v2** — 2026-05-06 の「実装しない」は、後続の実装で置き換わった（PR #5、2026-05-23）。
+  `src/layouts/BaseLayout.astro` が consent default / update とバナーを出している。既定は opt-out（明示的な `rejected` 以外は granted）。`localStorage` キー `cookieConsent`:
+
+  | 状態 | 保存値 | GA4 `ad_storage` / `analytics_storage` / `ad_user_data` / `ad_personalization` / `personalization_storage` |
+  | --- | --- | --- |
+  | 未設定 | キーなし（`null`。バナーを表示） | default `granted` |
+  | 同意 | `accepted` | default `granted`。同意クリックで `gtag('consent', 'update', …)` も `granted` |
+  | 拒否 | `rejected` | default `denied`。拒否クリックで `update` も `denied` |
+
+  default の `functionality_storage` と `security_storage` は常に `granted`。Meta Pixel は `rejected` のときだけ読み込まない。この節は現行挙動の記録であり、default を denied に戻す変更はここではしない。
 
 - **A/B テストフレームワーク(GrowthBook / LaunchDarkly / Statsig)** —
   *無期限延期*。2026-05-06 決定。サイトトラフィック量はほとんどの UI 変更について統計的に意味のある A/B テストには低すぎる。現在の規模では before/after analytics 比較で十分。継続 sessions/day がコホート分割の閾値を超えたら再検討。
