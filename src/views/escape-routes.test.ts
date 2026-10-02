@@ -1,7 +1,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { suggestEscapeRoutes, type EscapeRouteSource } from './escape-routes.js';
+import { renderEscapeRouteSection, suggestEscapeRoutes, type EscapeRouteSource } from './escape-routes.js';
 import type { Occupation } from './ranking/config.js';
 
 function makeOccupation(overrides: Partial<Occupation>): Occupation {
@@ -63,5 +63,64 @@ describe('suggestEscapeRoutes', () => {
     );
 
     assert.deepEqual(routes.map((r) => r.id), [20, 30]);
+  });
+
+  test('caps worker weighting, defaults missing fields, and keeps inputs unchanged', () => {
+    const jobs = [
+      makeOccupation({ id: 2, workers: 500_000, title_ja: null, sector_ja: undefined }),
+      makeOccupation({ id: 3, workers: 1_000_000 }),
+      makeOccupation({ id: 4, workers: null }),
+    ];
+    const before = structuredClone(jobs);
+    const source = { id: 1, ai_risk: 8, sector_id: 'other' };
+    const routes = suggestEscapeRoutes(source, jobs);
+    assert.deepEqual(routes.map((r) => r.id), [2, 3, 4]);
+    assert.deepEqual(routes[0], {
+      id: 2, nameJa: '#2', aiRisk: 4, sectorJa: '', reason: '同セクター',
+    });
+    assert.ok(routes.every((r) => !('score' in r)));
+    assert.deepEqual(jobs, before);
+    assert.deepEqual(suggestEscapeRoutes(source, jobs, 1), routes.slice(0, 1));
+    assert.deepEqual(suggestEscapeRoutes(source, jobs, 0), []);
+  });
+
+  test('defaults to six candidates and returns none when all jobs are ineligible', () => {
+    const source = { id: 1, ai_risk: 9, sector_id: 'it' };
+    const jobs = Array.from({ length: 8 }, (_, i) => makeOccupation({ id: i + 2 }));
+    assert.deepEqual(suggestEscapeRoutes(source, jobs).map((r) => r.id), [2, 3, 4, 5, 6, 7]);
+    assert.deepEqual(suggestEscapeRoutes(source, [
+      makeOccupation({ id: 1 }),
+      makeOccupation({ id: 2, ai_risk: null }),
+      makeOccupation({ id: 3, ai_risk: 4.01 }),
+    ]), []);
+  });
+});
+
+describe('renderEscapeRouteSection', () => {
+  test('omits the entire section for empty candidates', () => {
+    assert.equal(renderEscapeRouteSection('source', []), '');
+  });
+
+  test('renders ordered cards, canonical URLs, rounded risks, and optional sectors safely', () => {
+    const raw = `<tag>&"'`;
+    const escaped = '&lt;tag&gt;&amp;&quot;&#39;';
+    const html = renderEscapeRouteSection(raw, [
+      { id: 404, nameJa: raw, aiRisk: 3.14159, sectorJa: raw, reason: raw },
+      { id: 156, nameJa: 'second', aiRisk: 4, sectorJa: '', reason: 'reason' },
+    ]);
+    assert.ok(html.startsWith('<section class="escape-routes" aria-labelledby="escape-h2">'));
+    assert.match(html, /<h2 id="escape-h2">/);
+    assert.match(html, /<ul class="escape-cards">/);
+    assert.equal((html.match(/<li class="escape-card">/g) ?? []).length, 2);
+    assert.ok(html.indexOf('href="/occupations/404"') < html.indexOf('href="/156"'));
+    assert.ok(html.includes(`<span class="ec-name">${escaped}</span>`));
+    assert.ok(html.includes(`<span class="ec-sector">${escaped}</span>`));
+    assert.ok(html.includes(`<span class="ec-reason">${escaped}</span>`));
+    assert.ok(html.includes(`「${escaped}」`));
+    assert.equal((html.match(/class="ec-sector"/g) ?? []).length, 1);
+    assert.match(html, /class="risk-pill low">AI 3\.1\/10<\/span>/);
+    assert.match(html, /class="risk-pill low">AI 4\/10<\/span>/);
+    assert.ok(!html.includes(raw));
+    assert.ok(html.endsWith('</ul></section>'));
   });
 });

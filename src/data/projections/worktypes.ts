@@ -123,7 +123,7 @@ function axisRows(rows: readonly ActiveAioisRow[]): AxisRow[] {
   });
 }
 
-export function computeWorktypeThresholds(rows: readonly AxisRow[]): Record<AxisId, number> {
+function computeWorktypeThresholds(rows: readonly AxisRow[]): Record<AxisId, number> {
   return {
     a1: median(rows.map((row) => row.scores.a1)),
     a2: median(rows.map((row) => row.scores.a2)),
