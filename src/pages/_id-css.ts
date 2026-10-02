@@ -124,7 +124,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .score-history-current > div{min-width:0;display:grid;gap:4px}
     .score-history-current-label{font-size:var(--t-xs);line-height:1.2;color:var(--orange-hot);font-weight:700;overflow-wrap:break-word;word-break:normal}
     .score-history-current-model{font-size:var(--t-h3);line-height:1.35;font-weight:700;color:var(--ink);overflow-wrap:break-word;word-break:normal}
-    .score-history-current-date{font-size:var(--t-xs);line-height:1.35;color:var(--ink-meta);font-weight:700}
+    .score-history-current-date{font-size:var(--t-xs);line-height:1.35;color:var(--ink-meta);font-weight:400;}
     .score-history-current strong{font-family:var(--font-sans);font-size:var(--t-h1);line-height:1;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
     .score-history-current strong span{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta);margin-left:2px}
     .score-history-details{max-width:var(--content-max);margin:0;background:transparent}
@@ -140,7 +140,8 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .score-history-item{min-width:0;background:var(--paper);border:1px solid var(--line-strong);border-radius:8px;padding:14px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,2fr);gap:12px;align-items:start;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
     @media (min-width:900px){.score-history-item{padding:16px 18px}}
     .score-history-item-model{min-width:0;display:grid;gap:4px}
-    .score-history-item-model span,.score-history-item-facts dt{font-size:var(--t-xs);line-height:1.25;color:var(--ink-meta);font-weight:700}
+    .score-history-item-facts dt{font-family:var(--font-sans);font-size:var(--t-sm);font-weight:600;color:var(--ink-meta)}
+    .score-history-item-model span{font-size:var(--t-xs);line-height:1.25;color:var(--ink-meta);font-weight:400;}
     .score-history-item-model a{font-size:var(--t-body);line-height:1.35;font-weight:700;color:var(--ink);overflow-wrap:break-word;word-break:normal}
     .score-history-item-facts{min-width:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
     .score-history-item-facts div{min-width:0}
@@ -226,7 +227,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .topn-block li{counter-increment:rank;display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dotted var(--line-strong);font-size:var(--t-sm)}
     .topn-block li:last-child{border-bottom:none}
     .topn-block li::before{content:counter(rank);font-family:var(--font-sans);color:var(--ink-meta);font-size:var(--t-xs);font-variant-numeric:tabular-nums;font-weight:600}
-    .topn-block .topn-name{color:var(--ink);font-family:var(--font-serif)}
+    .topn-block .topn-name{color:var(--ink);font-family:var(--font-sans);font-weight:400;}
     .topn-block .topn-score{font-family:var(--font-sans);color:var(--ink-2);font-size:var(--t-xs);font-variant-numeric:tabular-nums;font-weight:700}
 
     /* Transfer (転職先候補) — restyled .transfer-card to look like unified occ-card */
@@ -237,7 +238,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .transfer-card{display:block;padding:14px 16px;background:var(--paper);border-radius:12px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.05);text-decoration:none;color:inherit;transition:transform 0.18s ease,box-shadow 0.18s ease,border-color 0.18s ease}
     @media (min-width:900px){.transfer-card{padding:20px 22px}}
     .transfer-card:hover,.transfer-card:focus-visible{transform:translateY(-2px);border-color:color-mix(in srgb, var(--orange) 30%, transparent);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 12px 28px color-mix(in srgb, var(--orange) 10%, transparent);outline:none;text-decoration:none}
-    .transfer-card .tc-name{display:block;font-family:var(--font-serif);font-size:var(--t-h3);color:var(--ink);font-weight:600;line-height:1.2;margin-bottom:8px}
+    .transfer-card .tc-name{display:block;font-family:var(--font-sans);font-size:var(--t-h3);color:var(--ink);font-weight:700;line-height:1.2;margin-bottom:8px}
     @media (min-width:900px){.transfer-card .tc-name{margin-bottom:10px}}
     .transfer-card .tc-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:var(--t-xs);color:var(--ink-meta)}
     @media (min-width:900px){.transfer-card .tc-meta{gap:12px}}
@@ -266,7 +267,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:768px){section.related ul{grid-template-columns:1fr 1fr;gap:10px}}
     section.related li{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;background:var(--paper);border:1px solid rgba(0,0,0,0.06);border-radius:10px;font-size:var(--t-sm);align-items:baseline;margin:0}
     section.related li:hover{border-color:var(--accent)}
-    section.related .r-name{flex:1;color:var(--ink);font-family:var(--font-serif);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    section.related .r-name{flex:1;color:var(--ink);font-family:var(--font-sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400;}
     section.related .r-risk{font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums}
 
     /* Orgs + Certs — certs styled as a grid card */
@@ -310,7 +311,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .aio-row{display:grid;grid-template-columns:34px 1.7fr 2fr 34px;align-items:center;gap:8px;font-size:var(--t-xs);line-height:1.35}
     @media (max-width:560px){.aio-row{grid-template-columns:30px 1.6fr 1.3fr 28px;gap:6px}}
     .aio-code{font-family:var(--font-sans);font-weight:700;font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums}
-    .aio-name{color:var(--ink);font-family:var(--font-serif)}
+    .aio-name{color:var(--ink);font-family:var(--font-sans);font-weight:600;}
     .aio-tag{font-size:var(--t-xs);margin-right:5px;color:var(--ink-meta)}
     .aio-bar{display:block;height:9px;background:var(--cream);border-radius:999px;overflow:hidden}
     .aio-fill{display:block;height:100%;border-radius:999px;min-width:2px}
