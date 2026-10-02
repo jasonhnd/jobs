@@ -11,6 +11,7 @@ import {
 import type { Aiois10 } from '../src/graph/types.js';
 import {
   computeFlagshipSwitchDrift,
+  formatSwitchDriftSummaryLine,
   renderFlagshipSwitchMarkdown,
 } from './flagship-switch-drift.ts';
 
@@ -134,4 +135,49 @@ describe('flagship switch drift', () => {
     assert.match(markdown, /claude-fable-5-1@2026-09-01/);
     assert.match(markdown, /職業10/);
   });
+  test('reports every skipped occupation without changing successful statistics', () => {
+    const valid = history(2, 4, 6, 8, 10, 9);
+    const missingProvider = [{ ...vote('gpt-5.6-sol', '2026-06-01', 8), provider: '' }];
+    assert.throws(() => pickFlagshipMeanScore(missingProvider), /has no provider/);
+    const baseline = computeFlagshipSwitchDrift(new Map([[10, valid]]), INCOMING, new Map(), '2026-09-09');
+    const summary = computeFlagshipSwitchDrift(new Map<number, ScoreHistEntry[]>([
+      [50, missingProvider], // Score selection throws.
+      [30, []], // No comparable scores.
+      [10, valid],
+      [40, [{ ...vote('gpt-5.6-sol', '2026-06-01', 8), backfill: true }]],
+      [20, [vote(INCOMING, '2026-09-01', 9)]], // No scores before the incoming model.
+      [60, [{ ...vote('gpt-5.6-sol', '2026-06-01', 8), aiois: undefined }]],
+    ]), INCOMING, new Map(), '2026-09-09');
+
+    assert.equal(summary.occupationCount, 1);
+    assert.deepEqual(summary.skippedOccupationIds, [20, 30, 40, 50, 60]);
+    assert.deepEqual({ ...summary, skippedOccupationIds: [] }, baseline);
+    const diagnostic = 'Skipped occupations: 5; IDs: 20, 30, 40, 50, 60.';
+    assert.ok(renderFlagshipSwitchMarkdown(summary).endsWith(`\n${diagnostic}\n`));
+    assert.ok(formatSwitchDriftSummaryLine(summary).endsWith(diagnostic));
+    assert.equal(
+      renderFlagshipSwitchMarkdown(summary).split('\nSkipped occupations:')[0],
+      renderFlagshipSwitchMarkdown(baseline).split('\nSkipped occupations:')[0],
+    );
+    assert.equal(
+      formatSwitchDriftSummaryLine(summary).split(' Skipped occupations:')[0],
+      formatSwitchDriftSummaryLine(baseline).split(' Skipped occupations:')[0],
+    );
+    assert.deepEqual(baseline.skippedOccupationIds, []);
+    assert.ok(renderFlagshipSwitchMarkdown(baseline).endsWith('\nSkipped occupations: 0; IDs: none.\n'));
+    assert.ok(formatSwitchDriftSummaryLine(baseline).endsWith('Skipped occupations: 0; IDs: none.'));
+  });
+
+  test('reports skipped IDs when no occupation can be compared', () => {
+    const summary = computeFlagshipSwitchDrift(new Map<number, ScoreHistEntry[]>([
+      [20, []],
+      [10, [vote(INCOMING, '2026-09-01', 9)]],
+    ]), INCOMING, new Map(), '2026-09-09');
+    assert.equal(summary.occupationCount, 0);
+    assert.deepEqual(summary.skippedOccupationIds, [10, 20]);
+    const diagnostic = 'Skipped occupations: 2; IDs: 10, 20.';
+    assert.ok(renderFlagshipSwitchMarkdown(summary).endsWith(`\n${diagnostic}\n`));
+    assert.ok(formatSwitchDriftSummaryLine(summary).endsWith(diagnostic));
+  });
+
 });
