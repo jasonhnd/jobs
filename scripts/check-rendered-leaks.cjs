@@ -19,6 +19,7 @@
  */
 const fs = require('node:fs');
 const path = require('node:path');
+const { walkFiles } = require('./lib/walk-files.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist-astro');
@@ -67,22 +68,15 @@ function visibleText(html) {
     .replace(/&amp;/g, '&');
 }
 
-// IMPORTANT: on this repo, the working tree lives under Dropbox which presents
-// every entry as a symlink rather than a real file/dir. `Dirent.isDirectory()`
-// returns false for those, so we use `fs.statSync()` (which follows the link)
-// to determine the underlying type.
-function walk(dir, out = []) {
-  for (const e of fs.readdirSync(dir)) {
-    const full = path.join(dir, e);
-    let stat;
-    try { stat = fs.statSync(full); } catch { continue; }
-    if (stat.isDirectory()) walk(full, out);
-    else if (stat.isFile() && e.endsWith('.html')) out.push(full);
-  }
-  return out;
+// No skip set: the previous walk scanned every entry, including dot names.
+// An unreadable path fails the gate instead of being omitted from the scan.
+let files;
+try {
+  files = walkFiles(DIST, { ext: /\.html$/ });
+} catch (err) {
+  console.error(`[check-rendered-leaks] FAIL — ${err.message}`);
+  process.exit(1);
 }
-
-const files = walk(DIST);
 
 // The same fail-open shape as a missing dist-astro/, and likelier: a partial or
 // interrupted build leaves the directory in place with no HTML in it. Scanning

@@ -35,7 +35,7 @@ export interface ContrastProblem {
 }
 
 /** Backgrounds a foreground can legally sit on (§2.2 実測コントラスト比 table). */
-export const BACKGROUNDS = ['--cream', '--paper', '--cream-2'] as const;
+const BACKGROUNDS = ['--cream', '--paper', '--cream-2'] as const;
 
 function srgbToLinear(c: number): number {
   const s = c / 255;
@@ -95,7 +95,7 @@ export function readColourTokens(root: string = process.cwd()): Map<string, stri
 }
 
 /** §4.2 sizes are px except Display, whose clamp maxes at 40px. */
-export function tokenPx(sizeToken: string): number | null {
+function tokenPx(sizeToken: string): number | null {
   const raw = DESIGN_TOKENS[sizeToken];
   if (raw == null) return null;
   const clamp = raw.match(/clamp\([^,]+,[^,]+,\s*([0-9.]+)px\)/);
