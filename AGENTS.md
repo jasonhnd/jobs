@@ -150,6 +150,15 @@ providers, and everything that needs a Vercel deployment — is
 
 ## Repository-specific constraints
 
+- **Hash-pinned analytics inline scripts.** The bytes of analytics
+  `<script is:inline>` blocks (GA4, Meta Pixel, X, Google Ads, cookie banner,
+  and related scripts) are pinned by CSP hashes and
+  `CSP_ANALYTICS_FALLBACK_HASHES`. CI builds with empty `PUBLIC_*` analytics
+  variables, so it does not render the conditional tracker blocks and cannot
+  detect changes to their bytes. Do not change any character inside these
+  scripts, including comments. An intentional change must be explicitly
+  scoped in the Issue, accompanied by recomputed fallback hashes, and
+  accepted only after a successful Vercel preview build (Ready).
 - **Public copy is Japanese only.** The site dropped its English UI in v1.4.0;
   do not add English UI strings or a language switcher.
 - **Public Japanese copy is owner-signed.** Page text, meta descriptions, OG
