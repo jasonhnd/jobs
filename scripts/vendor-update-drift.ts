@@ -50,6 +50,7 @@ export interface VendorSwap {
 
 export interface VendorUpdateDriftSummary {
   readonly occupationCount: number;
+  readonly skippedOccupationIds: readonly number[];
   readonly incomingModel: string;
   readonly incomingDate: string;
   readonly generatedAt: string;
@@ -146,6 +147,7 @@ export function computeVendorUpdateDrift(
   const unroundedBefore: number[] = [];
   const unroundedAfter: number[] = [];
   const movers: VendorUpdateMover[] = [];
+  const skippedOccupationIds: number[] = [];
   const bandBefore = emptyBands();
   const bandAfter = emptyBands();
   let absDeltaGe05 = 0;
@@ -155,9 +157,15 @@ export function computeVendorUpdateDrift(
 
   for (const [id, history] of historyByOcc) {
     const comparable = comparableOf(history);
-    if (comparable.length === 0) continue;
+    if (comparable.length === 0) {
+      skippedOccupationIds.push(id);
+      continue;
+    }
     const withoutIncoming = comparable.filter((entry) => entry.model !== incomingModel);
-    if (withoutIncoming.length === 0) continue;
+    if (withoutIncoming.length === 0) {
+      skippedOccupationIds.push(id);
+      continue;
+    }
 
     let beforeUnrounded: number;
     let afterUnrounded: number;
@@ -167,6 +175,7 @@ export function computeVendorUpdateDrift(
       afterUnrounded = pickFlagshipMeanScore(comparable).transformation;
       latestT = pickLatestScore(comparable).aiois!.transformation;
     } catch {
+      skippedOccupationIds.push(id);
       continue;
     }
 
@@ -176,7 +185,10 @@ export function computeVendorUpdateDrift(
     const abs = Math.abs(delta);
     const beforeBand = riskBand(before);
     const afterBand = riskBand(after);
-    if (beforeBand === null || afterBand === null) continue;
+    if (beforeBand === null || afterBand === null) {
+      skippedOccupationIds.push(id);
+      continue;
+    }
 
     unroundedBefore.push(beforeUnrounded);
     unroundedAfter.push(afterUnrounded);
@@ -203,6 +215,7 @@ export function computeVendorUpdateDrift(
 
   return {
     occupationCount: movers.length,
+    skippedOccupationIds: skippedOccupationIds.sort((a, b) => a - b),
     incomingModel,
     incomingDate: swap.incomingDate,
     generatedAt,
@@ -217,6 +230,10 @@ export function computeVendorUpdateDrift(
     latestLineCount,
     movers,
   };
+}
+
+function formatSkippedOccupations(ids: readonly number[]): string {
+  return `Skipped occupations: ${ids.length}; IDs: ${ids.length > 0 ? ids.join(', ') : 'none'}.`;
 }
 
 function signed1(n: number): string {
@@ -268,6 +285,8 @@ ${moverRows(up)}
 | id | 職業 | 前 | 後 | Δ | 帯 前→後 |
 |---|---|---:|---:|---:|---|
 ${moverRows(down)}
+
+${formatSkippedOccupations(summary.skippedOccupationIds)}
 `;
 }
 
@@ -287,7 +306,8 @@ export function formatVendorUpdateSummaryLine(summary: VendorUpdateDriftSummary)
     `band ${summary.bandBefore.low}/${summary.bandBefore.mid}/${summary.bandBefore.high}→` +
     `${summary.bandAfter.low}/${summary.bandAfter.mid}/${summary.bandAfter.high} ` +
     `(${summary.bandChanges} changed) ` +
-    formatVendorSwappedLine(summary.swap)
+    formatVendorSwappedLine(summary.swap) +
+    ` ${formatSkippedOccupations(summary.skippedOccupationIds)}`
   );
 }
 
