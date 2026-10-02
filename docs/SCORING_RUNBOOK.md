@@ -144,7 +144,7 @@ Registered providers:
 | `--provider` | Auth | Native schema | Notes |
 | --- | --- | --- | --- |
 | `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. `claude-fable-5-1` (mms-8.25/8.26) uses the same transport. |
-| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8.32/8.33) rides the same transport with an explicit `--model` and `--reasoning-effort high`; the default model stays `gpt-5.6-sol`. |
+| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8.32/8.33) rides the same transport with an explicit `--model` and `--reasoning-effort high`. `scripts/run-scoring.ts` requires `--provider` and `--model`. Only the compatibility entry `run-scoring-codex.ts` defaults the model to `gpt-5.6-sol`, and that default is not the current OpenAI seat. |
 | `grok-cli` | Locally logged-in grok CLI subscription | yes (`--json-schema` inline) | xAI flagship transport from Grok 4.7 on ([mms-10](#mms-10-grok-47-xai-flagship-seat)). The frozen call passes `--model grok-4.7-build-fast` and `--reasoning-effort xhigh`. The public slug stays `grok-4.7`. Owner machine only. Grok 4.6 and the Grok 4.5 backfill stay `in-agent`. |
 
 There is no Vercel AI Gateway provider. Do not add one.
@@ -786,14 +786,15 @@ bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fabl
 bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.7_2026-09-22.json --candidate $R/occupations_claude-opus-5-5_$RD.json --out $R/drift_grok-4.7_vs_claude-opus-5-5_$RD.md
 ```
 
-## GPT-5.6-SOL / Codex-CLI scoring
+## GPT-5.6-SOL / Codex-CLI scoring (historical, Issue #126)
 
-This section is the Codex CLI path for `mms-5-prep` / Issue #141 and the gated GPT 5.6 SOL execution in Issue #126. It is added alongside the Fable 5 / Issue #9 path above; it does not replace the Fable 5 runbook.
+This section is the historical Codex CLI path for `mms-5-prep` / Issue #141 and the gated GPT 5.6 SOL execution in Issue #126 (2026-07-12). It is not the current OpenAI seat. The current seat is `gpt-6.1-sol` ([mms-13](#mms-13-gpt-61-sol-openai-flagship-seat)). It is added alongside the Fable 5 / Issue #9 path above; it does not replace the Fable 5 runbook.
 
 Scope and boundary:
 
-- Runner: `scripts/run-scoring.ts --provider codex` (equivalently `scripts/run-scoring-codex.ts`, kept as a compatibility entry with the same frozen behaviour).
-- Model: `gpt-5.6-sol` (Codex path default). Provider: OpenAI.
+- Generic runner: `scripts/run-scoring.ts` requires `--provider` and `--model`. Neither flag has a default. This historical run passes `--provider codex --model gpt-5.6-sol`.
+- Compatibility entry: `scripts/run-scoring-codex.ts` defaults the provider to `codex` and the model to `CODEX_DEFAULT_MODEL` (`gpt-5.6-sol` in `scripts/lib/scoring/providers/codex.ts`). That default is frozen. It is not the current OpenAI seat, and `run-scoring.ts` does not inherit it.
+- Historical model for this section: `gpt-5.6-sol`. Vendor: OpenAI.
 - Auth: locally logged-in Codex CLI subscription. Do not use or commit an OpenAI API key for this path.
 - Frozen prompt: `data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md`.
 - Prompt version: `AIOIS-10-v1.0-gpt-5.6-sol`.
@@ -814,19 +815,22 @@ Explicit model-unavailable/provider-error/refusal responses and synthetic confid
 
 Runner flags:
 
-- `--prompt-file <path>`: required rubric file.
+- `--prompt-file <path>`: required rubric file on both runners.
+- `--provider <name>`: required on `scripts/run-scoring.ts` (`missing required --provider <name>`). The compatibility entry defaults it to `codex`.
 - `--out <path>`: raw JSONL destination; pilot output should be under `.cache/scoring/`.
-- `--model <id>`: optional; default is `gpt-5.6-sol`.
+- `--model <id>`: required on `scripts/run-scoring.ts` (`missing required --model <name>`). Optional only on `scripts/run-scoring-codex.ts`, where the frozen default is `gpt-5.6-sol`. That default is not the current OpenAI seat.
 - `--concurrency <n>`: default 2, capped at max 4.
 - `--ids 1,2,3`: score only selected IDs.
 - `--limit N`: score the first N pending occupations after filtering.
 - `--resume`: skip IDs already present in the output JSONL and append remaining rows.
 - `--reasoning-effort <low|medium|high|xhigh>`: optional, codex only (mms-8.12). Inserts `-c model_reasoning_effort=<e>` before `--model`. Absent = inherit `~/.codex/config.toml`; the effective value and its source are recorded in `provider-preflight.json`.
 
-Pilot setup (30-50 occupations):
+Pilot setup (historical GPT-5.6, Issue #126, 30-50 occupations). `make-pilot-sample.ts` requires `--model` and `--prompt-file`.
 
 ```bash
 bun scripts/make-pilot-sample.ts \
+  --model gpt-5.6-sol \
+  --prompt-file data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md \
   --size 40 \
   --chunk 5 \
   --baseline data/scores/occupations_claude-fable-5_2026-06-13.json \
