@@ -152,11 +152,14 @@ There is no Vercel AI Gateway provider. Do not add one.
 ```bash
 bun scripts/run-scoring.ts --list-providers
 
-# In-agent (the running session *is* the scorer; no API key)
+# In-agent (the running session *is* the scorer; no API key).
+# example-grok-4-6 is a non-production name. Prompts and answers follow --run-name,
+# not the parent of --out. Omitting --run-name uses buildRunName instead.
 bun scripts/run-scoring.ts \
   --provider in-agent --model grok-4.6 --attest-model grok-4.6 \
   --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
-  --out .cache/scoring/<run>/raw-scores.jsonl
+  --run-name example-grok-4-6 \
+  --out .cache/scoring/example-grok-4-6/raw-scores.jsonl
 ```
 
 The downstream `assemble:scores` step takes the bare model slug plus an
@@ -207,21 +210,25 @@ Grok は **Vercel AI Gateway を使わない**。**bespoke xAI provider も新�
   事前確認が必要**（実装完了 ≠ 実行開始）。
 
 ```bash
+# example-grok-4-6 is one non-production run. --run-name, --out, and answers share it.
 bun scripts/run-scoring.ts \
   --provider in-agent --model grok-4.6 --attest-model grok-4.6 \
   --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
-  --out .cache/scoring/<run>/raw-scores.jsonl \
+  --run-name example-grok-4-6 \
+  --out .cache/scoring/example-grok-4-6/raw-scores.jsonl \
   --ids 111,156
+# prompts: .cache/scoring/example-grok-4-6/prompts/
+# answers: .cache/scoring/example-grok-4-6/answers/
 
 # assemble は裸 slug + 明示 --provider（提供元 xai。in-agent ではない）
 bun scripts/assemble-scores.ts \
   --mode aiois --model grok-4.6 --provider xai --date <YYYY-MM-DD> \
   --prompt-version AIOIS-10-v1.0-grok-4.6 \
   --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
-  --in .cache/scoring/<run>/raw-scores.jsonl \
-  --out .cache/scoring/<run>/occupations_grok-4.6_<date>.json
+  --in .cache/scoring/example-grok-4-6/raw-scores.jsonl \
+  --out .cache/scoring/example-grok-4-6/occupations_grok-4.6_<date>.json
 
-bun run check:score-batch .cache/scoring/<run>/occupations_grok-4.6_<date>.json
+bun run check:score-batch .cache/scoring/example-grok-4-6/occupations_grok-4.6_<date>.json
 ```
 
 Grok 4.7 flagship runs use `--provider grok-cli`. Follow [mms-10](#mms-10-grok-47-xai-flagship-seat). Do not reuse this Grok 4.6 in-agent section, its prompt, or `--attest-model grok-4.6` for the current xAI seat. This section stays as the historical record.
@@ -232,25 +239,31 @@ No API key and no child process — the running model answers its own prompts,
 while still going through the same validation, audit trail, and resume logic as
 any other provider.
 
+`runDir` is `.cache/scoring/<runName>` from `--run-name`. It is not the parent of `--out`. Omitting `--run-name` uses `buildRunName` (output-file stem, model, and timestamp), so prompts would not sit beside the JSONL. `example-in-agent` below is one non-production name for prepare, answers, and resume.
+
 ```bash
 # 1. Emit prompts (every pending occupation is reported as pending)
 bun scripts/run-scoring.ts \
   --provider in-agent --model <model-id> --attest-model <model-id> \
   --prompt-file data/prompts/<date>_<model-id>-aiois10.ja.md \
-  --out .cache/scoring/<run>/raw-scores.jsonl \
-  --run-name <run> --ids 1,2,3
+  --run-name example-in-agent \
+  --out .cache/scoring/example-in-agent/raw-scores.jsonl \
+  --ids 1,2,3
 
 # 2. Write answers as JSON Lines (chunked files keep this to a few writes)
-#    .cache/scoring/<run>/answers/chunk-01.jsonl
+#    .cache/scoring/example-in-agent/answers/chunk-01.jsonl
 
-# 3. Validate and append
-bun scripts/run-scoring.ts … --resume
+# 3. Validate and append. Repeat the same --run-name and --out.
+bun scripts/run-scoring.ts \
+  --provider in-agent --model <model-id> --attest-model <model-id> \
+  --prompt-file data/prompts/<date>_<model-id>-aiois10.ja.md \
+  --run-name example-in-agent \
+  --out .cache/scoring/example-in-agent/raw-scores.jsonl \
+  --ids 1,2,3 \
+  --resume
 ```
 
-Prompts are written to `.cache/scoring/<run>/prompts/<id>.txt` so the answers
-are produced against the exact rubric + extract any other provider would have
-been sent. Contract violations are rejected per id with the failing formula
-named, and never reach the output JSONL.
+Prompts are written to `.cache/scoring/example-in-agent/prompts/<id>.txt` because `--run-name example-in-agent` is set, so the answers are produced against the exact rubric + extract any other provider would have been sent. Contract violations are rejected per id with the failing formula named, and never reach the output JSONL.
 
 ## Anomaly re-score
 
