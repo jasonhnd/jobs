@@ -19,7 +19,7 @@
 | surface | 範囲 | ページ数 | 実装 | 状態 | 備考 |
 |---|---|---|---|---|---|
 | `tokens` | `:root` トークン宣言 | — | `design-tokens.ts` + `canonical-css.ts` | `conformant` | 2026-09-14 完了（#525）。40 トークンを追加。参照者ゼロ → **視覚変化なし** |
-| `canonical-type` | 全 839 ページの h1/h2/h3/h4 + p | 839 | `canonical-css.ts` | `conformant` | 2026-09-15 完了（#526）。h1 27.2→28 / h2 18.4→22 / h3 16→18 sans700 / h4 新設 16px sans700。**`!important` は h1/h2/h3 に残存**（撤去は design-1.9）|
+| `canonical-type` | 全 839 ページの h1/h2/h3/h4 + p | 839 | `canonical-css.ts` | `conformant` | 2026-09-15 完了（#526）。h1 27.2→28 / h2 18.4→22 / h3 16→18 sans700 / h4 新設 16px sans700。Heading `font-size: !important` removed on 2026-09-15 (design-1.9 / [#532](https://github.com/jasonhnd/jobs/issues/532)); see the dated history below|
 | `feature` | `/` `/models` `/aiadoption` `/aiadoption/<release>` | 3+ | `canonical-css.ts`（`body.page-feature`）+ 個別 | `conformant` | 2026-09-15 完了（#532、3 回に分けて実施）。`!important` 全廃・Display 分岐・H1 重複解消・ページ CSS 224 箇所のトークン化。2026-09-22 `/aiadoption` を HAID 現状ページとして書き直し（aiadoption-1.3〜1.7）: トークンのみ、inline JS なし、1440 / 768 / 375 で確認 |
 | `interactive` | `/map` | 1 | `_map-css.ts` + `_map-inline.js` | `conformant` | 2026-09-15 完了（#527）。`:root` 撤去、タイル 11.2px→12px・省略記号廃止（截断率 PC 54%→0 / SP 73%→0）、見出し規則 3 件除去 |
 | `detail` | `/<id>` | 556 | `canonical/detail.ts` + `_id-css.ts` + 関連ビュー 2 | `conformant` | 2026-09-15 完了（#530）。12px 未満 24 種を是正、`--ink-3` 文字色 31 箇所を `--ink-meta` へ（§2.2）、字重 800/900/500 を 19 箇所是正 |
@@ -39,7 +39,10 @@ migrating    0 / 12
 legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 ```
 
-**全 10 surface が `conformant`。移行完了（2026-09-15）。**
+**Current migration is complete for web surfaces; `og` remains intentionally
+`legacy` as a separate medium.** The totals above include `chrome` and `og`.
+Historical 2026-09-15 milestone: the then-existing 10 surfaces were conformant;
+that dated count is preserved in the history, not used as the current total.
 
 - ページ標題はサイト全体で **2 値**のみ（H1 28px / Display `clamp(32px,6vw,40px)`）
 - `font-size` の `!important` は `src/` から**全廃**
@@ -126,7 +129,15 @@ legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 > 視覚回帰: 18 ページ × 2 視口で**寸法差ゼロ**（レイアウト移動なし）。差分は
 > 0.14〜3.1% の画素で、すべて色の置換に対応する。
 >
-> **オーナー判断が要る残件**
+> **Historical residuals (2026-09-17) — resolved, no renewed owner decision.**
+>
+> Resolution: the 2026-09-20 ruling in [Design.md §2.3](Design.md) and
+> [merged PR #558](https://github.com/jasonhnd/jobs/pull/558) changed `--risk-0`
+> to `#0F8663` with band-specific foregrounds (band 0 white 4.56:1).
+> [`design-tokens.ts`](../src/lib/design-tokens.ts) carries the approved values.
+> The CTA/pill status notes and §2.2 migration label were also reconciled;
+> Design v1.2 remains unchanged. The entries below preserve the original
+> September 17 concerns, not current defects or pending approvals.
 >
 > - **`--risk-0`（`#0F8A66`）には契約を満たす文字色が調色板に存在しない。** 白 4.33 /
 >   `--ink` 3.81 が上限で、4.5 に届くのは純黒（4.85）のみ。現在 band 0 の職業は
@@ -448,6 +459,10 @@ legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 | 9 | ✅ CI ゲート有効化 | なし | 8 |
 
 ### `feature` を最後に置く理由
+
+Historical migration rationale (before completion on 2026-09-15 / #532).
+The heading `!important` declarations and blockers described below were removed;
+this is sequencing history, not a current residual. See the dated history below.
 
 canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **class 付き見出し規則 66 箇所**を抑え込んでいる。`feature` はその `!important` の撤去を含むため、66 箇所が全部消えるまで実行できない。
 
