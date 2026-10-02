@@ -286,7 +286,7 @@ named, and never reach the output JSONL.
 
 ### Claude Fable 5.1 / in-agent（mms-8.25 / 8.26）
 
-Sub-agent brief: copy `.cache/scoring/grok-4.6-in-agent-2026-09-07/SCORING_INSTRUCTIONS.md` to `.cache/scoring/mms-8f-<phase>/SCORING_INSTRUCTIONS.md` (`mms-8f-pilot` or `mms-8f-full`), replace `grok-4.6` → `claude-fable-5-1`, the run dir path, and add the line `Do not use tool-call / structured-output features; write the JSONL file as plain text.` Keep the formulas block verbatim. If sub-agents were used, add `--verify-subagents <transcript dir> --verify-agent-ids a,b,c` on the `--resume` pass.
+Sub-agent brief: the 2026-09 file `.cache/scoring/grok-4.6-in-agent-2026-09-07/SCORING_INSTRUCTIONS.md` is not in the repository. Do not copy it, and do not depend on `.cache` for a clean clone. The reproducible rubric is `data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md`. [`scripts/opus55_SCORING_INSTRUCTIONS.template.md`](../scripts/opus55_SCORING_INSTRUCTIONS.template.md) belongs to mms-11 only; do not reuse it unchanged for Fable 5.1. If sub-agents were used, add `--verify-subagents <transcript dir> --verify-agent-ids a,b,c` on the `--resume` pass.
 
 Pilot (mms-8.25). Artifacts under `.cache/scoring/mms-8f-pilot/`. Owner GO on #432 before the first command. Session must be Claude Fable 5.1.
 
@@ -350,7 +350,7 @@ bun scripts/run-scoring.ts \
   --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
   --run-name mms-8f-full \
   --out .cache/scoring/mms-8f-full/raw-scores.jsonl
-# score into answers/chunk-01..29.jsonl (≈20 ids each; copy SCORING_INSTRUCTIONS.md from the pilot dir, fix the path)
+# score into answers/chunk-01..29.jsonl (≈20 ids each). Use the frozen prompt in this section, not a SCORING_INSTRUCTIONS.md copied from .cache.
 bun scripts/run-scoring.ts … --run-name mms-8f-full --out .cache/scoring/mms-8f-full/raw-scores.jsonl --resume
 wc -l .cache/scoring/mms-8f-full/raw-scores.jsonl                                   # 556
 jq -r .id .cache/scoring/mms-8f-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
@@ -547,7 +547,7 @@ bun scripts/run-scoring.ts \
   --prompt-file data/prompts/2026-09-10_grok-4.5-aiois10.ja.md \
   --run-name mms-9-full \
   --out .cache/scoring/mms-9-full/raw-scores.jsonl
-# score into answers/chunk-01..29.jsonl (≈20 ids each; copy SCORING_INSTRUCTIONS.md from the pilot dir, fix the path)
+# score into answers/chunk-01..29.jsonl (≈20 ids each). Use the frozen prompt in this section, not a SCORING_INSTRUCTIONS.md copied from .cache.
 bun scripts/run-scoring.ts … --run-name mms-9-full --out .cache/scoring/mms-9-full/raw-scores.jsonl --resume
 wc -l .cache/scoring/mms-9-full/raw-scores.jsonl                                   # 556
 jq -r .id .cache/scoring/mms-9-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
@@ -657,13 +657,13 @@ From 2026-09-23 a vendor's flagship seat holds the newest model the owner chose 
 | artifacts | `.cache/scoring/mms-11-preflight/`, `.cache/scoring/mms-11-pilot/`, `.cache/scoring/mms-11-full/` |
 | issues | preflight #608, pilot #609, full #610, landing #611 |
 
-The chunk runner is a local script under `.cache/`, not a repository file: `/Users/ms23m2/AgenticCoder/jobs/.cache/handoff/2026-09-23-mms-11-12/opus55_score_chunks.py`, adapted from `.cache/scoring/mms-8f-full/score_chunks.py` (Claude Fable 5.1, mms-8.26). It starts one `claude -p --model claude-opus-5-5 --effort high` process per chunk and only checks what that process wrote. It stops on a rate limit, a non-zero exit, `is_error`, a missing or foreign `modelUsage` key (a `claude-haiku-*` helper is allowed), a spawned sub-agent, a malformed chunk, or a changed tracked file. Re-running skips chunks that are already valid. Do not put any file into `answers/` by hand: the in-agent provider loads every `*.jsonl` there, in file-name order, and the later definition of an id wins.
+The chunk runner is [`scripts/opus55_score_chunks.py`](../scripts/opus55_score_chunks.py). The briefing template beside it is [`scripts/opus55_SCORING_INSTRUCTIONS.template.md`](../scripts/opus55_SCORING_INSTRUCTIONS.template.md) (`__RUN_DIR__` is replaced per run). Both were vendored byte-for-byte from the 2026-09-23 mms-11 handoff, with no run data, answers, or credentials: script sha256 `56c38225ef2de7ed7693d1af3e821dbd5d027c8353d0c0924c54e8424157e2e0`, template sha256 `51f4632da45f8987a2556a76e77976be2c48b51e4624524bb3888db8f66112fe`. The script's own header says it was adapted from the untracked `.cache/scoring/mms-8f-full/score_chunks.py` (Claude Fable 5.1, mms-8.26); that cache file is not required. It starts one `claude -p --model claude-opus-5-5 --effort high` process per chunk and only checks what that process wrote. It stops on a rate limit, a non-zero exit, `is_error`, a missing or foreign `modelUsage` key (a `claude-haiku-*` helper is allowed), a spawned sub-agent, a malformed chunk, or a changed tracked file. Re-running skips chunks that are already valid. `--dry-run` prints the plan and spawns no chunk. Do not put any file into `answers/` by hand: the in-agent provider loads every `*.jsonl` there, in file-name order, and the later definition of an id wins.
 
 Pilot 40 (#609). Owner GO on #609 before the first command. Run from the lane worktree root, detached at `origin/preview`.
 
 ```bash
-H=/Users/ms23m2/AgenticCoder/jobs/.cache/handoff/2026-09-23-mms-11-12
 P=data/prompts/2026-09-23_claude-opus-5-5-aiois10.ja.md; test -f "$P"
+test -f scripts/opus55_score_chunks.py && test -f scripts/opus55_SCORING_INSTRUCTIONS.template.md
 R=.cache/scoring/mms-11-pilot
 # 1. sample. Pass --baseline explicitly: the default is the newest batch (grok-4.7).
 #    Do not pass --explain: it would show baseline scores to the scorer (anchoring).
@@ -675,8 +675,8 @@ bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-
   --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$IDS"
 ls $R/prompts | wc -l                                  # 40
 # 3. answers: 8 chunks of 5, each written by claude -p --model claude-opus-5-5 --effort high
-python3 "$H/opus55_score_chunks.py" --run $R --chunk 5 --expect 40 --dry-run
-python3 "$H/opus55_score_chunks.py" --run $R --chunk 5 --expect 40
+python3 scripts/opus55_score_chunks.py --run $R --chunk 5 --expect 40 --dry-run
+python3 scripts/opus55_score_chunks.py --run $R --chunk 5 --expect 40
 # 4. validate + append
 bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
   --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$IDS" --resume
@@ -691,7 +691,7 @@ Re-score, only if step 5 lists ids. At most two rounds. Name each re-score chunk
 ```bash
 BAD=<comma-separated ids, at most 20 per runner call>
 jq -c --argjson bad "[$BAD]" 'select(.id as $i | ($bad | index($i)) | not)' $R/raw-scores.jsonl > $R/raw-scores.tmp && mv $R/raw-scores.tmp $R/raw-scores.jsonl
-python3 "$H/opus55_score_chunks.py" --run $R --ids "$BAD" --name rescored-r1a   # round two: --name rescored-r2a
+python3 scripts/opus55_score_chunks.py --run $R --ids "$BAD" --name rescored-r1a   # round two: --name rescored-r2a
 bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
   --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$BAD" --resume
 ```
@@ -711,15 +711,15 @@ bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fabl
 bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.7_2026-09-22.json --candidate $R/occupations_claude-opus-5-5_${D}_pilot.json --out $R/drift_grok-4.7_vs_claude-opus-5-5_${D}.md
 ```
 
-Full 556 (#610). `Owner FULL GO` on #609 and GO on #610 before the first command. `P` and `H` as above. `run_date` is the JST date when all 556 rows, re-scores included, are in; it must be later than `2026-09-22`.
+Full 556 (#610). `Owner FULL GO` on #609 and GO on #610 before the first command. `P` as above. The chunk runner is `scripts/opus55_score_chunks.py`. `run_date` is the JST date when all 556 rows, re-scores included, are in; it must be later than `2026-09-22`.
 
 ```bash
 R=.cache/scoring/mms-11-full
 bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
   --prompt-file "$P" --run-name mms-11-full --out $R/raw-scores.jsonl
 ls $R/prompts | wc -l                                   # 556
-python3 "$H/opus55_score_chunks.py" --run $R --chunk 20 --expect 556 --dry-run    # 28 chunks
-python3 "$H/opus55_score_chunks.py" --run $R --chunk 20 --expect 556
+python3 scripts/opus55_score_chunks.py --run $R --chunk 20 --expect 556 --dry-run    # 28 chunks
+python3 scripts/opus55_score_chunks.py --run $R --chunk 20 --expect 556
 #   STOP: RATE_LIMIT -> wait for the Claude usage window, then re-run the same command (valid chunks are skipped)
 #   any other STOP   -> read the error; the rejected chunk is moved to $R/logs/*.rejected-*.jsonl, and a re-run rewrites it
 bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
