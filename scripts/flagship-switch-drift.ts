@@ -42,6 +42,7 @@ export interface FlagshipSwitchBandCounts {
 
 export interface FlagshipSwitchDriftSummary {
   readonly occupationCount: number;
+  readonly skippedOccupationIds: readonly number[];
   readonly incomingModel: string;
   readonly incomingDate: string | null;
   readonly generatedAt: string;
@@ -93,6 +94,7 @@ export function computeFlagshipSwitchDrift(
   const afterVals: number[] = [];
   const medianWithIncomingVals: number[] = [];
   const movers: FlagshipSwitchMover[] = [];
+  const skippedOccupationIds: number[] = [];
   const bandBefore = emptyBands();
   const bandAfter = emptyBands();
   let absDeltaGe05 = 0;
@@ -102,9 +104,15 @@ export function computeFlagshipSwitchDrift(
 
   for (const [id, history] of historyByOcc) {
     const comparable = history.filter((entry) => entry.aiois != null);
-    if (comparable.length === 0) continue;
+    if (comparable.length === 0) {
+      skippedOccupationIds.push(id);
+      continue;
+    }
     const withoutIncoming = comparable.filter((entry) => entry.model !== incomingModel);
-    if (withoutIncoming.length === 0) continue;
+    if (withoutIncoming.length === 0) {
+      skippedOccupationIds.push(id);
+      continue;
+    }
 
     let beforeUnrounded: number;
     let afterUnrounded: number;
@@ -116,6 +124,7 @@ export function computeFlagshipSwitchDrift(
       medianWithIncomingUnrounded = pickConsensusScore(comparable).transformation;
       latestT = pickLatestScore(comparable).aiois!.transformation;
     } catch {
+      skippedOccupationIds.push(id);
       continue;
     }
 
@@ -125,7 +134,10 @@ export function computeFlagshipSwitchDrift(
     const abs = Math.abs(delta);
     const beforeBand = riskBand(before);
     const afterBand = riskBand(after);
-    if (beforeBand === null || afterBand === null) continue;
+    if (beforeBand === null || afterBand === null) {
+      skippedOccupationIds.push(id);
+      continue;
+    }
 
     beforeVals.push(before);
     afterVals.push(after);
@@ -153,6 +165,7 @@ export function computeFlagshipSwitchDrift(
 
   return {
     occupationCount: movers.length,
+    skippedOccupationIds: skippedOccupationIds.sort((a, b) => a - b),
     incomingModel,
     incomingDate: incomingDateOf(historyByOcc, incomingModel),
     generatedAt,
@@ -167,6 +180,10 @@ export function computeFlagshipSwitchDrift(
     latestLineCount,
     movers,
   };
+}
+
+function formatSkippedOccupations(ids: readonly number[]): string {
+  return `Skipped occupations: ${ids.length}; IDs: ${ids.length > 0 ? ids.join(', ') : 'none'}.`;
 }
 
 function signed1(n: number): string {
@@ -221,6 +238,8 @@ ${moverRows(up)}
 | id | 職業 | 前 | 後 | Δ | 帯 前→後 |
 |---|---|---:|---:|---:|---|
 ${moverRows(down)}
+
+${formatSkippedOccupations(summary.skippedOccupationIds)}
 `;
 }
 
@@ -237,7 +256,8 @@ export function formatSwitchDriftSummaryLine(summary: FlagshipSwitchDriftSummary
     `|Δ|≥0.5=${summary.absDeltaGe05} |Δ|≥1.0=${summary.absDeltaGe10} ` +
     `band ${summary.bandBefore.low}/${summary.bandBefore.mid}/${summary.bandBefore.high}→` +
     `${summary.bandAfter.low}/${summary.bandAfter.mid}/${summary.bandAfter.high} ` +
-    `(${summary.bandChanges} changed)`
+    `(${summary.bandChanges} changed) ` +
+    formatSkippedOccupations(summary.skippedOccupationIds)
   );
 }
 
