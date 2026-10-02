@@ -112,6 +112,36 @@ describe('vendor-update drift', () => {
     assert.match(markdown, /職業10/);
   });
 
+  test('the mean is taken over unrounded values; counts use displayed values (#631)', () => {
+    // After the swap every occupation's mean is (3.9 + 4 + 4) / 3 = 3.9666…,
+    // which displays 4.0. Averaging displayed values would report 4.00; the
+    // unrounded mean is 3.97.
+    const historyByOcc = new Map<number, ScoreHistEntry[]>([
+      [1, panel(4, 4, 4, 3.9)],
+      [2, panel(4, 4, 4, 3.9)],
+      [3, panel(4, 4, 4, 3.9)],
+    ]);
+    const summary = computeVendorUpdateDrift(historyByOcc, INCOMING, new Map(), '2026-09-09');
+    assert.equal(summary.meanBefore, 4);
+    assert.equal(summary.meanAfter, 3.97);
+    assert.equal(fmean(summary.movers.map((row) => row.after)), 4); // what rounding first would give
+    assert.equal(summary.bandChanges, 0); // 4.0 → 4.0 as displayed
+    assert.equal(summary.absDeltaGe05, 0);
+  });
+
+  test('a later backfill batch is not the vendor predecessor', () => {
+    const history: ScoreHistEntry[] = [
+      vote('grok-4.6', 'xai', '2026-09-07', 4),
+      { ...vote('grok-4.5', 'xai', '2026-09-10', 5), backfill: true },
+      vote('grok-4.7-build-fast', 'xai', '2026-09-22', 3),
+      vote('claude-fable-5-1', 'anthropic', '2026-09-09', 5),
+      vote('gpt-6-astra', 'openai', '2026-09-10', 5),
+    ];
+    const swap = resolveVendorSwap(new Map([[1, history]]), 'grok-4.7-build-fast');
+    assert.equal(swap.oldModel, 'grok-4.6');
+    assert.equal(swap.oldDate, '2026-09-07');
+  });
+
   test('incoming model absent throws', () => {
     const historyByOcc = new Map<number, ScoreHistEntry[]>([
       [1, [

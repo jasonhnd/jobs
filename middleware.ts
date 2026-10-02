@@ -63,6 +63,7 @@ import {
   classifyGeoReferral,
   attachDeliveryParams,
   clientIpFromRequest,
+  shouldWithholdFromIndex,
 } from './src/lib/middleware-helpers.js';
 import { fetchWithTimeout } from './src/lib/http-client.js';
 import {
@@ -91,6 +92,23 @@ export const config = {
 // unit-testable without spinning up the Edge runtime. This file is the
 // I/O wrapper: read headers + env → call helpers → POST via waitUntil.
 
+/**
+ * Stamp `X-Robots-Tag: noindex, nofollow` on responses served from any host
+ * that is not production (see shouldWithholdFromIndex for why this is a
+ * request-time rather than a build-time decision).
+ *
+ * Applied only to `next()` / `rewrite()` results. `Response.redirect()`
+ * returns a response whose headers guard is "immutable" per the Fetch spec,
+ * so calling .set() on one throws — and a redirect is not indexed anyway;
+ * whatever it points at gets stamped on its own request.
+ */
+function withholdFromIndexIfPreview(response: Response, request: Request): Response {
+  if (shouldWithholdFromIndex(request.headers.get('host'))) {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+  return response;
+}
+
 export default function middleware(request: Request): Response {
   const measurementId = process.env.PUBLIC_GA4_MEASUREMENT_ID;
   const apiSecret = process.env.GA4_MP_API_SECRET;
@@ -114,11 +132,14 @@ export default function middleware(request: Request): Response {
 
   const meOgTarget = meOccupationOgRewriteTarget(url);
   if (meOgTarget && isShareUnfurlerUserAgent(ua)) {
-    return rewrite(meOgTarget);
+    return withholdFromIndexIfPreview(rewrite(meOgTarget), request);
   }
 
   const shareTarget = shindanShareRewriteTarget(url);
-  const routeResponse = shareTarget ? rewrite(shareTarget) : next();
+  const routeResponse = withholdFromIndexIfPreview(
+    shareTarget ? rewrite(shareTarget) : next(),
+    request,
+  );
 
   // The share renderer fetches the generic static shell from this deployment.
   // That internal request is not a visitor page view and must not double-count

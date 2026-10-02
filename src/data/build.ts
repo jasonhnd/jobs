@@ -42,8 +42,8 @@ import { buildSectors } from './projections/sectors.js';
 import { buildSkills } from './projections/skills.js';
 import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
-import { buildAiAdoption } from './projections/ai-adoption.js';
 import { buildHaidSpec } from './projections/haid-spec.js';
+import { buildHaidRelease } from './projections/haid-release.js';
 import { buildWorktypes } from './projections/worktypes.js';
 import { formatModelDisplay, pickAttributionBatch, type BatchMetaForAttribution } from '../site/score-attribution.js';
 import { flagshipPanelMeta } from '../graph/score-strategy.js';
@@ -262,14 +262,14 @@ async function main(): Promise<void> {
       return { files: r.files, summary: `rows=${r.rows} top10=${r.top10Rows}` };
     }));
 
-    runs.push(await runProjection('ai-adoption', async () => {
-      const r = await buildAiAdoption(STAGE_DIST);
-      return { files: r.files, summary: `layers=${r.rows}` };
-    }));
-
     runs.push(await runProjection('haid-spec', async () => {
       const r = await buildHaidSpec(STAGE_DIST);
       return { files: r.files, summary: `levels=${r.rows}` };
+    }));
+
+    runs.push(await runProjection('haid-release', async () => {
+      const r = await buildHaidRelease(STAGE_DIST);
+      return { files: r.files, summary: `releases=${r.releases.length} latest=${r.latest} +deprecated-stub` };
     }));
 
     runs.push(await runProjection('search', async () => {

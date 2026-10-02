@@ -76,14 +76,71 @@ tokens → §2.5 `color-mix`; the unassigned range → `chrome`; §18.7 → 1.14
 statistics typeface → 1.12). Still open: **`.four-oh-four`** — a decorative
 numeral with no role in §4.7 (its synthetic italic was removed in design-1.21).
 
-## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
+## Done — /aiadoption as the HAID current-state page (aiadoption-1, closed 2026-09-22)
+
+Owner rulings 2026-09-11 / 09-21 / 09-22: `/aiadoption` is the quarterly
+current-state page of HAID (人類と AI の距離) — one object, a treemap of
+humanity (area = people, four relation columns left→right = far→near, the
+three boundaries drawn thick, `#dan-k` highlights a level for the diagnosis
+page to land on), then the N(≥k) list, 「数字の出どころと計算」 with every
+formula spelled out, 前回との変動, the anchor table and a quotable fact
+block. Zero inline JS. Every round has its own URL (`/aiadoption/<yyyy-qN>`)
+and `/aiadoption` is the newest. Nav / drawer / footer say 「人類と AI の距離」.
+The 5-layer model and `d3` are gone; `data.ai-adoption.json` is a deprecated
+stub. Preview check 2026-09-22 on pre at 1440 / 768 / 375 for `/aiadoption`,
+`/2026-q2`, `/2026-q3`: no overflow, no text under 12px, 10 cells + 10 rows,
+drawer label correct.
+
+Data contract (`data/haid-release/<yyyy-qN>/`, append-only): anchors carry
+grade A–D, window, market (cn / row / world), kind (product / union /
+top_down / base) and `placeholder` / `verified`; levels name a method
+(single / max_single / sum_minus_overlap / market_union_topdown / none) and
+the projection does the arithmetic, records a derivation trace, floors by
+nesting, flags anchors older than 12 months, and refuses a round whose
+latest cited anchor lies outside its quarter. Level 4 in 2026-Q3: China =
+QuestMobile's deduplicated total; rest of world = vendor sum × (1 − Pew
+overlap); reconciled with Microsoft AI Diffusion top-down → 低 9.6 億 /
+高 20 億 / 中 14 億.
+
+- aiadoption-1.1 (#573): release directory + schema + invariants.
+- aiadoption-1.2 (#575): projection `data.haid-<release>.json` / `-latest`.
+- aiadoption-1.3 (#576): the page.
+- aiadoption-1.4 (#581): archive routes, 2026-Q2 retro draft, 前回との変動,
+  nav rename, sitemap, OG.
+- aiadoption-1.5 (#583): retire the 5-layer model, deprecated stub.
+- aiadoption-1.6 (#584): methods instead of numbers; 「数字の出どころと計算」.
+- aiadoption-1.7 (#585, #586, #595): 2026-Q3 anchors from the quarter's
+  vendor statements, every vendor with a published or panel count,
+  per-market union + top-down reconciliation, Meta AI to level 3, stale
+  flag, in-quarter as_of rule.
+- aiadoption-1.8 (#598): preview check + close-out.
+- aiadoption-1.9: 「数字の出どころと計算」 as per-level cards (inputs → steps
+  → result) for desktop and phone.
+
+- aiadoption-1.10 (#667): 2026-Q3 published `final` on 2026-09-29. All 21
+  anchors and the Pew overlap are `verified`. Working-age base is the WPP
+  15–64 sum 5,421,227,666; Microsoft AI Diffusion 17.8% is 964,978,525.
+  The 2026-09-21 update (June, 18.8%) is noted and not used. Japanese copy
+  in `haid-release-copy.ts`, `og-cards.ts` and `release.json` `method_ja`
+  stays as signed. `version` stays `2026-Q3.0`.
+
+## Done — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
+
+Shipped in [PR #558](https://github.com/jasonhnd/jobs/pull/558) (2026-09-20),
+with the one-decimal follow-up [#560](https://github.com/jasonhnd/jobs/pull/560)
+(2026-09-20) and home-treemap follow-up
+[#566](https://github.com/jasonhnd/jobs/pull/566) (2026-09-21). Included in
+[preview → main promotion #569](https://github.com/jasonhnd/jobs/pull/569)
+(2026-09-21). These completed hard fixes are separate from the Parked proposals.
 
 Owner review 2026-09-18/19 of the rendered site (1440×900 / 375×812, Vercel Web
 Analytics 2026-08-19→09-18: 83.6 % of visitors on mobile, 92 % on `/`). Owner
 rulings 2026-09-19/20: fix everything the review found; **no canon version
 bump** (stays v1.2, changes recorded in the revision history); continue the
-`design-1.N` numbering; `/rankings/ai-risk-high` title unchanged; treemap
-label truncation kept (§5.7 ruling); no `check-radius`.
+`design-1.N` numbering; `/rankings/ai-risk-high` title unchanged;
+no `check-radius`. The 2026-09-19 label-clipping ruling was **withdrawn on
+2026-09-21** (§5.7 / #566): home canvas follows `/map`, uses 12px full names
+only when they fit, and shows no clipped or ellipsized label.
 
 - canon: §4.7 gains 「本文中の行内強調（`strong` / `em`）」 = `--ink` 700, no
   italics; §2.3 `--risk-0` `#0F8A66` → `#0F8663` (white 4.33 → 4.56:1) and a
@@ -100,23 +157,45 @@ label truncation kept (§5.7 ruling); no `check-radius`.
   radii → `var(--r-md)`. Movers labels → 「仕事が減るリスクが上がった／下がった職業」.
 - gate: `check-role-color` — §4.7 role → token checked against CSS; wired
   into `verify:gates`.
+- follow-up #560: hover tooltips and `/map` / `/me` lists display one decimal.
+- follow-up #566: home canvas adopts `/map` gaps/corners and full-name-or-hidden
+  labels; names and values remain available through tooltips on every tile.
 
-Parked for the next owner discussion (no §4.7 row yet): link colour on hub
-surfaces (`--accent-deep` vs doc's `--orange-hot`), hover states, kickers /
-eyebrows, card names, raw score values, movers delta colours.
+Parked: classify link/hover, kicker/eyebrow and movers-delta semantics before
+proposing changes. Card headings, raw scores and metadata already have §4.7
+roles; map those first. Escalate only meanings that existing rules cannot settle,
+not the whole list as new owner decisions.
 
 ## Active — SEO+GEO on existing pages (#236)
 
-Owner 「继续」 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable
+Owner approved continuation on 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable
 space is occupations, `/answers/*`, `/rankings`, `/methodology`, `/standard`.
 Japanese public copy for new strings is posted on #272.
 
-- seo-geo-1 (#272): four SOP-prompt landings — title / H1 / lead / FAQ JSON-LD
-  use the SOP wording; name AIOIS-10, occupation count, score date above the
-  fold; cross-link `/answers` ↔ `/methodology` ↔ `/rankings`.
-- seo-geo-2: occupation cite-line; drop `代替リスク` as job-loss. Waits on
-  owner-signed JA after #272.
-- seo-geo-3: weekly off-site SOP log including Claude's cited URL.
+- **seo-geo-1 — Done** (#272): four SOP-prompt landings in
+  [merged PR #476](https://github.com/jasonhnd/jobs/pull/476), promoted by
+  [#477](https://github.com/jasonhnd/jobs/pull/477) on 2026-09-09. Title / H1 /
+  lead / FAQ JSON-LD use the signed SOP wording; AIOIS-10, occupation count and
+  score date appear above the fold; `/answers` ↔ `/methodology` ↔ `/rankings`
+  cross-links shipped. This is delivery evidence, not proof of search/citation gains.
+- **seo-geo-2 — Partial**: occupation meta correction shipped in
+  [merged PR #577](https://github.com/jasonhnd/jobs/pull/577) (2026-09-21): AI
+  influence is not job-loss probability. The full citation fact paragraph exists
+  inside the default-collapsed source details; a concise visible citation line
+  near the occupation score remains. Next: obtain owner-signed Japanese wording
+  and placement, reuse canonical score/date/count/source values, and retain the
+  full source fold. Do not redo the shipped title/meta correction.
+- **seo-geo-3 — Active**: evidence-backed weekly off-site SOP log, including
+  Claude's exact cited URL or verified no-citation result, and 28-day observation.
+  Next: locate existing logs/schedules, then record the fixed prompts, dates,
+  engines/modes and evidence. External log completion was not verified by this
+  documentation reconciliation. Keep crawl events, answer citations, human
+  referrals and Google organic results separate.
+
+[#236](https://github.com/jasonhnd/jobs/issues/236) is historical programme
+tracking; its closure does not complete the residuals above. Follow-up work must
+have its own scoped Issue and evidence; this reconciliation does not alter old
+Issues or start product/observation work.
 
 Parked: /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.
@@ -141,6 +220,82 @@ owner-confirmed 2026-08-31; PR #363).
 - mms-7a: Grok 4.6 scoring path on in-agent (`grok-4.6`) + prompt freeze.
 - mms-7b: Grok 40-occupation pilot + owner Japanese-quality sign-off.
 - mms-7c: Grok full 556 batch lands as the 5th vote (in-agent, #387).
+
+## Done — GPT-6.1 SOL takes OpenAI's flagship seat (mms-13, closed 2026-10-01)
+
+Shipped on `preview` (#677, #678); as of this close-out PR it has not been
+promoted to `main` (the owner decides that promotion). GPT 6.1 SOL
+(`gpt-6.1-sol@2026-10-01`, 556, Codex CLI with `--model gpt-6.1-sol
+--reasoning-effort high`) replaces GPT 6 SOL as OpenAI's seat in the vendor
+mean; Claude Opus 5.5 and Grok 4.7 stay, and GPT 6 SOL stays as history.
+The public mean moves 4.55 → 4.68: 12 occupations move by 0.5 or more, none
+by 1.0 or more, and 34 change risk band
+(`docs/VENDOR_UPDATE_DRIFT_gpt-6.1-sol_2026-10-01.md`). The seat rule is the
+one set on 2026-09-23: a vendor's flagship seat holds the newest model the
+owner chose to score for that vendor. The owner delegated the scoring gates
+(13.2, 13.3, 13.4, and landing) to the supervisor on 2026-10-01.
+
+- mms-13.1 (#671/#677): frozen prompt `gpt-6.1-sol` + constants + body-hash test + runbook section + TOOLCHAIN row.
+- mms-13.2 (#672): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
+- mms-13.3 (#673): pilot 40 (+5 security ids) (Issue comments; no PR).
+- mms-13.4 (#674): full 556, `run_date` 2026-10-01 (Issue comments; no PR).
+- mms-13.5 (#675/#678): land the batch + `/models/gpt-6.1-sol` 308 + drift doc + baselines.
+- mms-13.6 (#676): close-out (this PR).
+- Tracker #670 closes after this PR.
+
+## Done — GPT-6 SOL takes OpenAI's flagship seat (mms-12, closed 2026-09-23)
+
+Shipped on `preview` (#622, #627); not promoted to `main` when this block
+was written (promotion text on #619). GPT 6 SOL (`gpt-6-sol@2026-09-23`,
+556, Codex CLI with `--model gpt-6-sol --reasoning-effort high`) replaces
+GPT 6 Astra as OpenAI's seat in the vendor mean; Claude Opus 5.5 and Grok
+4.7 stay. The public mean moves 4.65 → 4.55: 2 occupations move by 0.5 or
+more, none by 1.0 or more, and 28 change risk band. The run date equals
+the Claude Opus 5.5 run date (owner decision on #614), so GPT 6 SOL wins the
+latest-run tie by file order and its `/models` page compares against Grok
+4.7. GPT 6 Astra stays as history.
+
+Correction recorded 2026-09-24: the original 4.56 averaged already-rounded
+occupation scores. The aggregate of unrounded values is 4.55, as recorded in
+[`CONSENSUS_SCORE.md`](docs/CONSENSUS_SCORE.md). Bands still use displayed
+one-decimal values; the 28 band changes are unchanged.
+
+Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
+2026-09-23 (mms-11.1). Sister lane mms-11 (Claude Opus 5.5) landed first.
+
+- mms-12.1 (#615/#622): frozen prompt `gpt-6-sol` + constants + body-hash test + runbook section.
+- mms-12.2 (#616): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
+- mms-12.3 (#617): pilot 45 (40 stratified + 5 refusal probes), no refusals (Issue comments; no PR).
+- mms-12.4 (#618): full 556, `run_date` 2026-09-23 (Issue comments; no PR).
+- mms-12.5 (#619/#627): land the batch + `/models/gpt-6-sol` 308 + drift doc + impact sentence + baselines; `/models` predecessor tests follow `predecessorFor` for same-date runs.
+- mms-12.6 (#620/#629): close-out.
+- Tracker #614 closes after this PR.
+
+## Done — Claude Opus 5.5 takes Anthropic's flagship seat (mms-11, closed 2026-09-23)
+
+Shipped on `preview` (#621, #623–#625); not promoted to `main` when this
+block was written (promotion text on #611). Claude Opus 5.5
+(`claude-opus-5-5@2026-09-23`, 556, in-agent through chunked
+`claude -p --model claude-opus-5-5 --effort high` runs) replaces Claude
+Fable 5.1 as Anthropic's seat in the vendor mean; GPT 6 Astra and Grok 4.7
+stay. The public mean moves 4.54 → 4.65: 9 occupations move by 0.5 or
+more, none by 1.0 or more, and 32 change risk band. The seat rule is
+amended: a vendor's flagship seat holds the newest model the owner chose to
+score for that vendor, not necessarily its top tier. Claude Fable 5.1 stays
+as history; its model-specific `/models` personality sentence is removed.
+
+Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
+2026-09-23 (owner). Sister lane mms-12 (GPT-6 SOL) lands after this one.
+
+- mms-11.1 (#606/#621): seat rule amended (canon sentence + two signed Japanese lines).
+- mms-11.2 (#607/#623): frozen prompt `claude-opus-5-5` + constants + body-hash test + runbook section + TOOLCHAIN row.
+- mms-11.3 (#608): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
+- mms-11.4 (#609): pilot 40 (in-agent, chunked `claude -p`; Issue comments; no PR).
+- mms-11.5 (#610): full 556, `run_date` 2026-09-23 (Issue comments; no PR).
+- mms-11.6 (#611/#624): land the batch + `/models/opus-5-5` 308 + drift doc + impact sentence + baselines.
+- mms-11.7 (#612/#625): drop the stale Claude Fable 5.1 personality sentence (owner A).
+- mms-11.8 (#613/#626): close-out; runbook re-score naming corrected.
+- Tracker #605 closes after this PR.
 
 ## Done — backfill scoring: Grok 4.5 as xAI history (mms-9, closed 2026-09-11)
 

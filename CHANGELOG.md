@@ -10,6 +10,235 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Security
+
+- **analytics/: js-yaml 5.4.2, googleapis 181, qs override ^6.16.0, pnpm 12.6.0** — clears 1 high + 4 moderate pnpm audit findings; setup-ga4 --dry-run output identical.
+- **@vercel/og pinned to exactly 1.0.1 + overrides.fflate ^0.7.5** — closes GHSA-px8p-9vwx-vf98. 1.0.2/1.0.3 are not adopted: they ship no hb.wasm and abort on import (vercel/satori#801); the old ^1.0.1 range would have pulled them in on any re-resolve. OG PNGs byte-identical on 6 cards.
+- **Astro 7.2.4 → 7.3.5 + overrides.sharp ^0.35.4** — closes GHSA-26w7-cxv4-gfx2 (critical, AVIF RCE; not reachable here: no astro:assets), plus transitive js-yaml 4.3.2 and sharp 0.35.4. CSP hashes: unchanged. SEO baseline unchanged.
+
+### Changed
+
+- **OpenAI's seat in the public value is now GPT 6.1 SOL (mms-13 / #670).**
+  `data/scores/occupations_gpt-6.1-sol_2026-10-01.json`, 556/556, scored
+  through the Codex CLI with `--model gpt-6.1-sol --reasoning-effort high`,
+  replaces GPT 6 SOL (`gpt-6-sol@2026-09-23`, now history).
+  `/models/gpt-6.1-sol` 308 to the run page. Site mean 4.55 → 4.68;
+  `|Δ| ≥ 0.5` on 12 occupations; 34 band changes; none `|Δ| ≥ 1.0`.
+  Drift report: `docs/VENDOR_UPDATE_DRIFT_gpt-6.1-sol_2026-10-01.md`.
+- **2026-Q3 is a final release (#667).** Owner sign-off 2026-09-29: all 21
+  anchors and the Pew overlap are `verified`, `status` is `final`, and
+  `published_at` is 2026-09-29 (`version` stays `2026-Q3.0`;
+  `planned_publish` stays 2026-10-24 because the schema requires the
+  field). The working-age base is the WPP 2024 15–64 sum 5,421,227,666,
+  so Microsoft AI Diffusion at 17.8% is 964,978,525 (was 961,200,000 on a
+  5.4 billion round). Level 4 N(≥4) moves from 低 961,200,000 /
+  中 1,370,132,128 / 高 1,953,040,000 to 低 964,978,525 / 中 1,372,822,515
+  / 高 1,953,040,000. The displayed headline stays およそ 10 億. The
+  2026-09-21 diffusion update (June, 18.8%) is noted and not used.
+  Japanese copy is unchanged. SEO baseline JSON-LD for `/aiadoption`
+  and `/aiadoption/2026-q3` records the new level-4 midpoint
+  (1,372,822,515).
+- **TOOLCHAIN §10.1 e2e row corrected** — CI runs the Playwright suite and it gates merges; analytics specs skip without GA4 markup. The matching "outdated" note in AGENTS.md is removed. §11 queue rows 0/4/5 marked done.
+- **AGENTS.md is now the shared contract for every executor** — branches and merge authority, one Issue / one PR delivery, forbidden operations, the full acceptance chain (no lint script exists), and repository constraints (Japanese-only owner-signed copy, independence wording, 1440/768/375, production-crawl limits, score rounding, toolchain pins). Design canon reference corrected to v1.2.
+- **CI: actions/checkout and actions/setup-node v4 → v7** — clears the Node 20 deprecation warning; no behaviour change.
+- **@playwright/test 1.62.1 → 1.63.0 (Chromium 153)**; playwright-core deduped to one 1.63.0. CI rendered-output suite unchanged: 356 passed.
+- **@types/node 24.13.3 → 24.13.6** — stays on Node 24 (Vercel does not accept Node 26 yet).
+- **typescript 6.0.3 → 7.0.2; @typescript/native alias removed** — typecheck now runs node_modules/typescript/bin/tsc (owner ruling 2026-09-24).
+- **subset-font 2.5.0 → 2.9.0 (harfbuzzjs 1.6)** — font subsets byte-identical.
+- **zod 4.4.3 → 4.6.5** — build-time schemas only; 616 ETL outputs identical (ignoring generated_at).
+- **react / @types/react 19.3.0** — OG renderers only; 6 OG PNGs byte-identical.
+- **@vercel/functions 3.9.5 → 3.9.9** — dependency-only (@vercel/oidc 3.8.9); no runtime code changed. Middleware 301/rewrite/noindex verified on preview.
+- **TOOLCHAIN.md: 2026-09 upgrade queue recorded; §2/§6/§7 drift fixed; typescript 7 allowed (owner ruling 2026-09-24).** Docs only.
+- **OpenAI's seat in the public value is now GPT 6 SOL (mms-12 / #614).**
+  `data/scores/occupations_gpt-6-sol_2026-09-23.json`, 556/556, scored
+  through the Codex CLI with `--model gpt-6-sol --reasoning-effort high`,
+  replaces GPT 6 Astra (`gpt-6-astra@2026-09-10`, now history).
+  `/models/gpt-6-sol` 308 to the run page. Site mean 4.65 → 4.55;
+  `|Δ| ≥ 0.5` on 2 occupations; 28 band changes; none `|Δ| ≥ 1.0`.
+  Drift report: `docs/VENDOR_UPDATE_DRIFT_gpt-6-sol_2026-09-23.md`. The run
+  date equals Claude Opus 5.5's (owner decision, #614); the `/models`
+  predecessor tests now follow `predecessorFor` for same-date runs.
+  **2026-09-24 correction:** the original 4.56 averaged rounded occupation
+  scores; the unrounded aggregate is 4.55 (see
+  [`CONSENSUS_SCORE.md`](docs/CONSENSUS_SCORE.md)). Bands still follow displayed
+  one-decimal scores, so the 28 band changes are unchanged.
+- **Anthropic's seat in the public value is now Claude Opus 5.5 (mms-11 /
+  #605).** `data/scores/occupations_claude-opus-5-5_2026-09-23.json`,
+  556/556, scored in-agent through chunked
+  `claude -p --model claude-opus-5-5 --effort high` runs, replaces Claude
+  Fable 5.1 (`claude-fable-5-1@2026-09-09`, now history).
+  `/models/opus-5-5` 308 to the run page. Site mean 4.54 → 4.65;
+  `|Δ| ≥ 0.5` on 9 occupations; 32 band changes; none `|Δ| ≥ 1.0`.
+  Drift report: `docs/VENDOR_UPDATE_DRIFT_claude-opus-5-5_2026-09-23.md`.
+  The flagship-seat rule is amended: a vendor's seat holds the newest model
+  the owner chose to score, not necessarily its top tier (mms-11.1). The
+  stale Claude Fable 5.1 personality sentence is removed (mms-11.7).
+- **「数字の出どころと計算」 is now one card per level: 使った数字 → 計算 →
+  結果 (aiadoption-1.9).** The four-column grid of monospace formula strings
+  is replaced by a card for each level: the anchors used (grouped by market
+  on level 4, with grade and 古い / 7 日口径 tags), a plain-language sentence
+  for the method, numbered steps, and — for the reconciled level — a number
+  line with 低 / 中 / 高. The result N(≥k) sits in the card header so the
+  answer comes before the working. Levels 7–10 with no data collapse into a
+  single card. Six rules become three (the level-specific ones moved into
+  the cards). Desktop is two columns; tablet and phone stack. No number,
+  method, or URL changed. Copy remains unsigned.
+- **Level 4 is now computed per market and reconciled top-down
+  (aiadoption-1.7c, owner ruling 2026-09-22 「A」).** Anchors carry a
+  `market` (cn / row / world) and a `kind` (product / union / top_down /
+  base). China uses QuestMobile's own deduplicated total of AI-native app
+  users (4.99 億, May 2026) instead of a summed guess; the rest of the world
+  sums vendor figures and subtracts the survey overlap; the bottom-up total
+  (19.5 億) is set against an independent top-down estimate — Microsoft AI
+  Diffusion's 17.8 % of the world's 15–64 population (9.6 億) — and the
+  release reports 低 = 9.6 億, 高 = 20 億, 中 = √(低 × 高) = 14 億. Headline
+  およそ 10 億. Meta AI's 1 B (people answered inside the apps) moves to
+  level 3 (見せられている). Anchors older than 12 months are flagged 古い;
+  a level cannot rest on stale anchors alone. The anchor table gains a 市場
+  column; 「数字の出どころと計算」 prints the per-market lines, the top-down
+  line, the reconciliation and the raw sum for reference.
+
+### Changed
+
+- **2026-Q3 now rests on the quarter's own published figures (aiadoption-1.7).**
+  Owner ask 2026-09-22: the anchor table showed only May / June dates. The
+  Q3 anchors are now vendor statements read on 2026-09-22 — Alphabet investor
+  presentation 2026-06-03 (AI Overviews 2.5B monthly) and Q2 2026 call
+  2026-07-22 (Gemini app 950M, AI Mode 1B monthly actives), OpenAI 2026-03-31
+  (ChatGPT 900M weekly, 50M subscribers → the 対価 attribute) and 2026-06-02
+  (Codex 5M weekly), Microsoft FY26 Q4 call 2026-07-29 (GitHub Copilot 50M
+  users, listed only: window unstated), ITU Facts and Figures 2025 (6.0B
+  online), UN WPP 2024 (8.30B mid-2026). The level-4 overlap rate (0.58)
+  is derived from Pew's Americans and AI 2026 survey (49% use any chatbot,
+  per-tool shares sum to 116%). Meta AI is dropped: no 2026 vendor count.
+  All rows stay 未照合 until the owner checks them. Two new rules: an anchor
+  window `cumulative` can be listed but never cited, and a round's `as_of`
+  (latest cited anchor) must fall inside its own quarter or the build stops.
+  Level 4 then widens to every vendor with a published or panel count
+  (owner ask: 「なぜ ChatGPT だけ？」): Microsoft Copilot family 150M
+  (2025-10-29), Meta AI 1B (last official, 2025-05-28), Grok 117M (SpaceX
+  S-1, as of 2026-03-31), Perplexity 100M (CEO via FT 2026-04-08) as grade
+  B, and grade-C panels for the rest — QuestMobile June 2026 for 豆包 382M /
+  千問 167M / DeepSeek 130M / 元宝 50M, Sensor Tower for Claude 245M. Twelve
+  terms sum to 52 億; 中 = 52 億 × (1 − 0.58) = 22 億, headline およそ 20 億.
+  Baseline refreshed.
+
+### Removed
+
+- **The 5-layer AI adoption model is retired (aiadoption-1.5).**
+  `data/ai-adoption/` (observations / sources / assumptions / model) and
+  `src/data/projections/ai-adoption.ts` are deleted; `d3` and `@types/d3`,
+  used only by the old dot-matrix and line chart, leave `package.json`.
+  `/data.ai-adoption.json` keeps its URL as a deprecated stub
+  (`deprecated: true`, `last_period: 2026-Q2`, `successor:
+  /data.haid-latest.json`) — no redirect, `vercel.json` untouched. The Q2
+  observation set lives on as grade-C anchors of the 2026-Q2 HAID release.
+
+### Changed
+
+- **Non-production hosts are withheld from search indexes.** The middleware
+  now stamps `X-Robots-Tag: noindex, nofollow` on every response whose
+  request `Host` is not `mirai-shigoto.com`. Verified 2026-09-21:
+  `pre.mirai-shigoto.com` served robots.txt `Allow: /` and
+  `<meta name="robots" content="index, follow">`, and Google had already
+  picked up `pre.mirai-shigoto.com/data` — a complete 839-URL mirror
+  competing with the canonical host.
+  Decided per request rather than at build time, for two reasons. Astro
+  loads `.env.local` into the build and this repo's own `.env.local`
+  carries `VERCEL=1` and `VERCEL_ENV="preview"` (it comes from
+  `vercel env pull`), so no build-time env signal distinguishes a local
+  build from a preview one. And `capture:seo-baseline` runs locally, so a
+  build-time noindex would bake `noindex` into
+  `tests/baseline/seo-metadata.jsonl` for all 839 pages and make
+  `verify:gates` drift against every production build. Deciding at the edge
+  leaves the static HTML, and therefore the baseline, untouched — verified
+  clean.
+  Allow-list, not deny-list: only the exact production host is indexable, so
+  every preview URL, `*.vercel.app` deployment URL and future alias is
+  covered without enumeration, and a missing or malformed `Host` is withheld
+  too. Applied only to `next()` / `rewrite()` results — `Response.redirect()`
+  headers are immutable per the Fetch spec, and a redirect is not indexed
+  anyway.
+
+- **Four ranking pages withheld from search.** `self-employed-typical`,
+  `freelance-friendly`, `ai-safe-young-workforce` and `ai-safe-short-hours`
+  now render `noindex, follow`. GSC 2026-08-22 → 09-19: the 40 ranking pages
+  split hard — 11 carry 861 of 928 clicks (93%), all of them plain
+  single-axis rankings people search for (就業者数 / 労働時間 / 時給 /
+  求人倍率 / 年収 / 平均年齢) — while these four sit at position 22.8, 23.5,
+  38.2 and 47.5. Google has looked at them and placed them past the second
+  page, which is a signal about the page rather than about demand. The bar
+  is position, not clicks: the other 25 low-click rankings rank at position
+  5-10 and simply have no search volume, and withholding those would be the
+  wrong call. `noindex` rather than deletion — pages stay reachable, internal
+  links keep flowing, reversible in one line. They stay in the sitemap; the
+  robots meta wins over a sitemap entry and 4 URLs of 839 does not justify
+  threading an exclusion through `views/sitemap.ts` and its floor assertion.
+  Whoever re-measures #577 must exclude these four slugs from both sides of
+  the `/rankings/*` control group.
+
+- **Occupation titles state where a salary sits, not what it is — supersedes
+  #276.** All 556 `/[id]` titles go from
+  `花火師の年収約536万円｜AI影響2.5/10｜未来の仕事` to
+  `花火師の年収は544職業中上位38%｜AI影響2.5/10`, and the meta description's
+  opening clause changes the same way. #276 put the yen figure in the title on
+  2026-08-24 on the hypothesis that 年収 queries impressed without converting
+  because the title carried no number; it was shipped and never measured.
+  Measured now against the two page families #276 did not touch —
+  occupation `/[id]` CTR 0.96% → 0.83% (−14%) while its position improved
+  8.7 → 8.3, against `/rankings/*` 4.86% → 5.05% (+4%) and everything else
+  2.44% → 2.71% (+11%). Both controls rose; only the family that got the yen
+  figure fell. The figure answers the query inside the SERP, so nothing is
+  left to click for. The 年収 token itself stays — adding it is what moved
+  position 8.7 → 8.3 — and only the answer is withheld.
+  New `salaryStanding()` (src/site/geo-facts.ts) derives the standing from the
+  same salary-desc / id tie-break `/rankings/salary` uses, so a title and the
+  ranking page cannot disagree. It reports a percentile rather than a rank
+  because 544 occupations carry only 138 distinct salary figures and the
+  largest tie group is 35 — an exact rank would print the identical 「124位」
+  on 35 pages and claim precision jobtag does not have. Tied occupations take
+  the midpoint of their group, not its head. The denominator is 544, not
+  `OCCUPATION_COUNT.SCORED` (556): jobtag publishes no salary for 12
+  statutory-pay or self-employed occupations (警察官 / 裁判官 / 検察官 /
+  自衛官×3 / 海上保安官 / 麻薬取締官 / 刑務官 / 国会議員 / 会社経営者 /
+  起業), which keep the existing no-salary title. SEO baseline refreshed
+  (2,176 title / description / OG / Twitter drifts, all intended).
+
+- **Every HAID release has its own page; the nav says 「人類と AI の距離」
+  (aiadoption-1.4).** `/aiadoption/<yyyy-qN>` renders each archived round
+  (`src/pages/aiadoption/[release].astro`, sharing `_HaidReleasePage.astro`
+  with `/aiadoption`); a 公開回 pill row under the meta line switches rounds and
+  links the permanent URL. A retro **2026-Q2 draft** is built from the retired
+  model's Q2 observation set (third-party panels, grade C) so 前回との変動 has
+  a previous round: the table compares N(≥k), and marks levels whose certainty
+  changed as 「数え方が変わった」 rather than as a difference. A データなし level
+  below a level with data is floored to that level (nesting) and drawn hatched.
+  Top nav, mobile drawer and footer: 「AI 利用率」 → 「人類と AI の距離」; the
+  OG card text follows. Sitemap gains the archive URLs (baseline: +2 URLs,
+  +1 data file, +2 sitemap lines).
+- **`/aiadoption` is now the HAID current-state page (aiadoption-1.3).** The
+  5-layer 「世界の AI 利用率モニター」 (dot matrix, line chart, formula blocks)
+  is replaced by one object: a treemap of humanity — area = people, four
+  relation columns left → right = far → near AI, the three HAID boundaries
+  drawn thick (dashed next to a 下限のみ level), `#dan-<k>` highlights a level
+  for the diagnosis page to land on — followed by the N(≥k) list (rows are
+  `<details>`), 前回との変動, the anchor table and a quotable fact block. Zero
+  inline JS; page-local CSS is token-only. Title, description, OG and JSON-LD
+  (`Dataset` with `variableMeasured` per level) change accordingly — baseline
+  refreshed. The 2026-Q3 release is a draft and says so.
+
+### Added
+
+- **HAID quarterly releases as data (aiadoption-1.1 / 1.2).** `/aiadoption`
+  is being rebuilt as the current-state page of HAID (人類と AI の距離). Each
+  quarter is one append-only directory `data/haid-release/<yyyy-qN>/`
+  (anchors, overlap rates, per-level N(≥k) with a HAID certainty) validated by
+  `src/data/schema/haid-release.ts`; the projection derives n(k) by nesting
+  and writes `data.haid-<release>.json` plus `data.haid-latest.json`, both
+  listed on `/data` (its JSON-LD `distribution` grew by two entries — baseline
+  refreshed). 2026-Q3 ships as a `draft` with placeholder anchors carried over
+  from the old 5-layer model; a `final` release refuses placeholders.
+
 ### Changed
 
 - **The site has one name: 「未来の仕事」.** It was already the nav brand, the

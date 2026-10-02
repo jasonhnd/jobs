@@ -176,17 +176,18 @@ describe('models-deep projection', () => {
     );
     const openai = payload.lanes.find((lane) => lane.provider === 'openai')!;
     const openaiLatest = latestRunPerVendor(runs).find((run) => run.provider === 'openai')!;
-    const openaiHistory = runs.filter((run) => run.provider === 'openai' && run.slug !== openaiLatest.slug);
+    const openaiHistory = runs
+      .filter((run) => run.provider === 'openai' && run.slug !== openaiLatest.slug)
+      .sort((a, b) => b.runDate.localeCompare(a.runDate) || a.model.localeCompare(b.model));
     assert.deepEqual(openai.history.map((entry) => entry.model), openaiHistory.map((run) => run.model));
     assert.equal(payload.consensus.length, 3);
     assert.equal(new Set(payload.consensus.map((row) => row.id)).size, 3);
     assert.ok(payload.stories.length >= 3 && payload.stories.length <= 5);
     assert.equal(new Set(payload.stories.map((story) => story.id)).size, payload.stories.length);
-    const panelSuffix = `__${payload.panel.entries.map((entry) => `${entry.model}@${entry.date}`).join('__')}`;
-    const fable = payload.panel.entries.find((entry) => entry.model === 'claude-fable-5-1');
-    assert.equal(fable?.personality_sentence_id, 'claude_fable_5_1_d4_negative_strong');
+    const opus = payload.panel.entries.find((entry) => entry.model === 'claude-opus-5-5');
+    assert.equal(opus?.personality_sentence_id, 'default_d4_negative_strong');
     assert.ok(
-      payload.stories.every((story) => story.editorial_sentence_id.endsWith(panelSuffix)),
+      payload.stories.every((story) => story.editorial_sentence_id === 'default_latest_pair_split'),
       payload.stories.map((story) => story.editorial_sentence_id).join(', '),
     );
     const orphans = reportOrphanedCuration(
@@ -369,13 +370,6 @@ describe('personality copy polarity', () => {
         );
       }
     }
-    const fableSpecific = sentences.claude_fable_5_1_d4_negative_strong;
-    assert.ok(fableSpecific);
-    assert.equal(
-      fableSpecific.includes('防壁'),
-      false,
-      `claude_fable_5_1_d4_negative_strong should NOT describe a barrier, got: ${fableSpecific}`,
-    );
   });
 
   test('open dimensions read as weighing the dimension, not as a barrier', () => {
@@ -430,9 +424,11 @@ describe('backfill batches stay in lane history (mms-9.9)', () => {
   function withXaiBackfill(indexes: Indexes): Indexes {
     const historyByOcc = new Map<number, ScoreHistEntry[]>();
     for (const [occId, hist] of indexes.historyByOcc) {
-      const clones = hist
+      const latest = hist
         .filter((entry) => entry.provider === 'xai' && entry.backfill !== true)
-        .map(asBackfill);
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .at(-1);
+      const clones = latest == null ? [] : [asBackfill(latest)];
       historyByOcc.set(occId, [...hist, ...clones]);
     }
     return { ...indexes, historyByOcc };
@@ -460,8 +456,8 @@ describe('backfill batches stay in lane history (mms-9.9)', () => {
       live.lanes.find((lane) => lane.provider === 'openai'),
     );
     assert.equal(
-      live.panel.entries.find((entry) => entry.model === 'claude-fable-5-1')?.personality_sentence_id,
-      'claude_fable_5_1_d4_negative_strong',
+      live.panel.entries.find((entry) => entry.model === 'claude-opus-5-5')?.personality_sentence_id,
+      'default_d4_negative_strong',
     );
     for (const entry of live.panel.entries) {
       const after = withBackfill.panel.entries.find((item) => item.model === entry.model);

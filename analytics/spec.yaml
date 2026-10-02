@@ -144,7 +144,8 @@ events:
     conversion: false
 
   # `language_switch` — REMOVED 2026-05-06. Was wired to the JA/EN language
-  # switcher that v1.4.0 deleted (site is now JA-only, /en/* 301 → /ja/*).
+  # switcher that v1.4.0 deleted (site is JA-only). Since the 2026-06-02
+  # de-prefix, vercel.json sends /en/:path* and /ja/:path* to /:path*.
   # Event will never fire again. Historical event data still in GA4 for
   # the prior 14-month retention window. `from_lang` / `to_lang` / `path`
   # parameters are left as global params (used by other events) — not
@@ -172,7 +173,7 @@ events:
       User clicked / tapped a tile on the treemap and the per-occupation page
       opened. Fires from canvas click (desktop), touch second-tap (mobile),
       and keyboard Enter/Space, distinguished by `source`. The user immediately
-      navigates to /ja/<id> or /en/<id> after this event.
+      navigates to /{id} after this event (occupation 404 is /occupations/404).
     params:
       - { name: occupation_id, type: int }
       - { name: occupation_name_ja, type: string }
@@ -267,8 +268,8 @@ events:
       User triggered a navigation from the search field — Enter key on the
       input, click of the「AI 影響度をチェック」button, click on a
       `.search-suggest` dropdown item, or keyboard Enter on a focused
-      suggest item. All four paths land on the same `/ja/<id>` or `/en/<id>`
-      via `navigateToJob(rec, source)`.
+      suggest item. All four paths land on the same /{id}
+      (occupation 404 is /occupations/404) via `navigateToJob(rec, source)`.
     params:
       - { name: occupation_id, type: int }
       - { name: occupation_name_ja, type: string }
@@ -309,7 +310,8 @@ events:
   # ---- Modal lifecycle — REMOVED 2026-05-02 ----
   # `occupation_modal_open`, `modal_close`, `report_cta_click` were the
   # Phase-0 modal funnel. Stage 1 replaced the modal with dedicated
-  # /ja/<id> + /en/<id> pages, so these events have no emit site any
+  # /{id} pages (occupation 404 is /occupations/404; /ja/ and /en/ prefixes
+  # were removed 2026-06-02), so these events have no emit site any
   # more. Their successors are `result_view` (page load) + `tooltip_cta_click`
   # (mobile entry from treemap tooltip).
 
@@ -338,8 +340,8 @@ events:
 
   - name: result_view
     description: |
-      Per-occupation page view. Fires synchronously on page load from the
-      generated /ja/<id>.html and /en/<id>.html pages. Distinct from GA4's
+      Per-occupation page view. Fires synchronously on page load from
+      src/pages/_IdPageScript.astro on /{id} (occupation 404 is /occupations/404). Distinct from GA4's
       auto-fired page_view because the parameters are typed (occupation_id,
       ai_risk_score, risk_tier) — page_view only carries the URL.
     params:
@@ -355,8 +357,9 @@ events:
       per-occupation page, navigating away to the MHLW jobtag site. Used to
       measure flow of users who chose to verify against / continue at the
       official source after consuming our analysis. Compliance-relevant —
-      proves the attribution chain ja/<id> → MHLW is being used. Wired in
-      src/pages/ja/[id].astro via inline onclick gtag('event', ...).
+      proves the attribution chain /{id} → MHLW is being used. The anchor is
+      src/pages/_JobtagAnchor.astro (data-track-event); src/components/Footer.astro
+      sends the event. There is no src/pages/ja/[id].astro.
     params:
       - { name: occupation_id, type: int }
       - { name: ai_risk_score, type: int }
@@ -414,7 +417,7 @@ events:
       User landed on /map. Fires once per page load after data finishes loading.
       Use the `referrer` param to attribute back to the entry point: home_card
       (mobile preview-card tap), direct (typed URL / bookmark / external),
-      detail (back-navigation from a /ja/<id> page), internal (from another
+      detail (back-navigation from a /{id} page), internal (from another
       site page), external (from a different host).
     params:
       - { name: referrer, type: string, desc: "'home_card' | 'direct' | 'detail' | 'internal' | 'external'" }
@@ -444,7 +447,7 @@ events:
 
   - name: map_detail_click
     description: |
-      Bottom-sheet "詳細を見る" CTA tap on /map → /ja/<id>. This is the /map
+      Bottom-sheet detail CTA tap on /map → /{id} (occupation 404 is /occupations/404). This is the /map
       → detail conversion event; pair with map_open as denominator for funnel
       conversion rate.
     params:
@@ -854,11 +857,11 @@ user_scoped_dimensions:
 
 key_events:
   # — Funnel: arrival → occupation page —
-  - occupation_tile_click   # treemap tile → /ja/<id> or /en/<id>
-  - popular_job_click       # hero chip → /ja/<id> or /en/<id> (Stage 1)
+  - occupation_tile_click   # treemap tile → /{id} (occupation 404 is /occupations/404)
+  - popular_job_click       # hero chip → /{id} (Stage 1)
   - job_search_intent       # user engaged with autocomplete (KPI #1, real CTR denominator since 2026-05-06)
-  - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
-  - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
+  - job_search_navigate     # search input Enter / suggest click → /{id} (Stage 1)
+  - result_view             # /{id} page-view with typed params from _IdPageScript.astro (Stage 1, KPI #3)
   - search_action_redirect  # deep link → occupation page, same funnel as job_search_navigate
   # — Per-surface goals (each is the primary conversion of its own page) —
   - map_detail_click        # /map → detail jump
@@ -937,12 +940,16 @@ property_residue:
 # ----------------------------------------------------------------------
 # Audience definitions in the Admin API are very complex JSON; for v1 of
 # the OPC validation we create them by clicking through the dashboard.
-# This block documents what to create and the rough filter logic.
+# Creation steps are only the entries that are not marked retired.
+# This file does not apply audience changes to GA4.
 
 audiences_manual:
+  # RETIRED 2026-05-02 — not a creation step. occupation_modal_open has no
+  # emit site. Do not redefine High-intent with result_view here; that
+  # changes the meaning and needs an owner-approved config issue.
   - name: High-intent occupations
-    description: Opened a high-risk modal (proxy for high anxiety).
-    filter: "occupation_modal_open where risk_tier = 'high'"
+    description: RETIRED 2026-05-02. Do not create. The modal event has no emit site.
+    filter: "retired — do not create; occupation_modal_open has no emit site"
     membership_duration_days: 90
 
   - name: Returning visitors

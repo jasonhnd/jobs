@@ -35,7 +35,7 @@ Issue、PR、commit message、`docs/` は **英語または日本語のみ**で�
 5. **PR を作る**
    - Base branch は `preview` とし、Issue を `Closes #...` でリンクする。
    - 変更内容、文書/baseline 影響、実行した検証を本文に残す。
-   - `quality`（GitHub UI では `CI / quality`）と `Vercel` が成功し、review conversation がすべて解決してから human merge する。
+   - `quality`（GitHub UI では `CI / quality`）と `Vercel` が成功し、review conversation がすべて解決してから、監督者（オーナー、またはオーナーが `preview` への merge を委任した監督 agent）が diff と独立レビューを確認して merge する。実装担当（executor）は merge しない。
 
 ## 公開境界
 
@@ -89,12 +89,24 @@ Checked-in workflow の exact check name は `quality`、deployment check は `V
 
 ## 基本検証
 
+PR を開く前の必須チェーンは [`AGENTS.md`](../AGENTS.md) の Acceptance commands および [`CONTRIBUTING.md`](../CONTRIBUTING.md) の必須検証と同一である。リポジトリルートで次を実行する。短い部分集合では受け入れない。
+
 ```bash
-bun run test
+export PUBLIC_GA4_MEASUREMENT_ID='' PUBLIC_X_PIXEL_ID='' PUBLIC_META_PIXEL_ID=''
+export PUBLIC_CF_BEACON_TOKEN='' PUBLIC_GOOGLE_ADS_ID=''
+bun install --frozen-lockfile
+bun run test          # read the "N pass" / "N fail" lines, not only the last line
 bun run typecheck
 bun run build
+REQUIRE_BUILT_ARTIFACTS=1 bun test scripts/home-css-loading.test.ts src/site/models-built.test.ts
 bun run verify:gates
+bun x playwright install --with-deps chromium   # the browser binary is not a package dependency
+bun x playwright test --reporter=line           # the CI "rendered-output checks" step
 git diff --exit-code
 ```
 
-`bun run test` は clean checkout 用の projection fixture を先に生成してから unit tests を実行する。文書リンクだけの変更でも `bun run check:docs-links` を実行する。SEO baseline drift が出た場合は、意図した差分かを確認してから [`SEO_OG_BASELINE.md`](SEO_OG_BASELINE.md) の手順に従う。
+五つの `PUBLIC_*` は空文字で上書きする。unset では足りない。`.env*`（例: `.env.local`）が本番の tracker ID を供給し得る。ID があるとビルドがトラッカーブロックを出し、`vercel.json` の CSP hash が変わり、ローカルのテスト流量が本番 analytics に入る。本番 HTML や実プレビューから ID を拾って埋めない。
+
+空の GA4 markup でビルドした CI と上のチェーンでは、analytics specs（`tests/e2e/analytics.spec.ts`）は自分で skip する。analytics の専用確認（`bun run test:e2e` / `scripts/run-e2e.sh`）は隔離した仮想 GA4 ID（`PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000`）だけで markup を出し、残りの四つ（`PUBLIC_X_PIXEL_ID`、`PUBLIC_META_PIXEL_ID`、`PUBLIC_CF_BEACON_TOKEN`、`PUBLIC_GOOGLE_ADS_ID`）は空のままにする。本番 ID は使わない。
+
+`bun run test` は clean checkout 用の projection fixture を先に生成してから unit tests を実行する。文書リンクだけの変更でも `bun run check:docs-links` を実行する。Playwright は port 4321（`playwright.config.ts`）を使う。同じマシンで二つの suite を同時に走らせない。SEO baseline drift が出た場合は、意図した差分かを確認してから [`SEO_OG_BASELINE.md`](SEO_OG_BASELINE.md) の手順に従う。

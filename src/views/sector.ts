@@ -20,6 +20,7 @@ import type {
   HueBand,
 } from '@/graph';
 import type { OccupationId, SectorId } from '@/graph';
+import { riskBand } from '../data/lib/bands.js';
 
 // ─── shared shapes ───────────────────────────────────────────────
 
@@ -188,7 +189,7 @@ function summarizeOccupation(
     titleJa: occ.titleJa,
     titleEn: occ.titleEn,
     aiRisk,
-    riskBand: aiRisk === null ? null : riskBand(aiRisk),
+    riskBand: riskBand(aiRisk),
     workers: occ.stats?.workers ?? null,
     salary: occ.stats?.salaryManYen ?? null,
     monthlyHours: occ.stats?.monthlyHours ?? null,
@@ -196,10 +197,4 @@ function summarizeOccupation(
     recruitRatio: occ.stats?.recruitRatio ?? null,
     sectorId,
   };
-}
-
-function riskBand(score: number): RiskBand {
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
 }

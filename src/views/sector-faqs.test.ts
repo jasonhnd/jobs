@@ -109,7 +109,8 @@ describe('buildSectorFaqs', () => {
       topLow: [{ titleJa: 'safe1', aiRisk: 1 }],
     });
     const q5 = out.find(([q]) => q.includes('将来性は'))!;
-    assert.ok(q5[1].includes('代替されにくい職業が多く、将来性が比較的高い'));
+    assert.ok(q5[1].includes('代替されにくい職業が多く、将来性が比較的高い業界です。'));
+    assert.ok(!q5[1].includes('高いな業界'));
   });
 
   test('Q5 outlook copy: meanRisk >= 6.0 → 業界全体で', () => {
@@ -120,6 +121,7 @@ describe('buildSectorFaqs', () => {
     });
     const q5 = out.find(([q]) => q.includes('将来性は'))!;
     assert.ok(q5[1].includes('業界全体で AI による業務変化'));
+    assert.ok(q5[1].includes('代替リスクの確認が重要な業界です。'));
   });
 
   test('Q5 outlook copy: 4 < meanRisk < 6 → 個別に検討', () => {
@@ -129,7 +131,7 @@ describe('buildSectorFaqs', () => {
       topLow: [{ titleJa: 'safe1', aiRisk: 1 }],
     });
     const q5 = out.find(([q]) => q.includes('将来性は'))!;
-    assert.ok(q5[1].includes('個別に検討'));
+    assert.ok(q5[1].includes('個別に検討が必要な業界です。'));
   });
 
   test('full input emits all 5 questions in order Q1→Q5', () => {
