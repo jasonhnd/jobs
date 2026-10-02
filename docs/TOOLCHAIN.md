@@ -59,6 +59,18 @@ overrides.sharp ^0.35.4 (GHSA-rgj7-g3m4-5g8c; astro and @vercel/og only declare 
 
 `.nvmrc` contains `24`. Use that locally before Astro compiler work. `astro build` is Node. Do **not** put `engines.node` back after §9.1 — Vercel treats it as winning over `bunVersion` for Function runtime.
 
+### 2.1 Scoring CLIs (owner machine only)
+
+CI and Vercel do not install these CLIs. They are not Bun, Node, or Astro pins. A minimum below is a preflight floor from a tracked constant. An observation is a version named in a landed runbook row and is not a pin.
+
+| CLI | Contract | Evidence | Where it runs |
+| --- | --- | --- | --- |
+| Codex CLI | `>= 0.159.2`, current-seat minimum | `GPT_6_1_SOL_CODEX_MIN_VERSION` in `scripts/lib/scoring/gpt-6.1-sol-run.ts` | Owner machine, `codex` provider. Not installed by CI or Vercel. |
+| grok CLI | `>= 1.0.40`, preflight minimum | `GROK_CLI_MIN_VERSION` in `scripts/lib/scoring/providers/grok-cli.ts` and `GROK_4_7_MIN_CLI_VERSION` in `scripts/lib/scoring/grok-4.7-run.ts` | Owner machine, `grok-cli` provider. Not installed by CI or Vercel. |
+| Claude Code | `2.1.280`, observation, not a pin | mms-11 transport row in [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md) (chunked `claude -p`) | Owner machine for that in-agent run. Not a tracked constant, and not installed by CI or Vercel. |
+
+Older runbook notes are not this minimum. mms-12 recorded Codex `>= 0.156.0`. The Astra preflight recorded Codex `>= 0.153.1`. Do not promote those notes, or the Claude Code observation, to an exact pin.
+
 ---
 
 ## 3. Vercel support matrix

@@ -235,7 +235,7 @@ one set on 2026-09-23: a vendor's flagship seat holds the newest model the
 owner chose to score for that vendor. The owner delegated the scoring gates
 (13.2, 13.3, 13.4, and landing) to the supervisor on 2026-10-01.
 
-- mms-13.1 (#671/#677): frozen prompt `gpt-6.1-sol` + constants + body-hash test + runbook section + TOOLCHAIN row.
+- mms-13.1 (#671/#677): frozen prompt `gpt-6.1-sol` + constants + body-hash test + runbook section + TOOLCHAIN §2.1 scoring-CLI row.
 - mms-13.2 (#672): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
 - mms-13.3 (#673): pilot 40 (+5 security ids) (Issue comments; no PR).
 - mms-13.4 (#674): full 556, `run_date` 2026-10-01 (Issue comments; no PR).
@@ -288,7 +288,7 @@ Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
 2026-09-23 (owner). Sister lane mms-12 (GPT-6 SOL) lands after this one.
 
 - mms-11.1 (#606/#621): seat rule amended (canon sentence + two signed Japanese lines).
-- mms-11.2 (#607/#623): frozen prompt `claude-opus-5-5` + constants + body-hash test + runbook section + TOOLCHAIN row.
+- mms-11.2 (#607/#623): frozen prompt `claude-opus-5-5` + constants + body-hash test + runbook section + TOOLCHAIN §2.1 scoring-CLI row.
 - mms-11.3 (#608): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
 - mms-11.4 (#609): pilot 40 (in-agent, chunked `claude -p`; Issue comments; no PR).
 - mms-11.5 (#610): full 556, `run_date` 2026-09-23 (Issue comments; no PR).
