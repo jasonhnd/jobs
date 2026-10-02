@@ -116,6 +116,27 @@ export function loadGraph(): Promise<KnowledgeGraph> {
 }
 
 async function buildGraph(): Promise<KnowledgeGraph> {
+  const sources = loadGraphSources();
+  const auxiliaries = buildOccupationAuxiliaries(sources);
+  const occupationsMap = buildOccupationNodes(sources.occupations, auxiliaries);
+  const sectorsMap = buildSectorNodes(sources.sectorsFile.sectors);
+  const dimensions = buildDimensionNodes(sources.labelsByDim);
+  const sectorEdges = buildSectorEdges(
+    sources.occupations, sources.sectorsFile.sectors, sources.overridesFile.overrides,
+  );
+  const dimensionEdges = buildDimensionEdges(sources.occupations);
+  freezeSectorBuckets(sectorEdges.occupationsBySectorIdx);
+  const transferMap = buildTransferCandidates(
+    sources.occupations, occupationsMap, auxiliaries.canonicalScoreByOcc, sectorEdges.sectorByOcc,
+  );
+
+  return assembleGraph(
+    occupationsMap, auxiliaries.scoreHistoryByOcc, sectorsMap,
+    dimensions, sectorEdges, dimensionEdges, transferMap,
+  );
+}
+
+function loadGraphSources() {
   // 1. Load raw source data (fail-fast on any schema mismatch).
   const occupations = loadOccupations();
   const translations = loadTranslations();
@@ -134,12 +155,24 @@ async function buildGraph(): Promise<KnowledgeGraph> {
   ) as { overrides: Record<string, string> };
   const labelsByDim = loadAllLabels();
 
+  return { occupations, translations, stats, scoreRuns, sectorsFile, overridesFile, labelsByDim };
+}
+
+function buildOccupationAuxiliaries(sources: ReturnType<typeof loadGraphSources>) {
   // 2. Per-occupation auxiliaries: id-keyed maps for O(1) join.
-  const translationsById = mapById(translations);
-  const statsById = mapById(stats);
-  const scoreHistoryByOcc = computeScoreHistory(scoreRuns);
+  const translationsById = mapById(sources.translations);
+  const statsById = mapById(sources.stats);
+  const scoreHistoryByOcc = computeScoreHistory(sources.scoreRuns);
   const canonicalScoreByOcc = computeCanonicalScores(scoreHistoryByOcc);
 
+  return { translationsById, statsById, scoreHistoryByOcc, canonicalScoreByOcc };
+}
+
+function buildOccupationNodes(
+  occupations: readonly Occupation[],
+  auxiliaries: ReturnType<typeof buildOccupationAuxiliaries>,
+): Map<OccupationId, OccupationNode> {
+  const { translationsById, statsById, canonicalScoreByOcc } = auxiliaries;
   // 3. Build the OccupationNode map.
   const occupationsMap = new Map<OccupationId, OccupationNode>();
   for (const occ of occupations) {
@@ -153,9 +186,13 @@ async function buildGraph(): Promise<KnowledgeGraph> {
     ));
   }
 
+  return occupationsMap;
+}
+
+function buildSectorNodes(sectors: readonly SectorDef[]): Map<SectorId, SectorNode> {
   // 4. Build the SectorNode map.
   const sectorsMap = new Map<SectorId, SectorNode>();
-  for (const sec of sectorsFile.sectors) {
+  for (const sec of sectors) {
     const id = asSectorId(sec.id);
     sectorsMap.set(id, {
       id,
@@ -170,6 +207,14 @@ async function buildGraph(): Promise<KnowledgeGraph> {
     });
   }
 
+  return sectorsMap;
+}
+
+type DimensionNodes = Pick<KnowledgeGraph, 'skills' | 'knowledge' | 'abilities' | 'interests' | 'workValues' | 'workCharacteristics' | 'workActivities'>;
+
+function buildDimensionNodes(
+  labelsByDim: ReadonlyMap<string, ReadonlyMap<string, LabelEntry>>,
+): DimensionNodes {
   // 5. Build the 7 dimension-label maps.
   const skills              = buildDimensionMap<SkillId>(labelsByDim.get('skills'),               asSkillId);
   const knowledge           = buildDimensionMap<KnowledgeId>(labelsByDim.get('knowledge'),           asKnowledgeId);
@@ -179,6 +224,14 @@ async function buildGraph(): Promise<KnowledgeGraph> {
   const workCharacteristics = buildDimensionMap<WorkCharacteristicId>(labelsByDim.get('work_characteristics'), asWorkCharacteristicId);
   const workActivities      = buildDimensionMap<WorkActivityId>(labelsByDim.get('work_activities'),      asWorkActivityId);
 
+  return { skills, knowledge, abilities, interests, workValues, workCharacteristics, workActivities };
+}
+
+function buildSectorEdges(
+  occupations: readonly Occupation[],
+  sectors: SectorDef[],
+  overrides: Record<string, string>,
+) {
   // 6. Sector edges: derive per-occupation, also invert into bySector.
   const sectorByOcc = new Map<OccupationId, SectorId>();
   const occupationsBySectorIdx = new Map<SectorId, OccupationId[]>();
@@ -187,8 +240,8 @@ async function buildGraph(): Promise<KnowledgeGraph> {
     const assignment = resolveSector(
       occ.id,
       occ.classifications.mhlw_main,
-      sectorsFile.sectors,
-      overridesFile.overrides,
+      sectors,
+      overrides,
     );
     if (assignment.sector_id === SENTINEL_UNCATEGORIZED) continue;
     const secId = asSectorId(assignment.sector_id);
@@ -201,6 +254,10 @@ async function buildGraph(): Promise<KnowledgeGraph> {
     bucket.push(occId);
   }
 
+  return { sectorByOcc, occupationsBySectorIdx };
+}
+
+function buildDimensionEdges(occupations: readonly Occupation[]) {
   // 7. Dimension edges: iterate the inline weight maps on each occupation.
   const skillsEdges              = new Map<OccupationId, readonly OccupationSkillEdge[]>();
   const knowledgeEdges           = new Map<OccupationId, readonly OccupationKnowledgeEdge[]>();
@@ -221,11 +278,25 @@ async function buildGraph(): Promise<KnowledgeGraph> {
     workActivityEdges.set(       occId, buildWeightedEdges(occId, occ.work_activities     ?? null, asWorkActivityId));
   }
 
+  return {
+    skillsEdges, knowledgeEdges, abilityEdges, interestEdges,
+    workValueEdges, workCharacteristicEdges, workActivityEdges,
+  };
+}
+
+function freezeSectorBuckets(occupationsBySectorIdx: Map<SectorId, OccupationId[]>): void {
   // Freeze the invert-index buckets so consumers can't mutate them.
   for (const [secId, bucket] of occupationsBySectorIdx) {
     occupationsBySectorIdx.set(secId, Object.freeze([...bucket]) as OccupationId[]);
   }
+}
 
+function buildTransferCandidates(
+  occupations: readonly Occupation[],
+  occupationsMap: ReadonlyMap<OccupationId, OccupationNode>,
+  canonicalScoreByOcc: ReadonlyMap<number, AiRiskScore>,
+  sectorByOcc: ReadonlyMap<OccupationId, SectorId>,
+): Map<number, TransferPathEntry> {
   // 7.5. Precompute the full transfer-candidates map. Cross-occupation
   // algorithm (cosine similarity over same-sector skill vectors → top-N
   // candidates) — done once here so view/page-data code can query via
@@ -254,7 +325,23 @@ async function buildGraph(): Promise<KnowledgeGraph> {
       occupations.map((o) => [o.id, o.title_ja]),
     ),
   };
-  const transferMap = computeTransferCandidatesMap(transferInput);
+  return computeTransferCandidatesMap(transferInput);
+}
+
+function assembleGraph(
+  occupationsMap: Map<OccupationId, OccupationNode>,
+  scoreHistoryByOcc: KnowledgeGraph['scoreHistoryByOcc'],
+  sectorsMap: Map<SectorId, SectorNode>,
+  dimensions: DimensionNodes,
+  sectorEdges: ReturnType<typeof buildSectorEdges>,
+  dimensionEdges: ReturnType<typeof buildDimensionEdges>,
+  transferMap: ReadonlyMap<number, TransferPathEntry>,
+): KnowledgeGraph {
+  const { sectorByOcc, occupationsBySectorIdx } = sectorEdges;
+  const {
+    skillsEdges, knowledgeEdges, abilityEdges, interestEdges,
+    workValueEdges, workCharacteristicEdges, workActivityEdges,
+  } = dimensionEdges;
   const transferEmpty: TransferPathEntry = Object.freeze({
     source_id: -1,
     candidates: [] as const,
@@ -266,13 +353,7 @@ async function buildGraph(): Promise<KnowledgeGraph> {
     occupations: occupationsMap,
     scoreHistoryByOcc,
     sectors: sectorsMap,
-    skills,
-    knowledge,
-    abilities,
-    interests,
-    workValues,
-    workCharacteristics,
-    workActivities,
+    ...dimensions,
 
     sectorOf: (id) => sectorByOcc.get(id) ?? null,
     occupationsBySector: (id) => occupationsBySectorIdx.get(id) ?? EMPTY_OCC_LIST,
