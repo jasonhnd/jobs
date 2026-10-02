@@ -18,7 +18,7 @@ A deploy is not one runtime. Mixing these planes is how `bunVersion` accidentall
 
 | Plane | What it is | What sets the version | What actually runs |
 | --- | --- | --- | --- |
-| **A Install** | `vercel.json` `installCommand` | Build-image Bun (`"bunVersion": "1.4.x"`), unless the command pins with `bunx bun@x.y.z` | Today: `bun install --frozen-lockfile`. **2026-09-20:** the `bunx bun@1.4.0` pin stopped working on Vercel CLI 59.23.2 — the bunx bootstrap exited 1 before `bun install` ran, on every deploy (preview `d0d945ed`, then an empty-commit retry). The build image's own Bun is 1.4.x via `bunVersion`, so the exact pin is dropped; The current CI pin is maintained only in §2 (updated by [PR #653](https://github.com/jasonhnd/jobs/pull/653)); it is separate from this failed historical bootstrap. Must be able to read `bun.lock`. |
+| **A Install** | `vercel.json` `installCommand` | Build-image Bun (`"bunVersion": "1.4.x"`), unless the command pins with `bunx bun@x.y.z` | Today: `bun install --frozen-lockfile`. **2026-09-20:** the `bunx bun@1.4.0` pin stopped working on Vercel CLI 59.23.2 — the bunx bootstrap exited 1 before `bun install` ran, on every deploy (preview `d0d945ed`, then an empty-commit retry). The build image's own Bun is 1.4.x via `bunVersion`, so the exact pin is dropped; the current CI pin is maintained only in §2 (updated by [PR #653](https://github.com/jasonhnd/jobs/pull/653)); it is separate from this failed historical bootstrap. Must be able to read `bun.lock`. |
 | **B Build** | `buildCommand` in the same container | **No `engines.node`** (#302) so it cannot steal Function runtime from `bunVersion`. Builds stay Node **24.x** via platform default + `.nvmrc` + CI `node-version: 24.x`. | `bun run typecheck` → `bun run build` → `bun run verify:gates` → `bun run test`. **`astro build` uses the `astro` bin shebang (Node).** ETL, `bun test`, and most `scripts/*` use Bun. |
 | **C Runtime** | After the deploy is live | Not the install Bun | HTML: CDN files from `outputDirectory` `dist-astro/`. **Today (#305):** `api/og`, `api/shindan-share`, and `middleware.ts` are `runtime: "nodejs"` + `"bunVersion": "1.4.x"` (Bun 1.4). OG/share `regions: ["hnd1", "kix1"]`. Middleware uses `@vercel/functions` (`next`, `rewrite`, `waitUntil`). |
 
@@ -58,6 +58,18 @@ overrides.sharp ^0.35.4 (GHSA-rgj7-g3m4-5g8c; astro and @vercel/og only declare 
 `bun.lock` today: **`lockfileVersion: 1`**. Current CI and Vercel install selection are in the §2 table above (Bun 1.4 can read v1). A v2 lockfile previously broke a preview while Edge packing still ran `bun install v1.3.14`. Historical 2026-08-25 evidence after #305: `aa1e7e40` had no Edge entries and packed with **1.4.0**. Still do not migrate to v2 without a dedicated Issue.
 
 `.nvmrc` contains `24`. Use that locally before Astro compiler work. `astro build` is Node. Do **not** put `engines.node` back after §9.1 — Vercel treats it as winning over `bunVersion` for Function runtime.
+
+### 2.1 Scoring CLIs (owner machine only)
+
+CI and Vercel do not install these CLIs. They are not Bun, Node, or Astro pins. A minimum below is a preflight floor from a tracked constant. An observation is a version named in a landed runbook row and is not a pin.
+
+| CLI | Contract | Evidence | Where it runs |
+| --- | --- | --- | --- |
+| Codex CLI | `>= 0.159.2`, current-seat minimum | `GPT_6_1_SOL_CODEX_MIN_VERSION` in `scripts/lib/scoring/gpt-6.1-sol-run.ts` | Owner machine, `codex` provider. Not installed by CI or Vercel. |
+| grok CLI | `>= 1.0.40`, preflight minimum | `GROK_CLI_MIN_VERSION` in `scripts/lib/scoring/providers/grok-cli.ts` and `GROK_4_7_MIN_CLI_VERSION` in `scripts/lib/scoring/grok-4.7-run.ts` | Owner machine, `grok-cli` provider. Not installed by CI or Vercel. |
+| Claude Code | `2.1.280`, observation, not a pin | mms-11 transport row in [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md) (chunked `claude -p`) | Owner machine for that in-agent run. Not a tracked constant, and not installed by CI or Vercel. |
+
+Older runbook notes are not this minimum. mms-12 recorded Codex `>= 0.156.0`. The Astra preflight recorded Codex `>= 0.153.1`. Do not promote those notes, or the Claude Code observation, to an exact pin.
 
 ---
 
@@ -295,7 +307,7 @@ prepends the nvm Node and Bun.
 | Surface | Cloud Agent | Note |
 | --- | --- | --- |
 | `test` / `typecheck` / `build` / `verify:gates` / `git diff --exit-code` | Yes | The whole `quality` chain runs on the VM. This is the §6 green bar minus the deploy half. |
-| `bun run test:e2e` | Yes | CI `quality` runs the Playwright suite after installing Chromium (`bun x playwright install --with-deps chromium`, step "Install Chromium for rendered-output checks" in `.github/workflows/ci.yml` line 77), then `bun x playwright test --reporter=line` (step "Run rendered-output checks (a11y, §4.2 floor, layout invariants)", line 80), so it gates merges. The analytics specs skip themselves when the build carries no GA4 markup (build with the `PUBLIC_*` analytics variables exported as empty strings, see [`AGENTS.md`](../AGENTS.md) → Acceptance commands). Playwright uses port 4321, so never run two suites on one machine at the same time. |
+| `bun run test:e2e` | Yes | CI `quality` runs the Playwright suite after installing Chromium (`bun x playwright install --with-deps chromium`, step "Install Chromium for rendered-output checks" in `.github/workflows/ci.yml` line 77), then `bun x playwright test --reporter=line` (step "Run rendered-output checks (a11y, §4.2 floor, layout invariants)", line 80), so it gates merges. The analytics specs skip themselves when the build carries no GA4 markup (build with the `PUBLIC_*` analytics variables exported as empty strings, see [`AGENTS.md`](../AGENTS.md) → Acceptance commands). Playwright defaults to port 4321. For parallel workspaces, use `PLAYWRIGHT_PORT=<available port>` with a distinct port for each suite; never reuse another workspace's server. An explicit override disables server reuse. |
 | Scoring batches | Yes, `in-agent` only | The `in-agent` provider needs no credential — the agent session is the model, as for `claude-opus-4-8`, `claude-fable-5`, `grok-4.6`, `claude-fable-5-1`, the `grok-4.5` backfill, and `claude-opus-5-5`. Any keyed provider is owner-only. The `codex` provider (gpt-5.6-sol, gpt-6-astra, gpt-6-sol, gpt-6.1-sol) is owner-machine only. The `grok-cli` provider is owner-machine only, alongside `codex`. See [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md). |
 | `bun run audit` | No | `analytics/` pins `pnpm@12.6.0` for corepack to fetch, and the GA4 scripts need credentials. |
 | Vercel CLI (`alerts`, `ls`, `inspect`, `firewall overview`) | No | Not installed, not authenticated. §8's refresh procedure needs an operator. |
