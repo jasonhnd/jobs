@@ -62,7 +62,7 @@ jobs:
       - name: Verify rendered HTML contracts
         env:
           REQUIRE_BUILT_ARTIFACTS: '1'
-        run: bun test scripts/home-css-loading.test.ts src/site/models-built.test.ts
+        run: bun test scripts/home-css-loading.test.ts src/site/models-built.test.ts scripts/home-js-asset.test.ts
 
       - name: Run repository gates
         run: bun run verify:gates
