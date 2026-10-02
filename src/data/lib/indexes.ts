@@ -142,7 +142,20 @@ export interface BuildIndexesResult {
  */
 export async function buildIndexes(): Promise<BuildIndexesResult> {
   const errors: LoadError[] = [];
+  const occupationIndexes = await loadOccupationIndexes(errors);
+  const scoreIndexes = await loadScoreIndexes(occupationIndexes.occById, errors);
+  const labelsByDim = await loadLabelIndexes(errors);
+  const sectorIndexes = await loadSectorIndexes(occupationIndexes.occById, errors);
 
+  return {
+    indexes: { ...occupationIndexes, ...scoreIndexes, labelsByDim, ...sectorIndexes },
+    errors,
+  };
+}
+
+async function loadOccupationIndexes(
+  errors: LoadError[],
+): Promise<Pick<Indexes, 'occById' | 'transById' | 'statsById'>> {
   // ───── Per-occupation file dirs ─────
   const occResult = await loadJsonDir('occupations', OccupationSchema);
   errors.push(...occResult.errors);
@@ -165,20 +178,43 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
     insertById(statsById, s.id, s, errors, 'stats_legacy');
   }
 
+  return { occById, transById, statsById };
+}
+
+async function loadScoreIndexes(
+  occById: ReadonlyMap<number, Occupation>,
+  errors: LoadError[],
+): Promise<Pick<Indexes, 'historyByOcc' | 'latestScoreByOcc' | 'flagshipByOcc' | 'canonicalScoreByOcc' | 'runsByModel'>> {
   // ───── Score runs ─────
   const scoreResult = await loadJsonDir('scores', ScoreRunSchema);
   if (!scoreResult.dirMissing) errors.push(...scoreResult.errors);
+  const runs = [...scoreResult.byKey.values()];
+  const runsByModel = groupRunsByModel(runs);
+  const historyByOcc = buildScoreHistory(runs, errors);
+  const selectedScores = selectOccupationScores(historyByOcc);
+  validateScoreReferences(historyByOcc, occById, errors);
+  return { historyByOcc, ...selectedScores, runsByModel };
+}
+
+function groupRunsByModel(runs: readonly ScoreRun[]): Map<string, ScoreRun[]> {
   const runsByModel = new Map<string, ScoreRun[]>();
-  for (const run of scoreResult.byKey.values()) {
+  for (const run of runs) {
     if (!runsByModel.has(run.scorer.model)) {
       runsByModel.set(run.scorer.model, []);
     }
     runsByModel.get(run.scorer.model)!.push(run);
   }
 
+  return runsByModel;
+}
+
+function buildScoreHistory(
+  runs: readonly ScoreRun[],
+  errors: LoadError[],
+): Map<number, ScoreHistEntry[]> {
   // Build score history per occupation (only consider scope='occupations').
   const historyByOcc = new Map<number, ScoreHistEntry[]>();
-  for (const run of scoreResult.byKey.values()) {
+  for (const run of runs) {
     if (run.scope !== 'occupations') continue;
     for (const [occIdStr, entry] of Object.entries(run.scores)) {
       const occId = Number.parseInt(occIdStr, 10);
@@ -208,6 +244,12 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
     hist.sort((a, b) => a.date.localeCompare(b.date));
   }
 
+  return historyByOcc;
+}
+
+function selectOccupationScores(
+  historyByOcc: ReadonlyMap<number, ScoreHistEntry[]>,
+): Pick<Indexes, 'latestScoreByOcc' | 'flagshipByOcc' | 'canonicalScoreByOcc'> {
   // Latest score per occupation (最新観測 / attribution). Canonical public
   // scores are flagshipByOcc / canonicalScoreByOcc (mms-8.13).
   const latestScoreByOcc = new Map<number, ScoreHistEntry>();
@@ -224,6 +266,14 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
     }
   }
 
+  return { latestScoreByOcc, flagshipByOcc, canonicalScoreByOcc };
+}
+
+function validateScoreReferences(
+  historyByOcc: ReadonlyMap<number, ScoreHistEntry[]>,
+  occById: ReadonlyMap<number, Occupation>,
+  errors: LoadError[],
+): void {
   // Cross-reference sanity.
   const unknownScoreIds: number[] = [];
   for (const occId of historyByOcc.keys()) {
@@ -237,7 +287,9 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
       message: `scores reference unknown occupation ids: [${sample}${ellipsis}]`,
     });
   }
+}
 
+async function loadLabelIndexes(errors: LoadError[]): Promise<Indexes['labelsByDim']> {
   // ───── Labels ─────
   const labelsByDim = new Map<string, Map<string, LabelEntry>>();
   const labelDimensions = [
@@ -267,6 +319,13 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
     }
   }
 
+  return labelsByDim;
+}
+
+async function loadSectorIndexes(
+  occById: ReadonlyMap<number, Occupation>,
+  errors: LoadError[],
+): Promise<Pick<Indexes, 'sectors' | 'sectorOverrides' | 'sectorByOcc'>> {
   // ───── Sectors ─────
   let sectors: SectorDef[] = [];
   const sectorsResult = await loadJsonFile(
@@ -298,32 +357,24 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
     });
   }
 
+  const sectorByOcc = assignOccupationSectors(occById, sectors, sectorOverridesObj);
+  return { sectors, sectorOverrides, sectorByOcc };
+}
+
+function assignOccupationSectors(
+  occById: ReadonlyMap<number, Occupation>,
+  sectors: SectorDef[],
+  overrides: Record<string, string>,
+): Map<number, SectorAssignment> {
   // Per-occupation sector assignment.
   const sectorByOcc = new Map<number, SectorAssignment>();
   if (sectors.length > 0) {
     for (const [occId, occ] of occById) {
       sectorByOcc.set(
         occId,
-        resolveSector(occId, occ.classifications.mhlw_main, sectors, sectorOverridesObj),
+        resolveSector(occId, occ.classifications.mhlw_main, sectors, overrides),
       );
     }
   }
-
-  return {
-    indexes: {
-      occById,
-      transById,
-      statsById,
-      historyByOcc,
-      latestScoreByOcc,
-      flagshipByOcc,
-      canonicalScoreByOcc,
-      runsByModel,
-      labelsByDim,
-      sectors,
-      sectorOverrides,
-      sectorByOcc,
-    },
-    errors,
-  };
+  return sectorByOcc;
 }
