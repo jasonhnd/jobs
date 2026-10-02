@@ -124,7 +124,7 @@ overlap); reconciled with Microsoft AI Diffusion top-down → 低 9.6 億 /
   in `haid-release-copy.ts`, `og-cards.ts` and `release.json` `method_ja`
   stays as signed. `version` stays `2026-Q3.0`.
 
-## Done — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
+## Done — second design review: §4.7 enforced, treemap hard fixes (design-1.21, closed 2026-09-21)
 
 Shipped in [PR #558](https://github.com/jasonhnd/jobs/pull/558) (2026-09-20),
 with the one-decimal follow-up [#560](https://github.com/jasonhnd/jobs/pull/560)
@@ -178,13 +178,17 @@ Japanese public copy for new strings is posted on #272.
   lead / FAQ JSON-LD use the signed SOP wording; AIOIS-10, occupation count and
   score date appear above the fold; `/answers` ↔ `/methodology` ↔ `/rankings`
   cross-links shipped. This is delivery evidence, not proof of search/citation gains.
-- **seo-geo-2 — Partial**: occupation meta correction shipped in
-  [merged PR #577](https://github.com/jasonhnd/jobs/pull/577) (2026-09-21): AI
-  influence is not job-loss probability. The full citation fact paragraph exists
-  inside the default-collapsed source details; a concise visible citation line
-  near the occupation score remains. Next: obtain owner-signed Japanese wording
-  and placement, reuse canonical score/date/count/source values, and retain the
-  full source fold. Do not redo the shipped title/meta correction.
+- **seo-geo-2 — Partial**: [merged PR #577](https://github.com/jasonhnd/jobs/pull/577)
+  (2026-09-21) changed the occupation title and meta salary from a yen figure to
+  a percentile among 544 occupations. The meta sentence that AI influence is a
+  degree of work change, not unemployment probability, was already present from
+  [merged PR #276](https://github.com/jasonhnd/jobs/pull/276) (2026-08-24,
+  `a2d59436`) and is still in `src/views/occupation-seo.ts`. Partial stays
+  Partial: the full citation fact paragraph exists inside the default-collapsed
+  source details; a concise visible citation line near the occupation score
+  remains. Next: obtain owner-signed Japanese wording and placement, reuse
+  canonical score/date/count/source values, and retain the full source fold.
+  Do not redo the shipped title/meta correction.
 - **seo-geo-3 — Active**: evidence-backed weekly off-site SOP log, including
   Claude's exact cited URL or verified no-citation result, and 28-day observation.
   Next: locate existing logs/schedules, then record the fixed prompts, dates,
