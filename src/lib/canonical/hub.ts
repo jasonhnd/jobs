@@ -23,8 +23,8 @@ a:hover{color:var(--orange-hot)}
 #wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 80px}
 
 /* Breadcrumb */
-.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
-.crumb a{color:var(--fg2)}
+.crumb{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:24px}
+.crumb a{color:var(--ink-meta);}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* Header + h1 — hub class signature */
