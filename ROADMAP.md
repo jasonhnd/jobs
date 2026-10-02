@@ -249,11 +249,16 @@ Shipped on `preview` (#622, #627); not promoted to `main` when this block
 was written (promotion text on #619). GPT 6 SOL (`gpt-6-sol@2026-09-23`,
 556, Codex CLI with `--model gpt-6-sol --reasoning-effort high`) replaces
 GPT 6 Astra as OpenAI's seat in the vendor mean; Claude Opus 5.5 and Grok
-4.7 stay. The public mean moves 4.65 → 4.56: 2 occupations move by 0.5 or
+4.7 stay. The public mean moves 4.65 → 4.55: 2 occupations move by 0.5 or
 more, none by 1.0 or more, and 28 change risk band. The run date equals
 the Claude Opus 5.5 run date (owner decision on #614), so GPT 6 SOL wins the
 latest-run tie by file order and its `/models` page compares against Grok
 4.7. GPT 6 Astra stays as history.
+
+Correction recorded 2026-09-24: the original 4.56 averaged already-rounded
+occupation scores. The aggregate of unrounded values is 4.55, as recorded in
+[`CONSENSUS_SCORE.md`](docs/CONSENSUS_SCORE.md). Bands still use displayed
+one-decimal values; the 28 band changes are unchanged.
 
 Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
 2026-09-23 (mms-11.1). Sister lane mms-11 (Claude Opus 5.5) landed first.
