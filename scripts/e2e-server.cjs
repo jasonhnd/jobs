@@ -67,6 +67,7 @@ function loadVercelHeaderRules() {
         has: Array.isArray(rule.has) ? rule.has : [],
       }));
   } catch {
+    console.warn(`[e2e-server] WARN — cannot load header rules from ${VERCEL_JSON}; serving without configured headers. Header assertions do not mirror Vercel.`);
     return [];
   }
 }
