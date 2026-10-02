@@ -31,6 +31,16 @@
  */
 import { defineConfig, devices } from '@playwright/test';
 
+const portOverride = process.env.PLAYWRIGHT_PORT;
+const port = Number(portOverride ?? '4321');
+if (
+  (portOverride !== undefined && !/^\d+$/.test(portOverride)) ||
+  !Number.isInteger(port) || port < 1 || port > 65535
+) {
+  throw new Error('PLAYWRIGHT_PORT must be an integer between 1 and 65535');
+}
+const baseURL = `http://localhost:${port}`;
+
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
@@ -38,7 +48,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL,
     trace: 'retain-on-failure',
   },
   webServer: {
@@ -48,8 +58,10 @@ export default defineConfig({
     // directory and 404s; this server serves /ja/sectors.html like Vercel.
     // The build must run beforehand (`bun run build`).
     command: 'bun scripts/e2e-server.cjs',
-    url: 'http://localhost:4321',
-    reuseExistingServer: !process.env.CI,
+    url: baseURL,
+    env: { E2E_PORT: String(port) },
+    // An overridden port belongs to this workspace, not an existing server.
+    reuseExistingServer: !process.env.CI && portOverride === undefined,
     timeout: 30_000,
   },
   projects: [

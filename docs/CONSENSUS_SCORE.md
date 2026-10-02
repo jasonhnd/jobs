@@ -54,6 +54,12 @@ Implementation: [`score-strategy.ts`](../src/graph/score-strategy.ts)
 selection section of [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md).
 `pickConsensusScore()` remains deprecated for historical switch-drift reports.
 
+## Scoring approval
+
+Default gate: the owner (Jason) GOs a scoring pilot, the full run, and landing. Historical series stay owner-only, including Issue #9, Issue #126, mms-7, mms-8, mms-9, mms-10, mms-11, and mms-12. Do not re-ask the owner for a gate that series already recorded.
+
+One recorded exception, dated 2026-10-01: the owner delegated the mms-13 scoring gates to the supervisor. Scope is 13.2 preflight (#672), 13.3 pilot (#673), 13.4 full (#674), and landing (#675). Evidence is the mms-13 paragraph in `ROADMAP.md`, the comment in `scripts/lib/scoring/gpt-6.1-sol-run.ts`, and the runbook `Supervisor FULL GO` on #673. This delegation does not authorize promotion from `preview` to `main`, Vercel writes, or any later scoring series. Those stay with the owner.
+
 ## 背景 — なぜ切り替えるか
 
 > Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
@@ -698,6 +704,8 @@ mean of the latest model from each of {V} vendors / Vendors in the panel / vendo
 - ベンダー白名単は OpenAI / Anthropic / xAI（不変）。Gemini は不採用（不変）。
 - pilot 40 の日本語品質審はオーナー署名ゲート（不変）。
 - 範囲外: Mythos 5.1 / Sonnet 5 / Haiku / GPT-5.6 Terra・Luna / Daybreak・Cyber 特供 / Gemini / Vercel AI Gateway / 新しい HTTP provider。
+
+The owner-signature bullet above is the signed mms-8 decision for that series. The standing rule, and the only recorded exception, are in [Scoring approval](#scoring-approval). That bullet does not delegate a later series.
 
 ## 改訂 3 — 追跡採点（backfill）（mms-9、2026-09-10 決定）
 
