@@ -98,6 +98,7 @@ test('home remains fully styled and usable when JavaScript is disabled', async (
   const context = await browser.newContext({
     ...devices['Pixel 5'],
     javaScriptEnabled: false,
+    baseURL: testInfo.project.use.baseURL,
   });
   const page = await context.newPage();
   let cssResponses = 0;
@@ -105,7 +106,7 @@ test('home remains fully styled and usable when JavaScript is disabled', async (
     if (HOME_CSS_URL.test(response.url())) cssResponses += 1;
   });
 
-  const response = await page.goto('http://localhost:4321/', { waitUntil: 'networkidle' });
+  const response = await page.goto('/', { waitUntil: 'networkidle' });
   expect(response?.ok()).toBe(true);
 
   const fallback = page.locator('noscript link[rel="stylesheet"][href*="/_astro/_index."]');
