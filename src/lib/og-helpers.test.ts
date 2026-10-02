@@ -119,17 +119,70 @@ describe('og-helpers schema drift guard', () => {
   });
 
   test('trustedFetchOrigin: trusted hosts use their own origin (preview reads its own data)', () => {
-    // pinned: each preview/prod host fetches from itself.
-    assert.equal(trustedFetchOrigin(new URL('https://mirai-shigoto.com/api/og?id=1')), 'https://mirai-shigoto.com');
-    assert.equal(trustedFetchOrigin(new URL('https://pre.mirai-shigoto.com/api/og?id=1')), 'https://pre.mirai-shigoto.com');
-    assert.equal(trustedFetchOrigin(new URL('https://jobs-abc123-zkscio.vercel.app/api/og?id=1')), 'https://jobs-abc123-zkscio.vercel.app');
-    assert.equal(trustedFetchOrigin(new URL('http://localhost:4321/api/og?id=1')), 'http://localhost:4321');
+    const origins = [
+      'https://mirai-shigoto.com',
+      'https://pre.mirai-shigoto.com',
+      'https://jobs-abc123-zkscio.vercel.app',
+      // Confirmed by read-only vercel ls / inspect on 2026-10-02.
+      'https://jobs-dn8kq25rc-zkscio.vercel.app',
+      'https://jobs-git-docs-data-readme-leftovers-zkscio.vercel.app',
+      'https://jobs-git-preview-zkscio.vercel.app',
+      'https://jobs-git-fix-123-origin-zkscio.vercel.app',
+      'http://localhost:4321',
+      'http://127.0.0.1:4321',
+    ];
+    for (const origin of origins) {
+      assert.equal(trustedFetchOrigin(new URL(`${origin}/api/og?id=1`)), origin, origin);
+    }
+    // URL normalizes hostname casing before checking the allowlist.
+    assert.equal(
+      trustedFetchOrigin(new URL('https://JOBS-DN8KQ25RC-ZKSCIO.VERCEL.APP/api/og')),
+      'https://jobs-dn8kq25rc-zkscio.vercel.app',
+    );
   });
 
   test('trustedFetchOrigin: an untrusted (spoofed-Host) origin falls back to production', () => {
     // SSRF guard: a forged Host must not become a server-side fetch target.
     assert.equal(trustedFetchOrigin(new URL('https://evil.com/api/og?id=1')), 'https://mirai-shigoto.com');
     assert.equal(trustedFetchOrigin(new URL('https://mirai-shigoto.com.evil.com/api/og?id=1')), 'https://mirai-shigoto.com');
+  });
+
+  test('trustedFetchOrigin: unrelated Vercel projects and teams fall back to production', () => {
+    const hosts = [
+      'evil.vercel.app',
+      'other-abc123-zkscio.vercel.app',
+      'other-git-preview-zkscio.vercel.app',
+      'jobs-abc123-otherteam.vercel.app',
+      'jobs-git-preview-otherteam.vercel.app',
+      'jobs.vercel.app',
+      'vercel.app',
+    ];
+    for (const host of hosts) {
+      assert.equal(trustedFetchOrigin(new URL(`https://${host}/api/og?id=1`)), 'https://mirai-shigoto.com', host);
+    }
+  });
+
+  test('trustedFetchOrigin: deceptive or malformed Vercel hostnames fall back to production', () => {
+    const hosts = [
+      'evil.jobs-abc123-zkscio.vercel.app',
+      'evil.jobs-git-preview-zkscio.vercel.app',
+      'evil-jobs-abc123-zkscio.vercel.app',
+      'jobs-abc123-zkscio.vercel.app.evil.com',
+      'jobs-git-preview-zkscio.vercel.app.evil.com',
+      'jobs-abc123-zkscio-evil.vercel.app',
+      'jobs-abc123-zkscio.vercelXapp',
+      'jobs-abc123-zkscioXvercel.app',
+      'jobs--zkscio.vercel.app',
+      'jobs-abc-123-zkscio.vercel.app',
+      'jobs-git--preview-zkscio.vercel.app',
+      'jobs-git-preview--fix-zkscio.vercel.app',
+      'jobs-git-preview--zkscio.vercel.app',
+      'jobs-git-preview_fix-zkscio.vercel.app',
+      'jobs-abc123-zkscio.vercel.app.',
+    ];
+    for (const host of hosts) {
+      assert.equal(trustedFetchOrigin(new URL(`https://${host}/api/og?id=1`)), 'https://mirai-shigoto.com', host);
+    }
   });
 
   test('DetailRecordSchema is structurally a subset of DetailFileSchema (passthrough check)', () => {

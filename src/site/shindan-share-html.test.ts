@@ -1,7 +1,7 @@
 import { strict as assert } from 'node:assert';
 import { describe, test } from 'node:test';
 
-import { renderShindanShareResponse } from '../../api/shindan-share.js';
+import { GET, HEAD, renderShindanShareResponse } from '../../api/shindan-share.js';
 import { shindanShareRewriteTarget } from '../lib/shindan-share-route.js';
 import { renderShindanShareHtml } from './shindan-share-html.js';
 import { FAMILY_CODES } from './worktype-copy.js';
@@ -91,6 +91,87 @@ describe('shindan share metadata escaping', () => {
 });
 
 describe('crawler-rendered shindan share HTML', () => {
+  test('HEAD matches GET headers and never fetches a shell or job context', async (t) => {
+    const fetchMock = t.mock.method(globalThis, 'fetch', fetchFixture);
+    const request = new Request('https://example.test/api/shindan-share?job=133');
+    const get = await GET(request);
+    const callsBeforeHead = fetchMock.mock.callCount();
+    assert.ok(callsBeforeHead > 0);
+    const head = HEAD(new Request(request.url, { method: 'HEAD' }));
+    assert.equal(head.status, 200);
+    assert.equal(await head.text(), '');
+    assert.deepEqual([...head.headers], [...get.headers]);
+    assert.equal(fetchMock.mock.callCount(), callsBeforeHead);
+  });
+
+  for (const failure of ['http', 'network'] as const) {
+    test(`unavailable shell (${failure}) returns a plain 502`, async () => {
+      const response = await renderShindanShareResponse(
+        new Request('https://example.test/api/shindan-share'),
+        async () => {
+          if (failure === 'network') throw new Error('synthetic upstream failure');
+          return new Response('upstream unavailable', { status: 503 });
+        },
+      );
+      assert.equal(response.status, 502);
+      assert.equal(response.headers.get('content-type'), 'text/plain; charset=utf-8');
+      assert.equal(response.headers.get('cache-control'), null);
+      assert.equal(await response.text(), 'Diagnostic share page unavailable');
+    });
+  }
+
+  for (const failure of ['http', 'network', 'schema'] as const) {
+    test(`optional worktypes failure (${failure}) preserves the base result`, async () => {
+      const response = await renderShindanShareResponse(new Request(
+        'https://example.test/api/shindan-share?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=133',
+      ), async (input, init) => {
+        if (new URL(String(input)).pathname === '/data.worktypes.json') {
+          if (failure === 'network') throw new Error('synthetic projection failure');
+          return failure === 'schema'
+            ? Response.json({ occupations: {} })
+            : new Response(null, { status: 404 });
+        }
+        // Keep job detail unavailable so the result is entirely base-only.
+        if (new URL(String(input)).pathname.startsWith('/data.detail/')) {
+          return new Response(null, { status: 404 });
+        }
+        return fetchFixture(input, init);
+      });
+      const html = await response.text();
+      assert.equal(response.status, 200);
+      assert.match(html, /api\/og\?worktype=RPK&amp;variant=mediator&amp;axes=3-0%2F2-1%2F2-1/);
+      assert.doesNotMatch(html, /(?:job|gap)=/);
+      assert.doesNotMatch(html, /Generic diagnostic/);
+    });
+  }
+
+  for (const failure of ['invalid-id', 'http', 'network', 'json', 'schema', 'empty-title'] as const) {
+    test(`optional job detail failure (${failure}) does not reject a valid result`, async () => {
+      const paths: string[] = [];
+      const response = await renderShindanShareResponse(new Request(
+        `https://example.test/api/shindan-share?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=${failure === 'invalid-id' ? 'bad' : '133'}`,
+      ), async (input, init) => {
+        const path = new URL(String(input)).pathname;
+        paths.push(path);
+        if (path.startsWith('/data.detail/')) {
+          if (failure === 'network') throw new Error('synthetic detail failure');
+          if (failure === 'json') return new Response('{');
+          if (failure === 'schema') return Response.json({ id: 133 });
+          if (failure === 'empty-title') return Response.json({ ...DETAIL_133, title: { ja: '' } });
+          return new Response(null, { status: 404 });
+        }
+        return fetchFixture(input, init);
+      });
+      const html = await response.text();
+      assert.equal(response.status, 200);
+      assert.equal(response.headers.get('x-robots-tag'), 'noindex, follow');
+      assert.doesNotMatch(html, new RegExp(DETAIL_133.title.ja));
+      assert.match(html, /api\/og\?worktype=RPK/);
+      if (failure === 'invalid-id') assert.ok(paths.every((path) => !path.startsWith('/data.detail/')));
+      else assert.ok(paths.includes('/data.detail/0133.json'));
+    });
+  }
+
   for (const parameter of ['self', 'job', 'axes'] as const) {
     for (const placement of ['only', 'suffix'] as const) {
       test(`rejects a script payload in ${parameter} (${placement}) with a safe fallback`, async () => {
