@@ -159,16 +159,16 @@ function isAllowlisted(href) {
   return false;
 }
 
-/* ─────────────────────────── main ─────────────────────────── */
+/* ─────────────────────── route collection ─────────────────────── */
 
-function main() {
+function requireBuildOutput() {
   if (!fs.existsSync(DIST_ROOT)) {
     console.error(`[verify-internal-links] ${DIST_ROOT} does not exist. Run \`pnpm build\` first.`);
     process.exit(2);
   }
+}
 
-  const htmlFiles = walkHtmlFiles(DIST_ROOT);
-
+function collectEmittedUrls(htmlFiles) {
   // Build the emitted URL set from dist-astro filenames.
   const emitted = new Set();
   for (const f of htmlFiles) emitted.add(pathToUrl(f));
@@ -176,20 +176,24 @@ function main() {
   // Also count static assets emitted under dist-astro/ (sitemap.xml,
   // image-sitemap.xml, llms.txt etc). Anything reachable as a file is
   // a valid internal href target.
-  function walkAllFiles(dir) {
-    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-      const p = path.join(dir, ent.name);
-      if (ent.isDirectory()) walkAllFiles(p);
-      else if (ent.isFile() && !ent.name.endsWith('.html')) {
-        // Cross-platform: normalize Windows backslashes to POSIX
-        // slashes (URLs are always POSIX).
-        const rel = path.relative(DIST_ROOT, p).split(path.sep).join('/');
-        emitted.add('/' + rel);
-      }
+  collectAssetUrls(DIST_ROOT, emitted);
+  return emitted;
+}
+
+function collectAssetUrls(dir, emitted) {
+  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, ent.name);
+    if (ent.isDirectory()) collectAssetUrls(p, emitted);
+    else if (ent.isFile() && !ent.name.endsWith('.html')) {
+      // Cross-platform: normalize Windows backslashes to POSIX
+      // slashes (URLs are always POSIX).
+      const rel = path.relative(DIST_ROOT, p).split(path.sep).join('/');
+      emitted.add('/' + rel);
     }
   }
-  walkAllFiles(DIST_ROOT);
+}
 
+function collectAnchorIds(htmlFiles) {
   // Pre-build a Map<url, Set<id>> of anchor ids per emitted page.
   // Used for C4 fragment validation. Done in a separate pass so the
   // main link-scan loop stays simple.
@@ -198,56 +202,73 @@ function main() {
     const html = fs.readFileSync(f, 'utf8');
     anchorIds.set(pathToUrl(f), extractAnchorIds(html));
   }
+  return anchorIds;
+}
 
-  // Scan every page for broken hrefs.
-  const failures = new Map(); // href → Set<urlsThatLinkToIt>
-  const fragmentFailures = new Map(); // 'url#frag' → Set<urlsThatLinkToIt>
-  let totalHrefs = 0;
-  let allowlistedHrefs = 0;
-  let totalFragments = 0;
+/* ─────────────────────── link validation ─────────────────────── */
+
+function pageTargetExists(href, emitted) {
+  return emitted.has(href) ||
+    (href.endsWith('/') && emitted.has(href.slice(0, -1)));
+}
+
+function recordFailure(failures, target, fromUrl) {
+  if (!failures.has(target)) failures.set(target, new Set());
+  failures.get(target).add(fromUrl);
+}
+
+function validateInternalHref(raw, fromUrl, { emitted, anchorIds }, result) {
+  const parsed = normalizeHref(raw);
+  if (parsed === null) return;
+  // path === null marks an intra-page anchor: the target page is the page
+  // we are scanning, so it trivially exists and only the fragment matters.
+  const { path: rawPath, fragment } = parsed;
+  const href = rawPath === null ? fromUrl : rawPath;
+  result.totalHrefs += 1;
+  if (isAllowlisted(href)) { result.allowlistedHrefs += 1; return; }
+  // Resolve the page path first.
+  if (!pageTargetExists(href, emitted)) {
+    recordFailure(result.failures, href, fromUrl);
+    return;
+  }
+  // Page exists. If the href carries a fragment, verify the
+  // target page actually has an element with that id.
+  // C4 (2026-05-17): previously the fragment was discarded and
+  // dead anchor links (`/ja/156#dead-section`) shipped silently.
+  if (fragment) {
+    result.totalFragments += 1;
+    if (RUNTIME_FRAGMENT_PAGES.has(href)) return;
+    const ids = anchorIds.get(href) || anchorIds.get(href + '/') ||
+      anchorIds.get(href.replace(/\/$/, ''));
+    if (!ids || !ids.has(fragment)) {
+      recordFailure(result.fragmentFailures, `${href}#${fragment}`, fromUrl);
+    }
+  }
+}
+
+function scanInternalLinks(htmlFiles, targets) {
+  const result = {
+    failures: new Map(), // href → Set<urlsThatLinkToIt>
+    fragmentFailures: new Map(), // 'url#frag' → Set<urlsThatLinkToIt>
+    totalHrefs: 0,
+    allowlistedHrefs: 0,
+    totalFragments: 0,
+  };
 
   for (const f of htmlFiles) {
     const html = fs.readFileSync(f, 'utf8');
     const fromUrl = pathToUrl(f);
     const hrefs = extractInternalLinks(html);
     for (const raw of hrefs) {
-      const parsed = normalizeHref(raw);
-      if (parsed === null) continue;
-      // path === null marks an intra-page anchor: the target page is the page
-      // we are scanning, so it trivially exists and only the fragment matters.
-      const { path: rawPath, fragment } = parsed;
-      const href = rawPath === null ? fromUrl : rawPath;
-      totalHrefs += 1;
-      if (isAllowlisted(href)) { allowlistedHrefs += 1; continue; }
-      // Resolve the page path first.
-      let pageOk = emitted.has(href);
-      if (!pageOk && href.endsWith('/') && emitted.has(href.slice(0, -1))) pageOk = true;
-      if (!pageOk) {
-        if (!failures.has(href)) failures.set(href, new Set());
-        failures.get(href).add(fromUrl);
-        continue;
-      }
-      // Page exists. If the href carries a fragment, verify the
-      // target page actually has an element with that id.
-      // C4 (2026-05-17): previously the fragment was discarded and
-      // dead anchor links (`/ja/156#dead-section`) shipped silently.
-      if (fragment) {
-        totalFragments += 1;
-        if (RUNTIME_FRAGMENT_PAGES.has(href)) continue;
-        const ids = anchorIds.get(href) || anchorIds.get(href + '/') ||
-          anchorIds.get(href.replace(/\/$/, ''));
-        if (!ids || !ids.has(fragment)) {
-          const key = `${href}#${fragment}`;
-          if (!fragmentFailures.has(key)) fragmentFailures.set(key, new Set());
-          fragmentFailures.get(key).add(fromUrl);
-        }
-      }
+      validateInternalHref(raw, fromUrl, targets, result);
     }
   }
+  return result;
+}
 
-  console.log(`[verify-internal-links] scanned ${htmlFiles.length} HTML files`);
-  console.log(`[verify-internal-links] ${totalHrefs} internal hrefs (${allowlistedHrefs} allowlisted, ${totalFragments} with fragments)`);
+/* ─────────────────────── failure reporting ─────────────────────── */
 
+function classifyBrokenHrefs(failures) {
   // Split failures into (a) genuinely-new (gate fails) vs (b) already
   // known broken (logged as warning, gate stays green).
   const newBroken = [];
@@ -263,21 +284,25 @@ function main() {
   // Stale KNOWN_BROKEN_HREFS entries (no longer broken). These should be
   // deleted from the set when the underlying bug is fixed.
   const stale = [...KNOWN_BROKEN_HREFS].filter((h) => !sawKnown.has(h));
+  return { newBroken, sawKnown, stale };
+}
 
+function reportKnownBrokenHrefs(sawKnown, stale) {
   if (sawKnown.size > 0) {
     console.log(`\n⚠️  ${sawKnown.size} known-broken href(s) — entries pre-snapshotted as production bugs, NOT a regression:`);
     for (const href of [...sawKnown].sort()) {
       console.log(`    ${href}`);
     }
   }
-
   if (stale.length > 0) {
     console.error(`\n❌ ${stale.length} entries in KNOWN_BROKEN_HREFS are no longer broken — please remove from the set:`);
     for (const href of stale.sort()) {
       console.error(`    ${href}`);
     }
   }
+}
 
+function reportNewBrokenHrefs(newBroken) {
   if (newBroken.length > 0) {
     console.error(`\n❌ ${newBroken.length} NEW broken internal href(s):\n`);
     for (const [href, sources] of newBroken.sort()) {
@@ -286,7 +311,9 @@ function main() {
       console.error(`    linked from: ${srcArr.slice(0, 3).join(', ')}${srcArr.length > 3 ? ` (and ${srcArr.length - 3} more)` : ''}`);
     }
   }
+}
 
+function reportBrokenFragments(fragmentFailures) {
   // C4 (2026-05-17): broken fragment anchors. Treated as warnings on
   // first introduction (so this commit doesn't fail CI for pre-existing
   // dead fragments). Promote to hard failures in a follow-up after
@@ -313,12 +340,32 @@ function main() {
     console.error('  Fix the link or the target id. If the id is created at runtime by inline JS,');
     console.error('  add the page to RUNTIME_FRAGMENT_PAGES instead of adding it to the allowlist.');
   }
+  return newFragmentFailures;
+}
+
+function reportResult(htmlFiles, { failures, fragmentFailures, totalHrefs, allowlistedHrefs, totalFragments }) {
+  console.log(`[verify-internal-links] scanned ${htmlFiles.length} HTML files`);
+  console.log(`[verify-internal-links] ${totalHrefs} internal hrefs (${allowlistedHrefs} allowlisted, ${totalFragments} with fragments)`);
+
+  const { newBroken, sawKnown, stale } = classifyBrokenHrefs(failures);
+  reportKnownBrokenHrefs(sawKnown, stale);
+  reportNewBrokenHrefs(newBroken);
+  const newFragmentFailures = reportBrokenFragments(fragmentFailures);
 
   if (newBroken.length > 0 || stale.length > 0 || newFragmentFailures.length > 0) {
     process.exit(1);
   }
 
   console.log(`\n✅ Internal-link integrity passed — every NEW href resolves; ${sawKnown.size} pre-known broken targets remain (TODO).`);
+}
+
+function main() {
+  requireBuildOutput();
+  const htmlFiles = walkHtmlFiles(DIST_ROOT);
+  const emitted = collectEmittedUrls(htmlFiles);
+  const anchorIds = collectAnchorIds(htmlFiles);
+  const result = scanInternalLinks(htmlFiles, { emitted, anchorIds });
+  reportResult(htmlFiles, result);
 }
 
 main();
