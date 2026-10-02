@@ -533,6 +533,5 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-20 | 全 surface | §4.7 が `--ink` と定める **82 箇所**を是正（`h1 .accent` 19 / 見出し 24 / `strong`・`em` 25 / 統計 2 / FAQ 1 ほか。`--accent-deep`・`--orange-hot`・`--fg2`・生 hex）。合成斜体 18 箇所を全廃。`.risk-pill` の生 `12px` 角丸 6 箇所 → `--r-md`。movers 文言を「仕事が減るリスク」へ |
 | 2026-09-20 | 全 surface | §9.1 内側余白を `--s-5` に統一（hub/sector 20・doc 28・static 24・detail 32・feature 28 → 24）、ナビの brand を本文左端に、`/me` `/models` `/answers` `/aiadoption` の独自幅を `--content-max` に。`design-contract.spec.ts` に左端一致の検査を追加 |
 | 2026-09-20 | ゲート | `check-role-color` 新設・`verify:gates` へ接続。§4.7 の役割 → トークンを CSS 実装と照合（`check-contrast` の残り半分） |
-
 | 2026-09-20 | `feature` `interactive` `misc` | One-decimal follow-up: hover tooltips, `/map` and `/me` lists ([#560](https://github.com/jasonhnd/jobs/pull/560)) |
 | 2026-09-21 | `feature` (`/`) | Home canvas follows `/map` geometry and 12px full-name-or-hidden labels; September 19 clipping ruling withdrawn ([#566](https://github.com/jasonhnd/jobs/pull/566), Design §5.7). Shipped with #558/#560 in [promotion #569](https://github.com/jasonhnd/jobs/pull/569) |
