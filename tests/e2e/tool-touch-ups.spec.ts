@@ -58,31 +58,33 @@ test('/me chip 看護師 selects occupation 156', async ({ page }) => {
   expect(new URL(page.url()).searchParams.get('id')).toBe('156');
 });
 
-// KNOWN FAILING — measured 2026-09-17, and failing on `preview` before this
-// branch, so it is not a regression from the design migration.
-//
-//   390x844: Q1 starts at y=725, its last choice ends at y=905.
-//   The first screen is 844, so it overflows by 61px.
-//
-// Whether the first question belongs above the fold is a layout decision about
-// /shindan's preamble, not something to settle by loosening the number — that
-// is how `color-contrast` came to be switched off in a11y.spec.ts. Left as
-// fixme so the suite can go green in CI while the defect stays on the record.
-test.fixme('/shindan 390 consent-decided: Q1 and both choices fit in 844px', async ({ page }) => {
-  await open(page, '/shindan');
-  const q1 = page.locator('.shindan-question').first();
-  await expect(q1).toBeVisible();
-  const choices = q1.locator('.shindan-choice-text');
-  await expect(choices).toHaveCount(2);
-  const last = choices.last();
-  const box = await last.boundingBox();
-  expect(box).toBeTruthy();
-  expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(844);
-  await expect(page.locator('#shindanProgressText')).toHaveText('0 / 9問');
-  const proofY = await page.locator('.shindan-proof').evaluate((el) => el.getBoundingClientRect().y);
-  const q1Y = await q1.evaluate((el) => el.getBoundingClientRect().y);
-  expect(proofY).toBeGreaterThan(q1Y);
-});
+// Historical 2026-09-17 overflow: at 390x844, Q1 started at y=725 and its
+// last choice ended at y=905 (61px beyond the viewport). The 2026-10-01
+// remeasure no longer reproduced it at 375/390x844 after consent and fonts
+// settled: last choice bottom 815.53125px. Keep the original 844px boundary.
+for (const width of [375, 390]) {
+  test(`/shindan ${width} consent-decided: Q1 and both choices fit in 844px`, async ({ page }) => {
+    await open(page, '/shindan', width);
+    await expect(page.locator('#cookieBanner')).toBeHidden();
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+      await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+    });
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+    const q1 = page.locator('.shindan-question').first();
+    await expect(q1).toBeVisible();
+    const choices = q1.locator('.shindan-choice-text');
+    await expect(choices).toHaveCount(2);
+    const last = choices.last();
+    const box = await last.boundingBox();
+    expect(box).toBeTruthy();
+    expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(844);
+    await expect(page.locator('#shindanProgressText')).toHaveText('0 / 9問');
+    const proofY = await page.locator('.shindan-proof').evaluate((el) => el.getBoundingClientRect().y);
+    const q1Y = await q1.evaluate((el) => el.getBoundingClientRect().y);
+    expect(proofY).toBeGreaterThan(q1Y);
+  });
+}
 
 test('/shindan 390: legend pair is clipped so Qn does not wrap mid-kana', async ({ page }) => {
   await open(page, '/shindan');

@@ -111,3 +111,43 @@ describe('firstStaleToken', () => {
     assert.equal(firstStaleToken('cross-checked against Claude Opus 4.8', stale), 'Claude Opus 4.8');
   });
 });
+
+describe('stale token boundaries', () => {
+  test('deduplicates repeated batches while preserving first-seen order', () => {
+    const old = run('claude-opus-4-8', '2026-05-30');
+    assert.deepEqual(staleModelTokens([ACTIVE, old, old, { ...ACTIVE }], ACTIVE), {
+      identifiers: ['claude-opus-4-8', '2026-05-30'],
+      displayNames: ['Claude Opus 4.8', 'Opus 4.8'],
+    });
+  });
+
+  test('a different date of the same model remains a superseded batch', () => {
+    const old = run(ACTIVE.scorer.model, '2026-07-25');
+    const stale = staleModelTokens([old, ACTIVE], ACTIVE);
+    assert.deepEqual(stale.identifiers, [ACTIVE.scorer.model, '2026-07-25']);
+    assert.deepEqual(stale.displayNames, ['Claude Opus 5', 'Opus 5']);
+  });
+
+  test('empty runs have no derived tokens but still reject build markers', () => {
+    const stale = staleModelTokens([], ACTIVE);
+    assert.deepEqual(stale, { identifiers: [], displayNames: [] });
+    assert.equal(firstStaleToken('', stale), null);
+    assert.equal(firstStaleToken('version": "0.5.0"', stale), 'version": "0.5.0"');
+    for (const options of [{}, { allowValidationModelNames: true }]) {
+      assert.equal(firstStaleToken('__SCORE_TOTAL__', stale, options), '__SCORE_');
+      assert.equal(firstStaleToken('__GEO_MEAN__', stale, options), '__GEO_');
+    }
+  });
+
+  test('token priority follows the forbidden list, not its position in the text', () => {
+    const stale = staleModelTokens(RUNS, ACTIVE);
+    assert.equal(firstStaleToken('2026-05-30 __GEO_MEAN__ __SCORE_TOTAL__', stale), '__SCORE_');
+    assert.equal(firstStaleToken('Opus 4.8 then claude-opus-4-8', stale), 'claude-opus-4-8');
+  });
+
+  test('display-name exemption includes the short form and is explicitly opt-in', () => {
+    const stale = staleModelTokens(RUNS, ACTIVE);
+    assert.equal(firstStaleToken('Opus 4.8', stale, { allowValidationModelNames: false }), 'Opus 4.8');
+    assert.equal(firstStaleToken('Opus 4.8', stale, { allowValidationModelNames: true }), null);
+  });
+});
