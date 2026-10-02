@@ -8,7 +8,7 @@ import { transform } from 'esbuild';
 /**
  * Intercept only the home's verbatim `?url` script before Vite's asset loader.
  * Emit final minified bytes under their SHA-256 name and export that URL to
- * every importer. No post-naming mutation or Vite-private URL placeholders.
+ * every importer through Vite's asset URL pipeline, with no post-naming mutation.
  * Without format/target, esbuild preserves classic-script scope and the
  * existing syntax target; it must not wrap or rename top-level declarations.
  * @returns {import('vite').Plugin}
@@ -33,12 +33,10 @@ function minifyHomeScriptAsset() {
       const hash = createHash('sha256').update(code).digest('hex');
       const fileName = `${config.build.assetsDir}/_index-inline.${hash}.js`;
       const referenceId = this.emitFile({ type: 'asset', fileName, source: code });
-      // Keep a bundler file reference so Astro's manifest moves the prerender
-      // asset into the client directory instead of discarding it with SSR JS.
-      return { code: `export default import.meta.ROLLUP_FILE_URL_${referenceId};`, map: null };
-    },
-    resolveFileUrl({ moduleId, fileName }) {
-      if (moduleId === homeImport) return JSON.stringify(config.base + fileName);
+      // Use the same URL placeholder as Vite's ?url loader. Its renderChunk
+      // hook resolves the base URL and records importedAssets in the manifest,
+      // which Astro needs to move this asset from prerender to client output.
+      return { code: `export default ${JSON.stringify(`__VITE_ASSET__${referenceId}__`)};`, map: null };
     },
   };
 }
