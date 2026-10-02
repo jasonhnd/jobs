@@ -15,6 +15,7 @@
  */
 
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 
 import {
   strictReadJson,
@@ -392,22 +393,15 @@ function loadOccupations(): Occupation[] {
 }
 
 function loadTranslations(): TranslationEN[] {
-  // Translations directory may be absent in early-stage repos; treat as
-  // optional. strict-load throws on missing dir under strict mode, so
-  // probe with a safe wrapper.
-  try {
-    return strictLoadDir(
-      path.join(DATA_ROOT, 'translations', 'en'),
-      SUFFIX_JSON,
-      TranslationENSchema,
-      'graph.translations.en',
-    ).items as TranslationEN[];
-  } catch (err) {
-    // Re-throw only if it's not a missing-directory case. The strict-load
-    // error format ends with the underlying ENOENT message — match that.
-    if (/ENOENT/.test((err as Error).message)) return [];
-    throw err;
-  }
+  // Translations are optional only when the directory itself is absent.
+  const dirPath = path.join(DATA_ROOT, 'translations', 'en');
+  if (!existsSync(dirPath)) return [];
+  return strictLoadDir(
+    dirPath,
+    SUFFIX_JSON,
+    TranslationENSchema,
+    'graph.translations.en',
+  ).items as TranslationEN[];
 }
 
 function loadStats(): StatsLegacy[] {

@@ -2,7 +2,7 @@
 // The default-root case only reads a missing directory; it does not write into data/.
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, writeFile, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { z } from 'zod';
@@ -184,4 +184,46 @@ describe('loadJsonDir', () => {
       assert.equal(result.byKey.get('file-16')?.id, 16);
     });
   });
+});
+
+ describe('additional loader edge cases', () => {
+  test('sorts valid files across concurrency slices and retains structured failures', async () => {
+    await withTemp(async (root) => {
+      const dir = join(root, 'records');
+      await mkdir(dir);
+      for (let i = 20; i >= 0; i--) {
+        await writeFile(join(dir, `${String(i).padStart(2, '0')}.json`), JSON.stringify({ id: i }));
+      }
+      await writeFile(join(dir, '.hidden.json'), 'invalid');
+      await writeFile(join(dir, 'ignored.txt'), 'invalid');
+      await writeFile(join(dir, 'bad-json.json'), '{');
+      await writeFile(join(dir, 'bad-schema.json'), '{"id":"wrong"}');
+      await symlink(join(root, 'absent'), join(dir, 'broken.json'));
+      const result = await loadJsonDir('records', rowSchema, root);
+      assert.equal(result.dirMissing, false);
+      assert.equal(result.totalFiles, 24);
+      assert.deepEqual([...result.byKey], Array.from({ length: 21 }, (_, i) => [String(i).padStart(2, '0'), { id: i }]));
+      assert.deepEqual(result.errors.map((error) => error.file), ['bad-json.json', 'bad-schema.json', 'broken.json'].map((name) => join(dir, name)));
+      assert.match(result.errors[0]!.message, /^Invalid JSON:/);
+      assert.match(result.errors[1]!.message, /^Schema mismatch: id:/);
+      assert.match(result.errors[2]!.message, /^Read failed:/);
+    });
+  });
+
+  test('limits schema diagnostics to five issues, including nested paths', async () => {
+    await withTemp(async (root) => {
+      const path = join(root, 'invalid.json');
+      await writeFile(path, '{"nested":{}}');
+      const nested = z.object({ nested: z.object(Object.fromEntries(
+        ['a', 'b', 'c', 'd', 'e', 'f'].map((key) => [key, z.number()]),
+      )) });
+      const result = await loadJsonFile(path, nested);
+      assert.equal(result.data, null);
+      assert.equal(result.error!.file, path);
+      assert.match(result.error!.message, /^Schema mismatch: nested.a:/);
+      assert.equal(result.error!.message.split('; ').length, 5);
+      assert.equal(result.error!.message.includes('nested.f:'), false);
+    });
+  });
+
 });
