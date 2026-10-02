@@ -63,27 +63,27 @@ test('/me chip 看護師 selects occupation 156', async ({ page }) => {
 // remeasure no longer reproduced it at 375/390x844 after consent and fonts
 // settled: last choice bottom 815.53125px. Keep the original 844px boundary.
 for (const width of [375, 390]) {
-test(`/shindan ${width} consent-decided: Q1 and both choices fit in 844px`, async ({ page }) => {
-  await open(page, '/shindan', width);
-  await expect(page.locator('#cookieBanner')).toBeHidden();
-  await page.evaluate(async () => {
-    await document.fonts.ready;
-    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+  test(`/shindan ${width} consent-decided: Q1 and both choices fit in 844px`, async ({ page }) => {
+    await open(page, '/shindan', width);
+    await expect(page.locator('#cookieBanner')).toBeHidden();
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+      await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+    });
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+    const q1 = page.locator('.shindan-question').first();
+    await expect(q1).toBeVisible();
+    const choices = q1.locator('.shindan-choice-text');
+    await expect(choices).toHaveCount(2);
+    const last = choices.last();
+    const box = await last.boundingBox();
+    expect(box).toBeTruthy();
+    expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(844);
+    await expect(page.locator('#shindanProgressText')).toHaveText('0 / 9問');
+    const proofY = await page.locator('.shindan-proof').evaluate((el) => el.getBoundingClientRect().y);
+    const q1Y = await q1.evaluate((el) => el.getBoundingClientRect().y);
+    expect(proofY).toBeGreaterThan(q1Y);
   });
-  expect(await page.evaluate(() => window.scrollY)).toBe(0);
-  const q1 = page.locator('.shindan-question').first();
-  await expect(q1).toBeVisible();
-  const choices = q1.locator('.shindan-choice-text');
-  await expect(choices).toHaveCount(2);
-  const last = choices.last();
-  const box = await last.boundingBox();
-  expect(box).toBeTruthy();
-  expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(844);
-  await expect(page.locator('#shindanProgressText')).toHaveText('0 / 9問');
-  const proofY = await page.locator('.shindan-proof').evaluate((el) => el.getBoundingClientRect().y);
-  const q1Y = await q1.evaluate((el) => el.getBoundingClientRect().y);
-  expect(proofY).toBeGreaterThan(q1Y);
-});
 }
 
 test('/shindan 390: legend pair is clipped so Qn does not wrap mid-kana', async ({ page }) => {
