@@ -84,7 +84,7 @@ interface Computed {
 }
 
 /** The arithmetic behind N(≥k). Every branch is spelled out so the page can print it. */
-export function computeLevel(
+function computeLevel(
   lv: HaidLevelInput,
   levelWindow: string,
   anchorById: ReadonlyMap<string, HaidAnchor>,
@@ -302,7 +302,7 @@ function previousLevelsOf(prev: HaidReleasePayload): HaidPreviousLevel[] {
 }
 
 /** Sorted unique grades of the anchors a level cites — a change means 「数え方が変わった」. */
-export function anchorGradesOf(p: HaidReleasePayload, level: number): string[] {
+function anchorGradesOf(p: HaidReleasePayload, level: number): string[] {
   const l = p.levels.find((x) => x.level === level);
   if (!l) return [];
   const byId = new Map(p.anchors.map((a) => [a.id, a.grade]));
@@ -315,7 +315,7 @@ export function pickLatestRelease(ids: readonly string[]): string {
   return [...ids].sort().at(-1)!;
 }
 
-export async function listHaidReleaseIds(root: string = HAID_RELEASE_ROOT): Promise<string[]> {
+async function listHaidReleaseIds(root: string = HAID_RELEASE_ROOT): Promise<string[]> {
   const entries = await readdir(root, { withFileTypes: true });
   return entries.filter((e) => e.isDirectory()).map((e) => e.name).sort();
 }
@@ -355,10 +355,10 @@ export async function buildHaidRelease(
   return { files, releases: ids, latest };
 }
 
-export const RETIRED_AI_ADOPTION_FILE = 'data.ai-adoption.json';
+const RETIRED_AI_ADOPTION_FILE = 'data.ai-adoption.json';
 
 /** What /data.ai-adoption.json serves after aiadoption-1.5. Shape is frozen; consumers should move on. */
-export function retiredAiAdoptionStub(latestRelease: string) {
+function retiredAiAdoptionStub(latestRelease: string) {
   return {
     deprecated: true,
     retired_on: '2026-09-22',

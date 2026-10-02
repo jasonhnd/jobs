@@ -4,6 +4,7 @@ import {
   pickLatestScore,
   pickConsensusScore,
   pickFlagshipMeanScore,
+  tryPickFlagshipMeanScore,
   toFlagshipCanonicalScoreEntry,
   flagshipPanelMeta,
   subtractMonths,
@@ -470,6 +471,48 @@ describe('pickFlagshipMeanScore', () => {
     assert.equal(meta.staleMonths, 6);
     assert.equal(meta.staleVendorCount, 0);
     assert.deepEqual(meta.vendors.map((v) => v.provider), ['anthropic', 'openai', 'xai']);
+  });
+});
+
+describe('tryPickFlagshipMeanScore', () => {
+  test('returns null on empty history', () => {
+    assert.equal(tryPickFlagshipMeanScore([]), null);
+  });
+
+  test('returns null when every entry is legacy (no comparable aiois)', () => {
+    const legacy: ScoreHistEntry = {
+      model: 'old', provider: 'test', date: '2026-01-01', ai_risk: 5, rationale_ja: 'x', aiois: null,
+    };
+    assert.equal(tryPickFlagshipMeanScore([legacy]), null);
+  });
+
+  test('returns null when every entry is backfill (no comparable non-backfill vote)', () => {
+    const only = entry({ model: 'grok-4.5', provider: 'xai', date: '2026-12-01', t: 9, backfill: true });
+    assert.equal(tryPickFlagshipMeanScore([only]), null);
+  });
+
+  test('throws when a comparable entry has no provider', () => {
+    const e = { ...vote('claude-opus-5', '2026-07-26', 5), provider: '' };
+    assert.throws(() => tryPickFlagshipMeanScore([e]), /has no provider/);
+  });
+
+  test('throws when one comparable entry lacks a provider among otherwise valid votes', () => {
+    const missing = { ...vote('claude-opus-5', '2026-07-26', 8), provider: '' };
+    const hist = [
+      missing,
+      vote('gpt-5.6-sol', '2026-07-12', 4),
+      vote('grok-4.6', '2026-09-07', 3),
+    ];
+    assert.throws(() => tryPickFlagshipMeanScore(hist), /claude-opus-5@2026-07-26 has no provider/);
+  });
+
+  test('returns the same score as pickFlagshipMeanScore when a comparable vote exists', () => {
+    const hist = [
+      vote('claude-opus-5', '2026-07-26', 8),
+      vote('gpt-5.6-sol', '2026-07-12', 4),
+      vote('grok-4.6', '2026-09-07', 3),
+    ];
+    assert.deepEqual(tryPickFlagshipMeanScore(hist), pickFlagshipMeanScore(hist));
   });
 });
 
