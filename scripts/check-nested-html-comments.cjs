@@ -17,24 +17,21 @@
  */
 const fs = require('node:fs');
 const path = require('node:path');
+const { walkFiles } = require('./lib/walk-files.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const SRC_DIR = path.join(ROOT, 'src');
 const SKIP = new Set(['node_modules', 'dist', 'dist-astro', '.git', '.astro', 'analytics']);
 const EXT = /\.(astro|html)$/;
 
-// IMPORTANT: Dropbox presents repo entries as symlinks; Dirent.isDirectory()
-// returns false for them. Use fs.statSync (follows the link) instead.
-function walk(dir, out = []) {
-  for (const e of fs.readdirSync(dir)) {
-    if (e.startsWith('.') || SKIP.has(e)) continue;
-    const full = path.join(dir, e);
-    let stat;
-    try { stat = fs.statSync(full); } catch { continue; }
-    if (stat.isDirectory()) walk(full, out);
-    else if (stat.isFile() && EXT.test(e)) out.push(full);
-  }
-  return out;
+// skipHidden keeps the previous dot-entry filter. walk-files fails the scan
+// when a path it would have opened cannot be read, instead of skipping it.
+let files;
+try {
+  files = walkFiles(SRC_DIR, { ext: EXT, skip: SKIP, skipHidden: true });
+} catch (err) {
+  console.error(`[check-nested-html-comments] FAIL — ${err.message}`);
+  process.exit(1);
 }
 
 // Match every HTML comment, then check if its body contains '<!--'.
@@ -55,7 +52,7 @@ function lineOf(text, idx) {
 const COMMENT_RE = /<!--([\s\S]*?)-->/g;
 const issues = [];
 
-for (const f of walk(SRC_DIR)) {
+for (const f of files) {
   const full = fs.readFileSync(f, 'utf8');
   const scan = bodyForScan(full, f);
   const offset = full.length - scan.length;
@@ -72,7 +69,7 @@ for (const f of walk(SRC_DIR)) {
 }
 
 if (issues.length === 0) {
-  console.log(`[check-nested-html-comments] OK — scanned ${walk(SRC_DIR).length} files, no nested HTML comments.`);
+  console.log(`[check-nested-html-comments] OK — scanned ${files.length} files, no nested HTML comments.`);
   process.exit(0);
 } else {
   console.error(`[check-nested-html-comments] FAIL — ${issues.length} nested HTML comment(s) detected:\n`);
