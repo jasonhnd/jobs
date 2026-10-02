@@ -22,11 +22,12 @@ async function loadAsset(id = homePath + '?url', base = '/') {
     addWatchFile: (file: string) => watched.push(file),
     emitFile: (asset: typeof assets[number]) => { assets.push(asset); return 'asset'; },
   }, id);
-  return { assets, watched, result };
+  const url = result ? plugin.resolveFileUrl({ moduleId: id, fileName: assets[0].fileName }) : undefined;
+  return { assets, watched, result, url };
 }
 
 test('home URL names the final minified bytes and changes from the verbatim cache key', async () => {
-  const { assets, watched, result } = await loadAsset();
+  const { assets, watched, result, url } = await loadAsset();
   assert.equal(assets.length, 1);
   const asset = assets[0];
   const expected = (await transform(source, { minify: true, loader: 'js' })).code;
@@ -34,7 +35,8 @@ test('home URL names the final minified bytes and changes from the verbatim cach
   assert.equal(asset.fileName, `_astro/_index-inline.${sha(expected)}.js`);
   assert.notEqual(sha(expected), sha(source));
   assert.ok(Buffer.byteLength(expected) < Buffer.byteLength(source) * 0.6);
-  assert.equal(result.code, `export default ${JSON.stringify('/' + asset.fileName)};`);
+  assert.equal(result.code, 'export default import.meta.ROLLUP_FILE_URL_asset;');
+  assert.equal(url, JSON.stringify('/' + asset.fileName));
   assert.deepEqual(watched, [homePath]);
 });
 
@@ -58,7 +60,7 @@ test('repeat emission is stable and the import URL honors the configured base', 
   assert.deepEqual(second, first);
   const nested = await loadAsset(homePath + '?url', '/nested/');
   assert.equal(nested.assets[0].fileName, first.assets[0].fileName);
-  assert.equal(nested.result.code, `export default ${JSON.stringify('/nested/' + first.assets[0].fileName)};`);
+  assert.equal(nested.url, JSON.stringify('/nested/' + first.assets[0].fileName));
 });
 
 test('minified home bytes remain a classic script with accessible top-level declarations', async () => {

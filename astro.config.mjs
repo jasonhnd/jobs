@@ -32,8 +32,13 @@ function minifyHomeScriptAsset() {
       const { code } = await transform(source, { minify: true, loader: 'js' });
       const hash = createHash('sha256').update(code).digest('hex');
       const fileName = `${config.build.assetsDir}/_index-inline.${hash}.js`;
-      this.emitFile({ type: 'asset', fileName, source: code });
-      return { code: `export default ${JSON.stringify(config.base + fileName)};`, map: null };
+      const referenceId = this.emitFile({ type: 'asset', fileName, source: code });
+      // Keep a bundler file reference so Astro's manifest moves the prerender
+      // asset into the client directory instead of discarding it with SSR JS.
+      return { code: `export default import.meta.ROLLUP_FILE_URL_${referenceId};`, map: null };
+    },
+    resolveFileUrl({ moduleId, fileName }) {
+      if (moduleId === homeImport) return JSON.stringify(config.base + fileName);
     },
   };
 }
