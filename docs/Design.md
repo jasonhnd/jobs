@@ -1245,7 +1245,7 @@ bun run drift:design        # 規範 vs 実装の差分を報告（read-only）
 
 **Implemented** in [`scripts/design-drift.ts`](../scripts/design-drift.ts),
 registered as `drift:design` in [`package.json`](../package.json)
-(design-1.16 / [#545](https://github.com/jasonhnd/jobs/issues/545)). This is a
+(see the implementation history in [`DESIGN_CONFORMANCE.md`](DESIGN_CONFORMANCE.md)). This is a
 read-only report; palette-unrepresentable declarations are observations, not
 newly confirmed defects.
 
