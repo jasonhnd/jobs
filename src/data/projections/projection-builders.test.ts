@@ -13,7 +13,7 @@ import { buildProfile5 } from './profile5.js';
 import { buildSkills } from './skills.js';
 import { buildHolland } from './holland.js';
 import { buildLabels } from './labels.js';
-import { buildHaidSpec, buildHaidSpecPayload } from './haid-spec.js';
+import { buildHaidSpec } from './haid-spec.js';
 import {
   HAID_BOUNDARIES, HAID_CANONICAL_PATH, HAID_CASES, HAID_CERTAINTY_JA, HAID_GRADE_JA,
   HAID_LEVELS, HAID_LICENSE, HAID_LICENSE_URL, HAID_NAME_EN, HAID_NAME_JA, HAID_RELATIONS,
@@ -240,12 +240,12 @@ describe('data projection files', () => {
       window_labels_ja: HAID_WINDOW_JA, grade_labels_ja: HAID_GRADE_JA,
       certainty_labels_ja: HAID_CERTAINTY_JA, cases: HAID_CASES,
     };
-    assert.deepEqual(buildHaidSpecPayload(), expected);
     const result = await buildHaidSpec(root);
     assert.deepEqual(result, { files: [join(root, 'data.haid-spec.json')], rows: HAID_LEVELS.length });
-    assert.deepEqual(await json(result.files[0]!), expected);
+    const payload = await json(result.files[0]!);
+    assert.deepEqual(payload, expected);
     assert.equal(await readFile(result.files[0]!, 'utf8'), JSON.stringify(expected, null, 2) + '\n');
-    assert.equal(Object.hasOwn(expected, 'counts'), false);
+    assert.equal(Object.hasOwn(payload, 'counts'), false);
   });
 
   test('empty inputs still write valid zero-count projection envelopes', async () => {
