@@ -145,7 +145,7 @@ Registered providers:
 | --- | --- | --- | --- |
 | `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. `claude-fable-5-1` (mms-8.25/8.26) uses the same transport. |
 | `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8.32/8.33) rides the same transport with an explicit `--model` and `--reasoning-effort high`; the default model stays `gpt-5.6-sol`. |
-| `grok-cli` | Locally logged-in grok CLI subscription | yes (`--json-schema` inline) | xAI flagship transport from Grok 4.7 on (mms-10). Every call passes `--model` and `--reasoning-effort`. Owner machine only. Grok 4.6 and the Grok 4.5 backfill stay `in-agent`. |
+| `grok-cli` | Locally logged-in grok CLI subscription | yes (`--json-schema` inline) | xAI flagship transport from Grok 4.7 on ([mms-10](#mms-10-grok-47-xai-flagship-seat)). The frozen call passes `--model grok-4.7-build-fast` and `--reasoning-effort xhigh`. The public slug stays `grok-4.7`. Owner machine only. Grok 4.6 and the Grok 4.5 backfill stay `in-agent`. |
 
 There is no Vercel AI Gateway provider. Do not add one.
 
@@ -224,7 +224,7 @@ bun scripts/assemble-scores.ts \
 bun run check:score-batch .cache/scoring/<run>/occupations_grok-4.6_<date>.json
 ```
 
-Grok 4.7 flagship runs use --provider grok-cli (mms-10). This section is the historical in-agent record for Grok 4.6 and stays as written.
+Grok 4.7 flagship runs use `--provider grok-cli`. Follow [mms-10](#mms-10-grok-47-xai-flagship-seat). Do not reuse this Grok 4.6 in-agent section, its prompt, or `--attest-model grok-4.6` for the current xAI seat. This section stays as the historical record.
 
 ### In-agent scoring flow
 
@@ -589,6 +589,55 @@ Landing checklist (Fable 5.1 = 8.27, Astra = 8.35). Owner-gated scoring must alr
 7. `bun run test` / `bun run typecheck` / `bun run verify:gates` / `git diff --exit-code`
 8. On-site note from 確定文案（mms-8）, numbers from the drift script (`flagship-switch-drift.ts` for 8.28, `vendor-update-drift.ts` for 8.35)
 9. Promotion PR text for the owner (`preview` → `main`). Agents do not merge to `main`.
+
+## mms-10: Grok 4.7 (xAI flagship seat)
+
+Grok 4.7 takes xAI's flagship seat from Grok 4.6. The public-value formula is unchanged: the arithmetic mean of each vendor's latest comparable AIOIS-10 run ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)). This chapter is the landed operations record. Do not start a new scoring run from it without a new owner GO. Do not call grok to verify this chapter.
+
+Grok 4.6 and the Grok 4.5 backfill stay `--provider in-agent`. The Vercel AI Gateway provider was removed (#399). The changelog sentence that names only `in-agent` and `codex` is that removal record. `grok-cli` is the xAI flagship transport added for this seat. This chapter does not rewrite the changelog.
+
+| Item | Value | Tracked source |
+|---|---|---|
+| CLI `--model` | `grok-4.7-build-fast` | `GROK_4_7_MODEL_SLUG` in `scripts/lib/scoring/grok-4.7-run.ts`; frozen prompt |
+| Public / assemble slug | `grok-4.7` | frozen prompt; `data/scores/occupations_grok-4.7_2026-09-22.json` `scorer.model` |
+| `model_provider` | `xai` | `GROK_4_7_MODEL_PROVIDER` |
+| Transport | `grok-cli` | `GROK_4_7_SCORING_PROVIDER` |
+| Reasoning effort | `xhigh` | `GROK_4_7_REASONING_EFFORT`; frozen prompt; landed `scoring_method` |
+| grok CLI | `>= 1.0.40` | `GROK_4_7_MIN_CLI_VERSION` and `GROK_CLI_MIN_VERSION` |
+| Pilot concurrency | `2` | comment on `GROK_MAX_CONCURRENCY` in `scripts/lib/scoring/providers/grok-cli.ts` |
+| Full concurrency | `10` | `GROK_MAX_CONCURRENCY` (a request for 10 is not clamped) |
+| Frozen prompt | `data/prompts/2026-09-22_grok-4.7-aiois10.ja.md` | `GROK_4_7_PROMPT_FILE` |
+| `prompt_version` | `AIOIS-10-v1.0-grok-4.7` | `GROK_4_7_PROMPT_VERSION` |
+| Predecessor | `grok-4.6` | `GROK_4_7_PREDECESSOR_SLUG` |
+| `run.backfill` | false | `GROK_4_7_BACKFILL`; assemble without `--backfill` |
+| Landed batch | `data/scores/occupations_grok-4.7_2026-09-22.json` | `run_id` `grok-4.7-grok-cli-2026-09-22`, 556 scored |
+| Issues | prompt #589, preflight #590, pilot 40 #591, full 556 #592, landing #593 | GitHub titles |
+
+Usage identity is `modelUsageMatchesRequest`: one key only. A request for `grok-4.7-build-fast` matches only the exact key `grok-4.7-build-fast`. A request for `grok-4.7` matches `grok-4.7` or the alias `grok-4.7-build` (`GROK_47_USAGE_ALIAS`). A `grok-4.7` request whose key is `grok-4.7-build-fast` does not match. Any other key is `model_unavailable`. The published name is Grok 4.7. Do not assemble or name a batch `grok-4.7-build-fast`.
+
+Owner GO on #590, #591, and #592 before those commands (`grok-4.7-run.ts`). Owner machine only. Every call passes `--model` and `--reasoning-effort`. Do not pass `--yolo`, `--always-approve`, or grok `--resume`. An interrupted run repeats the same command with the runner's `--resume`. Do not change model or effort. A parsed quality-gate row is not retried by `--resume --ids` alone; remove that id from the JSONL first, as mms-11 does.
+
+```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-pilot
+bun scripts/make-pilot-sample.ts --model grok-4.7-build-fast --prompt-file "$P" --size 40 --chunk 5 \
+  --baseline data/scores/occupations_grok-4.6_2026-09-07.json --out $R
+IDS="$(jq -r '.ids | join(",")' $R/sample.json)"
+bun scripts/run-scoring.ts --provider grok-cli --model grok-4.7-build-fast --reasoning-effort xhigh \
+  --prompt-file "$P" --run-name mms-10-pilot --out $R/raw-scores.jsonl --ids "$IDS" --concurrency 2
+# interrupted: the same command plus --resume. Never change --model or --reasoning-effort.
+```
+
+Assemble the pilot under `.cache/` with the public slug, not the CLI id. No `--backfill`.
+
+```bash
+D=<YYYY-MM-DD>
+bun scripts/assemble-scores.ts --mode aiois --model grok-4.7 --provider xai --date $D \
+  --prompt-version AIOIS-10-v1.0-grok-4.7 --prompt-file "$P" \
+  --in $R/raw-scores.jsonl --out $R/occupations_grok-4.7_${D}_pilot.json --run-id mms-10-pilot-$D
+```
+
+Full 556 (#592), same model and effort, `--concurrency 10`, `--run-name mms-10-full`, `--out .cache/scoring/mms-10-full/raw-scores.jsonl`. Landing copies the assembled file to `data/scores/occupations_grok-4.7_<run_date>.json` only after the owner GO for #593. The landed file is the 2026-09-22 batch above. Do not overwrite it.
 
 ## mms-11: Claude Opus 5.5 (Anthropic flagship seat)
 
