@@ -78,7 +78,7 @@ interface FontAsset {
 }
 
 interface FontStylesheet {
-  readonly href: string;
+  readonly css: string;
   readonly bytes: number;
 }
 
@@ -371,19 +371,35 @@ function verifySerifSubsetCmap(
   return unsupported;
 }
 
-function writeFontStylesheet(assets: readonly FontAsset[]): FontStylesheet {
-  const css = `${fontFaceCss(assets)}\n`;
-  const hash = createHash('sha256').update(css).digest('hex').slice(0, 12);
-  const fileName = `font-faces.${hash}.css`;
-  writeFileSync(join(FONTS_OUT_DIR, fileName), css, 'utf-8');
-  return {
-    href: `/fonts/${fileName}`,
-    bytes: Buffer.byteLength(css, 'utf-8'),
-  };
+/**
+ * The @font-face block is inlined into every page rather than linked, because
+ * as a separate file it was the only render-blocking request on the site: 827
+ * bytes bought a full round trip, and the font itself could not start loading
+ * until that round trip finished (HTML -> font-faces.css -> woff2, a 1,508 ms
+ * critical path on the 2026-09-21 PageSpeed run; est. saving 340 ms).
+ *
+ * `style-src` stays on `'unsafe-inline'`, so no CSP hash is needed — see the
+ * note in scripts/compute-csp-hashes.cjs.
+ */
+function buildFontStylesheet(assets: readonly FontAsset[]): FontStylesheet {
+  const css = fontFaceCss(assets);
+  if (css.includes('<')) {
+    fail('@font-face CSS contains "<"; it cannot be inlined into a <style> block unescaped');
+  }
+  return { css, bytes: Buffer.byteLength(css, 'utf-8') };
 }
 
 function writeFontManifest(assets: readonly FontAsset[], stylesheet: FontStylesheet): void {
-  const json = `${JSON.stringify({ generated_by: 'scripts/subset-fonts.ts', stylesheet, assets }, null, 2)}\n`;
+  const json = `${JSON.stringify(
+    {
+      generated_by: 'scripts/subset-fonts.ts',
+      // The @font-face rules ship inline in every page's <head>, not as a file.
+      stylesheet: { delivery: 'inline', bytes: stylesheet.bytes },
+      assets,
+    },
+    null,
+    2,
+  )}\n`;
   const hash = createHash('sha256').update(json).digest('hex').slice(0, 12);
   writeFileSync(join(FONTS_OUT_DIR, `manifest.${hash}.json`), json, 'utf-8');
 }
@@ -417,7 +433,7 @@ function injectFontAssets(
   const preloads = fontPreloads(assets);
   return html.replace(
     FONT_ASSET_MARKER,
-    `${preloads}\n    <link rel="stylesheet" href="${stylesheet.href}" />`,
+    `${preloads}\n    <style>${stylesheet.css}</style>`,
   );
 }
 
@@ -428,7 +444,7 @@ async function main(): Promise<void> {
 
   const fontTexts = collectFontTexts(htmlFiles);
   const assets = await buildFontAssets(fontTexts);
-  const stylesheet = writeFontStylesheet(assets);
+  const stylesheet = buildFontStylesheet(assets);
   writeFontManifest(assets, stylesheet);
   for (const file of htmlFiles) {
     const current = readFileSync(file, 'utf-8');
@@ -441,7 +457,7 @@ async function main(): Promise<void> {
       `${Math.round(totalBytes / 1024)} KiB total\n`,
   );
   process.stdout.write(
-    `[subset-fonts] ${stylesheet.href} ${Math.round(stylesheet.bytes / 1024)} KiB stylesheet\n`,
+    `[subset-fonts] ${stylesheet.bytes} B @font-face CSS inlined into every page\n`,
   );
   for (const asset of assets) {
     const comparison =
