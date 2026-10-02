@@ -100,12 +100,14 @@ Team budget **$200 / 月、通知のみ**（`pauseProjects: false`）。auto-pau
 |---|---|---|
 | `PUBLIC_GA4_MEASUREMENT_ID` | Production, Preview | GA4 計測 ID |
 | `GA4_MP_API_SECRET` | Production | middleware の MP 送信（Sensitive） |
-| `CRON_SECRET` | Production | sentinel の caller gate（Sensitive、2026-08-27） |
+| `CRON_SECRET` | Production | sentinel の caller gate（Sensitive、2026-08-27）。未設定または空は fail closed（401） |
 | `PUBLIC_CF_BEACON_TOKEN` | Production, Preview | Cloudflare beacon |
 | `PUBLIC_X_PIXEL_ID` | Production | X pixel |
 | `GCP_WIF_AUDIENCE` | Production | sentinel phase 2 の STS audience（非機密の識別子、2026-08-29） |
 | `GCP_SA_EMAIL` | Production | `ga4-sentinel@aijobsrisk.iam.gserviceaccount.com`（2026-08-29） |
 | `GA4_PROPERTY_ID` | Production | `298707336`（sentinel phase 2 の Data API 照合、2026-08-29） |
+
+`CRON_SECRET` が Production から消えると、日次 sentinel は 401 で止まり、不健全時の意図的 500（§6.4 の alert 経路）も返らない。Preview は Cron から呼ばれないが、同じルートは公開されている。値そのものは台帳に書かない。有無は `vercel env ls` で名前だけ確認する。
 
 確認: `vercel env ls`。2026-08-27 に孤児 `aijobs_REDIS_URL` を全環境から削除済（#202/#205 で退役した機能の残骸。対応する Marketplace 統合 `redis-citrine-chair` は Uninstalled だった）。
 

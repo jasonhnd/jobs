@@ -17,10 +17,15 @@
 #       <html lang>, viewport meta.
 #
 # Usage:
-#   ./scripts/seo-check.sh                                       # production, full sitemap
-#   ./scripts/seo-check.sh https://mirai-shigoto.com             # explicit URL
-#   ./scripts/seo-check.sh http://localhost:8765                 # local dev server
-#   ./scripts/seo-check.sh https://mirai-shigoto.com --sample 5  # sample 4 sentinels + 5 occupation pages
+#   ./scripts/seo-check.sh                                          # production host; refused unless ALLOW_PROD=1
+#   ALLOW_PROD=1 ./scripts/seo-check.sh https://mirai-shigoto.com   # explicit production opt-in
+#   ./scripts/seo-check.sh https://pre.mirai-shigoto.com --sample 5 # preview alias (npm test:seo)
+#   ./scripts/seo-check.sh http://localhost:8765                    # local dev server
+#
+# Production hosts (mirai-shigoto.com, www.mirai-shigoto.com) exit 2 before
+# any request unless ALLOW_PROD=1. Sitemap <loc> values are rewritten onto
+# the requested host, so a preview run does not follow canonical production
+# URLs. `bun run test:seo` targets the preview alias with --sample 5.
 #
 # Exit codes:
 #   0 = all green
@@ -40,6 +45,67 @@ SAMPLE=0
 if [ "${2:-}" = "--sample" ] && [ -n "${3:-}" ]; then
   SAMPLE="$3"
 fi
+
+# Refuse the production apex before any curl. AGENTS.md: do not crawl
+# mirai-shigoto.com from a script (platform mitigation can challenge the IP
+# and break the GEO policy). pre.mirai-shigoto.com and other hosts are allowed.
+# Set ALLOW_PROD=1 to opt in; that path prints a warning and continues.
+request_host() {
+  local rest host
+  rest="${1#*://}"
+  rest="${rest%%\?*}"
+  rest="${rest%%/*}"
+  host="${rest##*@}"
+  host="${host%%:*}"
+  printf '%s' "$host" | tr '[:upper:]' '[:lower:]'
+}
+
+HOST=$(request_host "$BASE")
+case "$HOST" in
+  mirai-shigoto.com|www.mirai-shigoto.com)
+    if [ "${ALLOW_PROD:-}" != "1" ]; then
+      printf '%s\n' "seo-check: refusing production host ${HOST}. Crawling mirai-shigoto.com from this script can trip platform mitigation and break the GEO policy. Use https://pre.mirai-shigoto.com/ (bun run test:seo does this with --sample 5), or set ALLOW_PROD=1 to opt in." >&2
+      exit 2
+    fi
+    printf '%s\n' "seo-check: warning: probing production host ${HOST} because ALLOW_PROD=1" >&2
+    ;;
+esac
+
+# Map a sitemap loc onto BASE. Preview (and local) sitemaps advertise the
+# production canonical host; requesting those locs would crawl production.
+rewrite_onto_base() {
+  local url rest path
+  url="$1"
+  case "$url" in
+    *://*)
+      rest="${url#*://}"
+      case "$rest" in
+        */*) path="/${rest#*/}" ;;
+        *) path="/" ;;
+      esac
+      printf '%s%s\n' "$BASE" "$path"
+      ;;
+    /*)
+      printf '%s%s\n' "$BASE" "$url"
+      ;;
+    *)
+      printf '%s/%s\n' "$BASE" "$url"
+      ;;
+  esac
+}
+
+refuse_production_url() {
+  local page_host
+  page_host=$(request_host "$1")
+  case "$page_host" in
+    mirai-shigoto.com|www.mirai-shigoto.com)
+      if [ "${ALLOW_PROD:-}" != "1" ]; then
+        printf '%s\n' "seo-check: refusing production URL ${1}. Set ALLOW_PROD=1 to opt in." >&2
+        exit 2
+      fi
+      ;;
+  esac
+}
 
 # Colors only on TTY
 if [ -t 1 ]; then
@@ -115,6 +181,12 @@ else
     URLS=$(printf '%s\n%s' "$HEAD_URLS" "$OCC_URLS")
     note "sampling: 4 sentinel + $(echo "$OCC_URLS" | wc -l | tr -d ' ') occupation URLs (of $OCC_TOTAL total)"
   fi
+  rewritten=""
+  while IFS= read -r loc; do
+    [ -z "$loc" ] && continue
+    rewritten="${rewritten}$(rewrite_onto_base "$loc")"$'\n'
+  done <<< "$URLS"
+  URLS="$rewritten"
 fi
 
 # ---- llms.txt (GEO) ------------------------------------------------------
@@ -165,6 +237,7 @@ if [ -z "$URLS" ]; then
   warn "no URLs to check (sitemap empty/missing)"
 else
   for URL in $URLS; do
+    refuse_production_url "$URL"
     section "Page: $URL"
     HTML_RAW=$(fetch_body "$URL")
     HEADERS=$(fetch_header "$URL")
