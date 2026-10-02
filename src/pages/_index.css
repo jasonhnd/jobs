@@ -193,11 +193,11 @@
         padding-right: 38px;  /* leave room for the rank pill */
       }
       .m-top10-card-name {
-        font-family: var(--font-serif);
+        font-family: var(--font-sans);
         font-size: var(--t-h3);
-        font-weight: 600;
+        font-weight: 700;
         line-height: 1.25;
-        color: var(--fg);
+        color: var(--ink);
         min-height: 2.6em;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -387,7 +387,7 @@
           box-shadow: 0 1px 0 rgba(36,30,24,.04);
         }
         .home-door:hover { text-decoration: none; }
-        .home-door-title { font-family: var(--font-serif); font-size: var(--t-h3); font-weight: 700; color: var(--fg); }
+        .home-door-title { font-family:var(--font-sans); font-size: var(--t-h3); font-weight:700; color:var(--ink); }
         .home-door-desc { font-size: var(--t-xs); color: var(--fg2); line-height: 1.45; }
         .home-door-meta { font-size: var(--t-xs); font-weight: 700; color: var(--orange-hot); margin-top: auto; letter-spacing: 0.02em; }
         .home-doors .m-map-preview {
