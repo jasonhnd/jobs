@@ -12,6 +12,11 @@ import type { ZodTypeAny, infer as ZInfer } from 'zod';
 const REPO_ROOT = process.cwd();
 const DATA_ROOT = join(REPO_ROOT, 'data');
 
+/** Match a filesystem error code without assuming the caught value is an Error. */
+export function isErrnoCode(err: unknown, code: string): boolean {
+  return typeof err === 'object' && err !== null && 'code' in err && err.code === code;
+}
+
 export interface LoadError {
   file: string;
   message: string;
@@ -51,7 +56,7 @@ export async function loadJsonDir<S extends ZodTypeAny>(
   try {
     entries = await readdir(dirPath);
   } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
+    if (isErrnoCode(err, 'ENOENT')) {
       return { byKey, errors: [], totalFiles: 0, dirMissing: true };
     }
     return {
