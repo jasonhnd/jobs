@@ -48,7 +48,7 @@ ${AI_FACT_CSS}
 .related-sectors li{background:var(--bg2);border:1px solid var(--border);border-radius:4px}
 .related-sectors a{display:block;padding:12px 14px;text-decoration:none;color:var(--fg)}
 .related-sectors a:hover{background:var(--bg3);color:var(--accent-deep)}
-.related-sectors .ja-name{font-family:var(--font-serif);font-weight:600}
+.related-sectors .ja-name{font-family:var(--font-sans);font-weight:400;}
 .related-sectors .count{color:var(--fg2);font-size:var(--t-xs);display:block;margin-top:2px}
 footer{margin-top:64px;padding-top:24px;font-size:var(--t-xs);color:var(--fg2);text-align:center}
 footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
