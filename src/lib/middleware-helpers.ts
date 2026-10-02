@@ -72,7 +72,7 @@ export function isBotUserAgent(ua: string): boolean {
  * Social unfurlers that fetch OG tags for a timeline card.
  * Narrower than `isBotUserAgent` so Googlebot still sees the canonical `/me`.
  */
-export const SHARE_UNFURLER_UA_RE =
+const SHARE_UNFURLER_UA_RE =
   /\b(twitterbot|facebookexternalhit|slackbot|discordbot|linkedinbot|whatsapp|telegrambot)\b/i;
 
 export function isShareUnfurlerUserAgent(ua: string): boolean {
@@ -127,7 +127,7 @@ export const AI_AGENT_UA_PATTERNS: ReadonlyArray<readonly [RegExp, string]> = [
 export type ClientKind = 'browser' | 'ai_agent' | 'other_bot';
 
 /** Value used for `agent_name` when the client is not a named AI agent. */
-export const NO_AGENT = '(none)';
+const NO_AGENT = '(none)';
 
 export interface ClientClassification {
   readonly kind: ClientKind;
@@ -163,10 +163,10 @@ export function classifyClientKind(ua: string): ClientClassification {
  * happens — we only skip the GA4 MP hit so scanners don't pollute
  * analytics with "523 wp-admin pageviews / 0s engagement"-class noise).
  */
-export const SUSPECT_PATH_PREFIX_RE =
+const SUSPECT_PATH_PREFIX_RE =
   /^\/(?:wp-admin|wp-login|wp-content|wp-includes|wp-json|xmlrpc\.php|\.env|\.git|\.aws|\.docker|\.idea|\.vscode|\.svn|\.hg|\.htaccess|\.htpasswd|\.well-known\/security|phpmyadmin|administrator|adminer|drupal|joomla|laravel|node_modules|vendor|composer\.json|package(?:-lock)?\.json|yarn\.lock|backup|backups|dump|sql|web\.config|appsettings\.json|_profiler|server-status|server-info|owa|cgi-bin|setup\.php|install\.php|elmah\.axd|trace\.axd|fckeditor|ckeditor|tinymce|aws-secret|aws\.json|secrets\.json|config\.json|application\.properties|application\.yml|telescope|debug\/default\/view|actuator\/env|api\/v1\/namespaces)(?:\/|$|\?|\.)/i;
 
-export const SUSPECT_EXT_RE =
+const SUSPECT_EXT_RE =
   /\.(?:php|asp|aspx|jsp|cgi|bak|swp|swo|orig|sh|sql|db|sqlite|tar|gz|tgz|zip|7z|rar|backup|conf|ini|inc|log|key|pem|crt|p12|pfx)(?:\/|\?|$)/i;
 
 /** True iff the pathname looks like a vulnerability scanner target. */
@@ -579,7 +579,7 @@ export function attachDeliveryParams(payload: unknown, params: GeoReferralParams
 }
 
 /** The one host whose pages belong in a search index. */
-export const PRODUCTION_HOST = 'mirai-shigoto.com';
+const PRODUCTION_HOST = 'mirai-shigoto.com';
 
 /**
  * Whether a request's Host should be withheld from search indexes.
