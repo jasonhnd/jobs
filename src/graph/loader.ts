@@ -25,7 +25,7 @@ import {
   SENTINEL_UNCATEGORIZED,
 } from './sector-resolver.js';
 import {
-  pickFlagshipMeanScore,
+  tryPickFlagshipMeanScore,
   toFlagshipCanonicalScoreEntry,
   type ScoreHistEntry,
 } from './score-strategy.js';
@@ -443,12 +443,12 @@ function toAiRiskScore(pick: ScoreHistEntry): AiRiskScore {
 function computeCanonicalScores(history: ReadonlyMap<OccupationId, readonly ScoreHistoryEntry[]>): Map<number, AiRiskScore> {
   const canonical = new Map<number, AiRiskScore>();
   for (const [occId, hist] of history) {
-    try {
-      const pick = toFlagshipCanonicalScoreEntry(pickFlagshipMeanScore(asScoreHist(hist)));
-      canonical.set(Number(occId), toAiRiskScore(pick));
-    } catch {
-      // Occupations with no comparable AIOIS-10 votes stay unscored.
-    }
+    // No comparable AIOIS-10 vote: leave this occupation unscored.
+    // A missing provider throws; that is corrupt data, not an unscored occupation.
+    const flagship = tryPickFlagshipMeanScore(asScoreHist(hist));
+    if (!flagship) continue;
+    const pick = toFlagshipCanonicalScoreEntry(flagship);
+    canonical.set(Number(occId), toAiRiskScore(pick));
   }
   return canonical;
 }
