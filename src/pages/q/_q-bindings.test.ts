@@ -2,13 +2,15 @@
  * _q-bindings.test.ts — #328 family 1 (Q&A list-first).
  *
  * Pins the answer-line switch (AI-risk vs condition groups) and the
- * §3.3 whole-row atom. Synthetic occupations only — no fs, no graph.
+ * §3.3 whole-row atom, plus page assembly with synthetic graph/GEO fixtures.
  */
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
+import { asOccupationId, type KnowledgeGraph, type OccupationNode } from '@/graph';
+import { computeGeoFacts } from '@/site/geo-facts';
 import { QA_ITEMS, selectExamples, type QAItem } from '@/views/qa-meta.js';
 import { loadAllDetails, type DetailFileMin } from '@/views/genre-hub.js';
-import { renderExampleList, renderQaAnswerLine } from './_q-bindings.js';
+import { buildQSlugBindings, renderExampleList, renderQaAnswerLine } from './_q-bindings.js';
 
 function makeQa(over: Partial<QAItem> & Pick<QAItem, 'slug' | 'og_eyebrow'>): QAItem {
   return {
@@ -176,5 +178,77 @@ describe('renderExampleList', () => {
       makeDoc({ id: 1, title_ja: 'X', ai: null, stats: { salary_man_yen: null }, sector: { id: 'it', ja: '' } }),
     ]);
     assert.match(got, /<span class="risk-pill mid">—<\/span>/);
+  });
+});
+
+describe('buildQSlugBindings', () => {
+  const graph = {
+    occupations: new Map([
+      [asOccupationId(404), { titleJa: 'AlphaJob', aliasesJa: [] } as unknown as OccupationNode],
+      [asOccupationId(2), { titleJa: 'BetaJob', aliasesJa: [] } as unknown as OccupationNode],
+    ]),
+  } as unknown as KnowledgeGraph;
+  const facts = computeGeoFacts([
+    { id: 404, name_ja: 'AlphaJob', ai_risk: 3, workers: 100, sector_id: null, sector_ja: null },
+    { id: 2, name_ja: 'BetaJob', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
+  ], [{ scope: 'occupations', scorer: { model: 'grok-4.6', model_provider: 'xai' },
+    run: { run_date: '2026-09-01' }, scores: {
+      '404': { ai_risk: 3, aiois: { displacement: 1 } },
+      '2': { ai_risk: 7, aiois: { displacement: 2 } },
+    } }]);
+
+  test('assembles metadata, links, GEO subset, related topics and linked JSON-LD', () => {
+    const related = QA_ITEMS.filter(item => item.slug !== 'ai-de-kieru').slice(0, 7);
+    const qa = makeQa({ slug: 'ai-de-kieru', og_eyebrow: 'Q&A · AI で消える',
+      question: 'Question & <x>?', short_answer: 'AlphaJob & <answer> AlphaJob',
+      reasoning: 'BetaJob & <reason>', related_topics: related.map(item => item.slug).reverse() });
+    const examples = [makeDoc({ id: 404, title_ja: 'AlphaJob', ai: 3 }),
+      makeDoc({ id: 2, title_ja: 'BetaJob', ai: 7 })];
+    const before = structuredClone(examples);
+    const bindings = buildQSlugBindings(qa, examples, graph, facts);
+    assert.equal(bindings.canonical, 'https://mirai-shigoto.com/q/ai-de-kieru');
+    assert.equal(bindings.ogImage, 'https://mirai-shigoto.com/api/og?q=ai-de-kieru');
+    assert.ok(bindings.title.startsWith(qa.question));
+    assert.equal(bindings.seoDesc, qa.short_answer);
+    assert.match(bindings.shortAnswerHtml, /href="\/occupations\/404"/);
+    assert.equal([...bindings.shortAnswerHtml.matchAll(/<a /g)].length, 1);
+    assert.match(bindings.shortAnswerHtml, /&amp; &lt;answer&gt;/);
+    assert.match(bindings.reasoningHtml, /href="\/2"/);
+    assert.match(bindings.reasoningHtml, /&amp; &lt;reason&gt;/);
+    assert.match(bindings.aiFactHtml, /class="ai-fact"/);
+    assert.match(bindings.aiFactHtml, /5\.00\/10/);
+    assert.match(bindings.aiFactHtml, /300人/);
+    assert.match(bindings.answerLineHtml, /<strong>AlphaJob<\/strong>/);
+    assert.match(bindings.exampleListHtml, /href="\/occupations\/404"/);
+    assert.deepEqual(bindings.relatedQAs.map(item => item.slug), related.slice(0, 5).map(item => item.slug));
+    assert.equal([...bindings.relatedHtml.matchAll(/class="rg-name"/g)].length, 5);
+    assert.ok(!bindings.relatedHtml.includes(`href="/q/${qa.slug}"`));
+    for (const item of bindings.relatedQAs) {
+      assert.ok(bindings.relatedHtml.includes(`href="/q/${item.slug}"`));
+    }
+    assert.match(bindings.crossHubHtml, /href="\//);
+    const nodes = JSON.parse(bindings.jsonLd)['@graph'];
+    const [web, qaNode, breadcrumb] = nodes;
+    assert.equal(web.url, bindings.canonical);
+    assert.equal(web.description, qa.short_answer);
+    assert.deepEqual(web.speakable.cssSelector, ['.ai-fact', '.qa-direct', '.qa-reasoning']);
+    assert.equal(qaNode['@type'], 'QAPage');
+    assert.equal(qaNode.breadcrumb['@id'], breadcrumb['@id']);
+    assert.equal(qaNode.mainEntity.name, qa.question);
+    assert.equal(qaNode.mainEntity.acceptedAnswer.text, `${qa.short_answer} ${qa.reasoning}`);
+    assert.deepEqual(breadcrumb.itemListElement.map((item: { position: number }) => item.position), [1, 2, 3]);
+    assert.equal(breadcrumb.itemListElement[2].item, bindings.canonical);
+    assert.deepEqual(examples, before);
+  });
+
+  test('empty examples and unknown related topics retain page metadata and omit the answer line', () => {
+    const qa = makeQa({ slug: 'ai-de-kieru', og_eyebrow: 'Q&A · AI で消える', related_topics: ['unknown'] });
+    const bindings = buildQSlugBindings(qa, [], graph, facts);
+    assert.equal(bindings.answerLineHtml, '');
+    assert.equal(bindings.exampleListHtml, '<p>該当例なし</p>');
+    assert.deepEqual(bindings.relatedQAs, []);
+    assert.equal(bindings.relatedHtml, '<ul class="related-genre"></ul>');
+    assert.match(bindings.aiFactHtml, /5\.00\/10/);
+    assert.equal(JSON.parse(bindings.jsonLd)['@graph'][1].mainEntity.name, qa.question);
   });
 });

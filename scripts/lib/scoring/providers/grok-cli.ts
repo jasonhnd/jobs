@@ -23,9 +23,15 @@ export const GROK_MAX_CONCURRENCY = 10;
 export const GROK_CLI_MIN_VERSION = '1.0.40';
 export const GROK_REASONING_EFFORTS = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'] as const;
 /**
- * grok 1.0.40 lists the flagship as `grok-4.7` and, when that slug is
- * requested, reports usage under `grok-4.7-build`. That alias is the flagship.
- * `grok-4.7-build-fast` is a different model and stays rejected.
+ * grok 1.0.40 lists `grok-4.7` and, when that slug is requested, may report
+ * usage under `grok-4.7-build` (`GROK_47_USAGE_ALIAS`). The alias applies
+ * only to a request for `grok-4.7`.
+ *
+ * The frozen scoring transport requests `grok-4.7-build-fast`. That request
+ * is accepted when the single `modelUsage` key is exactly
+ * `grok-4.7-build-fast` (`modelUsageMatchesRequest`). It is not rejected.
+ * A request for `grok-4.7` whose only key is `grok-4.7-build-fast` does not
+ * match. Any other single key, or more than one key, is `model_unavailable`.
  */
 export const GROK_47_USAGE_ALIAS = 'grok-4.7-build';
 export type GrokReasoningEffort = (typeof GROK_REASONING_EFFORTS)[number];
