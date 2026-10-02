@@ -28,8 +28,11 @@
 
 ### 絶対規則
 
-> **注意: これらを強制する CI ゲートはまだ存在しない**（§19.1 は未実装）。
-> 現時点では**レビューと本書だけが歯止め**である。ゲートが入るまでは特に厳密に守ること。
+> Mechanical gates are implemented: §19.1 lists the Design checks; the actual
+> `verify:gates` chain is in [`package.json`](../package.json), including
+> `check:role-color`. Surface enforcement follows
+> [`DESIGN_CONFORMANCE.md`](DESIGN_CONFORMANCE.md). Review and rendered checks
+> still cover what static gates cannot see (including canvas text, §5.7).
 
 1. `font-size` / `color` / `padding` / `border-radius` / `z-index` に**生の値を書かない**。必ず `var(--*)`。
 2. ページ CSS に `:root{}` を書かない。トークン宣言は `canonical-css.ts` の 1 箇所のみ。
