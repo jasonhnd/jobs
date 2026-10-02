@@ -1,8 +1,8 @@
 // Tests for scripts/lib/walk-files.cjs. Uses a temp directory, never data/.
 import { afterEach, describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
+import * as fs from 'node:fs';
 import {
-  chmodSync,
   mkdirSync,
   mkdtempSync,
   rmSync,
@@ -11,6 +11,7 @@ import {
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
+import { runInNewContext } from 'node:vm';
 
 const { walkFiles } = require('./walk-files.cjs') as {
   walkFiles: (
@@ -23,8 +24,6 @@ const fixtures: string[] = [];
 
 afterEach(() => {
   for (const fixture of fixtures.splice(0)) {
-    // A locked directory cannot be removed until its mode is restored.
-    chmodSync(fixture, 0o700);
     rmSync(fixture, { recursive: true, force: true });
   }
 });
@@ -104,18 +103,31 @@ describe('walkFiles', () => {
     const locked = join(root, 'locked');
     mkdirSync(locked);
     writeFileSync(join(locked, 'x.html'), '<p>x</p>');
-    chmodSync(locked, 0);
-    try {
-      assert.throws(
-        () => walkFiles(root, { ext: /\.html$/ }),
-        (err: Error) => {
-          assert.match(err.message, /walk-files: cannot read directory/);
-          assert.match(err.message, /locked/);
-          return true;
+    const denied = Object.assign(new Error('permission denied'), { code: 'EACCES' });
+    const isolatedModule = { exports: {} as { walkFiles: typeof walkFiles } };
+    // Root can read chmod(000) directories. Inject a deterministic failure into
+    // an isolated copy of the real module without changing the shared fs object.
+    runInNewContext(fs.readFileSync(new URL('./walk-files.cjs', import.meta.url), 'utf8'), {
+      module: isolatedModule,
+      RegExp,
+      require: (id: string) => id === 'node:fs' ? {
+        ...fs,
+        readdirSync: (dir: string) => {
+          if (dir === locked) throw denied;
+          return fs.readdirSync(dir);
         },
-      );
-    } finally {
-      chmodSync(locked, 0o700);
-    }
+      } : require(id),
+    });
+    assert.throws(
+      () => isolatedModule.exports.walkFiles(root, { ext: /\.html$/ }),
+      (err: Error & { code?: string; cause?: unknown }) => {
+        assert.match(err.message, /walk-files: cannot read directory/);
+        assert.ok(err.message.includes(locked));
+        assert.match(err.message, /EACCES/);
+        assert.equal(err.code, 'EACCES');
+        assert.equal(err.cause, denied);
+        return true;
+      },
+    );
   });
 });
