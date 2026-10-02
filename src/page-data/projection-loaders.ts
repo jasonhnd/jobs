@@ -26,9 +26,7 @@ import {
 } from '../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
-const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
 const PUBLIC_DIR = join(REPO_ROOT, 'public');
-const SKILLS_DIR = join(REPO_ROOT, 'public', 'data.skills');
 
 // ─── DetailFile (full) loader (genre-hub + compare-hub) ─────────────────
 // Re-use DetailFileSchema's inferred shape via the structural types the
@@ -64,8 +62,9 @@ export interface DetailFileMin {
   employment_type?: Record<string, number> | null;
 }
 
-let _allDetailsCache: DetailFileMin[] | null = null;
-const _detailByIdCache = new Map<number, DetailFileMin>();
+// Path-scoped caches keep injected fixture trees separate from the build.
+const _allDetailsCache = new Map<string, DetailFileMin[]>();
+const _detailByIdCache = new Map<string, DetailFileMin>();
 
 /**
  * Load every `public/data.detail/<id>.json` file. Returns a flat
@@ -73,20 +72,22 @@ const _detailByIdCache = new Map<number, DetailFileMin>();
  * Cached for the lifetime of the build. Per architecture.md §3.3,
  * the fs read lives at the page-data boundary, not in views.
  */
-export function loadAllDetails(): DetailFileMin[] {
-  if (_allDetailsCache) return _allDetailsCache;
-  const files = strictReaddir(DETAIL_DIR, (f) => f.endsWith('.json'), 'projection-loaders.detail');
+export function loadAllDetails(publicDir: string = PUBLIC_DIR): DetailFileMin[] {
+  const detailDir = join(publicDir, 'data.detail');
+  const cached = _allDetailsCache.get(detailDir);
+  if (cached) return cached;
+  const files = strictReaddir(detailDir, (f) => f.endsWith('.json'), 'projection-loaders.detail');
   const out: DetailFileMin[] = [];
   for (const f of files) {
     const d = strictReadJson(
-      join(DETAIL_DIR, f),
+      join(detailDir, f),
       DetailFileSchema,
       'projection-loaders.detail',
     ) as DetailFileMin;
     out.push(d);
-    _detailByIdCache.set(d.id, d);
+    _detailByIdCache.set(join(detailDir, `${String(d.id).padStart(4, '0')}.json`), d);
   }
-  _allDetailsCache = out;
+  _allDetailsCache.set(detailDir, out);
   return out;
 }
 
@@ -96,16 +97,17 @@ export function loadAllDetails(): DetailFileMin[] {
  * 40-ish per-page lookups; the cache also warms from a prior
  * `loadAllDetails()` call so they share the cost.
  */
-export function loadDetailById(id: number): DetailFileMin {
-  const cached = _detailByIdCache.get(id);
-  if (cached) return cached;
+export function loadDetailById(id: number, publicDir: string = PUBLIC_DIR): DetailFileMin {
   const padded = String(id).padStart(4, '0');
+  const filePath = join(publicDir, 'data.detail', `${padded}.json`);
+  const cached = _detailByIdCache.get(filePath);
+  if (cached) return cached;
   const data = strictReadJson(
-    join(DETAIL_DIR, `${padded}.json`),
+    filePath,
     DetailFileSchema,
     'projection-loaders.detail',
   ) as DetailFileMin;
-  _detailByIdCache.set(id, data);
+  _detailByIdCache.set(filePath, data);
   return data;
 }
 
@@ -130,32 +132,38 @@ export interface TreemapRecordSummary {
 }
 export type TreemapFileSummary = ReadonlyArray<TreemapRecordSummary>;
 
-let _hollandCache: HollandFile | null = null;
-let _treemapCache: TreemapFileSummary | null = null;
+const _hollandCache = new Map<string, HollandFile>();
+const _treemapCache = new Map<string, TreemapFileSummary>();
 
 import {
   HollandFileSchema,
   TreemapFileSummarySchema,
 } from '../lib/projection-schemas.js';
 
-export function loadHolland(): HollandFile {
-  if (_hollandCache) return _hollandCache;
-  _hollandCache = strictReadJson(
-    join(PUBLIC_DIR, 'data.holland.json'),
+export function loadHolland(publicDir: string = PUBLIC_DIR): HollandFile {
+  const filePath = join(publicDir, 'data.holland.json');
+  const cached = _hollandCache.get(filePath);
+  if (cached) return cached;
+  const data = strictReadJson(
+    filePath,
     HollandFileSchema,
     'projection-loaders.holland',
   ) as HollandFile;
-  return _hollandCache;
+  _hollandCache.set(filePath, data);
+  return data;
 }
 
-export function loadTreemapSummary(): TreemapFileSummary {
-  if (_treemapCache) return _treemapCache;
-  _treemapCache = strictReadJson(
-    join(PUBLIC_DIR, 'data.treemap.json'),
+export function loadTreemapSummary(publicDir: string = PUBLIC_DIR): TreemapFileSummary {
+  const filePath = join(publicDir, 'data.treemap.json');
+  const cached = _treemapCache.get(filePath);
+  if (cached) return cached;
+  const data = strictReadJson(
+    filePath,
     TreemapFileSummarySchema,
     'projection-loaders.treemap',
   ) as TreemapFileSummary;
-  return _treemapCache;
+  _treemapCache.set(filePath, data);
+  return data;
 }
 
 // ─── Skill rankings loader (skills-hub view) ────────────────────────────
@@ -177,28 +185,32 @@ import { SkillRankingFileSchema } from '../lib/projection-schemas.js';
 
 const _skillCache = new Map<string, SkillRankingFile>();
 
-export function loadSkillRanking(ipdKey: string): SkillRankingFile {
-  const cached = _skillCache.get(ipdKey);
+export function loadSkillRanking(ipdKey: string, publicDir: string = PUBLIC_DIR): SkillRankingFile {
+  const filePath = join(publicDir, 'data.skills', `${ipdKey}.json`);
+  const cached = _skillCache.get(filePath);
   if (cached) return cached;
   const data = strictReadJson(
-    join(SKILLS_DIR, `${ipdKey}.json`),
+    filePath,
     SkillRankingFileSchema,
     'projection-loaders.skill',
   ) as SkillRankingFile;
-  _skillCache.set(ipdKey, data);
+  _skillCache.set(filePath, data);
   return data;
 }
 
 // ─── Multi-model score history loader (occupation detail page) ───────
 
-let _scoreHistoryCache: ScoreHistoryProjectionShape | null = null;
+const _scoreHistoryCache = new Map<string, ScoreHistoryProjectionShape>();
 
-export function loadScoreHistory(): ScoreHistoryProjectionShape {
-  if (_scoreHistoryCache) return _scoreHistoryCache;
-  _scoreHistoryCache = strictReadJson(
-    join(PUBLIC_DIR, 'data.score_history.json'),
+export function loadScoreHistory(publicDir: string = PUBLIC_DIR): ScoreHistoryProjectionShape {
+  const filePath = join(publicDir, 'data.score_history.json');
+  const cached = _scoreHistoryCache.get(filePath);
+  if (cached) return cached;
+  const data = strictReadJson(
+    filePath,
     ScoreHistoryProjectionSchema,
     'projection-loaders.score-history',
   ) as ScoreHistoryProjectionShape;
-  return _scoreHistoryCache;
+  _scoreHistoryCache.set(filePath, data);
+  return data;
 }
