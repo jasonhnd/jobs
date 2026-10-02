@@ -8,7 +8,9 @@ import { defineConfig } from 'astro/config';
 //   - outDir → ./dist-astro/   (Vercel deploys this; vercel.json:outputDirectory matches)
 //   - publicDir → ./public/    (Astro default; SEO statics tracked here, plus TS-ETL
 //                              data.*.json output written here at build time)
-//   - build.format: 'file'     (legacy /ja/{id}.html URL shape preserved)
+//   - build.format: 'file'     (emits /{id}.html; canonical paths are
+//                              occupationPath() in src/lib/urls.ts: /{id},
+//                              or /occupations/{id} for reserved ids)
 //
 // Data flow:
 //   data/* → npm run build:data (src/data/build.ts) → public/data.*.json
