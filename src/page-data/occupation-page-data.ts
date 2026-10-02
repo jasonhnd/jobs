@@ -95,7 +95,7 @@ const RELATED_CLOSE_RISK_TOLERANCE = 1;
  * Astro's `getStaticPaths` without hoisting issues — Astro statically
  * analyzes top-level imports differently than dynamic ones.
  */
-export async function buildOccupationPageData(): Promise<OccupationPageDataset> {
+export async function buildOccupationPageData(publicDir?: string): Promise<OccupationPageDataset> {
   const { loadGraph } = await import('@/graph');
   const { buildOccupationDetailFile } = await import('@/views/occupation-detail');
   const { adaptDetailFile } = await import('@/views/occupation-detail');
@@ -152,7 +152,7 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
     sameRiskArr.push([occId, neighbors.slice(0, SAME_RISK_TOP_N)]);
   }
 
-  const scoreHistoryProjection = loadScoreHistory();
+  const scoreHistoryProjection = loadScoreHistory(publicDir);
   const scoreHistoryArr: Array<[number, Array<ScoreHistoryView>]> = [];
   for (const [occId, history] of Object.entries(scoreHistoryProjection)) {
     scoreHistoryArr.push([

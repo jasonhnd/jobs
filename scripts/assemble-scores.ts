@@ -372,7 +372,7 @@ if (import.meta.main) {
         carriedCaveat = b.caveat;
       }
     } catch {
-      /* skip unreadable */
+      console.warn(`[assemble-scores] WARN — skipped unreadable batch ${f}; anchors/caveat cannot be inherited from it.`);
     }
   }
   const anchors: Record<string, string> | undefined = args['anchors']

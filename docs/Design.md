@@ -25,11 +25,19 @@
 `canonical-css.ts` の `:root` から emit し、全ページ CSS がそれを参照する。台帳の 12 surface は `og` を除き
 `conformant`（`og` は別媒体として意図的に `legacy`）。§19.1 のゲートは全て稼働し `verify:gates` から呼ばれる。
 移行の現在地は [`DESIGN_CONFORMANCE.md`](DESIGN_CONFORMANCE.md) が正典。
+The second review is also complete: [#558](https://github.com/jasonhnd/jobs/pull/558)
+(2026-09-20), one-decimal follow-up [#560](https://github.com/jasonhnd/jobs/pull/560)
+(2026-09-20), and full-name-or-hidden home treemap
+[#566](https://github.com/jasonhnd/jobs/pull/566) (2026-09-21). These are shipped
+implementation/status records, not a new Design revision.
 
 ### 絶対規則
 
-> **注意: これらを強制する CI ゲートはまだ存在しない**（§19.1 は未実装）。
-> 現時点では**レビューと本書だけが歯止め**である。ゲートが入るまでは特に厳密に守ること。
+> Mechanical gates are implemented: §19.1 lists the Design checks; the actual
+> `verify:gates` chain is in [`package.json`](../package.json), including
+> `check:role-color`. Surface enforcement follows
+> [`DESIGN_CONFORMANCE.md`](DESIGN_CONFORMANCE.md). Review and rendered checks
+> still cover what static gates cannot see (including canvas text, §5.7).
 
 1. `font-size` / `color` / `padding` / `border-radius` / `z-index` に**生の値を書かない**。必ず `var(--*)`。
 2. ページ CSS に `:root{}` を書かない。トークン宣言は `canonical-css.ts` の 1 箇所のみ。
@@ -51,16 +59,35 @@
 
 **サイト全体の最小文字サイズは 12px。例外なし。**
 
-- **セリフは Display / H1 / H2 の 3 箇所だけ。** セリフに字重は無い（1 ファイルしか配信していない）。
-- **H3 以下はすべてサンセリフ。** 階層は字重で作る（400 / 600 / 700 の 3 段のみ）。
+- **Heading serif is limited to Display / H1 / H2.** The existing §4.7 large and
+  medium statistic roles also use serif at `--t-h1` / `--t-h2` with `--ink` and
+  `tabular-nums`; they are numeric roles, not extra heading levels. Serif has one
+  delivered weight (one font file).
+- **H3 and lower headings are sans.** Use the approved 400 / 600 / 700 weights;
+  code, IDs and raw-score roles use mono as specified in §4.7.
 - 等幅は `var(--font-mono)` 経由のみ。生の `monospace` は禁止。
 
 ### 色（§2）
 
-**本文サイズ（H2 以下）で使える前景は 4 つだけ:** `--ink` / `--ink-2` / `--ink-meta` / `--green-deep`
+**Ordinary body/heading foregrounds at H2 and below:** `--ink` / `--ink-2` /
+`--ink-meta` / `--green-deep`, with the exact role mapping in §4.7 (headings and
+neutral statistics use `--ink`). This summary does not replace the already
+approved foreground/background pairs:
 
-- `--orange` は**テキスト・白字ボタン背景ともに不可**。文字・CTA 背景は `--orange-hot`。
-- `--ink-3` / `--ink-4` / `--fg3` / `--green` / `--accent-2` / `--purple` は**罫・図形専用**。文字に使わない。
+- §4.7 primary button: `--paper` on `--orange-hot`; text on the approved dark
+  CTA surface uses `--paper` or `--cream` as stated in the table's reading notes.
+- §4.7 current navigation: `--orange-hot` with underline on a permitted light
+  background; `--orange-hot` text is allowed on `--cream` / `--paper`, **never
+  on `--cream-2`** (§2.2). This does not grant accent colour to ordinary headings.
+- §4.7 contextual pills and chips use the §2.3 light-fill/dark-foreground pairs;
+  map tiles use the band-specific `--risk-fg-*` against their §2.3 risk fills.
+- §4.7 errors use `--red-text` with an icon. §2.2's Display/H1-only colours stay
+  limited to those sizes and their approved roles, not ordinary body text.
+
+These are explanations of existing §4.7 / §2.2 / §2.3 roles, not new exceptions.
+
+- `--orange` is forbidden for text and white-text button backgrounds. Use `--orange-hot` only for its approved text/background roles and permitted backgrounds above.
+- `--ink-4` / `--fg3` / `--green` / `--accent-2` / `--purple` are for rules and graphics, not text. `--ink-3` is limited to Display/H1 under §2.2; never use it for body, labels or metadata.
 - 新規コードは第 1 層（`--ink` / `--cream` / `--orange`…）のみ。第 2 層 alias（`--fg` / `--bg` / `--accent`…）は既存 Hub class の改修時だけ。
 
 ### 余白・形（§8 / §9）
@@ -269,7 +296,7 @@
 | 3 | `--risk-3` `#E27A33` | `--risk-soft-3` `#F6E0CC` | `--risk-fg-3` `#241E18`（= `--ink`） | |
 | 4 | `--risk-4` `#C4422F` | `--risk-soft-4` `#F0D6CC` | `--risk-fg-4` `#FFFFFF`（= `--paper`） | 影響 最大 |
 
-**タイル前景（2026-09-20・オーナー裁定）。** タイル名（`--t-xs`・600）は通常文字であり、タイル自身の濃色に対して 4.5:1 が要る（§2.2）。白は band 1/2/3 で不足（2.93 / 2.32 / 2.97）、`--ink` は band 0/4 で不足（3.81 / 3.27）ため、前景を段ごとに切り替える。`--risk-0` は旧値 `#0F8A66` では白でも 4.33:1 で不足だったので `#0F8663`（G −4 / B −3、目視差なし）へ改めた。実測（新値）: band 0 白 4.56 / band 1 墨 5.62 / band 2 墨 7.10 / band 3 墨 5.55 / band 4 白 5.04。`--risk-fg-*` は canvas と OG 画像が `var()` を解決できないため字面の hex で持つ（値は `--paper` / `--ink` と同一）。`/map` は 2026-09-15（#527）からこの規則で描いており、本項はその明文化。`/` の canvas treemap は design-1.21 で追随。
+**タイル前景（2026-09-20・オーナー裁定）。** タイル名（`--t-xs`・600）は通常文字であり、タイル自身の濃色に対して 4.5:1 が要る（§2.2）。白は band 1/2/3 で不足（2.93 / 2.32 / 2.97）、`--ink` は band 0/4 で不足（3.81 / 3.27）ため、前景を段ごとに切り替える。`--risk-0` は旧値 `#0F8A66` では白でも 4.33:1 で不足だったので `#0F8663`（G −4 / B −3、目視差なし）へ改めた。実測（新値）: band 0 白 4.56 / band 1 墨 5.62 / band 2 墨 7.10 / band 3 墨 5.55 / band 4 白 5.04。`--risk-fg-*` は canvas と OG 画像が `var()` を解決できないため字面の hex で持つ（値は `--paper` / `--ink` と同一）。`/map` は 2026-09-15（#527）からこの規則で描いており、本項はその明文化。The home canvas followed in [PR #558](https://github.com/jasonhnd/jobs/pull/558) (2026-09-20); its geometry/full-name follow-up shipped in [#566](https://github.com/jasonhnd/jobs/pull/566) (2026-09-21).
 
 ### ピルの配色 `[確定]`
 
@@ -569,7 +596,10 @@ h1 の `font-weight:700` と h2 の `600` は**視覚差ゼロ**である。
 - **上表の色は §2.2 の背景 3 色（`--cream` / `--paper` / `--cream-2`）の上での値である。** 濃色の面（`--ink` 地の CTA バンド・主ボタン）に載る文字は、ボタン（主）の行と同じく `--paper`（または `--cream`）を使う。`check-role-color` はこの 2 色を「面の上の文字」として通す（2026-09-20 明確化）。
 - **12px が下限。** これより小さい文字はサイト上に存在しない（§4.2）。
 - **統計数値に `--green-deep` を使わない。** 緑は §2.3 の影響度スケールにおける「低影響・安全」の意味を持つ。中立な件数（例: 556 職業）や、まして「高影響職業の賃金」に緑を当てると意味が反転する。
-  - **現状違反**: `/` の統計 4 件がすべて `--green-deep`。うち 1 件は「高影響職業の賃金」。
+  - Historical review finding (2026-09-18/19): the four home statistics used
+    `--green-deep`, including the high-impact wage statistic. **Resolved** in
+    [PR #558](https://github.com/jasonhnd/jobs/pull/558) (2026-09-20): neutral
+    statistics use `--ink`, with `check-role-color` enforcing the role mapping.
 - 数値を並べて比較させる箇所は `font-variant-numeric: tabular-nums` を必須とする。桁が揃わないと比較できない。
 - 「サイズが足りない」と感じたら、まず**余白と色**で解決できないか試す。段を増やさない。
 
@@ -707,6 +737,13 @@ canvas の背景はサイト `--bg` に一致させる（§3.2）。
 タイルのラベルは **`--t-xs`（12px）固定**。11px への例外は設けない（§4.2）。
 
 **ラベルが収まらないタイルには、ラベルを出さない。** 省略記号による切り詰めを行わない。
+
+Historical `/map` baseline from the 2026-09-14 discussion (the left column below
+is not current implementation). The agreed full-name-or-hidden rule shipped for
+`/map` on 2026-09-15 ([#527](https://github.com/jasonhnd/jobs/issues/527)) and for
+the home canvas on 2026-09-21 ([#566](https://github.com/jasonhnd/jobs/pull/566)).
+The earlier clipping ruling was withdrawn; the dated §5.7 owner ruling below
+records the approved behavior.
 
 | | 現行 | 合意後 |
 |---|---|---|
@@ -1206,7 +1243,11 @@ h1/h2/h3 の字号変更は 839 ページすべてに及ぶ。これを各 surfa
 bun run drift:design        # 規範 vs 実装の差分を報告（read-only）
 ```
 
-**未実装。** `scripts/design-drift.ts` と `package.json` の script を新設する必要がある。
+**Implemented** in [`scripts/design-drift.ts`](../scripts/design-drift.ts),
+registered as `drift:design` in [`package.json`](../package.json)
+(see the implementation history in [`DESIGN_CONFORMANCE.md`](DESIGN_CONFORMANCE.md)). This is a
+read-only report; palette-unrepresentable declarations are observations, not
+newly confirmed defects.
 
 既存の `drift:flagship-switch` / `drift:vendor-update` と同じ位置づけ。CI を落とさず、現状を可視化する。出力は `conformant` surface の違反を error、`migrating` を warning、`legacy` を info として並べる。
 
