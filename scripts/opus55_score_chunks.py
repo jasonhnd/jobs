@@ -13,9 +13,10 @@ Run from the lane worktree root (the directory that has scripts/run-scoring.ts):
   python3 <this> --run .cache/scoring/mms-11-pilot --chunk 5 --expect 40
   # full: 556 prompts, chunks of 20
   python3 <this> --run .cache/scoring/mms-11-full --chunk 20 --expect 556
-  # re-score listed ids into answers/chunk-rescored.jsonl (max 20 ids);
-  # a second round uses --name rescored-2 so the first round's file is kept
-  python3 <this> --run .cache/scoring/mms-11-full --ids 12,34 --name rescored
+  # re-score listed ids into answers/chunk-rescored-r1a.jsonl (max 20 ids);
+  # a later round uses --name rescored-r2a (then rescored-r1b, rescored-r2b, ...)
+  # so the later file sorts after the earlier one
+  python3 <this> --run .cache/scoring/mms-11-full --ids 12,34 --name rescored-r1a
   # add --dry-run to any of the above: prints the plan and chunk 1 prompt, spawns nothing
 
 Stops (non-zero exit) on: rate limit, claude exit != 0, is_error, the model saying it
@@ -71,7 +72,7 @@ def plan(args: argparse.Namespace, run: Path) -> list[tuple[str, list[int]]]:
         if not 0 < len(want) <= 20:
             fail("--ids takes 1-20 ids")
         if (run / "answers" / f"chunk-{args.name}.jsonl").exists():
-            fail(f"answers/chunk-{args.name}.jsonl already exists — pick a new --name (rescored-2, rescored-3, ...)")
+            fail(f"answers/chunk-{args.name}.jsonl already exists — pick a new --name (rescored-r1b, rescored-r2a, ...)")
         return [(f"chunk-{args.name}", want)]
     if args.expect is None:
         fail("--expect is required unless --ids is given")

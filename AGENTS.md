@@ -122,7 +122,7 @@ bun install --frozen-lockfile
 bun run test          # read the "N pass" / "N fail" lines, not only the last line
 bun run typecheck
 bun run build
-REQUIRE_BUILT_ARTIFACTS=1 bun test scripts/home-css-loading.test.ts src/site/models-built.test.ts
+REQUIRE_BUILT_ARTIFACTS=1 bun test scripts/home-css-loading.test.ts src/site/models-built.test.ts scripts/home-js-asset.test.ts
 bun run verify:gates
 bun x playwright install --with-deps chromium   # the browser binary is not a package dependency
 bun x playwright test --reporter=line           # the CI "rendered-output checks" step

@@ -18,6 +18,7 @@ import { basename, dirname, join, resolve, relative, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 
 import { promoteStagedOutputs } from './promote.js';
+import { isErrnoCode } from './loaders.js';
 import { assertUniformVendorPanel, buildIndexes, type Indexes } from './lib/indexes.js';
 import { rewriteGeneratedModule } from './lib/rewrite-generated-module.js';
 import { buildDetail } from './projections/detail.js';
@@ -239,8 +240,7 @@ async function pruneOrphanStagingDirectories(): Promise<void> {
     // Surface any other error so Windows file-lock / permission issues
     // (EPERM, EBUSY, antivirus-locked files) don't masquerade as a
     // clean first-run state.
-    const code = (err as NodeJS.ErrnoException)?.code;
-    if (code !== 'ENOENT') {
+    if (!isErrnoCode(err, 'ENOENT')) {
       console.warn('[build] orphan-dir cleanup unexpected error:', err);
     }
   }
