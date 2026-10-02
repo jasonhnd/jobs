@@ -33,7 +33,7 @@ git diff --exit-code
 
 空の GA4 markup でビルドした CI と上のチェーンでは、analytics specs（`tests/e2e/analytics.spec.ts`）は自分で skip する。analytics の専用確認（`bun run test:e2e` / `scripts/run-e2e.sh`）は隔離した仮想 GA4 ID（`PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000`）だけで markup を出し、残りの四つ（`PUBLIC_X_PIXEL_ID`、`PUBLIC_META_PIXEL_ID`、`PUBLIC_CF_BEACON_TOKEN`、`PUBLIC_GOOGLE_ADS_ID`）は空のままにする。本番 ID は使わない。
 
-`bun run test` は clean checkout でも projection fixture を利用できるよう、最初に `build:data` を実行します。`bun run build` は CSP hash などの tracked configuration を更新することがあります。最後の `git diff --exit-code` が失敗した場合は、生成差分が意図した変更か確認し、必要なファイルを同じ PR に含めてください。文書のみの変更でも `bun run check:docs-links` を実行します。Playwright defaults to port 4321. For parallel workspaces, use `PLAYWRIGHT_PORT=<available port>` with a distinct port for each suite; never reuse another workspace's server. An explicit override disables server reuse.SEO baseline が変わる変更は [`docs/SEO_OG_BASELINE.md`](docs/SEO_OG_BASELINE.md) に従ってください。
+`bun run test` は clean checkout でも projection fixture を利用できるよう、最初に `build:data` を実行します。`bun run build` は CSP hash などの tracked configuration を更新することがあります。最後の `git diff --exit-code` が失敗した場合は、生成差分が意図した変更か確認し、必要なファイルを同じ PR に含めてください。文書のみの変更でも `bun run check:docs-links` を実行します。Playwright defaults to port 4321. For parallel workspaces, use `PLAYWRIGHT_PORT=<available port>` with a distinct port for each suite; never reuse another workspace's server. An explicit override disables server reuse. SEO baseline が変わる変更は [`docs/SEO_OG_BASELINE.md`](docs/SEO_OG_BASELINE.md) に従ってください。
 
 ## 変更時の注意
 
