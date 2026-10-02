@@ -61,6 +61,28 @@ test('home treemap tiles are drawn like /map cells: 2px gap, 6px corners, 12px/6
   assert.doesNotMatch(source, /function tileSubInfo/); // the value lives in the tooltip
 });
 
+test('home chip buttons and client TOP 10 cards keep native roles', () => {
+  const html = readFileSync('src/index-source.html', 'utf8');
+  const chipGroups = [
+    html.slice(html.indexOf('<div class="desktop-hero-chips">'), html.indexOf('</div>', html.indexOf('<div class="desktop-hero-chips">'))),
+    html.slice(html.indexOf('<div class="mobile-hero-chips">'), html.indexOf('</div>', html.indexOf('<div class="mobile-hero-chips">'))),
+  ];
+  assert.equal(chipGroups.join('\n').match(/<button\b/g)?.length, 10);
+  for (const group of chipGroups) {
+    assert.doesNotMatch(group, /role=/);
+    assert.match(group, /<button type="button"/);
+  }
+  const track = html.slice(html.indexOf('<div class="m-top10-track"'), html.indexOf('>', html.indexOf('<div class="m-top10-track"')));
+  assert.equal(track, '<div class="m-top10-track" id="mTop10Track"');
+  assert.match(html, /<ul class="risk-distribution" role="list">/);
+  assert.match(html, /<ul class="search-suggest" id="searchSuggest" role="listbox"/);
+
+  const card = source.indexOf("'<a class=\"m-top10-card\" href=\"' + href + '\">'");
+  assert.ok(card > 0, 'TOP 10 card template missing');
+  assert.doesNotMatch(source, /m-top10-card" role="listitem"/);
+  assert.doesNotMatch(source, /role="listitem"/);
+});
+
 test('home treemap labels take the per-band foreground from :root (§2.3 タイル前景)', () => {
   assert.match(source, /const MAP_LABEL_FG = \[0, 1, 2, 3, 4\]\.map\(i => readRootToken\("--risk-fg-" \+ i, "#FFFFFF"\)\);/);
   assert.match(source, /ctx\.fillStyle = labelFg;/);

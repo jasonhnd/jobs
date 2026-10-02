@@ -148,6 +148,74 @@ export function findGeoOccupation(
   return facts.occupations.find((occupation) => occupation.id === occupationId) ?? null;
 }
 
+/** Where one occupation sits in the salary distribution (#276 follow-up). */
+export interface SalaryStanding {
+  /** 1-100, lower = better paid. Tied salaries share one value. */
+  readonly topPercent: number;
+  /** Occupations carrying a salary figure — the denominator shown in copy. */
+  readonly universe: number;
+}
+
+/**
+ * Salary standing for one occupation, or null when jobtag publishes no
+ * figure for it.
+ *
+ * Universe = occupations with a salary (544 of 556 as of 2026-09). The 12
+ * without are statutory-pay public roles (警察官 / 裁判官 / 検察官 / 自衛官
+ * ×3 / 海上保安官 / 麻薬取締官 / 刑務官 / 国会議員) and self-employment
+ * (起業 / 会社経営者); jobtag genuinely has no figure for them, so they are
+ * excluded rather than imputed. `universe` is returned instead of hardcoded
+ * so copy follows the data if coverage changes — do not print
+ * OCCUPATION_COUNT.SCORED (556) next to this percentile.
+ *
+ * Ordering matches /rankings/salary exactly (salary desc, id tie-break), so
+ * an occupation title and the ranking page can never disagree.
+ *
+ * A percentile rather than a rank, deliberately: 544 occupations carry only
+ * 138 distinct salary figures and the largest tie group is 35, so an exact
+ * rank would print the identical "124位" on 35 pages and claim precision the
+ * source does not have. Tied occupations take the MIDPOINT of their group
+ * rather than its head, so a 35-way tie is not flattered into the rank of
+ * its best-paid member.
+ */
+/** Sorted salary universe per GeoFacts — the 556 /[id] pages each ask for
+ *  their own standing, and re-sorting on every page would be 556 sorts of
+ *  the same array during a static build. */
+const SALARY_ORDER = new WeakMap<GeoFacts, readonly GeoOccupationSummary[]>();
+
+function paidOccupations(facts: GeoFacts): readonly GeoOccupationSummary[] {
+  const cached = SALARY_ORDER.get(facts);
+  if (cached) return cached;
+  const paid = facts.occupations
+    .filter((occupation) => occupation.salaryMan !== null)
+    .sort((a, b) => (b.salaryMan ?? 0) - (a.salaryMan ?? 0) || a.id - b.id);
+  SALARY_ORDER.set(facts, paid);
+  return paid;
+}
+
+export function salaryStanding(
+  facts: GeoFacts,
+  occupationId: number,
+): SalaryStanding | null {
+  const paid = paidOccupations(facts);
+  const universe = paid.length;
+  if (universe === 0) return null;
+
+  const index = paid.findIndex((occupation) => occupation.id === occupationId);
+  if (index === -1) return null;
+
+  const salary = paid[index].salaryMan;
+  let head = index;
+  while (head > 0 && paid[head - 1].salaryMan === salary) head -= 1;
+  let tail = index;
+  while (tail + 1 < universe && paid[tail + 1].salaryMan === salary) tail += 1;
+
+  // Midpoint of the tie group, 1-based, as a share of the universe.
+  const midpoint = (head + tail) / 2 + 1;
+  const topPercent = Math.min(100, Math.max(1, Math.round((midpoint / universe) * 100)));
+  return { topPercent, universe };
+}
+
 const FIVE_BANDS = [
   { key: '0-2', label: '0-2' },
   { key: '3-4', label: '3-4' },

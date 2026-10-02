@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-21T00:42:36.725Z",
-  "gitCommit": "ee9ad54fa882af70306cc195efb1c5ff10e3c583",
-  "gitBranch": "fix/one-site-name",
-  "distFileCount": 839,
-  "urlCount": 839,
-  "dataFileCount": 613,
+  "capturedAt": "2026-09-30T16:58:28.777Z",
+  "gitCommit": "0f1e9ad6f89e9f8cf62f8882c011fb381280d70a",
+  "gitBranch": "mms-13.5-land-gpt-6.1-sol",
+  "distFileCount": 845,
+  "urlCount": 845,
+  "dataFileCount": 616,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

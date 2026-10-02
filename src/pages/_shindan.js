@@ -251,10 +251,40 @@
       });
     }
 
+    // One decimal, the server's rule: banker's rounding over the exact stored
+    // double — copied byte-for-byte from _me-inline.js (a port of
+    // src/data/lib/banker-round.ts; inline scripts cannot import it). The search
+    // projection stores raw floats such as 4.266666666666667 (#631).
+    function fmtRisk(v) {
+      if (v == null) return '—';
+      var n = Number(v);
+      if (!Number.isFinite(n)) return '—';
+      var sign = n < 0 ? '-' : '';
+      var wide = Math.abs(n).toFixed(18);
+      var dot = wide.indexOf('.');
+      if (dot === -1) return String(n);
+      var intStr = wide.slice(0, dot);
+      var frac = wide.slice(dot + 1);
+      var keep = frac.charAt(0);
+      var decisive = frac.charAt(1);
+      var tail = frac.slice(2);
+      var roundUp;
+      if (decisive < '5') roundUp = false;
+      else if (decisive > '5') roundUp = true;
+      else if (/[1-9]/.test(tail)) roundUp = true;
+      else roundUp = Number(keep) % 2 !== 0;
+      var truncated = Number(sign + intStr + '.' + keep);
+      if (!roundUp) return String(truncated);
+      var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
+      return String(Number(inc.toFixed(1)));
+    }
+
+    // The band follows the printed one-decimal value (#631).
     function riskBand(value) {
       if (value == null || isNaN(value)) return 'mid';
-      if (value < 4.0) return 'low';
-      if (value < 7.0) return 'mid';
+      var d = Number(fmtRisk(value));
+      if (d < 4.0) return 'low';
+      if (d < 7.0) return 'mid';
       return 'high';
     }
 
@@ -751,7 +781,7 @@
 
         var pill = document.createElement('span');
         pill.className = 'shindan-job-pill ' + riskBand(doc.ai_risk);
-        pill.textContent = 'AI ' + (doc.ai_risk != null ? doc.ai_risk : '?') + '/10';
+        pill.textContent = 'AI ' + (doc.ai_risk != null ? fmtRisk(doc.ai_risk) : '?') + '/10';
 
         li.appendChild(text);
         li.appendChild(pill);
@@ -837,7 +867,7 @@
 
     function formatRisk(value) {
       if (value == null || isNaN(value)) return '不明';
-      return value + '/10';
+      return fmtRisk(value) + '/10';
     }
 
     function jobTitle(doc, jobId) {
@@ -1034,7 +1064,7 @@
         var withJob = share.textTemplateWithJob || '#AI働き方診断 {職業}のAI影響度は{点数}。あなたの仕事は？ {リンク}';
         return withJob
           .replace(/\{職業\}/g, fields.jobTitle)
-          .replace(/\{点数\}/g, fields.score + '/10')
+          .replace(/\{点数\}/g, fmtRisk(fields.score) + '/10')
           .replace(/\{リンク\}/g, url)
           .replace(/\s+/g, ' ')
           .trim();

@@ -19,8 +19,8 @@
 | surface | 範囲 | ページ数 | 実装 | 状態 | 備考 |
 |---|---|---|---|---|---|
 | `tokens` | `:root` トークン宣言 | — | `design-tokens.ts` + `canonical-css.ts` | `conformant` | 2026-09-14 完了（#525）。40 トークンを追加。参照者ゼロ → **視覚変化なし** |
-| `canonical-type` | 全 839 ページの h1/h2/h3/h4 + p | 839 | `canonical-css.ts` | `conformant` | 2026-09-15 完了（#526）。h1 27.2→28 / h2 18.4→22 / h3 16→18 sans700 / h4 新設 16px sans700。**`!important` は h1/h2/h3 に残存**（撤去は design-1.9）|
-| `feature` | `/` `/models` `/aiadoption` | 3 | `canonical-css.ts`（`body.page-feature`）+ 個別 | `conformant` | 2026-09-15 完了（#532、3 回に分けて実施）。`!important` 全廃・Display 分岐・H1 重複解消・ページ CSS 224 箇所のトークン化 |
+| `canonical-type` | 全 839 ページの h1/h2/h3/h4 + p | 839 | `canonical-css.ts` | `conformant` | 2026-09-15 完了（#526）。h1 27.2→28 / h2 18.4→22 / h3 16→18 sans700 / h4 新設 16px sans700。Heading `font-size: !important` removed on 2026-09-15 (design-1.9 / [#532](https://github.com/jasonhnd/jobs/issues/532)); see the dated history below|
+| `feature` | `/` `/models` `/aiadoption` `/aiadoption/<release>` | 3+ | `canonical-css.ts`（`body.page-feature`）+ 個別 | `conformant` | 2026-09-15 完了（#532、3 回に分けて実施）。`!important` 全廃・Display 分岐・H1 重複解消・ページ CSS 224 箇所のトークン化。2026-09-22 `/aiadoption` を HAID 現状ページとして書き直し（aiadoption-1.3〜1.7）: トークンのみ、inline JS なし、1440 / 768 / 375 で確認 |
 | `interactive` | `/map` | 1 | `_map-css.ts` + `_map-inline.js` | `conformant` | 2026-09-15 完了（#527）。`:root` 撤去、タイル 11.2px→12px・省略記号廃止（截断率 PC 54%→0 / SP 73%→0）、見出し規則 3 件除去 |
 | `detail` | `/<id>` | 556 | `canonical/detail.ts` + `_id-css.ts` + 関連ビュー 2 | `conformant` | 2026-09-15 完了（#530）。12px 未満 24 種を是正、`--ink-3` 文字色 31 箇所を `--ink-meta` へ（§2.2）、字重 800/900/500 を 19 箇所是正 |
 | `hub` | genre index / slug / rankings / q / compare 等 | ~37 | `canonical/hub.ts` + `rank-list-css.ts` + `templates/Hub.ts` | `conformant` | 2026-09-15 完了（#529）。第 2 層 alias は使用箇所数まで不変（検証済） |
@@ -39,7 +39,10 @@ migrating    0 / 12
 legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 ```
 
-**全 10 surface が `conformant`。移行完了（2026-09-15）。**
+**Current migration is complete for web surfaces; `og` remains intentionally
+`legacy` as a separate medium.** The totals above include `chrome` and `og`.
+Historical 2026-09-15 milestone: the then-existing 10 surfaces were conformant;
+that dated count is preserved in the history, not used as the current total.
 
 - ページ標題はサイト全体で **2 値**のみ（H1 28px / Display `clamp(32px,6vw,40px)`）
 - `font-size` の `!important` は `src/` から**全廃**
@@ -102,6 +105,14 @@ legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 > §4.7 の役割 → トークンの対応を CSS 実装と照合する。canvas 内の文字（`/` の treemap）は
 > 引き続きどのゲートにも見えない — §5.7 のオーナー裁定を参照。
 >
+> Follow-ups shipped: [#560](https://github.com/jasonhnd/jobs/pull/560)
+> (2026-09-20) fixes one-decimal tooltips and `/map` / `/me` lists;
+> [#566](https://github.com/jasonhnd/jobs/pull/566) (2026-09-21) gives home
+> canvas the `/map` geometry and 12px full-name-or-hidden labels. The September
+> 19 clipping ruling was withdrawn by the September 21 §5.7 owner ruling.
+> These complete design-1.21; Parked visual proposals and the dated `/shindan`
+> first-question residual remain separate. No conformance state changes.
+>
 > 1. **文字への `opacity`** — `--fg2` は cream で 4.57 と余裕が無く、`opacity: .92`
 >    でも契約を割る。§2.2 の表は alpha を掛けた後の色を見られない。ページ側に複製
 >    された footer ブロックの `opacity` は正典側が同プロパティを宣言していないため
@@ -126,7 +137,15 @@ legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 > 視覚回帰: 18 ページ × 2 視口で**寸法差ゼロ**（レイアウト移動なし）。差分は
 > 0.14〜3.1% の画素で、すべて色の置換に対応する。
 >
-> **オーナー判断が要る残件**
+> **Historical residuals (2026-09-17) — resolved, no renewed owner decision.**
+>
+> Resolution: the 2026-09-20 ruling in [Design.md §2.3](Design.md) and
+> [merged PR #558](https://github.com/jasonhnd/jobs/pull/558) changed `--risk-0`
+> to `#0F8663` with band-specific foregrounds (band 0 white 4.56:1).
+> [`design-tokens.ts`](../src/lib/design-tokens.ts) carries the approved values.
+> The CTA/pill status notes and §2.2 migration label were also reconciled;
+> Design v1.2 remains unchanged. The entries below preserve the original
+> September 17 concerns, not current defects or pending approvals.
 >
 > - **`--risk-0`（`#0F8A66`）には契約を満たす文字色が調色板に存在しない。** 白 4.33 /
 >   `--ink` 3.81 が上限で、4.5 に届くのは純黒（4.85）のみ。現在 band 0 の職業は
@@ -418,7 +437,7 @@ legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 | surface | 主な対象ファイル |
 |---|---|
 | `tokens` | `src/lib/design-tokens.ts`（新設）, `src/lib/canonical-css.ts` |
-| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/models.astro`, `src/pages/models/[model].astro`, `src/pages/aiadoption.astro`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
+| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/models.astro`, `src/pages/models/[model].astro`, `src/pages/aiadoption.astro`, `src/pages/aiadoption/[release].astro`, `src/pages/_HaidReleasePage.astro`, `src/pages/_haid-release-labels.ts`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
 | `interactive` | `src/pages/map.astro`, `src/pages/_map-css.ts` |
 | `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_StatsGrid.astro`, `src/pages/_JobtagAnchor.astro`, `src/pages/_IdPageScript.astro` |
 | `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/compare/`, `src/pages/skills/`, `src/pages/interests/`, `src/pages/answers/`, `src/pages/q/`, `src/pages/yearly/`, `src/pages/abilities/`, `src/pages/careers/`, `src/pages/education/`, `src/pages/employment-types/`, `src/pages/entry-paths/`, `src/pages/explore/`, `src/pages/knowledge/`, `src/pages/licenses/`, `src/pages/life-balance/`, `src/pages/training/`, `src/pages/values/`, `src/pages/work-styles/`, `src/lib/ai-fact-css.ts` |
@@ -448,6 +467,10 @@ legacy       1 / 12   (og — 別媒体。design-1.18 で意図的に legacy)
 | 9 | ✅ CI ゲート有効化 | なし | 8 |
 
 ### `feature` を最後に置く理由
+
+Historical migration rationale (before completion on 2026-09-15 / #532).
+The heading `!important` declarations and blockers described below were removed;
+this is sequencing history, not a current residual. See the dated history below.
 
 canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **class 付き見出し規則 66 箇所**を抑え込んでいる。`feature` はその `!important` の撤去を含むため、66 箇所が全部消えるまで実行できない。
 
@@ -510,3 +533,5 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-20 | 全 surface | §4.7 が `--ink` と定める **82 箇所**を是正（`h1 .accent` 19 / 見出し 24 / `strong`・`em` 25 / 統計 2 / FAQ 1 ほか。`--accent-deep`・`--orange-hot`・`--fg2`・生 hex）。合成斜体 18 箇所を全廃。`.risk-pill` の生 `12px` 角丸 6 箇所 → `--r-md`。movers 文言を「仕事が減るリスク」へ |
 | 2026-09-20 | 全 surface | §9.1 内側余白を `--s-5` に統一（hub/sector 20・doc 28・static 24・detail 32・feature 28 → 24）、ナビの brand を本文左端に、`/me` `/models` `/answers` `/aiadoption` の独自幅を `--content-max` に。`design-contract.spec.ts` に左端一致の検査を追加 |
 | 2026-09-20 | ゲート | `check-role-color` 新設・`verify:gates` へ接続。§4.7 の役割 → トークンを CSS 実装と照合（`check-contrast` の残り半分） |
+| 2026-09-20 | `feature` `interactive` `misc` | One-decimal follow-up: hover tooltips, `/map` and `/me` lists ([#560](https://github.com/jasonhnd/jobs/pull/560)) |
+| 2026-09-21 | `feature` (`/`) | Home canvas follows `/map` geometry and 12px full-name-or-hidden labels; September 19 clipping ruling withdrawn ([#566](https://github.com/jasonhnd/jobs/pull/566), Design §5.7). Shipped with #558/#560 in [promotion #569](https://github.com/jasonhnd/jobs/pull/569) |

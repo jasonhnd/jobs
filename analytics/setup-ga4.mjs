@@ -18,10 +18,10 @@
  *
  * Usage:
  *   # From the repository root, once OAuth has been initialized:
- *   GA4_PROPERTY_ID=298707336 corepack pnpm@11.9.0 --dir analytics run setup
+ *   GA4_PROPERTY_ID=298707336 corepack pnpm@12.6.0 --dir analytics run setup
  *
  *   # Or just discover what properties you can access:
- *   corepack pnpm@11.9.0 --dir analytics run discover
+ *   corepack pnpm@12.6.0 --dir analytics run discover
  *
  * Modes:
  *   --check     Read-only. Authenticates, lists the property, and diffs it

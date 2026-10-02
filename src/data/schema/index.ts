@@ -15,3 +15,4 @@ export * from './labels.js';
 export * from './sector.js';
 export * from './translation.js';
 export * from './worktypes.js';
+export * from './haid-release.js';
