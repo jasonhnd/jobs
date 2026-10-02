@@ -18,6 +18,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **test:seo stays off production by default** — `bun run test:seo` probes `https://pre.mirai-shigoto.com/` with `--sample 5`. Sitemap locs are rewritten onto that host. `scripts/seo-check.sh` exits 2 before any request to `mirai-shigoto.com` unless `ALLOW_PROD=1`.
 - **OpenAI's seat in the public value is now GPT 6.1 SOL (mms-13 / #670).**
   `data/scores/occupations_gpt-6.1-sol_2026-10-01.json`, 556/556, scored
   through the Codex CLI with `--model gpt-6.1-sol --reasoning-effort high`,

@@ -36,14 +36,16 @@ export function missingEnvFailures(env: SentinelEnv): string[] {
 /**
  * Cron caller gate. Vercel invokes cron paths with
  * `Authorization: Bearer <CRON_SECRET>` when that env is configured.
- * An unset secret fails open so a fresh environment never silently
- * disables the watchdog; the endpoint is read-only either way.
+ * An unset or empty secret fails closed: this returns false and
+ * api/cron/measurement-sentinel.ts responds 401. Preview, local, and a
+ * production env that lost CRON_SECRET must not run the watchdog for
+ * an anonymous caller. The endpoint stays read-only either way.
  */
 export function authorizeCronRequest(
   authorizationHeader: string | null,
   cronSecret: string | undefined,
 ): boolean {
-  if (!cronSecret) return true;
+  if (!cronSecret) return false;
   return authorizationHeader === `Bearer ${cronSecret}`;
 }
 
