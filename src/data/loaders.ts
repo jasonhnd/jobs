@@ -32,14 +32,18 @@ export interface FileLoadResult<T> {
 }
 
 /**
- * Read every `*.json` file in `data/<subdir>/` and validate each with `schema`.
+ * Read every `*.json` file in `<rootDir>/<subdir>/` and validate each with `schema`.
  * Filenames starting with `.` are skipped.
+ *
+ * `rootDir` defaults to the repository `data/` directory (unchanged for callers
+ * that omit it). Tests pass a temporary directory.
  */
 export async function loadJsonDir<S extends ZodTypeAny>(
   subdir: string,
   schema: S,
+  rootDir: string = DATA_ROOT,
 ): Promise<DirLoadResult<ZInfer<S>>> {
-  const dirPath = join(DATA_ROOT, subdir);
+  const dirPath = join(rootDir, subdir);
   const byKey = new Map<string, ZInfer<S>>();
   const errors: LoadError[] = [];
 
