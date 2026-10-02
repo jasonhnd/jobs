@@ -31,5 +31,5 @@
 
 - Source fonts live under `assets/fonts-src/` with each upstream `OFL.txt`.
 - `bun run build` runs `astro build`, then `scripts/subset-fonts.ts`, then the rendered-output gates and CSP hash rewrite.
-- The subsetter scans `dist-astro/**/*.html`, emits content-hashed WOFF2 files plus `@font-face` CSS under `dist-astro/fonts/`, and replaces the `<!-- self-hosted-font-assets -->` marker in `BaseLayout.astro` output with the preload and stylesheet links.
+- The subsetter scans `dist-astro/**/*.html` and emits content-hashed WOFF2 files under `dist-astro/fonts/`. It replaces the `<!-- self-hosted-font-assets -->` marker in `BaseLayout.astro` output with the preload links and one inline `<style>` that holds the `@font-face` rules. It does not write `font-faces.<hash>.css` or inject a stylesheet link for those rules. The font manifest records `stylesheet: { "delivery": "inline", "bytes": <CSS byte length> }` and does not record an `href`. Preload stays on the WOFF2 assets; weights and `font-display` are unchanged.
 - Do not commit generated `dist-astro/fonts/*`; the immutable `/fonts/(.*)` cache header in `vercel.json` relies on content hashes.
