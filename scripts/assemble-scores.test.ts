@@ -83,6 +83,12 @@ describe('parseScoreLines (legacy mode)', () => {
     assert.ok(parseScoreLines(['{"id":1,"ai_risk":5.0,"rationale_ja":"x","confidence":1.5}'], 'legacy').errors.length > 0);
   });
 
+  test('rejects invalid JSON', () => {
+    const { scores, errors } = parseScoreLines(['{'], 'legacy');
+    assert.equal(Object.keys(scores).length, 0);
+    assert.match(errors[0]!, /invalid JSON/);
+  });
+
   test('rejects bad id (0 / >999)', () => {
     assert.ok(parseScoreLines(['{"id":0,"ai_risk":5.0,"rationale_ja":"x"}'], 'legacy').errors.length > 0);
     assert.ok(parseScoreLines(['{"id":1000,"ai_risk":5.0,"rationale_ja":"x"}'], 'legacy').errors.length > 0);
