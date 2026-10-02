@@ -1073,6 +1073,8 @@ GPT-6.1 SOL takes OpenAI's seat from GPT-6 SOL under the seat rule of 2026-09-23
 | Artifacts | `.cache/scoring/mms-13-preflight/`, `.cache/scoring/mms-13-pilot/`, `.cache/scoring/mms-13-full/` |
 | Issues | mms-13.2 preflight #672, mms-13.3 pilot #673, mms-13.4 full 556 #674, mms-13.5 landing #675 |
 
+Scoring gates for this series are the recorded exception in [Scoring approval](CONSENSUS_SCORE.md#scoring-approval): on 2026-10-01 the owner delegated 13.2, 13.3, 13.4, and landing to the supervisor. That delegation does not extend to `main` promotion, Vercel writes, or a later series. Do not ask the owner to reconfirm these mms-13 gates.
+
 The owner's `~/.codex/config.toml` defaults to `gpt-6-sol` at effort `low`; a call without `--model` / `--reasoning-effort` silently scores with those. Copy the commands below; do not retype them. `provider-preflight.json` must record `"reasoning_effort_source": "cli-flag"`; `inherited-from-user-config` voids the run. Resume only with the same command plus `--resume`: a run without `--resume` truncates `raw-scores.jsonl`.
 
 Preflight (mms-13.2, not scoring). Manual probes always pass `--ephemeral` and `< /dev/null`; without `--ephemeral` the CLI hung for 180 seconds on the owner's machine, and without `< /dev/null` it waits on stdin (`Reading additional input from stdin...`). The `chronicle` and `skills context budget` error events, and the skill-name errors in stderr, are local CLI noise, not a permission failure.
@@ -1154,7 +1156,7 @@ for r in sorted(rows, key=lambda r: r['id']):
 EOF
 ```
 
-Full 556 (mms-13.4). Gate: `Supervisor FULL GO` on #673. `run_date` is the JST date when all 556 rows are complete, re-scores included. It must be later than 2026-09-23 and must not equal the run date of any other batch in `data/scores/`.
+Full 556 (mms-13.4). Gate: `Supervisor FULL GO` on #673, the recorded mms-13 exception in [Scoring approval](CONSENSUS_SCORE.md#scoring-approval). `run_date` is the JST date when all 556 rows are complete, re-scores included. It must be later than 2026-09-23 and must not equal the run date of any other batch in `data/scores/`.
 
 ```bash
 gh issue view 673 --comments --json comments --jq '.comments[].body' | grep -F 'Supervisor FULL GO'
@@ -1346,7 +1348,7 @@ Manifest field:
 
 ### Phase 4: pilot scoring
 
-Run only the pilot sample. Do not start a 556 full run before Jason review.
+Historical Issue #9 gate: run only the pilot sample. Do not start a 556 full run before the owner (Jason) review this phase required. Later series keep their own recorded gate. The standing rule is [Scoring approval](CONSENSUS_SCORE.md#scoring-approval).
 
 Failure handling:
 
@@ -1376,7 +1378,7 @@ Pilot passes only if all conditions hold:
 - no silent fallback.
 - `ai_risk === aiois.transformation` for every row.
 - drift report explains major changes.
-- Jason manually approves the pilot.
+- Jason manually approves the pilot. Historical Issue #9 owner gate. It is not a delegation, and it is not the mms-13 exception ([Scoring approval](CONSENSUS_SCORE.md#scoring-approval)).
 
 Suggested local checks:
 
