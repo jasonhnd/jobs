@@ -193,8 +193,8 @@ for (const ref of publicEnvReferenced) {
 const middleware = (() => {
   try {
     return readFile('middleware.ts');
-  } catch {
-    return null;
+  } catch (err) {
+    fail([`Cannot read required middleware.ts for server env checks (${err.code || 'read error'}).`]);
   }
 })();
 if (middleware) {
