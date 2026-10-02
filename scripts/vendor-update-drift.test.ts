@@ -7,6 +7,7 @@ import { pickFlagshipMeanScore, type ScoreHistEntry } from '../src/graph/score-s
 import type { Aiois10 } from '../src/graph/types.js';
 import {
   computeVendorUpdateDrift,
+  formatVendorUpdateSummaryLine,
   formatVendorSwappedLine,
   renderVendorUpdateMarkdown,
   resolveVendorSwap,
@@ -169,4 +170,49 @@ describe('vendor-update drift', () => {
       /vendor google is not whitelisted/,
     );
   });
+  test('reports every skipped occupation without changing successful statistics', () => {
+    const valid = panel(5, 6, 4, 8);
+    const missingProvider = [{ ...vote('gpt-5.6-sol', 'openai', '2026-07-12', 6), provider: '' }];
+    assert.throws(() => pickFlagshipMeanScore(missingProvider), /has no provider/);
+    const baseline = computeVendorUpdateDrift(new Map([[10, valid]]), INCOMING, new Map(), '2026-09-09');
+    const summary = computeVendorUpdateDrift(new Map<number, ScoreHistEntry[]>([
+      [50, missingProvider], // Score selection throws.
+      [30, []], // No comparable scores.
+      [10, valid],
+      [40, [{ ...vote('gpt-5.6-sol', 'openai', '2026-07-12', 6), backfill: true }]],
+      [20, [vote(INCOMING, 'anthropic', '2026-09-09', 8)]], // No scores before the incoming model.
+      [60, [{ ...vote('gpt-5.6-sol', 'openai', '2026-07-12', 6), aiois: undefined }]],
+    ]), INCOMING, new Map(), '2026-09-09');
+
+    assert.equal(summary.occupationCount, 1);
+    assert.deepEqual(summary.skippedOccupationIds, [20, 30, 40, 50, 60]);
+    assert.deepEqual({ ...summary, skippedOccupationIds: [] }, baseline);
+    const diagnostic = 'Skipped occupations: 5; IDs: 20, 30, 40, 50, 60.';
+    assert.ok(renderVendorUpdateMarkdown(summary).endsWith(`\n${diagnostic}\n`));
+    assert.ok(formatVendorUpdateSummaryLine(summary).endsWith(diagnostic));
+    assert.equal(
+      renderVendorUpdateMarkdown(summary).split('\nSkipped occupations:')[0],
+      renderVendorUpdateMarkdown(baseline).split('\nSkipped occupations:')[0],
+    );
+    assert.equal(
+      formatVendorUpdateSummaryLine(summary).split(' Skipped occupations:')[0],
+      formatVendorUpdateSummaryLine(baseline).split(' Skipped occupations:')[0],
+    );
+    assert.deepEqual(baseline.skippedOccupationIds, []);
+    assert.ok(renderVendorUpdateMarkdown(baseline).endsWith('\nSkipped occupations: 0; IDs: none.\n'));
+    assert.ok(formatVendorUpdateSummaryLine(baseline).endsWith('Skipped occupations: 0; IDs: none.'));
+  });
+
+  test('reports skipped IDs when no occupation can be compared', () => {
+    const summary = computeVendorUpdateDrift(new Map<number, ScoreHistEntry[]>([
+      [20, []],
+      [10, [vote(INCOMING, 'anthropic', '2026-09-09', 8)]],
+    ]), INCOMING, new Map(), '2026-09-09');
+    assert.equal(summary.occupationCount, 0);
+    assert.deepEqual(summary.skippedOccupationIds, [10, 20]);
+    const diagnostic = 'Skipped occupations: 2; IDs: 10, 20.';
+    assert.ok(renderVendorUpdateMarkdown(summary).endsWith(`\n${diagnostic}\n`));
+    assert.ok(formatVendorUpdateSummaryLine(summary).endsWith(diagnostic));
+  });
+
 });
