@@ -4,7 +4,7 @@ Canonical pins for install, build, and runtime. README’s one-line stack table 
 
 Issue-first / docs-first order: [`WORKFLOW.md`](WORKFLOW.md). Contributor commands: [`../CONTRIBUTING.md`](../CONTRIBUTING.md). Edge behaviour: [`EDGE_SECURITY.md`](EDGE_SECURITY.md). SEO snapshots: [`SEO_OG_BASELINE.md`](SEO_OG_BASELINE.md).
 
-Recorded **as of 2026-08-25** on `preview` `aa1e7e40` (PR 310 merged; alias `pre.mirai-shigoto.com` → `dpl_H6SSo3shrsTzHvMAtr8TyZwV56yz`). Re-read Vercel **Build** logs (not email) and `vercel inspect --format=json` (`lambda.runtime`, not the CLI `λ` glyph) when changing Bun, `bunVersion`, `engines.node`, or Function `runtime`.
+Historical deployment evidence recorded **as of 2026-08-25** on `preview` `aa1e7e40` (PR 310 merged; alias `pre.mirai-shigoto.com` → `dpl_H6SSo3shrsTzHvMAtr8TyZwV56yz`). Re-read Vercel **Build** logs (not email) and `vercel inspect --format=json` (`lambda.runtime`, not the CLI `λ` glyph) when changing Bun, `bunVersion`, `engines.node`, or Function `runtime`.
 
 Refreshed 2026-09-24 on preview 9b4e7197 for the 2026-09 series (#635).
 
@@ -18,7 +18,7 @@ A deploy is not one runtime. Mixing these planes is how `bunVersion` accidentall
 
 | Plane | What it is | What sets the version | What actually runs |
 | --- | --- | --- | --- |
-| **A Install** | `vercel.json` `installCommand` | Build-image Bun (`"bunVersion": "1.4.x"`), unless the command pins with `bunx bun@x.y.z` | Today: `bun install --frozen-lockfile`. **2026-09-20:** the `bunx bun@1.4.0` pin stopped working on Vercel CLI 59.23.2 — the bunx bootstrap exited 1 before `bun install` ran, on every deploy (preview `d0d945ed`, then an empty-commit retry). The build image's own Bun is 1.4.x via `bunVersion`, so the exact pin is dropped; CI still pins 1.4.0 via `setup-bun`. Must be able to read `bun.lock`. |
+| **A Install** | `vercel.json` `installCommand` | Build-image Bun (`"bunVersion": "1.4.x"`), unless the command pins with `bunx bun@x.y.z` | Today: `bun install --frozen-lockfile`. **2026-09-20:** the `bunx bun@1.4.0` pin stopped working on Vercel CLI 59.23.2 — the bunx bootstrap exited 1 before `bun install` ran, on every deploy (preview `d0d945ed`, then an empty-commit retry). The build image's own Bun is 1.4.x via `bunVersion`, so the exact pin is dropped; The current CI pin is maintained only in §2 (updated by [PR #653](https://github.com/jasonhnd/jobs/pull/653)); it is separate from this failed historical bootstrap. Must be able to read `bun.lock`. |
 | **B Build** | `buildCommand` in the same container | **No `engines.node`** (#302) so it cannot steal Function runtime from `bunVersion`. Builds stay Node **24.x** via platform default + `.nvmrc` + CI `node-version: 24.x`. | `bun run typecheck` → `bun run build` → `bun run verify:gates` → `bun run test`. **`astro build` uses the `astro` bin shebang (Node).** ETL, `bun test`, and most `scripts/*` use Bun. |
 | **C Runtime** | After the deploy is live | Not the install Bun | HTML: CDN files from `outputDirectory` `dist-astro/`. **Today (#305):** `api/og`, `api/shindan-share`, and `middleware.ts` are `runtime: "nodejs"` + `"bunVersion": "1.4.x"` (Bun 1.4). OG/share `regions: ["hnd1", "kix1"]`. Middleware uses `@vercel/functions` (`next`, `rewrite`, `waitUntil`). |
 
@@ -28,10 +28,19 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 
 ## 2. Current versions
 
-| Item | Local (this machine, 2026-08-24) | CI `quality` (`.github/workflows/ci.yml`) | Vercel |
+Current Bun targets and install commands are centralized here. Tracked CI and
+bootstrap pins were reconciled against `.github/workflows/ci.yml` and
+`.cursor/install.sh`, and the install command against `vercel.json`, on
+2026-10-02. This is configuration evidence, not a new deployment/runtime check.
+Local observations and Vercel build/runtime observations retain their dates:
+Node v24.20.0 is the earlier local record retained by the 2026-09-24 refresh,
+not a new measurement of this executor's shell. Bun 1.4.2 is the local/CI target
+from [PR #653](https://github.com/jasonhnd/jobs/pull/653).
+
+| Item | Local target / recorded observation | CI `quality` (`.github/workflows/ci.yml`) | Vercel configuration / dated observation |
 | --- | --- | --- | --- |
 | Node | **v24.20.0** (`nvm alias default` → 24). Non-interactive shells may still see Hermes **22** first via `~/.local/bin/node`. | `24.x` via `actions/setup-node` | Builds: **no `engines.node`** (#302). Node **24.x** via Vercel default ([Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)). Functions do **not** use this — they use `bunVersion`. |
-| Bun | **1.4.2** (`744846f84`) | **`bun-version: 1.4.2`** | Install Command: `bun install --frozen-lockfile` (build image 1.4.x (observed **1.4.1** on 2026-09-23); the bunx pin was dropped 2026-09-20, see §1 plane A). **`"bunVersion": "1.4.x"`**. `#303`–`#305`: `api/og`, `api/shindan-share`, **and middleware** all `lambda.runtime: "bun1.4.x"` (`edge: null`). After there are no Edge entries, the post-build pack step on `aa1e7e40` printed `bun install v1.4.0` twice (not 1.3.14). Keep lockfileVersion 1 until a dedicated Issue proves v2. |
+| Bun | **1.4.2** (`744846f84`) | **`bun-version: 1.4.2`** | Install Command: `bun install --frozen-lockfile` (build image 1.4.x (observed **1.4.1** on 2026-09-23); the bunx pin was dropped 2026-09-20, see §1 plane A). **`"bunVersion": "1.4.x"`**. `#303`–`#305`: `api/og`, `api/shindan-share`, **and middleware** all `lambda.runtime: "bun1.4.x"` (`edge: null`). Historical 2026-08-25 post-build pack step on `aa1e7e40` (after the Edge migration) printed `bun install v1.4.0` twice (not 1.3.14). Keep lockfileVersion 1 until a dedicated Issue proves v2. |
 | Astro | lockfile **7.3.5** | same lockfile | same |
 | `typescript` (JS package) | **7.0.2** (native compiler; platform binary via optional deps) | same | same |
 | typecheck binary | `typescript` **7.0.2** via `node node_modules/typescript/bin/tsc --noEmit` (the `@typescript/native` alias was removed in #635 order 8) | same | same (`bun run typecheck` in `buildCommand`) |
@@ -46,7 +55,7 @@ This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: d
 
 overrides.sharp ^0.35.4 (GHSA-rgj7-g3m4-5g8c; astro and @vercel/og only declare sharp as optional ^0.35).
 
-`bun.lock` today: **`lockfileVersion: 1`**. CI pins Bun **1.4.0**; Vercel installs with the build-image Bun selected by bunVersion 1.4.x (1.4 can read v1). A v2 lockfile previously broke a preview while Edge packing still ran `bun install v1.3.14`. After #305 there are no Edge entries; `aa1e7e40` packed with **1.4.0**. Still do not migrate to v2 without a dedicated Issue.
+`bun.lock` today: **`lockfileVersion: 1`**. Current CI and Vercel install selection are in the §2 table above (Bun 1.4 can read v1). A v2 lockfile previously broke a preview while Edge packing still ran `bun install v1.3.14`. Historical 2026-08-25 evidence after #305: `aa1e7e40` had no Edge entries and packed with **1.4.0**. Still do not migrate to v2 without a dedicated Issue.
 
 `.nvmrc` contains `24`. Use that locally before Astro compiler work. `astro build` is Node. Do **not** put `engines.node` back after §9.1 — Vercel treats it as winning over `bunVersion` for Function runtime.
 
@@ -136,8 +145,8 @@ Occupation bodies are mostly `src/templates/` SafeHtml injected from `[...id].as
 
 ## 7. Known drift (record here; do not “fix” in a docs-only PR)
 
-1. **Local Node is 24.20.0** (`nvm alias default 24`). Hermes 22 remains at `~/.hermes/node/bin/node` for its CLI shims. Do not jump **Node 26**.
-2. **CI / local Bun 1.4.0**; Vercel installCommand is plain `bun install` (build-image Bun 1.4.x); **`bunVersion`: `1.4.x`**. `#302` removed `engines.node`. `#303`–`#305` moved `api/og`, `api/shindan-share`, and middleware to `runtime: "nodejs"` (Bun 1.4). OG/share use named `GET`. Middleware keeps the Routing Middleware default export. `bun.lock` stays **lockfileVersion 1**.
+1. **Historical local Node observation: 24.20.0** (`nvm alias default 24`, retained in the 2026-09-24 refresh; not remeasured here). Hermes 22 remains at `~/.hermes/node/bin/node` for its CLI shims. Do not jump **Node 26**.
+2. **Current Bun local/CI target and Vercel install/runtime selection: see §2.** The install command is `bun install --frozen-lockfile`, not a non-frozen install. `#302` removed `engines.node`. `#303`–`#305` moved `api/og`, `api/shindan-share`, and middleware to `runtime: "nodejs"` (Bun 1.4). OG/share use named `GET`. Middleware keeps the Routing Middleware default export. `bun.lock` stays **lockfileVersion 1**.
 3. **No Edge entries** on preview after #305. The Edge gzip cap is unused. OG on Bun is ~18 MB uncompressed (not an Edge gzip budget).
 
 ---
@@ -260,7 +269,7 @@ code it bootstraps: a branch that moves the Bun pin carries its own environment.
 | Item | Where | Value |
 | --- | --- | --- |
 | Config | `.cursor/environment.json` | `install` only. No `start`, no `terminals`, no Dockerfile — nothing here needs a live service. |
-| Bootstrap | `.cursor/install.sh` | Node `.nvmrc` major via nvm, Bun **1.4.2**, `bun install --frozen-lockfile`, Chromium (best effort). Idempotent. |
+| Bootstrap | `.cursor/install.sh` | Node `.nvmrc` major via nvm, Bun target from [§2](#2-current-versions), `bun install --frozen-lockfile`, Chromium (best effort). Idempotent. |
 | Ignore rule | `.gitignore` | `.cursor/*` with `!environment.json` and `!install.sh`. The rest of `.cursor/` stays per-machine LLM-tool state. |
 
 `install` runs after checkout, and once into the baseline snapshot when
