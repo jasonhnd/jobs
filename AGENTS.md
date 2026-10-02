@@ -138,8 +138,9 @@ git diff --exit-code
   With an ID present the build emits tracker blocks, which changes the CSP
   hashes written into `vercel.json` and sends local test traffic to
   production analytics.
-- Playwright uses port 4321 (fixed in `playwright.config.ts`); do not run two
-  suites on the same machine at the same time.
+- Playwright defaults to port 4321. For parallel workspaces, use
+  `PLAYWRIGHT_PORT=<available port>` with a distinct port for each suite; never
+  reuse another workspace's server. An explicit override disables server reuse.
 - CI (`quality`) runs this acceptance chain on Ubuntu, including the
   Chromium installation and the Playwright suite.
 
