@@ -45,7 +45,7 @@ const MARK_COLORS = ['#FFD84D', '#FF8A3D', '#80C0FF', '#00B04B'] as const;
 export const FRAME_SUBSET = `${BADGE_TEXT} ${SITE_MARK} ${FOOTER_LEFT} ${FOOTER_RIGHT}`;
 
 /** 2×2 treemap tile mark — brand echo of the site favicon. */
-export function treemapMark(size = 28): ReactElement {
+function treemapMark(size = 28): ReactElement {
   return h(
     'div',
     {

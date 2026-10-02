@@ -12,7 +12,7 @@ import {
   HAID_SPEC_DATE, HAID_SPEC_VERSION, HAID_TERMS, HAID_WINDOW_JA,
 } from '../../site/haid-spec.js';
 
-export function buildHaidSpecPayload() {
+function buildHaidSpecPayload() {
   return {
     schema_version: '1.0.0',
     standard: 'HAID',

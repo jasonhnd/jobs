@@ -83,7 +83,7 @@ import {
 } from '../../graph/sector-resolver.js';
 import {
   pickLatestScore,
-  pickFlagshipMeanScore,
+  tryPickFlagshipMeanScore,
   toFlagshipCanonicalScoreEntry,
   type ScoreHistEntry,
   type FlagshipMeanScore,
@@ -215,12 +215,12 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
   const canonicalScoreByOcc = new Map<number, ScoreHistEntry>();
   for (const [occId, hist] of historyByOcc) {
     latestScoreByOcc.set(occId, pickLatestScore(hist));
-    try {
-      const flagship = pickFlagshipMeanScore(hist);
+    // No comparable AIOIS-10 vote: leave this occupation off the canonical map.
+    // A missing provider throws; that is corrupt data, not an unscored occupation.
+    const flagship = tryPickFlagshipMeanScore(hist);
+    if (flagship) {
       flagshipByOcc.set(occId, flagship);
       canonicalScoreByOcc.set(occId, toFlagshipCanonicalScoreEntry(flagship));
-    } catch {
-      // Occupations with no comparable AIOIS-10 votes stay off the canonical map.
     }
   }
 
