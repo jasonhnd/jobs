@@ -55,6 +55,9 @@ import {
   renderHubJsonLd,
   renderHomeMovers,
   renderRankingsMovers,
+  renderRankingsHubGroups,
+  renderRankingsHubStats,
+  renderInsightCards,
 } from './Ranking.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import type { Occupation } from '../views/ranking.js';
@@ -472,5 +475,138 @@ describe('renderHubJsonLd', () => {
     const got = JSON.parse(renderHubJsonLd());
     const types = (got['@graph'] as Array<{ '@type': string }>).map((x) => x['@type']);
     assert.deepEqual(types.sort(), ['BreadcrumbList', 'WebPage']);
+  });
+});
+
+describe('renderRankingsHubGroups', () => {
+  test('empty groups render nothing', () => {
+    assert.equal(renderRankingsHubGroups([]), '');
+  });
+
+  test('known chip keys and an unknown key both anchor a section', () => {
+    const html = renderRankingsHubGroups([
+      {
+        key: 'basic',
+        label_ja: 'Full basic',
+        lede_ja: 'Lede & L',
+        cards: [
+          { slug: 'salary', name: 'N <1>', desc: 'D & D', preview: 'P <1>', count: 12 },
+          { slug: 'workers', name: 'W', desc: 'E', preview: null, count: 3 },
+        ],
+      },
+      {
+        key: 'custom',
+        label_ja: 'FallbackLabel',
+        lede_ja: 'Other',
+        cards: [],
+      },
+    ]);
+    assert.match(html, /class="ranking-anchor-nav"/);
+    assert.match(html, /href="#grp-basic" class="ra-chip" data-target="basic"/);
+    assert.match(html, /data-target="custom"/);
+    assert.match(html, />FallbackLabel </);
+    assert.match(html, /id="grp-basic" data-group="basic"/);
+    assert.match(html, /class="ranking-group-lede">Lede &amp; L</);
+    assert.match(html, /href="\/rankings\/salary"/);
+    assert.match(html, /class="rr-title">N &lt;1&gt;</);
+    assert.match(html, /class="rr-preview">P &lt;1&gt;</);
+    assert.match(html, /class="rr-count">12 /);
+    assert.equal((html.match(/class="rr-preview"/g) ?? []).length, 1);
+    assert.match(html, /id="grp-custom"/);
+    assert.match(html, /<ul class="ranking-cards"><\/ul>/);
+  });
+});
+
+describe('renderRankingsHubStats', () => {
+  test('empty stats render nothing', () => {
+    assert.equal(renderRankingsHubStats([]), '');
+  });
+
+  test('escapes labels and values inside a stats list', () => {
+    const html = renderRankingsHubStats([['A & B', '<1>']]);
+    assert.match(html, /<dl class="stats">/);
+    assert.match(html, /<dt>A &amp; B<\/dt><dd>&lt;1&gt;<\/dd>/);
+  });
+});
+
+describe('renderHomeMovers date fallback', () => {
+  test('a non-month candidate date omits the month suffix and keeps three rows', () => {
+    const row = (id: number) => ({
+      id,
+      name: `Job ${id}`,
+      base: 1,
+      current: 2,
+      delta: id === 2 ? -0.5 : 0.5,
+      familyCode: 'FAM',
+    });
+    const html = renderHomeMovers({
+      meta: {
+        baseline: { model: 'a', date: '2026-06-13', scoreCount: 4 },
+        candidate: { model: 'b', date: 'not-a-date', scoreCount: 4 },
+        comparedCount: 4,
+      },
+      transformation: { up: [row(1), row(2), row(3), row(4)], down: [row(2)] },
+      displacement: { up: [], down: [] },
+    });
+    assert.match(html, /class="home-movers"/);
+    assert.equal(html.includes('スコア改定'), false);
+    assert.match(html, /href="\/1"/);
+    assert.match(html, /href="\/3"/);
+    assert.equal(html.includes('href="/4"'), false);
+    assert.match(html, /class="up">\+0\.5</);
+    assert.match(html, /class="down">-0\.5</);
+    assert.match(html, /class="up">-0\.5</);
+  });
+});
+
+describe('renderRankingsMovers family code', () => {
+  test('writes the family code onto the mover row', () => {
+    const html = renderRankingsMovers({
+      meta: {
+        baseline: { model: 'a & b', date: '2026-06-13', scoreCount: 1 },
+        candidate: { model: 'c', date: '2026-07-26', scoreCount: 1 },
+        comparedCount: 1,
+      },
+      transformation: {
+        up: [{ id: 5, name: 'Up <1>', base: 1.26, current: 2, delta: 0, familyCode: 'FAM' }],
+        down: [],
+      },
+      displacement: { up: [], down: [] },
+    });
+    assert.match(html, /class="movers-section"/);
+    assert.match(html, /data-family-code="FAM"/);
+    assert.match(html, /class="mover-name" href="\/5">Up &lt;1&gt;</);
+    assert.match(html, /class="mover-delta up">\+0\.0</);
+    assert.match(html, /class="mover-values">1\.3 → 2\.0</);
+    assert.match(html, /a &amp; b/);
+  });
+});
+
+describe('renderInsightCards', () => {
+  test('empty insights render nothing', () => {
+    assert.equal(renderInsightCards([]), '');
+  });
+
+  test('builds at most five cards and covers headline shapes', () => {
+    const longPlain = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const html = renderInsightCards([
+      'Short',
+      longPlain,
+      '<strong>Term</strong>',
+      '<strong>A &amp; B</strong> trailing words here',
+      '<strong>Only</strong>',
+      'sixth card should be dropped',
+    ]);
+    assert.match(html, /class="insights-section"/);
+    assert.match(html, /class="insight-cards"/);
+    assert.equal((html.match(/class="insight-card"/g) ?? []).length, 5);
+    assert.equal(html.includes('sixth card'), false);
+    assert.match(html, /class="ic-headline">Short</);
+    assert.match(html, /class="ic-headline">abcdefghijklmnopqrst…</);
+    assert.match(html, /class="ic-headline">Term</);
+    assert.match(html, /class="ic-body">abcdefghijklmnopqrstuvwxyz0123456789</);
+    assert.match(html, /data-share-text="/);
+    assert.match(html, /class="ic-share"/);
+    assert.match(html, /<svg viewBox="0 0 24 24"/);
   });
 });
