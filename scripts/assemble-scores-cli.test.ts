@@ -1,7 +1,8 @@
-// CLI coverage for assemble-scores.ts.
-// The main block runs only when this module is the process entry. Loading it
-// once, with Bun.main set, records that path on the module the rest of the
-// suite imports. Other cases are subprocesses so they cannot write under data/.
+// CLI checks for assemble-scores.ts.
+// The entry block runs only when this file is the process entry. Importing it
+// from a test is a no-op once any earlier file has loaded the module, and
+// Bun's file order differs between macOS and Linux. Every case therefore
+// runs in its own subprocess. Outputs stay under a temp directory.
 import { after, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { spawnSync } from 'node:child_process';
@@ -51,49 +52,6 @@ writeFileSync(
   'utf8',
 );
 
-const origArgv = process.argv.slice();
-const origMain = Bun.main;
-const origExit = process.exit;
-Bun.main = SCRIPT;
-process.argv = [
-  process.execPath,
-  SCRIPT,
-  '--mode', 'aiois',
-  '--model', 'gpt-job0064cov',
-  '--date', '2026-10-02',
-  '--prompt-version', 'test',
-  '--prompt-file', 'data/prompts/prompt.ja.md',
-  '--in', aioisIn,
-  '--out', aioisOut,
-  '--anchors', anchors,
-  '--caveat', caveat,
-  '--backfill', 'true',
-];
-// A failing entry calls process.exit. Throw instead so the runner can report it.
-process.exit = ((code?: number) => {
-  throw new Error(`assemble-scores entry called process.exit(${code ?? 0})`);
-}) as typeof process.exit;
-const entryLogs: string[] = [];
-const origLog = console.log;
-const origErr = console.error;
-const origWarn = console.warn;
-const record = (...parts: unknown[]) => {
-  entryLogs.push(parts.map((part) => String(part)).join(' '));
-};
-console.log = record;
-console.error = record;
-console.warn = record;
-try {
-  await import(SCRIPT);
-} finally {
-  console.log = origLog;
-  console.error = origErr;
-  console.warn = origWarn;
-  process.exit = origExit;
-  Bun.main = origMain;
-  process.argv = origArgv;
-}
-
 after(() => {
   rmSync(root, { recursive: true, force: true });
 });
@@ -112,9 +70,22 @@ function runCli(args: readonly string[]): { status: number | null; stdout: strin
   return { status: result.status, stdout: result.stdout, stderr: result.stderr };
 }
 
-test('in-process entry writes an append-only batch under the temp directory', () => {
-  assert.match(entryLogs.join('\n'), /OK →/);
-  assert.match(entryLogs.join('\n'), /backfill batch/);
+test('subprocess entry writes an append-only batch under the temp directory', { timeout: 60_000 }, () => {
+  const run = runCli([
+    '--mode', 'aiois',
+    '--model', 'gpt-job0064cov',
+    '--date', '2026-10-02',
+    '--prompt-version', 'test',
+    '--prompt-file', 'data/prompts/prompt.ja.md',
+    '--in', aioisIn,
+    '--out', aioisOut,
+    '--anchors', anchors,
+    '--caveat', caveat,
+    '--backfill', 'true',
+  ]);
+  assert.equal(run.status, 0, run.stderr);
+  assert.match(run.stdout, /OK →/);
+  assert.match(run.stdout, /backfill batch/);
   assert.equal(existsSync(aioisOut), true);
   const batch = ScoreRunSchema.parse(JSON.parse(readFileSync(aioisOut, 'utf8')));
   assert.equal(batch.run.backfill, true);
