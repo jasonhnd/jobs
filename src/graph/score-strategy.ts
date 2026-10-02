@@ -381,6 +381,25 @@ export function pickFlagshipMeanScore(history: readonly ScoreHistEntry[]): Flags
   };
 }
 
+/**
+ * Same selection as {@link pickFlagshipMeanScore}, except the two "nothing to
+ * score" cases return null: an empty history, and a history with no comparable
+ * AIOIS-10 votes (`aiois == null`, or only `backfill` entries).
+ *
+ * Those two predicates are copied from the throws at the top of
+ * `pickFlagshipMeanScore` and must stay in lockstep with it. The wrapper does
+ * not match on error text. Every other failure — including a comparable entry
+ * with no provider — propagates. `pickFlagshipMeanScore` itself is unchanged.
+ */
+export function tryPickFlagshipMeanScore(
+  history: readonly ScoreHistEntry[],
+): FlagshipMeanScore | null {
+  if (history.length === 0) return null;
+  const comparable = history.filter((e) => e.aiois != null && e.backfill !== true);
+  if (comparable.length === 0) return null;
+  return pickFlagshipMeanScore(history);
+}
+
 /** Flatten into the ScoreHistEntry shape projections consume (same contract as toCanonicalScoreEntry). */
 export function toFlagshipCanonicalScoreEntry(c: FlagshipMeanScore): ScoreHistEntry {
   return {
