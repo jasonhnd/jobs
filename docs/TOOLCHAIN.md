@@ -48,7 +48,7 @@ from [PR #653](https://github.com/jasonhnd/jobs/pull/653).
 | `@vercel/functions` | **3.9.9** | same | `middleware.ts` (`next`, `rewrite`, `waitUntil`). `@vercel/edge` removed. |
 | React | **19.3.0** (`@types/react` **19.3.0**; OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Bun 1.4 bundle |
 | Playwright / axe | **1.63.0** / **4.13.0** (exact pins, no `^`; Chromium 153) | **executed** since design-1.20 (f05ba940, 2026-09-17): bun x playwright install --with-deps chromium, then bun x playwright test --reporter=line | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
-| `api/og` Function | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **18,051,748** bytes, `[hnd1, kix1]`. Named `GET`. (Issue 287 Edge was 855.83 KB.) CLI inspect may still draw `λ` — that glyph is not proof of Edge; read `lambda.runtime`. |
+| `api/og` Function | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **18,051,748** bytes, `[hnd1, kix1]`. Named `GET`. (Issue 287 Edge was 855.83 KB.) CLI inspect may still draw `λ` — that glyph is not proof of Edge; read `builds[].output[].lambda.runtime` and `edge` in deployment JSON. |
 | `api/shindan-share` | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **373,416** bytes, `[hnd1, kix1]`. Named `GET`. |
 | middleware | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **57,461** bytes, `[iad1, hnd1]`. Default export + `@vercel/functions`. |
 | Vercel plan Edge gzip limit | — | — | Unused while there are **no** Edge entries. Historical: Hobby 1MB / Pro 2MB / Enterprise 4MB. |
@@ -160,7 +160,7 @@ vercel inspect <deployment-url>    # Function sizes under Builds
 
 Install Bun string: deployment **Build** log → search `bun install v`. Dashboard: Project → Deployments → open a **preview** → Building → Install.
 
-Do not invent a Bun version from `bunVersion` docs (`1.x` = 1.3.14 is the **Function** default, not proof of Install). Do not treat a green `Vercel` check as proof of runtime: grep the Build log for the `engines.node` / `bunVersion` warning, and read `vercel inspect --format=json` → `builds[].output[].lambda.runtime` (`bun1.4.x` vs `nodejs24.x`). The CLI `λ` glyph is **not** “Edge”.
+Do not invent a Bun version from `bunVersion` docs (`1.x` = 1.3.14 is the **Function** default, not proof of Install). Do not treat a green `Vercel` check as proof of runtime: grep the Build log for the `engines.node` / `bunVersion` warning, and read `vercel inspect --format=json` → `builds[].output[].lambda.runtime` (`bun1.4.x` vs `nodejs24.x`) and the corresponding `edge` field (`null` for the recorded Bun Functions). The CLI `λ` glyph does not distinguish Edge from Bun/Node. Tracked `runtime: "nodejs"` + `bunVersion` is intended configuration; deployment JSON is runtime evidence for that specific deployment. No live deployment was inspected in this reconciliation.
 
 ---
 
@@ -177,7 +177,7 @@ Two independent blockers. Fixing only one still left Functions off Bun. Both are
 | Blocker | What it is | Evidence | Required change |
 | --- | --- | --- | --- |
 | **1. `engines.node` wins** | `package.json` `"engines": { "node": "24.x" }` plus `vercel.json` `"bunVersion"` → Vercel uses **Node** for the non-Edge runtime choice. | PR 299 Build log, four times: `Warning detected "engines": { "node": ... } in package.json and "bunVersion" in vercel.json. package.json takes precedence, using "node".` | **Remove** `engines.node`. Keep Node 24 for **Builds** via `.nvmrc` `24`, CI `node-version: 24.x`, and Vercel’s default Node **24.x**. Do not jump Node 26. Do not put `engines.node` back. |
-| **2. Edge excludes the flag** | [vercel.json `bunVersion`](https://vercel.com/docs/project-configuration/vercel-json#bunversion): the flag applies to Functions and Routing Middleware **not** using Edge. | `api/og.tsx` and `api/shindan-share.ts` export `runtime: "edge"`. `middleware.ts` has no `runtime` (platform default **edge**) and imports `next` / `rewrite` from `@vercel/edge`. Inspect: `λ api/og … [hnd1, kix1]`. | Set each entry `runtime: "nodejs"`. Middleware also needs that key ([Routing Middleware API](https://vercel.com/docs/routing-middleware/api)). Replace `@vercel/edge` with `@vercel/functions`. |
+| **2. Edge excludes the flag** | [vercel.json `bunVersion`](https://vercel.com/docs/project-configuration/vercel-json#bunversion): the flag applies to Functions and Routing Middleware **not** using Edge. | `api/og.tsx` and `api/shindan-share.ts` export `runtime: "edge"`. `middleware.ts` has no `runtime` (platform default **edge**) and imports `next` / `rewrite` from `@vercel/edge`. Historical PR 299 inspect JSON identified Edge; the displayed `λ api/og … [hnd1, kix1]` line alone does not identify runtime. | Set each entry `runtime: "nodejs"`. Middleware also needs that key ([Routing Middleware API](https://vercel.com/docs/routing-middleware/api)). Replace `@vercel/edge` with `@vercel/functions`. |
 
 `engines.node` existed only to pin Builds to Node 24. Vercel’s current default **is already 24.x**, CI already pins 24.x, `.nvmrc` is `24`, and `astro` still uses the Node shebang. Removing the key does **not** move `astro build` onto Bun. Do not put it back.
 
@@ -190,10 +190,10 @@ One Issue → one PR → `preview` (`quality` + `Vercel`) → next. Do not combi
 | Order | Kind | Issue | Target | Failure domain |
 | --- | --- | --- | --- | --- |
 | 0 | docs | [#301](https://github.com/jasonhnd/jobs/issues/301) | This section + CHANGELOG / CONTRIBUTING / EDGE_SECURITY honesty that PR 299 is a no-op | Words only. Must not claim Functions already run on Bun 1.4. |
-| 1 | code | [#302](https://github.com/jasonhnd/jobs/issues/302) | Remove `package.json` `engines.node`. Keep `.nvmrc` 24 + CI 24.x. Keep `"bunVersion": "1.4.x"`. | Build-log warning gone. Functions **still Edge** this step — inspect still `λ`. |
+| 1 | code | [#302](https://github.com/jasonhnd/jobs/issues/302) | Remove `package.json` `engines.node`. Keep `.nvmrc` 24 + CI 24.x. Keep `"bunVersion": "1.4.x"`. | Build-log warning gone. Functions **still Edge** at this historical step — verify the deployment JSON runtime/edge fields, not the glyph. |
 | 2 | code | [#303](https://github.com/jasonhnd/jobs/issues/303) | `api/og.tsx` `runtime: "edge"` → `"nodejs"`. Keep `regions: ["hnd1", "kix1"]`. Keep `loadGoogleFont` (do **not** start bundling TTF / `fs` just because Node has `fs`). | OG boot + PNG oracle vs production. First Function that can actually run on Bun 1.4. |
 | 3 | code | [#304](https://github.com/jasonhnd/jobs/issues/304) | `api/shindan-share.ts` `runtime: "edge"` → `"nodejs"`. Keep regions. Product HTML/rewrite behaviour unchanged. | Share HTML still 200; unfurlers still get OG metadata. |
-| 4 | code | [#305](https://github.com/jasonhnd/jobs/issues/305) | `middleware.ts`: `config.runtime: "nodejs"`; replace `@vercel/edge` (`next`, `rewrite`, `RequestContext`) with `@vercel/functions`; drop `@vercel/edge` if unused. Update `scripts/check-architecture.cjs` so **zero Edge entries is success** (today it fails closed when discovery finds none). Matcher, 301s, share rewrites, `page_delivery` / `waitUntil` stay. | Middleware still fires MP; occupation/`/me` routing still 301/rewrite. Inspect must not show `λ` for these three. |
+| 4 | code | [#305](https://github.com/jasonhnd/jobs/issues/305) | `middleware.ts`: `config.runtime: "nodejs"`; replace `@vercel/edge` (`next`, `rewrite`, `RequestContext`) with `@vercel/functions`; drop `@vercel/edge` if unused. Update `scripts/check-architecture.cjs` so **zero Edge entries is success** (today it fails closed when discovery finds none). Matcher, 301s, share rewrites, `page_delivery` / `waitUntil` stay. | Middleware still fires MP; occupation/`/me` routing still 301/rewrite. Inspect JSON must show `lambda.runtime: "bun1.4.x"` and `edge: null` for these three. |
 
 Order is mandatory: if order 2–4 run while `engines.node` is still present, Vercel will run those Functions on **Node**, not Bun 1.4.
 
@@ -239,12 +239,14 @@ Order is mandatory: if order 2–4 run while `engines.node` is still present, Ve
 
 ### 9.5 What “green” means for this series
 
+Historical migration acceptance (2026-08-25). Runtime criteria use deployment JSON, not the CLI glyph; sizes and dated observations remain in §2. This checklist does not assert a newly verified live runtime.
+
 | Check | Order 1 | Order 2–4 |
 | --- | --- | --- |
 | GitHub `quality` | green | green |
 | GitHub `Vercel` | green | green |
 | Build log `engines.node` / `bunVersion` warning | **Absent**. Paste grep. | Still absent. |
-| `vercel inspect` Function lines | Still `λ` Edge for all three (expected). | The Function(s) this PR moved must **not** be `λ`. Paste the new line + size. |
+| Deployment JSON `builds[].output[]` runtime evidence | All three remain Edge at this historical step; paste their `lambda.runtime` / `edge` fields. | Each moved Function must have `lambda.runtime: "bun1.4.x"`, `edge: null`; paste those fields plus size and deployment identifier/date. The CLI glyph is not an acceptance criterion. |
 | Preview `/api/og` | unchanged Edge PNG | 200 `image/png`; oracle vs production |
 | Preview share + middleware | unchanged | 301/rewrite + HTML 200 as today |
 | `bun.lock` `lockfileVersion` | **1** | **1** |
