@@ -78,8 +78,8 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-f
 .doc-prose{max-width:74ch}
 
 /* ── Breadcrumb ── */
-nav.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
-nav.crumb a{color:var(--fg2);text-decoration:none}
+nav.crumb{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+nav.crumb a{color:var(--ink-meta);text-decoration:none}
 nav.crumb a:hover{color:var(--orange-hot);text-decoration:underline}
 nav.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
