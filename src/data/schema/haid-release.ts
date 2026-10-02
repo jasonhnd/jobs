@@ -127,7 +127,7 @@ export const HaidMethodSchema = z.enum(['single', 'max_single', 'sum_minus_overl
 export type HaidMethod = z.infer<typeof HaidMethodSchema>;
 
 /** Which certainty each method yields. `single` may be measured or residual. */
-export const METHOD_CERTAINTY: Readonly<Record<HaidMethod, readonly HaidReleaseCertainty[]>> = {
+const METHOD_CERTAINTY: Readonly<Record<HaidMethod, readonly HaidReleaseCertainty[]>> = {
   single: ['measured', 'residual'],
   max_single: ['lower_bound'],
   sum_minus_overlap: ['range'],

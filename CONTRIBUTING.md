@@ -13,23 +13,32 @@ Issue と Pull Request を歓迎します。非自明な変更は、実装前に
 
 ## 必須検証
 
+PR を開く前に、リポジトリルートで [`AGENTS.md`](AGENTS.md) の Acceptance commands と同一のチェーンを実行する。短い部分集合では受け入れない。
+
 ```bash
+export PUBLIC_GA4_MEASUREMENT_ID='' PUBLIC_X_PIXEL_ID='' PUBLIC_META_PIXEL_ID=''
+export PUBLIC_CF_BEACON_TOKEN='' PUBLIC_GOOGLE_ADS_ID=''
 bun install --frozen-lockfile
-bun run test
+bun run test          # read the "N pass" / "N fail" lines, not only the last line
 bun run typecheck
 bun run build
+REQUIRE_BUILT_ARTIFACTS=1 bun test scripts/home-css-loading.test.ts src/site/models-built.test.ts
 bun run verify:gates
+bun x playwright install --with-deps chromium   # the browser binary is not a package dependency
+bun x playwright test --reporter=line           # the CI "rendered-output checks" step
 git diff --exit-code
 ```
 
-`bun run test` は clean checkout でも projection fixture を利用できるよう、最初に `build:data` を実行します。`bun run build` は CSP hash などの tracked configuration を更新することがあります。最後の `git diff --exit-code` が失敗した場合は、生成差分が意図した変更か確認し、必要なファイルを同じ PR に含めてください。
+五つの `PUBLIC_*` は空文字で上書きする。unset では足りない。`.env*`（例: `.env.local`）が本番の tracker ID を供給し、ビルドがトラッカーブロックを出して `vercel.json` の CSP hash を変え、ローカルのテスト流量を本番 analytics に送る。本番 HTML や実プレビューから ID を拾って埋めない。
 
-文書のみの変更でも `bun run check:docs-links` を実行します。SEO baseline が変わる変更は [`docs/SEO_OG_BASELINE.md`](docs/SEO_OG_BASELINE.md) に従ってください。
+空の GA4 markup でビルドした CI と上のチェーンでは、analytics specs（`tests/e2e/analytics.spec.ts`）は自分で skip する。analytics の専用確認（`bun run test:e2e` / `scripts/run-e2e.sh`）は隔離した仮想 GA4 ID（`PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000`）だけで markup を出し、残りの四つ（`PUBLIC_X_PIXEL_ID`、`PUBLIC_META_PIXEL_ID`、`PUBLIC_CF_BEACON_TOKEN`、`PUBLIC_GOOGLE_ADS_ID`）は空のままにする。本番 ID は使わない。
+
+`bun run test` は clean checkout でも projection fixture を利用できるよう、最初に `build:data` を実行します。`bun run build` は CSP hash などの tracked configuration を更新することがあります。最後の `git diff --exit-code` が失敗した場合は、生成差分が意図した変更か確認し、必要なファイルを同じ PR に含めてください。文書のみの変更でも `bun run check:docs-links` を実行します。Playwright は port 4321（`playwright.config.ts`）を使う。同じマシンで二つの suite を同時に走らせない。SEO baseline が変わる変更は [`docs/SEO_OG_BASELINE.md`](docs/SEO_OG_BASELINE.md) に従ってください。
 
 ## 変更時の注意
 
 - 公開 UI は日本語を正本とし、repository content は英語または日本語で記述する。
-- UI・CSS・markup に触れる変更は [`docs/Design.md`](docs/Design.md)（Design v1.0）を正典とする。実装前に §0 早見カードを読む。`font-size` / `color` / `padding` / `border-radius` / `z-index` に生の値を書かず、トークンを `var()` で参照する。段・役割・トークンを増やす場合は先に `docs/Design.md` を更新し、版の変更はオーナー承認を得る（§19.4 / §20）。surface ごとの移行状況と完了チェックリストは [`docs/DESIGN_CONFORMANCE.md`](docs/DESIGN_CONFORMANCE.md) にあり、移行 PR では同じ PR で台帳の行を更新する。
+- UI・CSS・markup に触れる変更は [`docs/Design.md`](docs/Design.md)（Design v1.2）を正典とする。実装前に §0 早見カードを読む。`font-size` / `color` / `padding` / `border-radius` / `z-index` に生の値を書かず、トークンを `var()` で参照する。段・役割・トークンを増やす場合は先に `docs/Design.md` を更新し、版の変更はオーナー承認を得る（§19.4 / §20）。surface ごとの移行状況と完了チェックリストは [`docs/DESIGN_CONFORMANCE.md`](docs/DESIGN_CONFORMANCE.md) にあり、移行 PR では同じ PR で台帳の行を更新する。
 - score batch は append-only とし、既存 run を上書きしない。
 - URL、数値、SEO、Edge API は既存の canonical helper と schema を再利用する。
 - secret、生成済み `dist-astro/`、個人用設定を commit しない。

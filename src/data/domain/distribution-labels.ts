@@ -43,15 +43,6 @@ export const EMP_LABELS_EN_TO_JA: Record<string, string> = {
   other: 'その他',
 };
 
-/**
- * Reverse-lookup: JA label → EN key. Useful for ranking filters that
- * receive a JA key string from the projection layer and need to
- * locate the original IPD field.
- */
-export const EDU_LABELS_JA_TO_EN: Record<string, string> = Object.fromEntries(
-  Object.entries(EDU_LABELS_EN_TO_JA).map(([en, ja]) => [ja, en]),
-);
-
 export const EMP_LABELS_JA_TO_EN: Record<string, string> = Object.fromEntries(
   Object.entries(EMP_LABELS_EN_TO_JA).map(([en, ja]) => [ja, en]),
 );
