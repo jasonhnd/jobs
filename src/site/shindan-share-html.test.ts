@@ -3,6 +3,7 @@ import { describe, test } from 'node:test';
 
 import { renderShindanShareResponse } from '../../api/shindan-share.js';
 import { shindanShareRewriteTarget } from '../lib/shindan-share-route.js';
+import { renderShindanShareHtml } from './shindan-share-html.js';
 import { FAMILY_CODES } from './worktype-copy.js';
 
 const BASE_HTML = `<!doctype html><html><head>
@@ -51,7 +52,111 @@ const fetchFixture: typeof fetch = async (input) => {
   return new Response('not found', { status: 404 });
 };
 
+const HOSTILE_TEXT = '\"><script>alert("share")</script>&amp;\'データ職業';
+const ESCAPED_TEXT = '&quot;&gt;&lt;script&gt;alert(&quot;share&quot;)&lt;/script&gt;&amp;amp;\'データ職業';
+
+describe('shindan share metadata escaping', () => {
+  for (const [mode, baseHtml] of [
+    ['replace', BASE_HTML],
+    ['insert', '<!doctype html><html><head><title>Generic diagnostic</title></head><body>diagnostic shell</body></html>'],
+  ] as const) {
+    test(`${mode} escapes every metadata field without changing its text`, () => {
+      const html = renderShindanShareHtml(baseHtml, {
+        title: `Title ${HOSTILE_TEXT}`,
+        description: `Description ${HOSTILE_TEXT}`,
+        url: `https://example.test/shindan?value=${HOSTILE_TEXT}`,
+        image: `https://example.test/api/og?value=${HOSTILE_TEXT}`,
+      });
+
+      assert.ok(html.includes(`<title>Title ${ESCAPED_TEXT}</title>`));
+      for (const [attribute, key, value] of [
+        ['name', 'description', `Description ${ESCAPED_TEXT}`],
+        ['property', 'og:title', `Title ${ESCAPED_TEXT}`],
+        ['property', 'og:description', `Description ${ESCAPED_TEXT}`],
+        ['property', 'og:url', `https://example.test/shindan?value=${ESCAPED_TEXT}`],
+        ['property', 'og:image', `https://example.test/api/og?value=${ESCAPED_TEXT}`],
+        ['name', 'twitter:title', `Title ${ESCAPED_TEXT}`],
+        ['name', 'twitter:description', `Description ${ESCAPED_TEXT}`],
+        ['name', 'twitter:image', `https://example.test/api/og?value=${ESCAPED_TEXT}`],
+      ]) {
+        const tag = `<meta ${attribute}="${key}" content="${value}">`;
+        assert.ok(html.includes(tag), key);
+        assert.equal(html.match(new RegExp(`<meta ${attribute}="${key}"`, 'g'))?.length, 1, key);
+      }
+      assert.ok(html.includes('<meta name="robots" content="noindex, follow">'));
+      assert.doesNotMatch(html, /<script\b/i);
+      assert.ok(html.endsWith('</head><body>diagnostic shell</body></html>'));
+    });
+  }
+});
+
 describe('crawler-rendered shindan share HTML', () => {
+  for (const parameter of ['self', 'job', 'axes'] as const) {
+    for (const placement of ['only', 'suffix'] as const) {
+      test(`rejects a script payload in ${parameter} (${placement}) with a safe fallback`, async () => {
+        const url = new URL('https://mirai-shigoto.com/shindan');
+        url.search = new URLSearchParams({
+          self: 'RPK', variant: 'mediator', axes: '3-0/2-1/2-1', job: '133',
+        }).toString();
+        url.searchParams.set(parameter, placement === 'only'
+          ? HOSTILE_TEXT
+          : `${url.searchParams.get(parameter)}${HOSTILE_TEXT}`);
+        const fetchedPaths: string[] = [];
+        const fixture: typeof fetch = async (input, init) => {
+          fetchedPaths.push(new URL(String(input)).pathname);
+          return fetchFixture(input, init);
+        };
+        const response = await renderShindanShareResponse(new Request(url), fixture);
+        const html = await response.text();
+        const fallbackUrl = new URL('https://mirai-shigoto.com/shindan');
+        if (parameter === 'job') {
+          fallbackUrl.search = 'self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1';
+        }
+        const fallback = await renderShindanShareResponse(new Request(fallbackUrl), fetchFixture);
+
+        assert.equal(response.status, 200);
+        assert.equal(response.headers.get('x-robots-tag'), 'noindex, follow');
+        assert.equal(html, await fallback.text());
+        assert.doesNotMatch(html, /<script\b/i);
+        assert.ok(!html.includes(HOSTILE_TEXT));
+        assert.ok(!html.includes(encodeURIComponent(HOSTILE_TEXT)));
+        if (parameter === 'job') {
+          assert.ok(!fetchedPaths.some((path) => path.startsWith('/data.detail/')));
+          assert.doesNotMatch(html, /(?:job|gap)=/);
+        }
+      });
+    }
+  }
+
+  test('escapes a hostile occupation title from validated detail JSON', async () => {
+    const fixture: typeof fetch = async (input, init) => {
+      if (new URL(String(input)).pathname === '/data.detail/0133.json') {
+        return Response.json({ ...DETAIL_133, title: { ja: HOSTILE_TEXT } });
+      }
+      return fetchFixture(input, init);
+    };
+    const response = await renderShindanShareResponse(new Request(
+      'https://mirai-shigoto.com/shindan?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=133',
+    ), fixture);
+    const html = await response.text();
+
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get('x-robots-tag'), 'noindex, follow');
+    assert.ok(html.includes(`<title>${ESCAPED_TEXT}`));
+    for (const [attribute, key] of [
+      ['name', 'description'],
+      ['property', 'og:title'],
+      ['property', 'og:description'],
+      ['name', 'twitter:title'],
+      ['name', 'twitter:description'],
+    ]) {
+      assert.ok(html.includes(`<meta ${attribute}="${key}" content="${ESCAPED_TEXT}`), key);
+    }
+    assert.match(html, /&amp;job=133&amp;gap=hidden_risk/);
+    assert.doesNotMatch(html, /<script\b/i);
+    assert.ok(!html.includes(HOSTILE_TEXT));
+  });
+
   test('no-JS result-plus-job request receives matching OG and Twitter images', async () => {
     const request = new Request(
       'https://mirai-shigoto.com/shindan?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=133&gap=aligned',
