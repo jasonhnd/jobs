@@ -252,6 +252,30 @@ are produced against the exact rubric + extract any other provider would have
 been sent. Contract violations are rejected per id with the failing formula
 named, and never reach the output JSONL.
 
+## Anomaly re-score
+
+`--resume` recovers a row only when that id is absent from the raw JSONL or the line is not a parseable object with an integer `id`. `completedIdsFromJsonl` in `scripts/lib/scoring/core.ts` ignores corrupt lines and treats every other integer `id` as done. `selectPendingOccupations` applies `--ids` first, then drops those completed ids. `--resume --ids <bad>` therefore skips a row that already parsed.
+
+Two cases. Do not change `--model`, `--prompt-file`, or `--reasoning-effort` in either case. Do not edit `data/scores`.
+
+1. Missing or corrupt output. Repeat the same runner command with `--resume`. Those ids were never completed.
+2. A completed row that fails the quality gate: `aiois.transformation == 0`, or `confidence < 0.7`, or `rationale_ja` shorter than 12 characters. Remove that id from the raw JSONL before resume, or the runner will skip it.
+
+Completed-row procedure. At most two rounds. Drop only the flagged ids.
+
+```bash
+cp "$RAW" "$RAW.bak"
+BAD=<comma-separated flagged ids>
+jq -c --argjson bad "[$BAD]" 'select(.id as $i | ($bad | index($i)) | not)' "$RAW" > "$RAW.tmp" && mv "$RAW.tmp" "$RAW"
+```
+
+Then produce a replacement and resume with the same model and prompt:
+
+- `in-agent`: write the new answers under `answers/` with a file name that sorts after the earlier file. Round one is `rescored-r1a` (then `rescored-r1b` when a call holds at most 20 ids). Round two is `rescored-r2a`. `chunk-rescored-2.jsonl` sorts before `chunk-rescored.jsonl`, so a second round named `rescored-2` is overridden by the first. Resume with `--ids "$BAD"`.
+- `codex` and `grok-cli`: the runner writes the row. After the drop, repeat the same command with `--resume --ids "$BAD"`. Do not pass grok `--resume`.
+
+`aiois.transformation == 0` is never accepted. Stop and ask the owner. A row that is still below 0.7 after two rounds is kept and reported. mms-11, mms-12, and mms-13 already use this filter. The mms-8, mms-9, and Astra scans below only list hits; they do not re-score until this procedure runs.
+
 ## mms-8: Claude Fable 5.1 と GPT-6 Astra（各社旗艦の入れ替え）
 
 公開値の規則は [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md) 改訂 2（各ベンダー最新 run の算術平均）。両 batch は着地時にそれぞれのベンダーの旗艦を置き換える。旧 run は履歴。
@@ -323,8 +347,10 @@ bun scripts/run-scoring.ts \
   --resume
 wc -l .cache/scoring/mms-8f-pilot/raw-scores.jsonl     # 40
 
-# 5. anomaly scan (re-score hits with --resume --ids <bad>)
+# 5. anomaly scan (list only). A parsed hit is not retried by --resume --ids. See "Anomaly re-score".
 jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8f-pilot/raw-scores.jsonl
+#   cp the JSONL to *.bak, drop only flagged ids, write answers/rescored-r1a (round two: rescored-r2a),
+#   then the step-4 command with --ids "$BAD" --resume. At most two rounds. Same model and prompt.
 
 # 6. assemble pilot batch (stays in .cache)
 bun scripts/assemble-scores.ts \
@@ -354,7 +380,7 @@ bun scripts/run-scoring.ts \
 bun scripts/run-scoring.ts … --run-name mms-8f-full --out .cache/scoring/mms-8f-full/raw-scores.jsonl --resume
 wc -l .cache/scoring/mms-8f-full/raw-scores.jsonl                                   # 556
 jq -r .id .cache/scoring/mms-8f-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
-jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8f-full/raw-scores.jsonl   # re-score hits
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8f-full/raw-scores.jsonl   # list only. See "Anomaly re-score" before any retry.
 
 # caveat file: Grok caveat with the model swapped
 sed 's/grok-4\.6 がセッション内（in-agent）で/claude-fable-5-1 がセッション内（in-agent）で/' <(jq -r .caveat data/scores/occupations_grok-4.6_2026-09-07.json) > .cache/scoring/mms-8f-full/caveat.txt
@@ -425,6 +451,8 @@ cat .cache/scoring/mms-8g-pilot/provider-preflight.json     # requested_model gp
 wc -l .cache/scoring/mms-8g-pilot/raw-scores.jsonl          # = sample_size (rerun with --resume for pending/failed ids)
 for f in .cache/scoring/mms-8g-pilot/raw/*.failures.jsonl; do echo "== $f"; cat "$f"; done 2>/dev/null
 jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8g-pilot/raw-scores.jsonl
+# list only. A parsed hit is not retried by --resume --ids. See "Anomaly re-score":
+# backup, drop only flagged ids, then the same codex command with --ids "$BAD" --resume. At most two rounds.
 
 bun scripts/assemble-scores.ts \
   --mode aiois --model gpt-6-astra --provider openai --date <YYYY-MM-DD> \
@@ -452,7 +480,7 @@ bun scripts/run-scoring.ts \
 wc -l .cache/scoring/mms-8g-full/raw-scores.jsonl                                   # 556
 jq -r .id .cache/scoring/mms-8g-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
 for f in .cache/scoring/mms-8g-full/raw/*.failures.jsonl; do echo "== $f"; cat "$f"; done 2>/dev/null | grep -c '"kind":"refusal"'
-jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8g-full/raw-scores.jsonl   # re-score hits
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8g-full/raw-scores.jsonl   # list only. See "Anomaly re-score" before any retry.
 
 sed 's/grok-4\.6 がセッション内（in-agent）で/gpt-6-astra が Codex CLI 経由で/' <(jq -r .caveat data/scores/occupations_grok-4.6_2026-09-07.json) > .cache/scoring/mms-8g-full/caveat.txt
 
@@ -520,8 +548,10 @@ bun scripts/run-scoring.ts \
   --resume
 wc -l .cache/scoring/mms-9-pilot/raw-scores.jsonl     # 40
 
-# 5. anomaly scan (re-score hits with --resume --ids <bad>)
+# 5. anomaly scan (list only). A parsed hit is not retried by --resume --ids. See "Anomaly re-score".
 jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-9-pilot/raw-scores.jsonl
+#   cp the JSONL to *.bak, drop only flagged ids, write answers/rescored-r1a (round two: rescored-r2a),
+#   then the step-4 command with --ids "$BAD" --resume. At most two rounds. Same model and prompt.
 
 # 6. assemble pilot batch (stays in .cache) — NOTE --backfill true
 bun scripts/assemble-scores.ts \
@@ -551,7 +581,7 @@ bun scripts/run-scoring.ts \
 bun scripts/run-scoring.ts … --run-name mms-9-full --out .cache/scoring/mms-9-full/raw-scores.jsonl --resume
 wc -l .cache/scoring/mms-9-full/raw-scores.jsonl                                   # 556
 jq -r .id .cache/scoring/mms-9-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
-jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-9-full/raw-scores.jsonl   # re-score hits
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-9-full/raw-scores.jsonl   # list only. See "Anomaly re-score" before any retry.
 
 # caveat file: Grok 4.6 caveat with the model swapped + the backfill sentence appended
 { jq -r .caveat data/scores/occupations_grok-4.6_2026-09-07.json | sed 's/grok-4\.6 がセッション内（in-agent）で/grok-4.5 がセッション内（in-agent）で/'; } > .cache/scoring/mms-9-full/caveat.txt
@@ -615,7 +645,7 @@ Grok 4.6 and the Grok 4.5 backfill stay `--provider in-agent`. The Vercel AI Gat
 
 Usage identity is `modelUsageMatchesRequest`: one key only. A request for `grok-4.7-build-fast` matches only the exact key `grok-4.7-build-fast`. A request for `grok-4.7` matches `grok-4.7` or the alias `grok-4.7-build` (`GROK_47_USAGE_ALIAS`). A `grok-4.7` request whose key is `grok-4.7-build-fast` does not match. Any other key is `model_unavailable`. The published name is Grok 4.7. Do not assemble or name a batch `grok-4.7-build-fast`.
 
-Owner GO on #590, #591, and #592 before those commands (`grok-4.7-run.ts`). Owner machine only. Every call passes `--model` and `--reasoning-effort`. Do not pass `--yolo`, `--always-approve`, or grok `--resume`. An interrupted run repeats the same command with the runner's `--resume`. Do not change model or effort. A parsed quality-gate row is not retried by `--resume --ids` alone; remove that id from the JSONL first, as mms-11 does.
+Owner GO on #590, #591, and #592 before those commands (`grok-4.7-run.ts`). Owner machine only. Every call passes `--model` and `--reasoning-effort`. Do not pass `--yolo`, `--always-approve`, or grok `--resume`. An interrupted run repeats the same command with the runner's `--resume`. Do not change model or effort. A parsed quality-gate row is not retried by `--resume --ids` alone. Remove that id from the JSONL first ([Anomaly re-score](#anomaly-re-score)).
 
 ```bash
 P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
@@ -686,7 +716,7 @@ jq '{attested_model, subagent_verification, answers_loaded}' $R/provider-preflig
 jq -r 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12) | .id' $R/raw-scores.jsonl
 ```
 
-Re-score, only if step 5 lists ids. At most two rounds. Name each re-score chunk by round, so a later round sorts after an earlier one: round one `--name rescored-r1a` (then `rescored-r1b`, and so on; the runner takes at most 20 ids per call), round two `--name rescored-r2a`. The in-agent provider reads `answers/*.jsonl` in file-name order, and the later definition of an id wins. `chunk-rescored-2.jsonl` sorts before `chunk-rescored.jsonl` (`-` < `.`), so a second round named `rescored-2` would be overridden by the first. A row still below 0.7 after two rounds is accepted and reported. A row with `aiois.transformation == 0` is never accepted: stop and ask the owner.
+Re-score, only if step 5 lists ids. This is the [Anomaly re-score](#anomaly-re-score) procedure. At most two rounds. Name each re-score chunk by round, so a later round sorts after an earlier one: round one `--name rescored-r1a` (then `rescored-r1b`, and so on; the runner takes at most 20 ids per call), round two `--name rescored-r2a`. The in-agent provider reads `answers/*.jsonl` in file-name order, and the later definition of an id wins. `chunk-rescored-2.jsonl` sorts before `chunk-rescored.jsonl` (`-` < `.`), so a second round named `rescored-2` would be overridden by the first. A row still below 0.7 after two rounds is accepted and reported. A row with `aiois.transformation == 0` is never accepted: stop and ask the owner.
 
 ```bash
 BAD=<comma-separated ids, at most 20 per runner call>
