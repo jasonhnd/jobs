@@ -51,7 +51,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .v-obs{margin:0;font-size:var(--t-sm);line-height:1.65;color:var(--ink-2);line-break:strict;overflow-wrap:anywhere;word-break:normal}
     .v-obs a{color:var(--ink-2);text-decoration:underline;text-decoration-thickness:0.06em;text-underline-offset:0.16em}
     .v-obs a:hover{color:var(--orange-hot);text-decoration-thickness:0.08em}
-    .v-line{margin:4px 0 0;font-family:var(--font-serif);font-size:var(--t-body);line-height:1.8;color:var(--ink)}
+    .v-line{margin:4px 0 0;font-size:var(--t-body);line-height:1.8;color:var(--ink)}
     .v-facts{margin:0;font-size:var(--t-sm);line-height:1.55;color:var(--ink-meta)}
     .v-doors{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
     .v-doors a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 13px;border-radius:999px;font-size:var(--t-sm);font-weight:700;text-decoration:none;line-height:1.2;white-space:nowrap}
@@ -101,7 +101,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .verdict-title-row{display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;margin:0 0 10px}
     .type-block h2{line-height:1.2;margin:0;color:var(--ink);letter-spacing:0}
     @media (min-width:900px){}
-    .verdict-lede{font-family:var(--font-serif);font-size:var(--t-h3);line-height:1.8;color:var(--ink);margin:0 0 16px}
+    .verdict-lede{font-size:var(--t-h3);line-height:1.8;color:var(--ink-2);margin:0 0 16px}
     @media (min-width:900px){.verdict-lede{line-height:1.9}}
     .verdict-task-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:0}
     @media (min-width:720px){.verdict-task-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}}
@@ -160,14 +160,14 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:900px){.ai-risk-detail{max-width:var(--content-max);margin-left:auto;margin-right:auto;padding:28px 32px}}
     .ai-risk-detail h2{color:var(--ink);margin:0 0 12px}
     @media (min-width:900px){.ai-risk-detail h2{margin:0 0 16px}}
-    .ai-risk-detail .ai-rationale-long{font-family:var(--font-serif);font-size:var(--t-body);line-height:1.85;color:var(--ink-2);margin:0 0 18px}
+    .ai-risk-detail .ai-rationale-long{font-size:var(--t-body);line-height:1.85;color:var(--ink);margin:0 0 18px}
     @media (min-width:900px){.ai-risk-detail .ai-rationale-long{line-height:1.95}}
     .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px}
     @media (min-width:768px){.ai-risk-detail .ai-task-grid{grid-template-columns:1fr 1fr;gap:24px}}
     .ai-risk-detail .ai-task-block h3{letter-spacing:0.06em;text-transform:uppercase;color:var(--ink);margin:0 0 8px}
-    .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:var(--t-sm);line-height:1.7;color:var(--ink-2);font-family:var(--font-serif)}
+    .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:var(--t-sm);line-height:1.7;color:var(--ink-2)}
     .ai-risk-detail .ai-task-block li{margin-bottom:5px}
-    .ai-risk-detail .ai-horizon{font-size:var(--t-sm);line-height:1.7;color:var(--ink-meta);margin:0;padding-top:14px;border-top:1px solid var(--line);font-family:var(--font-serif)}
+    .ai-risk-detail .ai-horizon{font-size:var(--t-sm);line-height:1.7;color:var(--ink-meta);margin:0;padding-top:14px;border-top:1px solid var(--line)}
     .ai-risk-detail .ai-horizon strong{color:var(--ink);font-weight:700}
 
     /* Stat grid (was dl.stats) — 2x2 mobile, 4-col desktop. Trimmed: drop 求人倍率 / 時給 hidden later via JS or kept. */
@@ -191,7 +191,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     section.context,section.how-to-become,section.working-conditions{background:var(--paper);padding:18px 20px;border-radius:14px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
     @media (min-width:900px){section.context,section.how-to-become,section.working-conditions{max-width:var(--content-max);margin-left:auto;margin-right:auto;padding:28px 32px}}
     section.context > h2,section.how-to-become > h2,section.working-conditions > h2{padding:0;margin:0 0 12px}
-    section.context p,section.how-to-become p,section.working-conditions p{font-family:var(--font-serif);font-size:var(--t-body);line-height:1.85;color:var(--ink-2);margin:0 0 12px}
+    section.context p,section.how-to-become p,section.working-conditions p{font-size:var(--t-body);line-height:1.85;color:var(--ink);margin:0 0 12px}
     section.context p:last-child,section.how-to-become p:last-child,section.working-conditions p:last-child{margin-bottom:0}
     @media (min-width:900px){section.context p,section.how-to-become p,section.working-conditions p{line-height:1.95}}
     section.context p.definition{font-family:var(--font-sans);font-size:var(--t-sm);font-weight:600;color:var(--ink);background:var(--cream-2);border-left:none;padding:11px 14px;border-radius:10px;margin:0 0 14px;line-height:1.65;display:flex;gap:10px;align-items:flex-start}
@@ -258,7 +258,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:900px){.faq-item summary::after{right:22px}}
     .faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--orange-hot)}
     .faq-item summary:hover{color:var(--orange-hot)}
-    .faq-answer{padding:14px 16px;color:var(--ink-2);font-size:var(--t-body);line-height:1.8;font-family:var(--font-serif);border-top:1px solid var(--line)}
+    .faq-answer{padding:14px 16px;color:var(--ink);font-size:var(--t-body);line-height:1.8;border-top:1px solid var(--line)}
     @media (min-width:900px){.faq-answer{padding:14px 22px 18px}}
     .faq-answer b{color:var(--orange-hot)}
 
@@ -287,7 +287,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
        the cert block is half- or full-width (no sparse wide cells). */
     .cert-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;padding:0;margin:0}
     @media (min-width:900px){.cert-list{gap:8px}}
-    .cert-list li{font-size:var(--t-sm);color:var(--ink);padding:8px 10px;background:var(--cream);border-radius:6px;font-family:var(--font-serif);border-bottom:none}
+    .cert-list li{font-size:var(--t-sm);color:var(--ink);padding:8px 10px;background:var(--cream);border-radius:6px;border-bottom:none}
     @media (min-width:900px){.cert-list li{padding:10px 12px;border-radius:8px}}
 
     /* Map back link */
