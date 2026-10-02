@@ -124,14 +124,23 @@ overlap); reconciled with Microsoft AI Diffusion top-down → 低 9.6 億 /
   in `haid-release-copy.ts`, `og-cards.ts` and `release.json` `method_ja`
   stays as signed. `version` stays `2026-Q3.0`.
 
-## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
+## Done — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
+
+Shipped in [PR #558](https://github.com/jasonhnd/jobs/pull/558) (2026-09-20),
+with the one-decimal follow-up [#560](https://github.com/jasonhnd/jobs/pull/560)
+(2026-09-20) and home-treemap follow-up
+[#566](https://github.com/jasonhnd/jobs/pull/566) (2026-09-21). Included in
+[preview → main promotion #569](https://github.com/jasonhnd/jobs/pull/569)
+(2026-09-21). These completed hard fixes are separate from the Parked proposals.
 
 Owner review 2026-09-18/19 of the rendered site (1440×900 / 375×812, Vercel Web
 Analytics 2026-08-19→09-18: 83.6 % of visitors on mobile, 92 % on `/`). Owner
 rulings 2026-09-19/20: fix everything the review found; **no canon version
 bump** (stays v1.2, changes recorded in the revision history); continue the
 `design-1.N` numbering; `/rankings/ai-risk-high` title unchanged; treemap
-label truncation kept (§5.7 ruling); no `check-radius`.
+no `check-radius`. The 2026-09-19 label-clipping ruling was **withdrawn on
+2026-09-21** (§5.7 / #566): home canvas follows `/map`, uses 12px full names
+only when they fit, and shows no clipped or ellipsized label.
 
 - canon: §4.7 gains 「本文中の行内強調（`strong` / `em`）」 = `--ink` 700, no
   italics; §2.3 `--risk-0` `#0F8A66` → `#0F8663` (white 4.33 → 4.56:1) and a
@@ -148,23 +157,45 @@ label truncation kept (§5.7 ruling); no `check-radius`.
   radii → `var(--r-md)`. Movers labels → 「仕事が減るリスクが上がった／下がった職業」.
 - gate: `check-role-color` — §4.7 role → token checked against CSS; wired
   into `verify:gates`.
+- follow-up #560: hover tooltips and `/map` / `/me` lists display one decimal.
+- follow-up #566: home canvas adopts `/map` gaps/corners and full-name-or-hidden
+  labels; names and values remain available through tooltips on every tile.
 
-Parked for the next owner discussion (no §4.7 row yet): link colour on hub
-surfaces (`--accent-deep` vs doc's `--orange-hot`), hover states, kickers /
-eyebrows, card names, raw score values, movers delta colours.
+Parked: classify link/hover, kicker/eyebrow and movers-delta semantics before
+proposing changes. Card headings, raw scores and metadata already have §4.7
+roles; map those first. Escalate only meanings that existing rules cannot settle,
+not the whole list as new owner decisions.
 
 ## Active — SEO+GEO on existing pages (#236)
 
-Owner 「继续」 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable
+Owner approved continuation on 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable
 space is occupations, `/answers/*`, `/rankings`, `/methodology`, `/standard`.
 Japanese public copy for new strings is posted on #272.
 
-- seo-geo-1 (#272): four SOP-prompt landings — title / H1 / lead / FAQ JSON-LD
-  use the SOP wording; name AIOIS-10, occupation count, score date above the
-  fold; cross-link `/answers` ↔ `/methodology` ↔ `/rankings`.
-- seo-geo-2: occupation cite-line; drop `代替リスク` as job-loss. Waits on
-  owner-signed JA after #272.
-- seo-geo-3: weekly off-site SOP log including Claude's cited URL.
+- **seo-geo-1 — Done** (#272): four SOP-prompt landings in
+  [merged PR #476](https://github.com/jasonhnd/jobs/pull/476), promoted by
+  [#477](https://github.com/jasonhnd/jobs/pull/477) on 2026-09-09. Title / H1 /
+  lead / FAQ JSON-LD use the signed SOP wording; AIOIS-10, occupation count and
+  score date appear above the fold; `/answers` ↔ `/methodology` ↔ `/rankings`
+  cross-links shipped. This is delivery evidence, not proof of search/citation gains.
+- **seo-geo-2 — Partial**: occupation meta correction shipped in
+  [merged PR #577](https://github.com/jasonhnd/jobs/pull/577) (2026-09-21): AI
+  influence is not job-loss probability. The full citation fact paragraph exists
+  inside the default-collapsed source details; a concise visible citation line
+  near the occupation score remains. Next: obtain owner-signed Japanese wording
+  and placement, reuse canonical score/date/count/source values, and retain the
+  full source fold. Do not redo the shipped title/meta correction.
+- **seo-geo-3 — Active**: evidence-backed weekly off-site SOP log, including
+  Claude's exact cited URL or verified no-citation result, and 28-day observation.
+  Next: locate existing logs/schedules, then record the fixed prompts, dates,
+  engines/modes and evidence. External log completion was not verified by this
+  documentation reconciliation. Keep crawl events, answer citations, human
+  referrals and Google organic results separate.
+
+[#236](https://github.com/jasonhnd/jobs/issues/236) is historical programme
+tracking; its closure does not complete the residuals above. Follow-up work must
+have its own scoped Issue and evidence; this reconciliation does not alter old
+Issues or start product/observation work.
 
 Parked: /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.
