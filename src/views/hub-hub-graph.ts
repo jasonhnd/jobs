@@ -566,7 +566,7 @@ export const RELATED_CROSS_HUB_CSS = `
 .rxh-link{display:flex;flex-direction:column;gap:3px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);height:100%;transition:border-color 150ms,background 150ms}
 .rxh-link:hover{border-color:var(--accent);background:color-mix(in srgb, var(--orange) 4%, transparent);text-decoration:none}
 .rxh-genre{font-size:var(--t-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);font-weight:600}
-.rxh-name{font-family:var(--font-serif);font-size:var(--t-sm);color:var(--accent-deep);line-height:1.35}
+.rxh-name{font-family:var(--font-sans);font-size:var(--t-sm);color:var(--accent-deep);line-height:1.35;font-weight:400;}
 .rxh-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:var(--t-xs);color:var(--fg2);line-height:1.4;flex:1}
 @media (max-width:600px){.rxh-list{grid-template-columns:1fr}}
 `;
