@@ -13,6 +13,8 @@
 - run date: `2026-10-01`
 - Score output: `data/scores/occupations_gpt-6.1-sol_2026-10-01.json`
 
+These three lines are the latest observation only (`pickLatestScore()`): the newest non-backfill batch. They are not the public value. From 2026-09-09 the public value is the arithmetic mean of each vendor's latest comparable AIOIS-10 run (`pickFlagshipMeanScore()`; [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md) current contract and [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md) スコア選択). A new run is accepted by checking that mean and the latest observation separately. The public value does not have to equal the new batch. `scripts/run-scoring.ts` is the provider-independent runner. It is not an API batch runner. Issue #9 and Issue #126 below record what applied before 2026-09-09, when one selected batch was the public value.
+
 - 標準: AIOIS-10 v1.0
 - 対象: JILPT IPD v7.00 の 556 職業
 - Schema: `src/data/schema/score-run.ts`
@@ -57,9 +59,11 @@ Issue #9 の Fable 5 校正作業は、 production と pre を動かさないこ
 
 この境界を破る必要が出た場合は、先に Issue #9 に理由、影響範囲、検証方法、rollback を書き、別途承認を得る。
 
-## Issue #9 scope
+## Issue #9 scope (historical, before 2026-09-09)
 
-Issue #9 は、`claude-fable-5` を使って AIOIS-10 v1.0 の scoring run を校正する作業である。目的は「最新モデル名へ置換すること」ではなく、Opus 4.8 の現行 batch と比較できる append-only な scoring run を作ること。
+This chapter, including Phases 0–9, records the Issue #9 work while one selected batch was the public value. Opus 4.8 (`claude-opus-4-8`, `2026-05-30`) was the current batch for that work. These checks are not acceptance checks for a new run. The successor rule is the vendor mean in [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md), effective 2026-09-09. The original procedure is kept below.
+
+Issue #9 は、`claude-fable-5` を使って AIOIS-10 v1.0 の scoring run を校正する作業である。目的は「最新モデル名へ置換すること」ではなく、Opus 4.8 の当時の batch（2026-05-30）と比較できる append-only な scoring run を作ること。
 
 Goals:
 
@@ -813,7 +817,7 @@ Scope and boundary:
 - Prompt version: `AIOIS-10-v1.0-gpt-5.6-sol`.
 - Baseline for drift: `data/scores/occupations_claude-fable-5_2026-06-13.json` (latest AIOIS-10 batch), not Opus 4.8.
 - Artifacts before full approval stay under `.cache/scoring/`; pilot/candidate artifacts must not be written to `data/scores/`.
-- The full 556 batch may enter `data/scores/` only after owner approval. Adding it flips `pickLatestScore()` site-wide because the latest `run_date` becomes canonical.
+- The full 556 batch could enter `data/scores/` only after owner approval. Historical landing rule, before 2026-09-09: adding it made `pickLatestScore()` the site-wide public value because the latest `run_date` became canonical. A new run does not follow that rule. The successor is the vendor mean ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)).
 - `scripts/run-scoring-codex.ts` is a LOCAL dev tool. Never wire it into `build`, `verify:gates`, CI, deploy commands, or `vercel.json`.
 
 Methodology continuity:
@@ -890,7 +894,7 @@ Full run gate:
 - Owner separately approves any pilot scoring run because it consumes local Codex subscription quota.
 - Owner reviews pilot artifacts and drift report before any 556-occupation full run.
 - The approved full run writes raw/audit artifacts under `.cache/scoring/` first, then assembles one append-only batch at `data/scores/occupations_gpt-5.6-sol_<YYYY-MM-DD>.json`.
-- Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun run test`. The landing PR must acknowledge that `pickLatestScore()` flips all public projections/pages to GPT 5.6 SOL.
+- Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun run test`. Historical landing note, before 2026-09-09: the landing PR had to acknowledge that `pickLatestScore()` would flip public projections to GPT 5.6 SOL. A new run does not require the public value to equal that batch ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)).
 
 ## mms-12: GPT-6 SOL (OpenAI flagship seat)
 
@@ -1235,9 +1239,11 @@ Prompt には最低限、以下を明記する。
 
 Prompt は versioned artifact なので、実行後の batch metadata に `prompt.prompt_file`, `prompt.prompt_sha256`, `prompt.prompt_version`, `prompt.rubric_source` を記録する。
 
-## Execution mechanism (Issue #9)
+## Execution mechanism (Issue #9, historical, before 2026-09-09)
 
-Issue #9 の採点は、Anthropic API ではなく **claude-fable-5 セッション内採点**で行う。これは現行 Opus 4.8 batch と同じ方式である（`scripts/extract-occ-chunks.ts` の in-agent path: 実行中のモデル自身が chunk を読み JSONL を出力する。API key 不要）。`scripts/run-scoring.ts`（Batches API path）は本 issue では使わない。
+This section records the Issue #9 plan. Opus 4.8 (`2026-05-30`) was the current batch then. The old `scripts/run-scoring.ts` used for that comparison was the single-axis Anthropic Batches API implementation; it was not used for this issue, and it remains only in git history (`git show 1d7d42a2:scripts/run-scoring.ts`, see Notes below). The current `scripts/run-scoring.ts` is the provider-independent runner and is not an API batch runner. Do not use this section as a new-run instruction. Successor rule: [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md) (vendor mean, 2026-09-09).
+
+Issue #9 の採点は、Anthropic API ではなく **claude-fable-5 セッション内採点**で行う。これは当時の Opus 4.8 batch（2026-05-30）と同じ方式である（`scripts/extract-occ-chunks.ts` の in-agent path: 実行中のモデル自身が chunk を読み JSONL を出力する。API key 不要）。当時の単軸 Batches API 実装は本 issue では使わない。
 
 実行規約:
 
@@ -1249,7 +1255,7 @@ Issue #9 の採点は、Anthropic API ではなく **claude-fable-5 セッショ
 
 Methodology delta（drift 解釈の前提）:
 
-現行 Opus 4.8 batch の D2–D10 は O*NET 型ベクトル＋日本の労働統計からの決定的計算であり、LLM 判断は D1（と欠損ベクトル職の moat profile）に限られていた。Issue #9 の Fable 5 run は **D1–D10 全次元をモデルの意味判断で採点**する（Issue 本文の Required output structure / Prompt 要件に従う）。したがって、この Opus 4.8 → Fable 5 pair の drift は「モデル差」と「方式差（vector engine → semantic judgment）」の合成である。各 batch は機械可読な `scorer.scoring_method_id` を記録し、drift report は比較 pair の id が異なる場合だけ方式差を注記する。Fable 5 → GPT 5.6 のように両方が `aiois-semantic-judgment` の pair へ、この歴史的 caveat を引き継がない。
+当時の Opus 4.8 batch（2026-05-30）の D2–D10 は O*NET 型ベクトル＋日本の労働統計からの決定的計算であり、LLM 判断は D1（と欠損ベクトル職の moat profile）に限られていた。Issue #9 の Fable 5 run は **D1–D10 全次元をモデルの意味判断で採点**する（Issue 本文の Required output structure / Prompt 要件に従う）。したがって、この Opus 4.8 → Fable 5 pair の drift は「モデル差」と「方式差（vector engine → semantic judgment）」の合成である。各 batch は機械可読な `scorer.scoring_method_id` を記録し、drift report は比較 pair の id が異なる場合だけ方式差を注記する。Fable 5 → GPT 5.6 のように両方が `aiois-semantic-judgment` の pair へ、この歴史的 caveat を引き継がない。
 
 ## Scoring phases
 
@@ -1259,7 +1265,7 @@ Methodology delta（drift 解釈の前提）:
 2. local branch を作る。
 3. `git status --short --branch` で未コミット差分を確認する。
 4. `data/occupations/*.json` が 556 件あることを確認する。
-5. 現行 batch が `claude-opus-4-8`, `2026-05-30`, AIOIS-10 v1.0, 556 件であることを確認する。
+5. Historical Issue #9 check, before 2026-09-09, not a new-run acceptance: the batch then current was `claude-opus-4-8`, `2026-05-30`, AIOIS-10 v1.0, 556 occupations. A new run checks the vendor mean and the latest observation separately.
 6. production/pre へ影響する設定を変更しないことを再確認する。
 
 ### Phase 1: documentation and prompt
@@ -1309,7 +1315,7 @@ Pilot は 30-50 件とし、sample manifest を `.cache/scoring/issue-9/pilot/sa
 
 Sample は少なくとも次を含む。
 
-- 現行 Opus 4.8 の high band (`ai_risk >= 7.0`)
+- 当時の Opus 4.8（2026-05-30）の high band (`ai_risk >= 7.0`)
 - mid band (`4.0 <= ai_risk < 7.0`)
 - low band (`ai_risk < 4.0`)
 - high attention / high dispute occupations
@@ -1442,7 +1448,7 @@ bun run build
 bun run verify:gates
 ```
 
-Adding a newer full batch changes the canonical current score selected by `pickLatestScore()`. Therefore this step is not documentation-only and must not be pushed until preview is intentionally planned.
+Historical Issue #9 landing check, before 2026-09-09: adding this Fable 5 batch changed the canonical score then selected by `pickLatestScore()`. That is not how a new run is accepted. From 2026-09-09 the public value is the vendor mean, and the latest observation is a separate check ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)). This step was not documentation-only and was not to be pushed until preview was intentionally planned.
 
 ### Phase 8: preview validation
 
@@ -1460,15 +1466,17 @@ Preview pages:
 - one mid-risk occupation detail page
 - one high-risk occupation detail page
 
+These checks applied to Issue #9 before 2026-09-09, when the selected batch was the public value. A new run does not require the public value to equal that batch. Check the vendor mean and the latest observation separately ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)).
+
 Checks:
 
 - page renders without 500 / hydration / console errors
 - AIOIS-10 D1-D10 display correctly
-- visible `AI 影響度` equals the selected score batch
+- visible `AI 影響度` was compared with the selected Fable 5 batch (historical; a new run checks the vendor mean and the latest observation separately)
 - JSON-LD value matches visible page data
 - footer wording matches the active model and run date
-- methodology/data pages do not still claim Opus 4.8 when Fable 5 is active
-- public data wording matches the actual score batch
+- methodology/data pages were checked so they did not still name Opus 4.8 once Fable 5 was the selected batch (historical)
+- public data wording was checked against that score batch (historical; the public value does not have to equal one batch)
 - no preview alias is promoted to production
 
 ### Phase 9: release gate
@@ -1530,6 +1538,8 @@ Use this template for pilot and full-run reports.
 ```
 
 ## Notes for current tooling
+
+The notes in this section that describe Issue #9's tools are historical (before 2026-09-09), except the resolved statement that `run-scoring.ts` is the provider-independent entry point and is not the Batches API runner.
 
 The current `ScoreEntrySchema` permits `aiois` to be nullish so legacy single-axis batches can still parse. That schema-level compatibility is not enough for Fable 5 AIOIS-10. The assembler and candidate validation must add an AIOIS-required mode for Issue #9.
 
