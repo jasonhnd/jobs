@@ -137,7 +137,7 @@ Owner review 2026-09-18/19 of the rendered site (1440×900 / 375×812, Vercel We
 Analytics 2026-08-19→09-18: 83.6 % of visitors on mobile, 92 % on `/`). Owner
 rulings 2026-09-19/20: fix everything the review found; **no canon version
 bump** (stays v1.2, changes recorded in the revision history); continue the
-`design-1.N` numbering; `/rankings/ai-risk-high` title unchanged; treemap
+`design-1.N` numbering; `/rankings/ai-risk-high` title unchanged;
 no `check-radius`. The 2026-09-19 label-clipping ruling was **withdrawn on
 2026-09-21** (§5.7 / #566): home canvas follows `/map`, uses 12px full names
 only when they fit, and shows no clipped or ellipsized label.
