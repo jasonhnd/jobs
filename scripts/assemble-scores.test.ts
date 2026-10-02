@@ -4,6 +4,7 @@ import { strict as assert } from 'node:assert';
 
 import { parseScoreLines, assembleBatch, inferProvider, type BatchMeta } from './assemble-scores.js';
 import { ScoreRunSchema } from '../src/data/schema/score-run.js';
+import { OccupationSchema } from '../src/data/schema/occupation.js';
 
 const META: BatchMeta = {
   model: 'claude-opus-4-8',
@@ -83,11 +84,6 @@ describe('parseScoreLines (legacy mode)', () => {
     assert.ok(parseScoreLines(['{"id":1,"ai_risk":5.0,"rationale_ja":"x","confidence":1.5}'], 'legacy').errors.length > 0);
   });
 
-  test('rejects bad id (0 / >999)', () => {
-    assert.ok(parseScoreLines(['{"id":0,"ai_risk":5.0,"rationale_ja":"x"}'], 'legacy').errors.length > 0);
-    assert.ok(parseScoreLines(['{"id":1000,"ai_risk":5.0,"rationale_ja":"x"}'], 'legacy').errors.length > 0);
-  });
-
   test('rejects duplicate id', () => {
     const { errors } = parseScoreLines(
       ['{"id":1,"ai_risk":5.0,"rationale_ja":"x"}', '{"id":1,"ai_risk":6.0,"rationale_ja":"y"}'],
@@ -101,6 +97,35 @@ describe('parseScoreLines (legacy mode)', () => {
     assert.ok(errors.length > 0);
     assert.match(errors[0]!, /aiois/);
   });
+});
+
+describe('parseScoreLines occupation ID contract', () => {
+  const idSchema = OccupationSchema.shape.id;
+  const minId = idSchema.minValue!;
+  const maxId = idSchema.maxValue!;
+
+  for (const mode of ['legacy', 'aiois'] as const) {
+    const line = (id: unknown): string => mode === 'aiois'
+      ? aioisLine({ id })
+      : JSON.stringify({ id, ai_risk: 4.6, rationale_ja: 'x' });
+
+    test(`${mode}: accepts both canonical ID boundaries`, () => {
+      for (const id of [minId, maxId]) {
+        const { scores, errors } = parseScoreLines([line(id)], mode);
+        assert.deepEqual(errors, []);
+        assert.equal(scores[String(id)]!.ai_risk, 4.6);
+      }
+    });
+
+    test(`${mode}: rejects out-of-range and malformed IDs without adding scores`, () => {
+      for (const id of [minId - 1, maxId + 1, -1, 1.5, '1', null, undefined]) {
+        const { scores, errors } = parseScoreLines([line(id)], mode);
+        assert.deepEqual(scores, {});
+        assert.equal(errors.length, 1);
+        assert.match(errors[0]!, /^line 1: bad id /);
+      }
+    });
+  }
 });
 
 describe('parseScoreLines (aiois mode)', () => {
