@@ -16,6 +16,7 @@ import { spawnSync } from 'node:child_process';
 
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'compute-csp-hashes.cjs');
 const MANIFEST = join(dirname(fileURLToPath(import.meta.url)), 'lib', 'csp-analytics-manifest.cjs');
+const WALK_FILES = join(dirname(fileURLToPath(import.meta.url)), 'lib', 'walk-files.cjs');
 const ENV_GATED_VARS = [
   'PUBLIC_GA4_MEASUREMENT_ID',
   'PUBLIC_X_PIXEL_ID',
@@ -56,6 +57,7 @@ function createFixture({
   // The script requires the shared manifest by relative path; the fixture is a
   // standalone tree, so it needs its own copy.
   copyFileSync(MANIFEST, join(root, 'scripts', 'lib', 'csp-analytics-manifest.cjs'));
+  copyFileSync(WALK_FILES, join(root, 'scripts', 'lib', 'walk-files.cjs'));
   writeFileSync(
     join(root, 'dist-astro', 'index.html'),
     `${htmlPrefix}<script>${body}</script>`,
