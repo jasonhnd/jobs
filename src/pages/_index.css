@@ -1961,7 +1961,7 @@
       .hub-subgroup { margin-top: 18px; }
       .hub-subgroup:first-of-type { margin-top: 0; }
       .hub-subgroup-title {
-        font-family: var(--font-serif);
+        font-family: var(--font-sans);
         font-size: var(--t-sm);
         font-weight: 600;
         color: var(--fg2);
