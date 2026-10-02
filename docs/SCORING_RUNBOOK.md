@@ -675,16 +675,61 @@ bun scripts/run-scoring.ts --provider grok-cli --model grok-4.7-build-fast --rea
 # interrupted: the same command plus --resume. Never change --model or --reasoning-effort.
 ```
 
-Assemble the pilot under `.cache/` with the public slug, not the CLI id. No `--backfill`.
+Assemble the pilot under `.cache/` with the public slug, not the CLI id. No `--backfill`. This command passes `--caveat` and `--scoring-method`. Without `--caveat`, assemble copies the caveat of the newest non-backfill batch. Without `--scoring-method`, it writes the in-session default. The caveat file is the landed Grok 4.7 caveat, extracted unchanged with `jq -r .caveat`. `--scoring-method` is that batch's `scorer.scoring_method`: grok CLI, effort `xhigh`, and a hyphen in `D1-D10`.
 
 ```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-pilot
 D=<YYYY-MM-DD>
+SM='AIOIS-10 v1.0: grok CLI single-pass per occupation; model-judged D1-D10, indices per /standard formulas (re-validated); reasoning effort xhigh (explicit); model grok-4.7'
+jq -er --arg sm "$SM" '.scorer.scoring_method == $sm' data/scores/occupations_grok-4.7_2026-09-22.json >/dev/null
+jq -r .caveat data/scores/occupations_grok-4.7_2026-09-22.json > $R/caveat.txt
 bun scripts/assemble-scores.ts --mode aiois --model grok-4.7 --provider xai --date $D \
   --prompt-version AIOIS-10-v1.0-grok-4.7 --prompt-file "$P" \
-  --in $R/raw-scores.jsonl --out $R/occupations_grok-4.7_${D}_pilot.json --run-id mms-10-pilot-$D
+  --in $R/raw-scores.jsonl --out $R/occupations_grok-4.7_${D}_pilot.json --run-id mms-10-pilot-$D \
+  --caveat $R/caveat.txt --scoring-method "$SM"
 ```
 
-Full 556 (#592), same model and effort, `--concurrency 10`, `--run-name mms-10-full`, `--out .cache/scoring/mms-10-full/raw-scores.jsonl`. Landing copies the assembled file to `data/scores/occupations_grok-4.7_<run_date>.json` only after the owner GO for #593. The landed file is the 2026-09-22 batch above. Do not overwrite it.
+Full 556 (#592). Owner GO on #592 before the first command. This command is separate from the pilot. It passes no `--ids` and no `--limit`. `R=.cache/scoring/mms-10-full`. The model, prompt file, and reasoning effort stay frozen.
+
+```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-full
+bun scripts/run-scoring.ts --provider grok-cli --model grok-4.7-build-fast --reasoning-effort xhigh \
+  --prompt-file "$P" --run-name mms-10-full --out $R/raw-scores.jsonl --concurrency 10
+```
+
+An interrupted run repeats that command and adds the runner `--resume`. It still passes no `--ids` and no `--limit`. Do not pass grok `--resume`. Do not change `--model` or `--reasoning-effort`.
+
+```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-full
+bun scripts/run-scoring.ts --provider grok-cli --model grok-4.7-build-fast --reasoning-effort xhigh \
+  --prompt-file "$P" --run-name mms-10-full --out $R/raw-scores.jsonl --concurrency 10 --resume
+```
+
+When all 556 rows are in, re-scores included, the JSONL has 556 lines and no duplicate id. `run_date` is that JST date.
+
+```bash
+R=.cache/scoring/mms-10-full
+wc -l < $R/raw-scores.jsonl                                 # 556
+jq -r .id $R/raw-scores.jsonl | sort -n | uniq -d           # no output
+```
+
+Full assemble reads `$R/raw-scores.jsonl` and writes `$R/occupations_grok-4.7_$RD.json`. The output name has no `_pilot` suffix. Pass the same caveat file and `--scoring-method` as the pilot. Copying that cache file to `data/scores/occupations_grok-4.7_<run_date>.json` waits for the owner GO on #593. The landed file is `data/scores/occupations_grok-4.7_2026-09-22.json`. Do not overwrite it.
+
+```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-full
+RD=<run_date, JST, YYYY-MM-DD>
+SM='AIOIS-10 v1.0: grok CLI single-pass per occupation; model-judged D1-D10, indices per /standard formulas (re-validated); reasoning effort xhigh (explicit); model grok-4.7'
+jq -er --arg sm "$SM" '.scorer.scoring_method == $sm' data/scores/occupations_grok-4.7_2026-09-22.json >/dev/null
+jq -r .caveat data/scores/occupations_grok-4.7_2026-09-22.json > $R/caveat.txt
+bun scripts/assemble-scores.ts --mode aiois --model grok-4.7 --provider xai --date $RD \
+  --prompt-version AIOIS-10-v1.0-grok-4.7 --prompt-file "$P" \
+  --in $R/raw-scores.jsonl --out $R/occupations_grok-4.7_$RD.json \
+  --run-id grok-4.7-grok-cli-$RD --caveat $R/caveat.txt --scoring-method "$SM"
+```
 
 ## mms-11: Claude Opus 5.5 (Anthropic flagship seat)
 
