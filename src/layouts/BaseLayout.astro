@@ -193,11 +193,11 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
           if (!id) return;
           window.dataLayer = window.dataLayer || [];
           window.gtag = function gtag() { window.dataLayer.push(arguments); };
-          // GA4 consent mode v2 (PR #5, 2026-05-23). The 2026-05-06 decision
-          // not to implement, and the 2026-05-18 default-denied note, are
-          // superseded: 'denied' only when cookieConsent === 'rejected'.
-          // Unset and 'accepted' are 'granted' before page_view. Accept and
-          // reject in the banner script send gtag('consent', 'update', ...).
+          // RA-013 (2026-05-18): GA4 consent mode v2 — default 'denied' until
+          // the user accepts via the cookie banner (see bottom of <body>).
+          // Banner JS calls window.gtag('consent', 'update', {...granted})
+          // when the user clicks 同意. If user has previously accepted, the
+          // localStorage check below pre-flips before page_view fires.
           var prior = (function () {
             try { return localStorage.getItem('cookieConsent'); } catch (e) { return null; }
           })();
