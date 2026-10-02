@@ -42,15 +42,17 @@ describe('missingEnvFailures', () => {
 });
 
 describe('authorizeCronRequest', () => {
-  test('fails open when no cron secret is configured', () => {
-    assert.equal(authorizeCronRequest(null, undefined), true);
+  test('fails closed when no cron secret is configured (handler returns 401)', () => {
+    assert.equal(authorizeCronRequest(null, undefined), false);
+    assert.equal(authorizeCronRequest('Bearer anything', undefined), false);
+    assert.equal(authorizeCronRequest(null, ''), false);
   });
 
-  test('rejects a wrong bearer token when the secret is configured', () => {
+  test('rejects a wrong bearer token when the secret is configured (handler returns 401)', () => {
     assert.equal(authorizeCronRequest('Bearer wrong', 'topsecret'), false);
   });
 
-  test('rejects a missing header when the secret is configured', () => {
+  test('rejects a missing header when the secret is configured (handler returns 401)', () => {
     assert.equal(authorizeCronRequest(null, 'topsecret'), false);
   });
 
