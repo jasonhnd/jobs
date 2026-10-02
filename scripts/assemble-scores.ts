@@ -33,6 +33,7 @@
 import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, resolve } from 'node:path';
+import { OccupationSchema } from '../src/data/schema/occupation.js';
 import {
   ScoreRunSchema,
   ScoringMethodIdSchema,
@@ -128,11 +129,12 @@ function parseLine(
     errors.push(`line ${lineNo}: invalid JSON`);
     return null;
   }
-  const id = obj.id;
-  if (typeof id !== 'number' || !Number.isInteger(id) || id < 1 || id > 999) {
-    errors.push(`line ${lineNo}: bad id ${JSON.stringify(id)}`);
+  const parsedId = OccupationSchema.shape.id.safeParse(obj.id);
+  if (!parsedId.success) {
+    errors.push(`line ${lineNo}: bad id ${JSON.stringify(obj.id)}`);
     return null;
   }
+  const id = parsedId.data;
   const where = `line ${lineNo} (id ${id})`;
   const r = obj.ai_risk;
   if (!isOneDecimalScore(r)) {

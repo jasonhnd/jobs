@@ -21,11 +21,21 @@ OG renderer は request origin の data projection を読む。ただし spoofed
 
 - `mirai-shigoto.com`
 - `*.mirai-shigoto.com`
-- `*.vercel.app`
+- `jobs-<deployment>-zkscio.vercel.app` (alphanumeric deployment identifier)
+- `jobs-git-<branch>-zkscio.vercel.app` (alphanumeric branch segments separated by single hyphens)
 - `localhost`
 - `127.0.0.1`
 
 その他の host は production origin に fallback する。
+
+The Vercel rules match the entire hostname for the `jobs` project in the
+`zkscio` scope, not the shared `*.vercel.app` suffix. Read-only checks on
+2026-10-02 (`vercel ls jobs --scope zkscio` and `vercel inspect`) confirmed
+`jobs-dn8kq25rc-zkscio.vercel.app` and the branch alias
+`jobs-git-docs-data-readme-leftovers-zkscio.vercel.app`. Other projects or
+teams, nested subdomains, and misleading prefixes/suffixes fall back to
+`https://mirai-shigoto.com`. If the project or scope is renamed, verify the
+new deployment names and update the code, tests, and this contract together.
 
 ## Font fetch
 
