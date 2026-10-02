@@ -54,16 +54,35 @@
 
 **サイト全体の最小文字サイズは 12px。例外なし。**
 
-- **セリフは Display / H1 / H2 の 3 箇所だけ。** セリフに字重は無い（1 ファイルしか配信していない）。
-- **H3 以下はすべてサンセリフ。** 階層は字重で作る（400 / 600 / 700 の 3 段のみ）。
+- **Heading serif is limited to Display / H1 / H2.** The existing §4.7 large and
+  medium statistic roles also use serif at `--t-h1` / `--t-h2` with `--ink` and
+  `tabular-nums`; they are numeric roles, not extra heading levels. Serif has one
+  delivered weight (one font file).
+- **H3 and lower headings are sans.** Use the approved 400 / 600 / 700 weights;
+  code, IDs and raw-score roles use mono as specified in §4.7.
 - 等幅は `var(--font-mono)` 経由のみ。生の `monospace` は禁止。
 
 ### 色（§2）
 
-**本文サイズ（H2 以下）で使える前景は 4 つだけ:** `--ink` / `--ink-2` / `--ink-meta` / `--green-deep`
+**Ordinary body/heading foregrounds at H2 and below:** `--ink` / `--ink-2` /
+`--ink-meta` / `--green-deep`, with the exact role mapping in §4.7 (headings and
+neutral statistics use `--ink`). This summary does not replace the already
+approved foreground/background pairs:
 
-- `--orange` は**テキスト・白字ボタン背景ともに不可**。文字・CTA 背景は `--orange-hot`。
-- `--ink-3` / `--ink-4` / `--fg3` / `--green` / `--accent-2` / `--purple` は**罫・図形専用**。文字に使わない。
+- §4.7 primary button: `--paper` on `--orange-hot`; text on the approved dark
+  CTA surface uses `--paper` or `--cream` as stated in the table's reading notes.
+- §4.7 current navigation: `--orange-hot` with underline on a permitted light
+  background; `--orange-hot` text is allowed on `--cream` / `--paper`, **never
+  on `--cream-2`** (§2.2). This does not grant accent colour to ordinary headings.
+- §4.7 contextual pills and chips use the §2.3 light-fill/dark-foreground pairs;
+  map tiles use the band-specific `--risk-fg-*` against their §2.3 risk fills.
+- §4.7 errors use `--red-text` with an icon. §2.2's Display/H1-only colours stay
+  limited to those sizes and their approved roles, not ordinary body text.
+
+These are explanations of existing §4.7 / §2.2 / §2.3 roles, not new exceptions.
+
+- `--orange` is forbidden for text and white-text button backgrounds. Use `--orange-hot` only for its approved text/background roles and permitted backgrounds above.
+- `--ink-4` / `--fg3` / `--green` / `--accent-2` / `--purple` are for rules and graphics, not text. `--ink-3` is limited to Display/H1 under §2.2; never use it for body, labels or metadata.
 - 新規コードは第 1 層（`--ink` / `--cream` / `--orange`…）のみ。第 2 層 alias（`--fg` / `--bg` / `--accent`…）は既存 Hub class の改修時だけ。
 
 ### 余白・形（§8 / §9）
