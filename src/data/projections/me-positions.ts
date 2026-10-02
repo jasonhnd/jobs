@@ -460,6 +460,20 @@ const RANKERS: Record<RankingSlug, Ranker> = {
 };
 
 /**
+ * Ordered ids from one local ranker. Fixture tests pin filter and sort
+ * through this wrapper. It writes nothing, and buildMePositions does not
+ * call it — published positions still come from the canonical full ranking.
+ */
+export function rankIdsForSlug(
+  slug: RankingSlug,
+  scored: Occupation[],
+  occs: Occupation[],
+  withSalary: Occupation[],
+): number[] {
+  return RANKERS[slug](scored, occs, withSalary).map((occupation) => occupation.id);
+}
+
+/**
  * Ask the canonical ranking builders for their full sorted universes through
  * buildRankings' explicit projection-only limit option. Public ranking pages
  * still use the default TOP_N contract.
