@@ -44,7 +44,47 @@ describe('serif scope — H3 and body text are sans (§4.4 / §4.7)', () => {
     test(`${needle} in ${file} has rules and none use --font-serif`, () => {
       const bodies = rulesFor(file, needle);
       assert.ok(bodies.length > 0, `selector ${needle} no longer found in ${file}`);
-      for (const b of bodies) assert.ok(!/font-serif|serif/.test(b), `${needle} { ${b.trim()} }`);
+      for (const b of bodies) assert.ok(!/--font-serif/.test(b), `${needle} { ${b.trim()} }`);
     });
   }
+});
+
+/** Declaration values of `prop` across every rule whose selector list contains exactly `needle` (empty if never set). */
+function valuesOf(file: string, needle: string, prop: string): string[] {
+  const src = stripComments(readFileSync(join(ROOT, file), 'utf-8'));
+  const bodies: string[] = [];
+  for (const m of src.matchAll(/([^{};]*)\{([^{}]*)\}/g)) {
+    // Exact selector only: `.faq-answer b` is a descendant, not the role itself.
+    const sels = (m[1] ?? '').split(',').map((x) => x.trim().replace(/\s+/g, ' '));
+    if (sels.includes(needle)) bodies.push(m[2] ?? '');
+  }
+  const re = new RegExp(`(?:^|[;\\s])${prop}\\s*:\\s*([^;}]+)`, 'g');
+  return bodies.flatMap((b) => [...b.matchAll(re)].map((m) => (m[1] ?? '').trim()));
+}
+
+describe('role pins — §4.7 roles, not just "not serif"', () => {
+  test('.hub-subgroup-title leaves font/size/weight/colour to the canonical h3', () => {
+    for (const prop of ['font-family', 'font-size', 'font-weight', 'color']) {
+      assert.deepEqual(valuesOf('src/pages/_index.css', '.hub-subgroup-title', prop), [], prop);
+    }
+  });
+
+  test('.ic-headline is the small-section role: --t-h3 sans 700 --ink', () => {
+    const f = 'src/pages/rankings/index.astro';
+    assert.deepEqual(valuesOf(f, '.ic-headline', 'font-family'), ['var(--font-sans)']);
+    assert.deepEqual(valuesOf(f, '.ic-headline', 'font-size'), ['var(--t-h3)']);
+    assert.deepEqual(valuesOf(f, '.ic-headline', 'font-weight'), ['700']);
+    assert.deepEqual(valuesOf(f, '.ic-headline', 'color'), ['var(--ink)']);
+  });
+
+  test('body-text roles on /<id> use --ink', () => {
+    for (const sel of ['.v-line', '.faq-answer', '.ai-risk-detail .ai-rationale-long', 'section.context p']) {
+      assert.deepEqual(valuesOf('src/pages/_id-css.ts', sel, 'color'), ['var(--ink)'], sel);
+    }
+  });
+
+  test('.verdict-lede is the lead-text role: --t-h3 --ink-2', () => {
+    assert.deepEqual(valuesOf('src/pages/_id-css.ts', '.verdict-lede', 'font-size'), ['var(--t-h3)']);
+    assert.deepEqual(valuesOf('src/pages/_id-css.ts', '.verdict-lede', 'color'), ['var(--ink-2)']);
+  });
 });
