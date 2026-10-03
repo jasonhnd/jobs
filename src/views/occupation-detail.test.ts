@@ -100,4 +100,39 @@ describe('buildOccupationDetailFile', () => {
     const notStale = buildOccupationDetailFile(patchedFresh, occId);
     assert.equal(notStale.stale_vote, false);
   });
+
+  test('omits observation fields when the occupation has no comparable AIOIS-10 votes', () => {
+    const occId = asOccupationId(111);
+    const legacyOnly = [
+      { model: 'old', provider: 'test', date: '2026-01-01', backfill: false, transformation: 5, rationaleJa: 'x', displacement: 0, dims: null, confidence: null },
+    ];
+    const patched = {
+      ...graph,
+      scoreHistoryByOcc: new Map(graph.scoreHistoryByOcc).set(occId, legacyOnly),
+    };
+    const detail = buildOccupationDetailFile(patched, occId);
+    assert.equal(detail.consensus_transformation, null);
+    assert.equal(detail.latest_transformation, null);
+    assert.equal(detail.latest_delta, null);
+    assert.equal(detail.stale_vote, false);
+    assert.equal(detail.consensus_vendor_count, null);
+  });
+
+  test('throws when a comparable vote has no provider', () => {
+    const occId = asOccupationId(111);
+    const original = graph.scoreHistoryByOcc.get(occId) ?? [];
+    const dims = original.find((e) => e.dims != null)?.dims;
+    assert.ok(dims);
+    const missingProvider = [
+      { model: 'claude-opus-5', provider: '', date: '2026-07-26', backfill: false, transformation: 5, rationaleJa: 'a', displacement: 2, dims, confidence: 0.8 },
+    ];
+    const patched = {
+      ...graph,
+      scoreHistoryByOcc: new Map(graph.scoreHistoryByOcc).set(occId, missingProvider),
+    };
+    assert.throws(
+      () => buildOccupationDetailFile(patched, occId),
+      /has no provider/,
+    );
+  });
 });

@@ -3,8 +3,7 @@ import { strict as assert } from 'node:assert';
 
 import { buildIndexes, type Indexes } from '../lib/indexes.js';
 import type { ScoreRun } from '../schema/index.js';
-import { activeOccupationRuns, comparableAioisRuns, latestOccupationRun, latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
-import { VENDOR_WHITELIST } from '../../site/score-attribution.js';
+import { VENDOR_WHITELIST, formatModelDisplay, isWhitelistedVendor, runSlug } from '../../site/score-attribution.js';
 import { ModelsByModelProjectionSchema } from '../../lib/projection-schemas.js';
 import { buildModelsByModelPayload, modelsByModelMaxPageBytes } from './models-by-model.js';
 
@@ -19,6 +18,66 @@ async function indexesFixture(): Promise<Indexes> {
     })();
   }
   return indexesPromise;
+}
+
+interface OccupationRunView {
+  readonly model: string;
+  readonly modelDisplay: string;
+  readonly provider: string;
+  readonly runDate: string;
+  readonly slug: string;
+  readonly hasAiois: boolean;
+  readonly coveredCount: number;
+  readonly backfill: boolean;
+}
+
+function occupationRunViews(indexes: Indexes): OccupationRunView[] {
+  return [...indexes.runsByModel.values()]
+    .flat()
+    .filter((run) => run.scope === 'occupations')
+    .sort((a, b) => a.run.run_date.localeCompare(b.run.run_date) || a.scorer.model.localeCompare(b.scorer.model))
+    .map((run) => ({
+      model: run.scorer.model,
+      modelDisplay: formatModelDisplay(run.scorer.model),
+      provider: run.scorer.model_provider,
+      runDate: run.run.run_date,
+      slug: runSlug({ model: run.scorer.model, runDate: run.run.run_date }),
+      hasAiois: Object.values(run.scores).some((entry) => entry.aiois != null),
+      coveredCount: Object.keys(run.scores).length,
+      backfill: run.run.backfill === true,
+    }));
+}
+
+function activeOccupationRuns(runs: readonly OccupationRunView[]): OccupationRunView[] {
+  return runs.filter((run) => !run.backfill);
+}
+
+function comparableAioisRuns(runs: readonly OccupationRunView[]): OccupationRunView[] {
+  return runs.filter((run) => run.hasAiois);
+}
+
+function latestOccupationRun(runs: readonly OccupationRunView[]): OccupationRunView {
+  const latest = activeOccupationRuns(runs).at(-1);
+  if (!latest) throw new Error('no occupations batches in indexes.runsByModel');
+  return latest;
+}
+
+function latestRunPerVendor(runs: readonly OccupationRunView[]): OccupationRunView[] {
+  const latest = new Map<string, OccupationRunView>();
+  for (const run of comparableAioisRuns(activeOccupationRuns(runs))) {
+    if (!isWhitelistedVendor(run.provider)) continue;
+    const prev = latest.get(run.provider);
+    if (
+      !prev
+      || run.runDate > prev.runDate
+      || (run.runDate === prev.runDate && run.model.localeCompare(prev.model) > 0)
+    ) {
+      latest.set(run.provider, run);
+    }
+  }
+  return VENDOR_WHITELIST
+    .map((vendor) => latest.get(vendor))
+    .filter((run): run is OccupationRunView => run != null);
 }
 
 function containsKey(value: unknown, forbiddenKey: string): boolean {
@@ -38,8 +97,9 @@ function expectedPredecessor<T extends { readonly runDate: string }>(aiois: read
 
 describe('models-by-model projection', () => {
   test('builds one per-model page payload for each current score batch', async () => {
-    const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
-    const runs = listOccupationRuns();
+    const indexes = await indexesFixture();
+    const payload = buildModelsByModelPayload(indexes, '2026-07-13T00:00:00.000Z');
+    const runs = occupationRunViews(indexes);
     const slugs = Object.keys(payload.models);
 
     assert.deepEqual(slugs, runs.map((run) => run.slug));
@@ -56,8 +116,9 @@ describe('models-by-model projection', () => {
   });
 
   test('compares only compatible AIOIS batches and never synthesizes legacy profiles', async () => {
-    const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
-    const runs = listOccupationRuns();
+    const indexes = await indexesFixture();
+    const payload = buildModelsByModelPayload(indexes, '2026-07-13T00:00:00.000Z');
+    const runs = occupationRunViews(indexes);
     const aiois = comparableAioisRuns(activeOccupationRuns(runs));
     const legacyRuns = runs.filter((run) => !run.hasAiois);
     assert.ok(legacyRuns.length >= 1);
@@ -84,15 +145,17 @@ describe('models-by-model projection', () => {
   });
 
   test('marks exactly one latest comparable run per vendor as in_panel', async () => {
-    const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
-    const panel = latestRunPerVendor();
+    const indexes = await indexesFixture();
+    const payload = buildModelsByModelPayload(indexes, '2026-07-13T00:00:00.000Z');
+    const runs = occupationRunViews(indexes);
+    const panel = latestRunPerVendor(runs);
     const inPanel = Object.values(payload.models).filter((model) => model.in_panel);
     assert.equal(inPanel.length, panel.length);
     assert.deepEqual(
       inPanel.map((model) => `${model.model}@${model.date}`).sort(),
       panel.map((run) => `${run.model}@${run.runDate}`).sort(),
     );
-    const historyRun = comparableAioisRuns().find(
+    const historyRun = comparableAioisRuns(runs).find(
       (run) => run.provider === 'anthropic' && !panel.some((entry) => entry.slug === run.slug),
     );
     assert.ok(historyRun);
@@ -104,7 +167,7 @@ describe('models-by-model projection', () => {
 
   test('a later Anthropic batch flips the older Anthropic run out of the panel', async () => {
     const indexes = await indexesFixture();
-    const currentAnthropic = latestRunPerVendor().find((run) => run.provider === 'anthropic')!;
+    const currentAnthropic = latestRunPerVendor(occupationRunViews(indexes)).find((run) => run.provider === 'anthropic')!;
     const current = [...indexes.runsByModel.values()]
       .flat()
       .find((run) => run.scorer.model === currentAnthropic.model && run.scope === 'occupations');
@@ -136,8 +199,11 @@ describe('models-by-model projection', () => {
   });
 
   test('keeps distribution, lists, drift, and payload-size contracts', async () => {
-    const payload = buildModelsByModelPayload(await indexesFixture(), '2026-07-13T00:00:00.000Z');
-    const latest = payload.models[latestOccupationRun().slug]!;
+    const indexes = await indexesFixture();
+    const payload = buildModelsByModelPayload(indexes, '2026-07-13T00:00:00.000Z');
+    const runs = occupationRunViews(indexes);
+    const latestRun = latestOccupationRun(runs);
+    const latest = payload.models[latestRun.slug]!;
 
     assert.equal(latest.distribution.histogram.length, 20);
     assert.equal(
@@ -148,8 +214,8 @@ describe('models-by-model projection', () => {
     assert.equal(latest.lowest.length, 10);
     assert.ok(!('baseline' in latest.drift));
     if (!('baseline' in latest.drift)) {
-      const aiois = comparableAioisRuns(activeOccupationRuns());
-      assert.equal(latest.drift.predecessor.model, expectedPredecessor(aiois, latestOccupationRun())?.model);
+      const aiois = comparableAioisRuns(activeOccupationRuns(runs));
+      assert.equal(latest.drift.predecessor.model, expectedPredecessor(aiois, latestRun)?.model);
       assert.ok(latest.drift.movers.length <= 5);
       assert.ok(latest.drift.band_crossings.length <= 5);
     }
@@ -316,18 +382,9 @@ describe('backfill batch is history-only (mms-9.8)', () => {
     assert.equal(withBackfill.models['grok-4.5@2099-12-31']!.nav.next, null);
 
     const inPanel = Object.values(withBackfill.models).filter((model) => model.in_panel);
-    const grok6 = listOccupationRuns().find((run) => run.model === 'grok-4.6')!;
-    const syntheticSummary = {
-      ...grok6,
-      model: 'grok-4.5',
-      modelDisplay: 'Grok 4.5',
-      runDate: '2099-12-31',
-      slug: 'grok-4.5@2099-12-31',
-      backfill: true,
-    };
     assert.deepEqual(
       inPanel.map((model) => model.slug).sort(),
-      latestRunPerVendor([...listOccupationRuns(), syntheticSummary]).map((run) => run.slug).sort(),
+      Object.values(live.models).filter((model) => model.in_panel).map((model) => model.slug).sort(),
     );
   });
 

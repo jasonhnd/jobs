@@ -14,7 +14,7 @@ export interface PeopleJa {
 const OKU = 100_000_000;
 const MAN = 10_000;
 
-export function roundSignificant(n: number, sig: number): number {
+function roundSignificant(n: number, sig: number): number {
   if (n === 0) return 0;
   const digits = Math.floor(Math.log10(Math.abs(n))) + 1;
   const e = sig - digits;
@@ -56,7 +56,3 @@ export function formatShareJa(share: number): string {
   return `${pct.toFixed(1)}%`;
 }
 
-/** "2026-06-02" → "2026-06-02" (dates stay ISO on this page; the meta line is machine-readable). */
-export function isoDateOrDash(d: string | null): string {
-  return d ?? '—';
-}
