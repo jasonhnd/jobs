@@ -29,9 +29,12 @@
  * @param {string | URL | Request} url
  * @param {RequestInit} [init]
  * @param {number} [timeoutMs] hard timeout in milliseconds (default 5000)
+ * @param {typeof fetch} [fetchImpl] implementation to call (default global
+ *   `fetch`). Tests and handlers that already inject a fetch double pass it
+ *   here so the deadline still aborts that double.
  * @returns {Promise<Response>}
  */
-export async function fetchWithTimeout(url, init = {}, timeoutMs = 5000) {
+export async function fetchWithTimeout(url, init = {}, timeoutMs = 5000, fetchImpl = fetch) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   // Compose with a caller-supplied signal if present so either source
@@ -48,7 +51,7 @@ export async function fetchWithTimeout(url, init = {}, timeoutMs = 5000) {
     }
   }
   try {
-    return await fetch(url, { ...init, signal });
+    return await fetchImpl(url, { ...init, signal });
   } finally {
     clearTimeout(timer);
   }
