@@ -33,7 +33,7 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-function loadScoreRuns(): ScoreRun[] {
+export function loadScoreRuns(): ScoreRun[] {
   const dir = join(ROOT, 'data', 'scores');
   const runs: ScoreRun[] = [];
   for (const name of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
@@ -43,7 +43,7 @@ function loadScoreRuns(): ScoreRun[] {
 }
 
 /** `/models/<bare slug>` → `/models/<run slug of that model's newest batch>`. */
-function expectedRedirects(runs: readonly ScoreRun[]): Map<string, string> {
+export function expectedRedirects(runs: readonly ScoreRun[]): Map<string, string> {
   const latestByModel = new Map<string, ScoreRun>();
   for (const run of runs) {
     if (run.scope !== 'occupations') continue;
@@ -72,7 +72,7 @@ function expectedRedirects(runs: readonly ScoreRun[]): Map<string, string> {
   return expected;
 }
 
-function loadRedirects(): VercelRedirect[] {
+export function loadRedirects(): VercelRedirect[] {
   const raw = readFileSync(join(ROOT, 'vercel.json'), 'utf-8');
   const parsed = JSON.parse(raw) as { redirects?: VercelRedirect[] };
   if (!Array.isArray(parsed.redirects)) {
@@ -81,7 +81,7 @@ function loadRedirects(): VercelRedirect[] {
   return parsed.redirects;
 }
 
-function main(): void {
+export function main(): void {
   const expected = expectedRedirects(loadScoreRuns());
   const actual = new Map<string, VercelRedirect>();
   for (const redirect of loadRedirects()) {

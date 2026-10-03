@@ -11,8 +11,8 @@
 import { writeFileSync } from 'node:fs';
 import { buildIndexes } from '../src/data/lib/indexes.js';
 import { RISK_LOW_MAX, RISK_MID_MAX, type RiskBand } from '../src/data/lib/bands.js';
-import { fmean } from '../src/data/lib/fsum.js';
 import { pickConsensusScore, pickLatestScore } from '../src/graph/score-strategy.js';
+import { driftMean } from './lib/drift-core.js';
 
 export const DESIGN_MEAN_LATEST = 5.23;
 export const DESIGN_MEAN_CONSENSUS = 4.68;
@@ -40,10 +40,6 @@ export interface SwitchDriftSummary {
   readonly absDeltaGe10: number;
   readonly bandChanges: number;
   readonly movers: readonly SwitchMover[];
-}
-
-function round2(n: number): number {
-  return Math.round(n * 100) / 100;
 }
 
 /**
@@ -103,9 +99,9 @@ export function computeSwitchDrift(
 
   return {
     occupationCount: movers.length,
-    meanLatest: round2(fmean(latestVals)),
-    meanConsensus: round2(fmean(consensusVals)),
-    meanAbsDelta: round2(fmean(movers.map((row) => Math.abs(row.delta)))),
+    meanLatest: driftMean(latestVals),
+    meanConsensus: driftMean(consensusVals),
+    meanAbsDelta: driftMean(movers.map((row) => Math.abs(row.delta))),
     absDeltaGe05,
     absDeltaGe10,
     bandChanges,
