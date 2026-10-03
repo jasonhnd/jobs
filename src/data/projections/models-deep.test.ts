@@ -16,8 +16,7 @@ import {
 } from './models-deep.js';
 import type { Aiois10 } from '../../graph/types.js';
 import { DEFAULT_MODEL_STORY_EDITORIAL_ID, modelStoryEditorialSentenceId } from '../../site/model-editorial.js';
-import { latestRunPerVendor, listOccupationRuns } from '../../site/occupation-runs.js';
-import { VENDOR_WHITELIST } from '../../site/score-attribution.js';
+import { VENDOR_WHITELIST, isWhitelistedVendor, runSlug } from '../../site/score-attribution.js';
 import type { ScoreHistEntry } from '../../graph/score-strategy.js';
 import personalityCopy from '../../content/model-personality.ja.json';
 
@@ -33,6 +32,48 @@ async function indexesFixture(): Promise<Indexes> {
     })();
   }
   return indexesPromise;
+}
+
+interface OccupationRunView {
+  readonly model: string;
+  readonly provider: string;
+  readonly runDate: string;
+  readonly slug: string;
+  readonly hasAiois: boolean;
+  readonly backfill: boolean;
+}
+
+function occupationRunViews(indexes: Indexes): OccupationRunView[] {
+  return [...indexes.runsByModel.values()]
+    .flat()
+    .filter((run) => run.scope === 'occupations')
+    .sort((a, b) => a.run.run_date.localeCompare(b.run.run_date) || a.scorer.model.localeCompare(b.scorer.model))
+    .map((run) => ({
+      model: run.scorer.model,
+      provider: run.scorer.model_provider,
+      runDate: run.run.run_date,
+      slug: runSlug({ model: run.scorer.model, runDate: run.run.run_date }),
+      hasAiois: Object.values(run.scores).some((entry) => entry.aiois != null),
+      backfill: run.run.backfill === true,
+    }));
+}
+
+function latestRunPerVendor(runs: readonly OccupationRunView[]): OccupationRunView[] {
+  const latest = new Map<string, OccupationRunView>();
+  for (const run of runs) {
+    if (!run.hasAiois || run.backfill || !isWhitelistedVendor(run.provider)) continue;
+    const prev = latest.get(run.provider);
+    if (
+      !prev
+      || run.runDate > prev.runDate
+      || (run.runDate === prev.runDate && run.model.localeCompare(prev.model) > 0)
+    ) {
+      latest.set(run.provider, run);
+    }
+  }
+  return VENDOR_WHITELIST
+    .map((vendor) => latest.get(vendor))
+    .filter((run): run is OccupationRunView => run != null);
 }
 
 function row(id: number, spread: number): { id: number; spread: number } {
@@ -151,8 +192,9 @@ describe('models-deep projection', () => {
   });
 
   test('builds the vendor-panel payload under 30 KB with one score per panel entry', async () => {
-    const payload = buildModelsDeepPayload(await indexesFixture(), '2026-07-12T00:00:00.000Z');
-    const runs = listOccupationRuns();
+    const indexes = await indexesFixture();
+    const payload = buildModelsDeepPayload(indexes, '2026-07-12T00:00:00.000Z');
+    const runs = occupationRunViews(indexes);
 
     const panel = [...latestRunPerVendor(runs)].sort(
       (a, b) => a.runDate.localeCompare(b.runDate) || a.model.localeCompare(b.model),
@@ -441,7 +483,7 @@ describe('backfill batches stay in lane history (mms-9.9)', () => {
 
     assert.deepEqual(withBackfill.panel.entries, live.panel.entries);
     const xai = withBackfill.lanes.find((lane) => lane.provider === 'xai')!;
-    assert.equal(xai.latest.model, latestRunPerVendor().find((run) => run.provider === 'xai')!.model);
+    assert.equal(xai.latest.model, live.lanes.find((lane) => lane.provider === 'xai')!.latest.model);
     const liveXai = live.lanes.find((lane) => lane.provider === 'xai')!;
     assert.deepEqual(xai.history, [
       { model: 'grok-4.5', modelDisplay: 'Grok 4.5', date: '2099-12-31', covered_count: 556 },
