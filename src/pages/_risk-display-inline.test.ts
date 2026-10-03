@@ -17,6 +17,7 @@ const meJs = read('_me-inline.js');
 const mapJs = read('_map-inline.js');
 const shindanJs = read('_shindan.js');
 const compareAstro = read('compare/index.astro');
+const indexJs = read('_index-inline.js');
 
 /** Source of `function <name>(` through the closing brace at the same indent. */
 function fnSource(source: string, name: string): string {
@@ -50,6 +51,29 @@ describe('browser scripts print and band the displayed value (#631)', () => {
     for (const [name, source] of [['_map-inline.js', mapJs], ['_shindan.js', shindanJs], ['compare/index.astro', compareAstro]] as const) {
       assert.equal(dedent(fnSource(source, 'fmtRisk')), original, name);
     }
+  });
+
+  /** Algorithm body of fmtRisk from the `sign` line on: quotes, declaration keyword, comments and spacing normalised. */
+  const rounding = (source: string): string => {
+    const lines = fnSource(source, 'fmtRisk').split('\n').map((l) => l.replace(/\/\/.*$/, '').trim()).filter(Boolean);
+    const from = lines.findIndex((l) => /\bsign = /.test(l));
+    assert.ok(from > 0, 'sign line not found');
+    return lines.slice(from).join('\n').replace(/"/g, "'").replace(/\b(const|let)\b/g, 'var');
+  };
+
+  test('/ (_index-inline.js) fmtRisk keeps the /me banker rounding body', () => {
+    assert.equal(rounding(indexJs), rounding(meJs));
+  });
+
+  test('every fmtRisk copy rounds finite values identically (banker, half to even)', () => {
+    const fns = [['_me-inline.js', meJs], ['_map-inline.js', mapJs], ['_shindan.js', shindanJs], ['compare/index.astro', compareAstro], ['_index-inline.js', indexJs]] as const;
+    const impls = fns.map(([name, src]) => [name, load<(v: unknown) => string>(src, ['fmtRisk'], 'fmtRisk')] as const);
+    const samples = [0, 0.05, 0.15, 0.25, 0.35, 0.45, 1.25, 3.95, 3.9666666666666663, 4.266666666666667, 6.966666666666667, 8.366666666666667, 8.25, 8.35, 10, -0.25, -3.95];
+    for (const v of samples) {
+      const expected = impls[0][1](v);
+      for (const [name, fn] of impls) assert.equal(fn(v), expected, `${name} fmtRisk(${v})`);
+    }
+    assert.equal(impls[0][1](0.25), '0.2');
   });
 
   test('/me: band and label follow the printed value', () => {
