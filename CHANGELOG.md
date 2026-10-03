@@ -10,6 +10,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Fixed
+
+- **Compare suggestions and recent-pair writer.** Occupation ids written into suggestion `data-id` go through `Number()` and `escapeHtml`. The sectors fetch checks `r.ok` before `json()`. The pair-page recent-comparisons script reads `localStorage` inside `try`. Hover-tooltip and mobile top-10 formatters no longer shadow the outer `fmtSalary` / `fmtWorkers` names (`fmtTooltipSalary`, `fmtTooltipWorkers`, `fmtTop10Salary`).
+
 ### Security
 
 - **analytics/: js-yaml 5.4.2, googleapis 181, qs override ^6.16.0, pnpm 12.6.0** — clears 1 high + 4 moderate pnpm audit findings; setup-ga4 --dry-run output identical.
