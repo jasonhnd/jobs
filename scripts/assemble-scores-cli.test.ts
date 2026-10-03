@@ -27,6 +27,10 @@ const OCC_DIR = join(REPO, 'data', 'occupations');
 const TMP = realpathSync(tmpdir());
 const scoresBefore = readdirSync(SCORES_DIR).sort();
 const occBefore = readdirSync(OCC_DIR).sort();
+// An id with no occupation file, derived from the fixtures instead of hard-coded.
+const presentIds = new Set(occBefore.filter((f) => f.endsWith('.json')).map((f) => Number.parseInt(f, 10)));
+let MISSING_OCC_ID = 1;
+while (presentIds.has(MISSING_OCC_ID)) MISSING_OCC_ID += 1;
 
 const AIOIS = {
   d1: 4.8, d2: 4.4, d3: 5.0, d4: 6.5, d5: 5.8, d6: 3.0, d7: 4.2, d8: 3.6, d9: 2.8, d10: 3.5,
@@ -66,7 +70,10 @@ function assertTempOut(outPath: string): void {
 function runCli(args: readonly string[]): { status: number | null; stdout: string; stderr: string } {
   const outAt = args.indexOf('--out');
   if (outAt !== -1) assertTempOut(args[outAt + 1] ?? '');
-  const result = spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8', cwd: REPO });
+  const result = spawnSync(process.execPath, [SCRIPT, ...args], {
+    encoding: 'utf8', cwd: REPO,
+    env: { ...process.env, NO_COLOR: '1', FORCE_COLOR: '0' },
+  });
   return { status: result.status, stdout: result.stdout, stderr: result.stderr };
 }
 
@@ -159,13 +166,13 @@ test('subprocess CLI rejects bad input and never overwrites', { timeout: 60_000 
   assert.equal(existsSync(badOut), false);
 
   const extra = join(root, 'extra.jsonl');
-  writeFileSync(extra, `${JSON.stringify({ id: 34, ai_risk: 6.9, rationale_ja: 'coverage fixture', confidence: 0.8 })}\n`, 'utf8');
+  writeFileSync(extra, `${JSON.stringify({ id: MISSING_OCC_ID, ai_risk: 6.9, rationale_ja: 'coverage fixture', confidence: 0.8 })}\n`, 'utf8');
   const extraRun = runCli([
     '--mode', 'legacy', '--model', 'gpt-job0064cov', '--date', '2026-10-02', '--prompt-version', 'test',
     '--in', extra, '--out', join(root, 'extra-out.json'),
   ]);
   assert.equal(extraRun.status, 1);
-  assert.match(extraRun.stderr, /no occupation file: 34/);
+  assert.match(extraRun.stderr, new RegExp(`no occupation file: ${MISSING_OCC_ID}`));
 
   const legacyOut = join(root, 'legacy.json');
   const legacy = runCli([
