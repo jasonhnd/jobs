@@ -8,7 +8,6 @@ import { buildGeoSurfaces } from './geo-build.js';
 import { bindHomeFacts } from './home-facts-render.js';
 import { buildMethodologyBatchView } from './methodology-facts.js';
 import {
-  compareAiImpactDesc,
   computeGeoFacts,
   pickLatestGeoScoreRun,
   salaryStanding,
@@ -51,13 +50,23 @@ function scoreRun(
 
 describe('computeGeoFacts', () => {
   test('uses workforce then occupation id as deterministic risk tie-breakers', () => {
-    const tied: GeoTreemapRow[] = [
+    const tiedRows: GeoTreemapRow[] = [
       { id: 3, name_ja: 'C', ai_risk: 7, workers: 100, sector_id: null, sector_ja: null },
       { id: 2, name_ja: 'B', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
       { id: 1, name_ja: 'A', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
     ];
+    const tiedScores = new Map<number, GeoScoreEntry>([
+      [1, { ai_risk: 7, aiois: { displacement: 1 } }],
+      [2, { ai_risk: 7, aiois: { displacement: 1 } }],
+      [3, { ai_risk: 7, aiois: { displacement: 1 } }],
+    ]);
+    const facts = computeGeoFacts(tiedRows, [scoreRun('2026-06-13', 'claude-fable-5', tiedScores)]);
 
-    assert.deepEqual(tied.sort(compareAiImpactDesc).map((row) => row.id), [1, 2, 3]);
+    assert.deepEqual(facts.topImpactOccupations.map((row) => row.id), [1, 2, 3]);
+    assert.deepEqual(
+      facts.occupations.map((row) => [row.id, row.aiImpactRank]),
+      [[1, 1], [2, 2], [3, 3]],
+    );
   });
 
   test('computes means, risk bands, workforce share, and top/bottom rows', () => {
@@ -148,6 +157,25 @@ describe('computeGeoFacts', () => {
     assert.equal(oldJsonLd, newJsonLd);
     assert.doesNotMatch(newJsonLd, /gpt-next-6/);
     assert.doesNotMatch(newJsonLd, /GPT Next 6/);
+  });
+});
+
+describe('consensus errors (issue #790)', () => {
+  test('leaves an occupation with no comparable votes out of the scored set', () => {
+    const legacy = new Map<number, GeoScoreEntry>([
+      ...scores,
+      [99, { ai_risk: 8, aiois: null }],
+    ]);
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5', legacy)]);
+    assert.equal(facts.occupationCount, 4);
+    assert.deepEqual(facts.occupations.map((occupation) => occupation.id), [1, 2, 3, 4]);
+  });
+
+  test('throws when a comparable vote has no provider', () => {
+    assert.throws(
+      () => computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5', scores, '')]),
+      /has no provider/,
+    );
   });
 });
 

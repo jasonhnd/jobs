@@ -15,7 +15,6 @@ import {
   HAID_TERMS,
   HAID_WINDOW_JA,
   haidBoundaryBefore,
-  haidRelationOf,
 } from './haid-spec.js';
 
 describe('HAID spec invariants', () => {
@@ -49,10 +48,12 @@ describe('HAID spec invariants', () => {
     }
     assert.equal(next, 11);
     for (const level of HAID_LEVELS) {
-      assert.equal(haidRelationOf(level.level).id, level.relation);
+      const relation = HAID_RELATIONS.find((r) => r.levels[0] <= level.level && level.level <= r.levels[1]);
+      assert.ok(relation);
+      assert.equal(relation.id, level.relation);
     }
-    assert.throws(() => haidRelationOf(0), RangeError);
-    assert.throws(() => haidRelationOf(11), RangeError);
+    assert.equal(HAID_RELATIONS.some((r) => r.levels[0] <= 0 && 0 <= r.levels[1]), false);
+    assert.equal(HAID_RELATIONS.some((r) => r.levels[0] <= 11 && 11 <= r.levels[1]), false);
   });
 
   test('3 boundaries sit on the first level of relations 2..4', () => {
