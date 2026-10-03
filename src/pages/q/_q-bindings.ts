@@ -18,8 +18,9 @@ import { occupationPath } from '@/lib/urls';
 import { riskClass } from '@/lib/risk';
 import { safeMean } from '@/lib/num';
 import { formatRiskScore } from '../../lib/score-format.js';
+import { siteConfig } from '@/site/config';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 
 export interface QSlugBindings {
   readonly canonical: string;
