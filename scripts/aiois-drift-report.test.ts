@@ -2,7 +2,11 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { computeDriftReport, renderDriftMarkdown, riskBand, type AioisScore } from './aiois-drift-report.js';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+import { computeDriftReport, renderDriftMarkdown, riskBand, runDriftCli, type AioisScore } from './aiois-drift-report.js';
 
 const sc = (aiRisk: number, displacement: number, d1 = 5, confidence: number | null = 0.8): AioisScore => ({
   aiRisk,
@@ -202,5 +206,134 @@ describe('drift report edge cases', () => {
     assert.deepEqual(report.manualReview, []);
     assert.equal(riskBand(4), 'mid');
     assert.equal(riskBand(6.9), 'mid');
+  });
+});
+
+describe('runDriftCli', () => {
+  const batch = (model: string, date: string, methodId: string | undefined, scores: Record<string, unknown>) => ({
+    scorer: { model, ...(methodId ? { scoring_method_id: methodId } : {}) },
+    run: { run_date: date },
+    scores,
+  });
+  const entry = (aiRisk: number, displacement: number, confidence?: number | null) => ({
+    ai_risk: aiRisk,
+    ...(confidence === undefined ? {} : { confidence }),
+    aiois: { displacement, d1: 5, d2: 5, d3: 5, d4: 5, d5: 5, d6: 5, d7: 5, d8: 5, d9: 5, d10: 5 },
+  });
+  const METHOD = 'aiois-semantic-judgment';
+
+  let root: string;
+  const write = (rel: string, data: unknown): void => {
+    const full = join(root, rel);
+    mkdirSync(join(full, '..'), { recursive: true });
+    writeFileSync(full, JSON.stringify(data));
+  };
+
+  function run(argv: string[]): { exit: number | null; out: string[]; err: string[] } {
+    const out: string[] = [];
+    const err: string[] = [];
+    const origLog = console.log;
+    const origErr = console.error;
+    const origExit = process.exit;
+    console.log = (...a: unknown[]) => void out.push(a.join(' '));
+    console.error = (...a: unknown[]) => void err.push(a.join(' '));
+    process.exit = ((code?: number) => {
+      throw new Error(`exit:${code}`);
+    }) as typeof process.exit;
+    let exit: number | null = null;
+    try {
+      runDriftCli(argv, root);
+    } catch (e) {
+      const m = /^exit:(\d+)$/.exec((e as Error).message);
+      if (!m) throw e;
+      exit = Number(m[1]);
+    } finally {
+      console.log = origLog;
+      console.error = origErr;
+      process.exit = origExit;
+    }
+    return { exit, out, err };
+  }
+
+  const setup = (): void => {
+    root = mkdtempSync(join(tmpdir(), 'aiois-drift-'));
+    write('data/occupations/1.json', { id: 1, title_ja: '甲' });
+    write('data/occupations/2.json', { id: 2 });
+    writeFileSync(join(root, 'data/occupations/notes.txt'), 'ignored');
+    write('b.json', batch('base-model', '2026-01-01', METHOD, {
+      '1': entry(8, 6, 0.9),
+      '2': entry(3, 1),
+      '3': { ai_risk: 5, aiois: null },
+    }));
+    write('c.json', batch('cand-model', '2026-02-01', METHOD, { '1': entry(6, 3, null), '2': entry(3.5, 1.2, 0.8) }));
+  };
+  const teardown = (): void => rmSync(root, { recursive: true, force: true });
+
+  test('writes the markdown report and prints the summary', () => {
+    setup();
+    try {
+      const r = run(['--baseline', 'b.json', '--candidate', 'c.json', '--out', 'out/sub/r.md', '--rank-threshold', '1', '--low-confidence', '0.85']);
+      assert.equal(r.exit, null);
+      assert.ok(r.out[0]!.startsWith('[aiois-drift-report] OK → '));
+      assert.ok(r.out[1]!.includes('compared=2'));
+      assert.ok(r.out[2]!.includes('rank≥1'));
+      const md = readFileSync(join(root, 'out/sub/r.md'), 'utf8');
+      assert.ok(md.includes('base-model (2026-01-01) vs cand-model (2026-02-01)'));
+      assert.ok(md.includes('| 1 | 甲 |'));
+      assert.ok(md.includes('| 2 |  | 3.0 → 3.5'));
+    } finally {
+      teardown();
+    }
+  });
+
+  test('default rank threshold is 10 below 100 common ids and 50 from 100 up', () => {
+    setup();
+    try {
+      assert.ok(run(['--baseline', 'b.json', '--candidate', 'c.json', '--out', 'o.md']).out[2]!.includes('rank≥10'));
+      const many = (m: string, d: string) => batch(m, d, METHOD, Object.fromEntries(Array.from({ length: 100 }, (_, i) => [String(i + 1), entry(5, 2)])));
+      write('b100.json', many('a', '2026-01-01'));
+      write('c100.json', many('b', '2026-01-02'));
+      assert.ok(run(['--baseline', 'b100.json', '--candidate', 'c100.json', '--out', 'o2.md']).out[2]!.includes('rank≥50'));
+    } finally {
+      teardown();
+    }
+  });
+
+  const failing: Array<[string, (argv: string[]) => string[], string]> = [
+    ['missing --baseline', () => ['--candidate', 'c.json', '--out', 'o.md'], 'missing --baseline'],
+    ['missing --candidate', () => ['--baseline', 'b.json', '--out', 'o.md'], 'missing --candidate'],
+    ['missing --out', () => ['--baseline', 'b.json', '--candidate', 'c.json'], 'missing --out'],
+    ['flag without value', () => ['--baseline'], '--baseline needs a value'],
+    ['flag followed by flag', () => ['--baseline', '--candidate', 'c.json'], '--baseline needs a value'],
+  ];
+  for (const [name, mk, message] of failing) {
+    test(`exits 1: ${name}`, () => {
+      setup();
+      try {
+        const r = run(['stray', ...mk([])]);
+        assert.equal(r.exit, 1);
+        assert.ok(r.err[0]!.includes(message), r.err[0]);
+        assert.equal(existsSync(join(root, 'o.md')), false);
+      } finally {
+        teardown();
+      }
+    });
+  }
+
+  test('exits 1 on malformed batches', () => {
+    setup();
+    try {
+      write('nometa.json', { scores: {} });
+      assert.equal(run(['--baseline', 'nometa.json', '--candidate', 'c.json', '--out', 'o.md']).err[0]!.includes('baseline: missing scores/run/scorer'), true);
+      write('nomethod.json', batch('m', '2026-01-01', undefined, {}));
+      const r = run(['--baseline', 'b.json', '--candidate', 'nomethod.json', '--out', 'o.md']);
+      assert.equal(r.exit, 1);
+      assert.ok(r.err[0]!.includes('candidate: missing or invalid scorer.scoring_method_id'));
+      write('norisk.json', batch('m', '2026-01-01', METHOD, { '7': { aiois: { displacement: 1 } } }));
+      const r2 = run(['--baseline', 'norisk.json', '--candidate', 'c.json', '--out', 'o.md']);
+      assert.ok(r2.err[0]!.includes('baseline: id 7 lacks ai_risk'));
+    } finally {
+      teardown();
+    }
   });
 });
