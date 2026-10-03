@@ -164,3 +164,204 @@ test('getGenreByPath: round-trips every catalogue path; returns null on miss', (
   assert.equal(getGenreByPath('not-a-real-genre'), null);
   assert.equal(getGenreByPath(''), null);
 });
+
+// Predicate fixtures are deliberately in-memory; no score/data files are written.
+import type { DetailFileMin, GenreHubConfig } from './genre-hub.js';
+
+function runFilter(configs: ReadonlyArray<GenreHubConfig>, slug: string, detail: Partial<DetailFileMin>): number | null {
+  const config = configs.find((c) => c.slug === slug);
+  assert.ok(config?.custom_filter, `Missing custom filter for ${slug}`);
+  return config.custom_filter({ id: 1, ...detail });
+}
+
+for (const [slug, key, minimum] of [
+  ['no-school-required', 'below_high_school', 0.05],
+  ['high-school-careers', 'high_school', 0.3],
+  ['vocational-school-careers', 'vocational_school', 0.15],
+  ['university-careers', 'university', 0.5],
+] as const) {
+  test(`education ${slug}: missing/below-threshold excluded; inclusive boundary retained`, () => {
+    const run = (education_distribution?: Record<string, number> | null) =>
+      runFilter(EDUCATION_CONFIGS, slug, { education_distribution });
+    assert.equal(run(), null);
+    assert.equal(run(null), null);
+    assert.equal(run({ unrelated: 1 }), null);
+    assert.equal(run({ [key]: minimum - 0.001 }), null);
+    assert.equal(run({ [key]: minimum }), minimum);
+    assert.equal(run({ [key]: 1 }), 1);
+  });
+}
+
+test('graduate education sums masters and doctorate, including partially missing keys', () => {
+  const run = (education_distribution?: Record<string, number> | null) =>
+    runFilter(EDUCATION_CONFIGS, 'graduate-school-careers', { education_distribution });
+  assert.equal(run(), null);
+  assert.equal(run(null), null);
+  assert.equal(run({}), null);
+  assert.equal(run({ masters: 0.1, doctorate: 0.09 }), null);
+  assert.equal(run({ masters: 0.1, doctorate: 0.1 }), 0.2);
+  assert.equal(run({ doctorate: 0.2 }), 0.2);
+  assert.equal(run({ masters: 0.3 }), 0.3);
+});
+
+for (const [configs, slug] of [
+  [EDUCATION_CONFIGS, 'lifetime-learning'], [ENTRY_PATHS_CONFIGS, 'independent-typical'],
+] as const) {
+  test(`${slug}: certifications and known risk at most six are required`, () => {
+    const run = (d: Partial<DetailFileMin>) => runFilter(configs, slug, d);
+    assert.equal(run({}), null);
+    assert.equal(run({ related_certs_ja: [], ai_risk: { score: 2 } }), null);
+    assert.equal(run({ related_certs_ja: ['Cert'] }), null);
+    assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: null }), null);
+    assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: null } }), null);
+    assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: 6.01 } }), null);
+    assert.equal(run({ related_certs_ja: ['One', 'Two'], ai_risk: { score: 6 } }), 2);
+    assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: 0 } }), 1);
+  });
+}
+
+for (const [slug, keys] of [
+  ['quick-start', ['up_to_1_month', '1_to_6_months', '6_months_to_1_year', 'not_required']],
+  ['1-3-years', ['1_to_2_years', '2_to_3_years']],
+  ['3-5-years', ['3_to_5_years']], ['5-10-years', ['5_to_10_years']], ['lifelong-craft', ['over_10_years']],
+] as const) {
+  test(`training ${slug}: accepts each configured key and chooses the highest matching score`, () => {
+    const entry = (key: string, score: number) => ({ key, label_ja: key, score });
+    const run = (training_post_top5?: DetailFileMin['training_post_top5']) =>
+      runFilter(TRAINING_CONFIGS, slug, { training_post_top5 });
+    assert.equal(run(), null);
+    assert.equal(run(null), null);
+    assert.equal(run([]), null);
+    assert.equal(run([entry('unrelated', 99)]), null);
+    for (const key of keys) assert.equal(run([entry(key, 0)]), 0);
+    assert.equal(run([entry(keys[0], -2)]), -2);
+    assert.equal(run([entry('unrelated', 99), ...keys.map((key) => entry(key, 1)), entry(keys[0], 4), entry(keys[0], 2)]), 4);
+  });
+}
+
+test('shift work selects all four sectors and ranks by workforce, with a zero fallback', () => {
+  const run = (d: Partial<DetailFileMin>) => runFilter(WORK_STYLES_CONFIGS, 'shift-work', d);
+  assert.equal(run({}), null);
+  assert.equal(run({ sector: null }), null);
+  assert.equal(run({ sector: { id: 'unrelated' }, stats: { workers: 100000 } }), null);
+  for (const id of ['iryo', 'hoan', 'service', 'maint']) {
+    assert.equal(run({ sector: { id }, stats: { workers: 123 } }), 123);
+    assert.equal(run({ sector: { id } }), 0);
+    assert.equal(run({ sector: { id }, stats: { workers: null } }), 0);
+  }
+});
+
+for (const [slug, key, minimum] of [
+  ['full-time-mainstream', 'regular_employee', 0.6],
+  ['freelance-friendly', 'self_employed_freelance', 0.15],
+] as const) {
+  test(`employment ${slug}: inclusive share threshold and missing-data exclusion`, () => {
+    const run = (employment_type?: Record<string, number> | null) =>
+      runFilter(EMPLOYMENT_CONFIGS, slug, { employment_type });
+    assert.equal(run(), null);
+    assert.equal(run(null), null);
+    assert.equal(run({}), null);
+    assert.equal(run({ [key]: minimum - 0.001 }), null);
+    assert.equal(run({ [key]: minimum }), minimum);
+  });
+}
+
+test('part-time employment sums part-time and dispatched shares; public employment selects its sector', () => {
+  const part = (employment_type?: Record<string, number> | null) =>
+    runFilter(EMPLOYMENT_CONFIGS, 'part-time-mainstream', { employment_type });
+  assert.equal(part(), null);
+  assert.equal(part(null), null);
+  assert.equal(part({}), null);
+  assert.equal(part({ part_time: 0.1, dispatched: 0.09 }), null);
+  assert.equal(part({ part_time: 0.1, dispatched: 0.1 }), 0.2);
+  assert.equal(part({ part_time: 0.2 }), 0.2);
+  assert.equal(part({ dispatched: 0.3 }), 0.3);
+  const publicEmployee = (d: Partial<DetailFileMin>) => runFilter(EMPLOYMENT_CONFIGS, 'public-employee', d);
+  assert.equal(publicEmployee({}), null);
+  assert.equal(publicEmployee({ sector: { id: 'iryo' } }), null);
+  assert.equal(publicEmployee({ sector: { id: 'hoan' } }), 1);
+});
+
+for (const [slug, maxHours] of [
+  ['child-care-balance', 165], ['elderly-care-balance', 170],
+  ['health-friendly', 175], ['mental-health-friendly', 170], ['hobby-balance', 160],
+] as const) {
+  test(`life balance ${slug}: inclusive hours limit, shorter hours rank higher`, () => {
+    const run = (stats?: DetailFileMin['stats']) => runFilter(LIFE_BALANCE_CONFIGS, slug, { stats, ai_risk: { score: 6 } });
+    assert.equal(run(), null);
+    assert.equal(run(null), null);
+    assert.equal(run({ monthly_hours: null }), null);
+    assert.equal(run({ monthly_hours: 0 }), null);
+    assert.equal(run({ monthly_hours: maxHours + 1 }), null);
+    assert.equal(run({ monthly_hours: maxHours }), -maxHours);
+    assert.equal(run({ monthly_hours: 100 }), -100);
+  });
+}
+
+test('life balance risk guards distinguish optional risk from required known risk', () => {
+  const child = (ai_risk?: DetailFileMin['ai_risk']) => runFilter(LIFE_BALANCE_CONFIGS, 'child-care-balance', { stats: { monthly_hours: 165 }, ai_risk });
+  assert.equal(child(), -165);
+  assert.equal(child(null), -165);
+  assert.equal(child({ score: null }), -165);
+  assert.equal(child({ score: 6 }), -165);
+  assert.equal(child({ score: 6.01 }), null);
+  const mental = (ai_risk?: DetailFileMin['ai_risk']) => runFilter(LIFE_BALANCE_CONFIGS, 'mental-health-friendly', { stats: { monthly_hours: 170 }, ai_risk });
+  assert.equal(mental(), null);
+  assert.equal(mental(null), null);
+  assert.equal(mental({ score: null }), null);
+  assert.equal(mental({ score: 0 }), -170);
+  assert.equal(mental({ score: 10 }), -170);
+});
+
+test('senior balance requires age at least 45 and excludes only known risk above five', () => {
+  const run = (d: Partial<DetailFileMin>) => runFilter(LIFE_BALANCE_CONFIGS, 'senior-friendly', d);
+  assert.equal(run({}), null);
+  assert.equal(run({ stats: { average_age: 0 } }), null);
+  assert.equal(run({ stats: { average_age: 44.99 } }), null);
+  assert.equal(run({ stats: { average_age: 45 } }), 45);
+  assert.equal(run({ stats: { average_age: 60 }, ai_risk: null }), 60);
+  assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: null } }), 60);
+  assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: 5 } }), 60);
+  assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: 5.01 } }), null);
+});
+
+test('new-graduate and mid-career entry filters retain inclusive age boundaries', () => {
+  const young = (average_age?: number | null) => runFilter(ENTRY_PATHS_CONFIGS, 'new-grad-mainstream', { stats: { average_age } });
+  assert.equal(young(), null);
+  assert.equal(young(null), null);
+  assert.equal(young(0), null);
+  assert.equal(young(38.01), null);
+  assert.equal(young(38), -38);
+  assert.equal(young(25), -25);
+  const mature = (average_age?: number | null) => runFilter(ENTRY_PATHS_CONFIGS, 'mid-career-mainstream', { stats: { average_age } });
+  assert.equal(mature(), null);
+  assert.equal(mature(null), null);
+  assert.equal(mature(0), null);
+  assert.equal(mature(34.99), null);
+  assert.equal(mature(35), 35);
+  assert.equal(mature(50), 50);
+});
+
+test('arbeit entry requires workforce, at most one certification, and a known age at most fifty', () => {
+  const run = (d: Partial<DetailFileMin>) => runFilter(ENTRY_PATHS_CONFIGS, 'from-arbeit', d);
+  assert.equal(run({}), null);
+  assert.equal(run({ stats: { workers: 29999, average_age: 40 } }), null);
+  assert.equal(run({ stats: { workers: 30000 } }), null);
+  assert.equal(run({ stats: { workers: 30000, average_age: 50.01 } }), null);
+  assert.equal(run({ stats: { workers: 30000, average_age: 50 }, related_certs_ja: ['One', 'Two'] }), null);
+  assert.equal(run({ stats: { workers: 30000, average_age: 50 }, related_certs_ja: ['One'] }), 30000);
+  assert.equal(run({ stats: { workers: 50000, average_age: 35 } }), 50000);
+});
+
+test('apprenticeship entry sums low education shares and permits absent risk', () => {
+  const run = (d: Partial<DetailFileMin>) => runFilter(ENTRY_PATHS_CONFIGS, 'apprenticeship', d);
+  assert.equal(run({}), null);
+  assert.equal(run({ education_distribution: null }), null);
+  assert.equal(run({ education_distribution: {} }), null);
+  assert.equal(run({ education_distribution: { below_high_school: 0.2, high_school: 0.19 } }), null);
+  assert.equal(run({ education_distribution: { below_high_school: 0.2, high_school: 0.2 } }), 0.4);
+  assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: null } }), 0.4);
+  assert.equal(run({ education_distribution: { below_high_school: 0.4 }, ai_risk: null }), 0.4);
+  assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: 5 } }), 0.4);
+  assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: 5.01 } }), null);
+});

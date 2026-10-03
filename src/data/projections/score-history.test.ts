@@ -2,8 +2,10 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
 import { buildIndexes, type Indexes } from '../lib/indexes.js';
-import { listOccupationRuns } from '../../site/occupation-runs.js';
-import { buildScoreHistoryPayload } from './score-history.js';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { buildScoreHistory, buildScoreHistoryPayload } from './score-history.js';
 
 let fixturePromise: Promise<{ indexes: Indexes; payload: ReturnType<typeof buildScoreHistoryPayload> }> | null = null;
 
@@ -25,7 +27,10 @@ describe('score-history projection', () => {
   test('emits the latest-score occupation universe with shorter legacy gaps preserved', async () => {
     const { indexes, payload } = await fixture();
     const histories = Object.values(payload);
-    const runCount = listOccupationRuns().length;
+    const runCount = [...indexes.runsByModel.values()]
+      .flat()
+      .filter((run) => run.scope === 'occupations')
+      .length;
     const sourceLengths = [...indexes.historyByOcc.values()].map((history) => history.length);
 
     assert.equal(Object.keys(payload).length, 556);
@@ -103,6 +108,38 @@ describe('score-history projection', () => {
           `history for occupation ${occId} is not sorted`,
         );
       }
+    }
+  });
+});
+
+
+describe('score-history filesystem and invariant paths', () => {
+  test('rejects both absent and empty history for a latest score', () => {
+    for (const historyByOcc of [new Map(), new Map([[42, []]])]) {
+      const indexes = { latestScoreByOcc: new Map([[42, {}]]), historyByOcc } as unknown as Indexes;
+      assert.throws(() => buildScoreHistoryPayload(indexes), /history is missing for occupation 42/);
+    }
+  });
+
+  test('writes the validated payload with a newline and accurate entry counts', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'score-history-test-'));
+    try {
+      const entry = { model: 'fixture', date: '2026-07-17', ai_risk: 4.5 };
+      const indexes = {
+        latestScoreByOcc: new Map([[42, entry], [7, entry]]),
+        historyByOcc: new Map([[42, [entry, { ...entry, date: '2026-07-18' }]], [7, [entry]]]),
+      } as unknown as Indexes;
+      const result = await buildScoreHistory(indexes, root);
+      const path = join(root, 'data.score_history.json');
+      assert.deepEqual(result, { files: [path], occupations: 2, entries: 3 });
+      const raw = await readFile(path, 'utf-8');
+      assert.equal(raw, JSON.stringify(buildScoreHistoryPayload(indexes)) + '\n');
+      assert.deepEqual(JSON.parse(raw)['7'], [{ model: 'fixture', date: '2026-07-17', transformation: 4.5, displacement: null, dims: null }]);
+      const empty = { latestScoreByOcc: new Map(), historyByOcc: new Map() } as unknown as Indexes;
+      assert.deepEqual(await buildScoreHistory(empty, root), { files: [path], occupations: 0, entries: 0 });
+      assert.equal(await readFile(path, 'utf-8'), '{}\n');
+    } finally {
+      await rm(root, { recursive: true, force: true });
     }
   });
 });

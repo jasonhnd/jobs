@@ -10,11 +10,12 @@
     "preview": "astro preview",
     "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
     "test": "bun run build:data && bun test src scripts analytics/ga4-spec-validation.test.mjs",
+    "test:coverage": "bun run build:data && bun test --coverage --coverage-reporter=lcov --coverage-dir=.cache/cov src scripts analytics/ga4-spec-validation.test.mjs && bun scripts/append-untested-coverage.ts .cache/cov/lcov.info",
     "test:consistency": "bun src/data/test-consistency.ts",
     "build:data": "bun src/data/build.ts",
     "import:ipd": "bun src/data/import-ipd.ts",
     "audit": "bun audit && (cd analytics && corepack pnpm audit --audit-level=moderate)",
-    "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
+    "test:seo": "bash scripts/seo-check.sh https://pre.mirai-shigoto.com/ --sample 5",
     "check:html-comments": "bun scripts/check-nested-html-comments.cjs",
     "check:rendered-leaks": "bun scripts/check-rendered-leaks.cjs",
     "check:lockfile-sync": "bun scripts/check-lockfile-sync.cjs",
@@ -56,16 +57,24 @@
     "@playwright/test": "1.63.0",
     "@types/node": "^24.13.6",
     "@types/react": "^19.3.0",
+    "esbuild": "0.28.2",
     "exceljs": "^4.4.0",
     "fontkitten": "1.0.3",
     "subset-font": "^2.9.0",
     "typescript": "^7.0.2"
   },
   "overrides": {
-    "devalue": "^5.9.1",
+    "devalue": "^5.9.4",
     "tmp": "^0.2.7",
     "uuid": "^14",
     "sharp": "^0.35.4",
-    "fflate": "^0.7.5"
+    "fflate": "^0.7.5",
+    "undici": "^8.10.2",
+    "brace-expansion@1": {
+      ".": "^1.1.21"
+    },
+    "brace-expansion@2": {
+      ".": "^2.1.7"
+    }
   }
 }

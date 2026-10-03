@@ -10,38 +10,24 @@
  */
 import { writeFileSync } from 'node:fs';
 import { buildIndexes } from '../src/data/lib/indexes.js';
-import { riskBand, type RiskBand } from '../src/data/lib/bands.js';
 import { displayScore } from '../src/data/lib/banker-round.js';
-import { fmean } from '../src/data/lib/fsum.js';
 import {
   pickConsensusScore,
   pickFlagshipMeanScore,
   pickLatestScore,
   type ScoreHistEntry,
 } from '../src/graph/score-strategy.js';
-import { LATEST_OBSERVATION_THRESHOLD } from '../src/site/consensus-copy.js';
+import { computeDrift, driftMean, type DriftMover, type DriftBandCounts } from './lib/drift-core.js';
 
 export const DEFAULT_INCOMING_MODEL = 'claude-fable-5-1';
 
-export interface FlagshipSwitchMover {
-  readonly id: number;
-  readonly title: string;
-  readonly before: number;
-  readonly after: number;
-  readonly delta: number;
-  readonly beforeBand: RiskBand;
-  readonly afterBand: RiskBand;
-  readonly showsLatestLine: boolean;
-}
+export type FlagshipSwitchMover = DriftMover;
 
-export interface FlagshipSwitchBandCounts {
-  readonly low: number;
-  readonly mid: number;
-  readonly high: number;
-}
+export type FlagshipSwitchBandCounts = DriftBandCounts;
 
 export interface FlagshipSwitchDriftSummary {
   readonly occupationCount: number;
+  readonly skippedOccupationIds: readonly number[];
   readonly incomingModel: string;
   readonly incomingDate: string | null;
   readonly generatedAt: string;
@@ -55,10 +41,6 @@ export interface FlagshipSwitchDriftSummary {
   readonly bandChanges: number;
   readonly latestLineCount: number;
   readonly movers: readonly FlagshipSwitchMover[];
-}
-
-function round2(n: number): number {
-  return Math.round(n * 100) / 100;
 }
 
 function incomingDateOf(
@@ -75,98 +57,46 @@ function incomingDateOf(
   return latest;
 }
 
-function emptyBands(): { low: number; mid: number; high: number } {
-  return { low: 0, mid: 0, high: 0 };
-}
-
-function bump(counts: { low: number; mid: number; high: number }, band: RiskBand): void {
-  counts[band] += 1;
-}
-
 export function computeFlagshipSwitchDrift(
   historyByOcc: ReadonlyMap<number, readonly ScoreHistEntry[]>,
   incomingModel: string,
   titles: ReadonlyMap<number, string>,
   generatedAt: string = new Date().toISOString().slice(0, 10),
 ): FlagshipSwitchDriftSummary {
-  const beforeVals: number[] = [];
-  const afterVals: number[] = [];
-  const medianWithIncomingVals: number[] = [];
-  const movers: FlagshipSwitchMover[] = [];
-  const bandBefore = emptyBands();
-  const bandAfter = emptyBands();
-  let absDeltaGe05 = 0;
-  let absDeltaGe10 = 0;
-  let bandChanges = 0;
-  let latestLineCount = 0;
-
-  for (const [id, history] of historyByOcc) {
-    const comparable = history.filter((entry) => entry.aiois != null);
-    if (comparable.length === 0) continue;
-    const withoutIncoming = comparable.filter((entry) => entry.model !== incomingModel);
-    if (withoutIncoming.length === 0) continue;
-
-    let beforeUnrounded: number;
-    let afterUnrounded: number;
-    let medianWithIncomingUnrounded: number;
-    let latestT: number;
-    try {
-      beforeUnrounded = pickConsensusScore(withoutIncoming).transformation;
-      afterUnrounded = pickFlagshipMeanScore(comparable).transformation;
-      medianWithIncomingUnrounded = pickConsensusScore(comparable).transformation;
-      latestT = pickLatestScore(comparable).aiois!.transformation;
-    } catch {
-      continue;
-    }
-
-    const before = displayScore(beforeUnrounded);
-    const after = displayScore(afterUnrounded);
-    const delta = after - before;
-    const abs = Math.abs(delta);
-    const beforeBand = riskBand(before);
-    const afterBand = riskBand(after);
-    if (beforeBand === null || afterBand === null) continue;
-
-    beforeVals.push(before);
-    afterVals.push(after);
-    medianWithIncomingVals.push(displayScore(medianWithIncomingUnrounded));
-    if (abs >= 0.5) absDeltaGe05 += 1;
-    if (abs >= 1.0) absDeltaGe10 += 1;
-    bump(bandBefore, beforeBand);
-    bump(bandAfter, afterBand);
-    if (beforeBand !== afterBand) bandChanges += 1;
-    const showsLatestLine = Math.abs(latestT - afterUnrounded) >= LATEST_OBSERVATION_THRESHOLD;
-    if (showsLatestLine) latestLineCount += 1;
-    movers.push({
-      id,
-      title: titles.get(id) ?? `職業 ${id}`,
-      before,
-      after,
-      delta,
-      beforeBand,
-      afterBand,
-      showsLatestLine,
-    });
-  }
-
-  movers.sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta) || a.id - b.id);
+  const { summary, selectedScores } = computeDrift(historyByOcc, incomingModel, titles, {
+    comparableOf: (history) => history.filter((entry) => entry.aiois != null),
+    meanBasis: 'displayed',
+    selectScores: (comparable, withoutIncoming) => ({
+      beforeUnrounded: pickConsensusScore(withoutIncoming).transformation,
+      afterUnrounded: pickFlagshipMeanScore(comparable).transformation,
+      medianWithIncomingUnrounded: pickConsensusScore(comparable).transformation,
+      latestT: pickLatestScore(comparable).aiois!.transformation,
+    }),
+  });
 
   return {
-    occupationCount: movers.length,
+    occupationCount: summary.occupationCount,
+    skippedOccupationIds: summary.skippedOccupationIds,
     incomingModel,
     incomingDate: incomingDateOf(historyByOcc, incomingModel),
     generatedAt,
-    meanBefore: round2(fmean(beforeVals)),
-    meanAfter: round2(fmean(afterVals)),
-    meanMedianWithIncoming: round2(fmean(medianWithIncomingVals)),
-    absDeltaGe05,
-    absDeltaGe10,
-    bandBefore,
-    bandAfter,
-    bandChanges,
-    latestLineCount,
-    movers,
+    meanBefore: summary.meanBefore,
+    meanAfter: summary.meanAfter,
+    meanMedianWithIncoming: driftMean(
+      selectedScores.map((scores) => displayScore(scores.medianWithIncomingUnrounded)),
+    ),
+    absDeltaGe05: summary.absDeltaGe05,
+    absDeltaGe10: summary.absDeltaGe10,
+    bandBefore: summary.bandBefore,
+    bandAfter: summary.bandAfter,
+    bandChanges: summary.bandChanges,
+    latestLineCount: summary.latestLineCount,
+    movers: summary.movers,
   };
+}
+
+function formatSkippedOccupations(ids: readonly number[]): string {
+  return `Skipped occupations: ${ids.length}; IDs: ${ids.length > 0 ? ids.join(', ') : 'none'}.`;
 }
 
 function signed1(n: number): string {
@@ -221,6 +151,8 @@ ${moverRows(up)}
 | id | 職業 | 前 | 後 | Δ | 帯 前→後 |
 |---|---|---:|---:|---:|---|
 ${moverRows(down)}
+
+${formatSkippedOccupations(summary.skippedOccupationIds)}
 `;
 }
 
@@ -237,7 +169,8 @@ export function formatSwitchDriftSummaryLine(summary: FlagshipSwitchDriftSummary
     `|Δ|≥0.5=${summary.absDeltaGe05} |Δ|≥1.0=${summary.absDeltaGe10} ` +
     `band ${summary.bandBefore.low}/${summary.bandBefore.mid}/${summary.bandBefore.high}→` +
     `${summary.bandAfter.low}/${summary.bandAfter.mid}/${summary.bandAfter.high} ` +
-    `(${summary.bandChanges} changed)`
+    `(${summary.bandChanges} changed) ` +
+    formatSkippedOccupations(summary.skippedOccupationIds)
   );
 }
 

@@ -181,7 +181,9 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
          no template interpolation). Reads its config from the
          <meta name="ga4-measurement-id"> tag above. The `function gtag()` MUST
          remain a top-level declaration (NOT wrapped in IIFE) so gtag.js's library
-         can swap `window.gtag` in place — see 2026-05-11 GA4 outage diagnosis. -->
+         can swap `window.gtag` in place — see 2026-05-11 GA4 outage diagnosis.
+         Consent (PR #5, 2026-05-23): cookieConsent === 'rejected' → denied;
+         unset and 'accepted' → granted. -->
     {GA4_MEASUREMENT_ID && (
       <script is:inline>
         (function () {
@@ -258,12 +260,11 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
     )}
 
     <!-- Meta (Facebook/Instagram) Pixel — STATIC script body, reads its pixel ID
-         from the <meta name="meta-pixel-id"> tag above. Unlike GA4's gtag, the
-         Meta Pixel has no native consent-mode gating, so we LAZY-init: define
-         window.__metaPixelInit() but only invoke it once the user accepts the
-         cookie banner. Returning visitors with prior accept run it on load.
-         The cookie banner's Accept handler (bottom of <body>) calls
-         window.__metaPixelInit() on click. RA-? (2026-05-18). -->
+         from the <meta name="meta-pixel-id"> tag above. No native consent-mode
+         gating, so init goes through window.__metaPixelInit(). PR #5
+         (2026-05-23) loads it on window.load unless cookieConsent === 'rejected'.
+         Accept also calls __metaPixelInit(). A mid-session reject cannot unload
+         fbevents.js; the next page load skips it. -->
     {META_PIXEL_ID && (
       <script is:inline>
         (function () {
@@ -376,9 +377,10 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
     </main>
     <slot name="bodyEnd" />
 
-    {/* RA-013 (2026-05-18): Cookie consent banner. Hidden by default; shown
-        when localStorage.cookieConsent is unset. Fires gtag consent 'update'
-        on accept; rejects merely remembers the choice (default is denied).
+    {/* Cookie consent banner. Shown when localStorage cookieConsent is unset.
+        Accept sends gtag consent 'update' granted (and inits Meta). Reject
+        sends consent 'update' denied. Default before a choice is granted
+        (PR #5, 2026-05-23), which replaced the 2026-05-18 denied default.
         Presentation: compact one-line bar (#320 / MOBILE_SHAPES §3.4).
         Ids, button labels, and the inline script body stay byte-identical. */}
     <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie 同意" aria-live="polite" hidden>

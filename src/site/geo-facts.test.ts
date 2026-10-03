@@ -1,5 +1,6 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
+import { readFileSync } from 'node:fs';
 import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -7,7 +8,6 @@ import { buildGeoSurfaces } from './geo-build.js';
 import { bindHomeFacts } from './home-facts-render.js';
 import { buildMethodologyBatchView } from './methodology-facts.js';
 import {
-  compareAiImpactDesc,
   computeGeoFacts,
   pickLatestGeoScoreRun,
   salaryStanding,
@@ -50,13 +50,23 @@ function scoreRun(
 
 describe('computeGeoFacts', () => {
   test('uses workforce then occupation id as deterministic risk tie-breakers', () => {
-    const tied: GeoTreemapRow[] = [
+    const tiedRows: GeoTreemapRow[] = [
       { id: 3, name_ja: 'C', ai_risk: 7, workers: 100, sector_id: null, sector_ja: null },
       { id: 2, name_ja: 'B', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
       { id: 1, name_ja: 'A', ai_risk: 7, workers: 200, sector_id: null, sector_ja: null },
     ];
+    const tiedScores = new Map<number, GeoScoreEntry>([
+      [1, { ai_risk: 7, aiois: { displacement: 1 } }],
+      [2, { ai_risk: 7, aiois: { displacement: 1 } }],
+      [3, { ai_risk: 7, aiois: { displacement: 1 } }],
+    ]);
+    const facts = computeGeoFacts(tiedRows, [scoreRun('2026-06-13', 'claude-fable-5', tiedScores)]);
 
-    assert.deepEqual(tied.sort(compareAiImpactDesc).map((row) => row.id), [1, 2, 3]);
+    assert.deepEqual(facts.topImpactOccupations.map((row) => row.id), [1, 2, 3]);
+    assert.deepEqual(
+      facts.occupations.map((row) => [row.id, row.aiImpactRank]),
+      [[1, 1], [2, 2], [3, 3]],
+    );
   });
 
   test('computes means, risk bands, workforce share, and top/bottom rows', () => {
@@ -147,6 +157,25 @@ describe('computeGeoFacts', () => {
     assert.equal(oldJsonLd, newJsonLd);
     assert.doesNotMatch(newJsonLd, /gpt-next-6/);
     assert.doesNotMatch(newJsonLd, /GPT Next 6/);
+  });
+});
+
+describe('consensus errors (issue #790)', () => {
+  test('leaves an occupation with no comparable votes out of the scored set', () => {
+    const legacy = new Map<number, GeoScoreEntry>([
+      ...scores,
+      [99, { ai_risk: 8, aiois: null }],
+    ]);
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5', legacy)]);
+    assert.equal(facts.occupationCount, 4);
+    assert.deepEqual(facts.occupations.map((occupation) => occupation.id), [1, 2, 3, 4]);
+  });
+
+  test('throws when a comparable vote has no provider', () => {
+    assert.throws(
+      () => computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5', scores, '')]),
+      /has no provider/,
+    );
   });
 });
 
@@ -269,7 +298,41 @@ describe('geo renderers', () => {
     assert.equal(parsed['@graph'].find((n) => n['@type'] === 'WebSite')!.dateModified, '2026-06-13');
     assert.doesNotMatch(jsonld, /__SCORE_/);
   });
+
+  test('llms.txt Pages section is eight markdown links with the existing labels and URLs', () => {
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
+    const pages = pagesSection(renderLlmsTxt(facts));
+    assert.deepEqual(markdownLinks(pages), LLMS_PAGE_LINKS);
+    assert.doesNotMatch(pages, /^- [^[\n]+: https:\/\//);
+
+    const published = pagesSection(readFileSync('public/llms.txt', 'utf8'));
+    assert.deepEqual(markdownLinks(published), LLMS_PAGE_LINKS);
+  });
 });
+
+const LLMS_PAGE_LINKS: ReadonlyArray<readonly [string, string]> = [
+  ['Main map', 'https://mirai-shigoto.com/'],
+  ['AIOIS-10 standard', 'https://mirai-shigoto.com/standard'],
+  ['Methodology', 'https://mirai-shigoto.com/methodology'],
+  ['Public data', 'https://mirai-shigoto.com/data'],
+  ['Rankings', 'https://mirai-shigoto.com/rankings'],
+  ['Sectors', 'https://mirai-shigoto.com/sectors'],
+  ['Answers', 'https://mirai-shigoto.com/answers'],
+  ['Extended GEO companion', 'https://mirai-shigoto.com/llms-full.txt'],
+];
+
+function pagesSection(llms: string): string {
+  const start = llms.indexOf('## Pages\n');
+  assert.ok(start >= 0, '## Pages section missing');
+  const body = llms.slice(start + '## Pages\n'.length);
+  const next = body.indexOf('\n## ');
+  assert.ok(next >= 0, 'Pages section has no following heading');
+  return body.slice(0, next);
+}
+
+function markdownLinks(section: string): Array<[string, string]> {
+  return [...section.matchAll(/^- \[([^\]]+)\]\((https:\/\/[^)\s]+)\)$/gm)].map((match) => [match[1]!, match[2]!]);
+}
 
 describe('buildGeoSurfaces', () => {
   test('simulated re-score writes GEO surfaces with the active run attribution', async () => {

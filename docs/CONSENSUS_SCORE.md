@@ -1,6 +1,6 @@
 # 総合スコア — 複数モデル中央値への正典切替（mms-6 設計）／3社の最新モデルの平均へ（mms-8 改訂）／追跡採点（mms-9 改訂 3）
 
-Status: 設計承認（PR #363 merged 2026-08-31）。mms-6-doc のパラメータと確定文案は下記。
+Status (historical mms-6): approved in PR #363 (2026-08-31); its median/window/floor public-value rules were superseded on 2026-09-09. The original parameters and signed copy are retained below as historical evidence.
 Status（mms-8）: 改訂 2 実装済み（preview 2026-09-09）。公開値は 3 社旗艦平均。deprecated 中央値エンジンは履歴として残置（owner A、#444）。
 Status（mms-9）: 改訂 3 実装済み（preview 2026-09-10、本番 2026-09-10、promotion #506）。Grok 4.5 は xAI 履歴。公開値は不変。
 Date: 2026-08-31
@@ -8,9 +8,63 @@ Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は�
 
 スコア選択規則の正典は実装後 [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md)「スコア選択」へ転記する。採点手順は引き続き [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md)。/models の情報設計履歴は [`MULTI_MODEL_SCORING.md`](MULTI_MODEL_SCORING.md)。本書は「どのスコアを正典とするか」の規則変更だけを扱う。
 
+## Current public-value contract (revisions 2 and 3)
+
+This is the authoritative implementation contract for public values, effective
+2026-09-09 (mms-8 vendor mean), with backfill exclusion effective 2026-09-10
+(mms-9). Revision 2 retains the owner decision log; revision 3 records historical
+backfill handling. Neither the original single-run rule nor the deprecated
+mms-6/mms-7 median, six-month voting window or floor supplies public values.
+
+- **Eligible runs:** entries with `aiois` and `backfill !== true`. The current
+  panel contains Anthropic, OpenAI and xAI, identified by `scorer.model_provider`.
+  `pickFlagshipMeanScore()` rejects an empty eligible set or a missing provider.
+- **One seat per vendor:** choose its latest eligible `run_date`; a same-date
+  tie keeps the later entry in input order. Sort the selected panel by date
+  ascending, then model ascending. The seat holds the latest model the owner
+  chose to score, not necessarily the vendor's top tier (2026-09-23 ruling).
+  Earlier models remain in append-only history and have no additional public vote.
+- **Independent arithmetic means:** use `fmean` on transformation, displacement
+  and each D1–D10 separately. Do not derive aggregate transformation from aggregate
+  D1/D2. Keep these values unrounded; banker rounding belongs to display. Aggregate
+  means use unrounded occupation values; bands, colours and tier words follow the
+  displayed one-decimal value, per [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md).
+- **Aging is advisory:** anchor on the panel's latest run date, subtract six
+  calendar months (clamping month end), and mark a vendor stale only when its date
+  is strictly before the cutoff. The cutoff date itself is not stale. Do not
+  exclude stale runs or fill a minimum vote count; wall-clock time is not an input.
+- **Rationale:** quote an original selected-panel rationale verbatim. Prefer the
+  newest entry within transformation distance ≤ 0.3 of the unrounded mean;
+  same-date ties choose the lexically first model. If none qualifies, choose the
+  closest entry, then newest date, then lexically first model. No synthesis.
+- **Latest observation:** `pickLatestScore()` on the eligible comparable entries;
+  `latestDelta` is its transformation minus the mean. Retain the display threshold
+  |Δ| ≥ 1.0. Same-date latest selection keeps the later input entry; in mixed
+  legacy/AIOIS history `pickLatestScore()` prefers AIOIS on a same-date tie.
+- **Backfills:** history only, excluded from public values, latest observation,
+  rationale, aging anchor, `SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers and the
+  `/models` current panel. Keep occupation history, per-run pages and redirects.
+- **Metadata:** `SCORE_PANEL` records vendor count, latest panel date,
+  `staleMonths: 6`, stale-vendor count and selected vendors. `SCORE_ATTRIBUTION`
+  identifies the latest non-backfill run. Build verifies that every occupation
+  has the same vendor set and stops on mismatch.
+
+Implementation: [`score-strategy.ts`](../src/graph/score-strategy.ts)
+(`pickFlagshipMeanScore`, `selectRationale`, `pickLatestScore`) and the score
+selection section of [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md).
+`pickConsensusScore()` remains deprecated for historical switch-drift reports.
+
+## Scoring approval
+
+Default gate: the owner (Jason) GOs a scoring pilot, the full run, and landing. Historical series stay owner-only, including Issue #9, Issue #126, mms-7, mms-8, mms-9, mms-10, mms-11, and mms-12. Do not re-ask the owner for a gate that series already recorded.
+
+One recorded exception, dated 2026-10-01: the owner delegated the mms-13 scoring gates to the supervisor. Scope is 13.2 preflight (#672), 13.3 pilot (#673), 13.4 full (#674), and landing (#675). Evidence is the mms-13 paragraph in `ROADMAP.md`, the comment in `scripts/lib/scoring/gpt-6.1-sol-run.ts`, and the runbook `Supervisor FULL GO` on #673. This delegation does not authorize promotion from `preview` to `main`, Vercel writes, or any later scoring series. Those stay with the owner.
+
 ## 背景 — なぜ切り替えるか
 
-- 現行規則 `pickLatestScore()`（最新 run_date が正典）は、batch を 1 つ落とすたびに全站 556 職業のスコア・ランキング・band・診断・JSON-LD を一斉に書き換える。
+> Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
+
+- Historical rule before mms-6 (2026-08-31): `pickLatestScore()` supplied the public value; landing one batch changed scores, rankings, bands, diagnosis and JSON-LD for all 556 occupations. It no longer supplies the public value.
 - 職業ページはモデル別履歴を誠実に公開しているため、正典（最新 1 票）と履歴（多数意見)の矛盾がページ内で可視化されている。実例: 観光バスガイド `/111` は見出し 6.8（Opus 5）に対し、履歴は 3.4 / 4.3 / 4.2。最新票が 4 票中央値から 1.0 以上離れる職業は 556 中 100 件（18%）。
 - この規則の下ではオーナー方針「モデルをどんどん入れる」が実行不能: 入れるたびに全站翻転、入れなければ鮮度喪失。
 
@@ -20,6 +74,8 @@ Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は�
 - 同じ着地を「全モデル中央値」で受けた場合の変動: |Δ|≥0.5 は 78 職業。票が増えるほどさらに安定する。
 
 ## 決定事項（2026-08-31 Jason 確認済み）
+
+> Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
 
 1. **正典スコアは comparable batch 群の中央値（総合値）とする。** 最新モデルの見解は職業ページの「最新観測」行に降格して掲載する。
 2. **投票権は 1 モデル 1 票。** 同一モデルの再 run は最新 run のみ有効。`scoring_method_id: legacy-single-axis` の batch は不参加（現行の比較可否規則を踏襲）。
@@ -31,6 +87,8 @@ Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は�
 8. **切替はエンジン完成次第、現有 4 票で実施する。** 切替 release には旧正典 vs 総合の drift レポートと站内更新説明を必ず同梱する（可視変動は必ず叙事を伴う）。スコアリングのベンダーは OpenAI / Anthropic / xAI の 3 社に限定（Gemini は現時点で不採用）。切替後の第一拡充は Grok の入列。
 
 ## 総合値の算定規則（実装仕様）
+
+> Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
 
 - **パネル**: comparable batches（`aiois` あり）→ モデルごと最新 run → 6 ヶ月窓 → floor 5 補充。
 - **窓の基準日は「最新 comparable run_date」**（壁時計は使わない）。有効票 = `run_date >= 最新run_dateの6ヶ月前`。build 再実行で日付経過だけでは結果が変わらない（決定論、`_content-date` と同思想）。票の失効は新 batch 着地の瞬間にのみ起こり、着地は必ず更新説明を伴うため、無叙事の静默変動は構造的に発生しない。
@@ -52,6 +110,8 @@ Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は�
 
 ## 変わらないもの
 
+> Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
+
 | 資産 | 扱い |
 |---|---|
 | `data/scores/` append-only、run slug（`model@date`）と 308 redirect の生命周期 | 不変 |
@@ -62,6 +122,8 @@ Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は�
 
 ## 切替日の影響実測
 
+> Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
+
 - 全站平均 5.23 → 4.68。|Δ|≥1.0 が 100 職業、riskBand 変化 133 件。ランキング再編一回。
 - 切替当日の latest-vs-consensus 表は [`CONSENSUS_SWITCH_DRIFT.md`](CONSENSUS_SWITCH_DRIFT.md)（mms-6g）。`bun scripts/consensus-switch-drift.ts` で再生成する。
 - 文言変更面: footer 署名、views/*.ts の FAQ テンプレ群、引用用ファクト、JSON-LD、OG。
@@ -69,11 +131,15 @@ Owner: Jason（承認ゲート） / conductor（本書・分割） / 実装は�
 
 ## リスクと対応
 
+> Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
+
 - **切替日の一回性変動** → drift レポートと站内更新説明を同梱し、preview でオーナー確認後に本番昇格。
 - **採点休止時のパネル停滞** → floor 5 + 老化提示で優雅に劣化（静默変動ゼロ、鮮度低下は注記で誠実に開示）。
 - **全站平均が 0.55 下がりトーンが穏当化** → 事実として更新説明に記載（「最新モデル単票 → 多数決」の帰結）。
 
 ## 確定文案（mms-6-doc、2026-08-31）
+
+> Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
 
 後続 issue（mms-6c / 6d / 6e / 6g）は次の文字列を**逐字使用**する。プレースホルダ `{N}` `{X.X}` `{日付}` だけを実行時に埋める。免責語彙「独自分析（非公式）」は合規スロットのため残す。C 向け文にモデル型番（Claude / GPT / Opus / Fable / Grok 等）を入れない。C 向け文に内部語「正典」を出さない。公開値（読者に出す数字）と中央値（算出方法）を括弧で同一視しない。
 
@@ -175,6 +241,8 @@ AI 影響度の算出方法を変更しました。これまでは、最新の1�
 
 ## 実装分割（issue 草案）
 
+> Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
+
 | # | id | 内容 | 依存 |
 |---|----|------|------|
 | 1 | mms-6-doc | 本書承認 + 確定パラメータ + 確定文案（本節） | なし |
@@ -191,6 +259,8 @@ AI 影響度の算出方法を変更しました。これまでは、最新の1�
 
 ## 採点ポリシー（SCORING_RUNBOOK へ転記する常設規則）
 
+> Historical mms-6/mms-7 record (2026-08-31–2026-09-07). Public-value selection, voting, window/floor, aging and median-copy instructions below were superseded on 2026-09-09 by revision 2 and on 2026-09-10 by revision 3. Retained for audit and drift reproduction; use the current public-value contract above.
+
 - ベンダー白名単: **OpenAI / Anthropic / xAI**（2026-08-31 オーナー決定。Gemini は現時点不採用）。
 - 入列基準: 白名単ベンダーのフロンティア級モデル。同一ベンダー複数モデルの並存可（各 1 票）。非フロンティア・軽量版は不採、決定ログ 1 行のみ。
 - pilot 40 の日本語品質審はオーナー署名ゲートとして維持（コスト門ではなく品質門）。
@@ -205,7 +275,7 @@ The public-value formula is unchanged, and from Grok 4.7 on the xAI flagship tra
 
 From 2026-09-23 a vendor's flagship seat holds the newest model the owner chose to score for that vendor, not necessarily its top tier. claude-opus-5-5 takes Anthropic's seat from claude-fable-5-1 (mms-11) and gpt-6-sol takes OpenAI's seat from gpt-6-astra (mms-12). The public-value formula is unchanged: the arithmetic mean of each vendor's latest comparable AIOIS-10 run.
 
-現行の公開値は comparable AIOIS-10 票の中央値（`pickConsensusScore()`: 1 model id 1 票、基準日 = 最新 run_date の 6 ヶ月窓、不足は期限切れ票で floor 5 補充）。現行パネルは `claude-opus-4-8` 2026-05-30、`claude-fable-5` 2026-06-13、`gpt-5.6-sol` 2026-07-12、`claude-opus-5` 2026-07-26、`grok-4.6` 2026-09-07 の 5 票。`claude-opus-4-7`（2026-04-25）は `legacy-single-axis` のため投票しない。
+Historical snapshot before the 2026-09-09 switch (superseded): the five-vote `pickConsensusScore()` median panel was `claude-opus-4-8` (2026-05-30), `claude-fable-5` (2026-06-13), `gpt-5.6-sol` (2026-07-12), `claude-opus-5` (2026-07-26) and `grok-4.6` (2026-09-07), with one vote per model, a six-month window and floor 5. `claude-opus-4-7` (2026-04-25) was legacy-single-axis and did not vote. This is not the current public panel.
 
 ### 決定事項（2026-09-08 Jason 確認済み）
 
@@ -236,19 +306,13 @@ From 2026-09-23 a vendor's flagship seat holds the newest model the owner chose 
 
 ### 算定規則（実装仕様 — mms-8.10 が逐字実装する）
 
-1. comparable = 職業の履歴のうち `aiois` を持つ entry（`legacy-single-axis` は除外。従来どおり）。
-2. ベンダー = entry の `provider`（batch の `scorer.model_provider`。`anthropic` / `openai` / `xai`）。
-3. ベンダーごとに `date` が最大の entry を 1 件選ぶ（同日 tie は入力順の後勝ち）。これをパネルとし、`date` 昇順・同日は `model` 昇順で並べる。
-4. transformation = パネルの `aiois.transformation` の算術平均（`src/data/lib/fsum.ts` の `fmean`）。displacement、d1〜d10 も同様に各々の算術平均。丸めない（表示層の banker rounding のみ）。総合 transformation を mean(D1, D2) から再計算しない。
-5. anchor = パネル内の最大 `date`。cutoff = `subtractMonths(anchor, 6)`（月末は切り詰め）。`date < cutoff` のベンダーを `staleVendors` に入れる（境界日は stale ではない）。
-6. 理由文 = パネル内で |transformation − 平均| ≤ 0.3 の entry のうち最新 `date`（同日は `model` 昇順先頭）。該当なしなら最近接（tie は同規則）。
-7. latest = comparable 全体の `pickLatestScore`。latestDelta = latest.transformation − 平均。
-8. comparable が空なら throw。`provider` を欠く entry があれば throw。
-9. `SCORE_PANEL` = { vendorCount, latestRunDate, staleMonths: 6, staleVendorCount }。build 時に全職業のベンダー集合が一致することを検証し、不一致なら build を止める（旗艦 batch は 556 職業すべてを覆う）。
+The revision-2 implementation specification is consolidated in the current
+public-value contract above, including revision-3 backfill exclusion. The owner
+rulings and dated transition measurements below are retained as decision history.
 
 ### 切替日の影響実測（設計時点、2026-09-08）
 
-現行 5 票中央値 → 3 旗艦平均（Opus 5 / GPT 5.6 SOL / Grok 4.6）:
+Historical pre-switch five-vote median → three-vendor mean（Opus 5 / GPT 5.6 SOL / Grok 4.6）:
 
 - 全站平均 4.73 → 4.98。|Δ|≥0.5 が 105 職業、|Δ|≥1.0 が 2 職業、band 変化 41。
 
@@ -256,7 +320,7 @@ From 2026-09-23 a vendor's flagship seat holds the newest model the owner chose 
 
 - 全站平均 4.98 → 4.63。|Δ|≥0.5 が 165 職業、band 変化 64。
 
-最新観測行: Grok 基準で 15 職業（現行 10）。
+Historical 2026-09-08 design measurement: 15 latest-observation rows with Grok as reference (10 under the then-current median).
 
 実際の切替は Fable 5.1 batch 着地日に行い、実測は mms-8.28 が `docs/FLAGSHIP_SWITCH_DRIFT.md` に記録する。
 
@@ -640,6 +704,8 @@ mean of the latest model from each of {V} vendors / Vendors in the panel / vendo
 - ベンダー白名単は OpenAI / Anthropic / xAI（不変）。Gemini は不採用（不変）。
 - pilot 40 の日本語品質審はオーナー署名ゲート（不変）。
 - 範囲外: Mythos 5.1 / Sonnet 5 / Haiku / GPT-5.6 Terra・Luna / Daybreak・Cyber 特供 / Gemini / Vercel AI Gateway / 新しい HTTP provider。
+
+The owner-signature bullet above is the signed mms-8 decision for that series. The standing rule, and the only recorded exception, are in [Scoring approval](#scoring-approval). That bullet does not delegate a later series.
 
 ## 改訂 3 — 追跡採点（backfill）（mms-9、2026-09-10 決定）
 

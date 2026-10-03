@@ -12,6 +12,11 @@ import type { ZodTypeAny, infer as ZInfer } from 'zod';
 const REPO_ROOT = process.cwd();
 const DATA_ROOT = join(REPO_ROOT, 'data');
 
+/** Match a filesystem error code without assuming the caught value is an Error. */
+export function isErrnoCode(err: unknown, code: string): boolean {
+  return typeof err === 'object' && err !== null && 'code' in err && err.code === code;
+}
+
 export interface LoadError {
   file: string;
   message: string;
@@ -32,14 +37,18 @@ export interface FileLoadResult<T> {
 }
 
 /**
- * Read every `*.json` file in `data/<subdir>/` and validate each with `schema`.
+ * Read every `*.json` file in `<rootDir>/<subdir>/` and validate each with `schema`.
  * Filenames starting with `.` are skipped.
+ *
+ * `rootDir` defaults to the repository `data/` directory (unchanged for callers
+ * that omit it). Tests pass a temporary directory.
  */
 export async function loadJsonDir<S extends ZodTypeAny>(
   subdir: string,
   schema: S,
+  rootDir: string = DATA_ROOT,
 ): Promise<DirLoadResult<ZInfer<S>>> {
-  const dirPath = join(DATA_ROOT, subdir);
+  const dirPath = join(rootDir, subdir);
   const byKey = new Map<string, ZInfer<S>>();
   const errors: LoadError[] = [];
 
@@ -47,7 +56,7 @@ export async function loadJsonDir<S extends ZodTypeAny>(
   try {
     entries = await readdir(dirPath);
   } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
+    if (isErrnoCode(err, 'ENOENT')) {
       return { byKey, errors: [], totalFiles: 0, dirMissing: true };
     }
     return {

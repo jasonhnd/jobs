@@ -21,11 +21,40 @@ OG renderer は request origin の data projection を読む。ただし spoofed
 
 - `mirai-shigoto.com`
 - `*.mirai-shigoto.com`
-- `*.vercel.app`
+- `jobs-<deployment>-zkscio.vercel.app` (alphanumeric deployment identifier)
+- `jobs-git-<branch>-zkscio.vercel.app` (alphanumeric branch segments separated by single hyphens)
 - `localhost`
 - `127.0.0.1`
 
 その他の host は production origin に fallback する。
+
+The Vercel rules match the entire hostname for the `jobs` project in the
+`zkscio` scope, not the shared `*.vercel.app` suffix. Read-only checks on
+2026-10-02 (`vercel ls jobs --scope zkscio` and `vercel inspect`) confirmed
+`jobs-dn8kq25rc-zkscio.vercel.app` and the branch alias
+`jobs-git-docs-data-readme-leftovers-zkscio.vercel.app`. Other projects or
+teams, nested subdomains, and misleading prefixes/suffixes fall back to
+`https://mirai-shigoto.com`. If the project or scope is renamed, verify the
+new deployment names and update the code, tests, and this contract together.
+
+**Known fallbacks (safe direction).** These real Vercel hostnames do not match
+the allowlist, so OG cards served from them read `https://mirai-shigoto.com`
+data instead of their own deployment's data (a valid card, never a failure;
+only preview-specific data is not reflected):
+
+- The project-level alias `jobs-zkscio.vercel.app` (no deployment or `git-`
+  segment).
+- Branch aliases whose author/branch segment contains characters outside
+  `[a-z0-9]` and single hyphens in the pattern above, for example an
+  author-name alias with a hyphen in the name.
+- Branch aliases Vercel truncates when the branch name is too long (the
+  truncated host no longer fits the `jobs-git-<branch>-zkscio` shape).
+
+To change this, edit `PROJECT_VERCEL_HOST` in `src/lib/og-helpers.ts`, the
+host cases in `src/lib/og-helpers.test.ts`, and the allowed-host list above
+in the same PR. The same applies when a new hostname format appears (new
+project name, new scope, or a Vercel alias scheme change). Widening the
+pattern back to `*.vercel.app` reopens the SSRF surface this rule closes.
 
 ## Font fetch
 
