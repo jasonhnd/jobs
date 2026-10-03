@@ -71,6 +71,7 @@ function fixture(): string {
 function run(root: string) {
   return spawnSync(process.execPath, [join(root, 'scripts/check-analytics-spec.ts')], {
     cwd: root, encoding: 'utf8', timeout: 10_000,
+    env: { ...process.env, NO_COLOR: '1', FORCE_COLOR: '0' },
   });
 }
 
