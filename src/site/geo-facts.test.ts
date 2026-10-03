@@ -160,6 +160,25 @@ describe('computeGeoFacts', () => {
   });
 });
 
+describe('consensus errors (issue #790)', () => {
+  test('leaves an occupation with no comparable votes out of the scored set', () => {
+    const legacy = new Map<number, GeoScoreEntry>([
+      ...scores,
+      [99, { ai_risk: 8, aiois: null }],
+    ]);
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5', legacy)]);
+    assert.equal(facts.occupationCount, 4);
+    assert.deepEqual(facts.occupations.map((occupation) => occupation.id), [1, 2, 3, 4]);
+  });
+
+  test('throws when a comparable vote has no provider', () => {
+    assert.throws(
+      () => computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5', scores, '')]),
+      /has no provider/,
+    );
+  });
+});
+
 // Issue #216: fiveBandIndex was the one derived number in geo-facts still using
 // Math.round (half away from zero) while the rest of the file — and the repo —
 // rounds half to even. The two rules disagree on every `.5` whose Math.round
