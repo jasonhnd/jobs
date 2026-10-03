@@ -2,7 +2,7 @@ import { fmean, fsum } from '../data/lib/fsum.js';
 import { bankerRound } from '../data/lib/banker-round.js';
 import { riskBand } from '../data/lib/bands.js';
 import {
-  pickFlagshipMeanScore,
+  tryPickFlagshipMeanScore,
   type ScoreHistEntry,
 } from '../graph/score-strategy.js';
 import type { Aiois10 } from '../graph/types.js';
@@ -308,12 +308,10 @@ function consensusByOccFromRuns(runs: readonly GeoScoreRunLike[]): Map<number, G
   }
   const out = new Map<number, GeoConsensus>();
   for (const [id, hist] of history) {
-    try {
-      const c = pickFlagshipMeanScore(hist);
-      out.set(id, { t: c.transformation, d: c.displacement });
-    } catch {
-      // Occupations with no comparable (aiois + displacement) votes stay out.
-    }
+    // Empty history and "no comparable (aiois, non-backfill) votes" stay out
+    // of the map. Any other failure propagates. See tryPickFlagshipMeanScore (#708).
+    const c = tryPickFlagshipMeanScore(hist);
+    if (c) out.set(id, { t: c.transformation, d: c.displacement });
   }
   return out;
 }
