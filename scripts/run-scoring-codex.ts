@@ -80,27 +80,56 @@ export {
 export { explicitScoringError, isTransientCliError } from './lib/scoring/errors.js';
 export type { ProviderResponse as CodexExecResult, ScoringExecutor as CodexExecutor } from './lib/scoring/provider.js';
 
-if (import.meta.main) {
+export interface CodexCliDeps {
+  readonly root: string;
+  readonly occDir: string;
+  readonly loadOccupations: Parameters<typeof runScoring>[2]['loadOccupations'];
+  readonly run: typeof runScoring;
+  readonly error: (message: string) => void;
+  readonly log: (message: string) => void;
+  readonly exit: (code: number) => never;
+  /** Applied when scoring finished but some occupations failed (the run continues to print `next:`). */
+  readonly setExitCode: (code: number) => void;
+}
+
+/** Real-process dependencies: repo-relative data dir, the real scorer, console output, `process.exit`. */
+export function defaultCodexCliDeps(): CodexCliDeps {
+  return {
+    root: ROOT,
+    occDir: OCC_DIR,
+    loadOccupations: loadOccupationExtracts,
+    run: runScoring,
+    error: (m) => console.error(m),
+    log: (m) => console.log(m),
+    exit: (code) => process.exit(code),
+    setExitCode: (code) => {
+      process.exitCode = code;
+    },
+  };
+}
+
+/** Run the Codex scoring CLI; every hard failure goes through `deps.exit(1)`. */
+export async function runCodexCli(argv: readonly string[], deps: CodexCliDeps): Promise<void> {
   const fail = (m: string): never => {
-    console.error(`[run-scoring-codex] FAIL — ${m}`);
-    process.exit(1);
+    deps.error(`[run-scoring-codex] FAIL — ${m}`);
+    return deps.exit(1);
   };
 
   let args: CodexScoringArgs;
   try {
-    args = parseArgs(process.argv.slice(2));
+    args = parseArgs(argv, deps.root);
   } catch (err) {
     fail((err as Error).message);
   }
 
   try {
-    const result = await runScoring(args!, codexProvider, {
-      root: ROOT,
-      occDir: OCC_DIR,
-      loadOccupations: loadOccupationExtracts,
+    const result = await deps.run(args!, codexProvider, {
+      root: deps.root,
+      occDir: deps.occDir,
+      loadOccupations: deps.loadOccupations,
     });
-    if (result.failures.length) process.exitCode = 1;
-    console.log(
+    if (result.failures.length) deps.setExitCode(1);
+    deps.log(
       `  next: bun run assemble:scores --mode aiois --model ${args!.model} --date <YYYY-MM-DD> ` +
         `--prompt-version AIOIS-10-v1.0-${args!.model} --prompt-file ${args!.promptFile} --in ${args!.outPath} ` +
         `--out data/scores/occupations_${args!.model}_<date>.json`,
@@ -108,4 +137,8 @@ if (import.meta.main) {
   } catch (err) {
     fail((err as Error).message);
   }
+}
+
+if (import.meta.main) {
+  await runCodexCli(process.argv.slice(2), defaultCodexCliDeps());
 }
