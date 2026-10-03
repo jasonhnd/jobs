@@ -10,6 +10,7 @@ import { buildComparePairBindings } from './_compare-bindings';
 import { loadOccupationsFromGraph } from '@/views/ranking';
 import { suggestEscapeRoutes, renderEscapeRouteSection } from '@/views/escape-routes';
 import { AI_FACT_CSS } from '@/lib/ai-fact-css';
+import ChapDesktopOpen from '@/components/ChapDesktopOpen.astro';
 
 export async function getStaticPaths() {
   const { makeCompareLoaderFromGraph } = await import('@/views/compare');
@@ -279,8 +280,10 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
       single CSP hash across all 20 pair pages). Gated by cookieConsent. */}
   <script is:inline slot="bodyEnd">
     (function () {
-      if (typeof localStorage === 'undefined') return;
-      try { if (localStorage.getItem('cookieConsent') !== 'accepted') return; } catch (_) { return; }
+      try {
+        if (typeof localStorage === 'undefined') return;
+        if (localStorage.getItem('cookieConsent') !== 'accepted') return;
+      } catch (_) { return; }
       var w = document.getElementById('wrapper');
       if (!w) return;
       var aId = w.getAttribute('data-cmp-aid');
@@ -303,14 +306,5 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
       }
     })();
   </script>
-  {/* Identical body to rankings #321 so one CSP hash covers both. */}
-  <script is:inline slot="bodyEnd">
-    (function () {
-      try {
-        if (!window.matchMedia('(min-width: 900px)').matches) return;
-        var nodes = document.querySelectorAll('details.chap');
-        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
-      } catch (e) {}
-    })();
-  </script>
+  <ChapDesktopOpen slot="bodyEnd" />
 </BaseLayout>
