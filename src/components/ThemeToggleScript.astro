@@ -1,0 +1,69 @@
+---
+/**
+ * ThemeToggleScript.astro — shared light/dark toggle handler for the static
+ * legal pages (JOB_0032 F2). Usage: `<ThemeToggleScript slot="bodyEnd" />`
+ * or `<ThemeToggleScript slot="bodyEnd" track />`.
+ *
+ * Two STATIC variants (no interpolation, no define:vars) so each page emits a
+ * fixed body and a fixed SHA-256 in vercel.json's script-src (CODE-012):
+ *   - default: toggle + persist only (compliance).
+ *   - `track`: same, plus the GA4 `theme_change` event, which needs the
+ *     previously saved value for `was_explicit` (privacy). The gtag call and
+ *     its parameters are analytics code — do not edit them here without
+ *     updating analytics/spec.yaml.
+ *
+ * Do NOT reformat either script: whitespace is part of the CSP hash. A change
+ * means rebuilding to refresh vercel.json and explaining the diff in the PR.
+ *
+ * Not covered: `404.astro` (its toggle shares one block with the
+ * `page_not_found` GA4 event) and the home page's `_index-inline.js`.
+ */
+interface Props {
+  readonly track?: boolean;
+}
+const { track = false } = Astro.props;
+---
+{track ? (
+  <script is:inline>
+    // v1.4.0: language switcher removed — site is JA-only.
+
+    // Theme toggle (light/dark)
+    (function themeToggle() {
+      const btn = document.getElementById("themeToggle");
+      if (!btn) return;
+      btn.addEventListener("click", () => {
+        const sysLight = matchMedia("(prefers-color-scheme: light)").matches;
+        let saved = null;
+        try { saved = localStorage.getItem("theme"); } catch (e) {}
+        const cur = document.documentElement.getAttribute("data-theme")
+          || (sysLight ? "light" : "dark");
+        const next = cur === "light" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+        if (window.gtag) gtag("event", "theme_change", {
+          from: cur,
+          to: next,
+          was_explicit: saved === "light" || saved === "dark",
+          system_pref: sysLight ? "light" : "dark"
+        });
+      });
+    })();
+  </script>
+) : (
+  <script is:inline>
+    // v1.4.0: language switcher removed — site is JA-only.
+
+    // Theme toggle (same 3-state model as elsewhere — Design.md §3).
+    (function themeToggle() {
+      var btn = document.getElementById("themeToggle");
+      if (!btn) return;
+      btn.addEventListener("click", function() {
+        var sysLight = matchMedia("(prefers-color-scheme: light)").matches;
+        var cur = document.documentElement.getAttribute("data-theme") || (sysLight ? "light" : "dark");
+        var next = cur === "light" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch(e) {}
+      });
+    })();
+  </script>
+)}
