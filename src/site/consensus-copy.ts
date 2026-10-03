@@ -98,7 +98,7 @@ export const CONSENSUS_VENDOR_UPDATE_NOTE_LEAD =
 export const CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT =
   '今回の変更では、全職業の平均は 4.55 から 4.68 になります。公開値が 0.5 以上変わる職業は 12、リスク帯が変わる職業は 34 です。公開値が 1.0 以上変わる職業はありません。';
 
-export function formatRunDateJa(isoDate: string): string {
+function formatRunDateJa(isoDate: string): string {
   const [year, month, day] = isoDate.split('-').map((part) => Number.parseInt(part, 10));
   if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return isoDate;
   return `${year}年${month}月${day}日`;
