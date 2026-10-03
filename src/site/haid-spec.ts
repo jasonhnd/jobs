@@ -276,12 +276,6 @@ export const HAID_LEAD_JA: readonly [string, string] = [
 export const HAID_LEVELS_NOTE_JA =
   '第 7 段階から上は、2026 年時点では公開データで人数を推定できません。これは基準の欠陥ではなく、現状の報告そのものです。段階の定義は、人数がゼロでも変えません。';
 
-export function haidRelationOf(level: number): HaidRelation {
-  const rel = HAID_RELATIONS.find((r) => level >= r.levels[0] && level <= r.levels[1]);
-  if (!rel) throw new RangeError(`HAID level out of range: ${level}`);
-  return rel;
-}
-
 export function haidBoundaryBefore(level: number): HaidBoundary | null {
   return HAID_BOUNDARIES.find((b) => b.to === level) ?? null;
 }
