@@ -312,10 +312,12 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
         var html = '';
         for (var i = 0; i < matches.length; i++) {
           var o = matches[i];
+          var occId = Number(o.id);
+          if (!Number.isInteger(occId)) continue;
           var band = riskBand(o.ai_risk);
           var sectorJa = sectorMap[o.sector_id] || o.sector_id || '';
           var riskStr = o.ai_risk != null ? ('AI ' + fmtRisk(o.ai_risk) + '/10') : 'AI —';
-          html += '<li role="option" data-id="' + o.id + '" data-name="' + escapeHtml(o.title_ja) + '" id="' + fieldId + '-opt-' + i + '">' +
+          html += '<li role="option" data-id="' + escapeHtml(String(occId)) + '" data-name="' + escapeHtml(o.title_ja) + '" id="' + fieldId + '-opt-' + i + '">' +
                   '<span class="cc-opt-name">' + escapeHtml(o.title_ja) + '</span>' +
                   '<span class="cc-opt-meta">' +
                     '<span class="risk-pill ' + band + '">' + escapeHtml(riskStr) + '</span>' +
@@ -523,7 +525,10 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
         location.href = occupationPath(aId);
       });
 
-      fetch('/data.sectors.json').then(function (r) { return r.json(); }).then(function (sd) {
+      fetch('/data.sectors.json').then(function (r) {
+        if (!r.ok) throw new Error('sectors HTTP ' + r.status);
+        return r.json();
+      }).then(function (sd) {
         var arr = (sd && sd.sectors) || [];
         for (var i = 0; i < arr.length; i++) sectorMap[arr[i].id] = arr[i].ja;
       }).catch(function (err) {
