@@ -4,14 +4,14 @@
  */
 import type { KnowledgeGraph } from '@/graph';
 import { sectorIndexView, type SectorIndexEntry } from '@/views/sector';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { fmtInt } from '@/lib/num';
 import { riskClass } from '@/lib/risk';
 import { displayScore } from '@/data/lib/banker-round';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 
 export interface SectorsIndexBindings {
   readonly sectors: ReadonlyArray<SectorIndexEntry>;
