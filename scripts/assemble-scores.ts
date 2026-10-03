@@ -283,20 +283,41 @@ export function assembleBatch(scores: Record<string, ScoreEntry>, meta: BatchMet
   };
 }
 
-// ───── CLI wrapper (only runs when executed directly, not when imported) ─────
+// ───── CLI (injectable so tests can drive it against a temp directory) ─────
 
-if (import.meta.main) {
-  const ROOT = resolve(import.meta.dir, '..');
-  const OCC_DIR = join(ROOT, 'data', 'occupations');
-  const SCORES_DIR = join(ROOT, 'data', 'scores');
+export interface AssembleCliEnv {
+  readonly root: string;
+  readonly occDir: string;
+  readonly scoresDir: string;
+  readonly log: (message: string) => void;
+  readonly error: (message: string) => void;
+  readonly warn: (message: string) => void;
+  readonly exit: (code: number) => never;
+}
+
+/** Real-process environment: repo-relative data dirs, console output, `process.exit`. */
+export function defaultAssembleEnv(root: string = resolve(import.meta.dir, '..')): AssembleCliEnv {
+  return {
+    root,
+    occDir: join(root, 'data', 'occupations'),
+    scoresDir: join(root, 'data', 'scores'),
+    log: (m) => console.log(m),
+    error: (m) => console.error(m),
+    warn: (m) => console.warn(m),
+    exit: (code) => process.exit(code),
+  };
+}
+
+/** Run the assemble CLI. Every failure goes through `env.exit(1)` — never writes on failure. */
+export function runAssembleCli(argv: readonly string[], env: AssembleCliEnv): void {
+  const { root: ROOT, occDir: OCC_DIR, scoresDir: SCORES_DIR } = env;
   const fail: (m: string) => never = (m) => {
-    console.error(`[assemble-scores] FAIL — ${m}`);
-    process.exit(1);
+    env.error(`[assemble-scores] FAIL — ${m}`);
+    return env.exit(1);
   };
 
   const args: Record<string, string> = {};
-  const argv = process.argv.slice(2);
-  for (let i = 0; i < argv.length; i += 1) {
+    for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
     if (a.startsWith('--')) {
       const v = argv[i + 1];
@@ -328,10 +349,10 @@ if (import.meta.main) {
 
   const { scores, errors } = parseScoreLines(readFileSync(inPath, 'utf8').split('\n'), mode);
   if (errors.length) {
-    console.error(`[assemble-scores] FAIL — ${errors.length} input error(s):`);
-    errors.slice(0, 30).forEach((e) => console.error(`  ${e}`));
-    if (errors.length > 30) console.error(`  …and ${errors.length - 30} more.`);
-    process.exit(1);
+    env.error(`[assemble-scores] FAIL — ${errors.length} input error(s):`);
+    errors.slice(0, 30).forEach((e) => env.error(`  ${e}`));
+    if (errors.length > 30) env.error(`  …and ${errors.length - 30} more.`);
+    env.exit(1);
   }
 
   const realOccIds = new Set(
@@ -374,7 +395,7 @@ if (import.meta.main) {
         carriedCaveat = b.caveat;
       }
     } catch {
-      console.warn(`[assemble-scores] WARN — skipped unreadable batch ${f}; anchors/caveat cannot be inherited from it.`);
+      env.warn(`[assemble-scores] WARN — skipped unreadable batch ${f}; anchors/caveat cannot be inherited from it.`);
     }
   }
   const anchors: Record<string, string> | undefined = args['anchors']
@@ -417,19 +438,24 @@ if (import.meta.main) {
 
   const parsed = ScoreRunSchema.safeParse(batch);
   if (!parsed.success) {
-    console.error('[assemble-scores] FAIL — assembled object does not pass ScoreRunSchema:');
-    parsed.error.issues.slice(0, 30).forEach((i) => console.error(`  ${i.path.join('.') || '<root>'}: ${i.message}`));
-    process.exit(1);
+    env.error('[assemble-scores] FAIL — assembled object does not pass ScoreRunSchema:');
+    parsed.error.issues.slice(0, 30).forEach((i) => env.error(`  ${i.path.join('.') || '<root>'}: ${i.message}`));
+    env.exit(1);
   }
 
   writeFileSync(outPath, `${JSON.stringify(parsed.data, null, 2)}\n`);
-  console.log(`[assemble-scores] OK → ${outPath}`);
+  env.log(`[assemble-scores] OK → ${outPath}`);
   if (backfill) {
-    console.log('[assemble-scores] backfill batch — history only; will not become the active run');
+    env.log('[assemble-scores] backfill batch — history only; will not become the active run');
   }
-  console.log(
+  env.log(
     `  scored ${scoredIds.length}/${realOccIds.size}; missing ${missing.length}` +
       `${missing.length ? ` (${missing.slice(0, 10).join(', ')}${missing.length > 10 ? ' …' : ''})` : ''}`,
   );
-  console.log(`  next: bun run check:score-batch ${outPath}`);
+  env.log(`  next: bun run check:score-batch ${outPath}`);
+}
+
+// Only runs when executed directly, not when imported.
+if (import.meta.main) {
+  runAssembleCli(process.argv.slice(2), defaultAssembleEnv());
 }
