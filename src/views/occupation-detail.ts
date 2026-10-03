@@ -13,7 +13,7 @@
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
 import type { Aiois10 } from '@/graph/types';
-import { pickFlagshipMeanScore, type ScoreHistEntry } from '@/graph/score-strategy';
+import { tryPickFlagshipMeanScore, type ScoreHistEntry } from '@/graph/score-strategy';
 import type { Profile5Record } from '@/graph/profile5';
 import type { TransferPathEntry } from '@/graph/transfer-paths';
 import {
@@ -326,15 +326,16 @@ export function buildOccupationDetailFile(
   let latestDelta: number | null = null;
   let staleVote = false;
   let consensusVendorCount: number | null = null;
-  try {
-    const flagship = pickFlagshipMeanScore(mapped);
+  // Empty history and "no comparable AIOIS-10 votes" omit the observation
+  // fields. Any other failure (for example a comparable vote with no
+  // provider) propagates. See tryPickFlagshipMeanScore (#708).
+  const flagship = tryPickFlagshipMeanScore(mapped);
+  if (flagship) {
     consensusTransformation = flagship.transformation;
     latestTransformation = flagship.latest.aiois ? flagship.latest.aiois.transformation : null;
     latestDelta = flagship.latestDelta;
     staleVote = flagship.staleVendors.length > 0;
     consensusVendorCount = flagship.panel.length;
-  } catch {
-    // Occupations with no comparable AIOIS-10 votes omit the observation fields.
   }
 
   const skillLabels = labelMap(graph.skills as ReadonlyMap<unknown, { nameJa: string }>);
