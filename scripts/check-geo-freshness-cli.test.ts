@@ -24,7 +24,10 @@ function fixture(run: (dir: string, put: (rel: string, text: string) => void) =>
 }
 
 function cli(cwd: string) {
-  const result = spawnSync(process.execPath, [script], { cwd, encoding: 'utf8', timeout: 15_000 });
+  const result = spawnSync(process.execPath, [script], {
+    cwd, encoding: 'utf8', timeout: 15_000,
+    env: { ...process.env, NO_COLOR: '1', FORCE_COLOR: '0' },
+  });
   assert.ifError(result.error);
   assert.equal(result.signal, null);
   assert.equal(result.status, 1);

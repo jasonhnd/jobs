@@ -27,7 +27,10 @@ function write(root: string, file: string, text: string): void {
 }
 
 function run(root: string) {
-  return spawnSync(process.execPath, [SCRIPT], { cwd: root, encoding: 'utf8', timeout: 10_000 });
+  return spawnSync(process.execPath, [SCRIPT], {
+    cwd: root, encoding: 'utf8', timeout: 10_000,
+    env: { ...process.env, NO_COLOR: '1', FORCE_COLOR: '0' },
+  });
 }
 
 describe('verify-internal-links CLI regression contract', () => {
