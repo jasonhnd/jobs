@@ -28,6 +28,6 @@
       "@/lib/*": ["./src/lib/*"]
     }
   },
-  "include": ["api/**/*", "src/**/*", "scripts/bun-import-meta.d.ts", "scripts/**/*.test.ts", ".astro/types.d.ts"],
+  "include": ["api/**/*", "src/**/*", "scripts/bun-import-meta.d.ts", "scripts/bun-test.d.ts", "scripts/**/*.test.ts", ".astro/types.d.ts"],
   "exclude": ["dist-astro", "node_modules"]
 }
