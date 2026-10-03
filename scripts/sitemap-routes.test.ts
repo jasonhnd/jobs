@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, spyOn, test, type Mock } from 'bun:test';
 import * as sitemapView from '@/views/sitemap';
 import * as imageView from '@/views/image-sitemap';
-import { GET as getSitemap } from './sitemap.xml';
-import { GET as getImageSitemap } from './image-sitemap.xml';
+import { GET as getSitemap } from '../src/pages/sitemap.xml';
+import { GET as getImageSitemap } from '../src/pages/image-sitemap.xml';
 
 const call = (route: unknown) => (route as () => Promise<Response>)();
 
