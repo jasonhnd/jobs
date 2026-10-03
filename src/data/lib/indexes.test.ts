@@ -9,8 +9,7 @@ import { test, describe } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { assertUniformVendorPanel, buildIndexes, insertById } from './indexes.js';
 import type { LoadError } from '../loaders.js';
-import { isWhitelistedVendor } from '../../site/score-attribution.js';
-import { latestRunPerVendor } from '../../site/occupation-runs.js';
+import { VENDOR_WHITELIST, isWhitelistedVendor } from '../../site/score-attribution.js';
 import { pickFlagshipMeanScore, type FlagshipMeanScore, type ScoreHistEntry } from '../../graph/score-strategy.js';
 import type { Aiois10 } from '../../graph/types.js';
 import { fmean } from './fsum.js';
@@ -94,9 +93,27 @@ test('buildIndexes: pickFlagshipMeanScore on occ 111 uses exactly one run per wh
   const hist = indexes.historyByOcc.get(111);
   assert.ok(hist);
   const c = pickFlagshipMeanScore(hist);
-  const panel = [...latestRunPerVendor()].sort(
-    (a, b) => a.runDate.localeCompare(b.runDate) || a.model.localeCompare(b.model),
-  );
+  const latestByVendor = new Map<string, { model: string; runDate: string }>();
+  for (const run of [...indexes.runsByModel.values()].flat()) {
+    if (run.scope !== 'occupations' || run.run.backfill === true) continue;
+    if (!Object.values(run.scores).some((entry) => entry.aiois != null)) continue;
+    if (!isWhitelistedVendor(run.scorer.model_provider)) continue;
+    const prev = latestByVendor.get(run.scorer.model_provider);
+    if (
+      !prev
+      || run.run.run_date > prev.runDate
+      || (run.run.run_date === prev.runDate && run.scorer.model.localeCompare(prev.model) > 0)
+    ) {
+      latestByVendor.set(run.scorer.model_provider, {
+        model: run.scorer.model,
+        runDate: run.run.run_date,
+      });
+    }
+  }
+  const panel = VENDOR_WHITELIST
+    .map((vendor) => latestByVendor.get(vendor))
+    .filter((run): run is { model: string; runDate: string } => run != null)
+    .sort((a, b) => a.runDate.localeCompare(b.runDate) || a.model.localeCompare(b.model));
   assert.deepEqual(c.panel.map((p) => p.provider).sort(), ['anthropic', 'openai', 'xai']);
   assert.deepEqual(c.panel.map((p) => p.model), panel.map((run) => run.model));
   assert.deepEqual([...c.staleVendors], []);
