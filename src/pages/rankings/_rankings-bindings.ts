@@ -17,8 +17,9 @@ import {
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import type { GeoFacts } from '@/site/geo-facts';
+import { siteConfig } from '@/site/config';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 
 export interface RankingsSlugBindings {
   readonly canonical: string;
