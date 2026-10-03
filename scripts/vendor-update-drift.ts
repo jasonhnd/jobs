@@ -20,9 +20,9 @@ import {
 import { computeDrift, type DriftMover, type DriftBandCounts } from './lib/drift-core.js';
 import { formatVendorDisplay, isWhitelistedVendor } from '../src/site/score-attribution.js';
 
-export interface VendorUpdateMover extends DriftMover {}
+export type VendorUpdateMover = DriftMover;
 
-export interface VendorUpdateBandCounts extends DriftBandCounts {}
+export type VendorUpdateBandCounts = DriftBandCounts;
 
 export interface VendorSwap {
   readonly provider: string;
