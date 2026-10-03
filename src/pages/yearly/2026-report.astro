@@ -2,12 +2,13 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { GENRE_HUB_CSS } from '@/templates/Hub';
+import { siteConfig } from '@/site/config';
 
 const canonical = 'https://mirai-shigoto.com/yearly/2026-report';
 const title = '2026 年版・AI と仕事の現在地 | 未来の仕事';
 const seoDesc = '2026 年時点の日本 556 職業 × AI 影響の全量分析。業種別パターン、注目の発見 10 個、長期キャリア戦略へのヒント。';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [

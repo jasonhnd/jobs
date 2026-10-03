@@ -2,12 +2,13 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { GENRE_HUB_CSS } from '@/templates/Hub';
+import { siteConfig } from '@/site/config';
 
 const canonical = 'https://mirai-shigoto.com/yearly/next-decade';
 const title = '今後 10 年で変化する職業 | 未来の仕事';
 const seoDesc = '2030 年代の AI 普及・少子高齢化・産業構造変化を見据えた職業展望。長期キャリア戦略の参考に。';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [

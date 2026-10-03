@@ -55,3 +55,31 @@ test('the site has one name — no breadcrumb root, schema name or og:site_name 
   }
   assert.deepEqual(offenders, [], 'use siteConfig.siteName (未来の仕事) for anything that names the site');
 });
+
+test('the 13 page SITE declarations read siteConfig.origin (#780)', async () => {
+  const { readFileSync } = await import('node:fs');
+  const files = [
+    'src/pages/careers/_career-bindings.ts',
+    'src/pages/compare/_compare-bindings.ts',
+    'src/pages/data.astro',
+    'src/pages/interests/_interests-bindings.ts',
+    'src/pages/licenses/_license-bindings.ts',
+    'src/pages/q/_q-bindings.ts',
+    'src/pages/rankings/_rankings-bindings.ts',
+    'src/pages/sectors/_sectors-index-bindings.ts',
+    'src/pages/skills/_skills-bindings.ts',
+    'src/pages/yearly/2026-report.astro',
+    'src/pages/yearly/5year-changes.astro',
+    'src/pages/yearly/index.astro',
+    'src/pages/yearly/next-decade.astro',
+  ];
+  const offenders: string[] = [];
+  for (const f of files) {
+    const src = readFileSync(f, 'utf8');
+    if (!src.includes("from '@/site/config'")) offenders.push(`${f}: missing @/site/config import`);
+    if (!src.includes('const SITE = siteConfig.origin')) offenders.push(`${f}: SITE is not siteConfig.origin`);
+    if (src.includes("const SITE = 'https://mirai-shigoto.com'")) offenders.push(`${f}: still assigns the origin literal`);
+  }
+  assert.equal(files.length, 13);
+  assert.deepEqual(offenders, []);
+});
