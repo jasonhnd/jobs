@@ -177,7 +177,7 @@ describe('defaultCodexCliDeps', () => {
       assert.throws(() => deps.exit(1), ExitSignal);
     } finally {
       process.exit = realExit;
-      process.exitCode = savedCode;
+      process.exitCode = savedCode ?? 0; // bun cannot reset exitCode to undefined once set
     }
     assert.equal(exited, 1);
   });
