@@ -353,7 +353,7 @@ function requireOne<T>(items: readonly T[], label: string): T {
 }
 
 /** Canonical whole-catalogue AI-impact ranking comparator. */
-export function compareAiImpactDesc(a: GeoTreemapRow, b: GeoTreemapRow): number {
+function compareAiImpactDesc(a: GeoTreemapRow, b: GeoTreemapRow): number {
   return (
     (b.ai_risk! - a.ai_risk!) ||
     ((b.workers ?? 0) - (a.workers ?? 0)) ||
