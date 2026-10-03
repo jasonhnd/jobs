@@ -147,7 +147,7 @@ export function runSlug(ref: ScoreRunRef): string {
  * Split a run slug back into its parts without consulting any batch list.
  * Returns null for anything that is not `<model-slug>@<YYYY-MM-DD>`.
  */
-export function parseRunSlug(slug: string): { readonly modelSlug: string; readonly runDate: string } | null {
+function parseRunSlug(slug: string): { readonly modelSlug: string; readonly runDate: string } | null {
   const at = slug.lastIndexOf(RUN_SLUG_SEPARATOR);
   if (at <= 0) return null;
   const base = slug.slice(0, at);
