@@ -311,7 +311,7 @@ export function defaultAssembleEnv(root: string = resolve(import.meta.dir, '..')
 /** Run the assemble CLI. Every failure goes through `env.exit(1)` — never writes on failure. */
 export function runAssembleCli(argv: readonly string[], env: AssembleCliEnv): void {
   const { root: ROOT, occDir: OCC_DIR, scoresDir: SCORES_DIR } = env;
-  const fail = (m: string): never => {
+  const fail: (m: string) => never = (m) => {
     env.error(`[assemble-scores] FAIL — ${m}`);
     return env.exit(1);
   };
