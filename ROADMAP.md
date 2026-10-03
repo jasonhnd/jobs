@@ -124,14 +124,23 @@ overlap); reconciled with Microsoft AI Diffusion top-down → 低 9.6 億 /
   in `haid-release-copy.ts`, `og-cards.ts` and `release.json` `method_ja`
   stays as signed. `version` stays `2026-Q3.0`.
 
-## Active — second design review: §4.7 enforced, treemap hard fixes (design-1.21)
+## Done — second design review: §4.7 enforced, treemap hard fixes (design-1.21, closed 2026-09-21)
+
+Shipped in [PR #558](https://github.com/jasonhnd/jobs/pull/558) (2026-09-20),
+with the one-decimal follow-up [#560](https://github.com/jasonhnd/jobs/pull/560)
+(2026-09-20) and home-treemap follow-up
+[#566](https://github.com/jasonhnd/jobs/pull/566) (2026-09-21). Included in
+[preview → main promotion #569](https://github.com/jasonhnd/jobs/pull/569)
+(2026-09-21). These completed hard fixes are separate from the Parked proposals.
 
 Owner review 2026-09-18/19 of the rendered site (1440×900 / 375×812, Vercel Web
 Analytics 2026-08-19→09-18: 83.6 % of visitors on mobile, 92 % on `/`). Owner
 rulings 2026-09-19/20: fix everything the review found; **no canon version
 bump** (stays v1.2, changes recorded in the revision history); continue the
-`design-1.N` numbering; `/rankings/ai-risk-high` title unchanged; treemap
-label truncation kept (§5.7 ruling); no `check-radius`.
+`design-1.N` numbering; `/rankings/ai-risk-high` title unchanged;
+no `check-radius`. The 2026-09-19 label-clipping ruling was **withdrawn on
+2026-09-21** (§5.7 / #566): home canvas follows `/map`, uses 12px full names
+only when they fit, and shows no clipped or ellipsized label.
 
 - canon: §4.7 gains 「本文中の行内強調（`strong` / `em`）」 = `--ink` 700, no
   italics; §2.3 `--risk-0` `#0F8A66` → `#0F8663` (white 4.33 → 4.56:1) and a
@@ -148,23 +157,49 @@ label truncation kept (§5.7 ruling); no `check-radius`.
   radii → `var(--r-md)`. Movers labels → 「仕事が減るリスクが上がった／下がった職業」.
 - gate: `check-role-color` — §4.7 role → token checked against CSS; wired
   into `verify:gates`.
+- follow-up #560: hover tooltips and `/map` / `/me` lists display one decimal.
+- follow-up #566: home canvas adopts `/map` gaps/corners and full-name-or-hidden
+  labels; names and values remain available through tooltips on every tile.
 
-Parked for the next owner discussion (no §4.7 row yet): link colour on hub
-surfaces (`--accent-deep` vs doc's `--orange-hot`), hover states, kickers /
-eyebrows, card names, raw score values, movers delta colours.
+Parked: classify link/hover, kicker/eyebrow and movers-delta semantics before
+proposing changes. Card headings, raw scores and metadata already have §4.7
+roles; map those first. Escalate only meanings that existing rules cannot settle,
+not the whole list as new owner decisions.
 
 ## Active — SEO+GEO on existing pages (#236)
 
-Owner 「继续」 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable
+Owner approved continuation on 2026-09-09 after mms-8 close-out. No 24 type pages. Indexable
 space is occupations, `/answers/*`, `/rankings`, `/methodology`, `/standard`.
 Japanese public copy for new strings is posted on #272.
 
-- seo-geo-1 (#272): four SOP-prompt landings — title / H1 / lead / FAQ JSON-LD
-  use the SOP wording; name AIOIS-10, occupation count, score date above the
-  fold; cross-link `/answers` ↔ `/methodology` ↔ `/rankings`.
-- seo-geo-2: occupation cite-line; drop `代替リスク` as job-loss. Waits on
-  owner-signed JA after #272.
-- seo-geo-3: weekly off-site SOP log including Claude's cited URL.
+- **seo-geo-1 — Done** (#272): four SOP-prompt landings in
+  [merged PR #476](https://github.com/jasonhnd/jobs/pull/476), promoted by
+  [#477](https://github.com/jasonhnd/jobs/pull/477) on 2026-09-09. Title / H1 /
+  lead / FAQ JSON-LD use the signed SOP wording; AIOIS-10, occupation count and
+  score date appear above the fold; `/answers` ↔ `/methodology` ↔ `/rankings`
+  cross-links shipped. This is delivery evidence, not proof of search/citation gains.
+- **seo-geo-2 — Partial**: [merged PR #577](https://github.com/jasonhnd/jobs/pull/577)
+  (2026-09-21) changed the occupation title and meta salary from a yen figure to
+  a percentile among 544 occupations. The meta sentence that AI influence is a
+  degree of work change, not unemployment probability, was already present from
+  [merged PR #276](https://github.com/jasonhnd/jobs/pull/276) (2026-08-24,
+  `a2d59436`) and is still in `src/views/occupation-seo.ts`. Partial stays
+  Partial: the full citation fact paragraph exists inside the default-collapsed
+  source details; a concise visible citation line near the occupation score
+  remains. Next: obtain owner-signed Japanese wording and placement, reuse
+  canonical score/date/count/source values, and retain the full source fold.
+  Do not redo the shipped title/meta correction.
+- **seo-geo-3 — Active**: evidence-backed weekly off-site SOP log, including
+  Claude's exact cited URL or verified no-citation result, and 28-day observation.
+  Next: locate existing logs/schedules, then record the fixed prompts, dates,
+  engines/modes and evidence. External log completion was not verified by this
+  documentation reconciliation. Keep crawl events, answer citations, human
+  referrals and Google organic results separate.
+
+[#236](https://github.com/jasonhnd/jobs/issues/236) is historical programme
+tracking; its closure does not complete the residuals above. Follow-up work must
+have its own scoped Issue and evidence; this reconciliation does not alter old
+Issues or start product/observation work.
 
 Parked: /models observatory enhancements — update-history
 surface, model-page OG cards, dimension fingerprints, release-day ritual.
@@ -204,7 +239,7 @@ one set on 2026-09-23: a vendor's flagship seat holds the newest model the
 owner chose to score for that vendor. The owner delegated the scoring gates
 (13.2, 13.3, 13.4, and landing) to the supervisor on 2026-10-01.
 
-- mms-13.1 (#671/#677): frozen prompt `gpt-6.1-sol` + constants + body-hash test + runbook section + TOOLCHAIN row.
+- mms-13.1 (#671/#677): frozen prompt `gpt-6.1-sol` + constants + body-hash test + runbook section + TOOLCHAIN §2.1 scoring-CLI row.
 - mms-13.2 (#672): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
 - mms-13.3 (#673): pilot 40 (+5 security ids) (Issue comments; no PR).
 - mms-13.4 (#674): full 556, `run_date` 2026-10-01 (Issue comments; no PR).
@@ -218,11 +253,16 @@ Shipped on `preview` (#622, #627); not promoted to `main` when this block
 was written (promotion text on #619). GPT 6 SOL (`gpt-6-sol@2026-09-23`,
 556, Codex CLI with `--model gpt-6-sol --reasoning-effort high`) replaces
 GPT 6 Astra as OpenAI's seat in the vendor mean; Claude Opus 5.5 and Grok
-4.7 stay. The public mean moves 4.65 → 4.56: 2 occupations move by 0.5 or
+4.7 stay. The public mean moves 4.65 → 4.55: 2 occupations move by 0.5 or
 more, none by 1.0 or more, and 28 change risk band. The run date equals
 the Claude Opus 5.5 run date (owner decision on #614), so GPT 6 SOL wins the
 latest-run tie by file order and its `/models` page compares against Grok
 4.7. GPT 6 Astra stays as history.
+
+Correction recorded 2026-09-24: the original 4.56 averaged already-rounded
+occupation scores. The aggregate of unrounded values is 4.55, as recorded in
+[`CONSENSUS_SCORE.md`](docs/CONSENSUS_SCORE.md). Bands still use displayed
+one-decimal values; the 28 band changes are unchanged.
 
 Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
 2026-09-23 (mms-11.1). Sister lane mms-11 (Claude Opus 5.5) landed first.
@@ -252,7 +292,7 @@ Design: `docs/CONSENSUS_SCORE.md` revision 2, decision 1 as amended on
 2026-09-23 (owner). Sister lane mms-12 (GPT-6 SOL) lands after this one.
 
 - mms-11.1 (#606/#621): seat rule amended (canon sentence + two signed Japanese lines).
-- mms-11.2 (#607/#623): frozen prompt `claude-opus-5-5` + constants + body-hash test + runbook section + TOOLCHAIN row.
+- mms-11.2 (#607/#623): frozen prompt `claude-opus-5-5` + constants + body-hash test + runbook section + TOOLCHAIN §2.1 scoring-CLI row.
 - mms-11.3 (#608): preflight, `PREFLIGHT PASS` (Issue comment; no PR).
 - mms-11.4 (#609): pilot 40 (in-agent, chunked `claude -p`; Issue comments; no PR).
 - mms-11.5 (#610): full 556, `run_date` 2026-09-23 (Issue comments; no PR).

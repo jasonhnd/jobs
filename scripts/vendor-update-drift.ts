@@ -12,33 +12,17 @@
  */
 import { writeFileSync } from 'node:fs';
 import { buildIndexes } from '../src/data/lib/indexes.js';
-import { riskBand, type RiskBand } from '../src/data/lib/bands.js';
-import { displayScore } from '../src/data/lib/banker-round.js';
-import { fmean } from '../src/data/lib/fsum.js';
 import {
   pickFlagshipMeanScore,
   pickLatestScore,
   type ScoreHistEntry,
 } from '../src/graph/score-strategy.js';
-import { LATEST_OBSERVATION_THRESHOLD } from '../src/site/consensus-copy.js';
+import { computeDrift, type DriftMover, type DriftBandCounts } from './lib/drift-core.js';
 import { formatVendorDisplay, isWhitelistedVendor } from '../src/site/score-attribution.js';
 
-export interface VendorUpdateMover {
-  readonly id: number;
-  readonly title: string;
-  readonly before: number;
-  readonly after: number;
-  readonly delta: number;
-  readonly beforeBand: RiskBand;
-  readonly afterBand: RiskBand;
-  readonly showsLatestLine: boolean;
-}
+export type VendorUpdateMover = DriftMover;
 
-export interface VendorUpdateBandCounts {
-  readonly low: number;
-  readonly mid: number;
-  readonly high: number;
-}
+export type VendorUpdateBandCounts = DriftBandCounts;
 
 export interface VendorSwap {
   readonly provider: string;
@@ -50,6 +34,7 @@ export interface VendorSwap {
 
 export interface VendorUpdateDriftSummary {
   readonly occupationCount: number;
+  readonly skippedOccupationIds: readonly number[];
   readonly incomingModel: string;
   readonly incomingDate: string;
   readonly generatedAt: string;
@@ -63,18 +48,6 @@ export interface VendorUpdateDriftSummary {
   readonly bandChanges: number;
   readonly latestLineCount: number;
   readonly movers: readonly VendorUpdateMover[];
-}
-
-function round2(n: number): number {
-  return Math.round(n * 100) / 100;
-}
-
-function emptyBands(): { low: number; mid: number; high: number } {
-  return { low: 0, mid: 0, high: 0 };
-}
-
-function bump(counts: { low: number; mid: number; high: number }, band: RiskBand): void {
-  counts[band] += 1;
 }
 
 function comparableOf(history: readonly ScoreHistEntry[]): ScoreHistEntry[] {
@@ -141,82 +114,38 @@ export function computeVendorUpdateDrift(
   generatedAt: string = new Date().toISOString().slice(0, 10),
 ): VendorUpdateDriftSummary {
   const swap = resolveVendorSwap(historyByOcc, incomingModel);
-  // Aggregate means use the unrounded public values; per-occupation counts
-  // (|Δ|, bands) use the displayed one-decimal values (#631).
-  const unroundedBefore: number[] = [];
-  const unroundedAfter: number[] = [];
-  const movers: VendorUpdateMover[] = [];
-  const bandBefore = emptyBands();
-  const bandAfter = emptyBands();
-  let absDeltaGe05 = 0;
-  let absDeltaGe10 = 0;
-  let bandChanges = 0;
-  let latestLineCount = 0;
-
-  for (const [id, history] of historyByOcc) {
-    const comparable = comparableOf(history);
-    if (comparable.length === 0) continue;
-    const withoutIncoming = comparable.filter((entry) => entry.model !== incomingModel);
-    if (withoutIncoming.length === 0) continue;
-
-    let beforeUnrounded: number;
-    let afterUnrounded: number;
-    let latestT: number;
-    try {
-      beforeUnrounded = pickFlagshipMeanScore(withoutIncoming).transformation;
-      afterUnrounded = pickFlagshipMeanScore(comparable).transformation;
-      latestT = pickLatestScore(comparable).aiois!.transformation;
-    } catch {
-      continue;
-    }
-
-    const before = displayScore(beforeUnrounded);
-    const after = displayScore(afterUnrounded);
-    const delta = after - before;
-    const abs = Math.abs(delta);
-    const beforeBand = riskBand(before);
-    const afterBand = riskBand(after);
-    if (beforeBand === null || afterBand === null) continue;
-
-    unroundedBefore.push(beforeUnrounded);
-    unroundedAfter.push(afterUnrounded);
-    if (abs >= 0.5) absDeltaGe05 += 1;
-    if (abs >= 1.0) absDeltaGe10 += 1;
-    bump(bandBefore, beforeBand);
-    bump(bandAfter, afterBand);
-    if (beforeBand !== afterBand) bandChanges += 1;
-    const showsLatestLine = Math.abs(latestT - afterUnrounded) >= LATEST_OBSERVATION_THRESHOLD;
-    if (showsLatestLine) latestLineCount += 1;
-    movers.push({
-      id,
-      title: titles.get(id) ?? `職業 ${id}`,
-      before,
-      after,
-      delta,
-      beforeBand,
-      afterBand,
-      showsLatestLine,
-    });
-  }
-
-  movers.sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta) || a.id - b.id);
+  const { summary } = computeDrift(historyByOcc, incomingModel, titles, {
+    comparableOf,
+    // Aggregate means use unrounded values; counts use displayed values (#631).
+    meanBasis: 'unrounded',
+    selectScores: (comparable, withoutIncoming) => ({
+      beforeUnrounded: pickFlagshipMeanScore(withoutIncoming).transformation,
+      afterUnrounded: pickFlagshipMeanScore(comparable).transformation,
+      latestT: pickLatestScore(comparable).aiois!.transformation,
+    }),
+  });
 
   return {
-    occupationCount: movers.length,
+    occupationCount: summary.occupationCount,
+    skippedOccupationIds: summary.skippedOccupationIds,
     incomingModel,
     incomingDate: swap.incomingDate,
     generatedAt,
     swap,
-    meanBefore: round2(fmean(unroundedBefore)),
-    meanAfter: round2(fmean(unroundedAfter)),
-    absDeltaGe05,
-    absDeltaGe10,
-    bandBefore,
-    bandAfter,
-    bandChanges,
-    latestLineCount,
-    movers,
+    meanBefore: summary.meanBefore,
+    meanAfter: summary.meanAfter,
+    absDeltaGe05: summary.absDeltaGe05,
+    absDeltaGe10: summary.absDeltaGe10,
+    bandBefore: summary.bandBefore,
+    bandAfter: summary.bandAfter,
+    bandChanges: summary.bandChanges,
+    latestLineCount: summary.latestLineCount,
+    movers: summary.movers,
   };
+}
+
+function formatSkippedOccupations(ids: readonly number[]): string {
+  return `Skipped occupations: ${ids.length}; IDs: ${ids.length > 0 ? ids.join(', ') : 'none'}.`;
 }
 
 function signed1(n: number): string {
@@ -268,6 +197,8 @@ ${moverRows(up)}
 | id | 職業 | 前 | 後 | Δ | 帯 前→後 |
 |---|---|---:|---:|---:|---|
 ${moverRows(down)}
+
+${formatSkippedOccupations(summary.skippedOccupationIds)}
 `;
 }
 
@@ -287,7 +218,8 @@ export function formatVendorUpdateSummaryLine(summary: VendorUpdateDriftSummary)
     `band ${summary.bandBefore.low}/${summary.bandBefore.mid}/${summary.bandBefore.high}→` +
     `${summary.bandAfter.low}/${summary.bandAfter.mid}/${summary.bandAfter.high} ` +
     `(${summary.bandChanges} changed) ` +
-    formatVendorSwappedLine(summary.swap)
+    formatVendorSwappedLine(summary.swap) +
+    ` ${formatSkippedOccupations(summary.skippedOccupationIds)}`
   );
 }
 

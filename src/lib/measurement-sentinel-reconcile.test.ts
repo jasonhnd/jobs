@@ -11,6 +11,8 @@ import {
   buildRunReportBody,
   buildStsBody,
   jstDate,
+  impersonationUrl,
+  runReportUrl,
   missingReconcileEnvFailures,
   parseReconcileCounts,
   RECONCILE_MIN_BASELINE,
@@ -135,4 +137,23 @@ describe('missingReconcileEnvFailures', () => {
       [],
     );
   });
+});
+
+
+test('request URLs encode identifiers as a single path segment', () => {
+  assert.equal(impersonationUrl('fixture+sentinel@example.com'), 'https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/fixture%2Bsentinel%40example.com:generateAccessToken');
+  assert.equal(runReportUrl('123/456?x=1'), 'https://analyticsdata.googleapis.com/v1beta/properties/123%2F456%3Fx%3D1:runReport');
+});
+
+test('count parsing ignores unknown ranges and defaults absent metrics to zero', () => {
+  assert.deepEqual(parseReconcileCounts({ rows: [
+    {},
+    { dimensionValues: [{ value: 'unknown' }], metricValues: [{ value: '999' }] },
+    { dimensionValues: [{ value: 'yesterday' }] },
+  ] }), { yesterday: 0, dayBefore: 0 });
+});
+
+test('collapse threshold is strict and baseline threshold is inclusive', () => {
+  assert.deepEqual(reconcileVerdict({ yesterday: 20, dayBefore: 50 }), []);
+  assert.deepEqual(reconcileVerdict({ yesterday: 19, dayBefore: 50 }), ['reconcile:drop-gt-60pct(yesterday=19,dayBefore=50)']);
 });

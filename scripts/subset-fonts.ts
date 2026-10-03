@@ -1,10 +1,12 @@
 #!/usr/bin/env bun
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, rmSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, rmSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { create as createFont } from 'fontkitten';
 import subsetFont from 'subset-font';
+
+import { walkFiles } from './lib/walk-files.cjs';
 
 const ROOT = process.cwd();
 const DIST_ROOT = join(ROOT, 'dist-astro');
@@ -78,7 +80,7 @@ interface FontAsset {
 }
 
 interface FontStylesheet {
-  readonly href: string;
+  readonly css: string;
   readonly bytes: number;
 }
 
@@ -146,27 +148,6 @@ const SERIF_CLASS_SUFFIXES = [
 function fail(message: string): never {
   process.stderr.write(`[subset-fonts] FAIL: ${message}\n`);
   process.exit(1);
-}
-
-function walkFiles(dir: string, predicate: (name: string) => boolean, out: string[] = []): string[] {
-  for (const name of readdirSync(dir)) {
-    const full = join(dir, name);
-    if (!existsSync(full)) continue;
-    if (readdirSyncSafe(full) !== null) {
-      walkFiles(full, predicate, out);
-    } else if (predicate(name)) {
-      out.push(full);
-    }
-  }
-  return out;
-}
-
-function readdirSyncSafe(path: string): string[] | null {
-  try {
-    return readdirSync(path);
-  } catch {
-    return null;
-  }
 }
 
 function decodeHtmlEntities(text: string): string {
@@ -371,19 +352,35 @@ function verifySerifSubsetCmap(
   return unsupported;
 }
 
-function writeFontStylesheet(assets: readonly FontAsset[]): FontStylesheet {
-  const css = `${fontFaceCss(assets)}\n`;
-  const hash = createHash('sha256').update(css).digest('hex').slice(0, 12);
-  const fileName = `font-faces.${hash}.css`;
-  writeFileSync(join(FONTS_OUT_DIR, fileName), css, 'utf-8');
-  return {
-    href: `/fonts/${fileName}`,
-    bytes: Buffer.byteLength(css, 'utf-8'),
-  };
+/**
+ * The @font-face block is inlined into every page rather than linked, because
+ * as a separate file it was the only render-blocking request on the site: 827
+ * bytes bought a full round trip, and the font itself could not start loading
+ * until that round trip finished (HTML -> font-faces.css -> woff2, a 1,508 ms
+ * critical path on the 2026-09-21 PageSpeed run; est. saving 340 ms).
+ *
+ * `style-src` stays on `'unsafe-inline'`, so no CSP hash is needed — see the
+ * note in scripts/compute-csp-hashes.cjs.
+ */
+function buildFontStylesheet(assets: readonly FontAsset[]): FontStylesheet {
+  const css = fontFaceCss(assets);
+  if (css.includes('<')) {
+    fail('@font-face CSS contains "<"; it cannot be inlined into a <style> block unescaped');
+  }
+  return { css, bytes: Buffer.byteLength(css, 'utf-8') };
 }
 
 function writeFontManifest(assets: readonly FontAsset[], stylesheet: FontStylesheet): void {
-  const json = `${JSON.stringify({ generated_by: 'scripts/subset-fonts.ts', stylesheet, assets }, null, 2)}\n`;
+  const json = `${JSON.stringify(
+    {
+      generated_by: 'scripts/subset-fonts.ts',
+      // The @font-face rules ship inline in every page's <head>, not as a file.
+      stylesheet: { delivery: 'inline', bytes: stylesheet.bytes },
+      assets,
+    },
+    null,
+    2,
+  )}\n`;
   const hash = createHash('sha256').update(json).digest('hex').slice(0, 12);
   writeFileSync(join(FONTS_OUT_DIR, `manifest.${hash}.json`), json, 'utf-8');
 }
@@ -417,18 +414,18 @@ function injectFontAssets(
   const preloads = fontPreloads(assets);
   return html.replace(
     FONT_ASSET_MARKER,
-    `${preloads}\n    <link rel="stylesheet" href="${stylesheet.href}" />`,
+    `${preloads}\n    <style>${stylesheet.css}</style>`,
   );
 }
 
 async function main(): Promise<void> {
   if (!existsSync(DIST_ROOT)) fail('dist-astro/ not found. Run `astro build` first.');
-  const htmlFiles = walkFiles(DIST_ROOT, (name) => name.endsWith('.html')).sort();
+  const htmlFiles = walkFiles(DIST_ROOT, { ext: /\.html$/ }).sort();
   if (htmlFiles.length === 0) fail('no dist-astro/**/*.html files found');
 
   const fontTexts = collectFontTexts(htmlFiles);
   const assets = await buildFontAssets(fontTexts);
-  const stylesheet = writeFontStylesheet(assets);
+  const stylesheet = buildFontStylesheet(assets);
   writeFontManifest(assets, stylesheet);
   for (const file of htmlFiles) {
     const current = readFileSync(file, 'utf-8');
@@ -441,7 +438,7 @@ async function main(): Promise<void> {
       `${Math.round(totalBytes / 1024)} KiB total\n`,
   );
   process.stdout.write(
-    `[subset-fonts] ${stylesheet.href} ${Math.round(stylesheet.bytes / 1024)} KiB stylesheet\n`,
+    `[subset-fonts] ${stylesheet.bytes} B @font-face CSS inlined into every page\n`,
   );
   for (const asset of assets) {
     const comparison =

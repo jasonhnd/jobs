@@ -8,6 +8,7 @@ import { GENRE_HUB_CSS } from '@/templates/Hub';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
 import { RANK_LIST_CSS } from '@/lib/rank-list-css';
 import { buildQSlugBindings } from './_q-bindings';
+import ChapDesktopOpen from '@/components/ChapDesktopOpen.astro';
 
 export async function getStaticPaths() {
   const details = loadAllDetails();
@@ -69,14 +70,5 @@ const b = buildQSlugBindings(qa, examples, await loadGraph());
     )}
     <Footer />
   </div>
-  {/* Static body: open shared chapters on desktop. Byte-identical to rankings (#321 / §3.6). */}
-  <script is:inline slot="bodyEnd">
-    (function () {
-      try {
-        if (!window.matchMedia('(min-width: 900px)').matches) return;
-        var nodes = document.querySelectorAll('details.chap');
-        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
-      } catch (e) {}
-    })();
-  </script>
+  <ChapDesktopOpen slot="bodyEnd" />
 </BaseLayout>

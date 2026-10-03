@@ -1,6 +1,45 @@
 // @ts-check
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
 import { defineConfig } from 'astro/config';
+import { transform } from 'esbuild';
+
+/**
+ * Intercept only the home's verbatim `?url` script before Vite's asset loader.
+ * Emit final minified bytes under their SHA-256 name and export that URL to
+ * every importer through Vite's asset URL pipeline, with no post-naming mutation.
+ * Without format/target, esbuild preserves classic-script scope and the
+ * existing syntax target; it must not wrap or rename top-level declarations.
+ * @returns {import('vite').Plugin}
+ */
+function minifyHomeScriptAsset() {
+  const homeScript = fileURLToPath(new URL('./src/pages/_index-inline.js', import.meta.url));
+  const homeImport = homeScript.replaceAll('\\', '/') + '?url';
+  /** @type {import('vite').ResolvedConfig} */
+  let config;
+  return {
+    name: 'minify-home-script-asset',
+    apply: 'build',
+    enforce: 'pre',
+    configResolved(resolved) {
+      config = resolved;
+    },
+    async load(id) {
+      if (id !== homeImport) return;
+      this.addWatchFile(homeScript);
+      const source = await readFile(homeScript, 'utf-8');
+      const { code } = await transform(source, { minify: true, loader: 'js' });
+      const hash = createHash('sha256').update(code).digest('hex');
+      const fileName = `${config.build.assetsDir}/_index-inline.${hash}.js`;
+      const referenceId = this.emitFile({ type: 'asset', fileName, source: code });
+      // Use the same URL placeholder as Vite's ?url loader. Its renderChunk
+      // hook resolves the base URL and records importedAssets in the manifest,
+      // which Astro needs to move this asset from prerender to client output.
+      return { code: `export default ${JSON.stringify(`__VITE_ASSET__${referenceId}__`)};`, map: null };
+    },
+  };
+}
 
 // https://astro.build/config
 //
@@ -8,7 +47,9 @@ import { defineConfig } from 'astro/config';
 //   - outDir → ./dist-astro/   (Vercel deploys this; vercel.json:outputDirectory matches)
 //   - publicDir → ./public/    (Astro default; SEO statics tracked here, plus TS-ETL
 //                              data.*.json output written here at build time)
-//   - build.format: 'file'     (legacy /ja/{id}.html URL shape preserved)
+//   - build.format: 'file'     (emits /{id}.html; canonical paths are
+//                              occupationPath() in src/lib/urls.ts: /{id},
+//                              or /occupations/{id} for reserved ids)
 //
 // Data flow:
 //   data/* → npm run build:data (src/data/build.ts) → public/data.*.json
@@ -36,6 +77,7 @@ export default defineConfig({
     format: 'file',
   },
   vite: {
+    plugins: [minifyHomeScriptAsset()],
     resolve: {
       alias: {
         // fileURLToPath returns a real OS path on every platform.

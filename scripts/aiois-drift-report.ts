@@ -145,8 +145,9 @@ interface RawBatch {
   >;
 }
 
-if (import.meta.main) {
-  const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+/** CLI body. `root` resolves relative paths and locates data/occupations. */
+export function runDriftCli(argv: readonly string[], root: string): void {
+  const ROOT = root;
   const OCC_DIR = join(ROOT, 'data', 'occupations');
   const fail = (m: string): never => {
     console.error(`[aiois-drift-report] FAIL — ${m}`);
@@ -158,7 +159,6 @@ if (import.meta.main) {
   };
 
   const args: Record<string, string> = {};
-  const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
     if (!a.startsWith('--')) continue;
@@ -231,4 +231,8 @@ if (import.meta.main) {
       `  meanΔD=${f2s(report.meanDriftD)} (|${report.meanAbsDriftD.toFixed(2)}|)`,
   );
   console.log(`  band crossings=${report.bandCrossCount}  manual review=${report.manualReview.length} (rank≥${rankThreshold})`);
+}
+
+if (import.meta.main) {
+  runDriftCli(process.argv.slice(2), resolve(dirname(fileURLToPath(import.meta.url)), '..'));
 }

@@ -13,21 +13,13 @@
  *   0 — clean run (validation + all projections succeed).
  *   1 — at least one validation or projection error.
  */
-import { mkdir, rm, rename, readdir, cp, writeFile, access } from 'node:fs/promises';
+import { mkdir, rm, readdir } from 'node:fs/promises';
 import { basename, dirname, join, resolve, relative, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 
-// Used by the transactional promote (CODE-001 fix).
-async function pathExists(p: string): Promise<boolean> {
-  try {
-    await access(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-import { assertUniformVendorPanel, buildIndexes } from './lib/indexes.js';
+import { promoteStagedOutputs } from './promote.js';
+import { isErrnoCode } from './loaders.js';
+import { assertUniformVendorPanel, buildIndexes, type Indexes } from './lib/indexes.js';
 import { rewriteGeneratedModule } from './lib/rewrite-generated-module.js';
 import { buildDetail } from './projections/detail.js';
 import { buildHolland } from './projections/holland.js';
@@ -106,6 +98,24 @@ async function main(): Promise<void> {
   console.log(`  output dir: ${TS_DIST}`);
   console.log(`  staging dir: ${STAGE_DIST}\n`);
 
+  const indexes = await loadValidatedIndexes();
+  await updateGeneratedMetadata(indexes);
+  await prepareStagingDirectory();
+  const runs = await runProjections(indexes);
+  logProjectionRuns(runs);
+
+  // Real filesystem. Tests import promoteStagedOutputs and inject faults.
+  await promoteStagedOutputs({
+    stageDir: STAGE_DIST,
+    outDir: TS_DIST,
+    cacheDir: join(REPO_ROOT, '.cache', 'etl'),
+  });
+
+  const elapsed = ((Date.now() - t0) / 1000).toFixed(2);
+  console.log(`  done in ${elapsed}s`);
+}
+
+async function loadValidatedIndexes(): Promise<Indexes> {
   // ───── L1+L2: load + validate everything ─────
   console.log('  [L1+L2] loading + validating sources …');
   const { indexes, errors } = await buildIndexes();
@@ -131,67 +141,83 @@ async function main(): Promise<void> {
   console.log(`     labels dimensions:  ${indexes.labelsByDim.size}`);
   console.log(`     sectors:            ${indexes.sectors.length}`);
 
-  // ───── Update src/lib/_content-date.ts (content-derived dateModified) ─────
-  // Every template that emits `dateModified` in its JSON-LD imports
-  // CONTENT_DATE from src/lib/_content-date.ts. We rewrite the file here so
-  // the freshness signal tracks the actual latest score-run date instead of a
-  // hardcoded calendar constant. Writes only on change → working tree stays
-  // clean across rebuilds that don't introduce new scores.
-  {
-    // One implementation of "which batch is canonical". This block used to
-    // re-derive it inline from `latestScoreByOcc` with its own tie-breaking,
-    // while `pickAttributionBatch` — documented in this file's header as the
-    // canonical helper — was called by nothing but its own test. Two answers to
-    // one question is the underlying hazard; the helper also fails fast on an
-    // empty `data/scores/`, replacing hardcoded 2026-05-30 / claude-opus-4-8
-    // fallbacks that would have published a two-generations-old attribution
-    // across ~40 surfaces while the build reported success. Issue #219.
-    const batchMetas: BatchMetaForAttribution[] = [...indexes.runsByModel.values()]
-      .flat()
-      .map((run) => ({
-        scope: run.scope,
-        model: run.scorer.model,
-        runDate: run.run.run_date,
-        hasAiois: Object.values(run.scores).some((entry) => entry.aiois != null),
-        backfill: run.run.backfill === true,
-      }));
-    const active = pickAttributionBatch(batchMetas);
-    const modelDisplay = formatModelDisplay(active.model);
+  return indexes;
+}
 
-    await rewriteGeneratedModule(join(REPO_ROOT, 'src/lib/_content-date.ts'), [
-      {
-        pattern: /CONTENT_DATE = '[^']*'/,
-        replacement: `CONTENT_DATE = '${active.runDate}'`,
-        expect: `CONTENT_DATE = '${active.runDate}'`,
-      },
-    ]);
-    console.log(`  [content-date] ${active.runDate}`);
+// Keep generated freshness and attribution modules aligned with the canonical batch.
+async function updateGeneratedMetadata(indexes: Indexes): Promise<void> {
+  const active = selectAttributionBatch(indexes);
+  const modelDisplay = formatModelDisplay(active.model);
+  await updateContentDate(active.runDate);
+  await updateScoreAttribution(indexes, active, modelDisplay);
+}
 
-    // Active score attribution (model + date) → generated fs-free module, so
-    // src/site/score-attribution.ts carries no node:fs into the Edge bundle.
-    const sample = indexes.flagshipByOcc.get(1);
-    if (!sample) throw new Error('[build] no flagship mean for occupation 1 — cannot write SCORE_PANEL');
-    assertUniformVendorPanel(indexes.flagshipByOcc);
-    const panel = flagshipPanelMeta(sample);
+function selectAttributionBatch(indexes: Indexes): ReturnType<typeof pickAttributionBatch> {
+  // One implementation of "which batch is canonical". This block used to
+  // re-derive it inline from `latestScoreByOcc` with its own tie-breaking,
+  // while `pickAttributionBatch` — documented in this file's header as the
+  // canonical helper — was called by nothing but its own test. Two answers to
+  // one question is the underlying hazard; the helper also fails fast on an
+  // empty `data/scores/`, replacing hardcoded 2026-05-30 / claude-opus-4-8
+  // fallbacks that would have published a two-generations-old attribution
+  // across ~40 surfaces while the build reported success. Issue #219.
+  const batchMetas: BatchMetaForAttribution[] = [...indexes.runsByModel.values()]
+    .flat()
+    .map((run) => ({
+      scope: run.scope,
+      model: run.scorer.model,
+      runDate: run.run.run_date,
+      hasAiois: Object.values(run.scores).some((entry) => entry.aiois != null),
+      backfill: run.run.backfill === true,
+    }));
+  return pickAttributionBatch(batchMetas);
+}
 
-    await rewriteGeneratedModule(join(REPO_ROOT, 'src/site/_score-attribution.ts'), [
-      { pattern: /modelId: '[^']*'/, replacement: `modelId: '${active.model}'`, expect: `modelId: '${active.model}'` },
-      { pattern: /modelDisplay: '[^']*'/, replacement: `modelDisplay: '${modelDisplay}'`, expect: `modelDisplay: '${modelDisplay}'` },
-      { pattern: /runDate: '[^']*'/, replacement: `runDate: '${active.runDate}'`, expect: `runDate: '${active.runDate}'` },
-      { pattern: /vendorCount: \d+/, replacement: `vendorCount: ${panel.vendorCount}`, expect: `vendorCount: ${panel.vendorCount}` },
-      { pattern: /latestRunDate: '[^']*'/, replacement: `latestRunDate: '${panel.latestRunDate}'`, expect: `latestRunDate: '${panel.latestRunDate}'` },
-      { pattern: /staleMonths: \d+/, replacement: `staleMonths: ${panel.staleMonths}`, expect: `staleMonths: ${panel.staleMonths}` },
-      { pattern: /staleVendorCount: \d+/, replacement: `staleVendorCount: ${panel.staleVendorCount}`, expect: `staleVendorCount: ${panel.staleVendorCount}` },
-    ]);
-    console.log(`  [score-attribution] ${modelDisplay} (${active.runDate})`);
-    console.log(`  [score-panel] vendors=${panel.vendorCount} latest=${panel.latestRunDate} stale=${panel.staleVendorCount}`);
-  }
+// Writes only on change, so rebuilds without new scores keep the working tree clean.
+async function updateContentDate(runDate: string): Promise<void> {
+  await rewriteGeneratedModule(join(REPO_ROOT, 'src/lib/_content-date.ts'), [
+    {
+      pattern: /CONTENT_DATE = '[^']*'/,
+      replacement: `CONTENT_DATE = '${runDate}'`,
+      expect: `CONTENT_DATE = '${runDate}'`,
+    },
+  ]);
+  console.log(`  [content-date] ${runDate}`);
+}
 
-  // ───── Prepare staging dir ─────
-  // Wipe any leftover stage from a crashed previous run, then create fresh.
+async function updateScoreAttribution(
+  indexes: Indexes,
+  active: ReturnType<typeof pickAttributionBatch>,
+  modelDisplay: string,
+): Promise<void> {
+  // Active score attribution (model + date) → generated fs-free module, so
+  // src/site/score-attribution.ts carries no node:fs into the Edge bundle.
+  const sample = indexes.flagshipByOcc.get(1);
+  if (!sample) throw new Error('[build] no flagship mean for occupation 1 — cannot write SCORE_PANEL');
+  assertUniformVendorPanel(indexes.flagshipByOcc);
+  const panel = flagshipPanelMeta(sample);
+
+  await rewriteGeneratedModule(join(REPO_ROOT, 'src/site/_score-attribution.ts'), [
+    { pattern: /modelId: '[^']*'/, replacement: `modelId: '${active.model}'`, expect: `modelId: '${active.model}'` },
+    { pattern: /modelDisplay: '[^']*'/, replacement: `modelDisplay: '${modelDisplay}'`, expect: `modelDisplay: '${modelDisplay}'` },
+    { pattern: /runDate: '[^']*'/, replacement: `runDate: '${active.runDate}'`, expect: `runDate: '${active.runDate}'` },
+    { pattern: /vendorCount: \d+/, replacement: `vendorCount: ${panel.vendorCount}`, expect: `vendorCount: ${panel.vendorCount}` },
+    { pattern: /latestRunDate: '[^']*'/, replacement: `latestRunDate: '${panel.latestRunDate}'`, expect: `latestRunDate: '${panel.latestRunDate}'` },
+    { pattern: /staleMonths: \d+/, replacement: `staleMonths: ${panel.staleMonths}`, expect: `staleMonths: ${panel.staleMonths}` },
+    { pattern: /staleVendorCount: \d+/, replacement: `staleVendorCount: ${panel.staleVendorCount}`, expect: `staleVendorCount: ${panel.staleVendorCount}` },
+  ]);
+  console.log(`  [score-attribution] ${modelDisplay} (${active.runDate})`);
+  console.log(`  [score-panel] vendors=${panel.vendorCount} latest=${panel.latestRunDate} stale=${panel.staleVendorCount}`);
+}
+
+async function prepareStagingDirectory(): Promise<void> {
   // TS_DIST is left untouched until every projection succeeds.
   await rm(STAGE_DIST, { recursive: true, force: true });
+  await pruneOrphanStagingDirectories();
+  await mkdir(STAGE_DIST, { recursive: true });
+}
 
+async function pruneOrphanStagingDirectories(): Promise<void> {
   // 2026-05-17 RA-002 fix: prune orphan staging dirs from previously
   // killed builds. A hard-killed build (SIGKILL, Ctrl-C race, OOM)
   // can leave `<TS_DIST>.tmp-<dead-pid>` siblings behind, which dirty
@@ -214,390 +240,170 @@ async function main(): Promise<void> {
     // Surface any other error so Windows file-lock / permission issues
     // (EPERM, EBUSY, antivirus-locked files) don't masquerade as a
     // clean first-run state.
-    const code = (err as NodeJS.ErrnoException)?.code;
-    if (code !== 'ENOENT') {
+    if (!isErrnoCode(err, 'ENOENT')) {
       console.warn('[build] orphan-dir cleanup unexpected error:', err);
     }
   }
+}
 
-  await mkdir(STAGE_DIST, { recursive: true });
-
-  // ───── Run projections (writes to STAGE_DIST) ─────
+async function runProjections(indexes: Indexes): Promise<ProjectionRun[]> {
   console.log('\n  [build] running projections …');
   const runs: ProjectionRun[] = [];
-
   try {
-    // sectors: must run first (others may depend on sector_id derivations).
-    runs.push(await runProjection('sectors', async () => {
-      const r = await buildSectors(indexes, STAGE_DIST);
-      return {
-        files: r.files,
-        summary: r.skipped ?? `sectors=${r.sectors} uncategorized=${r.uncategorized} ambiguous=${r.ambiguous}`,
-      };
-    }));
-
-    runs.push(await runProjection('labels', async () => {
-      const r = await buildLabels(indexes, STAGE_DIST);
-      return { files: r.files, summary: `dimensions=${r.dimensions}` };
-    }));
-
-    runs.push(await runProjection('profile5', async () => {
-      const r = await buildProfile5(indexes, STAGE_DIST);
-      return {
-        files: r.files,
-        summary: `occupations=${r.occupations} axes=${r.axes.length}`,
-      };
-    }));
-
-    runs.push(await runProjection('worktypes', async () => {
-      const r = await buildWorktypes(indexes, STAGE_DIST);
-      return {
-        files: r.files,
-        summary: `occupations=${r.occupations} families=${r.families} adjustments=${r.adjustments}`,
-      };
-    }));
-
-    runs.push(await runProjection('treemap', async () => {
-      const r = await buildTreemap(indexes, STAGE_DIST);
-      return { files: r.files, summary: `rows=${r.rows} top10=${r.top10Rows}` };
-    }));
-
-    runs.push(await runProjection('haid-spec', async () => {
-      const r = await buildHaidSpec(STAGE_DIST);
-      return { files: r.files, summary: `levels=${r.rows}` };
-    }));
-
-    runs.push(await runProjection('haid-release', async () => {
-      const r = await buildHaidRelease(STAGE_DIST);
-      return { files: r.files, summary: `releases=${r.releases.length} latest=${r.latest} +deprecated-stub` };
-    }));
-
-    runs.push(await runProjection('search', async () => {
-      const r = await buildSearch(indexes, STAGE_DIST);
-      return { files: r.files, summary: `documents=${r.documents}` };
-    }));
-
-    runs.push(await runProjection('transfer_paths', async () => {
-      const r = await buildTransferPaths(indexes, STAGE_DIST);
-      return {
-        files: r.files,
-        summary: `sources=${r.sources} primary=${r.summary.primary} fallback_no_safer=${r.summary.fallback_no_safer_in_sector}`,
-      };
-    }));
-
-    runs.push(await runProjection('detail', async () => {
-      const r = await buildDetail(indexes, STAGE_DIST);
-      return { files: [r.dir], summary: `files=${r.fileCount}` };
-    }));
-
-    // ───── "Future" projections (mirror Python --enable-future order).
-    //       After Step 12 cleanup tasks / featured remain removed. ─────
-    runs.push(await runProjection('score-history', async () => {
-      const r = await buildScoreHistory(indexes, STAGE_DIST);
-      return { files: r.files, summary: `occupations=${r.occupations} entries=${r.entries}` };
-    }));
-
-    runs.push(await runProjection('models-deep', async () => {
-      const r = await buildModelsDeep(indexes, STAGE_DIST);
-      return {
-        files: r.files,
-        summary: `cards=${r.modelCards} consensus=${r.consensus} stories=${r.stories} bytes=${r.bytes}`,
-      };
-    }));
-
-    runs.push(await runProjection('models-by-model', async () => {
-      const r = await buildModelsByModel(indexes, STAGE_DIST);
-      return {
-        files: r.files,
-        summary: `models=${r.models} max_page_bytes=${r.maxPageBytes}`,
-      };
-    }));
-
-    runs.push(await runProjection('skills', async () => {
-      const r = await buildSkills(indexes, STAGE_DIST);
-      return { files: [r.dir, r.indexFile], summary: `skill_files=${r.skillFiles}` };
-    }));
-
-    runs.push(await runProjection('holland', async () => {
-      const r = await buildHolland(indexes, STAGE_DIST);
-      return { files: r.files, summary: `rows=${r.rows}` };
-    }));
-
-    // RA-134 (2026-05-18): me-positions.json — per-job rank in every
-    // ranking. Doesn't consume `indexes` (it operates on the graph + the
-    // views/ranking layer to mirror buildRankings exactly), but lives in
-    // the same projection slot so output cleanup + atomic promote
-    // naturally cover it. Called after holland so the rank list is
-    // stable for the run.
-    runs.push(await runProjection('me-positions', async () => {
-      const r = await buildMePositions(STAGE_DIST);
-      return {
-        files: r.files,
-        summary: `jobs=${r.jobCount} rankings=${r.rankingCount}`,
-      };
-    }));
-
-    // Issue #10: GEO surfaces are generated from the same facts as the public
-    // data projection, so llms*.txt and homepage JSON-LD cannot drift after a
-    // score-batch update.
-    runs.push(await runProjection('geo-surfaces', async () => {
-      const r = await buildGeoSurfaces(indexes, STAGE_DIST, REPO_ROOT);
-      return { files: r.files, summary: r.summary };
-    }));
+    runs.push(...await runCoreProjections(indexes));
+    runs.push(...await runDiscoveryProjections(indexes));
+    runs.push(...await runModelProjections(indexes));
+    runs.push(...await runGraphAndGeoProjections(indexes));
   } catch (err) {
-    // Any projection failure: wipe staging so we don't leave half-written
-    // outputs behind. Existing TS_DIST contents are NOT touched.
-    await rm(STAGE_DIST, { recursive: true, force: true }).catch(() => {});
+    // Projection failure never touches existing TS_DIST contents.
+    await discardStagedOutputs();
     throw err;
   }
+  return runs;
+}
 
+async function runCoreProjections(indexes: Indexes): Promise<ProjectionRun[]> {
+  const runs: ProjectionRun[] = [];
+  // sectors: must run first (others may depend on sector_id derivations).
+  runs.push(await runProjection('sectors', async () => {
+    const r = await buildSectors(indexes, STAGE_DIST);
+    return {
+      files: r.files,
+      summary: r.skipped ?? `sectors=${r.sectors} uncategorized=${r.uncategorized} ambiguous=${r.ambiguous}`,
+    };
+  }));
+
+  runs.push(await runProjection('labels', async () => {
+    const r = await buildLabels(indexes, STAGE_DIST);
+    return { files: r.files, summary: `dimensions=${r.dimensions}` };
+  }));
+
+  runs.push(await runProjection('profile5', async () => {
+    const r = await buildProfile5(indexes, STAGE_DIST);
+    return {
+      files: r.files,
+      summary: `occupations=${r.occupations} axes=${r.axes.length}`,
+    };
+  }));
+
+  runs.push(await runProjection('worktypes', async () => {
+    const r = await buildWorktypes(indexes, STAGE_DIST);
+    return {
+      files: r.files,
+      summary: `occupations=${r.occupations} families=${r.families} adjustments=${r.adjustments}`,
+    };
+  }));
+  return runs;
+}
+
+async function runDiscoveryProjections(indexes: Indexes): Promise<ProjectionRun[]> {
+  const runs: ProjectionRun[] = [];
+  runs.push(await runProjection('treemap', async () => {
+    const r = await buildTreemap(indexes, STAGE_DIST);
+    return { files: r.files, summary: `rows=${r.rows} top10=${r.top10Rows}` };
+  }));
+
+  runs.push(await runProjection('haid-spec', async () => {
+    const r = await buildHaidSpec(STAGE_DIST);
+    return { files: r.files, summary: `levels=${r.rows}` };
+  }));
+
+  runs.push(await runProjection('haid-release', async () => {
+    const r = await buildHaidRelease(STAGE_DIST);
+    return { files: r.files, summary: `releases=${r.releases.length} latest=${r.latest} +deprecated-stub` };
+  }));
+
+  runs.push(await runProjection('search', async () => {
+    const r = await buildSearch(indexes, STAGE_DIST);
+    return { files: r.files, summary: `documents=${r.documents}` };
+  }));
+
+  runs.push(await runProjection('transfer_paths', async () => {
+    const r = await buildTransferPaths(indexes, STAGE_DIST);
+    return {
+      files: r.files,
+      summary: `sources=${r.sources} primary=${r.summary.primary} fallback_no_safer=${r.summary.fallback_no_safer_in_sector}`,
+    };
+  }));
+
+  runs.push(await runProjection('detail', async () => {
+    const r = await buildDetail(indexes, STAGE_DIST);
+    return { files: [r.dir], summary: `files=${r.fileCount}` };
+  }));
+  return runs;
+}
+
+async function runModelProjections(indexes: Indexes): Promise<ProjectionRun[]> {
+  const runs: ProjectionRun[] = [];
+  // ───── "Future" projections (mirror Python --enable-future order).
+  //       After Step 12 cleanup tasks / featured remain removed. ─────
+  runs.push(await runProjection('score-history', async () => {
+    const r = await buildScoreHistory(indexes, STAGE_DIST);
+    return { files: r.files, summary: `occupations=${r.occupations} entries=${r.entries}` };
+  }));
+
+  runs.push(await runProjection('models-deep', async () => {
+    const r = await buildModelsDeep(indexes, STAGE_DIST);
+    return {
+      files: r.files,
+      summary: `cards=${r.modelCards} consensus=${r.consensus} stories=${r.stories} bytes=${r.bytes}`,
+    };
+  }));
+
+  runs.push(await runProjection('models-by-model', async () => {
+    const r = await buildModelsByModel(indexes, STAGE_DIST);
+    return {
+      files: r.files,
+      summary: `models=${r.models} max_page_bytes=${r.maxPageBytes}`,
+    };
+  }));
+
+  runs.push(await runProjection('skills', async () => {
+    const r = await buildSkills(indexes, STAGE_DIST);
+    return { files: [r.dir, r.indexFile], summary: `skill_files=${r.skillFiles}` };
+  }));
+
+  runs.push(await runProjection('holland', async () => {
+    const r = await buildHolland(indexes, STAGE_DIST);
+    return { files: r.files, summary: `rows=${r.rows}` };
+  }));
+  return runs;
+}
+
+async function runGraphAndGeoProjections(indexes: Indexes): Promise<ProjectionRun[]> {
+  const runs: ProjectionRun[] = [];
+  // RA-134 (2026-05-18): me-positions.json — per-job rank in every
+  // ranking. Doesn't consume `indexes` (it operates on the graph + the
+  // views/ranking layer to mirror buildRankings exactly), but lives in
+  // the same projection slot so output cleanup + atomic promote
+  // naturally cover it. Called after holland so the rank list is
+  // stable for the run.
+  runs.push(await runProjection('me-positions', async () => {
+    const r = await buildMePositions(STAGE_DIST);
+    return {
+      files: r.files,
+      summary: `jobs=${r.jobCount} rankings=${r.rankingCount}`,
+    };
+  }));
+
+  // Issue #10: GEO surfaces are generated from the same facts as the public
+  // data projection, so llms*.txt and homepage JSON-LD cannot drift after a
+  // score-batch update.
+  runs.push(await runProjection('geo-surfaces', async () => {
+    const r = await buildGeoSurfaces(indexes, STAGE_DIST, REPO_ROOT);
+    return { files: r.files, summary: r.summary };
+  }));
+  return runs;
+}
+
+function logProjectionRuns(runs: readonly ProjectionRun[]): void {
   for (const r of runs) {
     console.log(`     [OK] ${r.name.padEnd(18)} ${String(r.durationMs).padStart(5)}ms  ${r.summary}`);
   }
+}
 
-  // ───── Atomic-ish promotion: STAGE_DIST → TS_DIST ─────
-  // Per-file rename is atomic on POSIX. We can't atomically swap the whole
-  // dir because TS_DIST also holds tracked SEO statics (og.png, robots.txt,
-  // llms*.txt) that the ETL must NOT touch. Replacing per top-level entry
-  // achieves the goal: a partial / failed run leaves the previous output
-  // untouched; only fully-successful runs overwrite, and each entry is
-  // swapped in O(1).
-  //
-  // Audit's #7.4: a crash mid-promote (disk full, OOM kill, …) could
-  // leave half-old/half-new state on disk. We can't make this multi-step
-  // truly atomic without a separate version directory, but we do mitigate:
-  //   1. Write a per-run "promote-in-progress" sentinel BEFORE the loop.
-  //   2. Replace it with a manifest listing the canonical entry set AFTER
-  //      the loop completes.
-  //   3. If a subsequent build starts and finds the sentinel still present,
-  //      it indicates the previous promote crashed — log a clear warning so
-  //      the operator can decide whether to wipe TS_DIST and rebuild.
-  console.log('\n  [promote] STAGE_DIST → TS_DIST …');
-  await mkdir(TS_DIST, { recursive: true });
-  // Manifest lives OUTSIDE TS_DIST so it never gets served to the web
-  // (publicDir is copied verbatim into dist-astro). We track it next to
-  // the repo root in a gitignored .cache/ directory.
-  const cacheDir = join(REPO_ROOT, '.cache', 'etl');
-  await mkdir(cacheDir, { recursive: true });
-  const sentinelPath = join(cacheDir, 'build-manifest.partial.json');
-  const manifestPath = join(cacheDir, 'build-manifest.json');
-
-  // Detect a leftover partial sentinel from a previous crash before we
-  // start mutating the output. Don't fail — just warn — because the
-  // previous build may have been killed before any promote happened,
-  // in which case the current state is still consistent.
-  try {
-    const { readFile } = await import('node:fs/promises');
-    const prev = await readFile(sentinelPath, 'utf-8');
-    console.warn(
-      `  [WARN] previous build left a partial-promote sentinel:\n    ${prev}\n` +
-      `  TS_DIST may contain a mix of old + new files. Continuing — this build will overwrite.`,
-    );
-  } catch (err) {
-    // Expected on clean state (ENOENT): no sentinel present.
-    // Surface any other error so Windows file-lock / permission issues
-    // (EPERM, EBUSY, antivirus-locked files) don't masquerade as a
-    // clean state.
-    const code = (err as NodeJS.ErrnoException)?.code;
-    if (code !== 'ENOENT') {
-      console.warn('[build] partial-sentinel read unexpected error:', err);
-    }
-  }
-
-  const buildId = `${new Date().toISOString()}.pid${process.pid}`;
-  await writeFile(
-    sentinelPath,
-    JSON.stringify({ status: 'in_progress', build_id: buildId, started_at: new Date().toISOString() }, null, 2),
-  );
-
-  // 2026-05-17 CODE-001 fix: transactional promote with rollback.
-  //
-  // Previously this loop did `rm(to)` THEN `rename(from, to)`. If
-  // rename failed (EBUSY on Windows + Dropbox / antivirus / file
-  // indexer locking the target dir), `to` was already gone — the
-  // build crashed leaving public/data.* in a half-old/half-new
-  // state. Encountered ~5 times during the deep-audit session and
-  // the audit team flagged it as P0.
-  //
-  // New flow per-entry: rename current → backup, rename staged →
-  // current. If anything fails, undo by restoring the backup. Only
-  // when ALL entries succeed do we delete the backups. Per-entry
-  // backups (not a single root-level backup) so a midway failure
-  // can roll back ONLY the entries that already moved, leaving
-  // earlier ones in their new state to be re-tried, AND leaving
-  // later ones in their old state (still correct).
-  //
-  // EBUSY/EPERM retries (3x with exponential backoff: 100ms, 300ms,
-  // 900ms) before declaring failure — Windows file locks are
-  // typically transient (antivirus scan, Dropbox sync chunk).
-
-  const RETRY_CODES = new Set(['EBUSY', 'EPERM', 'EACCES']);
-  const RETRY_DELAYS_MS = [100, 300, 900];
-
-  async function renameWithRetry(from: string, to: string): Promise<void> {
-    let lastErr: unknown = null;
-    for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt++) {
-      try {
-        await rename(from, to);
-        return;
-      } catch (err) {
-        lastErr = err;
-        const code = (err as NodeJS.ErrnoException).code;
-        // EXDEV: cross-device, can't be retried; copy fallback handled
-        // by caller. RETRY_CODES: transient on Windows, try again.
-        if (code === 'EXDEV') throw err;
-        if (!RETRY_CODES.has(code || '')) throw err;
-        if (attempt < RETRY_DELAYS_MS.length) {
-          await new Promise((r) => setTimeout(r, RETRY_DELAYS_MS[attempt]));
-        }
-      }
-    }
-    throw lastErr;
-  }
-
-  const stagedEntries = await readdir(STAGE_DIST);
-  // Track per-entry status so rollback knows what to undo.
-  // - 'pending': not yet started
-  // - 'backed-up': old → backup done, staged → current not started
-  // - 'promoted': staged → current done, backup retained until success
-  type EntryStatus = 'pending' | 'backed-up' | 'promoted';
-  const entryStatus = new Map<string, EntryStatus>();
-  for (const name of stagedEntries) entryStatus.set(name, 'pending');
-
-  const backupSuffix = `.backup-${buildId.replace(/[:.]/g, '-')}`;
-
-  try {
-    for (const name of stagedEntries) {
-      const from = join(STAGE_DIST, name);
-      const to = join(TS_DIST, name);
-      const backup = join(TS_DIST, `${name}${backupSuffix}`);
-
-      // Step 1: move current → backup (if current exists).
-      const currentExists = await pathExists(to);
-      if (currentExists) {
-        try {
-          await renameWithRetry(to, backup);
-        } catch (err) {
-          const code = (err as NodeJS.ErrnoException).code;
-          if (code === 'EXDEV') {
-            await cp(to, backup, { recursive: true });
-            await rm(to, { recursive: true, force: true });
-          } else {
-            throw err;
-          }
-        }
-      }
-      entryStatus.set(name, 'backed-up');
-
-      // Step 2: move staged → current.
-      try {
-        await renameWithRetry(from, to);
-      } catch (err) {
-        const code = (err as NodeJS.ErrnoException).code;
-        if (code === 'EXDEV') {
-          await cp(from, to, { recursive: true });
-          await rm(from, { recursive: true, force: true });
-        } else {
-          throw err;
-        }
-      }
-      entryStatus.set(name, 'promoted');
-    }
-  } catch (promoteErr) {
-    // Rollback: any 'promoted' or 'backed-up' entries must be restored.
-    console.error(
-      `\n  [promote] FAILED — rolling back ${entryStatus.size} entries:`,
-      promoteErr instanceof Error ? promoteErr.message : String(promoteErr),
-    );
-    for (const [name, status] of entryStatus) {
-      const to = join(TS_DIST, name);
-      const backup = join(TS_DIST, `${name}${backupSuffix}`);
-      try {
-        if (status === 'promoted') {
-          // Restore: remove the new content, rename backup back.
-          await rm(to, { recursive: true, force: true });
-          if (await pathExists(backup)) {
-            await renameWithRetry(backup, to);
-          }
-        } else if (status === 'backed-up') {
-          // We removed the old but never put the new in place — restore old.
-          if (await pathExists(backup)) {
-            await renameWithRetry(backup, to);
-          }
-        }
-        // 'pending' entries were never touched.
-      } catch (rollbackErr) {
-        console.error(
-          `  [promote] rollback of ${name} also failed:`,
-          rollbackErr instanceof Error ? rollbackErr.message : String(rollbackErr),
-        );
-      }
-    }
-    throw promoteErr;
-  }
-
-  // All entries promoted successfully — clean up backups.
-  for (const name of stagedEntries) {
-    const backup = join(TS_DIST, `${name}${backupSuffix}`);
-    await rm(backup, { recursive: true, force: true }).catch((err) => {
-      // Backup cleanup failure is not fatal — the build itself succeeded,
-      // just log it so an operator notices accumulating .backup-* directories.
-      console.warn(`  [promote] backup cleanup failed for ${name}:`, err.message);
-    });
-  }
-
-  // Promote succeeded. Write the manifest BEFORE clearing the sentinel
-  // so a crash between these two writes still leaves a coherent record.
-  await writeFile(
-    manifestPath,
-    JSON.stringify({
-      status: 'ok',
-      build_id: buildId,
-      finished_at: new Date().toISOString(),
-      promoted_entries: stagedEntries.sort(),
-    }, null, 2),
-  );
-  await rm(sentinelPath, { force: true }).catch(() => {});
+async function discardStagedOutputs(): Promise<void> {
   await rm(STAGE_DIST, { recursive: true, force: true }).catch(() => {});
-
-  // 2026-05-17 CODE-002 fix: prune stale public/data.* entries that
-  // a previous build emitted but the current build no longer
-  // includes. Examples flagged by external audit:
-  //   - data.featured.json  (removed Step 12)
-  //   - data.score-history/ (removed Step 12)
-  //   - data.tasks/         (removed Step 12)
-  // These still shipped to prod via Astro publicDir → dist-astro,
-  // exposing stale APIs. The manifest IS the source of truth for
-  // "what this build owns"; anything matching `data.*` in TS_DIST
-  // outside the manifest is treated as orphaned and deleted.
-  //
-  // Files/dirs in TS_DIST that don't match `data.*` (e.g. og.png,
-  // robots.txt, llms.txt — Astro static input) are NEVER touched.
-  const managedSet = new Set(stagedEntries);
-  const allEntries = await readdir(TS_DIST, { withFileTypes: true });
-  const orphaned: string[] = [];
-  for (const ent of allEntries) {
-    const name = ent.name;
-    // Only manage data.* — leave SEO statics (robots.txt, og.png,
-    // llms.txt, map-thumb.snippet.html, etc.) and any operator-
-    // hand-placed file alone.
-    if (!name.startsWith('data.') && !name.startsWith('data-')) continue;
-    if (managedSet.has(name)) continue;
-    // Don't touch backups left from a failed prior promote — they
-    // get cleaned up by their own promote success path.
-    if (name.includes('.backup-')) continue;
-    orphaned.push(name);
-  }
-  if (orphaned.length > 0) {
-    console.log(`  [cleanup] removing ${orphaned.length} orphaned public/data.* entries:`);
-    for (const name of orphaned) {
-      console.log(`    - ${name}`);
-      await rm(join(TS_DIST, name), { recursive: true, force: true });
-    }
-  }
-
-  const elapsed = ((Date.now() - t0) / 1000).toFixed(2);
-  console.log(`  done in ${elapsed}s`);
 }
 
 async function runProjection(
@@ -619,6 +425,6 @@ main().catch(async (err) => {
   // Defense in depth: stage dir should already be cleaned by main(), but if
   // an error escapes from outside the try block we still don't want to
   // leave a `public.tmp-<pid>/` orphan.
-  await rm(STAGE_DIST, { recursive: true, force: true }).catch(() => {});
+  await discardStagedOutputs();
   process.exit(1);
 });

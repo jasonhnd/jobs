@@ -141,14 +141,17 @@ export function padId(idDigits: string): string {
 /** Production origin — the fallback target for {@link trustedFetchOrigin}. */
 const PRODUCTION_ORIGIN = "https://mirai-shigoto.com";
 
+/** Complete deployment/branch hostnames for the jobs project in zkscio. */
+const PROJECT_VERCEL_HOST = /^jobs-(?:[a-z0-9]+|git-[a-z0-9]+(?:-[a-z0-9]+)*)-zkscio\.vercel\.app$/;
+
 /**
  * Origin to use for an OG renderer's upstream `/data.*.json` fetch.
  *
  * The renderers fetch from the REQUEST's own origin so each preview deploy
  * reads its own data (pinned by occupation.test.ts — preview cards must not
  * silently pull production data). This guard keeps that behaviour for hosts we
- * actually serve — `mirai-shigoto.com` (+ subdomains), `*.vercel.app` preview
- * domains, and localhost dev — but for any OTHER host (i.e. a spoofed `Host`
+ * actually serve — `mirai-shigoto.com` (+ subdomains), jobs deployment/branch
+ * domains in the zkscio scope, and localhost dev — but for any OTHER host (i.e. a spoofed `Host`
  * header) it falls back to the production origin rather than issuing a
  * server-side fetch to an attacker-chosen host. SSRF defence-in-depth: Vercel
  * already normalises `Host` to the deployment domain, so this is a
@@ -159,7 +162,7 @@ export function trustedFetchOrigin(url: URL): string {
   const trusted =
     host === "mirai-shigoto.com" ||
     host.endsWith(".mirai-shigoto.com") ||
-    host.endsWith(".vercel.app") ||
+    PROJECT_VERCEL_HOST.test(host) ||
     host === "localhost" ||
     host === "127.0.0.1";
   return trusted ? url.origin : PRODUCTION_ORIGIN;

@@ -29,14 +29,13 @@ import { loadGraphAdaptedDetails } from '../src/views/hub.js';
 import { QA_ITEMS, selectExamples } from '../src/views/qa-meta.js';
 import { buildRankings, loadOccupationsFromGraph } from '../src/views/ranking.js';
 
-const ROOT = process.cwd();
 const GEO_ASTRO_PAGES = [
   'src/pages/standard.astro',
   'src/pages/methodology.astro',
 ] as const;
 
-function readText(rel: string): string {
-  return readFileSync(join(ROOT, rel), 'utf-8').replace(/\r\n/g, '\n');
+export function readText(rel: string): string {
+  return readFileSync(join(process.cwd(), rel), 'utf-8').replace(/\r\n/g, '\n');
 }
 
 function fail(message: string): never {
@@ -44,8 +43,8 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-function loadScoreRuns(): ScoreRun[] {
-  const dir = join(ROOT, 'data', 'scores');
+export function loadScoreRuns(): ScoreRun[] {
+  const dir = join(process.cwd(), 'data', 'scores');
   const runs: ScoreRun[] = [];
   for (const name of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
     const parsed = JSON.parse(readFileSync(join(dir, name), 'utf-8'));
@@ -54,7 +53,7 @@ function loadScoreRuns(): ScoreRun[] {
   return runs;
 }
 
-function assertExact(rel: string, expected: string): void {
+export function assertExact(rel: string, expected: string): void {
   const got = readText(rel);
   const normalizedExpected = expected.replace(/\r\n/g, '\n');
   if (got !== normalizedExpected) {
@@ -120,7 +119,7 @@ export function firstStaleToken(
   return forbidden.find((token) => text.includes(token)) ?? null;
 }
 
-function assertNoStaleOrPlaceholders(
+export function assertNoStaleOrPlaceholders(
   rel: string,
   stale: StaleModelTokens,
   options: { allowValidationModelNames?: boolean } = {},
@@ -131,7 +130,7 @@ function assertNoStaleOrPlaceholders(
   }
 }
 
-function assertDocumentedDetailProjectionExamples(): void {
+export function assertDocumentedDetailProjectionExamples(): void {
   const discoveryFiles = ['public/llms.txt', 'public/llms-full.txt'] as const;
   const ambiguousDetailPattern = /data\.detail\/(?:<id>|\{id\})\.json/i;
   const concreteDetailPattern = /https:\/\/mirai-shigoto\.com\/data\.detail\/(\d{4})\.json/g;
@@ -167,7 +166,7 @@ function assertDocumentedDetailProjectionExamples(): void {
   }
 }
 
-function assertFreshGeoAstroPages(): void {
+export function assertFreshGeoAstroPages(): void {
   const forbidden = [
     '__SCORE_',
     '__GEO_',
@@ -208,7 +207,7 @@ function assertFreshGeoAstroPages(): void {
  * data so forgetting to update it after landing a batch fails the gate rather
  * than quietly misinforming the next operator. Issue #219 follow-up.
  */
-function assertRunbookCurrentBatch(activeRun: ScoreRun): void {
+export function assertRunbookCurrentBatch(activeRun: ScoreRun): void {
   const rel = 'docs/SCORING_RUNBOOK.md';
   const text = readText(rel);
   const model = activeRun.scorer.model;
@@ -228,7 +227,7 @@ function assertRunbookCurrentBatch(activeRun: ScoreRun): void {
   }
 }
 
-function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
+export function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
   const source = readText('src/index-source.html');
   const rendered = bindHomeFacts(source, facts);
   const view = buildHomeKpiView(facts);
@@ -272,7 +271,7 @@ function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
   }
 }
 
-function assertContainsText(rel: string, expected: string, label: string): void {
+export function assertContainsText(rel: string, expected: string, label: string): void {
   const text = readText(rel);
   if (!text.includes(expected)) {
     fail(`${rel} is missing ${label}`);
@@ -280,13 +279,13 @@ function assertContainsText(rel: string, expected: string, label: string): void 
 }
 
 /** Inverse of assertContainsText, for copy that must NOT survive a batch change. */
-function assertOmitsText(rel: string, forbidden: string, why: string): void {
+export function assertOmitsText(rel: string, forbidden: string, why: string): void {
   if (readText(rel).includes(forbidden)) {
     fail(`${rel} still carries copy it should have dropped — ${why}`);
   }
 }
 
-function assertCrossModelValidationArchive(): void {
+export function assertCrossModelValidationArchive(): void {
   const rel = 'data/validation/issue-15-d2b/results.json';
   const parsed = JSON.parse(readText(rel)) as {
     run_date?: string;
@@ -325,7 +324,7 @@ function assertCrossModelValidationArchive(): void {
   }
 }
 
-function assertContains(rel: string, expected: string): void {
+export function assertContains(rel: string, expected: string): void {
   let got: string;
   try {
     got = readText(rel);
@@ -337,12 +336,22 @@ function assertContains(rel: string, expected: string): void {
   }
 }
 
-async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
+export interface RenderedFactBlock {
+  readonly rel: string;
+  readonly expected: string;
+}
+
+/** Every (built file, citable fact block) pair the gate requires, in check order. */
+export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<RenderedFactBlock[]> {
   const graph = await loadGraph();
+  const blocks: RenderedFactBlock[] = [];
+  const requireBlock = (rel: string, expected: string): void => {
+    blocks.push({ rel, expected });
+  };
 
   const sector = facts.sectorsByMeanImpact[0];
   if (!sector) fail('no GEO sector facts available for rendered fact-block check');
-  assertContains(
+  requireBlock(
     `dist-astro/sectors/${sector.id}.html`,
     renderAiFactParagraph(buildSectorGeoFactSummary({ facts, sectorId: sector.id })),
   );
@@ -350,7 +359,7 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   const rankings = buildRankings(() => loadOccupationsFromGraph(graph));
   const ranking = rankings.results.get('ai-risk-high') ?? rankings.results.values().next().value;
   if (!ranking) fail('no ranking result available for rendered fact-block check');
-  assertContains(
+  requireBlock(
     `dist-astro/rankings/${ranking.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
@@ -363,7 +372,7 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   const genreConfig = ABILITIES_CONFIGS[0];
   if (!genreConfig) fail('no genre config available for rendered fact-block check');
   const genreResult = buildGenreResult(loadGraphAdaptedDetails(graph), genreConfig);
-  assertContains(
+  requireBlock(
     `dist-astro/abilities/${genreConfig.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
@@ -375,7 +384,7 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
 
   const compare = buildCompareBundle(makeCompareLoaderFromGraph(graph)).results.values().next().value;
   if (!compare) fail('no compare result available for rendered fact-block check');
-  assertContains(
+  requireBlock(
     `dist-astro/compare/${compare.meta.slug}.html`,
     renderAiFactParagraph(buildCompareGeoFactSummary({
       facts,
@@ -387,7 +396,7 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   const qa = QA_ITEMS[0];
   if (!qa) fail('no Q&A item available for rendered fact-block check');
   const examples = selectExamples(loadAllDetails(), qa, 10);
-  assertContains(
+  requireBlock(
     `dist-astro/q/${qa.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
@@ -399,15 +408,15 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
 
   const occupation = facts.occupations[0];
   if (!occupation) fail('no GEO occupation facts available for rendered occupation check');
-  assertContains(
+  requireBlock(
     `dist-astro/${occupation.id}.html`,
     renderAiFactParagraph(buildOccupationGeoFactSummary({ facts, occupationId: occupation.id })),
   );
-  assertContains(
+  requireBlock(
     `dist-astro/${occupation.id}.html`,
     `<details class="faq-item faq-ai-replacement"><summary>${occupation.nameJa}はAIでなくなる・AIに代替される仕事ですか？</summary>`,
   );
-  assertContains(
+  requireBlock(
     `dist-astro/${occupation.id}.html`,
     `GEO-AではAI影響度が10段階中 ${occupation.aiImpact.toFixed(1)} で`,
   );
@@ -415,7 +424,7 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   for (const config of GEO_ANSWER_TOPIC_CONFIGS) {
     const topic = buildGeoAnswerTopic(facts, config.slug);
     if (!topic) fail(`no GEO answer topic available for ${config.slug}`);
-    assertContains(
+    requireBlock(
       `dist-astro/answers/${config.slug}.html`,
       renderAiFactParagraph(buildOccupationSetGeoFactSummary({
         facts,
@@ -425,9 +434,16 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
       })),
     );
   }
+  return blocks;
 }
 
-async function main(): Promise<void> {
+export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
+  for (const { rel, expected } of await collectRenderedFactBlocks(facts)) {
+    assertContains(rel, expected);
+  }
+}
+
+export async function main(): Promise<void> {
   const scoreRuns = loadScoreRuns();
   const activeRun = pickLatestGeoScoreRun(scoreRuns);
   if (SCORE_ATTRIBUTION.modelId !== activeRun.scorer.model) {

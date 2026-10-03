@@ -8,6 +8,7 @@ import { buildSkillsBundle, type SkillResult } from '@/views/skills-hub';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
 import { RANK_LIST_CSS } from '@/lib/rank-list-css';
 import { buildSkillsSlugBindings } from './_skills-bindings';
+import ChapDesktopOpen from '@/components/ChapDesktopOpen.astro';
 
 export async function getStaticPaths() {
   const { makeSkillRankingLoaderFromGraph, makeTreemapSummaryFromGraph } = await import('@/views/skill');
@@ -42,8 +43,8 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-heig
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 a:hover{color:var(--orange-hot)}
 #wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 80px}
-.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
-.crumb a{color:var(--fg2)}
+.crumb{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:24px}
+.crumb a{color:var(--ink-meta);}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 :where(main) header{margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:14px}
 h1{line-height:1.25;color:var(--fg);margin-bottom:12px}
@@ -84,7 +85,7 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
 .related-skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;list-style:none;padding:0}
 .related-skills li a{display:block;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms}
 .related-skills li a:hover{border-color:var(--accent)}
-.related-skills .rs-name{display:block;font-family:var(--font-serif);font-weight:500;color:var(--accent-deep);margin-bottom:4px}
+.related-skills .rs-name{display:block;font-family:var(--font-sans);font-weight:400;color:var(--accent-deep);margin-bottom:4px}
 .related-skills .rs-desc{display:block;font-size:var(--t-xs);color:var(--fg2)}
 @media (max-width:600px){#wrapper{padding:20px var(--gutter) 60px}.sb-row{grid-template-columns:80px 1fr 36px}}
 .hub-list-sec{margin:8px 0 28px}
@@ -151,13 +152,5 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
 
     <Footer />
   </div>
-  <script is:inline slot="bodyEnd">
-    (function () {
-      try {
-        if (!window.matchMedia('(min-width: 900px)').matches) return;
-        var nodes = document.querySelectorAll('details.chap');
-        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
-      } catch (e) {}
-    })();
-  </script>
+  <ChapDesktopOpen slot="bodyEnd" />
 </BaseLayout>

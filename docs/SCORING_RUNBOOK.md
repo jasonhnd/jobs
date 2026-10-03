@@ -13,6 +13,8 @@
 - run date: `2026-10-01`
 - Score output: `data/scores/occupations_gpt-6.1-sol_2026-10-01.json`
 
+These three lines are the latest observation only (`pickLatestScore()`): the newest non-backfill batch. They are not the public value. From 2026-09-09 the public value is the arithmetic mean of each vendor's latest comparable AIOIS-10 run (`pickFlagshipMeanScore()`; [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md) current contract and [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md) スコア選択). A new run is accepted by checking that mean and the latest observation separately. The public value does not have to equal the new batch. `scripts/run-scoring.ts` is the provider-independent runner. It is not an API batch runner. Issue #9 and Issue #126 below record what applied before 2026-09-09, when one selected batch was the public value.
+
 - 標準: AIOIS-10 v1.0
 - 対象: JILPT IPD v7.00 の 556 職業
 - Schema: `src/data/schema/score-run.ts`
@@ -57,9 +59,11 @@ Issue #9 の Fable 5 校正作業は、 production と pre を動かさないこ
 
 この境界を破る必要が出た場合は、先に Issue #9 に理由、影響範囲、検証方法、rollback を書き、別途承認を得る。
 
-## Issue #9 scope
+## Issue #9 scope (historical, before 2026-09-09)
 
-Issue #9 は、`claude-fable-5` を使って AIOIS-10 v1.0 の scoring run を校正する作業である。目的は「最新モデル名へ置換すること」ではなく、Opus 4.8 の現行 batch と比較できる append-only な scoring run を作ること。
+This chapter, including Phases 0–9, records the Issue #9 work while one selected batch was the public value. Opus 4.8 (`claude-opus-4-8`, `2026-05-30`) was the current batch for that work. These checks are not acceptance checks for a new run. The successor rule is the vendor mean in [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md), effective 2026-09-09. The original procedure is kept below.
+
+Issue #9 は、`claude-fable-5` を使って AIOIS-10 v1.0 の scoring run を校正する作業である。目的は「最新モデル名へ置換すること」ではなく、Opus 4.8 の当時の batch（2026-05-30）と比較できる append-only な scoring run を作ること。
 
 Goals:
 
@@ -144,19 +148,22 @@ Registered providers:
 | `--provider` | Auth | Native schema | Notes |
 | --- | --- | --- | --- |
 | `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. `claude-fable-5-1` (mms-8.25/8.26) uses the same transport. |
-| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8.32/8.33) rides the same transport with an explicit `--model` and `--reasoning-effort high`; the default model stays `gpt-5.6-sol`. |
-| `grok-cli` | Locally logged-in grok CLI subscription | yes (`--json-schema` inline) | xAI flagship transport from Grok 4.7 on (mms-10). Every call passes `--model` and `--reasoning-effort`. Owner machine only. Grok 4.6 and the Grok 4.5 backfill stay `in-agent`. |
+| `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8.32/8.33) rides the same transport with an explicit `--model` and `--reasoning-effort high`. `scripts/run-scoring.ts` requires `--provider` and `--model`. Only the compatibility entry `run-scoring-codex.ts` defaults the model to `gpt-5.6-sol`, and that default is not the current OpenAI seat. |
+| `grok-cli` | Locally logged-in grok CLI subscription | yes (`--json-schema` inline) | xAI flagship transport from Grok 4.7 on ([mms-10](#mms-10-grok-47-xai-flagship-seat)). The frozen call passes `--model grok-4.7-build-fast` and `--reasoning-effort xhigh`. The public slug stays `grok-4.7`. Owner machine only. Grok 4.6 and the Grok 4.5 backfill stay `in-agent`. |
 
 There is no Vercel AI Gateway provider. Do not add one.
 
 ```bash
 bun scripts/run-scoring.ts --list-providers
 
-# In-agent (the running session *is* the scorer; no API key)
+# In-agent (the running session *is* the scorer; no API key).
+# example-grok-4-6 is a non-production name. Prompts and answers follow --run-name,
+# not the parent of --out. Omitting --run-name uses buildRunName instead.
 bun scripts/run-scoring.ts \
   --provider in-agent --model grok-4.6 --attest-model grok-4.6 \
   --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
-  --out .cache/scoring/<run>/raw-scores.jsonl
+  --run-name example-grok-4-6 \
+  --out .cache/scoring/example-grok-4-6/raw-scores.jsonl
 ```
 
 The downstream `assemble:scores` step takes the bare model slug plus an
@@ -207,24 +214,28 @@ Grok は **Vercel AI Gateway を使わない**。**bespoke xAI provider も新�
   事前確認が必要**（実装完了 ≠ 実行開始）。
 
 ```bash
+# example-grok-4-6 is one non-production run. --run-name, --out, and answers share it.
 bun scripts/run-scoring.ts \
   --provider in-agent --model grok-4.6 --attest-model grok-4.6 \
   --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
-  --out .cache/scoring/<run>/raw-scores.jsonl \
+  --run-name example-grok-4-6 \
+  --out .cache/scoring/example-grok-4-6/raw-scores.jsonl \
   --ids 111,156
+# prompts: .cache/scoring/example-grok-4-6/prompts/
+# answers: .cache/scoring/example-grok-4-6/answers/
 
 # assemble は裸 slug + 明示 --provider（提供元 xai。in-agent ではない）
 bun scripts/assemble-scores.ts \
   --mode aiois --model grok-4.6 --provider xai --date <YYYY-MM-DD> \
   --prompt-version AIOIS-10-v1.0-grok-4.6 \
   --prompt-file data/prompts/2026-09-06_grok-4.6-aiois10.ja.md \
-  --in .cache/scoring/<run>/raw-scores.jsonl \
-  --out .cache/scoring/<run>/occupations_grok-4.6_<date>.json
+  --in .cache/scoring/example-grok-4-6/raw-scores.jsonl \
+  --out .cache/scoring/example-grok-4-6/occupations_grok-4.6_<date>.json
 
-bun run check:score-batch .cache/scoring/<run>/occupations_grok-4.6_<date>.json
+bun run check:score-batch .cache/scoring/example-grok-4-6/occupations_grok-4.6_<date>.json
 ```
 
-Grok 4.7 flagship runs use --provider grok-cli (mms-10). This section is the historical in-agent record for Grok 4.6 and stays as written.
+Grok 4.7 flagship runs use `--provider grok-cli`. Follow [mms-10](#mms-10-grok-47-xai-flagship-seat). Do not reuse this Grok 4.6 in-agent section, its prompt, or `--attest-model grok-4.6` for the current xAI seat. This section stays as the historical record.
 
 ### In-agent scoring flow
 
@@ -232,25 +243,55 @@ No API key and no child process — the running model answers its own prompts,
 while still going through the same validation, audit trail, and resume logic as
 any other provider.
 
+`runDir` is `.cache/scoring/<runName>` from `--run-name`. It is not the parent of `--out`. Omitting `--run-name` uses `buildRunName` (output-file stem, model, and timestamp), so prompts would not sit beside the JSONL. `example-in-agent` below is one non-production name for prepare, answers, and resume.
+
 ```bash
 # 1. Emit prompts (every pending occupation is reported as pending)
 bun scripts/run-scoring.ts \
   --provider in-agent --model <model-id> --attest-model <model-id> \
   --prompt-file data/prompts/<date>_<model-id>-aiois10.ja.md \
-  --out .cache/scoring/<run>/raw-scores.jsonl \
-  --run-name <run> --ids 1,2,3
+  --run-name example-in-agent \
+  --out .cache/scoring/example-in-agent/raw-scores.jsonl \
+  --ids 1,2,3
 
 # 2. Write answers as JSON Lines (chunked files keep this to a few writes)
-#    .cache/scoring/<run>/answers/chunk-01.jsonl
+#    .cache/scoring/example-in-agent/answers/chunk-01.jsonl
 
-# 3. Validate and append
-bun scripts/run-scoring.ts … --resume
+# 3. Validate and append. Repeat the same --run-name and --out.
+bun scripts/run-scoring.ts \
+  --provider in-agent --model <model-id> --attest-model <model-id> \
+  --prompt-file data/prompts/<date>_<model-id>-aiois10.ja.md \
+  --run-name example-in-agent \
+  --out .cache/scoring/example-in-agent/raw-scores.jsonl \
+  --ids 1,2,3 \
+  --resume
 ```
 
-Prompts are written to `.cache/scoring/<run>/prompts/<id>.txt` so the answers
-are produced against the exact rubric + extract any other provider would have
-been sent. Contract violations are rejected per id with the failing formula
-named, and never reach the output JSONL.
+Prompts are written to `.cache/scoring/example-in-agent/prompts/<id>.txt` because `--run-name example-in-agent` is set, so the answers are produced against the exact rubric + extract any other provider would have been sent. Contract violations are rejected per id with the failing formula named, and never reach the output JSONL.
+
+## Anomaly re-score
+
+`--resume` recovers a row only when that id is absent from the raw JSONL or the line is not a parseable object with an integer `id`. `completedIdsFromJsonl` in `scripts/lib/scoring/core.ts` ignores corrupt lines and treats every other integer `id` as done. `selectPendingOccupations` applies `--ids` first, then drops those completed ids. `--resume --ids <bad>` therefore skips a row that already parsed.
+
+Two cases. Do not change `--model`, `--prompt-file`, or `--reasoning-effort` in either case. Do not edit `data/scores`.
+
+1. Missing or corrupt output. Repeat the same runner command with `--resume`. Those ids were never completed.
+2. A completed row that fails the quality gate: `aiois.transformation == 0`, or `confidence < 0.7`, or `rationale_ja` shorter than 12 characters. Remove that id from the raw JSONL before resume, or the runner will skip it.
+
+Completed-row procedure. At most two rounds. Drop only the flagged ids.
+
+```bash
+cp "$RAW" "$RAW.bak"
+BAD=<comma-separated flagged ids>
+jq -c --argjson bad "[$BAD]" 'select(.id as $i | ($bad | index($i)) | not)' "$RAW" > "$RAW.tmp" && mv "$RAW.tmp" "$RAW"
+```
+
+Then produce a replacement and resume with the same model and prompt:
+
+- `in-agent`: write the new answers under `answers/` with a file name that sorts after the earlier file. Round one is `rescored-r1a` (then `rescored-r1b` when a call holds at most 20 ids). Round two is `rescored-r2a`. `chunk-rescored-2.jsonl` sorts before `chunk-rescored.jsonl`, so a second round named `rescored-2` is overridden by the first. Resume with `--ids "$BAD"`.
+- `codex` and `grok-cli`: the runner writes the row. After the drop, repeat the same command with `--resume --ids "$BAD"`. Do not pass grok `--resume`.
+
+`aiois.transformation == 0` is never accepted. Stop and ask the owner. A row that is still below 0.7 after two rounds is kept and reported. mms-11, mms-12, and mms-13 already use this filter. The mms-8, mms-9, and Astra scans below only list hits; they do not re-score until this procedure runs.
 
 ## mms-8: Claude Fable 5.1 と GPT-6 Astra（各社旗艦の入れ替え）
 
@@ -286,7 +327,7 @@ named, and never reach the output JSONL.
 
 ### Claude Fable 5.1 / in-agent（mms-8.25 / 8.26）
 
-Sub-agent brief: copy `.cache/scoring/grok-4.6-in-agent-2026-09-07/SCORING_INSTRUCTIONS.md` to `.cache/scoring/mms-8f-<phase>/SCORING_INSTRUCTIONS.md` (`mms-8f-pilot` or `mms-8f-full`), replace `grok-4.6` → `claude-fable-5-1`, the run dir path, and add the line `Do not use tool-call / structured-output features; write the JSONL file as plain text.` Keep the formulas block verbatim. If sub-agents were used, add `--verify-subagents <transcript dir> --verify-agent-ids a,b,c` on the `--resume` pass.
+Sub-agent brief: the 2026-09 file `.cache/scoring/grok-4.6-in-agent-2026-09-07/SCORING_INSTRUCTIONS.md` is not in the repository. Do not copy it, and do not depend on `.cache` for a clean clone. The reproducible rubric is `data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md`. [`scripts/opus55_SCORING_INSTRUCTIONS.template.md`](../scripts/opus55_SCORING_INSTRUCTIONS.template.md) belongs to mms-11 only; do not reuse it unchanged for Fable 5.1. If sub-agents were used, add `--verify-subagents <transcript dir> --verify-agent-ids a,b,c` on the `--resume` pass.
 
 Pilot (mms-8.25). Artifacts under `.cache/scoring/mms-8f-pilot/`. Owner GO on #432 before the first command. Session must be Claude Fable 5.1.
 
@@ -323,8 +364,10 @@ bun scripts/run-scoring.ts \
   --resume
 wc -l .cache/scoring/mms-8f-pilot/raw-scores.jsonl     # 40
 
-# 5. anomaly scan (re-score hits with --resume --ids <bad>)
+# 5. anomaly scan (list only). A parsed hit is not retried by --resume --ids. See "Anomaly re-score".
 jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8f-pilot/raw-scores.jsonl
+#   cp the JSONL to *.bak, drop only flagged ids, write answers/rescored-r1a (round two: rescored-r2a),
+#   then the step-4 command with --ids "$BAD" --resume. At most two rounds. Same model and prompt.
 
 # 6. assemble pilot batch (stays in .cache)
 bun scripts/assemble-scores.ts \
@@ -350,11 +393,11 @@ bun scripts/run-scoring.ts \
   --prompt-file data/prompts/2026-09-08_claude-fable-5-1-aiois10.ja.md \
   --run-name mms-8f-full \
   --out .cache/scoring/mms-8f-full/raw-scores.jsonl
-# score into answers/chunk-01..29.jsonl (≈20 ids each; copy SCORING_INSTRUCTIONS.md from the pilot dir, fix the path)
+# score into answers/chunk-01..29.jsonl (≈20 ids each). Use the frozen prompt in this section, not a SCORING_INSTRUCTIONS.md copied from .cache.
 bun scripts/run-scoring.ts … --run-name mms-8f-full --out .cache/scoring/mms-8f-full/raw-scores.jsonl --resume
 wc -l .cache/scoring/mms-8f-full/raw-scores.jsonl                                   # 556
 jq -r .id .cache/scoring/mms-8f-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
-jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8f-full/raw-scores.jsonl   # re-score hits
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8f-full/raw-scores.jsonl   # list only. See "Anomaly re-score" before any retry.
 
 # caveat file: Grok caveat with the model swapped
 sed 's/grok-4\.6 がセッション内（in-agent）で/claude-fable-5-1 がセッション内（in-agent）で/' <(jq -r .caveat data/scores/occupations_grok-4.6_2026-09-07.json) > .cache/scoring/mms-8f-full/caveat.txt
@@ -425,6 +468,8 @@ cat .cache/scoring/mms-8g-pilot/provider-preflight.json     # requested_model gp
 wc -l .cache/scoring/mms-8g-pilot/raw-scores.jsonl          # = sample_size (rerun with --resume for pending/failed ids)
 for f in .cache/scoring/mms-8g-pilot/raw/*.failures.jsonl; do echo "== $f"; cat "$f"; done 2>/dev/null
 jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8g-pilot/raw-scores.jsonl
+# list only. A parsed hit is not retried by --resume --ids. See "Anomaly re-score":
+# backup, drop only flagged ids, then the same codex command with --ids "$BAD" --resume. At most two rounds.
 
 bun scripts/assemble-scores.ts \
   --mode aiois --model gpt-6-astra --provider openai --date <YYYY-MM-DD> \
@@ -452,7 +497,7 @@ bun scripts/run-scoring.ts \
 wc -l .cache/scoring/mms-8g-full/raw-scores.jsonl                                   # 556
 jq -r .id .cache/scoring/mms-8g-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
 for f in .cache/scoring/mms-8g-full/raw/*.failures.jsonl; do echo "== $f"; cat "$f"; done 2>/dev/null | grep -c '"kind":"refusal"'
-jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8g-full/raw-scores.jsonl   # re-score hits
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-8g-full/raw-scores.jsonl   # list only. See "Anomaly re-score" before any retry.
 
 sed 's/grok-4\.6 がセッション内（in-agent）で/gpt-6-astra が Codex CLI 経由で/' <(jq -r .caveat data/scores/occupations_grok-4.6_2026-09-07.json) > .cache/scoring/mms-8g-full/caveat.txt
 
@@ -520,8 +565,10 @@ bun scripts/run-scoring.ts \
   --resume
 wc -l .cache/scoring/mms-9-pilot/raw-scores.jsonl     # 40
 
-# 5. anomaly scan (re-score hits with --resume --ids <bad>)
+# 5. anomaly scan (list only). A parsed hit is not retried by --resume --ids. See "Anomaly re-score".
 jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-9-pilot/raw-scores.jsonl
+#   cp the JSONL to *.bak, drop only flagged ids, write answers/rescored-r1a (round two: rescored-r2a),
+#   then the step-4 command with --ids "$BAD" --resume. At most two rounds. Same model and prompt.
 
 # 6. assemble pilot batch (stays in .cache) — NOTE --backfill true
 bun scripts/assemble-scores.ts \
@@ -547,11 +594,11 @@ bun scripts/run-scoring.ts \
   --prompt-file data/prompts/2026-09-10_grok-4.5-aiois10.ja.md \
   --run-name mms-9-full \
   --out .cache/scoring/mms-9-full/raw-scores.jsonl
-# score into answers/chunk-01..29.jsonl (≈20 ids each; copy SCORING_INSTRUCTIONS.md from the pilot dir, fix the path)
+# score into answers/chunk-01..29.jsonl (≈20 ids each). Use the frozen prompt in this section, not a SCORING_INSTRUCTIONS.md copied from .cache.
 bun scripts/run-scoring.ts … --run-name mms-9-full --out .cache/scoring/mms-9-full/raw-scores.jsonl --resume
 wc -l .cache/scoring/mms-9-full/raw-scores.jsonl                                   # 556
 jq -r .id .cache/scoring/mms-9-full/raw-scores.jsonl | sort -n | uniq -d           # nothing
-jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-9-full/raw-scores.jsonl   # re-score hits
+jq -c 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12)' .cache/scoring/mms-9-full/raw-scores.jsonl   # list only. See "Anomaly re-score" before any retry.
 
 # caveat file: Grok 4.6 caveat with the model swapped + the backfill sentence appended
 { jq -r .caveat data/scores/occupations_grok-4.6_2026-09-07.json | sed 's/grok-4\.6 がセッション内（in-agent）で/grok-4.5 がセッション内（in-agent）で/'; } > .cache/scoring/mms-9-full/caveat.txt
@@ -590,6 +637,100 @@ Landing checklist (Fable 5.1 = 8.27, Astra = 8.35). Owner-gated scoring must alr
 8. On-site note from 確定文案（mms-8）, numbers from the drift script (`flagship-switch-drift.ts` for 8.28, `vendor-update-drift.ts` for 8.35)
 9. Promotion PR text for the owner (`preview` → `main`). Agents do not merge to `main`.
 
+## mms-10: Grok 4.7 (xAI flagship seat)
+
+Grok 4.7 takes xAI's flagship seat from Grok 4.6. The public-value formula is unchanged: the arithmetic mean of each vendor's latest comparable AIOIS-10 run ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)). This chapter is the landed operations record. Do not start a new scoring run from it without a new owner GO. Do not call grok to verify this chapter.
+
+Grok 4.6 and the Grok 4.5 backfill stay `--provider in-agent`. The Vercel AI Gateway provider was removed (#399). The changelog sentence that names only `in-agent` and `codex` is that removal record. `grok-cli` is the xAI flagship transport added for this seat. This chapter does not rewrite the changelog.
+
+| Item | Value | Tracked source |
+|---|---|---|
+| CLI `--model` | `grok-4.7-build-fast` | `GROK_4_7_MODEL_SLUG` in `scripts/lib/scoring/grok-4.7-run.ts`; frozen prompt |
+| Public / assemble slug | `grok-4.7` | frozen prompt; `data/scores/occupations_grok-4.7_2026-09-22.json` `scorer.model` |
+| `model_provider` | `xai` | `GROK_4_7_MODEL_PROVIDER` |
+| Transport | `grok-cli` | `GROK_4_7_SCORING_PROVIDER` |
+| Reasoning effort | `xhigh` | `GROK_4_7_REASONING_EFFORT`; frozen prompt; landed `scoring_method` |
+| grok CLI | `>= 1.0.40` | `GROK_4_7_MIN_CLI_VERSION` and `GROK_CLI_MIN_VERSION` |
+| Pilot concurrency | `2` | comment on `GROK_MAX_CONCURRENCY` in `scripts/lib/scoring/providers/grok-cli.ts` |
+| Full concurrency | `10` | `GROK_MAX_CONCURRENCY` (a request for 10 is not clamped) |
+| Frozen prompt | `data/prompts/2026-09-22_grok-4.7-aiois10.ja.md` | `GROK_4_7_PROMPT_FILE` |
+| `prompt_version` | `AIOIS-10-v1.0-grok-4.7` | `GROK_4_7_PROMPT_VERSION` |
+| Predecessor | `grok-4.6` | `GROK_4_7_PREDECESSOR_SLUG` |
+| `run.backfill` | false | `GROK_4_7_BACKFILL`; assemble without `--backfill` |
+| Landed batch | `data/scores/occupations_grok-4.7_2026-09-22.json` | `run_id` `grok-4.7-grok-cli-2026-09-22`, 556 scored |
+| Issues | prompt #589, preflight #590, pilot 40 #591, full 556 #592, landing #593 | GitHub titles |
+
+Usage identity is `modelUsageMatchesRequest`: one key only. A request for `grok-4.7-build-fast` matches only the exact key `grok-4.7-build-fast`. A request for `grok-4.7` matches `grok-4.7` or the alias `grok-4.7-build` (`GROK_47_USAGE_ALIAS`). A `grok-4.7` request whose key is `grok-4.7-build-fast` does not match. Any other key is `model_unavailable`. The published name is Grok 4.7. Do not assemble or name a batch `grok-4.7-build-fast`.
+
+Owner GO on #590, #591, and #592 before those commands (`grok-4.7-run.ts`). Owner machine only. Every call passes `--model` and `--reasoning-effort`. Do not pass `--yolo`, `--always-approve`, or grok `--resume`. An interrupted run repeats the same command with the runner's `--resume`. Do not change model or effort. A parsed quality-gate row is not retried by `--resume --ids` alone. Remove that id from the JSONL first ([Anomaly re-score](#anomaly-re-score)).
+
+```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-pilot
+bun scripts/make-pilot-sample.ts --model grok-4.7-build-fast --prompt-file "$P" --size 40 --chunk 5 \
+  --baseline data/scores/occupations_grok-4.6_2026-09-07.json --out $R
+IDS="$(jq -r '.ids | join(",")' $R/sample.json)"
+bun scripts/run-scoring.ts --provider grok-cli --model grok-4.7-build-fast --reasoning-effort xhigh \
+  --prompt-file "$P" --run-name mms-10-pilot --out $R/raw-scores.jsonl --ids "$IDS" --concurrency 2
+# interrupted: the same command plus --resume. Never change --model or --reasoning-effort.
+```
+
+Assemble the pilot under `.cache/` with the public slug, not the CLI id. No `--backfill`. This command passes `--caveat` and `--scoring-method`. Without `--caveat`, assemble copies the caveat of the newest non-backfill batch. Without `--scoring-method`, it writes the in-session default. The caveat file is the landed Grok 4.7 caveat, extracted unchanged with `jq -r .caveat`. `--scoring-method` is that batch's `scorer.scoring_method`: grok CLI, effort `xhigh`, and a hyphen in `D1-D10`.
+
+```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-pilot
+D=<YYYY-MM-DD>
+SM='AIOIS-10 v1.0: grok CLI single-pass per occupation; model-judged D1-D10, indices per /standard formulas (re-validated); reasoning effort xhigh (explicit); model grok-4.7'
+jq -er --arg sm "$SM" '.scorer.scoring_method == $sm' data/scores/occupations_grok-4.7_2026-09-22.json >/dev/null
+jq -r .caveat data/scores/occupations_grok-4.7_2026-09-22.json > $R/caveat.txt
+bun scripts/assemble-scores.ts --mode aiois --model grok-4.7 --provider xai --date $D \
+  --prompt-version AIOIS-10-v1.0-grok-4.7 --prompt-file "$P" \
+  --in $R/raw-scores.jsonl --out $R/occupations_grok-4.7_${D}_pilot.json --run-id mms-10-pilot-$D \
+  --caveat $R/caveat.txt --scoring-method "$SM"
+```
+
+Full 556 (#592). Owner GO on #592 before the first command. This command is separate from the pilot. It passes no `--ids` and no `--limit`. `R=.cache/scoring/mms-10-full`. The model, prompt file, and reasoning effort stay frozen.
+
+```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-full
+bun scripts/run-scoring.ts --provider grok-cli --model grok-4.7-build-fast --reasoning-effort xhigh \
+  --prompt-file "$P" --run-name mms-10-full --out $R/raw-scores.jsonl --concurrency 10
+```
+
+An interrupted run repeats that command and adds the runner `--resume`. It still passes no `--ids` and no `--limit`. Do not pass grok `--resume`. Do not change `--model` or `--reasoning-effort`.
+
+```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-full
+bun scripts/run-scoring.ts --provider grok-cli --model grok-4.7-build-fast --reasoning-effort xhigh \
+  --prompt-file "$P" --run-name mms-10-full --out $R/raw-scores.jsonl --concurrency 10 --resume
+```
+
+When all 556 rows are in, re-scores included, the JSONL has 556 lines and no duplicate id. `run_date` is that JST date.
+
+```bash
+R=.cache/scoring/mms-10-full
+wc -l < $R/raw-scores.jsonl                                 # 556
+jq -r .id $R/raw-scores.jsonl | sort -n | uniq -d           # no output
+```
+
+Full assemble reads `$R/raw-scores.jsonl` and writes `$R/occupations_grok-4.7_$RD.json`. The output name has no `_pilot` suffix. Pass the same caveat file and `--scoring-method` as the pilot. Copying that cache file to `data/scores/occupations_grok-4.7_<run_date>.json` waits for the owner GO on #593. The landed file is `data/scores/occupations_grok-4.7_2026-09-22.json`. Do not overwrite it.
+
+```bash
+P=data/prompts/2026-09-22_grok-4.7-aiois10.ja.md; test -f "$P"
+R=.cache/scoring/mms-10-full
+RD=<run_date, JST, YYYY-MM-DD>
+SM='AIOIS-10 v1.0: grok CLI single-pass per occupation; model-judged D1-D10, indices per /standard formulas (re-validated); reasoning effort xhigh (explicit); model grok-4.7'
+jq -er --arg sm "$SM" '.scorer.scoring_method == $sm' data/scores/occupations_grok-4.7_2026-09-22.json >/dev/null
+jq -r .caveat data/scores/occupations_grok-4.7_2026-09-22.json > $R/caveat.txt
+bun scripts/assemble-scores.ts --mode aiois --model grok-4.7 --provider xai --date $RD \
+  --prompt-version AIOIS-10-v1.0-grok-4.7 --prompt-file "$P" \
+  --in $R/raw-scores.jsonl --out $R/occupations_grok-4.7_$RD.json \
+  --run-id grok-4.7-grok-cli-$RD --caveat $R/caveat.txt --scoring-method "$SM"
+```
+
 ## mms-11: Claude Opus 5.5 (Anthropic flagship seat)
 
 From 2026-09-23 a vendor's flagship seat holds the newest model the owner chose to score for that vendor, not necessarily its top tier. claude-opus-5-5 takes Anthropic's seat from claude-fable-5-1 (mms-11) and gpt-6-sol takes OpenAI's seat from gpt-6-astra (mms-12). The public-value formula is unchanged: the arithmetic mean of each vendor's latest comparable AIOIS-10 run.
@@ -608,13 +749,13 @@ From 2026-09-23 a vendor's flagship seat holds the newest model the owner chose 
 | artifacts | `.cache/scoring/mms-11-preflight/`, `.cache/scoring/mms-11-pilot/`, `.cache/scoring/mms-11-full/` |
 | issues | preflight #608, pilot #609, full #610, landing #611 |
 
-The chunk runner is a local script under `.cache/`, not a repository file: `/Users/ms23m2/AgenticCoder/jobs/.cache/handoff/2026-09-23-mms-11-12/opus55_score_chunks.py`, adapted from `.cache/scoring/mms-8f-full/score_chunks.py` (Claude Fable 5.1, mms-8.26). It starts one `claude -p --model claude-opus-5-5 --effort high` process per chunk and only checks what that process wrote. It stops on a rate limit, a non-zero exit, `is_error`, a missing or foreign `modelUsage` key (a `claude-haiku-*` helper is allowed), a spawned sub-agent, a malformed chunk, or a changed tracked file. Re-running skips chunks that are already valid. Do not put any file into `answers/` by hand: the in-agent provider loads every `*.jsonl` there, in file-name order, and the later definition of an id wins.
+The chunk runner is [`scripts/opus55_score_chunks.py`](../scripts/opus55_score_chunks.py). The briefing template beside it is [`scripts/opus55_SCORING_INSTRUCTIONS.template.md`](../scripts/opus55_SCORING_INSTRUCTIONS.template.md) (`__RUN_DIR__` is replaced per run). The 2026-09-23 mms-11 handoff source (no run data, answers, or credentials) has script sha256 `56c38225ef2de7ed7693d1af3e821dbd5d027c8353d0c0924c54e8424157e2e0`. The tracked script's vendored sha256 is `7cae06f76ea934175297b75df864ca0b9474f20783ae9853cc2bcbda91ddbd9f`; the only difference is the rescored-r1a / rescored-r2a comment and `--name` prompt text (#764). The template digest is unchanged: `51f4632da45f8987a2556a76e77976be2c48b51e4624524bb3888db8f66112fe`. The script's own header says it was adapted from the untracked `.cache/scoring/mms-8f-full/score_chunks.py` (Claude Fable 5.1, mms-8.26); that cache file is not required. It starts one `claude -p --model claude-opus-5-5 --effort high` process per chunk and only checks what that process wrote. It stops on a rate limit, a non-zero exit, `is_error`, a missing or foreign `modelUsage` key (a `claude-haiku-*` helper is allowed), a spawned sub-agent, a malformed chunk, or a changed tracked file. Re-running skips chunks that are already valid. `--dry-run` prints the plan and spawns no chunk. Do not put any file into `answers/` by hand: the in-agent provider loads every `*.jsonl` there, in file-name order, and the later definition of an id wins.
 
 Pilot 40 (#609). Owner GO on #609 before the first command. Run from the lane worktree root, detached at `origin/preview`.
 
 ```bash
-H=/Users/ms23m2/AgenticCoder/jobs/.cache/handoff/2026-09-23-mms-11-12
 P=data/prompts/2026-09-23_claude-opus-5-5-aiois10.ja.md; test -f "$P"
+test -f scripts/opus55_score_chunks.py && test -f scripts/opus55_SCORING_INSTRUCTIONS.template.md
 R=.cache/scoring/mms-11-pilot
 # 1. sample. Pass --baseline explicitly: the default is the newest batch (grok-4.7).
 #    Do not pass --explain: it would show baseline scores to the scorer (anchoring).
@@ -626,8 +767,8 @@ bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-
   --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$IDS"
 ls $R/prompts | wc -l                                  # 40
 # 3. answers: 8 chunks of 5, each written by claude -p --model claude-opus-5-5 --effort high
-python3 "$H/opus55_score_chunks.py" --run $R --chunk 5 --expect 40 --dry-run
-python3 "$H/opus55_score_chunks.py" --run $R --chunk 5 --expect 40
+python3 scripts/opus55_score_chunks.py --run $R --chunk 5 --expect 40 --dry-run
+python3 scripts/opus55_score_chunks.py --run $R --chunk 5 --expect 40
 # 4. validate + append
 bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
   --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$IDS" --resume
@@ -637,12 +778,12 @@ jq '{attested_model, subagent_verification, answers_loaded}' $R/provider-preflig
 jq -r 'select(.aiois.transformation==0 or .confidence<0.7 or (.rationale_ja|length)<12) | .id' $R/raw-scores.jsonl
 ```
 
-Re-score, only if step 5 lists ids. At most two rounds. Name each re-score chunk by round, so a later round sorts after an earlier one: round one `--name rescored-r1a` (then `rescored-r1b`, and so on; the runner takes at most 20 ids per call), round two `--name rescored-r2a`. The in-agent provider reads `answers/*.jsonl` in file-name order, and the later definition of an id wins. `chunk-rescored-2.jsonl` sorts before `chunk-rescored.jsonl` (`-` < `.`), so a second round named `rescored-2` would be overridden by the first. A row still below 0.7 after two rounds is accepted and reported. A row with `aiois.transformation == 0` is never accepted: stop and ask the owner.
+Re-score, only if step 5 lists ids. This is the [Anomaly re-score](#anomaly-re-score) procedure. At most two rounds. Name each re-score chunk by round, so a later round sorts after an earlier one: round one `--name rescored-r1a` (then `rescored-r1b`, and so on; the runner takes at most 20 ids per call), round two `--name rescored-r2a`. The in-agent provider reads `answers/*.jsonl` in file-name order, and the later definition of an id wins. `chunk-rescored-2.jsonl` sorts before `chunk-rescored.jsonl` (`-` < `.`), so a second round named `rescored-2` would be overridden by the first. A row still below 0.7 after two rounds is accepted and reported. A row with `aiois.transformation == 0` is never accepted: stop and ask the owner.
 
 ```bash
 BAD=<comma-separated ids, at most 20 per runner call>
 jq -c --argjson bad "[$BAD]" 'select(.id as $i | ($bad | index($i)) | not)' $R/raw-scores.jsonl > $R/raw-scores.tmp && mv $R/raw-scores.tmp $R/raw-scores.jsonl
-python3 "$H/opus55_score_chunks.py" --run $R --ids "$BAD" --name rescored-r1a   # round two: --name rescored-r2a
+python3 scripts/opus55_score_chunks.py --run $R --ids "$BAD" --name rescored-r1a   # round two: --name rescored-r2a
 bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
   --prompt-file "$P" --run-name mms-11-pilot --out $R/raw-scores.jsonl --ids "$BAD" --resume
 ```
@@ -662,15 +803,15 @@ bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fabl
 bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.7_2026-09-22.json --candidate $R/occupations_claude-opus-5-5_${D}_pilot.json --out $R/drift_grok-4.7_vs_claude-opus-5-5_${D}.md
 ```
 
-Full 556 (#610). `Owner FULL GO` on #609 and GO on #610 before the first command. `P` and `H` as above. `run_date` is the JST date when all 556 rows, re-scores included, are in; it must be later than `2026-09-22`.
+Full 556 (#610). `Owner FULL GO` on #609 and GO on #610 before the first command. `P` as above. The chunk runner is `scripts/opus55_score_chunks.py`. `run_date` is the JST date when all 556 rows, re-scores included, are in; it must be later than `2026-09-22`.
 
 ```bash
 R=.cache/scoring/mms-11-full
 bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
   --prompt-file "$P" --run-name mms-11-full --out $R/raw-scores.jsonl
 ls $R/prompts | wc -l                                   # 556
-python3 "$H/opus55_score_chunks.py" --run $R --chunk 20 --expect 556 --dry-run    # 28 chunks
-python3 "$H/opus55_score_chunks.py" --run $R --chunk 20 --expect 556
+python3 scripts/opus55_score_chunks.py --run $R --chunk 20 --expect 556 --dry-run    # 28 chunks
+python3 scripts/opus55_score_chunks.py --run $R --chunk 20 --expect 556
 #   STOP: RATE_LIMIT -> wait for the Claude usage window, then re-run the same command (valid chunks are skipped)
 #   any other STOP   -> read the error; the rejected chunk is moved to $R/logs/*.rejected-*.jsonl, and a re-run rewrites it
 bun scripts/run-scoring.ts --provider in-agent --model claude-opus-5-5 --attest-model claude-opus-5-5 \
@@ -707,20 +848,21 @@ bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_claude-fabl
 bun scripts/aiois-drift-report.ts --baseline data/scores/occupations_grok-4.7_2026-09-22.json --candidate $R/occupations_claude-opus-5-5_$RD.json --out $R/drift_grok-4.7_vs_claude-opus-5-5_$RD.md
 ```
 
-## GPT-5.6-SOL / Codex-CLI scoring
+## GPT-5.6-SOL / Codex-CLI scoring (historical, Issue #126)
 
-This section is the Codex CLI path for `mms-5-prep` / Issue #141 and the gated GPT 5.6 SOL execution in Issue #126. It is added alongside the Fable 5 / Issue #9 path above; it does not replace the Fable 5 runbook.
+This section is the historical Codex CLI path for `mms-5-prep` / Issue #141 and the gated GPT 5.6 SOL execution in Issue #126 (2026-07-12). It is not the current OpenAI seat. The current seat is `gpt-6.1-sol` ([mms-13](#mms-13-gpt-61-sol-openai-flagship-seat)). It is added alongside the Fable 5 / Issue #9 path above; it does not replace the Fable 5 runbook.
 
 Scope and boundary:
 
-- Runner: `scripts/run-scoring.ts --provider codex` (equivalently `scripts/run-scoring-codex.ts`, kept as a compatibility entry with the same frozen behaviour).
-- Model: `gpt-5.6-sol` (Codex path default). Provider: OpenAI.
+- Generic runner: `scripts/run-scoring.ts` requires `--provider` and `--model`. Neither flag has a default. This historical run passes `--provider codex --model gpt-5.6-sol`.
+- Compatibility entry: `scripts/run-scoring-codex.ts` defaults the provider to `codex` and the model to `CODEX_DEFAULT_MODEL` (`gpt-5.6-sol` in `scripts/lib/scoring/providers/codex.ts`). That default is frozen. It is not the current OpenAI seat, and `run-scoring.ts` does not inherit it.
+- Historical model for this section: `gpt-5.6-sol`. Vendor: OpenAI.
 - Auth: locally logged-in Codex CLI subscription. Do not use or commit an OpenAI API key for this path.
 - Frozen prompt: `data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md`.
 - Prompt version: `AIOIS-10-v1.0-gpt-5.6-sol`.
 - Baseline for drift: `data/scores/occupations_claude-fable-5_2026-06-13.json` (latest AIOIS-10 batch), not Opus 4.8.
 - Artifacts before full approval stay under `.cache/scoring/`; pilot/candidate artifacts must not be written to `data/scores/`.
-- The full 556 batch may enter `data/scores/` only after owner approval. Adding it flips `pickLatestScore()` site-wide because the latest `run_date` becomes canonical.
+- The full 556 batch could enter `data/scores/` only after owner approval. Historical landing rule, before 2026-09-09: adding it made `pickLatestScore()` the site-wide public value because the latest `run_date` became canonical. A new run does not follow that rule. The successor is the vendor mean ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)).
 - `scripts/run-scoring-codex.ts` is a LOCAL dev tool. Never wire it into `build`, `verify:gates`, CI, deploy commands, or `vercel.json`.
 
 Methodology continuity:
@@ -735,19 +877,22 @@ Explicit model-unavailable/provider-error/refusal responses and synthetic confid
 
 Runner flags:
 
-- `--prompt-file <path>`: required rubric file.
+- `--prompt-file <path>`: required rubric file on both runners.
+- `--provider <name>`: required on `scripts/run-scoring.ts` (`missing required --provider <name>`). The compatibility entry defaults it to `codex`.
 - `--out <path>`: raw JSONL destination; pilot output should be under `.cache/scoring/`.
-- `--model <id>`: optional; default is `gpt-5.6-sol`.
+- `--model <id>`: required on `scripts/run-scoring.ts` (`missing required --model <name>`). Optional only on `scripts/run-scoring-codex.ts`, where the frozen default is `gpt-5.6-sol`. That default is not the current OpenAI seat.
 - `--concurrency <n>`: default 2, capped at max 4.
 - `--ids 1,2,3`: score only selected IDs.
 - `--limit N`: score the first N pending occupations after filtering.
 - `--resume`: skip IDs already present in the output JSONL and append remaining rows.
 - `--reasoning-effort <low|medium|high|xhigh>`: optional, codex only (mms-8.12). Inserts `-c model_reasoning_effort=<e>` before `--model`. Absent = inherit `~/.codex/config.toml`; the effective value and its source are recorded in `provider-preflight.json`.
 
-Pilot setup (30-50 occupations):
+Pilot setup (historical GPT-5.6, Issue #126, 30-50 occupations). `make-pilot-sample.ts` requires `--model` and `--prompt-file`.
 
 ```bash
 bun scripts/make-pilot-sample.ts \
+  --model gpt-5.6-sol \
+  --prompt-file data/prompts/2026-07-12_gpt-5.6-sol-aiois10.ja.md \
   --size 40 \
   --chunk 5 \
   --baseline data/scores/occupations_claude-fable-5_2026-06-13.json \
@@ -794,7 +939,7 @@ Full run gate:
 - Owner separately approves any pilot scoring run because it consumes local Codex subscription quota.
 - Owner reviews pilot artifacts and drift report before any 556-occupation full run.
 - The approved full run writes raw/audit artifacts under `.cache/scoring/` first, then assembles one append-only batch at `data/scores/occupations_gpt-5.6-sol_<YYYY-MM-DD>.json`.
-- Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun run test`. The landing PR must acknowledge that `pickLatestScore()` flips all public projections/pages to GPT 5.6 SOL.
+- Before landing the full batch, run `bun run typecheck`, `bun run build`, `bun run verify:gates`, and `bun run test`. Historical landing note, before 2026-09-09: the landing PR had to acknowledge that `pickLatestScore()` would flip public projections to GPT 5.6 SOL. A new run does not require the public value to equal that batch ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)).
 
 ## mms-12: GPT-6 SOL (OpenAI flagship seat)
 
@@ -973,6 +1118,8 @@ GPT-6.1 SOL takes OpenAI's seat from GPT-6 SOL under the seat rule of 2026-09-23
 | Artifacts | `.cache/scoring/mms-13-preflight/`, `.cache/scoring/mms-13-pilot/`, `.cache/scoring/mms-13-full/` |
 | Issues | mms-13.2 preflight #672, mms-13.3 pilot #673, mms-13.4 full 556 #674, mms-13.5 landing #675 |
 
+Scoring gates for this series are the recorded exception in [Scoring approval](CONSENSUS_SCORE.md#scoring-approval): on 2026-10-01 the owner delegated 13.2, 13.3, 13.4, and landing to the supervisor. That delegation does not extend to `main` promotion, Vercel writes, or a later series. Do not ask the owner to reconfirm these mms-13 gates.
+
 The owner's `~/.codex/config.toml` defaults to `gpt-6-sol` at effort `low`; a call without `--model` / `--reasoning-effort` silently scores with those. Copy the commands below; do not retype them. `provider-preflight.json` must record `"reasoning_effort_source": "cli-flag"`; `inherited-from-user-config` voids the run. Resume only with the same command plus `--resume`: a run without `--resume` truncates `raw-scores.jsonl`.
 
 Preflight (mms-13.2, not scoring). Manual probes always pass `--ephemeral` and `< /dev/null`; without `--ephemeral` the CLI hung for 180 seconds on the owner's machine, and without `< /dev/null` it waits on stdin (`Reading additional input from stdin...`). The `chronicle` and `skills context budget` error events, and the skill-name errors in stderr, are local CLI noise, not a permission failure.
@@ -1054,7 +1201,7 @@ for r in sorted(rows, key=lambda r: r['id']):
 EOF
 ```
 
-Full 556 (mms-13.4). Gate: `Supervisor FULL GO` on #673. `run_date` is the JST date when all 556 rows are complete, re-scores included. It must be later than 2026-09-23 and must not equal the run date of any other batch in `data/scores/`.
+Full 556 (mms-13.4). Gate: `Supervisor FULL GO` on #673, the recorded mms-13 exception in [Scoring approval](CONSENSUS_SCORE.md#scoring-approval). `run_date` is the JST date when all 556 rows are complete, re-scores included. It must be later than 2026-09-23 and must not equal the run date of any other batch in `data/scores/`.
 
 ```bash
 gh issue view 673 --comments --json comments --jq '.comments[].body' | grep -F 'Supervisor FULL GO'
@@ -1139,9 +1286,11 @@ Prompt には最低限、以下を明記する。
 
 Prompt は versioned artifact なので、実行後の batch metadata に `prompt.prompt_file`, `prompt.prompt_sha256`, `prompt.prompt_version`, `prompt.rubric_source` を記録する。
 
-## Execution mechanism (Issue #9)
+## Execution mechanism (Issue #9, historical, before 2026-09-09)
 
-Issue #9 の採点は、Anthropic API ではなく **claude-fable-5 セッション内採点**で行う。これは現行 Opus 4.8 batch と同じ方式である（`scripts/extract-occ-chunks.ts` の in-agent path: 実行中のモデル自身が chunk を読み JSONL を出力する。API key 不要）。`scripts/run-scoring.ts`（Batches API path）は本 issue では使わない。
+This section records the Issue #9 plan. Opus 4.8 (`2026-05-30`) was the current batch then. The old `scripts/run-scoring.ts` used for that comparison was the single-axis Anthropic Batches API implementation; it was not used for this issue, and it remains only in git history (`git show 1d7d42a2:scripts/run-scoring.ts`, see Notes below). The current `scripts/run-scoring.ts` is the provider-independent runner and is not an API batch runner. Do not use this section as a new-run instruction. Successor rule: [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md) (vendor mean, 2026-09-09).
+
+Issue #9 の採点は、Anthropic API ではなく **claude-fable-5 セッション内採点**で行う。これは当時の Opus 4.8 batch（2026-05-30）と同じ方式である（`scripts/extract-occ-chunks.ts` の in-agent path: 実行中のモデル自身が chunk を読み JSONL を出力する。API key 不要）。当時の単軸 Batches API 実装は本 issue では使わない。
 
 実行規約:
 
@@ -1153,7 +1302,7 @@ Issue #9 の採点は、Anthropic API ではなく **claude-fable-5 セッショ
 
 Methodology delta（drift 解釈の前提）:
 
-現行 Opus 4.8 batch の D2–D10 は O*NET 型ベクトル＋日本の労働統計からの決定的計算であり、LLM 判断は D1（と欠損ベクトル職の moat profile）に限られていた。Issue #9 の Fable 5 run は **D1–D10 全次元をモデルの意味判断で採点**する（Issue 本文の Required output structure / Prompt 要件に従う）。したがって、この Opus 4.8 → Fable 5 pair の drift は「モデル差」と「方式差（vector engine → semantic judgment）」の合成である。各 batch は機械可読な `scorer.scoring_method_id` を記録し、drift report は比較 pair の id が異なる場合だけ方式差を注記する。Fable 5 → GPT 5.6 のように両方が `aiois-semantic-judgment` の pair へ、この歴史的 caveat を引き継がない。
+当時の Opus 4.8 batch（2026-05-30）の D2–D10 は O*NET 型ベクトル＋日本の労働統計からの決定的計算であり、LLM 判断は D1（と欠損ベクトル職の moat profile）に限られていた。Issue #9 の Fable 5 run は **D1–D10 全次元をモデルの意味判断で採点**する（Issue 本文の Required output structure / Prompt 要件に従う）。したがって、この Opus 4.8 → Fable 5 pair の drift は「モデル差」と「方式差（vector engine → semantic judgment）」の合成である。各 batch は機械可読な `scorer.scoring_method_id` を記録し、drift report は比較 pair の id が異なる場合だけ方式差を注記する。Fable 5 → GPT 5.6 のように両方が `aiois-semantic-judgment` の pair へ、この歴史的 caveat を引き継がない。
 
 ## Scoring phases
 
@@ -1163,7 +1312,7 @@ Methodology delta（drift 解釈の前提）:
 2. local branch を作る。
 3. `git status --short --branch` で未コミット差分を確認する。
 4. `data/occupations/*.json` が 556 件あることを確認する。
-5. 現行 batch が `claude-opus-4-8`, `2026-05-30`, AIOIS-10 v1.0, 556 件であることを確認する。
+5. Historical Issue #9 check, before 2026-09-09, not a new-run acceptance: the batch then current was `claude-opus-4-8`, `2026-05-30`, AIOIS-10 v1.0, 556 occupations. A new run checks the vendor mean and the latest observation separately.
 6. production/pre へ影響する設定を変更しないことを再確認する。
 
 ### Phase 1: documentation and prompt
@@ -1213,7 +1362,7 @@ Pilot は 30-50 件とし、sample manifest を `.cache/scoring/issue-9/pilot/sa
 
 Sample は少なくとも次を含む。
 
-- 現行 Opus 4.8 の high band (`ai_risk >= 7.0`)
+- 当時の Opus 4.8（2026-05-30）の high band (`ai_risk >= 7.0`)
 - mid band (`4.0 <= ai_risk < 7.0`)
 - low band (`ai_risk < 4.0`)
 - high attention / high dispute occupations
@@ -1244,7 +1393,7 @@ Manifest field:
 
 ### Phase 4: pilot scoring
 
-Run only the pilot sample. Do not start a 556 full run before Jason review.
+Historical Issue #9 gate: run only the pilot sample. Do not start a 556 full run before the owner (Jason) review this phase required. Later series keep their own recorded gate. The standing rule is [Scoring approval](CONSENSUS_SCORE.md#scoring-approval).
 
 Failure handling:
 
@@ -1274,7 +1423,7 @@ Pilot passes only if all conditions hold:
 - no silent fallback.
 - `ai_risk === aiois.transformation` for every row.
 - drift report explains major changes.
-- Jason manually approves the pilot.
+- Jason manually approves the pilot. Historical Issue #9 owner gate. It is not a delegation, and it is not the mms-13 exception ([Scoring approval](CONSENSUS_SCORE.md#scoring-approval)).
 
 Suggested local checks:
 
@@ -1346,7 +1495,7 @@ bun run build
 bun run verify:gates
 ```
 
-Adding a newer full batch changes the canonical current score selected by `pickLatestScore()`. Therefore this step is not documentation-only and must not be pushed until preview is intentionally planned.
+Historical Issue #9 landing check, before 2026-09-09: adding this Fable 5 batch changed the canonical score then selected by `pickLatestScore()`. That is not how a new run is accepted. From 2026-09-09 the public value is the vendor mean, and the latest observation is a separate check ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)). This step was not documentation-only and was not to be pushed until preview was intentionally planned.
 
 ### Phase 8: preview validation
 
@@ -1364,15 +1513,17 @@ Preview pages:
 - one mid-risk occupation detail page
 - one high-risk occupation detail page
 
+These checks applied to Issue #9 before 2026-09-09, when the selected batch was the public value. A new run does not require the public value to equal that batch. Check the vendor mean and the latest observation separately ([`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md)).
+
 Checks:
 
 - page renders without 500 / hydration / console errors
 - AIOIS-10 D1-D10 display correctly
-- visible `AI 影響度` equals the selected score batch
+- visible `AI 影響度` was compared with the selected Fable 5 batch (historical; a new run checks the vendor mean and the latest observation separately)
 - JSON-LD value matches visible page data
 - footer wording matches the active model and run date
-- methodology/data pages do not still claim Opus 4.8 when Fable 5 is active
-- public data wording matches the actual score batch
+- methodology/data pages were checked so they did not still name Opus 4.8 once Fable 5 was the selected batch (historical)
+- public data wording was checked against that score batch (historical; the public value does not have to equal one batch)
 - no preview alias is promoted to production
 
 ### Phase 9: release gate
@@ -1434,6 +1585,8 @@ Use this template for pilot and full-run reports.
 ```
 
 ## Notes for current tooling
+
+The notes in this section that describe Issue #9's tools are historical (before 2026-09-09), except the resolved statement that `run-scoring.ts` is the provider-independent entry point and is not the Batches API runner.
 
 The current `ScoreEntrySchema` permits `aiois` to be nullish so legacy single-axis batches can still parse. That schema-level compatibility is not enough for Fable 5 AIOIS-10. The assembler and candidate validation must add an AIOIS-required mode for Issue #9.
 
