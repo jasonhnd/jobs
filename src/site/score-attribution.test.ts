@@ -16,17 +16,77 @@ import {
   modelIdFromSlug,
   modelSlug,
   pickAttributionBatch,
-  parseRunSlug,
   runFromSlug,
   runSlug,
   type ScoreRunRef,
   type BatchMetaForAttribution,
 } from './score-attribution.js';
-import { latestOccupationRun, latestRunPerVendor, listOccupationRuns } from './occupation-runs.js';
+import { buildIndexes } from '../data/lib/indexes.js';
+import type { ScoreRun } from '../data/schema/index.js';
 
 const meta = (model: string, runDate: string, hasAiois = true, scope = 'occupations', backfill = false): BatchMetaForAttribution =>
   ({ scope, model, runDate, hasAiois, backfill });
-const currentModelIds = listOccupationRuns().map((run) => run.model);
+
+interface OccupationRunView {
+  readonly model: string;
+  readonly provider: string;
+  readonly runDate: string;
+  readonly slug: string;
+  readonly hasAiois: boolean;
+  readonly backfill: boolean;
+}
+
+function viewOf(run: ScoreRun): OccupationRunView {
+  return {
+    model: run.scorer.model,
+    provider: run.scorer.model_provider,
+    runDate: run.run.run_date,
+    slug: runSlug({ model: run.scorer.model, runDate: run.run.run_date }),
+    hasAiois: Object.values(run.scores).some((entry) => entry.aiois != null),
+    backfill: run.run.backfill === true,
+  };
+}
+
+let runsPromise: Promise<OccupationRunView[]> | null = null;
+
+function occupationRuns(): Promise<OccupationRunView[]> {
+  if (!runsPromise) {
+    runsPromise = (async () => {
+      const { indexes, errors } = await buildIndexes();
+      assert.deepEqual(errors, []);
+      return [...indexes.runsByModel.values()]
+        .flat()
+        .filter((run) => run.scope === 'occupations')
+        .sort((a, b) => a.run.run_date.localeCompare(b.run.run_date) || a.scorer.model.localeCompare(b.scorer.model))
+        .map(viewOf);
+    })();
+  }
+  return runsPromise;
+}
+
+function latestOccupationRun(runs: readonly OccupationRunView[]): OccupationRunView {
+  const latest = runs.filter((run) => !run.backfill).at(-1);
+  if (!latest) throw new Error('no occupations batches in indexes.runsByModel');
+  return latest;
+}
+
+function latestRunPerVendor(runs: readonly OccupationRunView[]): OccupationRunView[] {
+  const latest = new Map<string, OccupationRunView>();
+  for (const run of runs) {
+    if (!run.hasAiois || run.backfill || !isWhitelistedVendor(run.provider)) continue;
+    const prev = latest.get(run.provider);
+    if (
+      !prev
+      || run.runDate > prev.runDate
+      || (run.runDate === prev.runDate && run.model.localeCompare(prev.model) > 0)
+    ) {
+      latest.set(run.provider, run);
+    }
+  }
+  return VENDOR_WHITELIST
+    .map((vendor) => latest.get(vendor))
+    .filter((run): run is OccupationRunView => run != null);
+}
 
 describe('formatModelDisplay', () => {
   test('claude-opus-4-8 → Claude Opus 4.8', () => {
@@ -89,8 +149,8 @@ describe('pickAttributionBatch', () => {
     assert.throws(() => pickAttributionBatch([meta('x', '2026-01-01', true, 'tasks')]));
   });
 
-  test('skips a backfill meta even when it is the newest (mms-9)', () => {
-    const live = listOccupationRuns().map((run) => ({
+  test('skips a backfill meta even when it is the newest (mms-9)', async () => {
+    const live = (await occupationRuns()).map((run) => ({
       scope: 'occupations',
       model: run.model,
       runDate: run.runDate,
@@ -113,20 +173,24 @@ describe('pickAttributionBatch', () => {
 });
 
 describe('modelSlug and modelIdFromSlug', () => {
-  test('maps current model ids to public slugs', () => {
+  test('maps current model ids to public slugs', async () => {
+    const runs = await occupationRuns();
+    const currentModelIds = runs.map((run) => run.model);
     assert.deepEqual(
       currentModelIds.map(modelSlug),
-      listOccupationRuns().map((run) => run.slug.replace(/@\d{4}-\d{2}-\d{2}$/, '')),
+      runs.map((run) => run.slug.replace(/@\d{4}-\d{2}-\d{2}$/, '')),
     );
   });
 
-  test('round-trips all current model ids through the known batch list', () => {
+  test('round-trips all current model ids through the known batch list', async () => {
+    const currentModelIds = (await occupationRuns()).map((run) => run.model);
     for (const modelId of currentModelIds) {
       assert.equal(modelIdFromSlug(modelSlug(modelId), currentModelIds), modelId);
     }
   });
 
-  test('unknown, duplicate, and invalid slugs resolve to null', () => {
+  test('unknown, duplicate, and invalid slugs resolve to null', async () => {
+    const currentModelIds = (await occupationRuns()).map((run) => run.model);
     assert.equal(modelIdFromSlug('unknown-model', currentModelIds), null);
     assert.equal(modelIdFromSlug('opus-4-8', ['claude-opus-4-8', 'opus-4-8']), null);
     assert.equal(modelIdFromSlug('', currentModelIds), null);
@@ -141,7 +205,8 @@ describe('modelSlug and modelIdFromSlug', () => {
     assert.throws(() => modelSlug('claude-opus-4-8\n'), /invalid model id/);
   });
 
-  test('maps the mms-8 ids to their public slugs', () => {
+  test('maps the mms-8 ids to their public slugs', async () => {
+    const currentModelIds = (await occupationRuns()).map((run) => run.model);
     assert.equal(modelSlug('claude-fable-5-1'), 'fable-5-1');
     assert.equal(modelSlug('gpt-6-astra'), 'gpt-6-astra');
     assert.equal(modelIdFromSlug('fable-5-1', [...currentModelIds, 'claude-fable-5-1']), 'claude-fable-5-1');
@@ -149,7 +214,8 @@ describe('modelSlug and modelIdFromSlug', () => {
     assert.notEqual(modelSlug('claude-fable-5-1'), modelSlug('claude-fable-5'));
   });
 
-  test('grok-4.5 keeps its own slug and does not collide with grok-4.6', () => {
+  test('grok-4.5 keeps its own slug and does not collide with grok-4.6', async () => {
+    const currentModelIds = (await occupationRuns()).map((run) => run.model);
     assert.equal(modelSlug('grok-4.5'), 'grok-4.5');
     assert.notEqual(modelSlug('grok-4.5'), modelSlug('grok-4.6'));
     assert.equal(modelIdFromSlug('grok-4.5', [...currentModelIds, 'grok-4.5']), 'grok-4.5');
@@ -205,22 +271,23 @@ describe('SCORE_ATTRIBUTION (live repo data)', () => {
 });
 
 describe('SCORE_PANEL (live repo data)', () => {
-  test('matches the current comparable occupation panel', () => {
-    const latest = latestOccupationRun();
+  test('matches the current comparable occupation panel', async () => {
+    const runs = await occupationRuns();
+    const latest = latestOccupationRun(runs);
     assert.ok(latest);
     assert.equal(SCORE_PANEL.vendorCount, 3);
     assert.equal(SCORE_PANEL.staleMonths, 6);
     assert.equal(SCORE_PANEL.staleVendorCount, 0);
     assert.equal(SCORE_PANEL.latestRunDate, latest.runDate);
     assert.equal(SCORE_PANEL.latestRunDate, SCORE_ATTRIBUTION.runDate);
-    assert.equal(SCORE_PANEL.vendorCount, latestRunPerVendor().length);
+    assert.equal(SCORE_PANEL.vendorCount, latestRunPerVendor(runs).length);
   });
 });
 
 // Issue #218: public URLs are keyed by RUN, not by model. A model can be
 // scored more than once; `data/scores/` is append-only and the runbook treats
 // re-scoring as normal.
-describe('runSlug / parseRunSlug / runFromSlug', () => {
+describe('runSlug / runFromSlug', () => {
   const runs: ScoreRunRef[] = [
     { model: 'claude-opus-4-7', runDate: '2026-04-25' },
     { model: 'claude-opus-5', runDate: '2026-07-26' },
@@ -265,13 +332,16 @@ describe('runSlug / parseRunSlug / runFromSlug', () => {
     assert.equal(modelIdFromSlug('opus-5', ['claude-opus-5', 'opus-5']), null);
   });
 
-  test('parseRunSlug rejects anything that is not model@YYYY-MM-DD', () => {
-    assert.equal(parseRunSlug('opus-5'), null);
-    assert.equal(parseRunSlug('opus-5@'), null);
-    assert.equal(parseRunSlug('@2026-07-26'), null);
-    assert.equal(parseRunSlug('opus-5@2026-7-26'), null);
-    assert.equal(parseRunSlug('opus-5@2026-07-26-extra'), null);
-    assert.deepEqual(parseRunSlug('opus-5@2026-07-26'), { modelSlug: 'opus-5', runDate: '2026-07-26' });
+  test('runFromSlug rejects anything that is not model@YYYY-MM-DD', () => {
+    assert.equal(runFromSlug('opus-5', runs), null);
+    assert.equal(runFromSlug('opus-5@', runs), null);
+    assert.equal(runFromSlug('@2026-07-26', runs), null);
+    assert.equal(runFromSlug('opus-5@2026-7-26', runs), null);
+    assert.equal(runFromSlug('opus-5@2026-07-26-extra', runs), null);
+    assert.deepEqual(runFromSlug('opus-5@2026-07-26', runs), {
+      model: 'claude-opus-5',
+      runDate: '2026-07-26',
+    });
   });
 
   test('unknown runs and bare model slugs do not resolve', () => {
