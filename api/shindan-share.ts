@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from '../src/lib/http-client.js';
 import {
   DetailRecordSchema,
   padId,
@@ -22,25 +23,46 @@ export const config = {
 
 type FetchLike = typeof fetch;
 
+/** Same-origin shell, worktypes, and detail reads. A stall must not hold the function. */
+const SHINDAN_SHARE_UPSTREAM_TIMEOUT_MS = 5000;
+
+function fetchUpstream(
+  fetchImpl: FetchLike,
+  url: URL,
+  init: RequestInit,
+  timeoutMs: number,
+): Promise<Response | null> {
+  return fetchWithTimeout(url, init, timeoutMs, fetchImpl).catch(() => null);
+}
+
 export async function renderShindanShareResponse(
   request: Request,
   fetchImpl: FetchLike = fetch,
+  timeoutMs: number = SHINDAN_SHARE_UPSTREAM_TIMEOUT_MS,
 ): Promise<Response> {
   const requestUrl = new URL(request.url);
   const origin = trustedFetchOrigin(requestUrl);
-  const basePagePromise = fetchImpl(new URL('/shindan', origin), {
-    headers: {
-      Accept: 'text/html',
-      'X-Shindan-Shell-Fetch': '1',
+  const basePagePromise = fetchUpstream(
+    fetchImpl,
+    new URL('/shindan', origin),
+    {
+      headers: {
+        Accept: 'text/html',
+        'X-Shindan-Shell-Fetch': '1',
+      },
     },
-  }).catch(() => null);
+    timeoutMs,
+  );
 
   const baseState = parseShindanBaseState(requestUrl.searchParams);
   let state = baseState;
   if (baseState && requestUrl.searchParams.has('job')) {
-    const worktypesResponse = await fetchImpl(new URL('/data.worktypes.json', origin), {
-      headers: { Accept: 'application/json' },
-    }).catch(() => null);
+    const worktypesResponse = await fetchUpstream(
+      fetchImpl,
+      new URL('/data.worktypes.json', origin),
+      { headers: { Accept: 'application/json' } },
+      timeoutMs,
+    );
     if (worktypesResponse?.ok) {
       // Occupation context is optional. A truncated/corrupt projection must
       // degrade to the already-validated base result instead of rejecting the
@@ -66,7 +88,7 @@ export async function renderShindanShareResponse(
   }
 
   const jobId = requestUrl.searchParams.get('job');
-  const jobContext = jobId ? await fetchShareJobContext(origin, jobId, fetchImpl) : null;
+  const jobContext = jobId ? await fetchShareJobContext(origin, jobId, fetchImpl, timeoutMs) : null;
   const metadata = state ? buildShindanShareMetadata(origin, state, jobContext) : null;
   const html = renderShindanShareHtml(await basePageResponse.text(), metadata);
   return new Response(html, {
@@ -97,6 +119,7 @@ async function fetchShareJobContext(
   origin: string,
   jobId: string,
   fetchImpl: FetchLike,
+  timeoutMs: number,
 ): Promise<ShindanShareJobContext | null> {
   let paddedId: string;
   try {
@@ -104,9 +127,12 @@ async function fetchShareJobContext(
   } catch {
     return null;
   }
-  const detailRes = await fetchImpl(new URL(`/data.detail/${paddedId}.json`, origin), {
-    headers: { Accept: 'application/json' },
-  }).catch(() => null);
+  const detailRes = await fetchUpstream(
+    fetchImpl,
+    new URL(`/data.detail/${paddedId}.json`, origin),
+    { headers: { Accept: 'application/json' } },
+    timeoutMs,
+  );
   if (!detailRes?.ok) return null;
   const detailRaw: unknown = await detailRes.json().catch(() => null);
   const parsed = DetailRecordSchema.safeParse(detailRaw);

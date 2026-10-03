@@ -10,6 +10,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Fixed
+
+- **Diagnostic share upstream fetches time out after 5 seconds (#781).** `api/shindan-share.ts` reads the shell, worktypes projection, and occupation detail through `fetchWithTimeout`. A timeout uses the existing failure path: the shell response is 502, and a failed worktypes or detail read drops only the optional context. `HEAD` still returns the share headers and does not fetch.
+
 ### Security
 
 - **analytics/: js-yaml 5.4.2, googleapis 181, qs override ^6.16.0, pnpm 12.6.0** — clears 1 high + 4 moderate pnpm audit findings; setup-ga4 --dry-run output identical.
