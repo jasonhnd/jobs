@@ -12,8 +12,9 @@ import {
 } from '@/templates/SkillHub.js';
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
+import { siteConfig } from '@/site/config';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 
 export interface SkillsSlugBindings {
   readonly canonical: string;
