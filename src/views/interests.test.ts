@@ -75,7 +75,7 @@ describe('buildInterests (injected loaders)', () => {
     const r = empty.results.get(first.slug)!;
     assert.equal(r.items.length, 0);
     assert.equal(r.stats[1]![1], '—');
-    assert.equal(r.faqItems.length, 3);
+    assert.equal(r.faqItems.length, 2);
     assert.equal(empty.hub.cards[0]!.top_preview, '');
   });
 
