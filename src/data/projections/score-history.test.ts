@@ -2,7 +2,6 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
 import { buildIndexes, type Indexes } from '../lib/indexes.js';
-import { listOccupationRuns } from '../../site/occupation-runs.js';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -28,7 +27,10 @@ describe('score-history projection', () => {
   test('emits the latest-score occupation universe with shorter legacy gaps preserved', async () => {
     const { indexes, payload } = await fixture();
     const histories = Object.values(payload);
-    const runCount = listOccupationRuns().length;
+    const runCount = [...indexes.runsByModel.values()]
+      .flat()
+      .filter((run) => run.scope === 'occupations')
+      .length;
     const sourceLengths = [...indexes.historyByOcc.values()].map((history) => history.length);
 
     assert.equal(Object.keys(payload).length, 556);
