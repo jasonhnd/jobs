@@ -8,7 +8,7 @@ import {
   type WorktypeVariantId,
 } from './worktype-copy.js';
 
-export const SHINDAN_AXES_PARAM = 'axes';
+const SHINDAN_AXES_PARAM = 'axes';
 
 export interface ShindanBaseResultState {
   readonly family: FamilyCode;
@@ -56,7 +56,7 @@ function isGapKind(value: string): value is GapKind {
   return Object.hasOwn(GAP, value);
 }
 
-export function bucketForShindanAxes(axes: string): WorktypeVariantBucket | null {
+function bucketForShindanAxes(axes: string): WorktypeVariantBucket | null {
   if (!AXES_PATTERN_RE.test(axes)) return null;
   const strongCount = axes.split('/').filter((margin) => margin === '3-0').length;
   if (strongCount === 0) return 'balance';
@@ -154,16 +154,7 @@ export function addShindanOccupationContext(
   };
 }
 
-export function parseShindanResultState(
-  params: URLSearchParams,
-  occupations: ShindanOccupationWorktypes,
-  familyParam: 'self' | 'worktype' = 'self',
-): ShindanResultState | null {
-  const base = parseShindanBaseState(params, familyParam);
-  return base ? addShindanOccupationContext(base, params, occupations) : null;
-}
-
-export function serializeShindanState(
+function serializeShindanState(
   state: ShindanResultState,
   familyParam: 'self' | 'worktype' = 'self',
 ): URLSearchParams {

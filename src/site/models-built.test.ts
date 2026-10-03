@@ -4,14 +4,15 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
 import { requireBuiltArtifact } from '../../scripts/lib/built-artifacts.js';
-import { SCORE_PANEL } from './score-attribution.js';
+import { buildIndexes } from '../data/lib/indexes.js';
+import type { ScoreRun } from '../data/schema/index.js';
 import {
-  activeOccupationRuns,
-  comparableAioisRuns,
-  latestOccupationRun,
-  latestRunPerVendor,
-  listOccupationRuns,
-} from './occupation-runs.js';
+  SCORE_PANEL,
+  VENDOR_WHITELIST,
+  formatModelDisplay,
+  isWhitelistedVendor,
+  runSlug,
+} from './score-attribution.js';
 import { formatJapaneseDate } from '../views/models.js';
 import {
   CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD,
@@ -20,7 +21,6 @@ import {
   MODELS_RUN_HISTORY_NOTE,
   MODELS_RUN_IN_PANEL_NOTE,
 } from './consensus-copy.js';
-import { isWhitelistedVendor } from './score-attribution.js';
 
 function builtModelsPath(): string | null {
   const candidates = [
@@ -46,6 +46,79 @@ function builtModelDetailPath(slug: string): string | null {
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+interface OccupationRunView {
+  readonly model: string;
+  readonly modelDisplay: string;
+  readonly provider: string;
+  readonly runDate: string;
+  readonly slug: string;
+  readonly hasAiois: boolean;
+  readonly coveredCount: number;
+  readonly backfill: boolean;
+}
+
+function viewOf(run: ScoreRun): OccupationRunView {
+  return {
+    model: run.scorer.model,
+    modelDisplay: formatModelDisplay(run.scorer.model),
+    provider: run.scorer.model_provider,
+    runDate: run.run.run_date,
+    slug: runSlug({ model: run.scorer.model, runDate: run.run.run_date }),
+    hasAiois: Object.values(run.scores).some((entry) => entry.aiois != null),
+    coveredCount: Object.keys(run.scores).length,
+    backfill: run.run.backfill === true,
+  };
+}
+
+let runsPromise: Promise<OccupationRunView[]> | null = null;
+
+function occupationRuns(): Promise<OccupationRunView[]> {
+  if (!runsPromise) {
+    runsPromise = (async () => {
+      const { indexes, errors } = await buildIndexes();
+      assert.deepEqual(errors, []);
+      return [...indexes.runsByModel.values()]
+        .flat()
+        .filter((run) => run.scope === 'occupations')
+        .sort((a, b) => a.run.run_date.localeCompare(b.run.run_date) || a.scorer.model.localeCompare(b.scorer.model))
+        .map(viewOf);
+    })();
+  }
+  return runsPromise;
+}
+
+function activeOccupationRuns(runs: readonly OccupationRunView[]): OccupationRunView[] {
+  return runs.filter((run) => !run.backfill);
+}
+
+function comparableAioisRuns(runs: readonly OccupationRunView[]): OccupationRunView[] {
+  return runs.filter((run) => run.hasAiois);
+}
+
+function latestOccupationRun(runs: readonly OccupationRunView[]): OccupationRunView {
+  const latest = activeOccupationRuns(runs).at(-1);
+  if (!latest) throw new Error('no occupations batches in indexes.runsByModel');
+  return latest;
+}
+
+function latestRunPerVendor(runs: readonly OccupationRunView[]): OccupationRunView[] {
+  const latest = new Map<string, OccupationRunView>();
+  for (const run of comparableAioisRuns(activeOccupationRuns(runs))) {
+    if (!isWhitelistedVendor(run.provider)) continue;
+    const prev = latest.get(run.provider);
+    if (
+      !prev
+      || run.runDate > prev.runDate
+      || (run.runDate === prev.runDate && run.model.localeCompare(prev.model) > 0)
+    ) {
+      latest.set(run.provider, run);
+    }
+  }
+  return VENDOR_WHITELIST
+    .map((vendor) => latest.get(vendor))
+    .filter((run): run is OccupationRunView => run != null);
 }
 
 /** predecessorFor(): the newest comparable run dated strictly earlier. A same-date run is not a predecessor. */
@@ -153,7 +226,7 @@ function assertFeatureClass(html: string): void {
 describe('/models built page contract', () => {
   const htmlPath = builtModelsPath();
 
-  test('renders without client fetch, raw tables, or visible drift internals', () => {
+  test('renders without client fetch, raw tables, or visible drift internals', async () => {
     if (htmlPath == null) return;
     const html = readFileSync(htmlPath, 'utf-8');
     const visible = visibleHtml(html);
@@ -170,7 +243,7 @@ describe('/models built page contract', () => {
       visible,
       new RegExp(`<h2 id="models-vendors">${escapeRegExp(MODELS_HUB_VENDORS_HEADING)}</h2>`),
     );
-    const runs = listOccupationRuns();
+    const runs = await occupationRuns();
     const coverages = runs.map((run) => run.coveredCount);
     const coverageMin = Math.min(...coverages);
     const coverageMax = Math.max(...coverages);
@@ -237,8 +310,10 @@ describe('/models built page contract', () => {
     assertFeatureClass(html);
   });
 
-  test('renders model detail public metadata without raw ids', () => {
-    const sample = comparableAioisRuns()[1] ?? comparableAioisRuns()[0]!;
+  test('renders model detail public metadata without raw ids', async () => {
+    const runs = await occupationRuns();
+    const aiois = comparableAioisRuns(runs);
+    const sample = aiois[1] ?? aiois[0]!;
     const detailPath = builtModelDetailPath(sample.slug);
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
@@ -250,7 +325,7 @@ describe('/models built page contract', () => {
     assert.match(visible, new RegExp(escapeRegExp(formatJapaneseDate(sample.runDate))));
     assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(sample.model)}`).test(visible), false);
 
-    const latestRun = latestOccupationRun();
+    const latestRun = latestOccupationRun(runs);
     const latestPath = builtModelDetailPath(latestRun.slug);
     if (latestPath == null) return;
     const latest = visibleHtml(readFileSync(latestPath, 'utf-8'));
@@ -260,7 +335,7 @@ describe('/models built page contract', () => {
     assert.match(latest, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
     assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(latestRun.model)}`).test(latest), false);
 
-    const panel = latestRunPerVendor();
+    const panel = latestRunPerVendor(runs);
     const xai = panel.find((run) => run.provider === 'xai');
     if (xai != null) {
       const grokPath = builtModelDetailPath(xai.slug);
@@ -270,7 +345,7 @@ describe('/models built page contract', () => {
         assert.match(grok, new RegExp(escapeRegExp(MODELS_RUN_IN_PANEL_NOTE)));
       }
     }
-    const historyRun = comparableAioisRuns().find(
+    const historyRun = comparableAioisRuns(runs).find(
       (run) => isWhitelistedVendor(run.provider) && !panel.some((entry) => entry.slug === run.slug),
     );
     if (historyRun != null) {
@@ -283,8 +358,8 @@ describe('/models built page contract', () => {
     }
   });
 
-  test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', () => {
-    const runs = listOccupationRuns();
+  test('renders the AIOIS predecessor sequence without a synthetic legacy comparison', async () => {
+    const runs = await occupationRuns();
     const aiois = comparableAioisRuns(activeOccupationRuns(runs));
     const legacyRuns = runs.filter((run) => !run.hasAiois);
     if (legacyRuns.length === 0 || aiois.length < 2) return;
@@ -320,21 +395,23 @@ describe('/models built page contract', () => {
     }
   });
 
-  test('no built page today contains the backfill signed string (mms-9)', () => {
-    if (listOccupationRuns().some((run) => run.backfill)) return;
+  test('no built page today contains the backfill signed string (mms-9)', async () => {
+    const runs = await occupationRuns();
+    if (runs.some((run) => run.backfill)) return;
     const marker = '公開後に日をあけて補完した採点です';
     const hub = builtModelsPath();
     if (hub == null) return;
     assert.equal(readFileSync(hub, 'utf-8').includes(marker), false);
-    for (const run of listOccupationRuns()) {
+    for (const run of runs) {
       const path = builtModelDetailPath(run.slug);
       if (path == null) return;
       assert.equal(readFileSync(path, 'utf-8').includes(marker), false, run.slug);
     }
   });
 
-  test('keeps model-detail serif headings at the magazine title size', () => {
-    const detailPath = builtModelDetailPath((comparableAioisRuns()[0] ?? latestOccupationRun()).slug);
+  test('keeps model-detail serif headings at the magazine title size', async () => {
+    const runs = await occupationRuns();
+    const detailPath = builtModelDetailPath((comparableAioisRuns(runs)[0] ?? latestOccupationRun(runs)).slug);
     if (detailPath == null) return;
     const html = readFileSync(detailPath, 'utf-8');
 

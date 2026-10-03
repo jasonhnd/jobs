@@ -26,7 +26,7 @@ import {
   CONSENSUS_SWITCH_NOTE_IMPACT,
   CONSENSUS_SWITCH_NOTE_LEAD,
 } from '@/site/consensus-copy';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import { CONTENT_DATE } from '@/lib/_content-date';
 
 const UPDATE_HISTORY_CSS = `
@@ -41,7 +41,7 @@ const UPDATE_HISTORY_CSS = `
 // value also contradicted sitemapLastmods(), which reports the latest score
 // date for the same URL — two different answers for one page. Issue #219.
 const pageLastUpdated = CONTENT_DATE;
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 
 interface Endpoint {
   path: string;
