@@ -21,9 +21,9 @@ import { computeDrift, driftMean, type DriftMover, type DriftBandCounts } from '
 
 export const DEFAULT_INCOMING_MODEL = 'claude-fable-5-1';
 
-export interface FlagshipSwitchMover extends DriftMover {}
+export type FlagshipSwitchMover = DriftMover;
 
-export interface FlagshipSwitchBandCounts extends DriftBandCounts {}
+export type FlagshipSwitchBandCounts = DriftBandCounts;
 
 export interface FlagshipSwitchDriftSummary {
   readonly occupationCount: number;
