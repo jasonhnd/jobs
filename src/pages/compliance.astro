@@ -9,6 +9,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_STATIC_CSS } from '@/lib/canonical/static';
 import { CONTENT_DATE } from '@/lib/_content-date';
+import ThemeToggleScript from '@/components/ThemeToggleScript.astro';
 
 const pageLastUpdated = CONTENT_DATE;
 
@@ -430,20 +431,5 @@ const jsonLd = `{
     <Footer />
   </div>
 
-  <script slot="bodyEnd" is:inline>
-    // v1.4.0: language switcher removed — site is JA-only.
-
-    // Theme toggle (same 3-state model as elsewhere — Design.md §3).
-    (function themeToggle() {
-      var btn = document.getElementById("themeToggle");
-      if (!btn) return;
-      btn.addEventListener("click", function() {
-        var sysLight = matchMedia("(prefers-color-scheme: light)").matches;
-        var cur = document.documentElement.getAttribute("data-theme") || (sysLight ? "light" : "dark");
-        var next = cur === "light" ? "dark" : "light";
-        document.documentElement.setAttribute("data-theme", next);
-        try { localStorage.setItem("theme", next); } catch(e) {}
-      });
-    })();
-  </script>
+  <ThemeToggleScript slot="bodyEnd" />
 </BaseLayout>

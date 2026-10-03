@@ -8,6 +8,7 @@ import { buildSkillsBundle, type SkillResult } from '@/views/skills-hub';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
 import { RANK_LIST_CSS } from '@/lib/rank-list-css';
 import { buildSkillsSlugBindings } from './_skills-bindings';
+import ChapDesktopOpen from '@/components/ChapDesktopOpen.astro';
 
 export async function getStaticPaths() {
   const { makeSkillRankingLoaderFromGraph, makeTreemapSummaryFromGraph } = await import('@/views/skill');
@@ -151,13 +152,5 @@ h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid
 
     <Footer />
   </div>
-  <script is:inline slot="bodyEnd">
-    (function () {
-      try {
-        if (!window.matchMedia('(min-width: 900px)').matches) return;
-        var nodes = document.querySelectorAll('details.chap');
-        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
-      } catch (e) {}
-    })();
-  </script>
+  <ChapDesktopOpen slot="bodyEnd" />
 </BaseLayout>
