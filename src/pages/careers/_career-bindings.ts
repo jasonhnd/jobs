@@ -35,8 +35,9 @@ import {
 } from '@/templates/Hub.js';
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
+import { siteConfig } from '@/site/config';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 
 export interface CareerBindingsInput {
   readonly persona: CareerPersona;
