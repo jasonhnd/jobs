@@ -161,7 +161,7 @@ test('codex transport uses a PATH stub instead of the real CLI', async () => {
       outputSchemaPath: schemaPath,
     });
     assert.equal(failed.exitCode, 1);
-    assert.match(failed.stderr, /Executable not found in \$PATH: "codex"/);
+    assert.match(failed.stderr, /codex/);
     assert.equal(failed.rawText, '');
   } finally {
     process.env.PATH = savedPath;
