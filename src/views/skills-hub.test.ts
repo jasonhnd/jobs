@@ -66,7 +66,7 @@ describe('buildSkillsBundle (injected loaders)', () => {
     const r = b.results.get(meta.slug)!;
     assert.equal(r.items.length, 0);
     assert.equal(r.stats[1]![1], '—');
-    assert.equal(r.faqItems.length, 3);
+    assert.equal(r.faqItems.length, 2);
     assert.equal(b.hub.cards[0]!.top_preview, '');
   });
 
