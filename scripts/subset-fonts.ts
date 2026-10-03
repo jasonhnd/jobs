@@ -1,10 +1,12 @@
 #!/usr/bin/env bun
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, rmSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, rmSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { create as createFont } from 'fontkitten';
 import subsetFont from 'subset-font';
+
+import { walkFiles } from './lib/walk-files.cjs';
 
 const ROOT = process.cwd();
 const DIST_ROOT = join(ROOT, 'dist-astro');
@@ -146,27 +148,6 @@ const SERIF_CLASS_SUFFIXES = [
 function fail(message: string): never {
   process.stderr.write(`[subset-fonts] FAIL: ${message}\n`);
   process.exit(1);
-}
-
-function walkFiles(dir: string, predicate: (name: string) => boolean, out: string[] = []): string[] {
-  for (const name of readdirSync(dir)) {
-    const full = join(dir, name);
-    if (!existsSync(full)) continue;
-    if (readdirSyncSafe(full) !== null) {
-      walkFiles(full, predicate, out);
-    } else if (predicate(name)) {
-      out.push(full);
-    }
-  }
-  return out;
-}
-
-function readdirSyncSafe(path: string): string[] | null {
-  try {
-    return readdirSync(path);
-  } catch {
-    return null;
-  }
 }
 
 function decodeHtmlEntities(text: string): string {
@@ -439,7 +420,7 @@ function injectFontAssets(
 
 async function main(): Promise<void> {
   if (!existsSync(DIST_ROOT)) fail('dist-astro/ not found. Run `astro build` first.');
-  const htmlFiles = walkFiles(DIST_ROOT, (name) => name.endsWith('.html')).sort();
+  const htmlFiles = walkFiles(DIST_ROOT, { ext: /\.html$/ }).sort();
   if (htmlFiles.length === 0) fail('no dist-astro/**/*.html files found');
 
   const fontTexts = collectFontTexts(htmlFiles);
