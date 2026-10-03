@@ -2,12 +2,13 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { GENRE_HUB_CSS } from '@/templates/Hub';
+import { siteConfig } from '@/site/config';
 
 const canonical = 'https://mirai-shigoto.com/yearly';
 const title = '年次レポート | 未来の仕事';
 const seoDesc = 'AI と日本の仕事の年次レポート。2026 年版・5 年で大きく変わった職業・今後 10 年の予測。';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
