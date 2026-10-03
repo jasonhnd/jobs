@@ -1,0 +1,24 @@
+{/*
+  * ChapDesktopOpen.astro — shared "open every details.chap at >=900px" snippet.
+  *
+  * Single source for what used to be a six-line IIFE copy-pasted into 17 page
+  * templates (JOB_0032 F1). Usage: `<ChapDesktopOpen slot="bodyEnd" />`.
+  *
+  * The script body is STATIC (no interpolation, no define:vars) so every page
+  * emits the identical bytes and one SHA-256 in vercel.json's script-src
+  * covers all of them (CODE-012). Do NOT reformat the script: whitespace is
+  * part of the CSP hash. Changing it changes the hash — rebuild to refresh
+  * vercel.json and explain the diff in the PR.
+  *
+  * Not used by `_IdPageScript.astro`: that script also fires the GA4
+  * `result_view` event and handles hash-target chapters.
+*/}
+  <script is:inline>
+    (function () {
+      try {
+        if (!window.matchMedia('(min-width: 900px)').matches) return;
+        var nodes = document.querySelectorAll('details.chap');
+        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
+      } catch (e) {}
+    })();
+  </script>
