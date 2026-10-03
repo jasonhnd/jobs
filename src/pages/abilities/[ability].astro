@@ -7,6 +7,7 @@ import { GENRE_HUB_CSS } from '@/templates/Hub';
 import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
 import { ABILITIES_CONFIGS } from '@/views/genre-configs';
 import { buildGenreSlugBindings } from '../_genre-slug-bindings';
+import ChapDesktopOpen from '@/components/ChapDesktopOpen.astro';
 
 export async function getStaticPaths() {
   const { loadGraphAdaptedDetails } = await import('@/views/hub');
@@ -69,13 +70,5 @@ const b = buildGenreSlugBindings({
     <section aria-label="他の能力"><h2>他の能力</h2><Fragment set:html={b.relatedHtml} /></section>
     <Footer />
   </div>
-  <script is:inline slot="bodyEnd">
-    (function () {
-      try {
-        if (!window.matchMedia('(min-width: 900px)').matches) return;
-        var nodes = document.querySelectorAll('details.chap');
-        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
-      } catch (e) {}
-    })();
-  </script>
+  <ChapDesktopOpen slot="bodyEnd" />
 </BaseLayout>
