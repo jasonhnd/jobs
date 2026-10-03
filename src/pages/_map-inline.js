@@ -542,8 +542,8 @@
       var ttHideTimer = null;
       var ttCurrentId = null;
       function riskClass(n) { var d = n == null ? n : Number(fmtRisk(n)); return d < 4.0 ? 'low' : d < 7.0 ? 'mid' : 'high'; }
-      function fmtSalary(s) { return (s == null) ? '' : '年収 ' + s + ' 万円'; }
-      function fmtWorkers(w) {
+      function fmtTooltipSalary(s) { return (s == null) ? '' : '年収 ' + s + ' 万円'; }
+      function fmtTooltipWorkers(w) {
         if (w == null) return '';
         if (w >= 10000) return '就業者 ' + (w / 10000).toFixed(1).replace(/\.0$/, '') + ' 万人';
         return '就業者 ' + w.toLocaleString('ja-JP') + ' 人';
@@ -570,8 +570,8 @@
         $ttName.textContent = r.name_ja || '';
         $ttRisk.className = 'ct-risk risk-pill ' + riskClass(r.ai_risk);
         $ttRisk.textContent = 'AI ' + fmtRisk(r.ai_risk) + '/10';
-        $ttSalary.textContent = fmtSalary(r.salary);
-        $ttWorkers.textContent = fmtWorkers(r.workers);
+        $ttSalary.textContent = fmtTooltipSalary(r.salary);
+        $ttWorkers.textContent = fmtTooltipWorkers(r.workers);
         $ttSector.textContent = r.sector_ja || '';
         $tooltip.hidden = false;
         $tooltip.setAttribute('aria-hidden', 'false');
