@@ -22,6 +22,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **The 13 page-level `SITE` constants read `siteConfig.origin` (#780).** Bindings and yearly/data pages no longer assign `https://mirai-shigoto.com` themselves. Rendered HTML and JSON-LD stay byte-identical. Templates, views, scripts, and the other `SITE_ORIGIN` bindings are unchanged.
 - **Unit-test coverage report includes never-loaded source files.** `bun test --coverage` still omits files no test imports. `bun run test:coverage` appends those files at 0% (`scripts/append-untested-coverage.ts`, `docs/COVERAGE_REPORT.md`). Runtime behavior is unchanged.
 - **test:seo stays off production by default** — `bun run test:seo` probes `https://pre.mirai-shigoto.com/` with `--sample 5`. Sitemap locs are rewritten onto that host. `scripts/seo-check.sh` exits 2 before any request to `mirai-shigoto.com` unless `ALLOW_PROD=1`.
 - **OpenAI's seat in the public value is now GPT 6.1 SOL (mms-13 / #670).**
