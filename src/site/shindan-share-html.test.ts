@@ -38,6 +38,23 @@ const DETAIL_133 = {
   stats: { workers: 1000, salary_man_yen: 500 },
 };
 
+function hangUntilAbort(init?: RequestInit): Promise<Response> {
+  return new Promise((_resolve, reject) => {
+    const signal = init?.signal;
+    const abort = () => {
+      const err = new Error('aborted');
+      err.name = 'AbortError';
+      reject(err);
+    };
+    if (!signal) {
+      reject(new Error('expected an abort signal'));
+      return;
+    }
+    if (signal.aborted) abort();
+    else signal.addEventListener('abort', abort, { once: true });
+  });
+}
+
 const fetchFixture: typeof fetch = async (input) => {
   const url = new URL(String(input));
   if (url.pathname === '/shindan') {
@@ -104,14 +121,16 @@ describe('crawler-rendered shindan share HTML', () => {
     assert.equal(fetchMock.mock.callCount(), callsBeforeHead);
   });
 
-  for (const failure of ['http', 'network'] as const) {
-    test(`unavailable shell (${failure}) returns a plain 502`, async () => {
+  for (const failure of ['http', 'network', 'timeout'] as const) {
+    test(`unavailable shell (${failure}) returns a plain 502`, { timeout: 2_000 }, async () => {
       const response = await renderShindanShareResponse(
         new Request('https://example.test/api/shindan-share'),
-        async () => {
+        async (_input, init) => {
+          if (failure === 'timeout') return hangUntilAbort(init);
           if (failure === 'network') throw new Error('synthetic upstream failure');
           return new Response('upstream unavailable', { status: 503 });
         },
+        failure === 'timeout' ? 40 : undefined,
       );
       assert.equal(response.status, 502);
       assert.equal(response.headers.get('content-type'), 'text/plain; charset=utf-8');
@@ -120,12 +139,13 @@ describe('crawler-rendered shindan share HTML', () => {
     });
   }
 
-  for (const failure of ['http', 'network', 'schema'] as const) {
-    test(`optional worktypes failure (${failure}) preserves the base result`, async () => {
+  for (const failure of ['http', 'network', 'schema', 'timeout'] as const) {
+    test(`optional worktypes failure (${failure}) preserves the base result`, { timeout: 2_000 }, async () => {
       const response = await renderShindanShareResponse(new Request(
         'https://example.test/api/shindan-share?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=133',
       ), async (input, init) => {
         if (new URL(String(input)).pathname === '/data.worktypes.json') {
+          if (failure === 'timeout') return hangUntilAbort(init);
           if (failure === 'network') throw new Error('synthetic projection failure');
           return failure === 'schema'
             ? Response.json({ occupations: {} })
@@ -136,7 +156,7 @@ describe('crawler-rendered shindan share HTML', () => {
           return new Response(null, { status: 404 });
         }
         return fetchFixture(input, init);
-      });
+      }, failure === 'timeout' ? 40 : undefined);
       const html = await response.text();
       assert.equal(response.status, 200);
       assert.match(html, /api\/og\?worktype=RPK&amp;variant=mediator&amp;axes=3-0%2F2-1%2F2-1/);
@@ -145,8 +165,8 @@ describe('crawler-rendered shindan share HTML', () => {
     });
   }
 
-  for (const failure of ['invalid-id', 'http', 'network', 'json', 'schema', 'empty-title'] as const) {
-    test(`optional job detail failure (${failure}) does not reject a valid result`, async () => {
+  for (const failure of ['invalid-id', 'http', 'network', 'json', 'schema', 'empty-title', 'timeout'] as const) {
+    test(`optional job detail failure (${failure}) does not reject a valid result`, { timeout: 2_000 }, async () => {
       const paths: string[] = [];
       const response = await renderShindanShareResponse(new Request(
         `https://example.test/api/shindan-share?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=${failure === 'invalid-id' ? 'bad' : '133'}`,
@@ -154,6 +174,7 @@ describe('crawler-rendered shindan share HTML', () => {
         const path = new URL(String(input)).pathname;
         paths.push(path);
         if (path.startsWith('/data.detail/')) {
+          if (failure === 'timeout') return hangUntilAbort(init);
           if (failure === 'network') throw new Error('synthetic detail failure');
           if (failure === 'json') return new Response('{');
           if (failure === 'schema') return Response.json({ id: 133 });
@@ -161,7 +182,7 @@ describe('crawler-rendered shindan share HTML', () => {
           return new Response(null, { status: 404 });
         }
         return fetchFixture(input, init);
-      });
+      }, failure === 'timeout' ? 40 : undefined);
       const html = await response.text();
       assert.equal(response.status, 200);
       assert.equal(response.headers.get('x-robots-tag'), 'noindex, follow');
@@ -236,6 +257,25 @@ describe('crawler-rendered shindan share HTML', () => {
     assert.match(html, /&amp;job=133&amp;gap=hidden_risk/);
     assert.doesNotMatch(html, /<script\b/i);
     assert.ok(!html.includes(HOSTILE_TEXT));
+  });
+
+  test('a fast upstream fetch carries an abort signal and returns the job share', async () => {
+    const signals: AbortSignal[] = [];
+    const response = await renderShindanShareResponse(new Request(
+      'https://mirai-shigoto.com/shindan?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=133&gap=aligned',
+    ), async (input, init) => {
+      if (!init?.signal) throw new Error('missing abort signal');
+      signals.push(init.signal);
+      return fetchFixture(input, init);
+    }, 1_000);
+    const html = await response.text();
+    const expectedImage = 'https://mirai-shigoto.com/api/og?worktype=RPK&amp;variant=mediator&amp;axes=3-0%2F2-1%2F2-1&amp;job=133&amp;gap=hidden_risk';
+
+    assert.equal(response.status, 200);
+    assert.equal(signals.length, 3);
+    assert.ok(signals.every((signal) => !signal.aborted));
+    assert.ok(html.includes(`<meta property="og:image" content="${expectedImage}">`));
+    assert.match(html, /データ職業のAI影響度は8\.1\/10｜AI働き方診断/);
   });
 
   test('no-JS result-plus-job request receives matching OG and Twitter images', async () => {
