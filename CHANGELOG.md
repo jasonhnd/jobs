@@ -12,6 +12,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Fixed
 
+- **Diagnostic share upstream fetches time out after 5 seconds (#781).** `api/shindan-share.ts` reads the shell, worktypes projection, and occupation detail through `fetchWithTimeout`. A timeout uses the existing failure path: the shell response is 502, and a failed worktypes or detail read drops only the optional context. `HEAD` still returns the share headers and does not fetch.
+
 - **Compare suggestions and recent-pair writer.** Occupation ids written into suggestion `data-id` go through `Number()` and `escapeHtml`. The sectors fetch checks `r.ok` before `json()`. The pair-page recent-comparisons script reads `localStorage` inside `try`. Hover-tooltip and mobile top-10 formatters no longer shadow the outer `fmtSalary` / `fmtWorkers` names (`fmtTooltipSalary`, `fmtTooltipWorkers`, `fmtTop10Salary`).
 
 ### Security

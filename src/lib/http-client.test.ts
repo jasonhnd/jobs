@@ -53,6 +53,28 @@ describe('fetchWithTimeout', () => {
     }
   });
 
+  test('calls an injected fetch and leaves global fetch unused', async () => {
+    const originalFetch = globalThis.fetch;
+    let globalCalls = 0;
+    globalThis.fetch = (async () => {
+      globalCalls += 1;
+      return new Response('global', { status: 500 });
+    }) as typeof fetch;
+    try {
+      const res = await fetchWithTimeout(
+        'https://example.com/x',
+        {},
+        1000,
+        async () => new Response('injected', { status: 200 }),
+      );
+      assert.equal(globalCalls, 0);
+      assert.equal(res.status, 200);
+      assert.equal(await res.text(), 'injected');
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
   test('caller-supplied signal can also abort (composes with timeout)', async () => {
     const originalFetch = globalThis.fetch;
     globalThis.fetch = ((_url: string | URL | Request, init?: RequestInit) =>
