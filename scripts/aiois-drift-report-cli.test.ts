@@ -30,7 +30,10 @@ function fixture(run: (dir: string, args: string[]) => void): void {
 }
 
 function cli(args: string[], cwd: string) {
-  const result = spawnSync(process.execPath, [script, ...args], { cwd, encoding: 'utf8', timeout: 15_000 });
+  const result = spawnSync(process.execPath, [script, ...args], {
+    cwd, encoding: 'utf8', timeout: 15_000,
+    env: { ...process.env, NO_COLOR: '1', FORCE_COLOR: '0' },
+  });
   assert.ifError(result.error);
   assert.equal(result.signal, null);
   return result;
