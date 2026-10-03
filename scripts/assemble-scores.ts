@@ -289,7 +289,7 @@ if (import.meta.main) {
   const ROOT = resolve(import.meta.dir, '..');
   const OCC_DIR = join(ROOT, 'data', 'occupations');
   const SCORES_DIR = join(ROOT, 'data', 'scores');
-  const fail = (m: string): never => {
+  const fail: (m: string) => never = (m) => {
     console.error(`[assemble-scores] FAIL — ${m}`);
     process.exit(1);
   };
