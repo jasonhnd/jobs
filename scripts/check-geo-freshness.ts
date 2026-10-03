@@ -29,14 +29,13 @@ import { loadGraphAdaptedDetails } from '../src/views/hub.js';
 import { QA_ITEMS, selectExamples } from '../src/views/qa-meta.js';
 import { buildRankings, loadOccupationsFromGraph } from '../src/views/ranking.js';
 
-const ROOT = process.cwd();
 const GEO_ASTRO_PAGES = [
   'src/pages/standard.astro',
   'src/pages/methodology.astro',
 ] as const;
 
-function readText(rel: string): string {
-  return readFileSync(join(ROOT, rel), 'utf-8').replace(/\r\n/g, '\n');
+export function readText(rel: string): string {
+  return readFileSync(join(process.cwd(), rel), 'utf-8').replace(/\r\n/g, '\n');
 }
 
 function fail(message: string): never {
@@ -44,8 +43,8 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-function loadScoreRuns(): ScoreRun[] {
-  const dir = join(ROOT, 'data', 'scores');
+export function loadScoreRuns(): ScoreRun[] {
+  const dir = join(process.cwd(), 'data', 'scores');
   const runs: ScoreRun[] = [];
   for (const name of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
     const parsed = JSON.parse(readFileSync(join(dir, name), 'utf-8'));
@@ -54,7 +53,7 @@ function loadScoreRuns(): ScoreRun[] {
   return runs;
 }
 
-function assertExact(rel: string, expected: string): void {
+export function assertExact(rel: string, expected: string): void {
   const got = readText(rel);
   const normalizedExpected = expected.replace(/\r\n/g, '\n');
   if (got !== normalizedExpected) {
@@ -120,7 +119,7 @@ export function firstStaleToken(
   return forbidden.find((token) => text.includes(token)) ?? null;
 }
 
-function assertNoStaleOrPlaceholders(
+export function assertNoStaleOrPlaceholders(
   rel: string,
   stale: StaleModelTokens,
   options: { allowValidationModelNames?: boolean } = {},
@@ -131,7 +130,7 @@ function assertNoStaleOrPlaceholders(
   }
 }
 
-function assertDocumentedDetailProjectionExamples(): void {
+export function assertDocumentedDetailProjectionExamples(): void {
   const discoveryFiles = ['public/llms.txt', 'public/llms-full.txt'] as const;
   const ambiguousDetailPattern = /data\.detail\/(?:<id>|\{id\})\.json/i;
   const concreteDetailPattern = /https:\/\/mirai-shigoto\.com\/data\.detail\/(\d{4})\.json/g;
@@ -167,7 +166,7 @@ function assertDocumentedDetailProjectionExamples(): void {
   }
 }
 
-function assertFreshGeoAstroPages(): void {
+export function assertFreshGeoAstroPages(): void {
   const forbidden = [
     '__SCORE_',
     '__GEO_',
@@ -208,7 +207,7 @@ function assertFreshGeoAstroPages(): void {
  * data so forgetting to update it after landing a batch fails the gate rather
  * than quietly misinforming the next operator. Issue #219 follow-up.
  */
-function assertRunbookCurrentBatch(activeRun: ScoreRun): void {
+export function assertRunbookCurrentBatch(activeRun: ScoreRun): void {
   const rel = 'docs/SCORING_RUNBOOK.md';
   const text = readText(rel);
   const model = activeRun.scorer.model;
@@ -228,7 +227,7 @@ function assertRunbookCurrentBatch(activeRun: ScoreRun): void {
   }
 }
 
-function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
+export function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
   const source = readText('src/index-source.html');
   const rendered = bindHomeFacts(source, facts);
   const view = buildHomeKpiView(facts);
@@ -272,7 +271,7 @@ function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
   }
 }
 
-function assertContainsText(rel: string, expected: string, label: string): void {
+export function assertContainsText(rel: string, expected: string, label: string): void {
   const text = readText(rel);
   if (!text.includes(expected)) {
     fail(`${rel} is missing ${label}`);
@@ -280,13 +279,13 @@ function assertContainsText(rel: string, expected: string, label: string): void 
 }
 
 /** Inverse of assertContainsText, for copy that must NOT survive a batch change. */
-function assertOmitsText(rel: string, forbidden: string, why: string): void {
+export function assertOmitsText(rel: string, forbidden: string, why: string): void {
   if (readText(rel).includes(forbidden)) {
     fail(`${rel} still carries copy it should have dropped — ${why}`);
   }
 }
 
-function assertCrossModelValidationArchive(): void {
+export function assertCrossModelValidationArchive(): void {
   const rel = 'data/validation/issue-15-d2b/results.json';
   const parsed = JSON.parse(readText(rel)) as {
     run_date?: string;
@@ -325,7 +324,7 @@ function assertCrossModelValidationArchive(): void {
   }
 }
 
-function assertContains(rel: string, expected: string): void {
+export function assertContains(rel: string, expected: string): void {
   let got: string;
   try {
     got = readText(rel);
@@ -337,7 +336,7 @@ function assertContains(rel: string, expected: string): void {
   }
 }
 
-async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
+export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   const graph = await loadGraph();
 
   const sector = facts.sectorsByMeanImpact[0];
@@ -427,7 +426,7 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   }
 }
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   const scoreRuns = loadScoreRuns();
   const activeRun = pickLatestGeoScoreRun(scoreRuns);
   if (SCORE_ATTRIBUTION.modelId !== activeRun.scorer.model) {
