@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, spyOn, test } from 'bun:test';
+import { afterEach, describe, expect, spyOn, test, type Mock } from 'bun:test';
 import * as sitemapView from '@/views/sitemap';
 import * as imageView from '@/views/image-sitemap';
 import { GET as getSitemap } from './sitemap.xml';
@@ -7,8 +7,10 @@ import { GET as getImageSitemap } from './image-sitemap.xml';
 const call = (route: unknown) => (route as () => Promise<Response>)();
 
 describe('sitemap.xml route', () => {
+  let spy: Mock<typeof sitemapView.buildSitemapEntries> | undefined;
   afterEach(() => {
-    sitemapView.buildSitemapEntries.mockRestore?.();
+    spy?.mockRestore();
+    spy = undefined;
   });
 
   test('serves a well-formed XML urlset with the safety-floor URL count', async () => {
@@ -20,14 +22,16 @@ describe('sitemap.xml route', () => {
   });
 
   test('throws when the entry list falls below the safety floor', async () => {
-    spyOn(sitemapView, 'buildSitemapEntries').mockReturnValue([]);
+    spy = spyOn(sitemapView, 'buildSitemapEntries').mockReturnValue([]);
     await expect(call(getSitemap)).rejects.toThrow(/below the safety floor of 600/);
   });
 });
 
 describe('image-sitemap.xml route', () => {
+  let spy: Mock<typeof imageView.buildImageSitemapEntries> | undefined;
   afterEach(() => {
-    imageView.buildImageSitemapEntries.mockRestore?.();
+    spy?.mockRestore();
+    spy = undefined;
   });
 
   test('serves XML with at least the minimum entry count', async () => {
@@ -39,7 +43,7 @@ describe('image-sitemap.xml route', () => {
   });
 
   test('throws when the entry list falls below the safety floor', async () => {
-    spyOn(imageView, 'buildImageSitemapEntries').mockReturnValue([]);
+    spy = spyOn(imageView, 'buildImageSitemapEntries').mockReturnValue([]);
     await expect(call(getImageSitemap)).rejects.toThrow(/below the safety floor/);
   });
 });
