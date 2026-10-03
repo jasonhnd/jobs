@@ -18,6 +18,7 @@ import {
   assertNoStaleOrPlaceholders,
   assertOmitsText,
   assertRenderedFactBlocks,
+  collectRenderedFactBlocks,
   assertRunbookCurrentBatch,
   loadScoreRuns,
   main,
@@ -390,10 +391,36 @@ describe('main', () => {
     assert.ok(logs[0]!.startsWith('[check-geo-freshness] OK - '));
   });
 
-  test('rendered fact blocks pass on the real repo when the build output is present', { skip: !built }, async () => {
+  const realFacts = () => {
     const rows = GeoTreemapRowsSchema.parse(JSON.parse(readFileSync(join(REPO, 'public/data.treemap.json'), 'utf8')));
     const runs = readdirSync(REAL_SCORES).filter((f) => f.endsWith('.json')).sort()
       .map((f) => ScoreRunSchema.parse(JSON.parse(readFileSync(join(REAL_SCORES, f), 'utf8'))));
-    await assertRenderedFactBlocks(computeGeoFacts(rows, runs));
+    return computeGeoFacts(rows, runs);
+  };
+
+  test('rendered fact blocks: one block per surface, satisfied by a synthetic dist-astro', async () => {
+    const facts = realFacts();
+    const blocks = await collectRenderedFactBlocks(facts);
+    const surfaces = ['sectors/', 'rankings/', 'abilities/', 'compare/', 'q/', 'answers/'];
+    for (const surface of surfaces) {
+      assert.ok(blocks.some((b) => b.rel.startsWith(`dist-astro/${surface}`)), `no block for ${surface}`);
+    }
+    const dir = fixture();
+    const byFile = new Map<string, string[]>();
+    for (const { rel, expected } of blocks) byFile.set(rel, [...(byFile.get(rel) ?? []), expected]);
+    for (const [rel, parts] of byFile) put(dir, rel, parts.join('\n'));
+    assert.equal(await failureOfAsync(() => assertRenderedFactBlocks(facts)), null);
+
+    const [first] = blocks;
+    put(dir, first!.rel, 'stripped');
+    const msg = await failureOfAsync(() => assertRenderedFactBlocks(facts));
+    assert.ok(msg!.includes(`${first!.rel} does not contain the generated GEO citable fact block`));
+  });
+
+  test('rendered fact blocks fail with a build hint when dist-astro is absent', async () => {
+    const facts = realFacts();
+    fixture();
+    const msg = await failureOfAsync(() => assertRenderedFactBlocks(facts));
+    assert.ok(msg!.includes('Run `bun run build`'));
   });
 });

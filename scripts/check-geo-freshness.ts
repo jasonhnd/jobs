@@ -336,12 +336,22 @@ export function assertContains(rel: string, expected: string): void {
   }
 }
 
-export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
+export interface RenderedFactBlock {
+  readonly rel: string;
+  readonly expected: string;
+}
+
+/** Every (built file, citable fact block) pair the gate requires, in check order. */
+export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<RenderedFactBlock[]> {
   const graph = await loadGraph();
+  const blocks: RenderedFactBlock[] = [];
+  const requireBlock = (rel: string, expected: string): void => {
+    blocks.push({ rel, expected });
+  };
 
   const sector = facts.sectorsByMeanImpact[0];
   if (!sector) fail('no GEO sector facts available for rendered fact-block check');
-  assertContains(
+  requireBlock(
     `dist-astro/sectors/${sector.id}.html`,
     renderAiFactParagraph(buildSectorGeoFactSummary({ facts, sectorId: sector.id })),
   );
@@ -349,7 +359,7 @@ export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   const rankings = buildRankings(() => loadOccupationsFromGraph(graph));
   const ranking = rankings.results.get('ai-risk-high') ?? rankings.results.values().next().value;
   if (!ranking) fail('no ranking result available for rendered fact-block check');
-  assertContains(
+  requireBlock(
     `dist-astro/rankings/${ranking.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
@@ -362,7 +372,7 @@ export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   const genreConfig = ABILITIES_CONFIGS[0];
   if (!genreConfig) fail('no genre config available for rendered fact-block check');
   const genreResult = buildGenreResult(loadGraphAdaptedDetails(graph), genreConfig);
-  assertContains(
+  requireBlock(
     `dist-astro/abilities/${genreConfig.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
@@ -374,7 +384,7 @@ export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
 
   const compare = buildCompareBundle(makeCompareLoaderFromGraph(graph)).results.values().next().value;
   if (!compare) fail('no compare result available for rendered fact-block check');
-  assertContains(
+  requireBlock(
     `dist-astro/compare/${compare.meta.slug}.html`,
     renderAiFactParagraph(buildCompareGeoFactSummary({
       facts,
@@ -386,7 +396,7 @@ export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   const qa = QA_ITEMS[0];
   if (!qa) fail('no Q&A item available for rendered fact-block check');
   const examples = selectExamples(loadAllDetails(), qa, 10);
-  assertContains(
+  requireBlock(
     `dist-astro/q/${qa.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
@@ -398,15 +408,15 @@ export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
 
   const occupation = facts.occupations[0];
   if (!occupation) fail('no GEO occupation facts available for rendered occupation check');
-  assertContains(
+  requireBlock(
     `dist-astro/${occupation.id}.html`,
     renderAiFactParagraph(buildOccupationGeoFactSummary({ facts, occupationId: occupation.id })),
   );
-  assertContains(
+  requireBlock(
     `dist-astro/${occupation.id}.html`,
     `<details class="faq-item faq-ai-replacement"><summary>${occupation.nameJa}はAIでなくなる・AIに代替される仕事ですか？</summary>`,
   );
-  assertContains(
+  requireBlock(
     `dist-astro/${occupation.id}.html`,
     `GEO-AではAI影響度が10段階中 ${occupation.aiImpact.toFixed(1)} で`,
   );
@@ -414,7 +424,7 @@ export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
   for (const config of GEO_ANSWER_TOPIC_CONFIGS) {
     const topic = buildGeoAnswerTopic(facts, config.slug);
     if (!topic) fail(`no GEO answer topic available for ${config.slug}`);
-    assertContains(
+    requireBlock(
       `dist-astro/answers/${config.slug}.html`,
       renderAiFactParagraph(buildOccupationSetGeoFactSummary({
         facts,
@@ -423,6 +433,13 @@ export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
         occupationIds: topic.items.map((item) => item.id),
       })),
     );
+  }
+  return blocks;
+}
+
+export async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
+  for (const { rel, expected } of await collectRenderedFactBlocks(facts)) {
+    assertContains(rel, expected);
   }
 }
 
