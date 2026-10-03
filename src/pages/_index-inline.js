@@ -1798,7 +1798,7 @@
           if (n >= 1000)  return (n / 1000).toFixed(1) + "千";
           return String(n);
         };
-        const fmtSalary = (manYen) => {
+        const fmtTop10Salary = (manYen) => {
           if (manYen == null) return "—";
           return Math.round(manYen) + "万円";
         };
@@ -1817,7 +1817,7 @@
           const scoreLabel = (rec.ai_risk != null) ? fmtRisk(rec.ai_risk) : "—";
           const rationaleRaw = rec.ai_rationale_ja || "";
           const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
-          const sValue = fmtSalary(rec.salary);
+          const sValue = fmtTop10Salary(rec.salary);
           const href = occUrl(rec);
           return (
             '<a class="m-top10-card" href="' + href + '">' +
