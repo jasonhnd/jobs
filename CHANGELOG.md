@@ -10,6 +10,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+### Fixed
+
+- **Compare suggestions and recent-pair writer.** Occupation ids written into suggestion `data-id` go through `Number()` and `escapeHtml`. The sectors fetch checks `r.ok` before `json()`. The pair-page recent-comparisons script reads `localStorage` inside `try`. Hover-tooltip and mobile top-10 formatters no longer shadow the outer `fmtSalary` / `fmtWorkers` names (`fmtTooltipSalary`, `fmtTooltipWorkers`, `fmtTop10Salary`).
+
 ### Security
 
 - **analytics/: js-yaml 5.4.2, googleapis 181, qs override ^6.16.0, pnpm 12.6.0** — clears 1 high + 4 moderate pnpm audit findings; setup-ga4 --dry-run output identical.
@@ -18,6 +22,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **The 13 page-level `SITE` constants read `siteConfig.origin` (#780).** Bindings and yearly/data pages no longer assign `https://mirai-shigoto.com` themselves. Rendered HTML and JSON-LD stay byte-identical. Templates, views, scripts, and the other `SITE_ORIGIN` bindings are unchanged.
 - **Unit-test coverage report includes never-loaded source files.** `bun test --coverage` still omits files no test imports. `bun run test:coverage` appends those files at 0% (`scripts/append-untested-coverage.ts`, `docs/COVERAGE_REPORT.md`). Runtime behavior is unchanged.
 - **test:seo stays off production by default** — `bun run test:seo` probes `https://pre.mirai-shigoto.com/` with `--sample 5`. Sitemap locs are rewritten onto that host. `scripts/seo-check.sh` exits 2 before any request to `mirai-shigoto.com` unless `ALLOW_PROD=1`.
 - **OpenAI's seat in the public value is now GPT 6.1 SOL (mms-13 / #670).**
