@@ -7,62 +7,9 @@
 import { LABELS, SHARE } from './worktype-copy.js';
 import { formatRiskScore } from '../lib/score-format.js';
 
-export function formatShareScore(score: number | null | undefined): string | null {
+function formatShareScore(score: number | null | undefined): string | null {
   if (score == null || typeof score !== 'number' || Number.isNaN(score)) return null;
   return formatRiskScore(score);
-}
-
-export function hasMeasurementShare(
-  jobTitle: string | null | undefined,
-  score: number | null | undefined,
-): boolean {
-  return Boolean(jobTitle && formatShareScore(score));
-}
-
-export interface WorktypeShareInput {
-  readonly url: string;
-  readonly variantName: string;
-  readonly catchLine: string;
-  readonly jobTitle?: string | null;
-  readonly score?: number | null;
-  readonly includeUrl?: boolean;
-}
-
-function applyTemplate(
-  template: string,
-  replacements: Readonly<Record<string, string>>,
-): string {
-  let out = template;
-  for (const [token, value] of Object.entries(replacements)) {
-    out = out.split(token).join(value);
-  }
-  return out.replace(/\s+/g, ' ').trim();
-}
-
-export function formatShareText(input: WorktypeShareInput): string {
-  const includeUrl = input.includeUrl !== false;
-  const url = includeUrl ? input.url : '';
-  const scoreLabel = formatShareScore(input.score);
-  if (input.jobTitle && scoreLabel) {
-    return applyTemplate(SHARE.textTemplateWithJob, {
-      '{職業}': input.jobTitle,
-      '{点数}': scoreLabel,
-      '{リンク}': url,
-    });
-  }
-  return applyTemplate(SHARE.textTemplate, {
-    '{タイプ名}': input.variantName,
-    '{一言}': input.catchLine,
-    '{リンク}': url,
-  });
-}
-
-export function formatShareHook(input: Omit<WorktypeShareInput, 'url' | 'includeUrl'>): string {
-  const scoreLabel = formatShareScore(input.score);
-  if (input.jobTitle && scoreLabel) {
-    return `${input.jobTitle}のAI影響度は${scoreLabel}。${SHARE.challengeHookWithJob}`;
-  }
-  return `${input.variantName}：${input.catchLine}`;
 }
 
 export function formatShareMetaTitle(input: {

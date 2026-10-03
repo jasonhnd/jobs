@@ -7,8 +7,6 @@ import {
   buildShindanResultUrl,
   classifyShindanGap,
   parseShindanBaseState,
-  parseShindanResultState,
-  serializeShindanState,
 } from './shindan-result-state.js';
 
 const ORIGIN = 'https://mirai-shigoto.com';
@@ -25,7 +23,7 @@ describe('shindan result-state contract', () => {
       assert.ok(state);
       assert.equal(state.axes, axes);
       assert.equal(state.bucket, 'mixed');
-      assert.equal(serializeShindanState(state).get('axes'), axes);
+      assert.equal(new URL(buildShindanResultUrl(ORIGIN, state)).searchParams.get('axes'), axes);
     }
   });
 
@@ -49,7 +47,9 @@ describe('shindan result-state contract', () => {
       job: '133',
       gap: 'aligned',
     });
-    const state = parseShindanResultState(params, { '133': { code: 'CDB' } });
+    const baseState = parseShindanBaseState(params);
+    assert.ok(baseState);
+    const state = addShindanOccupationContext(baseState, params, { '133': { code: 'CDB' } });
     assert.ok(state);
     assert.equal(state.job, '133');
     assert.equal(state.gap, 'hidden_risk');
