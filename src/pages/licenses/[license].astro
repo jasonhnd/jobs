@@ -7,6 +7,7 @@ import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
 import { LICENSE_HUBS, matchLicense, rankLicense, type LicenseHub } from '@/views/licenses-meta';
 import { buildLicenseBindings, buildLicenseItems } from './_license-bindings';
 import { loadAllDetails, type GenreOccupation } from '@/views/genre-hub';
+import ChapDesktopOpen from '@/components/ChapDesktopOpen.astro';
 
 export async function getStaticPaths() {
   const details = loadAllDetails();
@@ -52,13 +53,5 @@ const LICENSE_CHAP_CSS = '.hub-slug .chap-body .cert-examples li,.hub-slug .chap
     <section aria-label="他の資格カテゴリー"><h2>他の資格カテゴリー</h2><Fragment set:html={b.relatedHtml} /></section>
     <Footer />
   </div>
-  <script is:inline slot="bodyEnd">
-    (function () {
-      try {
-        if (!window.matchMedia('(min-width: 900px)').matches) return;
-        var nodes = document.querySelectorAll('details.chap');
-        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
-      } catch (e) {}
-    })();
-  </script>
+  <ChapDesktopOpen slot="bodyEnd" />
 </BaseLayout>
