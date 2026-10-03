@@ -12,6 +12,7 @@ import { suggestEscapeRoutes, renderEscapeRouteSection } from '@/views/escape-ro
 import { AI_FACT_CSS } from '@/lib/ai-fact-css';
 import { RANK_LIST_CSS } from '@/lib/rank-list-css';
 import { DEINDEXED_RANKINGS } from '@/views/rankings-meta';
+import ChapDesktopOpen from '@/components/ChapDesktopOpen.astro';
 
 const HIGH_RISK_SLUGS = new Set(['ai-risk-high', 'ai-replaced-soon', 'ai-at-risk-but-paid']);
 
@@ -179,14 +180,5 @@ ${RANK_LIST_CSS}
     <Footer />
   </div>
 
-  {/* Static body: open shared chapters on desktop. No interpolation (#321 / §3.6). */}
-  <script is:inline slot="bodyEnd">
-    (function () {
-      try {
-        if (!window.matchMedia('(min-width: 900px)').matches) return;
-        var nodes = document.querySelectorAll('details.chap');
-        for (var i = 0; i < nodes.length; i++) nodes[i].open = true;
-      } catch (e) {}
-    })();
-  </script>
+  <ChapDesktopOpen slot="bodyEnd" />
 </BaseLayout>
