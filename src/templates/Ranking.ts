@@ -19,7 +19,7 @@ import type { RankingSlug } from '../views/rankings-meta.js';
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass as riskBand } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
-import { OCCUPATION_COUNT } from '../site/config.js';
+import { OCCUPATION_COUNT, siteConfig } from '../site/config.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { occupationPath } from '../lib/urls.js';
 import { formatRiskScore } from '../lib/score-format.js';
@@ -263,7 +263,7 @@ export function renderRelatedRankings(
 // JSON-LD per ranking page (mirrors render_jsonld).
 // ---------------------------------------------------------------------------
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 const DATE_PUBLISHED = '2026-05-06';
 // dateModified tracks the latest content date computed by `bun src/data/build.ts`
 // (run as part of build:data) and written to src/lib/_content-date.ts.
