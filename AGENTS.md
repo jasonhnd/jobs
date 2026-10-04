@@ -86,9 +86,11 @@ file and a brief disagree, stop and say so in the PR instead of guessing.
    it is not a push (see item 4).
 4. Do not push a commit to the remote until the full
    [Acceptance commands](#acceptance-commands) chain passes locally on it
-   (docs-only: `bun run check:docs-links`). Every push triggers a Vercel
-   preview build, and a failed build emails the owner. Commit locally after
-   each step as usual; push only verified states. If a reviewer requests
+   (docs-only: `bun run check:docs-links`). A push to a topic branch does not
+   build on Vercel (the Ignored Build Step skips every branch except
+   `preview` and `main`; GitHub CI `quality` verifies the PR), but a failed
+   CI run still costs the reviewer's time. Commit locally after each step as
+   usual; push only verified states. If a reviewer requests
    changes, fix locally, rerun the chain, then push.
 5. The PR description contains, in this order:
    - `Closes #N` on the first line;
@@ -166,7 +168,10 @@ providers, and everything that needs a Vercel deployment — is
   detect changes to their bytes. Do not change any character inside these
   scripts, including comments. An intentional change must be explicitly
   scoped in the Issue, accompanied by recomputed fallback hashes, and
-  accepted only after a successful Vercel preview build (Ready).
+  accepted only after a successful Vercel preview build (Ready). Topic
+  branches are skipped by Vercel's Ignored Build Step, so put `[vercel-build]`
+  in the HEAD commit message (e.g. `git commit --allow-empty -m "ci: vercel
+  preview [vercel-build]"`) to make Vercel build that branch.
 - **Public copy is Japanese only.** The site dropped its English UI in v1.4.0;
   do not add English UI strings or a language switcher.
 - **Public Japanese copy is owner-signed.** Page text, meta descriptions, OG

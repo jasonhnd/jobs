@@ -40,7 +40,7 @@ Issue、PR、commit message、`docs/` は **英語または日本語のみ**で�
 ## 公開境界
 
 - ローカル編集と commit は外部状態を変えない。
-- GitHub への push と PR 作成は Vercel preview deployment を起動しうる。
+- GitHub への push と PR 作成は、`preview` / `main` への push と、HEAD commit message に `[vercel-build]` を含む topic branch の push でだけ Vercel preview deployment を起動する。それ以外の topic branch は `scripts/vercel-ignore-build.sh`（Ignored Build Step）が skip し、`Vercel` check は「Canceled by Ignored Build Step」の成功扱いになる（branch protection の変更は不要）。検証は GitHub CI `quality` が担う。Vercel の `buildCommand` は `bun run build` のみ（Issue #855）。
 - `main` は production の公開境界として扱い、通常の修正 PR は直接向けない。
 - Preview、production alias、環境変数、project settings の変更は、Issue の範囲に明記された場合だけ行う。
 - Preview alias `pre.mirai-shigoto.com` は `X-Robots-Tag: noindex, nofollow` を返す。production `mirai-shigoto.com` は index 対象のまま。静的 HTML の `robots` meta は `index, follow` を維持し、host 条件の応答ヘッダで上書きする。preview の `robots.txt` は crawl を許可したままにする（`Disallow: /` にすると Google が `noindex` を読めない）。
