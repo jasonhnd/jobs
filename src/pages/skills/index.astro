@@ -11,14 +11,14 @@ import { buildSkillsBundle } from '@/views/skills-hub';
 import { renderHubJsonLd, renderSkillsHubCards } from '@/templates/SkillHub';
 import { loadGraph } from '@/graph';
 import { makeSkillRankingLoaderFromGraph, makeTreemapSummaryFromGraph } from '@/views/skill';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 
 const graph = await loadGraph();
 const { hub } = buildSkillsBundle({
   skillRanking: makeSkillRankingLoaderFromGraph(graph),
   treemap: makeTreemapSummaryFromGraph(graph),
 });
-const canonical = 'https://mirai-shigoto.com/skills';
+const canonical = `${siteConfig.origin}/skills`;
 const title = `スキルから職業を探す｜10 のスキル別に ${OCCUPATION_COUNT.SCORED} 職業を整理 | 未来の仕事`;
 const seoDesc =
   '批判的思考・問題解決・対人感受性・プログラミング等、IPD 39 スキル軸から選んだ 10 の主要スキル別に職業 TOP 30 を AI 影響度・年収と共に一覧。';
@@ -32,7 +32,7 @@ const jsonLd = renderHubJsonLd();
   description={seoDesc}
   canonical={canonical}
   keywords={keywords}
-  ogImage="https://mirai-shigoto.com/api/og?page=skills"
+  ogImage={`${siteConfig.origin}/api/og?page=skills`}
   ogTitle={title}
   ogDescription={seoDesc}
 >

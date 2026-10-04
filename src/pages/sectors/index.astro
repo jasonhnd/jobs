@@ -1,4 +1,5 @@
 ---
+import { siteConfig } from '@/site/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { CANONICAL_SECTOR_CSS } from '@/lib/canonical/sector';
 import Footer from '@/components/Footer.astro';
@@ -14,7 +15,7 @@ const b = buildSectorsIndexBindings(await loadGraph());
   description={b.seoDesc}
   canonical={b.canonical}
   keywords={b.keywords}
-  ogImage="https://mirai-shigoto.com/api/og?page=sectors"
+  ogImage={`${siteConfig.origin}/api/og?page=sectors`}
   ogTitle={b.ogTitle}
   ogDescription={b.seoDesc}
 >

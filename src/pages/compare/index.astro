@@ -11,10 +11,10 @@ import MeEntry from '@/components/MeEntry.astro';
 import { buildCompareBundle } from '@/views/compare-hub';
 import { renderHubJsonLd, renderFeaturedCompareCards, renderCompactCompareCards } from '@/templates/Compare';
 import { COMPARE_META } from '@/views/compare-meta';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 
 const { hub } = buildCompareBundle();
-const canonical = 'https://mirai-shigoto.com/compare';
+const canonical = `${siteConfig.origin}/compare`;
 const title = '職業を比較する｜20 ペアの side-by-side 比較・AI 影響度付き | 未来の仕事';
 const seoDesc =
   '看護師 vs 訪問介護員、SE vs プログラマー、医療事務 vs 一般事務など、迷いやすい職業ペアを side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
@@ -45,7 +45,7 @@ const pairMapJson = JSON.stringify(Object.fromEntries(pairMapEntries))
   description={seoDesc}
   canonical={canonical}
   keywords={keywords}
-  ogImage="https://mirai-shigoto.com/api/og?page=compare"
+  ogImage={`${siteConfig.origin}/api/og?page=compare`}
   ogTitle={title}
   ogDescription={seoDesc}
 >

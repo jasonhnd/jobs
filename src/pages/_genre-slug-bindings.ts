@@ -17,6 +17,7 @@
  * Page-local sibling (Astro `_`-prefix → not routed).
  */
 
+import { siteConfig } from '@/site/config';
 import type { KnowledgeGraph } from '@/graph';
 import {
   buildOccupationSetGeoFactSummary,
@@ -37,7 +38,7 @@ import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import type { HubGenre } from '@/views/hub-hub-graph.js';
 import type { GeoFacts } from '@/site/geo-facts';
 
-const SITE_ORIGIN = 'https://mirai-shigoto.com';
+const SITE_ORIGIN = siteConfig.origin;
 
 export interface GenreSlugInput {
   readonly result: GenreResult;
