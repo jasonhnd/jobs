@@ -16,6 +16,9 @@
  * dependencies. See _frame.ts for the shared OG renderer convention.
  */
 
+import { fetchWithTimeout } from '../http-client.js';
+import { OG_DATA_FETCH_TIMEOUT_MS } from '../og-helpers.js';
+
 import { ImageResponse } from '@vercel/og';
 import { createElement as h } from 'react';
 import type { ReactElement } from 'react';
@@ -78,7 +81,7 @@ export async function renderWorktypeOgCard(
   input: WorktypeRenderInput,
 ): Promise<Response> {
   const worktypesUrl = new URL('/data.worktypes.json', trustedFetchOrigin(url));
-  const worktypesRes = await fetch(worktypesUrl.toString());
+  const worktypesRes = await fetchWithTimeout(worktypesUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
   if (!worktypesRes.ok) {
     return new Response('Upstream worktypes fetch failed', { status: 502 });
   }
@@ -520,7 +523,7 @@ async function fetchJobContext(
   }
 
   const detailUrl = new URL(`/data.detail/${paddedId}.json`, trustedFetchOrigin(url));
-  const detailRes = await fetch(detailUrl.toString());
+  const detailRes = await fetchWithTimeout(detailUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
   if (!detailRes.ok) return null;
 
   const detailRaw: unknown = await detailRes.json();
