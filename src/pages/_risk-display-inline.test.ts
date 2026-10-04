@@ -53,16 +53,54 @@ describe('browser scripts print and band the displayed value (#631)', () => {
     }
   });
 
-  /** Algorithm body of fmtRisk from the `sign` line on: quotes, declaration keyword, comments and spacing normalised. */
-  const rounding = (source: string): string => {
-    const lines = fnSource(source, 'fmtRisk').split('\n').map((l) => l.replace(/\/\/.*$/, '').trim()).filter(Boolean);
-    const from = lines.findIndex((l) => /\bsign = /.test(l));
-    assert.ok(from > 0, 'sign line not found');
-    return lines.slice(from).join('\n').replace(/"/g, "'").replace(/\b(const|let)\b/g, 'var');
-  };
+  // Fixed full-source baseline: guard the conversion and fallback as well as rounding.
+  const indexFmtRiskBaseline = `function fmtRisk(v) {
+const n = Number(v);
+if (!Number.isFinite(n)) return "0";
+const sign = n < 0 ? "-" : "";
+const wide = Math.abs(n).toFixed(18); // 1 + 17 digits disambiguates any double
+const dot = wide.indexOf(".");
+if (dot === -1) return String(n);
+const intStr = wide.slice(0, dot);
+const frac = wide.slice(dot + 1);
+const keep = frac.charAt(0);
+const decisive = frac.charAt(1);
+const tail = frac.slice(2);
+let roundUp;
+if (decisive < "5") roundUp = false;
+else if (decisive > "5") roundUp = true;
+else if (/[1-9]/.test(tail)) roundUp = true;
+else roundUp = Number(keep) % 2 !== 0; // genuine halfway → round to even
+const truncated = Number(sign + intStr + "." + keep);
+if (!roundUp) return String(truncated);
+const inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
+return String(Number(inc.toFixed(1)));
+}`;
 
-  test('/ (_index-inline.js) fmtRisk keeps the /me banker rounding body', () => {
-    assert.equal(rounding(indexJs), rounding(meJs));
+  test('/ (_index-inline.js) fmtRisk matches its complete source baseline', () => {
+    assert.equal(dedent(fnSource(indexJs, 'fmtRisk')), indexFmtRiskBaseline);
+  });
+
+  /** Compare all lines, allowing only the existing syntax and fallback differences. */
+  const normaliseFmtRisk = (source: string): string => dedent(fnSource(source, 'fmtRisk'))
+    .replace(/\/\/[^\n]*/g, '')
+    .split('\n').map((line) => line.trim()).filter(Boolean).join('\n')
+    .replace(/"/g, "'").replace(/\b(const|let)\b/g, 'var');
+
+  test('/ (_index-inline.js) fmtRisk keeps the /me algorithm with its existing fallbacks', () => {
+    const expected = normaliseFmtRisk(meJs)
+      .replace("if (v == null) return '—';\n", '')
+      .replace("if (!Number.isFinite(n)) return '—';", "if (!Number.isFinite(n)) return '0';");
+    assert.equal(normaliseFmtRisk(indexJs), expected);
+  });
+
+  test('fmtRisk copies preserve null and non-finite fallbacks', () => {
+    for (const [name, source] of [['_me-inline.js', meJs], ['_map-inline.js', mapJs], ['_shindan.js', shindanJs], ['compare/index.astro', compareAstro], ['_index-inline.js', indexJs]] as const) {
+      const fmtRisk = load<(v: unknown) => string>(source, ['fmtRisk'], 'fmtRisk');
+      for (const value of [null, NaN, Infinity, -Infinity]) {
+        assert.equal(fmtRisk(value), name === '_index-inline.js' ? '0' : '—', `${name} fmtRisk(${value})`);
+      }
+    }
   });
 
   test('every fmtRisk copy rounds finite values identically (banker, half to even)', () => {
