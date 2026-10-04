@@ -1,7 +1,7 @@
 /**
  * TS ETL orchestrator — entry point for `npm run build:data`.
  *
- * Loads + validates source data, runs all 14 projections, writes them to
+ * Loads + validates source data, runs all 17 projections (including GEO), writes them to
  * `public/` (Astro's publicDir; Astro then copies the whole publicDir into
  * `dist-astro/` during `astro build`).
  *

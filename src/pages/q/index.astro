@@ -1,10 +1,11 @@
 ---
+import { siteConfig } from '@/site/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { QA_ITEMS } from '@/views/qa-meta';
 import { renderGenreIndexJsonLd, renderQGroupsHtml, GENRE_HUB_CSS } from '@/templates/Hub';
 
-const canonical = 'https://mirai-shigoto.com/q';
+const canonical = `${siteConfig.origin}/q`;
 // 2026-05-17 H4 fix: was hard-coded 36 — drifted to 49 as QA_ITEMS
 // grew. Title/desc now derive count from QA_ITEMS so they never
 // drift again. Also keeps the OG card / sitemap aligned via the
@@ -25,7 +26,7 @@ const groups = [
 const groupsHtml = renderQGroupsHtml(groups);
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage="https://mirai-shigoto.com/api/og?page=qa" ogTitle={title} ogDescription={seoDesc}>
+  ogImage={`${siteConfig.origin}/api/og?page=qa`} ogTitle={title} ogDescription={seoDesc}>
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <div id="wrapper">

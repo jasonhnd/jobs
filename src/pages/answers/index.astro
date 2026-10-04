@@ -1,4 +1,5 @@
 ---
+import { siteConfig } from '@/site/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
@@ -14,7 +15,7 @@ import { ANSWERS_HUB_PUBLIC_VALUE } from '@/site/consensus-copy';
 
 const facts = loadGeoFacts();
 const topics = buildGeoAnswerTopics(facts);
-const canonical = 'https://mirai-shigoto.com/answers';
+const canonical = `${siteConfig.origin}/answers`;
 const title = 'AI回答トピック | 未来の仕事';
 const description = 'AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事、なくならない仕事を、AIOIS-10の日本の職業データから探す入口。';
 const jsonLd = renderGeoAnswerIndexJsonLd(facts);
