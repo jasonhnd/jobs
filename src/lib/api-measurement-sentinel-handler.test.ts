@@ -94,7 +94,7 @@ if (process.env.SENTINEL_HANDLER_TEST_CHILD !== '1') {
       ]) assert.ok(!exposed.includes(value), 'Failure output must contain reason codes only');
     }
 
-    for (const authorization of [null, 'Bearer wrong', 'Basic test-cron-secret']) {
+    for (const authorization of [null, 'Bearer wrong', 'Bearer test-cron-secrex', 'Bearer test-cron-secret-extra', 'Basic test-cron-secret']) {
       test(`rejects unauthorized request (${authorization ?? 'absent'}) before any I/O`, async () => {
         const response = await request(authorization);
         assert.equal(response.status, 401);
