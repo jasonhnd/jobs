@@ -218,11 +218,11 @@ describe('middleware entry point', () => {
   });
 
   test('handles Error and non-Error transport failures without rejecting waitUntil', async () => {
-    for (const failure of [new Error('offline fixture'), 'offline value']) {
+    for (const failure of [new TypeError('https://www.google-analytics.com/mp/collect?api_secret=synthetic-secret'), 'https://example.test/?api_secret=synthetic-secret']) {
       upstream = async () => { throw failure; };
       assert.equal(middleware(request()).headers.get('x-middleware-next'), '1');
       await Promise.all(pending);
     }
-    assert.deepEqual(warnings, [['[mp] send failed: offline fixture'], ['[mp] send failed: offline value']]);
+    assert.deepEqual(warnings, [['[mp] send failed: TypeError'], ['[mp] send failed: network-error']]);
   });
 });
