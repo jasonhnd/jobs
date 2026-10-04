@@ -1,0 +1,79 @@
+import type { GenreHubConfig } from '../genre-hub.js';
+
+// ─── J. 価値観 (work_values) — 8 hub ─────────────────────
+
+export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
+  {
+    slug: 'achievement',
+    short_ja: '達成感',
+    title_ja: '達成感を重視する人に向く職業',
+    description_ja: '目標達成・成果実現に充実感を覚える人に適した職業群。営業・経営・士業・技能職等、自分の成果が見える分野。',
+    og_eyebrow: 'VALUES · 達成感',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'achievement',
+  },
+  {
+    slug: 'independence',
+    short_ja: '自律性',
+    title_ja: '自律性を重視する人に向く職業',
+    description_ja: '自分のペース・判断で進められる仕事を好む人に適した職業群。フリーランス系・職人・研究者・自営業等。',
+    og_eyebrow: 'VALUES · 自律性',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'autonomy',
+  },
+  {
+    slug: 'recognition',
+    short_ja: '認知・評価',
+    title_ja: '評価・認知を重視する人に向く職業',
+    description_ja: '社会的評価・名声・昇進に価値を感じる人に適した職業群。芸能・スポーツ・士業・経営層等。',
+    og_eyebrow: 'VALUES · 認知',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'social_recognition',
+  },
+  {
+    slug: 'relationships',
+    short_ja: '人間関係',
+    title_ja: '職場の人間関係を重視する人に向く職業',
+    description_ja: 'チーム内の人間関係・協働を大切にする人に適した職業群。看護・教育・プロジェクト系等。',
+    og_eyebrow: 'VALUES · 関係性',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'good_relationships',
+  },
+  {
+    slug: 'support',
+    short_ja: '支援',
+    title_ja: '手厚いサポート体制を重視する人に向く職業',
+    description_ja: '上司や組織からのサポートを重視する人に適した職業群。安定的な大企業・公務員・チーム型業務等。',
+    og_eyebrow: 'VALUES · 支援',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'workplace_safety',
+  },
+  {
+    slug: 'working-conditions',
+    short_ja: '労働条件',
+    title_ja: '安定的な労働条件を重視する人に向く職業',
+    description_ja: '勤務時間・福利厚生・雇用安定性など労働条件を最優先にする人に適した職業群。公務員・大企業・規制産業等。',
+    og_eyebrow: 'VALUES · 労働条件',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'work_life_balance',
+  },
+  {
+    slug: 'expertise',
+    short_ja: '専門性',
+    title_ja: '専門性を重視する人に向く職業',
+    description_ja: '深い専門知識・技術を磨き続けることに価値を感じる人に適した職業群。医療・士業・研究・職人・高度専門技術職等。',
+    og_eyebrow: 'VALUES · 専門性',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'expertise',
+  },
+  {
+    slug: 'self-growth',
+    short_ja: '自己成長',
+    title_ja: '自己成長を重視する人に向く職業',
+    description_ja: '挑戦や学習を通じて自分を伸ばし続けることに価値を感じる人に適した職業群。コンサル・スタートアップ・専門職・教育系等。',
+    og_eyebrow: 'VALUES · 成長',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'self_growth',
+  },
+];
+
