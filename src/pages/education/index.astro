@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import { EDUCATION_CONFIGS } from '@/views/genre-configs';
 import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
 import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
@@ -17,7 +17,7 @@ const cards = EDUCATION_CONFIGS.map((cfg) => {
   };
 });
 
-const canonical = 'https://mirai-shigoto.com/education';
+const canonical = `${siteConfig.origin}/education`;
 const title = `学歴から職業を探す｜${n} 学歴別 hub | 未来の仕事`;
 const seoDesc = '学歴別 (高卒未満/高卒/専門/大卒/院卒/生涯学習) で職業 TOP 30 を一覧。学歴ハードルから自分に合う職業を探せます。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '学歴から探す', seoDesc);
@@ -25,7 +25,7 @@ const cardsHtml = renderGenreHubIndexCards(cards, 'education');
 const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details, EDUCATION_CONFIGS, 12));
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage="https://mirai-shigoto.com/api/og?page=education" ogTitle={title} ogDescription={seoDesc}>
+  ogImage={`${siteConfig.origin}/api/og?page=education`} ogTitle={title} ogDescription={seoDesc}>
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <div id="wrapper">

@@ -16,11 +16,12 @@
  * (the SEO baseline `image-sitemap.xml` snapshot verifies this).
  */
 
+import { siteConfig } from '../site/config.js';
 import type { KnowledgeGraph } from '@/graph';
 import { occupationPath } from '@/lib/urls';
 import { displayScore } from '../data/lib/banker-round.js';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 
 /** Image-sitemap floor — every occupation with an ai_risk score gets a
  *  URL. Set well below the live count (~556) so churn doesn't trip it,
