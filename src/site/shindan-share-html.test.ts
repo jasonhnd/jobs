@@ -121,6 +121,87 @@ describe('crawler-rendered shindan share HTML', () => {
     assert.equal(fetchMock.mock.callCount(), callsBeforeHead);
   });
 
+  for (const path of ['/shindan', '/data.worktypes.json', '/data.detail/0133.json']) {
+    test(`immediate headers with a stalled body degrade: ${path}`, { timeout: 2_000 }, async () => {
+      let signal: AbortSignal | undefined;
+      let aborted = false;
+      const started = performance.now();
+      const response = await renderShindanShareResponse(new Request(
+        'https://example.test/api/shindan-share?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=133',
+      ), async (input, init) => {
+        if (new URL(String(input)).pathname !== path) return fetchFixture(input, init);
+        signal = init?.signal ?? undefined;
+        assert.ok(signal);
+        return new Response(new ReadableStream({
+          start(controller) {
+            // Headers and a partial body arrive, but the stream never closes.
+            controller.enqueue(new TextEncoder().encode(path === '/shindan' ? '<html>' : '{'));
+            signal!.addEventListener('abort', () => {
+              aborted = true;
+              controller.error(new DOMException('aborted', 'AbortError'));
+            }, { once: true });
+          },
+        }));
+      }, 40);
+      assert.ok(performance.now() - started < 500, 'must settle near the configured deadline');
+      assert.equal(signal?.aborted, true);
+      assert.equal(aborted, true, 'expiry must abort the underlying body read');
+      if (path === '/shindan') {
+        assert.equal(response.status, 502);
+        assert.equal(await response.text(), 'Diagnostic share page unavailable');
+      } else {
+        assert.equal(response.status, 200);
+        const html = await response.text();
+        assert.match(html, /api\/og\?worktype=RPK/);
+        if (path === '/data.detail/0133.json') assert.doesNotMatch(html, new RegExp(DETAIL_133.title.ja));
+        else assert.doesNotMatch(html, /(?:job|gap)=/);
+      }
+    });
+  }
+
+  test('a body that ignores abort still settles at the deadline', { timeout: 2_000 }, async () => {
+    let signal: AbortSignal | undefined;
+    const started = performance.now();
+    const response = await renderShindanShareResponse(
+      new Request('https://example.test/api/shindan-share'),
+      async (_input, init) => {
+        signal = init?.signal ?? undefined;
+        return new Response(new ReadableStream());
+      },
+      40,
+    );
+    assert.equal(response.status, 502);
+    assert.equal(signal?.aborted, true);
+    assert.ok(performance.now() - started < 500);
+  });
+
+  test('header latency consumes the same deadline as body reading', { timeout: 2_000 }, async () => {
+    let bodyAborted = false;
+    const response = await renderShindanShareResponse(
+      new Request('https://example.test/api/shindan-share'),
+      async (_input, init) => {
+        await new Promise((resolve) => setTimeout(resolve, 60));
+        return new Response(new ReadableStream({
+          start(controller) {
+            // Each phase fits within 100 ms, but together they do not.
+            const timer = setTimeout(() => {
+              controller.enqueue(new TextEncoder().encode(BASE_HTML));
+              controller.close();
+            }, 60);
+            init?.signal?.addEventListener('abort', () => {
+              clearTimeout(timer);
+              bodyAborted = true;
+              controller.error(new DOMException('aborted', 'AbortError'));
+            }, { once: true });
+          },
+        }));
+      },
+      100,
+    );
+    assert.equal(response.status, 502);
+    assert.equal(bodyAborted, true);
+  });
+
   for (const failure of ['http', 'network', 'timeout'] as const) {
     test(`unavailable shell (${failure}) returns a plain 502`, { timeout: 2_000 }, async () => {
       const response = await renderShindanShareResponse(
