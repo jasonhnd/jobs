@@ -113,7 +113,7 @@ Unless the Issue explicitly says otherwise, an executor must never:
 ## Acceptance commands
 
 Run these from the repository root before opening a PR. All of them were
-confirmed to pass on `preview` (`66ec643e`, 2026-09-25):
+confirmed to pass on `preview` (`0a79f6af`, 2026-10-04):
 
 ```bash
 export PUBLIC_GA4_MEASUREMENT_ID='' PUBLIC_X_PIXEL_ID='' PUBLIC_META_PIXEL_ID=''
