@@ -14,6 +14,7 @@
  * Page-local sibling (Astro `_`-prefix → not routed).
  */
 
+import { siteConfig } from '@/site/config';
 import { escapeHtml } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
 import {
@@ -48,7 +49,7 @@ import type {
 } from '@/views/sector';
 import type { GeoFacts } from '@/site/geo-facts';
 
-const SITE_ORIGIN = 'https://mirai-shigoto.com';
+const SITE_ORIGIN = siteConfig.origin;
 const TOP_N = 5;
 
 export interface SectorBindingsInput {

@@ -12,7 +12,7 @@ import { join } from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { MAP_PAGE_CSS } from './_map-css';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 
 const MAP_INLINE_JS = readFileSync(
   join(process.cwd(), 'src', 'pages', '_map-inline.js'),
@@ -24,14 +24,14 @@ const jsonLd = `{
   "@type": "Dataset",
   "name": "日本の全 ${OCCUPATION_COUNT.SCORED} 職業 × AI 影響度マップ",
   "description": "厚生労働省 job tag + 独立行政法人 労働政策研究・研修機構（JILPT）のデータをもとに、日本の ${OCCUPATION_COUNT.SCORED} 職業の AI 影響度・年収・就業者数を可視化したインタラクティブヒートマップ。",
-  "url": "https://mirai-shigoto.com/map",
+  "url": "${siteConfig.origin}/map",
   "license": "https://opensource.org/licenses/MIT",
   "isAccessibleForFree": true,
   "creator": { "@type": "Organization", "name": "未来の仕事" },
   "distribution": [{
     "@type": "DataDownload",
     "encodingFormat": "application/json",
-    "contentUrl": "https://mirai-shigoto.com/data.treemap.json"
+    "contentUrl": "${siteConfig.origin}/data.treemap.json"
   }],
   "keywords": ["AI 影響", "職業", "ヒートマップ", "${OCCUPATION_COUNT.SCORED} 職業", "厚生労働省", "JILPT"],
   "inLanguage": ["ja"]
@@ -40,10 +40,10 @@ const jsonLd = `{
 <BaseLayout
   title={`職業マップ｜全 ${OCCUPATION_COUNT.SCORED} 職業 × AI 影響度ヒートマップ | 未来の仕事`}
   description={`日本の全 ${OCCUPATION_COUNT.SCORED} 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。タップで職業詳細へ。`}
-  canonical="https://mirai-shigoto.com/map"
+  canonical={`${siteConfig.origin}/map`}
   ogTitle={`職業マップ｜全 ${OCCUPATION_COUNT.SCORED} 職業 × AI 影響度ヒートマップ`}
   ogDescription={`日本の全 ${OCCUPATION_COUNT.SCORED} 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。`}
-  ogImage="https://mirai-shigoto.com/api/og?page=map"
+  ogImage={`${siteConfig.origin}/api/og?page=map`}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
 
