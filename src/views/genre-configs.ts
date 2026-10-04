@@ -19,6 +19,7 @@
  * tested there. A future Phase C pass can colocate the type with the data
  * or split genre-hub into a graph-layer ranker + a views-layer renderer.
  */
+import type { GenreHubConfig } from './genre-hub.js';
 import { ABILITIES_CONFIGS } from './genre-configs/abilities.js';
 import { KNOWLEDGE_CONFIGS } from './genre-configs/knowledge.js';
 import { VALUES_CONFIGS } from './genre-configs/values.js';
