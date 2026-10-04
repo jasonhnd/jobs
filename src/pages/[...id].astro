@@ -16,6 +16,7 @@
  *     ~14 template modules under src/templates/.
  *   - Inline CSS lives in src/pages/_id-css.
  */
+import { siteConfig } from '@/site/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import IdPageScript from './_IdPageScript.astro';
@@ -125,7 +126,7 @@ const CHAPTERS = [
   canonical={canonical}
   ogTitle={ogTitle}
   ogDescription={ogDesc}
-  ogImage={`https://mirai-shigoto.com/api/og?id=${id}`}
+  ogImage={`${siteConfig.origin}/api/og?id=${id}`}
   ogType="article"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
