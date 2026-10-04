@@ -81,14 +81,21 @@ file and a brief disagree, stop and say so in the PR instead of guessing.
 
 1. Work only from an Issue. If there is no Issue, there is no PR.
 2. One Issue maps to exactly one PR (unless the Issue itself splits the work).
-3. Commit after every completed step, with a conventional English message
-   (`feat:`, `fix:`, `docs:`, `chore:`, `ci:`, …).
-4. The PR description contains, in this order:
+3. Commit locally after every completed step, with a conventional English
+   message (`feat:`, `fix:`, `docs:`, `chore:`, `ci:`, …). A commit is local;
+   it is not a push (see item 4).
+4. Do not push a commit to the remote until the full
+   [Acceptance commands](#acceptance-commands) chain passes locally on it
+   (docs-only: `bun run check:docs-links`). Every push triggers a Vercel
+   preview build, and a failed build emails the owner. Commit locally after
+   each step as usual; push only verified states. If a reviewer requests
+   changes, fix locally, rerun the chain, then push.
+5. The PR description contains, in this order:
    - `Closes #N` on the first line;
    - what changed, mapped to the Issue's steps;
    - the real output of every verification command you ran;
    - anything not done, deviations from the Issue, and open questions.
-5. Stop after opening the PR (and after pushing any follow-up commits the
+6. Stop after opening the PR (and after pushing any follow-up commits the
    Issue asks for). Review and merging are someone else's job.
 
 ## Forbidden operations
