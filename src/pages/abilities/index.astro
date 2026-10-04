@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import { ABILITIES_CONFIGS } from '@/views/genre-configs';
 import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
 import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
@@ -17,7 +17,7 @@ const cards = ABILITIES_CONFIGS.map((cfg) => {
   };
 });
 
-const canonical = 'https://mirai-shigoto.com/abilities';
+const canonical = `${siteConfig.origin}/abilities`;
 const title = `能力から職業を探す｜IPD 能力軸別 ${n} hub | 未来の仕事`;
 const seoDesc = 'IPD 52 能力軸から、各能力が核となる職業 TOP 30 を一覧。持久力・筋力・空間認識・推論力等。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '能力から探す', seoDesc);
@@ -25,7 +25,7 @@ const cardsHtml = renderGenreHubIndexCards(cards, 'abilities');
 const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details, ABILITIES_CONFIGS, 12));
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage="https://mirai-shigoto.com/api/og?page=abilities" ogTitle={title} ogDescription={seoDesc}>
+  ogImage={`${siteConfig.origin}/api/og?page=abilities`} ogTitle={title} ogDescription={seoDesc}>
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <div id="wrapper">
