@@ -95,4 +95,3 @@ export const EDUCATION_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     },
   ),
 ];
-

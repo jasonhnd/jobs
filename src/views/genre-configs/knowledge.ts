@@ -114,4 +114,3 @@ export const KNOWLEDGE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     how_to_develop_ja: ['営業・マーケティング関連資格', '優れた営業の同行・観察', 'デジタルマーケティング実践'],
   },
 ];
-

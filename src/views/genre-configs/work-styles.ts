@@ -75,4 +75,3 @@ export const WORK_STYLES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     dimension_key: 'sitting',
   },
 ];
-

@@ -76,4 +76,3 @@ export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     dimension_key: 'self_growth',
   },
 ];
-

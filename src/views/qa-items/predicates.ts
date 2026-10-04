@@ -15,4 +15,3 @@ export const lowAiSector = (d: DetailFileMin, sectors: string[]) => {
   if (!sectors.includes(d.sector?.id ?? '')) return null;
   return lowAi(d);
 };
-
