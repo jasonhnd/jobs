@@ -1,7 +1,8 @@
+import { siteConfig } from '../site/config.js';
 import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
 import { occupationPath } from '../lib/urls.js';
 
-const SITE = 'https://mirai-shigoto.com';
+const SITE = siteConfig.origin;
 const TOP_N = 30;
 
 export type GeoAnswerTopicSlug =

@@ -14,14 +14,14 @@ import { buildInterests } from '@/views/interests';
 import { renderHubJsonLd, renderInterestsHubCards } from '@/templates/InterestHub';
 import { loadGraph } from '@/graph';
 import { makeHollandLoaderFromGraph, makeInterestsTreemapFromGraph } from '@/views/interest';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 
 const graph = await loadGraph();
 const { hub } = buildInterests({
   holland: makeHollandLoaderFromGraph(graph),
   treemap: makeInterestsTreemapFromGraph(graph),
 });
-const canonical = 'https://mirai-shigoto.com/interests';
+const canonical = `${siteConfig.origin}/interests`;
 const title = `興味タイプから職業を探す｜RIASEC 6 分類で日本の ${OCCUPATION_COUNT.SCORED} 職業を整理 | 未来の仕事`;
 const seoDesc =
   `RIASEC (Holland Code) 興味タイプ 6 分類で日本の ${OCCUPATION_COUNT.SCORED} 職業を整理。` +
@@ -36,7 +36,7 @@ const jsonLd = renderHubJsonLd();
   description={seoDesc}
   canonical={canonical}
   keywords={keywords}
-  ogImage="https://mirai-shigoto.com/api/og?page=interests"
+  ogImage={`${siteConfig.origin}/api/og?page=interests`}
   ogTitle={title}
   ogDescription={seoDesc}
 >
