@@ -7,7 +7,8 @@
 - ソースデータは `data/occupations/`, `data/stats_legacy/`, `data/scores/`, `data/labels/`, `data/sectors/`, `data/haid-release/` に置く。
 - `src/data/lib/indexes.ts` がソースを読み、Zod schema と重複 ID 検査を通して build-time index を作る。
 - `src/graph/` はページ・view が読む in-memory knowledge graph。projection と view の間で同じ派生値を使うため、丸めやスコア選択の helper はここか `src/data/lib/` に集約する。
-- `src/data/build.ts` は projection を staging dir に書き、全 projection 成功後に `public/` へ atomic promote する。Astro build は `public/` を `dist-astro/` にコピーする。
+- `src/data/build.ts` は `loadValidatedIndexes()` → `updateGeneratedMetadata()` → `prepareStagingDirectory()` → `runProjections()` → `logProjectionRuns()` → promote の命名されたステップで構成する。`runProjections()` は `runCoreProjections()`、`runDiscoveryProjections()`、`runModelProjections()`、`runGraphAndGeoProjections()` に分かれ、公開用 projection を staging dir に書く。
+- 全 projection 成功後、`src/data/promote.ts` の `promoteStagedOutputs()` が `public/` のトップレベル entry を backup してから置き換える。同一 filesystem の rename は entry 単位で atomic、置換失敗時は移動済み entry の rollback を試みる（ディレクトリ全体の atomic swap ではなく、EXDEV は copy + remove に fallback）。中断は sentinel と manifest で記録する。生成されるソース側 metadata とホーム JSON-LD は staging / rollback の対象外。Astro build は `public/` を `dist-astro/` にコピーする。
 
 ## Projection
 
@@ -19,6 +20,7 @@
 - `data.search.json` — treemap full payload を canvas 接近まで deferred にするための lightweight on-demand search index。
 - `data.sectors.json` / `data.review_queue.json` — sector hub と mapping review。
 - `data.profile5.json` — 5 軸 radar profile。graph layer でも同じ計算を持つ。
+- `data.worktypes.json` — `/shindan` 系の職業タイプ診断用。`src/data/projections/worktypes.ts` が職業ごとの軸スコアと 8 family の分類を生成する。
 - `data.transfer_paths.json` — sector 内のより安全な転職候補。
 - `data.score_history.json` — multi-model comparison 用の per-occupation score history。model/date と transformation/displacement/D1-D10 の数値のみを持ち、`rationale_ja` は含めない。
 
@@ -33,6 +35,7 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `data.haid-spec.json` — `/haid` の HAID v1.0 定義（10 段階・4 関係・3 境目・用語・境界事例）。数字を持たない。正典は `src/site/haid-spec.ts`、文言の正本は `docs/HAID.md`。（haid-1.3 で生成）
 - `data.haid-<yyyy-qN>.json` / `data.haid-latest.json` — HAID の四半期リリース（`/aiadoption`）。段階ごとの N(≥k)（低・中・高・display・clamped）、n(k)（display・share・確度）、錨点、重なり率、対価。`latest` は最新回のコピーに `releases` 一覧を足したもの。（aiadoption-1.2 で生成）
 - `data.me-positions.json` — `/me` self-positioning tool。全職業 × 全 ranking の位置を持つ。
+- `public/llms.txt` / `public/llms-full.txt` — `src/site/geo-build.ts` が staging の treemap と score run から生成する GEO text surfaces。同じ facts から `src/pages/_index-json-ld.json` も直接更新し、ホーム JSON-LD と揃える。
 
 古い `data.featured.json`, `data.tasks/*`, `data.score-history/*` は runtime consumer がないため削除済み。`data.score_history.json` は multi-model comparison のため 2026-07 に単一 JSON projection として復活した。
 
@@ -97,5 +100,5 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `bun run test` — unit tests。
 - `bun run typecheck` — TypeScript。
 - `bun run build` — ETL + Astro + rendered leak / CSP hash checks。
-- `bun run test:consistency` — built projection の L3 sanity check。
+- `bun run test:consistency` — built projection の L3 sanity check。`src/data/test-consistency.ts` は `src/data/consistency/files.ts`、`src/data/consistency/models.ts`、`src/data/consistency/shared.ts`、`src/data/consistency/treemap.ts` を呼び出す薄い入口。
 - `bun run verify:gates` — consistency、architecture、internal links、JSON-LD、SEO baseline。
