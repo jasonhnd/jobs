@@ -7,8 +7,14 @@
 - [`WORKFLOW.md`](WORKFLOW.md) — Issue-first / docs-first の開発順序。非自明な変更はここに従う。
 - [`TOOLCHAIN.md`](TOOLCHAIN.md) — install / build / runtime の版と Vercel 三平面の正典。CI Bun と本機 Bun もここへ書く。§9（#301–#305）は `"bunVersion": "1.4.x"` を Function 実行へ載せた系列。`api/og` / `api/shindan-share` / middleware は Bun 1.4。
 - [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — branch、PR、必須検証の contributor 向け要約。
+- [`Design.md`](Design.md) — 色・文字・余白・レイアウト・ページ構造を定める UI/UX の正典。
+- [`DESIGN_CONFORMANCE.md`](DESIGN_CONFORMANCE.md) — surface ごとの Design 適合状況、移行段階、完了チェックリストの台帳。
+- [`MOBILE_SHAPES.md`](MOBILE_SHAPES.md) — モバイル再設計のページ構造と実装範囲を定めた仕様。
 - [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md) — データソース、グラフ、projection、丸め、スコア選択、整合性ゲート。
 - [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md) — AIOIS-10 score batch の追加手順。Issue #9 の Fable 5 pilot → drift → full run → preview gate もここを正典にする。
+- [`CONSENSUS_SCORE.md`](CONSENSUS_SCORE.md) — 公開スコアの 3 社旗艦平均、採用 run の条件、過去の中央値規則の履歴。
+- [`MULTI_MODEL_SCORING.md`](MULTI_MODEL_SCORING.md) — 多モデル採点・比較 UI の初期設計と導入時の判断履歴。
+- [`COVERAGE_REPORT.md`](COVERAGE_REPORT.md) — 未ロードのソースを 0% として補う coverage report の生成方法と対象範囲。
 - [`WORKTYPE_DIAGNOSTIC.md`](WORKTYPE_DIAGNOSTIC.md) — Canonical design for `仕事タイプ診断` and the DIAG-1..9 implementation scope.
 - [`WORKTYPE_VIRALITY.md`](WORKTYPE_VIRALITY.md) — 診断結果の naming / surfacing / entry / 拡散の設計。scoring 体系は変更しない。
 - [`MBTI_CONTENT.md`](MBTI_CONTENT.md) — `WORKTYPE_VIRALITY.md` §4.C の sub-spec。`/mbti/<type>` content line（未実装）。
@@ -19,6 +25,16 @@
 - [`SEO_OG_BASELINE.md`](SEO_OG_BASELINE.md) — sitemap、JSON-LD、OG/Twitter meta、baseline 更新手順。
 - [`EDGE_SECURITY.md`](EDGE_SECURITY.md) — Edge API と OG 画像生成の防御ルール。
 - [`INCIDENT_RUNBOOK.md`](INCIDENT_RUNBOOK.md) — production 障害・攻撃時の即応手順と、repo 外の Vercel プラットフォーム状態の台帳・回放コマンド。
+
+## スコア切替・旗艦更新の drift レポート
+
+- [`CONSENSUS_SWITCH_DRIFT.md`](CONSENSUS_SWITCH_DRIFT.md) — 最新票から中央値へ切り替えた mms-6g の履歴レポート。
+- [`FLAGSHIP_SWITCH_DRIFT.md`](FLAGSHIP_SWITCH_DRIFT.md) — 中央値から各社旗艦平均へ切り替えた際のスコア・リスク帯の変化。
+- [`VENDOR_UPDATE_DRIFT_gpt-6-astra_2026-09-10.md`](VENDOR_UPDATE_DRIFT_gpt-6-astra_2026-09-10.md) — OpenAI 旗艦を GPT-6 Astra へ更新した際の drift レポート。
+- [`VENDOR_UPDATE_DRIFT_grok-4.7_2026-09-22.md`](VENDOR_UPDATE_DRIFT_grok-4.7_2026-09-22.md) — xAI 旗艦を Grok 4.7 へ更新した際の drift レポート。
+- [`VENDOR_UPDATE_DRIFT_claude-opus-5-5_2026-09-23.md`](VENDOR_UPDATE_DRIFT_claude-opus-5-5_2026-09-23.md) — Anthropic 旗艦を Claude Opus 5.5 へ更新した際の drift レポート。
+- [`VENDOR_UPDATE_DRIFT_gpt-6-sol_2026-09-23.md`](VENDOR_UPDATE_DRIFT_gpt-6-sol_2026-09-23.md) — OpenAI 旗艦を GPT-6 Sol へ更新した際の drift レポート。
+- [`VENDOR_UPDATE_DRIFT_gpt-6.1-sol_2026-10-01.md`](VENDOR_UPDATE_DRIFT_gpt-6.1-sol_2026-10-01.md) — OpenAI 旗艦を GPT-6.1 Sol へ更新した際の drift レポート。
 
 ## ドキュメント更新ルール
 
