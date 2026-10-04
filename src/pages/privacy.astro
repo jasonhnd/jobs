@@ -5,6 +5,7 @@
  * Inline CSS preserved verbatim — extraction into shared classes is a
  * follow-up.
  */
+import { siteConfig } from '@/site/config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_STATIC_CSS } from '@/lib/canonical/static';
@@ -15,19 +16,19 @@ const jsonLd = `{
   "@graph": [
     {
       "@type": "WebPage",
-      "@id": "https://mirai-shigoto.com/privacy#webpage",
+      "@id": "${siteConfig.origin}/privacy#webpage",
       "name": "プライバシーポリシー | 未来の仕事",
-      "url": "https://mirai-shigoto.com/privacy",
+      "url": "${siteConfig.origin}/privacy",
       "description": "mirai-shigoto.com のプライバシーポリシー — 運営者、収集情報、第三者サービス（Google / Cloudflare / Vercel）、Cookie、保持期間、利用者の権利、お問い合わせ。",
       "inLanguage": ["ja"],
-      "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
-      "about": { "@id": "https://mirai-shigoto.com/#organization" },
-      "author": { "@id": "https://mirai-shigoto.com/#person" },
-      "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
+      "isPartOf": { "@id": "${siteConfig.origin}/#website" },
+      "about": { "@id": "${siteConfig.origin}/#organization" },
+      "author": { "@id": "${siteConfig.origin}/#person" },
+      "publisher": { "@id": "${siteConfig.origin}/#organization" },
       "datePublished": "2026-04-30",
       "dateModified": "2026-07-17",
-      "primaryImageOfPage": "https://mirai-shigoto.com/api/og?page=privacy",
-      "breadcrumb": { "@id": "https://mirai-shigoto.com/privacy#breadcrumb" },
+      "primaryImageOfPage": "${siteConfig.origin}/api/og?page=privacy",
+      "breadcrumb": { "@id": "${siteConfig.origin}/privacy#breadcrumb" },
       "speakable": {
         "@type": "SpeakableSpecification",
         "cssSelector": ["h1", ".privacy-summary"]
@@ -35,19 +36,19 @@ const jsonLd = `{
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://mirai-shigoto.com/privacy#breadcrumb",
+      "@id": "${siteConfig.origin}/privacy#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "未来の仕事",
-          "item": "https://mirai-shigoto.com/"
+          "item": "${siteConfig.origin}/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "プライバシーポリシー",
-          "item": "https://mirai-shigoto.com/privacy"
+          "item": "${siteConfig.origin}/privacy"
         }
       ]
     }
@@ -57,9 +58,9 @@ const jsonLd = `{
 <BaseLayout
   title="プライバシーポリシー | 未来の仕事"
   description="mirai-shigoto.com のプライバシーポリシー。収集する情報、利用目的、第三者提供、Cookie、保持期間、利用者の権利、お問い合わせ。"
-  canonical="https://mirai-shigoto.com/privacy"
+  canonical={`${siteConfig.origin}/privacy`}
   keywords="未来の仕事, プライバシーポリシー, 個人情報保護, Cookie, 第三者提供, GA4, Cloudflare, Vercel, 利用者の権利, APPI, GDPR, mirai shigoto, privacy policy, data handling"
-  ogImage="https://mirai-shigoto.com/api/og?page=privacy"
+  ogImage={`${siteConfig.origin}/api/og?page=privacy`}
   ogTitle="プライバシーポリシー | 未来の仕事"
   ogDescription="mirai-shigoto.com のプライバシーポリシー。収集情報、利用目的、第三者提供（GA4 / Cloudflare / Vercel）、Cookie、保持期間、利用者の権利、お問い合わせ。"
 >
