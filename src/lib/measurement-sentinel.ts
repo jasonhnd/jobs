@@ -15,6 +15,7 @@
  * reason codes only — never header values, secrets, or the debug URL
  * (its query string carries api_secret).
  */
+import { timingSafeEqual } from 'node:crypto';
 import { buildMpPayload } from './middleware-helpers.js';
 
 export interface SentinelEnv {
@@ -45,8 +46,11 @@ export function authorizeCronRequest(
   authorizationHeader: string | null,
   cronSecret: string | undefined,
 ): boolean {
-  if (!cronSecret) return false;
-  return authorizationHeader === `Bearer ${cronSecret}`;
+  if (!cronSecret || authorizationHeader === null) return false;
+  const received = Buffer.from(authorizationHeader);
+  const expected = Buffer.from(`Bearer ${cronSecret}`);
+  if (received.length !== expected.length) return false;
+  return timingSafeEqual(received, expected);
 }
 
 /**

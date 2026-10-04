@@ -192,7 +192,7 @@ export default function middleware(request: Request): Response {
   // measurement_id + api_secret as query string params per Google's
   // API contract — they are not accepted in the body or headers.
   // The risk is log leakage, not API design. We mitigate by:
-  //   1. NEVER logging `mpUrl` directly (only res.status / err.message
+  //   1. NEVER logging `mpUrl` directly (only res.status / err.name
   //      below — verified line-by-line in the .then/.catch handlers).
   //   2. Marking the env as Sensitive in Vercel (operator action
   //      documented in .env.example).
@@ -241,7 +241,7 @@ export default function middleware(request: Request): Response {
       .catch((err: unknown) => {
         // eslint-disable-next-line no-console
         console.warn(
-          `[mp] send failed: ${err instanceof Error ? err.message : String(err)}`,
+          `[mp] send failed: ${err instanceof Error ? err.name : 'network-error'}`,
         );
       }),
   );
