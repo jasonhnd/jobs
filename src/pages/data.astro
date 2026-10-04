@@ -124,7 +124,7 @@ const jsonLd = JSON.stringify({
 <BaseLayout
   title={`公開データセット — ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10（MIT ライセンス）| 未来の仕事`}
   description={`日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアをオープンデータ（MIT）で公開。treemap・detail・search・sectors・skills など JSON エンドポイント一覧。開発者・研究者・AI エージェント向け。`}
-  canonical="https://mirai-shigoto.com/data"
+  canonical={`${siteConfig.origin}/data`}
   keywords={`オープンデータ, データセット, AIOIS-10, JSON, API, ${OCCUPATION_COUNT.SCORED} 職業, MIT, open data, dataset, 機械可読`}
   ogTitle={`公開データセット — ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10`}
   ogDescription={`日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアを MIT ライセンスの JSON で公開。開発者・研究者・AI エージェント向けのエンドポイント一覧。`}

@@ -22,6 +22,7 @@
  * covers this).
  */
 
+import { siteConfig } from '../site/config.js';
 import { ALL_RANKINGS } from './ranking.js';
 import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from './skills-meta.js';
@@ -39,7 +40,7 @@ import { GEO_ANSWER_TOPIC_CONFIGS } from './geo-answer-topics.js';
 import type { KnowledgeGraph } from '@/graph';
 import { occupationPath } from '@/lib/urls';
 
-const SITE_ORIGIN = 'https://mirai-shigoto.com';
+const SITE_ORIGIN = siteConfig.origin;
 
 export interface SitemapEntry {
   readonly loc: string;
