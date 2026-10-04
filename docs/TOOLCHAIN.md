@@ -310,12 +310,12 @@ prepends the nvm Node and Bun.
 
 | Surface | Cloud Agent | Note |
 | --- | --- | --- |
-| `test` / `typecheck` / `build` / `verify:gates` / `git diff --exit-code` | Yes | The whole `quality` chain runs on the VM. This is the §6 green bar minus the deploy half. |
+| `test` / `typecheck` / `build` / `verify:gates` / `git diff --exit-code` | Yes | The whole `quality` chain runs on the VM. This is the §6 green bar minus the Vercel build half (which only runs on `preview` / `main`, or on a topic branch whose HEAD commit message contains `[vercel-build]`). |
 | `bun run test:e2e` | Yes | CI `quality` runs the Playwright suite after installing Chromium (`bun x playwright install --with-deps chromium`, step "Install Chromium for rendered-output checks" in `.github/workflows/ci.yml`), then `bun x playwright test --reporter=line` (step "Run rendered-output checks (a11y, §4.2 floor, layout invariants)" in `.github/workflows/ci.yml`), so it gates merges. The analytics specs skip themselves when the build carries no GA4 markup (build with the `PUBLIC_*` analytics variables exported as empty strings, see [`AGENTS.md`](../AGENTS.md) → Acceptance commands). Playwright defaults to port 4321. For parallel workspaces, use `PLAYWRIGHT_PORT=<available port>` with a distinct port for each suite; never reuse another workspace's server. An explicit override disables server reuse. |
 | Scoring batches | Yes, `in-agent` only | The `in-agent` provider needs no credential — the agent session is the model, as for `claude-opus-4-8`, `claude-fable-5`, `grok-4.6`, `claude-fable-5-1`, the `grok-4.5` backfill, and `claude-opus-5-5`. Any keyed provider is owner-only. The `codex` provider (gpt-5.6-sol, gpt-6-astra, gpt-6-sol, gpt-6.1-sol) is owner-machine only. The `grok-cli` provider is owner-machine only, alongside `codex`. See [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md). |
 | `bun run audit` | No | `analytics/` pins `pnpm@12.6.0` for corepack to fetch, and the GA4 scripts need credentials. |
 | Vercel CLI (`alerts`, `ls`, `inspect`, `firewall overview`) | No | Not installed, not authenticated. §8's refresh procedure needs an operator. |
-| Preview deployment | No | Verification ends at `git push`. §6 and §9.5 — `lambda.runtime`, OG pixels, the SEO baseline as a *deploy* gate — still need a human.
+| Preview deployment | No | Verification ends at `git push`. A topic-branch push does not build on Vercel unless its HEAD commit message contains `[vercel-build]`; §6 and §9.5 — `lambda.runtime`, OG pixels — still need a human. The SEO baseline is a GitHub CI `quality` gate (`verify:gates`), not a deploy gate, so the VM covers it.
 
 ---
 
