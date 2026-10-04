@@ -76,4 +76,3 @@ export const ENTRY_PATHS_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     },
   },
 ];
-

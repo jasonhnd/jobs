@@ -56,4 +56,3 @@ export const EMPLOYMENT_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     },
   },
 ];
-

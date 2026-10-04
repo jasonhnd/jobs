@@ -114,4 +114,3 @@ export const ABILITIES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     how_to_develop_ja: ['プレゼン・スピーチの練習', '相手別に説明シナリオを書く', 'その場の議論・ディベート参加'],
   },
 ];
-

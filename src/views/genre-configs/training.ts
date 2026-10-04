@@ -66,4 +66,3 @@ export const TRAINING_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     custom_filter: makeTrainingFilter(['over_10_years']),
   },
 ];
-
