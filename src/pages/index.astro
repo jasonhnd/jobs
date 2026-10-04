@@ -29,7 +29,7 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import HOME_INDEX_CSS_URL from './_index.css?url';
 import HOME_INDEX_JS_URL from './_index-inline.js?url';
 import { INDEX_CRITICAL_CSS } from './_index-css';
@@ -42,7 +42,7 @@ const DESCRIPTION = `AIの時代でも、あなたらしい働き方を見つけ
 const KEYWORDS = `未来の仕事, AI 影響度, 日本 職業, 厚生労働省 jobtag, キャリア転換, 5 次元プロファイル, ${OCCUPATION_COUNT.SCORED} 職業, 独自分析, 非公式, mirai shigoto, Japan occupations AI impact, career change, unofficial`;
 const OG_TITLE = 'AIの時代でも、あなたらしい働き方を。— 未来の仕事';
 const OG_DESCRIPTION = `日本 ${OCCUPATION_COUNT.SCORED} 職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。`;
-const OG_IMAGE = 'https://mirai-shigoto.com/api/og?page=home';
+const OG_IMAGE = `${siteConfig.origin}/api/og?page=home`;
 const OG_IMAGE_ALT = `未来の仕事 — AIの時代でも、あなたらしい働き方を。日本 ${OCCUPATION_COUNT.SCORED} 職業の AI 影響マップ`;
 ---
 <BaseLayout
@@ -50,7 +50,7 @@ const OG_IMAGE_ALT = `未来の仕事 — AIの時代でも、あなたらしい
   title={TITLE}
   description={DESCRIPTION}
   keywords={KEYWORDS}
-  canonical="https://mirai-shigoto.com/"
+  canonical={`${siteConfig.origin}/`}
   ogTitle={OG_TITLE}
   ogDescription={OG_DESCRIPTION}
   ogImage={OG_IMAGE}

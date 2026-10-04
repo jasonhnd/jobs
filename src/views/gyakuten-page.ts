@@ -2,6 +2,7 @@
  * View model for /gyakuten. The Astro page reads the JSON files and calls
  * this. Pure: no filesystem access.
  */
+import { siteConfig } from '../site/config.js';
 import type { WorktypeFamilyCode, WorktypesData } from '@/data/schema/worktypes';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import type { TreemapRecordSummary } from '@/lib/projection-schemas';
@@ -104,7 +105,7 @@ export function buildGyakutenPageModel(
   worktypes: WorktypesData,
   treemapRows: readonly TreemapRecordSummary[],
 ): GyakutenPageModel {
-  const canonical = 'https://mirai-shigoto.com/gyakuten';
+  const canonical = `${siteConfig.origin}/gyakuten`;
   const title = 'AI働き方診断 図鑑｜8家族と24タイプを見る | 未来の仕事';
   const seoDesc =
     'AI働き方診断の8家族と24バリアントを一覧できる図鑑ページ。家族ごとのAIとの関係、次の一手、代表職業、職業データ全体での静的な分布を確認できます。';
@@ -191,9 +192,9 @@ export function buildGyakutenPageModel(
         url: canonical,
         description: seoDesc,
         inLanguage: 'ja',
-        isPartOf: { '@id': 'https://mirai-shigoto.com/#website' },
-        about: { '@id': 'https://mirai-shigoto.com/#organization' },
-        publisher: { '@id': 'https://mirai-shigoto.com/#organization' },
+        isPartOf: { '@id': `${siteConfig.origin}/#website` },
+        about: { '@id': `${siteConfig.origin}/#organization` },
+        publisher: { '@id': `${siteConfig.origin}/#organization` },
         datePublished: '2026-07-04',
         // Tracks the data; datePublished stays frozen. Issue #219.
         dateModified: CONTENT_DATE,
@@ -203,7 +204,7 @@ export function buildGyakutenPageModel(
         '@type': 'BreadcrumbList',
         '@id': `${canonical}#breadcrumb`,
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: '未来の仕事', item: 'https://mirai-shigoto.com/' },
+          { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${siteConfig.origin}/` },
           { '@type': 'ListItem', position: 2, name: 'AI働き方診断 図鑑', item: canonical },
         ],
       },
