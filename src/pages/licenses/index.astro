@@ -1,4 +1,5 @@
 ---
+import { siteConfig } from '@/site/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { LICENSE_HUBS, matchLicense } from '@/views/licenses-meta';
@@ -16,14 +17,14 @@ const cards = LICENSE_HUBS.map((h) => {
   };
 });
 
-const canonical = 'https://mirai-shigoto.com/licenses';
+const canonical = `${siteConfig.origin}/licenses`;
 const title = '資格から職業を探す｜15 資格カテゴリー別 hub | 未来の仕事';
 const seoDesc = '医療・福祉・教育・法務・会計・建設・IT・不動産・食品衛生等、15 のカテゴリー別に資格と関連職業を一覧。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '資格から探す', seoDesc);
 const cardsHtml = renderGenreHubIndexCards(cards, 'licenses');
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage="https://mirai-shigoto.com/api/og?page=licenses" ogTitle={title} ogDescription={seoDesc}>
+  ogImage={`${siteConfig.origin}/api/og?page=licenses`} ogTitle={title} ogDescription={seoDesc}>
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <div id="wrapper">

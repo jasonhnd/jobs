@@ -9,15 +9,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_STATIC_CSS } from '@/lib/canonical/static';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 ---
 <BaseLayout
   title="ページが見つかりません | 未来の仕事"
   description="404 — 指定されたページは存在しないか、移動した可能性があります。"
-  canonical="https://mirai-shigoto.com/404"
+  canonical={`${siteConfig.origin}/404`}
   ogTitle="ページが見つかりません | 未来の仕事"
   ogDescription="404 — 指定されたページは存在しないか、移動した可能性があります。"
-  ogImage="https://mirai-shigoto.com/api/og?page=404"
+  ogImage={`${siteConfig.origin}/api/og?page=404`}
   noindex={true}
 >
   <style slot="head" set:html={CANONICAL_STATIC_CSS} />
