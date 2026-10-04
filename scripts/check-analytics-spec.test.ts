@@ -39,7 +39,13 @@ function spec(eventNames = events, parameterNames = dimensions): string {
 function fixture(): string {
   const root = mkdtempSync(join(tmpdir(), 'jobs-analytics-spec-'));
   fixtures.push(root);
-  for (const file of ['scripts/check-analytics-spec.ts', 'analytics/ga4-spec-validation.mjs']) {
+  for (const file of [
+    'scripts/check-analytics-spec.ts',
+    'scripts/lib/analytics-spec/scan.ts',
+    'scripts/lib/analytics-spec/spec.ts',
+    'scripts/lib/analytics-spec/compare.ts',
+    'analytics/ga4-spec-validation.mjs',
+  ]) {
     mkdirSync(dirname(join(root, file)), { recursive: true });
     copyFileSync(join(REPO, file), join(root, file));
   }
