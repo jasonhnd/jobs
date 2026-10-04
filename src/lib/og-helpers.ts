@@ -25,6 +25,11 @@ import {
 } from "./projection-schemas.js";
 import { RISK_BAND_HEX } from "./design-tokens.js";
 
+import { fetchWithTimeout } from './http-client.js';
+
+export const OG_DATA_FETCH_TIMEOUT_MS = 5_000;
+const OG_FONT_FETCH_TIMEOUT_MS = 8_000;
+
 // ─── Risk / hue palettes ──────────────────────────────────────────────────
 
 /**
@@ -217,10 +222,10 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
   const url =
     `https://fonts.googleapis.com/css2?family=${family}:wght@${weight}` +
     `&text=${encodeURIComponent(text)}&display=swap`;
-  const cssRes = await fetch(url, {
+  const cssRes = await fetchWithTimeout(url, {
     // Force a UA that gets ttf/otf back, not woff2 — satori cannot parse woff2.
     headers: { "User-Agent": "Mozilla/5.0 (compatible; satori; rv:1.0)" },
-  });
+  }, OG_FONT_FETCH_TIMEOUT_MS);
   // Fail loudly on non-2xx so the OG endpoint returns 503 + Retry-After
   // instead of trying to regex-match an error page. Without this check the
   // next line would silently feed Google's HTML error page to the regex,
@@ -242,7 +247,7 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
   if (!fontBinaryUrl.startsWith("https://fonts.gstatic.com/")) {
     throw new Error(`unexpected font binary host (expected fonts.gstatic.com): ${fontBinaryUrl}`);
   }
-  const fontRes = await fetch(fontBinaryUrl);
+  const fontRes = await fetchWithTimeout(fontBinaryUrl, {}, OG_FONT_FETCH_TIMEOUT_MS);
   if (!fontRes.ok) throw new Error(`failed to fetch font binary: ${fontRes.status}`);
   return await fontRes.arrayBuffer();
 }
