@@ -1,26 +1,3 @@
-/**
- * occupation.test.ts — pin the upstream-error contract for
- * `renderOccupationOgCard`.
- *
- * Scope: same shape as sector.test.ts — only the pre-render code path
- * (`fetch` result handling + zod validation). The actual `ImageResponse`
- * render branch falls through to `loadGoogleFont`, which we don't
- * exercise (real Google Fonts fetch from a test = slow + flaky +
- * yields no useful assertion).
- *
- * Pre-render contract (this file's surface):
- *   - 404 when upstream returns 404 (occupation does not exist)
- *   - 502 when upstream returns any other non-OK status
- *   - 502 when upstream JSON does not match `DetailRecordSchema`
- *   - Fetch URL uses padded id from `padId(idParam)` against the
- *     request's own origin
- *
- * `RISK_COLORS[risk] ?? DEFAULT_RISK_COLOR` mapping is exercised
- * indirectly — if a malformed score breaks the lookup, the render call
- * (which we don't reach in tests) would crash. We pin the validation
- * boundary so a bad upstream record cannot get past zod.
- */
-
 import { describe, test, afterEach, before, after } from 'node:test';
 import { strict as assert } from 'node:assert';
 
@@ -196,3 +173,136 @@ describe('statLabels — null stats render an em-dash, not 0', () => {
     assert.ok(!workersLabel.includes('0 人'), `must not assert zero workers: ${workersLabel}`);
   });
 });
+
+
+// Capture the Satori input without rendering a PNG. spyOn is restored after
+// every test (unlike Bun module mocks), so other files retain real ImageResponse.
+const { spyOn } = await import('bun:test');
+import * as og from '@vercel/og';
+import { isValidElement } from 'react';
+import type { CSSProperties, ReactElement, ReactNode } from 'react';
+import { COLORS, BADGE_TEXT, SITE_MARK, FOOTER_RIGHT } from './_frame.js';
+import { RISK_COLORS } from '../og-helpers.js';
+
+type Element = ReactElement<{ children?: ReactNode; style: CSSProperties }>;
+interface Options {
+  width: number;
+  height: number;
+  headers: HeadersInit;
+  fonts: { name: string; weight: number; style: string; data: ArrayBuffer }[];
+}
+const images: { tree: ReactNode; options: Options }[] = [];
+const origin = 'https://jobs-tree-zkscio.vercel.app';
+const url = new URL(`${origin}/api/og`);
+const fontBytes = new Uint8Array([1, 2, 3]);
+const fontSubsets: string[] = [];
+const dataRequests: string[] = [];
+
+function prepare(t: import('node:test').TestContext, data: Record<string, unknown>): void {
+  images.length = 0;
+  fontSubsets.length = 0;
+  dataRequests.length = 0;
+  const imageSpy = spyOn(og, 'ImageResponse').mockImplementation(function (tree: ReactNode, options: Options) {
+    images.push({ tree, options });
+    return new Response('fixture-image-response', { headers: options.headers });
+  });
+  t.after(() => imageSpy.mockRestore());
+  t.mock.method(globalThis, 'fetch', async (input: Request | URL | string) => {
+    const request = new URL(String(input));
+    if (request.origin === 'https://fonts.googleapis.com') {
+      fontSubsets.push(request.searchParams.get('text')!);
+      return new Response("@font-face { src: url(https://fonts.gstatic.com/tree-fixture.ttf) format('truetype'); }");
+    }
+    if (request.href === 'https://fonts.gstatic.com/tree-fixture.ttf') return new Response(fontBytes);
+    assert.equal(request.origin, origin, 'data must use the requested preview origin');
+    assert.ok(Object.hasOwn(data, request.pathname), `unexpected fetch: ${request.href}`);
+    dataRequests.push(request.pathname);
+    const value = data[request.pathname];
+    return value instanceof Response ? value.clone() : Response.json(value);
+  });
+}
+  function elements(tree: ReactNode): Element[] {
+    if (Array.isArray(tree)) return tree.flatMap(elements);
+    if (!isValidElement<{ children?: ReactNode; style: CSSProperties }>(tree)) return [];
+    assert.equal(typeof tree.type, 'string', 'Satori receives host elements, not unrendered components');
+    return [tree, ...elements(tree.props.children)];
+  }
+
+  function texts(tree: ReactNode): string[] {
+    if (Array.isArray(tree)) return tree.flatMap(texts);
+    if (isValidElement<{ children?: ReactNode }>(tree)) return texts(tree.props.children);
+    return typeof tree === 'string' || typeof tree === 'number' ? [String(tree)] : [];
+  }
+
+  function nodeAtSize(size: string): Element {
+    const node = elements(images[0].tree).find(node => node.props.style.fontSize === size);
+    assert.ok(node, `missing ${size} text node`);
+    return node;
+  }
+
+  function common(response: Response, width: number, height: number, accent: string): string[] {
+    assert.equal(response.status, 200);
+    assert.equal(images.length, 1);
+    const { tree, options } = images[0];
+    assert.equal(options.width, width);
+    assert.equal(options.height, height);
+    assert.equal(response.headers.get('Cache-Control'),
+      'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800');
+    assert.deepEqual(options.fonts.map(({ name, weight, style }) => ({ name, weight, style })), [
+      { name: 'NotoSerifJP', weight: 600, style: 'normal' },
+      { name: 'NotoSansJP', weight: 800, style: 'normal' },
+      { name: 'NotoSansJP', weight: 500, style: 'normal' },
+    ]);
+    for (const font of options.fonts) assert.deepEqual(new Uint8Array(font.data), fontBytes);
+    const nodes = elements(tree);
+    assert.equal(nodes[0].props.style.borderLeft, `16px solid ${accent}`);
+    assert.equal(nodes[0].props.style.backgroundColor, COLORS.bg);
+    assert.equal(nodes[0].props.style.width, '100%');
+    assert.equal(nodes[0].props.style.height, '100%');
+    const copy = texts(tree);
+    assert.equal(copy[0], BADGE_TEXT);
+    assert.ok(copy.includes(SITE_MARK));
+    assert.equal(copy.at(-1), FOOTER_RIGHT);
+    return copy;
+  }
+
+  for (const [score, label] of [[3.9666666666666663, '4'], [4.25, '4.2'], [0, '0'], [10, '10'], [null, '—']] as const) {
+    test(`occupation score ${score} keeps a bounded label and matching layout`, async t => {
+      const title = `Occupation fixture ${label}`;
+      prepare(t, { '/data.detail/0156.json': {
+        id: 156, title: { ja: title }, ai_risk: { score }, stats: { workers: 123456, salary_man_yen: 540 },
+      } });
+      const color = score === null ? '#8a7a6a' : RISK_COLORS[Math.round(score)];
+      const copy = common(await renderOccupationOgCard(url, '156'), 1200, 630, color);
+      assert.deepEqual(dataRequests, ['/data.detail/0156.json']);
+      assert.equal(nodeAtSize('190px').props.children, label);
+      assert.equal(nodeAtSize('72px').props.children, title);
+      const badge = elements(images[0].tree).find(node => node.props.style.width === '300px')!;
+      assert.equal(badge.props.style.height, '300px');
+      assert.equal(badge.props.style.flexShrink, 0);
+      assert.equal(badge.props.style.border, `4px solid ${color}`);
+      const fills = elements(images[0].tree).filter(node => node.props.style.height === '100%' && node.props.style.backgroundColor === color);
+      assert.equal(fills.length, score === null ? 0 : 1, 'missing score omits the mini scale');
+      if (score !== null) assert.equal(fills[0].props.style.width, `${(score / 10) * 100}%`);
+      assert.ok(copy.includes('就業者 123,456 人'));
+      assert.ok(copy.includes('平均年収 540 万円'));
+      assert.equal(fontSubsets.length, 3);
+      assert.ok(fontSubsets.every(subset => subset.includes(`${label} / 10`) && subset.includes(title)));
+      if (score === 3.9666666666666663) {
+        assert.ok(!copy.join(' ').includes(String(score)), 'raw mean cannot spill into the score badge');
+        assert.ok(fontSubsets.every(subset => !subset.includes(String(score))));
+      }
+    });
+  }
+
+  test('occupation missing fields keep empty title and missing-stat labels; zero stats stay zero', async t => {
+    for (const stats of [undefined, { workers: null, salary_man_yen: null }, { workers: 0, salary_man_yen: 0 }]) {
+      prepare(t, { '/data.detail/0001.json': { id: 1, stats } });
+      const copy = common(await renderOccupationOgCard(url, '1'), 1200, 630, '#8a7a6a');
+      assert.equal(nodeAtSize('190px').props.children, '—');
+      assert.equal(nodeAtSize('72px').props.children, '');
+      assert.ok(copy.includes(stats?.workers === 0 ? '就業者 0 人' : '就業者 —'));
+      assert.ok(copy.includes(stats?.salary_man_yen === 0 ? '平均年収 0 万円' : '平均年収 —'));
+    }
+  });
+
