@@ -25,6 +25,7 @@
  * walks a flat shape.
  */
 
+import { siteConfig } from '../site/config.js';
 import { displayScore } from '../data/lib/banker-round.js';
 
 // ─── Internal Schema.org types (private to this module) ─────────
@@ -196,10 +197,10 @@ const AIOIS_DIMS: ReadonlyArray<readonly [key: 'd1' | 'd2' | 'd3' | 'd4' | 'd5' 
 
 // Static identifiers shared across all occupation pages.
 const BREADCRUMB_ROOT = '未来の仕事'; // = siteConfig.siteName; the site's one name
-const HOME_URL = 'https://mirai-shigoto.com/';
-const WEBSITE_REF = 'https://mirai-shigoto.com/#website';
-const ORG_REF = 'https://mirai-shigoto.com/#organization';
-const DATASET_REF = 'https://mirai-shigoto.com/#dataset';
+const HOME_URL = `${siteConfig.origin}/`;
+const WEBSITE_REF = `${siteConfig.origin}/#website`;
+const ORG_REF = `${siteConfig.origin}/#organization`;
+const DATASET_REF = `${siteConfig.origin}/#dataset`;
 
 const AI_RISK_DESCRIPTION =
   '複数のAIによる総合（AIOIS-10）。仕事がどれだけ AI で変わるかを表し、職が消える確率ではありません。';
@@ -339,7 +340,7 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
       isPartOf: { '@id': WEBSITE_REF },
       about: { '@id': `${canonical}#occupation` },
       mainEntity: { '@id': `${canonical}#occupation` },
-      primaryImageOfPage: `https://mirai-shigoto.com/api/og?id=${id}`,
+      primaryImageOfPage: `${siteConfig.origin}/api/og?id=${id}`,
       inLanguage: 'ja',
       breadcrumb: { '@id': `${canonical}#breadcrumb` },
       datePublished,

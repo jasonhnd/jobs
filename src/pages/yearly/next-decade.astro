@@ -4,7 +4,7 @@ import Footer from '@/components/Footer.astro';
 import { GENRE_HUB_CSS } from '@/templates/Hub';
 import { siteConfig } from '@/site/config';
 
-const canonical = 'https://mirai-shigoto.com/yearly/next-decade';
+const canonical = `${siteConfig.origin}/yearly/next-decade`;
 const title = '今後 10 年で変化する職業 | 未来の仕事';
 const seoDesc = '2030 年代の AI 普及・少子高齢化・産業構造変化を見据えた職業展望。長期キャリア戦略の参考に。';
 
@@ -22,7 +22,7 @@ const jsonLd = JSON.stringify({
 }, null, 2);
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage="https://mirai-shigoto.com/api/og?page=yearly-next-decade" ogTitle={title} ogDescription={seoDesc} ogType="article">
+  ogImage={`${siteConfig.origin}/api/og?page=yearly-next-decade`} ogTitle={title} ogDescription={seoDesc} ogType="article">
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <style slot="head" set:html={`
