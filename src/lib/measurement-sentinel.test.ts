@@ -49,11 +49,21 @@ describe('authorizeCronRequest', () => {
   });
 
   test('rejects a wrong bearer token when the secret is configured (handler returns 401)', () => {
-    assert.equal(authorizeCronRequest('Bearer wrong', 'topsecret'), false);
+    assert.equal(authorizeCronRequest('Bearer topsecrex', 'topsecret'), false);
   });
 
   test('rejects a missing header when the secret is configured (handler returns 401)', () => {
     assert.equal(authorizeCronRequest(null, 'topsecret'), false);
+  });
+
+  test('rejects shorter and longer bearer headers before comparison', () => {
+    assert.equal(authorizeCronRequest('Bearer short', 'topsecret'), false);
+    assert.equal(authorizeCronRequest('Bearer topsecret-extra', 'topsecret'), false);
+  });
+
+  test('compares UTF-8 byte lengths rather than string lengths', () => {
+    assert.equal(authorizeCronRequest('Bearer é', 'x'), false);
+    assert.equal(authorizeCronRequest('Bearer é', 'é'), true);
   });
 
   test('accepts the exact bearer token', () => {
