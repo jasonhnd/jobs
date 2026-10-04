@@ -14,7 +14,8 @@
  * itself is the I/O wrapper: read headers + env → call these pure
  * helpers → POST to GA4 via `context.waitUntil`.
  *
- * Five concerns covered here:
+ * Compatibility entry point: implementations live in `middleware/` modules.
+ * Five concerns re-exported here:
  *
  *   1. Client classification (`BOT_UA_RE`, `AI_AGENT_UA_PATTERNS`,
  *      `classifyClientKind`) — browser / ai_agent / other_bot. Only
@@ -37,7 +38,8 @@
  *      fields used by downstream citation analysis.
  *
  *   5. Client-IP extraction (`clientIpFromRequest`) — prefers Vercel-set
- *      headers and never trusts the first raw X-Forwarded-For hop.
+ *      headers and never trusts the first raw X-Forwarded-For hop. Its
+ *      implementation lives in `middleware/ga-identity.ts`.
  *
  * No I/O happens here. No `fetch`, no env reads (env values are passed
  * in by the caller), no `console.warn`.
