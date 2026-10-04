@@ -136,15 +136,15 @@ export function computeJobRankingPosition(
   };
 }
 
-/**
- * Build me-positions.json — runs loadGraph + buildRankings exactly once,
- * then walks every (jobId × slug) pair to assemble per-job position
- * records. Writes a single JSON file. ~150 KB unminified at 556 × 39
- * positions; ~25 KB gzipped (numeric-heavy, repeats well).
- */
-export async function buildMePositions(
-  distRoot: string,
-): Promise<MePositionsBuildResult> {
+interface MePositionInputs {
+  allOccs: Occupation[];
+  canonicalFullBySlug: Map<RankingSlug, number[]>;
+  topRankBySlug: Map<RankingSlug, Map<number, number>>;
+  topTotalBySlug: Map<RankingSlug, number>;
+}
+
+/** Read occupations and ranking universes, then validate the local mirror. */
+async function readMePositionInputs(): Promise<MePositionInputs> {
   const graph = await loadGraph();
   const allOccs = loadOccupationsFromGraph(graph);
   const scored = allOccs.filter((o) => o.ai_risk !== null);
@@ -177,7 +177,7 @@ export async function buildMePositions(
   }
 
   // ───── Drift guard (RA-135) ─────
-  // The per-slug RANKERS above are a hand-maintained mirror of the canonical
+  // The per-slug RANKERS mirror are a hand-maintained mirror of the canonical
   // buildRankings() filter+sort. If they diverge, a job's published "上位 X%"
   // (computed here from canonical full rankings) would stop being protected by
   // the local mirror. Assert the full canonical universe's membership and order
@@ -202,36 +202,47 @@ export async function buildMePositions(
     }
   }
 
-  // ───── Assemble per-job positions ─────
-  const positions: Record<string, JobPositions> = {};
-  for (const occ of allOccs) {
-    const jobId = occ.id;
-    const inRankings: Record<string, JobRankingPosition> = {};
-    for (const slug of Object.keys(RANKERS) as RankingSlug[]) {
-      const topMap = topRankBySlug.get(slug);
-      const full = canonicalFullBySlug.get(slug)!;
-      const topRank = topMap?.get(jobId) ?? null;
-      inRankings[slug] = computeJobRankingPosition(
-        jobId,
-        topRank,
-        topTotalBySlug.get(slug) ?? 0,
-        full,
-      );
-    }
-    positions[String(jobId)] = {
-      jobId,
-      nameJa: occ.title_ja ?? '',
-      summary: {
-        sectorJa: occ.sector_ja,
-        sectorId: occ.sector_id,
-        aiRisk: occ.ai_risk,
-        salary: occ.salary,
-        workers: occ.workers,
-      },
-      inRankings,
-    };
-  }
+  return { allOccs, canonicalFullBySlug, topRankBySlug, topTotalBySlug };
+}
 
+/** Calculate one occupation's positions in every ranking. */
+function computeOccupationPositions(
+  occ: Occupation,
+  inputs: MePositionInputs,
+): JobPositions {
+  const { canonicalFullBySlug, topRankBySlug, topTotalBySlug } = inputs;
+  const jobId = occ.id;
+  const inRankings: Record<string, JobRankingPosition> = {};
+  for (const slug of Object.keys(RANKERS) as RankingSlug[]) {
+    const topMap = topRankBySlug.get(slug);
+    const full = canonicalFullBySlug.get(slug)!;
+    const topRank = topMap?.get(jobId) ?? null;
+    inRankings[slug] = computeJobRankingPosition(
+      jobId,
+      topRank,
+      topTotalBySlug.get(slug) ?? 0,
+      full,
+    );
+  }
+  return {
+    jobId,
+    nameJa: occ.title_ja ?? '',
+    summary: {
+      sectorJa: occ.sector_ja,
+      sectorId: occ.sector_id,
+      aiRisk: occ.ai_risk,
+      salary: occ.salary,
+      workers: occ.workers,
+    },
+    inRankings,
+  };
+}
+
+/** Bundle the per-job records with ranking labels and payload metadata. */
+function assembleMePositionsPayload(
+  allOccs: Occupation[],
+  positions: Record<string, JobPositions>,
+) {
   // Bundle ranking labels in the same file so /me can render names
   // without a second fetch. Tiny — ~3 KB before gzip.
   const rankings = RANKING_META.map((m) => ({
@@ -241,7 +252,7 @@ export async function buildMePositions(
     universe_scope: rankingUniverseScope(m.slug),
   }));
 
-  const payload = {
+  return {
     meta: {
       schema_version: '1.1',
       generated_at: nowIso(),
@@ -255,6 +266,19 @@ export async function buildMePositions(
     rankings,
     positions,
   };
+
+}
+
+/** Build me-positions.json from validated inputs and per-job positions. */
+export async function buildMePositions(
+  distRoot: string,
+): Promise<MePositionsBuildResult> {
+  const inputs = await readMePositionInputs();
+  const positions: Record<string, JobPositions> = {};
+  for (const occ of inputs.allOccs) {
+    positions[String(occ.id)] = computeOccupationPositions(occ, inputs);
+  }
+  const payload = assembleMePositionsPayload(inputs.allOccs, positions);
 
   const outPath = join(distRoot, 'data.me-positions.json');
   await writeFile(outPath, JSON.stringify(payload) + '\n', 'utf-8');
