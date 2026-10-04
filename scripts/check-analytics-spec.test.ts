@@ -58,11 +58,12 @@ function fixture(): string {
   write(root, 'src/components/Footer.astro', "gtag('event', eventName);");
   write(root, 'src/pages/_index-inline.js',
     "gtag('event', source === 'chip' ? 'popular_job_click' : 'job_search_navigate');");
-  write(root, 'src/lib/middleware-helpers.ts', [
+  write(root, 'src/lib/middleware/mp-hit.ts', [
     "export const DELIVERY_EVENT_NAME = 'page_delivery';",
     "export function buildMpPayload() { return {events: [{params: {delivery_kind: 'fixture'}}]}; }",
-    'export interface GeoReferralParams { referral_kind: string; }',
   ].join('\n'));
+  write(root, 'src/lib/middleware/geo-referral.ts',
+    'export interface GeoReferralParams { referral_kind: string; }');
   // Tests are deliberately not executable source for the gate.
   write(root, 'src/ignored.test.ts', "gtag('event', 'must_be_ignored', {unknown_param: true});");
   return root;
@@ -137,7 +138,7 @@ describe('check-analytics-spec CLI regression contract', () => {
 
   test('rejects missing server event names and parameter anchors', () => {
     const root = fixture();
-    const file = 'src/lib/middleware-helpers.ts';
+    const file = 'src/lib/middleware/mp-hit.ts';
     const original = readFileSync(join(root, file), 'utf8');
     rmSync(join(root, file));
     rejects(root, `${file} is missing; the server-side event name cannot be read.`);
@@ -145,15 +146,20 @@ describe('check-analytics-spec CLI regression contract', () => {
     rejects(root, 'no longer exports a literal DELIVERY_EVENT_NAME');
     write(root, file, original.replace('buildMpPayload', 'renamedPayload'));
     rejects(root, 'no longer contains "export function buildMpPayload"');
-    write(root, file, original.replace('GeoReferralParams', 'RenamedParams'));
+    write(root, file, original);
+    const geoFile = 'src/lib/middleware/geo-referral.ts';
+    const geoOriginal = readFileSync(join(root, geoFile), 'utf8');
+    rmSync(join(root, geoFile));
+    rejects(root, `${geoFile} is missing; server-side GA4 params cannot be read.`);
+    write(root, geoFile, geoOriginal.replace('GeoReferralParams', 'RenamedParams'));
     rejects(root, 'no longer contains "export interface GeoReferralParams"');
   });
 
   test('rejects a server event rename that is absent from the spec', () => {
     const root = fixture();
-    const file = 'src/lib/middleware-helpers.ts';
+    const file = 'src/lib/middleware/mp-hit.ts';
     write(root, file, readFileSync(join(root, file), 'utf8').replace('page_delivery', 'renamed_delivery'));
-    rejects(root, /renamed_delivery\s+src\/lib\/middleware-helpers.ts \(Edge middleware\)/);
+    rejects(root, /renamed_delivery\s+src\/lib\/middleware\/mp-hit.ts \(Edge middleware\)/);
   });
 
   test('keeps all four drift diagnostics in their original order and wording', () => {

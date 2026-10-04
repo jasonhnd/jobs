@@ -6,7 +6,7 @@
 
 ## Client IP
 
-`src/lib/middleware-helpers.ts` の `clientIpFromRequest()` が GA4 geolocation 用の client IP 抽出の正典。
+`src/lib/middleware/ga-identity.ts` の `clientIpFromRequest()` が GA4 geolocation 用の client IP 抽出の正典。
 
 - Vercel が設定する `x-real-ip`、`x-vercel-forwarded-for` を優先する。
 - raw `x-forwarded-for` は fallback とし、client が偽装できる first hop ではなく last hop を使う。
