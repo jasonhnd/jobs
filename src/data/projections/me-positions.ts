@@ -177,7 +177,7 @@ async function readMePositionInputs(): Promise<MePositionInputs> {
   }
 
   // ───── Drift guard (RA-135) ─────
-  // The per-slug RANKERS mirror are a hand-maintained mirror of the canonical
+  // The per-slug RANKERS are a hand-maintained mirror of the canonical
   // buildRankings() filter+sort. If they diverge, a job's published "上位 X%"
   // (computed here from canonical full rankings) would stop being protected by
   // the local mirror. Assert the full canonical universe's membership and order
@@ -266,7 +266,6 @@ function assembleMePositionsPayload(
     rankings,
     positions,
   };
-
 }
 
 /** Build me-positions.json from validated inputs and per-job positions. */
