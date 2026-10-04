@@ -50,13 +50,15 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
    * Both anchors are required to resolve; a rename that breaks either one fails
    * the gate rather than silently dropping the parameters it can no longer find.
    */
-  const SERVER_PARAM_SOURCE = 'src/lib/middleware-helpers.ts';
-  const SERVER_PARAM_ANCHORS: readonly { readonly anchor: string; readonly why: string }[] = [
+  const SERVER_PARAM_SOURCE = 'src/lib/middleware/mp-hit.ts';
+  const SERVER_PARAM_ANCHORS: readonly { readonly source: string; readonly anchor: string; readonly why: string }[] = [
     {
+      source: SERVER_PARAM_SOURCE,
       anchor: 'export function buildMpPayload',
       why: 'the `params:` object of the server-side page_delivery',
     },
     {
+      source: 'src/lib/middleware/geo-referral.ts',
       anchor: 'export interface GeoReferralParams',
       why: 'the geo attribution params merged in by attachDeliveryParams',
     },
@@ -295,25 +297,25 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
   }
 
   function serverParams(): string[] {
-    const full = join(ROOT, SERVER_PARAM_SOURCE);
-    if (!existsSync(full)) {
-      fail(`${SERVER_PARAM_SOURCE} is missing; server-side GA4 params cannot be read.`);
-    }
-    const text = readFileSync(full, 'utf-8');
     const params: string[] = [];
-    for (const { anchor, why } of SERVER_PARAM_ANCHORS) {
+    for (const { source, anchor, why } of SERVER_PARAM_ANCHORS) {
+      const full = join(ROOT, source);
+      if (!existsSync(full)) {
+        fail(`${source} is missing; server-side GA4 params cannot be read.`);
+      }
+      const text = readFileSync(full, 'utf-8');
       const at = text.indexOf(anchor);
       if (at < 0) {
         fail(
-          `${SERVER_PARAM_SOURCE} no longer contains "${anchor}" — the anchor for ` +
+          `${source} no longer contains "${anchor}" — the anchor for ` +
             `${why}. It was renamed or removed; update SERVER_PARAM_ANCHORS in ` +
             `scripts/check-analytics-spec.ts so the params stay visible.`,
         );
       }
       const open = text.indexOf('{', at);
-      if (open < 0) fail(`No object literal after "${anchor}" in ${SERVER_PARAM_SOURCE}.`);
+      if (open < 0) fail(`No object literal after "${anchor}" in ${source}.`);
       const body = balancedBraceBody(text, open);
-      if (body === null) fail(`Unbalanced braces after "${anchor}" in ${SERVER_PARAM_SOURCE}.`);
+      if (body === null) fail(`Unbalanced braces after "${anchor}" in ${source}.`);
       // buildMpPayload nests the params under events[0].params.
       const nested = body.indexOf('params:');
       if (anchor.includes('buildMpPayload')) {
