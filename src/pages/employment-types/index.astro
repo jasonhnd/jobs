@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
-import { OCCUPATION_COUNT } from '@/site/config';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import { EMPLOYMENT_CONFIGS } from '@/views/genre-configs';
 import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
 import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
@@ -17,7 +17,7 @@ const cards = EMPLOYMENT_CONFIGS.map((cfg) => {
   };
 });
 
-const canonical = 'https://mirai-shigoto.com/employment-types';
+const canonical = `${siteConfig.origin}/employment-types`;
 const title = `雇用形態から職業を探す｜正社員/フリーランス/パート/公務員 ${n} hub | 未来の仕事`;
 const seoDesc = '雇用形態 (正社員・フリーランス・パート派遣・公務員) で職業 TOP 30 を一覧。安定 vs 自由のトレードオフから自分に合う雇用を探せます。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '雇用形態から探す', seoDesc);
@@ -25,7 +25,7 @@ const cardsHtml = renderGenreHubIndexCards(cards, 'employment-types');
 const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details, EMPLOYMENT_CONFIGS, 12));
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage="https://mirai-shigoto.com/api/og?page=employment-types" ogTitle={title} ogDescription={seoDesc}>
+  ogImage={`${siteConfig.origin}/api/og?page=employment-types`} ogTitle={title} ogDescription={seoDesc}>
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <div id="wrapper">

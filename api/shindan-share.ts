@@ -1,4 +1,3 @@
-import { fetchWithTimeout } from '../src/lib/http-client.js';
 import {
   DetailRecordSchema,
   padId,
@@ -26,13 +25,36 @@ type FetchLike = typeof fetch;
 /** Same-origin shell, worktypes, and detail reads. A stall must not hold the function. */
 const SHINDAN_SHARE_UPSTREAM_TIMEOUT_MS = 5000;
 
-function fetchUpstream(
+async function fetchUpstream<T>(
   fetchImpl: FetchLike,
   url: URL,
   init: RequestInit,
   timeoutMs: number,
-): Promise<Response | null> {
-  return fetchWithTimeout(url, init, timeoutMs, fetchImpl).catch(() => null);
+  readBody: (response: Response) => Promise<T>,
+): Promise<T | null> {
+  const controller = new AbortController();
+  let timer: ReturnType<typeof setTimeout>;
+  const deadline = new Promise<null>((resolve) => {
+    timer = setTimeout(() => {
+      // Keep the fetch signal alive through body consumption. The race also
+      // bounds injected implementations that do not reject on abort.
+      resolve(null);
+      controller.abort();
+    }, timeoutMs);
+  });
+  const read = (async () => {
+    const response = await fetchImpl(url, { ...init, signal: controller.signal });
+    if (!response.ok) {
+      controller.abort();
+      return null;
+    }
+    return await readBody(response);
+  })().catch(() => null);
+  try {
+    return await Promise.race([read, deadline]);
+  } finally {
+    clearTimeout(timer!);
+  }
 }
 
 export async function renderShindanShareResponse(
@@ -52,22 +74,23 @@ export async function renderShindanShareResponse(
       },
     },
     timeoutMs,
+    (response) => response.text(),
   );
 
   const baseState = parseShindanBaseState(requestUrl.searchParams);
   let state = baseState;
   if (baseState && requestUrl.searchParams.has('job')) {
-    const worktypesResponse = await fetchUpstream(
+    const worktypesRaw = await fetchUpstream<unknown>(
       fetchImpl,
       new URL('/data.worktypes.json', origin),
       { headers: { Accept: 'application/json' } },
       timeoutMs,
+      (response) => response.json(),
     );
-    if (worktypesResponse?.ok) {
+    if (worktypesRaw !== null) {
       // Occupation context is optional. A truncated/corrupt projection must
       // degrade to the already-validated base result instead of rejecting the
       // Edge request and turning every job-bearing share URL into a 500.
-      const worktypesRaw: unknown = await worktypesResponse.json().catch(() => null);
       const parsed = WorktypesProjectionSchema.safeParse(worktypesRaw);
       if (parsed.success) {
         state = addShindanOccupationContext(
@@ -79,8 +102,8 @@ export async function renderShindanShareResponse(
     }
   }
 
-  const basePageResponse = await basePagePromise;
-  if (!basePageResponse?.ok) {
+  const basePageHtml = await basePagePromise;
+  if (basePageHtml === null) {
     return new Response('Diagnostic share page unavailable', {
       status: 502,
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
@@ -90,7 +113,7 @@ export async function renderShindanShareResponse(
   const jobId = requestUrl.searchParams.get('job');
   const jobContext = jobId ? await fetchShareJobContext(origin, jobId, fetchImpl, timeoutMs) : null;
   const metadata = state ? buildShindanShareMetadata(origin, state, jobContext) : null;
-  const html = renderShindanShareHtml(await basePageResponse.text(), metadata);
+  const html = renderShindanShareHtml(basePageHtml, metadata);
   return new Response(html, {
     status: 200,
     headers: {
@@ -127,14 +150,13 @@ async function fetchShareJobContext(
   } catch {
     return null;
   }
-  const detailRes = await fetchUpstream(
+  const detailRaw = await fetchUpstream<unknown>(
     fetchImpl,
     new URL(`/data.detail/${paddedId}.json`, origin),
     { headers: { Accept: 'application/json' } },
     timeoutMs,
+    (response) => response.json(),
   );
-  if (!detailRes?.ok) return null;
-  const detailRaw: unknown = await detailRes.json().catch(() => null);
   const parsed = DetailRecordSchema.safeParse(detailRaw);
   if (!parsed.success) return null;
   const title = parsed.data.title?.ja;

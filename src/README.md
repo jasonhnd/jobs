@@ -17,8 +17,10 @@ src/
 │   ├── loaders.ts
 │   ├── projections/         # build.ts が public/ に書き出す projection モジュール
 │   ├── build.ts             # TS-ETL オーケストレータ (`bun run build:data`)
+│   ├── promote.ts           # staging の entry 単位の atomic rename / 失敗時 rollback
+│   ├── consistency/         # files / models / shared / treemap — L3 sanity check
 │   ├── import-ipd.ts        # IPD xlsx → data/occupations/*.json
-│   └── test-consistency.ts  # projection の sanity check (`bun run test:consistency`)
+│   └── test-consistency.ts  # consistency/ の薄い入口 (`bun run test:consistency`)
 ├── graph/                   # score-strategy / sector-resolver / 知識グラフ
 ├── layouts/                 # BaseLayout.astro
 ├── lib/                     # urls.ts（/{id}。ID 404 は /occupations/404）、canonical-css.ts、now.ts
