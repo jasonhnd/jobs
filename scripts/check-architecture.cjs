@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * check-architecture.cjs — enforce the 5-layer architecture boundaries
- * defined in docs/architecture.md §6.2, plus the Edge-function dependency
+ * defined in docs/architecture.md (境界ルール), plus the Edge-function dependency
  * constraint added in the 2026-05-14 decision-log entry.
  *
  * Two enforcement passes:

@@ -133,7 +133,9 @@ that must not vary by vendor lives in `scripts/lib/scoring/`:
 | The AIOIS-10 field set, formula re-computation, `ai_risk === transformation`, JSONL shape | `lib/scoring/contract.ts` | core |
 | Error vocabulary + retry/backoff policy | `lib/scoring/errors.ts` | core |
 | Retry accounting, audit trail, resume, concurrency, prompt assembly | `lib/scoring/core.ts` | core |
+| Provider transport interface and per-run setup contract | `lib/scoring/provider.ts` | core |
 | Reaching a specific vendor | `lib/scoring/providers/<name>.ts` | provider |
+| Frozen seat configuration (model, transport, prompt, and run policy) | `lib/scoring/fable-5-1-run.ts`, `lib/scoring/gpt-6-astra-run.ts`, `lib/scoring/gpt-6-sol-run.ts`, `lib/scoring/gpt-6.1-sol-run.ts`, `lib/scoring/grok-4-5-run.ts`, `lib/scoring/grok-4.7-run.ts`, `lib/scoring/grok-run.ts`, `lib/scoring/opus-5-5-run.ts` | seat |
 
 A provider supplies transport only: how to reach the model, how to translate
 `SCORE_OUTPUT_JSON_SCHEMA` into that vendor's native structured-output
@@ -147,7 +149,7 @@ Registered providers:
 
 | `--provider` | Auth | Native schema | Notes |
 | --- | --- | --- | --- |
-| `in-agent` | none | no | Scored by the agent session itself, as `claude-opus-4-8`, `claude-fable-5`, and `grok-4.6` are. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. `claude-fable-5-1` (mms-8.25/8.26) uses the same transport. |
+| `in-agent` | none | no | Scored by the agent session itself, for `claude-opus-4-8`, `claude-fable-5`, `grok-4.6`, `claude-fable-5-1`, the `grok-4.5` backfill, and `claude-opus-5-5`. Answers supplied as JSONL. `--attest-model` is required because the provider cannot observe which model wrote the answers. |
 | `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8.32/8.33) rides the same transport with an explicit `--model` and `--reasoning-effort high`. `scripts/run-scoring.ts` requires `--provider` and `--model`. Only the compatibility entry `run-scoring-codex.ts` defaults the model to `gpt-5.6-sol`, and that default is not the current OpenAI seat. |
 | `grok-cli` | Locally logged-in grok CLI subscription | yes (`--json-schema` inline) | xAI flagship transport from Grok 4.7 on ([mms-10](#mms-10-grok-47-xai-flagship-seat)). The frozen call passes `--model grok-4.7-build-fast` and `--reasoning-effort xhigh`. The public slug stays `grok-4.7`. Owner machine only. Grok 4.6 and the Grok 4.5 backfill stay `in-agent`. |
 
@@ -1428,7 +1430,7 @@ Pilot passes only if all conditions hold:
 Suggested local checks:
 
 ```bash
-bun run test scripts/assemble-scores.test.ts
+bun test scripts/assemble-scores.test.ts
 bun run typecheck
 bun run check:score-batch .cache/scoring/issue-9/pilot/occupations_claude-fable-5_2026-06-13_pilot.json
 ```

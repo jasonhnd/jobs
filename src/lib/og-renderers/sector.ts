@@ -13,6 +13,9 @@
  * dependencies. See _frame.ts for the full rationale.
  */
 
+import { fetchWithTimeout } from '../http-client.js';
+import { OG_DATA_FETCH_TIMEOUT_MS } from '../og-helpers.js';
+
 import { ImageResponse } from '@vercel/og';
 import { createElement as h } from 'react';
 import { displayScore } from '../../data/lib/banker-round.js';
@@ -37,7 +40,7 @@ export async function renderSectorOgCard(
   }
 
   const sectorsUrl = new URL('/data.sectors.json', trustedFetchOrigin(url));
-  const res = await fetch(sectorsUrl.toString());
+  const res = await fetchWithTimeout(sectorsUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
   if (!res.ok) {
     return new Response('Upstream sectors fetch failed', { status: 502 });
   }
