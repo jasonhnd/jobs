@@ -33,7 +33,12 @@ interface SectorEntry {
   occupation_count?: number;
 }
 
-export async function checkTreemap(distRoot: string, r: Report): Promise<unknown[]> {
+/**
+ * `expectedCount` is the number of source occupation files. When given, a
+ * treemap with any other record count fails (an empty or truncated
+ * projection must not pass the gate).
+ */
+export async function checkTreemap(distRoot: string, r: Report, expectedCount?: number): Promise<unknown[]> {
   const f = join(distRoot, 'data.treemap.json');
   if (!existsSync(f)) return [];
   const result = await readJsonOrFail<unknown>(r, f, `data.treemap.json is invalid JSON`);
@@ -44,6 +49,9 @@ export async function checkTreemap(distRoot: string, r: Report): Promise<unknown
   if (!Array.isArray(data)) {
     r.fail(`data.treemap.json must be a top-level array (got ${typeof data})`);
     return [];
+  }
+  if (expectedCount !== undefined && data.length !== expectedCount) {
+    r.fail(`treemap has ${data.length} records but the source has ${expectedCount} occupations`);
   }
 
   const seenIds = new Set<number>();
@@ -95,12 +103,16 @@ export async function checkTreemap(distRoot: string, r: Report): Promise<unknown
         riskCounts[tier] += 1;
         // Assert the stored risk_band matches the canonical band, so a
         // regression in treemap.ts's band stamping fails the gate.
+        // A null risk_band on a scored record is a stamping regression too.
         const emitted = (rec.risk_band ?? null) as 'low' | 'mid' | 'high' | null;
-        if (emitted !== null && emitted !== tier) {
-          r.fail(`id=${rid} risk_band "${emitted}" != canonical "${tier}" (ai_risk=${aiRisk})`);
+        if (emitted !== tier) {
+          const shown = emitted === null ? 'null' : `"${emitted}"`;
+          r.fail(`id=${rid} risk_band ${shown} != canonical "${tier}" (ai_risk=${aiRisk})`);
         }
       }
       nWithScore += 1;
+    } else if (rec.risk_band != null) {
+      r.fail(`id=${rid} risk_band "${String(rec.risk_band)}" but ai_risk is null`);
     }
     if (rec.salary != null) salaryPresent += 1;
     if (rec.workers != null) {

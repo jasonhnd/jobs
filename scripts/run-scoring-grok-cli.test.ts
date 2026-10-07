@@ -1,7 +1,7 @@
 // Tests for the grok-cli scoring transport. No model calls.
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { chmodSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
@@ -11,6 +11,7 @@ import {
   assertGrokCliProbe,
   buildGrokExecArgs,
   compareGrokVersions,
+  createGrokSpawn,
   executeGrokAsk,
   grokCliProvider,
   grokEnvelopePath,
@@ -295,6 +296,36 @@ describe('grok-cli ask', () => {
       assert.equal(classifyErrorText(response.stderr), 'transport');
       const saved = readFileSync(join(dir, 'raw', '12.envelope.json'), 'utf8');
       assert.equal(JSON.parse(saved).num_turns, 2);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  test('a hung grok is killed at the per-call timeout and reported as a retryable transport failure', async () => {
+    const dir = makeTmp();
+    try {
+      const stub = join(dir, 'grok-stub');
+      writeFileSync(stub, '#!/bin/sh\necho partial\nexec sleep 30\n', 'utf8');
+      chmodSync(stub, 0o755);
+      const started = Date.now();
+      const response = await executeGrokAsk(
+        'PROMPT-BODY',
+        {
+          cwd: dir,
+          model: 'grok-4.7',
+          outputLastMessagePath: join(dir, 'last.txt'),
+          outputSchemaPath: join(dir, 'schema.json'),
+          runDir: dir,
+          occId: 12,
+        },
+        'high',
+        createGrokSpawn(300, stub),
+      );
+      assert.ok(Date.now() - started < 5_000);
+      assert.equal(response.exitCode, 1);
+      assert.equal(response.rawText, '');
+      assert.match(response.stderr, /timed out after \d+s and was killed/);
+      assert.equal(classifyErrorText(response.stderr), 'transport');
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

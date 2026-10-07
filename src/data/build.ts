@@ -22,6 +22,7 @@ import { isErrnoCode } from './loaders.js';
 import { assertUniformVendorPanel, buildIndexes, type Indexes } from './lib/indexes.js';
 import { rewriteGeneratedModule } from './lib/rewrite-generated-module.js';
 import { scoreAttributionEdits } from './lib/score-attribution-module.js';
+import { orphanStagingDirNames } from './lib/staging-dirs.js';
 import { buildDetail } from './projections/detail.js';
 import { buildHolland } from './projections/holland.js';
 import { buildLabels } from './projections/labels.js';
@@ -222,17 +223,15 @@ async function pruneOrphanStagingDirectories(): Promise<void> {
   // 2026-05-17 RA-002 fix: prune orphan staging dirs from previously
   // killed builds. A hard-killed build (SIGKILL, Ctrl-C race, OOM)
   // can leave `<TS_DIST>.tmp-<dead-pid>` siblings behind, which dirty
-  // the working tree and confuse `git status`. Safe to remove any
-  // sibling that isn't our own STAGE_DIST: PIDs aren't reused while
-  // a process is alive, and a concurrent build would have its own
-  // PID-suffixed dir we never touch.
+  // the working tree and confuse `git status`. Only a sibling whose PID
+  // is no longer running is removed: a concurrent build's PID-suffixed
+  // dir (live PID) and our own STAGE_DIST are never touched.
   const tsParent = dirname(TS_DIST);
   const orphanPrefix = `${basename(TS_DIST)}.tmp-`;
   try {
-    for (const name of await readdir(tsParent)) {
-      if (!name.startsWith(orphanPrefix)) continue;
+    const names = await readdir(tsParent);
+    for (const name of orphanStagingDirNames(names, orphanPrefix, basename(STAGE_DIST))) {
       const full = join(tsParent, name);
-      if (full === STAGE_DIST) continue;
       await rm(full, { recursive: true, force: true });
       console.log(`  [cleanup] removed orphan staging dir: ${name}`);
     }
