@@ -188,8 +188,18 @@ function stringArg(m, first) {
  * import regex so `[^'"]*` can match across newlines between `import` and
  * `from`. Track each match's starting line via offset → line lookup.
  */
-function extractImports(source) {
+// Comment-only lines (`// …`, `/* …`, ` * …`) are blanked before scanning so
+// prose such as "// const fs = require('fs')" is not read as an import.
+// Line breaks are kept, so reported line numbers stay exact. Comments that
+// share a line with code are left alone: removing them needs a real
+// tokenizer (strings like '@/lib/*' contain comment openers).
+function blankCommentLines(source) {
+  return source.replace(/^[ \t]*(?:\/\/|\/\*|\*).*$/gm, '');
+}
+
+function extractImports(rawSource) {
   const out = [];
+  const source = blankCommentLines(rawSource);
 
   // Pre-compute line-start offsets for {start-offset → line-number} lookup.
   const lineStarts = [0];
@@ -222,7 +232,9 @@ function extractImports(source) {
   // sentences like "templates cannot import view-layer values" when the
   // file's next actual import was a `from '../views/...'`. Anchoring to
   // line-start with the `m` flag fixes this cleanly.
-  const staticRe = /^[ \t]*import\s+(type\s+)?[^'"]*?from\s*['"]([^'"]+)['"]/gm;
+  // An import may also follow another statement on the same line
+  // (`export const a = 1; import { b } from './b.js';`).
+  const staticRe = /(?:^|;)[ \t]*import\s+(type\s+)?[^'"]*?from\s*['"]([^'"]+)['"]/gm;
   let m;
   while ((m = staticRe.exec(source)) !== null) {
     out.push({ line: offsetToLine(m.index), target: m[2], isTypeOnly: !!m[1], isPrefix: false });
@@ -231,7 +243,7 @@ function extractImports(source) {
   // Re-export forms: `export { x } from '...'` / `export * from '...'` /
   // `export * as ns from '...'`. The bundler walks these EXACTLY like an
   // `import ... from` for dependency-graph purposes, so the gate must too.
-  const reexportRe = /^[ \t]*export\s+(type\s+)?(?:\{[^}]*\}|\*(?:\s+as\s+\w+)?)\s+from\s*['"]([^'"]+)['"]/gm;
+  const reexportRe = /(?:^|;)[ \t]*export\s+(type\s+)?(?:\{[^}]*\}|\*(?:\s+as\s+\w+)?)\s+from\s*['"]([^'"]+)['"]/gm;
   while ((m = reexportRe.exec(source)) !== null) {
     out.push({ line: offsetToLine(m.index), target: m[2], isTypeOnly: !!m[1], isPrefix: false });
   }
@@ -302,21 +314,38 @@ function aliasCandidates(spec) {
   return out;
 }
 
-/** Probe a base path against the extensions TypeScript's "Bundler"
- *  moduleResolution would try: strip `.js`, try `.ts` / `.tsx`, then the
- *  literal path, then `/index` variants. */
+/** Probe a base path the way TypeScript's "Bundler" moduleResolution does:
+ *  a `.js` / `.jsx` specifier may name a `.ts` / `.tsx` source, `.mjs` a
+ *  `.mts` and `.cjs` a `.cts`; an extensionless one tries every source
+ *  extension, then `/index`. The literal path is tried last. */
+const SOURCE_EXTENSIONS = {
+  '.js': ['.ts', '.tsx', '.js', '.jsx'],
+  '.jsx': ['.tsx', '.jsx'],
+  '.mjs': ['.mts', '.mjs'],
+  '.cjs': ['.cts', '.cjs'],
+  '.ts': ['.ts'],
+  '.tsx': ['.tsx'],
+  '.mts': ['.mts'],
+  '.cts': ['.cts'],
+};
+const ANY_SOURCE = ['.ts', '.tsx', '.mts', '.cts', '.js', '.jsx', '.mjs', '.cjs'];
+
+function isFile(p) {
+  return fs.existsSync(p) && fs.statSync(p).isFile();
+}
+
 function probeFile(base) {
-  const stripped = base.replace(/\.(js|mjs|cjs|tsx|ts)$/, '');
-  for (const extName of ['.ts', '.tsx', '.js', '.mjs', '.cjs']) {
-    if (fs.existsSync(stripped + extName) && fs.statSync(stripped + extName).isFile()) {
-      return stripped + extName;
-    }
+  const extName = path.extname(base);
+  const stripped = SOURCE_EXTENSIONS[extName] ? base.slice(0, -extName.length) : base;
+  const candidates = SOURCE_EXTENSIONS[extName] || ANY_SOURCE;
+  for (const candidate of candidates) {
+    if (isFile(stripped + candidate)) return stripped + candidate;
   }
-  if (fs.existsSync(base) && fs.statSync(base).isFile()) return base;
+  if (isFile(base)) return base;
   // `./foo` → `./foo/index.{ts,tsx,js}` resolution.
-  for (const extName of ['.ts', '.tsx', '.js']) {
-    const idx = path.join(stripped, 'index' + extName);
-    if (fs.existsSync(idx) && fs.statSync(idx).isFile()) return idx;
+  for (const candidate of ['.ts', '.tsx', '.js']) {
+    const idx = path.join(stripped, 'index' + candidate);
+    if (isFile(idx)) return idx;
   }
   return null;
 }
@@ -506,10 +535,11 @@ function discoverFunctionEntries() {
  *  to resolve, regardless of whether the bundler tree-shakes them. */
 function walkImportClosure(entryFile) {
   const visited = new Set();
-  // An `@/…` specifier that resolves to nothing means the walk lost coverage:
-  // either the alias table moved or the target is gone. Collected and reported
-  // as a failure rather than a brittle "expected N deps" floor.
-  const unresolvedAliases = [];
+  // A local (`./`, `../`, `@/…`) specifier that resolves to nothing means the
+  // walk lost coverage: the alias table moved, the target is gone, or its
+  // extension is one the probe does not know. Collected and reported as a
+  // failure rather than a brittle "expected N deps" floor.
+  const unresolved = [];
   const queue = [entryFile];
   while (queue.length > 0) {
     const file = queue.shift();
@@ -523,12 +553,12 @@ function walkImportClosure(entryFile) {
       const resolved = resolveImport(path.dirname(file), imp.target);
       if (resolved) {
         if (!visited.has(resolved)) queue.push(resolved);
-      } else if (imp.target.startsWith('@/')) {
-        unresolvedAliases.push({ spec: imp.target, from: path.relative(ROOT, file) });
+      } else if (imp.target.startsWith('@/') || imp.target.startsWith('.')) {
+        unresolved.push({ spec: imp.target, from: path.relative(ROOT, file) });
       }
     }
   }
-  return { visited, unresolvedAliases };
+  return { visited, unresolved };
 }
 
 function checkFunctionTsxDeps() {
@@ -550,11 +580,11 @@ function checkFunctionTsxDeps() {
       functionViolations += 1;
       continue;
     }
-    const { visited: closure, unresolvedAliases } = walkImportClosure(entry);
+    const { visited: closure, unresolved } = walkImportClosure(entry);
     console.log(`[check-architecture] function entry ${entryRel} — scanning ${closure.size - 1} transitive deps`);
-    for (const { spec, from } of unresolvedAliases) {
+    for (const { spec, from } of unresolved) {
       console.error(`  ✗ ${from}`);
-      console.error(`    unresolvable aliased import \`${spec}\` reachable from function entry ${entryRel}.`);
+      console.error(`    unresolvable import \`${spec}\` reachable from function entry ${entryRel}.`);
       console.error('    The import walk cannot follow it, so any .tsx behind it goes unchecked.');
       console.error('    Fix the path, or add the alias to tsconfig.json compilerOptions.paths.');
       functionViolations += 1;

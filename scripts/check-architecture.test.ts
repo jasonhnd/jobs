@@ -98,6 +98,7 @@ describe('check-architecture layer rules resolve imports before judging them', (
     ['templates → @/graph exact alias', 'src/templates/bad.ts', "import { graph } from '@/graph';\n"],
     ['templates → @/data/lib alias', 'src/templates/bad.ts', "import { helper } from '@/data/lib/helper.js';\n"],
     ['pages → src/data/projections via ../ path', 'src/pages/bad.ts', "import p from '../data/projections/p.json';\n"],
+    ['views → static import after another statement on the same line', 'src/views/bad.js', "export const view = 1; import { T } from '../templates/T.js';\n"],
   ];
 
   for (const [name, file, source] of cases) {
@@ -115,6 +116,13 @@ describe('check-architecture layer rules resolve imports before judging them', (
     const result = run(fixture({
       'src/views-extra/x.ts': 'export const x = 1;\n',
       'src/graph/ok.ts': "import { x } from '../views-extra/x.js';\nexport const y = x;\n",
+    }));
+    assert.equal(result.status, 0, result.stderr);
+  });
+
+  test('a require() inside a comment line is not an import', () => {
+    const result = run(fixture({
+      'src/views/commented.ts': "// const fs = require('fs');\n/*\n * import('node:fs') is forbidden here\n */\nexport const x = 1;\n",
     }));
     assert.equal(result.status, 0, result.stderr);
   });
@@ -154,6 +162,26 @@ describe('check-architecture walks every Vercel function regardless of runtime',
     assertViolation({
       'api/cron/job.ts': "const { C } = require('../../src/components/C.js');\nexport default C;\n",
     }, /src\/components\/C\.tsx/);
+  });
+
+  test('a .mjs specifier resolves to its .mts source and the walk continues', () => {
+    assertViolation({
+      'api/index.ts': "import { a } from '../src/lib/a.mjs';\nexport default a;\n",
+      'src/lib/a.mts': "import { C } from '../components/C.js';\nexport const a = C;\n",
+    }, /src\/components\/C\.tsx[\s\S]*reachable from function entry api\/index\.ts/);
+  });
+
+  test('a .cjs specifier resolves to its .cts source', () => {
+    assertViolation({
+      'api/index.ts': "const { a } = require('../src/lib/a.cjs');\nexport default a;\n",
+      'src/lib/a.cts': "const { C } = require('../components/C.js');\nexports.a = C;\n",
+    }, /src\/components\/C\.tsx/);
+  });
+
+  test('an unresolvable relative import inside the walk fails (coverage lost)', () => {
+    assertViolation({
+      'api/index.ts': "import { gone } from '../src/lib/gone.js';\nexport default gone;\n",
+    }, /unresolvable import `\.\.\/src\/lib\/gone\.js`/);
   });
 
   test('underscore-prefixed helpers and tests under api/ are not entries', () => {
