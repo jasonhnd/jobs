@@ -53,6 +53,7 @@ const ogHref = `/api/og?id=${id}`;
         ) : (
           <span class="score-num unscored">{verdict.transformationDisp}</span>
         )}
+        {verdict.bandWord ? <span class="score-band">{verdict.bandWord}</span> : null}
       </div>
       {verdict.displacementDisp !== null && (
         <div class="v-num subn">

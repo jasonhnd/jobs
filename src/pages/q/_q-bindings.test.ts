@@ -48,8 +48,8 @@ describe('renderQaAnswerLine', () => {
     ]);
     assert.match(html, /<p class="qa-sum">/);
     assert.match(html, /AI で消えるの2職/);
-    assert.match(html, /最も高いのは<strong>データ入力<\/strong>（9\.4\/10）/);
-    assert.match(html, /2職の平均は8\.7\/10です/);
+    assert.match(html, /最も高いのは<strong>データ入力<\/strong>（9\.4\/10 変化 大きい）/);
+    assert.match(html, /2職の平均は8\.7\/10 変化 大きいです/);
     assert.equal(html.includes('一般事務'), false);
   });
 
@@ -59,7 +59,7 @@ describe('renderQaAnswerLine', () => {
       makeDoc({ id: 1, title_ja: '看護師', ai: 2.1 }),
       makeDoc({ id: 2, title_ja: '介護福祉士', ai: 3.4 }),
     ]);
-    assert.match(html, /最も低いのは<strong>看護師<\/strong>（2\.1\/10）/);
+    assert.match(html, /最も低いのは<strong>看護師<\/strong>（2\.1\/10 変化 小さい）/);
     assert.equal(html.includes('最も高いのは'), false);
   });
 
@@ -70,8 +70,8 @@ describe('renderQaAnswerLine', () => {
       makeDoc({ id: 2, title_ja: '編集', ai: 5 }),
     ]);
     // equal scores → 先頭は (not 最も高い/低い)
-    assert.match(html, /先頭は<strong>営業<\/strong>（5\/10）/);
-    assert.match(html, /2職の平均は5\.0\/10です/);
+    assert.match(html, /先頭は<strong>営業<\/strong>（5\/10 変化 中くらい）/);
+    assert.match(html, /2職の平均は5\.0\/10 変化 中くらいです/);
   });
 
   test('sector-future uses に当てはまる + 先頭は, not AI 最も高い', () => {
@@ -151,7 +151,7 @@ describe('renderExampleList', () => {
     assert.match(got, /<a class="rl-row" href="\/7" data-track-event="list_row_click">/);
     assert.match(got, /<span class="rl-name">看護師<\/span>/);
     assert.match(got, /<span class="rl-meta">事務・公務 · <span class="rl-salary">400万円<\/span><\/span>/);
-    assert.match(got, /<span class="risk-pill low">3\/10<\/span>/);
+    assert.match(got, /<span class="risk-pill low">3\/10 変化 小さい<\/span>/);
     assert.match(got, /<span class="rl-chevron" aria-hidden="true">›<\/span>/);
     assert.equal([...got.matchAll(/<a /g)].length, 1);
     assert.equal(got.includes('class="rl-name" href='), false);
@@ -170,7 +170,7 @@ describe('renderExampleList', () => {
     assert.equal(got.includes('<b>'), false);
     assert.match(got, /&lt;b&gt;x&lt;\/b&gt;/);
     assert.match(got, /A &amp; B/);
-    assert.match(got, /<span class="risk-pill high">8\/10<\/span>/);
+    assert.match(got, /<span class="risk-pill high">8\/10 変化 大きい<\/span>/);
   });
 
   test('null AI score renders em-dash pill in mid band', () => {

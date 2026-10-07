@@ -118,9 +118,10 @@
     }
     function riskLabel(r) {
       if (r == null) return '—';
-      var band = riskBand(r);
-      var prefix = band === 'high' ? '▲ 影響大' : band === 'low' ? '◎ 影響小' : '▼ 中程度';
-      return fmtRisk(r) + '/10 ' + prefix;
+      var d = Number(fmtRisk(r));
+      if (!Number.isFinite(d)) return '—';
+      var word = d < 4.0 ? '変化 小さい' : d < 7.0 ? '変化 中くらい' : '変化 大きい';
+      return fmtRisk(r) + '/10 ' + word;
     }
 
     function ga(name, params) {
@@ -228,7 +229,7 @@
         var pill = document.createElement('span');
         var band = riskBand(d.ai_risk);
         pill.className = 'me-li-pill ' + (band || 'mid');
-        pill.textContent = 'AI ' + fmtRisk(d.ai_risk) + '/10';
+        pill.textContent = 'AI ' + riskLabel(d.ai_risk);
         li.appendChild(nameWrap);
         li.appendChild(pill);
         $listbox.appendChild(li);
@@ -806,7 +807,7 @@
         meta.className = 'me-similar-meta';
         var pill = document.createElement('span');
         pill.className = 'me-li-pill ' + (riskBand(r2.ai_risk) || 'mid');
-        pill.textContent = 'AI ' + fmtRisk(r2.ai_risk) + '/10';
+        pill.textContent = 'AI ' + riskLabel(r2.ai_risk);
         var workers = document.createElement('span');
         workers.textContent = fmtWorkers(r2.workers);
         meta.appendChild(pill);

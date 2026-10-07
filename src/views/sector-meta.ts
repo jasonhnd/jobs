@@ -377,7 +377,7 @@ export function computeSectorPatterns(
   // Bimodal AI distribution
   if (aiHigh >= 3 && aiLow >= 3) {
     observations.push(
-      html`AI 影響度が <strong>二極化</strong>: 影響 大 ${aiHigh} 職業 (${((aiHigh / total) * 100).toFixed(0)}%) と影響 小 ${aiLow} 職業 (${((aiLow / total) * 100).toFixed(0)}%) が並存`,
+      html`AI 影響度が <strong>二極化</strong>: 変化 大きい ${aiHigh} 職業 (${((aiHigh / total) * 100).toFixed(0)}%) と変化 小さい ${aiLow} 職業 (${((aiLow / total) * 100).toFixed(0)}%) が並存`,
     );
   }
 

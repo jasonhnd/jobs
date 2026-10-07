@@ -135,8 +135,8 @@ const {
       <dl class="stats-grid">
         <div class="stat"><dt>平均変化指数</dt><dd>{scoreText(page.distribution.mean_transformation)}</dd></div>
         <div class="stat"><dt>中央値</dt><dd>{scoreText(page.distribution.median_transformation)}</dd></div>
-        <div class="stat"><dt>高リスク帯</dt><dd>{page.distribution.bands.high.count} 件</dd></div>
-        <div class="stat"><dt>中リスク帯</dt><dd>{page.distribution.bands.mid.count} 件</dd></div>
+        <div class="stat"><dt>変化 大きい</dt><dd>{page.distribution.bands.high.count} 件</dd></div>
+        <div class="stat"><dt>変化 中くらい</dt><dd>{page.distribution.bands.mid.count} 件</dd></div>
       </dl>
       <div class="histogram-wrap" tabindex="0" role="region" aria-label="横スクロールできる分布図">
         <svg
@@ -163,9 +163,9 @@ const {
         </svg>
       </div>
       <p class="fallback">
-        低リスク帯 {page.distribution.bands.low.count} 件（{page.distribution.bands.low.pct.toFixed(1)}%）、
-        中リスク帯 {page.distribution.bands.mid.count} 件（{page.distribution.bands.mid.pct.toFixed(1)}%）、
-        高リスク帯 {page.distribution.bands.high.count} 件（{page.distribution.bands.high.pct.toFixed(1)}%）。
+        変化 小さい {page.distribution.bands.low.count} 件（{page.distribution.bands.low.pct.toFixed(1)}%）、
+        変化 中くらい {page.distribution.bands.mid.count} 件（{page.distribution.bands.mid.pct.toFixed(1)}%）、
+        変化 大きい {page.distribution.bands.high.count} 件（{page.distribution.bands.high.pct.toFixed(1)}%）。
       </p>
     </section>
 

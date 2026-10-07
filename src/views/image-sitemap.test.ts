@@ -55,8 +55,8 @@ describe('renderImageSitemapXml', () => {
       { id: 2, title: `<tag>&"'`, score: 3.14159 },
       { id: 10, title: 'zero', score: 0 },
     ]);
-    assert.ok(xml.includes('<image:title>&lt;tag&gt;&amp;&quot;&apos; — AI影響 3.1/10</image:title>'));
-    assert.ok(xml.includes('<image:title>zero — AI影響 0/10</image:title>'));
+    assert.ok(xml.includes('<image:title>&lt;tag&gt;&amp;&quot;&apos; — AI影響 3.1/10 変化 小さい</image:title>'));
+    assert.ok(xml.includes('<image:title>zero — AI影響 0/10 変化 小さい</image:title>'));
     assert.equal((xml.match(/<url>/g) ?? []).length, 2);
     assert.equal((xml.match(/<image:image>/g) ?? []).length, 2);
     assert.ok(xml.indexOf('/2</loc>') < xml.indexOf('/10</loc>'));

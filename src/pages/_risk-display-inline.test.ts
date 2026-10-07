@@ -121,21 +121,21 @@ return String(Number(inc.toFixed(1)));
     assert.equal(riskBand(6.966666666666667), 'high');
     assert.equal(riskBand(3.9333333333333336), 'low');
     assert.equal(riskBand(null), null);
-    assert.equal(riskLabel(3.9666666666666663), '4/10 ▼ 中程度');
-    assert.equal(riskLabel(4.266666666666667), '4.3/10 ▼ 中程度');
+    assert.equal(riskLabel(3.9666666666666663), '4/10 変化 中くらい');
+    assert.equal(riskLabel(4.266666666666667), '4.3/10 変化 中くらい');
     assert.equal(riskLabel(null), '—');
   });
 
   test('/map: tooltip class and label follow the printed value', () => {
     const riskClass = load<Band>(mapJs, ['fmtRisk', 'riskClass'], 'riskClass');
-    const riskLabel = load<Label>(mapJs, ['fmtRisk', 'riskLabel'], 'riskLabel');
+    const riskLabel = load<Label>(mapJs, ['fmtRisk', 'riskBandWord', 'riskScoreLabel', 'riskLabel'], 'riskLabel');
     assert.equal(riskClass(3.9666666666666663), 'mid');
     assert.equal(riskClass(6.966666666666667), 'high');
     assert.equal(riskClass(3.9333333333333336), 'low');
     assert.equal(riskClass(null), 'low'); // unchanged from before #631
-    assert.equal(riskLabel(3.9666666666666663), '4/10 ▼ 中程度');
-    assert.equal(riskLabel(8.966666666666667), '9/10 ▲ 大きく変わる仕事');
-    assert.equal(riskLabel(6.966666666666667), '7/10 ▲ 影響大');
+    assert.equal(riskLabel(3.9666666666666663), '4/10 変化 中くらい');
+    assert.equal(riskLabel(8.966666666666667), '9/10 変化 大きい');
+    assert.equal(riskLabel(6.966666666666667), '7/10 変化 大きい');
   });
 
   test('/shindan and /compare: suggestion pills print one decimal and band it', () => {
@@ -146,11 +146,11 @@ return String(Number(inc.toFixed(1)));
       assert.equal(riskBand(3.9333333333333336), 'low', name);
       assert.equal(riskBand(null), 'mid', name);
     }
-    assert.match(shindanJs, /'AI ' \+ \(doc\.ai_risk != null \? fmtRisk\(doc\.ai_risk\) : '\?'\) \+ '\/10'/);
+    assert.match(shindanJs, /'AI ' \+ \(doc\.ai_risk != null \? fmtRisk\(doc\.ai_risk\) \+ '\/10 ' \+ riskBandWord\(doc\.ai_risk\) : '—'\)/);
     assert.doesNotMatch(shindanJs, /\? doc\.ai_risk : '\?'/);
-    assert.match(shindanJs, /return fmtRisk\(value\) \+ '\/10';/);
+    assert.match(shindanJs, /return fmtRisk\(value\) \+ '\/10 ' \+ riskBandWord\(value\);/);
     assert.doesNotMatch(shindanJs, /return value \+ '\/10';/);
-    assert.match(compareAstro, /'AI ' \+ fmtRisk\(o\.ai_risk\) \+ '\/10'/);
+    assert.match(compareAstro, /'AI ' \+ fmtRisk\(o\.ai_risk\) \+ '\/10 ' \+ riskBandWord\(o\.ai_risk\)/);
     assert.doesNotMatch(compareAstro, /'AI ' \+ o\.ai_risk \+ '\/10'/);
   });
 });
@@ -212,7 +212,7 @@ describe('home and /map band the displayed value with one shared function (#864)
     assert.equal(riskClass3(3.9666666666666663), 'mid');
     assert.equal(riskClass3(3.9333333333333336), 'low');
     assert.equal(riskClass3(6.966666666666667), 'high');
-    assert.match(indexJs, /const riskLabel = "AI 影響度 " \+ fmtRisk\(risk\) \+ "\/10";/);
+    assert.match(indexJs, /const riskLabel = "AI 影響度 " \+ fmtRisk\(risk\) \+ "\/10 " \+ riskBandWord\(risk\);/);
     assert.doesNotMatch(indexJs, /"AI 影響度 " \+ risk \+ "\/10"/);
     assert.match(indexJs, /'<span class="ss-risk ' \+ riskClass3\(risk\) \+ '">'/);
     assert.doesNotMatch(indexJs, /const pillBand = /);
@@ -227,7 +227,7 @@ describe('home and /map band the displayed value with one shared function (#864)
     assert.doesNotMatch(indexJs, /aiRisk >= 7 \? "high"/);
   });
 
-  test('home stats: histogram step and the ≥5 wage block use the displayed value', async () => {
+  test('home stats: histogram step and the ≥7 wage block use the displayed value', async () => {
     const { displayScoreStep } = await import('../data/lib/banker-round.js');
     const riskStep = load<(v: unknown) => number>(indexJs, ['fmtRisk', 'riskStep'], 'riskStep');
     for (let k = 0; k <= 300; k += 1) {
@@ -237,7 +237,7 @@ describe('home and /map band the displayed value with one shared function (#864)
     assert.equal(riskStep(4.533333333333333), 4); // prints 4.5
     assert.doesNotMatch(indexJs, /hist\[Math\.round\(d\.ai_risk\)\]/);
     assert.match(indexJs, /hist\[riskStep\(d\.ai_risk\)\]\+\+/);
-    assert.match(indexJs, /Number\(fmtRisk\(d\.ai_risk\)\) >= 5 && d\.salary != null/);
+    assert.match(indexJs, /Number\(fmtRisk\(d\.ai_risk\)\) >= 7 && d\.salary != null/);
   });
 });
 
@@ -245,7 +245,7 @@ describe('mobile search pill prints with banker rounding (#864)', () => {
   const mobileNav = read('../components/MobileNav.astro');
   test('MobileNav carries the /me fmtRisk and uses it for the pill', () => {
     assert.equal(dedent(fnSource(mobileNav, 'fmtRisk')), dedent(fnSource(meJs, 'fmtRisk')));
-    assert.match(mobileNav, /pill\.textContent = \(doc\.ai_risk != null \? Number\(fmtRisk\(doc\.ai_risk\)\)\.toFixed\(1\) : '—'\) \+ '\/10';/);
+    assert.match(mobileNav, /pill\.textContent = doc\.ai_risk != null \? \(Number\(fmtRisk\(doc\.ai_risk\)\)\.toFixed\(1\) \+ '\/10 ' \+ riskBandWord\(doc\.ai_risk\)\) : '—';/);
     assert.doesNotMatch(mobileNav, /Number\(doc\.ai_risk\)\.toFixed\(1\)/);
   });
 });

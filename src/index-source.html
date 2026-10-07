@@ -65,17 +65,18 @@
           <ul class="kpi-row">
             <li><strong>__OCCUPATION_COUNT_SCORED__</strong><span>職業</span></li>
             <li><strong>__ACTIVE_BATCH_WORKFORCE_MAN__<small>万</small></strong><span>就業者</span></li>
-            <li><strong>__ACTIVE_BATCH_MEAN_AI_IMPACT__<small>/10</small></strong><span>平均 AI 影響</span></li>
-            <li><strong>__ACTIVE_BATCH_HIGH_IMPACT_WAGES_TRILLION__<small>兆</small></strong><span>高影響職業の賃金<small class="kpi-meta">影響≥5・__ACTIVE_BATCH_HIGH_IMPACT_COUNT__職業</small></span></li>
+            <li><strong>__ACTIVE_BATCH_MEAN_AI_IMPACT__<small>/10</small></strong><span>平均 AI 影響<small class="kpi-meta">__ACTIVE_BATCH_MEAN_BAND__</small></span></li>
+            <li><strong>__ACTIVE_BATCH_HIGH_IMPACT_WAGES_TRILLION__<small>兆</small></strong><span>高影響職業の賃金<small class="kpi-meta">影響≥7・__ACTIVE_BATCH_HIGH_IMPACT_COUNT__職業</small></span></li>
           </ul>
           <p class="risk-distribution-label">AI 影響度の分布（全 __OCCUPATION_COUNT_SCORED__ 職業）</p>
           <ul class="risk-distribution" role="list">
-            <li data-band="0-2" style="--w:__ACTIVE_BATCH_BAND_0_2_PCT__%" aria-label="影響度 0-2 低 __ACTIVE_BATCH_BAND_0_2_COUNT__ 職業 __ACTIVE_BATCH_BAND_0_2_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>低</strong> __ACTIVE_BATCH_BAND_0_2_COUNT__ 職業 <small>__ACTIVE_BATCH_BAND_0_2_PCT__%</small></span></li>
-            <li data-band="3-4" style="--w:__ACTIVE_BATCH_BAND_3_4_PCT__%" aria-label="影響度 3-4 中低 __ACTIVE_BATCH_BAND_3_4_COUNT__ 職業 __ACTIVE_BATCH_BAND_3_4_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>中低</strong> __ACTIVE_BATCH_BAND_3_4_COUNT__ <small>__ACTIVE_BATCH_BAND_3_4_PCT__%</small></span></li>
-            <li data-band="5-6" style="--w:__ACTIVE_BATCH_BAND_5_6_PCT__%" aria-label="影響度 5-6 中 __ACTIVE_BATCH_BAND_5_6_COUNT__ 職業 __ACTIVE_BATCH_BAND_5_6_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>中</strong> __ACTIVE_BATCH_BAND_5_6_COUNT__ <small>__ACTIVE_BATCH_BAND_5_6_PCT__%</small></span></li>
-            <li data-band="7-8" style="--w:__ACTIVE_BATCH_BAND_7_8_PCT__%" aria-label="影響度 7-8 高 __ACTIVE_BATCH_BAND_7_8_COUNT__ 職業 __ACTIVE_BATCH_BAND_7_8_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>高</strong> __ACTIVE_BATCH_BAND_7_8_COUNT__ <small>__ACTIVE_BATCH_BAND_7_8_PCT__%</small></span></li>
-            <li data-band="9-10" style="--w:__ACTIVE_BATCH_BAND_9_10_PCT__%" aria-label="影響度 9-10 最高 __ACTIVE_BATCH_BAND_9_10_COUNT__ 職業 __ACTIVE_BATCH_BAND_9_10_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>最高</strong> __ACTIVE_BATCH_BAND_9_10_COUNT__ <small>__ACTIVE_BATCH_BAND_9_10_PCT__%</small></span></li>
+            <li data-band="0-2" style="--w:__ACTIVE_BATCH_BAND_0_2_PCT__%" aria-label="影響度 0–2 __ACTIVE_BATCH_BAND_0_2_COUNT__ 職業 __ACTIVE_BATCH_BAND_0_2_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>0–2</strong> __ACTIVE_BATCH_BAND_0_2_COUNT__ 職業 <small>__ACTIVE_BATCH_BAND_0_2_PCT__%</small></span></li>
+            <li data-band="3-4" style="--w:__ACTIVE_BATCH_BAND_3_4_PCT__%" aria-label="影響度 3–4 __ACTIVE_BATCH_BAND_3_4_COUNT__ 職業 __ACTIVE_BATCH_BAND_3_4_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>3–4</strong> __ACTIVE_BATCH_BAND_3_4_COUNT__ <small>__ACTIVE_BATCH_BAND_3_4_PCT__%</small></span></li>
+            <li data-band="5-6" style="--w:__ACTIVE_BATCH_BAND_5_6_PCT__%" aria-label="影響度 5–6 __ACTIVE_BATCH_BAND_5_6_COUNT__ 職業 __ACTIVE_BATCH_BAND_5_6_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>5–6</strong> __ACTIVE_BATCH_BAND_5_6_COUNT__ <small>__ACTIVE_BATCH_BAND_5_6_PCT__%</small></span></li>
+            <li data-band="7-8" style="--w:__ACTIVE_BATCH_BAND_7_8_PCT__%" aria-label="影響度 7–8 __ACTIVE_BATCH_BAND_7_8_COUNT__ 職業 __ACTIVE_BATCH_BAND_7_8_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>7–8</strong> __ACTIVE_BATCH_BAND_7_8_COUNT__ <small>__ACTIVE_BATCH_BAND_7_8_PCT__%</small></span></li>
+            <li data-band="9-10" style="--w:__ACTIVE_BATCH_BAND_9_10_PCT__%" aria-label="影響度 9–10 __ACTIVE_BATCH_BAND_9_10_COUNT__ 職業 __ACTIVE_BATCH_BAND_9_10_PCT__%"><span class="rd-fill"></span><span class="rd-text"><strong>9–10</strong> __ACTIVE_BATCH_BAND_9_10_COUNT__ <small>__ACTIVE_BATCH_BAND_9_10_PCT__%</small></span></li>
           </ul>
+          <p class="risk-band-legend"><span>変化 小さい 4.0未満</span><span>変化 中くらい 4.0–6.9</span><span>変化 大きい 7.0以上</span></p>
         </section>
 
         <div class="page-banner" role="banner">
@@ -191,6 +192,7 @@
           <div class="gradient-legend">
             <span id="legendLow"></span>
             <canvas id="gradientLegend" width="80" height="8"></canvas>
+            <span id="legendMid" hidden></span>
             <span id="legendHigh"></span>
           </div>
           <button class="palette-toggle" id="paletteToggle" type="button" aria-pressed="false" title="色覚バリアフリーパレット切替">
@@ -253,25 +255,25 @@
           <h3 class="hub-subgroup-title">ケア・公共 <em>86 職業</em></h3>
           <ul class="hub-card-grid">
             <li><a class="hub-card" href="/sectors/iryo">
-              <span class="hc-eyebrow">AI 影響 中</span>
+              <span class="hc-eyebrow">変化 中くらい</span>
               <strong class="hc-name">医療・保健</strong>
               <span class="hc-lead">36 職業 · 341 万人</span>
               <span class="hc-desc">病院・診療所で働く医療専門職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/fukushi">
-              <span class="hc-eyebrow">AI 影響 低</span>
+              <span class="hc-eyebrow">変化 小さい</span>
               <strong class="hc-name">福祉・介護</strong>
               <span class="hc-lead">15 職業 · 219 万人</span>
               <span class="hc-desc">介護・福祉・相談支援の対人職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/kyoiku">
-              <span class="hc-eyebrow">AI 影響 低</span>
+              <span class="hc-eyebrow">変化 小さい</span>
               <strong class="hc-name">教育・指導</strong>
               <span class="hc-lead">20 職業 · 261 万人</span>
               <span class="hc-desc">学校・保育・指導の教育職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/hoan">
-              <span class="hc-eyebrow">AI 影響 中</span>
+              <span class="hc-eyebrow">変化 中くらい</span>
               <strong class="hc-name">保安・公安</strong>
               <span class="hc-lead">15 職業 · 110 万人</span>
               <span class="hc-desc">警察・消防・自衛・警備の公安職</span>
@@ -283,25 +285,25 @@
           <h3 class="hub-subgroup-title">知的・専門 <em>173 職業</em></h3>
           <ul class="hub-card-grid">
             <li><a class="hub-card" href="/sectors/senmon">
-              <span class="hc-eyebrow">AI 影響 中</span>
+              <span class="hc-eyebrow">変化 中くらい</span>
               <strong class="hc-name">専門・技術</strong>
               <span class="hc-lead">51 職業 · 156 万人</span>
               <span class="hc-desc">建築・機械・化学等の技術者・研究者</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/it">
-              <span class="hc-eyebrow">AI 影響 中</span>
+              <span class="hc-eyebrow">変化 中くらい</span>
               <strong class="hc-name">IT・通信</strong>
               <span class="hc-lead">22 職業 · 155 万人</span>
               <span class="hc-desc">SE・データ・DX の IT 職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/shigyo">
-              <span class="hc-eyebrow">AI 影響 中</span>
+              <span class="hc-eyebrow">変化 中くらい</span>
               <strong class="hc-name">士業・経営・コンサル</strong>
               <span class="hc-lead">63 職業 · 182 万人</span>
               <span class="hc-desc">弁護士・会計士・経営コンサル</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/creative">
-              <span class="hc-eyebrow">AI 影響 中</span>
+              <span class="hc-eyebrow">変化 中くらい</span>
               <strong class="hc-name">クリエイティブ・メディア</strong>
               <span class="hc-lead">37 職業 · 78 万人</span>
               <span class="hc-desc">デザイン・映像・記者・翻訳</span>
@@ -313,19 +315,19 @@
           <h3 class="hub-subgroup-title">事務・対人 <em>139 職業</em></h3>
           <ul class="hub-card-grid">
             <li><a class="hub-card" href="/sectors/jimu">
-              <span class="hc-eyebrow">AI 影響 中</span>
+              <span class="hc-eyebrow">変化 中くらい</span>
               <strong class="hc-name">事務・公務</strong>
               <span class="hc-lead">57 職業 · 1,153 万人</span>
               <span class="hc-desc">事務・経理・コールセンター・公務</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/hanbai">
-              <span class="hc-eyebrow">AI 影響 低</span>
+              <span class="hc-eyebrow">変化 小さい</span>
               <strong class="hc-name">販売・営業</strong>
               <span class="hc-lead">41 職業 · 662 万人</span>
               <span class="hc-desc">営業・店員・販売・MR</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/service">
-              <span class="hc-eyebrow">AI 影響 低</span>
+              <span class="hc-eyebrow">変化 小さい</span>
               <strong class="hc-name">サービス・接客</strong>
               <span class="hc-lead">41 職業 · 449 万人</span>
               <span class="hc-desc">飲食・美容・ホテルの接客</span>
@@ -337,31 +339,31 @@
           <h3 class="hub-subgroup-title">職人・現場 <em>158 職業</em></h3>
           <ul class="hub-card-grid">
             <li><a class="hub-card" href="/sectors/seizo">
-              <span class="hc-eyebrow">AI 影響 中</span>
+              <span class="hc-eyebrow">変化 中くらい</span>
               <strong class="hc-name">製造・職人</strong>
               <span class="hc-lead">59 職業 · 454 万人</span>
               <span class="hc-desc">食品・金属・工芸のものづくり</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/maint">
-              <span class="hc-eyebrow">AI 影響 低</span>
+              <span class="hc-eyebrow">変化 小さい</span>
               <strong class="hc-name">設備・保守</strong>
               <span class="hc-lead">49 職業 · 460 万人</span>
               <span class="hc-desc">設備保全・整備・施設管理</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/kensetu">
-              <span class="hc-eyebrow">AI 影響 低</span>
+              <span class="hc-eyebrow">変化 小さい</span>
               <strong class="hc-name">建設・土木</strong>
               <span class="hc-lead">20 職業 · 239 万人</span>
               <span class="hc-desc">大工・とび・土木の建設職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/keiseki">
-              <span class="hc-eyebrow">AI 影響 低</span>
+              <span class="hc-eyebrow">変化 小さい</span>
               <strong class="hc-name">軽作業・清掃</strong>
               <span class="hc-lead">16 職業 · 352 万人</span>
               <span class="hc-desc">清掃・倉庫・引越の軽作業</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/noringyo">
-              <span class="hc-eyebrow">AI 影響 低</span>
+              <span class="hc-eyebrow">変化 小さい</span>
               <strong class="hc-name">農林・水産</strong>
               <span class="hc-lead">14 職業 · 185 万人</span>
               <span class="hc-desc">農業・林業・漁業の一次産業</span>
@@ -388,13 +390,13 @@
             <li><a class="hub-card" href="/rankings/ai-risk-high">
               <span class="hc-eyebrow">AI 影響度</span>
               <strong class="hc-name">AIに奪われる仕事 TOP30</strong>
-              <span class="hc-lead">1位 データ入力（AI 影響 9.2）</span>
+              <span class="hc-lead">1位 データ入力（AI 影響 9.2/10 変化 大きい）</span>
               <span class="hc-desc">AI影響度が高い職業</span>
             </a></li>
             <li><a class="hub-card" href="/rankings/ai-risk-low">
               <span class="hc-eyebrow">AI 影響度</span>
               <strong class="hc-name">AI影響が少ない仕事 TOP30</strong>
-              <span class="hc-lead">1位 バーテンダー（AI 影響 1.3）</span>
+              <span class="hc-lead">1位 バーテンダー（AI 影響 1.3/10 変化 小さい）</span>
               <span class="hc-desc">将来性のある職業</span>
             </a></li>
             <li><a class="hub-card" href="/rankings/salary-safe">
@@ -446,15 +448,15 @@
           <h3 class="hub-subgroup-title">AI と職業 <em>6 軸</em></h3>
           <ul class="hub-card-grid">
             <li><a class="hub-card" href="/rankings/ai-replaced-soon">
-              <span class="hc-eyebrow">AI 影響 大</span>
+              <span class="hc-eyebrow">変化 大きい</span>
               <strong class="hc-name">AI 置き換えが進む職業</strong>
-              <span class="hc-lead">1位 データ入力（AI 影響 9.2）</span>
+              <span class="hc-lead">1位 データ入力（AI 影響 9.2/10 変化 大きい）</span>
               <span class="hc-desc">AI 影響度 8 以上、業務再設計が急務</span>
             </a></li>
             <li><a class="hub-card" href="/rankings/ai-resistant-craft">
               <span class="hc-eyebrow">技能職</span>
               <strong class="hc-name">伝統技能で AI に強い職業</strong>
-              <span class="hc-lead">1位 ハウスクリーニング（AI 影響 1.4）</span>
+              <span class="hc-lead">1位 ハウスクリーニング（AI 影響 1.4/10 変化 小さい）</span>
               <span class="hc-desc">製造・建設・メンテ系の技能職</span>
             </a></li>
             <li><a class="hub-card" href="/rankings/ai-at-risk-but-paid">
@@ -466,7 +468,7 @@
             <li><a class="hub-card" href="/rankings/ai-augmented">
               <span class="hc-eyebrow">AI 補強域</span>
               <strong class="hc-name">AI で補強される職業</strong>
-              <span class="hc-lead">1位 パイロット（AI 影響 5.0）</span>
+              <span class="hc-lead">1位 パイロット（AI 影響 5.0/10 変化 中くらい）</span>
               <span class="hc-desc">AI 影響度 4-6 の AI 共存域</span>
             </a></li>
             <li><a class="hub-card" href="/rankings/ai-frontier">
@@ -546,19 +548,19 @@
               <li><a class="hub-card" href="/rankings/ai-safe-no-license">
                 <span class="hc-eyebrow">安全 × 無資格</span>
                 <strong class="hc-name">無資格 × AI 安全 TOP30</strong>
-                <span class="hc-lead">1位 ワイン製造（AI 影響 2/10）</span>
+                <span class="hc-lead">1位 ワイン製造（AI 影響 2/10 変化 小さい）</span>
                 <span class="hc-desc">資格なしで就けて AI 影響も低い</span>
               </a></li>
               <li><a class="hub-card" href="/rankings/ai-safe-physical">
                 <span class="hc-eyebrow">安全 × 身体性</span>
                 <strong class="hc-name">身体性 × AI 安全 TOP30</strong>
-                <span class="hc-lead">1位 潜水士（AI 影響 1/10）</span>
+                <span class="hc-lead">1位 潜水士（AI 影響 1/10 変化 小さい）</span>
                 <span class="hc-desc">身体技能職で AI 影響も低い</span>
               </a></li>
               <li><a class="hub-card" href="/rankings/ai-safe-interpersonal">
                 <span class="hc-eyebrow">安全 × 対人</span>
                 <strong class="hc-name">対人 × AI 安全 TOP30</strong>
-                <span class="hc-lead">1位 理容師（AI 影響 2/10）</span>
+                <span class="hc-lead">1位 理容師（AI 影響 2/10 変化 小さい）</span>
                 <span class="hc-desc">対人スキル中心で AI 影響も低い</span>
               </a></li>
               <li><a class="hub-card" href="/rankings/high-salary-high-demand">
@@ -587,7 +589,7 @@
               <li><a class="hub-card" href="/rankings/no-license-required">
                 <span class="hc-eyebrow">無資格</span>
                 <strong class="hc-name">無資格で就ける × AI 安全 TOP30</strong>
-                <span class="hc-lead">1位 ワイン製造（AI 影響 2/10）</span>
+                <span class="hc-lead">1位 ワイン製造（AI 影響 2/10 変化 小さい）</span>
                 <span class="hc-desc">資格不要かつ AI リスク低</span>
               </a></li>
               <li><a class="hub-card" href="/rankings/high-school-ok">

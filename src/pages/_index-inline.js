@@ -51,6 +51,13 @@
         const d = Number(fmtRisk(v));
         return d < 4.0 ? "low" : d < 7.0 ? "mid" : "high";
       }
+      function riskBandWord(v) {
+        const d = Number(fmtRisk(v));
+        if (!Number.isFinite(d)) return "";
+        if (d < 4.0) return "変化 小さい";
+        if (d < 7.0) return "変化 中くらい";
+        return "変化 大きい";
+      }
       // GA4 risk_tier, analytics/spec.yaml: high >=7 / mid 5-6 / low <=4.
       function gaRiskTier(v) {
         const d = Number(fmtRisk(v));
@@ -195,8 +202,8 @@
           tiers: { ja: "段階別", en: "Tiers" },
           crosstab: { ja: "クロス集計", en: "Cross-tab" },
           impact: { ja: "影響度", en: "Impact" },
-          wagesExposed: { ja: "高リスク賃金総額（リスク≥5）", en: "Wages exposed (risk≥5)" },
-          highRiskJobs: { ja: "高リスク職業数", en: "High-risk jobs" },
+          wagesExposed: { ja: "変化 大きいの賃金総額（7.0以上）", en: "Wages exposed (risk≥5)" },
+          highRiskJobs: { ja: "変化 大きいの職業数", en: "High-risk jobs" },
           topPay: { ja: "最高年収", en: "Top salary" },
           medianPay: { ja: "中央値年収", en: "Median salary" },
           totalWages: { ja: "賃金総額", en: "Total wages" },
@@ -580,7 +587,7 @@
           if (topEmp) rowsJa.push(["最多雇用形態", topEmp[0] + " " + topEmp[1].toFixed(0) + "%"]);
           if (hourlyWage != null) rowsJa.push(["時給", Math.round(hourlyWage).toLocaleString() + " 円"]);
           rowsJa.push(["AI リスク", d.ai_risk != null
-            ? fmtRisk(d.ai_risk) + "/10" + (riskPctTop != null ? "（上位 " + riskPctTop + "%）" : "")
+            ? fmtRisk(d.ai_risk) + "/10 " + riskBandWord(d.ai_risk) + (riskPctTop != null ? "（上位 " + riskPctTop + "%）" : "")
             : "—"]);
           rowsJa.push(["理由", d.ai_rationale_ja || "—"]);
 
@@ -720,7 +727,7 @@
           // distribution is shown by this panel's 分布 histogram AND the home
           // KPI band's "AI 影響度の分布" bar. Keeping it made a 5-row card that
           // towered over the single-number cards.
-          const highRiskItems = items.filter(d => Number(fmtRisk(d.ai_risk)) >= 5 && d.salary != null);
+          const highRiskItems = items.filter(d => Number(fmtRisk(d.ai_risk)) >= 7 && d.salary != null);
           const wagesExposed = highRiskItems.reduce((s, d) => s + d.salary * d.workers, 0);
           const highRiskJobsCount = highRiskItems.length;
           // Cross-tab: avg AI risk by salary band
@@ -914,11 +921,21 @@
           hours: {ja: ["短い", "長い"], en: ["Short", "Long"]},
           recruit_ratio: {ja: ["低い", "高い"], en: ["Low demand", "High demand"]},
           education: {ja: ["学歴低", "学歴高"], en: ["Low edu", "High edu"]},
-          ai_risk: {ja: ["低リスク", "高リスク"], en: ["Low risk", "High risk"]}
+          ai_risk: {ja: ["変化 小さい", "変化 大きい"], en: ["Low risk", "High risk"]}
         };
         const cfg = cfgs[layer] || cfgs.salary;
         document.getElementById("legendLow").textContent = cfg[lang][0];
         document.getElementById("legendHigh").textContent = cfg[lang][1];
+        const legendMid = document.getElementById("legendMid");
+        if (legendMid) {
+          if (layer === "ai_risk") {
+            legendMid.hidden = false;
+            legendMid.textContent = "変化 中くらい";
+          } else {
+            legendMid.hidden = true;
+            legendMid.textContent = "";
+          }
+        }
       }
 
       // ---- Layer toggle ----
@@ -1420,7 +1437,7 @@
             const nameEn = rec.name_en || "";
             const display = nameJa || nameEn;
             const risk = rec.ai_risk != null ? rec.ai_risk : 0;
-            const riskLabel = "AI 影響度 " + fmtRisk(risk) + "/10";
+            const riskLabel = "AI 影響度 " + fmtRisk(risk) + "/10 " + riskBandWord(risk);
             const focusClass = i === 0 ? " focused" : "";
             return '<li role="option" class="ss-item' + focusClass + '" data-job-id="' + Number(rec.id) + '" data-idx="' + Number(i) + '">' +
               '<span class="ss-name">' + escapeHtml(display) + '</span>' +
@@ -1845,7 +1862,6 @@
         const section = document.getElementById("mTop10");
         if (!track || !section || !Array.isArray(top10) || !top10.length) return;
         if (top10.length === 0) return;
-        const tag = "大きく変わる仕事";
         const wLabel = "就業者";
         const sLabel = "年収";
         const fmtMan = n => {
@@ -1865,7 +1881,7 @@
           const display = nameJa || nameEn;
           const sub = nameEn;
           const score = (rec.ai_risk != null) ? Number(rec.ai_risk) : 0;
-          const scoreLabel = (rec.ai_risk != null) ? fmtRisk(rec.ai_risk) : "—";
+          const scoreLabel = (rec.ai_risk != null) ? (fmtRisk(rec.ai_risk) + "/10 " + riskBandWord(rec.ai_risk)) : "—";
           const rationaleRaw = rec.ai_rationale_ja || "";
           const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
           const sValue = fmtTop10Salary(rec.salary);
@@ -1878,8 +1894,7 @@
                 (sub ? '<span class="m-top10-card-name-en">' + escapeHtml(sub) + '</span>' : "") +
               '</div>' +
               '<div class="m-top10-card-score">' +
-                '<span class="risk-pill ' + riskClass3(score) + '">' + scoreLabel + '/10</span>' +
-                '<span class="m-top10-card-tag">' + escapeHtml(tag) + '</span>' +
+                '<span class="risk-pill ' + riskClass3(score) + '">' + scoreLabel + '</span>' +
               '</div>' +
               '<p class="m-top10-card-rationale">' + escapeHtml(rationaleRaw) + '</p>' +
               '<div class="m-top10-card-stats">' +

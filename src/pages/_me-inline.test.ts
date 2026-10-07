@@ -22,7 +22,8 @@ test('/me chips call rankMatches then selectJob, with input fallback', () => {
 
 test('/me prints every AI-impact score through fmtRisk (design-1.21)', () => {
   const source = readFileSync(join(import.meta.dirname, '_me-inline.js'), 'utf8');
-  assert.equal((source.match(/fmtRisk\((d|r2)\.ai_risk\) \+ '\/10'/g) ?? []).length, 2);
+  assert.equal((source.match(/riskLabel\((d|r2)\.ai_risk\)/g) ?? []).length, 2);
+  assert.match(source, /return fmtRisk\(r\) \+ '\/10 ' \+ word;/);
   assert.doesNotMatch(source, /\+ r2\.ai_risk \+ '\/10'/);
   assert.doesNotMatch(source, /\(d\.ai_risk != null \? d\.ai_risk : '\?'\)/);
   const start = source.indexOf('function fmtRisk(v) {');

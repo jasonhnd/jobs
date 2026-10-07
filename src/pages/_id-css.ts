@@ -47,6 +47,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .v-num.subn .score-num{font-size:var(--t-h3);margin-top:8px}
     .score-num small{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta);margin-left:2px}
     .score-num.unscored{font-size:var(--t-h1)}
+    .score-band{display:block;margin-top:var(--s-1);font-size:var(--t-sm);font-weight:700;line-height:1.3;color:var(--ink);overflow-wrap:anywhere}
     .v-rank{margin:0;font-size:var(--t-sm);line-height:1.45;color:var(--ink-meta);font-variant-numeric:tabular-nums;font-weight:600}
     .v-obs{margin:0;font-size:var(--t-sm);line-height:1.65;color:var(--ink-2);line-break:strict;overflow-wrap:anywhere;word-break:normal}
     .v-obs a{color:var(--ink-2);text-decoration:underline;text-decoration-thickness:0.06em;text-underline-offset:0.16em}
