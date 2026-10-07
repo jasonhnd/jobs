@@ -88,7 +88,14 @@ function defaultError(...args: unknown[]): void {
  * Per entry: rename current → backup, then staged → current. On failure,
  * restore every entry that already moved. Delete backups only after all
  * entries succeed. EBUSY/EPERM/EACCES retry 3 times. EXDEV falls back to
- * copy + remove.
+ * copy + remove for every move, rollback included; a failed copy removes its
+ * partial destination, and a restore removes whatever sits at the target
+ * first, so a half-copied directory never blocks it.
+ *
+ * Backups live under `cacheDir`, never in `outDir`: `outDir` is copied
+ * verbatim into the deploy, so a backup left by a failed rollback must not
+ * sit there. A successful promote also moves older `data*.backup-*` leftovers
+ * out of `outDir` into `cacheDir/stale-promote-backups/`.
  */
 export async function promoteStagedOutputs(options: PromoteStagedOutputsOptions): Promise<void> {
   const fs: PromoteFs = { ...nodeFs, ...options.fs };
@@ -126,6 +133,29 @@ export async function promoteStagedOutputs(options: PromoteStagedOutputsOptions)
       }
     }
     throw lastErr;
+  }
+
+  /**
+   * Move `from` to `to`. On EXDEV, copy then remove the source; a copy that
+   * fails part-way removes its partial destination so `from` stays the only
+   * copy. `onPlaced` runs once `to` holds a complete copy.
+   */
+  async function moveEntry(from: string, to: string, onPlaced: () => void = () => {}): Promise<void> {
+    try {
+      await renameWithRetry(from, to);
+      onPlaced();
+      return;
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code !== 'EXDEV') throw err;
+    }
+    try {
+      await fs.cp(from, to, { recursive: true });
+    } catch (copyErr) {
+      await fs.rm(to, { recursive: true, force: true }).catch(() => {});
+      throw copyErr;
+    }
+    onPlaced();
+    await fs.rm(from, { recursive: true, force: true });
   }
 
   log('\n  [promote] STAGE_DIST → TS_DIST …');
@@ -173,44 +203,27 @@ export async function promoteStagedOutputs(options: PromoteStagedOutputsOptions)
   const entryStatus = new Map<string, EntryStatus>();
   for (const name of stagedEntries) entryStatus.set(name, 'pending');
 
-  const backupSuffix = `.backup-${buildId.replace(/[:.]/g, '-')}`;
+  // Outside outDir, so a backup kept after a failed rollback is never deployed.
+  const backupDir = join(cacheDir, `promote.backup-${buildId.replace(/[:.]/g, '-')}`);
+  await fs.mkdir(backupDir, { recursive: true });
+  const backupOf = (name: string): string => join(backupDir, name);
 
   try {
     for (const name of stagedEntries) {
       const from = join(stageDir, name);
       const to = join(outDir, name);
-      const backup = join(outDir, `${name}${backupSuffix}`);
+      const markBackedUp = (): void => {
+        entryStatus.set(name, 'backed-up');
+      };
 
       // Step 1: move current → backup (if current exists).
-      const currentExists = await pathExists(to);
-      if (currentExists) {
-        try {
-          await renameWithRetry(to, backup);
-        } catch (err) {
-          const code = (err as NodeJS.ErrnoException).code;
-          if (code === 'EXDEV') {
-            await fs.cp(to, backup, { recursive: true });
-            await fs.rm(to, { recursive: true, force: true });
-          } else {
-            throw err;
-          }
-        }
-      }
-      entryStatus.set(name, 'backed-up');
+      if (await pathExists(to)) await moveEntry(to, backupOf(name), markBackedUp);
+      markBackedUp();
 
       // Step 2: move staged → current.
-      try {
-        await renameWithRetry(from, to);
-      } catch (err) {
-        const code = (err as NodeJS.ErrnoException).code;
-        if (code === 'EXDEV') {
-          await fs.cp(from, to, { recursive: true });
-          await fs.rm(from, { recursive: true, force: true });
-        } else {
-          throw err;
-        }
-      }
-      entryStatus.set(name, 'promoted');
+      await moveEntry(from, to, () => {
+        entryStatus.set(name, 'promoted');
+      });
     }
   } catch (promoteErr) {
     // Rollback: any 'promoted' or 'backed-up' entries must be restored.
@@ -218,42 +231,39 @@ export async function promoteStagedOutputs(options: PromoteStagedOutputsOptions)
       `\n  [promote] FAILED — rolling back ${entryStatus.size} entries:`,
       promoteErr instanceof Error ? promoteErr.message : String(promoteErr),
     );
+    let rollbackFailed = false;
     for (const [name, status] of entryStatus) {
+      // 'pending' entries were never touched.
+      if (status === 'pending') continue;
       const to = join(outDir, name);
-      const backup = join(outDir, `${name}${backupSuffix}`);
+      const backup = backupOf(name);
       try {
-        if (status === 'promoted') {
-          // Restore: remove the new content, rename backup back.
-          await fs.rm(to, { recursive: true, force: true });
-          if (await pathExists(backup)) {
-            await renameWithRetry(backup, to);
-          }
-        } else if (status === 'backed-up') {
-          // We removed the old but never put the new in place — restore old.
-          if (await pathExists(backup)) {
-            await renameWithRetry(backup, to);
-          }
-        }
-        // 'pending' entries were never touched.
+        // Remove the new or half-copied content first, so restoring never
+        // hits ENOTEMPTY and never leaves a partial directory in place.
+        await fs.rm(to, { recursive: true, force: true });
+        if (await pathExists(backup)) await moveEntry(backup, to);
       } catch (rollbackErr) {
+        rollbackFailed = true;
         error(
           `  [promote] rollback of ${name} also failed:`,
           rollbackErr instanceof Error ? rollbackErr.message : String(rollbackErr),
         );
+        if (await pathExists(backup)) error(`  [promote] previous ${name} is kept at ${backup}`);
       }
     }
+    if (!rollbackFailed) await fs.rm(backupDir, { recursive: true, force: true }).catch(() => {});
     throw promoteErr;
   }
 
   // All entries promoted successfully — clean up backups.
   for (const name of stagedEntries) {
-    const backup = join(outDir, `${name}${backupSuffix}`);
-    await fs.rm(backup, { recursive: true, force: true }).catch((err) => {
+    await fs.rm(backupOf(name), { recursive: true, force: true }).catch((err) => {
       // Backup cleanup failure is not fatal — the build itself succeeded,
-      // just log it so an operator notices accumulating .backup-* directories.
+      // just log it so an operator notices accumulating backup directories.
       warn(`  [promote] backup cleanup failed for ${name}:`, err.message);
     });
   }
+  await fs.rm(backupDir, { recursive: true, force: true }).catch(() => {});
 
   // Promote succeeded. Write the manifest BEFORE clearing the sentinel
   // so a crash between these two writes still leaves a coherent record.
@@ -276,16 +286,29 @@ export async function promoteStagedOutputs(options: PromoteStagedOutputsOptions)
   //
   // Entries that don't match (og.png, robots.txt, llms.txt, and any
   // operator-placed file) are never touched. Names containing
-  // `.backup-` belong to a failed prior promote and are left alone.
+  // `.backup-` belong to a failed prior promote: they are not deleted, but
+  // moved out of the publish dir so they are never deployed.
   const managedSet = new Set(stagedEntries);
   const allEntries = await fs.readdirWithFileTypes(outDir);
   const orphaned: string[] = [];
+  const staleBackups: string[] = [];
   for (const ent of allEntries) {
     const name = ent.name;
     if (!name.startsWith('data.') && !name.startsWith('data-')) continue;
     if (managedSet.has(name)) continue;
-    if (name.includes('.backup-')) continue;
-    orphaned.push(name);
+    if (name.includes('.backup-')) staleBackups.push(name);
+    else orphaned.push(name);
+  }
+  if (staleBackups.length > 0) {
+    const staleDir = join(cacheDir, 'stale-promote-backups');
+    await fs.mkdir(staleDir, { recursive: true });
+    warn(`  [promote] moved ${staleBackups.length} leftover backup(s) out of the publish dir into ${staleDir}:`);
+    for (const name of staleBackups) {
+      warn(`    - ${name}`);
+      const target = join(staleDir, name);
+      await fs.rm(target, { recursive: true, force: true });
+      await moveEntry(join(outDir, name), target);
+    }
   }
   if (orphaned.length > 0) {
     log(`  [cleanup] removing ${orphaned.length} orphaned public/data.* entries:`);

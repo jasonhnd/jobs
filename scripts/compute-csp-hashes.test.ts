@@ -41,11 +41,13 @@ function createFixture({
   body = 'window.fixtureScript = true;',
   extraHashes = [],
   htmlPrefix = '',
+  htmlSuffix = '',
   omitFallbackHash,
 }: {
   body?: string;
   extraHashes?: string[];
   htmlPrefix?: string;
+  htmlSuffix?: string;
   omitFallbackHash?: string;
 } = {}): string {
   const root = mkdtempSync(join(tmpdir(), 'jobs-csp-hashes-'));
@@ -60,7 +62,7 @@ function createFixture({
   copyFileSync(WALK_FILES, join(root, 'scripts', 'lib', 'walk-files.cjs'));
   writeFileSync(
     join(root, 'dist-astro', 'index.html'),
-    `${htmlPrefix}<script>${body}</script>`,
+    `${htmlPrefix}<script>${body}</script>${htmlSuffix}`,
     'utf8',
   );
 
@@ -120,6 +122,40 @@ describe('compute-csp-hashes fail-closed validation', () => {
 
     assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
     assert.match(result.stdout, /matches dist-astro/);
+  });
+
+  test('an unclosed "<!--" inside a script body does not hide the next real script', () => {
+    const first = 'var s="<!--";';
+    const root = createFixture({
+      htmlPrefix: `<script>${first}</script>`,
+      htmlSuffix: '<!-- c -->',
+      extraHashes: [hashScript(first)],
+    });
+    const result = runCheck(root);
+
+    assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+    assert.match(result.stdout, /matches dist-astro/);
+  });
+
+  test('a real comment still hides a <script> written inside it', () => {
+    const root = createFixture({
+      htmlPrefix: '<!-- <script>window.notReal = 1;</script> -->',
+    });
+    const result = runCheck(root);
+
+    assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+    assert.match(result.stdout, /matches dist-astro/);
+  });
+
+  test('fails when dist-astro/ contains no HTML files', () => {
+    const root = createFixture();
+    rmSync(join(root, 'dist-astro', 'index.html'));
+    const before = readFileSync(join(root, 'vercel.json'), 'utf8');
+    const result = runCheck(root, false, false);
+
+    assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
+    assert.match(result.stderr, /no \.html files found under dist-astro/);
+    assert.equal(readFileSync(join(root, 'vercel.json'), 'utf8'), before);
   });
 
   test('rejects a stale committed hash without analytics env', () => {

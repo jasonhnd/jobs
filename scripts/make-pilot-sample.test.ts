@@ -2,7 +2,14 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { pickPilotSample, riskBand, MUST_INCLUDE_NAMES, type BaselineEntry } from './make-pilot-sample.js';
+import {
+  pickPilotSample,
+  riskBand,
+  selectLatestAioisBatch,
+  MUST_INCLUDE_NAMES,
+  type BaselineEntry,
+  type BatchCandidate,
+} from './make-pilot-sample.js';
 
 const mk = (
   id: number,
@@ -92,5 +99,43 @@ describe('pickPilotSample', () => {
     const small = ENTRIES.slice(0, 10);
     const s = pickPilotSample(small, 40);
     assert.equal(s.picks.length, 10);
+  });
+});
+
+describe('selectLatestAioisBatch', () => {
+  const c = (path: string, runDate: string, over: Partial<BatchCandidate> = {}): BatchCandidate => ({
+    path,
+    scope: 'occupations',
+    runDate,
+    hasAiois: true,
+    backfill: false,
+    ...over,
+  });
+
+  test('skips a newer backfill batch and picks the newest active AIOIS batch', () => {
+    assert.equal(
+      selectLatestAioisBatch([
+        c('a', '2026-09-23'),
+        c('backfill', '2026-10-05', { backfill: true }),
+        c('b', '2026-10-01'),
+      ]),
+      'b',
+    );
+  });
+
+  test('skips non-occupation scopes, batches without AIOIS vectors, and missing dates', () => {
+    assert.equal(
+      selectLatestAioisBatch([
+        c('old', '2026-01-01'),
+        c('tasks', '2026-12-01', { scope: 'tasks' }),
+        c('legacy', '2026-12-02', { hasAiois: false }),
+        c('nodate', ''),
+      ]),
+      'old',
+    );
+  });
+
+  test('returns null when only backfill batches exist', () => {
+    assert.equal(selectLatestAioisBatch([c('bf', '2026-10-01', { backfill: true })]), null);
   });
 });
