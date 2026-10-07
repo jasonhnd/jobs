@@ -153,6 +153,8 @@ Registered providers:
 | `codex` | Locally logged-in Codex CLI subscription | yes (`--output-schema`) | Shipped the gpt-5.6-sol batch; behaviour frozen and pinned by `run-scoring-codex.test.ts`. `gpt-6-astra` (mms-8.32/8.33) rides the same transport with an explicit `--model` and `--reasoning-effort high`. `scripts/run-scoring.ts` requires `--provider` and `--model`. Only the compatibility entry `run-scoring-codex.ts` defaults the model to `gpt-5.6-sol`, and that default is not the current OpenAI seat. |
 | `grok-cli` | Locally logged-in grok CLI subscription | yes (`--json-schema` inline) | xAI flagship transport from Grok 4.7 on ([mms-10](#mms-10-grok-47-xai-flagship-seat)). The frozen call passes `--model grok-4.7-build-fast` and `--reasoning-effort xhigh`. The public slug stays `grok-4.7`. Owner machine only. Grok 4.6 and the Grok 4.5 backfill stay `in-agent`. |
 
+Each `codex` and `grok-cli` call has a hard timeout (default 1200 s, `--call-timeout-sec <n>` to change it; the value is recorded as `call_timeout_sec` in `provider-preflight.json`). A call that hits it is killed and recorded as a `transport` failure, so it is retried with backoff like any other transport error.
+
 There is no Vercel AI Gateway provider. Do not add one.
 
 ```bash

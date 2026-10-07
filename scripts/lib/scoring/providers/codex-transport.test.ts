@@ -9,6 +9,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 import { codexProvider, runCodexExec } from './codex.js';
+import { classifyErrorText } from '../errors.js';
 import type { PrepareRunContext } from '../provider.js';
 
 const STUB = `#!/bin/sh
@@ -31,6 +32,9 @@ if [ "$1" = "exec" ] && [ "$2" = "--help" ]; then
   exit 0
 fi
 cat > "$log.stdin"
+if [ -n "\${CODEX_STUB_SLEEP:-}" ]; then
+  exec sleep "$CODEX_STUB_SLEEP"
+fi
 echo "stdout-from-stub"
 echo "stderr-from-stub" >&2
 prev=""
@@ -74,6 +78,7 @@ test('codex transport uses a PATH stub instead of the real CLI', async () => {
     delete process.env.CODEX_STUB_WRITE_LAST;
     delete process.env.CODEX_STUB_LAST_BODY;
     delete process.env.CODEX_STUB_EXIT;
+    delete process.env.CODEX_STUB_SLEEP;
   };
   try {
     mkdirSync(stubDir);
@@ -152,6 +157,25 @@ test('codex transport uses a PATH stub instead of the real CLI', async () => {
     assert.equal(fromStdout.rawText, 'stdout-from-stub\n');
     assert.equal(fromStdout.exitCode, 0);
 
+    process.env.CODEX_STUB_SLEEP = '30';
+    const started = Date.now();
+    const hung = await runCodexExec(
+      'PROMPT-BODY',
+      {
+        cwd: root,
+        model: 'gpt-job0064',
+        outputLastMessagePath: missingLast,
+        outputSchemaPath: schemaPath,
+      },
+      300,
+    );
+    assert.ok(Date.now() - started < 5_000, 'a hung codex must not hang the call');
+    assert.equal(hung.exitCode, 1);
+    assert.equal(hung.rawText, '');
+    assert.match(hung.stderr, /^codex timed out after \d+s and was killed/);
+    assert.equal(classifyErrorText(hung.stderr), 'transport');
+    delete process.env.CODEX_STUB_SLEEP;
+
     clearStubEnv();
     process.env.PATH = emptyDir;
     const failed = await runCodexExec('PROMPT-BODY', {
@@ -175,6 +199,7 @@ test('codex transport uses a PATH stub instead of the real CLI', async () => {
     restore('CODEX_STUB_WRITE_LAST', savedEnv.writeLast);
     restore('CODEX_STUB_LAST_BODY', savedEnv.lastBody);
     restore('CODEX_STUB_EXIT', savedEnv.exit);
+    delete process.env.CODEX_STUB_SLEEP;
     rmSync(root, { recursive: true, force: true });
   }
 });
