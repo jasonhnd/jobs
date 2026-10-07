@@ -13,7 +13,7 @@
  * dependencies. See _frame.ts for the full rationale.
  */
 
-import { fetchWithTimeout } from '../http-client.js';
+import { fetchJsonWithTimeout } from '../http-client.js';
 import { OG_DATA_FETCH_TIMEOUT_MS } from '../og-helpers.js';
 
 import { ImageResponse } from '@vercel/og';
@@ -40,13 +40,13 @@ export async function renderSectorOgCard(
   }
 
   const sectorsUrl = new URL('/data.sectors.json', trustedFetchOrigin(url));
-  const res = await fetchWithTimeout(sectorsUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
+  const { response: res, body: projectionRaw } =
+    await fetchJsonWithTimeout(sectorsUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
   if (!res.ok) {
     return new Response('Upstream sectors fetch failed', { status: 502 });
   }
   // Validate the projection shape at runtime — corrupted upstream
   // shouldn't crash the Edge function with a cryptic undefined deref.
-  const projectionRaw: unknown = await res.json();
   const parsed = SectorsProjectionSchema.safeParse(projectionRaw);
   if (!parsed.success) {
     // Log structured detail server-side; respond with a fixed message.

@@ -16,7 +16,7 @@
  * dependencies. See _frame.ts for the shared OG renderer convention.
  */
 
-import { fetchWithTimeout } from '../http-client.js';
+import { fetchJsonWithTimeout } from '../http-client.js';
 import { OG_DATA_FETCH_TIMEOUT_MS } from '../og-helpers.js';
 
 import { ImageResponse } from '@vercel/og';
@@ -81,12 +81,12 @@ export async function renderWorktypeOgCard(
   input: WorktypeRenderInput,
 ): Promise<Response> {
   const worktypesUrl = new URL('/data.worktypes.json', trustedFetchOrigin(url));
-  const worktypesRes = await fetchWithTimeout(worktypesUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
+  const { response: worktypesRes, body: worktypesRaw } =
+    await fetchJsonWithTimeout(worktypesUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
   if (!worktypesRes.ok) {
     return new Response('Upstream worktypes fetch failed', { status: 502 });
   }
 
-  const worktypesRaw: unknown = await worktypesRes.json();
   const worktypesParsed = WorktypesProjectionSchema.safeParse(worktypesRaw);
   if (!worktypesParsed.success) {
     // eslint-disable-next-line no-console
@@ -523,10 +523,10 @@ async function fetchJobContext(
   }
 
   const detailUrl = new URL(`/data.detail/${paddedId}.json`, trustedFetchOrigin(url));
-  const detailRes = await fetchWithTimeout(detailUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
+  const { response: detailRes, body: detailRaw } =
+    await fetchJsonWithTimeout(detailUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
   if (!detailRes.ok) return null;
 
-  const detailRaw: unknown = await detailRes.json();
   const detailParsed = DetailRecordSchema.safeParse(detailRaw);
   if (!detailParsed.success) return null;
 
