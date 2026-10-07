@@ -83,11 +83,13 @@ const VIOLATION_PATTERNS = [
 
 // Comments are prose, not CSS: the source files document the rule itself
 // ("no :root, no raw values", "`:root{}` は canonical-css.ts 経由"). A `//`
-// preceded by `:` is a URL scheme (`https://`) and is kept.
+// only opens a line comment at the start of a line or after whitespace or
+// `;` `{` `}` `,` — after `:` (`https://`), `(` (`url(//cdn)`) or a quote
+// (`url('//cdn')`) it is part of a URL and is kept.
 function stripComments(content) {
   return content
     .replace(/\/\*[\s\S]*?\*\//g, ' ')
-    .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    .replace(/(^|[\s;{},])\/\/[^\n]*/gm, '$1');
 }
 
 function findViolations(content) {

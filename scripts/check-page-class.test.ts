@@ -25,6 +25,8 @@ describe('check-page-class :root re-declaration', () => {
     ['inside a template literal', 'export const CSS = `:root{--x:1}`;'],
     ['inside a <style> block on one line', '<style>.a{} :root{--x:1}</style>'],
     ['after a url() on the same line', '.a{background:url(https://x.test/a.png)} :root{--x:1}'],
+    ['after a protocol-relative url() on the same line', '.a{background:url(//cdn.example/x)}:root{--x:1}'],
+    ['after a quoted protocol-relative url()', ".a{background:url('//cdn.example/x')} :root{--x:1}"],
   ];
 
   for (const [name, content] of offending) {
