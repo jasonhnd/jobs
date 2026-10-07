@@ -218,11 +218,15 @@ function buildFaqs(meta: CompareMeta, a: CompareSide, b: CompareSide): Array<rea
   // Q3: 年収
   if (a.salary !== null && b.salary !== null) {
     const winner = a.salary > b.salary ? a : b;
-    const diff = Math.abs(a.salary - b.salary);
+    const diff = Math.trunc(Math.abs(a.salary - b.salary));
+    const amounts = `（${a.name_ja}: ${Math.trunc(a.salary)} 万円、${b.name_ja}: ${Math.trunc(b.salary)} 万円）`;
+    // Under 1 万円 apart there is no 「高い」 side to name (#884: 「約 0 万円高い」).
+    const lead = diff === 0
+      ? `両者の年収は同程度です${amounts}。`
+      : `${winner.name_ja} の方が約 ${diff} 万円高い傾向です${amounts}。`;
     faqs.push([
       `年収はどちらが高い？`,
-      `${winner.name_ja} の方が約 ${Math.trunc(diff)} 万円高い傾向です（${a.name_ja}: ${Math.trunc(a.salary)} 万円、${b.name_ja}: ${Math.trunc(b.salary)} 万円）。` +
-        `これは厚労省 jobtag のデータで、勤務先・地域・経験により幅があります。`,
+      lead + `これは厚労省 jobtag のデータで、勤務先・地域・経験により幅があります。`,
     ]);
   }
 
