@@ -8,7 +8,9 @@
  *   1. Payload parses as JSON (no `__parseError` from seo-extract).
  *   2. Top-level shape: `@context === 'https://schema.org'` and
  *      `@graph` is a non-empty array.
- *   3. Every graph node has a string `@type` and a string `@id`.
+ *   3. Every graph node has a `@type` (a string or a non-empty array of
+ *      strings); an `@id`, when present, is a string. With an array, the
+ *      contract of every listed type applies.
  *   4. Page-type-specific contracts:
  *      - WebPage:        requires url + name + description + inLanguage
  *      - Occupation:     requires name + description + occupationLocation
@@ -54,6 +56,16 @@ function isNonEmptyString(v) {
 
 function isNonEmptyArray(v) {
   return Array.isArray(v) && v.length > 0;
+}
+
+/** A node's types: JSON-LD allows `@type` to be a string or an array of
+ *  strings (`["WebPage", "MedicalWebPage"]`). Returns null when it is
+ *  neither — missing, empty, or carrying a non-string member. */
+function nodeTypes(node) {
+  const type = node['@type'];
+  if (isNonEmptyString(type)) return [type];
+  if (isNonEmptyArray(type) && type.every(isNonEmptyString)) return type;
+  return null;
 }
 
 function walkHtmlFiles(dir) {
@@ -205,7 +217,7 @@ function validatePage(url, payloads) {
         continue;
       }
       nodes = payload['@graph'];
-    } else if (isNonEmptyString(payload['@type'])) {
+    } else if (nodeTypes(payload) !== null) {
       nodes = [payload];
     } else {
       errs.push('payload has neither @graph[] nor a root @type');
@@ -217,21 +229,22 @@ function validatePage(url, payloads) {
         errs.push(`node[${idx}] not an object`);
         return;
       }
-      const type = node['@type'];
-      if (!isNonEmptyString(type)) {
+      const types = nodeTypes(node);
+      if (types === null) {
         errs.push(`node[${idx}] missing string @type`);
         return;
       }
       const id = node['@id'];
       if (id !== undefined && !isNonEmptyString(id)) {
-        errs.push(`node[${idx}] (@type=${type}) has non-string @id: ${JSON.stringify(id)}`);
+        errs.push(`node[${idx}] (@type=${types.join('/')}) has non-string @id: ${JSON.stringify(id)}`);
       }
-      const validator = TYPE_VALIDATORS[type];
-      if (validator) {
-        const typeErrs = validator(node);
-        for (const e of typeErrs) errs.push(e);
+      for (const type of types) {
+        const validator = TYPE_VALIDATORS[type];
+        if (validator) {
+          for (const e of validator(node)) errs.push(e);
+        }
+        if (PAGE_IDENTITY_TYPES.has(type)) hasPageIdentity = true;
       }
-      if (PAGE_IDENTITY_TYPES.has(type)) hasPageIdentity = true;
     });
   }
 
@@ -252,6 +265,12 @@ function main() {
   }
 
   const htmlFiles = walkHtmlFiles(DIST_ROOT);
+  // A build directory with no pages would otherwise pass as "all 0/0 pages
+  // structurally valid" — the gate must not go green while checking nothing.
+  if (htmlFiles.length === 0) {
+    console.error(`[verify-jsonld] ${DIST_ROOT} contains no HTML files. Run \`bun run build\` first.`);
+    process.exit(1);
+  }
   const failures = [];
   const typeCounts = new Map();
   let pagesWithJsonLd = 0;
@@ -271,8 +290,9 @@ function main() {
     for (const p of payloads) {
       if (!isObject(p) || !Array.isArray(p['@graph'])) continue;
       for (const node of p['@graph']) {
-        if (isObject(node) && isNonEmptyString(node['@type'])) {
-          typeCounts.set(node['@type'], (typeCounts.get(node['@type']) ?? 0) + 1);
+        if (!isObject(node)) continue;
+        for (const type of nodeTypes(node) ?? []) {
+          typeCounts.set(type, (typeCounts.get(type) ?? 0) + 1);
         }
       }
     }

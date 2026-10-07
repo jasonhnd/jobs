@@ -99,21 +99,28 @@ const OG_CACHE_CONTROL =
 export async function GET(req: Request): Promise<Response> {
   try {
     const res = await renderHandler(req);
-    // @vercel/og's ImageResponse MERGES its own default Cache-Control
+    // Error responses keep their own (non-)caching headers.
+    if (res.status !== 200) return res;
+    // @vercel/og's ImageResponse renders lazily INSIDE its body stream: a
+    // satori / resvg failure (e.g. bytes that are not a font) surfaces only
+    // while the body is read, after this handler would already have answered
+    // 200 with a 1-day cache (#861). Read the whole image here so that
+    // failure lands in the catch below as an uncached 503.
+    const image = await res.arrayBuffer();
+    // ImageResponse also MERGES its own default Cache-Control
     // (`public, immutable, no-transform, max-age=31536000`) with any
     // per-renderer header, shipping a duplicated directive list; the
     // generic cards set nothing and inherit the bare 1-year default.
     // Normalize every 200 here so all five card kinds share one policy
-    // (#330). Error responses keep their own (non-)caching headers.
-    if (res.status === 200) {
-      res.headers.set("Cache-Control", OG_CACHE_CONTROL);
-    }
-    return res;
+    // (#330).
+    const headers = new Headers(res.headers);
+    headers.set("Cache-Control", OG_CACHE_CONTROL);
+    return new Response(image, { status: 200, headers });
   } catch (err) {
-    // Catch-all so a malformed Google Fonts response or a transient network
-    // error returns a 503 with Retry-After instead of leaking a stack trace
-    // through Vercel's default 500 page (which the social-card scrapers
-    // would then cache).
+    // Catch-all so a malformed Google Fonts response, a lazy render failure
+    // or a transient network error returns a 503 with Retry-After instead of
+    // leaking a stack trace through Vercel's default 500 page (which the
+    // social-card scrapers would then cache).
     //
     // Detailed error → server-side log only. Response body is a fixed
     // string so we never echo data-source paths, font-loading internals,
@@ -130,14 +137,13 @@ export async function GET(req: Request): Promise<Response> {
 
 // Social scrapers and image validators (the image-sitemap submits 556
 // `og?id=` URLs to image crawlers) may probe HEAD before GET; named-export
-// routing otherwise answers 405 (#330). Answer cheaply without rendering:
-// the dispatcher never 400s (unrenderable input degrades to the home
-// card), so a bare 200 + image/png is truthful for any query.
-export function HEAD(_req: Request): Response {
-  return new Response(null, {
-    status: 200,
-    headers: { "Content-Type": "image/png", "Cache-Control": OG_CACHE_CONTROL },
-  });
+// routing otherwise answers 405 (#330). HEAD answers exactly what GET would
+// — same status and headers, no body (#861): a bare 200 + 1-day cache used
+// to vouch for URLs whose GET is a 404 / 502 / 503. The CDN caches the
+// result per URL like GET, so the render cost is paid once.
+export async function HEAD(req: Request): Promise<Response> {
+  const res = await GET(req);
+  return new Response(null, { status: res.status, headers: res.headers });
 }
 
 async function renderHandler(req: Request): Promise<Response> {

@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { create as createFont } from 'fontkitten';
 import subsetFont from 'subset-font';
 
+import { decodeHtmlEntities } from './lib/html-entities.js';
 import { walkFiles } from './lib/walk-files.cjs';
 
 const ROOT = process.cwd();
@@ -148,24 +149,6 @@ const SERIF_CLASS_SUFFIXES = [
 function fail(message: string): never {
   process.stderr.write(`[subset-fonts] FAIL: ${message}\n`);
   process.exit(1);
-}
-
-function decodeHtmlEntities(text: string): string {
-  return text
-    .replace(/&#x([0-9a-fA-F]+);/g, (_m, hex: string) => {
-      const cp = Number.parseInt(hex, 16);
-      return Number.isFinite(cp) ? String.fromCodePoint(cp) : '';
-    })
-    .replace(/&#([0-9]+);/g, (_m, dec: string) => {
-      const cp = Number.parseInt(dec, 10);
-      return Number.isFinite(cp) ? String.fromCodePoint(cp) : '';
-    })
-    .replace(/&nbsp;/g, '\u00a0')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'");
 }
 
 function stripNonVisibleBlocks(html: string): string {

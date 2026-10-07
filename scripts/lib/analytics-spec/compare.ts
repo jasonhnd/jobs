@@ -22,7 +22,7 @@ export function createComparison(
     'engagement_time_msec',
   ]);
 
-  function validateScan({ emissions, undeclaredDynamic }: ScanResult): void {
+  function validateScan({ emissions, undeclaredDynamic, unreadable }: ScanResult): void {
     if (undeclaredDynamic.length > 0) {
       fail(
         `these files call gtag('event', …) with a non-literal event name and are ` +
@@ -31,6 +31,15 @@ export function createComparison(
           `\n  The gate cannot read the event name from such a call. Add an entry ` +
           `in scripts/check-analytics-spec.ts declaring either the wrapper ` +
           `function or the reachable event names.`,
+      );
+    }
+    if (unreadable.length > 0) {
+      fail(
+        `the gate cannot read these analytics calls, so it cannot vouch for what ` +
+          `they send:\n` +
+          unreadable.map((u) => `    ${u}`).join('\n') +
+          `\n  Write the call as gtag('event', 'literal_name', { param: value, … }), ` +
+          `or declare the site in DYNAMIC_EMIT_SITES in scripts/lib/analytics-spec/scan.ts.`,
       );
     }
     if (emissions.length === 0) fail('found zero gtag events in src/ — the scan is broken.');

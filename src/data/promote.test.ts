@@ -2,7 +2,7 @@
 // Every fixture lives under os.tmpdir(). Nothing here writes into data/ or public/.
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { access, mkdir, mkdtemp, readFile, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
+import { access, cp, mkdir, mkdtemp, readFile, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { basename, dirname, join, sep } from 'node:path';
 
@@ -298,9 +298,12 @@ describe('promoteStagedOutputs', () => {
       assert.match(logged, /rollback-string/);
       const names = await readdir(dirs.outDir);
       assert.equal(names.includes('data.a.json'), false);
-      assert.equal(names.some((name) => name.startsWith('data.a.json.backup-')), true);
-      const backup = names.find((name) => name.startsWith('data.a.json.backup-'));
-      assert.equal(await readFile(join(dirs.outDir, backup ?? ''), 'utf8'), 'OLD-A');
+      // The kept backup sits under the cache dir, never in the publish dir.
+      assert.equal(names.some((name) => name.includes('.backup-')), false);
+      const backupDir = (await readdir(dirs.cacheDir)).find((name) => name.includes('.backup-'));
+      assert.ok(backupDir, 'backup dir under cacheDir');
+      assert.equal(await readFile(join(dirs.cacheDir, backupDir, 'data.a.json'), 'utf8'), 'OLD-A');
+      assert.match(logged, /previous data\.a\.json is kept at /);
     } finally {
       await rm(dirs.root, { recursive: true, force: true });
     }
@@ -333,10 +336,14 @@ describe('promoteStagedOutputs', () => {
       assert.equal(after['robots.txt'], 'SEO');
       assert.equal(after['llms.txt'], 'LLMS');
       assert.equal(after['og.png'], 'PNG');
-      assert.equal(after['data.keep.backup-manual'], 'MANUAL-BACKUP');
       assert.equal('data.stale.json' in after, false);
       assert.equal('data-legacy.json' in after, false);
-      assert.equal(Object.keys(after).some((name) => name.includes('.backup-') && name !== 'data.keep.backup-manual'), false);
+      // A leftover backup from an older failed promote is moved out of the publish dir, not deleted.
+      assert.equal(Object.keys(after).some((name) => name.includes('.backup-')), false);
+      assert.equal(
+        await readFile(join(dirs.cacheDir, 'stale-promote-backups', 'data.keep.backup-manual'), 'utf8'),
+        'MANUAL-BACKUP',
+      );
       const manifest = JSON.parse(await readFile(join(dirs.cacheDir, 'build-manifest.json'), 'utf8'));
       assert.equal(manifest.status, 'ok');
       assert.deepEqual(manifest.promoted_entries, ['data.a.json', 'data.detail', 'data.new.json']);
@@ -405,10 +412,15 @@ describe('promoteStagedOutputs', () => {
       await promoteStagedOutputs({ ...dirs, log: seen.log, warn: seen.warn, error: seen.error });
       const after = await snapshot(dirs.outDir);
       assert.equal(after['robots.txt'], 'SEO');
-      assert.equal(after['data.keep.backup-manual'], 'MANUAL-BACKUP');
+      assert.equal('data.keep.backup-manual' in after, false);
+      assert.equal(
+        await readFile(join(dirs.cacheDir, 'stale-promote-backups', 'data.keep.backup-manual'), 'utf8'),
+        'MANUAL-BACKUP',
+      );
       assert.equal('data.stale.json' in after, false);
       assert.equal('data-legacy.json' in after, false);
       assert.match(seen.text(seen.logs), /removing 2 orphaned/);
+      assert.match(seen.text(seen.warns), /moved 1 leftover backup/);
       const manifest = JSON.parse(await readFile(join(dirs.cacheDir, 'build-manifest.json'), 'utf8'));
       assert.deepEqual(manifest.promoted_entries, []);
     } finally {
@@ -436,6 +448,132 @@ describe('promoteStagedOutputs', () => {
       assert.equal(after['robots.txt'], 'SEO');
       assert.equal('data.stale.json' in after, false);
       assert.equal(Object.keys(after).some((name) => name.includes('.backup-')), false);
+    } finally {
+      await rm(dirs.root, { recursive: true, force: true });
+    }
+  });
+
+  test('EXDEV rollback restores every entry through the copy fallback', async () => {
+    const dirs = await fixture({
+      out: { 'data.a.json': 'OLD-A', 'data.detail/nested.txt': 'OLD-NEST', 'robots.txt': 'SEO' },
+      stage: { 'data.a.json': 'NEW-A', 'data.detail/nested.txt': 'NEW-NEST', 'data.b.json': 'NEW-B' },
+    });
+    const before = await snapshot(dirs.outDir);
+    const seen = collectLogs();
+    const order = ['data.a.json', 'data.detail', 'data.b.json'];
+    try {
+      await assert.rejects(
+        () => promoteStagedOutputs({
+          ...dirs,
+          log: seen.log,
+          warn: seen.warn,
+          error: seen.error,
+          fs: {
+            readdir: async (path) => (path === dirs.stageDir ? order : readdir(path)),
+            rename: async () => { throw errno('cross-device', 'EXDEV'); },
+            cp: async (from, to, options) => {
+              if (from === join(dirs.stageDir, 'data.b.json')) throw errno('injected ENOSPC', 'ENOSPC');
+              await cp(from, to, options);
+            },
+          },
+        }),
+        /injected ENOSPC/,
+      );
+      assert.deepEqual(await snapshot(dirs.outDir), before);
+      assert.equal(seen.text(seen.errors).includes('also failed'), false);
+      assert.equal((await readdir(dirs.cacheDir)).some((name) => name.includes('.backup-')), false);
+    } finally {
+      await rm(dirs.root, { recursive: true, force: true });
+    }
+  });
+
+  test('a half-finished EXDEV copy is removed before the backup is restored', async () => {
+    const dirs = await fixture({
+      out: { 'data.detail/a.txt': 'OLD-A', 'data.detail/b.txt': 'OLD-B', 'robots.txt': 'SEO' },
+      stage: { 'data.detail/a.txt': 'NEW-A', 'data.detail/b.txt': 'NEW-B', 'data.detail/c.txt': 'NEW-C' },
+    });
+    const before = await snapshot(dirs.outDir);
+    const seen = collectLogs();
+    try {
+      await assert.rejects(
+        () => promoteStagedOutputs({
+          ...dirs,
+          log: seen.log,
+          warn: seen.warn,
+          error: seen.error,
+          fs: {
+            rename: async (from, to) => {
+              if (isStep2(dirs.stageDir, from, to)) throw errno('cross-device', 'EXDEV');
+              await rename(from, to);
+            },
+            cp: async (from, to) => {
+              // Copy part of the tree, then fail: a half-copied directory is left at `to`.
+              await mkdir(to, { recursive: true });
+              await writeFile(join(to, 'a.txt'), await readFile(join(from, 'a.txt'), 'utf8'));
+              throw errno('injected EIO mid-copy', 'EIO');
+            },
+          },
+        }),
+        /injected EIO mid-copy/,
+      );
+      assert.deepEqual(await snapshot(dirs.outDir), before);
+      assert.equal(seen.text(seen.errors).includes('also failed'), false);
+    } finally {
+      await rm(dirs.root, { recursive: true, force: true });
+    }
+  });
+
+  test('a failing source removal after an EXDEV copy is rolled back too', async () => {
+    const dirs = await fixture({
+      out: { 'data.a.json': 'OLD-A' },
+      stage: { 'data.a.json': 'NEW-A' },
+    });
+    const before = await snapshot(dirs.outDir);
+    try {
+      await assert.rejects(
+        () => promoteStagedOutputs({
+          ...dirs,
+          ...silent(),
+          fs: {
+            rename: async (from, to) => {
+              if (isStep2(dirs.stageDir, from, to)) throw errno('cross-device', 'EXDEV');
+              await rename(from, to);
+            },
+            rm: async (path, options) => {
+              if (path === join(dirs.stageDir, 'data.a.json')) throw errno('stage locked', 'EBUSY');
+              await rm(path, options);
+            },
+          },
+        }),
+        /stage locked/,
+      );
+      assert.deepEqual(await snapshot(dirs.outDir), before);
+    } finally {
+      await rm(dirs.root, { recursive: true, force: true });
+    }
+  });
+
+  test('no backup is ever placed in the publish dir during a promote', async () => {
+    const dirs = await fixture({
+      out: { 'data.a.json': 'OLD-A', 'data.detail/nested.txt': 'OLD-NEST' },
+      stage: { 'data.a.json': 'NEW-A', 'data.detail/nested.txt': 'NEW-NEST' },
+    });
+    const targets: string[] = [];
+    try {
+      await promoteStagedOutputs({
+        ...dirs,
+        ...silent(),
+        fs: {
+          rename: async (from, to) => {
+            targets.push(to);
+            await rename(from, to);
+          },
+        },
+      });
+      const intoOut = targets.filter((to) => to.startsWith(dirs.outDir + sep));
+      assert.equal(intoOut.some((to) => to.includes('.backup-')), false);
+      assert.equal(targets.some((to) => to.startsWith(dirs.cacheDir + sep) && to.includes('.backup-')), true);
+      assert.equal((await readdir(dirs.cacheDir)).some((name) => name.includes('.backup-')), false);
     } finally {
       await rm(dirs.root, { recursive: true, force: true });
     }
@@ -548,7 +686,9 @@ describe('promoteStagedOutputs', () => {
       assert.match(seen.text(seen.warns), /backup cleanup failed for data\.a\.json/);
       assert.match(seen.text(seen.warns), /cleanup boom/);
       const names = await readdir(dirs.outDir);
-      assert.equal(names.some((name) => name.startsWith('data.a.json.backup-')), true);
+      assert.equal(names.some((name) => name.includes('.backup-')), false);
+      const backupDir = (await readdir(dirs.cacheDir)).find((name) => name.includes('.backup-'));
+      assert.ok(backupDir, 'the uncleaned backup stays under cacheDir');
       const manifest = JSON.parse(await readFile(join(dirs.cacheDir, 'build-manifest.json'), 'utf8'));
       assert.equal(manifest.status, 'ok');
     } finally {

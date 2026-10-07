@@ -14,8 +14,9 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { DESIGN_TOKENS } from '../design-tokens.js';
+import { blankDataUris, isNeutral, parseColours, RAW_COLOUR, rgbKey } from './colour-parse.js';
 import { readLedger, surfaceStateFor, type SurfaceState } from './ledger.js';
-import { isUnassigned, stripComments, walkSource } from './scan.js';
+import { blankInterpolations, isUnassigned, scanDeclarations, stripComments, walkSource } from './scan.js';
 
 export interface ColourViolation {
   readonly file: string;
@@ -26,33 +27,83 @@ export interface ColourViolation {
   readonly state: SurfaceState;
   /** True when the base is a palette token, so §2.5's color-mix() applies. */
   readonly derivable: boolean;
+  /**
+   * True when the declaration sits where PALETTE_COPY_EXEMPTIONS allows a
+   * literal copy of a token but no longer equals it — a failure in its own
+   * right, whatever the colour now is (on-palette, off-palette, alpha added).
+   */
+  readonly copyDrift: boolean;
 }
 
-/** Properties whose colour the canon tokenises (§2.1 / §2.2). */
-const TOKENISED = /(?:^|[;{\s])(color|background|background-color|border-color|border(?:-top|-right|-bottom|-left)?|fill|stroke|outline-color)\s*:\s*([^;}\n]+)/g;
-const RAW = /#[0-9a-fA-F]{3,8}\b|rgba?\(/;
+/**
+ * The properties the gate read before #866. Their values are judged in full,
+ * and a quoted value counts — Satori style objects write `color: '#…'`.
+ */
+const TOKENISED: ReadonlySet<string> = new Set([
+  'color', 'background', 'background-color', 'border-color', 'border',
+  'border-top', 'border-right', 'border-bottom', 'border-left',
+  'fill', 'stroke', 'outline-color',
+]);
 
 /**
- * Ranges with no token in the canon. Each is in DESIGN_CONFORMANCE.md's
- * 正典にトークンが無い値 note and needs an owner decision before it can be
- * enforced — adding a token is a MINOR revision (§20.1), which only the owner
- * may make (§20.6).
+ * Explicit, audited exemptions — a value that matches the palette but cannot be
+ * written as `var()` without a canon change or a rendering change. Adding a
+ * token is a canon change (§20.6), so these wait for the owner instead of
+ * being forced. Each entry names the file, the rule, why, and the audit that
+ * listed it. Keep the list short.
+ *
+ * An entry exempts a COPY of a palette token only: the custom property must be
+ * named like the token and still hold the token's current value. A copy that
+ * drifts from canonical-css.ts fails like any other raw colour.
  */
-const NO_TOKEN_YET: ReadonlyArray<{ file: string; test: RegExp; why: string }> = [
+export const PALETTE_COPY_EXEMPTIONS: ReadonlyArray<{
+  readonly file: string;
+  /** Matches the selector the declaration sits under. */
+  readonly selector: RegExp;
+  readonly why: string;
+  readonly audit: string;
+}> = [
   {
-    // A data URI cannot resolve var(), so the colour has to be written out.
-    // §2.4 example 2 allows it ON CONDITION that the value equals a palette
-    // token's — checked separately by findDataUriDrift below, because the real
-    // risk is not the literal hex, it is the icon silently keeping an old
-    // colour after the token moves.
-    file: '',
-    test: /data:image\/svg\+xml/,
-    why: 'var() does not work inside a data URI (value verified against the palette)',
+    // The homepage inlines the head of _index.css as critical CSS in <head>
+    // (src/pages/_index-css.ts), while canonical-css.ts's :root is emitted
+    // from Footer.astro in <body> — 80 KB later in the byte stream. Until the
+    // footer is parsed, var(--bg) etc. resolve only because these copies
+    // exist; replacing them with var() would leave the first paint without a
+    // palette. Removing the copy needs the canonical :root moved into <head>,
+    // which is a page-structure change outside #866.
+    file: 'src/pages/_index.css',
+    selector: /^:root(?![\w-])/,
+    why: 'first-paint copy of the layer-2 aliases; canonical :root arrives later in <body>',
+    audit: '2026-10-07 build-gate audit P1-2 (#866)',
   },
 ];
 
-function exempt(file: string, line: string): boolean {
-  return NO_TOKEN_YET.some((e) => (e.file === '' || e.file === file) && e.test.test(line));
+/**
+ * §2.1 — the palette is DEFINED in canonical-css.ts's :root (and the
+ * neutralised data-theme copies of that block). A custom property
+ * there written as a raw colour is the token, not an escape from it.
+ */
+const CANON = 'src/lib/canonical-css.ts';
+function isPaletteDefinition(file: string, selector: string, property: string): boolean {
+  return file === CANON && property.startsWith('--') && /^:root(?![\w-])/.test(selector);
+}
+
+/**
+ * `none` — no exemption covers this declaration; `copy` — an exact literal
+ * copy of the token it is named after; `drift` — it is in an exempted rule and
+ * named after a token, but no longer equals it.
+ *
+ * "Equals" is the whole value: one opaque hex literal with the token's RGB. A
+ * copy that gains an alpha (`#7A6F5E80`) or anything else is drift, not a copy.
+ */
+function copyStatus(file: string, selector: string, property: string, value: string, root: string): 'none' | 'copy' | 'drift' {
+  if (!PALETTE_COPY_EXEMPTIONS.some((e) => e.file === file && e.selector.test(selector))) return 'none';
+  const canonical = paletteByName(root).get(property);
+  if (canonical == null) return 'none';
+  const literal = value.replace(/!important$/i, '').trim();
+  if (!/^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(literal)) return 'drift';
+  const [rgb] = parseColours(literal);
+  return rgb != null && rgbKey(rgb) === canonical ? 'copy' : 'drift';
 }
 
 /**
@@ -62,23 +113,32 @@ function exempt(file: string, line: string): boolean {
  * cache keyed on nothing would leak the real palette into them. A root with no
  * canonical-css.ts simply has an empty palette, so nothing is derivable there.
  */
-const paletteCache = new Map<string, Map<string, string>>();
+const paletteCache = new Map<string, { byRgb: Map<string, string>; byName: Map<string, string> }>();
 function paletteByRgb(root: string): Map<string, string> {
+  return palette(root).byRgb;
+}
+/** token name -> rgb key */
+function paletteByName(root: string): Map<string, string> {
+  return palette(root).byName;
+}
+function palette(root: string): { byRgb: Map<string, string>; byName: Map<string, string> } {
   const cached = paletteCache.get(root);
   if (cached != null) return cached;
   const m = new Map<string, string>();
+  const byName = new Map<string, string>();
+  const result = { byRgb: m, byName };
   let css = '';
   try {
     css = readFileSync(join(root, 'src/lib/canonical-css.ts'), 'utf-8');
   } catch {
-    paletteCache.set(root, m);
-    return m;
+    paletteCache.set(root, result);
+    return result;
   }
   const add = (name: string, hex: string): void => {
-    let h = hex.replace('#', '');
-    if (h.length === 3) h = [...h].map((c) => c + c).join('');
-    const key = [0, 2, 4].map((i) => Number.parseInt(h.slice(i, i + 2), 16)).join(',');
-    if (!m.has(key)) m.set(key, name);
+    const [rgb] = parseColours(hex);
+    if (rgb == null) return;
+    if (!m.has(rgbKey(rgb))) m.set(rgbKey(rgb), name);
+    if (!byName.has(name)) byName.set(name, rgbKey(rgb));
   };
   for (const hit of css.matchAll(/(--[a-z0-9-]+):\s*(#[0-9a-fA-F]{3,6})\s*;/g)) {
     add(hit[1] ?? '', hit[2] ?? '');
@@ -88,17 +148,23 @@ function paletteByRgb(root: string): Map<string, string> {
   for (const [name, value] of Object.entries(DESIGN_TOKENS)) {
     if (/^#[0-9a-fA-F]{3,6}$/.test(value)) add(name, value);
   }
-  paletteCache.set(root, m);
-  return m;
+  paletteCache.set(root, result);
+  return result;
 }
 
-function isPaletteDerived(value: string, root: string): boolean {
+/** The palette token a value's colour equals, if any. */
+export function paletteTokenFor(value: string, root: string = process.cwd()): string | null {
   const pal = paletteByRgb(root);
-  for (const m of value.matchAll(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/g)) {
-    if (pal.has(`${m[1]},${m[2]},${m[3]}`)) return true;
+  for (const rgb of parseColours(value)) {
+    const token = pal.get(rgbKey(rgb));
+    if (token != null) return token;
   }
-  return false;
+  return null;
 }
+
+/** `var(--bg2, #FFFFFF)` is a token with a defensive fallback, not a raw colour. */
+const stripVars = (value: string): string =>
+  value.replace(/var\([^()]*(?:\([^()]*\)[^()]*)*\)/g, '');
 
 export function findColourViolations(root: string = process.cwd()): ColourViolation[] {
   const surfaces = readLedger(root);
@@ -108,26 +174,34 @@ export function findColourViolations(root: string = process.cwd()): ColourViolat
     const state = surfaceStateFor(file, surfaces);
     if (state == null || state === 'legacy') continue;
 
-    const lines = stripComments(readFileSync(join(root, file), 'utf-8')).split('\n');
-    let selector = '';
-    lines.forEach((text, idx) => {
-      const sel = text.match(/^\s*([^{}@]+?)\s*\{/);
-      if (sel) selector = (sel[1] ?? '').trim();
-      if (isUnassigned(file, selector) || exempt(file, text)) return;
-      for (const m of text.matchAll(TOKENISED)) {
-        const property = m[1] ?? '';
-        const value = (m[2] ?? '').trim();
-        // `var(--bg2, #FFFFFF)` is a token with a defensive fallback, not a raw
-        // colour. Strip the var() calls before looking for one.
-        const bare = value.replace(/var\([^()]*(?:\([^()]*\)[^()]*)*\)/g, '');
-        if (!RAW.test(bare)) continue;
-        out.push({
-          file, line: idx + 1, selector, property,
-          value: value.slice(0, 60), state,
-          derivable: isPaletteDerived(bare, root),
-        });
-      }
-    });
+    const src = blankDataUris(blankInterpolations(stripComments(readFileSync(join(root, file), 'utf-8'))));
+    for (const { property, value, line, selector } of scanDeclarations(src)) {
+      if (isUnassigned(file, selector)) continue;
+      if (isPaletteDefinition(file, selector, property)) continue;
+      const copy = copyStatus(file, selector, property, value, root);
+      if (copy === 'copy') continue;
+      const known = TOKENISED.has(property);
+      // Outside the original list, only CSS syntax counts: a colour inside
+      // quotes there is data (`CPB: '#D96B3D'`, `CPB: { accent: '#…' }`),
+      // not a CSS colour — CSS never quotes one.
+      const css = known ? value : value.replace(/(['"`])(?:\\.|(?!\1).)*\1/g, (q) => ' '.repeat(q.length));
+      const bare = stripVars(css);
+      // A drifted copy fails whatever replaced it — var() and color-mix()
+      // included — so it is recorded before the raw-colour filter.
+      if (copy !== 'drift' && !RAW_COLOUR.test(bare)) continue;
+      // Neutral black/white shadows and highlights have no hue to tokenise.
+      // Exempt only on the newly read properties, so nothing that failed
+      // before #866 passes now.
+      const colours = parseColours(bare);
+      const unparsed = /(?<![\w-])(?:hwb|lab|lch|oklab|color)\(/i.test(bare);
+      if (copy === 'none' && !known && !unparsed && colours.length > 0 && colours.every(isNeutral)) continue;
+      out.push({
+        file, line, selector, property,
+        value: value.slice(0, 60), state,
+        derivable: paletteTokenFor(bare, root) != null,
+        copyDrift: copy === 'drift',
+      });
+    }
   }
   return out;
 }

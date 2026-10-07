@@ -9,14 +9,15 @@
  *   1. Per-layer forbidden-import grep
  *      (src/graph, src/views, src/templates, src/pages)
  *
- *   2. Transitive import-graph walk from each Vercel Edge Function
- *      entry (`api/og.tsx`, `middleware.ts`). Any `.tsx` file reachable as a *dependency*
- *      fails the gate — Vercel's Edge bundler has no TSX loader for
- *      deps and would 500 the deploy with "unsupported modules".
+ *   2. Transitive import-graph walk from every Vercel Function entry
+ *      (`api/**`, `middleware.*`), whatever its runtime. Any `.tsx` file
+ *      reachable as a *dependency* fails the gate (docs/architecture.md
+ *      境界ルール) — Vercel's Edge bundler has no TSX loader for deps
+ *      and would 500 the deploy with "unsupported modules".
  *
- * Each layer's directory has a set of FORBIDDEN import paths. Static
- * grep over .ts and .astro files catches violations before they reach
- * a code review.
+ * Each layer's directory has a set of FORBIDDEN import targets. Every
+ * import / re-export / dynamic import() / require() in .ts/.tsx/.js/.mjs/
+ * .cjs/.astro files is resolved to a path and judged by where it lands.
  *
  * The gate is PROGRESSIVE: only the layers that have been built so far
  * (src/graph/, src/views/) are strictly enforced. src/templates/ and
@@ -37,6 +38,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { parse } = require('@babel/parser');
 
 const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, 'src');
@@ -45,112 +47,96 @@ const SRC = path.join(ROOT, 'src');
 
 /**
  * Each rule:
- *   { layer, dir, forbidden: [{ pattern, reason }] }
+ *   { layer, dir, forbidden: [{ target, reason }] }
  *
- * `pattern` matches the import target (e.g. 'node:fs', '../../templates/...').
- * Use a substring match (case-sensitive). For type-only imports — those
- * that look like `import type { ... } from '...';` — the rule is skipped
- * unless `noTypeImports` is set.
+ * Type-only imports (`import type { ... } from '...'`) never trigger a
+ * layer violation — they are erased before runtime.
  */
-// 2026-05-14 Phase D audit (final cleanup): patterns now include the
-// relative-path form (e.g. '../templates/' alongside 'src/templates'),
-// because the previous substring matcher missed relative imports —
-// `from '../templates/Ranking.js'` did NOT contain the substring
-// 'src/templates' and silently bypassed the gate. Adding the relative
-// form catches both styles.
+// 2026-10-07 (#867): rules name the forbidden TARGET, not a substring of the
+// import specifier. Every specifier is first resolved to an absolute path
+// (relative, `@/…` tsconfig alias, `src/…`) and then judged by the directory
+// or file it lands in. The previous substring list missed every spelling it
+// did not enumerate — `@/components/…`, `../components/…`, `@/data/projections`
+// from views, `'fs'` without the `node:` prefix — and each new alias silently
+// widened the hole.
+//
+//   dir(rel)     — target lies inside this directory (rel to repo root)
+//   file(rel)    — target is this module, any extension (`.ts`, `.js`, …)
+//   builtin(n)   — Node built-in `n` or a sub-path of it, with or without `node:`
+//   ext(e)       — target file has this extension (e.g. Astro components)
+const dir = (rel) => ({ kind: 'dir', rel });
+const file = (rel) => ({ kind: 'file', rel });
+const builtin = (name) => ({ kind: 'builtin', name });
+const ext = (value) => ({ kind: 'ext', value });
+
 const RULES = [
   {
     layer: 'Graph (src/graph/)',
-    dir: path.join(SRC, 'graph'),
+    dir: 'src/graph',
     forbidden: [
-      { pattern: 'src/views',            reason: 'graph must not import view functions (one-way data flow: graph → view)' },
-      { pattern: '@/views',              reason: 'graph must not import view functions' },
-      { pattern: '../views/',            reason: 'graph must not import view functions (relative-path form)' },
-      { pattern: 'src/templates',        reason: 'graph is pre-rendering; it does not know HTML exists' },
-      { pattern: '@/templates',          reason: 'graph is pre-rendering; it does not know HTML exists' },
-      { pattern: '../templates/',        reason: 'graph is pre-rendering; it does not know HTML exists (relative)' },
-      { pattern: 'src/pages',            reason: 'graph must not import page-level code' },
-      { pattern: 'src/components',       reason: 'graph must not import UI components' },
-      { pattern: 'src/layouts',          reason: 'graph must not import layouts (HTML producers)' },
-      { pattern: '.astro',               reason: 'graph must not import Astro components' },
+      { target: dir('src/views'),      reason: 'graph must not import view functions (one-way data flow: graph → view)' },
+      { target: dir('src/templates'),  reason: 'graph is pre-rendering; it does not know HTML exists' },
+      { target: dir('src/pages'),      reason: 'graph must not import page-level code' },
+      { target: dir('src/components'), reason: 'graph must not import UI components' },
+      { target: dir('src/layouts'),    reason: 'graph must not import layouts (HTML producers)' },
+      { target: ext('.astro'),         reason: 'graph must not import Astro components' },
     ],
   },
   {
     layer: 'Views (src/views/)',
-    dir: path.join(SRC, 'views'),
+    dir: 'src/views',
     forbidden: [
-      { pattern: 'src/templates',        reason: 'views are pure data; HTML production is a template concern' },
-      { pattern: '@/templates',          reason: 'views are pure data; HTML production is a template concern' },
-      { pattern: '../templates/',        reason: 'views are pure data; HTML production is a template concern (relative)' },
-      { pattern: 'src/pages',            reason: 'views are upstream of pages; pages import views, not the other way' },
-      { pattern: 'src/components',       reason: 'views must not produce HTML or import UI' },
-      { pattern: 'src/layouts',          reason: 'views must not import layouts' },
-      { pattern: '.astro',               reason: 'views must not import Astro components' },
-      { pattern: 'src/data/projections', reason: 'projections are legacy; views should query the graph instead' },
-      { pattern: '../data/projections',  reason: 'projections are legacy; views should query the graph instead (relative)' },
-      { pattern: 'src/pages/sitemap',    reason: 'views must not import page-level sitemap logic' },
+      { target: dir('src/templates'),        reason: 'views are pure data; HTML production is a template concern' },
+      { target: dir('src/pages'),            reason: 'views are upstream of pages; pages import views, not the other way' },
+      { target: dir('src/components'),       reason: 'views must not produce HTML or import UI' },
+      { target: dir('src/layouts'),          reason: 'views must not import layouts' },
+      { target: ext('.astro'),               reason: 'views must not import Astro components' },
+      { target: dir('src/data/projections'), reason: 'projections are legacy; views should query the graph instead' },
       // Phase E (2026-05-15) — direct fs/loadGraph forbidden. Views are
       // pure functions `(graph, params) => result`; orchestrators that
       // initiate loadGraph or read public/data.* files belong in
       // src/page-data/.
-      { pattern: 'node:fs',              reason: 'views must be pure — fs I/O belongs in src/page-data/ (Phase E)' },
-      { pattern: 'node:fs/promises',     reason: 'views must be pure — fs I/O belongs in src/page-data/ (Phase E)' },
-      { pattern: '@/graph/loader',       reason: 'views receive graph as a param — only src/page-data/ initiates loadGraph (Phase E)' },
-      { pattern: '../graph/loader',      reason: 'views receive graph as a param — only src/page-data/ initiates loadGraph (Phase E, relative)' },
+      { target: builtin('fs'),               reason: 'views must be pure — fs I/O belongs in src/page-data/ (Phase E)' },
+      { target: file('src/graph/loader'),    reason: 'views receive graph as a param — only src/page-data/ initiates loadGraph (Phase E)' },
       // 2026-05-17 R2 (deep audit C2) — close the strict-load loophole.
-      // Phase E's earlier carve-out for `src/lib/strict-load.ts` allowed
-      // 4 views (genre-hub / compare-hub / interests / skills-hub) to
-      // keep reading projection JSONs indirectly. They now delegate to
-      // src/page-data/projection-loaders.ts. Indirect fs is no longer
-      // a valid escape hatch for the views layer.
-      { pattern: 'strict-load',          reason: 'views must not read fs even indirectly via strict-load; use src/page-data/ loaders (R2)' },
-      { pattern: 'lib/strict-load',      reason: 'views must not read fs even indirectly via strict-load; use src/page-data/ loaders (R2)' },
+      // Indirect fs is no longer a valid escape hatch for the views layer.
+      { target: file('src/lib/strict-load'), reason: 'views must not read fs even indirectly via strict-load; use src/page-data/ loaders (R2)' },
     ],
   },
   {
     layer: 'Page data (src/page-data/)',
-    dir: path.join(SRC, 'page-data'),
+    dir: 'src/page-data',
     forbidden: [
       // page-data is build orchestration: it bridges the graph + view
       // layers to the dataset shape an Astro page family needs. It
       // legitimately initiates loadGraph and may read public/data.*
       // files. It does NOT produce HTML / SafeHtml — that's a template
       // or page-local renderer concern.
-      { pattern: 'src/templates',        reason: 'page-data prepares datasets, not HTML — template usage stays in pages/' },
-      { pattern: '@/templates',          reason: 'page-data prepares datasets, not HTML — template usage stays in pages/' },
-      { pattern: '../templates/',        reason: 'page-data prepares datasets, not HTML — template usage stays in pages/ (relative)' },
-      { pattern: 'src/components',       reason: 'page-data must not produce UI' },
-      { pattern: 'src/layouts',          reason: 'page-data must not import layouts' },
-      { pattern: '.astro',               reason: 'page-data must not import Astro components' },
-      { pattern: 'src/data/projections', reason: 'page-data should consume the graph; projection JSON read is allowed via @/page-data lazy loaders only' },
+      { target: dir('src/templates'),        reason: 'page-data prepares datasets, not HTML — template usage stays in pages/' },
+      { target: dir('src/components'),       reason: 'page-data must not produce UI' },
+      { target: dir('src/layouts'),          reason: 'page-data must not import layouts' },
+      { target: ext('.astro'),               reason: 'page-data must not import Astro components' },
+      { target: dir('src/data/projections'), reason: 'page-data should consume the graph; projection JSON is read through the page-data lazy loaders, not imported' },
     ],
   },
   {
     layer: 'Templates (src/templates/)',
-    dir: path.join(SRC, 'templates'),
+    dir: 'src/templates',
     forbidden: [
       // Templates are leaf layer for HTML production. They produce
       // SafeHtml from typed inputs; they don't fetch data, don't query
       // the graph, and don't know about routing.
-      { pattern: 'node:fs',              reason: 'templates must not do I/O — data flows in via function args' },
-      { pattern: 'node:fs/promises',     reason: 'templates must not do I/O' },
-      { pattern: 'src/graph',            reason: 'templates take typed props; querying the graph from a template inverts the data-flow direction' },
-      { pattern: '@/graph',              reason: 'templates take typed props; querying the graph from a template inverts the data-flow direction' },
-      { pattern: '../graph/',            reason: 'templates take typed props; querying the graph from a template inverts the data-flow direction (relative)' },
-      { pattern: 'src/views',            reason: 'templates take typed props; calling view functions inverts the data-flow direction' },
-      { pattern: '@/views',              reason: 'templates take typed props; calling view functions inverts the data-flow direction' },
-      { pattern: '../views/',            reason: 'templates take typed props; calling view functions inverts the data-flow direction (relative)' },
-      { pattern: 'src/pages',            reason: 'templates must not import page-level code' },
-      { pattern: 'src/data/projections', reason: 'templates must not read projection JSON — that is a view-layer concern' },
-      { pattern: '../data/projections',  reason: 'templates must not read projection JSON (relative)' },
-      { pattern: 'src/data/lib',         reason: 'templates must not depend on legacy data helpers — Step 12 cleanup verified no live imports' },
-      { pattern: '@/data/lib',           reason: 'templates must not depend on legacy data helpers — Step 12 cleanup verified no live imports' },
-      { pattern: '../data/lib',          reason: 'templates must not depend on legacy data helpers (relative)' },
+      { target: builtin('fs'),               reason: 'templates must not do I/O — data flows in via function args' },
+      { target: dir('src/graph'),            reason: 'templates take typed props; querying the graph from a template inverts the data-flow direction' },
+      { target: dir('src/views'),            reason: 'templates take typed props; calling view functions inverts the data-flow direction' },
+      { target: dir('src/pages'),            reason: 'templates must not import page-level code' },
+      { target: dir('src/data/projections'), reason: 'templates must not read projection JSON — that is a view-layer concern' },
+      { target: dir('src/data/lib'),         reason: 'templates must not depend on legacy data helpers — Step 12 cleanup verified no live imports' },
     ],
   },
   {
     layer: 'Pages (src/pages/)',
-    dir: path.join(SRC, 'pages'),
+    dir: 'src/pages',
     forbidden: [
       // Pages are the binding layer. They consume views + templates and
       // emit Astro markup; they do NOT define new rendering logic or
@@ -158,9 +144,7 @@ const RULES = [
       // sibling helpers (_*-bindings.ts / _*-renderers.ts / _*-css.ts)
       // still live under src/pages but the boundary rule applies to
       // them too — they're page-scoped glue, not a new layer.
-      { pattern: 'src/data/projections', reason: 'pages must consume views, not raw projections' },
-      { pattern: '@/data/projections',   reason: 'pages must consume views, not raw projections' },
-      { pattern: '../data/projections',  reason: 'pages must consume views, not raw projections (relative)' },
+      { target: dir('src/data/projections'), reason: 'pages must consume views, not raw projections' },
     ],
   },
 ];
@@ -181,252 +165,193 @@ function walkFiles(dir, predicate) {
   return out;
 }
 
-/**
- * Extract every `import ... from '...'` (and dynamic `import('...')`) target
- * from a TS or Astro source. Returns array of { line, target, isTypeOnly }.
- *
- * Handles BOTH single-line and multi-line static imports:
- *
- *   import { a, b } from './foo.js';
- *   import {
- *     a,
- *     b,
- *   } from './foo.js';
- *
- * Implementation: scan the WHOLE source with the `s` flag on the static-
- * import regex so `[^'"]*` can match across newlines between `import` and
- * `from`. Track each match's starting line via offset → line lookup.
- */
-function extractImports(source) {
-  const out = [];
+// Imports are read from a real AST (#881). The hand-written comment / regex
+// tokenizer this replaces had to guess whether a `/` opened a regex literal,
+// and every guess had a counter-example that blanked real code — e.g.
+// `if (true) /[//]/.test('x'); const fs = require('fs');` hid the require
+// (review of #875). @babel/parser has no such guess: comments are not in the
+// AST, and a string or regex that merely contains `require('fs')` is a
+// literal, never a call.
+//
+// What is parsed (same split as scripts/lib/analytics-spec/ast.ts):
+//   .ts .tsx .mts .cts .js .jsx .mjs .cjs   the whole file
+//   .astro                                  the frontmatter and each JS `<script>` body
+// Any other extension (.json, .css, …) holds no module references.
+//
+// Fail closed: a region that does not parse, and a `require()` / `import()`
+// whose argument is not a string literal, are violations with file:line.
 
-  // Pre-compute line-start offsets for {start-offset → line-number} lookup.
-  const lineStarts = [0];
-  for (let i = 0; i < source.length; i += 1) {
-    if (source.charCodeAt(i) === 10 /* \n */) lineStarts.push(i + 1);
+/** `<script type="…">` that is not JS (JSON-LD and the like) — not parsed. */
+const NON_JS_SCRIPT = /(?:^|\s)type\s*=\s*["']?(?!(?:text\/javascript|module|application\/javascript)["'\s>])[^"'\s>]+/i;
+
+/** 1-based line of a character offset. */
+function lineAt(source, offset) {
+  let line = 1;
+  for (let i = 0; i < offset; i += 1) if (source.charCodeAt(i) === 10 /* \n */) line += 1;
+  return line;
+}
+
+/** The JS regions of an .astro file: frontmatter plus each JS `<script>` body.
+ *  `<!-- … -->` and `{/* … *\/}` comments in the markup are skipped, so a
+ *  commented-out `<script>` is not read. */
+function astroRegions(source) {
+  const regions = [];
+  let from = 0;
+  const front = source.match(/^\s*---[^\n]*\n/);
+  if (front) {
+    const close = source.indexOf('\n---', front[0].length - 1);
+    const end = close < 0 ? source.length : close + 1;
+    regions.push({ start: front[0].length, code: source.slice(front[0].length, end) });
+    from = close < 0 ? end : end + 3;
   }
-  const offsetToLine = (off) => {
-    let lo = 0;
-    let hi = lineStarts.length - 1;
-    while (lo < hi) {
-      const mid = (lo + hi + 1) >>> 1;
-      if (lineStarts[mid] <= off) lo = mid;
-      else hi = mid - 1;
+  const tag = /<!--|\{\s*\/\*|<script\b([^>]*)>/gi;
+  tag.lastIndex = from;
+  for (let m = tag.exec(source); m; m = tag.exec(source)) {
+    if (m[0] === '<!--' || m[0].startsWith('{')) {
+      const closer = m[0] === '<!--' ? '-->' : '*/';
+      const end = source.indexOf(closer, m.index + m[0].length);
+      tag.lastIndex = end < 0 ? source.length : end + closer.length;
+      continue;
     }
-    return lo + 1;
-  };
-
-  // Static imports (single-line OR multi-line, with optional `type`):
-  //   import [type] { a, b, c } from '...';
-  //   import [type] * as x from '...';
-  //   import [type] default, { a } from '...';
-  // The `m` flag makes `^` match line-start so we only catch real import
-  // statements (not the word "import" used inside docstrings). The
-  // `[^'"]*?` portion can still span newlines (newlines are inside the
-  // negated char class) so multi-line imports work.
-  //
-  // 2026-05-14 Phase D audit lesson: the previous regex used
-  // `(^|[\s;])import` which allowed `import` to be preceded by any
-  // whitespace including a newline. That false-matched docstring
-  // sentences like "templates cannot import view-layer values" when the
-  // file's next actual import was a `from '../views/...'` (the lazy
-  // `[^'"]*?` spanned the whole comment-then-real-import range, and the
-  // `type` keyword inside the actual import fell INSIDE the lazy match
-  // instead of being captured as group 2 — so isTypeOnly came back
-  // false). Anchoring to line-start with the `m` flag fixes this cleanly.
-  const staticRe = /^[ \t]*import\s+(type\s+)?[^'"]*?from\s*['"]([^'"]+)['"]/gm;
-  let m;
-  while ((m = staticRe.exec(source)) !== null) {
-    out.push({ line: offsetToLine(m.index), target: m[2], isTypeOnly: !!m[1] });
+    const bodyStart = m.index + m[0].length;
+    if (/\/\s*$/.test(m[1] || '')) continue; // `<script … />` (Astro set:html) has no body
+    const close = source.slice(bodyStart).search(/<\/script\s*>/i);
+    const bodyEnd = close < 0 ? source.length : bodyStart + close;
+    if (!NON_JS_SCRIPT.test(m[1] || '')) regions.push({ start: bodyStart, code: source.slice(bodyStart, bodyEnd) });
+    tag.lastIndex = bodyEnd;
   }
-
-  // Re-export forms: `export { x } from '...'` / `export * from '...'` /
-  // `export * as ns from '...'`. The bundler walks these EXACTLY like an
-  // `import ... from` for dependency-graph purposes, so the architecture gate
-  // must too — otherwise a `templates/x.ts` could `export { y } from
-  // '../graph/y.js'` and the templates→graph forbidden edge would slip past.
-  // (Caught by the 2026-06-03 gates audit; this hole exactly matches the
-  // class of issue the 27-deploy incident on 2026-05-13/14 was supposed to
-  // prevent in the Edge dep walker.)
-  const reexportRe = /^[ \t]*export\s+(type\s+)?(?:\{[^}]*\}|\*(?:\s+as\s+\w+)?)\s+from\s*['"]([^'"]+)['"]/gm;
-  while ((m = reexportRe.exec(source)) !== null) {
-    out.push({ line: offsetToLine(m.index), target: m[2], isTypeOnly: !!m[1] });
-  }
-
-  // Bare side-effect imports: `import '...';`
-  const bareRe = /(^|[\s;])import\s*['"]([^'"]+)['"]/g;
-  while ((m = bareRe.exec(source)) !== null) {
-    const fromIdx = m.index + m[1].length;
-    out.push({ line: offsetToLine(fromIdx), target: m[2], isTypeOnly: false });
-  }
-
-  // Dynamic imports: `import('...')`
-  const dynRe = /\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
-  while ((m = dynRe.exec(source)) !== null) {
-    out.push({ line: offsetToLine(m.index), target: m[1], isTypeOnly: false });
-  }
-
-  // Legacy CommonJS `require('...')` — historical pages-layer files
-  // (sitemap.xml.ts etc) may still use require. Skip in this gate
-  // since they only appear in static-asset paths; if needed, expand
-  // the matcher above.
-  return out;
+  return regions;
 }
 
-// ─── enforcement ──────────────────────────────────────────────────
-
-let violations = 0;
-
-// Test files are exempt from the layer rules: drift-detection tests
-// legitimately need fs to read source files and assert imports stay
-// consistent. The production code in the same dir is still scanned.
-function isScannable(p) {
-  if (p.endsWith('.test.ts')) return false;
-  if (p.endsWith('.test.tsx')) return false;
-  return p.endsWith('.ts') || p.endsWith('.astro') || p.endsWith('.tsx');
+/** Parser plugins for a file, or null if the extension holds no JS. */
+function pluginsFor(file) {
+  if (/\.[cm]?ts$/.test(file)) return ['typescript'];
+  if (file.endsWith('.tsx')) return ['typescript', 'jsx'];
+  if (/\.(?:[cm]?js|jsx)$/.test(file)) return ['jsx'];
+  if (file.endsWith('.astro')) return ['typescript'];
+  return null;
 }
 
-for (const rule of RULES) {
-  const files = walkFiles(rule.dir, isScannable);
-  if (files.length === 0) {
-    console.log(`[check-architecture] SKIP ${rule.layer} — directory empty or missing`);
-    continue;
+const NOT_CHILDREN = new Set([
+  'type', 'start', 'end', 'loc', 'range', 'extra',
+  'leadingComments', 'trailingComments', 'innerComments', 'comments',
+]);
+
+/** Depth-first visit of every node, type annotations included (an
+ *  `import('…')` type is a module reference too). */
+function visitNodes(node, visit) {
+  visit(node);
+  for (const key of Object.keys(node)) {
+    if (NOT_CHILDREN.has(key)) continue;
+    const value = node[key];
+    const children = Array.isArray(value) ? value : [value];
+    for (const child of children) {
+      if (child && typeof child.type === 'string') visitNodes(child, visit);
+    }
   }
-  console.log(`[check-architecture] ${rule.layer} — scanning ${files.length} files`);
-  for (const file of files) {
-    const rel = path.relative(ROOT, file);
-    const source = fs.readFileSync(file, 'utf-8');
-    const imports = extractImports(source);
-    for (const imp of imports) {
-      // type-only imports never trigger boundary violations (TS-only construct)
-      if (imp.isTypeOnly) continue;
-      for (const f of rule.forbidden) {
-        if (imp.target.includes(f.pattern)) {
-          console.error(
-            `  ✗ ${rel}:${imp.line}\n` +
-            `    forbidden import: '${imp.target}'\n` +
-            `    reason: ${f.reason}`,
-          );
-          violations += 1;
+}
+
+/** The module a `require()` / `import()` argument names, or null when it is
+ *  not a literal. A template literal with `${…}` holes is not a literal: even a
+ *  harmless-looking prefix (`../lib/${n}`) can step into a forbidden layer. */
+function callTarget(arg) {
+  if (arg && arg.type === 'StringLiteral') return arg.value;
+  if (arg && arg.type === 'TemplateLiteral' && arg.expressions.length === 0) return arg.quasis[0].value.cooked;
+  return null;
+}
+
+/** `require(…)` or `module.require(…)`. */
+function isRequireCall(node) {
+  const { callee } = node;
+  if (callee.type === 'Identifier') return callee.name === 'require';
+  return callee.type === 'MemberExpression' && !callee.computed &&
+    callee.object.type === 'Identifier' && callee.object.name === 'module' &&
+    callee.property.type === 'Identifier' && callee.property.name === 'require';
+}
+
+/** Module references in one parsed program. */
+function collectReferences(program, imports, problems) {
+  const add = (node, target, isTypeOnly) =>
+    imports.push({ line: node.loc.start.line, target, isTypeOnly });
+  visitNodes(program, (node) => {
+    switch (node.type) {
+      case 'ImportDeclaration':
+        add(node, node.source.value, node.importKind === 'type');
+        break;
+      case 'ExportNamedDeclaration':
+      case 'ExportAllDeclaration':
+        if (node.source) add(node, node.source.value, node.exportKind === 'type');
+        break;
+      case 'TSImportEqualsDeclaration':
+        if (node.moduleReference.type === 'TSExternalModuleReference') {
+          add(node, node.moduleReference.expression.value, node.importKind === 'type');
         }
+        break;
+      case 'TSImportType': {
+        // `import('…').T` in a type position: erased at runtime, but the
+        // function walk below still follows it like any type-only import.
+        const arg = node.argument.type === 'TSLiteralType' ? node.argument.literal : node.argument;
+        if (arg.type === 'StringLiteral') add(node, arg.value, true);
+        break;
       }
+      case 'ImportExpression':
+      case 'CallExpression': {
+        const isImport = node.type === 'ImportExpression' || node.callee.type === 'Import';
+        const isRequire = node.type === 'CallExpression' && isRequireCall(node);
+        if (!isImport && !isRequire) break;
+        const kind = isImport ? 'import()' : 'require()';
+        const target = callTarget(node.type === 'ImportExpression' ? node.source : node.arguments[0]);
+        if (target !== null) add(node, target, false);
+        else problems.push({
+          line: node.loc.start.line,
+          message: `non-literal ${kind} argument — the gate cannot tell which module it loads.\n` +
+            '    Use a string literal (a template literal must have no `${…}` holes).',
+        });
+        break;
+      }
+      default:
+        break;
     }
-  }
+  });
 }
-
-// ─── Edge Function transitive dep walker ──────────────────────────
-//
-// Vercel's Edge Function bundler has separate loader sets for ENTRY
-// files vs DEPENDENCY files. Entry loader set handles .tsx (JSX);
-// dep loader set has .js / .ts only. A `.tsx` file imported (even
-// transitively) by an Edge entry fails with "unsupported modules"
-// and blocks the deploy.
-//
-// This trap cost 27 consecutive preview deploys 2026-05-13/14
-// (commits 3d50a8b3..33783386). See docs/architecture.md decision
-// log 2026-05-14 for the full incident write-up.
-//
-// Rule: any `.tsx` file reachable from an Edge Function entry via
-// `import` is forbidden. Entry .tsx itself is fine — only its
-// transitive deps are constrained.
 
 /**
- * Auto-discover Vercel Edge Function entry points. Two file-location
- * conventions count:
- *
- *   1. Anything under `api/` at the repo root — Vercel auto-routes
- *      these as functions (a file in api/ IS an entry by definition).
- *
- *   2. A file named `middleware.{ts,js}` at the repo root — Vercel's
- *      Edge Middleware convention.
- *
- * Among those candidates, the file qualifies as an EDGE entry (vs.
- * a Node serverless function) iff its source matches at least one of:
- *
- *   - `export const config = { ..., runtime: 'edge', ... }`     ← `api/*`
- *   - `import { ... } from '@vercel/edge'`                       ← middleware.ts
- *
- * The previous hardcoded `EDGE_ENTRIES = [...]` list rotted whenever
- * a new Edge function was added — auto-detection eliminates that
- * drift surface. If the discovery misses a new file, fall back to
- * the explicit override `EDGE_ENTRIES_OVERRIDE` env var (comma-
- * separated paths) for emergency unblock.
+ * Extract every module reference from a TS / JS / Astro source. Returns
+ * { imports: [{ line, target, isTypeOnly }], problems: [{ line, message }] }.
+ * `problems` are fail-closed violations: unparseable code or a non-literal
+ * `require()` / `import()` argument.
  */
-function discoverEdgeEntries() {
-  const candidates = [];
-
-  // 1. api/* files (Vercel function convention).
-  const apiDir = path.join(ROOT, 'api');
-  if (fs.existsSync(apiDir)) {
-    for (const ent of fs.readdirSync(apiDir, { withFileTypes: true })) {
-      if (!ent.isFile()) continue;
-      if (!/\.(tsx?|jsx?|mjs|cjs)$/.test(ent.name)) continue;
-      candidates.push(path.join(apiDir, ent.name));
+function extractImports(source, file) {
+  const imports = [];
+  const problems = [];
+  const plugins = pluginsFor(file);
+  if (plugins === null) return { imports, problems };
+  const regions = file.endsWith('.astro') ? astroRegions(source) : [{ start: 0, code: source }];
+  for (const region of regions) {
+    let ast;
+    try {
+      ast = parse(region.code, {
+        sourceType: 'unambiguous',
+        plugins,
+        startLine: lineAt(source, region.start),
+        allowReturnOutsideFunction: true,
+        allowAwaitOutsideFunction: true,
+        allowImportExportEverywhere: true,
+        allowUndeclaredExports: true,
+        errorRecovery: false,
+      });
+    } catch (err) {
+      const line = err.loc ? err.loc.line : lineAt(source, region.start);
+      const message = String(err.message).replace(/\s*\(\d+:\d+\)$/, '');
+      problems.push({ line, message: `cannot parse: ${message}\n    The gate cannot see this file's imports; fix the syntax.` });
+      continue;
     }
+    collectReferences(ast.program, imports, problems);
   }
-
-  // 2. middleware.{ts,js,mjs} at the repo root (Edge Middleware convention).
-  for (const name of ['middleware.ts', 'middleware.js', 'middleware.mjs']) {
-    const p = path.join(ROOT, name);
-    if (fs.existsSync(p)) candidates.push(p);
-  }
-
-  // Detect edge-runtime via source-content inspection. We want a low
-  // false-positive rate (don't flag a Node serverless function as
-  // Edge), so we look for two unambiguous markers:
-  //
-  //   `runtime: 'edge'` / `runtime: "edge"` inside an export-const-
-  //   config statement, OR an import from `@vercel/edge` (the only
-  //   package exposing Edge-specific helpers).
-  const EDGE_MARKER_RE =
-    /runtime\s*:\s*['"]edge['"]|from\s+['"]@vercel\/edge['"]/;
-
-  const detected = [];
-  for (const file of candidates) {
-    const source = fs.readFileSync(file, 'utf-8');
-    if (EDGE_MARKER_RE.test(source)) {
-      detected.push(file);
-    }
-  }
-
-  // Augmentation: EDGE_ENTRIES_ADDITIONAL='path1,path2' adds to the
-  // detected list (does NOT replace). 2026-05-17 C6 fix: previously
-  // EDGE_ENTRIES_OVERRIDE replaced detection entirely — setting one
-  // missing entry silently dropped every auto-detected entry with
-  // no warning. The additive form preserves discovery while still
-  // letting operators force-add files the regex didn't catch.
-  const additional = process.env.EDGE_ENTRIES_ADDITIONAL;
-  if (additional) {
-    const extra = additional
-      .split(',')
-      .map((p) => p.trim())
-      .filter(Boolean)
-      .map((p) => path.resolve(ROOT, p));
-    return [...new Set([...detected, ...extra])].sort();
-  }
-
-  // Hard override (escape hatch, logged so reviewer notices the
-  // smaller scan surface). Use only when discovery is broken AND
-  // you need to lock down the list.
-  const override = process.env.EDGE_ENTRIES_OVERRIDE;
-  if (override) {
-    const forced = override
-      .split(',')
-      .map((p) => p.trim())
-      .filter(Boolean)
-      .map((p) => path.resolve(ROOT, p));
-    console.warn(
-      `[check-architecture] WARN: EDGE_ENTRIES_OVERRIDE is set — scanning ` +
-        `${forced.length} forced entries (auto-detected ${detected.length} ignored). ` +
-        `Prefer EDGE_ENTRIES_ADDITIONAL if you only need to ADD entries.`,
-    );
-    return forced;
-  }
-
-  return detected.sort();
+  return { imports, problems };
 }
 
-const EDGE_ENTRIES = discoverEdgeEntries();
+// ─── import resolution ───────────────────────────────────────────
 
 /** tsconfig `compilerOptions.paths`, read at runtime so this gate cannot drift
  *  from the real alias table. Handles both the wildcard form (`@/lib/*`) and
@@ -438,7 +363,7 @@ function loadPathAliases() {
     raw = JSON.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
   } catch (err) {
     console.error(`[check-architecture] FAIL — cannot parse tsconfig.json: ${err.message}`);
-    console.error('  The Edge import walk needs its path aliases; without them every `@/…` import is invisible.');
+    console.error('  Import resolution needs its path aliases; without them every `@/…` import is invisible.');
     process.exit(1);
   }
   const paths = (raw.compilerOptions && raw.compilerOptions.paths) || {};
@@ -451,7 +376,7 @@ function loadPathAliases() {
   }));
   if (aliases.length === 0) {
     console.error('[check-architecture] FAIL — tsconfig.json declares no path aliases.');
-    console.error('  Either the config moved or this gate is reading the wrong file; both make the Edge walk unsound.');
+    console.error('  Either the config moved or this gate is reading the wrong file; both make import resolution unsound.');
     process.exit(1);
   }
   return aliases;
@@ -475,27 +400,44 @@ function aliasCandidates(spec) {
   return out;
 }
 
-/** Probe a base path against the extensions TypeScript's "Bundler"
- *  moduleResolution would try: strip `.js`, try `.ts` / `.tsx`, then the
- *  literal path, then `/index` variants. */
+/** Probe a base path the way TypeScript's "Bundler" moduleResolution does:
+ *  a `.js` / `.jsx` specifier may name a `.ts` / `.tsx` source, `.mjs` a
+ *  `.mts` and `.cjs` a `.cts`; an extensionless one tries every source
+ *  extension, then `/index`. The literal path is tried last. */
+const SOURCE_EXTENSIONS = {
+  '.js': ['.ts', '.tsx', '.js', '.jsx'],
+  '.jsx': ['.tsx', '.jsx'],
+  '.mjs': ['.mts', '.mjs'],
+  '.cjs': ['.cts', '.cjs'],
+  '.ts': ['.ts'],
+  '.tsx': ['.tsx'],
+  '.mts': ['.mts'],
+  '.cts': ['.cts'],
+};
+const ANY_SOURCE = ['.ts', '.tsx', '.mts', '.cts', '.js', '.jsx', '.mjs', '.cjs'];
+
+function isFile(p) {
+  return fs.existsSync(p) && fs.statSync(p).isFile();
+}
+
 function probeFile(base) {
-  const stripped = base.replace(/\.(js|mjs|cjs|tsx|ts)$/, '');
-  for (const ext of ['.ts', '.tsx', '.js', '.mjs', '.cjs']) {
-    if (fs.existsSync(stripped + ext) && fs.statSync(stripped + ext).isFile()) {
-      return stripped + ext;
-    }
+  const extName = path.extname(base);
+  const stripped = SOURCE_EXTENSIONS[extName] ? base.slice(0, -extName.length) : base;
+  const candidates = SOURCE_EXTENSIONS[extName] || ANY_SOURCE;
+  for (const candidate of candidates) {
+    if (isFile(stripped + candidate)) return stripped + candidate;
   }
-  if (fs.existsSync(base) && fs.statSync(base).isFile()) return base;
+  if (isFile(base)) return base;
   // `./foo` → `./foo/index.{ts,tsx,js}` resolution.
-  for (const ext of ['.ts', '.tsx', '.js']) {
-    const idx = path.join(stripped, 'index' + ext);
-    if (fs.existsSync(idx) && fs.statSync(idx).isFile()) return idx;
+  for (const candidate of ['.ts', '.tsx', '.js']) {
+    const idx = path.join(stripped, 'index' + candidate);
+    if (isFile(idx)) return idx;
   }
   return null;
 }
 
 /** Resolve an import specifier to a real file. Returns an absolute path, or
- *  null for npm packages and node: built-ins.
+ *  null for npm packages, node: built-ins and anything that does not exist.
  *
  *  Aliased imports used to return null here alongside npm packages, so the
  *  BFS below stopped dead at the first `@/…` import and every `.tsx` behind it
@@ -512,73 +454,234 @@ function resolveImport(fromDir, spec) {
   return null; // npm package or node: built-in
 }
 
+/** Where an import points, for the layer rules. Unlike resolveImport this
+ *  never gives up on a local specifier: a target that does not exist (yet)
+ *  still names a directory, and an `@/x`
+ *  without a tsconfig alias is read as `src/x` so it cannot hide a layer.
+ *  Returns { file } for a local path or { builtin } for a bare specifier. */
+function importTarget(fromFile, imp) {
+  const spec = imp.target.split('?')[0];
+  const fromDir = path.dirname(fromFile);
+  let base = null;
+  if (spec.startsWith('.')) base = path.resolve(fromDir, spec);
+  else if (spec.startsWith('@/')) base = aliasCandidates(spec)[0] || path.join(SRC, spec.slice(2));
+  else if (spec.startsWith('src/')) base = path.join(ROOT, spec);
+  else if (spec.startsWith('/')) base = path.join(ROOT, spec);
+  if (base === null) return { builtin: spec.replace(/^node:/, '') };
+  if (spec.startsWith('@/')) {
+    for (const candidate of aliasCandidates(spec)) {
+      const hit = probeFile(candidate);
+      if (hit) return { file: hit };
+    }
+  }
+  return { file: probeFile(base) || base };
+}
+
+const stripModuleExt = (p) => p.replace(/\.(?:[cm]?[jt]sx?|astro|json)$/, '');
+
+function isInside(target, dirAbs) {
+  return target === dirAbs || target.startsWith(dirAbs + path.sep);
+}
+
+function matchesForbidden(resolved, forbidden) {
+  const { kind } = forbidden;
+  if (kind === 'builtin') {
+    return resolved.builtin !== undefined &&
+      (resolved.builtin === forbidden.name || resolved.builtin.startsWith(forbidden.name + '/'));
+  }
+  if (resolved.file === undefined) return false;
+  if (kind === 'dir') return isInside(resolved.file, path.join(ROOT, forbidden.rel));
+  if (kind === 'file') return stripModuleExt(resolved.file) === path.join(ROOT, forbidden.rel);
+  if (kind === 'ext') return resolved.file.endsWith(forbidden.value);
+  throw new Error(`unknown forbidden-target kind ${kind}`);
+}
+
+// ─── layer enforcement ────────────────────────────────────────────
+
+// Test files are exempt from the layer rules: drift-detection tests
+// legitimately need fs to read source files and assert imports stay
+// consistent. The production code in the same dir is still scanned.
+function isScannable(p) {
+  if (/\.test\.[cm]?[jt]sx?$/.test(p)) return false;
+  if (p.endsWith('.d.ts')) return false;
+  return /\.(?:[cm]?[jt]sx?|astro)$/.test(p);
+}
+
+function checkLayerRules() {
+  let layerViolations = 0;
+  for (const rule of RULES) {
+    const files = walkFiles(path.join(ROOT, rule.dir), isScannable);
+    if (files.length === 0) {
+      console.log(`[check-architecture] SKIP ${rule.layer} — directory empty or missing`);
+      continue;
+    }
+    console.log(`[check-architecture] ${rule.layer} — scanning ${files.length} files`);
+    for (const file of files) {
+      const rel = path.relative(ROOT, file);
+      const { imports, problems } = extractImports(fs.readFileSync(file, 'utf-8'), file);
+      for (const { line, message } of problems) {
+        console.error(`  ✗ ${rel}:${line}\n    ${message}`);
+        layerViolations += 1;
+      }
+      for (const imp of imports) {
+        // type-only imports never trigger boundary violations (TS-only construct)
+        if (imp.isTypeOnly) continue;
+        const resolved = importTarget(file, imp);
+        for (const f of rule.forbidden) {
+          if (!matchesForbidden(resolved, f.target)) continue;
+          const where = resolved.file ? ` (resolves to ${path.relative(ROOT, resolved.file)})` : '';
+          console.error(
+            `  ✗ ${rel}:${imp.line}\n` +
+            `    forbidden import: '${imp.target}'${where}\n` +
+            `    reason: ${f.reason}`,
+          );
+          layerViolations += 1;
+        }
+      }
+    }
+  }
+  return layerViolations;
+}
+
+// ─── Vercel Function transitive dep walker ────────────────────────
+//
+// Vercel's Edge Function bundler has separate loader sets for ENTRY
+// files vs DEPENDENCY files. Entry loader set handles .tsx (JSX);
+// dep loader set has .js / .ts only. A `.tsx` file imported (even
+// transitively) by an Edge entry fails with "unsupported modules"
+// and blocks the deploy.
+//
+// This trap cost 27 consecutive preview deploys 2026-05-13/14
+// (commits 3d50a8b3..33783386). See docs/architecture.md decision
+// log 2026-05-14 for the full incident write-up.
+//
+// Rule (docs/architecture.md 境界ルール): no Vercel Function bundle may
+// contain a `.tsx` dependency, whatever its runtime. The entry .tsx itself
+// is fine — only its transitive deps are constrained.
+//
+// 2026-10-07 (#867): the walk used to run only for entries marked
+// `runtime: 'edge'` / `@vercel/edge`. Every entry moved to nodejs/Bun
+// (TOOLCHAIN §9), so the walk silently checked nothing — and a middleware
+// that lost its `runtime` key (platform default: Edge) still read as "no
+// Edge entries". It now walks every function, independent of runtime.
+
+/**
+ * Discover Vercel Function entry points:
+ *
+ *   1. Every source file under `api/` (recursively) — Vercel routes each one
+ *      as a function. Files or directories whose name starts with `_` are
+ *      helpers Vercel does not route, and tests / type declarations are not
+ *      bundled; those are reached (if at all) as dependencies.
+ *
+ *   2. `middleware.{ts,js,mjs}` at the repo root.
+ *
+ * `EDGE_ENTRIES_ADDITIONAL` (comma-separated) adds entries; the
+ * `EDGE_ENTRIES_OVERRIDE` escape hatch replaces discovery and is logged.
+ * The names predate the runtime-independent walk and are kept for
+ * compatibility with existing runbooks.
+ */
+function discoverFunctionEntries() {
+  const isEntry = (p) => {
+    const rel = path.relative(ROOT, p).split(path.sep);
+    if (rel.some((segment) => segment.startsWith('_') || segment.startsWith('.'))) return false;
+    if (/\.test\.[cm]?[jt]sx?$/.test(p) || p.endsWith('.d.ts')) return false;
+    return /\.(?:[cm]?[jt]sx?)$/.test(p);
+  };
+  const detected = walkFiles(path.join(ROOT, 'api'), isEntry);
+  for (const name of ['middleware.ts', 'middleware.js', 'middleware.mjs']) {
+    const p = path.join(ROOT, name);
+    if (fs.existsSync(p)) detected.push(p);
+  }
+
+  const parseList = (value) => value
+    .split(',')
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) => path.resolve(ROOT, p));
+
+  const additional = process.env.EDGE_ENTRIES_ADDITIONAL;
+  if (additional) {
+    return [...new Set([...detected, ...parseList(additional)])].sort();
+  }
+
+  const override = process.env.EDGE_ENTRIES_OVERRIDE;
+  if (override !== undefined) {
+    const forced = parseList(override);
+    console.warn(
+      `[check-architecture] WARN: EDGE_ENTRIES_OVERRIDE is set — scanning ` +
+        `${forced.length} forced entries (auto-detected ${detected.length} ignored). ` +
+        `Prefer EDGE_ENTRIES_ADDITIONAL if you only need to ADD entries.`,
+    );
+    return forced;
+  }
+
+  return detected.sort();
+}
+
 /** BFS over the import graph rooted at `entryFile`. Collects every
  *  reachable file. Skips npm-package + node: imports. Type-only
  *  imports DO count — at runtime Vercel sees them as `.tsx` references
  *  to resolve, regardless of whether the bundler tree-shakes them. */
 function walkImportClosure(entryFile) {
   const visited = new Set();
-  // An `@/…` specifier that resolves to nothing means the walk lost coverage:
-  // either the alias table moved or the target is gone. Collected and reported
-  // as a failure rather than a brittle "expected N deps" floor.
-  const unresolvedAliases = [];
+  // A local (`./`, `../`, `@/…`) specifier that resolves to nothing means the
+  // walk lost coverage: the alias table moved, the target is gone, or its
+  // extension is one the probe does not know. Collected and reported as a
+  // failure rather than a brittle "expected N deps" floor.
+  const unresolved = [];
+  // Unparseable files and non-literal require()/import() in the closure.
+  const problems = [];
   const queue = [entryFile];
   while (queue.length > 0) {
     const file = queue.shift();
     if (visited.has(file)) continue;
     visited.add(file);
     if (!fs.existsSync(file)) continue;
-    const source = fs.readFileSync(file, 'utf-8');
-    const imports = extractImports(source);
-    for (const imp of imports) {
+    const extracted = extractImports(fs.readFileSync(file, 'utf-8'), file);
+    for (const problem of extracted.problems) problems.push({ ...problem, from: path.relative(ROOT, file) });
+    for (const imp of extracted.imports) {
       const resolved = resolveImport(path.dirname(file), imp.target);
       if (resolved) {
         if (!visited.has(resolved)) queue.push(resolved);
-      } else if (imp.target.startsWith('@/')) {
-        unresolvedAliases.push({ spec: imp.target, from: path.relative(ROOT, file) });
+      } else if (imp.target.startsWith('@/') || imp.target.startsWith('.')) {
+        unresolved.push({ spec: imp.target, from: path.relative(ROOT, file) });
       }
     }
   }
-  return { visited, unresolvedAliases };
+  return { visited, unresolved, problems };
 }
 
-function checkEdgeFunctionTsxDeps() {
-  let edgeViolations = 0;
-
-  // Zero Edge entries is the intended state after TOOLCHAIN §9 (#303–#305):
-  // api/og, api/shindan-share, and middleware run on nodejs + bunVersion.
-  // The TSX-dep walk is an Edge bundler trap and must not fail-closed when
-  // nothing is Edge. An empty EDGE_ENTRIES_OVERRIDE still fails below.
-  if (EDGE_ENTRIES.length === 0) {
-    if (process.env.EDGE_ENTRIES_OVERRIDE !== undefined) {
-      console.error('  ✗ no Vercel Edge entries detected.');
-      console.error('    EDGE_ENTRIES_OVERRIDE is set to an empty list.');
-      return 1;
-    }
-    console.log('[check-architecture] no Edge entries — plane C is nodejs/Bun (TOOLCHAIN §9)');
-    return 0;
+function checkFunctionTsxDeps() {
+  const entries = discoverFunctionEntries();
+  if (entries.length === 0) {
+    console.error('  ✗ no Vercel function entries found under api/** or middleware.*');
+    console.error('    Discovery is broken or the override is empty; the .tsx dependency walk would check nothing.');
+    return 1;
   }
 
-  for (const entry of EDGE_ENTRIES) {
+  let functionViolations = 0;
+  for (const entry of entries) {
     const entryRel = path.relative(ROOT, entry);
     // Only reachable for an entry named explicitly via EDGE_ENTRIES_ADDITIONAL
     // / _OVERRIDE — auto-discovery never yields a path it did not just read.
-    // Skipping it meant an operator could point the gate at a typo'd path and
-    // still get a green run.
     if (!fs.existsSync(entry)) {
       console.error(`  ✗ ${entryRel}`);
-      console.error('    Edge entry named explicitly but not found on disk. Fix the path or drop it from the override.');
-      edgeViolations += 1;
+      console.error('    Function entry named explicitly but not found on disk. Fix the path or drop it from the override.');
+      functionViolations += 1;
       continue;
     }
-    const { visited: closure, unresolvedAliases } = walkImportClosure(entry);
-    console.log(`[check-architecture] Edge entry ${entryRel} — scanning ${closure.size - 1} transitive deps`);
-    for (const { spec, from } of unresolvedAliases) {
+    const { visited: closure, unresolved, problems } = walkImportClosure(entry);
+    console.log(`[check-architecture] function entry ${entryRel} — scanning ${closure.size - 1} transitive deps`);
+    for (const { from, line, message } of problems) {
+      console.error(`  ✗ ${from}:${line} (reachable from function entry ${entryRel})\n    ${message}`);
+      functionViolations += 1;
+    }
+    for (const { spec, from } of unresolved) {
       console.error(`  ✗ ${from}`);
-      console.error(`    unresolvable aliased import \`${spec}\` reachable from Edge entry ${entryRel}.`);
+      console.error(`    unresolvable import \`${spec}\` reachable from function entry ${entryRel}.`);
       console.error('    The import walk cannot follow it, so any .tsx behind it goes unchecked.');
       console.error('    Fix the path, or add the alias to tsconfig.json compilerOptions.paths.');
-      edgeViolations += 1;
+      functionViolations += 1;
     }
     for (const file of closure) {
       if (file === entry) continue; // entry .tsx is fine
@@ -586,24 +689,27 @@ function checkEdgeFunctionTsxDeps() {
       const rel = path.relative(ROOT, file);
       console.error(
         `  ✗ ${rel}\n` +
-        `    JSX (.tsx) file reachable from Edge entry ${entryRel}.\n` +
-        `    reason: Vercel Edge bundler has no TSX loader for dependencies.\n` +
-        `            Rewrite as plain .ts using \`createElement\` (or move the\n` +
-        `            JSX into the entry file itself). See docs/architecture.md\n` +
-        `            decision log 2026-05-14 for the incident write-up.`,
+        `    JSX (.tsx) file reachable from function entry ${entryRel}.\n` +
+        `    reason: Vercel Function bundles must not contain .tsx dependencies\n` +
+        `            (docs/architecture.md 境界ルール; the Edge bundler has no TSX\n` +
+        `            loader for deps). Rewrite as plain .ts using \`createElement\`\n` +
+        `            (or move the JSX into the entry file itself). See the\n` +
+        `            2026-05-14 decision-log entry for the incident write-up.`,
       );
-      edgeViolations += 1;
+      functionViolations += 1;
     }
   }
-  return edgeViolations;
+  return functionViolations;
 }
 
-violations += checkEdgeFunctionTsxDeps();
-
-if (violations > 0) {
-  console.error('');
-  console.error(`[check-architecture] ${violations} boundary violation(s). See docs/architecture.md §6.2.`);
-  process.exit(1);
+function main() {
+  const violations = checkLayerRules() + checkFunctionTsxDeps();
+  if (violations > 0) {
+    console.error('');
+    console.error(`[check-architecture] ${violations} boundary violation(s). See docs/architecture.md §6.2.`);
+    process.exit(1);
+  }
+  console.log('[check-architecture] ✓ all enforced layer boundaries respected');
 }
 
-console.log('[check-architecture] ✓ all enforced layer boundaries respected');
+main();
