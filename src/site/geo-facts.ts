@@ -1,5 +1,5 @@
 import { fmean, fsum } from '../data/lib/fsum.js';
-import { bankerRound } from '../data/lib/banker-round.js';
+import { bankerRound, displayScore, displayScoreStep } from '../data/lib/banker-round.js';
 import { riskBand } from '../data/lib/bands.js';
 import {
   tryPickFlagshipMeanScore,
@@ -237,35 +237,50 @@ function roundPct(n: number, total: number): number {
 
 /**
  * Apportion whole percentages with the Hamilton/largest-remainder method.
- * Ties resolve by band order, so non-empty distributions always sum to 100
- * without hand-written exceptions for tiny bands.
+ * Leftover points go to the largest remainders, one tie group at a time: a
+ * group of equal remainders gets a point each only when the whole group fits,
+ * so equal counts always print equal shares (#864 — two bands of 2/556 printed
+ * 1% and 0%). Points a split group would need pass to the next group; only if
+ * no later group can take them do they fall back to band order.
  */
 function apportionWholePercent(counts: readonly number[]): number[] {
   const total = fsum(counts);
   if (total === 0) return counts.map(() => 0);
   const raw = counts.map((count) => (count / total) * 100);
   const result = raw.map(Math.floor);
-  const remaining = 100 - fsum(result);
+  let remaining = 100 - fsum(result);
   const order = raw
-    .map((value, index) => ({ index, remainder: value - Math.floor(value) }))
+    .map((value, index) => ({ index, remainder: value - Math.floor(value), count: counts[index]! }))
+    .filter((entry) => entry.remainder > 0)
     .sort((a, b) => (b.remainder - a.remainder) || (a.index - b.index));
-  for (let i = 0; i < remaining; i += 1) {
-    result[order[i]!.index]! += 1;
+  // Equal counts have equal remainders; Map keeps the remainder order.
+  const byCount = new Map<number, typeof order>();
+  for (const entry of order) byCount.set(entry.count, [...(byCount.get(entry.count) ?? []), entry]);
+  const groups = [...byCount.values()];
+  const skipped: typeof order = [];
+  for (const group of groups) {
+    if (group.length > remaining) {
+      skipped.push(...group);
+      continue;
+    }
+    for (const entry of group) result[entry.index]! += 1;
+    remaining -= group.length;
+  }
+  for (let i = 0; i < remaining && i < skipped.length; i += 1) {
+    result[skipped[i]!.index]! += 1;
   }
   return result;
 }
 
 function fiveBandIndex(score: number): number {
-  // bankerRound, not Math.round: this was the one holdout in a file where every
-  // other derived number already rounds half-to-even, and the rule is repo-wide
-  // (see data/lib/banker-round.ts on why Math.round is wrong here). 63 of 556
-  // occupations in the active batch land in a different band under the two
-  // rules — every `.5` whose Math.round result is odd. Issue #216.
-  const rounded = Math.max(0, Math.min(10, bankerRound(score, 0)));
-  if (rounded <= 2) return 0;
-  if (rounded <= 4) return 1;
-  if (rounded <= 6) return 2;
-  if (rounded <= 8) return 3;
+  // The integer step of the DISPLAYED value (#864): banker's rounding (Issue
+  // #216) applied to the printed one-decimal number, so every occupation that
+  // prints 6.5 lands in 5-6 whatever its raw mean (6.4667 and 6.5333 both).
+  const step = displayScoreStep(score);
+  if (step <= 2) return 0;
+  if (step <= 4) return 1;
+  if (step <= 6) return 2;
+  if (step <= 8) return 3;
   return 4;
 }
 
@@ -427,7 +442,8 @@ export function computeGeoFacts(
 
   const risks = scoredRows.map((row) => row.ai_risk as number);
   const totalWorkforce = fsum(scoredRows.map((row) => row.workers ?? 0));
-  const highImpactRows = scoredRows.filter((row) => row.ai_risk! >= HIGH_IMPACT_THRESHOLD);
+  // 「影響≥5」 counts the displayed value (#864): 4.9666… prints 5.0.
+  const highImpactRows = scoredRows.filter((row) => displayScore(row.ai_risk!) >= HIGH_IMPACT_THRESHOLD);
   const highImpactAnnualWagesTrillion = fsum(highImpactRows.map((row) =>
     (row.salary ?? 0) * (row.workers ?? 0),
   )) / 1e8;
