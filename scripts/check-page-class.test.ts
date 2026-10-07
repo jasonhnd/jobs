@@ -27,6 +27,8 @@ describe('check-page-class :root re-declaration', () => {
     ['after a url() on the same line', '.a{background:url(https://x.test/a.png)} :root{--x:1}'],
     ['after a protocol-relative url() on the same line', '.a{background:url(//cdn.example/x)}:root{--x:1}'],
     ['after a quoted protocol-relative url()', ".a{background:url('//cdn.example/x')} :root{--x:1}"],
+    ['after a protocol-relative url() with a space before //', '.a{background:url( //cdn.example/x)}:root{--x:1}'],
+    ['after a protocol-relative url() with a tab before //', '.a{background:url(\t//cdn.example/x)} :root{--x:1}'],
   ];
 
   for (const [name, content] of offending) {
