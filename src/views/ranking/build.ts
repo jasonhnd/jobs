@@ -48,6 +48,26 @@ export interface BuildRankingsOptions {
  * architecture migration uses this to route ranking pages through the
  * knowledge graph.
  */
+/**
+ * Rewrites every "TOP<n>" so it states the real row count: several filtered
+ * rankings have fewer than TOP_N rows (ai-replaced-soon said TOP30 with 4,
+ * ai-frontier TOP21 with 19 — #884). A full list keeps "TOP30" as written.
+ */
+export function topCountText(text: string, count: number): string {
+  return text.replace(/TOP(\s?)\d+/g, `TOP$1${count}`);
+}
+
+function withActualTopCount(result: RankingResult): RankingResult {
+  const n = result.items.length;
+  return {
+    ...result,
+    title: topCountText(result.title, n),
+    seoDesc: topCountText(result.seoDesc, n),
+    h1Text: topCountText(result.h1Text, n),
+    statBlocks: result.statBlocks.map(([label, value]) => [topCountText(label, n), value] as const),
+  };
+}
+
 export function buildRankings(
   loader: () => Occupation[],
   options: BuildRankingsOptions = {},
@@ -84,7 +104,7 @@ export function buildRankings(
     ...intent.entries,
   ];
   for (const [slug, result] of allEntries) {
-    results.set(slug as RankingSlug, result);
+    results.set(slug as RankingSlug, withActualTopCount(result));
   }
 
   // ─── Hub data ────────────────────────────────────────────────────────
@@ -131,7 +151,7 @@ export function buildRankings(
     'AI影響度が低い職業ほど<strong>身体性・対人スキル</strong>を求められる傾向',
   ];
 
-  const cards: RankingsBundle['hub']['cards'] = [
+  const cardsAsWritten: RankingsBundle['hub']['cards'] = [
     // ── Phase 1 baseline (9) ──
     { slug: 'ai-risk-high', name: 'AIに奪われる仕事 TOP30', desc: 'AI影響度が高い職業ランキング', count: highRisk.aiHigh.length, preview: makePreview(highRisk.aiHigh, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
     { slug: 'ai-risk-low', name: 'AI影響が少ない仕事 TOP30', desc: 'AIリスクが低く将来性のある職業', count: lowRisk.aiLow.length, preview: makePreview(lowRisk.aiLow, (o) => `AI影響 ${formatRiskScore(o.ai_risk)}`) },
@@ -178,6 +198,8 @@ export function buildRankings(
     { slug: 'regulated-protected', name: '規制で守られた職業', desc: '関連資格 2 個+ かつ AI 影響低', count: intent.regulatedProtected.length, preview: makePreview(intent.regulatedProtected, (o) => `資格 ${o.certs.length}`) },
     { slug: 'low-stress-stable', name: '低ストレス安定職', desc: '短い労働時間 × 低 AI 影響', count: intent.lowStressStable.length, preview: makePreview(intent.lowStressStable, (o) => `月${Math.trunc(o.monthly_hours ?? 0)}h`) },
   ];
+
+  const cards = cardsAsWritten.map((c) => ({ ...c, name: topCountText(c.name, c.count) }));
 
   // ─── RA-128: group hub cards into 6 thematic buckets ────────────────
   const cardBySlug = new Map(cards.map((c) => [c.slug, c]));
