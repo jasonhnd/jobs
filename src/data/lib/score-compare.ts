@@ -26,3 +26,11 @@ export function scoreUnits(value: number): number {
 export function displayTenths(score: number): number {
   return Math.round(displayScore(score) * 10);
 }
+
+/**
+ * A value already on the one-decimal grid (a vote, a displayed value, or a
+ * difference of those) in integer tenths: 4.1 − 4.4 = −0.3000000000000007 → −3.
+ */
+export function toTenths(value: number): number {
+  return Math.round(value * 10);
+}
