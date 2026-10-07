@@ -125,7 +125,9 @@ describe('check-score-batch CLI', () => {
     test(`fails on a run_date that is not a real YYYY-MM-DD date (${runDate})`, async () => {
       const p = writeBatch((b) => { b.run.run_date = runDate; });
       expect(await runCli(p)).toBe(1);
-      expect(output()).toContain(`FAIL — run.run_date must be a real YYYY-MM-DD date, got "${runDate}"`);
+      // ScoreRunSchema rejects it first (#863); the CLI's own isRealIsoDate guard stays as a backstop.
+      expect(output()).toContain('FAIL — does not match ScoreRunSchema');
+      expect(output()).toMatch(/run\.run_date: must be (YYYY-MM-DD|a real calendar date)/);
       expect(output()).not.toContain('newer than all');
     });
   }
