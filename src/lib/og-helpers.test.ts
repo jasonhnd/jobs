@@ -208,3 +208,26 @@ describe('og-helpers schema drift guard', () => {
     }
   });
 });
+
+describe('riskColorFor (#864)', () => {
+  test('colours the displayed value, so equal prints get equal colours', async () => {
+    const { riskColorFor, RISK_COLORS } = await import('./og-helpers.js');
+    // id 72 (4.4667) and id 137 (4.5333) both print 4.5
+    assert.equal(riskColorFor(4.466666666666667), riskColorFor(4.533333333333333));
+    assert.equal(riskColorFor(4.533333333333333), RISK_COLORS[4]);
+    // both print 6.5
+    assert.equal(riskColorFor(6.466666666666667), riskColorFor(6.533333333333333));
+    assert.equal(riskColorFor(6.966666666666667), RISK_COLORS[7]); // prints 7.0
+    assert.equal(riskColorFor(2.5333333333333337), RISK_COLORS[2]); // prints 2.5
+  });
+
+  test('the renderers use it instead of Math.round on the raw mean', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { join } = await import('node:path');
+    for (const file of ['occupation.ts', 'worktype.ts']) {
+      const source = readFileSync(join(import.meta.dirname, 'og-renderers', file), 'utf8');
+      assert.doesNotMatch(source, /RISK_COLORS\[Math\.round/, file);
+      assert.match(source, /riskColorFor\(/, file);
+    }
+  });
+});
