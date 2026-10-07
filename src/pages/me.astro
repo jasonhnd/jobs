@@ -31,6 +31,7 @@ import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
 import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import { NO_OCC_PATH } from '@/site/no-occ-path';
 import { QUESTIONS, SHARE, VARIANT_BUCKETS_BY_FAMILY } from '@/site/worktype-copy';
+import { escapeJsonForScript, stringifyJsonLd } from '@/lib/json-for-script';
 
 const canonical = `${siteConfig.origin}/me`;
 const title = '自分の現在地｜全 39 ランキングでの位置を確認 | 未来の仕事';
@@ -42,15 +43,8 @@ const ME_INLINE_JS = readFileSync(
   'utf-8',
 );
 
-function safeJsonForScript(value: unknown): string {
-  const text = JSON.stringify(value) ?? 'null';
-  return text
-    .replace(/<\//g, '<\\/')
-    .replace(/\u2028/g, '\\u2028')
-    .replace(/\u2029/g, '\\u2029');
-}
 
-const meQuizCopyJson = safeJsonForScript({
+const meQuizCopyJson = escapeJsonForScript(JSON.stringify({
   questions: QUESTIONS,
   variantBuckets: VARIANT_BUCKETS_BY_FAMILY,
   share: SHARE,
@@ -73,7 +67,7 @@ const meQuizCopyJson = safeJsonForScript({
       action: '判断を加える練習、人との接点を増やす工夫、AI補助のワークフローから始めましょう。',
     },
   },
-});
+}));
 
 // JSON-LD: @graph form pairs WebApplication (semantic app classification)
 // with WebPage (page-identity node required by scripts/verify-jsonld.cjs §6.3,
@@ -81,7 +75,7 @@ const meQuizCopyJson = safeJsonForScript({
 // CollectionPage / QAPage / Dataset). WebApplication alone is not on that
 // allow-list, which left /me failing the SEO Baseline verify-jsonld check
 // since the page was added.
-const jsonLd = JSON.stringify({
+const jsonLd = stringifyJsonLd({
   '@context': 'https://schema.org',
   '@graph': [
     {
@@ -314,6 +308,8 @@ const jsonLd = JSON.stringify({
       position: absolute; left: -10000px; width: 1px; height: 1px;
       overflow: hidden;
     }
+    .me-quiz-error { flex-basis: 100%; margin: 0; color: var(--red-text); font-size: var(--t-sm); }
+    .me-quiz-error::before { content: "⚠ "; }
     .me-quiz-cta {
       margin: 8px 0 28px; padding: 20px 22px;
       background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
@@ -483,6 +479,7 @@ const jsonLd = JSON.stringify({
           ))}
           <div class="me-quiz-actions">
             <button class="me-quiz-submit" type="submit" id="meQuizSubmit" disabled>答えを見る</button>
+            <p class="me-quiz-error" id="meQuizError" role="alert" hidden></p>
           </div>
         </form>
       </section>

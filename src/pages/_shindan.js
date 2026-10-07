@@ -79,6 +79,8 @@
     var searchDocs = null;
     var searchById = {};
     var transferPaths = null;
+    var transferPathsPromise = null;
+    var gapSelectSeq = 0;
     var dataReady = false;
     var currentResult = null;
     var currentGap = null;
@@ -242,13 +244,15 @@
 
     function loadTransferPaths() {
       if (transferPaths) return Promise.resolve(transferPaths);
-      return fetchWithTimeout(TRANSFER_PATHS_URL, FETCH_TIMEOUT_MS).then(function (json) {
+      if (transferPathsPromise) return transferPathsPromise;
+      transferPathsPromise = fetchWithTimeout(TRANSFER_PATHS_URL, FETCH_TIMEOUT_MS).then(function (json) {
         transferPaths = json && json.paths ? json.paths : {};
         return transferPaths;
       }).catch(function () {
         transferPaths = {};
         return transferPaths;
       });
+      return transferPathsPromise;
     }
 
     // One decimal, the server's rule: banker's rounding over the exact stored
@@ -584,11 +588,20 @@
       if (!(options && options.skipScroll)) {
         $result.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      track('shindan_result_view', {
-        family_code: result.code,
-        variant_id: result.variantId,
-        variant_bucket: result.bucket
-      });
+      if (countsAsNewResult(options)) {
+        track('shindan_result_view', {
+          family_code: result.code,
+          variant_id: result.variantId,
+          variant_bucket: result.bucket
+        });
+      }
+    }
+
+    // shindan_result_view is a conversion (analytics/spec.yaml): only a result
+    // the visitor just produced counts, not one restored from storage or
+    // opened from a shared URL (#884; /me's showGap already skips restores).
+    function countsAsNewResult(options) {
+      return !(options && (options.restored || options.fromUrl));
     }
 
     function colorAlpha(hex, alpha) {
@@ -964,7 +977,11 @@
 
     function selectGapJob(jobId, options) {
       if (!currentResult || !worktypes || !jobId || isNaN(jobId)) return;
+      // Only the latest selection may render: two quick picks can resolve out
+      // of order and leave the older job on screen and in the URL (#884).
+      var seq = ++gapSelectSeq;
       Promise.all([loadSearchIndex(), loadTransferPaths()]).then(function () {
+        if (seq !== gapSelectSeq) return;
         var id = String(jobId);
         var doc = searchById[id];
         var record = worktypes.occupations[id];
@@ -1003,6 +1020,7 @@
           });
         }
       }).catch(function () {
+        if (seq !== gapSelectSeq) return;
         if ($jobAnnounce) $jobAnnounce.textContent = '職業データの読み込みに失敗しました';
       });
     }
@@ -1292,7 +1310,7 @@
       loadData().then(function () {
         var fromUrl = resultFromUrl();
         if (fromUrl) {
-          renderResult(fromUrl, { skipScroll: true });
+          renderResult(fromUrl, { fromUrl: true, skipScroll: true });
           return;
         }
         var fromStorage = resultFromStorage();
@@ -1313,6 +1331,7 @@
       window.__SHINDAN_TEST_HOOKS__.resultStateParams = resultStateParams;
       window.__SHINDAN_TEST_HOOKS__.nextFunnelEvents = nextFunnelEvents;
       window.__SHINDAN_TEST_HOOKS__.shareHookText = shareHookText;
+      window.__SHINDAN_TEST_HOOKS__.countsAsNewResult = countsAsNewResult;
     }
 
     if (document.readyState === 'loading') {

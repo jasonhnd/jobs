@@ -92,8 +92,10 @@ describe('occupation section adapters', () => {
     }));
     assert.match(html, /href="https:\/\/example\.test\/\?a=1&amp;b=2"/);
     assert.match(html, /Org &amp; &lt;x&gt;/);
-    assert.match(html, /href="#"[^>]*>No URL/);
-    assert.equal([...html.matchAll(/target="_blank"/g)].length, 2);
+    // #884: no URL → plain text, not a dead href="#" opening a new tab.
+    assert.match(html, /<li>No URL<\/li>/);
+    assert.ok(!html.includes('href="#"'));
+    assert.equal([...html.matchAll(/target="_blank"/g)].length, 1);
     assert.match(html, /<li>Cert &lt;x&gt;<\/li>/);
   });
 

@@ -27,6 +27,7 @@
 
 import { siteConfig } from '../site/config.js';
 import { displayScore } from '../data/lib/banker-round.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 // ─── Internal Schema.org types (private to this module) ─────────
 
@@ -373,5 +374,5 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
     });
   }
 
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graphNodes }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graphNodes }, 2);
 }

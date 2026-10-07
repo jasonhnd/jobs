@@ -688,12 +688,23 @@
       $suggest.classList.add('open');
     }
     var searchDebounce;
+    var searchSeq = 0;
     $searchInput.addEventListener('input', function () {
       clearTimeout(searchDebounce);
+      // Every keystroke supersedes the previous one; an empty box also clears
+      // the rows, so Enter cannot jump to an earlier query's first hit (#884).
+      var seq = ++searchSeq;
       var q = $searchInput.value;
-      if (!q.trim()) { $suggest.classList.remove('open'); return; }
+      if (!q.trim()) { renderSuggest([]); return; }
       searchDebounce = setTimeout(function () {
-        loadSearchIndex().then(function () { renderSuggest(rankMatches(q)); });
+        loadSearchIndex().then(function () {
+          if (seq !== searchSeq) return;
+          renderSuggest(rankMatches(q));
+        }).catch(function (err) {
+          if (seq !== searchSeq) return;
+          renderSuggest([]);
+          if (typeof console !== 'undefined') console.warn('[map] search index failed:', err);
+        });
       }, 100);
     });
     $searchInput.addEventListener('blur', function () {

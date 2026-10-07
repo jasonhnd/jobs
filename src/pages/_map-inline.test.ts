@@ -27,3 +27,13 @@ test("map fmtRisk is banker's rounding over the exact double, like displayScore(
   assert.equal(fmtRisk(null), '—');
   assert.equal(fmtRisk(undefined), '—');
 });
+
+test('map search: clearing the box empties the list and late responses are dropped (#884)', () => {
+  const start = source.indexOf("$searchInput.addEventListener('input', function () {");
+  const end = source.indexOf("$searchInput.addEventListener('blur'", start);
+  const body = source.slice(start, end);
+  assert.match(body, /if \(!q\.trim\(\)\) \{[^}]*renderSuggest\(\[\]\);/);
+  assert.match(body, /var seq = \+\+searchSeq;/);
+  assert.match(body, /if \(seq !== searchSeq\) return;/);
+  assert.match(body, /\.catch\(function \(err\) \{/);
+});

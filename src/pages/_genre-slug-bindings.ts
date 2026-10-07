@@ -110,7 +110,7 @@ export function buildGenreSlugBindings(input: GenreSlugInput): GenreSlugBindings
     : '';
   const highlightsHtml = renderHighlights(result.highlights);
   const sectorChartHtml = renderSectorChart(result.sectorBreakdown, `セクター内訳（TOP${n}）`);
-  const rankItems = result.items.map((o) => renderRankItem(o, cfg.short_ja)).join('');
+  const rankItems = result.items.map((o) => renderRankItem(o, cfg.short_ja, !cfg.hide_score)).join('');
   const faqHtml = renderFaqHtml(result.faqItems);
   const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
     facts: geoFacts,
