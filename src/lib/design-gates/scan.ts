@@ -16,7 +16,11 @@ export interface Hit {
 }
 
 const SKIP_DIRS = new Set(['node_modules', 'dist-astro', '.astro', '__snapshots__']);
-const EXTS = ['.ts', '.tsx', '.astro', '.css', '.html'];
+/**
+ * `.js` was missing until #866, so the inline scripts under src/pages/
+ * (`_map-inline.js` and friends) sat outside every gate.
+ */
+const EXTS = ['.ts', '.tsx', '.astro', '.css', '.html', '.js', '.mjs', '.cjs', '.jsx'];
 
 export function walkSource(root: string, dir = 'src'): string[] {
   const out: string[] = [];
@@ -29,7 +33,7 @@ export function walkSource(root: string, dir = 'src'): string[] {
         continue;
       }
       if (!EXTS.some((e) => ent.name.endsWith(e))) continue;
-      if (/\.test\.[tj]sx?$/.test(ent.name)) continue;
+      if (/\.test\.[cm]?[tj]sx?$/.test(ent.name)) continue;
       out.push(relative(root, p));
     }
   };
@@ -83,6 +87,36 @@ export function stripComments(src: string): string {
   return out;
 }
 
+/**
+ * Blank every `${…}` interpolation (braces balanced), keeping newlines and
+ * length so offsets and line numbers still point at the source.
+ *
+ * A rule body such as `.card h2 { color: ${c}; font-size: 2rem }` otherwise
+ * contains a `{` and a `}` of its own, and a `{…}` rule regex matches the
+ * interpolation instead of the rule — the rule was skipped whole (#866).
+ */
+export function blankInterpolations(src: string): string {
+  let out = '';
+  let i = 0;
+  while (i < src.length) {
+    if (src[i] === '$' && src[i + 1] === '{') {
+      let depth = 0;
+      let j = i + 1;
+      for (; j < src.length; j += 1) {
+        if (src[j] === '{') depth += 1;
+        else if (src[j] === '}') { depth -= 1; if (depth === 0) break; }
+      }
+      const end = Math.min(j + 1, src.length);
+      out += src.slice(i, end).replace(/[^\n]/g, ' ');
+      i = end;
+      continue;
+    }
+    out += src[i];
+    i += 1;
+  }
+  return out;
+}
+
 export function scan(root: string, file: string, re: RegExp): Hit[] {
   const lines = stripComments(readFileSync(join(root, file), 'utf-8')).split('\n');
   const hits: Hit[] = [];
@@ -118,7 +152,9 @@ export const UNASSIGNED: ReadonlyArray<{
     // Reported to the owner rather than forced into a step that would destroy
     // the page.
     file: 'src/pages/404.astro',
-    selector: /\.four-oh-four/,
+    // Anchored (#866): unanchored, it also exempted `.four-oh-four-x h2` and
+    // anything else that merely contained the class name.
+    selector: /^\.four-oh-four$/,
     why: 'decorative numeral — no §4.7 role; owner decision pending',
   },
 ];

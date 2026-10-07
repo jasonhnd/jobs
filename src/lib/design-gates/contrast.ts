@@ -132,19 +132,51 @@ export function parseRoleTable(root: string = process.cwd()): RoleRow[] {
   return rows;
 }
 
-export function findContrastProblems(root: string = process.cwd()): ContrastProblem[] {
+/** A role row the checker could not evaluate. */
+export interface UnresolvedRole {
+  readonly role: string;
+  readonly token: string;
+  readonly reason: string;
+}
+
+export interface ContrastAudit {
+  /** foreground × background pairs actually measured. */
+  readonly checked: number;
+  readonly problems: readonly ContrastProblem[];
+  /**
+   * Rows whose colour, size or background did not resolve. Until #866 these
+   * were `continue`d past and the gate still printed OK — a `color-mix()`
+   * colour, an undefined `--ink-9` or an undefined size token all passed.
+   */
+  readonly unresolved: readonly UnresolvedRole[];
+}
+
+export function auditContrast(root: string = process.cwd()): ContrastAudit {
   const colours = readColourTokens(root);
   const problems: ContrastProblem[] = [];
+  const unresolved: UnresolvedRole[] = [];
+  let checked = 0;
   for (const row of parseRoleTable(root)) {
+    // --paper as a FOREGROUND is button text on a coloured fill; §2.2's table
+    // covers foregrounds on the three page backgrounds only. The one
+    // documented exception — everything else must resolve.
+    if (row.colourToken === '--paper') continue;
     const fg = colours.get(row.colourToken);
     const px = tokenPx(row.sizeToken);
+    if (fg == null) {
+      unresolved.push({ role: row.role, token: row.colourToken, reason: 'colour token has no hex value in :root' });
+    }
+    if (px == null) {
+      unresolved.push({ role: row.role, token: row.sizeToken, reason: 'size token is not a §4.2 step' });
+    }
     if (fg == null || px == null) continue;
-    // --paper as a FOREGROUND is button text on a coloured fill; §2.2's table
-    // covers foregrounds on the three page backgrounds only.
-    if (row.colourToken === '--paper') continue;
     for (const bgToken of BACKGROUNDS) {
       const bg = colours.get(bgToken);
-      if (bg == null) continue;
+      if (bg == null) {
+        unresolved.push({ role: row.role, token: bgToken, reason: 'background token has no hex value in :root' });
+        continue;
+      }
+      checked += 1;
       const ratio = contrastRatio(fg, bg);
       const required = requiredRatio(px, row.weight, row.family);
       if (ratio + 0.005 < required) {
@@ -155,5 +187,9 @@ export function findContrastProblems(root: string = process.cwd()): ContrastProb
       }
     }
   }
-  return problems;
+  return { checked, problems, unresolved };
+}
+
+export function findContrastProblems(root: string = process.cwd()): ContrastProblem[] {
+  return [...auditContrast(root).problems];
 }

@@ -14,6 +14,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { DESIGN_TOKENS } from '../design-tokens.js';
+import { blankDataUris, isNeutral, parseColours, RAW_COLOUR, rgbKey } from './colour-parse.js';
 import { readLedger, surfaceStateFor, type SurfaceState } from './ledger.js';
 import { isUnassigned, stripComments, walkSource } from './scan.js';
 
@@ -28,31 +29,51 @@ export interface ColourViolation {
   readonly derivable: boolean;
 }
 
-/** Properties whose colour the canon tokenises (§2.1 / §2.2). */
-const TOKENISED = /(?:^|[;{\s])(color|background|background-color|border-color|border(?:-top|-right|-bottom|-left)?|fill|stroke|outline-color)\s*:\s*([^;}\n]+)/g;
-const RAW = /#[0-9a-fA-F]{3,8}\b|rgba?\(/;
+/**
+ * The properties the gate read before #866. Their values are judged in full,
+ * and a quoted value counts — Satori style objects write `color: '#…'`.
+ */
+const TOKENISED: ReadonlySet<string> = new Set([
+  'color', 'background', 'background-color', 'border-color', 'border',
+  'border-top', 'border-right', 'border-bottom', 'border-left',
+  'fill', 'stroke', 'outline-color',
+]);
 
 /**
- * Ranges with no token in the canon. Each is in DESIGN_CONFORMANCE.md's
- * 正典にトークンが無い値 note and needs an owner decision before it can be
- * enforced — adding a token is a MINOR revision (§20.1), which only the owner
- * may make (§20.6).
+ * Any declaration: a `--custom` property or a CSS property name, case-
+ * insensitive, with optional whitespace before the colon. Until #866 only the
+ * TOKENISED names were read, so a palette tint in `box-shadow`, `outline`,
+ * `border-top-color` or a custom property was invisible (Hub.ts:436 and
+ * _index.css escaped that way).
  */
-const NO_TOKEN_YET: ReadonlyArray<{ file: string; test: RegExp; why: string }> = [
-  {
-    // A data URI cannot resolve var(), so the colour has to be written out.
-    // §2.4 example 2 allows it ON CONDITION that the value equals a palette
-    // token's — checked separately by findDataUriDrift below, because the real
-    // risk is not the literal hex, it is the icon silently keeping an old
-    // colour after the token moves.
-    file: '',
-    test: /data:image\/svg\+xml/,
-    why: 'var() does not work inside a data URI (value verified against the palette)',
-  },
-];
+const DECLARATION = /(?:^|[;{\s])(--[A-Za-z0-9_-]+|-?[A-Za-z][A-Za-z-]*)\s*:\s*([^;}\n]+)/g;
 
-function exempt(file: string, line: string): boolean {
-  return NO_TOKEN_YET.some((e) => (e.file === '' || e.file === file) && e.test.test(line));
+/**
+ * Explicit, audited exemptions: values that match a palette colour but cannot
+ * be written as a token yet. Each names the file, the declaration, why, and the
+ * audit that listed it. Adding a token is a canon change (§20.6), so these wait
+ * for the owner instead of being forced. Keep this list short and dated.
+ */
+export const COLOUR_EXEMPTIONS: ReadonlyArray<{
+  readonly file: string;
+  /** Matches the line text (comments already stripped). */
+  readonly line: RegExp;
+  readonly why: string;
+  readonly audit: string;
+}> = [];
+
+/**
+ * §2.1 — the palette is DEFINED in canonical-css.ts's :root (and the
+ * neutralised theme copies of it, `:root[data-theme=…]`). A custom property
+ * there written as a raw colour is the token, not an escape from it.
+ */
+const CANON = 'src/lib/canonical-css.ts';
+function isPaletteDefinition(file: string, selector: string, property: string): boolean {
+  return file === CANON && property.startsWith('--') && /^:root(?![\w-])/.test(selector);
+}
+
+function exempt(file: string, text: string): boolean {
+  return COLOUR_EXEMPTIONS.some((e) => e.file === file && e.line.test(text));
 }
 
 /**
@@ -75,10 +96,8 @@ function paletteByRgb(root: string): Map<string, string> {
     return m;
   }
   const add = (name: string, hex: string): void => {
-    let h = hex.replace('#', '');
-    if (h.length === 3) h = [...h].map((c) => c + c).join('');
-    const key = [0, 2, 4].map((i) => Number.parseInt(h.slice(i, i + 2), 16)).join(',');
-    if (!m.has(key)) m.set(key, name);
+    const [rgb] = parseColours(hex);
+    if (rgb != null && !m.has(rgbKey(rgb))) m.set(rgbKey(rgb), name);
   };
   for (const hit of css.matchAll(/(--[a-z0-9-]+):\s*(#[0-9a-fA-F]{3,6})\s*;/g)) {
     add(hit[1] ?? '', hit[2] ?? '');
@@ -92,13 +111,19 @@ function paletteByRgb(root: string): Map<string, string> {
   return m;
 }
 
-function isPaletteDerived(value: string, root: string): boolean {
+/** The palette token a value's colour equals, if any. */
+export function paletteTokenFor(value: string, root: string = process.cwd()): string | null {
   const pal = paletteByRgb(root);
-  for (const m of value.matchAll(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/g)) {
-    if (pal.has(`${m[1]},${m[2]},${m[3]}`)) return true;
+  for (const rgb of parseColours(value)) {
+    const token = pal.get(rgbKey(rgb));
+    if (token != null) return token;
   }
-  return false;
+  return null;
 }
+
+/** `var(--bg2, #FFFFFF)` is a token with a defensive fallback, not a raw colour. */
+const stripVars = (value: string): string =>
+  value.replace(/var\([^()]*(?:\([^()]*\)[^()]*)*\)/g, '');
 
 export function findColourViolations(root: string = process.cwd()): ColourViolation[] {
   const surfaces = readLedger(root);
@@ -110,21 +135,31 @@ export function findColourViolations(root: string = process.cwd()): ColourViolat
 
     const lines = stripComments(readFileSync(join(root, file), 'utf-8')).split('\n');
     let selector = '';
-    lines.forEach((text, idx) => {
-      const sel = text.match(/^\s*([^{}@]+?)\s*\{/);
+    lines.forEach((raw, idx) => {
+      const sel = raw.match(/^\s*([^{}@]+?)\s*\{/);
       if (sel) selector = (sel[1] ?? '').trim();
-      if (isUnassigned(file, selector) || exempt(file, text)) return;
-      for (const m of text.matchAll(TOKENISED)) {
-        const property = m[1] ?? '';
+      if (isUnassigned(file, selector) || exempt(file, raw)) return;
+      const text = blankDataUris(raw);
+      for (const m of text.matchAll(DECLARATION)) {
+        const property = (m[1] ?? '').toLowerCase();
         const value = (m[2] ?? '').trim();
-        // `var(--bg2, #FFFFFF)` is a token with a defensive fallback, not a raw
-        // colour. Strip the var() calls before looking for one.
-        const bare = value.replace(/var\([^()]*(?:\([^()]*\)[^()]*)*\)/g, '');
-        if (!RAW.test(bare)) continue;
+        if (isPaletteDefinition(file, selector, property)) continue;
+        const known = TOKENISED.has(property);
+        // Outside the original list, only CSS syntax counts: a colour inside
+        // quotes there is data (`CPB: '#D96B3D'`, `CPB: { accent: '#…' }`),
+        // not a CSS colour — CSS never quotes one.
+        const css = known ? value : value.replace(/(['"`])(?:\\.|(?!\1).)*\1/g, (q) => ' '.repeat(q.length));
+        const bare = stripVars(css);
+        if (!RAW_COLOUR.test(bare)) continue;
+        // Neutral black/white shadows and highlights have no hue to tokenise.
+        // Exempt only on the newly read properties, so nothing that failed
+        // before #866 passes now.
+        const colours = parseColours(bare);
+        if (!known && colours.length > 0 && colours.every(isNeutral) && !/hwb|lab|lch|color\(/i.test(bare)) continue;
         out.push({
           file, line: idx + 1, selector, property,
           value: value.slice(0, 60), state,
-          derivable: isPaletteDerived(bare, root),
+          derivable: paletteTokenFor(bare, root) != null,
         });
       }
     });

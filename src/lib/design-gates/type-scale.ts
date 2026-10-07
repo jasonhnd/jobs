@@ -13,6 +13,7 @@
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { TYPE_SCALE } from '../design-tokens.js';
 import { readLedger, surfaceStateFor, type SurfaceState } from './ledger.js';
 import { isUnassigned, stripComments, walkSource } from './scan.js';
 
@@ -24,8 +25,58 @@ export interface Violation {
   readonly state: SurfaceState;
 }
 
-const FONT_SIZE = /font-size:\s*([^;}\n]+)/g;
-const TOKEN = /^var\(--t-[a-z0-9]+\)$/;
+/**
+ * CSS property names are case-insensitive and may carry whitespace before the
+ * colon; `FONT-SIZE : 13px` and the `font:` shorthand both slipped past the
+ * old `font-size:` literal (#866).
+ */
+const FONT_SIZE = /(?<![\w-])font-size\s*:\s*([^;}\n]+)/gi;
+const FONT_SHORTHAND = /(?<![\w-])font\s*:\s*([^;}\n]+)/gi;
+const SCALE: ReadonlySet<string> = new Set(Object.keys(TYPE_SCALE));
+
+/** `var(--t-sm)` — and only for a step §4.2 actually defines. */
+export function isScaleToken(value: string): boolean {
+  const m = value.trim().match(/^var\(\s*(--t-[a-z0-9-]+)\s*\)$/);
+  return m != null && SCALE.has(m[1] ?? '');
+}
+
+/** What can stand in the size slot of the `font` shorthand. */
+const SIZE_LIKE =
+  /^(?:[0-9.]+(?:px|rem|em|pt|pc|%|vw|vh|vmin|vmax|ch|ex|lh|rlh|q|mm|cm|in)|xx-small|x-small|small|medium|large|x-large|xx-large|xxx-large|smaller|larger|(?:calc|clamp|min|max)\(.*\)|var\(\s*--t-.*\))$/i;
+
+/** Split on whitespace and `/`, keeping parenthesised groups whole. */
+function shorthandTokens(value: string): Array<{ text: string; slash: boolean }> {
+  const out: Array<{ text: string; slash: boolean }> = [];
+  let cur = '';
+  let depth = 0;
+  const push = (slash: boolean): void => {
+    if (cur !== '') out.push({ text: cur, slash });
+    else if (slash && out.length > 0) out[out.length - 1] = { ...out[out.length - 1]!, slash: true };
+    cur = '';
+  };
+  for (const ch of value) {
+    if (ch === '(') depth += 1;
+    if (ch === ')') depth -= 1;
+    if (depth === 0 && /\s/.test(ch)) { push(false); continue; }
+    if (depth === 0 && ch === '/') { push(true); continue; }
+    cur += ch;
+  }
+  push(false);
+  return out;
+}
+
+/**
+ * The font-size inside a `font:` shorthand, or null when it has none (a
+ * keyword such as `inherit` or a system font, or a TS annotation
+ * `font: string`). The size is the token before `/line-height` when there is
+ * one, otherwise the first token shaped like a size.
+ */
+export function shorthandSize(value: string): string | null {
+  const tokens = shorthandTokens(value.replace(/!important/i, '').trim());
+  const beforeSlash = tokens.find((t) => t.slash);
+  if (beforeSlash != null) return beforeSlash.text;
+  return tokens.find((t) => SIZE_LIKE.test(t.text))?.text ?? null;
+}
 
 /** `html` at the top of a page-class file — the rem base, not a text role. */
 function isRootSizing(selector: string, value: string): boolean {
@@ -45,9 +96,12 @@ export function findTypeScaleViolations(root: string = process.cwd()): Violation
     lines.forEach((text, idx) => {
       const sel = text.match(/^\s*([^{}@]+?)\s*\{/);
       if (sel) selector = (sel[1] ?? '').trim();
-      for (const m of text.matchAll(FONT_SIZE)) {
-        const value = (m[1] ?? '').replace(/!important/, '').trim();
-        if (TOKEN.test(value)) continue;
+      const sizes = [
+        ...[...text.matchAll(FONT_SIZE)].map((m) => (m[1] ?? '').replace(/!important/i, '').trim()),
+        ...[...text.matchAll(FONT_SHORTHAND)].map((m) => shorthandSize(m[1] ?? '')),
+      ];
+      for (const value of sizes) {
+        if (value == null || isScaleToken(value)) continue;
         if (isRootSizing(selector, value)) continue;
         if (isUnassigned(file, selector)) continue;
         out.push({ file, line: idx + 1, selector, value, state });

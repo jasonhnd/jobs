@@ -113,7 +113,7 @@ describe('check-color-tokens — every property, every colour syntax (#866 P1-2)
     assert.equal(failing('.a { color: hsla(17.69, 67.24%, 54.51%, 0.5); }').length, 1);
     assert.equal(failing('.a { color: hsl(17.69deg 67.24% 54.51% / .5); }').length, 1);
     assert.equal(failing('.a { color: oklch(1 0 0); }').length, 1);
-    assert.equal(failing('.a { color: oklch(63.5% 0.143 41.6 / 0.4); }').length, 1);
+    assert.equal(failing('.a { color: oklch(65% 0.1508 42.16 / 0.4); }').length, 1);
   });
 
   test('an off-palette colour in a new syntax is still SEEN (reported, not failed)', () => {
@@ -193,9 +193,14 @@ describe('check-design-sync — fails closed (#866 P1-3)', () => {
     assert.deepEqual(p.map((x) => [x.kind, x.token]), [['missing-in-doc', '--r-pill']]);
   });
 
-  test('the --s-* range is expanded and compared', () => {
+  test('the --s-* range is expanded and its middle steps compared', () => {
+    const p = syncWith(realDoc.replace('（4 / 8 / 12 / 16 / 24 / 32 / 48 / 64）', '（4 / 8 / 12 / 15 / 24 / 32 / 48 / 64）'));
+    assert.deepEqual(p.map((x) => [x.kind, x.token, x.doc]), [['value', '--s-4', '15px']]);
+  });
+
+  test('a range whose list disagrees with its endpoint is a parse failure', () => {
     const p = syncWith(realDoc.replace('（4 / 8 / 12 / 16 / 24 / 32 / 48 / 64）', '（4 / 8 / 12 / 16 / 24 / 32 / 48 / 60）'));
-    assert.deepEqual(p.map((x) => [x.kind, x.token, x.doc]), [['value', '--s-8', '60px']]);
+    assert.ok(p.some((x) => x.kind === 'parse' && x.token === '--s-8'), JSON.stringify(p));
   });
 
   test('--sh-* is compared against the §8.3 table', () => {
