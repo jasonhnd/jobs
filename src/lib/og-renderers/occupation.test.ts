@@ -194,7 +194,7 @@ interface Options {
 const images: { tree: ReactNode; options: Options }[] = [];
 const origin = 'https://jobs-tree-zkscio.vercel.app';
 const url = new URL(`${origin}/api/og`);
-const fontBytes = new Uint8Array([1, 2, 3]);
+const fontBytes = new Uint8Array([0x00, 0x01, 0x00, 0x00, 1, 2, 3]);
 const fontSubsets: string[] = [];
 const dataRequests: string[] = [];
 

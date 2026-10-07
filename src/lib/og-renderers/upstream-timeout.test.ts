@@ -100,7 +100,7 @@ for (const stage of ['CSS', 'binary'] as const) {
           init!.signal!.addEventListener('abort', () => reject(new DOMException('fixture timeout', 'AbortError')), { once: true });
         });
       }
-      return isBinary ? new Response(new Uint8Array([1, 2, 3])) : new Response(fontCss);
+      return isBinary ? new Response(new Uint8Array([0x00, 0x01, 0x00, 0x00, 1, 2, 3])) : new Response(fontCss);
     });
     const subset = `timeout-retry-${stage}`;
     const pending = loadGoogleFont('Timeout+Fixture', 500, subset);
@@ -109,7 +109,7 @@ for (const stage of ['CSS', 'binary'] as const) {
     fire();
     await rejected;
     failing = false;
-    assert.deepEqual(new Uint8Array(await loadGoogleFont('Timeout+Fixture', 500, subset)), new Uint8Array([1, 2, 3]));
+    assert.deepEqual(new Uint8Array(await loadGoogleFont('Timeout+Fixture', 500, subset)), new Uint8Array([0x00, 0x01, 0x00, 0x00, 1, 2, 3]));
     assert.equal(calls, stage === 'CSS' ? 3 : 4);
   });
 }
