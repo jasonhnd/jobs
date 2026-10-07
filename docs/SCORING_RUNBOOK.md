@@ -273,6 +273,8 @@ Prompts are written to `.cache/scoring/example-in-agent/prompts/<id>.txt` becaus
 
 ## Anomaly re-score
 
+A run without `--resume` refuses an `--out` file that already has content, so a re-run cannot empty a finished (paid) run. Pass `--overwrite` only when replacing that file is intended. `--out` under `data/scores/` is always refused: only `assemble-scores.ts` creates batches there.
+
 `--resume` recovers a row only when that id is absent from the raw JSONL or the line is not a parseable object with an integer `id`. `completedIdsFromJsonl` in `scripts/lib/scoring/core.ts` ignores corrupt lines and treats every other integer `id` as done. `selectPendingOccupations` applies `--ids` first, then drops those completed ids. `--resume --ids <bad>` therefore skips a row that already parsed.
 
 Two cases. Do not change `--model`, `--prompt-file`, or `--reasoning-effort` in either case. Do not edit `data/scores`.

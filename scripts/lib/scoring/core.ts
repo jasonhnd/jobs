@@ -8,8 +8,8 @@
  * Providers plug in through `ScoringProvider` (see provider.ts); they supply
  * transport only.
  */
-import { appendFileSync, existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import { basename, extname, join, resolve } from 'node:path';
+import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
+import { basename, extname, isAbsolute, join, relative, resolve } from 'node:path';
 
 import {
   ScoreSchema,
@@ -40,6 +40,8 @@ export interface ScoringArgs {
   readonly limit: number | null;
   readonly ids: readonly number[] | null;
   readonly resume: boolean;
+  /** Allow a fresh (non-resume) run to truncate a non-empty output file. */
+  readonly overwrite?: boolean;
   readonly concurrency: number;
   readonly runName: string;
   /** Every parsed flag, forwarded to the provider for vendor-specific options. */
@@ -119,6 +121,7 @@ export function parseArgs(
     limit,
     ids,
     resume: raw['resume'] === 'true',
+    overwrite: raw['overwrite'] === 'true',
     concurrency,
     runName: sanitizeRunName(runName),
     providerOptions: Object.freeze({ ...raw }),
@@ -359,6 +362,25 @@ export interface RunScoringResult {
  * `args.outPath`. Shared by every entry point so no runner can drift from the
  * contract, the retry policy, or the audit layout.
  */
+/**
+ * Refuse an output path that would destroy data. A fresh run truncates
+ * `outPath`, so a non-empty file (a finished, paid run) needs `--resume` or an
+ * explicit `--overwrite`. Score batches under `data/scores/` are append-only
+ * and only `assemble-scores.ts` may create them, so no raw run writes there.
+ */
+export function assertWritableOutput(args: ScoringArgs, root: string): void {
+  const rel = relative(resolve(root, 'data', 'scores'), resolve(args.outPath));
+  if (rel === '' || (!rel.startsWith('..') && !isAbsolute(rel))) {
+    throw new Error(`--out must not be under data/scores/ (append-only batches): ${args.outPath}`);
+  }
+  if (args.resume || args.overwrite) return;
+  if (existsSync(args.outPath) && statSync(args.outPath).size > 0) {
+    throw new Error(
+      `--out ${args.outPath} already has content; pass --resume to continue it or --overwrite to replace it`,
+    );
+  }
+}
+
 export async function runScoring(
   args: ScoringArgs,
   provider: ScoringProvider,
@@ -368,6 +390,7 @@ export async function runScoring(
   const logError = deps.logError ?? ((m: string) => console.error(m));
 
   if (!existsSync(args.promptFile)) throw new Error(`prompt file not found: ${args.promptFile}`);
+  assertWritableOutput(args, deps.root);
   const rubric = readFileSync(args.promptFile, 'utf8');
 
   const runDir = join(deps.root, '.cache', 'scoring', args.runName);

@@ -128,6 +128,12 @@ describe('parseArgs required flags', () => {
       /--concurrency must be a positive integer/,
     );
   });
+
+  test('--overwrite is off unless passed', () => {
+    const base = ['--prompt-file', 'p.md', '--provider', 'fake', '--model', 'm'];
+    assert.equal(parseArgs(base, '/repo').overwrite, false);
+    assert.equal(parseArgs([...base, '--overwrite'], '/repo').overwrite, true);
+  });
 });
 
 describe('runScoring', () => {
@@ -151,7 +157,7 @@ describe('runScoring', () => {
     const root = makeTmp();
     try {
       writePrompt(root);
-      const args = scoringArgs(root);
+      const args = scoringArgs(root, { overwrite: true });
       writeFileSync(args.outPath, 'KEEP', 'utf8');
       const provider = fakeProvider({
         preflight() {
@@ -269,12 +275,85 @@ describe('runScoring', () => {
     }
   });
 
-  test('a fresh run truncates an existing output file before appending', async () => {
+  test('a fresh run refuses a non-empty output file without --overwrite and keeps it', async () => {
+    const root = makeTmp();
+    try {
+      writePrompt(root);
+      const args = scoringArgs(root, { resume: false });
+      writeFileSync(args.outPath, 'PAID\n', 'utf8');
+      let asked = 0;
+      const provider = fakeProvider({
+        ask: async (_prompt, options) => {
+          asked += 1;
+          return { exitCode: 0, stdout: '', stderr: '', rawText: JSON.stringify(validScore(options.occId ?? 0)) };
+        },
+      });
+      await assert.rejects(
+        () => runScoring(args, provider, collectingDeps(root, [occ(1)])),
+        /already has content.*--resume.*--overwrite/,
+      );
+      assert.equal(readFileSync(args.outPath, 'utf8'), 'PAID\n');
+      assert.equal(asked, 0);
+      assert.equal(existsSync(join(root, '.cache')), false);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('a fresh run reuses an existing empty output file without --overwrite', async () => {
+    const root = makeTmp();
+    try {
+      writePrompt(root);
+      const args = scoringArgs(root, { resume: false });
+      writeFileSync(args.outPath, '', 'utf8');
+      const result = await runScoring(args, fakeProvider(), collectingDeps(root, [occ(1)]));
+      assert.equal(result.scored, 1);
+      assert.match(readFileSync(args.outPath, 'utf8'), /"id":1/);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('refuses an output path under data/scores/ even with --overwrite', async () => {
+    const root = makeTmp();
+    try {
+      writePrompt(root);
+      mkdirSync(join(root, 'data', 'scores'), { recursive: true });
+      for (const outPath of [
+        join(root, 'data', 'scores', 'raw.jsonl'),
+        join(root, 'data', 'scores', 'nested', 'raw.jsonl'),
+      ]) {
+        await assert.rejects(
+          () =>
+            runScoring(
+              scoringArgs(root, { outPath, overwrite: true }),
+              fakeProvider(),
+              collectingDeps(root, [occ(1)]),
+            ),
+          /must not be under data\/scores/,
+        );
+        assert.equal(existsSync(outPath), false);
+      }
+      // A sibling whose name only starts with "scores" is not the batch directory.
+      const sibling = join(root, 'data', 'scores-scratch', 'raw.jsonl');
+      mkdirSync(join(root, 'data', 'scores-scratch'), { recursive: true });
+      const result = await runScoring(
+        scoringArgs(root, { outPath: sibling }),
+        fakeProvider(),
+        collectingDeps(root, [occ(1)]),
+      );
+      assert.equal(result.scored, 1);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('--overwrite truncates an existing output file before appending', async () => {
     const root = makeTmp();
     const logs: Logs = { log: [], err: [] };
     try {
       writePrompt(root);
-      const args = scoringArgs(root, { resume: false });
+      const args = scoringArgs(root, { resume: false, overwrite: true });
       writeFileSync(args.outPath, 'OLD\n', 'utf8');
       await runScoring(args, fakeProvider(), collectingDeps(root, [occ(1)], logs));
       const text = readFileSync(args.outPath, 'utf8');
