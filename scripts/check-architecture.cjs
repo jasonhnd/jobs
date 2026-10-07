@@ -188,18 +188,91 @@ function stringArg(m, first) {
  * import regex so `[^'"]*` can match across newlines between `import` and
  * `from`. Track each match's starting line via offset → line lookup.
  */
-// Comment-only lines (`// …`, `/* …`, ` * …`) are blanked before scanning so
-// prose such as "// const fs = require('fs')" is not read as an import.
-// Line breaks are kept, so reported line numbers stay exact. Comments that
-// share a line with code are left alone: removing them needs a real
-// tokenizer (strings like '@/lib/*' contain comment openers).
-function blankCommentLines(source) {
-  return source.replace(/^[ \t]*(?:\/\/|\/\*|\*).*$/gm, '');
+// Comments are blanked before scanning so prose such as
+// "// const fs = require('fs')" is not read as an import. A small tokenizer
+// walks the source: string, template and regex literals are copied verbatim
+// (so '@/lib/*' or /\/\// never open a comment), and only the characters
+// inside `//…` and `/*…*/` become spaces. Code after a closed block comment
+// survives, and newlines are kept so reported line numbers stay exact.
+// Template `${…}` holes are copied as part of the literal (fail-closed: an
+// import mentioned there is still scanned).
+
+/** A `/` after one of these (or at the start) begins a regex literal, not a division. */
+const REGEX_PRECEDERS = new Set('(,=:[!&|?{};+-*%<>~^'.split(''));
+const REGEX_KEYWORDS = /(?:^|[^\w$])(?:return|typeof|case|do|else|in|of|new|delete|void|throw|yield|await)$/;
+
+function regexAllowed(out) {
+  let k = out.length - 1;
+  while (k >= 0 && /\s/.test(out[k])) k -= 1;
+  if (k < 0) return true;
+  return REGEX_PRECEDERS.has(out[k]) || REGEX_KEYWORDS.test(out.slice(Math.max(0, k - 9), k + 1));
+}
+
+/** Index just past a quoted literal starting at `i`. '…' and "…" stop at a newline. */
+function skipQuoted(src, i) {
+  const quote = src[i];
+  let j = i + 1;
+  while (j < src.length) {
+    const c = src[j];
+    if (c === '\\') { j += 2; continue; }
+    if (c === quote) return j + 1;
+    if (c === '\n' && quote !== '`') return j;
+    j += 1;
+  }
+  return j;
+}
+
+/** Index just past a regex literal starting at `i`, or -1 if it is not one. */
+function skipRegex(src, i) {
+  let j = i + 1;
+  let inClass = false;
+  while (j < src.length) {
+    const c = src[j];
+    if (c === '\n') return -1;
+    if (c === '\\') { j += 2; continue; }
+    if (c === '[') inClass = true;
+    else if (c === ']') inClass = false;
+    else if (c === '/' && !inClass) return j + 1;
+    j += 1;
+  }
+  return -1;
+}
+
+function blankComments(source) {
+  let out = '';
+  let i = 0;
+  while (i < source.length) {
+    const c = source[i];
+    const next = source[i + 1];
+    let end = -1;
+    if (c === '/' && next === '/') {
+      end = source.indexOf('\n', i);
+      if (end === -1) end = source.length;
+      out += ' '.repeat(end - i);
+    } else if (c === '/' && next === '*') {
+      const close = source.indexOf('*/', i + 2);
+      end = close === -1 ? source.length : close + 2;
+      out += source.slice(i, end).replace(/[^\n]/g, ' ');
+    } else if (c === "'" || c === '"' || c === '`') {
+      end = skipQuoted(source, i);
+      out += source.slice(i, end);
+    } else if (c === '/' && regexAllowed(out)) {
+      end = skipRegex(source, i);
+      if (end !== -1) out += source.slice(i, end);
+    }
+    if (end === -1) {
+      out += c;
+      i += 1;
+    } else {
+      i = end;
+    }
+  }
+  return out;
 }
 
 function extractImports(rawSource) {
   const out = [];
-  const source = blankCommentLines(rawSource);
+  const source = blankComments(rawSource);
 
   // Pre-compute line-start offsets for {start-offset → line-number} lookup.
   const lineStarts = [0];

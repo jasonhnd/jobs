@@ -120,6 +120,9 @@ const TS_CODE_NODES = new Set([
   'TSAsExpression', 'TSSatisfiesExpression', 'TSNonNullExpression', 'TSTypeAssertion',
   'TSInstantiationExpression', 'TSModuleDeclaration', 'TSModuleBlock', 'TSEnumDeclaration',
   'TSEnumMember', 'TSExportAssignment', 'TSParameterProperty',
+  // `import x = a.b` binds a runtime value; emits.ts reads its moduleReference.
+  // `import type x = require('…')` is a type and is skipped in walk().
+  'TSImportEqualsDeclaration',
 ]);
 const SKIP_KEYS = new Set([
   'type', 'start', 'end', 'loc', 'range', 'extra', 'leadingComments', 'trailingComments',
@@ -140,6 +143,7 @@ export function walk(root: Node, visit: (v: Visit) => void): void {
   const stack: Node[] = [];
   const go = (node: Node, parent: Node | null, key: string): void => {
     if (node.type.startsWith('TS') && !TS_CODE_NODES.has(node.type)) return;
+    if (node.type === 'TSImportEqualsDeclaration' && (node as { importKind?: string }).importKind === 'type') return;
     visit({ node, parent, key, ancestors: stack });
     stack.push(node);
     for (const [childKey, value] of Object.entries(node)) {
