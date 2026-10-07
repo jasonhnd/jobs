@@ -84,9 +84,8 @@ function loadSkillRanking(ipdKey: string): SkillRankingFile {
 // ─── Helpers ──────────────────────────────────────────────────
 
 import { fmtInt, safeMean } from '../lib/num.js';
-import { displayScore } from '../data/lib/banker-round.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
-import { formatScoreFixed1 } from '../lib/score-format.js';
+import { formatShownMeanLabel } from '../lib/score-format.js';
 
 function buildFaqs(meta: SkillMeta, items: SkillOccupation[]): Array<readonly [string, string]> {
   const faqs: Array<readonly [string, string]> = [];
@@ -106,12 +105,9 @@ function buildFaqs(meta: SkillMeta, items: SkillOccupation[]): Array<readonly [s
 
   const meanRisk = safeMean(items.map((o) => o.ai_risk));
   if (meanRisk > 0) {
-    // Judge the tier on the printed one-decimal mean (#631, #864); the cut points stay.
-    const shownMean = displayScore(meanRisk);
-    const tier = shownMean <= 3.5 ? '低め' : shownMean <= 5.5 ? '中程度' : 'やや高め';
     faqs.push([
       `${meta.short_ja}が必要な職業は AI に置き換えられる？`,
-      `本 hub の TOP ${items.length} の平均 AI 影響度は ${shownMean.toFixed(1)}/10 で ${tier} の水準です。` +
+      `本 hub の TOP ${items.length} の平均 AI 影響度は ${formatShownMeanLabel(meanRisk)}。` +
         `スキル単体の AI 適合度ではなく、職業全体の業務構成で評価されています。` +
         CONSENSUS_FAQ_SENTENCE,
     ]);
@@ -181,7 +177,7 @@ export function buildSkillsBundle(loaders: SkillsLoaders = {}): SkillsBundle {
 
     const stats: Array<readonly [string, string]> = [
       [`平均 ${meta.short_ja}スコア`, `${meanScore.toFixed(2)} / 5`],
-      ['平均 AI 影響', meanRisk > 0 ? `${formatScoreFixed1(meanRisk)} / 10` : '—'],
+      ['平均 AI 影響', meanRisk > 0 ? `${formatShownMeanLabel(meanRisk)}` : '—'],
       ['平均年収', meanSalary > 0 ? `${Math.trunc(meanSalary)} 万円` : '—'],
       ['TOP30 合計就業者数', `${fmtInt(totalWorkers)} 人`],
     ];
@@ -194,7 +190,7 @@ export function buildSkillsBundle(loaders: SkillsLoaders = {}): SkillsBundle {
       `1 位は「${items[0]?.name_ja ?? '—'}」（${meta.short_ja}スコア ${items[0]?.skill_score.toFixed(2) ?? '—'}）`,
       top3 ? `TOP 3 は ${top3}` : '',
       dominantSector ? `セクターは「${dominantSector}」が ${dominantCount} 件と最多` : '',
-      meanRisk > 0 ? `TOP30 の平均 AI 影響は ${formatScoreFixed1(meanRisk)}/10` : '',
+      meanRisk > 0 ? `TOP30 の平均 AI 影響は ${formatShownMeanLabel(meanRisk)}` : '',
       meta.use_cases_ja.length ? `典型的な活躍場面: ${meta.use_cases_ja[0]}` : '',
     ].filter(Boolean);
 

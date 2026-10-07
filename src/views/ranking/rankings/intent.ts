@@ -18,7 +18,7 @@ import {
 } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
 import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
-import { formatScoreFixed1 } from '../../../lib/score-format.js';
+import { formatShownMeanLabel } from '../../../lib/score-format.js';
 
 export interface IntentRankings {
   aiSafeHighDemand: Occupation[];
@@ -105,7 +105,7 @@ export function buildIntentRankings(
       introText: '採用されやすく賃金交渉余地もあり、かつ AI 代替リスクが低い「鉄板」キャリア候補。介護・建設・医療系が中心で、未経験参入のルートも整備されています。',
       statBlocks: [
         ['対象職業数', `${aiSafeHighDemand.length}`],
-        ['平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeHighDemand, 'ai_risk'))} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(aiSafeHighDemand, 'ai_risk'))}`],
         ['平均年収', `${Math.trunc(safeMean(aiSafeHighDemand, 'salary'))} 万円`],
       ],
     }],
@@ -122,7 +122,7 @@ export function buildIntentRankings(
       introText: '労働時間が短く、かつ AI 代替リスクも低い職業をランキング。教育・公務・専門職の一部が該当します。',
       statBlocks: [
         ['TOP30 平均月間労働', `${Math.trunc(safeMean(aiSafeShortHours, 'monthly_hours'))} 時間`],
-        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeShortHours, 'ai_risk'))} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(aiSafeShortHours, 'ai_risk'))}`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(aiSafeShortHours, 'salary'))} 万円`],
       ],
     }],
@@ -139,7 +139,7 @@ export function buildIntentRankings(
       introText: '若手が多く活躍し、かつ AI 代替リスクも低い職業をランキング。新卒・第二新卒のキャリア選択の参考に。',
       statBlocks: [
         ['TOP30 平均年齢', `${safeMean(aiSafeYoung, 'average_age').toFixed(1)} 歳`],
-        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeYoung, 'ai_risk'))} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(aiSafeYoung, 'ai_risk'))}`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(aiSafeYoung, 'salary'))} 万円`],
       ],
     }],
@@ -155,7 +155,7 @@ export function buildIntentRankings(
       introText: '関連国家資格を要さず、AI 代替リスクも低い職業群。実務経験で勝負できる分野を中心にランキング。',
       statBlocks: [
         ['対象職業数', `${aiSafeNoLicense.length}`],
-        ['平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeNoLicense, 'ai_risk'))} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(aiSafeNoLicense, 'ai_risk'))}`],
         ['平均年収', `${Math.trunc(safeMean(aiSafeNoLicense, 'salary'))} 万円`],
       ],
     }],
@@ -171,7 +171,7 @@ export function buildIntentRankings(
       introText: '手の感覚・現場判断・身体的調整を要する職業は AI で代替されにくく、構造的な優位性を持ちます。建設職人・整備士・農林漁業・配管工等が代表例。',
       statBlocks: [
         ['対象職業数', `${aiSafePhysical.length}`],
-        ['平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafePhysical, 'ai_risk'))} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(aiSafePhysical, 'ai_risk'))}`],
         ['平均年収', `${Math.trunc(safeMean(aiSafePhysical, 'salary'))} 万円`],
       ],
     }],
@@ -187,7 +187,7 @@ export function buildIntentRankings(
       introText: '感情の機微・信頼関係・即興的な調整を要する対人職は AI で代替しにくい。看護師・介護福祉士・保育士・教師・販売員・接客スタッフが代表例。',
       statBlocks: [
         ['対象職業数', `${aiSafeInterpersonal.length}`],
-        ['平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeInterpersonal, 'ai_risk'))} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(aiSafeInterpersonal, 'ai_risk'))}`],
         ['平均年収', `${Math.trunc(safeMean(aiSafeInterpersonal, 'salary'))} 万円`],
       ],
     }],
@@ -222,7 +222,7 @@ export function buildIntentRankings(
       statBlocks: [
         ['対象職業数', `${lowStressStable.length}`],
         ['TOP30 平均月間労働', `${Math.trunc(safeMean(lowStressStable, 'monthly_hours'))} 時間`],
-        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(lowStressStable, 'ai_risk'))} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(lowStressStable, 'ai_risk'))}`],
       ],
     }],
   ];
