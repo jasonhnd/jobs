@@ -189,7 +189,8 @@ export function findColourViolations(root: string = process.cwd()): ColourViolat
         // Exempt only on the newly read properties, so nothing that failed
         // before #866 passes now.
         const colours = parseColours(bare);
-        if (!known && colours.length > 0 && colours.every(isNeutral) && !/hwb|lab|lch|color\(/i.test(bare)) continue;
+        const unparsed = /(?<![\w-])(?:hwb|lab|lch|oklab|color)\(/i.test(bare);
+        if (!known && !unparsed && colours.length > 0 && colours.every(isNeutral)) continue;
         out.push({
           file, line: idx + 1, selector, property,
           value: value.slice(0, 60), state,
