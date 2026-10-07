@@ -530,11 +530,13 @@
         }
         return sorted;
       }
-      function pctRank(v, arr) {
+      // 「上位 X%」: share of occupations at or above v, rounded up, so the
+      // highest one reads 上位 1% instead of 上位 0% (#884).
+      function pctTop(v, arr) {
         if (!arr || arr.length === 0 || v == null) return null;
-        let i = 0;
-        while (i < arr.length && arr[i] < v) i++;
-        return Math.round((i / arr.length) * 100);
+        let atOrAbove = 0;
+        for (let i = 0; i < arr.length; i++) if (arr[i] >= v) atOrAbove++;
+        return Math.max(1, Math.ceil((atOrAbove / arr.length) * 100));
       }
 
       function showTooltip(d, mx, my) {
@@ -546,8 +548,8 @@
           const eduLabel = idx >= 0 ? EDU_LABELS[idx] : "—";
           const eduPct = idx >= 0 ? (d.education_pct[EDU_LABELS[idx]] || 0).toFixed(1) + "%" : "";
           // Percentile context: top X% of N occupations. For salary & ai_risk: higher is "top".
-          const salaryPctTop = d.salary != null && percentiles.salary ? 100 - pctRank(d.salary, percentiles.salary) : null;
-          const riskPctTop = d.ai_risk != null && percentiles.ai_risk ? 100 - pctRank(d.ai_risk, percentiles.ai_risk) : null;
+          const salaryPctTop = d.salary != null && percentiles.salary ? pctTop(d.salary, percentiles.salary) : null;
+          const riskPctTop = d.ai_risk != null && percentiles.ai_risk ? pctTop(d.ai_risk, percentiles.ai_risk) : null;
 
           // Defensive: new fields (employment_type, hourly_wage, prior_experience) may be missing
           const empType = d.employment_type;
@@ -1091,12 +1093,15 @@
         };
       }
 
+      // Search uses the search projection only: treemap rows carry no
+      // aliases_ja, so falling back to them broke alias search once the
+      // desktop treemap had loaded first (#884).
       function searchRows() {
-        return searchData.length ? searchData : data;
+        return searchData;
       }
 
       function ensureSearchData() {
-        if (searchRows().length) return Promise.resolve(searchRows());
+        if (searchData.length) return Promise.resolve(searchData);
         if (searchDataPromise) return searchDataPromise;
         searchDataPromise = fetch("data.search.json", { credentials: "omit" })
           .then(r => {
@@ -1170,6 +1175,18 @@
       //   - partial match    → pre-fill all hero search inputs + trigger autocomplete
       // Loads the lightweight search projection on demand so the desktop treemap
       // payload can stay deferred until the canvas is near the viewport.
+      // Pre-fill all 3 hero inputs (only the visible one is seen; the other
+      // two are hidden but exist in the DOM).
+      function prefillSearchInputs(query) {
+        ["searchInputDesktop", "searchInputMobile", "searchInput"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.value = query;
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        });
+      }
+
       function handleSearchActionQuery() {
         const params = new URLSearchParams(window.location.search);
         const query = (params.get("q") || "").trim();
@@ -1178,6 +1195,8 @@
           ensureSearchData()
             .then(handleSearchActionQuery)
             .catch(err => {
+              // Still show the visitor what they searched for (#884).
+              prefillSearchInputs(query);
               if (typeof console !== "undefined") console.warn("[search] data.search.json failed:", err);
             });
           return;
@@ -1192,7 +1211,7 @@
           // Exact match → redirect (use replace so the back button skips this hop)
           if (topNameJa === q || topNameEn === q) {
             if (window.gtag) gtag("event", "search_action_redirect", {
-              query: query.slice(0, 100),
+              query: sanitizeSearchQuery(query),
               occupation_id: top.id,
               language: "ja"
             });
@@ -1201,15 +1220,7 @@
           }
         }
 
-        // Partial / no match → pre-fill all 3 hero inputs (only the visible one
-        // is seen; the other two are hidden but exist in the DOM)
-        ["searchInputDesktop", "searchInputMobile", "searchInput"].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) {
-            el.value = query;
-            el.dispatchEvent(new Event("input", { bubbles: true }));
-          }
-        });
+        prefillSearchInputs(query);
 
         // Focus the visible one based on viewport
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -1221,7 +1232,7 @@
         }
 
         if (window.gtag) gtag("event", "search_action_landed", {
-          query: query.slice(0, 100),
+          query: sanitizeSearchQuery(query),
           match_count: matches.length,
           language: "ja"
         });
@@ -1797,6 +1808,7 @@
       function showError(err) {
         const ls = document.getElementById("loadingState");
         if (!ls) return;
+        ls.hidden = false;
         ls.className = "error-state";
         // DOM construction (not innerHTML) so an err.message with HTML
         // characters renders as text. err originates from local fetch
@@ -1904,8 +1916,11 @@
       function finishDesktopTreemapLoad(rows) {
         data = Array.isArray(rows) ? rows : [];
         percentiles = computePercentiles(data);
+        // Hide (not remove) the loading state before layout so the canvas
+        // measures as before; it is removed once rendering succeeded, so a
+        // throw below still leaves showError() a host to write into (#884).
         const ls = document.getElementById("loadingState");
-        if (ls) ls.remove();
+        if (ls) ls.hidden = true;
         canvas.style.visibility = "visible";
         // Defer a capped screen-reader fallback list until the browser is idle.
         // The full accessible list remains available on /map via its list-view toggle.
@@ -1944,6 +1959,7 @@
         // layout, but update the matching set/count from the latest value now.
         applyFilter(pendingSearchQuery, true);
         resize();
+        if (ls) ls.remove();
         // Apply hash deep-link if present
         if (location.hash) setTimeout(applyHash, 50);
         // GA4 map_loaded — typed signal that initial render finished. Lets

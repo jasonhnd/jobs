@@ -89,3 +89,50 @@ test('home treemap labels take the per-band foreground from :root (§2.3 タイ�
   assert.doesNotMatch(source, /rgba\(255,255,255,0\.92\)/);
   assert.doesNotMatch(source, /rgba\(255,255,255,0\.55\)/);
 });
+
+test('home search never falls back to treemap rows, so aliases keep matching (#884)', () => {
+  const start = source.indexOf('function searchRows() {');
+  const body = source.slice(start, source.indexOf('}', start));
+  assert.doesNotMatch(body, /: data/);
+  assert.match(source, /function ensureSearchData\(\) \{\n\s+if \(searchData\.length\) return Promise\.resolve\(searchData\);/);
+});
+
+test('home tooltip percentile: the top occupation is 上位 1%, never 上位 0% (#884)', () => {
+  const start = source.indexOf('function pctTop(v, arr) {');
+  assert.ok(start > 0, 'pctTop not found');
+  const end = source.indexOf('\n      }\n', start) + '\n      }'.length;
+  const pctTop = new Function(`${source.slice(start, end)}; return pctTop;`)() as (v: unknown, arr: number[]) => number | null;
+  const arr = Array.from({ length: 556 }, (_, i) => i / 10);
+  assert.equal(pctTop(arr[555], arr), 1);
+  assert.equal(pctTop(arr[0], arr), 100);
+  assert.equal(pctTop(2, [1, 2, 2, 3]), 75);
+  assert.equal(pctTop(null, arr), null);
+  assert.equal(pctTop(1, []), null);
+  assert.doesNotMatch(source, /100 - pctRank\(/);
+});
+
+test('home ?q= reaches GA4 only through sanitizeSearchQuery (#884)', () => {
+  const start = source.indexOf('function handleSearchActionQuery() {');
+  const end = source.indexOf('// Chip click', start);
+  const body = source.slice(start, end);
+  assert.doesNotMatch(body, /query: query\.slice\(0, 100\)/);
+  assert.equal(body.match(/query: sanitizeSearchQuery\(query\)/g)?.length, 2);
+});
+
+test('home ?q= is still copied into the search box when data.search.json fails (#884)', () => {
+  const start = source.indexOf('function handleSearchActionQuery() {');
+  const end = source.indexOf('// Chip click', start);
+  const body = source.slice(start, end);
+  const catchAt = body.indexOf('.catch(err => {');
+  assert.ok(catchAt > 0);
+  assert.match(body.slice(catchAt, catchAt + 300), /prefillSearchInputs\(query\)/);
+});
+
+test('home keeps #loadingState until the treemap has rendered, so showError can use it (#884)', () => {
+  const start = source.indexOf('function finishDesktopTreemapLoad(rows) {');
+  const end = source.indexOf('function loadDesktopTreemap()', start);
+  const body = source.slice(start, end);
+  const removeAt = body.indexOf('ls.remove()');
+  const resizeAt = body.indexOf('resize();');
+  assert.ok(removeAt > resizeAt && resizeAt > 0, 'loading state must be removed after resize()');
+});
