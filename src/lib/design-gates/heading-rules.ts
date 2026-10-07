@@ -19,7 +19,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { readLedger, surfaceStateFor, type SurfaceState } from './ledger.js';
-import { stripComments, walkSource } from './scan.js';
+import { blankInterpolations, stripComments, walkSource } from './scan.js';
 
 export interface HeadingViolation {
   readonly file: string;
@@ -34,7 +34,47 @@ export interface HeadingViolation {
 const CANON = 'src/lib/canonical-css.ts';
 
 const RULE = /([^{};]*)\{([^{}]*)\}/g;
-const GOVERNED = /\b(font-size|font-family|font-weight)\s*:\s*[^;}]+/g;
+/**
+ * The `font:` shorthand sets all three, and property names are
+ * case-insensitive with optional space before the colon — each of those
+ * spellings passed until #866.
+ */
+const GOVERNED = /(?<![\w-])(?:font-size|font-family|font-weight|font)\s*:\s*[^;}]+/gi;
+
+/** Split on `sep` at paren depth 0, so `:is(h1, h2)` stays one piece. */
+function splitTop(text: string, sep: RegExp): string[] {
+  const out: string[] = [];
+  let cur = '';
+  let depth = 0;
+  for (const ch of text) {
+    if (ch === '(') depth += 1;
+    if (ch === ')') depth -= 1;
+    if (depth === 0 && sep.test(ch)) { out.push(cur); cur = ''; continue; }
+    cur += ch;
+  }
+  out.push(cur);
+  return out.map((p) => p.trim()).filter((p) => p !== '');
+}
+
+/**
+ * True when a compound selector lands on a heading element: `h2`, `h2.title`,
+ * or a heading inside `:is()` / `:where()` / `:matches()`. `:not(h2)` does not
+ * — it selects everything BUT the heading.
+ */
+function compoundIsHeading(compound: string): boolean {
+  if (/^h[1-4](?![\w-])/i.test(compound)) return true;
+  for (const m of compound.matchAll(/:(?:is|where|matches|-webkit-any)\(/gi)) {
+    let depth = 1;
+    let j = (m.index ?? 0) + m[0].length;
+    const start = j;
+    for (; j < compound.length && depth > 0; j += 1) {
+      if (compound[j] === '(') depth += 1;
+      if (compound[j] === ')') depth -= 1;
+    }
+    if (targetsHeading(compound.slice(start, j - 1))) return true;
+  }
+  return false;
+}
 
 /**
  * True when the selector's SUBJECT is a heading — the last compound, the
@@ -43,13 +83,34 @@ const GOVERNED = /\b(font-size|font-family|font-weight)\s*:\s*[^;}]+/g;
  * `h1 .h1-sub` styles a span inside the heading, not the heading, so it is out
  * of scope; `section > h2` and `.type-block h2` are in scope. Matching anywhere
  * in the selector instead would flag every descendant of a heading.
+ *
+ * The `summary` carve-out is for the ELEMENT. It used to be a `\bsummary\b`
+ * test on the whole selector, so `.summary-card h2` was exempt too (#866).
  */
 function targetsHeading(selector: string): boolean {
-  return selector.split(',').some((part) => {
-    const subject = part.trim().split(/[\s>+~]+/).pop() ?? '';
-    if (/\bsummary\b/.test(part)) return false;
-    return /^h[1-4]\b/.test(subject);
+  return splitTop(selector, /,/).some((part) => {
+    const compounds = splitTop(part, /[\s>+~]/);
+    if (compounds.some((c) => /^summary(?![\w-])/i.test(c))) return false;
+    return compoundIsHeading(compounds[compounds.length - 1] ?? '');
   });
+}
+
+/**
+ * What precedes a rule's `{` up to the previous `;`/`}` can carry the opening
+ * of a template literal or a `<style>` tag; the selector starts after them.
+ */
+function cleanSelector(raw: string): { selector: string; offset: number } {
+  let offset = 0;
+  const cut = (re: RegExp): void => {
+    let last = -1;
+    for (const m of raw.matchAll(re)) last = (m.index ?? 0) + m[0].length;
+    if (last > offset) offset = last;
+  };
+  cut(/`/g);
+  cut(/<style[^>]*>/gi);
+  const rest = raw.slice(offset);
+  offset += rest.length - rest.trimStart().length;
+  return { selector: raw.slice(offset).trim().replace(/\s+/g, ' '), offset };
 }
 
 export function findHeadingRuleViolations(
@@ -66,17 +127,20 @@ export function findHeadingRuleViolations(
     const state = surfaceStateFor(file, surfaces) ?? 'migrating';
     if (state === 'legacy') continue;
 
-    const src = stripComments(readFileSync(join(root, file), 'utf-8'));
+    const src = blankInterpolations(stripComments(readFileSync(join(root, file), 'utf-8')));
     RULE.lastIndex = 0;
     let m: RegExpExecArray | null;
     while ((m = RULE.exec(src)) !== null) {
-      const selector = (m[1] ?? '').trim().replace(/\s+/g, ' ');
+      const { selector, offset } = cleanSelector(m[1] ?? '');
       if (!targetsHeading(selector)) continue;
       const declarations = (m[2] ?? '').match(GOVERNED) ?? [];
       if (declarations.length === 0) continue;
       out.push({
         file,
-        line: src.slice(0, m.index).split('\n').length,
+        // The line the selector starts on. The match begins right after the
+        // previous `}`, i.e. on the line before, so counting from m.index
+        // reported one line short (#866).
+        line: src.slice(0, m.index + offset).split('\n').length,
         selector,
         declarations: declarations.map((d) => d.trim()),
         state,

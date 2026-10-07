@@ -7,14 +7,19 @@
  * do NOT qualify and need the full 4.5:1. That is the easy mistake §2.2 calls
  * out, and it is encoded here rather than trusted to review.
  */
-import { findContrastProblems, parseRoleTable } from '../src/lib/design-gates/contrast.js';
+import { auditContrast, parseRoleTable } from '../src/lib/design-gates/contrast.js';
 
 const rows = parseRoleTable();
 if (rows.length === 0) {
   console.error('[check-contrast] FAIL — could not parse the §4.7 role table out of Design.md');
   process.exit(1);
 }
-const p = findContrastProblems();
+const { checked, problems: p, unresolved } = auditContrast();
+if (unresolved.length > 0) {
+  console.error('[check-contrast] FAIL — §4.7 rows that could not be measured (an unmeasured row is not a passing one):');
+  for (const u of unresolved) console.error(`  ${u.role}: ${u.token} — ${u.reason}`);
+  process.exit(1);
+}
 if (p.length > 0) {
   console.error('[check-contrast] FAIL — §2.2 contract violated:');
   for (const x of p) {
@@ -22,4 +27,4 @@ if (p.length > 0) {
   }
   process.exit(1);
 }
-console.log(`[check-contrast] OK — ${rows.length} role × background combinations satisfy §2.2 (AA 4.5:1; large text >=24px, or >=18.66px@700 in SANS only — the shipped serif has one weight (§4.5))`);
+console.log(`[check-contrast] OK — ${checked} foreground × background pair(s) from ${rows.length} §4.7 role(s) satisfy §2.2 (AA 4.5:1; large text >=24px, or >=18.66px@700 in SANS only — the shipped serif has one weight (§4.5)). --paper foreground rows are button text on a fill and are not measured here.`);
