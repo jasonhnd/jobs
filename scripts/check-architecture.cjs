@@ -182,7 +182,7 @@ function walkFiles(dir, predicate) {
 // whose argument is not a string literal, are violations with file:line.
 
 /** `<script type="…">` that is not JS (JSON-LD and the like) — not parsed. */
-const NON_JS_SCRIPT = /\btype\s*=\s*["']?(?!(?:text\/javascript|module|application\/javascript)["'\s>])[^"'\s>]+/i;
+const NON_JS_SCRIPT = /(?:^|\s)type\s*=\s*["']?(?!(?:text\/javascript|module|application\/javascript)["'\s>])[^"'\s>]+/i;
 
 /** 1-based line of a character offset. */
 function lineAt(source, offset) {
@@ -251,23 +251,28 @@ function visitNodes(node, visit) {
   }
 }
 
-/** The module a `require()` / `import()` argument names. A template literal
- *  with `${…}` holes keeps its static prefix (`../templates/` already names a
- *  forbidden layer); anything else is unknowable. */
+/** The module a `require()` / `import()` argument names, or null when it is
+ *  not a literal. A template literal with `${…}` holes is not a literal: even a
+ *  harmless-looking prefix (`../lib/${n}`) can step into a forbidden layer. */
 function callTarget(arg) {
-  if (arg && arg.type === 'StringLiteral') return { target: arg.value, isPrefix: false };
-  if (arg && arg.type === 'TemplateLiteral') {
-    const prefix = arg.quasis[0].value.cooked;
-    if (arg.expressions.length === 0) return { target: prefix, isPrefix: false };
-    if (prefix) return { target: prefix, isPrefix: true };
-  }
+  if (arg && arg.type === 'StringLiteral') return arg.value;
+  if (arg && arg.type === 'TemplateLiteral' && arg.expressions.length === 0) return arg.quasis[0].value.cooked;
   return null;
+}
+
+/** `require(…)` or `module.require(…)`. */
+function isRequireCall(node) {
+  const { callee } = node;
+  if (callee.type === 'Identifier') return callee.name === 'require';
+  return callee.type === 'MemberExpression' && !callee.computed &&
+    callee.object.type === 'Identifier' && callee.object.name === 'module' &&
+    callee.property.type === 'Identifier' && callee.property.name === 'require';
 }
 
 /** Module references in one parsed program. */
 function collectReferences(program, imports, problems) {
-  const add = (node, target, isTypeOnly, isPrefix = false) =>
-    imports.push({ line: node.loc.start.line, target, isTypeOnly, isPrefix });
+  const add = (node, target, isTypeOnly) =>
+    imports.push({ line: node.loc.start.line, target, isTypeOnly });
   visitNodes(program, (node) => {
     switch (node.type) {
       case 'ImportDeclaration':
@@ -292,15 +297,15 @@ function collectReferences(program, imports, problems) {
       case 'ImportExpression':
       case 'CallExpression': {
         const isImport = node.type === 'ImportExpression' || node.callee.type === 'Import';
-        const isRequire = node.type === 'CallExpression' && node.callee.type === 'Identifier' && node.callee.name === 'require';
+        const isRequire = node.type === 'CallExpression' && isRequireCall(node);
         if (!isImport && !isRequire) break;
         const kind = isImport ? 'import()' : 'require()';
-        const ref = callTarget(node.type === 'ImportExpression' ? node.source : node.arguments[0]);
-        if (ref) add(node, ref.target, false, ref.isPrefix);
+        const target = callTarget(node.type === 'ImportExpression' ? node.source : node.arguments[0]);
+        if (target !== null) add(node, target, false);
         else problems.push({
           line: node.loc.start.line,
           message: `non-literal ${kind} argument — the gate cannot tell which module it loads.\n` +
-            '    Use a string literal (a template literal needs a static directory prefix).',
+            '    Use a string literal (a template literal must have no `${…}` holes).',
         });
         break;
       }
@@ -312,7 +317,7 @@ function collectReferences(program, imports, problems) {
 
 /**
  * Extract every module reference from a TS / JS / Astro source. Returns
- * { imports: [{ line, target, isTypeOnly, isPrefix }], problems: [{ line, message }] }.
+ * { imports: [{ line, target, isTypeOnly }], problems: [{ line, message }] }.
  * `problems` are fail-closed violations: unparseable code or a non-literal
  * `require()` / `import()` argument.
  */
@@ -451,7 +456,7 @@ function resolveImport(fromDir, spec) {
 
 /** Where an import points, for the layer rules. Unlike resolveImport this
  *  never gives up on a local specifier: a target that does not exist (yet)
- *  or a template-literal prefix still names a directory, and an `@/x`
+ *  still names a directory, and an `@/x`
  *  without a tsconfig alias is read as `src/x` so it cannot hide a layer.
  *  Returns { file } for a local path or { builtin } for a bare specifier. */
 function importTarget(fromFile, imp) {
@@ -463,7 +468,6 @@ function importTarget(fromFile, imp) {
   else if (spec.startsWith('src/')) base = path.join(ROOT, spec);
   else if (spec.startsWith('/')) base = path.join(ROOT, spec);
   if (base === null) return { builtin: spec.replace(/^node:/, '') };
-  if (imp.isPrefix) return { file: base };
   if (spec.startsWith('@/')) {
     for (const candidate of aliasCandidates(spec)) {
       const hit = probeFile(candidate);
@@ -636,8 +640,6 @@ function walkImportClosure(entryFile) {
     const extracted = extractImports(fs.readFileSync(file, 'utf-8'), file);
     for (const problem of extracted.problems) problems.push({ ...problem, from: path.relative(ROOT, file) });
     for (const imp of extracted.imports) {
-      // An interpolated template literal names no single file to follow.
-      if (imp.isPrefix) continue;
       const resolved = resolveImport(path.dirname(file), imp.target);
       if (resolved) {
         if (!visited.has(resolved)) queue.push(resolved);
