@@ -151,3 +151,48 @@ describe('stale token boundaries', () => {
     assert.equal(firstStaleToken('Opus 4.8', stale, { allowValidationModelNames: true }), null);
   });
 });
+
+describe('stale names match whole names only', () => {
+  // claude-opus-5 / Opus 5 are superseded; claude-opus-5-5 / Opus 5.5 are live.
+  const stale = staleModelTokens([
+    run('claude-opus-5', '2026-07-26'),
+    run('claude-fable-5', '2026-06-13'),
+    run('gpt-6.1-sol', '2026-10-01'),
+  ], run('gpt-6.1-sol', '2026-10-01'));
+
+  test('a live successor that extends a stale id is not flagged', () => {
+    assert.equal(firstStaleToken('model: claude-opus-5-5', stale), null);
+    assert.equal(firstStaleToken('data/scores/occupations_claude-fable-5-1_2026-09-09.json', stale), null);
+  });
+
+  test('a live successor that extends a stale display name is not flagged', () => {
+    assert.equal(firstStaleToken('scored by Claude Opus 5.5 and Claude Fable 5.1', stale), null);
+    assert.equal(firstStaleToken('Opus 5.5 / Fable 5.1', stale), null);
+  });
+
+  test('the stale name itself is still flagged in every surrounding', () => {
+    for (const text of [
+      'model: claude-opus-5',
+      'model: claude-opus-5.',
+      '"claude-opus-5"',
+      'occupations_claude-opus-5_2026-07-26.json',
+      '(claude-opus-5)',
+    ]) {
+      assert.equal(firstStaleToken(text, stale), 'claude-opus-5', text);
+    }
+    for (const text of ['scored by Claude Opus 5.', 'Claude Opus 5（旧）', 'Claude Opus 5\n']) {
+      assert.equal(firstStaleToken(text, stale), 'Claude Opus 5', text);
+    }
+    assert.equal(firstStaleToken('short form Opus 5, then more', stale), 'Opus 5');
+  });
+
+  test('a stale run date is flagged inside a timestamp but not inside a longer number', () => {
+    assert.equal(firstStaleToken('generatedAt 2026-07-26T00:00:00Z', stale), '2026-07-26');
+    assert.equal(firstStaleToken('id 12026-07-260', stale), null);
+  });
+
+  test('a later occurrence counts when the first one is a live successor', () => {
+    assert.equal(firstStaleToken('claude-opus-5-5 replaced claude-opus-5', stale), 'claude-opus-5');
+  });
+});
+

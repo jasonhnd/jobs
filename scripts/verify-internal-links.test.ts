@@ -44,7 +44,7 @@ describe('verify-internal-links CLI regression contract', () => {
       '<a href="/data.fixture.json">data</a>', '<a href="/map#runtime">map</a>',
       '<a href="https://example.test/missing">external</a>',
       '<a href="mailto:fixture@example.test">mail</a>', '<a href="tel:123">phone</a>',
-      '<a href="./ignored">relative</a>', '<a href="#">empty</a>',
+      '<a href="./asset.txt">relative</a>', '<a href="#">empty</a>',
     ].join(''));
     write(root, 'nested/index.html', '<a href="https://mirai-shigoto.com/target#section">same origin</a>');
     write(root, 'map.html', 'fixture');
@@ -54,7 +54,7 @@ describe('verify-internal-links CLI regression contract', () => {
     assert.equal(result.stderr, '');
     assert.equal(result.stdout, [
       '[verify-internal-links] scanned 4 HTML files',
-      '[verify-internal-links] 10 internal hrefs (2 allowlisted, 5 with fragments)', '',
+      '[verify-internal-links] 11 internal hrefs (2 allowlisted, 5 with fragments)', '',
       '✅ Internal-link integrity passed — every NEW href resolves; 0 pre-known broken targets remain (TODO).', '',
     ].join('\n'));
   });
@@ -138,5 +138,53 @@ describe('verify-internal-links CLI regression contract', () => {
     assert.ok(result.stderr.includes('/target#dead-29'));
     assert.ok(!result.stderr.includes('/target#dead-30'));
     assert.ok(result.stderr.includes('...and 1 more (truncated)'));
+  });
+
+  test('fails when dist-astro exists but holds no HTML', () => {
+    const root = fixture();
+    write(root, 'asset.txt', 'fixture');
+    const result = run(root);
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /no HTML files/);
+  });
+
+  test('checks unquoted, data-href-shadowed, relative and same-site absolute links', () => {
+    const root = fixture();
+    write(root, 'ja/target.html', [
+      '<a data-href="/ja/target" href="/missing-shadowed">a</a>',
+      '<a href=/missing-unquoted>b</a>',
+      '<a href="../missing-parent">c</a>',
+      '<a href="missing-sibling">d</a>',
+      '<a href="http://mirai-shigoto.com/missing-http">e</a>',
+      '<a href="https://www.mirai-shigoto.com/missing-www">f</a>',
+      '<a href="target">self</a>',
+    ].join(''));
+    const result = run(root);
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /6 NEW broken internal href\(s\)/);
+    for (const href of ['/missing-shadowed', '/missing-unquoted', '/missing-parent', '/ja/missing-sibling', '/missing-http', '/missing-www']) {
+      assert.ok(result.stderr.includes(`  ${href}\n`), `${href}\n${result.stderr}`);
+    }
+  });
+
+  test('decodes percent-encoded paths and fragments before matching', () => {
+    const root = fixture();
+    write(root, 'ja/職業.html', '<h2 id="見出し">x</h2><h2 id="hist-title-opus-5@2026-07-26">y</h2>');
+    write(root, 'index.html', [
+      '<a href="/ja/%E8%81%B7%E6%A5%AD#%E8%A6%8B%E5%87%BA%E3%81%97">encoded</a>',
+      '<a href="/ja/職業#hist-title-opus-5@2026-07-26">at-sign</a>',
+    ].join(''));
+    const result = run(root);
+    assert.equal(result.status, 0, result.stderr);
+  });
+
+  test('ignores links inside comments and inline scripts', () => {
+    const root = fixture();
+    write(root, 'index.html', [
+      '<!-- <a href="/in-comment">x</a> -->',
+      '<script>const t = \'<a href="/in-script">\';</script>',
+    ].join(''));
+    const result = run(root);
+    assert.equal(result.status, 0, result.stderr);
   });
 });
