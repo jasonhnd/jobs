@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-09-30T16:58:28.777Z",
-  "gitCommit": "0f1e9ad6f89e9f8cf62f8882c011fb381280d70a",
-  "gitBranch": "mms-13.5-land-gpt-6.1-sol",
+  "capturedAt": "2026-10-07T00:47:17.420Z",
+  "gitCommit": "0c5fb74cb071eda8d13149226b8bcb094e0d3490",
+  "gitBranch": "fix/display-value-thresholds",
   "distFileCount": 845,
   "urlCount": 845,
   "dataFileCount": 616,
