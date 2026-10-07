@@ -4,6 +4,7 @@
  * Only `{X.X}` / dates / counts are filled at runtime.
  */
 import { displayScore } from '../data/lib/banker-round.js';
+import { scoreUnits } from '../data/lib/score-compare.js';
 
 /** |latest − consensus| at or above this shows the 最新観測 row. */
 export const LATEST_OBSERVATION_THRESHOLD = 1.0;
@@ -138,7 +139,8 @@ export function formatLatestObservationLine(
   latestTransformation: number,
   latestDelta: number,
 ): string | null {
-  if (Math.abs(latestDelta) < LATEST_OBSERVATION_THRESHOLD) return null;
+  // Integer units: a delta of exactly 1.0 must not read as 0.9999999999999999.
+  if (scoreUnits(Math.abs(latestDelta)) < scoreUnits(LATEST_OBSERVATION_THRESHOLD)) return null;
   const shown = formatConsensusScore(latestTransformation);
   if (latestDelta > 0) {
     return `最新のAIは、この仕事の変化をより大きく見ています（${shown}）`;
