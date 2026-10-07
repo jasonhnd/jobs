@@ -70,6 +70,10 @@
       let data = [];
       let searchData = [];
       let searchDataPromise = null;
+      // True once data.search.json has been read, even if it held no rows:
+      // an empty projection must not look "not loaded yet", or callers would
+      // re-enter ensureSearchData() forever (#884 review).
+      let searchDataLoaded = false;
       let rects = [];
       let hovered = null;
       let searchQuery = "";
@@ -1101,7 +1105,7 @@
       }
 
       function ensureSearchData() {
-        if (searchData.length) return Promise.resolve(searchData);
+        if (searchDataLoaded) return Promise.resolve(searchData);
         if (searchDataPromise) return searchDataPromise;
         searchDataPromise = fetch("data.search.json", { credentials: "omit" })
           .then(r => {
@@ -1111,6 +1115,7 @@
           .then(payload => {
             const docs = payload && Array.isArray(payload.documents) ? payload.documents : [];
             searchData = docs.map(normalizeSearchDoc).filter(Boolean);
+            searchDataLoaded = true;
             return searchData;
           })
           .catch(err => {
@@ -1191,7 +1196,7 @@
         const params = new URLSearchParams(window.location.search);
         const query = (params.get("q") || "").trim();
         if (!query) return;
-        if (!searchRows().length) {
+        if (!searchDataLoaded) {
           ensureSearchData()
             .then(handleSearchActionQuery)
             .catch(err => {
@@ -1382,7 +1387,7 @@
         function render(q) {
           const rawQuery = q || "";
           const trimmed = rawQuery.trim();
-          if (trimmed && !searchRows().length) {
+          if (trimmed && !searchDataLoaded) {
             ensureSearchData()
               .then(() => {
                 if (inputEl.value.trim() === trimmed) render(inputEl.value);
