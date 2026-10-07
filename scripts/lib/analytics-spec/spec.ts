@@ -1,5 +1,6 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { load } from 'js-yaml';
 import type { DimensionEntry, AnalyticsSpec } from '../../check-analytics-spec';
 // The same validator analytics/setup-ga4.mjs runs before pushing dimensions to
 // the GA4 Admin API. It only ever ran on a manual `setup-ga4.mjs` invocation,
@@ -18,55 +19,43 @@ export function createSpecReader(ROOT: string, fail: (message: string) => never)
 
   // ──────────────────────────────── spec parsing ─────────────────────────────
 
-  function specSection(lines: readonly string[], key: string): string[] {
-    const start = lines.findIndex((l) => l === key);
-    if (start < 0) fail(`analytics/spec.yaml has no top-level \`${key}\` section.`);
-    const rest = lines.slice(start + 1);
-    const endOffset = rest.findIndex((l) => /^[a-z_]+:$/.test(l));
-    return endOffset < 0 ? rest : rest.slice(0, endOffset);
-  }
-
   /**
-   * Reads dimension entries out of a spec section as objects, so the GA4 Admin
-   * API validator can be applied to them directly instead of this file
-   * re-implementing its length and pattern rules.
+   * Parses spec.yaml with js-yaml — the parser analytics/setup-ga4.mjs uses.
    *
-   * Block scalars (`description: |`) would need real YAML semantics to read, so
-   * they are rejected rather than silently mis-parsed into a short string that
-   * passes the length check it should have failed.
+   * The gate used to read dimensions line by line. That missed multi-line
+   * plain and double-quoted scalars and the `>+` / `|2` block indicators, so
+   * it measured a truncated first line and passed 242–253-character
+   * descriptions that setup then rejected at the 150 limit (audit 2026-10-07,
+   * #862). Measuring the same parsed string setup measures closes that gap.
    */
-  function parseDimensions(section: readonly string[], key: string): DimensionEntry[] {
-    const entries: DimensionEntry[] = [];
-    let current: DimensionEntry | null = null;
-    for (const line of section) {
-      const head = line.match(/^\s{2}- parameter_name:\s*(.+)$/);
-      if (head) {
-        if (current) entries.push(current);
-        current = { parameter_name: unquote(head[1]!) };
-        continue;
-      }
-      if (!current) continue;
-      const field = line.match(/^\s{4}(display_name|description):\s*(.*)$/);
-      if (!field) continue;
-      const raw = field[2]!.trim();
-      if (raw === '|' || raw === '>' || raw === '|-' || raw === '>-') {
-        fail(
-          `${key} entry "${current.parameter_name}" uses a YAML block scalar for ` +
-            `${field[1]}. This gate reads dimensions line-by-line and cannot ` +
-            `measure a block scalar's true length, so it would pass a limit check ` +
-            `it should fail. Put the value on one line.`,
-        );
-      }
-      current[field[1] as 'display_name' | 'description'] = unquote(raw);
+  function parseSpec(): Record<string, unknown> {
+    if (!existsSync(SPEC)) fail('analytics/spec.yaml is missing.');
+    let doc: unknown;
+    try {
+      doc = load(readFileSync(SPEC, 'utf-8'));
+    } catch (error) {
+      fail(
+        `analytics/spec.yaml is not valid YAML: ` +
+          (error instanceof Error ? error.message : String(error)),
+      );
     }
-    if (current) entries.push(current);
-    return entries;
+    if (typeof doc !== 'object' || doc === null || Array.isArray(doc)) {
+      fail('analytics/spec.yaml is not a YAML mapping.');
+    }
+    return doc as Record<string, unknown>;
   }
 
-  function unquote(value: string): string {
-    const trimmed = value.trim();
-    const quoted = trimmed.match(/^"(.*)"$/) ?? trimmed.match(/^'(.*)'$/);
-    return quoted ? quoted[1]! : trimmed;
+  /** A top-level list; an empty section (`key:` with nothing under it) is []. */
+  function specList(doc: Record<string, unknown>, key: string): Record<string, unknown>[] {
+    if (!(key in doc)) fail(`analytics/spec.yaml has no top-level \`${key}:\` section.`);
+    const value = doc[key] ?? [];
+    if (!Array.isArray(value)) fail(`analytics/spec.yaml \`${key}:\` is not a list.`);
+    return value.map((entry, index) => {
+      if (typeof entry !== 'object' || entry === null || Array.isArray(entry)) {
+        fail(`analytics/spec.yaml \`${key}:\` entry #${index + 1} is not a mapping.`);
+      }
+      return entry as Record<string, unknown>;
+    });
   }
 
   function validateDimensionContract(
@@ -111,33 +100,25 @@ export function createSpecReader(ROOT: string, fail: (message: string) => never)
   }
 
   function readSpec(): AnalyticsSpec {
-    if (!existsSync(SPEC)) fail('analytics/spec.yaml is missing.');
-    const lines = readFileSync(SPEC, 'utf-8').split('\n');
+    const doc = parseSpec();
 
     // GA4 Admin API contract — same rules setup-ga4.mjs enforces at sync time.
-    const eventDims = parseDimensions(
-      specSection(lines, 'event_scoped_dimensions:'),
-      'event_scoped_dimensions',
-    );
-    const userDims = parseDimensions(
-      specSection(lines, 'user_scoped_dimensions:'),
-      'user_scoped_dimensions',
-    );
+    const eventDims = specList(doc, 'event_scoped_dimensions') as DimensionEntry[];
+    const userDims = specList(doc, 'user_scoped_dimensions') as DimensionEntry[];
     if (eventDims.length === 0) fail('parsed zero event-scoped dimensions — the parser is broken.');
     validateDimensionContract(eventDims, userDims);
     validateDimensionCaps(eventDims, userDims);
     const eventHeadroom = CUSTOM_DIMENSION_LIMITS.perProperty.event - eventDims.length;
 
     const registeredEvents = new Set(
-      specSection(lines, 'events:')
-        .filter((l) => /^\s{2}- name:/.test(l))
-        .map((l) => l.replace(/^\s*- name:\s*/, '').trim()),
+      specList(doc, 'events').map((event, index) => {
+        if (typeof event.name !== 'string' || event.name === '') {
+          fail(`analytics/spec.yaml \`events:\` entry #${index + 1} has no name.`);
+        }
+        return event.name;
+      }),
     );
-    const declaredDims = new Set(
-      specSection(lines, 'event_scoped_dimensions:')
-        .filter((l) => /^\s{2}- parameter_name:/.test(l))
-        .map((l) => l.replace(/^\s*- parameter_name:\s*/, '').trim()),
-    );
+    const declaredDims = new Set(eventDims.map((d) => String(d.parameter_name)));
 
     if (registeredEvents.size === 0) fail('spec.yaml registers zero events — the scan is broken.');
     if (declaredDims.size === 0) fail('spec.yaml declares zero dimensions — the scan is broken.');
