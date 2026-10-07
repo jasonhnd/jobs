@@ -86,6 +86,7 @@ function loadSkillRanking(ipdKey: string): SkillRankingFile {
 import { fmtInt, safeMean } from '../lib/num.js';
 import { displayScore } from '../data/lib/banker-round.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
+import { formatScoreFixed1 } from '../lib/score-format.js';
 
 function buildFaqs(meta: SkillMeta, items: SkillOccupation[]): Array<readonly [string, string]> {
   const faqs: Array<readonly [string, string]> = [];
@@ -180,7 +181,7 @@ export function buildSkillsBundle(loaders: SkillsLoaders = {}): SkillsBundle {
 
     const stats: Array<readonly [string, string]> = [
       [`平均 ${meta.short_ja}スコア`, `${meanScore.toFixed(2)} / 5`],
-      ['平均 AI 影響', meanRisk > 0 ? `${meanRisk.toFixed(1)} / 10` : '—'],
+      ['平均 AI 影響', meanRisk > 0 ? `${formatScoreFixed1(meanRisk)} / 10` : '—'],
       ['平均年収', meanSalary > 0 ? `${Math.trunc(meanSalary)} 万円` : '—'],
       ['TOP30 合計就業者数', `${fmtInt(totalWorkers)} 人`],
     ];
@@ -193,7 +194,7 @@ export function buildSkillsBundle(loaders: SkillsLoaders = {}): SkillsBundle {
       `1 位は「${items[0]?.name_ja ?? '—'}」（${meta.short_ja}スコア ${items[0]?.skill_score.toFixed(2) ?? '—'}）`,
       top3 ? `TOP 3 は ${top3}` : '',
       dominantSector ? `セクターは「${dominantSector}」が ${dominantCount} 件と最多` : '',
-      meanRisk > 0 ? `TOP30 の平均 AI 影響は ${meanRisk.toFixed(1)}/10` : '',
+      meanRisk > 0 ? `TOP30 の平均 AI 影響は ${formatScoreFixed1(meanRisk)}/10` : '',
       meta.use_cases_ja.length ? `典型的な活躍場面: ${meta.use_cases_ja[0]}` : '',
     ].filter(Boolean);
 

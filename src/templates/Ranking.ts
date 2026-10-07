@@ -22,7 +22,7 @@ import { fmtInt } from '../lib/num.js';
 import { OCCUPATION_COUNT, siteConfig } from '../site/config.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { occupationPath } from '../lib/urls.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScore, formatScoreFixed1 } from '../lib/score-format.js';
 
 // Local mirror of views/rankings.ts:safeMean — takes occupation objects +
 // numeric key, returns the mean over non-null values. Templates can't import
@@ -98,7 +98,7 @@ export function renderRankingSummary(items: Occupation[]): SafeHtml {
     .filter((v): v is number => typeof v === 'number');
   const meanHtml = meanVals.length === 0
     ? '—'
-    : `${safeMean(items, 'ai_risk').toFixed(1)}/10`;
+    : `${formatScoreFixed1(safeMean(items, 'ai_risk'))}/10`;
   const n = items.length;
   const month = formatContentMonth(CONTENT_DATE);
   return (
@@ -204,7 +204,7 @@ export function renderHighlights(items: Occupation[], slug: RankingSlug): SafeHt
   const meanSal = safeMean(items, 'salary');
   const meanRisk = safeMean(items, 'ai_risk');
   if (meanSal > 0) {
-    hl.push(`TOP${items.length}の平均年収は${Math.trunc(meanSal)}万円、平均AI影響度は${meanRisk.toFixed(1)}/10`);
+    hl.push(`TOP${items.length}の平均年収は${Math.trunc(meanSal)}万円、平均AI影響度は${formatScoreFixed1(meanRisk)}/10`);
   }
 
   const itemsHtml = hl.map((h) => `<li>${escapeHtml(h)}</li>`).join('');

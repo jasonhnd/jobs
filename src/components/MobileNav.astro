@@ -376,6 +376,33 @@ import { OCCUPATION_COUNT } from '@/site/config';
     var sectorJa = {};
     var loadPromise = null;
 
+    // One decimal, the server's rule: banker's rounding over the exact stored
+    // double, ported from src/data/lib/banker-round.ts (inline scripts cannot
+    // import it); toFixed alone rounds half away from zero (#864).
+    function fmtRisk(v) {
+      if (v == null) return '—';
+      var n = Number(v);
+      if (!Number.isFinite(n)) return '—';
+      var sign = n < 0 ? '-' : '';
+      var wide = Math.abs(n).toFixed(18);
+      var dot = wide.indexOf('.');
+      if (dot === -1) return String(n);
+      var intStr = wide.slice(0, dot);
+      var frac = wide.slice(dot + 1);
+      var keep = frac.charAt(0);
+      var decisive = frac.charAt(1);
+      var tail = frac.slice(2);
+      var roundUp;
+      if (decisive < '5') roundUp = false;
+      else if (decisive > '5') roundUp = true;
+      else if (/[1-9]/.test(tail)) roundUp = true;
+      else roundUp = Number(keep) % 2 !== 0;
+      var truncated = Number(sign + intStr + '.' + keep);
+      if (!roundUp) return String(truncated);
+      var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
+      return String(Number(inc.toFixed(1)));
+    }
+
     var resultsEl = overlay.querySelector('.mob-search-results');
     var recentWrap = overlay.querySelector('.mob-search-recent');
     var recentList = overlay.querySelector('.mob-search-recent-list');
@@ -495,7 +522,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       var pill = document.createElement('span');
       var band = doc.risk_band === 'low' || doc.risk_band === 'high' ? doc.risk_band : 'mid';
       pill.className = 'mob-search-pill ' + band;
-      pill.textContent = (doc.ai_risk != null ? Number(doc.ai_risk).toFixed(1) : '—') + '/10';
+      pill.textContent = (doc.ai_risk != null ? Number(fmtRisk(doc.ai_risk)).toFixed(1) : '—') + '/10';
       a.appendChild(name);
       a.appendChild(sub);
       a.appendChild(pill);

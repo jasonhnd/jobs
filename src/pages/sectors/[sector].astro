@@ -9,6 +9,7 @@
  *   - src/templates/* (SectorJsonLd / SectorListings / SectorPatterns / OccFaq)
  *   - src/views/sector-faqs.ts                  (FAQ Q/A builder)
  */
+import { formatScoreFixed1 } from '@/lib/score-format';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { loadGraph } from '@/graph';
@@ -98,7 +99,7 @@ const {
         <section aria-label="セクター概要">
           <dl class="stats">
             <div><dt>職業数</dt><dd>{n}</dd></div>
-            <div><dt>平均 AI 影響</dt><dd>{meanRisk === null ? '—' : `${meanRisk.toFixed(1)} / 10`}</dd></div>
+            <div><dt>平均 AI 影響</dt><dd>{meanRisk === null ? '—' : `${formatScoreFixed1(meanRisk)} / 10`}</dd></div>
             <div><dt>就業者数 合計</dt><dd>{fmtInt(workforceTotal)}</dd></div>
           </dl>
         </section>
