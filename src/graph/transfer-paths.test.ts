@@ -140,3 +140,43 @@ test('computeTransferCandidatesMap: different sectors do NOT cross over', () => 
   assert.equal(entry.fallback, 'no_safer_in_sector');
   assert.equal(entry.candidates.length, 0);
 });
+
+function sameSkills(ids: readonly number[], risks: readonly number[]): TransferComputeInput {
+  return {
+    sortedOccIds: ids,
+    skillsByOcc: new Map(ids.map((id) => [id, { a: 3, b: 4 }])),
+    riskByOcc: new Map(ids.map((id, i) => [id, risks[i]!])),
+    sectorByOcc: new Map(ids.map((id) => [id, 'iryo'])),
+    titleByOcc: new Map(ids.map((id) => [id, `occ${id}`])),
+  };
+}
+
+test('computeTransferCandidatesMap: risk drop compares displayed values (4.3 → 3.3 is a 1.0 drop)', () => {
+  // Unrounded means: 4.2667 prints 4.3, 3.3333 prints 3.3; raw gap is 0.93.
+  const entry = computeTransferCandidatesMap(sameSkills([1, 2], [4.266666666666667, 3.3333333333333335])).get(1)!;
+  assert.equal(entry.fallback, null);
+  assert.deepEqual(entry.candidates.map((c) => c.id), [2]);
+});
+
+test('computeTransferCandidatesMap: a displayed 0.9 drop is not "safer"', () => {
+  const entry = computeTransferCandidatesMap(sameSkills([1, 2], [4.3333333333333333, 3.4])).get(1)!;
+  assert.equal(entry.fallback, 'no_safer_in_sector');
+});
+
+test('computeTransferCandidatesMap: FP residue at an exact 1.0 gap still counts as safer', () => {
+  // 7.3 - 1.0 = 6.3 exactly in decimals; raw doubles may disagree.
+  for (const [src, cand] of [[7.3, 6.3], [1.7, 0.7], [4.1, 3.1], [5.6, 4.6]] as const) {
+    const entry = computeTransferCandidatesMap(sameSkills([1, 2], [src, cand])).get(1)!;
+    assert.equal(entry.fallback, null, `${src} → ${cand}`);
+  }
+});
+
+test('computeTransferCandidatesMap: no_safer_in_sector fallback never lists higher-risk jobs', () => {
+  // Source shows 4.3; nothing ≤ 3.3. Fallback may list equal or lower (4.3, 3.9),
+  // never higher (4.9, 5.2).
+  const entry = computeTransferCandidatesMap(
+    sameSkills([1, 2, 3, 4, 5], [4.3, 4.9, 5.2, 4.3333333333333333, 3.9]),
+  ).get(1)!;
+  assert.equal(entry.fallback, 'no_safer_in_sector');
+  assert.deepEqual(entry.candidates.map((c) => c.id), [4, 5]);
+});
