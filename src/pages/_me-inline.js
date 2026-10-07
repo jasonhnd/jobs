@@ -365,7 +365,10 @@
         if (!(options && options.restored)) {
           ga('me_select_job', { job_id: jobId, sector: pos.summary.sectorId });
         }
-      }).catch(showLoadFailure);
+      }).catch(function (err) {
+        if (seq !== selectSeq) return;
+        showLoadFailure(err);
+      });
     }
 
     // Visible notice when data cannot be loaded (#884: these paths had no

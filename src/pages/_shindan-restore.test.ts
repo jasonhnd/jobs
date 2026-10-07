@@ -52,7 +52,8 @@ test('/me selectJob ignores older selections and reports load failures (#884)', 
   const select = fnBody(me, 'function selectJob(');
   assert.match(select, /var seq = \+\+selectSeq;/);
   assert.match(select, /if \(seq !== selectSeq\) return;/);
-  assert.match(select, /\.catch\(showLoadFailure\)/);
+  // A slow failure of an older pick must not overwrite a newer, rendered one.
+  assert.match(select, /\.catch\(function \(err\) \{\n\s+if \(seq !== selectSeq\) return;\n\s+showLoadFailure\(err\);/);
   assert.match(fnBody(me, 'function submitQuiz('), /\.catch\(showQuizLoadFailure\)/);
   assert.match(fnBody(me, 'function showGap('), /\.catch\(showQuizLoadFailure\)/);
 });
