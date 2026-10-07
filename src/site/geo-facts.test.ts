@@ -271,6 +271,14 @@ describe('displayed-value rule for KPI bands and counts (#864)', () => {
     assert.deepEqual(shares, { '0-2': 0, '3-4': 50, '5-6': 41, '7-8': 9, '9-10': 0 });
     assert.equal(Object.values(shares).reduce((a, b) => a + b, 0), 100);
   });
+
+  test('the leftover fallback does not split a tied remainder group (#886)', () => {
+    // [1,1,1,1,2] floors to 97 and has 3 points left. The four equal
+    // remainders do not fit, so the old fallback handed points out by band
+    // order and printed [17,17,16,16,34].
+    const shares = factsFor([1, 3, 5, 7, 9, 9]).fiveBandDistribution.map((band) => band.sharePct);
+    assert.deepEqual(shares, [16.7, 16.7, 16.7, 16.7, 33.3]);
+  });
 });
 
 describe('pickLatestGeoScoreRun', () => {
@@ -336,6 +344,26 @@ describe('geo renderers', () => {
     const parsed = JSON.parse(jsonld) as { '@graph': Array<{ '@type': string; dateModified?: string }> };
     assert.equal(parsed['@graph'].find((n) => n['@type'] === 'WebSite')!.dateModified, '2026-06-13');
     assert.doesNotMatch(jsonld, /__SCORE_/);
+  });
+
+  test('a two-vendor mean of 4.25 prints 4.2 in llms and JSON-LD (#886)', () => {
+    const row: GeoTreemapRow = {
+      id: 1, name_ja: '境界', salary: 400, ai_risk: 0, workers: 100,
+      recruit_ratio: 1, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1',
+    };
+    const vote = (risk: number) => new Map<number, GeoScoreEntry>([[1, { ai_risk: risk, aiois: { displacement: risk } }]]);
+    const facts = computeGeoFacts([row], [
+      scoreRun('2026-06-13', 'claude-fable-5', vote(4.2), 'anthropic'),
+      scoreRun('2026-06-14', 'gpt-6', vote(4.3), 'openai'),
+    ]);
+    assert.equal(facts.occupations[0]!.aiImpact, 4.25);
+    const llms = renderLlmsTxt(facts);
+    const llmsFull = renderLlmsFullTxt(facts);
+    const jsonld = renderHomeJsonLd(facts);
+    for (const rendered of [llms, llmsFull, jsonld]) {
+      assert.match(rendered, /4\.2\/10/);
+      assert.doesNotMatch(rendered, /4\.3\/10/);
+    }
   });
 
   test('llms.txt Pages section is eight markdown links with the existing labels and URLs', () => {
