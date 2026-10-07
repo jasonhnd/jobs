@@ -34,16 +34,17 @@ describe('renderSectorPatterns', () => {
 
   test('distribution bar has 3 sized spans with title attrs', () => {
     const out = renderSectorPatterns(baseInput);
-    assert.ok(out.includes('<span class="dist-low" style="width:40%" title="AI 影響 低 (3 以下): 10 職業"></span>'));
-    assert.ok(out.includes('<span class="dist-mid" style="width:32%" title="AI 影響 中 (4-6): 8 職業"></span>'));
-    assert.ok(out.includes('<span class="dist-high" style="width:28%" title="AI 影響 高 (7+): 7 職業"></span>'));
+    assert.ok(out.includes('<span class="dist-low" style="width:40%" title="AI 影響 低 (4.0 未満): 10 職業"></span>'));
+    assert.ok(out.includes('<span class="dist-mid" style="width:32%" title="AI 影響 中 (4.0-6.9): 8 職業"></span>'));
+    assert.ok(out.includes('<span class="dist-high" style="width:28%" title="AI 影響 高 (7.0 以上): 7 職業"></span>'));
   });
 
   test('legend shows counts + percentages with 0-decimal rounding', () => {
     const out = renderSectorPatterns({ ...baseInput, aiLowPct: 33.7, aiMidPct: 22.4 });
     // 33.7 → "34", 22.4 → "22" (toFixed(0) rounds to nearest).
-    assert.ok(out.includes('低 (≤3): <strong>10</strong> 職業 (34%)'));
-    assert.ok(out.includes('中 (4-6): <strong>8</strong> 職業 (22%)'));
+    assert.ok(out.includes('低 (&lt;4.0): <strong>10</strong> 職業 (34%)'));
+    assert.ok(out.includes('中 (4.0-6.9): <strong>8</strong> 職業 (22%)'));
+    assert.ok(out.includes('高 (≥7.0): <strong>7</strong> 職業 (28%)'));
   });
 
   test('observations rendered as <li> items in order', () => {
