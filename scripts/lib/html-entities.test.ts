@@ -1,9 +1,9 @@
-// decodeHtmlEntities must never throw on a numeric entity the browser would
+// decodeHtmlEntities (used by subset-fonts) must never throw on a numeric entity the browser would
 // render as U+FFFD; a RangeError here would crash `bun run build`.
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { decodeHtmlEntities } from './subset-fonts.ts';
+import { decodeHtmlEntities } from './html-entities.js';
 
 test('decodes valid numeric and named entities', () => {
   assert.equal(decodeHtmlEntities('&#x4E00;&#19968;&amp;&lt;&gt;&quot;&#39;&nbsp;'), '一一&<>"\' ');
