@@ -1078,12 +1078,17 @@
         .trim();
     }
 
+    // One decimal, like the X/LINE text — never the raw three-vendor mean (#864).
+    function shareHookText(fields, variant) {
+      return fields.jobTitle && fields.score != null
+        ? fields.jobTitle + 'のAI影響度は' + fmtRisk(fields.score) + '/10。あなたの仕事は？'
+        : variant.name + '：' + variant.catch;
+    }
+
     function renderShare(result, variant, gap) {
       var resultUrl = canonicalResultUrl(result, gap);
       var fields = jobShareFields(gap);
-      var hook = fields.jobTitle && fields.score != null
-        ? fields.jobTitle + 'のAI影響度は' + fields.score + '/10。あなたの仕事は？'
-        : variant.name + '：' + variant.catch;
+      var hook = shareHookText(fields, variant);
       var shareText = fillShareTemplate(resultUrl, variant, gap, true);
       var xUrl = 'https://x.com/intent/post?text=' + encodeURIComponent(shareText);
       var lineUrl = 'https://line.me/R/msg/text/?' + encodeURIComponent(shareText);
@@ -1307,6 +1312,7 @@
       window.__SHINDAN_TEST_HOOKS__.axesFromCodePattern = axesFromCodePattern;
       window.__SHINDAN_TEST_HOOKS__.resultStateParams = resultStateParams;
       window.__SHINDAN_TEST_HOOKS__.nextFunnelEvents = nextFunnelEvents;
+      window.__SHINDAN_TEST_HOOKS__.shareHookText = shareHookText;
     }
 
     if (document.readyState === 'loading') {
