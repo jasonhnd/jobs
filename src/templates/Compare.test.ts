@@ -235,6 +235,18 @@ describe('compare hub cards', () => {
     assert.equal(html.includes(`${'d'.repeat(81)}`), false);
   });
 
+  test('hub pills band the displayed value like every other pill (#864)', () => {
+    const pills = (a: number | null, b: number | null): string[] => {
+      const html = renderFeaturedCompareCards([{ slug: 'x', title_ja: 'x', a_name: 'A', a_risk: a, b_name: 'B', b_risk: b, description_ja: '' }]);
+      return [...html.matchAll(/class="risk-pill (\w+)"/g)].map((m) => m[1]!);
+    };
+    assert.deepEqual(pills(3.5, 6.8), ['low', 'mid']); // 看護師 3.5 / 税理士 6.8
+    assert.deepEqual(pills(3.9666666666666663, 6.966666666666667), ['mid', 'high']); // print 4.0 / 7.0
+    assert.deepEqual(pills(3.9333333333333336, 6.933333333333334), ['low', 'mid']); // print 3.9 / 6.9
+    const compact = renderCompactCompareCards([{ slug: 'x', title_ja: 'x', a_name: 'A', a_risk: 3.5, b_name: 'B', b_risk: 6.8, description_ja: '' }]);
+    assert.deepEqual([...compact.matchAll(/class="risk-pill (\w+)"/g)].map((m) => m[1]), ['low', 'mid']);
+  });
+
   test('compact cards omit the description and still show both pills', () => {
     const html = renderCompactCompareCards(cards);
     assert.match(html, /class="ccq-title">Short</);

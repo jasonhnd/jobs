@@ -107,6 +107,7 @@ function detailToSide(d: DetailFile): CompareSide {
 import { fmtInt } from '../lib/num.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 import { formatRiskScore } from '../lib/score-format.js';
+import { bankerRound, displayScoreOrNull } from '../data/lib/banker-round.js';
 
 function fmtDiff(a: number | null, b: number | null, suffix = ''): string {
   if (a === null || b === null) return '';
@@ -116,13 +117,27 @@ function fmtDiff(a: number | null, b: number | null, suffix = ''): string {
   return `A は B より ${sign}${diff.toFixed(diff % 1 === 0 ? 0 : 1)}${suffix}`;
 }
 
+/**
+ * AI-impact difference of the two PRINTED values (#864): the raw means of
+ * 4.2667 and 4.4333 print 4.3 / 4.4, so the note reads -0.1, not -0.2.
+ * Equal printed values get no note.
+ */
+function fmtRiskDiff(a: number | null, b: number | null): string {
+  const shownA = displayScoreOrNull(a);
+  const shownB = displayScoreOrNull(b);
+  if (shownA === null || shownB === null) return '';
+  const diff = bankerRound(shownA - shownB, 1);
+  if (diff === 0) return '';
+  return `A は B より ${diff > 0 ? '+' : ''}${diff.toFixed(1)}`;
+}
+
 function buildRows(a: CompareSide, b: CompareSide): CompareResult['rows'] {
   const rows: CompareResult['rows'] = [
     {
       label: 'AI 影響度',
       a_val: formatRiskScore(a.ai_risk),
       b_val: formatRiskScore(b.ai_risk),
-      note: fmtDiff(a.ai_risk, b.ai_risk),
+      note: fmtRiskDiff(a.ai_risk, b.ai_risk),
     },
     {
       label: '年収 (平均)',
@@ -180,10 +195,13 @@ function buildFaqs(meta: CompareMeta, a: CompareSide, b: CompareSide): Array<rea
   ]);
 
   // Q2: AI 影響度
-  if (a.ai_risk !== null && b.ai_risk !== null) {
-    const winner = a.ai_risk < b.ai_risk ? a : b;
-    const loser = a.ai_risk < b.ai_risk ? b : a;
-    if (a.ai_risk !== b.ai_risk) {
+  const shownA = displayScoreOrNull(a.ai_risk);
+  const shownB = displayScoreOrNull(b.ai_risk);
+  if (shownA !== null && shownB !== null) {
+    // Judged on the printed values (#864), so the answer never contradicts them.
+    const winner = shownA < shownB ? a : b;
+    const loser = shownA < shownB ? b : a;
+    if (shownA !== shownB) {
       faqs.push([
         `AI 影響度はどちらが低い？`,
         `${winner.name_ja} (${formatRiskScore(winner.ai_risk)}) の方が ${loser.name_ja} (${formatRiskScore(loser.ai_risk)}) より AI 影響度が低い傾向です。` +
