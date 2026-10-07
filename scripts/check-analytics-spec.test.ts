@@ -184,6 +184,9 @@ describe('check-analytics-spec CLI regression contract', () => {
     ['a non-literal command', "gtag(command, 'literal_event', {});", /non-literal gtag command/],
     ['bracket access', "window['gtag']('event', 'literal_event', {});", /bracket access/],
     ['aliasing', "const g = window.gtag; g('event', 'literal_event', {});", /gtag is referenced/],
+    ['a TS import-equals alias', "declare namespace analytics { function gtag(...args: any[]): void; }\nimport send = analytics.gtag; send('event', 'literal_event', {unknown_param: 1});", /gtag is aliased with `import … =`/],
+    ['an exported import-equals alias', "export import send = analytics.gtag;", /gtag is aliased with `import … =`/],
+    ['an import-equals alias of dataLayer', "import dl = window.dataLayer; dl.push({event: 'literal_event'});", /dataLayer is aliased with `import … =`/],
     ['gtag.apply', "gtag.apply(null, ['event', 'literal_event']);", /gtag is referenced/],
     ['a direct dataLayer.push', "window.dataLayer.push({event: 'literal_event'});", /dataLayer is referenced/],
     ['shorthand params', "const unknown_param = 1; gtag('event', 'literal_event', {unknown_param});", /unknown_param\s+← literal_event/],
@@ -264,6 +267,8 @@ describe('check-analytics-spec CLI regression contract', () => {
       "const example = \"gtag('event', 'documentation_example', {unknown_param: 1})\";",
       "const tpl = `see gtag('event', 'x') and dataLayer.push({})`;",
       "declare global { interface Window { gtag?: (...args: unknown[]) => void; dataLayer: unknown[] } }",
+      "declare namespace analytics { type gtag = (...args: unknown[]) => void; }",
+      "import type GtagTypes = require('./gtag'); type GtagFn = analytics.gtag; import ns = analytics; import fs = require('node:fs');",
     ].join('\n'));
     write(root, 'src/mentions.astro', [
       "---\nconst title = 'gtag';\n---",
