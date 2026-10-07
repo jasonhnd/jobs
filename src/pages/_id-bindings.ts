@@ -66,6 +66,7 @@ import {
   renderOccupationJsonLdFromRec,
 } from './_id-renderers';
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
+import { riskBandWord } from '@/lib/risk';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { displayScore } from '@/data/lib/banker-round';
 import { SCORE_PANEL } from '@/site/score-attribution';
@@ -103,6 +104,8 @@ export interface VerdictDoor {
 export interface VerdictBinding {
   readonly scored: boolean;
   readonly scoreLabel: string;
+  /** Signed band word for the displayed transformation score. Null when unscored. */
+  readonly bandWord: string | null;
   readonly transformationDisp: string;
   readonly displacementDisp: string | null;
   readonly rankLine: string;
@@ -195,7 +198,7 @@ export function buildVerdictDoors(opts: {
       ghost,
     ];
   }
-  if (shown < 5) {
+  if (shown < 4.0) {
     return [
       { href: '#sec-aiois', label: 'なぜ守られやすいか', kind: 'solid' },
       ghostSimilar,
@@ -443,6 +446,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const verdict: VerdictBinding = {
     scored,
     scoreLabel: CONSENSUS_HEADLINE_LABEL,
+    bandWord: scored ? riskBandWord(aioisTransformation) : null,
     transformationDisp: scored ? fmtScoreDisp(aioisTransformation) : '未採点',
     displacementDisp: scored ? fmtScoreDisp(aioisDisplacement) : null,
     rankLine: formatVerdictRankLine({

@@ -43,7 +43,7 @@
  */
 
 import { displayScore } from '../data/lib/banker-round.js';
-import { riskBand } from '../data/lib/bands.js';
+import { riskBandWord } from '../lib/risk.js';
 
 /** Narrow input — only the Rec fields the SEO derivation reads. */
 export interface OccupationSeoInput {
@@ -90,7 +90,8 @@ export function buildOccupationSeo(input: OccupationSeoInput): OccupationSeoOutp
   // '未評価' instead of an em dash that looked like missing data in
   // Google SERPs.
   const shown = aiRisk !== null ? displayScore(aiRisk) : null;
-  const riskStr = shown !== null ? `${shown}/10` : '未評価';
+  const bandWord = shown !== null ? riskBandWord(shown) : null;
+  const riskStr = shown !== null && bandWord !== null ? `${shown}/10 ${bandWord}` : '未評価';
 
   const title = salaryStanding
     ? `${nameJa}の年収は${salaryStanding.universe}職業中上位${salaryStanding.topPercent}%｜AI影響${riskStr}`
@@ -106,10 +107,7 @@ export function buildOccupationSeo(input: OccupationSeoInput): OccupationSeoOutp
     clauses.push(`就業者は${fmtIntCommas(workers)}人。`);
   }
   if (aiRisk !== null && shown !== null) {
-    // The tier word describes the number printed next to it (#631).
-    const band = riskBand(shown);
-    const tier = band === 'low' ? '低め' : band === 'mid' ? '中程度' : '高め';
-    clauses.push(`${nameJa}のAI影響度は10段階中${shown}と${tier}です。`);
+    clauses.push(`${nameJa}のAI影響度は${shown}/10 ${bandWord}です。`);
     clauses.push('仕事の中身がAIで変わる度合いであり、失業の確率ではありません。');
   } else {
     clauses.push(`${nameJa}のAI影響度を分析。`);

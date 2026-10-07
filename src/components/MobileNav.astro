@@ -402,6 +402,13 @@ import { OCCUPATION_COUNT } from '@/site/config';
       var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
       return String(Number(inc.toFixed(1)));
     }
+    function riskBandWord(v) {
+      var d = Number(fmtRisk(v));
+      if (!Number.isFinite(d)) return '';
+      if (d < 4.0) return '変化 小さい';
+      if (d < 7.0) return '変化 中くらい';
+      return '変化 大きい';
+    }
 
     var resultsEl = overlay.querySelector('.mob-search-results');
     var recentWrap = overlay.querySelector('.mob-search-recent');
@@ -527,7 +534,7 @@ import { OCCUPATION_COUNT } from '@/site/config';
       var pill = document.createElement('span');
       var band = doc.risk_band === 'low' || doc.risk_band === 'high' ? doc.risk_band : 'mid';
       pill.className = 'mob-search-pill ' + band;
-      pill.textContent = (doc.ai_risk != null ? Number(fmtRisk(doc.ai_risk)).toFixed(1) : '—') + '/10';
+      pill.textContent = doc.ai_risk != null ? (Number(fmtRisk(doc.ai_risk)).toFixed(1) + '/10 ' + riskBandWord(doc.ai_risk)) : '—';
       a.appendChild(name);
       a.appendChild(sub);
       a.appendChild(pill);

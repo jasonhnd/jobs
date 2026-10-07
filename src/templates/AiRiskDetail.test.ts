@@ -43,7 +43,7 @@ describe('renderAiRiskDetail', () => {
       horizon5yJa: '5-10 年で大きく変わる',
     });
     assert.ok(out.includes('<section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">'));
-    assert.ok(out.includes('<h2 id="ai-risk-detail-h2">なぜ AI 影響度 7/10 か</h2>'));
+    assert.ok(out.includes('<h2 id="ai-risk-detail-h2">なぜ AI 影響度 7/10 変化 大きい か</h2>'));
     assert.ok(out.includes('<p class="ai-rationale-long">長文の理由</p>'));
     assert.ok(out.includes('<h3>AI に置き換わりやすい業務</h3>'));
     assert.ok(out.includes('<li>書類処理</li><li>定型応対</li>'));

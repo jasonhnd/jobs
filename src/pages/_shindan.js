@@ -291,6 +291,13 @@
       if (d < 7.0) return 'mid';
       return 'high';
     }
+    function riskBandWord(value) {
+      var d = Number(fmtRisk(value));
+      if (!Number.isFinite(d)) return '';
+      if (d < 4.0) return '変化 小さい';
+      if (d < 7.0) return '変化 中くらい';
+      return '変化 大きい';
+    }
 
     function scoreAnswers() {
       var counts = {
@@ -794,7 +801,7 @@
 
         var pill = document.createElement('span');
         pill.className = 'shindan-job-pill ' + riskBand(doc.ai_risk);
-        pill.textContent = 'AI ' + (doc.ai_risk != null ? fmtRisk(doc.ai_risk) : '?') + '/10';
+        pill.textContent = 'AI ' + (doc.ai_risk != null ? fmtRisk(doc.ai_risk) + '/10 ' + riskBandWord(doc.ai_risk) : '—');
 
         li.appendChild(text);
         li.appendChild(pill);
@@ -880,7 +887,7 @@
 
     function formatRisk(value) {
       if (value == null || isNaN(value)) return '不明';
-      return fmtRisk(value) + '/10';
+      return fmtRisk(value) + '/10 ' + riskBandWord(value);
     }
 
     function jobTitle(doc, jobId) {

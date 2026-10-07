@@ -103,7 +103,7 @@ const geoFacts: GeoFacts = {
 describe('buildAiFactSummary', () => {
   test('prints the displayed value and judges its words on printed values (#864)', () => {
     const s = buildAiFactSummary({ ...base, aiRisk: 6.233333333333334, meanRisk: 6.2333, aiois: aiois({ d5: 8, displacement: 3.9666666666666663 }) });
-    assert.ok(s.startsWith('看護師のAI影響度は6.2/10。'), s);
+    assert.ok(s.startsWith('看護師のAI影響度は6.2/10 変化 中くらい。'), s);
     assert.ok(!s.includes('6.233333333333334'), s);
     // 6.2 vs the printed mean 6.23: below
     assert.ok(s.includes('全体平均（6.23）を下回る'), s);
@@ -117,7 +117,7 @@ describe('buildAiFactSummary', () => {
 
   test('leads with the score, rank, and vs-mean direction', () => {
     const s = buildAiFactSummary(base);
-    assert.ok(s.startsWith('看護師のAI影響度は4.1/10。'), s);
+    assert.ok(s.startsWith('看護師のAI影響度は4.1/10 変化 中くらい。'), s);
     assert.ok(s.includes('全556職業を影響度の高い順に並べると306位'), s);
     assert.ok(s.includes('全体平均（4.24）を下回る'), s);
   });
@@ -192,7 +192,7 @@ describe('GEO page fact summaries', () => {
       }],
     };
     const s = buildOccupationGeoFactSummary({ facts, occupationId: 4 });
-    assert.ok(s.includes('DのAI影響度は9.2/10'), s);
+    assert.ok(s.includes('DのAI影響度は9.2/10 変化 大きい'), s);
     assert.ok(s.includes('AI影響度の高い順では1/4位'), s);
     assert.ok(s.includes('全体平均5.42/10を上回る水準'), s);
     assert.ok(s.includes('仕事が減るリスクは8.0/10'), s);
@@ -210,7 +210,7 @@ describe('GEO page fact summaries', () => {
       }],
     };
     const s = buildOccupationGeoFactSummary({ facts, occupationId: 4 });
-    assert.ok(s.includes('DのAI影響度は5.4/10'), s);
+    assert.ok(s.includes('DのAI影響度は5.4/10 変化 中くらい'), s);
     assert.ok(s.includes('全体平均5.42/10を下回る水準'), s);
     assert.ok(s.includes('仕事が減るリスクは4.0/10で、業務の再設計が進みやすい中程度のリスクです。'), s);
   });
@@ -223,8 +223,8 @@ describe('GEO page fact summaries', () => {
       occupationIds: [3, 1, 3],
     });
     assert.ok(s.includes('表示する2職業を同じ口径で集計すると、平均AI影響度は4.25/10、就業者合計は700人'), s);
-    assert.ok(s.includes('先頭のCはAI影響度7.0/10'), s);
-    assert.ok(s.includes('最も低いAは1.5/10'), s);
+    assert.ok(s.includes('先頭のCはAI影響度7.0/10 変化 大きい'), s);
+    assert.ok(s.includes('最も低いAは1.5/10 変化 小さい'), s);
   });
 
   test('compare summary cites both sides, the gap, and the two-job aggregate', () => {
@@ -233,7 +233,7 @@ describe('GEO page fact summaries', () => {
       subjectJa: 'A vs D',
       occupationIds: [1, 4],
     });
-    assert.ok(s.includes('AはAI影響度1.5/10、Dは9.2/10'), s);
+    assert.ok(s.includes('AはAI影響度1.5/10 変化 小さい、Dは9.2/10 変化 大きい'), s);
     assert.ok(s.includes('差は7.7ポイント'), s);
     assert.ok(s.includes('2職業の平均AI影響度は5.35/10、就業者合計は1,100人'), s);
   });
@@ -261,7 +261,7 @@ describe('GEO page fact summaries', () => {
     });
     // tofu-vs-pan: 4.3 vs 4.4 printed, raw difference 0.1667
     const tofu = pair(4.266666666666667, 4.433333333333334);
-    assert.ok(tofu.includes('XはAI影響度4.3/10、Yは4.4/10です。差は0.1ポイントで、Yの方がXよりAI影響度が高い比較です。'), tofu);
+    assert.ok(tofu.includes('XはAI影響度4.3/10 変化 中くらい、Yは4.4/10 変化 中くらいです。差は0.1ポイントで、Yの方がXよりAI影響度が高い比較です。'), tofu);
     // data-scientist-vs-ai-engineer: 6.4 vs 5.3 printed, raw difference 1.1667
     assert.ok(pair(6.433333333333334, 5.266666666666667).includes('差は1.1ポイントで、Xの方がYより'));
     // yochien-vs-hoikushi: 3.3 vs 3.2 printed, raw difference 0.0333 printed "0.0 … 高い"

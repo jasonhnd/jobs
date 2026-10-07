@@ -118,9 +118,9 @@ describe('renderEscapeRouteSection', () => {
     assert.ok(html.includes(`<span class="ec-reason">${escaped}</span>`));
     assert.ok(html.includes(`「${escaped}」`));
     assert.equal((html.match(/class="ec-sector"/g) ?? []).length, 1);
-    assert.match(html, /class="risk-pill low">AI 3\.1\/10<\/span>/);
+    assert.match(html, /class="risk-pill low">AI 3\.1\/10 変化 小さい<\/span>/);
     // 4.0 is mid on the site rule (#864); the pill was hard-coded low.
-    assert.match(html, /class="risk-pill mid">AI 4\/10<\/span>/);
+    assert.match(html, /class="risk-pill mid">AI 4\/10 変化 中くらい<\/span>/);
     assert.ok(!html.includes(raw));
     assert.ok(html.endsWith('</ul></section>'));
   });

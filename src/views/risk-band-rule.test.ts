@@ -14,13 +14,12 @@ import { strict as assert } from 'node:assert';
 
 import { displayScore } from '../data/lib/banker-round.js';
 import { riskBand, type RiskBand } from '../data/lib/bands.js';
-import { riskClass } from '../lib/risk.js';
+import { RISK_BAND_WORD, riskClass } from '../lib/risk.js';
 import { pickRiskOneLineCallout } from '../lib/risk-callout.js';
 import { buildOccupationSeo } from './occupation-seo.js';
 import { buildOccupationFaqs } from './occupation-faqs.js';
 import { buildSectorFaqs } from './sector-faqs.js';
 
-const SEO_WORD: Record<RiskBand, string> = { low: '低め', mid: '中程度', high: '高め' };
 const FAQ1_WORD: Record<RiskBand, string> = {
   low: '低めで、AI に代替されにくい職業',
   mid: '中程度で、業務の一部が AI 補助に移行する可能性',
@@ -91,7 +90,7 @@ describe('one band rule (#631)', () => {
     for (const x of SWEEP) {
       const want = expectedBand(x);
       assert.ok(
-        seoDescription(x).includes(`AI影響度は10段階中${displayScore(x)}と${SEO_WORD[want]}です。`),
+        seoDescription(x).includes(`AI影響度は${displayScore(x)}/10 ${RISK_BAND_WORD[want]}です。`),
         `seo(${x})`,
       );
     }

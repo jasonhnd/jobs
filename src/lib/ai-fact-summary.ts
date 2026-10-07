@@ -18,6 +18,7 @@
  */
 import type { Aiois10 } from '../graph/types.js';
 import { bankerRound, displayScore } from '../data/lib/banker-round.js';
+import { riskBandWord } from './risk.js';
 import { SCORE_PANEL } from '../site/score-attribution.js';
 import { formatConsensusCitation } from '../site/consensus-copy.js';
 import {
@@ -100,7 +101,7 @@ export function buildAiFactSummary(input: AiFactInput): string {
   const parts: string[] = [];
 
   // 1. Headline number + rank + vs mean. Words follow the printed numbers (#864).
-  let lead = `${nameJa}のAI影響度は${fmtScore(aiRisk)}/10。`;
+  let lead = `${nameJa}のAI影響度は${scoreWithBand(aiRisk)}。`;
   if (rank !== null && total > 0) {
     const vsMean =
       displayScore(aiRisk) >= bankerRound(meanRisk, 2)
@@ -173,6 +174,12 @@ function fmtScore(n: number): string {
   return displayScore(n).toFixed(1);
 }
 
+/** One-decimal score plus the signed band word: `8.1/10 変化 大きい`. */
+function scoreWithBand(n: number): string {
+  const word = riskBandWord(n);
+  return word ? `${fmtScore(n)}/10 ${word}` : `${fmtScore(n)}/10`;
+}
+
 function fmtScore2(n: number): string {
   return bankerRound(n, 2).toFixed(2);
 }
@@ -203,7 +210,7 @@ export function buildOccupationGeoFactSummary(input: OccupationGeoFactInput): st
   const relative = displayScore(occupation.aiImpact) >= facts.meanAiImpact ? '上回る' : '下回る';
   const parts: string[] = [
     `${occupation.nameJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
-      `${occupation.nameJa}のAI影響度は${fmtScore(occupation.aiImpact)}/10です。` +
+      `${occupation.nameJa}のAI影響度は${scoreWithBand(occupation.aiImpact)}です。` +
       `AI影響度の高い順では${occupation.aiImpactRank}/${facts.occupationCount}位で、` +
       `全体平均${fmtScore2(facts.meanAiImpact)}/10を${relative}水準です。`,
   ];
@@ -264,9 +271,9 @@ export function buildOccupationSetGeoFactSummary(input: OccupationSetGeoFactInpu
     `${subjectJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データから、` +
     `この${pageKindJa}で表示する${summary.occupationCount}職業を同じ口径で集計すると、` +
     `平均AI影響度は${fmtScore2(summary.meanAiImpact)}/10、就業者合計は${fmtInt(summary.totalWorkforce)}人です。` +
-    `先頭の${first.nameJa}はAI影響度${fmtScore(first.aiImpact)}/10、` +
-    `最もAI影響度が高い${highest.nameJa}は${fmtScore(highest.aiImpact)}/10、` +
-    `最も低い${lowest.nameJa}は${fmtScore(lowest.aiImpact)}/10です。` +
+    `先頭の${first.nameJa}はAI影響度${scoreWithBand(first.aiImpact)}、` +
+    `最もAI影響度が高い${highest.nameJa}は${scoreWithBand(highest.aiImpact)}、` +
+    `最も低い${lowest.nameJa}は${scoreWithBand(lowest.aiImpact)}です。` +
     geoSource()
   );
 }
@@ -293,7 +300,7 @@ export function buildCompareGeoFactSummary(input: CompareGeoFactInput): string {
 
   return (
     `${subjectJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
-    `${a.nameJa}はAI影響度${fmtScore(a.aiImpact)}/10、${b.nameJa}は${fmtScore(b.aiImpact)}/10です。` +
+    `${a.nameJa}はAI影響度${scoreWithBand(a.aiImpact)}、${b.nameJa}は${scoreWithBand(b.aiImpact)}です。` +
     `差は${fmtScore(diff)}ポイントで、${comparison}` +
     `2職業の平均AI影響度は${fmtScore2(summary.meanAiImpact)}/10、就業者合計は${fmtInt(summary.totalWorkforce)}人です。` +
     geoSource()

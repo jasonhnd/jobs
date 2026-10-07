@@ -1,10 +1,12 @@
 import type { GeoFacts } from './geo-facts.js';
+import { riskBandWord } from '../lib/risk.js';
 import { formatScoreFixed1 } from '../lib/score-format.js';
 
 export interface HomeKpiView {
   readonly occupationCount: string;
   readonly workforceMan: string;
   readonly meanAiImpact: string;
+  readonly meanBand: string;
   readonly highImpactCount: string;
   readonly highImpactWagesTrillion: string;
   readonly bands: Readonly<Record<string, { count: string; sharePct: string }>>;
@@ -15,6 +17,7 @@ export function buildHomeKpiView(facts: GeoFacts): HomeKpiView {
     occupationCount: String(facts.occupationCount),
     workforceMan: Math.round(facts.totalWorkforce / 10_000).toLocaleString('en-US'),
     meanAiImpact: formatScoreFixed1(facts.meanAiImpactRaw),
+    meanBand: riskBandWord(facts.meanAiImpactRaw) ?? '',
     highImpactCount: String(facts.highImpactCount),
     highImpactWagesTrillion: facts.highImpactAnnualWagesTrillion.toFixed(1),
     bands: Object.fromEntries(facts.fiveBandDistribution.map((band) => [
@@ -31,6 +34,7 @@ export function bindHomeFacts(template: string, facts: GeoFacts): string {
     ['__OCCUPATION_COUNT_SCORED__', view.occupationCount],
     ['__ACTIVE_BATCH_WORKFORCE_MAN__', view.workforceMan],
     ['__ACTIVE_BATCH_MEAN_AI_IMPACT__', view.meanAiImpact],
+    ['__ACTIVE_BATCH_MEAN_BAND__', view.meanBand],
     ['__ACTIVE_BATCH_HIGH_IMPACT_COUNT__', view.highImpactCount],
     ['__ACTIVE_BATCH_HIGH_IMPACT_WAGES_TRILLION__', view.highImpactWagesTrillion],
   ]);

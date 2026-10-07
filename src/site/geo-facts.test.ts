@@ -254,9 +254,9 @@ describe('displayed-value rule for KPI bands and counts (#864)', () => {
     assert.equal(bandOf(4.566666666666666), '5-6'); // prints 4.6
   });
 
-  test('「影響≥5」 counts a mean that prints 5.0, and its wages', () => {
-    const facts = factsFor([4.966666666666667, 4.933333333333334, 5.2]);
-    assert.equal(facts.highImpactCount, 2); // 5.0 and 5.2; 4.9 stays out
+  test('「影響≥7」 counts a mean that prints 7.0, and its wages', () => {
+    const facts = factsFor([6.966666666666667, 6.94, 7.2]);
+    assert.equal(facts.highImpactCount, 2); // 7.0 and 7.2; 6.9 stays out
     assert.equal(facts.highImpactAnnualWagesTrillion, 0.001); // 2 × 500万円 × 100人
   });
 

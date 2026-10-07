@@ -86,6 +86,7 @@ describe('buildIdPageBindings', () => {
     assert.equal(bindings.verdict.scored, true);
     assert.equal(bindings.verdict.showShare, true);
     assert.equal(bindings.verdict.transformationDisp, '8.2');
+    assert.equal(bindings.verdict.bandWord, '変化 大きい');
     assert.equal(bindings.verdict.displacementDisp, '1.8');
     assert.equal(bindings.verdict.sentence, 'Rationale & <text>');
     assert.equal(bindings.verdict.facts, '年収 約519万円 · 就業者 約69万人 · 月155h');
@@ -144,6 +145,7 @@ describe('buildIdPageBindings', () => {
     assert.equal(bindings.verdict.scored, false);
     assert.equal(bindings.verdict.showShare, false);
     assert.equal(bindings.verdict.transformationDisp, '未採点');
+    assert.equal(bindings.verdict.bandWord, null);
     assert.equal(bindings.verdict.displacementDisp, null);
     assert.equal(bindings.verdict.latestObs, null);
     assert.equal(bindings.prevDelta, null);
@@ -190,6 +192,7 @@ describe('buildIdPageBindings', () => {
     assert.ok(!body.includes('&lt;tail&gt;'));
     assert.ok(body.includes('x'.repeat(240)));
     assert.equal(bindings.verdict.transformationDisp, '0');
+    assert.equal(bindings.verdict.bandWord, '変化 小さい');
     assert.equal(bindings.verdict.scored, true);
     assert.equal(bindings.riskTierJs, 'low');
     assert.equal(bindings.verdict.doors[0]?.href, '#sec-aiois');
@@ -285,7 +288,7 @@ describe('buildVerdictDoors', () => {
       { href: '#sec-similar', label: '似た仕事', kind: 'ghost' },
     ]);
   });
-  test('low <5 targets なぜ守られやすいか + 似た仕事', () => {
+  test('low <4.0 targets なぜ守られやすいか + 似た仕事', () => {
     const doors = buildVerdictDoors({ risk: 3.6, hasTransfer: true });
     assert.deepEqual(doors, [
       { href: '#sec-aiois', label: 'なぜ守られやすいか', kind: 'solid' },
@@ -302,7 +305,9 @@ describe('buildVerdictDoors', () => {
     assert.equal(buildVerdictDoors({ risk: 6.966666666666667, hasTransfer: true })[0]?.label, 'AIで変わる作業を見る'); // prints 7.0
     assert.equal(buildVerdictDoors({ risk: 6.933333333333334, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 6.9
     assert.equal(buildVerdictDoors({ risk: 4.966666666666667, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 5.0
-    assert.equal(buildVerdictDoors({ risk: 4.933333333333334, hasTransfer: true })[0]?.label, 'なぜ守られやすいか'); // prints 4.9
+    assert.equal(buildVerdictDoors({ risk: 4.933333333333334, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 4.9
+    assert.equal(buildVerdictDoors({ risk: 3.9666666666666663, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 4.0
+    assert.equal(buildVerdictDoors({ risk: 3.9333333333333336, hasTransfer: true })[0]?.label, 'なぜ守られやすいか'); // prints 3.9
   });
   test('mid uses スコアの中身', () => {
     assert.equal(buildVerdictDoors({ risk: 5.5, hasTransfer: false })[0]?.label, 'スコアの中身');

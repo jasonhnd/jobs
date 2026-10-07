@@ -38,7 +38,7 @@ describe('renderInterestItem', () => {
     assert.match(got, /<span class="rmini-score">S 4\.82<\/span>/);
     assert.match(got, /<span class="rl-salary">500万円<\/span>/);
     assert.match(got, /<span class="rl-workers">100人<\/span>/);
-    assert.match(got, /<span class="risk-pill low">3\.6\/10<\/span>/);
+    assert.match(got, /<span class="risk-pill low">3\.6\/10 変化 小さい<\/span>/);
     assert.match(got, /<span class="rl-chevron" aria-hidden="true">›<\/span>/);
     assert.equal(got.includes('class="rl-name" href='), false);
     assert.equal([...got.matchAll(/<a /g)].length, 1);

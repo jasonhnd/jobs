@@ -228,11 +228,12 @@ export const MAP_PAGE_CSS = `
     main { max-width: var(--content-max); margin: 0 auto; padding: 16px var(--gutter) 96px; }
     @media (max-width: 599px) { main { padding: 16px var(--gutter) 96px; } }
     .legend {
-      display: flex; align-items: center; gap: 12px;
+      display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2);
       margin: 4px 0 18px;
       font-size: var(--t-xs); color: var(--fg2);
       letter-spacing: 0.02em;
     }
+    .legend-words { display: inline-flex; flex-wrap: wrap; gap: var(--s-2); }
     .legend .swatches { display: inline-flex; gap: 2px; height: 10px; border-radius: var(--r-sm); overflow: hidden; }
     .legend .swatches span { width: 14px; }
     .sector-section { margin-bottom: 28px; }

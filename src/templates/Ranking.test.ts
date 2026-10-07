@@ -125,7 +125,7 @@ describe('renderRankItem', () => {
       '<span class="rl-meta">医療・福祉 · <span class="rl-salary">500万円</span> · <span class="rl-workers">1,500,000人</span></span>' +
       '</span>' +
       '<span class="rl-end">' +
-      '<span class="risk-pill low">3/10</span>' +
+      '<span class="risk-pill low">3/10 変化 小さい</span>' +
       '<span class="rl-chevron" aria-hidden="true">›</span>' +
       '</span>' +
       '</a>' +
@@ -147,7 +147,7 @@ describe('renderRankItem', () => {
       '<span class="rl-meta"><span class="rl-extra">初任給 30万円</span> · <span class="rl-workers">100人</span></span>' +
       '</span>' +
       '<span class="rl-end">' +
-      '<span class="risk-pill high">8/10</span>' +
+      '<span class="risk-pill high">8/10 変化 大きい</span>' +
       '<span class="rl-chevron" aria-hidden="true">›</span>' +
       '</span>' +
       '</a>' +
@@ -216,8 +216,8 @@ describe('renderRankingSummary', () => {
     const got = renderRankingSummary(items);
     assert.equal(
       got,
-      `<p class="rk-sum">1位は<strong>データ入力</strong>（<strong>9.4/10</strong>）` +
-      ` · TOP2平均 <strong>8.3/10</strong> · ${monthLabel}更新</p>`,
+      `<p class="rk-sum">1位は<strong>データ入力</strong>（<strong>9.4/10 変化 大きい</strong>）` +
+      ` · TOP2平均 <strong>8.3/10 変化 大きい</strong> · ${monthLabel}更新</p>`,
     );
   });
 
@@ -227,7 +227,7 @@ describe('renderRankingSummary', () => {
       makeOcc({ title_ja: 'Y', ai_risk: 4 }),
     ]);
     assert.match(got, /（<strong>—<\/strong>）/);
-    assert.match(got, /TOP2平均 <strong>4\.0\/10<\/strong>/);
+    assert.match(got, /TOP2平均 <strong>4\.0\/10 変化 中くらい<\/strong>/);
   });
 
   test('escapes the occupation name', () => {
@@ -252,7 +252,7 @@ describe('renderHighlights', () => {
 
   test('ai-risk-high snapshot has the AI影響 phrasing', () => {
     const got = renderHighlights(fakeRanking(), 'ai-risk-high');
-    assert.match(got, /1位は「TopJob」（AI影響度 3\/10）/);
+    assert.match(got, /1位は「TopJob」（AI影響度 3\/10 変化 小さい）/);
     assert.match(got, /医療・福祉.*セクターが.*2件と最多/);
     assert.match(got, /平均年収は400万円/);
   });
