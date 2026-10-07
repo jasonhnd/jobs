@@ -96,18 +96,39 @@ describe('check-score-batch CLI', () => {
     expect(output()).toContain('is NOT newer than existing max');
   });
 
-  test('reports missing coverage and extra scored ids', async () => {
+  test('reports missing coverage', async () => {
     const p = writeBatch((b) => {
       const ids = Object.keys(b.scores);
-      const sample = b.scores[ids[0]!];
       delete b.scores[ids[0]!];
-      b.scores['99999999'] = sample;
     });
     expect(await runCli(p)).toBe(0);
-    const o = output();
-    expect(o).toMatch(/missing \d+:/);
-    expect(o).toContain('have no occupation file: 99999999');
+    expect(output()).toMatch(/missing \d+:/);
   });
+
+  test('fails on scored ids that have no occupation file', async () => {
+    const p = writeBatch((b) => {
+      const ids = Object.keys(b.scores);
+      b.scores['99999999'] = b.scores[ids[0]!];
+    });
+    expect(await runCli(p)).toBe(1);
+    expect(output()).toContain('FAIL — 1 scored id(s) have no occupation file: 99999999');
+  });
+
+  test('fails on an empty scores map', async () => {
+    const p = writeBatch((b) => { b.scores = {}; });
+    expect(await runCli(p)).toBe(1);
+    expect(output()).toContain('FAIL — scores is empty');
+    expect(output()).not.toContain('NaN');
+  });
+
+  for (const runDate of ['not-a-date', '2026-10-7', '2026-02-30', '2999-99-99']) {
+    test(`fails on a run_date that is not a real YYYY-MM-DD date (${runDate})`, async () => {
+      const p = writeBatch((b) => { b.run.run_date = runDate; });
+      expect(await runCli(p)).toBe(1);
+      expect(output()).toContain(`FAIL — run.run_date must be a real YYYY-MM-DD date, got "${runDate}"`);
+      expect(output()).not.toContain('newer than all');
+    });
+  }
 
   test('marks a backfill batch and skips the freshness comparison', async () => {
     const p = writeBatch((b) => { b.run.backfill = true; });
