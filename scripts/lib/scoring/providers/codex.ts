@@ -14,8 +14,9 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { spawn, spawnSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 
+import { CLI_CALL_TIMEOUT_MS, parseCallTimeoutMs, runCliProcess } from '../cli-spawn.js';
 import { SCORE_OUTPUT_JSON_SCHEMA } from '../contract.js';
 import type { AskOptions, PrepareRunContext, ProviderResponse, RunPreparation, ScoringProvider } from '../provider.js';
 
@@ -26,6 +27,8 @@ export type CodexReasoningEffort = (typeof CODEX_REASONING_EFFORTS)[number];
 
 /** Set by prepareRun from --reasoning-effort; null keeps the frozen gpt-5.6-sol argv. */
 let reasoningEffortForRun: CodexReasoningEffort | null = null;
+/** Set by prepareRun from --call-timeout-sec. */
+let callTimeoutMsForRun = CLI_CALL_TIMEOUT_MS;
 
 export interface CodexModelProbeResult {
   readonly command: readonly string[];
@@ -105,41 +108,34 @@ export function probeCodexVersion(): string {
   return (res.stdout || res.stderr || '').trim();
 }
 
-export const runCodexExec = (prompt: string, options: AskOptions): Promise<ProviderResponse> =>
-  new Promise((resolveExec) => {
-    if (!options.outputSchemaPath) {
-      resolveExec({
-        exitCode: 1,
-        stdout: '',
-        stderr: 'codex provider requires outputSchemaPath (prepareRun did not run)',
-        rawText: '',
-      });
-      return;
-    }
-    const cmd = buildCodexExecArgs({ ...options, outputSchemaPath: options.outputSchemaPath, reasoningEffort: reasoningEffortForRun });
-
-    const child = spawn('codex', cmd, { cwd: options.cwd, stdio: ['pipe', 'pipe', 'pipe'] });
-    let stdout = '';
-    let stderr = '';
-    child.stdout.setEncoding('utf8');
-    child.stderr.setEncoding('utf8');
-    child.stdout.on('data', (chunk) => {
-      stdout += chunk;
-    });
-    child.stderr.on('data', (chunk) => {
-      stderr += chunk;
-    });
-    child.on('error', (err) => {
-      resolveExec({ exitCode: 1, stdout, stderr: `${stderr}\n${err.message}`.trim(), rawText: stdout });
-    });
-    child.on('close', (code) => {
-      const rawText = existsSync(options.outputLastMessagePath)
-        ? readFileSync(options.outputLastMessagePath, 'utf8')
-        : stdout;
-      resolveExec({ exitCode: code ?? 1, stdout, stderr, rawText });
-    });
-    child.stdin.end(prompt, 'utf8');
-  });
+export async function runCodexExec(
+  prompt: string,
+  options: AskOptions,
+  timeoutMs: number = callTimeoutMsForRun,
+): Promise<ProviderResponse> {
+  if (!options.outputSchemaPath) {
+    return {
+      exitCode: 1,
+      stdout: '',
+      stderr: 'codex provider requires outputSchemaPath (prepareRun did not run)',
+      rawText: '',
+    };
+  }
+  const cmd = buildCodexExecArgs({ ...options, outputSchemaPath: options.outputSchemaPath, reasoningEffort: reasoningEffortForRun });
+  const res = await runCliProcess('codex', cmd, { cwd: options.cwd, input: prompt, timeoutMs });
+  if (res.timedOut) {
+    // Only the timeout text is classified, so partial stderr cannot turn a
+    // retryable transport failure into another kind.
+    return { exitCode: 1, stdout: res.stdout, stderr: res.error ?? 'codex timed out', rawText: '' };
+  }
+  if (res.error) {
+    return { exitCode: 1, stdout: res.stdout, stderr: `${res.stderr}\n${res.error}`.trim(), rawText: res.stdout };
+  }
+  const rawText = existsSync(options.outputLastMessagePath)
+    ? readFileSync(options.outputLastMessagePath, 'utf8')
+    : res.stdout;
+  return { exitCode: res.exitCode ?? 1, stdout: res.stdout, stderr: res.stderr, rawText };
+}
 
 export const codexProvider: ScoringProvider = {
   name: 'codex',
@@ -149,11 +145,13 @@ export const codexProvider: ScoringProvider = {
 
   preflight(ctx: PrepareRunContext): void {
     parseReasoningEffort(ctx.options['reasoning-effort']);
+    parseCallTimeoutMs(ctx.options['call-timeout-sec']);
     assertCodexModelSupport(probeCodexModelSupport());
   },
 
   prepareRun(ctx: PrepareRunContext): RunPreparation {
     reasoningEffortForRun = parseReasoningEffort(ctx.options['reasoning-effort']);
+    callTimeoutMsForRun = parseCallTimeoutMs(ctx.options['call-timeout-sec']);
     const outputSchemaPath = join(ctx.runDir, 'codex-score.schema.json');
     writeFileSync(outputSchemaPath, `${JSON.stringify(SCORE_OUTPUT_JSON_SCHEMA, null, 2)}\n`);
     const probe = probeCodexModelSupport();
@@ -164,10 +162,11 @@ export const codexProvider: ScoringProvider = {
         status: probe.status,
         reasoning_effort: reasoningEffortForRun,
         reasoning_effort_source: reasoningEffortForRun ? 'cli-flag' : 'inherited-from-user-config',
+        call_timeout_sec: callTimeoutMsForRun / 1000,
         codex_version: probeCodexVersion(),
       },
     };
   },
 
-  ask: runCodexExec,
+  ask: (prompt: string, options: AskOptions) => runCodexExec(prompt, options),
 };
