@@ -196,3 +196,38 @@ describe('Cross-dict invariants', () => {
     }
   });
 });
+
+describe('PAGE_CARDS counts follow their lists (#884)', () => {
+  test('each hub card states the current number of entries', async () => {
+    const G = await import('./genre-configs.js');
+    const { CAREER_PERSONAS } = await import('./careers-meta.js');
+    const { LICENSE_HUBS } = await import('./licenses-meta.js');
+    const { QA_ITEMS } = await import('./qa-meta.js');
+    const { SKILL_META } = await import('./skills-meta.js');
+    const expected: Record<string, number> = {
+      rankings: RANKING_META.length,
+      compare: COMPARE_META.length,
+      skills: SKILL_META.length,
+      abilities: G.ABILITIES_CONFIGS.length,
+      knowledge: G.KNOWLEDGE_CONFIGS.length,
+      values: G.VALUES_CONFIGS.length,
+      education: G.EDUCATION_CONFIGS.length,
+      training: G.TRAINING_CONFIGS.length,
+      'work-styles': G.WORK_STYLES_CONFIGS.length,
+      'employment-types': G.EMPLOYMENT_CONFIGS.length,
+      'life-balance': G.LIFE_BALANCE_CONFIGS.length,
+      'entry-paths': G.ENTRY_PATHS_CONFIGS.length,
+      careers: CAREER_PERSONAS.length,
+      licenses: LICENSE_HUBS.length,
+      qa: QA_ITEMS.length,
+    };
+    for (const [slug, n] of Object.entries(expected)) {
+      const card = PAGE_CARDS[slug]!;
+      const eyebrowCount = Number(card.eyebrow.match(/(\d+)/)?.[1]);
+      assert.equal(eyebrowCount, n, `${slug} eyebrow "${card.eyebrow}"`);
+    }
+    assert.match(PAGE_CARDS.rankings!.subtitle, new RegExp(`^${RANKING_META.length} 視点`));
+    assert.match(PAGE_CARDS.compare!.subtitle, new RegExp(` ${COMPARE_META.length} ペア`));
+    assert.match(PAGE_CARDS.qa!.subtitle, new RegExp(` ${QA_ITEMS.length} 質問`));
+  });
+});
