@@ -38,6 +38,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { parse } = require('@babel/parser');
 
 const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, 'src');
@@ -164,178 +165,190 @@ function walkFiles(dir, predicate) {
   return out;
 }
 
-/** A string-literal argument: '…', "…" or `…`. For a template literal with
- *  `${…}` only the static prefix is known; it is still worth judging (a
- *  prefix of `../templates/` already names the forbidden layer). */
-const STRING_ARG = String.raw`\s*\(\s*(?:'([^'\n]*)'|"([^"\n]*)"|` + '`([^`]*)`' + String.raw`)`;
+// Imports are read from a real AST (#881). The hand-written comment / regex
+// tokenizer this replaces had to guess whether a `/` opened a regex literal,
+// and every guess had a counter-example that blanked real code — e.g.
+// `if (true) /[//]/.test('x'); const fs = require('fs');` hid the require
+// (review of #875). @babel/parser has no such guess: comments are not in the
+// AST, and a string or regex that merely contains `require('fs')` is a
+// literal, never a call.
+//
+// What is parsed (same split as scripts/lib/analytics-spec/ast.ts):
+//   .ts .tsx .mts .cts .js .jsx .mjs .cjs   the whole file
+//   .astro                                  the frontmatter and each JS `<script>` body
+// Any other extension (.json, .css, …) holds no module references.
+//
+// Fail closed: a region that does not parse, and a `require()` / `import()`
+// whose argument is not a string literal, are violations with file:line.
 
-function stringArg(m, first) {
-  if (m[first] !== undefined) return { target: m[first], isPrefix: false };
-  if (m[first + 1] !== undefined) return { target: m[first + 1], isPrefix: false };
-  const tpl = m[first + 2];
-  const hole = tpl.indexOf('${');
-  return hole === -1 ? { target: tpl, isPrefix: false } : { target: tpl.slice(0, hole), isPrefix: true };
+/** `<script type="…">` that is not JS (JSON-LD and the like) — not parsed. */
+const NON_JS_SCRIPT = /(?:^|\s)type\s*=\s*["']?(?!(?:text\/javascript|module|application\/javascript)["'\s>])[^"'\s>]+/i;
+
+/** 1-based line of a character offset. */
+function lineAt(source, offset) {
+  let line = 1;
+  for (let i = 0; i < offset; i += 1) if (source.charCodeAt(i) === 10 /* \n */) line += 1;
+  return line;
+}
+
+/** The JS regions of an .astro file: frontmatter plus each JS `<script>` body.
+ *  `<!-- … -->` and `{/* … *\/}` comments in the markup are skipped, so a
+ *  commented-out `<script>` is not read. */
+function astroRegions(source) {
+  const regions = [];
+  let from = 0;
+  const front = source.match(/^\s*---[^\n]*\n/);
+  if (front) {
+    const close = source.indexOf('\n---', front[0].length - 1);
+    const end = close < 0 ? source.length : close + 1;
+    regions.push({ start: front[0].length, code: source.slice(front[0].length, end) });
+    from = close < 0 ? end : end + 3;
+  }
+  const tag = /<!--|\{\s*\/\*|<script\b([^>]*)>/gi;
+  tag.lastIndex = from;
+  for (let m = tag.exec(source); m; m = tag.exec(source)) {
+    if (m[0] === '<!--' || m[0].startsWith('{')) {
+      const closer = m[0] === '<!--' ? '-->' : '*/';
+      const end = source.indexOf(closer, m.index + m[0].length);
+      tag.lastIndex = end < 0 ? source.length : end + closer.length;
+      continue;
+    }
+    const bodyStart = m.index + m[0].length;
+    if (/\/\s*$/.test(m[1] || '')) continue; // `<script … />` (Astro set:html) has no body
+    const close = source.slice(bodyStart).search(/<\/script\s*>/i);
+    const bodyEnd = close < 0 ? source.length : bodyStart + close;
+    if (!NON_JS_SCRIPT.test(m[1] || '')) regions.push({ start: bodyStart, code: source.slice(bodyStart, bodyEnd) });
+    tag.lastIndex = bodyEnd;
+  }
+  return regions;
+}
+
+/** Parser plugins for a file, or null if the extension holds no JS. */
+function pluginsFor(file) {
+  if (/\.[cm]?ts$/.test(file)) return ['typescript'];
+  if (file.endsWith('.tsx')) return ['typescript', 'jsx'];
+  if (/\.(?:[cm]?js|jsx)$/.test(file)) return ['jsx'];
+  if (file.endsWith('.astro')) return ['typescript'];
+  return null;
+}
+
+const NOT_CHILDREN = new Set([
+  'type', 'start', 'end', 'loc', 'range', 'extra',
+  'leadingComments', 'trailingComments', 'innerComments', 'comments',
+]);
+
+/** Depth-first visit of every node, type annotations included (an
+ *  `import('…')` type is a module reference too). */
+function visitNodes(node, visit) {
+  visit(node);
+  for (const key of Object.keys(node)) {
+    if (NOT_CHILDREN.has(key)) continue;
+    const value = node[key];
+    const children = Array.isArray(value) ? value : [value];
+    for (const child of children) {
+      if (child && typeof child.type === 'string') visitNodes(child, visit);
+    }
+  }
+}
+
+/** The module a `require()` / `import()` argument names, or null when it is
+ *  not a literal. A template literal with `${…}` holes is not a literal: even a
+ *  harmless-looking prefix (`../lib/${n}`) can step into a forbidden layer. */
+function callTarget(arg) {
+  if (arg && arg.type === 'StringLiteral') return arg.value;
+  if (arg && arg.type === 'TemplateLiteral' && arg.expressions.length === 0) return arg.quasis[0].value.cooked;
+  return null;
+}
+
+/** `require(…)` or `module.require(…)`. */
+function isRequireCall(node) {
+  const { callee } = node;
+  if (callee.type === 'Identifier') return callee.name === 'require';
+  return callee.type === 'MemberExpression' && !callee.computed &&
+    callee.object.type === 'Identifier' && callee.object.name === 'module' &&
+    callee.property.type === 'Identifier' && callee.property.name === 'require';
+}
+
+/** Module references in one parsed program. */
+function collectReferences(program, imports, problems) {
+  const add = (node, target, isTypeOnly) =>
+    imports.push({ line: node.loc.start.line, target, isTypeOnly });
+  visitNodes(program, (node) => {
+    switch (node.type) {
+      case 'ImportDeclaration':
+        add(node, node.source.value, node.importKind === 'type');
+        break;
+      case 'ExportNamedDeclaration':
+      case 'ExportAllDeclaration':
+        if (node.source) add(node, node.source.value, node.exportKind === 'type');
+        break;
+      case 'TSImportEqualsDeclaration':
+        if (node.moduleReference.type === 'TSExternalModuleReference') {
+          add(node, node.moduleReference.expression.value, node.importKind === 'type');
+        }
+        break;
+      case 'TSImportType': {
+        // `import('…').T` in a type position: erased at runtime, but the
+        // function walk below still follows it like any type-only import.
+        const arg = node.argument.type === 'TSLiteralType' ? node.argument.literal : node.argument;
+        if (arg.type === 'StringLiteral') add(node, arg.value, true);
+        break;
+      }
+      case 'ImportExpression':
+      case 'CallExpression': {
+        const isImport = node.type === 'ImportExpression' || node.callee.type === 'Import';
+        const isRequire = node.type === 'CallExpression' && isRequireCall(node);
+        if (!isImport && !isRequire) break;
+        const kind = isImport ? 'import()' : 'require()';
+        const target = callTarget(node.type === 'ImportExpression' ? node.source : node.arguments[0]);
+        if (target !== null) add(node, target, false);
+        else problems.push({
+          line: node.loc.start.line,
+          message: `non-literal ${kind} argument — the gate cannot tell which module it loads.\n` +
+            '    Use a string literal (a template literal must have no `${…}` holes).',
+        });
+        break;
+      }
+      default:
+        break;
+    }
+  });
 }
 
 /**
- * Extract every module reference from a TS / JS / Astro source. Returns array
- * of { line, target, isTypeOnly, isPrefix }.
- *
- * Covers static imports (single- and multi-line), re-exports, bare
- * side-effect imports, dynamic `import()` and CommonJS `require()`.
- *
- * Implementation: scan the WHOLE source with the `s` flag on the static-
- * import regex so `[^'"]*` can match across newlines between `import` and
- * `from`. Track each match's starting line via offset → line lookup.
+ * Extract every module reference from a TS / JS / Astro source. Returns
+ * { imports: [{ line, target, isTypeOnly }], problems: [{ line, message }] }.
+ * `problems` are fail-closed violations: unparseable code or a non-literal
+ * `require()` / `import()` argument.
  */
-// Comments are blanked before scanning so prose such as
-// "// const fs = require('fs')" is not read as an import. A small tokenizer
-// walks the source: string, template and regex literals are copied verbatim
-// (so '@/lib/*' or /\/\// never open a comment), and only the characters
-// inside `//…` and `/*…*/` become spaces. Code after a closed block comment
-// survives, and newlines are kept so reported line numbers stay exact.
-// Template `${…}` holes are copied as part of the literal (fail-closed: an
-// import mentioned there is still scanned).
-
-/** A `/` after one of these (or at the start) begins a regex literal, not a division. */
-const REGEX_PRECEDERS = new Set('(,=:[!&|?{};+-*%<>~^'.split(''));
-const REGEX_KEYWORDS = /(?:^|[^\w$])(?:return|typeof|case|do|else|in|of|new|delete|void|throw|yield|await)$/;
-
-function regexAllowed(out) {
-  let k = out.length - 1;
-  while (k >= 0 && /\s/.test(out[k])) k -= 1;
-  if (k < 0) return true;
-  return REGEX_PRECEDERS.has(out[k]) || REGEX_KEYWORDS.test(out.slice(Math.max(0, k - 9), k + 1));
-}
-
-/** Index just past a quoted literal starting at `i`. '…' and "…" stop at a newline. */
-function skipQuoted(src, i) {
-  const quote = src[i];
-  let j = i + 1;
-  while (j < src.length) {
-    const c = src[j];
-    if (c === '\\') { j += 2; continue; }
-    if (c === quote) return j + 1;
-    if (c === '\n' && quote !== '`') return j;
-    j += 1;
-  }
-  return j;
-}
-
-/** Index just past a regex literal starting at `i`, or -1 if it is not one. */
-function skipRegex(src, i) {
-  let j = i + 1;
-  let inClass = false;
-  while (j < src.length) {
-    const c = src[j];
-    if (c === '\n') return -1;
-    if (c === '\\') { j += 2; continue; }
-    if (c === '[') inClass = true;
-    else if (c === ']') inClass = false;
-    else if (c === '/' && !inClass) return j + 1;
-    j += 1;
-  }
-  return -1;
-}
-
-function blankComments(source) {
-  let out = '';
-  let i = 0;
-  while (i < source.length) {
-    const c = source[i];
-    const next = source[i + 1];
-    let end = -1;
-    if (c === '/' && next === '/') {
-      end = source.indexOf('\n', i);
-      if (end === -1) end = source.length;
-      out += ' '.repeat(end - i);
-    } else if (c === '/' && next === '*') {
-      const close = source.indexOf('*/', i + 2);
-      end = close === -1 ? source.length : close + 2;
-      out += source.slice(i, end).replace(/[^\n]/g, ' ');
-    } else if (c === "'" || c === '"' || c === '`') {
-      end = skipQuoted(source, i);
-      out += source.slice(i, end);
-    } else if (c === '/' && regexAllowed(out)) {
-      end = skipRegex(source, i);
-      if (end !== -1) out += source.slice(i, end);
+function extractImports(source, file) {
+  const imports = [];
+  const problems = [];
+  const plugins = pluginsFor(file);
+  if (plugins === null) return { imports, problems };
+  const regions = file.endsWith('.astro') ? astroRegions(source) : [{ start: 0, code: source }];
+  for (const region of regions) {
+    let ast;
+    try {
+      ast = parse(region.code, {
+        sourceType: 'unambiguous',
+        plugins,
+        startLine: lineAt(source, region.start),
+        allowReturnOutsideFunction: true,
+        allowAwaitOutsideFunction: true,
+        allowImportExportEverywhere: true,
+        allowUndeclaredExports: true,
+        errorRecovery: false,
+      });
+    } catch (err) {
+      const line = err.loc ? err.loc.line : lineAt(source, region.start);
+      const message = String(err.message).replace(/\s*\(\d+:\d+\)$/, '');
+      problems.push({ line, message: `cannot parse: ${message}\n    The gate cannot see this file's imports; fix the syntax.` });
+      continue;
     }
-    if (end === -1) {
-      out += c;
-      i += 1;
-    } else {
-      i = end;
-    }
+    collectReferences(ast.program, imports, problems);
   }
-  return out;
-}
-
-function extractImports(rawSource) {
-  const out = [];
-  const source = blankComments(rawSource);
-
-  // Pre-compute line-start offsets for {start-offset → line-number} lookup.
-  const lineStarts = [0];
-  for (let i = 0; i < source.length; i += 1) {
-    if (source.charCodeAt(i) === 10 /* \n */) lineStarts.push(i + 1);
-  }
-  const offsetToLine = (off) => {
-    let lo = 0;
-    let hi = lineStarts.length - 1;
-    while (lo < hi) {
-      const mid = (lo + hi + 1) >>> 1;
-      if (lineStarts[mid] <= off) lo = mid;
-      else hi = mid - 1;
-    }
-    return lo + 1;
-  };
-
-  // Static imports (single-line OR multi-line, with optional `type`):
-  //   import [type] { a, b, c } from '...';
-  //   import [type] * as x from '...';
-  //   import [type] default, { a } from '...';
-  // The `m` flag makes `^` match line-start so we only catch real import
-  // statements (not the word "import" used inside docstrings). The
-  // `[^'"]*?` portion can still span newlines (newlines are inside the
-  // negated char class) so multi-line imports work.
-  //
-  // 2026-05-14 Phase D audit lesson: the previous regex used
-  // `(^|[\s;])import` which allowed `import` to be preceded by any
-  // whitespace including a newline. That false-matched docstring
-  // sentences like "templates cannot import view-layer values" when the
-  // file's next actual import was a `from '../views/...'`. Anchoring to
-  // line-start with the `m` flag fixes this cleanly.
-  // An import may also follow another statement on the same line
-  // (`export const a = 1; import { b } from './b.js';`).
-  const staticRe = /(?:^|;)[ \t]*import\s+(type\s+)?[^'"]*?from\s*['"]([^'"]+)['"]/gm;
-  let m;
-  while ((m = staticRe.exec(source)) !== null) {
-    out.push({ line: offsetToLine(m.index), target: m[2], isTypeOnly: !!m[1], isPrefix: false });
-  }
-
-  // Re-export forms: `export { x } from '...'` / `export * from '...'` /
-  // `export * as ns from '...'`. The bundler walks these EXACTLY like an
-  // `import ... from` for dependency-graph purposes, so the gate must too.
-  const reexportRe = /(?:^|;)[ \t]*export\s+(type\s+)?(?:\{[^}]*\}|\*(?:\s+as\s+\w+)?)\s+from\s*['"]([^'"]+)['"]/gm;
-  while ((m = reexportRe.exec(source)) !== null) {
-    out.push({ line: offsetToLine(m.index), target: m[2], isTypeOnly: !!m[1], isPrefix: false });
-  }
-
-  // Bare side-effect imports: `import '...';`
-  const bareRe = /(^|[\s;])import\s*['"]([^'"]+)['"]/g;
-  while ((m = bareRe.exec(source)) !== null) {
-    const fromIdx = m.index + m[1].length;
-    out.push({ line: offsetToLine(fromIdx), target: m[2], isTypeOnly: false, isPrefix: false });
-  }
-
-  // Dynamic imports `import('…')` and CommonJS `require('…')`, including
-  // template-literal arguments. Both put a module on the runtime graph.
-  const callRe = new RegExp(String.raw`\b(?:import|require)` + STRING_ARG, 'g');
-  while ((m = callRe.exec(source)) !== null) {
-    out.push({ line: offsetToLine(m.index), ...stringArg(m, 1), isTypeOnly: false });
-  }
-
-  return out;
+  return { imports, problems };
 }
 
 // ─── import resolution ───────────────────────────────────────────
@@ -443,7 +456,7 @@ function resolveImport(fromDir, spec) {
 
 /** Where an import points, for the layer rules. Unlike resolveImport this
  *  never gives up on a local specifier: a target that does not exist (yet)
- *  or a template-literal prefix still names a directory, and an `@/x`
+ *  still names a directory, and an `@/x`
  *  without a tsconfig alias is read as `src/x` so it cannot hide a layer.
  *  Returns { file } for a local path or { builtin } for a bare specifier. */
 function importTarget(fromFile, imp) {
@@ -455,7 +468,6 @@ function importTarget(fromFile, imp) {
   else if (spec.startsWith('src/')) base = path.join(ROOT, spec);
   else if (spec.startsWith('/')) base = path.join(ROOT, spec);
   if (base === null) return { builtin: spec.replace(/^node:/, '') };
-  if (imp.isPrefix) return { file: base };
   if (spec.startsWith('@/')) {
     for (const candidate of aliasCandidates(spec)) {
       const hit = probeFile(candidate);
@@ -506,8 +518,12 @@ function checkLayerRules() {
     console.log(`[check-architecture] ${rule.layer} — scanning ${files.length} files`);
     for (const file of files) {
       const rel = path.relative(ROOT, file);
-      const source = fs.readFileSync(file, 'utf-8');
-      for (const imp of extractImports(source)) {
+      const { imports, problems } = extractImports(fs.readFileSync(file, 'utf-8'), file);
+      for (const { line, message } of problems) {
+        console.error(`  ✗ ${rel}:${line}\n    ${message}`);
+        layerViolations += 1;
+      }
+      for (const imp of imports) {
         // type-only imports never trigger boundary violations (TS-only construct)
         if (imp.isTypeOnly) continue;
         const resolved = importTarget(file, imp);
@@ -613,16 +629,17 @@ function walkImportClosure(entryFile) {
   // extension is one the probe does not know. Collected and reported as a
   // failure rather than a brittle "expected N deps" floor.
   const unresolved = [];
+  // Unparseable files and non-literal require()/import() in the closure.
+  const problems = [];
   const queue = [entryFile];
   while (queue.length > 0) {
     const file = queue.shift();
     if (visited.has(file)) continue;
     visited.add(file);
     if (!fs.existsSync(file)) continue;
-    const source = fs.readFileSync(file, 'utf-8');
-    for (const imp of extractImports(source)) {
-      // An interpolated template literal names no single file to follow.
-      if (imp.isPrefix) continue;
+    const extracted = extractImports(fs.readFileSync(file, 'utf-8'), file);
+    for (const problem of extracted.problems) problems.push({ ...problem, from: path.relative(ROOT, file) });
+    for (const imp of extracted.imports) {
       const resolved = resolveImport(path.dirname(file), imp.target);
       if (resolved) {
         if (!visited.has(resolved)) queue.push(resolved);
@@ -631,7 +648,7 @@ function walkImportClosure(entryFile) {
       }
     }
   }
-  return { visited, unresolved };
+  return { visited, unresolved, problems };
 }
 
 function checkFunctionTsxDeps() {
@@ -653,8 +670,12 @@ function checkFunctionTsxDeps() {
       functionViolations += 1;
       continue;
     }
-    const { visited: closure, unresolved } = walkImportClosure(entry);
+    const { visited: closure, unresolved, problems } = walkImportClosure(entry);
     console.log(`[check-architecture] function entry ${entryRel} — scanning ${closure.size - 1} transitive deps`);
+    for (const { from, line, message } of problems) {
+      console.error(`  ✗ ${from}:${line} (reachable from function entry ${entryRel})\n    ${message}`);
+      functionViolations += 1;
+    }
     for (const { spec, from } of unresolved) {
       console.error(`  ✗ ${from}`);
       console.error(`    unresolvable import \`${spec}\` reachable from function entry ${entryRel}.`);
