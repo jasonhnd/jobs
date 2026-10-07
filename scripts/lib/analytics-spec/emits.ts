@@ -84,6 +84,7 @@ function visit(ctx: Context, v: Visit): void {
       return analyseWrapperCall(ctx, node);
     }
   }
+  if (node.type === 'TSImportEqualsDeclaration') checkImportAlias(ctx, node);
   if (node.type === 'BinaryExpression') checkBranch(ctx, node);
   const name = referencedName(node, v.parent as AnyNode | null, v.key);
   if (!name) return;
@@ -201,6 +202,22 @@ function isAllowedDataLayerReference(node: AnyNode, v: Visit): boolean {
     return args.length === 1 && args[0]!.type === 'Identifier' && args[0]!.name === 'arguments';
   }
   return false;
+}
+
+/**
+ * `import send = analytics.gtag` binds a runtime alias the gate cannot follow.
+ * The walk does not enter the qualified name (a `TS*` node), so every segment
+ * is checked here: gtag, dataLayer and the declared wrapper are rejected.
+ */
+function checkImportAlias(ctx: Context, node: AnyNode): void {
+  const watched = new Set(['gtag', 'dataLayer', ...(ctx.site?.wrapper ? [ctx.site.wrapper] : [])]);
+  for (let ref = node.moduleReference as AnyNode; ; ref = ref.left as AnyNode) {
+    const id = (ref.type === 'TSQualifiedName' ? ref.right : ref) as AnyNode;
+    if (id.type === 'Identifier' && watched.has(id.name as string)) {
+      unreadable(ctx, ref, `${id.name} is aliased with \`import … =\`, which the gate cannot follow`);
+    }
+    if (ref.type !== 'TSQualifiedName') return;
+  }
 }
 
 function isWrapperCallOrDefinition(node: AnyNode, v: Visit): boolean {
