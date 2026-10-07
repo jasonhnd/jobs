@@ -23,7 +23,7 @@ import { ImageResponse } from '@vercel/og';
 import { createElement as h } from 'react';
 import { displayScore } from '../../data/lib/banker-round.js';
 import {
-  RISK_COLORS,
+  riskColorFor,
   loadGoogleFont,
   fmtNumber,
   padId,
@@ -98,7 +98,7 @@ export async function renderOccupationOgCard(
   const rec = detailParsed.data;
 
   const risk = rec.ai_risk?.score ?? null;
-  const riskColor = risk != null ? (RISK_COLORS[Math.round(risk)] ?? DEFAULT_RISK_COLOR) : DEFAULT_RISK_COLOR;
+  const riskColor = risk != null && Number.isFinite(risk) ? riskColorFor(risk) : DEFAULT_RISK_COLOR;
   const primaryName = rec.title?.ja ?? '';
   const { workersLabel, salaryLabel } = statLabels(
     rec.stats?.workers ?? null,

@@ -24,6 +24,7 @@ import {
   WorktypesProjectionSchema,
 } from "./projection-schemas.js";
 import { RISK_BAND_HEX } from "./design-tokens.js";
+import { displayScoreStep } from "../data/lib/banker-round.js";
 
 import { fetchWithTimeout } from './http-client.js';
 
@@ -44,6 +45,15 @@ export const RISK_COLORS: Record<number, string> = {
   7: RISK_BAND_HEX[3], 8: RISK_BAND_HEX[3],                        // --risk-3 — high
   9: RISK_BAND_HEX[4], 10: RISK_BAND_HEX[4],                       // --risk-4 — max
 };
+
+/**
+ * Card colour for a per-occupation score: the RISK_COLORS step of the
+ * DISPLAYED value (#864). `Math.round(raw)` coloured 4.4667 (prints 4.5) one
+ * band below 4.5333 (also prints 4.5).
+ */
+export function riskColorFor(score: number): string {
+  return RISK_COLORS[displayScoreStep(score)]!;
+}
 
 /** Sector hue → Direction C accent color for the OG card border. */
 export const SECTOR_HUE_COLOR: Record<string, string> = {
