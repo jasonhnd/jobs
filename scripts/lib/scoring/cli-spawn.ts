@@ -56,6 +56,7 @@ export function parseCallTimeoutMs(raw: string | undefined): number {
 const IS_WINDOWS = process.platform === 'win32';
 const FORWARDED_SIGNALS = ['SIGINT', 'SIGTERM', 'SIGHUP'] as const;
 type ForwardedSignal = (typeof FORWARDED_SIGNALS)[number];
+const TREE_POLL_MS = 50;
 
 /** Signal the child's whole tree. Errors (tree already gone) are ignored. */
 function killTree(child: ChildProcess, signal: NodeJS.Signals): void {
@@ -68,7 +69,20 @@ function killTree(child: ChildProcess, signal: NodeJS.Signals): void {
       process.kill(-pid, signal);
     }
   } catch {
-    // ESRCH: every process in the group has exited.
+    // ESRCH: every process in the group has exited. macOS reports EPERM for a
+    // group whose only member is an unreaped zombie, which is gone too.
+  }
+}
+
+/** True while any process of the child's tree may still run (always true on Windows). */
+function treeAlive(child: ChildProcess): boolean {
+  if (child.pid === undefined) return false;
+  if (IS_WINDOWS) return true;
+  try {
+    process.kill(-child.pid, 0);
+    return true;
+  } catch {
+    return false;
   }
 }
 
@@ -81,14 +95,16 @@ function onRunnerSignal(signal: ForwardedSignal): void {
   stopping = true;
   const trees = [...liveTrees];
   for (const [child] of trees) killTree(child, signal);
-  const graceMs = Math.max(0, ...trees.map(([, ms]) => ms));
-  setTimeout(() => {
+  const deadline = Date.now() + Math.max(0, ...trees.map(([, ms]) => ms));
+  const poll = setInterval(() => {
+    if (Date.now() < deadline && trees.some(([child]) => treeAlive(child))) return;
+    clearInterval(poll);
     for (const [child] of trees) killTree(child, 'SIGKILL');
     liveTrees.clear();
     uninstallHandlers();
     // Without other listeners the default action ends the runner as the signal would have.
     if (process.listenerCount(signal) === 0) process.kill(process.pid, signal);
-  }, graceMs);
+  }, TREE_POLL_MS);
 }
 
 function onRunnerExit(): void {
