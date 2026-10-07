@@ -121,8 +121,8 @@ button,input{font:inherit}
 .shindan-gap-meter-top{display:flex;justify-content:space-between;gap:12px;color:var(--fg2);font-size:var(--t-xs);margin-bottom:6px;font-variant-numeric:tabular-nums}
 .shindan-gap-track{height:12px;background:var(--bg3);border:1px solid var(--border);border-radius:999px;overflow:hidden}
 .shindan-gap-track span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .2s ease}
-.shindan-gap-card[data-gap="hidden_strength"] .shindan-gap-track span{background:#6E9B89}
-.shindan-gap-card[data-gap="hidden_risk"] .shindan-gap-track span{background:#C95A3A}
+.shindan-gap-card[data-gap="hidden_strength"] .shindan-gap-track span{background:var(--accent-2)}
+.shindan-gap-card[data-gap="hidden_risk"] .shindan-gap-track span{background:var(--red)}
 .shindan-gap-reading{margin:0 0 8px;color:var(--fg);font-size:var(--t-sm);line-height:1.7}
 .shindan-gap-action{margin:0;color:var(--fg2);font-size:var(--t-sm);line-height:1.7}
 .shindan-gap-links{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;margin-top:14px}

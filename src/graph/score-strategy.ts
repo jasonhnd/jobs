@@ -26,6 +26,7 @@
  */
 
 import { fmean } from '../data/lib/fsum.js';
+import { scoreUnits } from '../data/lib/score-compare.js';
 
 export interface ScoreHistEntry {
   model: string;
@@ -196,9 +197,10 @@ function selectRationale(
   panel: readonly ScoreHistEntry[],
   transformation: number,
 ): ScoreHistEntry {
-  const within = panel.filter(
-    (e) => Math.abs(e.aiois!.transformation - transformation) <= RATIONALE_TOLERANCE,
-  );
+  // Distances in integer units: 4.1 vs a mean of 3.8 is exactly 0.3, not 0.30000000000000027.
+  const distance = (e: ScoreHistEntry): number => scoreUnits(Math.abs(e.aiois!.transformation - transformation));
+  const tolerance = scoreUnits(RATIONALE_TOLERANCE);
+  const within = panel.filter((e) => distance(e) <= tolerance);
   if (within.length > 0) {
     let best = within[0]!;
     for (let i = 1; i < within.length; i += 1) {
@@ -207,10 +209,10 @@ function selectRationale(
     return best;
   }
   let best = panel[0]!;
-  let bestDist = Math.abs(best.aiois!.transformation - transformation);
+  let bestDist = distance(best);
   for (let i = 1; i < panel.length; i += 1) {
     const entry = panel[i]!;
-    const dist = Math.abs(entry.aiois!.transformation - transformation);
+    const dist = distance(entry);
     if (dist < bestDist || (dist === bestDist && preferNewerThenModel(entry, best))) {
       best = entry;
       bestDist = dist;

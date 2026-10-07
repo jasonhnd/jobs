@@ -84,6 +84,27 @@ function spacedFreeIndex(k: number, need: number, poolLength: number, taken: Rea
  * allow it (named/special picks above a band quota can push the total a few
  * entries over `size` — the runbook bound 30–50 is enforced by the caller).
  */
+/** One `data/scores/occupations_*.json` file, as read for baseline selection. */
+export interface BatchCandidate {
+  readonly path: string;
+  readonly scope?: string;
+  readonly runDate: string;
+  readonly hasAiois: boolean;
+  readonly backfill: boolean;
+}
+
+/**
+ * Newest occupations batch that carries AIOIS-10 vectors and is not a
+ * backfill. A backfill batch is history only (docs/CONSENSUS_SCORE.md) and
+ * must never become the pilot baseline, even when its run_date is newest.
+ */
+export function selectLatestAioisBatch(candidates: readonly BatchCandidate[]): string | null {
+  const eligible = candidates
+    .filter((c) => c.scope === 'occupations' && c.hasAiois && c.runDate && !c.backfill)
+    .sort((a, b) => (a.runDate < b.runDate ? 1 : a.runDate > b.runDate ? -1 : 0));
+  return eligible[0]?.path ?? null;
+}
+
 export function pickPilotSample(entries: readonly BaselineEntry[], size: number): PilotSelection {
   const reasons = new Map<number, string[]>();
   const addPick = (id: number, reason: string): void => {
@@ -167,20 +188,23 @@ if (import.meta.main) {
     const scoresDir = join(ROOT, 'data', 'scores');
     const candidates = readdirSync(scoresDir)
       .filter((f) => f.startsWith('occupations_') && f.endsWith('.json'))
-      .map((f) => {
+      .map((f): BatchCandidate => {
         const path = join(scoresDir, f);
         const parsed = JSON.parse(readFileSync(path, 'utf8')) as {
           scope?: string;
-          run?: { run_date?: string };
+          run?: { run_date?: string; backfill?: boolean };
           scores?: Record<string, { aiois?: unknown }>;
         };
         const hasAiois = Object.values(parsed.scores ?? {}).some((s) => s?.aiois != null);
-        return { path, runDate: parsed.run?.run_date ?? '', scope: parsed.scope, hasAiois };
-      })
-      .filter((c) => c.scope === 'occupations' && c.hasAiois && c.runDate)
-      .sort((a, b) => (a.runDate < b.runDate ? 1 : a.runDate > b.runDate ? -1 : 0));
-    if (candidates.length === 0) fail('no AIOIS-10 occupations batch found in data/scores/');
-    return candidates[0]!.path;
+        return {
+          path,
+          runDate: parsed.run?.run_date ?? '',
+          scope: parsed.scope,
+          hasAiois,
+          backfill: parsed.run?.backfill === true,
+        };
+      });
+    return selectLatestAioisBatch(candidates) ?? fail('no AIOIS-10 occupations batch found in data/scores/');
   };
 
   // Every other flag takes a value; requiring one catches typos like

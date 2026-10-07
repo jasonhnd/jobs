@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-07T00:47:17.420Z",
-  "gitCommit": "0c5fb74cb071eda8d13149226b8bcb094e0d3490",
-  "gitBranch": "fix/display-value-thresholds",
+  "capturedAt": "2026-10-07T09:24:57.957Z",
+  "gitCommit": "4b0ef152fb3daa2d336dff77ac26de20a08ad1a6",
+  "gitBranch": "fix/score-data-float-boundaries",
   "distFileCount": 845,
   "urlCount": 845,
   "dataFileCount": 616,

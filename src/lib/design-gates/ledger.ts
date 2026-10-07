@@ -68,6 +68,15 @@ export function readLedger(root: string = process.cwd()): Surface[] {
     if (paths.length > 0) files.set(name, paths);
   }
 
+  // An unreadable ledger must not read as "no surface claims anything": every
+  // gate except coverage would then skip every file and report OK (#866).
+  if (states.size === 0) {
+    throw new Error(`[design-gates] ${LEDGER}: no surface state table could be parsed`);
+  }
+  if (files.size === 0) {
+    throw new Error(`[design-gates] ${LEDGER}: no surface file table could be parsed`);
+  }
+
   return [...states].map(([name, state]) => ({
     name,
     state,

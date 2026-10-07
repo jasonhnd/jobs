@@ -192,14 +192,16 @@ for (const [slug, key, minimum] of [
   });
 }
 
-test('graduate education sums masters and doctorate, including partially missing keys', () => {
+test('graduate education takes the larger of masters / doctorate (#863), including partially missing keys', () => {
   const run = (education_distribution?: Record<string, number> | null) =>
     runFilter(EDUCATION_CONFIGS, 'graduate-school-careers', { education_distribution });
   assert.equal(run(), null);
   assert.equal(run(null), null);
   assert.equal(run({}), null);
   assert.equal(run({ masters: 0.1, doctorate: 0.09 }), null);
-  assert.equal(run({ masters: 0.1, doctorate: 0.1 }), 0.2);
+  assert.equal(run({ masters: 0.1, doctorate: 0.1 }), null); // overlapping multi-answer shares do not add up
+  assert.equal(run({ masters: 0.2, doctorate: 0.1 }), 0.2);
+  assert.equal(run({ masters: 0.8, doctorate: 0.57 }), 0.8);
   assert.equal(run({ doctorate: 0.2 }), 0.2);
   assert.equal(run({ masters: 0.3 }), 0.3);
 });
