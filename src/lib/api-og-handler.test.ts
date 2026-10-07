@@ -61,7 +61,6 @@ if (process.env.OG_HANDLER_TEST_CHILD !== '1') {
         });
         const url = new URL(`https://example.test/api/og${query}`);
         const result = await GET(new Request(url));
-        assert.equal(result, response);
         assert.equal(result.status, 200);
         assert.equal(result.headers.get('content-type'), 'image/png');
         assert.equal(result.headers.get('cache-control'), cache);
@@ -111,15 +110,62 @@ if (process.env.OG_HANDLER_TEST_CHILD !== '1') {
       });
     }
 
-    test('HEAD returns the successful image headers without rendering', async () => {
+    // #861: @vercel/og renders inside the body stream, so a satori / resvg
+    // failure surfaces only while the body is read. GET must read it before
+    // answering, or the client gets a cached 200 and a broken stream.
+    for (const stage of ['first chunk', 'after a chunk'] as const) {
+      test(`lazy render failure (${stage}) becomes an uncached 503`, async (t) => {
+        failure = undefined;
+        const log = t.mock.method(console, 'error', () => {});
+        response = new Response(new ReadableStream<Uint8Array>({
+          pull(controller) {
+            if (stage === 'after a chunk' && !(controller as { sent?: boolean }).sent) {
+              (controller as { sent?: boolean }).sent = true;
+              controller.enqueue(new Uint8Array([0x89, 0x50, 0x4e, 0x47]));
+              return;
+            }
+            controller.error(new Error('Unsupported OpenType signature'));
+          },
+        }), { headers: { 'Content-Type': 'image/png' } });
+        const result = await GET(new Request('https://example.test/api/og?id=133'));
+        assert.equal(result.status, 503);
+        assert.equal(result.headers.get('retry-after'), '60');
+        assert.equal(result.headers.get('cache-control'), null);
+        assert.equal(await result.text(), 'OG render failed');
+        assert.deepEqual(log.mock.calls[0].arguments, ['[og] render failed: Unsupported OpenType signature']);
+      });
+    }
+
+    test('HEAD mirrors a successful GET: same status and headers, empty body', async () => {
       calls.length = 0;
-      failure = new Error('HEAD must not render');
-      const result = HEAD(new Request('https://example.test/api/og?id=invalid', { method: 'HEAD' }));
+      failure = undefined;
+      response = new Response('synthetic PNG', { headers: { 'Content-Type': 'image/png' } });
+      const result = await HEAD(new Request('https://example.test/api/og?id=133', { method: 'HEAD' }));
       assert.equal(result.status, 200);
       assert.equal(result.headers.get('content-type'), 'image/png');
       assert.equal(result.headers.get('cache-control'), cache);
       assert.equal(await result.text(), '');
-      assert.deepEqual(calls, []);
+      assert.equal(calls.length, 1);
+    });
+
+    for (const status of [404, 502]) {
+      test(`HEAD answers the same ${status} as GET, not a cached 200`, async () => {
+        failure = undefined;
+        response = new Response('upstream', { status, headers: { 'Content-Type': 'text/plain' } });
+        const result = await HEAD(new Request('https://example.test/api/og?sector=nope', { method: 'HEAD' }));
+        assert.equal(result.status, status);
+        assert.equal(result.headers.get('cache-control'), null);
+        assert.equal(await result.text(), '');
+      });
+    }
+
+    test('HEAD answers 503 when the render fails', async (t) => {
+      failure = new Error('synthetic render failure');
+      t.mock.method(console, 'error', () => {});
+      const result = await HEAD(new Request('https://example.test/api/og?page=map', { method: 'HEAD' }));
+      assert.equal(result.status, 503);
+      assert.equal(result.headers.get('cache-control'), null);
+      assert.equal(await result.text(), '');
     });
   });
 }

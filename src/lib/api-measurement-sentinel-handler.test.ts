@@ -238,6 +238,25 @@ if (process.env.SENTINEL_HANDLER_TEST_CHILD !== '1') {
         assert.equal(oidcCalls, 1);
       });
     }
+    // #861: headers arrive, then the body stalls. The deadline must cover the
+    // body read; shrink the 5 s / 10 s deadlines so the test stays fast.
+    for (const [stage, index, expected] of [
+      ['debug', 0, 'debug-endpoint:AbortError'],
+      ['report', 3, 'reconcile:AbortError'],
+    ] as const) {
+      test(`stalled ${stage} body times out with a redacted AbortError`, async () => {
+        const realSetTimeout = globalThis.setTimeout;
+        globalThis.setTimeout = ((fn: () => void) => realSetTimeout(fn, 5)) as typeof setTimeout;
+        try {
+          replies[index] = () => new Response(new ReadableStream<Uint8Array>({
+            start(controller) { controller.enqueue(new TextEncoder().encode('{"rows":')); },
+          }));
+          await assertFailure([expected], index + 1);
+        } finally {
+          globalThis.setTimeout = realSetTimeout;
+        }
+      });
+    }
     test('reconciliation network rejection is redacted', async () => {
       replies[1] = () => { throw new TypeError('private exception detail'); };
       await assertFailure(['reconcile:TypeError'], 2);
