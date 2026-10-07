@@ -186,7 +186,9 @@ export function findColourViolations(root: string = process.cwd()): ColourViolat
       // not a CSS colour — CSS never quotes one.
       const css = known ? value : value.replace(/(['"`])(?:\\.|(?!\1).)*\1/g, (q) => ' '.repeat(q.length));
       const bare = stripVars(css);
-      if (!RAW_COLOUR.test(bare)) continue;
+      // A drifted copy fails whatever replaced it — var() and color-mix()
+      // included — so it is recorded before the raw-colour filter.
+      if (copy !== 'drift' && !RAW_COLOUR.test(bare)) continue;
       // Neutral black/white shadows and highlights have no hue to tokenise.
       // Exempt only on the newly read properties, so nothing that failed
       // before #866 passes now.
