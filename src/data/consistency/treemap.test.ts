@@ -104,7 +104,41 @@ describe('treemap consistency with isolated dist fixtures', () => {
     await json('data.treemap.json', [{ ...record(1, 4), risk_band: null }]);
     const unstamped = new Report();
     await checkTreemap(root, unstamped);
-    assert.deepEqual(unstamped.errors, []);
+    assert.deepEqual(unstamped.errors, ['id=1 risk_band null != canonical "mid" (ai_risk=4)']);
+    await json('data.treemap.json', [{ ...record(1, null), risk_band: 'low' }]);
+    const stampedWithoutScore = new Report();
+    await checkTreemap(root, stampedWithoutScore);
+    assert.deepEqual(stampedWithoutScore.errors, ['id=1 risk_band "low" but ai_risk is null']);
+  });
+
+  test('treemap risk_band follows the displayed value at the band edges', async () => {
+    const rows = [
+      { ...record(1, 3.9667), risk_band: 'mid' },
+      { ...record(2, 6.9667), risk_band: 'high' },
+      { ...record(3, 3.9449), risk_band: 'low' },
+    ];
+    await json('data.treemap.json', rows);
+    const ok = new Report();
+    await checkTreemap(root, ok);
+    assert.deepEqual(ok.errors, []);
+    await json('data.treemap.json', [{ ...record(1, 3.9667), risk_band: 'low' }]);
+    const wrong = new Report();
+    await checkTreemap(root, wrong);
+    assert.deepEqual(wrong.errors, ['id=1 risk_band "low" != canonical "mid" (ai_risk=3.9667)']);
+  });
+
+  test('treemap fails when its record count differs from the source occupation count', async () => {
+    await json('data.treemap.json', []);
+    const empty = new Report();
+    await checkTreemap(root, empty, 556);
+    assert.deepEqual(empty.errors, ['treemap has 0 records but the source has 556 occupations']);
+    await json('data.treemap.json', [record(1), record(2)]);
+    const short = new Report();
+    await checkTreemap(root, short, 3);
+    assert.deepEqual(short.errors, ['treemap has 2 records but the source has 3 occupations']);
+    const exact = new Report();
+    await checkTreemap(root, exact, 2);
+    assert.deepEqual(exact.errors, []);
   });
 
   test('top10 orders equal risks by numeric ID and ignores unscored records', async () => {

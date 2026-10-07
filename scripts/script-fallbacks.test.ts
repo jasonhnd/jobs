@@ -23,6 +23,7 @@ function fixture(script: string): string {
 describe('assemble-scores fallback diagnostics', () => {
   test('warns for missing and malformed batches, inherits from latest valid non-backfill batch', () => {
     const dir = fixture('assemble-scores.ts');
+    symlinkSync(join(ROOT, 'scripts', 'lib'), join(dir, 'scripts', 'lib'), 'dir');
     symlinkSync(join(ROOT, 'src'), join(dir, 'src'), 'dir');
     symlinkSync(join(ROOT, 'node_modules'), join(dir, 'node_modules'), 'dir');
     mkdirSync(join(dir, 'data', 'occupations'), { recursive: true });
