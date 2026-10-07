@@ -144,8 +144,10 @@ export function decideDispatch(
     table: Readonly<Record<string, GenericCardConfig>>,
     slug: string,
   ): DispatchDecision => {
-    const cfg = table[slug];
-    return cfg ? { kind: 'render-generic', config: cfg } : homeCard();
+    // Own keys only: `table['constructor']` / `['__proto__']` resolve through
+    // Object.prototype and used to render a blank card cached for a day (#861).
+    if (!Object.hasOwn(table, slug)) return homeCard();
+    return { kind: 'render-generic', config: table[slug] };
   };
 
   // /map OG card uses the rich treemap-legend variant — special-case

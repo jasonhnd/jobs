@@ -14,9 +14,15 @@
  * "Bot"). Every modern AI / LLM / scanner bot is now enumerated
  * explicitly so `\bgptbot\b`, `\bbytespider\b`, etc. match the
  * standard `Mozilla/5.0 (compatible; XxxxBot/1.0)` shape.
+ *
+ * 2026-10-07 (#861): every AI_AGENT_UA_PATTERNS name must also be listed
+ * here (pinned by client-kind.test.ts). OAI-SearchBot, Claude-User,
+ * Claude-SearchBot, Perplexity-User, DuckAssistBot, MistralAI-User and
+ * YouBot were missing, so the middleware 301'd them away from the
+ * /shindan?job= share page.
  */
 export const BOT_UA_RE =
-  /\b(bot|crawler|spider|crawling|scrapy|scraper|scraping|curl|wget|httpie|postman|monitor|uptime|pingdom|datadog|newrelic|sentry|googlebot|bingbot|baiduspider|yandexbot|duckduckbot|applebot|petalbot|ahrefsbot|semrushbot|mj12bot|preview|prerender|chrome-lighthouse|headlesschrome|phantomjs|slimerjs|playwright|puppeteer|cypress|gptbot|chatgpt-user|bytespider|perplexitybot|anthropic-ai|claudebot|claude-web|cohere-ai|google-extended|meta-externalagent|amazonbot|linkedinbot|twitterbot|slackbot|discordbot|telegrambot|whatsapp|facebookexternalhit|ia_archiver|zgrab|nmap|masscan|censys|shodan|expansescanner|expanse|fetcher)\b/i;
+  /\b(bot|crawler|spider|crawling|scrapy|scraper|scraping|curl|wget|httpie|postman|monitor|uptime|pingdom|datadog|newrelic|sentry|googlebot|bingbot|baiduspider|yandexbot|duckduckbot|applebot|petalbot|ahrefsbot|semrushbot|mj12bot|preview|prerender|chrome-lighthouse|headlesschrome|phantomjs|slimerjs|playwright|puppeteer|cypress|gptbot|chatgpt-user|oai-searchbot|bytespider|perplexitybot|perplexity-user|anthropic-ai|claudebot|claude-web|claude-user|claude-searchbot|duckassistbot|mistralai-user|youbot|cohere-ai|google-extended|meta-externalagent|amazonbot|linkedinbot|twitterbot|slackbot|discordbot|telegrambot|whatsapp|facebookexternalhit|ia_archiver|zgrab|nmap|masscan|censys|shodan|expansescanner|expanse|fetcher)\b/i;
 
 /** True iff the User-Agent string matches a known bot, AI agents included. */
 export function isBotUserAgent(ua: string): boolean {
