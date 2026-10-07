@@ -104,24 +104,67 @@ function tokenPx(sizeToken: string): number | null {
   return px ? Number.parseFloat(px[1] ?? '0') : null;
 }
 
+/** A §4.7 row whose size or colour cell is not one token. */
+export interface MalformedRole {
+  readonly role: string;
+  readonly cell: string;
+  readonly reason: string;
+}
+
+export interface RoleTable {
+  readonly rows: readonly RoleRow[];
+  /** Rows the canon says have no single colour (文脈色, §2.3). */
+  readonly contextual: readonly string[];
+  /**
+   * Rows that could not be read. Until #866's review these were `continue`d
+   * past inside the parser, so `--t-body-copy` or a `color-mix(…)` colour cell
+   * made the whole role vanish before any check saw it.
+   */
+  readonly malformed: readonly MalformedRole[];
+}
+
+/** The colour column's documented non-token value (§2.3: depends on the band). */
+const CONTEXT_COLOUR = '文脈色';
+
 /** Parse §4.7 役割別 早見表 — | 役割 | サイズ | 書体 | 字重 | 色 | 備考 | */
-export function parseRoleTable(root: string = process.cwd()): RoleRow[] {
+export function readRoleTable(root: string = process.cwd()): RoleTable {
   const md = readFileSync(join(root, 'docs/Design.md'), 'utf-8').replace(/\r\n/g, '\n');
   const start = md.indexOf('## §4.7');
   const end = md.indexOf('## §4.8', start === -1 ? 0 : start);
   const section = start === -1 ? '' : md.slice(start, end === -1 ? undefined : end);
   const rows: RoleRow[] = [];
+  const contextual: string[] = [];
+  const malformed: MalformedRole[] = [];
+  // Every table row after the 役割 header, to the end of §4.7, is a role row.
+  let inTable = false;
   for (const line of section.split('\n')) {
-    if (!line.startsWith('|') || line.includes('---')) continue;
+    if (!line.startsWith('|')) continue;
     const c = line.split('|').slice(1, -1).map((x) => x.trim().replace(/\*\*/g, ''));
-    if (c.length < 5) continue;
-    const size = (c[1] ?? '').match(/`(--t-[a-z0-9]+)`/)?.[1];
-    const colour = (c[4] ?? '').match(/`(--[a-z0-9-]+)`/)?.[1];
-    if (size == null || colour == null) continue;
+    if (c[0] === '役割') { inTable = true; continue; }
+    if (!inTable || line.includes('---')) continue;
+    const role = c[0] ?? '';
+    if (c.length < 5) {
+      malformed.push({ role, cell: line, reason: `expected 6 columns, found ${c.length}` });
+      continue;
+    }
+    // Each cell must be exactly one backticked token — anything else is a
+    // row the checker cannot measure, and an unmeasured row is a failure.
+    const size = (c[1] ?? '').match(/^`(--t-[a-z0-9-]+)`$/)?.[1];
+    const colourCell = c[4] ?? '';
+    const colour = colourCell.match(/^`(--[a-z0-9-]+)`$/)?.[1];
+    if (size == null) malformed.push({ role, cell: c[1] ?? '', reason: 'size cell is not one `--t-*` token' });
+    if (colour == null && colourCell !== CONTEXT_COLOUR) {
+      malformed.push({ role, cell: colourCell, reason: `colour cell is not one \`--token\` (or ${CONTEXT_COLOUR})` });
+    }
+    if (size == null) continue;
+    if (colour == null) {
+      if (colourCell === CONTEXT_COLOUR) contextual.push(role);
+      continue;
+    }
     const weights = [...(c[3] ?? '').matchAll(/(\d{3})/g)].map((m) => Number(m[1]));
     const fam = (c[2] ?? '');
     rows.push({
-      role: c[0] ?? '',
+      role,
       sizeToken: size,
       family: fam.includes('serif') ? 'serif' : fam.includes('mono') ? 'mono' : 'sans',
       // 単一 (single weight) means serif; the canon writes no number there.
@@ -129,7 +172,12 @@ export function parseRoleTable(root: string = process.cwd()): RoleRow[] {
       colourToken: colour,
     });
   }
-  return rows;
+  return { rows, contextual, malformed };
+}
+
+/** The measurable rows of §4.7. Use readRoleTable to see the rest. */
+export function parseRoleTable(root: string = process.cwd()): RoleRow[] {
+  return [...readRoleTable(root).rows];
 }
 
 /** A role row the checker could not evaluate. */
@@ -156,7 +204,11 @@ export function auditContrast(root: string = process.cwd()): ContrastAudit {
   const problems: ContrastProblem[] = [];
   const unresolved: UnresolvedRole[] = [];
   let checked = 0;
-  for (const row of parseRoleTable(root)) {
+  const table = readRoleTable(root);
+  for (const m of table.malformed) {
+    unresolved.push({ role: m.role, token: m.cell, reason: m.reason });
+  }
+  for (const row of table.rows) {
     // --paper as a FOREGROUND is button text on a coloured fill; §2.2's table
     // covers foregrounds on the three page backgrounds only. The one
     // documented exception — everything else must resolve.

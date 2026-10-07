@@ -19,7 +19,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { readLedger, surfaceStateFor, type SurfaceState } from './ledger.js';
-import { blankInterpolations, stripComments, walkSource } from './scan.js';
+import { blankInterpolations, cleanSelector, stripComments, walkSource } from './scan.js';
 
 export interface HeadingViolation {
   readonly file: string;
@@ -93,24 +93,6 @@ function targetsHeading(selector: string): boolean {
     if (compounds.some((c) => /^summary(?![\w-])/i.test(c))) return false;
     return compoundIsHeading(compounds[compounds.length - 1] ?? '');
   });
-}
-
-/**
- * What precedes a rule's `{` up to the previous `;`/`}` can carry the opening
- * of a template literal or a `<style>` tag; the selector starts after them.
- */
-function cleanSelector(raw: string): { selector: string; offset: number } {
-  let offset = 0;
-  const cut = (re: RegExp): void => {
-    let last = -1;
-    for (const m of raw.matchAll(re)) last = (m.index ?? 0) + m[0].length;
-    if (last > offset) offset = last;
-  };
-  cut(/`/g);
-  cut(/<style[^>]*>/gi);
-  const rest = raw.slice(offset);
-  offset += rest.length - rest.trimStart().length;
-  return { selector: raw.slice(offset).trim().replace(/\s+/g, ' '), offset };
 }
 
 export function findHeadingRuleViolations(
