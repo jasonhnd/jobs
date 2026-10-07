@@ -55,11 +55,13 @@
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.63.0",
+    "@types/js-yaml": "^4",
     "@types/node": "^24.13.6",
     "@types/react": "^19.3.0",
     "esbuild": "0.28.2",
     "exceljs": "^4.4.0",
     "fontkitten": "1.0.3",
+    "js-yaml": "^4.3.2",
     "subset-font": "^2.9.0",
     "typescript": "^7.0.2"
   },

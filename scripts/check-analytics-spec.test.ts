@@ -1,6 +1,6 @@
 import { afterEach, describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -51,6 +51,8 @@ function fixture(): string {
     mkdirSync(dirname(join(root, file)), { recursive: true });
     copyFileSync(join(REPO, file), join(root, file));
   }
+  // spec.ts imports js-yaml; resolve it from the repository's install.
+  symlinkSync(join(REPO, 'node_modules'), join(root, 'node_modules'), 'dir');
   write(root, 'analytics/spec.yaml', spec());
   write(root, 'src/literal.ts',
     "gtag('event', 'literal_event', {item_id: 'fixture', page_title: 'A } title', value: {nested_key: true}});");
@@ -120,15 +122,38 @@ describe('check-analytics-spec CLI regression contract', () => {
     rejects(root, 'parsed zero event-scoped dimensions — the parser is broken.');
   });
 
-  test('rejects dimension contract violations, block scalars and property caps', () => {
+  test('rejects dimension contract violations and property caps', () => {
     const root = fixture();
     write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', `description: ${'x'.repeat(151)}`));
     rejects(root, /violates the GA4 Admin API dimension contract[\s\S]*description exceeds 150 characters/);
-    write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', 'description: |'));
-    rejects(root, 'uses a YAML block scalar for description.');
     write(root, 'analytics/spec.yaml', spec(events, Array.from({ length: 51 }, (_, i) => `dimension_${i}`)));
     rejects(root, 'declares 51 event-scoped dimensions, over the GA4 property cap of 50.');
   });
+
+  // setup-ga4.mjs reads spec.yaml with js-yaml; the gate must measure the same
+  // strings, or it passes descriptions that setup then rejects (audit P1-7).
+  const longText = Array.from({ length: 30 }, (_, i) => `word${i}`).join(' '); // 199 chars
+  for (const [label, yaml] of [
+    ['a multi-line plain scalar', `description: ${longText.slice(0, 60)}\n      ${longText.slice(61)}`],
+    ['a multi-line double-quoted scalar', `description: "${longText.slice(0, 60)}\n      ${longText.slice(61)}"`],
+    ['a keep-chomping folded block', `description: >+\n      ${longText}\n`],
+    ['an indentation-indicator literal block', `description: |2\n      ${longText}\n`],
+  ] as const) {
+    test(`measures ${label} the way setup-ga4.mjs (js-yaml) does`, () => {
+      const root = fixture();
+      write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', yaml));
+      rejects(root, /violates the GA4 Admin API dimension contract[\s\S]*description exceeds 150 characters/);
+    });
+  }
+
+  test('accepts a short block scalar and rejects invalid YAML', () => {
+    const root = fixture();
+    write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', 'description: |\n      Short text.'));
+    assert.equal(run(root).status, 0);
+    write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', 'description: "unterminated'));
+    rejects(root, 'analytics/spec.yaml is not valid YAML');
+  });
+
 
   test('rejects an undeclared dynamic call instead of silently skipping it', () => {
     const root = fixture();
