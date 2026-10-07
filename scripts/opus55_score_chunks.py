@@ -51,6 +51,7 @@ CHUNK_TIMEOUT_S = 3600
 # Time between SIGTERM and SIGKILL for claude's process group.
 KILL_GRACE_S = 5.0
 GROUP_POLL_S = 0.05
+STOP_SIGNALS = {getattr(signal, n) for n in ("SIGINT", "SIGTERM", "SIGHUP") if hasattr(signal, n)}
 
 
 def fail(msg: str) -> "None":
@@ -183,25 +184,31 @@ def kill_tree(proc: subprocess.Popen, grace_s: float) -> None:
     """SIGTERM claude's process group, SIGKILL it after grace_s, and reap claude.
 
     The group is SIGKILLed even if claude itself exits within the grace period,
-    because a grandchild that ignores SIGTERM can outlive it.
+    because a grandchild that ignores SIGTERM can outlive it. Stop signals are
+    held back while this runs, so a Ctrl-C or SIGTERM during the grace period
+    cannot skip the SIGKILL; it is raised once the group is gone.
     """
     if os.name == "nt":
         subprocess.run(["taskkill", "/PID", str(proc.pid), "/T", "/F"], capture_output=True)
         proc.wait()
         return
+    held = signal.pthread_sigmask(signal.SIG_BLOCK, STOP_SIGNALS)
     try:
-        os.killpg(proc.pid, signal.SIGTERM)
-        deadline = time.monotonic() + grace_s
-        while time.monotonic() < deadline:
-            proc.poll()  # reap claude so a zombie leader does not keep the group alive
-            os.killpg(proc.pid, 0)  # raises once every process in the group is gone
-            time.sleep(GROUP_POLL_S)
-        os.killpg(proc.pid, signal.SIGKILL)
-    except (ProcessLookupError, PermissionError):
-        # ESRCH: the group is gone. macOS reports EPERM for a group whose only
-        # member is an unreaped zombie, which is gone for our purposes too.
-        pass
-    proc.wait()
+        try:
+            os.killpg(proc.pid, signal.SIGTERM)
+            deadline = time.monotonic() + grace_s
+            while time.monotonic() < deadline:
+                proc.poll()  # reap claude so a zombie leader does not keep the group alive
+                os.killpg(proc.pid, 0)  # raises once every process in the group is gone
+                time.sleep(GROUP_POLL_S)
+            os.killpg(proc.pid, signal.SIGKILL)
+        except (ProcessLookupError, PermissionError):
+            # ESRCH: the group is gone. macOS reports EPERM for a group whose only
+            # member is an unreaped zombie, which is gone for our purposes too.
+            pass
+        proc.wait()
+    finally:
+        signal.pthread_sigmask(signal.SIG_SETMASK, held)
 
 
 def run_in_group(cmd: list[str], timeout_s: int, grace_s: float, **kwargs) -> int | None:
@@ -212,15 +219,26 @@ def run_in_group(cmd: list[str], timeout_s: int, grace_s: float, **kwargs) -> in
         # Detached from the terminal's Ctrl-C, so cleanup below must handle it.
         kwargs["start_new_session"] = True
     proc = subprocess.Popen(cmd, **kwargs)
+    settled = False
     try:
-        return proc.wait(timeout=timeout_s)
-    except subprocess.TimeoutExpired:
-        kill_tree(proc, grace_s)
-        return None
-    except BaseException:
-        # Ctrl-C (KeyboardInterrupt) or StopSignal: take the tree down, then stop.
-        kill_tree(proc, grace_s)
-        raise
+        try:
+            returncode = proc.wait(timeout=timeout_s)
+            settled = True
+            return returncode
+        except subprocess.TimeoutExpired:
+            kill_tree(proc, grace_s)
+            settled = True
+            return None
+        except BaseException:
+            # Ctrl-C (KeyboardInterrupt) or StopSignal: take the tree down, then stop.
+            kill_tree(proc, grace_s)
+            settled = True
+            raise
+    finally:
+        # A stop signal that landed before kill_tree held signals back skipped
+        # the cleanup above; SIGKILL the group now, with no grace period.
+        if not settled:
+            kill_tree(proc, 0.0)
 
 
 def run_chunk(
