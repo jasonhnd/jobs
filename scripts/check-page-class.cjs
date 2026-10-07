@@ -62,7 +62,11 @@ function walkSources(dir, results = []) {
 const VIOLATION_PATTERNS = [
   {
     name: ':root{} token re-declaration',
-    regex: /^[ \t]*:root\s*{/m,
+    // `:root` as an item of a selector list, wherever it sits: line start,
+    // `html,:root{`, minified `body{}:root{`, or inside a template literal.
+    // The old `^[ \t]*:root` form only caught it at the start of a line.
+    // `:root .x{}` (a descendant selector) declares no token and is allowed.
+    regex: /(?<![\w-]):root\s*(?:,[^{};]*)?\{/,
     hint: 'Tokens are emitted globally by canonical-css.ts via Footer.astro. Remove this :root{...} block.',
   },
   {
@@ -77,6 +81,24 @@ const VIOLATION_PATTERNS = [
   },
 ];
 
+// Comments are prose, not CSS: the source files document the rule itself
+// ("no :root, no raw values", "`:root{}` は canonical-css.ts 経由"). A `//`
+// preceded by `:` is a URL scheme (`https://`) and is kept.
+function stripComments(content) {
+  return content
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+}
+
+function findViolations(content) {
+  const code = stripComments(content);
+  const violations = [];
+  for (const { name, regex, hint } of VIOLATION_PATTERNS) {
+    if (regex.test(code)) violations.push({ rule: name, hint });
+  }
+  return violations;
+}
+
 function checkFile(relPath) {
   // 2026-05-17 CI medium fix: normalize Windows backslashes to POSIX
   // forward-slashes before comparing against EXCEPTIONS (which is
@@ -85,13 +107,7 @@ function checkFile(relPath) {
   const posixRel = relPath.split(path.sep).join('/');
   if (EXCEPTIONS.has(posixRel)) return [];
   const content = fs.readFileSync(path.join(PROJECT_ROOT, relPath), 'utf8');
-  const violations = [];
-  for (const { name, regex, hint } of VIOLATION_PATTERNS) {
-    if (regex.test(content)) {
-      violations.push({ file: relPath, rule: name, hint });
-    }
-  }
-  return violations;
+  return findViolations(content).map((violation) => ({ file: relPath, ...violation }));
 }
 
 // ─── §18.7 class membership ───────────────────────────────────────
@@ -184,4 +200,6 @@ function main() {
   process.exit(1);
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = { findViolations };
