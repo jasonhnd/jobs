@@ -19,6 +19,7 @@ import { riskClass } from '@/lib/risk';
 import { safeMean } from '@/lib/num';
 import { formatRiskScore, formatScoreFixed1 } from '../../lib/score-format.js';
 import { siteConfig } from '@/site/config';
+import { stringifyJsonLd } from '../../lib/json-for-script.js';
 
 const SITE = siteConfig.origin;
 
@@ -136,7 +137,7 @@ function renderRelatedQAs(related: ReadonlyArray<QAItem>): string {
 }
 
 function renderJsonLd(canonical: string, qa: QAItem, seoDesc: string): string {
-  return JSON.stringify({
+  return stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: qa.question, description: seoDesc, inLanguage: 'ja',
@@ -165,7 +166,7 @@ function renderJsonLd(canonical: string, qa: QAItem, seoDesc: string): string {
         { '@type': 'ListItem', position: 3, name: qa.question, item: canonical },
       ] },
     ],
-  }, null, 2);
+  }, 2);
 }
 
 export function buildQSlugBindings(

@@ -448,7 +448,12 @@ import { OCCUPATION_COUNT } from '@/site/config';
     function ensureData() {
       if (docs) return Promise.resolve();
       if (loadPromise) return loadPromise;
-      loadPromise = Promise.all([fetchJson(SEARCH_URL), fetchJson(SECTORS_URL)]).then(function (parts) {
+      // Sector names are decoration: a failed sectors file must not disable
+      // search (#884).
+      loadPromise = Promise.all([
+        fetchJson(SEARCH_URL),
+        fetchJson(SECTORS_URL).catch(function () { return null; })
+      ]).then(function (parts) {
         docs = (parts[0] && parts[0].documents) || [];
         var sectors = (parts[1] && parts[1].sectors) || [];
         sectorJa = {};
@@ -582,7 +587,12 @@ import { OCCUPATION_COUNT } from '@/site/config';
       setOpen(btn.getAttribute('aria-expanded') !== 'true');
     });
     closeBtn.addEventListener('click', function () { setOpen(false); });
-    input.addEventListener('input', function () { if (docs) render(); });
+    // Before the data is in (or after a failed load) typing retries the load
+    // instead of doing nothing until the overlay is reopened (#884).
+    input.addEventListener('input', function () {
+      if (docs) { render(); return; }
+      ensureData().then(render).catch(render);
+    });
 
     overlay.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;

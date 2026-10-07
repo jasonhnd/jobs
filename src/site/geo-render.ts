@@ -1,6 +1,7 @@
 import type { GeoAttribution, GeoFacts, GeoOccupationSummary, GeoSectorSummary } from './geo-facts.js';
 import { SCORE_PANEL } from './score-attribution.js';
 import { formatHomeFaqCurrentValue } from './consensus-copy.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 function fmtInt(n: number | null): string {
   return typeof n === 'number' ? n.toLocaleString('en-US') : 'unknown';
@@ -449,5 +450,5 @@ export function renderHomeJsonLd(facts: GeoFacts): string {
     },
   ];
 
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2) + '\n';
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2) + '\n';
 }

@@ -40,6 +40,7 @@ import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import { siteConfig } from '@/site/config';
 import { formatScoreFixed1 } from '@/lib/score-format';
+import { stringifyJsonLd } from '../../lib/json-for-script.js';
 
 const SITE = siteConfig.origin;
 
@@ -123,7 +124,7 @@ export function buildLicenseBindings(input: LicenseBindingsInput): LicenseBindin
     .join('') + '</ul>';
 
   const itemList = items.map((o, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}${occupationPath(o.id)}`, name: o.name_ja }));
-  const jsonLd = JSON.stringify({
+  const jsonLd = stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: hub.title_ja, description: seoDesc },
@@ -136,7 +137,7 @@ export function buildLicenseBindings(input: LicenseBindingsInput): LicenseBindin
       { '@type': 'ItemList', numberOfItems: itemList.length, itemListElement: itemList },
       { '@type': 'FAQPage', mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
     ],
-  }, null, 2);
+  }, 2);
 
   return {
     canonical, ogImage, title, seoDesc,

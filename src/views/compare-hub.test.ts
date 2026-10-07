@@ -93,7 +93,19 @@ test('compare equal and nearly equal values suppress difference notes', () => {
   assert.equal(result.rows[7]!.a_val, 'One、Two');
   assert.equal(result.faqItems.length, 4);
   assert.ok(result.faqItems[1]![1].includes('両者とも 4/10'));
-  assert.ok(result.faqItems[2]![1].includes('約 0 万円'));
+  // #884: a gap under 1 万円 used to print 「約 0 万円高い」.
+  assert.ok(!result.faqItems[2]![1].includes('約 0 万円'));
+  assert.ok(result.faqItems[2]![1].startsWith('両者の年収は同程度です（'));
+});
+
+test('compare salary FAQ says 同程度 when the gap truncates to 0 万円 (#884)', () => {
+  const result = firstPair(
+    { stats: { salary_man_yen: 500.9 } },
+    { stats: { salary_man_yen: 500.1 } },
+  );
+  const answer = result.faqItems.find(([q]) => q === '年収はどちらが高い？')![1];
+  assert.match(answer, /^両者の年収は同程度です（#\d+: 500 万円、#\d+: 500 万円）。/);
+  assert.doesNotMatch(answer, /約 0 万円/);
 });
 
 for (const [aRisk, bRisk, aSalary, bSalary, riskWinner, salaryWinner] of [

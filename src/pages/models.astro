@@ -25,6 +25,7 @@ import {
   MODELS_HUB_VENDORS_HEADING,
   MODELS_HUB_VENDORS_INTRO,
 } from '@/site/consensus-copy';
+import { stringifyJsonLd } from '@/lib/json-for-script';
 
 const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_deep.json'), 'utf-8');
 const projection = JSON.parse(projectionRaw);
@@ -33,7 +34,7 @@ const page = buildModelsFeaturePageModel(projection, personalityCopy, storyCopy)
 const pageTitle = 'AIモデル比較 | 未来の仕事';
 const pageDescription = page.description;
 
-const jsonLd = JSON.stringify({
+const jsonLd = stringifyJsonLd({
   '@context': 'https://schema.org',
   '@graph': [
     {

@@ -15,6 +15,7 @@ import { buildMethodologyBatchView } from '@/site/methodology-facts';
 import { SCORE_PANEL } from '@/site/score-attribution';
 import { CONSENSUS_FAQ_DETAIL } from '@/site/consensus-copy';
 import { SOP_LANDINGS, formatSopCitation } from '@/views/geo-answer-topics';
+import { stringifyJsonLd } from '@/lib/json-for-script';
 
 const facts = loadGeoFacts();
 const batchView = buildMethodologyBatchView(facts);
@@ -120,7 +121,7 @@ const jsonLd = `{
       "publisher": { "@id": "${siteConfig.origin}/#organization" },
       "mainEntityOfPage": { "@id": "${siteConfig.origin}/methodology#webpage" },
       "about": { "@type": "DefinedTermSet", "name": "AIOIS-10" },
-      "citation": ${JSON.stringify(ACADEMIC_CITATIONS)},
+      "citation": ${stringifyJsonLd(ACADEMIC_CITATIONS)},
       "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
     },
     {

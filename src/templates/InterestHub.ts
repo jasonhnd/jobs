@@ -20,6 +20,7 @@ import { CONTENT_DATE } from '../lib/_content-date.js';
 import { OCCUPATION_COUNT, siteConfig } from '../site/config.js';
 import { occupationPath } from '../lib/urls.js';
 import { formatRiskScore } from '../lib/score-format.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 export { escapeHtml };
 
@@ -182,7 +183,7 @@ export function renderJsonLd(
     });
   }
 
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 // ─── interests/index hub-card renderer (Phase D audit #8 2026-05-14) ────
@@ -216,7 +217,7 @@ export function renderHubJsonLd(): string {
   const seoDesc =
     `日本の ${OCCUPATION_COUNT.SCORED} 職業を RIASEC 興味タイプ 6 分類で整理。` +
     '現実的・研究的・芸術的・社会的・企業的・慣習的の各タイプにおすすめの職業を一覧。';
-  return JSON.stringify(
+  return stringifyJsonLd(
     {
       '@context': 'https://schema.org',
       '@graph': [
@@ -243,7 +244,6 @@ export function renderHubJsonLd(): string {
         },
       ],
     },
-    null,
     2,
   );
 }

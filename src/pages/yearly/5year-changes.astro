@@ -3,13 +3,14 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { GENRE_HUB_CSS } from '@/templates/Hub';
 import { siteConfig } from '@/site/config';
+import { stringifyJsonLd } from '@/lib/json-for-script';
 
 const canonical = `${siteConfig.origin}/yearly/5year-changes`;
 const title = '5 年で大きく変わった職業 | 未来の仕事';
 const seoDesc = '2021 年から 2026 年で雇用構造・AI 影響が顕著に変化した職業群。技術進化と社会変化が労働市場に与えたインパクトを追跡。';
 
 const SITE = siteConfig.origin;
-const jsonLd = JSON.stringify({
+const jsonLd = stringifyJsonLd({
   '@context': 'https://schema.org',
   '@graph': [
     { '@type': 'Article', '@id': `${canonical}#article`, url: canonical, name: title, headline: '5 年で大きく変わった職業', description: seoDesc, inLanguage: 'ja', datePublished: '2026-05-10', author: { '@id': `${SITE}/#organization` }, publisher: { '@id': `${SITE}/#organization` }, articleSection: '年次レポート' },
@@ -19,7 +20,7 @@ const jsonLd = JSON.stringify({
       { '@type': 'ListItem', position: 3, name: '5 年変化', item: canonical },
     ] },
   ],
-}, null, 2);
+}, 2);
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage={`${siteConfig.origin}/api/og?page=yearly-5year`} ogTitle={title} ogDescription={seoDesc} ogType="article">

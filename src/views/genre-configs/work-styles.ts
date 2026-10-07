@@ -36,6 +36,7 @@ export const WORK_STYLES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: 'シフト勤務 (24h・夜勤・早朝) の職業',
     description_ja: '24 時間体制・夜勤・早朝シフトが業務に組み込まれている職業群。医療・運輸・警備・ホテル・コンビニ等。',
     og_eyebrow: 'WORK · シフト',
+    hide_score: true,
     custom_filter: (d) => {
       // Shift-work isn't a single IPD key — approximate via sectors that
       // traditionally operate 24h or in shifts (medical, public safety,

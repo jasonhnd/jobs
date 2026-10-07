@@ -17,6 +17,7 @@ import { HAID_RELEASE_CRUMB_JA, HAID_RELEASE_FOOT_JA, HAID_RELEASE_YOU_ARE_HERE_
 import type { HaidReleasePayload } from '@/site/haid-release-types';
 import { buildHaidReleasePageModel, type ReleaseLabels } from '@/views/haid-release';
 import { AI_ADOPTION_CSS } from './_ai-adoption-css';
+import { stringifyJsonLd } from '@/lib/json-for-script';
 
 interface Props {
   readonly payload: HaidReleasePayload;
@@ -28,7 +29,7 @@ const m = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA, labels);
 const canonical = `${siteConfig.origin}${m.canonicalPath}`;
 const DIAGNOSIS_PATH = '/shindan';
 
-const jsonLd = JSON.stringify({
+const jsonLd = stringifyJsonLd({
   '@context': 'https://schema.org',
   '@graph': [
     {

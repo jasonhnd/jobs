@@ -28,6 +28,7 @@ import {
   haidBoundaryBefore,
 } from '@/site/haid-spec';
 import { HAID_CSS } from './_haid-css';
+import { stringifyJsonLd } from '@/lib/json-for-script';
 
 const canonical = `${siteConfig.origin}${HAID_CANONICAL_PATH}`;
 const pageLastUpdated = HAID_SPEC_DATE; // static: the page changes only when the spec changes
@@ -47,7 +48,7 @@ const CERTAINTY_ITEMS = [
   { key: 'none', explanation: '公開データが存在しない' },
 ] as const;
 
-const jsonLd = JSON.stringify({
+const jsonLd = stringifyJsonLd({
   '@context': 'https://schema.org',
   '@graph': [
     {
