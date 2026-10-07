@@ -1,6 +1,6 @@
 import { afterEach, describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -9,6 +9,7 @@ import { spawnSync } from 'node:child_process';
 // Black-box contract: the gate is copied into a throwaway repository and run
 // there, so each case exercises exactly what `bun run check:architecture` does.
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'check-architecture.cjs');
+const NODE_MODULES = join(dirname(fileURLToPath(import.meta.url)), '..', 'node_modules');
 const REAL_TSCONFIG = JSON.parse(
   readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'tsconfig.json'), 'utf8'),
 ) as { compilerOptions: { paths: Record<string, string[]> } };
@@ -43,6 +44,8 @@ function fixture(overrides: Files = {}): string {
   fixtures.push(root);
   mkdirSync(join(root, 'scripts'));
   copyFileSync(SCRIPT, join(root, 'scripts', 'check-architecture.cjs'));
+  // The gate parses sources with @babel/parser; let the copy resolve it.
+  symlinkSync(NODE_MODULES, join(root, 'node_modules'), 'dir');
   writeFileSync(join(root, 'tsconfig.json'), JSON.stringify({
     compilerOptions: { paths: REAL_TSCONFIG.compilerOptions.paths },
   }));
@@ -86,7 +89,7 @@ describe('check-architecture layer rules resolve imports before judging them', (
     ['views → fs/promises', 'src/views/bad.ts', "import { readFile } from 'fs/promises';\n"],
     ['views → require(node:fs)', 'src/views/bad.ts', "const fs = require('node:fs');\n"],
     ['views → template-literal dynamic import', 'src/views/bad.ts', 'export const t = () => import(`../templates/T.js`);\n'],
-    ['views → interpolated dynamic import prefix', 'src/views/bad.ts', 'export const t = (n: string) => import(`../templates/${n}.js`);\n'],
+    ['views → module.require()', 'src/views/bad.cjs', "const fs = module.require('fs');\nmodule.exports = fs;\n"],
     ['views → graph loader via alias', 'src/views/bad.ts', "import { loadGraph } from '@/graph/loader.js';\n"],
     ['views → strict-load via alias', 'src/views/bad.ts', "import { strictLoad } from '@/lib/strict-load.js';\n"],
     ['views .js file is scanned', 'src/views/bad.js', "import { T } from '../templates/T.js';\n"],
@@ -103,6 +106,14 @@ describe('check-architecture layer rules resolve imports before judging them', (
     ['views → require() after a closed block comment on the same line', 'src/views/bad.js', "/* explanatory comment */ const fs = require('fs');\nexport const view = 1;\n"],
     ['views → import after a multi-line block comment closes', 'src/views/bad.ts', "/*\n * docs\n */ import { T } from '../templates/T.js';\n"],
     ['views → import after a string containing a comment opener', 'src/views/bad.ts', "const glob = '@/lib/*'; import { T } from '../templates/T.js';\n"],
+    ['views → require() after a regex literal containing // on the same line', 'src/views/bad.js', "if (true) /[//]/.test('x'); const fs = require('fs');\n"],
+    ['views → require() after a division and a regex on the same line', 'src/views/bad.ts', "export const r = 4 / 2 / /x/.source.length; const fs = require('fs');\n"],
+    ['views → TS import-equals require', 'src/views/bad.ts', "import fs = require('fs');\nexport const x = fs;\n"],
+    ['views → export * re-export', 'src/views/bad.ts', "export * from '../templates/T.js';\n"],
+    ['views → bare side-effect import', 'src/views/bad.ts', "import '../templates/T.js';\n"],
+    ['pages .astro frontmatter import', 'src/pages/bad.astro', "---\nimport p from '../data/projections/p.json';\n---\n<p>{p}</p>\n"],
+    ['pages .astro <script data-type> import', 'src/pages/bad.astro', '<script data-type="example">import p from "../data/projections/p.json";</script>\n'],
+    ['pages .astro <script> import', 'src/pages/bad.astro', "<p>x</p>\n<script>\n  import p from '../data/projections/p.json';\n  console.info(p);\n</script>\n"],
   ];
 
   for (const [name, file, source] of cases) {
@@ -138,6 +149,55 @@ describe('check-architecture layer rules resolve imports before judging them', (
     assert.equal(result.status, 0, result.stderr);
   });
 
+  test('a dynamic import() with a non-literal argument fails closed', () => {
+    assertViolation(
+      { 'src/views/bad.ts': 'export const load = (name: string) => import(name);\n' },
+      /src\/views\/bad\.ts:1[\s\S]*non-literal/,
+    );
+  });
+
+  for (const [name, source] of [
+    ['a forbidden prefix', 'export const t = (n: string) => import(`../templates/${n}.js`);\n'],
+    ['an allowed-looking prefix', 'export const t = (n: string) => import(`../lib/${n}.js`);\n'],
+  ] as const) {
+    test(`an interpolated template import() with ${name} fails closed`, () => {
+      assertViolation({ 'src/views/bad.ts': source }, /src\/views\/bad\.ts:1[\s\S]*non-literal import\(\)/);
+    });
+  }
+
+  test('a require() with a non-literal argument fails closed', () => {
+    assertViolation(
+      { 'src/views/bad.js': "const name = 'fs';\nconst fs = require(name);\n" },
+      /src\/views\/bad\.js:2[\s\S]*non-literal/,
+    );
+  });
+
+  test('a file that does not parse fails with file:line', () => {
+    assertViolation(
+      { 'src/views/bad.ts': "export const ok = 1;\nexport const broken = (;\n" },
+      /src\/views\/bad\.ts:2[\s\S]*cannot parse/,
+    );
+  });
+
+  test('an .astro <script> that does not parse fails with the file line', () => {
+    assertViolation(
+      { 'src/pages/bad.astro': "---\nconst a = 1;\n---\n<p>{a}</p>\n<script>\n  const b = (;\n</script>\n" },
+      /src\/pages\/bad\.astro:6[\s\S]*cannot parse/,
+    );
+  });
+
+  test('.astro markup, JSON-LD scripts and type-only import() types are not imports', () => {
+    const result = run(fixture({
+      'src/pages/ok.astro':
+        "---\nconst ld = { '@context': 'https://schema.org' };\n---\n<p>require('fs') and import('node:fs') in prose</p>\n" +
+        '<script type="application/ld+json" set:html={JSON.stringify(ld)} />\n' +
+        '<script type="application/ld+json">{"@context": "https://schema.org"}</script>\n' +
+        "<script>\n  console.info('/[//]/');\n</script>\n",
+      'src/views/types.ts': "export type T = import('../templates/T.js').T;\nexport const x = 1;\n",
+    }));
+    assert.equal(result.status, 0, result.stderr);
+  });
+
   test('test files remain exempt from layer rules', () => {
     const result = run(fixture({ 'src/views/view.test.ts': "import { readFileSync } from 'node:fs';\n" }));
     assert.equal(result.status, 0, result.stderr);
@@ -167,6 +227,18 @@ describe('check-architecture walks every Vercel function regardless of runtime',
     assertViolation({
       'api/cron/job.ts': "import { C } from '../../src/components/C.js';\nexport default C;\n",
     }, /reachable from function entry api\/cron\/job\.ts/);
+  });
+
+  test('module.require() dependencies are followed', () => {
+    assertViolation({
+      'api/index.cjs': "module.exports = module.require('../src/components/C.js');\n",
+    }, /src\/components\/C\.tsx[\s\S]*reachable from function entry api\/index\.cjs/);
+  });
+
+  test('an interpolated dynamic import() inside the function closure fails closed', () => {
+    assertViolation({
+      'api/index.ts': 'export default (n: string) => import(`../src/components/${n}.js`);\n',
+    }, /api\/index\.ts:1 \(reachable from function entry api\/index\.ts\)[\s\S]*non-literal import\(\)/);
   });
 
   test('require() dependencies are followed', () => {
