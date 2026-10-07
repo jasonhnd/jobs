@@ -27,7 +27,7 @@ const t = encodeURIComponent(SHARE_FALLBACK_TEXT);
 const SHARE_DEFAULT_HREFS = {
   x:        `https://x.com/intent/post?url=${u}&text=${t}`,
   line:     `https://social-plugins.line.me/lineit/share?url=${u}`,
-  hatena:   `https://b.hatena.ne.jp/entry/${SHARE_FALLBACK_URL.replace(/^https?:\/\//, '')}`,
+  hatena:   `https://b.hatena.ne.jp/add?mode=confirm&url=${u}`,
   linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
   facebook: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
 };
@@ -137,7 +137,7 @@ const { iso, display } = formatJst(buildTime);
 <script is:inline>
   // Phase 8 — share buttons available on every page (Footer-level).
   // The home page used to have its own share JS; this is now the canonical
-  // single-source. Each share carries the CURRENT page URL (window.location.href)
+  // single-source. Each share carries the CURRENT page (its canonical URL)
   // so a deep page like /sectors/iryo shares THAT page, not the homepage.
   (function wireShareButtons() {
     var footer = document.querySelector('footer.site-footer');
@@ -164,9 +164,20 @@ const { iso, display } = formatJst(buildTime);
       if (og && og.content && og.content.length < 240) return og.content;
       return FALLBACK_TEXT;
     }
+    // The current page's canonical URL (origin + path without a canonical
+    // link). The visitor's own query and hash are dropped: they can carry
+    // ad-click ids (gclid, fbclid, …) that would count a friend's visit as an
+    // ad click (#884).
+    function pageUrl() {
+      var link = document.querySelector('link[rel="canonical"]');
+      var u = new URL((link && link.href) || (window.location.origin + window.location.pathname));
+      u.search = '';
+      u.hash = '';
+      return u;
+    }
     function shareUrl(source, medium) {
       // Share the CURRENT page, not the homepage. Append UTM for analytics.
-      var u = new URL(window.location.href);
+      var u = pageUrl();
       u.searchParams.set('utm_source', source);
       u.searchParams.set('utm_medium', medium);
       u.searchParams.set('utm_campaign', 'page_share');
@@ -204,7 +215,9 @@ const { iso, display } = formatJst(buildTime);
     var hatena = footer.querySelector('.share-btn[data-platform="hatena"]');
     if (hatena) hatena.addEventListener('click', function (e) {
       e.preventDefault();
-      popOpen('https://b.hatena.ne.jp/entry/' + shareUrl('hatena', 'social').replace(/^https?:\/\//, ''));
+      // add?mode=confirm takes the whole URL encoded; /entry/<host> dropped
+      // the scheme and left the query unencoded (#884).
+      popOpen('https://b.hatena.ne.jp/add?mode=confirm&url=' + encodeURIComponent(shareUrl('hatena', 'social')));
       track('hatena');
     });
 
