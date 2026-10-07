@@ -500,4 +500,17 @@ describe('check-color-tokens CLI — multi-line declarations and copy drift (#86
     assert.equal(r.cli.code, 1, r.cli.out);
     assert.deepEqual(r.v.map((x) => [x.copyDrift, x.derivable]), [[true, false]]);
   });
+
+  test('a copy replaced by var() is drift and fails (#873 review R4a)', () => {
+    const r = run(copy('var(--fg)'));
+    assert.equal(r.cli.code, 1, r.cli.out);
+    assert.deepEqual(r.v.map((x) => x.copyDrift), [true]);
+    assert.match(r.cli.out, /no longer equals its token/);
+  });
+
+  test('a copy replaced by color-mix over var() is drift and fails (#873 review R4a)', () => {
+    const r = run(copy('color-mix(in srgb, var(--fg) 50%, transparent)'));
+    assert.equal(r.cli.code, 1, r.cli.out);
+    assert.deepEqual(r.v.map((x) => x.copyDrift), [true]);
+  });
 });
