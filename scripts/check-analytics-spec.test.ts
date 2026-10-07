@@ -44,8 +44,8 @@ function fixture(): string {
     'scripts/lib/analytics-spec/scan.ts',
     'scripts/lib/analytics-spec/spec.ts',
     'scripts/lib/analytics-spec/compare.ts',
-    'scripts/lib/analytics-spec/lex.ts',
-    'scripts/lib/analytics-spec/calls.ts',
+    'scripts/lib/analytics-spec/ast.ts',
+    'scripts/lib/analytics-spec/emits.ts',
     'analytics/ga4-spec-validation.mjs',
   ]) {
     mkdirSync(dirname(join(root, file)), { recursive: true });
@@ -216,11 +216,33 @@ describe('check-analytics-spec CLI regression contract', () => {
     });
   }
 
-  test('fails on a call the lexer blanks by mistake (raw-source safety net)', () => {
+  // Review round 2: a regex literal after a block or a control-statement
+  // paren used to hide the next call from the hand-written scanner.
+  for (const [label, source] of [
+    ['a regex after a block', "if (true) {} /[//]/.test('/'); gtag('event', 'literal_event', {unknown_param: 1});"],
+    ['a regex after a control-statement paren', "if (true) /https?:\\/\\//.test('https://a'); gtag('event', 'literal_event', {unknown_param: 1});"],
+    ['a quote inside a regex after a paren', "if (x) /'/.test(s); gtag('event', 'literal_event', {unknown_param: 1});"],
+  ] as const) {
+    test(`still sees a call after ${label}`, () => {
+      const root = fixture();
+      write(root, 'src/probe.ts', source);
+      rejects(root, /unknown_param\s+← literal_event/);
+    });
+  }
+
+  test('fails with file and line when a script region does not parse', () => {
     const root = fixture();
-    // `)` then `/` reads as a division, so the regex's quote opens a fake string.
-    write(root, 'src/probe.ts', "if (x) /'/.test(s); gtag('event', 'literal_event', {unknown_param: 1});");
-    rejects(root, /gtag call inside what the scanner read as a string or regex/);
+    write(root, 'src/broken.ts', "const ok = 1;\ngtag('event', 'literal_event', {item_id: 1};");
+    rejects(root, /src\/broken.ts:2: cannot be parsed/);
+    const astro = fixture();
+    write(astro, 'src/broken.astro', "<p>x</p>\n<script>\nif (\n</script>");
+    rejects(astro, /src\/broken.astro:\d+: cannot be parsed/);
+  });
+
+  test('fails on gtag in markup outside a <script> block', () => {
+    const root = fixture();
+    write(root, 'src/onclick.astro', `<button onclick="gtag('event', 'literal_event', {unknown_param: 1})">x</button>`);
+    rejects(root, /src\/onclick.astro:1: gtag outside a <script> block the gate can parse/);
   });
 
   for (const suffix of ['&& {unknown_param: 1}', '|| {unknown_param: 1}', '? {a: 1} : {unknown_param: 1}']) {
@@ -236,8 +258,12 @@ describe('check-analytics-spec CLI regression contract', () => {
     write(root, 'src/mentions.ts', [
       'const doc = "window[\'gtag\'] and x[\'dataLayer\'] are rejected by the gate";',
       "const url = 'https://www.googletagmanager.com/gtag/js?id=' + id;",
-      "const re = /gtag|dataLayer/; const half = total / 2;",
+      "const re = /gtag\\(|dataLayer/; const half = total / 2; const rate = clicks++ / total;",
       "console.warn('[analytics] gtag event failed'); // gtag('event', 'x') in a comment",
+      "/* gtag('event', 'undeclared_event', {unknown_param: 1}); */",
+      "const example = \"gtag('event', 'documentation_example', {unknown_param: 1})\";",
+      "const tpl = `see gtag('event', 'x') and dataLayer.push({})`;",
+      "declare global { interface Window { gtag?: (...args: unknown[]) => void; dataLayer: unknown[] } }",
     ].join('\n'));
     write(root, 'src/mentions.astro', [
       "---\nconst title = 'gtag';\n---",
