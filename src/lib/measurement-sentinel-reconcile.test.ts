@@ -94,9 +94,26 @@ describe('parseReconcileCounts', () => {
     assert.equal(parseReconcileCounts('nope'), null);
     assert.equal(parseReconcileCounts({ rows: 'not-an-array' }), null);
   });
+
+  // Audit 2026-10-07 (#861): Number('n/a') is NaN, and every NaN comparison in
+  // reconcileVerdict is false, so the chain used to read as healthy.
+  test('a non-numeric metric value is a shape error, not a healthy NaN', () => {
+    for (const value of ['n/a', '', 'Infinity', null, {}]) {
+      const body = { rows: [
+        { dimensionValues: [{ value: 'yesterday' }], metricValues: [{ value }] },
+        { dimensionValues: [{ value: 'dayBefore' }], metricValues: [{ value: '100' }] },
+      ] };
+      assert.equal(parseReconcileCounts(body), null, `metric ${JSON.stringify(value)}`);
+    }
+  });
 });
 
 describe('reconcileVerdict', () => {
+  test('non-finite counts are unhealthy', () => {
+    assert.notDeepEqual(reconcileVerdict({ yesterday: Number.NaN, dayBefore: 100 }), []);
+    assert.notDeepEqual(reconcileVerdict({ yesterday: 100, dayBefore: Number.NaN }), []);
+  });
+
   test('zero deliveries yesterday is always an incident', () => {
     assert.deepEqual(reconcileVerdict({ yesterday: 0, dayBefore: 700 }), [
       'reconcile:zero-deliveries(dayBefore=700)',
