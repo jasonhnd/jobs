@@ -46,15 +46,6 @@ const TOKENISED: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * Any declaration: a `--custom` property or a CSS property name, case-
- * insensitive, with optional whitespace before the colon. Until #866 only the
- * TOKENISED names were read, so a palette tint in `box-shadow`, `outline`,
- * `border-top-color` or a custom property was invisible (Hub.ts:436 and
- * _index.css escaped that way).
- */
-const DECLARATION = /(?:^|[;{\s])(--[A-Za-z0-9_-]+|-?[A-Za-z][A-Za-z-]*)\s*:\s*([^;}\n]+)/g;
-
-/**
  * Explicit, audited exemptions — a value that matches the palette but cannot be
  * written as `var()` without a canon change or a rendering change. Adding a
  * token is a canon change (§20.6), so these wait for the owner instead of
