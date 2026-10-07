@@ -181,8 +181,8 @@ export function trustedFetchOrigin(url: URL): string {
  * resolves from cache — shaves the CSS fetch + binary fetch on warm
  * instances. Caches the *Promise* so concurrent first-time callers all
  * await the same in-flight fetch instead of racing N redundant requests.
- * On fetch failure the rejected Promise is evicted so the next caller
- * retries fresh.
+ * On fetch failure (including bytes without a font signature) the
+ * rejected Promise is evicted so the next caller retries fresh.
  *
  * 2026-05-17 H19 fix: previously unbounded. The cache key includes the
  * subset `text`, which varies per occupation/sector title (556+ unique
@@ -249,5 +249,24 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
   const { response: fontRes, body: fontBuf } =
     await fetchBufferWithTimeout(fontBinaryUrl, {}, OG_FONT_FETCH_TIMEOUT_MS);
   if (!fontRes.ok) throw new Error(`failed to fetch font binary: ${fontRes.status}`);
+  // A 200 whose bytes are not a font would only fail later inside satori,
+  // after this promise resolved and was cached — every warm request for the
+  // subset would then fail (#861). Reject here so the cache evicts it.
+  if (!hasFontSignature(fontBuf)) {
+    throw new Error(`unexpected font signature: ${family} ${weight}`);
+  }
   return fontBuf;
+}
+
+/** sfnt versions satori can parse: TrueType 00010000, CFF `OTTO`, Apple `true`. */
+const FONT_SIGNATURES: readonly (readonly number[])[] = [
+  [0x00, 0x01, 0x00, 0x00],
+  [0x4f, 0x54, 0x54, 0x4f],
+  [0x74, 0x72, 0x75, 0x65],
+];
+
+function hasFontSignature(buf: ArrayBuffer): boolean {
+  if (buf.byteLength < 4) return false;
+  const head = new Uint8Array(buf, 0, 4);
+  return FONT_SIGNATURES.some((sig) => sig.every((byte, i) => head[i] === byte));
 }
