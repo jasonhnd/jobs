@@ -19,7 +19,10 @@ Run from the lane worktree root (the directory that has scripts/run-scoring.ts):
   python3 <this> --run .cache/scoring/mms-11-full --ids 12,34 --name rescored-r1a
   # add --dry-run to any of the above: prints the plan and chunk 1 prompt, spawns nothing
 
-Stops (non-zero exit) on: rate limit, claude exit != 0, is_error, the model saying it
+Each chunk's claude process is killed after --timeout seconds (default 3600) and the
+run stops with a TIMEOUT transport failure; re-running the same command retries it.
+
+Stops (non-zero exit) on: timeout, rate limit, claude exit != 0, is_error, the model saying it
 is not claude-opus-5-5, modelUsage without claude-opus-5-5, any modelUsage key other
 than claude-opus-5-5 or a claude-haiku-* helper, sub-agents spawned, a malformed chunk,
 or a tracked file changed in the worktree. Re-running skips chunks that are already valid.
@@ -40,6 +43,7 @@ HELPER_PREFIX = "claude-haiku-"
 TEMPLATE = Path(__file__).with_name("opus55_SCORING_INSTRUCTIONS.template.md")
 RATE_RE = re.compile(r"rate limit|usage limit|5[-\s]?hour|limit reached|out of extra usage", re.I)
 DISALLOWED = "Agent,Task,WebSearch,WebFetch,NotebookEdit"
+CHUNK_TIMEOUT_S = 3600
 
 
 def fail(msg: str) -> "None":
@@ -54,6 +58,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--expect", type=int, help="number of prompt files that must exist (40 pilot, 556 full)")
     p.add_argument("--ids", help="comma-separated ids to re-score into answers/chunk-<name>.jsonl")
     p.add_argument("--name", default="rescored", help="chunk file suffix for --ids")
+    p.add_argument("--timeout", type=int, default=CHUNK_TIMEOUT_S,
+                   help="seconds before one chunk's claude process is killed (default 3600)")
     p.add_argument("--dry-run", action="store_true")
     return p.parse_args()
 
@@ -148,7 +154,10 @@ def tracked_changes(root: Path) -> str:
     return res.stdout.strip()
 
 
-def run_chunk(root: Path, run: Path, run_rel: str, claude: str, stem: str, want: list[int], total: int) -> None:
+def run_chunk(
+    root: Path, run: Path, run_rel: str, claude: str, stem: str, want: list[int], total: int,
+    timeout_s: int = CHUNK_TIMEOUT_S,
+) -> None:
     logs = run / "logs"
     logs.mkdir(parents=True, exist_ok=True)
     (run / "answers").mkdir(parents=True, exist_ok=True)
@@ -158,19 +167,6 @@ def run_chunk(root: Path, run: Path, run_rel: str, claude: str, stem: str, want:
     prompt_path.write_text(prompt_for(run_rel, stem, want))
     print(f"[score] {stem} of {total} ids={want[0]}..{want[-1]} n={len(want)}", flush=True)
     t0 = time.time()
-    with prompt_path.open("rb") as stdin, stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
-        proc = subprocess.run(
-            [
-                claude, "-p",
-                "--model", MODEL,
-                "--effort", "high",
-                "--permission-mode", "bypassPermissions",
-                "--output-format", "json",
-                "--disallowedTools", DISALLOWED,
-            ],
-            cwd=str(root), stdin=stdin, stdout=stdout, stderr=stderr,
-        )
-    elapsed = time.time() - t0
 
     def reject(msg: str) -> None:
         # Move whatever was written out of answers/ so the in-agent provider never
@@ -179,6 +175,30 @@ def run_chunk(root: Path, run: Path, run_rel: str, claude: str, stem: str, want:
         if written.exists():
             written.rename(logs / f"{stem}.rejected-{int(time.time())}.jsonl")
         fail(msg)
+
+    with prompt_path.open("rb") as stdin, stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
+        try:
+            proc = subprocess.run(
+                [
+                    claude, "-p",
+                    "--model", MODEL,
+                    "--effort", "high",
+                    "--permission-mode", "bypassPermissions",
+                    "--output-format", "json",
+                    "--disallowedTools", DISALLOWED,
+                ],
+                cwd=str(root), stdin=stdin, stdout=stdout, stderr=stderr,
+                timeout=timeout_s,
+            )
+        except subprocess.TimeoutExpired:
+            # subprocess.run has already killed and reaped the child.
+            proc = None
+    elapsed = time.time() - t0
+    if proc is None:
+        reject(
+            f"TIMEOUT {stem} after {timeout_s}s — claude was killed (transport failure); "
+            "re-run the same command to retry this chunk"
+        )
 
     if RATE_RE.search(stdout_path.read_text(errors="replace") + stderr_path.read_text(errors="replace")):
         reject(f"RATE_LIMIT {stem} after {elapsed:.0f}s — wait for the usage window, then re-run the same command")
@@ -215,6 +235,8 @@ def run_chunk(root: Path, run: Path, run_rel: str, claude: str, stem: str, want:
 
 def main() -> int:
     args = parse_args()
+    if args.timeout < 1:
+        fail("--timeout must be a positive number of seconds")
     root = Path.cwd()
     if not (root / "scripts" / "run-scoring.ts").exists():
         fail("run this from the lane worktree root (scripts/run-scoring.ts not found)")
@@ -241,7 +263,7 @@ def main() -> int:
         if not args.ids and chunk_ok(run, stem, want):
             print(f"[score] skip {stem} already valid", flush=True)
             continue
-        run_chunk(root, run, run_rel, claude, stem, want, len(todo))
+        run_chunk(root, run, run_rel, claude, stem, want, len(todo), args.timeout)
     print(f"DONE: {len(todo)} chunk(s), {sum(len(w) for _, w in todo)} ids", flush=True)
     return 0
 
