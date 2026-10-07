@@ -40,7 +40,7 @@ import {
   runReportUrl,
   STS_URL,
 } from '../../src/lib/measurement-sentinel-reconcile.js';
-import { fetchWithTimeout } from '../../src/lib/http-client.js';
+import { fetchJsonWithTimeout } from '../../src/lib/http-client.js';
 import { getVercelOidcToken } from '@vercel/functions/oidc';
 
 export const config = {
@@ -70,7 +70,7 @@ interface ReconcileConfig {
 async function runReconcilePhase(cfg: ReconcileConfig): Promise<string[]> {
   const oidcToken = await getVercelOidcToken();
 
-  const stsRes = await fetchWithTimeout(
+  const { response: stsRes, body: stsBody } = await fetchJsonWithTimeout(
     STS_URL,
     {
       method: 'POST',
@@ -79,10 +79,10 @@ async function runReconcilePhase(cfg: ReconcileConfig): Promise<string[]> {
     },
     RECONCILE_TIMEOUT_MS,
   );
-  const federated = stringField(await stsRes.json().catch(() => null), 'access_token');
+  const federated = stringField(stsBody, 'access_token');
   if (!federated) return [`reconcile:sts-http-${String(stsRes.status)}`];
 
-  const impRes = await fetchWithTimeout(
+  const { response: impRes, body: impBody } = await fetchJsonWithTimeout(
     impersonationUrl(cfg.saEmail),
     {
       method: 'POST',
@@ -91,10 +91,10 @@ async function runReconcilePhase(cfg: ReconcileConfig): Promise<string[]> {
     },
     RECONCILE_TIMEOUT_MS,
   );
-  const saToken = stringField(await impRes.json().catch(() => null), 'accessToken');
+  const saToken = stringField(impBody, 'accessToken');
   if (!saToken) return [`reconcile:impersonate-http-${String(impRes.status)}`];
 
-  const reportRes = await fetchWithTimeout(
+  const { response: reportRes, body: reportBody } = await fetchJsonWithTimeout(
     runReportUrl(cfg.propertyId),
     {
       method: 'POST',
@@ -103,7 +103,6 @@ async function runReconcilePhase(cfg: ReconcileConfig): Promise<string[]> {
     },
     RECONCILE_TIMEOUT_MS,
   );
-  const reportBody: unknown = await reportRes.json().catch(() => null);
   if (!reportRes.ok) return [`reconcile:report-http-${String(reportRes.status)}`];
 
   const counts = parseReconcileCounts(reportBody);
@@ -125,7 +124,7 @@ export async function GET(request: Request): Promise<Response> {
       `${DEBUG_ENDPOINT}?measurement_id=${encodeURIComponent(measurementId as string)}` +
       `&api_secret=${encodeURIComponent(apiSecret as string)}`;
     try {
-      const res = await fetchWithTimeout(
+      const { response: res, body } = await fetchJsonWithTimeout(
         debugUrl,
         {
           method: 'POST',
@@ -134,7 +133,6 @@ export async function GET(request: Request): Promise<Response> {
         },
         CANARY_TIMEOUT_MS,
       );
-      const body: unknown = await res.json().catch(() => null);
       failures.push(...evaluateDebugResponse(res.status, body));
     } catch (err) {
       failures.push(`debug-endpoint:${err instanceof Error ? err.name : 'network-error'}`);
