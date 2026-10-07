@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-07T00:47:25.726Z",
-  "gitCommit": "6c28db704230e0b91f59cfb24b56a25ef1fe1359",
-  "gitBranch": "kanban/JOB_0183-fix-SEO-P1-1-P2",
+  "capturedAt": "2026-10-07T09:24:57.957Z",
+  "gitCommit": "4b0ef152fb3daa2d336dff77ac26de20a08ad1a6",
+  "gitBranch": "fix/score-data-float-boundaries",
   "distFileCount": 845,
   "urlCount": 845,
   "dataFileCount": 616,

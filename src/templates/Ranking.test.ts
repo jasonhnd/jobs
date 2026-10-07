@@ -428,8 +428,7 @@ describe('renderHomeMovers', () => {
   test('renders two columns, occupation links, and /rankings header', () => {
     const html = renderHomeMovers({
       meta: {
-        baseline: { model: 'a', date: '2026-06-13', scoreCount: 556 },
-        candidate: { model: 'b', date: '2026-07-26', scoreCount: 556 },
+        landed: { date: '2026-07-26', models: ['b'] },
         comparedCount: 556,
       },
       transformation: {
@@ -453,8 +452,7 @@ describe('renderRankingsMovers', () => {
   test('labels the displacement columns 仕事が減るリスク, the axis name the occupation page uses (design-1.21)', () => {
     const html = renderRankingsMovers({
       meta: {
-        baseline: { model: 'a', date: '2026-06-13', scoreCount: 556 },
-        candidate: { model: 'b', date: '2026-07-26', scoreCount: 556 },
+        landed: { date: '2026-07-26', models: ['b'] },
         comparedCount: 556,
       },
       transformation: { up: [], down: [] },
@@ -467,6 +465,16 @@ describe('renderRankingsMovers', () => {
     assert.match(html, /仕事が減るリスクが下がった職業/);
     assert.doesNotMatch(html, /代替リスク/);
     assert.match(html, /変化指数が上がった職業/);
+  });
+
+  test('the note describes a change of the public value around the latest batch (#863)', () => {
+    const html = renderRankingsMovers({
+      meta: { landed: { date: '2026-10-01', models: ['gpt-6.1-sol'] }, comparedCount: 556 },
+      transformation: { up: [], down: [] },
+      displacement: { up: [], down: [] },
+    });
+    assert.match(html, /<p class="movers-note">公開値（3社の最新モデルの平均）の変化：2026-10-01 gpt-6\.1-sol の採点の反映前 → 反映後、共通 556 職業<\/p>/);
+    assert.doesNotMatch(html, /先月比/);
   });
 });
 
@@ -541,8 +549,7 @@ describe('renderHomeMovers date fallback', () => {
     });
     const html = renderHomeMovers({
       meta: {
-        baseline: { model: 'a', date: '2026-06-13', scoreCount: 4 },
-        candidate: { model: 'b', date: 'not-a-date', scoreCount: 4 },
+        landed: { date: 'not-a-date', models: ['b'] },
         comparedCount: 4,
       },
       transformation: { up: [row(1), row(2), row(3), row(4)], down: [row(2)] },
@@ -563,8 +570,7 @@ describe('renderRankingsMovers family code', () => {
   test('writes the family code onto the mover row', () => {
     const html = renderRankingsMovers({
       meta: {
-        baseline: { model: 'a & b', date: '2026-06-13', scoreCount: 1 },
-        candidate: { model: 'c', date: '2026-07-26', scoreCount: 1 },
+        landed: { date: '2026-07-26', models: ['a & b', 'c'] },
         comparedCount: 1,
       },
       transformation: {
@@ -578,7 +584,7 @@ describe('renderRankingsMovers family code', () => {
     assert.match(html, /class="mover-name" href="\/5">Up &lt;1&gt;</);
     assert.match(html, /class="mover-delta up">\+0\.0</);
     assert.match(html, /class="mover-values">1\.3 → 2\.0</);
-    assert.match(html, /a &amp; b/);
+    assert.match(html, /a &amp; b \/ c の採点/);
   });
 });
 

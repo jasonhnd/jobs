@@ -1,5 +1,6 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
+import { fmean } from '../data/lib/fsum.js';
 import {
   ANSWERS_HUB_PUBLIC_VALUE,
   CONSENSUS_AGING_NOTE,
@@ -174,5 +175,15 @@ describe('formatLatestObservationLine', () => {
       CONSENSUS_VENDOR_UPDATE_NOTE_IMPACT,
       '今回の変更では、全職業の平均は 4.55 から 4.68 になります。公開値が 0.5 以上変わる職業は 12、リスク帯が変わる職業は 34 です。公開値が 1.0 以上変わる職業はありません。',
     );
+  });
+});
+
+describe('formatLatestObservationLine floating-point boundary', () => {
+  test('a delta of exactly 1.0 computed with FP residue still shows the line', () => {
+    // latest 1.7 vs mean(1.7, 0.1, 0.3) = 0.7 → delta 0.9999999999999999 in doubles.
+    const delta = 1.7 - fmean([1.7, 0.1, 0.3]);
+    assert.ok(delta < 1.0);
+    assert.notEqual(formatLatestObservationLine(1.7, delta), null);
+    assert.notEqual(formatLatestObservationLine(1.7, -delta), null);
   });
 });

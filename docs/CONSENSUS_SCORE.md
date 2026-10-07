@@ -37,10 +37,19 @@ mms-6/mms-7 median, six-month voting window or floor supplies public values.
   newest entry within transformation distance ≤ 0.3 of the unrounded mean;
   same-date ties choose the lexically first model. If none qualifies, choose the
   closest entry, then newest date, then lexically first model. No synthesis.
+  Distances compare exactly (integer units, `src/data/lib/score-compare.ts`):
+  a vote exactly 0.3 from the mean qualifies (#863).
 - **Latest observation:** `pickLatestScore()` on the eligible comparable entries;
   `latestDelta` is its transformation minus the mean. Retain the display threshold
-  |Δ| ≥ 1.0. Same-date latest selection keeps the later input entry; in mixed
-  legacy/AIOIS history `pickLatestScore()` prefers AIOIS on a same-date tie.
+  |Δ| ≥ 1.0, compared exactly (a Δ of exactly 1.0 shows). Same-date latest
+  selection keeps the later input entry; in mixed legacy/AIOIS history
+  `pickLatestScore()` prefers AIOIS on a same-date tie.
+- **Movers** (`/rankings` 今月の急上昇・急降下, home 今月の変動): the change of the
+  public value around the latest batch — the vendor mean computed from runs
+  dated before the newest non-backfill batch date vs. the current vendor mean,
+  both as displayed one-decimal values; equal deltas order by id. Owner
+  decision 2026-10-07, option A (#863). Implemented in
+  `src/page-data/ranking-movers.ts`.
 - **Backfills:** history only, excluded from public values, latest observation,
   rationale, aging anchor, `SCORE_ATTRIBUTION`, `CONTENT_DATE`, movers and the
   `/models` current panel. Keep occupation history, per-run pages and redirects.
@@ -738,7 +747,7 @@ Owner: Jason
 | `SCORE_ATTRIBUTION`（最新モデル・最新採点）・`CONTENT_DATE`・sitemap lastmod | 除外 | `pickAttributionBatch` が除く（9.7） |
 | `check-geo-freshness` の active run・「現行 batch」3 行 | 除外（3 行は書き換えない） | `pickLatestGeoScoreRun` が除く（9.7） |
 | llms.txt / JSON-LD の前回比 | 除外 | 同上 |
-| `/rankings` と home の movers（最新 2 batch） | 除外 | `selectLatestComparableAioisPair` が除く（9.7） |
+| `/rankings` と home の movers（最新 batch 着地前後の公開値、#863） | 除外 | `latestLandedBatch` と `pickFlagshipMeanScore` が除く（9.7、#863） |
 | `/models` パネル・レーンの latest | 除外 | `models-deep` 9.9 |
 | `/models` personality 文の隣接 pair | 除外（後続モデルの文が反転しないため） | 9.9 |
 | per-run ページの「前回モデル」候補 | 除外（既存ページの drift を動かさないため） | `predecessorFor` 9.8 |

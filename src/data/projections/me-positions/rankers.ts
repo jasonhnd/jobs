@@ -5,6 +5,7 @@ import {
   type RankingSlug,
 } from '../../../views/ranking/index.js';
 import { EDU, EMP } from '../../domain/distribution-labels.js';
+import { graduateShare } from '../../domain/education-share.js';
 
 // ───────────────────────────────────────────────────────────────────
 // Per-ranking "ranker" — produces the FULL sorted+filtered universe.
@@ -35,7 +36,7 @@ function eduPct(o: Occupation, key: string): number {
   return o.education_pct?.[key] ?? 0;
 }
 function gradPct(o: Occupation): number {
-  return eduPct(o, EDU.masters) + eduPct(o, EDU.doctorate);
+  return graduateShare(eduPct(o, EDU.masters), eduPct(o, EDU.doctorate));
 }
 function empPct(o: Occupation, key: string): number {
   return o.employment_type?.[key] ?? 0;
