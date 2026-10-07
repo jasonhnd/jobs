@@ -21,6 +21,7 @@ import { promoteStagedOutputs } from './promote.js';
 import { isErrnoCode } from './loaders.js';
 import { assertUniformVendorPanel, buildIndexes, type Indexes } from './lib/indexes.js';
 import { rewriteGeneratedModule } from './lib/rewrite-generated-module.js';
+import { scoreAttributionEdits } from './lib/score-attribution-module.js';
 import { buildDetail } from './projections/detail.js';
 import { buildHolland } from './projections/holland.js';
 import { buildLabels } from './projections/labels.js';
@@ -197,15 +198,15 @@ async function updateScoreAttribution(
   assertUniformVendorPanel(indexes.flagshipByOcc);
   const panel = flagshipPanelMeta(sample);
 
-  await rewriteGeneratedModule(join(REPO_ROOT, 'src/site/_score-attribution.ts'), [
-    { pattern: /modelId: '[^']*'/, replacement: `modelId: '${active.model}'`, expect: `modelId: '${active.model}'` },
-    { pattern: /modelDisplay: '[^']*'/, replacement: `modelDisplay: '${modelDisplay}'`, expect: `modelDisplay: '${modelDisplay}'` },
-    { pattern: /runDate: '[^']*'/, replacement: `runDate: '${active.runDate}'`, expect: `runDate: '${active.runDate}'` },
-    { pattern: /vendorCount: \d+/, replacement: `vendorCount: ${panel.vendorCount}`, expect: `vendorCount: ${panel.vendorCount}` },
-    { pattern: /latestRunDate: '[^']*'/, replacement: `latestRunDate: '${panel.latestRunDate}'`, expect: `latestRunDate: '${panel.latestRunDate}'` },
-    { pattern: /staleMonths: \d+/, replacement: `staleMonths: ${panel.staleMonths}`, expect: `staleMonths: ${panel.staleMonths}` },
-    { pattern: /staleVendorCount: \d+/, replacement: `staleVendorCount: ${panel.staleVendorCount}`, expect: `staleVendorCount: ${panel.staleVendorCount}` },
-  ]);
+  await rewriteGeneratedModule(join(REPO_ROOT, 'src/site/_score-attribution.ts'), scoreAttributionEdits({
+    modelId: active.model,
+    modelDisplay,
+    runDate: active.runDate,
+    vendorCount: panel.vendorCount,
+    latestRunDate: panel.latestRunDate,
+    staleMonths: panel.staleMonths,
+    staleVendorCount: panel.staleVendorCount,
+  }));
   console.log(`  [score-attribution] ${modelDisplay} (${active.runDate})`);
   console.log(`  [score-panel] vendors=${panel.vendorCount} latest=${panel.latestRunDate} stale=${panel.staleVendorCount}`);
 }
