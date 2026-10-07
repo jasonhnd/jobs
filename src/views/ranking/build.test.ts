@@ -236,3 +236,31 @@ describe('HIGH_DEMAND_MIN admits exactly one band', () => {
     assert.ok(demandScore('normal') > 0);
   });
 });
+
+describe('ranking TOP counts follow the real row count (#884)', () => {
+  const tops = (s: string): number[] => [...s.matchAll(/TOP\s?(\d+)/g)].map((m) => Number(m[1]));
+
+  test('title, description, h1 and stat labels say TOP<items.length>', () => {
+    const bundle = buildRankings(() => occupations);
+    for (const [slug, r] of bundle.results) {
+      const texts = [r.title, r.seoDesc, r.h1Text, ...r.statBlocks.map(([label]) => label)];
+      for (const n of texts.flatMap(tops)) {
+        assert.equal(n, r.items.length, `${slug}: TOP${n} but ${r.items.length} rows`);
+      }
+    }
+  });
+
+  test('hub card names say TOP<count>', () => {
+    const bundle = buildRankings(() => occupations);
+    for (const card of bundle.hub.cards) {
+      for (const n of tops(card.name)) assert.equal(n, card.count, `${card.slug}: ${card.name}`);
+    }
+  });
+
+  test('a full list keeps TOP30 unchanged', () => {
+    const many: Occupation[] = Array.from({ length: 40 }, (_, i) => occupation({ id: i + 1, ai_risk: 9, salary: 600 }));
+    const r = buildRankings(() => many).results.get('ai-risk-high' as RankingSlug)!;
+    assert.equal(r.items.length, 30);
+    assert.match(r.title, /TOP30【2026年版】/);
+  });
+});
