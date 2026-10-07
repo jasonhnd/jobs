@@ -12,6 +12,7 @@ import {
   VARIANTS,
   VARIANT_IDS_BY_FAMILY,
 } from '@/site/worktype-copy';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 const REPRESENTATIVE_OCCUPATION_COUNT = 4;
 
@@ -93,13 +94,6 @@ function treemapName(row: TreemapRecordSummary): string {
   return typeof name === 'string' && name.length > 0 ? name : `職業 ${row.id}`;
 }
 
-function safeJsonForScript(value: unknown): string {
-  const text = JSON.stringify(value) ?? 'null';
-  return text
-    .replace(/<\//g, '<\\/')
-    .replace(/\u2028/g, '\\u2028')
-    .replace(/\u2029/g, '\\u2029');
-}
 
 export function buildGyakutenPageModel(
   worktypes: WorktypesData,
@@ -182,7 +176,7 @@ export function buildGyakutenPageModel(
     description: `${FAMILIES[left].share} / ${FAMILIES[right].share}`,
   }));
 
-  const jsonLd = safeJsonForScript({
+  const jsonLd = stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       {
