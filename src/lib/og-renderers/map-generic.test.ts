@@ -62,7 +62,7 @@ if (process.env.OG_MAP_GENERIC_TEST_CHILD !== '1') {
   const { RISK_BAND_HEX } = await import('../design-tokens.js');
   const { OCCUPATION_COUNT } = await import('../../site/config.js');
 
-  const fontBytes = new Uint8Array([1, 2, 3]);
+  const fontBytes = new Uint8Array([0x00, 0x01, 0x00, 0x00, 1, 2, 3]);
   const fontRequests: { weight: string; text: string }[] = [];
   const originalFetch = globalThis.fetch;
   afterEach(() => { globalThis.fetch = originalFetch; });

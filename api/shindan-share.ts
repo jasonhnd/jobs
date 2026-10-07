@@ -7,6 +7,7 @@ import {
 import {
   addShindanOccupationContext,
   parseShindanBaseState,
+  type ShindanResultState,
 } from '../src/site/shindan-result-state.js';
 import {
   buildShindanShareMetadata,
@@ -24,6 +25,14 @@ type FetchLike = typeof fetch;
 
 /** Same-origin shell, worktypes, and detail reads. A stall must not hold the function. */
 const SHINDAN_SHARE_UPSTREAM_TIMEOUT_MS = 5000;
+
+const SHARE_CACHE_CONTROL = 'public, max-age=0, s-maxage=300, stale-while-revalidate=86400';
+/**
+ * A page that lost its optional occupation context to an upstream failure
+ * (worktypes or job detail unavailable) is still a valid page, but it must
+ * not be pinned at the edge for a day of stale-while-revalidate (#861).
+ */
+const DEGRADED_SHARE_CACHE_CONTROL = 'public, max-age=0, s-maxage=60';
 
 async function fetchUpstream<T>(
   fetchImpl: FetchLike,
@@ -78,7 +87,8 @@ export async function renderShindanShareResponse(
   );
 
   const baseState = parseShindanBaseState(requestUrl.searchParams);
-  let state = baseState;
+  let state: ShindanResultState | null = baseState;
+  let degraded = false;
   if (baseState && requestUrl.searchParams.has('job')) {
     const worktypesRaw = await fetchUpstream<unknown>(
       fetchImpl,
@@ -87,18 +97,18 @@ export async function renderShindanShareResponse(
       timeoutMs,
       (response) => response.json(),
     );
-    if (worktypesRaw !== null) {
-      // Occupation context is optional. A truncated/corrupt projection must
-      // degrade to the already-validated base result instead of rejecting the
-      // Edge request and turning every job-bearing share URL into a 500.
-      const parsed = WorktypesProjectionSchema.safeParse(worktypesRaw);
-      if (parsed.success) {
-        state = addShindanOccupationContext(
-          baseState,
-          requestUrl.searchParams,
-          parsed.data.occupations,
-        );
-      }
+    // Occupation context is optional. A truncated/corrupt projection must
+    // degrade to the already-validated base result instead of rejecting the
+    // Edge request and turning every job-bearing share URL into a 500.
+    const parsed = WorktypesProjectionSchema.safeParse(worktypesRaw);
+    if (parsed.success) {
+      state = addShindanOccupationContext(
+        baseState,
+        requestUrl.searchParams,
+        parsed.data.occupations,
+      );
+    } else {
+      degraded = true;
     }
   }
 
@@ -110,15 +120,21 @@ export async function renderShindanShareResponse(
     });
   }
 
-  const jobId = requestUrl.searchParams.get('job');
-  const jobContext = jobId ? await fetchShareJobContext(origin, jobId, fetchImpl, timeoutMs) : null;
+  // Only a job that survived validation may name the occupation. The raw
+  // ?job= must not: when the state dropped it (bad gap, unknown id, missing
+  // worktypes) og:url and og:image describe a card without the occupation,
+  // and the title would contradict them (#861).
+  const jobContext = state?.job
+    ? await fetchShareJobContext(origin, state.job, fetchImpl, timeoutMs)
+    : null;
+  if (state?.job && !jobContext) degraded = true;
   const metadata = state ? buildShindanShareMetadata(origin, state, jobContext) : null;
   const html = renderShindanShareHtml(basePageHtml, metadata);
   return new Response(html, {
     status: 200,
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'public, max-age=0, s-maxage=300, stale-while-revalidate=86400',
+      'Cache-Control': degraded ? DEGRADED_SHARE_CACHE_CONTROL : SHARE_CACHE_CONTROL,
       'X-Robots-Tag': 'noindex, follow',
     },
   });
@@ -132,7 +148,7 @@ export function HEAD(_request: Request): Response {
     status: 200,
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'public, max-age=0, s-maxage=300, stale-while-revalidate=86400',
+      'Cache-Control': SHARE_CACHE_CONTROL,
       'X-Robots-Tag': 'noindex, follow',
     },
   });

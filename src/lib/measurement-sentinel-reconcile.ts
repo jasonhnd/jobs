@@ -113,11 +113,23 @@ export function parseReconcileCounts(body: unknown): ReconcileCounts | null {
   if (!Array.isArray(rows)) return null;
   for (const row of rows as ReportRowShape[]) {
     const range = row.dimensionValues?.[0]?.value;
-    const value = Number(row.metricValues?.[0]?.value ?? 0);
+    const value = metricCount(row.metricValues?.[0]?.value);
+    // A non-numeric metric would become NaN, and every NaN comparison in
+    // reconcileVerdict is false — it would read as healthy (#861).
+    if (value === null) return null;
     if (range === 'yesterday') counts.yesterday = value;
     else if (range === 'dayBefore') counts.dayBefore = value;
   }
   return counts;
+}
+
+/** GA4 metric value → finite count; absent = 0, anything non-numeric = null. */
+function metricCount(raw: unknown): number | null {
+  if (raw === undefined) return 0;
+  if (typeof raw === 'string' && raw.trim() === '') return null;
+  if (typeof raw !== 'string' && typeof raw !== 'number') return null;
+  const value = Number(raw);
+  return Number.isFinite(value) ? value : null;
 }
 
 /**
@@ -127,6 +139,9 @@ export function parseReconcileCounts(body: unknown): ReconcileCounts | null {
 export const RECONCILE_MIN_BASELINE = 50;
 
 export function reconcileVerdict(counts: ReconcileCounts): string[] {
+  if (!Number.isFinite(counts.yesterday) || !Number.isFinite(counts.dayBefore)) {
+    return ['reconcile:non-finite-count'];
+  }
   if (counts.yesterday <= 0) {
     return [`reconcile:zero-deliveries(dayBefore=${String(counts.dayBefore)})`];
   }
