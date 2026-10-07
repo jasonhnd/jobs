@@ -21,6 +21,8 @@ Run from the lane worktree root (the directory that has scripts/run-scoring.ts):
 
 Each chunk's claude process is killed after --timeout seconds (default 3600) and the
 run stops with a TIMEOUT transport failure; re-running the same command retries it.
+claude runs in its own process group (session), so the timeout, Ctrl-C and SIGTERM
+kill its whole tree: SIGTERM first, SIGKILL after a short grace period.
 
 Stops (non-zero exit) on: timeout, rate limit, claude exit != 0, is_error, the model saying it
 is not claude-opus-5-5, modelUsage without claude-opus-5-5, any modelUsage key other
@@ -32,7 +34,9 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import os
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -44,6 +48,9 @@ TEMPLATE = Path(__file__).with_name("opus55_SCORING_INSTRUCTIONS.template.md")
 RATE_RE = re.compile(r"rate limit|usage limit|5[-\s]?hour|limit reached|out of extra usage", re.I)
 DISALLOWED = "Agent,Task,WebSearch,WebFetch,NotebookEdit"
 CHUNK_TIMEOUT_S = 3600
+# Time between SIGTERM and SIGKILL for claude's process group.
+KILL_GRACE_S = 5.0
+GROUP_POLL_S = 0.05
 
 
 def fail(msg: str) -> "None":
@@ -154,9 +161,71 @@ def tracked_changes(root: Path) -> str:
     return res.stdout.strip()
 
 
+class StopSignal(Exception):
+    """Raised by SIGTERM/SIGHUP so a running chunk can clean up before the script exits."""
+
+    def __init__(self, signum: int) -> None:
+        super().__init__(f"stopped by signal {signum}")
+        self.signum = signum
+
+
+def install_stop_signals() -> None:
+    """Turn SIGTERM/SIGHUP into StopSignal (Ctrl-C already raises KeyboardInterrupt)."""
+    def stop(signum: int, _frame: object) -> None:
+        raise StopSignal(signum)
+
+    for name in ("SIGTERM", "SIGHUP"):
+        if hasattr(signal, name):
+            signal.signal(getattr(signal, name), stop)
+
+
+def kill_tree(proc: subprocess.Popen, grace_s: float) -> None:
+    """SIGTERM claude's process group, SIGKILL it after grace_s, and reap claude.
+
+    The group is SIGKILLed even if claude itself exits within the grace period,
+    because a grandchild that ignores SIGTERM can outlive it.
+    """
+    if os.name == "nt":
+        subprocess.run(["taskkill", "/PID", str(proc.pid), "/T", "/F"], capture_output=True)
+        proc.wait()
+        return
+    try:
+        os.killpg(proc.pid, signal.SIGTERM)
+        deadline = time.monotonic() + grace_s
+        while time.monotonic() < deadline:
+            proc.poll()  # reap claude so a zombie leader does not keep the group alive
+            os.killpg(proc.pid, 0)  # raises once every process in the group is gone
+            time.sleep(GROUP_POLL_S)
+        os.killpg(proc.pid, signal.SIGKILL)
+    except (ProcessLookupError, PermissionError):
+        # ESRCH: the group is gone. macOS reports EPERM for a group whose only
+        # member is an unreaped zombie, which is gone for our purposes too.
+        pass
+    proc.wait()
+
+
+def run_in_group(cmd: list[str], timeout_s: int, grace_s: float, **kwargs) -> int | None:
+    """Run cmd as its own process group; return its exit code, or None on timeout."""
+    if os.name == "nt":
+        kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+    else:
+        # Detached from the terminal's Ctrl-C, so cleanup below must handle it.
+        kwargs["start_new_session"] = True
+    proc = subprocess.Popen(cmd, **kwargs)
+    try:
+        return proc.wait(timeout=timeout_s)
+    except subprocess.TimeoutExpired:
+        kill_tree(proc, grace_s)
+        return None
+    except BaseException:
+        # Ctrl-C (KeyboardInterrupt) or StopSignal: take the tree down, then stop.
+        kill_tree(proc, grace_s)
+        raise
+
+
 def run_chunk(
     root: Path, run: Path, run_rel: str, claude: str, stem: str, want: list[int], total: int,
-    timeout_s: int = CHUNK_TIMEOUT_S,
+    timeout_s: int = CHUNK_TIMEOUT_S, kill_grace_s: float = KILL_GRACE_S,
 ) -> None:
     logs = run / "logs"
     logs.mkdir(parents=True, exist_ok=True)
@@ -177,24 +246,20 @@ def run_chunk(
         fail(msg)
 
     with prompt_path.open("rb") as stdin, stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
-        try:
-            proc = subprocess.run(
-                [
-                    claude, "-p",
-                    "--model", MODEL,
-                    "--effort", "high",
-                    "--permission-mode", "bypassPermissions",
-                    "--output-format", "json",
-                    "--disallowedTools", DISALLOWED,
-                ],
-                cwd=str(root), stdin=stdin, stdout=stdout, stderr=stderr,
-                timeout=timeout_s,
-            )
-        except subprocess.TimeoutExpired:
-            # subprocess.run has already killed and reaped the child.
-            proc = None
+        returncode = run_in_group(
+            [
+                claude, "-p",
+                "--model", MODEL,
+                "--effort", "high",
+                "--permission-mode", "bypassPermissions",
+                "--output-format", "json",
+                "--disallowedTools", DISALLOWED,
+            ],
+            timeout_s, kill_grace_s,
+            cwd=str(root), stdin=stdin, stdout=stdout, stderr=stderr,
+        )
     elapsed = time.time() - t0
-    if proc is None:
+    if returncode is None:
         reject(
             f"TIMEOUT {stem} after {timeout_s}s — claude was killed (transport failure); "
             "re-run the same command to retry this chunk"
@@ -202,8 +267,8 @@ def run_chunk(
 
     if RATE_RE.search(stdout_path.read_text(errors="replace") + stderr_path.read_text(errors="replace")):
         reject(f"RATE_LIMIT {stem} after {elapsed:.0f}s — wait for the usage window, then re-run the same command")
-    if proc.returncode != 0:
-        reject(f"claude exit {proc.returncode} {stem}: {stderr_path.read_text(errors='replace')[-800:]}")
+    if returncode != 0:
+        reject(f"claude exit {returncode} {stem}: {stderr_path.read_text(errors='replace')[-800:]}")
     try:
         meta = load_meta(stdout_path)
     except (ValueError, json.JSONDecodeError) as err:
@@ -234,6 +299,7 @@ def run_chunk(
 
 
 def main() -> int:
+    install_stop_signals()
     args = parse_args()
     if args.timeout < 1:
         fail("--timeout must be a positive number of seconds")
@@ -269,4 +335,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except StopSignal as stopped:
+        raise SystemExit(128 + stopped.signum)
