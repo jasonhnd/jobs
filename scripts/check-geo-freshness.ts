@@ -101,6 +101,11 @@ export function staleModelTokens(runs: readonly ScoreRun[], active: ScoreRun): S
   return { identifiers: [...identifiers], displayNames: [...displayNames] };
 }
 
+/** Template placeholders and the retired schema version: forbidden anywhere. */
+const BUILD_MARKERS = ['__SCORE_', '__GEO_', 'version": "0.5.0"'] as const;
+
+const RUN_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
 /**
  * `allowValidationModelNames` exempts display names only — never ids or run
  * dates. `llms.txt` may legitimately name an older model inside the historical
@@ -112,11 +117,34 @@ export function firstStaleToken(
   stale: StaleModelTokens,
   options: { allowValidationModelNames?: boolean } = {},
 ): string | null {
-  const forbidden = ['__SCORE_', '__GEO_', 'version": "0.5.0"', ...stale.identifiers];
+  const names = [...stale.identifiers];
   if (!options.allowValidationModelNames) {
-    forbidden.push(...stale.displayNames);
+    names.push(...stale.displayNames);
   }
-  return forbidden.find((token) => text.includes(token)) ?? null;
+  return BUILD_MARKERS.find((marker) => text.includes(marker)) ??
+    names.find((name) => containsWholeName(text, name)) ??
+    null;
+}
+
+/**
+ * Whether `name` occurs in `text` as a whole name rather than as the prefix
+ * of a longer one. Model names grow by suffix — `claude-opus-5` →
+ * `claude-opus-5-5`, `Opus 5` → `Opus 5.5` — so a plain substring test
+ * flagged the live successor of every superseded model and would fail the
+ * build on the next flagship switch (#867). A match counts only when it is
+ * not glued to a letter/digit on the left and is not continued on the right
+ * by a letter/digit or by `-`/`.` + letter/digit (a version step). Sentence
+ * punctuation, quotes, `_`, `/` and brackets end a name. A run date ends at
+ * anything but a digit, so `2026-07-26T00:00Z` still counts.
+ */
+function containsWholeName(text: string, name: string): boolean {
+  const continuation = RUN_DATE_RE.test(name) ? /^\d/ : /^(?:[A-Za-z0-9]|[.-][A-Za-z0-9])/;
+  for (let at = text.indexOf(name); at !== -1; at = text.indexOf(name, at + 1)) {
+    const before = at > 0 ? text[at - 1]! : '';
+    const after = text.slice(at + name.length, at + name.length + 2);
+    if (!/[A-Za-z0-9]/.test(before) && !continuation.test(after)) return true;
+  }
+  return false;
 }
 
 export function assertNoStaleOrPlaceholders(
