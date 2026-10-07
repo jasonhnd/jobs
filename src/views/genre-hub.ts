@@ -115,11 +115,10 @@ export { escapeHtml };
 // Single source of truth lives at src/lib/risk. Re-exported so existing
 // consumers (pages importing `riskClass` from this module) keep working.
 import { riskClass } from '../lib/risk.js';
-import { displayScore } from '../data/lib/banker-round.js';
 export { riskClass };
 
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
-import { formatScoreFixed1 } from '../lib/score-format.js';
+import { formatShownMeanLabel } from '../lib/score-format.js';
 
 // ─── Core builder ────────────────────────────────────────────
 
@@ -220,7 +219,7 @@ export function buildGenreResult(
   const topLabel = `TOP${items.length}`;
   const stats: Array<readonly [string, string]> = [
     ...(showScore ? [[`平均 ${config.short_ja}スコア`, `${meanScore.toFixed(2)}`] as const] : []),
-    ['平均 AI 影響', meanRisk > 0 ? `${formatScoreFixed1(meanRisk)} / 10` : '—'],
+    ['平均 AI 影響', meanRisk > 0 ? `${formatShownMeanLabel(meanRisk)}` : '—'],
     ['平均年収', meanSalary > 0 ? `${Math.trunc(meanSalary)} 万円` : '—'],
     [`${topLabel} 合計就業者数`, `${fmtInt(totalWorkers)} 人`],
   ];
@@ -235,7 +234,7 @@ export function buildGenreResult(
       : `1 位は「${items[0]?.name_ja ?? '—'}」`,
     top3 ? `TOP 3 は ${top3}` : '',
     dominantSector ? `セクターは「${dominantSector}」が ${dominantCount} 件と最多` : '',
-    meanRisk > 0 ? `${topLabel} の平均 AI 影響は ${formatScoreFixed1(meanRisk)}/10` : '',
+    meanRisk > 0 ? `${topLabel} の平均 AI 影響は ${formatShownMeanLabel(meanRisk)}` : '',
     config.characteristics_ja?.[0] ? `特徴: ${config.characteristics_ja[0]}` : '',
   ].filter(Boolean);
 
@@ -252,12 +251,9 @@ export function buildGenreResult(
     ]);
   }
   if (meanRisk > 0) {
-    // Judge the tier on the printed one-decimal mean (#631); the cut points stay.
-    const shownMean = displayScore(meanRisk);
-    const tier = shownMean <= 3.5 ? '低め' : shownMean <= 5.5 ? '中程度' : 'やや高め';
     faqItems.push([
       `${config.short_ja}が必要な職業は AI 影響度が高い？`,
-      `本 hub の TOP ${items.length} の平均 AI 影響度は ${shownMean.toFixed(1)}/10 で ${tier} の水準です。${CONSENSUS_FAQ_SENTENCE}`,
+      `本 hub の TOP ${items.length} の平均 AI 影響度は ${formatShownMeanLabel(meanRisk)}。${CONSENSUS_FAQ_SENTENCE}`,
     ]);
   }
   if (config.how_to_develop_ja?.length) {

@@ -31,7 +31,7 @@ import { buildEmploymentRankings } from './rankings/employment.js';
 import { buildEducationRankings } from './rankings/education.js';
 import { buildIntentRankings } from './rankings/intent.js';
 import { OCCUPATION_COUNT } from '../../site/config.js';
-import { formatRiskScoreLabel, formatScoreFixed1 } from '../../lib/score-format.js';
+import { formatRiskScoreLabel, formatShownMeanLabel } from '../../lib/score-format.js';
 
 export interface BuildRankingsOptions {
   /**
@@ -110,7 +110,7 @@ export function buildRankings(
   // ─── Hub data ────────────────────────────────────────────────────────
   const globalStats: Array<readonly [string, string]> = [
     ['総職業数', `${OCCUPATION_COUNT.SCORED}`],
-    ['全体平均 AI 影響', `${formatScoreFixed1(allMeanRisk)} / 10`],
+    ['全体平均 AI 影響', `${formatShownMeanLabel(allMeanRisk)}`],
     ['全体平均年収', `${Math.trunc(allMeanSalary)} 万円`],
     ['総就業者数', `${Math.round(allWorkers / 10000)} 万人`],
   ];
@@ -144,9 +144,9 @@ export function buildRankings(
   }
 
   const insights = [
-    `<strong>${escapeHtml(highestRiskSector)}</strong>セクターはAI影響度平均${formatScoreFixed1(sectorMeanRisks.get(highestRiskSector) ?? 0)}と全セクターで最高`,
-    `<strong>${escapeHtml(lowestRiskSector)}</strong>セクターはAI影響度平均${formatScoreFixed1(sectorMeanRisks.get(lowestRiskSector) ?? 0)}と最も低い`,
-    `年収上位30職業の平均AI影響度は<strong>${formatScoreFixed1(safeMean(salary.bySalary, 'ai_risk'))}/10</strong>と中程度`,
+    `<strong>${escapeHtml(highestRiskSector)}</strong>セクターはAI影響度平均${formatShownMeanLabel(sectorMeanRisks.get(highestRiskSector) ?? 0)}と全セクターで最高`,
+    `<strong>${escapeHtml(lowestRiskSector)}</strong>セクターはAI影響度平均${formatShownMeanLabel(sectorMeanRisks.get(lowestRiskSector) ?? 0)}と最も低い`,
+    `年収上位30職業の平均AI影響度は<strong>${formatShownMeanLabel(safeMean(salary.bySalary, 'ai_risk'))}</strong>`,
     '就業者数上位は事務・販売系が占めるが、AI影響度は<strong>高め</strong>の傾向',
     'AI影響度が低い職業ほど<strong>身体性・対人スキル</strong>を求められる傾向',
   ];

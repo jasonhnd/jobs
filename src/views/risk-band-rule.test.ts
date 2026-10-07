@@ -130,8 +130,8 @@ describe('one band rule (#631)', () => {
   });
 });
 
-describe('group-mean tier words are judged on the printed mean (#631)', () => {
-  test('sector FAQ: 3.54 prints 3.5 and reads 低め (cut point <= 3.5)', () => {
+describe('group-mean tier words use the signed three bands on the printed mean', () => {
+  test('sector FAQ: 3.54 prints 3.5 and reads 変化 小さい', () => {
     const faqs = buildSectorFaqs({
       nameJa: '業種',
       occupationCount: 2,
@@ -141,16 +141,34 @@ describe('group-mean tier words are judged on the printed mean (#631)', () => {
       topHigh: [],
       topLow: [],
     });
-    const answer = faqs.map(([, a]) => a).find((a) => a.includes('の平均 AI 影響度は10段階中'));
-    assert.ok(answer?.includes('10段階中 3.5 で、低めの水準です。'), answer);
+    const answer = faqs.map(([, a]) => a).find((a) => a.includes('の平均 AI 影響度は'));
+    assert.ok(answer?.includes('3.5/10 変化 小さい'), answer);
   });
 
-  test('genre and interest hubs print and judge the same rounded mean', () => {
-    for (const file of ['genre-hub.ts', 'interests.ts', 'skills-hub.ts']) { // skills-hub: #864
+  test('a displayed sector mean of 4.0 is 変化 中くらい, and 6.9666… is 変化 大きい', () => {
+    for (const [meanRisk, word] of [
+      [3.9666666666666663, '4.0/10 変化 中くらい'],
+      [6.966666666666667, '7.0/10 変化 大きい'],
+    ] as const) {
+      const faqs = buildSectorFaqs({
+        nameJa: '業種',
+        occupationCount: 2,
+        workforceTotal: 100,
+        meanRisk,
+        topWorkers: [],
+        topHigh: [],
+        topLow: [],
+      });
+      const answer = faqs.map(([, a]) => a).find((a) => a.includes('の平均 AI 影響度は'));
+      assert.ok(answer?.includes(word), `${meanRisk} -> ${answer}`);
+    }
+  });
+
+  test('genre, interest and skill hubs print the signed label, not the old four-tier words', () => {
+    for (const file of ['genre-hub.ts', 'interests.ts', 'skills-hub.ts']) {
       const source = readFileSync(join(import.meta.dirname, file), 'utf8');
-      assert.match(source, /const shownMean = displayScore\(meanRisk\);/, file);
-      assert.match(source, /shownMean <= 3\.5 \? '低め' : shownMean <= 5\.5 \? '中程度' : 'やや高め'/, file);
-      assert.match(source, /\$\{shownMean\.toFixed\(1\)\}\/10/, file);
+      assert.match(source, /formatShownMeanLabel\(meanRisk\)/, file);
+      assert.doesNotMatch(source, /低め|中程度|やや高め/, file);
     }
   });
 });

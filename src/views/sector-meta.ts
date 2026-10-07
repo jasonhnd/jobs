@@ -29,7 +29,7 @@
  */
 
 import { html, type SafeHtml } from '../lib/safe-html.js';
-import { formatScoreFixed1 } from '../lib/score-format.js';
+import { formatShownMeanLabel } from '../lib/score-format.js';
 import { bankerRound } from '../data/lib/banker-round.js';
 import { riskBand } from '../data/lib/bands.js';
 
@@ -369,8 +369,8 @@ export function computeSectorPatterns(
   if (Math.abs(shownAiDiff) >= 0.8) {
     observations.push(
       shownAiDiff > 0
-        ? html`${sectorJa} の平均 AI 影響度は ${formatScoreFixed1(sectorAiMean)}/10 で、全業種平均より <strong>+${shownAiDiff.toFixed(1)}</strong> 高い`
-        : html`${sectorJa} の平均 AI 影響度は ${formatScoreFixed1(sectorAiMean)}/10 で、全業種平均より <strong>${shownAiDiff.toFixed(1)}</strong> 低い`,
+        ? html`${sectorJa} の平均 AI 影響度は ${formatShownMeanLabel(sectorAiMean)} で、全業種平均より <strong>+${shownAiDiff.toFixed(1)}</strong> 高い`
+        : html`${sectorJa} の平均 AI 影響度は ${formatShownMeanLabel(sectorAiMean)} で、全業種平均より <strong>${shownAiDiff.toFixed(1)}</strong> 低い`,
     );
   }
 
