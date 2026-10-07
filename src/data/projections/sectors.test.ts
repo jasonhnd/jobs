@@ -5,6 +5,7 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
 import { buildSectors, suggestSector } from './sectors.js';
+import { displayScore } from '../lib/banker-round.js';
 import type { Indexes } from '../lib/indexes.js';
 import type { SectorDef } from '../schema/sector.js';
 
@@ -69,7 +70,7 @@ describe('buildSectors aggregation', () => {
         canonicalScoreByOcc: new Map([
           [1, { ai_risk: 2.898 }],
           [2, { ai_risk: 2.673 }],
-          [3, { ai_risk: 2.878 }],
+          [3, { ai_risk: 2.978 }],
         ]),
         sectors,
         sectorByOcc: new Map([
@@ -97,7 +98,10 @@ describe('buildSectors aggregation', () => {
         }>;
       };
       const alpha = sectorsPayload.sectors.find((entry) => entry.id === 'alpha');
-      assert.equal(alpha?.mean_ai_risk, 2.82);
+      // Unrounded mean 8.549 / 3 = 2.8497 (prints 2.8). Rounding to 2.85 first
+      // would make the one-decimal consumers print 2.9 (#863).
+      assert.ok(Math.abs(alpha!.mean_ai_risk! - 8.549 / 3) < 1e-12);
+      assert.equal(displayScore(alpha!.mean_ai_risk!), 2.8);
       assert.equal(alpha?.total_workforce, 10_000_000_000_000_002);
 
       const queuePayload = JSON.parse(

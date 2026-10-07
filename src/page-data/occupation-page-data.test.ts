@@ -180,6 +180,21 @@ describe('pickRelatedOccupations', () => {
     assert.deepEqual(pickRelatedOccupations(focus, [fakeRec(11, 5), focus, fakeRec(9, 5)], 2)
       .map((rec) => rec.id), [9, 11]);
   });
+
+  test('close-risk distance compares displayed tenths, not FP residue (#863)', () => {
+    // |4.1 − 4.4| = 0.3000000000000007, |4.7 − 4.4| = 0.2999999999999998: both 0.3,
+    // so id-distance decides → 101 before 102.
+    const focus = fakeRec(100, 4.4);
+    assert.deepEqual(pickRelatedOccupations(focus, [focus, fakeRec(102, 4.7), fakeRec(101, 4.1)], 2)
+      .map((rec) => rec.id), [101, 102]);
+  });
+
+  test('close-risk tolerance uses displayed values: 5.0 vs 6.0 is within 1 (#863)', () => {
+    // Unrounded means 4.9667 (prints 5.0) and 6.0333 (prints 6.0): raw gap 1.0667.
+    const focus = fakeRec(100, 4.966666666666667);
+    const out = pickRelatedOccupations(focus, [focus, fakeRec(300, 6.033333333333333), fakeRec(101, 9)], 1);
+    assert.deepEqual(out.map((rec) => rec.id), [300]);
+  });
 });
 
 test('occupation hero and FAQ share the canonical tied-score rank', () => {

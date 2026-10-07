@@ -413,6 +413,35 @@ describe('pickFlagshipMeanScore', () => {
     assert.equal(tie.rationaleEntry.model, 'claude-opus-5');
   });
 
+  test('rationale: a vote exactly 0.3 from the mean is within ±0.3 (no FP residue)', () => {
+    // mean = 11.4 / 3 = 3.8; |4.1 - 3.8| computes as 0.30000000000000027 in doubles.
+    // CONSENSUS_SCORE.md rule 6: ±0.3 inclusive, newest wins → gpt-6.1-sol (occupation 217 shape).
+    const got = pickFlagshipMeanScore([
+      vote('claude-opus-5-5', '2026-09-23', 4.0),
+      vote('grok-4.6', '2026-09-23', 3.3),
+      vote('gpt-6.1-sol', '2026-10-01', 4.1),
+    ]);
+    assert.equal(got.rationaleEntry.model, 'gpt-6.1-sol');
+
+    // 2.3 vs a mean of 2.6: same residue on the low side.
+    const low = pickFlagshipMeanScore([
+      vote('claude-opus-5-5', '2026-09-23', 2.6),
+      vote('grok-4.6', '2026-09-23', 2.9),
+      vote('gpt-6.1-sol', '2026-10-01', 2.3),
+    ]);
+    assert.equal(low.rationaleEntry.model, 'gpt-6.1-sol');
+  });
+
+  test('rationale: nearest fallback ties exactly equal distances to the newer vote', () => {
+    // Two-vendor panel, mean 0.45: both votes are 0.35 away, but the doubles are
+    // 0.35 and 0.35000000000000003. Rule 6 tie → newest → gpt-6.1-sol.
+    const got = pickFlagshipMeanScore([
+      vote('claude-opus-5-5', '2026-09-23', 0.1),
+      vote('gpt-6.1-sol', '2026-10-01', 0.8),
+    ]);
+    assert.equal(got.rationaleEntry.model, 'gpt-6.1-sol');
+  });
+
   test('latest is the newest comparable entry and latestDelta is signed', () => {
     const high = pickFlagshipMeanScore([
       vote('claude-opus-5', '2026-07-26', 5),

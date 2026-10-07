@@ -1,175 +1,128 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import type { ScoreRun } from '../data/schema/score-run.js';
-import {
-  assertCandidateMatchesPickLatestScore,
-  buildRankingMoversFromPair,
-  buildRankingMoversFromRuns,
-  selectLatestComparableAioisPair,
-  toComparableAioisBatch,
-} from './ranking-movers.js';
+import type { ScoreHistEntry } from '../graph/score-strategy.js';
+import { buildRankingMoversFromHistory, latestLandedBatch } from './ranking-movers.js';
 
-function run(
-  model: string,
-  date: string,
-  scores: Record<string, { t: number; d: number; aiois?: boolean }>,
-  opts: { provider?: string; backfill?: boolean } = {},
-): ScoreRun {
-  const entries: ScoreRun['scores'] = {};
-  for (const [id, score] of Object.entries(scores)) {
-    entries[id] = {
-      ai_risk: score.t,
-      rationale_ja: `rationale-${id}`,
-      confidence: 0.8,
-      aiois: score.aiois === false ? null : {
-        d1: score.t,
-        d2: score.t,
-        d3: 5,
-        d4: 5,
-        d5: 5,
-        d6: 5,
-        d7: 5,
-        d8: 5,
-        d9: 5,
-        d10: 5,
-        transformation: score.t,
-        displacement: score.d,
-      },
-    };
-  }
+const PROVIDER: Record<string, string> = {
+  'claude-opus-5-5': 'anthropic',
+  'grok-4.7': 'xai',
+  'gpt-6-sol': 'openai',
+  'gpt-6.1-sol': 'openai',
+  'grok-4.5': 'xai',
+};
+
+function vote(model: string, date: string, t: number, d = t, opts: { backfill?: boolean } = {}): ScoreHistEntry {
   return {
-    schema_version: '2.2',
-    scope: 'occupations',
-    scorer: {
-      model,
-      model_provider: opts.provider ?? 'fixture',
-      model_temperature: null,
-      scoring_method: 'fixture',
-      scoring_method_id: 'aiois-semantic-judgment',
+    model,
+    provider: PROVIDER[model] ?? 'fixture',
+    date,
+    ...(opts.backfill ? { backfill: true } : {}),
+    ai_risk: t,
+    rationale_ja: `${model}@${date}`,
+    confidence: 0.8,
+    aiois: {
+      d1: t, d2: t, d3: 5, d4: 5, d5: 5, d6: 5, d7: 5, d8: 5, d9: 5, d10: 5,
+      transformation: t,
+      displacement: d,
     },
-    run: {
-      run_date: date,
-      run_id: `${model}-${date}`,
-      duration_minutes: null,
-      operator: 'test',
-      ...(opts.backfill ? { backfill: true } : {}),
-    },
-    input: {
-      input_data_version: 'fixture',
-      input_data_sha256: null,
-      occupation_count_scored: Object.keys(scores).length,
-      occupation_count_skipped: 0,
-    },
-    prompt: {
-      prompt_version: 'fixture',
-      prompt_file: 'fixture',
-      prompt_sha256: null,
-      rubric_source: 'fixture',
-    },
-    anchors: {},
-    caveat: 'fixture',
-    scores: entries,
   };
 }
 
-const titles = new Map<number, string>([
-  [1, 'Alpha'],
-  [2, 'Beta'],
-  [3, 'Gamma'],
-  [4, 'Delta'],
-]);
+/** Opus + Grok on 09-23, GPT 6 SOL on 09-23, then GPT 6.1 SOL lands on 10-01. */
+function panel(opus: number, grok: number, sol6: number, sol61: number, disp: [number, number, number, number] = [opus, grok, sol6, sol61]) {
+  return [
+    vote('claude-opus-5-5', '2026-09-23', opus, disp[0]),
+    vote('grok-4.7', '2026-09-23', grok, disp[1]),
+    vote('gpt-6-sol', '2026-09-23', sol6, disp[2]),
+    vote('gpt-6.1-sol', '2026-10-01', sol61, disp[3]),
+  ];
+}
 
-describe('ranking movers helper', () => {
-  test('selects the latest two comparable AIOIS-10 occupation batches', () => {
-    const legacy = run('legacy', '2026-04-25', {
-      1: { t: 5, d: 0, aiois: false },
-    });
-    const baseline = run('baseline', '2026-05-30', {
-      1: { t: 5, d: 2 },
-    });
-    const candidate = run('candidate', '2026-06-13', {
-      1: { t: 6, d: 3 },
-    });
+const titles = new Map<number, string>([[1, 'Alpha'], [2, 'Beta'], [3, 'Gamma'], [4, 'Delta'], [5, 'Eps']]);
 
-    assert.equal(toComparableAioisBatch(legacy), null);
-    const pair = selectLatestComparableAioisPair([legacy, candidate, baseline]);
-    assert.equal(pair.baseline.model, 'baseline');
-    assert.equal(pair.candidate.model, 'candidate');
+describe('latestLandedBatch', () => {
+  test('is the newest non-backfill comparable date and the models scored on it', () => {
+    const history = new Map<number, ScoreHistEntry[]>([
+      [1, [...panel(4, 4, 4, 4), vote('grok-4.5', '2099-12-31', 9, 9, { backfill: true })]],
+      [2, [vote('claude-opus-5-5', '2026-10-01', 3), vote('gpt-6.1-sol', '2026-10-01', 3)]],
+    ]);
+    assert.deepEqual(latestLandedBatch(history), { date: '2026-10-01', models: ['claude-opus-5-5', 'gpt-6.1-sol'] });
   });
 
-  test('orders movers by dT/dD and preserves displayed values', () => {
-    const baseline = toComparableAioisBatch(run('baseline', '2026-05-30', {
-      1: { t: 5.0, d: 2.0 },
-      2: { t: 4.0, d: 5.0 },
-      3: { t: 8.0, d: 6.0 },
-      4: { t: 1.0, d: 1.0 },
-    }))!;
-    const candidate = toComparableAioisBatch(run('candidate', '2026-06-13', {
-      1: { t: 6.2, d: 1.5 },
-      2: { t: 3.6, d: 7.0 },
-      3: { t: 7.0, d: 4.0 },
-      4: { t: 1.5, d: 1.1 },
-    }))!;
+  test('throws when there is no comparable batch', () => {
+    assert.throws(() => latestLandedBatch(new Map()), /no comparable/);
+  });
+});
 
-    const familyById = new Map([[2, 'office']]);
-    const movers = buildRankingMoversFromPair(baseline, candidate, titles, {
-      topN: 2,
-      familyById,
-    });
-
-    assert.deepEqual(movers.transformation.up.map((row) => row.id), [1, 4]);
-    assert.deepEqual(movers.transformation.down.map((row) => row.id), [3, 2]);
-    assert.deepEqual(movers.displacement.up.map((row) => row.id), [2, 4]);
-    assert.deepEqual(movers.displacement.down.map((row) => row.id), [3, 1]);
-
-    assert.deepEqual(movers.displacement.up[0], {
-      id: 2,
-      name: 'Beta',
-      base: 5.0,
-      current: 7.0,
-      delta: 2.0,
-      familyCode: 'office',
-    });
-    assert.equal(movers.meta.comparedCount, 4);
+describe('buildRankingMoversFromHistory (owner option A, #863)', () => {
+  test('delta is the change of the published mean, not of one model (id 213 shape)', () => {
+    // Before: mean(4.4, 4.5, 4.5) = 4.4667 → 4.5. After: mean(4.4, 4.5, 6.2) = 5.0333 → 5.0.
+    // The single-model diff would have shown 4.5 → 6.2 (+1.7).
+    const movers = buildRankingMoversFromHistory(new Map([[1, panel(4.4, 4.5, 4.5, 6.2)]]), titles);
+    assert.deepEqual(movers.transformation.up, [
+      { id: 1, name: 'Alpha', base: 4.5, current: 5.0, delta: 0.5, familyCode: null },
+    ]);
+    assert.deepEqual(movers.transformation.down, []);
+    assert.deepEqual(movers.meta.landed, { date: '2026-10-01', models: ['gpt-6.1-sol'] });
+    assert.equal(movers.meta.comparedCount, 1);
   });
 
-  test('confirms candidate batch is the active pickLatestScore batch', () => {
-    const baseline = run('baseline', '2026-05-30', {
-      1: { t: 5, d: 2 },
-      2: { t: 4, d: 5 },
-    });
-    const candidate = run('candidate', '2026-06-13', {
-      1: { t: 6, d: 3 },
-      2: { t: 3, d: 4 },
-    });
-
-    assert.doesNotThrow(() => buildRankingMoversFromRuns([baseline, candidate], titles));
+  test('base, current and delta are the displayed values (delta = current − base as printed)', () => {
+    // Before 4.4667 → 4.5; after mean(4.4, 4.5, 4.6) = 4.5 → 4.5: no displayed change → not a mover.
+    // id 2: before mean(2.0, 2.1, 2.1) = 2.0667 → 2.1; after mean(2.0, 2.1, 1.4) = 1.8333 → 1.8 (−0.3).
+    const movers = buildRankingMoversFromHistory(new Map([
+      [1, panel(4.4, 4.5, 4.5, 4.6)],
+      [2, panel(2.0, 2.1, 2.1, 1.4)],
+    ]), titles);
+    assert.deepEqual(movers.transformation.up, []);
+    assert.deepEqual(movers.transformation.down, [
+      { id: 2, name: 'Beta', base: 2.1, current: 1.8, delta: -0.3, familyCode: null },
+    ]);
   });
 
-  test('skips a backfill batch when selecting the latest pair (mms-9)', () => {
-    const grok = run('grok-4.6', '2026-09-07', {
-      1: { t: 4, d: 2 },
-      2: { t: 5, d: 3 },
-    }, { provider: 'xai' });
-    const astra = run('gpt-6-astra', '2026-09-10', {
-      1: { t: 6, d: 3 },
-      2: { t: 4, d: 2 },
-    }, { provider: 'openai' });
-    const synthetic = run('grok-4.5', '2099-12-31', {
-      1: { t: 9, d: 8 },
-      2: { t: 9, d: 8 },
-    }, { provider: 'xai', backfill: true });
-    const runs = [grok, astra];
-    const withBackfill = [...runs, synthetic];
-    const pair = selectLatestComparableAioisPair(withBackfill);
-    const without = selectLatestComparableAioisPair(runs);
-    assert.equal(pair.baseline.model, without.baseline.model);
-    assert.equal(pair.candidate.model, without.candidate.model);
-    assert.equal(pair.candidate.date, without.candidate.date);
-    assert.doesNotThrow(() => assertCandidateMatchesPickLatestScore(pair.candidate, withBackfill));
-    const movers = buildRankingMoversFromRuns(withBackfill, titles);
-    assert.equal('backfill' in movers.meta.candidate, false);
-    assert.equal('backfill' in movers.meta.baseline, false);
+  test('displacement movers use the published displacement mean', () => {
+    const movers = buildRankingMoversFromHistory(new Map([
+      [3, panel(5, 5, 5, 5, [3.0, 3.0, 3.0, 6.0])], // 3.0 → 4.0
+    ]), titles);
+    assert.deepEqual(movers.displacement.up, [
+      { id: 3, name: 'Gamma', base: 3.0, current: 4.0, delta: 1.0, familyCode: null },
+    ]);
+    assert.deepEqual(movers.transformation.up, []);
+  });
+
+  test('equal displayed deltas are ordered by id; topN applies', () => {
+    const movers = buildRankingMoversFromHistory(new Map([
+      [4, panel(4.4, 4.4, 4.4, 5.3)], // 4.4 → 4.7
+      [2, panel(1.1, 1.1, 1.1, 2.0)], // 1.1 → 1.4
+      [3, panel(7.0, 7.0, 7.0, 7.9)], // 7.0 → 7.3
+      [1, panel(3.0, 3.0, 3.0, 5.4)], // 3.0 → 3.8
+    ]), titles, { topN: 3, familyById: new Map([[2, 'office']]) });
+    assert.deepEqual(movers.transformation.up.map((row) => [row.id, row.delta]), [[1, 0.8], [2, 0.3], [3, 0.3]]);
+    assert.equal(movers.transformation.up[1]!.familyCode, 'office');
+  });
+
+  test('occupations without a published score before the latest batch are not compared', () => {
+    const movers = buildRankingMoversFromHistory(new Map([
+      [1, panel(4.4, 4.5, 4.5, 6.2)],
+      [5, [vote('gpt-6.1-sol', '2026-10-01', 9.0)]],
+    ]), titles);
+    assert.equal(movers.meta.comparedCount, 1);
+    assert.deepEqual(movers.transformation.up.map((row) => row.id), [1]);
+  });
+
+  test('a backfill batch is neither the landed batch nor part of either side (mms-9)', () => {
+    const base = panel(4.4, 4.5, 4.5, 6.2);
+    const withBackfill = [...base, vote('grok-4.5', '2099-12-31', 9.9, 9.9, { backfill: true })];
+    const a = buildRankingMoversFromHistory(new Map([[1, base]]), titles);
+    const b = buildRankingMoversFromHistory(new Map([[1, withBackfill]]), titles);
+    assert.deepEqual(b, a);
+  });
+
+  test('throws when no occupation has a published score before the latest batch', () => {
+    assert.throws(
+      () => buildRankingMoversFromHistory(new Map([[5, [vote('gpt-6.1-sol', '2026-10-01', 9.0)]]]), titles),
+      /before the latest batch/,
+    );
   });
 });

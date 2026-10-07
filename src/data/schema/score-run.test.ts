@@ -142,3 +142,24 @@ describe('ScoreRunSchema scoring methodology metadata', () => {
     );
   });
 });
+
+describe('RunMeta run_date format (#863)', () => {
+  const withDate = (runDate: string) => {
+    const run = scoreRunWith(validEntry);
+    return { ...run, run: { ...run.run, run_date: runDate } };
+  };
+
+  test('accepts a zero-padded ISO calendar date', () => {
+    assert.equal(ScoreRunSchema.safeParse(withDate('2026-10-01')).success, true);
+    assert.equal(ScoreRunSchema.safeParse(withDate('2028-02-29')).success, true);
+  });
+
+  test('rejects dates that would mis-sort as strings or are not real days', () => {
+    // '2026-9-30' > '2026-10-01' as strings: the older run would win "latest".
+    for (const bad of ['2026-9-30', '2026-10-1', '20261001', '2026-13-01', '2026-02-30', '2027-02-29', "2026-10-01'", '']) {
+      const parsed = ScoreRunSchema.safeParse(withDate(bad));
+      assert.equal(parsed.success, false, bad);
+      if (!parsed.success) assert.deepEqual(parsed.error.issues[0]?.path, ['run', 'run_date']);
+    }
+  });
+});

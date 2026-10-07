@@ -225,7 +225,8 @@ describe('data projection files', () => {
     assert.partialDeepStrictEqual(payload, { schema_version: '1.0', summary, rule: { top_n: 5, min_risk_drop: 1, min_similarity: 0.3, ranking_metric: 'cosine_similarity_over_skills', candidate_pool: 'same_sector_id' } });
     assert.deepEqual(payload.paths, {
       '1': { source_id: 1, candidates: [{ id: 2, title_ja: 'Fixture 2', ai_risk: 2, similarity: 1, sector_id: 'test' }] },
-      '2': { source_id: 2, candidates: [{ id: 1, title_ja: 'Fixture 1', ai_risk: 8, similarity: 1, sector_id: 'test' }], fallback: 'no_safer_in_sector' },
+      // No safer job for 2 (risk 2): the fallback must not offer the riskier 1 (risk 8) — #863.
+      '2': { source_id: 2, candidates: [], fallback: 'no_safer_in_sector' },
       '3': { source_id: 3, candidates: [], fallback: 'no_skills' },
       '4': { source_id: 4, candidates: [], fallback: 'no_similar_in_sector' },
     });

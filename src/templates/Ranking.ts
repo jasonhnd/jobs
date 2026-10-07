@@ -460,15 +460,10 @@ export interface RankingsMoverView {
 
 export interface RankingsMoversView {
   readonly meta: {
-    readonly baseline: {
-      readonly model: string;
+    /** The latest score batch: movers compare the public value before vs after it landed. */
+    readonly landed: {
       readonly date: string;
-      readonly scoreCount: number;
-    };
-    readonly candidate: {
-      readonly model: string;
-      readonly date: string;
-      readonly scoreCount: number;
+      readonly models: readonly string[];
     };
     readonly comparedCount: number;
   };
@@ -509,7 +504,7 @@ function renderMoverList(
 
 /** Compact two-column 今月の変動 for the mobile home first screen (#325). */
 export function renderHomeMovers(movers: RankingsMoversView): SafeHtml {
-  const monthMatch = /^(\d{4})-(\d{2})/.exec(movers.meta.candidate.date);
+  const monthMatch = /^(\d{4})-(\d{2})/.exec(movers.meta.landed.date);
   const monthJa = monthMatch ? `${Number(monthMatch[2])}月` : '';
   const heading = monthJa ? `今月の変動 · ${monthJa}スコア改定` : '今月の変動';
 
@@ -538,14 +533,13 @@ export function renderHomeMovers(movers: RankingsMoversView): SafeHtml {
 
 export function renderRankingsMovers(movers: RankingsMoversView): SafeHtml {
   const note =
-    `${movers.meta.baseline.date} ${movers.meta.baseline.model} → ` +
-    `${movers.meta.candidate.date} ${movers.meta.candidate.model}、` +
+    `${movers.meta.landed.date} ${movers.meta.landed.models.join(' / ')} の採点の反映前 → 反映後、` +
     `共通 ${movers.meta.comparedCount} 職業`;
 
   return (
     `<section class="movers-section" aria-label="今月の急上昇・急降下">` +
     `<h2>今月の急上昇・急降下</h2>` +
-    `<p class="movers-note">AIOIS-10 先月比：${escapeHtml(note)}</p>` +
+    `<p class="movers-note">公開値（3社の最新モデルの平均）の変化：${escapeHtml(note)}</p>` +
     `<div class="mover-grid">` +
     `${renderMoverList('変化指数が上がった職業', movers.transformation.up, 'up')}` +
     `${renderMoverList('変化指数が下がった職業', movers.transformation.down, 'down')}` +
