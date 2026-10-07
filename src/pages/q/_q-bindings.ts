@@ -17,7 +17,7 @@ import type { GeoFacts } from '@/site/geo-facts';
 import { occupationPath } from '@/lib/urls';
 import { riskClass } from '@/lib/risk';
 import { safeMean } from '@/lib/num';
-import { formatRiskScore, formatScoreFixed1 } from '../../lib/score-format.js';
+import { formatRiskScoreLabel, formatScoreFixed1 } from '../../lib/score-format.js';
 import { siteConfig } from '@/site/config';
 import { stringifyJsonLd } from '../../lib/json-for-script.js';
 
@@ -44,7 +44,7 @@ function eyebrowStem(qa: QAItem): string {
 }
 
 function scoreLabel(score: number | null | undefined): string {
-  return formatRiskScore(score);
+  return formatRiskScoreLabel(score);
 }
 
 /**
@@ -101,7 +101,7 @@ export function renderExampleList(examples: ReadonlyArray<DetailFileMin>): strin
   const items = examples.map((d) => {
     const name = d.title?.ja ?? `#${d.id}`;
     const ai = d.ai_risk?.score;
-    const aiStr = formatRiskScore(ai);
+    const aiStr = formatRiskScoreLabel(ai);
     const band = riskClass(ai === null || ai === undefined ? null : ai);
     const sec = d.sector?.ja ?? '';
     const salary = d.stats?.salary_man_yen;
