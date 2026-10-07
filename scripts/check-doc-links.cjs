@@ -9,27 +9,40 @@ function maskHtmlComments(markdown) {
   return markdown.replace(/<!--[\s\S]*?-->/g, (comment) => comment.replace(/[^\n]/g, ' '));
 }
 
-function scannableLines(markdown) {
+// Lines with code masked out, plus the line of a fence that never closes.
+// CommonMark lets an unclosed fence run to the end of the document, which
+// silently exempted every later link from this gate; the caller reports it.
+function scanMarkdown(markdown) {
   const lines = maskHtmlComments(markdown).split(/\r?\n/);
   let fence = null;
 
-  return lines.map((line) => {
-    const marker = line.match(/^ {0,3}(`{3,}|~{3,})/);
+  const scanned = lines.map((line, index) => {
+    const marker = line.match(/^ {0,3}(`{3,}|~{3,})(.*)$/);
     if (fence) {
-      if (marker && marker[1][0] === fence.char && marker[1].length >= fence.length) fence = null;
+      // A closing fence carries no info string (CommonMark §4.5).
+      if (
+        marker &&
+        marker[1][0] === fence.char &&
+        marker[1].length >= fence.length &&
+        marker[2].trim() === ''
+      ) {
+        fence = null;
+      }
       return '';
     }
     if (marker) {
-      fence = { char: marker[1][0], length: marker[1].length };
+      fence = { char: marker[1][0], length: marker[1].length, line: index + 1 };
       return '';
     }
     return line.replace(/(`+)(.*?)\1/g, (inline) => ' '.repeat(inline.length));
   });
+
+  return { lines: scanned, unclosedFenceLine: fence ? fence.line : null };
 }
 
 function extractMarkdownTargets(markdown) {
   const targets = [];
-  const lines = scannableLines(markdown);
+  const { lines } = scanMarkdown(markdown);
 
   for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index];
@@ -53,16 +66,30 @@ function extractMarkdownTargets(markdown) {
   return targets;
 }
 
-function localTargetPath(sourcePath, rawTarget) {
+// `rootEntries` holds the tracked top-level names (`docs`, `README.md`, …).
+// GitHub resolves `/docs/x.md` against the repository root, so a `/` link
+// whose first segment is one of them is a repository path; any other `/…`
+// link (`/standard`, `/data.treemap.json`) is a site route and is skipped.
+function localTargetPath(sourcePath, rawTarget, rootEntries = new Set()) {
   const target = rawTarget.trim();
   if (
     target.length === 0 ||
     target.startsWith('#') ||
-    target.startsWith('/') ||
     target.startsWith('//') ||
     /^[a-z][a-z\d+.-]*:/i.test(target)
   ) {
     return null;
+  }
+  const isRootLink = target.startsWith('/');
+  if (isRootLink) {
+    const firstSegment = target.slice(1).split(/[/?#]/, 1)[0];
+    let decodedSegment = firstSegment;
+    try {
+      decodedSegment = decodeURIComponent(firstSegment);
+    } catch {
+      // fall through: an undecodable segment cannot name a tracked entry
+    }
+    if (!rootEntries.has(decodedSegment)) return null;
   }
 
   const withoutFragment = target.split(/[?#]/, 1)[0];
@@ -73,7 +100,9 @@ function localTargetPath(sourcePath, rawTarget) {
     return { error: `invalid URL encoding in ${JSON.stringify(rawTarget)}` };
   }
 
-  const resolved = posix.normalize(posix.join(posix.dirname(sourcePath), decoded));
+  const resolved = isRootLink
+    ? posix.normalize(decoded.slice(1))
+    : posix.normalize(posix.join(posix.dirname(sourcePath), decoded));
   if (resolved === '..' || resolved.startsWith('../') || posix.isAbsolute(resolved)) {
     return { error: `target escapes the repository: ${JSON.stringify(rawTarget)}` };
   }
@@ -95,12 +124,19 @@ function trackedDirectories(trackedPaths) {
 function checkDocuments(documents, trackedPaths) {
   const tracked = new Set(trackedPaths.map((file) => posix.normalize(file)));
   const directories = trackedDirectories(tracked);
+  const rootEntries = new Set([...tracked].map((file) => file.split('/', 1)[0]));
   const problems = [];
   let localTargetCount = 0;
 
   for (const [sourcePath, markdown] of [...documents.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+    const { unclosedFenceLine } = scanMarkdown(markdown);
+    if (unclosedFenceLine !== null) {
+      problems.push(
+        `${sourcePath}:${unclosedFenceLine}:1: unclosed code fence — every link after it would go unchecked`,
+      );
+    }
     for (const reference of extractMarkdownTargets(markdown)) {
-      const local = localTargetPath(sourcePath, reference.target);
+      const local = localTargetPath(sourcePath, reference.target, rootEntries);
       if (local === null) continue;
       localTargetCount += 1;
       if (local.error) {
