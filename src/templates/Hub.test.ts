@@ -39,6 +39,13 @@ const item: GenreOccupation = {
 };
 
 describe('renderRankItem', () => {
+  test('omits the genre score chip when the hub hides its sort key (#884)', () => {
+    const got = renderRankItem({ ...item, primary_score: -141 }, '育児両立', false);
+    assert.ok(!got.includes('genre-score'));
+    assert.ok(!got.includes('-141'));
+    assert.ok(got.includes('<span class="rl-meta">医療 · <span class="rl-salary">500万円</span>'));
+  });
+
   test('§3.3 whole-row tap keeps genre-score extra + salary + workers', () => {
     const got = renderRankItem(item, '問題敏感性');
     assert.equal(

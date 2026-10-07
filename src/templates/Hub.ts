@@ -31,15 +31,18 @@ export { renderHighlights } from './Highlights.js';
 export { renderSectorChart } from './SectorChart.js';
 export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
-export function renderRankItem(o: GenreOccupation, shortJa: string): SafeHtml {
+export function renderRankItem(o: GenreOccupation, shortJa: string, showScore = true): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
   const scoreStr = formatRiskScore(o.ai_risk);
   const band = riskClass(o.ai_risk);
   const metaParts: string[] = [];
   if (o.sector_ja) metaParts.push(escapeHtml(o.sector_ja));
-  metaParts.push(
-    `<span class="genre-score">${escapeHtml(shortJa)} ${o.primary_score.toFixed(2)}</span>`,
-  );
+  // Hubs whose sort key is not a score (hide_score) omit the chip (#884).
+  if (showScore) {
+    metaParts.push(
+      `<span class="genre-score">${escapeHtml(shortJa)} ${o.primary_score.toFixed(2)}</span>`,
+    );
+  }
   if (o.salary) metaParts.push(`<span class="rl-salary">${Math.trunc(o.salary)}万円</span>`);
   if (o.workers) metaParts.push(`<span class="rl-workers">${fmtInt(o.workers)}人</span>`);
   const metaHtml = metaParts.length
