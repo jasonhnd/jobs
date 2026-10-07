@@ -49,22 +49,41 @@ const TOKENISED: ReadonlySet<string> = new Set([
 const DECLARATION = /(?:^|[;{\s])(--[A-Za-z0-9_-]+|-?[A-Za-z][A-Za-z-]*)\s*:\s*([^;}\n]+)/g;
 
 /**
- * Explicit, audited exemptions: values that match a palette colour but cannot
- * be written as a token yet. Each names the file, the declaration, why, and the
- * audit that listed it. Adding a token is a canon change (§20.6), so these wait
- * for the owner instead of being forced. Keep this list short and dated.
+ * Explicit, audited exemptions — a value that matches the palette but cannot be
+ * written as `var()` without a canon change or a rendering change. Adding a
+ * token is a canon change (§20.6), so these wait for the owner instead of
+ * being forced. Each entry names the file, the rule, why, and the audit that
+ * listed it. Keep the list short.
+ *
+ * An entry exempts a COPY of a palette token only: the custom property must be
+ * named like the token and still hold the token's current value. A copy that
+ * drifts from canonical-css.ts fails like any other raw colour.
  */
-export const COLOUR_EXEMPTIONS: ReadonlyArray<{
+export const PALETTE_COPY_EXEMPTIONS: ReadonlyArray<{
   readonly file: string;
-  /** Matches the line text (comments already stripped). */
-  readonly line: RegExp;
+  /** Matches the selector the declaration sits under. */
+  readonly selector: RegExp;
   readonly why: string;
   readonly audit: string;
-}> = [];
+}> = [
+  {
+    // The homepage inlines the head of _index.css as critical CSS in <head>
+    // (src/pages/_index-css.ts), while canonical-css.ts's :root is emitted
+    // from Footer.astro in <body> — 80 KB later in the byte stream. Until the
+    // footer is parsed, var(--bg) etc. resolve only because these copies
+    // exist; replacing them with var() would leave the first paint without a
+    // palette. Removing the copy needs the canonical :root moved into <head>,
+    // which is a page-structure change outside #866.
+    file: 'src/pages/_index.css',
+    selector: /^:root(?![\w-])/,
+    why: 'first-paint copy of the layer-2 aliases; canonical :root arrives later in <body>',
+    audit: '2026-10-07 build-gate audit P1-2 (#866)',
+  },
+];
 
 /**
  * §2.1 — the palette is DEFINED in canonical-css.ts's :root (and the
- * neutralised theme copies of it, `:root[data-theme=…]`). A custom property
+ * neutralised data-theme copies of that block). A custom property
  * there written as a raw colour is the token, not an escape from it.
  */
 const CANON = 'src/lib/canonical-css.ts';
@@ -72,8 +91,11 @@ function isPaletteDefinition(file: string, selector: string, property: string): 
   return file === CANON && property.startsWith('--') && /^:root(?![\w-])/.test(selector);
 }
 
-function exempt(file: string, text: string): boolean {
-  return COLOUR_EXEMPTIONS.some((e) => e.file === file && e.line.test(text));
+function isPaletteCopy(file: string, selector: string, property: string, value: string, root: string): boolean {
+  if (!PALETTE_COPY_EXEMPTIONS.some((e) => e.file === file && e.selector.test(selector))) return false;
+  const canonical = paletteByName(root).get(property);
+  const [rgb, ...rest] = parseColours(value);
+  return canonical != null && rgb != null && rest.length === 0 && rgbKey(rgb) === canonical;
 }
 
 /**
@@ -83,21 +105,32 @@ function exempt(file: string, text: string): boolean {
  * cache keyed on nothing would leak the real palette into them. A root with no
  * canonical-css.ts simply has an empty palette, so nothing is derivable there.
  */
-const paletteCache = new Map<string, Map<string, string>>();
+const paletteCache = new Map<string, { byRgb: Map<string, string>; byName: Map<string, string> }>();
 function paletteByRgb(root: string): Map<string, string> {
+  return palette(root).byRgb;
+}
+/** token name -> rgb key */
+function paletteByName(root: string): Map<string, string> {
+  return palette(root).byName;
+}
+function palette(root: string): { byRgb: Map<string, string>; byName: Map<string, string> } {
   const cached = paletteCache.get(root);
   if (cached != null) return cached;
   const m = new Map<string, string>();
+  const byName = new Map<string, string>();
+  const result = { byRgb: m, byName };
   let css = '';
   try {
     css = readFileSync(join(root, 'src/lib/canonical-css.ts'), 'utf-8');
   } catch {
-    paletteCache.set(root, m);
-    return m;
+    paletteCache.set(root, result);
+    return result;
   }
   const add = (name: string, hex: string): void => {
     const [rgb] = parseColours(hex);
-    if (rgb != null && !m.has(rgbKey(rgb))) m.set(rgbKey(rgb), name);
+    if (rgb == null) return;
+    if (!m.has(rgbKey(rgb))) m.set(rgbKey(rgb), name);
+    if (!byName.has(name)) byName.set(name, rgbKey(rgb));
   };
   for (const hit of css.matchAll(/(--[a-z0-9-]+):\s*(#[0-9a-fA-F]{3,6})\s*;/g)) {
     add(hit[1] ?? '', hit[2] ?? '');
@@ -107,8 +140,8 @@ function paletteByRgb(root: string): Map<string, string> {
   for (const [name, value] of Object.entries(DESIGN_TOKENS)) {
     if (/^#[0-9a-fA-F]{3,6}$/.test(value)) add(name, value);
   }
-  paletteCache.set(root, m);
-  return m;
+  paletteCache.set(root, result);
+  return result;
 }
 
 /** The palette token a value's colour equals, if any. */
@@ -138,12 +171,13 @@ export function findColourViolations(root: string = process.cwd()): ColourViolat
     lines.forEach((raw, idx) => {
       const sel = raw.match(/^\s*([^{}@]+?)\s*\{/);
       if (sel) selector = (sel[1] ?? '').trim();
-      if (isUnassigned(file, selector) || exempt(file, raw)) return;
+      if (isUnassigned(file, selector)) return;
       const text = blankDataUris(raw);
       for (const m of text.matchAll(DECLARATION)) {
         const property = (m[1] ?? '').toLowerCase();
         const value = (m[2] ?? '').trim();
         if (isPaletteDefinition(file, selector, property)) continue;
+        if (isPaletteCopy(file, selector, property, value, root)) continue;
         const known = TOKENISED.has(property);
         // Outside the original list, only CSS syntax counts: a colour inside
         // quotes there is data (`CPB: '#D96B3D'`, `CPB: { accent: '#…' }`),

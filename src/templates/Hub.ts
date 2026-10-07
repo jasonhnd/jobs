@@ -433,7 +433,7 @@ ${AI_FACT_CSS}
 /* RA-016 (2026-05-18): unified Q&A details list — see renderQGroupsHtml */
 .qa-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px}
 .qa-item details{background:var(--bg2);border:1px solid var(--border);border-radius:10px;transition:border-color 150ms,box-shadow 150ms}
-.qa-item details[open]{border-color:var(--accent);box-shadow:0 4px 14px rgba(217,107,61,0.08)}
+.qa-item details[open]{border-color:var(--accent);box-shadow:0 4px 14px color-mix(in srgb, var(--accent) 8%, transparent)}
 /* RA-120 (2026-05-18): mobile min-height stops alternating 61↔91 row heights when long questions wrap to 2 lines. */
 .qa-item summary{cursor:pointer;padding:16px 22px;font-family:var(--font-sans);font-size:var(--t-body);font-weight:700;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:60px}
 .qa-item summary::-webkit-details-marker{display:none}

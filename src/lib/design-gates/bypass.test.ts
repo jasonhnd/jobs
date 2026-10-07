@@ -151,6 +151,29 @@ describe('check-color-tokens — every property, every colour syntax (#866 P1-2)
     assert.equal(failing('.a { color: var(--bg2, #FFFFFF); }').length, 0);
   });
 
+  test('the palette is defined in canonical-css.ts :root; a rule there is still checked', () => {
+    const canon = 'export const CSS = `\n:root {\n  --orange: #D96B3D;\n}\n.banner {\n  color: #D96B3D;\n}\n`;\n';
+    withRepo({}, (root) => {
+      const v = findColourViolations(root).filter((x) => x.derivable);
+      assert.deepEqual(v.map((x) => [x.selector, x.property]), [['.banner', 'color']]);
+    }, { 'src/lib/canonical-css.ts': canon, 'docs/DESIGN_CONFORMANCE.md': LEDGER(['src/lib/canonical-css.ts']) });
+  });
+
+  test('the homepage first-paint palette copy is exempt only while it equals the token', () => {
+    const copy = (v: string) => `:root {\n  --fg2: ${v};\n  --border: color-mix(in srgb, var(--fg) 10%, transparent);\n}\n`;
+    withRepo({ 'src/pages/_index.css': copy('#7A6F5E') }, (root) => {
+      assert.deepEqual(findColourViolations(root), []);
+    });
+    // Drifted from canonical-css.ts: no longer a copy, so it is judged like any raw colour.
+    withRepo({ 'src/pages/_index.css': copy('#D96B3D') }, (root) => {
+      assert.equal(findColourViolations(root).filter((x) => x.derivable).length, 1);
+    });
+    // The same declaration outside :root is not covered.
+    withRepo({ 'src/pages/_index.css': '.x {\n  --fg2: #7A6F5E;\n}\n' }, (root) => {
+      assert.equal(findColourViolations(root).filter((x) => x.derivable).length, 1);
+    });
+  });
+
   test('a data URI blanks only the URI, not the declarations after it on the line', () => {
     const line =
       ".a { background: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E\"); color: #D96B3D; }";
