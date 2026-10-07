@@ -433,17 +433,32 @@ function isHardLinkInto(dir: string, path: string): boolean {
 }
 
 /**
+ * The path as requested: its parent directory resolved to the real path, the
+ * last segment kept as is (a final symlink is not followed).
+ */
+function requestedPath(path: string): string {
+  const abs = resolve(path);
+  return join(canonicalPath(dirname(abs)), basename(abs));
+}
+
+/**
  * Refuse an output path that would destroy data. A fresh run truncates
  * `outPath`, so a non-empty file (a finished, paid run) needs `--resume` or an
  * explicit `--overwrite`. Score batches under `data/scores/` are append-only
- * and only `assemble-scores.ts` may create them, so no raw run writes there —
- * checked on real paths, so a symlink, a hard link, or an alias of the repo
- * root (e.g. /tmp vs /private/tmp) cannot reach a batch either.
+ * and only `assemble-scores.ts` may create them, so no raw run writes there.
+ * Any one of these refuses, and neither --resume nor --overwrite bypasses it:
+ *   (a) the requested entry (parent real path + last segment) is in data/scores;
+ *   (b) the fully dereferenced real path is in data/scores (symlinks, root
+ *       aliases such as /tmp vs /private/tmp);
+ *   (c) it is a hard link to a file in data/scores.
  */
 export function assertWritableOutput(args: ScoringArgs, root: string): void {
   const scoresDir = canonicalPath(join(root, 'data', 'scores'));
-  const out = canonicalPath(args.outPath);
-  if (isWithin(scoresDir, out) || isHardLinkInto(scoresDir, args.outPath)) {
+  if (
+    isWithin(scoresDir, requestedPath(args.outPath)) ||
+    isWithin(scoresDir, canonicalPath(args.outPath)) ||
+    isHardLinkInto(scoresDir, args.outPath)
+  ) {
     throw new Error(`--out must not be under data/scores/ (append-only batches): ${args.outPath}`);
   }
   if (args.resume || args.overwrite) return;

@@ -5,10 +5,12 @@ import { strict as assert } from 'node:assert';
 import {
   existsSync,
   linkSync,
+  lstatSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
   readdirSync,
+  readlinkSync,
   realpathSync,
   rmSync,
   symlinkSync,
@@ -403,6 +405,39 @@ describe('runScoring', () => {
         }
       });
     }
+
+    for (const mode of [{ resume: true }, { overwrite: true }, {}] as const) {
+      test(`an entry inside data/scores that symlinks outside is refused (${JSON.stringify(mode)}); entry and target unchanged`, async () => {
+        const { root, scoresDir, outside } = batchFixture();
+        try {
+          const target = join(outside, 'target.jsonl');
+          writeFileSync(target, BATCH, 'utf8');
+          const entry = join(scoresDir, 'link.jsonl');
+          symlinkSync(target, entry);
+          await expectRefused(root, { outPath: entry, ...mode });
+          assert.equal(lstatSync(entry).isSymbolicLink(), true);
+          assert.equal(readlinkSync(entry), target);
+          assert.equal(readFileSync(target, 'utf8'), BATCH);
+          assert.equal(readFileSync(join(scoresDir, 'batch.json'), 'utf8'), BATCH);
+        } finally {
+          rmSync(root, { recursive: true, force: true });
+        }
+      });
+    }
+
+    test('an entry inside data/scores that is a dangling symlink to outside is refused and creates nothing', async () => {
+      const { root, scoresDir, outside } = batchFixture();
+      try {
+        const target = join(outside, 'not-yet.jsonl');
+        const entry = join(scoresDir, 'dangling.jsonl');
+        symlinkSync(target, entry);
+        await expectRefused(root, { outPath: entry, overwrite: true });
+        assert.equal(existsSync(target), false);
+        assert.equal(lstatSync(entry).isSymbolicLink(), true);
+      } finally {
+        rmSync(root, { recursive: true, force: true });
+      }
+    });
 
     test('a parent-directory symlink into data/scores is refused and creates nothing', async () => {
       const { root, scoresDir, outside } = batchFixture();
