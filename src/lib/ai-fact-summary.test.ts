@@ -176,7 +176,8 @@ describe('buildAiFactSummary', () => {
 describe('GEO page fact summaries', () => {
   test('sector summary uses precomputed sector facts and rank', () => {
     const s = buildSectorGeoFactSummary({ facts: geoFacts, sectorId: 'it' });
-    assert.ok(s.includes('ITセクターは2職業、就業者1,600人、平均AI影響度8.10/10'), s);
+    assert.ok(s.includes('ITセクターは2職業、就業者1,600人、平均AI影響度8.1/10 変化 大きい'), s);
+    assert.ok(s.includes('全体平均5.4/10 変化 中くらいを上回る水準'), s);
     assert.ok(s.includes('セクター平均AI影響度順では1/2位'), s);
     assert.ok(s.endsWith(formatConsensusCitation(SCORE_PANEL.latestRunDate)), s);
   });
@@ -194,7 +195,7 @@ describe('GEO page fact summaries', () => {
     const s = buildOccupationGeoFactSummary({ facts, occupationId: 4 });
     assert.ok(s.includes('DのAI影響度は9.2/10 変化 大きい'), s);
     assert.ok(s.includes('AI影響度の高い順では1/4位'), s);
-    assert.ok(s.includes('全体平均5.42/10を上回る水準'), s);
+    assert.ok(s.includes('全体平均5.4/10 変化 中くらいを上回る水準'), s);
     assert.ok(s.includes('仕事が減るリスクは8.0/10'), s);
     assert.ok(s.includes('年収中央値は約720万円'), s);
     assert.ok(s.endsWith(formatConsensusCitation(SCORE_PANEL.latestRunDate)), s);
@@ -211,8 +212,18 @@ describe('GEO page fact summaries', () => {
     };
     const s = buildOccupationGeoFactSummary({ facts, occupationId: 4 });
     assert.ok(s.includes('DのAI影響度は5.4/10 変化 中くらい'), s);
-    assert.ok(s.includes('全体平均5.42/10を下回る水準'), s);
+    assert.ok(s.includes('全体平均5.4/10 変化 中くらいを下回る水準'), s);
     assert.ok(s.includes('仕事が減るリスクは4.0/10で、業務の再設計が進みやすい中程度のリスクです。'), s);
+  });
+
+  test('an empty occupation set still labels the overall mean and the median', () => {
+    const s = buildOccupationSetGeoFactSummary({
+      facts: geoFacts,
+      subjectJa: '空の集合',
+      pageKindJa: 'ランキング',
+      occupationIds: [99],
+    });
+    assert.ok(s.includes('全体平均AI影響度は5.4/10 変化 中くらい、中央値は5.5/10 変化 中くらいです。'), s);
   });
 
   test('occupation-set summary aggregates only through geo-facts helper', () => {
@@ -222,7 +233,7 @@ describe('GEO page fact summaries', () => {
       pageKindJa: 'ランキング',
       occupationIds: [3, 1, 3],
     });
-    assert.ok(s.includes('表示する2職業を同じ口径で集計すると、平均AI影響度は4.25/10、就業者合計は700人'), s);
+    assert.ok(s.includes('表示する2職業を同じ口径で集計すると、平均AI影響度は4.2/10 変化 中くらい、就業者合計は700人'), s);
     assert.ok(s.includes('先頭のCはAI影響度7.0/10 変化 大きい'), s);
     assert.ok(s.includes('最も低いAは1.5/10 変化 小さい'), s);
   });
@@ -235,7 +246,7 @@ describe('GEO page fact summaries', () => {
     });
     assert.ok(s.includes('AはAI影響度1.5/10 変化 小さい、Dは9.2/10 変化 大きい'), s);
     assert.ok(s.includes('差は7.7ポイント'), s);
-    assert.ok(s.includes('2職業の平均AI影響度は5.35/10、就業者合計は1,100人'), s);
+    assert.ok(s.includes('2職業の平均AI影響度は5.3/10 変化 中くらい、就業者合計は1,100人'), s);
   });
 
   test('compare summary handles equal scores without claiming one side is higher', () => {

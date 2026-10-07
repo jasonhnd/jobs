@@ -17,6 +17,7 @@
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
+import { riskBandWord } from '../lib/risk.js';
 import { CONSENSUS_DIM_NOTE, formatConsensusScoreFixed1 } from '../site/consensus-copy.js';
 
 export interface Aiois10ProfileInput {
@@ -43,6 +44,13 @@ const DIMS: ReadonlyArray<{ key: keyof Aiois10ProfileInput; code: string; ja: st
 const pct = (v: number): number => Math.max(0, Math.min(100, Math.round(Number(formatConsensusScoreFixed1(v)) * 10)));
 const fmt = (v: number): string => formatConsensusScoreFixed1(v);
 
+/** Transformation is an AI-change score. Displacement stays a bare number. */
+function transformationLabel(v: number): string {
+  const word = riskBandWord(v);
+  const num = `${fmt(v)}<small>/10</small>`;
+  return word ? `${num} <span class="score-band">${escapeHtml(word)}</span>` : num;
+}
+
 export function renderAiois10Profile(a: Aiois10ProfileInput | null): SafeHtml {
   if (!a) return '' as SafeHtml;
 
@@ -63,7 +71,7 @@ export function renderAiois10Profile(a: Aiois10ProfileInput | null): SafeHtml {
         <div class="aio-indices">
           <div class="aio-idx idx-t">
             <span class="aio-idx-lbl">変化の大きさ</span>
-            <span class="aio-idx-num">${fmt(a.transformation)}<small>/10</small></span>
+            <span class="aio-idx-num">${transformationLabel(a.transformation)}</span>
             <span class="aio-idx-sub">仕事のやり方がどれだけ変わるか</span>
           </div>
           <div class="aio-idx idx-d">

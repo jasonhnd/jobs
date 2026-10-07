@@ -216,7 +216,8 @@ describe('buildQSlugBindings', () => {
     assert.match(bindings.reasoningHtml, /href="\/2"/);
     assert.match(bindings.reasoningHtml, /&amp; &lt;reason&gt;/);
     assert.match(bindings.aiFactHtml, /class="ai-fact"/);
-    assert.match(bindings.aiFactHtml, /5\.00\/10/);
+    assert.match(bindings.aiFactHtml, /5\.0\/10 変化 中くらい/);
+    assert.doesNotMatch(bindings.aiFactHtml, /5\.00\/10/);
     assert.match(bindings.aiFactHtml, /300人/);
     assert.match(bindings.answerLineHtml, /<strong>AlphaJob<\/strong>/);
     assert.match(bindings.exampleListHtml, /href="\/occupations\/404"/);
@@ -248,7 +249,8 @@ describe('buildQSlugBindings', () => {
     assert.equal(bindings.exampleListHtml, '<p>該当例なし</p>');
     assert.deepEqual(bindings.relatedQAs, []);
     assert.equal(bindings.relatedHtml, '<ul class="related-genre"></ul>');
-    assert.match(bindings.aiFactHtml, /5\.00\/10/);
+    assert.match(bindings.aiFactHtml, /5\.0\/10 変化 中くらい/);
+    assert.doesNotMatch(bindings.aiFactHtml, /5\.00\/10/);
     assert.equal(JSON.parse(bindings.jsonLd)['@graph'][1].mainEntity.name, qa.question);
   });
 });
