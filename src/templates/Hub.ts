@@ -138,7 +138,7 @@ export function renderGenreJsonLd(
       })),
     });
   }
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 export function renderGenreIndexJsonLd(
@@ -146,7 +146,7 @@ export function renderGenreIndexJsonLd(
   genreLabel: string,
   description: string,
 ): string {
-  return JSON.stringify(
+  return stringifyJsonLd(
     {
       '@context': 'https://schema.org',
       '@graph': [
@@ -177,7 +177,6 @@ export function renderGenreIndexJsonLd(
         },
       ],
     },
-    null,
     2,
   );
 }
@@ -338,7 +337,7 @@ export function renderExploreOtherRoutes(
 export function renderExploreIndexJsonLd(): string {
   const canonical = `${siteConfig.origin}/explore`;
   const seoDesc = `日本 ${OCCUPATION_COUNT.SCORED} 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。`;
-  return JSON.stringify({
+  return stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: '探す方法', description: seoDesc, isPartOf: { '@id': `${SITE}/#website` }, inLanguage: 'ja' },
@@ -347,12 +346,12 @@ export function renderExploreIndexJsonLd(): string {
         { '@type': 'ListItem', position: 2, name: '探す方法', item: canonical },
       ] },
     ],
-  }, null, 2);
+  }, 2);
 }
 
 export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc: string): string {
   const canonical = `${siteConfig.origin}/explore/${slug}`;
-  return JSON.stringify({
+  return stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title_ja, description: seoDesc, inLanguage: 'ja' },
@@ -362,7 +361,7 @@ export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc:
         { '@type': 'ListItem', position: 3, name: title_ja, item: canonical },
       ] },
     ],
-  }, null, 2);
+  }, 2);
 }
 
 // ─── Shared CSS for genre hub pages ──────────────────────────
@@ -381,6 +380,7 @@ export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc:
 
 import { CANONICAL_HUB_CSS } from '../lib/canonical/hub';
 import { formatRiskScore } from '../lib/score-format.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 const HUB_PAGE_SPECIFIC_CSS = `
 .intro{margin:24px 0;color:var(--fg);font-size:var(--t-h3);max-width:64ch}

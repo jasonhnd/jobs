@@ -2,6 +2,7 @@ import { siteConfig } from '../site/config.js';
 import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
 import { occupationPath } from '../lib/urls.js';
 import { displayScore } from '../data/lib/banker-round.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 const SITE = siteConfig.origin;
 const TOP_N = 30;
@@ -214,7 +215,7 @@ export function renderGeoAnswerTopicJsonLd(
       ],
     },
   ];
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 export function renderGeoAnswerIndexJsonLd(facts: GeoFacts): string {
@@ -251,5 +252,5 @@ export function renderGeoAnswerIndexJsonLd(facts: GeoFacts): string {
       })),
     },
   ];
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }

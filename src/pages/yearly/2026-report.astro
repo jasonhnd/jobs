@@ -3,13 +3,14 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { GENRE_HUB_CSS } from '@/templates/Hub';
 import { siteConfig } from '@/site/config';
+import { stringifyJsonLd } from '@/lib/json-for-script';
 
 const canonical = `${siteConfig.origin}/yearly/2026-report`;
 const title = '2026 年版・AI と仕事の現在地 | 未来の仕事';
 const seoDesc = '2026 年時点の日本 556 職業 × AI 影響の全量分析。業種別パターン、注目の発見 10 個、長期キャリア戦略へのヒント。';
 
 const SITE = siteConfig.origin;
-const jsonLd = JSON.stringify({
+const jsonLd = stringifyJsonLd({
   '@context': 'https://schema.org',
   '@graph': [
     { '@type': 'Article', '@id': `${canonical}#article`, url: canonical, name: title, headline: '2026 年版・AI と仕事の現在地', description: seoDesc, inLanguage: 'ja', datePublished: '2026-05-09', dateModified: '2026-05-30', author: { '@id': `${SITE}/#organization` }, publisher: { '@id': `${SITE}/#organization` }, articleSection: '年次レポート' },
@@ -19,7 +20,7 @@ const jsonLd = JSON.stringify({
       { '@type': 'ListItem', position: 3, name: '2026 年版', item: canonical },
     ] },
   ],
-}, null, 2);
+}, 2);
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage={`${siteConfig.origin}/api/og?page=yearly-2026`} ogTitle={title} ogDescription={seoDesc} ogType="article">

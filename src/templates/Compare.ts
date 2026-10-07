@@ -17,6 +17,7 @@ import { riskClass } from '../lib/risk.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { occupationPath } from '../lib/urls.js';
 import { formatRiskScore } from '../lib/score-format.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 export { escapeHtml };
 export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
@@ -220,7 +221,7 @@ export function renderJsonLd(
     });
   }
 
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 // ─── compare/index hub-card renderer (Phase D audit #8 2026-05-14) ────
@@ -298,7 +299,7 @@ export function renderHubJsonLd(): string {
   const canonical = `${SITE}/compare`;
   const seoDesc =
     '日本の代表的な職業同士を side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
-  return JSON.stringify(
+  return stringifyJsonLd(
     {
       '@context': 'https://schema.org',
       '@graph': [
@@ -325,7 +326,6 @@ export function renderHubJsonLd(): string {
         },
       ],
     },
-    null,
     2,
   );
 }
