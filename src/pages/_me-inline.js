@@ -17,6 +17,8 @@
     var $listbox = document.getElementById('meListbox');
     var $announce = document.getElementById('meAnnounce');
     var $empty = document.getElementById('meEmpty');
+    var $quizError = document.getElementById('meQuizError');
+    var LOAD_FAILED_TEXT = 'データの読み込みに失敗しました。再読み込みしてください。';
     var $results = document.getElementById('meResults');
     var $summaryName = document.getElementById('meSummaryName');
     var $summarySector = document.getElementById('meSummarySector');
@@ -64,6 +66,7 @@
     var focusedIdx = -1;
     var rankExpanded = false;
     var currentJobId = null;
+    var selectSeq = 0;
 
     // ── format helpers ──────────────────────────────────────────────
     // One decimal, the server's rule: banker's rounding over the exact stored
@@ -345,7 +348,10 @@
     // ── render results ──────────────────────────────────────────────
     function selectJob(jobId, options) {
       if (!jobId || isNaN(jobId)) return;
+      // Only the latest selection may render (#884: out-of-order responses).
+      var seq = ++selectSeq;
       Promise.all([loadSearchIndex(), loadPositions(), loadTreemap()]).then(function () {
+        if (seq !== selectSeq) return;
         var pos = positionsData.positions[jobId];
         if (!pos) {
           $announce.textContent = 'データが見つかりませんでした';
@@ -359,7 +365,29 @@
         if (!(options && options.restored)) {
           ga('me_select_job', { job_id: jobId, sector: pos.summary.sectorId });
         }
-      });
+      }).catch(showLoadFailure);
+    }
+
+    // Visible notice when data cannot be loaded (#884: these paths had no
+    // .catch, so a failed fetch looked like a dead button).
+    function showLoadFailure(err) {
+      if (typeof console !== 'undefined') console.warn('[me] data load failed:', err);
+      if ($announce) $announce.textContent = LOAD_FAILED_TEXT;
+      if ($empty && !($results && $results.getAttribute('data-visible') === 'true')) {
+        $empty.style.display = '';
+        $empty.replaceChildren();
+        var fail = document.createElement('p');
+        fail.textContent = LOAD_FAILED_TEXT;
+        $empty.appendChild(fail);
+      }
+    }
+    function showQuizLoadFailure(err) {
+      if (typeof console !== 'undefined') console.warn('[me] quiz data load failed:', err);
+      if ($announce) $announce.textContent = LOAD_FAILED_TEXT;
+      if ($quizError) {
+        $quizError.textContent = LOAD_FAILED_TEXT;
+        $quizError.hidden = false;
+      }
     }
 
     function renderResults(pos, options) {
@@ -556,7 +584,7 @@
             variant_bucket: result.bucket
           });
         }
-      });
+      }).catch(showQuizLoadFailure);
     }
 
     function restoreQuizResult(result) {
@@ -601,6 +629,7 @@
 
     function submitQuiz(e) {
       e.preventDefault();
+      if ($quizError) $quizError.hidden = true;
       loadWorktypes().then(function () {
         var result = scoreQuizAnswers();
         if (!result) return;
@@ -608,7 +637,7 @@
         if ($quiz) $quiz.hidden = true;
         updateUrl(currentJobId);
         showGap(result);
-      });
+      }).catch(showQuizLoadFailure);
     }
 
     function wireQuiz() {
@@ -922,7 +951,7 @@
         if ($empty) {
           $empty.replaceChildren();
           var fail = document.createElement('p');
-          fail.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
+          fail.textContent = LOAD_FAILED_TEXT;
           $empty.appendChild(fail);
         }
       });

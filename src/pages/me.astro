@@ -315,6 +315,8 @@ const jsonLd = stringifyJsonLd({
       position: absolute; left: -10000px; width: 1px; height: 1px;
       overflow: hidden;
     }
+    .me-quiz-error { flex-basis: 100%; margin: 0; color: var(--red-text); font-size: var(--t-sm); }
+    .me-quiz-error::before { content: "⚠ "; }
     .me-quiz-cta {
       margin: 8px 0 28px; padding: 20px 22px;
       background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
@@ -484,6 +486,7 @@ const jsonLd = stringifyJsonLd({
           ))}
           <div class="me-quiz-actions">
             <button class="me-quiz-submit" type="submit" id="meQuizSubmit" disabled>答えを見る</button>
+            <p class="me-quiz-error" id="meQuizError" role="alert" hidden></p>
           </div>
         </form>
       </section>
