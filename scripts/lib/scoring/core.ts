@@ -208,18 +208,20 @@ ${occ.text}
 // ─── validation ──────────────────────────────────────────────────
 
 export function validateAndNormalizeResponse(raw: string, expectedId: number): ScoredOccupation {
-  const reportedError = explicitScoringError(raw);
-  if (reportedError) {
-    throw new ScoringError(
-      classifyErrorText(reportedError),
-      `scoring response reported an upstream error/refusal: ${reportedError}`,
-    );
-  }
   const jsonText = extractJsonObject(raw);
   let parsed: unknown;
   try {
     parsed = JSON.parse(jsonText);
   } catch (err) {
+    // Only an unparseable response is scanned for upstream-error wording: a
+    // parsed score's rationale_ja may legitimately say "サービス…エラー".
+    const reportedError = explicitScoringError(raw);
+    if (reportedError) {
+      throw new ScoringError(
+        classifyErrorText(reportedError),
+        `scoring response reported an upstream error/refusal: ${reportedError}`,
+      );
+    }
     throw new ScoringError('malformed', `invalid JSON: ${(err as Error).message}`);
   }
   const result = ScoreSchema.safeParse(parsed);
