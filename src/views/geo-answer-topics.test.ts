@@ -116,9 +116,10 @@ describe('geo answer topics', () => {
     assert.equal(GEO_ANSWER_TOPIC_CONFIGS[2].h1Ja, 'AIでなくならない仕事は何ですか');
   });
 
-  test('salary x AI safety topic filters to AI impact <= 5 and sorts by salary', () => {
+  test('salary x AI safety topic keeps 変化 小さい (displayed < 4.0) and sorts by salary', () => {
     const topic = buildGeoAnswerTopic(facts, 'nenshu-ai-anzen')!;
-    assert.deepEqual(topic.items.map((item) => item.nameJa), ['B', 'C', 'A']);
+    // C prints 4.0, so it is 変化 中くらい and leaves the list.
+    assert.deepEqual(topic.items.map((item) => item.nameJa), ['B', 'A']);
   });
 
   test('growth topic sorts by recruit ratio and omits missing ratios', () => {
