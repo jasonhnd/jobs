@@ -34,3 +34,13 @@ export function formatRiskValue(risk: number | null | undefined): string {
   if (risk == null || !Number.isFinite(risk)) return EMDASH;
   return String(displayScore(risk));
 }
+
+/**
+ * A mean AI-impact score as fixed one-decimal text (`4.0`, `4.7`), with the
+ * same banker's rounding as displayScore — `toFixed(1)` rounds half away from
+ * zero, so a mean of 4.25 printed 4.3 next to rows that print 4.2 (#864).
+ */
+export function formatScoreFixed1(score: number | null | undefined): string {
+  if (score == null || !Number.isFinite(score)) return EMDASH;
+  return displayScore(score).toFixed(1);
+}
