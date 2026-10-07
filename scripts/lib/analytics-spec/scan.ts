@@ -1,10 +1,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import type { DynamicEmitSite, SourceFile, ScanResult } from '../../check-analytics-spec';
-import { lexSource, lineOf, type LexedSource } from './lex';
-import { readLiteral, readParams, splitTopLevel, type Span } from './calls';
-
-const EVENT_NAME = /^[a-z0-9_]+$/;
+import { analyseSource, lineOf } from './emits';
 
 export function createScanner(ROOT: string, fail: (message: string) => never) {
 
@@ -200,228 +197,19 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
     }));
   }
 
-  /** Every standalone occurrence of `name` in the code view. */
-  function references(code: string, name: string, allowMember: boolean): { start: number; end: number }[] {
-    const before = allowMember ? '(?<![\\w$])' : '(?<![\\w$.])';
-    const re = new RegExp(`${before}${name}(?![\\w$])`, 'g');
-    return [...code.matchAll(re)].map((m) => ({ start: m.index!, end: m.index! + name.length }));
-  }
-
-  /** Offset of the `(` when `end` is followed by a call, else -1. */
-  function callParen(code: string, end: number): number {
-    const gap = code.slice(end).match(/^\s*\(/);
-    return gap ? end + gap[0].length - 1 : -1;
-  }
-
-  const isDefinition = (code: string, start: number): boolean => /function\s+$/.test(code.slice(0, start));
-
-  /**
-   * True for the presence tests the codebase uses before calling gtag —
-   * `typeof window.gtag === 'function'`, `if (window.gtag)`, `window.gtag &&` —
-   * and for the bootstrap assignment `window.gtag = function gtag() {…}`.
-   */
-  function isGuardOrAssignment(code: string, start: number, end: number): boolean {
-    const before = code.slice(Math.max(0, start - 40), start);
-    const after = code.slice(end, end + 8).trimStart();
-    if (/typeof\s+(?:window\s*\.\s*)?$/.test(before)) return true;
-    if (/^=(?!=)/.test(after)) return true;
-    if (/^(?:===|!==|==|!=|&&|\|\||\?(?!\.))/.test(after)) return true;
-    return /(?:\bif\s*\(|&&|\|\||!)\s*(?:window\s*\.\s*)?$/.test(before) && /^(?:\)|&&|\|\|)/.test(after);
-  }
-
-  interface SourceScan {
-    readonly file: string;
-    readonly lexed: LexedSource;
-    readonly site: DynamicEmitSite | undefined;
-    readonly result: ScanResult;
-    readonly seenSites: Set<string>;
-    readonly unreadable: (offset: number, reason: string) => void;
-  }
-
-  /** The event-name argument of a gtag('event', …) or wrapper call. */
-  function emitLiteral(scan: SourceScan, args: readonly Span[], nameIndex: number, at: number): string | null {
-    const span = args[nameIndex];
-    if (!span) {
-      scan.unreadable(at, 'an event call without an event name');
-      return null;
-    }
-    const name = readLiteral(scan.lexed, span);
-    if (name.kind === 'template') {
-      scan.unreadable(at, 'an event name in a template literal');
-      return null;
-    }
-    if (name.kind === 'other') return null;
-    if (!EVENT_NAME.test(name.value)) {
-      scan.unreadable(at, `invalid GA4 event name "${name.value}" (snake_case [a-z0-9_] only)`);
-      return null;
-    }
-    return name.value;
-  }
-
-  function pushEmission(scan: SourceScan, event: string, paramsSpan: Span | undefined, at: number): void {
-    const params = readParams(scan.lexed, paramsSpan);
-    if (params.kind === 'unreadable') {
-      scan.unreadable(at, `${event} is sent with ${params.reason}`);
-      return;
-    }
-    scan.result.emissions.push({ event, params: params.kind === 'object' ? params.keys : [], file: scan.file });
-  }
-
-  /** Shapes 1-4 of gtag() — everything else is reported as unreadable. */
-  function scanGtagReferences(scan: SourceScan): void {
-    const { code } = scan.lexed;
-    for (const { start, end } of references(code, 'gtag', true)) {
-      if (isDefinition(code, start)) continue;
-      const paren = callParen(code, end);
-      if (paren < 0) {
-        if (!isGuardOrAssignment(code, start, end)) {
-          scan.unreadable(start, 'gtag is referenced in a way the gate cannot follow (alias, callback, .call/.apply)');
-        }
-        continue;
-      }
-      const args = splitTopLevel(scan.lexed, paren);
-      if (!args || args.length === 0) {
-        scan.unreadable(start, 'a gtag call the gate cannot split into arguments');
-        continue;
-      }
-      const command = readLiteral(scan.lexed, args[0]!);
-      if (command.kind !== 'string') {
-        scan.unreadable(start, `a non-literal gtag command${command.kind === 'template' ? ' (template literal)' : ''}`);
-        continue;
-      }
-      if (command.value !== 'event') continue; // config / consent / js / set
-      const nameArg = args[1] ? readLiteral(scan.lexed, args[1]) : null;
-      if (nameArg?.kind === 'other') {
-        scanDynamicEmission(scan);
-        continue;
-      }
-      const event = emitLiteral(scan, args, 1, start);
-      if (event) pushEmission(scan, event, args[2], start);
-    }
-  }
-
-  /** gtag('event', <non-literal>, …) — only allowed in a declared site. */
-  function scanDynamicEmission({ file, site, result, seenSites }: SourceScan): void {
-    if (!site) {
-      result.undeclaredDynamic.push(file);
-      return;
-    }
-    seenSites.add(file);
-    for (const event of site.emits ?? []) {
-      result.emissions.push({ event, params: [], file });
-    }
-  }
-
-  /**
-   * gtag's own bootstrap defines `window.dataLayer` and pushes `arguments` into
-   * it. Any other use writes events the gate never sees.
-   */
-  function scanDataLayerReferences(scan: SourceScan): void {
-    const { code } = scan.lexed;
-    for (const { start, end } of references(code, 'dataLayer', true)) {
-      const after = code.slice(end, end + 40).trimStart();
-      if (/^(?:=(?!=)|\|\||\.\s*push\s*\(\s*arguments\s*\))/.test(after)) continue;
-      scan.unreadable(start, 'dataLayer is referenced directly; send events through gtag() so the gate can read them');
-    }
-  }
-
-  /**
-   * `window['gtag'](…)` / `x["dataLayer"]`. Read from the code view so a
-   * string that merely contains the text (documentation, an error message)
-   * does not match; the key is read back from the text view.
-   */
-  function scanBracketAccess(scan: SourceScan): void {
-    const { code, text } = scan.lexed;
-    for (const m of code.matchAll(/[\w$)\]]\s*\[\s*(['"`])/g)) {
-      const quote = m.index! + m[0].length - 1;
-      const close = text.indexOf(m[1]!, quote + 1);
-      const key = close < 0 ? '' : text.slice(quote + 1, close);
-      if ((key === 'gtag' || key === 'dataLayer') && /^\s*\]/.test(code.slice(close + 1))) {
-        scan.unreadable(m.index!, `${key} through bracket access`);
-      }
-    }
-  }
-
-  /**
-   * Safety net under the lexer. Every raw occurrence of a watched name must
-   * be either a reference the classifier saw (still present in the code
-   * view), part of a comment (blanked in the text view), or string text that
-   * does not look like a call. If the lexer misread a `/` or a quote and
-   * blanked live code as a string, the call shows up here and fails the gate
-   * rather than vanishing.
-   */
-  function scanHiddenCalls(scan: SourceScan, source: string): void {
-    const names = ['gtag', 'dataLayer', ...(scan.site?.wrapper ? [scan.site.wrapper] : [])];
-    const { code, text } = scan.lexed;
-    for (const name of names) {
-      const re = new RegExp(`(?<![\\w$])${name}(?![\\w$])`, 'g');
-      for (const m of source.matchAll(re)) {
-        const at = m.index!;
-        if (code.startsWith(name, at)) continue; // classified as a reference
-        if (!text.startsWith(name, at)) continue; // inside a comment
-        if (/^\s*(?:\(|\.\s*(?:push|call|apply)\b)/.test(source.slice(at + name.length, at + name.length + 40))) {
-          scan.unreadable(at, `${name} call inside what the scanner read as a string or regex; rewrite it so the gate can read it`);
-        }
-      }
-    }
-  }
-
-  /** Wrapper call sites carry the real names and params. */
-  function scanWrapperCalls(scan: SourceScan): void {
-    const wrapper = scan.site?.wrapper;
-    if (!wrapper) return;
-    const { code } = scan.lexed;
-    for (const { start, end } of references(code, wrapper, false)) {
-      if (isDefinition(code, start)) continue;
-      const paren = callParen(code, end);
-      const args = paren < 0 ? null : splitTopLevel(scan.lexed, paren);
-      if (!args) {
-        scan.unreadable(start, `${wrapper} is referenced without a readable call`);
-        continue;
-      }
-      const name = args[0] ? readLiteral(scan.lexed, args[0]) : null;
-      if (name?.kind !== 'string') {
-        scan.unreadable(start, `${wrapper}(…) is called with a non-literal event name`);
-        continue;
-      }
-      const event = emitLiteral(scan, args, 0, start);
-      if (event) pushEmission(scan, event, args[1], start);
-    }
-  }
-
-  /** A site that branches on the event name must declare every branch. */
-  function scanDeclaredBranches(scan: SourceScan): void {
-    const branchVar = scan.site?.branchVar;
-    if (!branchVar) return;
-    const declared = new Set(scan.site?.emits ?? []);
-    const re = new RegExp(`(?<![\\w$.])${branchVar}\\s*===\\s*(?=['"])`, 'g');
-    for (const m of scan.lexed.code.matchAll(re)) {
-      const quote = m.index! + m[0].length;
-      const literal = scan.lexed.text.slice(quote).match(/^(['"])([^'"\n]*)\1/);
-      if (literal && !declared.has(literal[2]!)) {
-        scan.unreadable(m.index!, `branches on "${literal[2]}", which DYNAMIC_EMIT_SITES does not declare in emits`);
-      }
-    }
-  }
-
   function scanSource(
     source: SourceFile,
     site: DynamicEmitSite | undefined,
     result: ScanResult,
     seenSites: Set<string>,
   ): void {
-    const lexed = lexSource(source.text, { markup: /\.(astro|html)$/.test(source.file) });
-    const scan: SourceScan = {
-      file: source.file, lexed, site, result, seenSites,
-      unreadable: (offset, reason) =>
-        result.unreadable.push(`${source.file}:${lineOf(source.text, offset)}: ${reason}`),
-    };
-    scanBracketAccess(scan);
-    scanHiddenCalls(scan, source.text);
-    scanGtagReferences(scan);
-    scanDataLayerReferences(scan);
-    scanWrapperCalls(scan);
-    scanDeclaredBranches(scan);
+    const analysis = analyseSource(source.file, source.text, site);
+    result.emissions.push(...analysis.emissions);
+    if (analysis.undeclaredDynamic) result.undeclaredDynamic.push(source.file);
+    if (analysis.dynamicSeen) seenSites.add(source.file);
+    for (const { offset, reason } of analysis.unreadable) {
+      result.unreadable.push(`${source.file}:${lineOf(source.text, offset)}: ${reason}`);
+    }
   }
 
   function validateDynamicEmitSites(seenSites: ReadonlySet<string>): void {
