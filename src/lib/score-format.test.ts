@@ -52,3 +52,16 @@ describe('formatRiskValue', () => {
     assert.equal(formatRiskValue(null), EMDASH);
   });
 });
+
+describe('formatScoreFixed1 (#864)', () => {
+  test('one decimal with banker rounding, unlike toFixed', async () => {
+    const { formatScoreFixed1 } = await import('./score-format.js');
+    assert.equal((4.25).toFixed(1), '4.3'); // the half-up rule this replaces
+    assert.equal(formatScoreFixed1(4.25), '4.2');
+    assert.equal(formatScoreFixed1(4.75), '4.8'); // genuine half, odd → up
+    assert.equal(formatScoreFixed1(4.6833), '4.7');
+    assert.equal(formatScoreFixed1(5), '5.0');
+    assert.equal(formatScoreFixed1(null), EMDASH);
+    assert.equal(formatScoreFixed1(Number.NaN), EMDASH);
+  });
+});
