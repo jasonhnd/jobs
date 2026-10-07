@@ -101,8 +101,11 @@ export function computeDrift<T extends DriftScores>(
     const { beforeUnrounded, afterUnrounded, latestT } = scores;
     const before = displayScore(beforeUnrounded);
     const after = displayScore(afterUnrounded);
-    const delta = after - before;
-    const abs = Math.abs(delta);
+    // Compare displayed values in integer tenths: 0.7 - 0.2 is 0.49999999999999994
+    // in floating point and would miss the 0.5 threshold.
+    const deltaTenths = Math.round(after * 10) - Math.round(before * 10);
+    const delta = deltaTenths / 10;
+    const absTenths = Math.abs(deltaTenths);
     const beforeBand = riskBand(before);
     const afterBand = riskBand(after);
     if (beforeBand === null || afterBand === null) {
@@ -113,8 +116,8 @@ export function computeDrift<T extends DriftScores>(
     beforeVals.push(strategy.meanBasis === 'displayed' ? before : beforeUnrounded);
     afterVals.push(strategy.meanBasis === 'displayed' ? after : afterUnrounded);
     selectedScores.push(scores);
-    if (abs >= 0.5) absDeltaGe05 += 1;
-    if (abs >= 1.0) absDeltaGe10 += 1;
+    if (absTenths >= 5) absDeltaGe05 += 1;
+    if (absTenths >= 10) absDeltaGe10 += 1;
     bandBefore[beforeBand] += 1;
     bandAfter[afterBand] += 1;
     if (beforeBand !== afterBand) bandChanges += 1;
