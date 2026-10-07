@@ -2,7 +2,7 @@
 import { siteConfig } from '@/site/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
-import { QA_ITEMS } from '@/views/qa-meta';
+import { QA_ITEMS, buildQaHubSections } from '@/views/qa-meta';
 import { renderGenreIndexJsonLd, renderQGroupsHtml, GENRE_HUB_CSS } from '@/templates/Hub';
 
 const canonical = `${siteConfig.origin}/q`;
@@ -15,14 +15,9 @@ const title = `よくある質問 (Q&A)｜${qaCount} 個の質問に回答 | 未
 const seoDesc = `AI 時代のキャリアに関する ${qaCount} の質問に回答。「AI でなくならない仕事は？」「30 代の転職はどう選ぶ？」等、具体的な状況別に解説。`;
 const jsonLd = renderGenreIndexJsonLd(canonical, '質問で探す', seoDesc);
 
-// Group by sub-genre
-const groups = [
-  ['AI 不安に答える', QA_ITEMS.slice(0, 8)],
-  ['業種別の未来', QA_ITEMS.slice(8, 14)],
-  ['キャリア相談', QA_ITEMS.slice(14, 23)],
-  ['ライフ条件', QA_ITEMS.slice(23, 29)],
-  ['適性・興味', QA_ITEMS.slice(29, 36)],
-] as const;
+// Sections come from QA_GROUP_SLUGS (#884: a hard-coded slice(0, 36) left
+// 13 of the 49 questions without a link from this page).
+const groups = buildQaHubSections();
 const groupsHtml = renderQGroupsHtml(groups);
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
