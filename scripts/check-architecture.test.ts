@@ -89,7 +89,7 @@ describe('check-architecture layer rules resolve imports before judging them', (
     ['views → fs/promises', 'src/views/bad.ts', "import { readFile } from 'fs/promises';\n"],
     ['views → require(node:fs)', 'src/views/bad.ts', "const fs = require('node:fs');\n"],
     ['views → template-literal dynamic import', 'src/views/bad.ts', 'export const t = () => import(`../templates/T.js`);\n'],
-    ['views → interpolated dynamic import prefix', 'src/views/bad.ts', 'export const t = (n: string) => import(`../templates/${n}.js`);\n'],
+    ['views → module.require()', 'src/views/bad.cjs', "const fs = module.require('fs');\nmodule.exports = fs;\n"],
     ['views → graph loader via alias', 'src/views/bad.ts', "import { loadGraph } from '@/graph/loader.js';\n"],
     ['views → strict-load via alias', 'src/views/bad.ts', "import { strictLoad } from '@/lib/strict-load.js';\n"],
     ['views .js file is scanned', 'src/views/bad.js', "import { T } from '../templates/T.js';\n"],
@@ -112,6 +112,7 @@ describe('check-architecture layer rules resolve imports before judging them', (
     ['views → export * re-export', 'src/views/bad.ts', "export * from '../templates/T.js';\n"],
     ['views → bare side-effect import', 'src/views/bad.ts', "import '../templates/T.js';\n"],
     ['pages .astro frontmatter import', 'src/pages/bad.astro', "---\nimport p from '../data/projections/p.json';\n---\n<p>{p}</p>\n"],
+    ['pages .astro <script data-type> import', 'src/pages/bad.astro', '<script data-type="example">import p from "../data/projections/p.json";</script>\n'],
     ['pages .astro <script> import', 'src/pages/bad.astro', "<p>x</p>\n<script>\n  import p from '../data/projections/p.json';\n  console.info(p);\n</script>\n"],
   ];
 
@@ -154,6 +155,15 @@ describe('check-architecture layer rules resolve imports before judging them', (
       /src\/views\/bad\.ts:1[\s\S]*non-literal/,
     );
   });
+
+  for (const [name, source] of [
+    ['a forbidden prefix', 'export const t = (n: string) => import(`../templates/${n}.js`);\n'],
+    ['an allowed-looking prefix', 'export const t = (n: string) => import(`../lib/${n}.js`);\n'],
+  ] as const) {
+    test(`an interpolated template import() with ${name} fails closed`, () => {
+      assertViolation({ 'src/views/bad.ts': source }, /src\/views\/bad\.ts:1[\s\S]*non-literal import\(\)/);
+    });
+  }
 
   test('a require() with a non-literal argument fails closed', () => {
     assertViolation(
@@ -217,6 +227,18 @@ describe('check-architecture walks every Vercel function regardless of runtime',
     assertViolation({
       'api/cron/job.ts': "import { C } from '../../src/components/C.js';\nexport default C;\n",
     }, /reachable from function entry api\/cron\/job\.ts/);
+  });
+
+  test('module.require() dependencies are followed', () => {
+    assertViolation({
+      'api/index.cjs': "module.exports = module.require('../src/components/C.js');\n",
+    }, /src\/components\/C\.tsx[\s\S]*reachable from function entry api\/index\.cjs/);
+  });
+
+  test('an interpolated dynamic import() inside the function closure fails closed', () => {
+    assertViolation({
+      'api/index.ts': 'export default (n: string) => import(`../src/components/${n}.js`);\n',
+    }, /api\/index\.ts:1 \(reachable from function entry api\/index\.ts\)[\s\S]*non-literal import\(\)/);
   });
 
   test('require() dependencies are followed', () => {
