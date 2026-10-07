@@ -150,16 +150,22 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-function decodeHtmlEntities(text: string): string {
+const REPLACEMENT_CHARACTER = '\uFFFD';
+
+/**
+ * Character for a numeric character reference. Like the HTML parser, NUL,
+ * surrogates and anything above U+10FFFF become U+FFFD; String.fromCodePoint
+ * would throw a RangeError and crash the build.
+ */
+function codePointToText(cp: number): string {
+  const invalid = !Number.isSafeInteger(cp) || cp === 0 || cp > 0x10ffff || (cp >= 0xd800 && cp <= 0xdfff);
+  return invalid ? REPLACEMENT_CHARACTER : String.fromCodePoint(cp);
+}
+
+export function decodeHtmlEntities(text: string): string {
   return text
-    .replace(/&#x([0-9a-fA-F]+);/g, (_m, hex: string) => {
-      const cp = Number.parseInt(hex, 16);
-      return Number.isFinite(cp) ? String.fromCodePoint(cp) : '';
-    })
-    .replace(/&#([0-9]+);/g, (_m, dec: string) => {
-      const cp = Number.parseInt(dec, 10);
-      return Number.isFinite(cp) ? String.fromCodePoint(cp) : '';
-    })
+    .replace(/&#x([0-9a-fA-F]+);/g, (_m, hex: string) => codePointToText(Number.parseInt(hex, 16)))
+    .replace(/&#([0-9]+);/g, (_m, dec: string) => codePointToText(Number.parseInt(dec, 10)))
     .replace(/&nbsp;/g, '\u00a0')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
@@ -459,4 +465,5 @@ async function main(): Promise<void> {
   }
 }
 
-await main();
+// Only when run as `bun scripts/subset-fonts.ts`; tests import the helpers.
+if (import.meta.main) await main();
