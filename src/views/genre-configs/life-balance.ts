@@ -1,4 +1,5 @@
 import type { GenreHubConfig } from '../genre-hub.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 
 // ─── P. ライフバランス (life-balance) — 6 hub ────────────────
 
@@ -13,7 +14,7 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
       const hours = d.stats?.monthly_hours;
       const ai = d.ai_risk?.score;
       if (!hours || hours > 165) return null;
-      if (ai !== null && ai !== undefined && ai > 6) return null;
+      if (ai !== null && ai !== undefined && displayScore(ai) > 6) return null;
       return -hours; // lower hours rank higher
     },
   },
@@ -77,7 +78,7 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
       const age = d.stats?.average_age;
       const ai = d.ai_risk?.score;
       if (!age || age < 45) return null;
-      if (ai !== null && ai !== undefined && ai > 5) return null;
+      if (ai !== null && ai !== undefined && displayScore(ai) > 5) return null;
       return age;
     },
   },

@@ -1,4 +1,5 @@
 import type { GenreHubConfig } from '../genre-hub.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 
 // ─── Q. 入職経路 (entry-paths) — 5 hub ───────────────────
 
@@ -55,7 +56,7 @@ export const ENTRY_PATHS_CONFIGS: ReadonlyArray<GenreHubConfig> = [
       const ai = d.ai_risk?.score;
       if (certs === 0) return null;
       if (ai === null || ai === undefined) return null;
-      if (ai > 6) return null;
+      if (displayScore(ai) > 6) return null;
       return certs;
     },
   },
@@ -71,7 +72,7 @@ export const ENTRY_PATHS_CONFIGS: ReadonlyArray<GenreHubConfig> = [
       if (!ed) return null;
       const lowEdu = (ed['below_high_school'] ?? 0) + (ed['high_school'] ?? 0);
       if (lowEdu < 0.4) return null;
-      if (ai !== null && ai !== undefined && ai > 5) return null;
+      if (ai !== null && ai !== undefined && displayScore(ai) > 5) return null;
       return lowEdu;
     },
   },
