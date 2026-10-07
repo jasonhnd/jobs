@@ -23,6 +23,7 @@ import { OCCUPATION_COUNT, siteConfig } from '../site/config.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { occupationPath } from '../lib/urls.js';
 import { formatRiskScore, formatScoreFixed1 } from '../lib/score-format.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 // Local mirror of views/rankings.ts:safeMean — takes occupation objects +
 // numeric key, returns the mean over non-null values. Templates can't import
@@ -355,7 +356,7 @@ export function renderJsonLd(
     });
   }
 
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 // ─── rankings/index hub-card renderer (Phase D audit #8 2026-05-14) ────
@@ -699,7 +700,7 @@ export function renderHubJsonLd(): string {
   const canonical = `${SITE}/rankings`;
   // RA-003 (2026-05-18): SCORED count.
   const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
-  return JSON.stringify({
+  return stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       {
@@ -724,5 +725,5 @@ export function renderHubJsonLd(): string {
         ],
       },
     ],
-  }, null, 2);
+  }, 2);
 }

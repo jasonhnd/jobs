@@ -14,6 +14,7 @@ import { CONSENSUS_STANDARD_FORMAL } from '@/site/consensus-copy';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import { SOP_LANDINGS, formatSopCitation } from '@/views/geo-answer-topics';
+import { stringifyJsonLd } from '@/lib/json-for-script';
 
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
@@ -147,8 +148,8 @@ const jsonLd = `{
       "author": { "@id": "${siteConfig.origin}/#organization" },
       "publisher": { "@id": "${siteConfig.origin}/#organization" },
       "mainEntityOfPage": { "@id": "${siteConfig.origin}/standard#webpage" },
-      "about": ${JSON.stringify(AIOIS_DEFINED_TERM_SET)},
-      "citation": ${JSON.stringify(ACADEMIC_CITATIONS)},
+      "about": ${stringifyJsonLd(AIOIS_DEFINED_TERM_SET)},
+      "citation": ${stringifyJsonLd(ACADEMIC_CITATIONS)},
       "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
     },
     {

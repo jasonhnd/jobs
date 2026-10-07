@@ -10,6 +10,7 @@ import { CONTENT_DATE } from '@/lib/_content-date';
 import { fmtInt } from '@/lib/num';
 import { riskClass } from '@/lib/risk';
 import { displayScore } from '@/data/lib/banker-round';
+import { stringifyJsonLd } from '../../lib/json-for-script.js';
 
 const SITE = siteConfig.origin;
 
@@ -57,7 +58,7 @@ export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBi
     url: `${SITE}/sectors/${s.id}`,
     name: s.ja,
   }));
-  const jsonLd = JSON.stringify({
+  const jsonLd = stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       {
@@ -89,7 +90,7 @@ export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBi
         itemListElement: itemList,
       },
     ],
-  }, null, 2);
+  }, 2);
   return {
     sectors, canonical, pageTitle, ogTitle, seoDesc, keywords,
     h1, hList, crumbRoot, crumbSelf, skipLabel, jsonLd,
