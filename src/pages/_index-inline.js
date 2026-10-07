@@ -33,6 +33,38 @@
         const inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
         return String(Number(inc.toFixed(1)));
       }
+      // Bands, tiers and steps are judged on the DISPLAYED value (#864) —
+      // the number fmtRisk prints — never on the raw three-vendor mean.
+      // Five colour bands, lower bound inclusive: [0,2) [2,4) [4,6) [6,8)
+      // [8,10]. Byte-identical copy in _map-inline.js —
+      // _risk-display-inline.test.ts pins the two together.
+      function riskBand5(v) {
+        var d = Number(fmtRisk(v));
+        if (!(d >= 2)) return 0; // also a missing score
+        if (d < 4) return 1;
+        if (d < 6) return 2;
+        if (d < 8) return 3;
+        return 4;
+      }
+      // Site three-band rule (low < 4.0 <= mid < 7.0 <= high), as riskClass().
+      function riskClass3(v) {
+        const d = Number(fmtRisk(v));
+        return d < 4.0 ? "low" : d < 7.0 ? "mid" : "high";
+      }
+      // GA4 risk_tier, analytics/spec.yaml: high >=7 / mid 5-6 / low <=4.
+      function gaRiskTier(v) {
+        const d = Number(fmtRisk(v));
+        return d >= 7 ? "high" : (d >= 5 ? "mid" : "low");
+      }
+      // Integer step (0-10) of the displayed value, banker's on a printed .5
+      // — the server's displayScoreStep (src/data/lib/banker-round.ts).
+      function riskStep(v) {
+        const d = Number(fmtRisk(v));
+        const whole = Math.floor(d);
+        const tenths = Math.round((d - whole) * 10);
+        const step = tenths > 5 || (tenths === 5 && whole % 2 !== 0) ? whole + 1 : whole;
+        return Math.max(0, Math.min(10, step));
+      }
       let layer = "ai_risk";
       let palette = "redgreen"; // or "viridis"
       let data = [];
@@ -123,7 +155,7 @@
       function fireTileClick(rec, source) {
         if (!window.gtag || !rec) return;
         const risk = rec.ai_risk != null ? rec.ai_risk : 0;
-        const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
+        const tier = gaRiskTier(risk);
         const idx = (typeof rects !== "undefined" && rects.indexOf) ? rects.indexOf(rec) : -1;
         gtag("event", "occupation_tile_click", {
           occupation_id: rec.id,
@@ -226,9 +258,10 @@
       // Was previously interpolating between stops + boostContrast + alpha 0.85
       // which produced muddy brown/olive midtones absent from /map's flat blocks.
       // User wants the two pages to look identical — switching to flat discrete.
-      // t ∈ [0,1] → band 0..4, the same cut points as /map's bandForRisk
-      // (risk ≤2 / ≤4 / ≤6 / ≤8 / else). Fill and label colour both go
-      // through here so a tile can never get a mismatched pair.
+      // t ∈ [0,1] → band 0..4 for the continuous layers. The ai_risk layer
+      // goes through riskBand5 instead — the same function /map uses — so
+      // its tiles band the displayed score (#864). Fill and label colour both
+      // go through tileBand so a tile can never get a mismatched pair.
       function bandForT(t) {
         t = clamp(t);
         if (t < 0.2) return 0;
@@ -237,9 +270,15 @@
         if (t < 0.8) return 3;
         return 4;
       }
-      function mapPaletteCSS(t, alpha) {
-        const stop = MAP_PALETTE_STOPS[bandForT(t)];
+      function bandPaletteCSS(band, alpha) {
+        const stop = MAP_PALETTE_STOPS[band];
         return `rgba(${stop[0]},${stop[1]},${stop[2]},${alpha})`;
+      }
+      function mapPaletteCSS(t, alpha) {
+        return bandPaletteCSS(bandForT(t), alpha);
+      }
+      function tileBand(d, t) {
+        return layer === "ai_risk" ? riskBand5(d.ai_risk) : bandForT(t);
       }
       // WCAG 2.1 relative luminance / contrast, for the palettes the §2.3
       // table does not cover (viridis toggle, the grey no-data tile).
@@ -256,7 +295,7 @@
       // fill: whichever of white / --ink contrasts more with the drawn colour.
       function tileLabelFg(d) {
         const t = layerT(d);
-        if (t != null && palette !== "viridis") return MAP_LABEL_FG[bandForT(t)];
+        if (t != null && palette !== "viridis") return MAP_LABEL_FG[tileBand(d, t)];
         const m = tileColorCSS(d, 1).match(/(\d+),\s*(\d+),\s*(\d+)/);
         const fill = m ? [Number(m[1]), Number(m[2]), Number(m[3])] : [120, 120, 120];
         const white = MAP_LABEL_FG[0], ink = MAP_LABEL_FG[1];
@@ -325,7 +364,7 @@
         }
         if (layer === "ai_risk") {
           if (d.ai_risk == null) return null;
-          return d.ai_risk / 10;
+          return Number(fmtRisk(d.ai_risk)) / 10;
         }
         return null;
       }
@@ -333,6 +372,7 @@
       function tileColorCSS(d, alpha) {
         const t = layerT(d);
         if (t == null) return `rgba(120,120,120,${alpha})`;
+        if (palette !== "viridis") return bandPaletteCSS(tileBand(d, clamp(t)), alpha);
         return paletteCSS(t, alpha);
       }
 
@@ -669,12 +709,12 @@
           const totalW = items.reduce((s, d) => s + d.workers, 0);
           const wAvg = items.reduce((s, d) => s + d.ai_risk * d.workers, 0) / totalW;
           const hist = new Array(11).fill(0);
-          for (const d of items) hist[Math.round(d.ai_risk)]++;
+          for (const d of items) hist[riskStep(d.ai_risk)]++;
           // 段階別 tiers table removed (2026-05-31): redundant — the same band
           // distribution is shown by this panel's 分布 histogram AND the home
           // KPI band's "AI 影響度の分布" bar. Keeping it made a 5-row card that
           // towered over the single-number cards.
-          const highRiskItems = items.filter(d => d.ai_risk >= 5 && d.salary != null);
+          const highRiskItems = items.filter(d => Number(fmtRisk(d.ai_risk)) >= 5 && d.salary != null);
           const wagesExposed = highRiskItems.reduce((s, d) => s + d.salary * d.workers, 0);
           const highRiskJobsCount = highRiskItems.length;
           // Cross-tab: avg AI risk by salary band
@@ -693,14 +733,14 @@
 
           blocks.push(statBlock(
             L.weightedAvg[lang],
-            wAvg.toFixed(1) + " / 10",
+            Number(fmtRisk(wAvg)).toFixed(1) + " / 10",
             "就業者数で加重"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
           blocks.push(statBlockHTML(
             "リスク × 年収",
             `<table class="tier-table">${ctRows.map(([b, n, a]) =>
-              `<tr><td>${b}</td><td>${n}</td><td>${a ? a.toFixed(1) : "—"}</td></tr>`).join("")}</table>`
+              `<tr><td>${b}</td><td>${n}</td><td>${a ? Number(fmtRisk(a)).toFixed(1) : "—"}</td></tr>`).join("")}</table>`
           ));
           blocks.push(statBlock(
             L.wagesExposed[lang],
@@ -1364,12 +1404,11 @@
             const nameEn = rec.name_en || "";
             const display = nameJa || nameEn;
             const risk = rec.ai_risk != null ? rec.ai_risk : 0;
-            const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
-            const riskLabel = "AI 影響度 " + risk + "/10";
+            const riskLabel = "AI 影響度 " + fmtRisk(risk) + "/10";
             const focusClass = i === 0 ? " focused" : "";
             return '<li role="option" class="ss-item' + focusClass + '" data-job-id="' + Number(rec.id) + '" data-idx="' + Number(i) + '">' +
               '<span class="ss-name">' + escapeHtml(display) + '</span>' +
-              '<span class="ss-risk ' + tier + '">' + escapeHtml(riskLabel) + '</span>' +
+              '<span class="ss-risk ' + riskClass3(risk) + '">' + escapeHtml(riskLabel) + '</span>' +
               '</li>';
           }).join("");
           suggestEl.classList.add("visible");
@@ -1661,7 +1700,7 @@
         const cta = e.currentTarget;
         const occId = parseInt(cta.dataset.occId || "0", 10) || 0;
         const aiRisk = parseFloat(cta.dataset.aiRisk || "0");
-        const tier = aiRisk >= 7 ? "high" : (aiRisk >= 5 ? "mid" : "low");
+        const tier = gaRiskTier(aiRisk);
         if (window.gtag) gtag("event", "tooltip_cta_click", {
           occupation_id: occId,
           ai_risk_score: aiRisk,
@@ -1802,11 +1841,6 @@
           if (manYen == null) return "—";
           return Math.round(manYen) + "万円";
         };
-        const pillBand = (score) => {
-          if (score < 4.0) return "low";
-          if (score < 7.0) return "mid";
-          return "high";
-        };
         track.innerHTML = top10.map((rec, i) => {
           const rank = i + 1;
           const nameJa = rec.name_ja || "";
@@ -1827,7 +1861,7 @@
                 (sub ? '<span class="m-top10-card-name-en">' + escapeHtml(sub) + '</span>' : "") +
               '</div>' +
               '<div class="m-top10-card-score">' +
-                '<span class="risk-pill ' + pillBand(score) + '">' + scoreLabel + '/10</span>' +
+                '<span class="risk-pill ' + riskClass3(score) + '">' + scoreLabel + '/10</span>' +
                 '<span class="m-top10-card-tag">' + escapeHtml(tag) + '</span>' +
               '</div>' +
               '<p class="m-top10-card-rationale">' + escapeHtml(rationaleRaw) + '</p>' +
