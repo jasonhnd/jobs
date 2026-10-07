@@ -57,7 +57,8 @@ export async function rewriteGeneratedModule(
 
   let updated = existing;
   for (const edit of edits) {
-    updated = updated.replace(edit.pattern, edit.replacement);
+    // Function form: `$&` / `$1` in a value are literal text, not substitution patterns.
+    updated = updated.replace(edit.pattern, () => edit.replacement);
   }
   for (const edit of edits) {
     if (!updated.includes(edit.expect)) {

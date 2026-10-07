@@ -26,6 +26,19 @@ const oneDecimalScore = z
 
 const AIOIS_INDEX_TOLERANCE = 0.05 + 1e-9;
 
+/** True when `YYYY-MM-DD` names a real calendar day (rejects 2026-02-30). */
+function isCalendarDate(value: string): boolean {
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+
+// Zero-padded ISO date. Run dates are compared as strings to pick the latest
+// run, so '2026-9-30' would beat '2026-10-01' (#863).
+const RunDateSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, 'must be YYYY-MM-DD')
+  .refine(isCalendarDate, { message: 'must be a real calendar date' });
+
 /**
  * AIOIS-10 profile — the 10 orthogonal dimensions (D1–D10) plus the two derived
  * indices, per docs/AIOIS-10.md. Present on batches scored under the AIOIS-10
@@ -100,7 +113,7 @@ export type Scorer = z.infer<typeof ScorerSchema>;
 /** When and how this run executed. */
 export const RunMetaSchema = z
   .object({
-    run_date: z.string(), // ISO date YYYY-MM-DD
+    run_date: RunDateSchema, // ISO date YYYY-MM-DD
     run_id: z.string(), // human-readable identifier
     duration_minutes: z.number().min(0).nullish(),
     operator: z.string().nullish(), // GitHub username or similar
