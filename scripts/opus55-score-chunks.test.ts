@@ -137,3 +137,39 @@ test('Ctrl-C or SIGTERM to the chunk runner kills the claude process group', { s
     }
   }
 });
+
+// A stop signal that lands while the group is already being cleaned up must not skip the SIGKILL.
+const midCleanupCases = [
+  { name: 'SIGINT during the timeout grace period', timeoutSec: '1', first: 'SIGINT', second: null },
+  { name: 'SIGTERM during the timeout grace period', timeoutSec: '1', first: 'SIGTERM', second: null },
+  { name: 'a second Ctrl-C while the first one is cleaning up', timeoutSec: '600', first: 'SIGINT', second: 'SIGINT' },
+] as const;
+
+for (const c of midCleanupCases) {
+  test(`${c.name} still kills the claude process group`, { skip: !hasPython || process.platform === 'win32' }, async () => {
+    const { root, gcFile, harness, stub } = setupGroupFixture();
+    try {
+      // grace 2 s: the signal below arrives while kill_tree is waiting out the grace period.
+      const proc = spawn('python3', [harness, SCRIPT, root, stub, c.timeoutSec, '2'], { stdio: 'ignore' });
+      const exited = new Promise<void>((r) => proc.on('exit', () => r()));
+      assert.ok(await waitFor(() => existsSync(gcFile) && readFileSync(gcFile, 'utf8').trim() !== '', 5_000));
+      const startedAt = Date.now();
+      if (c.second === null) {
+        await new Promise((r) => setTimeout(r, 1_400)); // past the 1 s timeout, inside the grace period
+        proc.kill(c.first);
+      } else {
+        proc.kill(c.first);
+        await new Promise((r) => setTimeout(r, 300));
+        proc.kill(c.second);
+      }
+      await exited;
+      assert.ok(Date.now() - startedAt < 4_000, 'the runner must not hang');
+      assert.notEqual(proc.exitCode, 0);
+      const pid = Number(readFileSync(gcFile, 'utf8').trim());
+      assert.equal(isAlive(pid), false, `grandchild ${pid} must be dead once the runner has exited`);
+    } finally {
+      killPidFile(gcFile);
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+}
