@@ -7,6 +7,7 @@
 import { TOP_N, HIGH_DEMAND_MIN, demandScore, demandLabel, type Occupation, type RankingResult } from '../config.js';
 import { byKeyDesc, safeMean } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
+import { formatScoreFixed1 } from '../../../lib/score-format.js';
 
 export interface SalaryRankings {
   bySalary: Occupation[];
@@ -67,7 +68,7 @@ export function buildSalaryRankings(
       introText: '厚労省の職業情報データベースに基づく年収ランキング。年収が高い職業をAI影響度・就業者数と共に一覧できます。',
       statBlocks: [
         ['TOP30 平均年収', `${Math.trunc(meanSalaryTop)} 万円`],
-        ['TOP30 平均 AI 影響', `${safeMean(bySalary, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(bySalary, 'ai_risk'))} / 10`],
         ['TOP30 平均年齢', `${safeMean(bySalary, 'average_age').toFixed(1)} 歳`],
         ['TOP30 平均月間労働', `${Math.trunc(safeMean(bySalary, 'monthly_hours'))} 時間`],
       ],
@@ -86,7 +87,7 @@ export function buildSalaryRankings(
       statBlocks: [
         ['TOP30 平均初任給', `${Math.trunc(meanEntry)} 万円`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byEntry, 'salary'))} 万円`],
-        ['TOP30 平均 AI 影響', `${safeMean(byEntry, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(byEntry, 'ai_risk'))} / 10`],
       ],
     }],
     ['high-salary-high-demand', {
@@ -106,7 +107,7 @@ export function buildSalaryRankings(
       statBlocks: [
         ['対象職業数', `${highSalaryHighDemand.length}`],
         ['平均年収', `${Math.trunc(safeMean(highSalaryHighDemand, 'salary'))} 万円`],
-        ['平均 AI 影響', `${safeMean(highSalaryHighDemand, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatScoreFixed1(safeMean(highSalaryHighDemand, 'ai_risk'))} / 10`],
       ],
     }],
     ['high-salary-young-entry', {
@@ -123,7 +124,7 @@ export function buildSalaryRankings(
       statBlocks: [
         ['TOP30 平均初任給', `${Math.trunc(safeMean(highSalaryYoungEntry, 'recruit_wage'))} 万円`],
         ['TOP30 平均年齢', `${safeMean(highSalaryYoungEntry, 'average_age').toFixed(1)} 歳`],
-        ['TOP30 平均 AI 影響', `${safeMean(highSalaryYoungEntry, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(highSalaryYoungEntry, 'ai_risk'))} / 10`],
       ],
     }],
   ];

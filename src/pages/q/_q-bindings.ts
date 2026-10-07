@@ -17,7 +17,7 @@ import type { GeoFacts } from '@/site/geo-facts';
 import { occupationPath } from '@/lib/urls';
 import { riskClass } from '@/lib/risk';
 import { safeMean } from '@/lib/num';
-import { formatRiskScore } from '../../lib/score-format.js';
+import { formatRiskScore, formatScoreFixed1 } from '../../lib/score-format.js';
 import { siteConfig } from '@/site/config';
 
 const SITE = siteConfig.origin;
@@ -76,7 +76,7 @@ export function renderQaAnswerLine(
     .map((d) => d.ai_risk?.score)
     .filter((v): v is number => typeof v === 'number');
   const firstScore = top.ai_risk?.score;
-  const meanHtml = scores.length === 0 ? '—' : `${safeMean(scores).toFixed(1)}/10`;
+  const meanHtml = scores.length === 0 ? '—' : `${formatScoreFixed1(safeMean(scores))}/10`;
   const scoreHtml = escapeHtml(scoreLabel(firstScore ?? null));
   const max = scores.length > 0 ? Math.max(...scores) : null;
   const min = scores.length > 0 ? Math.min(...scores) : null;

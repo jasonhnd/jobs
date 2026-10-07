@@ -240,3 +240,12 @@ describe('home and /map band the displayed value with one shared function (#864)
     assert.match(indexJs, /Number\(fmtRisk\(d\.ai_risk\)\) >= 5 && d\.salary != null/);
   });
 });
+
+describe('mobile search pill prints with banker rounding (#864)', () => {
+  const mobileNav = read('../components/MobileNav.astro');
+  test('MobileNav carries the /me fmtRisk and uses it for the pill', () => {
+    assert.equal(dedent(fnSource(mobileNav, 'fmtRisk')), dedent(fnSource(meJs, 'fmtRisk')));
+    assert.match(mobileNav, /pill\.textContent = \(doc\.ai_risk != null \? Number\(fmtRisk\(doc\.ai_risk\)\)\.toFixed\(1\) : '—'\) \+ '\/10';/);
+    assert.doesNotMatch(mobileNav, /Number\(doc\.ai_risk\)\.toFixed\(1\)/);
+  });
+});

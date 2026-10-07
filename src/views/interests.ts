@@ -128,6 +128,7 @@ function loadTreemapMap(): Map<number, TreemapRecord> {
 import { fmtInt, safeMean } from '../lib/num.js';
 import { displayScore } from '../data/lib/banker-round.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
+import { formatScoreFixed1 } from '../lib/score-format.js';
 
 // ─── FAQ generation (per type, mostly templated from meta) ───────
 
@@ -259,7 +260,7 @@ export function buildInterests(loaders: InterestsLoaders = {}): InterestsBundle 
 
     const stats: Array<readonly [string, string]> = [
       [`平均 ${meta.letter} スコア`, `${meanScore.toFixed(2)} / 5`],
-      ['平均 AI 影響', meanRisk > 0 ? `${meanRisk.toFixed(1)} / 10` : '—'],
+      ['平均 AI 影響', meanRisk > 0 ? `${formatScoreFixed1(meanRisk)} / 10` : '—'],
       ['平均年収', meanSalary > 0 ? `${Math.trunc(meanSalary)} 万円` : '—'],
       ['TOP30 合計就業者数', `${fmtInt(totalWorkers)} 人`],
     ];
@@ -273,7 +274,7 @@ export function buildInterests(loaders: InterestsLoaders = {}): InterestsBundle 
       `1 位は「${items[0]?.name_ja ?? '—'}」（${meta.letter}スコア ${items[0]?.primary_score.toFixed(2) ?? '—'}）`,
       top3 ? `TOP 3 は ${top3}` : '',
       dominantSector ? `セクターは「${dominantSector}」が ${dominantCount} 件と最多` : '',
-      meanRisk > 0 ? `TOP30 の平均 AI 影響は ${meanRisk.toFixed(1)}/10` : '',
+      meanRisk > 0 ? `TOP30 の平均 AI 影響は ${formatScoreFixed1(meanRisk)}/10` : '',
       meta.characteristics_ja.length ? `特徴: ${meta.characteristics_ja[0]}` : '',
     ].filter(Boolean);
 

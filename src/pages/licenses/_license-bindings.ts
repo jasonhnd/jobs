@@ -39,6 +39,7 @@ import {
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import { siteConfig } from '@/site/config';
+import { formatScoreFixed1 } from '@/lib/score-format';
 
 const SITE = siteConfig.origin;
 
@@ -83,7 +84,7 @@ export function buildLicenseBindings(input: LicenseBindingsInput): LicenseBindin
   const statsHtml =
     `<dl class="stats">` +
     `<div><dt>関連職業数</dt><dd>${items.length}</dd></div>` +
-    `<div><dt>平均 AI 影響</dt><dd>${meanRisk > 0 ? meanRisk.toFixed(1) + ' / 10' : '—'}</dd></div>` +
+    `<div><dt>平均 AI 影響</dt><dd>${meanRisk > 0 ? formatScoreFixed1(meanRisk) + ' / 10' : '—'}</dd></div>` +
     `<div><dt>平均年収</dt><dd>${meanSalary > 0 ? Math.trunc(meanSalary) + ' 万円' : '—'}</dd></div>` +
     `<div><dt>合計就業者数</dt><dd>${fmtInt(totalWorkers)} 人</dd></div>` +
     `</dl>`;
@@ -97,7 +98,7 @@ export function buildLicenseBindings(input: LicenseBindingsInput): LicenseBindin
   const highlights = [
     `1 位は「${items[0]?.name_ja ?? '—'}」`,
     top3 ? `TOP 3 は ${top3}` : '',
-    meanRisk > 0 ? `平均 AI 影響度 ${meanRisk.toFixed(1)}/10` : '',
+    meanRisk > 0 ? `平均 AI 影響度 ${formatScoreFixed1(meanRisk)}/10` : '',
     `代表資格: ${hub.cert_examples_ja.slice(0, 3).join('、')}`,
   ].filter(Boolean);
   const highlightsHtml = renderHighlights(highlights);
