@@ -45,6 +45,29 @@ const RISK_LABEL = 'AI 影響';
 const DEFAULT_RISK_COLOR = '#8a7a6a';
 
 /**
+ * Name column = 1200 card − 16 left rule − 2×64 padding − 300 badge − 56 gap.
+ * Three lines is what fits between the eyebrow and the 0-10 scale; a fourth
+ * pushes the scale into the footer rule (id 471, 30 characters, #861).
+ */
+const NAME_COLUMN_PX = 700;
+const NAME_MAX_LINES = 3;
+/** Largest first. 72px is the canonical size; smaller steps only for long names. */
+const NAME_FONT_SIZES_PX = [72, 60, 52] as const;
+
+/**
+ * Name font size so the name wraps to at most three lines. Counts every
+ * character as a full-width glyph — conservative for names that mix in
+ * half-width Latin, which only ever leaves spare room.
+ */
+export function occupationNameFontSize(name: string): number {
+  const length = [...name].length;
+  for (const size of NAME_FONT_SIZES_PX) {
+    if (length <= Math.floor(NAME_COLUMN_PX / size) * NAME_MAX_LINES) return size;
+  }
+  return NAME_FONT_SIZES_PX[NAME_FONT_SIZES_PX.length - 1];
+}
+
+/**
  * Footer stat labels. Null stats render an em-dash, NOT 0 — "平均年収 0 万円"
  * would assert zero income for the 12 occupations (警察官・裁判官 etc.) whose
  * salary the source leaves blank. Matches the main site's null convention
@@ -194,7 +217,7 @@ export async function renderOccupationOgCard(
               style: {
                 display: 'flex',
                 fontFamily: 'NotoSerifJP',
-                fontSize: '72px',
+                fontSize: `${occupationNameFontSize(primaryName)}px`,
                 fontWeight: 600,
                 lineHeight: 1.12,
                 color: COLORS.ink,
