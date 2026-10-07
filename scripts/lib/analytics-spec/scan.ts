@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import type { DynamicEmitSite, Emission, SourceFile, ScanResult } from '../../check-analytics-spec';
+import type { DynamicEmitSite, SourceFile, ScanResult } from '../../check-analytics-spec';
+import { analyseSource, lineOf } from './emits';
 
 export function createScanner(ROOT: string, fail: (message: string) => never) {
 
@@ -33,6 +34,7 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
     {
       file: 'src/components/Footer.astro',
       emits: ['jobtag_outbound_click', 'me_entry_click', 'list_row_click'],
+      branchVar: 'name',
       why: 'Reads the name from <a data-track-event>, then builds params per known name.',
     },
     {
@@ -100,7 +102,7 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
         const full = join(dir, entry.name);
         if (entry.isDirectory()) {
           walk(full);
-        } else if (/\.(ts|js|astro)$/.test(entry.name) && !/\.test\./.test(entry.name)) {
+        } else if (/\.(ts|tsx|js|jsx|mjs|cjs|astro|html)$/.test(entry.name) && !/\.test\./.test(entry.name)) {
           out.push(full);
         }
       }
@@ -188,16 +190,6 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
     return keys;
   }
 
-  /** Params of a call whose name ends at `afterName`; empty when none are passed. */
-  function paramsAfter(text: string, afterName: number): string[] {
-    const rest = text.slice(afterName, afterName + 4000);
-    const comma = rest.match(/^\s*,\s*\{/);
-    if (!comma) return [];
-    const open = afterName + comma[0].length - 1;
-    const body = balancedBraceBody(text, open);
-    return body === null ? [] : topLevelKeys(body);
-  }
-
   function collectSources(): SourceFile[] {
     return sourceFiles().map((full) => ({
       file: relative(ROOT, full),
@@ -205,61 +197,19 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
     }));
   }
 
-  /** Shape 1 — literal name. */
-  function extractLiteralEmissions({ file, text }: SourceFile): Emission[] {
-    const emissions: Emission[] = [];
-    const literal = /gtag\(\s*["']event["']\s*,\s*(["'])([a-z0-9_]+)\1/g;
-    for (let m = literal.exec(text); m; m = literal.exec(text)) {
-      emissions.push({
-        event: m[2]!,
-        params: paramsAfter(text, m.index + m[0].length),
-        file,
-      });
-    }
-    return emissions;
-  }
-
-  /** Shapes 2-4 — anything else must be declared. */
-  function scanDynamicEmissions(
-    { file, text }: SourceFile,
+  function scanSource(
+    source: SourceFile,
     site: DynamicEmitSite | undefined,
     result: ScanResult,
     seenSites: Set<string>,
   ): void {
-    const dynamic = /gtag\(\s*["']event["']\s*,\s*/g;
-    for (let m = dynamic.exec(text); m; m = dynamic.exec(text)) {
-      const next = text[m.index + m[0].length];
-      if (next === '"' || next === "'") continue; // already counted above
-      if (!site) {
-        result.undeclaredDynamic.push(file);
-        continue;
-      }
-      seenSites.add(file);
-      for (const event of site.emits ?? []) {
-        result.emissions.push({ event, params: [], file });
-      }
+    const analysis = analyseSource(source.file, source.text, site);
+    result.emissions.push(...analysis.emissions);
+    if (analysis.undeclaredDynamic) result.undeclaredDynamic.push(source.file);
+    if (analysis.dynamicSeen) seenSites.add(source.file);
+    for (const { offset, reason } of analysis.unreadable) {
+      result.unreadable.push(`${source.file}:${lineOf(source.text, offset)}: ${reason}`);
     }
-  }
-
-  /** Wrapper call sites carry the real names and params. */
-  function extractWrapperEmissions(
-    { file, text }: SourceFile,
-    site: DynamicEmitSite | undefined,
-  ): Emission[] {
-    const emissions: Emission[] = [];
-    if (!site?.wrapper) return emissions;
-    const call = new RegExp(
-      `(?<![\\w.])${site.wrapper}\\(\\s*(["'])([a-z0-9_]+)\\1`,
-      'g',
-    );
-    for (let m = call.exec(text); m; m = call.exec(text)) {
-      emissions.push({
-        event: m[2]!,
-        params: paramsAfter(text, m.index + m[0].length),
-        file,
-      });
-    }
-    return emissions;
   }
 
   function validateDynamicEmitSites(seenSites: ReadonlySet<string>): void {
@@ -283,14 +233,11 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
   }
 
   function scan(sources: readonly SourceFile[]): ScanResult {
-    const result: ScanResult = { emissions: [], undeclaredDynamic: [] };
+    const result: ScanResult = { emissions: [], undeclaredDynamic: [], unreadable: [] };
     const siteByFile = new Map(DYNAMIC_EMIT_SITES.map((s) => [s.file, s]));
     const seenSites = new Set<string>();
     for (const source of sources) {
-      const site = siteByFile.get(source.file);
-      result.emissions.push(...extractLiteralEmissions(source));
-      scanDynamicEmissions(source, site, result, seenSites);
-      result.emissions.push(...extractWrapperEmissions(source, site));
+      scanSource(source, siteByFile.get(source.file), result, seenSites);
     }
     validateDynamicEmitSites(seenSites);
     return { ...result, undeclaredDynamic: [...new Set(result.undeclaredDynamic)] };

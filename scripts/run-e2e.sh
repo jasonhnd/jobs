@@ -50,8 +50,19 @@ bun x playwright install --with-deps chromium
 # analytics.spec.ts holds) while GA4 discards the hit. Do not remove the
 # override to "save a rebuild": the build takes ~7s and the alternative is
 # silently corrupting the only analytics the project has.
-echo "[e2e] Rebuilding with a throwaway GA4 id (never write to production)…"
-PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000 bun run build
+#
+# The other four tracker IDs are overridden empty, not unset: unsetting lets
+# .env.local supply the production X / Meta / Google Ads / Cloudflare IDs,
+# so the e2e pages would fire real pixels from localhost and the build would
+# rewrite the CSP hashes in vercel.json (#862). Empty skips those blocks, as
+# in CI.
+echo "[e2e] Rebuilding with a throwaway GA4 id and no other trackers (never write to production)…"
+PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000 \
+  PUBLIC_X_PIXEL_ID='' \
+  PUBLIC_META_PIXEL_ID='' \
+  PUBLIC_GOOGLE_ADS_ID='' \
+  PUBLIC_CF_BEACON_TOKEN='' \
+  bun run build
 
 echo "[e2e] Running Playwright tests…"
 bun x playwright test "$@"
