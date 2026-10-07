@@ -26,6 +26,7 @@ import {
 } from '@/site/worktype-copy';
 import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import { CONTENT_DATE } from '@/lib/_content-date';
+import { escapeJsonForScript, stringifyJsonLd } from '@/lib/json-for-script';
 
 const canonical = `${siteConfig.origin}/shindan`;
 const title = 'AI働き方診断｜9問でわかるあなたの働き方タイプ | 未来の仕事';
@@ -38,15 +39,7 @@ const SHINDAN_INLINE_JS = readFileSync(
   'utf-8',
 );
 
-function safeJsonForScript(value: unknown): string {
-  const text = JSON.stringify(value) ?? 'null';
-  return text
-    .replace(/<\//g, '<\\/')
-    .replace(/\u2028/g, '\\u2028')
-    .replace(/\u2029/g, '\\u2029');
-}
-
-const copyJson = safeJsonForScript({
+const copyJson = escapeJsonForScript(JSON.stringify({
   questions: QUESTIONS,
   families: FAMILIES,
   variants: VARIANTS,
@@ -56,9 +49,9 @@ const copyJson = safeJsonForScript({
   labels: LABELS,
   rarity: RARITY,
   disclaimer: DISCLAIMER,
-});
+}));
 
-const jsonLd = safeJsonForScript({
+const jsonLd = stringifyJsonLd({
   '@context': 'https://schema.org',
   '@graph': [
     {

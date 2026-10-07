@@ -41,3 +41,14 @@ test('no JSON-LD producer uses a bare JSON.stringify (#884)', () => {
   }
   assert.deepEqual([...new Set(offenders)], []);
 });
+
+test('no local `</`-only script escaper remains; in-script JSON uses escapeJsonForScript (#884 review)', () => {
+  const offenders: string[] = [];
+  for (const file of walk('src')) {
+    const src = readFileSync(file, 'utf8');
+    // `</` → `<\/` leaves `<!--` and every other `<` raw.
+    if (/\.replace\(\/<\\\//.test(src)) offenders.push(file);
+    if (/function safeJsonForScript\(/.test(src)) offenders.push(file);
+  }
+  assert.deepEqual([...new Set(offenders)], []);
+});
