@@ -8,6 +8,7 @@ import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { byKeyDesc, byKeyAsc, safeMean } from '../utilities.js';
 import { fmtInt } from '../../../lib/num.js';
 import { FAQS } from '../../ranking-copy.js';
+import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
 
 export interface WorkforceRankings {
   byWorkers: Occupation[];
@@ -43,7 +44,7 @@ export function buildWorkforceRankings(
 
   // 37. 大規模就業 × AI 安全 (workers desc among low-AI)
   const largeWorkforceStable = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && o.workers && o.workers >= 50000)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.workers && o.workers >= 50000)
     .sort((a, b) => (b.workers ?? 0) - (a.workers ?? 0) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 

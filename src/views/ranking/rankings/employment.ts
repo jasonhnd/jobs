@@ -8,6 +8,7 @@
 import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { safeMean, empPct, inSectorSet, PUBLIC_SECTORS, EMP } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
+import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
 
 export interface EmploymentRankings {
   aiStableEmployment: Occupation[];
@@ -24,7 +25,7 @@ export function buildEmploymentRankings(
 ): EmploymentRankings {
   // 20. AI 安全 × 正規雇用率高
   const aiStableEmployment = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && empPct(o, EMP.regular) >= 60)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && empPct(o, EMP.regular) >= 60)
     .sort((a, b) => empPct(b, EMP.regular) - empPct(a, EMP.regular) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 
