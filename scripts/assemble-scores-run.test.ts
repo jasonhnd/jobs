@@ -313,6 +313,21 @@ describe('runAssembleCli — failures (never write, exit 1)', () => {
     { name: 'missing --mode', argv: () => [], message: /missing --mode/ },
     { name: 'bad --mode', argv: (h) => baseArgs(h).map((a) => (a === 'aiois' ? 'foo' : a)), message: /--mode must be "aiois" or "legacy", got "foo"/ },
     { name: 'missing --date', argv: () => ['--mode', 'aiois', '--model', 'gpt-x'], message: /missing --date/ },
+    ...['not-a-date', '2026-10-7', '2026-02-30', '2026-10-02T00:00:00Z'].map((date) => ({
+      name: `--date ${date} is not a real YYYY-MM-DD date`,
+      argv: (h: Harness) => baseArgs(h).map((a) => (a === '2026-10-02' ? date : a)),
+      setup: (h: Harness) => h.write('in.jsonl', AIOIS_LINE(1)),
+      message: /--date must be a real YYYY-MM-DD date/,
+    })),
+    {
+      name: 'an input with no score lines',
+      argv: (h) => baseArgs(h),
+      setup: (h) => {
+        writeBatch(h, 'b.json', {});
+        h.write('in.jsonl', '\n\n');
+      },
+      message: /no scores in --in/,
+    },
     { name: 'bad --backfill', argv: (h) => baseArgs(h, ['--backfill', 'maybe']), message: /--backfill must be "true" or "false", got "maybe"/ },
     { name: '--in not found', argv: (h) => baseArgs(h), message: /--in not found:/ },
     {
@@ -371,6 +386,29 @@ describe('runAssembleCli — failures (never write, exit 1)', () => {
       else assert.equal(existsSync(h.path('out.json')), false);
     });
   }
+
+  test('an --out created after the existence check is not overwritten (exclusive create)', () => {
+    const h = makeHarness([1, 2]);
+    writeBatch(h, 'b.json', {});
+    writeFileSync(join(h.scoresDir, 'broken.json'), '{');
+    h.write('in.jsonl', AIOIS_LINE(1));
+    const errors: string[] = [];
+    const env: AssembleCliEnv = {
+      root: h.root,
+      occDir: h.occDir,
+      scoresDir: h.scoresDir,
+      log: () => {},
+      error: (m) => void errors.push(m),
+      // Runs between the existence check and the write: another writer wins the race.
+      warn: () => writeFileSync(h.path('out.json'), 'RACE'),
+      exit: (code) => {
+        throw new ExitSignal(code);
+      },
+    };
+    assert.throws(() => runAssembleCli(baseArgs(h), env), (err: unknown) => err instanceof ExitSignal && err.code === 1);
+    assert.match(errors.join('\n'), /--out already exists \(append-only; never overwrite\):/);
+    assert.equal(readFileSync(h.path('out.json'), 'utf8'), 'RACE');
+  });
 
   test('invalid input lines are reported (first 30 + a count of the rest) and nothing is written', () => {
     const h = makeHarness([1]);

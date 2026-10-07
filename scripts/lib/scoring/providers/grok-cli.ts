@@ -13,8 +13,9 @@
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, isAbsolute, join, relative } from 'node:path';
-import { spawn, spawnSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 
+import { CLI_CALL_TIMEOUT_MS, parseCallTimeoutMs, runCliProcess } from '../cli-spawn.js';
 import { SCORE_OUTPUT_JSON_SCHEMA } from '../contract.js';
 import type { AskOptions, PrepareRunContext, ProviderResponse, RunPreparation, ScoringProvider } from '../provider.js';
 
@@ -38,6 +39,8 @@ export type GrokReasoningEffort = (typeof GROK_REASONING_EFFORTS)[number];
 
 /** Set by prepareRun. Null is not an inherited default — preflight rejects a real run that has none. */
 let reasoningEffortForRun: GrokReasoningEffort | null = null;
+/** Set by prepareRun from --call-timeout-sec. */
+let callTimeoutMsForRun = CLI_CALL_TIMEOUT_MS;
 
 export interface GrokCliProbe {
   readonly helpCommand: readonly string[];
@@ -67,6 +70,8 @@ export interface GrokSpawnResult {
   readonly stdout: string;
   readonly stderr: string;
   readonly error: string | null;
+  /** The call hit the per-call timeout and grok was killed. */
+  readonly timedOut?: boolean;
 }
 
 export type GrokSpawn = (args: readonly string[], cwd: string) => Promise<GrokSpawnResult>;
@@ -325,32 +330,12 @@ export function grokEnvelopePath(options: AskOptions): string | null {
   return join(rawDir, `${options.occId}.envelope.json`);
 }
 
-const defaultGrokSpawn: GrokSpawn = (args, cwd) =>
-  new Promise((resolveSpawn) => {
-    let settled = false;
-    const finish = (result: GrokSpawnResult): void => {
-      if (settled) return;
-      settled = true;
-      resolveSpawn(result);
-    };
-    const child = spawn('grok', [...args], { cwd, stdio: ['ignore', 'pipe', 'pipe'] });
-    let stdout = '';
-    let stderr = '';
-    child.stdout.setEncoding('utf8');
-    child.stderr.setEncoding('utf8');
-    child.stdout.on('data', (chunk) => {
-      stdout += chunk;
-    });
-    child.stderr.on('data', (chunk) => {
-      stderr += chunk;
-    });
-    child.on('error', (err) => {
-      finish({ exitCode: 1, stdout, stderr, error: err.message });
-    });
-    child.on('close', (code) => {
-      finish({ exitCode: code, stdout, stderr, error: null });
-    });
-  });
+export const createGrokSpawn =
+  (timeoutMs: number = callTimeoutMsForRun, command = 'grok'): GrokSpawn =>
+  (args, cwd) =>
+    runCliProcess(command, args, { cwd, timeoutMs });
+
+const defaultGrokSpawn: GrokSpawn = (args, cwd) => createGrokSpawn()(args, cwd);
 
 function unprepared(stderr: string): ProviderResponse {
   return { exitCode: 1, stdout: '', stderr, rawText: '' };
@@ -380,6 +365,10 @@ export async function executeGrokAsk(
     schemaJson: grokScoreSchemaJson(),
   });
   const spawned = await spawnGrok(args, options.cwd);
+  if (spawned.timedOut) {
+    // Only the timeout text is classified, so the call is retried as transport.
+    return { exitCode: 1, stdout: spawned.stdout, stderr: spawned.error ?? 'grok timed out', rawText: '' };
+  }
   if (spawned.error) {
     return { exitCode: 1, stdout: spawned.stdout, stderr: `${spawned.stderr}\n${spawned.error}`.trim(), rawText: '' };
   }
@@ -412,6 +401,7 @@ export const grokCliProvider: ScoringProvider = {
   preflight(ctx: PrepareRunContext): void {
     assertGrokCliProbe(probeGrokCli());
     parseGrokReasoningEffort(ctx.options['reasoning-effort']);
+    parseCallTimeoutMs(ctx.options['call-timeout-sec']);
   },
 
   prepareRun(ctx: PrepareRunContext): RunPreparation {
@@ -422,6 +412,7 @@ export const grokCliProvider: ScoringProvider = {
       reasoningEffort = null;
     }
     reasoningEffortForRun = reasoningEffort;
+    callTimeoutMsForRun = parseCallTimeoutMs(ctx.options['call-timeout-sec']);
     const outputSchemaPath = join(ctx.runDir, 'grok-score.schema.json');
     writeFileSync(outputSchemaPath, `${JSON.stringify(SCORE_OUTPUT_JSON_SCHEMA, null, 2)}\n`);
     const probe = probeGrokCli();
@@ -437,6 +428,7 @@ export const grokCliProvider: ScoringProvider = {
         grok_version: (probe.versionStdout || probe.versionStderr).trim(),
         reasoning_effort: reasoningEffort,
         reasoning_effort_source: reasoningEffort ? 'cli-flag' : 'missing',
+        call_timeout_sec: callTimeoutMsForRun / 1000,
       },
     };
   },
