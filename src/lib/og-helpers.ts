@@ -25,7 +25,7 @@ import {
 } from "./projection-schemas.js";
 import { RISK_BAND_HEX } from "./design-tokens.js";
 
-import { fetchWithTimeout } from './http-client.js';
+import { fetchBufferWithTimeout, fetchTextWithTimeout } from './http-client.js';
 
 export const OG_DATA_FETCH_TIMEOUT_MS = 5_000;
 const OG_FONT_FETCH_TIMEOUT_MS = 8_000;
@@ -222,7 +222,7 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
   const url =
     `https://fonts.googleapis.com/css2?family=${family}:wght@${weight}` +
     `&text=${encodeURIComponent(text)}&display=swap`;
-  const cssRes = await fetchWithTimeout(url, {
+  const { response: cssRes, body: css } = await fetchTextWithTimeout(url, {
     // Force a UA that gets ttf/otf back, not woff2 — satori cannot parse woff2.
     headers: { "User-Agent": "Mozilla/5.0 (compatible; satori; rv:1.0)" },
   }, OG_FONT_FETCH_TIMEOUT_MS);
@@ -236,7 +236,6 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
       `font CSS fetch failed: ${family} ${weight}: HTTP ${cssRes.status}`,
     );
   }
-  const css = await cssRes.text();
   const match = css.match(/src:\s*url\((.+?)\)\s*format\(['"](opentype|truetype)['"]\)/);
   if (!match) throw new Error(`font src not found in CSS: ${family} ${weight}`);
   // Defence-in-depth: match[1] is extracted from Google's CSS *response* —
@@ -247,7 +246,8 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
   if (!fontBinaryUrl.startsWith("https://fonts.gstatic.com/")) {
     throw new Error(`unexpected font binary host (expected fonts.gstatic.com): ${fontBinaryUrl}`);
   }
-  const fontRes = await fetchWithTimeout(fontBinaryUrl, {}, OG_FONT_FETCH_TIMEOUT_MS);
+  const { response: fontRes, body: fontBuf } =
+    await fetchBufferWithTimeout(fontBinaryUrl, {}, OG_FONT_FETCH_TIMEOUT_MS);
   if (!fontRes.ok) throw new Error(`failed to fetch font binary: ${fontRes.status}`);
-  return await fontRes.arrayBuffer();
+  return fontBuf;
 }

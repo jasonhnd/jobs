@@ -15,7 +15,9 @@ const fontCss = `@font-face { src: url(${binaryUrl}) format('truetype'); }`;
 
 // Control only the deadline timers; the fetch double honors the abort signal
 // exactly as a network request does. No real network or wall-clock wait.
-for (const fixture of [
+// `body` mode (#861): headers arrive at once, then the body never finishes —
+// the deadline must still cover the body read.
+for (const stall of ['headers', 'body'] as const) for (const fixture of [
   { name: 'occupation data', query: '?id=156', path: '/data.detail/0156.json', deadline: 5_000 },
   { name: 'sector data', query: '?sector=iryo', path: '/data.sectors.json', deadline: 5_000 },
   { name: 'worktypes data', query: '?worktype=RPK&variant=mediator', path: '/data.worktypes.json', deadline: 5_000 },
@@ -23,7 +25,7 @@ for (const fixture of [
   { name: 'font CSS', query: '?page=about', host: 'fonts.googleapis.com', deadline: 8_000 },
   { name: 'font binary', query: '?page=privacy', host: 'fonts.gstatic.com', deadline: 8_000 },
 ]) {
-  test(`stalled ${fixture.name} reaches the existing retriable 503 at its deadline`, async (t) => {
+  test(`stalled ${fixture.name} (${stall}) reaches the existing retriable 503 at its deadline`, async (t) => {
     let now = 0;
     let nextId = 0;
     const timers = new Map<number, { at: number; fire: () => void }>();
@@ -42,6 +44,11 @@ for (const fixture of [
       if (url.pathname === fixture.path || url.hostname === fixture.host) {
         assert.ok(init?.signal, 'the upstream request must have a deadline signal');
         stalledSignal = init.signal;
+        if (stall === 'body') {
+          return new Response(new ReadableStream<Uint8Array>({
+            start(controller) { controller.enqueue(new TextEncoder().encode('{"partial":')); },
+          }));
+        }
         return new Promise<Response>((_resolve, reject) => {
           stalledSignal!.addEventListener('abort', () => {
             reject(new DOMException('fixture timeout', 'AbortError'));

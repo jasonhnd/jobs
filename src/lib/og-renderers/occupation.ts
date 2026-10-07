@@ -16,7 +16,7 @@
  * dependencies. See _frame.ts for the full rationale.
  */
 
-import { fetchWithTimeout } from '../http-client.js';
+import { fetchJsonWithTimeout } from '../http-client.js';
 import { OG_DATA_FETCH_TIMEOUT_MS } from '../og-helpers.js';
 
 import { ImageResponse } from '@vercel/og';
@@ -78,14 +78,14 @@ export async function renderOccupationOgCard(
   // Fetch the per-occupation detail file (~3.5 KB gz). Vercel CDN caches the
   // upstream fetch by URL, so concurrent OG requests for the same id share it.
   const detailUrl = new URL(`/data.detail/${paddedId}.json`, trustedFetchOrigin(url));
-  const detailRes = await fetchWithTimeout(detailUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
+  const { response: detailRes, body: detailRaw } =
+    await fetchJsonWithTimeout(detailUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
   if (detailRes.status === 404) {
     return new Response('Occupation not found', { status: 404 });
   }
   if (!detailRes.ok) {
     return new Response('Upstream detail fetch failed', { status: 502 });
   }
-  const detailRaw: unknown = await detailRes.json();
   const detailParsed = DetailRecordSchema.safeParse(detailRaw);
   if (!detailParsed.success) {
     // eslint-disable-next-line no-console
