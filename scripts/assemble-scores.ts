@@ -33,6 +33,7 @@
 import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, resolve } from 'node:path';
+import { isRealIsoDate } from './lib/iso-date.js';
 import { OccupationSchema } from '../src/data/schema/occupation.js';
 import {
   ScoreRunSchema,
@@ -335,6 +336,7 @@ export function runAssembleCli(argv: readonly string[], env: AssembleCliEnv): vo
   // Provider: explicit --provider wins; else infer from the model id prefix.
   const provider = args['provider'] ?? inferProvider(model);
   const date = need('date');
+  if (!isRealIsoDate(date)) fail(`--date must be a real YYYY-MM-DD date, got "${date}"`);
   // Backfill flag: explicit "true" / "false" only (the parser has no boolean flags).
   const backfillArg = args['backfill'] ?? 'false';
   if (backfillArg !== 'true' && backfillArg !== 'false') fail(`--backfill must be "true" or "false", got "${backfillArg}"`);
@@ -362,6 +364,7 @@ export function runAssembleCli(argv: readonly string[], env: AssembleCliEnv): vo
       .filter((n) => Number.isFinite(n)),
   );
   const scoredIds = Object.keys(scores).map((k) => Number.parseInt(k, 10));
+  if (scoredIds.length === 0) fail(`no scores in --in: ${inPath}`);
   const extra = scoredIds.filter((id) => !realOccIds.has(id)).sort((a, b) => a - b);
   if (extra.length) fail(`${extra.length} scored id(s) have no occupation file: ${extra.slice(0, 20).join(', ')}`);
   const missing = [...realOccIds].filter((id) => !scoredIds.includes(id)).sort((a, b) => a - b);
@@ -443,7 +446,16 @@ export function runAssembleCli(argv: readonly string[], env: AssembleCliEnv): vo
     env.exit(1);
   }
 
-  writeFileSync(outPath, `${JSON.stringify(parsed.data, null, 2)}\n`);
+  // Exclusive create: a file that appeared after the existence check above is
+  // never overwritten (append-only batches).
+  try {
+    writeFileSync(outPath, `${JSON.stringify(parsed.data, null, 2)}\n`, { flag: 'wx' });
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === 'EEXIST') {
+      fail(`--out already exists (append-only; never overwrite): ${outPath}`);
+    }
+    throw err;
+  }
   env.log(`[assemble-scores] OK → ${outPath}`);
   if (backfill) {
     env.log('[assemble-scores] backfill batch — history only; will not become the active run');
