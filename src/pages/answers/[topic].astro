@@ -1,4 +1,5 @@
 ---
+import { formatScoreFixed1 } from '@/lib/score-format';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
@@ -123,7 +124,7 @@ const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
           <div class="item-main">
             <a class="item-title" href={occupationPath(item.id)}>{item.nameJa}</a>
             <div class="metrics" aria-label={`${item.nameJa}の指標`}>
-              <span>AI影響 {item.aiImpact.toFixed(1)}/10</span>
+              <span>AI影響 {formatScoreFixed1(item.aiImpact)}/10</span>
               <span>AI順位 {item.aiImpactRank}/{facts.occupationCount}</span>
               <span>年収 {fmtSalary(item.salaryMan)}</span>
               <span>就業者 {fmtWorkers(item.workers)}</span>

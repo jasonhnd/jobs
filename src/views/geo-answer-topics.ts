@@ -1,6 +1,7 @@
 import { siteConfig } from '../site/config.js';
 import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
 import { occupationPath } from '../lib/urls.js';
+import { displayScore } from '../data/lib/banker-round.js';
 
 const SITE = siteConfig.origin;
 const TOP_N = 30;
@@ -66,7 +67,7 @@ export const GEO_ANSWER_TOPIC_CONFIGS: readonly GeoAnswerTopicConfig[] = [
     shortAnswerJa: '高年収とAI安全度を両立しやすいのは、AI影響度が中程度以下で、専門性・対人判断・制度上の壁がある仕事です。',
     introJa: 'AI影響度5.0以下の職業から、年収中央値が高い順に並べます。収入とAI安全度を同時に見たい人向けの入口です。',
     itemReasonJa: 'AI影響度5.0以下、年収中央値が高い順',
-    selector: (occupation) => occupation.aiImpact <= 5 && occupation.salaryMan !== null,
+    selector: (occupation) => displayScore(occupation.aiImpact) <= 5 && occupation.salaryMan !== null,
     sorter: bySalarySafe,
   },
   {

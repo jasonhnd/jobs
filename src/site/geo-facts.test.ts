@@ -234,6 +234,45 @@ describe('five-band distribution rounding (issue #216)', () => {
   });
 });
 
+// #864: bands, counts and the ≥ 5 KPI follow the displayed one-decimal value.
+describe('displayed-value rule for KPI bands and counts (#864)', () => {
+  function factsFor(risks: readonly number[]) {
+    const scoredRows: GeoTreemapRow[] = risks.map((ai_risk, i) => ({
+      id: i + 1, name_ja: `X${i + 1}`, salary: 500, ai_risk, workers: 100,
+      recruit_ratio: 1.0, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1',
+    }));
+    const entries = new Map<number, GeoScoreEntry>(risks.map((ai_risk, i) => [i + 1, { ai_risk, aiois: { displacement: 0 } }]));
+    return computeGeoFacts(scoredRows, [scoreRun('2026-06-13', 'claude-fable-5', entries)]);
+  }
+  const bandOf = (score: number): string => factsFor([score]).fiveBandDistribution.find((band) => band.count === 1)!.key;
+
+  test('a mean that prints 6.5 sits in 5-6 like every other printed 6.5', () => {
+    assert.equal(bandOf(6.533333333333333), '5-6'); // raw rounds to 7
+    assert.equal(bandOf(6.466666666666667), '5-6');
+    assert.equal(bandOf(4.533333333333333), '3-4'); // prints 4.5
+    assert.equal(bandOf(2.5333333333333337), '0-2'); // prints 2.5
+    assert.equal(bandOf(4.566666666666666), '5-6'); // prints 4.6
+  });
+
+  test('「影響≥5」 counts a mean that prints 5.0, and its wages', () => {
+    const facts = factsFor([4.966666666666667, 4.933333333333334, 5.2]);
+    assert.equal(facts.highImpactCount, 2); // 5.0 and 5.2; 4.9 stays out
+    assert.equal(facts.highImpactAnnualWagesTrillion, 0.001); // 2 × 500万円 × 100人
+  });
+
+  test('bands with equal counts get equal shares (no tie-break by band order)', () => {
+    // The live batch: 0-2 and 9-10 both hold 2 of 556 and printed 1% vs 0%.
+    const risks = [
+      ...Array(2).fill(1.0), ...Array(278).fill(4.0), ...Array(224).fill(6.0),
+      ...Array(50).fill(8.0), ...Array(2).fill(9.5),
+    ];
+    const shares = Object.fromEntries(factsFor(risks).fiveBandDistribution.map((band) => [band.key, band.sharePct]));
+    assert.equal(shares['0-2'], shares['9-10']);
+    assert.deepEqual(shares, { '0-2': 0, '3-4': 50, '5-6': 41, '7-8': 9, '9-10': 0 });
+    assert.equal(Object.values(shares).reduce((a, b) => a + b, 0), 100);
+  });
+});
+
 describe('pickLatestGeoScoreRun', () => {
   const run = (date: string, model: string, aiois: boolean): GeoScoreRunLike => ({
     scope: 'occupations',

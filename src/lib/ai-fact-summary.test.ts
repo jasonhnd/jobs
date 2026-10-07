@@ -101,6 +101,16 @@ const geoFacts: GeoFacts = {
 };
 
 describe('buildAiFactSummary', () => {
+  test('prints the displayed value and judges its words on printed values (#864)', () => {
+    const s = buildAiFactSummary({ ...base, aiRisk: 6.233333333333334, meanRisk: 6.2333, aiois: aiois({ d5: 8, displacement: 3.9666666666666663 }) });
+    assert.ok(s.startsWith('看護師のAI影響度は6.2/10。'), s);
+    assert.ok(!s.includes('6.233333333333334'), s);
+    // 6.2 vs the printed mean 6.23: below
+    assert.ok(s.includes('全体平均（6.23）を下回る'), s);
+    // displacement prints 4.0 → the mid sentence, not the low one
+    assert.ok(s.includes('業務の再設計しだいで対応の余地があります（仕事が減るリスク 4.0/10）'), s);
+  });
+
   test('unscored occupation yields empty string (block self-omits)', () => {
     assert.equal(buildAiFactSummary({ ...base, aiRisk: null }), '');
   });
@@ -241,6 +251,24 @@ describe('GEO page fact summaries', () => {
     });
     assert.ok(s.includes('差は0.0ポイントで、BとEは同じAI影響度です。'), s);
     assert.ok(!s.includes('よりAI影響度が高い比較です'), s);
+  });
+
+  test('compare summary: difference and higher side come from the printed values (#864)', () => {
+    const pair = (a: number, b: number): string => buildCompareGeoFactSummary({
+      facts: { ...geoFacts, occupationCount: 2, occupations: [geoOcc(11, 'X', a, 100), geoOcc(12, 'Y', b, 100)] },
+      subjectJa: 'X vs Y',
+      occupationIds: [11, 12],
+    });
+    // tofu-vs-pan: 4.3 vs 4.4 printed, raw difference 0.1667
+    const tofu = pair(4.266666666666667, 4.433333333333334);
+    assert.ok(tofu.includes('XはAI影響度4.3/10、Yは4.4/10です。差は0.1ポイントで、Yの方がXよりAI影響度が高い比較です。'), tofu);
+    // data-scientist-vs-ai-engineer: 6.4 vs 5.3 printed, raw difference 1.1667
+    assert.ok(pair(6.433333333333334, 5.266666666666667).includes('差は1.1ポイントで、Xの方がYより'));
+    // yochien-vs-hoikushi: 3.3 vs 3.2 printed, raw difference 0.0333 printed "0.0 … 高い"
+    assert.ok(pair(3.266666666666667, 3.2333333333333334).includes('差は0.1ポイントで、Xの方がYより'));
+    // equal printed values are equal
+    const tie = pair(4.266666666666667, 4.3);
+    assert.ok(tie.includes('差は0.0ポイントで、XとYは同じAI影響度です。'), tie);
   });
 
   test('renderAiFactParagraph escapes generated text before HTML insertion', () => {

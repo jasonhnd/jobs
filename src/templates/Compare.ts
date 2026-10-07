@@ -237,12 +237,6 @@ export interface CompareHubCard {
   readonly featured?: boolean;
 }
 
-function compareRiskClass(score: number | null): 'low' | 'mid' | 'high' {
-  if (score === null) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
-}
 
 /**
  * 2026-06-04 双層改造: 説明付きの大カード。/compare hub で featured ペアのみに使う。
@@ -251,8 +245,8 @@ function compareRiskClass(score: number | null): 'low' | 'mid' | 'high' {
  */
 export function renderFeaturedCompareCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
   return cards.map((c) => {
-    const aBand = compareRiskClass(c.a_risk);
-    const bBand = compareRiskClass(c.b_risk);
+    const aBand = riskClass(c.a_risk);
+    const bBand = riskClass(c.b_risk);
     const aRiskStr = formatRiskScore(c.a_risk);
     const bRiskStr = formatRiskScore(c.b_risk);
     return (
@@ -281,8 +275,8 @@ export function renderFeaturedCompareCards(cards: ReadonlyArray<CompareHubCard>)
  */
 export function renderCompactCompareCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
   return cards.map((c) => {
-    const aBand = compareRiskClass(c.a_risk);
-    const bBand = compareRiskClass(c.b_risk);
+    const aBand = riskClass(c.a_risk);
+    const bBand = riskClass(c.b_risk);
     const aRiskStr = formatRiskScore(c.a_risk);
     const bRiskStr = formatRiskScore(c.b_risk);
     return (

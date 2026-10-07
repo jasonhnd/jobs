@@ -29,6 +29,9 @@
  */
 
 import { html, type SafeHtml } from '../lib/safe-html.js';
+import { formatScoreFixed1 } from '../lib/score-format.js';
+import { bankerRound } from '../data/lib/banker-round.js';
+import { riskBand } from '../data/lib/bands.js';
 
 export type SectorId =
   | 'iryo' | 'fukushi' | 'kyoiku' | 'hoan' | 'noringyo'
@@ -296,9 +299,9 @@ export interface SectorOcc {
 
 export interface SectorPatterns {
   /** AI risk distribution */
-  ai_high_count: number; // >= 7
-  ai_mid_count: number;  // 4-6
-  ai_low_count: number;  // <= 3
+  ai_high_count: number; // displayed >= 7.0
+  ai_mid_count: number;  // displayed 4.0-6.9
+  ai_low_count: number;  // displayed < 4.0
   /** 比率 */
   ai_high_pct: number;
   ai_mid_pct: number;
@@ -339,9 +342,12 @@ export function computeSectorPatterns(
   sectorJa: string,
 ): SectorPatterns {
   const risks = sectorOccs.map((o) => o.ai_risk).filter((r): r is number => typeof r === 'number');
-  const aiHigh = risks.filter((r) => r >= 7).length;
-  const aiMid = risks.filter((r) => r >= 4 && r <= 6).length;
-  const aiLow = risks.filter((r) => r <= 3).length;
+  // Band on the displayed value (#864): the integer-era `<= 3 / 4-6 / >= 7`
+  // dropped every mean in (3,4) and (6,7) — 178 of 556 occupations.
+  const bands = risks.map((r) => riskBand(r));
+  const aiHigh = bands.filter((b) => b === 'high').length;
+  const aiMid = bands.filter((b) => b === 'mid').length;
+  const aiLow = bands.filter((b) => b === 'low').length;
   const total = risks.length || 1;
 
   const sectorAiMean = safeMean(sectorOccs, (o) => o.ai_risk);
@@ -358,11 +364,13 @@ export function computeSectorPatterns(
 
   // AI risk pattern. html`` interpolates numbers/sectorJa with escape; `<strong>`
   // sits in the literal segment and stays raw.
-  if (Math.abs(aiDiff) >= 0.8) {
+  // Means are raw; the printed difference (banker, one decimal) decides (#864).
+  const shownAiDiff = bankerRound(aiDiff, 1);
+  if (Math.abs(shownAiDiff) >= 0.8) {
     observations.push(
-      aiDiff > 0
-        ? html`${sectorJa} の平均 AI 影響度は ${sectorAiMean.toFixed(1)}/10 で、全業種平均より <strong>+${aiDiff.toFixed(1)}</strong> 高い`
-        : html`${sectorJa} の平均 AI 影響度は ${sectorAiMean.toFixed(1)}/10 で、全業種平均より <strong>${aiDiff.toFixed(1)}</strong> 低い`,
+      shownAiDiff > 0
+        ? html`${sectorJa} の平均 AI 影響度は ${formatScoreFixed1(sectorAiMean)}/10 で、全業種平均より <strong>+${shownAiDiff.toFixed(1)}</strong> 高い`
+        : html`${sectorJa} の平均 AI 影響度は ${formatScoreFixed1(sectorAiMean)}/10 で、全業種平均より <strong>${shownAiDiff.toFixed(1)}</strong> 低い`,
     );
   }
 

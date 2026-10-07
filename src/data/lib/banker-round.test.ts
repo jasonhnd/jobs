@@ -79,3 +79,31 @@ test('displayScore: even-count median 4.25 → 4.2 (half to even)', () => {
   assert.equal(displayScore(6.8), 6.8);
   assert.equal(displayScore(5.05), 5.0);
 });
+
+test('displayScoreOrNull: displayed value for threshold filters, null when missing (#864)', async () => {
+  const { displayScoreOrNull } = await import('./banker-round.js');
+  assert.equal(displayScoreOrNull(4.966666666666667), 5); // prints 5.0 → passes a "≤ 5" filter
+  assert.equal(displayScoreOrNull(7.966666666666667), 8); // prints 8.0 → passes a "≥ 8" filter
+  assert.equal(displayScoreOrNull(3.0333333333333337), 3);
+  assert.equal(displayScoreOrNull(4.266666666666667), 4.3);
+  assert.equal(displayScoreOrNull(null), null);
+  assert.equal(displayScoreOrNull(undefined), null);
+  assert.equal(displayScoreOrNull(Number.NaN), null);
+});
+
+test('displayScoreStep: integer step of the displayed value, banker on genuine halves (#864)', async () => {
+  const { displayScoreStep } = await import('./banker-round.js');
+  // Both print 4.5, so both get the same step.
+  assert.equal(displayScoreStep(4.466666666666667), 4);
+  assert.equal(displayScoreStep(4.533333333333333), 4);
+  // Both print 6.5.
+  assert.equal(displayScoreStep(6.466666666666667), 6);
+  assert.equal(displayScoreStep(6.533333333333333), 6);
+  assert.equal(displayScoreStep(7.5), 8);
+  assert.equal(displayScoreStep(4.966666666666667), 5);
+  assert.equal(displayScoreStep(2.6), 3);
+  assert.equal(displayScoreStep(0), 0);
+  assert.equal(displayScoreStep(10), 10);
+  assert.equal(displayScoreStep(-0.3), 0); // clamped to the 0-10 scale
+  assert.equal(displayScoreStep(10.4), 10);
+});

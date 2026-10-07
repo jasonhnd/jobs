@@ -174,3 +174,88 @@ describe('OG cards print the displayed value (#631)', () => {
     assert.match(ogSector, /displayScore\(sector\.mean_ai_risk\)\.toFixed\(1\)/);
   });
 });
+
+describe('home and /map band the displayed value with one shared function (#864)', () => {
+  test('riskBand5 is byte-identical in _index-inline.js and _map-inline.js', () => {
+    assert.equal(dedent(fnSource(indexJs, 'riskBand5')), dedent(fnSource(mapJs, 'riskBand5')));
+  });
+
+  test('riskBand5: five bands on the displayed value, lower bound inclusive', () => {
+    for (const [name, source] of [['_index-inline.js', indexJs], ['_map-inline.js', mapJs]] as const) {
+      const band = load<(v: unknown) => number>(source, ['fmtRisk', 'riskBand5'], 'riskBand5');
+      const cases: Array<[number, number]> = [
+        [0, 0], [1.9333333333333336, 0], [1.9666666666666666, 1], [2, 1],
+        [3.9333333333333336, 1], [3.9666666666666663, 2], [4, 2], [4.033333333333333, 2],
+        [5.966666666666667, 3], [6, 3], [6.033333333333333, 3],
+        [7.933333333333334, 3], [7.966666666666667, 4], [8, 4], [10, 4],
+      ];
+      for (const [v, want] of cases) assert.equal(band(v), want, `${name} riskBand5(${v})`);
+    }
+  });
+
+  test('/map colours and cell bands go through riskBand5', () => {
+    assert.doesNotMatch(mapJs, /function bandForRisk\(/);
+    assert.match(mapJs, /RISK_PALETTE\[riskBand5\(risk\)\]/);
+    assert.match(mapJs, /cell\.dataset\.band = String\(riskBand5\(/);
+  });
+
+  test('home treemap: the ai_risk layer colours tiles through riskBand5', () => {
+    assert.match(indexJs, /layer === "ai_risk" \? riskBand5\(d\.ai_risk\) : bandForT\(t\)/);
+    const layerT = fnSource(indexJs, 'layerT');
+    assert.match(layerT, /return Number\(fmtRisk\(d\.ai_risk\)\) \/ 10;/);
+    assert.doesNotMatch(layerT, /return d\.ai_risk \/ 10;/);
+  });
+
+  test('home: suggestion pill and TOP10 pill use the three-band rule on the displayed value', () => {
+    const riskClass3 = load<(v: unknown) => string>(indexJs, ['fmtRisk', 'riskClass3'], 'riskClass3');
+    assert.equal(riskClass3(4.266666666666667), 'mid'); // 豆腐: was low under ">= 5"
+    assert.equal(riskClass3(3.9666666666666663), 'mid');
+    assert.equal(riskClass3(3.9333333333333336), 'low');
+    assert.equal(riskClass3(6.966666666666667), 'high');
+    assert.match(indexJs, /const riskLabel = "AI 影響度 " \+ fmtRisk\(risk\) \+ "\/10";/);
+    assert.doesNotMatch(indexJs, /"AI 影響度 " \+ risk \+ "\/10"/);
+    assert.match(indexJs, /'<span class="ss-risk ' \+ riskClass3\(risk\) \+ '">'/);
+    assert.doesNotMatch(indexJs, /const pillBand = /);
+  });
+
+  test('home: GA4 risk_tier keeps the spec cut points on the displayed value', () => {
+    const gaRiskTier = load<(v: unknown) => string>(indexJs, ['fmtRisk', 'gaRiskTier'], 'gaRiskTier');
+    assert.equal(gaRiskTier(6.966666666666667), 'high');
+    assert.equal(gaRiskTier(4.966666666666667), 'mid');
+    assert.equal(gaRiskTier(4.933333333333334), 'low');
+    assert.doesNotMatch(indexJs, /risk >= 7 \? "high"/);
+    assert.doesNotMatch(indexJs, /aiRisk >= 7 \? "high"/);
+  });
+
+  test('home stats: histogram step and the ≥5 wage block use the displayed value', async () => {
+    const { displayScoreStep } = await import('../data/lib/banker-round.js');
+    const riskStep = load<(v: unknown) => number>(indexJs, ['fmtRisk', 'riskStep'], 'riskStep');
+    for (let k = 0; k <= 300; k += 1) {
+      const v = k / 30;
+      assert.equal(riskStep(v), displayScoreStep(v), `riskStep(${v})`);
+    }
+    assert.equal(riskStep(4.533333333333333), 4); // prints 4.5
+    assert.doesNotMatch(indexJs, /hist\[Math\.round\(d\.ai_risk\)\]/);
+    assert.match(indexJs, /hist\[riskStep\(d\.ai_risk\)\]\+\+/);
+    assert.match(indexJs, /Number\(fmtRisk\(d\.ai_risk\)\) >= 5 && d\.salary != null/);
+  });
+});
+
+describe('mobile search pill prints with banker rounding (#864)', () => {
+  const mobileNav = read('../components/MobileNav.astro');
+  test('MobileNav carries the /me fmtRisk and uses it for the pill', () => {
+    assert.equal(dedent(fnSource(mobileNav, 'fmtRisk')), dedent(fnSource(meJs, 'fmtRisk')));
+    assert.match(mobileNav, /pill\.textContent = \(doc\.ai_risk != null \? Number\(fmtRisk\(doc\.ai_risk\)\)\.toFixed\(1\) : '—'\) \+ '\/10';/);
+    assert.doesNotMatch(mobileNav, /Number\(doc\.ai_risk\)\.toFixed\(1\)/);
+  });
+});
+
+describe('/me similar jobs: ±1.0 on the displayed values (#864)', () => {
+  test('riskWithin compares printed tenths, so FP residue cannot decide', () => {
+    const riskWithin = load<(a: unknown, b: unknown, tenths: number) => boolean>(meJs, ['fmtRisk', 'riskWithin'], 'riskWithin');
+    assert.equal(riskWithin(5.3, 4.3, 10), true); // 5.3 - 4.3 = 1.0000000000000009 raw
+    assert.equal(riskWithin(5.266666666666667, 4.3, 10), true); // prints 5.3 vs 4.3
+    assert.equal(riskWithin(5.366666666666666, 4.3, 10), false); // prints 5.4
+    assert.match(meJs, /if \(!riskWithin\(r\.ai_risk, risk, 10\)\) continue;/);
+  });
+});

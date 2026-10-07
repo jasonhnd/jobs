@@ -126,3 +126,21 @@ test('compare injected loader failures propagate instead of producing partial ca
   const failure = new Error('Fixture unavailable');
   assert.throws(() => buildCompareBundle(() => { throw failure; }), (error) => error === failure);
 });
+
+test('AI row difference and FAQ compare the printed values, not the raw means (#864)', () => {
+  const aiNote = (a: number, b: number) =>
+    firstPair({ ai_risk: { score: a } }, { ai_risk: { score: b } }).rows.find((row) => row.label === 'AI 影響度')!;
+  // tofu-vs-pan: prints 4.3 vs 4.4, raw difference −0.1667
+  assert.deepEqual(aiNote(4.266666666666667, 4.433333333333334), { label: 'AI 影響度', a_val: '4.3/10', b_val: '4.4/10', note: 'A は B より -0.1' });
+  // data-scientist-vs-ai-engineer: prints 6.4 vs 5.3, raw difference 1.1667
+  assert.equal(aiNote(6.433333333333334, 5.266666666666667).note, 'A は B より +1.1');
+  // yochien-vs-hoikushi: prints 3.3 vs 3.2, raw difference 0.0333 printed "+0.0"
+  assert.equal(aiNote(3.266666666666667, 3.2333333333333334).note, 'A は B より +0.1');
+  // same printed value → no note
+  assert.equal(aiNote(4.266666666666667, 4.3).note, '');
+  assert.equal(aiNote(5, 3).note, 'A は B より +2.0');
+
+  const faq = firstPair({ ai_risk: { score: 4.266666666666667 } }, { ai_risk: { score: 4.3 } }).faqItems
+    .find(([q]) => q === 'AI 影響度はどちらが低い？')!;
+  assert.match(faq[1], /^両者とも 4\.3\/10 で同程度の AI 影響度。/);
+});

@@ -184,7 +184,9 @@ export function buildVerdictDoors(opts: {
     return [{ href: '#sec-similar', label: '似た仕事', kind: 'ghost' }];
   }
   const ghostSimilar: VerdictDoor = { href: '#sec-similar', label: '似た仕事', kind: 'ghost' };
-  if (opts.risk >= 7) {
+  // Judged on the displayed value, like the rest of the card (#864).
+  const shown = displayScore(opts.risk);
+  if (shown >= 7) {
     const ghost: VerdictDoor = opts.hasTransfer
       ? { href: '#sec-transfer', label: '移り先の候補', kind: 'ghost' }
       : ghostSimilar;
@@ -193,7 +195,7 @@ export function buildVerdictDoors(opts: {
       ghost,
     ];
   }
-  if (opts.risk < 5) {
+  if (shown < 5) {
     return [
       { href: '#sec-aiois', label: 'なぜ守られやすいか', kind: 'solid' },
       ghostSimilar,
@@ -429,8 +431,10 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   });
 
   // ─── GA4 funnel classification ────────────────────────────
+  // analytics/spec.yaml tiers (high >=7 / mid 5-6 / low <=4) on the displayed value (#864).
+  const shownRisk = risk !== null ? displayScore(risk) : null;
   const riskTierJs: 'high' | 'mid' | 'low' =
-    risk !== null && risk >= 7 ? 'high' : risk !== null && risk >= 5 ? 'mid' : 'low';
+    shownRisk !== null && shownRisk >= 7 ? 'high' : shownRisk !== null && shownRisk >= 5 ? 'mid' : 'low';
 
   const scored = risk !== null;
   const latestObs = rec.latest_transformation != null && rec.latest_delta != null
