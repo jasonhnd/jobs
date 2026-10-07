@@ -8,8 +8,20 @@
  * Providers plug in through `ScoringProvider` (see provider.ts); they supply
  * transport only.
  */
-import { appendFileSync, existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import { basename, extname, join, resolve } from 'node:path';
+import {
+  appendFileSync,
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  readlinkSync,
+  realpathSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
+import { basename, dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 
 import {
   ScoreSchema,
@@ -40,6 +52,8 @@ export interface ScoringArgs {
   readonly limit: number | null;
   readonly ids: readonly number[] | null;
   readonly resume: boolean;
+  /** Allow a fresh (non-resume) run to truncate a non-empty output file. */
+  readonly overwrite?: boolean;
   readonly concurrency: number;
   readonly runName: string;
   /** Every parsed flag, forwarded to the provider for vendor-specific options. */
@@ -119,6 +133,7 @@ export function parseArgs(
     limit,
     ids,
     resume: raw['resume'] === 'true',
+    overwrite: raw['overwrite'] === 'true',
     concurrency,
     runName: sanitizeRunName(runName),
     providerOptions: Object.freeze({ ...raw }),
@@ -205,18 +220,20 @@ ${occ.text}
 // ─── validation ──────────────────────────────────────────────────
 
 export function validateAndNormalizeResponse(raw: string, expectedId: number): ScoredOccupation {
-  const reportedError = explicitScoringError(raw);
-  if (reportedError) {
-    throw new ScoringError(
-      classifyErrorText(reportedError),
-      `scoring response reported an upstream error/refusal: ${reportedError}`,
-    );
-  }
   const jsonText = extractJsonObject(raw);
   let parsed: unknown;
   try {
     parsed = JSON.parse(jsonText);
   } catch (err) {
+    // Only an unparseable response is scanned for upstream-error wording: a
+    // parsed score's rationale_ja may legitimately say "サービス…エラー".
+    const reportedError = explicitScoringError(raw);
+    if (reportedError) {
+      throw new ScoringError(
+        classifyErrorText(reportedError),
+        `scoring response reported an upstream error/refusal: ${reportedError}`,
+      );
+    }
     throw new ScoringError('malformed', `invalid JSON: ${(err as Error).message}`);
   }
   const result = ScoreSchema.safeParse(parsed);
@@ -359,6 +376,99 @@ export interface RunScoringResult {
  * `args.outPath`. Shared by every entry point so no runner can drift from the
  * contract, the retry policy, or the audit layout.
  */
+const MAX_SYMLINK_HOPS = 40;
+
+/**
+ * The real filesystem path `path` refers to, even when it does not exist yet:
+ * the nearest existing ancestor is resolved with realpath and the missing
+ * segments are appended. A dangling symlink is followed to its target, since
+ * writing through it would create that target.
+ */
+export function canonicalPath(path: string, hops = 0): string {
+  const abs = resolve(path);
+  try {
+    return realpathSync.native(abs);
+  } catch {
+    // Does not exist (yet), or a dangling link somewhere on the way.
+  }
+  let isLink = false;
+  try {
+    isLink = lstatSync(abs).isSymbolicLink();
+  } catch {
+    isLink = false;
+  }
+  if (isLink) {
+    if (hops >= MAX_SYMLINK_HOPS) throw new Error(`too many symlinks resolving ${path}`);
+    return canonicalPath(resolve(dirname(abs), readlinkSync(abs)), hops + 1);
+  }
+  const parent = dirname(abs);
+  if (parent === abs) return abs;
+  return join(canonicalPath(parent, hops), basename(abs));
+}
+
+/** True when `child` is `dir` itself or anything below it (both canonical). */
+function isWithin(dir: string, child: string): boolean {
+  const rel = relative(dir, child);
+  return rel === '' || !(rel === '..' || rel.startsWith(`..${sep}`) || isAbsolute(rel));
+}
+
+/** True when `path` is a hard link to (the same inode as) any file below `dir`. */
+function isHardLinkInto(dir: string, path: string): boolean {
+  let target;
+  try {
+    target = statSync(path);
+  } catch {
+    return false;
+  }
+  if (!target.isFile() || target.nlink < 2 || !existsSync(dir)) return false;
+  for (const entry of readdirSync(dir, { recursive: true }) as string[]) {
+    try {
+      const st = statSync(join(dir, entry));
+      if (st.isFile() && st.ino === target.ino && st.dev === target.dev) return true;
+    } catch {
+      // Vanished or unreadable entry: it cannot be the file we are about to write.
+    }
+  }
+  return false;
+}
+
+/**
+ * The path as requested: its parent directory resolved to the real path, the
+ * last segment kept as is (a final symlink is not followed).
+ */
+function requestedPath(path: string): string {
+  const abs = resolve(path);
+  return join(canonicalPath(dirname(abs)), basename(abs));
+}
+
+/**
+ * Refuse an output path that would destroy data. A fresh run truncates
+ * `outPath`, so a non-empty file (a finished, paid run) needs `--resume` or an
+ * explicit `--overwrite`. Score batches under `data/scores/` are append-only
+ * and only `assemble-scores.ts` may create them, so no raw run writes there.
+ * Any one of these refuses, and neither --resume nor --overwrite bypasses it:
+ *   (a) the requested entry (parent real path + last segment) is in data/scores;
+ *   (b) the fully dereferenced real path is in data/scores (symlinks, root
+ *       aliases such as /tmp vs /private/tmp);
+ *   (c) it is a hard link to a file in data/scores.
+ */
+export function assertWritableOutput(args: ScoringArgs, root: string): void {
+  const scoresDir = canonicalPath(join(root, 'data', 'scores'));
+  if (
+    isWithin(scoresDir, requestedPath(args.outPath)) ||
+    isWithin(scoresDir, canonicalPath(args.outPath)) ||
+    isHardLinkInto(scoresDir, args.outPath)
+  ) {
+    throw new Error(`--out must not be under data/scores/ (append-only batches): ${args.outPath}`);
+  }
+  if (args.resume || args.overwrite) return;
+  if (existsSync(args.outPath) && statSync(args.outPath).size > 0) {
+    throw new Error(
+      `--out ${args.outPath} already has content; pass --resume to continue it or --overwrite to replace it`,
+    );
+  }
+}
+
 export async function runScoring(
   args: ScoringArgs,
   provider: ScoringProvider,
@@ -368,6 +478,7 @@ export async function runScoring(
   const logError = deps.logError ?? ((m: string) => console.error(m));
 
   if (!existsSync(args.promptFile)) throw new Error(`prompt file not found: ${args.promptFile}`);
+  assertWritableOutput(args, deps.root);
   const rubric = readFileSync(args.promptFile, 'utf8');
 
   const runDir = join(deps.root, '.cache', 'scoring', args.runName);
