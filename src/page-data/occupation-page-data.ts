@@ -34,6 +34,7 @@
 import type { Rec } from '@/views/occupation-detail';
 import type { KnowledgeGraph, OccupationId } from '@/graph';
 import { asOccupationId } from '@/graph';
+import { displayTenths } from '@/data/lib/score-compare';
 import type { SafeHtml } from '@/lib/safe-html';
 import type { DetailFileSpoke } from '@/views/spoke-hub-graph';
 
@@ -86,7 +87,7 @@ const RELATED_COUNT_DEFAULT = 5;
 /** How many of those slots are filled by "close AI-risk" matches. */
 const RELATED_CLOSE_RISK_QUOTA = 3;
 /** Maximum AI-risk distance counted as "close". */
-const RELATED_CLOSE_RISK_TOLERANCE = 1;
+const RELATED_CLOSE_RISK_TOLERANCE_TENTHS = 10; // |displayed risk − focus| ≤ 1.0
 /**
  * Load + adapt every detail file, sort by id, and pre-compute the
  * cross-occupation maps Astro needs to transport to every page render.
@@ -274,7 +275,8 @@ export async function buildOccupationSpokeViews(
  *
  * Algorithm (preserved byte-for-byte from legacy [id].astro):
  *   1. Quota: first 3 slots reserved for close AI-risk matches
- *      (|risk - focus.risk| ≤ 1), sorted by risk-distance then
+ *      (|displayed risk - displayed focus risk| ≤ 1.0, compared in integer
+ *      tenths), sorted by risk-distance then
  *      id-distance then id.
  *   2. Fill remaining slots from the full list ordered by absolute
  *      id-distance from the focus, then by id ascending.
@@ -292,17 +294,21 @@ export function pickRelatedOccupations(
   const chosen: Rec[] = [];
   const chosenIds = new Set<number>();
 
-  // Step 1: close AI-risk quota.
+  // Step 1: close AI-risk quota. Risk distance is measured between the
+  // displayed one-decimal values in integer tenths (owner rule 2026-10-07),
+  // so equal decimal distances tie exactly instead of by FP residue.
   if (focusRisk !== null) {
+    const focusTenths = displayTenths(focusRisk);
+    const riskDistance = (r: Rec): number => Math.abs(displayTenths(r.ai_risk ?? 0) - focusTenths);
     const closeRisk = allRecs.filter(
       (r) =>
         r.id !== focusId &&
         r.ai_risk !== null &&
-        Math.abs(r.ai_risk - focusRisk) <= RELATED_CLOSE_RISK_TOLERANCE,
+        riskDistance(r) <= RELATED_CLOSE_RISK_TOLERANCE_TENTHS,
     );
     closeRisk.sort((a, b) => {
-      const da = Math.abs((a.ai_risk ?? 0) - focusRisk);
-      const db = Math.abs((b.ai_risk ?? 0) - focusRisk);
+      const da = riskDistance(a);
+      const db = riskDistance(b);
       if (da !== db) return da - db;
       const na = Math.abs(a.id - focusId);
       const nb = Math.abs(b.id - focusId);
