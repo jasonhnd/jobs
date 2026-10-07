@@ -16,8 +16,8 @@
 | Mean AI Impact | 4.68 / 10 |
 | Median AI Impact | 4.50 / 10 |
 | Mean Displacement-Risk | 1.83 / 10 |
-| Occupations at AI Impact >= 5 | 203 |
-| Annual wages in occupations at AI Impact >= 5 | 109.190075 trillion yen |
+| Occupations at AI Impact >= 7 | 31 |
+| Annual wages in occupations at AI Impact >= 7 | 30.637063 trillion yen |
 | High AI Impact occupations | 31 / 556 (5.6%) |
 | Workers in high AI Impact occupations | 5,994,023 (11.0% of mapped workforce) |
 | Largest occupation | 一般事務 (2,639,330 workers; AI Impact 8.1/10) |
