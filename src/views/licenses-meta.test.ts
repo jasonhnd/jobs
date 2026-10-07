@@ -145,3 +145,23 @@ describe('rankLicense — sort key', () => {
     assert.equal(r, 700);
   });
 });
+
+describe('license hubs ignore substring false positives (#884)', () => {
+  const hubMedical = LICENSE_HUBS.find((h) => h.slug === 'medical-licenses')!;
+  const doc = (certs: string[], salary = 500) => ({ id: 1, related_certs_ja: certs, stats: { salary_man_yen: salary } });
+
+  test('medical hub: 看護師 / 医師 / 歯科 do not match animal or billing certificates', () => {
+    for (const cert of ['愛玩動物看護師', '獣医師', '診療報酬請求事務能力認定試験（医科・歯科）', '甲種歯科助手']) {
+      assert.equal(matchLicense(doc([cert]), hubMedical), false, cert);
+    }
+    for (const cert of ['看護師', '准看護師', '医師', '歯科医師', '歯科衛生士']) {
+      assert.equal(matchLicense(doc([cert]), hubMedical), true, cert);
+    }
+  });
+
+  test('rankLicense counts only certs that matchLicense accepts', () => {
+    // An excluded cert adds nothing to the rank.
+    assert.equal(rankLicense(doc(['看護師', '愛玩動物看護師']), hubMedical), rankLicense(doc(['看護師']), hubMedical));
+    assert.equal(rankLicense(doc(['獣医師'], 700), hubMedical), 700);
+  });
+});
