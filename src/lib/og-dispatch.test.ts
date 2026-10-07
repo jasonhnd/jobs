@@ -119,6 +119,23 @@ describe('decideDispatch — page generic branch', () => {
   });
 });
 
+// Audit 2026-10-07 (#861): `table[slug]` used to resolve Object.prototype
+// members, rendering a blank card that was cached for a day.
+describe('decideDispatch — Object.prototype keys never become a card', () => {
+  const families = ['page', 'ranking', 'interest', 'skill', 'compare', 'route'];
+  const keys = ['constructor', '__proto__', 'toString', 'hasOwnProperty', 'valueOf', 'isPrototypeOf'];
+  for (const family of families) {
+    for (const key of keys) {
+      test(`?${family}=${key} → HOME fallback`, () => {
+        assertHomeFallback(decideDispatch(url(`?${family}=${key}`), STUB_CATALOG));
+      });
+    }
+  }
+  test('production catalog: ?page=constructor → the production home card', () => {
+    assert.deepEqual(decideDispatch(url('?page=constructor')), decideDispatch(url('?page=home')));
+  });
+});
+
 describe('decideDispatch — ranking branch', () => {
   test('?ranking=ai-risk-low → render-generic', () => {
     const d = decideDispatch(url('?ranking=ai-risk-low'), STUB_CATALOG);

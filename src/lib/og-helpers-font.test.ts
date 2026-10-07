@@ -5,7 +5,7 @@ import { fmtNumber, loadGoogleFont, padId } from './og-helpers.js';
 const originalFetch = globalThis.fetch;
 afterEach(() => { globalThis.fetch = originalFetch; });
 const binaryUrl = 'https://fonts.gstatic.com/test-fixture.ttf';
-const bytes = new Uint8Array([1, 2, 3, 4]);
+const bytes = new Uint8Array([0x00, 0x01, 0x00, 0x00, 1, 2, 3, 4]);
 const css = (format = 'truetype', url = binaryUrl) => `@font-face { src: url(${url}) format('${format}'); }`;
 
 test('OG formatters preserve grouped numbers and strict four-digit IDs', () => {
@@ -123,5 +123,38 @@ for (const failure of ['binary HTTP', 'network'] as const) {
     failing = false;
     assert.deepEqual(new Uint8Array(await loadGoogleFont('Fixture+Retry', 800, subset)), bytes);
     assert.equal(calls, 4);
+  });
+}
+
+// Audit 2026-10-07 (#861): a 200 response that is not a font used to resolve
+// and stay in the promise cache, so a warm instance kept failing the render.
+test('font loading rejects non-font bytes and evicts them so the next call refetches', async () => {
+  let binaryCalls = 0;
+  let payload: Uint8Array<ArrayBuffer> = new TextEncoder().encode('<html>not a font</html>');
+  globalThis.fetch = async input => {
+    if (String(input) === binaryUrl) {
+      binaryCalls++;
+      return new Response(payload);
+    }
+    return new Response(css());
+  };
+  const load = () => loadGoogleFont('Fixture+Signature', 500, 'font-test: signature');
+  await assert.rejects(load(), /unexpected font signature/);
+  payload = new Uint8Array([0x00]);
+  await assert.rejects(load(), /unexpected font signature/);
+  payload = bytes;
+  assert.deepEqual(new Uint8Array(await load()), bytes);
+  assert.equal(binaryCalls, 3, 'each rejected payload was evicted and refetched');
+});
+
+for (const [label, signature] of [
+  ['TrueType 00010000', [0x00, 0x01, 0x00, 0x00]],
+  ['CFF OTTO', [0x4f, 0x54, 0x54, 0x4f]],
+  ['Apple true', [0x74, 0x72, 0x75, 0x65]],
+] as const) {
+  test(`font loading accepts the ${label} signature`, async () => {
+    const font = new Uint8Array([...signature, 9, 9]);
+    globalThis.fetch = async input => String(input) === binaryUrl ? new Response(font) : new Response(css());
+    assert.deepEqual(new Uint8Array(await loadGoogleFont('Fixture+Accept', 500, `font-test: ${label}`)), font);
   });
 }

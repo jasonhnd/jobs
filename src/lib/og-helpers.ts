@@ -26,7 +26,7 @@ import {
 import { RISK_BAND_HEX } from "./design-tokens.js";
 import { displayScoreStep } from "../data/lib/banker-round.js";
 
-import { fetchWithTimeout } from './http-client.js';
+import { fetchBufferWithTimeout, fetchTextWithTimeout } from './http-client.js';
 
 export const OG_DATA_FETCH_TIMEOUT_MS = 5_000;
 const OG_FONT_FETCH_TIMEOUT_MS = 8_000;
@@ -191,8 +191,8 @@ export function trustedFetchOrigin(url: URL): string {
  * resolves from cache — shaves the CSS fetch + binary fetch on warm
  * instances. Caches the *Promise* so concurrent first-time callers all
  * await the same in-flight fetch instead of racing N redundant requests.
- * On fetch failure the rejected Promise is evicted so the next caller
- * retries fresh.
+ * On fetch failure (including bytes without a font signature) the
+ * rejected Promise is evicted so the next caller retries fresh.
  *
  * 2026-05-17 H19 fix: previously unbounded. The cache key includes the
  * subset `text`, which varies per occupation/sector title (556+ unique
@@ -232,7 +232,7 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
   const url =
     `https://fonts.googleapis.com/css2?family=${family}:wght@${weight}` +
     `&text=${encodeURIComponent(text)}&display=swap`;
-  const cssRes = await fetchWithTimeout(url, {
+  const { response: cssRes, body: css } = await fetchTextWithTimeout(url, {
     // Force a UA that gets ttf/otf back, not woff2 — satori cannot parse woff2.
     headers: { "User-Agent": "Mozilla/5.0 (compatible; satori; rv:1.0)" },
   }, OG_FONT_FETCH_TIMEOUT_MS);
@@ -246,7 +246,6 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
       `font CSS fetch failed: ${family} ${weight}: HTTP ${cssRes.status}`,
     );
   }
-  const css = await cssRes.text();
   const match = css.match(/src:\s*url\((.+?)\)\s*format\(['"](opentype|truetype)['"]\)/);
   if (!match) throw new Error(`font src not found in CSS: ${family} ${weight}`);
   // Defence-in-depth: match[1] is extracted from Google's CSS *response* —
@@ -257,7 +256,27 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
   if (!fontBinaryUrl.startsWith("https://fonts.gstatic.com/")) {
     throw new Error(`unexpected font binary host (expected fonts.gstatic.com): ${fontBinaryUrl}`);
   }
-  const fontRes = await fetchWithTimeout(fontBinaryUrl, {}, OG_FONT_FETCH_TIMEOUT_MS);
+  const { response: fontRes, body: fontBuf } =
+    await fetchBufferWithTimeout(fontBinaryUrl, {}, OG_FONT_FETCH_TIMEOUT_MS);
   if (!fontRes.ok) throw new Error(`failed to fetch font binary: ${fontRes.status}`);
-  return await fontRes.arrayBuffer();
+  // A 200 whose bytes are not a font would only fail later inside satori,
+  // after this promise resolved and was cached — every warm request for the
+  // subset would then fail (#861). Reject here so the cache evicts it.
+  if (!hasFontSignature(fontBuf)) {
+    throw new Error(`unexpected font signature: ${family} ${weight}`);
+  }
+  return fontBuf;
+}
+
+/** sfnt versions satori can parse: TrueType 00010000, CFF `OTTO`, Apple `true`. */
+const FONT_SIGNATURES: readonly (readonly number[])[] = [
+  [0x00, 0x01, 0x00, 0x00],
+  [0x4f, 0x54, 0x54, 0x4f],
+  [0x74, 0x72, 0x75, 0x65],
+];
+
+function hasFontSignature(buf: ArrayBuffer): boolean {
+  if (buf.byteLength < 4) return false;
+  const head = new Uint8Array(buf, 0, 4);
+  return FONT_SIGNATURES.some((sig) => sig.every((byte, i) => head[i] === byte));
 }
