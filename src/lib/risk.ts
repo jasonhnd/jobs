@@ -38,3 +38,20 @@ export function riskClass(score: number | null): RiskClass {
   if (shown < 7.0) return 'mid';
   return 'high';
 }
+
+/**
+ * Owner-signed band words (2026-10-08). Judged on the displayed value,
+ * the same cut as riskClass() / riskBand(). Missing scores have no word.
+ */
+export const RISK_BAND_WORD = {
+  low: '変化 小さい',
+  mid: '変化 中くらい',
+  high: '変化 大きい',
+} as const satisfies Record<RiskClass, string>;
+
+export function riskBandWord(
+  score: number | null | undefined,
+): (typeof RISK_BAND_WORD)[RiskClass] | null {
+  if (score == null || !Number.isFinite(score)) return null;
+  return RISK_BAND_WORD[riskClass(score)];
+}

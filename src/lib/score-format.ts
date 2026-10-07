@@ -13,6 +13,7 @@
  * this wrapper lives in `src/lib` where both templates and views can reach it.
  */
 import { displayScore } from '../data/lib/banker-round.js';
+import { RISK_BAND_WORD, riskBandWord, riskClass } from './risk.js';
 
 /** What a missing score renders as, matching occupation-display.ts. */
 export const EMDASH = '—';
@@ -43,4 +44,23 @@ export function formatRiskValue(risk: number | null | undefined): string {
 export function formatScoreFixed1(score: number | null | undefined): string {
   if (score == null || !Number.isFinite(score)) return EMDASH;
   return displayScore(score).toFixed(1);
+}
+
+/**
+ * Visible score label: `8.1/10 変化 大きい`. A missing score stays the em
+ * dash, with no band word. The word follows the displayed value.
+ */
+export function formatRiskScoreLabel(risk: number | null | undefined): string {
+  const score = formatRiskScore(risk);
+  if (score === EMDASH) return score;
+  const word = riskBandWord(risk);
+  return word ? `${score} ${word}` : score;
+}
+
+/**
+ * A mean that is already the displayed one-decimal value, fixed to one
+ * decimal the way hub FAQs print it: `4.0/10 変化 中くらい`.
+ */
+export function formatShownMeanLabel(shown: number): string {
+  return `${shown.toFixed(1)}/10 ${RISK_BAND_WORD[riskClass(shown)]}`;
 }
