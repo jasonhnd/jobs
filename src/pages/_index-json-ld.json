@@ -130,13 +130,13 @@
         },
         {
           "@type": "PropertyValue",
-          "name": "Occupations with AI Impact >= 5",
-          "value": 203
+          "name": "Occupations with AI Impact >= 7",
+          "value": 31
         },
         {
           "@type": "PropertyValue",
-          "name": "Annual wages with AI Impact >= 5",
-          "value": 109.19007495299999,
+          "name": "Annual wages with AI Impact >= 7",
+          "value": 30.63706271,
           "unitText": "trillion JPY"
         },
         {
@@ -217,8 +217,8 @@
         {
           "@type": "ListItem",
           "position": 4,
-          "name": "Occupations and wages at AI Impact >= 5",
-          "description": "203 occupations score 5.0 or higher, representing 109.190075 trillion yen in annual wages."
+          "name": "Occupations and wages at AI Impact >= 7",
+          "description": "31 occupations score 7.0 or higher, representing 30.637063 trillion yen in annual wages."
         },
         {
           "@type": "ListItem",
