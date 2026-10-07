@@ -430,3 +430,78 @@ describe('crawler-rendered shindan share HTML', () => {
     );
   });
 });
+
+// Audit 2026-10-07 (#861).
+describe('shindan share: job context only when the result kept the job', () => {
+  const RESULT = 'https://mirai-shigoto.com/shindan?self=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1';
+  const FULL_CACHE = 'public, max-age=0, s-maxage=300, stale-while-revalidate=86400';
+  const SHORT_CACHE = 'public, max-age=0, s-maxage=60';
+
+  async function render(query: string, fixture: typeof fetch = fetchFixture) {
+    const paths: string[] = [];
+    const response = await renderShindanShareResponse(new Request(`${RESULT}${query}`), async (input, init) => {
+      paths.push(new URL(String(input)).pathname);
+      return fixture(input, init);
+    }, 200);
+    return { response, html: await response.text(), paths };
+  }
+
+  for (const query of ['&job=133&gap=bogus', '&job=133&gap=__proto__', '&job=999']) {
+    test(`dropped job (${query}) writes no occupation title and matches the base page`, async () => {
+      const { response, html, paths } = await render(query);
+      const base = await render('');
+      assert.equal(response.status, 200);
+      assert.doesNotMatch(html, new RegExp(DETAIL_133.title.ja));
+      assert.doesNotMatch(html, /AI影響度は/);
+      assert.equal(html, base.html);
+      assert.ok(!paths.some((path) => path.startsWith('/data.detail/')));
+      assert.equal(response.headers.get('cache-control'), FULL_CACHE, 'a deterministic drop is not degraded');
+    });
+  }
+
+  test('a failed worktypes fetch does not borrow the raw ?job= for the title', async () => {
+    const { response, html } = await render('&job=133', async (input, init) => {
+      if (new URL(String(input)).pathname === '/data.worktypes.json') return new Response(null, { status: 503 });
+      return fetchFixture(input, init);
+    });
+    assert.equal(response.status, 200);
+    assert.doesNotMatch(html, new RegExp(DETAIL_133.title.ja));
+    assert.doesNotMatch(html, /(?:job|gap)=/);
+    assert.equal(response.headers.get('cache-control'), SHORT_CACHE);
+  });
+
+  test('a failed job detail fetch is cached briefly', async () => {
+    const { response, html } = await render('&job=133', async (input, init) => {
+      if (new URL(String(input)).pathname === '/data.detail/0133.json') return new Response(null, { status: 503 });
+      return fetchFixture(input, init);
+    });
+    assert.equal(response.status, 200);
+    assert.match(html, /job=133/);
+    assert.equal(response.headers.get('cache-control'), SHORT_CACHE);
+  });
+
+  test('a normalized job id fetches the normalized detail file', async () => {
+    const { response, html, paths } = await render('&job=0133');
+    assert.ok(paths.includes('/data.detail/0133.json'));
+    assert.match(html, /データ職業のAI影響度は8\.1\/10/);
+    assert.equal(response.headers.get('cache-control'), FULL_CACHE);
+  });
+});
+
+describe('shindan share: metadata is inserted literally', () => {
+  for (const pattern of ["$'", '$`', '$&', '$1', '$$']) {
+    test(`a title containing ${pattern} is not expanded as a replacement pattern`, () => {
+      const title = `A ${pattern} B`;
+      for (const baseHtml of [BASE_HTML, '<html><head><title>t</title></head><body>x</body></html>']) {
+        const html = renderShindanShareHtml(baseHtml, {
+          title, description: title, url: 'https://example.test/u', image: 'https://example.test/i',
+        });
+        const shown = title.replace(/&/g, '&amp;');
+        assert.ok(html.includes(`<title>${shown}</title>`), html);
+        assert.ok(html.includes(`<meta property="og:title" content="${shown}">`), html);
+        assert.equal(html.match(/<\/head>/g)?.length, 1);
+        assert.equal(html.match(/<title>/g)?.length, 1);
+      }
+    });
+  }
+});
