@@ -31,7 +31,11 @@
  *               read the property, so it cannot detect drift — every item
  *               prints as "would create" regardless of property state. Use
  *               --check for that.
- *   --discover  Lists accessible accounts and properties.
+ *   --discover  Lists accessible accounts and properties. With --dry-run it
+ *               only says what it would list and does not authenticate.
+ *
+ * --check and --dry-run cannot be combined: one must read the property, the
+ * other must not authenticate.
  *
  * What it does:
  *   1. Lists existing custom dimensions on the property
@@ -56,17 +60,17 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as yaml from "js-yaml";
-import { google } from "googleapis";
 import { validateCustomDimensionSpec } from "./ga4-spec-validation.mjs";
+import { listKeyEvents, parseModes } from "./ga4-admin-helpers.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SPEC_PATH = path.join(__dirname, "spec.yaml");
 
 const SCOPES = ["https://www.googleapis.com/auth/analytics.edit"];
 
-const args = process.argv.slice(2);
-const DISCOVER = args.includes("--discover");
-const DRY_RUN = args.includes("--dry-run");
+const MODES = parseModes(process.argv.slice(2));
+const DISCOVER = MODES.discover;
+const DRY_RUN = MODES.dryRun;
 /**
  * `--check` — read-only reconciliation against the live property.
  *
@@ -82,7 +86,7 @@ const DRY_RUN = args.includes("--dry-run");
  * design because it only ever creates. Exits non-zero on any drift. Never
  * writes.
  */
-const CHECK = args.includes("--check");
+const CHECK = MODES.check;
 
 function log(level, msg) {
   const stamp = new Date().toISOString().slice(11, 19);
@@ -136,7 +140,16 @@ function loadSpec() {
   return spec;
 }
 
-function getAuthClient() {
+/**
+ * googleapis is imported only on the paths that talk to GA4, so --dry-run
+ * needs neither credentials nor the analytics package's dependencies.
+ */
+async function adminClient() {
+  const { google } = await import("googleapis");
+  return google.analyticsadmin({ version: "v1beta", auth: getAuthClient(google) });
+}
+
+function getAuthClient(google) {
   const oauthTokenPath = path.join(os.homedir(), ".config", "mirai-shigoto", "oauth-token.json");
 
   // Escape hatch for a stale OAuth token. The priority order below prefers the
@@ -247,14 +260,8 @@ async function syncCustomDimensions(admin, propertyId, dimensions, scope) {
 async function syncKeyEvents(admin, propertyId, keyEventNames) {
   const parent = `properties/${propertyId}`;
   log("info", `Syncing ${keyEventNames.length} key events…`);
-  const existingRes = DRY_RUN
-    ? { data: { keyEvents: [] } }
-    : await admin.properties.keyEvents.list({ parent, pageSize: 200 }).catch(async () => {
-        // Older API path (conversionEvents) — fallback
-        return admin.properties.conversionEvents.list({ parent, pageSize: 200 });
-      });
-  const existing = existingRes.data.keyEvents || existingRes.data.conversionEvents || [];
-  const byName = new Map(existing.map(e => [e.eventName, e]));
+  const existing = DRY_RUN ? [] : await listKeyEvents(admin, parent);
+  const byName = new Set(existing);
 
   const failures = [];
   for (const evName of keyEventNames) {
@@ -332,10 +339,7 @@ async function checkDrift(admin, propertyId, spec, derivedKeyEvents) {
   const dimRes = await admin.properties.customDimensions.list({ parent, pageSize: 200 });
   const liveDims = dimRes.data.customDimensions || [];
 
-  const keyRes = await admin.properties.keyEvents
-    .list({ parent, pageSize: 200 })
-    .catch(async () => admin.properties.conversionEvents.list({ parent, pageSize: 200 }));
-  const liveKeyEvents = (keyRes.data.keyEvents || keyRes.data.conversionEvents || []).map(e => e.eventName);
+  const liveKeyEvents = await listKeyEvents(admin, parent);
 
   let missing = 0;
   let undeclared = 0;
@@ -384,12 +388,20 @@ async function checkDrift(admin, propertyId, spec, derivedKeyEvents) {
 }
 
 async function main() {
+  if (CHECK && DRY_RUN) {
+    throw new Error(
+      "--check and --dry-run cannot be combined: --check reads the live property, " +
+        "--dry-run never authenticates. Use --check alone for a read-only drift report.",
+    );
+  }
   const spec = loadSpec();
 
   if (DISCOVER) {
-    const auth = getAuthClient();
-    const admin = google.analyticsadmin({ version: "v1beta", auth });
-    await discoverProperties(admin);
+    if (DRY_RUN) {
+      log("add", "[dry-run] would list accessible accounts and properties (needs authentication; skipped)");
+      return;
+    }
+    await discoverProperties(await adminClient());
     return;
   }
 
@@ -414,9 +426,7 @@ async function main() {
     );
   }
 
-  const admin = DRY_RUN
-    ? null
-    : google.analyticsadmin({ version: "v1beta", auth: getAuthClient() });
+  const admin = DRY_RUN ? null : await adminClient();
 
   const derivedKeyEventsForCheck = spec.events.filter(e => e.conversion).map(e => e.name);
   if (CHECK) {

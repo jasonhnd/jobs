@@ -22,6 +22,7 @@
  */
 const fs = require('node:fs');
 const path = require('node:path');
+const { walkFiles } = require('./lib/walk-files.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -71,26 +72,76 @@ const REQUIRED_FRAME_SRC_ORIGINS = [];
 
 // ─── 2. PUBLIC_* env vars the codebase reads at build time ────────────────
 
-/** Files (relative to repo root) that may reference PUBLIC_* env. */
-const ENV_SCAN_FILES = [
-  'src/layouts/BaseLayout.astro',
-  // 2026-05-18 (RA-??): src/index-source.html was previously scanned because
-  // the homepage bypassed BaseLayout and inlined its own analytics + env
-  // hardcodes. After the BaseLayout migration, index-source.html is now
-  // body-only (no env refs), so it's no longer in this list.
-  // 2026-06-03 gates audit: middleware.ts reads PUBLIC_GA4_MEASUREMENT_ID via
-  // process.env (it's an Edge function, not an Astro source) — without this
-  // entry, removing that var from .env.example would slip past Step C and
-  // also past Step D (which skips PUBLIC_* on the assumption Step C covered
-  // it). The Step C regex below matches `process.env.PUBLIC_*` too.
-  'middleware.ts',
-  // Add new entry points here as they start reading PUBLIC_* env.
-];
+/**
+ * Where PUBLIC_* env can be read. Every source file under these roots is
+ * scanned, not a hand-kept list: until #862 only BaseLayout.astro and
+ * middleware.ts were read, so a PUBLIC_* read in src/lib/middleware/ or api/
+ * could ship without an .env.example entry.
+ */
+const PUBLIC_ENV_SCAN_ROOTS = ['src', 'api', 'middleware.ts'];
+
+/**
+ * The runtime server surface (Vercel Functions and Routing Middleware). Its
+ * server-only env must be documented too. Build-time knobs read by src/data
+ * or src/lib (BUILD_DATA_*, ALLOW_PARTIAL_DATA) are not deployment env, so
+ * they are outside this list on purpose.
+ */
+const SERVER_ENV_SCAN_ROOTS = ['middleware.ts', 'api', 'src/lib/middleware'];
+
+const SOURCE_EXT = /\.(?:ts|tsx|js|jsx|mjs|cjs|astro|html)$/;
+
+/** `import.meta.env.NAME`, `process.env.NAME`, and `process.env['NAME']`. */
+const ENV_READ = /(?:import\.meta\.env|process\.env)(?:\.([A-Z][A-Z0-9_]*)|\[\s*['"`]([A-Z][A-Z0-9_]*)['"`]\s*\])/g;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
 
 function readFile(rel) {
   return fs.readFileSync(path.join(ROOT, rel), 'utf-8');
+}
+
+/**
+ * Repo-relative source files under `roots`; tests excluded. A root with a
+ * source extension is a single file (always included, so a missing one fails
+ * when it is read); any other root is a directory, skipped if absent.
+ */
+function sourceFiles(roots) {
+  const out = [];
+  for (const root of roots) {
+    if (SOURCE_EXT.test(root)) {
+      out.push(root);
+      continue;
+    }
+    let files;
+    try {
+      files = walkFiles(path.join(ROOT, root), { ext: SOURCE_EXT, skip: new Set(['node_modules']) });
+    } catch (err) {
+      if (err.code === 'ENOENT') continue;
+      throw err;
+    }
+    for (const file of files) {
+      if (!/\.test\./.test(file)) out.push(path.relative(ROOT, file));
+    }
+  }
+  return [...new Set(out)].sort();
+}
+
+/**
+ * Env names each file reads, as [file, name] pairs. A file that cannot be
+ * read fails the guard with its error code only — the message may carry
+ * file contents or paths that do not belong in a build log.
+ */
+function envReads(files) {
+  const reads = [];
+  for (const file of files) {
+    let content;
+    try {
+      content = readFile(file);
+    } catch (err) {
+      fail([`Cannot read required ${file} for env checks (${err.code || 'read error'}).`]);
+    }
+    for (const match of content.matchAll(ENV_READ)) reads.push([file, match[1] || match[2]]);
+  }
+  return reads;
 }
 
 function fail(messages) {
@@ -157,30 +208,28 @@ if (scriptSrcTokens.includes("'unsafe-inline'")) {
 // ─── Step C: every PUBLIC_* env referenced in code is in .env.example ─────
 
 const envExample = readFile('.env.example');
-const publicEnvDeclared = new Set();
-for (const match of envExample.matchAll(/^(PUBLIC_[A-Z0-9_]+)\s*=/gm)) {
-  publicEnvDeclared.add(match[1]);
+// A name counts as documented only on its own `NAME=` line. A substring test
+// let `GA4_MP_API_SECRET=` document `API_SECRET`, and `# NAME=` (commented
+// out) document `NAME`.
+const envDeclared = new Set();
+for (const match of envExample.matchAll(/^([A-Z][A-Z0-9_]*)\s*=/gm)) {
+  envDeclared.add(match[1]);
+}
+
+// middleware.ts is the one file this guard cannot run without.
+try {
+  readFile('middleware.ts');
+} catch (err) {
+  fail([`Cannot read required middleware.ts for server env checks (${err.code || 'read error'}).`]);
 }
 
 const publicEnvReferenced = new Set();
-for (const file of ENV_SCAN_FILES) {
-  let content;
-  try {
-    content = readFile(file);
-  } catch (err) {
-    violations.push(`Cannot read scan file ${file}: ${err.message}`);
-    continue;
-  }
-  // Astro `.astro` files read PUBLIC_* via `import.meta.env`; Vercel Edge
-  // functions (middleware.ts, api/*) read it via `process.env`. Match both
-  // forms so the audit covers the full surface.
-  for (const match of content.matchAll(/(?:import\.meta\.env|process\.env)\.(PUBLIC_[A-Z0-9_]+)/g)) {
-    publicEnvReferenced.add(match[1]);
-  }
+for (const [, name] of envReads(sourceFiles(PUBLIC_ENV_SCAN_ROOTS))) {
+  if (name.startsWith('PUBLIC_')) publicEnvReferenced.add(name);
 }
 
 for (const ref of publicEnvReferenced) {
-  if (!publicEnvDeclared.has(ref)) {
+  if (!envDeclared.has(ref)) {
     violations.push(
       `Code references ${ref} but .env.example does not document it.\n` +
       `    Add a "${ref}=" entry (with a comment explaining what it is) to .env.example.`,
@@ -188,29 +237,19 @@ for (const ref of publicEnvReferenced) {
   }
 }
 
-// ─── Step D: assert middleware.ts has its env documented ──────────────────
+// ─── Step D: server-only env of the runtime surface is documented ─────────
 
-const middleware = (() => {
-  try {
-    return readFile('middleware.ts');
-  } catch (err) {
-    fail([`Cannot read required middleware.ts for server env checks (${err.code || 'read error'}).`]);
-  }
-})();
-if (middleware) {
-  for (const match of middleware.matchAll(/process\.env\.([A-Z][A-Z0-9_]*)/g)) {
-    const name = match[1];
-    if (name.startsWith('PUBLIC_')) {
-      // Already covered by step C if it's in ENV_SCAN_FILES; skip here.
-      continue;
-    }
-    if (!envExample.includes(`${name}=`)) {
-      violations.push(
-        `middleware.ts references process.env.${name} but .env.example does not document it.\n` +
-        `    Add a "${name}=" entry to .env.example (server-only env, no PUBLIC_ prefix).`,
-      );
-    }
-  }
+const reportedServerEnv = new Set();
+for (const [file, name] of envReads(sourceFiles(SERVER_ENV_SCAN_ROOTS))) {
+  // PUBLIC_* is covered by step C.
+  if (name.startsWith('PUBLIC_') || envDeclared.has(name)) continue;
+  const key = `${file}|${name}`;
+  if (reportedServerEnv.has(key)) continue;
+  reportedServerEnv.add(key);
+  violations.push(
+    `${file} references process.env.${name} but .env.example does not document it.\n` +
+    `    Add a "${name}=" entry to .env.example (server-only env, no PUBLIC_ prefix).`,
+  );
 }
 
 // ─── Report ──────────────────────────────────────────────────────────────
