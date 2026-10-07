@@ -44,6 +44,8 @@ function fixture(): string {
     'scripts/lib/analytics-spec/scan.ts',
     'scripts/lib/analytics-spec/spec.ts',
     'scripts/lib/analytics-spec/compare.ts',
+    'scripts/lib/analytics-spec/lex.ts',
+    'scripts/lib/analytics-spec/calls.ts',
     'analytics/ga4-spec-validation.mjs',
   ]) {
     mkdirSync(dirname(join(root, file)), { recursive: true });
@@ -132,6 +134,56 @@ describe('check-analytics-spec CLI regression contract', () => {
     const root = fixture();
     write(root, 'src/new-dynamic.ts', "gtag('event', unknownName, {});");
     rejects(root, /not in DYNAMIC_EMIT_SITES:\n    src\/new-dynamic.ts/);
+  });
+
+  test('ignores commented-out calls so they do not count as sent', () => {
+    const root = fixture();
+    write(root, 'src/commented.ts', [
+      "// gtag('event', 'commented_event', {});",
+      "/* gtag('event', 'block_commented', {}); */",
+      "const url = 'https://example.com/gtag/js'; // a gtag mention in a string",
+    ].join('\n'));
+    write(root, 'src/pages/_map-inline.js',
+      "function ga(name, params) { gtag('event', name, params); }\n" +
+      "ga('map_event', {group_id: 'fixture'});\n// ga('commented_event', {});");
+    write(root, 'src/markup.astro',
+      "<!-- Keep `function gtag()` top-level; gtag('event', 'html_commented') -->\n<p>don't</p>");
+    write(root, 'analytics/spec.yaml', spec([...events, 'commented_event']));
+    rejects(root, /registered in spec.yaml but never sent:\n    commented_event/);
+  });
+
+  for (const [label, source, reason] of [
+    ['a space before the call paren', "gtag ('event', 'Bad-Name', {});", /invalid GA4 event name "Bad-Name"/],
+    ['an upper-case name', "gtag('event', 'BadName', {});", /invalid GA4 event name "BadName"/],
+    ['a template-literal name', "gtag('event', `literal_event`, {});", /template literal/],
+    ['a non-literal command', "gtag(command, 'literal_event', {});", /non-literal gtag command/],
+    ['bracket access', "window['gtag']('event', 'literal_event', {});", /bracket access/],
+    ['aliasing', "const g = window.gtag; g('event', 'literal_event', {});", /gtag is referenced/],
+    ['gtag.apply', "gtag.apply(null, ['event', 'literal_event']);", /gtag is referenced/],
+    ['a direct dataLayer.push', "window.dataLayer.push({event: 'literal_event'});", /dataLayer is referenced/],
+    ['shorthand params', "const unknown_param = 1; gtag('event', 'literal_event', {unknown_param});", /unknown_param\s+← literal_event/],
+    ['quoted params', "gtag('event', 'literal_event', {'unknown_param': 1});", /unknown_param\s+← literal_event/],
+    ['a params variable', "gtag('event', 'literal_event', params);", /params that are not an object literal/],
+    ['spread params', "gtag('event', 'literal_event', {...base});", /spread or computed/],
+    ['computed params', "gtag('event', 'literal_event', {[key]: 1});", /spread or computed/],
+  ] as const) {
+    test(`fails closed on ${label}`, () => {
+      const root = fixture();
+      write(root, 'src/unreadable.ts', source);
+      rejects(root, reason);
+    });
+  }
+
+  test('fails closed on a non-literal wrapper call and an undeclared Footer branch', () => {
+    const root = fixture();
+    write(root, 'src/pages/_shindan.js',
+      "function track(name, params) { gtag('event', name, params); }\n" +
+      "track('track_event', {group_id: 'fixture'});\ntrack(eventName, {});");
+    rejects(root, /src\/pages\/_shindan.js:3: track\(…\) is called with a non-literal event name/);
+    const fresh = fixture();
+    write(fresh, 'src/components/Footer.astro',
+      "if (name === 'jobtag_outbound_click') {} else if (name === 'new_branch') {}\ngtag('event', name, params);");
+    rejects(fresh, /Footer.astro:1: branches on "new_branch", which DYNAMIC_EMIT_SITES does not declare/);
   });
 
   test('rejects missing or stale dynamic registry entries', () => {
