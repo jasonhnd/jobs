@@ -65,7 +65,7 @@ function fixture(): string {
       `function ${wrapper}(name, params) { gtag('event', name, params); }\n` +
       `${wrapper}('${event}', {group_id: 'fixture'});`);
   }
-  write(root, 'src/components/Footer.astro', "gtag('event', eventName);");
+  write(root, 'src/components/Footer.astro', "<script>gtag('event', eventName);</script>");
   write(root, 'src/pages/_index-inline.js',
     "gtag('event', source === 'chip' ? 'popular_job_click' : 'job_search_navigate');");
   write(root, 'src/lib/middleware/mp-hit.ts', [
@@ -199,6 +199,56 @@ describe('check-analytics-spec CLI regression contract', () => {
     });
   }
 
+  // Review of #868: calls the lexer used to blank, and expressions that only
+  // start with an object literal. Each must still reach the comparison.
+  for (const [label, file, source] of [
+    ['an apostrophe in Astro markup before a same-line script', 'src/probe.astro',
+      `<p>don't</p><script>gtag("event", "literal_event", {unknown_param: 1});</script>`],
+    ['a division after a postfix ++', 'src/probe.ts',
+      "let clicks = 1, total = 2; const rate = clicks++ / total; gtag('event', 'literal_event', {unknown_param: 1});"],
+    ['a division after a closing paren', 'src/probe.ts',
+      "const r = (a + b) / 2; gtag('event', 'literal_event', {unknown_param: 1});"],
+  ] as const) {
+    test(`still sees a call after ${label}`, () => {
+      const root = fixture();
+      write(root, file, source);
+      rejects(root, /unknown_param\s+← literal_event/);
+    });
+  }
+
+  test('fails on a call the lexer blanks by mistake (raw-source safety net)', () => {
+    const root = fixture();
+    // `)` then `/` reads as a division, so the regex's quote opens a fake string.
+    write(root, 'src/probe.ts', "if (x) /'/.test(s); gtag('event', 'literal_event', {unknown_param: 1});");
+    rejects(root, /gtag call inside what the scanner read as a string or regex/);
+  });
+
+  for (const suffix of ['&& {unknown_param: 1}', '|| {unknown_param: 1}', '? {a: 1} : {unknown_param: 1}']) {
+    test(`fails on params "{…} ${suffix}"`, () => {
+      const root = fixture();
+      write(root, 'src/probe.ts', `gtag('event', 'literal_event', {item_id: 1} ${suffix});`);
+      rejects(root, /literal_event is sent with params that are not an object literal/);
+    });
+  }
+
+  test('accepts strings, regexes and comments that only mention gtag / dataLayer', () => {
+    const root = fixture();
+    write(root, 'src/mentions.ts', [
+      'const doc = "window[\'gtag\'] and x[\'dataLayer\'] are rejected by the gate";',
+      "const url = 'https://www.googletagmanager.com/gtag/js?id=' + id;",
+      "const re = /gtag|dataLayer/; const half = total / 2;",
+      "console.warn('[analytics] gtag event failed'); // gtag('event', 'x') in a comment",
+    ].join('\n'));
+    write(root, 'src/mentions.astro', [
+      "---\nconst title = 'gtag';\n---",
+      "<p>don't worry</p>",
+      "{/* gtag('event', 'commented') */}",
+      "<script>if (window.gtag) gtag('event', 'literal_event', {item_id: 1});</script>",
+    ].join('\n'));
+    const result = run(root);
+    assert.equal(result.status, 0, result.stderr);
+  });
+
   test('fails closed on a non-literal wrapper call and an undeclared Footer branch', () => {
     const root = fixture();
     write(root, 'src/pages/_shindan.js',
@@ -207,7 +257,7 @@ describe('check-analytics-spec CLI regression contract', () => {
     rejects(root, /src\/pages\/_shindan.js:3: track\(…\) is called with a non-literal event name/);
     const fresh = fixture();
     write(fresh, 'src/components/Footer.astro',
-      "if (name === 'jobtag_outbound_click') {} else if (name === 'new_branch') {}\ngtag('event', name, params);");
+      "<script>if (name === 'jobtag_outbound_click') {} else if (name === 'new_branch') {}\ngtag('event', name, params);</script>");
     rejects(fresh, /Footer.astro:1: branches on "new_branch", which DYNAMIC_EMIT_SITES does not declare/);
   });
 

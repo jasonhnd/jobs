@@ -325,9 +325,44 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
     }
   }
 
+  /**
+   * `window['gtag'](…)` / `x["dataLayer"]`. Read from the code view so a
+   * string that merely contains the text (documentation, an error message)
+   * does not match; the key is read back from the text view.
+   */
   function scanBracketAccess(scan: SourceScan): void {
-    for (const m of scan.lexed.text.matchAll(/\[\s*(['"`])(gtag|dataLayer)\1\s*\]/g)) {
-      scan.unreadable(m.index!, `${m[2]} through bracket access`);
+    const { code, text } = scan.lexed;
+    for (const m of code.matchAll(/[\w$)\]]\s*\[\s*(['"`])/g)) {
+      const quote = m.index! + m[0].length - 1;
+      const close = text.indexOf(m[1]!, quote + 1);
+      const key = close < 0 ? '' : text.slice(quote + 1, close);
+      if ((key === 'gtag' || key === 'dataLayer') && /^\s*\]/.test(code.slice(close + 1))) {
+        scan.unreadable(m.index!, `${key} through bracket access`);
+      }
+    }
+  }
+
+  /**
+   * Safety net under the lexer. Every raw occurrence of a watched name must
+   * be either a reference the classifier saw (still present in the code
+   * view), part of a comment (blanked in the text view), or string text that
+   * does not look like a call. If the lexer misread a `/` or a quote and
+   * blanked live code as a string, the call shows up here and fails the gate
+   * rather than vanishing.
+   */
+  function scanHiddenCalls(scan: SourceScan, source: string): void {
+    const names = ['gtag', 'dataLayer', ...(scan.site?.wrapper ? [scan.site.wrapper] : [])];
+    const { code, text } = scan.lexed;
+    for (const name of names) {
+      const re = new RegExp(`(?<![\\w$])${name}(?![\\w$])`, 'g');
+      for (const m of source.matchAll(re)) {
+        const at = m.index!;
+        if (code.startsWith(name, at)) continue; // classified as a reference
+        if (!text.startsWith(name, at)) continue; // inside a comment
+        if (/^\s*(?:\(|\.\s*(?:push|call|apply)\b)/.test(source.slice(at + name.length, at + name.length + 40))) {
+          scan.unreadable(at, `${name} call inside what the scanner read as a string or regex; rewrite it so the gate can read it`);
+        }
+      }
     }
   }
 
@@ -382,6 +417,7 @@ export function createScanner(ROOT: string, fail: (message: string) => never) {
         result.unreadable.push(`${source.file}:${lineOf(source.text, offset)}: ${reason}`),
     };
     scanBracketAccess(scan);
+    scanHiddenCalls(scan, source.text);
     scanGtagReferences(scan);
     scanDataLayerReferences(scan);
     scanWrapperCalls(scan);

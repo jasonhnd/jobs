@@ -3,21 +3,25 @@
  *
  *   text  comments replaced by spaces; string literals kept, so a literal
  *         event name or param key can be read back at a known offset.
- *   code  comments AND string contents replaced by spaces (the quote
- *         characters stay), so a `gtag` inside a string, a URL or a comment
- *         is not mistaken for a call, and a `,` / `)` / `}` inside a string
- *         cannot end an argument early.
+ *   code  comments AND string / template / regex contents replaced by spaces
+ *         (the delimiters stay), so a `gtag` inside a string, a URL or a
+ *         comment is not mistaken for a call, and a `,` / `)` / `}` inside a
+ *         string cannot end an argument early.
  *
  * Both views have exactly the source's length and keep every newline, so an
  * offset found in `code` is valid in `text` and maps to the same line.
  *
- * This is a scanner, not a parser. It knows JS/TS comments, the three quote
- * kinds (with `${…}` nesting in template literals), regex literals, and HTML
- * comments in markup files. A `'` or `"` string stops at a newline, as JS
- * requires, so a stray apostrophe in Astro markup ("don't") can only blank
- * the rest of its own line — and blanking only ever hides text from the
- * scan of literals, never makes an unreadable call look readable: the call
- * classifier treats anything it cannot read as a failure.
+ * Markup files (.astro / .html) are split first: the frontmatter and every
+ * `<script>` body are lexed as JS; HTML comments and Astro expression
+ * comments (a block comment wrapped in braces) are removed; everything else
+ * (markup text, attributes, `<style>`) is left untouched in both views. An
+ * apostrophe in prose ("don't") is therefore never read as a string opener,
+ * and a `gtag` in markup (an `onclick="…"`) stays visible to the classifier.
+ *
+ * This is a scanner, not a parser. Where it could still guess wrong — a `/`
+ * that is a regex or a division — scan.ts re-checks the raw source (see
+ * `hiddenCalls`), so a call the lexer blanked by mistake fails the gate
+ * instead of disappearing.
  */
 
 export interface LexedSource {
@@ -25,36 +29,87 @@ export interface LexedSource {
   readonly code: string;
 }
 
-/** Characters after which a `/` starts a regex literal rather than a division. */
-const REGEX_PRECEDERS = new Set([...'(,=:[!&|?{};+-*%<>~^']);
-const REGEX_KEYWORDS = /(?:^|[^\w$])(?:return|typeof|case|do|else|in|of|void|delete|throw|yield|await)$/;
+/**
+ * Keywords after which a `/` starts a regex. After any other identifier, a
+ * number, `)`, `]`, `}` or a postfix `++` / `--`, it is a division.
+ */
+const REGEX_AFTER_KEYWORD = new Set([
+  'return', 'typeof', 'case', 'do', 'else', 'in', 'of', 'void', 'delete',
+  'throw', 'yield', 'await', 'instanceof', 'new',
+]);
 
-export function lexSource(source: string, { markup }: { markup: boolean }): LexedSource {
-  const text = source.split('');
-  const code = source.split('');
-  const blankBoth = (from: number, to: number): void => {
+class Views {
+  readonly text: string[];
+  readonly code: string[];
+  constructor(readonly source: string) {
+    this.text = source.split('');
+    this.code = source.split('');
+  }
+  blankBoth(from: number, to: number): void {
     for (let k = from; k < to; k++) {
-      if (source[k] !== '\n') {
-        text[k] = ' ';
-        code[k] = ' ';
+      if (this.source[k] !== '\n') {
+        this.text[k] = ' ';
+        this.code[k] = ' ';
       }
     }
-  };
-  const blankCode = (from: number, to: number): void => {
-    for (let k = from; k < to; k++) if (source[k] !== '\n') code[k] = ' ';
-  };
+  }
+  blankCode(from: number, to: number): void {
+    for (let k = from; k < to; k++) if (this.source[k] !== '\n') this.code[k] = ' ';
+  }
+}
 
+export function lexSource(source: string, { markup }: { markup: boolean }): LexedSource {
+  const views = new Views(source);
+  if (markup) lexMarkup(views);
+  else lexJs(views, 0, source.length);
+  return { text: views.text.join(''), code: views.code.join('') };
+}
+
+/** Frontmatter and `<script>` bodies are JS; HTML comments go; the rest is left as is. */
+function lexMarkup(views: Views): void {
+  const { source } = views;
+  let i = 0;
+  const front = source.match(/^\s*---[^\n]*\n/);
+  if (front) {
+    const close = source.indexOf('\n---', front[0].length - 1);
+    const end = close < 0 ? source.length : close + 1;
+    lexJs(views, front[0].length, end);
+    i = end;
+  }
+  // HTML comments, Astro expression comments (`{` + block comment), and script tags.
+  const tag = /<!--|\{\s*\/\*|<script\b[^>]*>/gi;
+  tag.lastIndex = i;
+  for (let m = tag.exec(source); m; m = tag.exec(source)) {
+    const comment = m[0] === '<!--' ? '-->' : m[0].startsWith('{') ? '*/' : null;
+    if (comment) {
+      const from = m[0] === '<!--' ? m.index : source.indexOf('/*', m.index);
+      const end = source.indexOf(comment, from + 2);
+      const stop = end < 0 ? source.length : end + comment.length;
+      views.blankBoth(from, stop);
+      tag.lastIndex = stop;
+      continue;
+    }
+    const bodyStart = m.index + m[0].length;
+    const close = source.slice(bodyStart).search(/<\/script\s*>/i);
+    const bodyEnd = close < 0 ? source.length : bodyStart + close;
+    lexJs(views, bodyStart, bodyEnd);
+    tag.lastIndex = bodyEnd;
+  }
+}
+
+/** Lexes `source[from, to)` as JS / TS. */
+function lexJs(views: Views, from: number, to: number): void {
+  const { source } = views;
   // Each entry is the brace depth at which a `${` opened inside a template.
   const templateStack: number[] = [];
   let braceDepth = 0;
-  let lastSignificant = '';
-  let i = 0;
+  // The last significant token: '' at start, 'word', 'keyword-regex', 'postfix', or the punctuator.
+  let last = '';
+  let i = from;
 
   const scanQuoted = (quote: string): void => {
-    // `i` is on the opening quote; leaves `i` after the closing one.
-    const start = i + 1;
-    let j = start;
-    while (j < source.length) {
+    let j = i + 1;
+    while (j < to) {
       const ch = source[j]!;
       if (ch === '\\') {
         j += 2;
@@ -63,45 +118,45 @@ export function lexSource(source: string, { markup }: { markup: boolean }): Lexe
       if (ch === quote || ch === '\n') break;
       j++;
     }
-    blankCode(start, Math.min(j, source.length));
+    views.blankCode(i + 1, Math.min(j, to));
     i = source[j] === quote ? j + 1 : j;
-    lastSignificant = quote;
+    last = 'word';
   };
 
   /** Scans template text from `i`; stops after the closing backtick or after a `${`. */
   const scanTemplate = (): void => {
     const start = i;
     let j = start;
-    while (j < source.length) {
+    while (j < to) {
       const ch = source[j]!;
       if (ch === '\\') {
         j += 2;
         continue;
       }
       if (ch === '`') {
-        blankCode(start, j);
+        views.blankCode(start, j);
         i = j + 1;
-        lastSignificant = '`';
+        last = 'word';
         return;
       }
       if (ch === '$' && source[j + 1] === '{') {
-        blankCode(start, j);
+        views.blankCode(start, j);
         templateStack.push(braceDepth);
         braceDepth++;
         i = j + 2;
-        lastSignificant = '{';
+        last = '{';
         return;
       }
       j++;
     }
-    blankCode(start, source.length);
-    i = source.length;
+    views.blankCode(start, to);
+    i = to;
   };
 
   const scanRegex = (): void => {
     let j = i + 1;
     let inClass = false;
-    while (j < source.length && source[j] !== '\n') {
+    while (j < to && source[j] !== '\n') {
       const ch = source[j]!;
       if (ch === '\\') {
         j += 2;
@@ -112,40 +167,29 @@ export function lexSource(source: string, { markup }: { markup: boolean }): Lexe
       else if (ch === '/' && !inClass) break;
       j++;
     }
-    blankCode(i + 1, Math.min(j, source.length));
+    views.blankCode(i + 1, Math.min(j, to));
     i = j + 1;
-    while (i < source.length && /[a-z]/i.test(source[i]!)) i++;
-    lastSignificant = '/';
+    while (i < to && /[a-z]/i.test(source[i]!)) i++;
+    last = 'word';
   };
 
-  const startsRegex = (): boolean => {
-    // `</tag>` in markup, never `a < /re/` in code.
-    if (source[i - 1] === '<') return false;
-    if (lastSignificant === '' || REGEX_PRECEDERS.has(lastSignificant)) return true;
-    return REGEX_KEYWORDS.test(source.slice(Math.max(0, i - 12), i).trimEnd());
-  };
+  const startsRegex = (): boolean =>
+    last === '' || last === 'keyword-regex' || (last !== 'word' && last !== 'postfix' && !/^[)\]}]$/.test(last));
 
-  while (i < source.length) {
+  while (i < to) {
     const ch = source[i]!;
     const next = source[i + 1];
-    if (markup && source.startsWith('<!--', i)) {
-      const end = source.indexOf('-->', i + 4);
-      const stop = end < 0 ? source.length : end + 3;
-      blankBoth(i, stop);
-      i = stop;
-      continue;
-    }
     if (ch === '/' && next === '/') {
       let end = source.indexOf('\n', i);
-      if (end < 0) end = source.length;
-      blankBoth(i, end);
+      if (end < 0 || end > to) end = to;
+      views.blankBoth(i, end);
       i = end;
       continue;
     }
     if (ch === '/' && next === '*') {
       const end = source.indexOf('*/', i + 2);
-      const stop = end < 0 ? source.length : end + 2;
-      blankBoth(i, stop);
+      const stop = end < 0 || end + 2 > to ? to : end + 2;
+      views.blankBoth(i, stop);
       i = stop;
       continue;
     }
@@ -162,6 +206,18 @@ export function lexSource(source: string, { markup }: { markup: boolean }): Lexe
       scanRegex();
       continue;
     }
+    if (/[\w$]/.test(ch)) {
+      const word = source.slice(i).match(/^[\w$]+/)![0];
+      last = REGEX_AFTER_KEYWORD.has(word) ? 'keyword-regex' : 'word';
+      i += word.length;
+      continue;
+    }
+    if ((ch === '+' || ch === '-') && next === ch) {
+      // `a++ / b` divides; `++a` / `x = ++y` is followed by an operand anyway.
+      last = last === 'word' || /^[)\]]$/.test(last) ? 'postfix' : ch;
+      i += 2;
+      continue;
+    }
     if (ch === '{') braceDepth++;
     if (ch === '}') {
       braceDepth--;
@@ -172,10 +228,9 @@ export function lexSource(source: string, { markup }: { markup: boolean }): Lexe
         continue;
       }
     }
-    if (!/\s/.test(ch)) lastSignificant = /[\w$]/.test(ch) ? 'a' : ch;
+    if (!/\s/.test(ch)) last = ch;
     i++;
   }
-  return { text: text.join(''), code: code.join('') };
 }
 
 /** 1-based line number of `offset`. */

@@ -27,6 +27,17 @@ const CLOSE = new Set([')', ']', '}']);
 const PARAM_KEY = /^[a-z_][a-z0-9_]*$/i;
 const IDENTIFIER = /^[A-Za-z_$][\w$]*$/;
 
+/** Offset of the bracket that closes the one at `open`, or -1. */
+export function matchingClose(code: string, open: number): number {
+  let depth = 0;
+  for (let i = open; i < code.length; i++) {
+    const ch = code[i]!;
+    if (OPEN.has(ch)) depth++;
+    else if (CLOSE.has(ch) && --depth === 0) return i;
+  }
+  return -1;
+}
+
 /**
  * Splits the top-level comma-separated items between the bracket at `open`
  * and its partner. Returns null when the bracket is never closed.
@@ -69,11 +80,16 @@ export function readParams(source: LexedSource, span: Span | undefined): ParamsR
   if (!span) return { kind: 'none' };
   const shape = source.code.slice(span.start, span.end);
   const open = shape.indexOf('{');
-  if (open < 0 || shape.slice(0, open).trim() !== '' || !shape.trimEnd().endsWith('}')) {
+  if (open < 0 || shape.slice(0, open).trim() !== '') {
     return { kind: 'unreadable', reason: 'params that are not an object literal' };
   }
-  const props = splitTopLevel(source, span.start + open);
-  if (!props) return { kind: 'unreadable', reason: 'an unbalanced params object' };
+  const close = matchingClose(source.code, span.start + open);
+  if (close < 0) return { kind: 'unreadable', reason: 'an unbalanced params object' };
+  // The object must be the whole argument: `{a: 1} && {b: 2}` sends `{b: 2}`.
+  if (source.code.slice(close + 1, span.end).trim() !== '') {
+    return { kind: 'unreadable', reason: 'params that are not an object literal' };
+  }
+  const props = splitTopLevel(source, span.start + open)!;
   const keys: string[] = [];
   for (const prop of props) {
     const key = readPropertyKey(source, prop);
