@@ -18,12 +18,14 @@
  *   bun scripts/check-score-batch.ts data/scores/occupations_<model>_<YYYY-MM-DD>.json
  *
  * Exit codes: 0 = schema valid (warnings are advisory); 1 = bad args /
- * unreadable / schema-invalid.
+ * unreadable / schema-invalid / run_date not a real YYYY-MM-DD date / empty
+ * scores / a scored id with no occupation file.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { ScoreRunSchema } from '../src/data/schema/score-run.js';
 import { isWhitelistedVendor } from '../src/site/score-attribution.js';
+import { isRealIsoDate } from './lib/iso-date.js';
 
 const ROOT = resolve(import.meta.dir, '..');
 const OCC_DIR = join(ROOT, 'data', 'occupations');
@@ -67,6 +69,11 @@ if (!parsed.success) {
   process.exit(1);
 }
 const batch = parsed.data;
+// Freshness compares run_date as text, which is only sound for real YYYY-MM-DD dates.
+if (!isRealIsoDate(batch.run.run_date)) {
+  fail(`run.run_date must be a real YYYY-MM-DD date, got "${batch.run.run_date}"`);
+}
+if (Object.keys(batch.scores).length === 0) fail('scores is empty — nothing to publish');
 console.log(`[check-score-batch] schema OK — scope=${batch.scope}, model=${batch.scorer.model}, run_date=${batch.run.run_date}`);
 console.log(`[check-score-batch] vendor: ${batch.scorer.model_provider}`);
 if (batch.run.backfill === true) {
@@ -100,7 +107,7 @@ if (missing.length) {
   console.log('  missing 0 — full coverage');
 }
 if (extra.length) {
-  console.log(`  WARNING ${extra.length} scored id(s) have no occupation file: ${extra.slice(0, 20).join(', ')}${extra.length > 20 ? ' …' : ''}`);
+  fail(`${extra.length} scored id(s) have no occupation file: ${extra.slice(0, 20).join(', ')}${extra.length > 20 ? ' …' : ''}`);
 }
 
 // ---- baseline: current latest (occupations) from all OTHER batches ----
@@ -117,6 +124,10 @@ for (const f of readdirSync(SCORES_DIR).filter((f) => f.endsWith('.json'))) {
     continue;
   }
   if (other.scope !== 'occupations' || !other.scores || !other.run?.run_date || other.run.backfill === true) continue;
+  if (!isRealIsoDate(other.run.run_date)) {
+    console.log(`  WARNING — skipped batch ${f}: run_date "${other.run.run_date}" is not a real YYYY-MM-DD date`);
+    continue;
+  }
   otherBatches += 1;
   const date = other.run.run_date;
   for (const [k, v] of Object.entries(other.scores)) {
