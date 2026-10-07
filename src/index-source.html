@@ -239,7 +239,7 @@
       <div id="tileHighlight" aria-hidden="true"></div>
       <ul id="canvasFallback" class="visually-hidden" aria-label="職業一覧"></ul>
 
-      <!-- Sector navigation — direct entry to 16 sector hub pages, grouped into 4 thematic subgroups. Each sector uses the shared .hub-card (eyebrow = AI-impact band, name, lead = 職業数 · 就業者数, desc = representative roles); counts + workforce are sourced from public/data.sectors.json. -->
+      <!-- Sector navigation — direct entry to 16 sector hub pages, grouped into 4 thematic subgroups. Each sector uses the shared .hub-card (eyebrow = __SECTOR_BAND_{id}__ from that sector's current mean, name, lead = 職業数 · 就業者数, desc = representative roles); counts + workforce are sourced from public/data.sectors.json. -->
       <hr class="hub-section-divider" aria-hidden="true">
       <nav class="hub-section sector-nav" aria-labelledby="hub-sectors-title">
         <header class="hub-section-head">
@@ -255,25 +255,25 @@
           <h3 class="hub-subgroup-title">ケア・公共 <em>86 職業</em></h3>
           <ul class="hub-card-grid">
             <li><a class="hub-card" href="/sectors/iryo">
-              <span class="hc-eyebrow">変化 中くらい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_iryo__</span>
               <strong class="hc-name">医療・保健</strong>
               <span class="hc-lead">36 職業 · 341 万人</span>
               <span class="hc-desc">病院・診療所で働く医療専門職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/fukushi">
-              <span class="hc-eyebrow">変化 小さい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_fukushi__</span>
               <strong class="hc-name">福祉・介護</strong>
               <span class="hc-lead">15 職業 · 219 万人</span>
               <span class="hc-desc">介護・福祉・相談支援の対人職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/kyoiku">
-              <span class="hc-eyebrow">変化 小さい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_kyoiku__</span>
               <strong class="hc-name">教育・指導</strong>
               <span class="hc-lead">20 職業 · 261 万人</span>
               <span class="hc-desc">学校・保育・指導の教育職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/hoan">
-              <span class="hc-eyebrow">変化 中くらい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_hoan__</span>
               <strong class="hc-name">保安・公安</strong>
               <span class="hc-lead">15 職業 · 110 万人</span>
               <span class="hc-desc">警察・消防・自衛・警備の公安職</span>
@@ -285,25 +285,25 @@
           <h3 class="hub-subgroup-title">知的・専門 <em>173 職業</em></h3>
           <ul class="hub-card-grid">
             <li><a class="hub-card" href="/sectors/senmon">
-              <span class="hc-eyebrow">変化 中くらい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_senmon__</span>
               <strong class="hc-name">専門・技術</strong>
               <span class="hc-lead">51 職業 · 156 万人</span>
               <span class="hc-desc">建築・機械・化学等の技術者・研究者</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/it">
-              <span class="hc-eyebrow">変化 中くらい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_it__</span>
               <strong class="hc-name">IT・通信</strong>
               <span class="hc-lead">22 職業 · 155 万人</span>
               <span class="hc-desc">SE・データ・DX の IT 職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/shigyo">
-              <span class="hc-eyebrow">変化 中くらい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_shigyo__</span>
               <strong class="hc-name">士業・経営・コンサル</strong>
               <span class="hc-lead">63 職業 · 182 万人</span>
               <span class="hc-desc">弁護士・会計士・経営コンサル</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/creative">
-              <span class="hc-eyebrow">変化 中くらい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_creative__</span>
               <strong class="hc-name">クリエイティブ・メディア</strong>
               <span class="hc-lead">37 職業 · 78 万人</span>
               <span class="hc-desc">デザイン・映像・記者・翻訳</span>
@@ -315,19 +315,19 @@
           <h3 class="hub-subgroup-title">事務・対人 <em>139 職業</em></h3>
           <ul class="hub-card-grid">
             <li><a class="hub-card" href="/sectors/jimu">
-              <span class="hc-eyebrow">変化 中くらい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_jimu__</span>
               <strong class="hc-name">事務・公務</strong>
               <span class="hc-lead">57 職業 · 1,153 万人</span>
               <span class="hc-desc">事務・経理・コールセンター・公務</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/hanbai">
-              <span class="hc-eyebrow">変化 小さい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_hanbai__</span>
               <strong class="hc-name">販売・営業</strong>
               <span class="hc-lead">41 職業 · 662 万人</span>
               <span class="hc-desc">営業・店員・販売・MR</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/service">
-              <span class="hc-eyebrow">変化 小さい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_service__</span>
               <strong class="hc-name">サービス・接客</strong>
               <span class="hc-lead">41 職業 · 449 万人</span>
               <span class="hc-desc">飲食・美容・ホテルの接客</span>
@@ -339,31 +339,31 @@
           <h3 class="hub-subgroup-title">職人・現場 <em>158 職業</em></h3>
           <ul class="hub-card-grid">
             <li><a class="hub-card" href="/sectors/seizo">
-              <span class="hc-eyebrow">変化 中くらい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_seizo__</span>
               <strong class="hc-name">製造・職人</strong>
               <span class="hc-lead">59 職業 · 454 万人</span>
               <span class="hc-desc">食品・金属・工芸のものづくり</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/maint">
-              <span class="hc-eyebrow">変化 小さい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_maint__</span>
               <strong class="hc-name">設備・保守</strong>
               <span class="hc-lead">49 職業 · 460 万人</span>
               <span class="hc-desc">設備保全・整備・施設管理</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/kensetu">
-              <span class="hc-eyebrow">変化 小さい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_kensetu__</span>
               <strong class="hc-name">建設・土木</strong>
               <span class="hc-lead">20 職業 · 239 万人</span>
               <span class="hc-desc">大工・とび・土木の建設職</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/keiseki">
-              <span class="hc-eyebrow">変化 小さい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_keiseki__</span>
               <strong class="hc-name">軽作業・清掃</strong>
               <span class="hc-lead">16 職業 · 352 万人</span>
               <span class="hc-desc">清掃・倉庫・引越の軽作業</span>
             </a></li>
             <li><a class="hub-card" href="/sectors/noringyo">
-              <span class="hc-eyebrow">変化 小さい</span>
+              <span class="hc-eyebrow">__SECTOR_BAND_noringyo__</span>
               <strong class="hc-name">農林・水産</strong>
               <span class="hc-lead">14 職業 · 185 万人</span>
               <span class="hc-desc">農業・林業・漁業の一次産業</span>
