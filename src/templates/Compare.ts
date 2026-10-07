@@ -16,7 +16,7 @@ import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass } from '../lib/risk.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { occupationPath } from '../lib/urls.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
 import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 export { escapeHtml };
@@ -25,8 +25,8 @@ export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 export function renderCompareHero(a: CompareSide, b: CompareSide): SafeHtml {
   const aBand = riskClass(a.ai_risk);
   const bBand = riskClass(b.ai_risk);
-  const aRiskStr = formatRiskScore(a.ai_risk);
-  const bRiskStr = formatRiskScore(b.ai_risk);
+  const aRiskStr = formatRiskScoreLabel(a.ai_risk);
+  const bRiskStr = formatRiskScoreLabel(b.ai_risk);
   return (
     `<div class="versus-hero">` +
     `<div class="vh-side">` +
@@ -59,7 +59,7 @@ export function duelDisplayName(name: string): string {
 export function renderCompareDuelBar(a: CompareSide, b: CompareSide): SafeHtml {
   function side(s: CompareSide): string {
     const band = riskClass(s.ai_risk);
-    const score = formatRiskScore(s.ai_risk);
+    const score = formatRiskScoreLabel(s.ai_risk);
     const shown = duelDisplayName(s.name_ja);
     const title = shown === s.name_ja ? '' : ` title="${escapeHtml(s.name_ja)}"`;
     return (
@@ -248,8 +248,8 @@ export function renderFeaturedCompareCards(cards: ReadonlyArray<CompareHubCard>)
   return cards.map((c) => {
     const aBand = riskClass(c.a_risk);
     const bBand = riskClass(c.b_risk);
-    const aRiskStr = formatRiskScore(c.a_risk);
-    const bRiskStr = formatRiskScore(c.b_risk);
+    const aRiskStr = formatRiskScoreLabel(c.a_risk);
+    const bRiskStr = formatRiskScoreLabel(c.b_risk);
     return (
       `<li><a href="/compare/${c.slug}">` +
       `<span class="cci-title">${escapeHtml(c.title_ja)}</span>` +
@@ -278,8 +278,8 @@ export function renderCompactCompareCards(cards: ReadonlyArray<CompareHubCard>):
   return cards.map((c) => {
     const aBand = riskClass(c.a_risk);
     const bBand = riskClass(c.b_risk);
-    const aRiskStr = formatRiskScore(c.a_risk);
-    const bRiskStr = formatRiskScore(c.b_risk);
+    const aRiskStr = formatRiskScoreLabel(c.a_risk);
+    const bRiskStr = formatRiskScoreLabel(c.b_risk);
     return (
       `<li><a href="/compare/${c.slug}">` +
       `<span class="ccq-title">${escapeHtml(c.title_ja)}</span>` +

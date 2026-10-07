@@ -19,7 +19,7 @@
 import { fmtInt } from '../lib/num.js';
 import { displayScore } from '../data/lib/banker-round.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
 
 /** One ranked occupation summary as the FAQ builder consumes it.
  *  A subset of the page's SectorOccupationSummary shape. */
@@ -86,7 +86,7 @@ export function buildSectorFaqs(input: SectorFaqsInput): readonly SectorFaqItem[
     const top3 = topHigh.slice(0, 3);
     const itemsStr = top3
       .filter((o) => o.titleJa && o.aiRisk !== null)
-      .map((o) => `${o.titleJa}（AI影響 ${formatRiskScore(o.aiRisk)}）`)
+      .map((o) => `${o.titleJa}（AI影響 ${formatRiskScoreLabel(o.aiRisk)}）`)
       .join('、');
     faqs.push([
       `${nameJa}業界で AI 影響度が最も高い職業は？`,
@@ -100,7 +100,7 @@ export function buildSectorFaqs(input: SectorFaqsInput): readonly SectorFaqItem[
     const top3 = topLow.slice(0, 3);
     const itemsStr = top3
       .filter((o) => o.titleJa && o.aiRisk !== null)
-      .map((o) => `${o.titleJa}（AI影響 ${formatRiskScore(o.aiRisk)}）`)
+      .map((o) => `${o.titleJa}（AI影響 ${formatRiskScoreLabel(o.aiRisk)}）`)
       .join('、');
     faqs.push([
       `${nameJa}業界で AI 影響度が最も低い職業は？`,

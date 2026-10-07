@@ -61,6 +61,7 @@ export function formatRiskScoreLabel(risk: number | null | undefined): string {
  * A mean that is already the displayed one-decimal value, fixed to one
  * decimal the way hub FAQs print it: `4.0/10 変化 中くらい`.
  */
-export function formatShownMeanLabel(shown: number): string {
+export function formatShownMeanLabel(score: number): string {
+  const shown = displayScore(score);
   return `${shown.toFixed(1)}/10 ${RISK_BAND_WORD[riskClass(shown)]}`;
 }
