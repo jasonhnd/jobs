@@ -73,8 +73,6 @@ async function main(): Promise<void> {
   console.log(`Checking projections in ${relPath(distRoot)}\n`);
 
   await checkPlannedFilesExist(distRoot, r);
-  const treemapRecords = await checkTreemap(distRoot, r);
-  await checkTop10(distRoot, treemapRecords, r);
 
   // Source occupation count
   const occDir = join(REPO, 'data', 'occupations');
@@ -86,6 +84,9 @@ async function main(): Promise<void> {
       if (Number.isFinite(id)) allOccIds.add(id);
     }
   }
+
+  const treemapRecords = await checkTreemap(distRoot, r, existsSync(occDir) ? allOccIds.size : undefined);
+  await checkTop10(distRoot, treemapRecords, r);
 
   await checkSearch(distRoot, r, allOccIds.size);
   await checkDetailFiles(distRoot, r, allOccIds);
