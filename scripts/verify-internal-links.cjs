@@ -20,8 +20,9 @@
  *     but doesn't validate that every href POINTS into the set)
  *   - check:rendered-leaks (text leak detection — different bug class)
  *
- * Allowlist: external origins (http*://), anchor-only fragments (#x),
- * mailto/tel: schemes — these are intentionally not checked here.
+ * Allowlist: external origins, the bare `#` placeholder and mailto/tel/
+ * javascript: schemes are intentionally not checked here. Same-site
+ * absolute URLs (any http/https/www spelling) and relative hrefs are.
  *
  * Exit codes: 0 = every internal href resolves, 1 = ≥1 broken link.
  */
@@ -31,8 +32,6 @@ const path = require('node:path');
 const { extractInternalLinks } = require('./lib/seo-extract.cjs');
 
 const DIST_ROOT = path.resolve(process.cwd(), 'dist-astro');
-const SITE = 'https://mirai-shigoto.com';
-
 // Hrefs allowed to point at routes we don't emit (proxied / API).
 const HREF_PREFIX_ALLOWLIST = [
   '/api/og',   // OG endpoint (Vercel Edge function, served by api/og.tsx).
@@ -83,40 +82,42 @@ function pathToUrl(absPath) {
   return '/' + noExt;
 }
 
-/** Normalize a raw href to its routable path + optional fragment:
- *    - Strip the SITE origin (already done by extractInternalLinks).
- *    - Strip query string but PRESERVE fragment in a separate field.
- *    Returns null if the href targets something not in scope.
- *    Returns { path, fragment } so the caller can validate the
- *    fragment against the target page's anchor id set.
- *    2026-05-17 C4 fix: fragments were previously stripped entirely,
- *    meaning broken `#section-foo` links to non-existent anchors
- *    slipped past the verifier silently. */
-function normalizeHref(rawHref) {
+function safeDecode(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value; // left encoded: it then matches nothing and is reported
+  }
+}
+
+/** Normalize a raw href (as returned by extractInternalLinks, which already
+ *  maps same-site absolute URLs onto paths) to its routable path + fragment:
+ *    - Relative hrefs (`./x`, `../x`, `x`) resolve against the linking page,
+ *      as a browser would against its clean URL (2026-10-07, #867 — they
+ *      used to be skipped, so a broken relative link passed).
+ *    - The query string is dropped; the fragment is kept in its own field so
+ *      the caller can validate it against the target page's ids (C4).
+ *    - Path and fragment are percent-decoded: emitted files and ids are
+ *      named in plain UTF-8, and `/ja/%E8%81%B7` is the same page as `/ja/職`.
+ *    Returns null if the href targets something not in scope. */
+function normalizeHref(rawHref, fromUrl) {
   if (!rawHref || rawHref === '#') return null;
   // Intra-page anchor: routable path is the linking page itself. Returning
   // null here used to drop all 841 of them (834 of which are the `#main-content`
   // skip link) from validation entirely — the verifier reported on anchors
   // while checking none that actually existed. See issue #217.
-  if (rawHref.startsWith('#')) return { path: null, fragment: rawHref.slice(1) };
-  if (rawHref.startsWith('mailto:')) return null;
-  if (rawHref.startsWith('tel:')) return null;
-  if (rawHref.startsWith('javascript:')) return null;
-  if (rawHref.includes('<') || rawHref.includes('>') || rawHref.includes(' ')) {
-    return null;
+  if (rawHref.startsWith('#')) return { path: null, fragment: safeDecode(rawHref.slice(1)) };
+  if (/^[a-z][a-z\d+.-]*:/i.test(rawHref) || rawHref.startsWith('//')) return null; // not internal
+  let url;
+  try {
+    url = new URL(rawHref, `https://internal.invalid${fromUrl}`);
+  } catch {
+    return { path: rawHref, fragment: '' };
   }
-  let h = rawHref;
-  if (h.startsWith(SITE)) h = h.slice(SITE.length) || '/';
-  if (!h.startsWith('/')) return null;             // not internal
-  const qIdx = h.indexOf('?');
-  if (qIdx >= 0) h = h.slice(0, qIdx);
-  let fragment = '';
-  const hIdx = h.indexOf('#');
-  if (hIdx >= 0) {
-    fragment = h.slice(hIdx + 1);
-    h = h.slice(0, hIdx);
-  }
-  return { path: h || '/', fragment };
+  return {
+    path: safeDecode(url.pathname) || '/',
+    fragment: safeDecode(url.hash.slice(1)),
+  };
 }
 
 /** Extract all `id="..."` anchor target ids from an HTML document.
@@ -218,7 +219,7 @@ function recordFailure(failures, target, fromUrl) {
 }
 
 function validateInternalHref(raw, fromUrl, { emitted, anchorIds }, result) {
-  const parsed = normalizeHref(raw);
+  const parsed = normalizeHref(raw, fromUrl);
   if (parsed === null) return;
   // path === null marks an intra-page anchor: the target page is the page
   // we are scanning, so it trivially exists and only the fragment matters.
@@ -362,6 +363,12 @@ function reportResult(htmlFiles, { failures, fragmentFailures, totalHrefs, allow
 function main() {
   requireBuildOutput();
   const htmlFiles = walkHtmlFiles(DIST_ROOT);
+  // A build directory with no pages would otherwise pass with "0 internal
+  // hrefs" — the gate must not go green while checking nothing.
+  if (htmlFiles.length === 0) {
+    console.error(`[verify-internal-links] ${DIST_ROOT} contains no HTML files. Run \`bun run build\` first.`);
+    process.exit(1);
+  }
   const emitted = collectEmittedUrls(htmlFiles);
   const anchorIds = collectAnchorIds(htmlFiles);
   const result = scanInternalLinks(htmlFiles, { emitted, anchorIds });
