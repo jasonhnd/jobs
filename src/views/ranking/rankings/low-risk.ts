@@ -7,6 +7,7 @@
 import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { byKeyAsc, safeMean } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
+import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
 
 export interface LowRiskRankings {
   aiLow: Occupation[];
@@ -25,7 +26,7 @@ export function buildLowRiskRankings(
 
   // 3. Salary x safe — filter ai_risk<=5, sort -salary then ai_risk then id
   const salarySafe = withSalary
-    .filter((o) => (o.ai_risk ?? 0) <= 5)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 0) <= 5)
     .sort((a, b) => {
       const sa = a.salary ?? 0;
       const sb = b.salary ?? 0;

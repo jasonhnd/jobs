@@ -8,6 +8,7 @@
 import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { safeMean, eduPct, gradPct, EDU } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
+import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
 
 export interface EducationRankings {
   highSchoolOk: Occupation[];
@@ -49,7 +50,7 @@ export function buildEducationRankings(
 
   // 30. 無資格で就ける × AI 安全
   const noLicenseRequired = scored
-    .filter((o) => o.certs.length === 0 && (o.ai_risk ?? 999) <= 5)
+    .filter((o) => o.certs.length === 0 && (displayScoreOrNull(o.ai_risk) ?? 999) <= 5)
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.salary ?? 0) - (a.salary ?? 0))
     .slice(0, limit);
 

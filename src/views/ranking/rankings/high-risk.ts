@@ -9,6 +9,7 @@
 import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { byKeyDesc, safeMean, inSectorSet, CRAFT_SECTORS } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
+import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
 
 export interface HighRiskRankings {
   aiHigh: Occupation[];
@@ -31,7 +32,7 @@ export function buildHighRiskRankings(
 
   // 15. AI 置き換えが進行中 (ai_risk >= 8 desc, workers as tie)
   const aiReplacedSoon = scored
-    .filter((o) => (o.ai_risk ?? 0) >= 8)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 0) >= 8)
     .sort((a, b) => {
       // ai_risk descending — higher risk first. (The earlier version named
       // the variables `ra = b.ai_risk` / `rb = a.ai_risk` and returned
@@ -47,13 +48,13 @@ export function buildHighRiskRankings(
 
   // 16. 伝統技能で AI に強い (ai_risk <= 3 + craft sectors)
   const aiResistantCraft = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 3 && inSectorSet(o, CRAFT_SECTORS))
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 3 && inSectorSet(o, CRAFT_SECTORS))
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || a.id - b.id)
     .slice(0, limit);
 
   // 17. AI リスク高 × 高年収
   const aiAtRiskPaid = scored
-    .filter((o) => (o.ai_risk ?? 0) >= 7 && (o.salary ?? 0) >= 500)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 0) >= 7 && (o.salary ?? 0) >= 500)
     .sort((a, b) => {
       const sa = b.salary ?? 0; const sb = a.salary ?? 0;
       if (sa !== sb) return sa - sb;
@@ -63,13 +64,13 @@ export function buildHighRiskRankings(
 
   // 18. AI で補強される (ai_risk 4-6, sort by salary desc)
   const aiAugmented = scored
-    .filter((o) => (o.ai_risk ?? -1) >= 4 && (o.ai_risk ?? -1) <= 6)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? -1) >= 4 && (displayScoreOrNull(o.ai_risk) ?? -1) <= 6)
     .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || a.id - b.id)
     .slice(0, limit);
 
   // 19. AI を使いこなす側 (sector=it + ai_risk >= 5)
   const aiFrontier = scored
-    .filter((o) => o.sector_id === 'it' && (o.ai_risk ?? 0) >= 5)
+    .filter((o) => o.sector_id === 'it' && (displayScoreOrNull(o.ai_risk) ?? 0) >= 5)
     .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || a.id - b.id)
     .slice(0, limit);
 
