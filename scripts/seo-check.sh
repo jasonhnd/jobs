@@ -66,13 +66,24 @@ fi
 # mirai-shigoto.com from a script (platform mitigation can challenge the IP
 # and break the GEO policy). pre.mirai-shigoto.com and other hosts are allowed.
 # Set ALLOW_PROD=1 to opt in; that path prints a warning and continues.
+#
+# The guard only works if it reads the same host curl will connect to. curl
+# accepts spellings a hand-rolled parser reads differently — `https:///host`
+# (empty authority), `https://%6dirai-shigoto.com` (percent-encoded host),
+# userinfo, `\\` separators — so BASE must be exactly
+# `http(s)://<letters, digits, dots, hyphens>[:port][/path]`. Anything else
+# is refused before any request instead of being guessed at.
+BASE_RE='^[Hh][Tt][Tt][Pp]([Ss])?://([A-Za-z0-9][A-Za-z0-9.-]*)(:[0-9]{1,5})?(/[^?#[:space:]\\]*)?$'
+if ! [[ "$BASE" =~ $BASE_RE ]]; then
+  printf '%s\n' "seo-check: BASE_URL must be http(s)://host[:port][/path] with a plain host (got: ${BASE})" >&2
+  usage
+fi
+
+# Host of a URL already validated against BASE_RE (or built from BASE).
 request_host() {
   local rest host
   rest="${1#*://}"
-  rest="${rest%%\?*}"
-  rest="${rest%%#*}"
-  rest="${rest%%/*}"
-  host="${rest##*@}"
+  host="${rest%%/*}"
   host="${host%%:*}"
   # A fully-qualified `mirai-shigoto.com.` is the same host.
   while [ "${host%.}" != "$host" ]; do host="${host%.}"; done
@@ -143,8 +154,8 @@ note()   { printf "    ${D}%s${X}\n" "$1"; }
 
 # No -L: a redirect target is not rewritten onto BASE, so following it could
 # crawl production. A 3xx surfaces as an HTTP status failure instead.
-fetch_body()   { curl -fsS --max-time 12 -A "seo-check.sh/1.0" "$1" 2>/dev/null; }
-fetch_header() { curl -fsSI --max-time 12 -A "seo-check.sh/1.0" "$1" 2>/dev/null; }
+fetch_body()   { curl -fsS --proto '=http,https' --max-time 12 -A "seo-check.sh/1.0" "$1" 2>/dev/null; }
+fetch_header() { curl -fsSI --proto '=http,https' --max-time 12 -A "seo-check.sh/1.0" "$1" 2>/dev/null; }
 
 printf "${B}SEO + GEO health check${X}  ${D}(target: %s)${X}\n" "$BASE"
 

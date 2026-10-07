@@ -41,16 +41,42 @@ describe('seo-check.sh guards (no network)', () => {
     'https://mirai-shigoto.com',
     'https://mirai-shigoto.com.',
     'https://mirai-shigoto.com./',
-    'https://mirai-shigoto.com#top',
     'https://MIRAI-SHIGOTO.COM/',
-    'https://user@www.mirai-shigoto.com:443/',
-    'mirai-shigoto.com',
+    'HTTPS://www.mirai-shigoto.com:443/path',
   ];
   for (const base of productionSpellings) {
     test(`refuses production spelled ${base} before any request`, () => {
       const result = runWithStub([base]);
       assert.equal(result.status, 2, result.stdout);
       assert.match(result.stderr, /refusing production host/);
+      assert.equal(result.curlCalls, '');
+    });
+  }
+
+  // curl accepts these and connects to mirai-shigoto.com, but a host parser
+  // that disagrees with curl's reads them as a different (or empty) host.
+  // Anything that is not plain `http(s)://host[:port][/path]` is refused.
+  const nonStandardBases = [
+    'https:///mirai-shigoto.com',
+    'https:////mirai-shigoto.com/',
+    'https://%6dirai-shigoto.com',
+    'https://mirai-shigoto%2ecom',
+    'https://user@www.mirai-shigoto.com:443/',
+    'https://pre.mirai-shigoto.com@mirai-shigoto.com/',
+    'https://mirai-shigoto.com#top',
+    'https://mirai-shigoto.com?x=1',
+    'https:/mirai-shigoto.com',
+    'https:\\\\mirai-shigoto.com',
+    'https://[::1]/',
+    'mirai-shigoto.com',
+    'ftp://mirai-shigoto.com/',
+    ' https://mirai-shigoto.com',
+  ];
+  for (const base of nonStandardBases) {
+    test(`rejects non-standard base ${JSON.stringify(base)} before any request`, () => {
+      const result = runWithStub([base]);
+      assert.equal(result.status, 2, result.stdout);
+      assert.match(result.stderr, /usage: /);
       assert.equal(result.curlCalls, '');
     });
   }
