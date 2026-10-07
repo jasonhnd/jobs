@@ -70,14 +70,14 @@ a:hover{color:var(--orange-hot);text-decoration:underline}
 .final-cta .gyakuten-primary{background:var(--orange-soft);color:var(--fg)}
 .final-cta .gyakuten-primary:hover{background:var(--paper);color:var(--fg)}
 .gyakuten-note{margin:18px 0 0;padding:13px 15px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);border-radius:7px;color:var(--fg2);font-size:var(--t-xs);line-height:1.7}
-.family-cpb{--family-accent:#D96B3D;--family-soft:color-mix(in srgb, var(--orange) 9%, transparent)}
+.family-cpb{--family-accent:var(--orange);--family-soft:color-mix(in srgb, var(--orange) 9%, transparent)}
 .family-cpk{--family-accent:#8D6E63;--family-soft:rgba(141,110,99,.1)}
 .family-cdb{--family-accent:#D4A749;--family-soft:rgba(212,167,73,.12)}
 .family-cdk{--family-accent:#4E8FA8;--family-soft:rgba(78,143,168,.1)}
-.family-rpb{--family-accent:#6E9B89;--family-soft:color-mix(in srgb, var(--accent-2) 12%, transparent)}
+.family-rpb{--family-accent:var(--accent-2);--family-soft:color-mix(in srgb, var(--accent-2) 12%, transparent)}
 .family-rpk{--family-accent:#B26D3D;--family-soft:rgba(178,109,61,.1)}
 .family-rdb{--family-accent:#5F8F6B;--family-soft:rgba(95,143,107,.12)}
-.family-rdk{--family-accent:#7A6F5E;--family-soft:color-mix(in srgb, var(--fg2) 12%, transparent)}
+.family-rdk{--family-accent:var(--fg2);--family-soft:color-mix(in srgb, var(--fg2) 12%, transparent)}
 @media (max-width:960px){
   .gyakuten-hero,.family-grid,.final-cta{grid-template-columns:1fr}
   .zukan-family{grid-template-columns:1fr}
