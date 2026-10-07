@@ -5,6 +5,8 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
+import { createServer } from 'node:http';
+import type { AddressInfo } from 'node:net';
 
 // seo-check.sh is a manual probe (not in CI). These tests never reach the
 // network: argument and host-guard cases run with a stub `curl` that only
@@ -28,7 +30,7 @@ function stubCurl(): { dir: string; log: string } {
 
 function runWithStub(args: string[]) {
   const stub = stubCurl();
-  const env = { ...process.env, PATH: `${stub.dir}:${process.env.PATH}` };
+  const env: Record<string, string | undefined> = { ...process.env, PATH: `${stub.dir}:${process.env.PATH}` };
   delete env.ALLOW_PROD;
   const result = spawnSync('bash', [SCRIPT, ...args], { encoding: 'utf8', timeout: 20_000, env });
   return { ...result, curlCalls: readFileSync(stub.log, 'utf8') };
@@ -70,28 +72,28 @@ describe('seo-check.sh guards (no network)', () => {
   }
 });
 
-interface Server { url: string; hits: string[]; stop(): void }
+interface Server { url: string; hits: string[] }
 
-function serve(routes: Record<string, () => Response>): Server {
+interface Reply { status?: number; headers?: Record<string, string>; body?: string }
+
+async function serve(routes: Record<string, () => Reply>): Promise<Server> {
   const hits: string[] = [];
-  const server = Bun.serve({
-    port: 0,
-    hostname: '127.0.0.1',
-    fetch(request) {
-      const { pathname } = new URL(request.url);
-      hits.push(pathname);
-      const route = routes[pathname];
-      return route ? route() : new Response('not found', { status: 404 });
-    },
+  const server = createServer((request, response) => {
+    const pathname = new URL(request.url ?? '/', 'http://127.0.0.1').pathname;
+    hits.push(pathname);
+    const route = routes[pathname];
+    const reply = route ? route() : { status: 404, body: 'not found' };
+    response.writeHead(reply.status ?? 200, reply.headers ?? {});
+    response.end(request.method === 'HEAD' ? undefined : reply.body ?? '');
   });
-  const stop = () => server.stop(true);
-  cleanups.push(stop);
-  return { url: `http://127.0.0.1:${server.port}`, hits, stop };
+  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+  cleanups.push(() => server.close());
+  return { url: `http://127.0.0.1:${(server.address() as AddressInfo).port}`, hits };
 }
 
 const PAGE_HEADERS = { 'content-type': 'text/html', 'strict-transport-security': 'max-age=1', 'x-vercel-id': 'hnd1::x' };
 
-function page(path: string): Response {
+function page(path: string): Reply {
   const html = `<!doctype html><html lang="ja"><head>
 <title>未来の仕事 — AI とあなたの仕事の未来を職業ごとに読み解くサイトのテストページ</title>
 <meta name="description" content="${'説明'.repeat(30)}">
@@ -106,12 +108,12 @@ function page(path: string): Response {
 <script type="application/ld+json">{"@type": "WebPage"}</script>
 <!-- cloudflareinsights.com googletagmanager.com _vercel/insights _vercel/speed-insights -->
 </head><body></body></html>`;
-  return new Response(html, { headers: PAGE_HEADERS });
+  return { headers: PAGE_HEADERS, body: html };
 }
 
 function runAsync(args: string[]): Promise<{ status: number | null; stdout: string; stderr: string }> {
   return new Promise((resolve) => {
-    const env = { ...process.env };
+    const env: Record<string, string | undefined> = { ...process.env };
     delete env.ALLOW_PROD;
     const child = spawn('bash', [SCRIPT, ...args], { env });
     let stdout = '';
@@ -124,16 +126,16 @@ function runAsync(args: string[]): Promise<{ status: number | null; stdout: stri
 
 describe('seo-check.sh against a local site', () => {
   test('expects ja + x-default hreflang, samples home + N, and does not follow redirects', async () => {
-    const elsewhere = serve({ '/': () => new Response('elsewhere') });
+    const elsewhere = await serve({ '/': () => ({ body: 'elsewhere' }) });
     const locs = ['/', '/a', '/b', '/c', '/d', '/redirect'];
-    const site = serve({
-      '/robots.txt': () => new Response('User-agent: *\nSitemap: https://mirai-shigoto.com/sitemap.xml\n'),
-      '/sitemap.xml': () => new Response(`<urlset>${['/a', '/', '/b', '/c', '/d', '/redirect']
-        .map((p) => `<url><loc>https://mirai-shigoto.com${p}</loc></url>`).join('')}</urlset>`),
-      '/llms.txt': () => new Response('Key facts'),
-      '/llms-full.txt': () => new Response('methodology'),
+    const site = await serve({
+      '/robots.txt': () => ({ body: 'User-agent: *\nSitemap: https://mirai-shigoto.com/sitemap.xml\n' }),
+      '/sitemap.xml': () => ({ body: `<urlset>${['/a', '/', '/b', '/c', '/d', '/redirect']
+        .map((p) => `<url><loc>https://mirai-shigoto.com${p}</loc></url>`).join('')}</urlset>` }),
+      '/llms.txt': () => ({ body: 'Key facts' }),
+      '/llms-full.txt': () => ({ body: 'methodology' }),
       ...Object.fromEntries(locs.filter((p) => p !== '/redirect').map((p) => [p, () => page(p)])),
-      '/redirect': () => new Response(null, { status: 302, headers: { location: `${elsewhere.url}/` } }),
+      '/redirect': () => ({ status: 302, headers: { location: `${elsewhere.url}/` } }),
     });
 
     const sampled = await runAsync([site.url, '--sample', '2']);

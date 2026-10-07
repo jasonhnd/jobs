@@ -55,7 +55,7 @@ function fixture(overrides: Files = {}): string {
 }
 
 function run(root: string, env: Record<string, string> = {}) {
-  const cleanEnv = { ...process.env, NO_COLOR: '1', ...env };
+  const cleanEnv: Record<string, string | undefined> = { ...process.env, NO_COLOR: '1', ...env };
   if (!('EDGE_ENTRIES_ADDITIONAL' in env)) delete cleanEnv.EDGE_ENTRIES_ADDITIONAL;
   if (!('EDGE_ENTRIES_OVERRIDE' in env)) delete cleanEnv.EDGE_ENTRIES_OVERRIDE;
   return spawnSync(process.execPath, [join(root, 'scripts', 'check-architecture.cjs')], {
