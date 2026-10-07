@@ -13,8 +13,19 @@
 import { findColourViolations, findDataUriDrift } from '../src/lib/design-gates/color-tokens.js';
 
 const all = findColourViolations();
-const fail = all.filter((x) => x.state === 'conformant' && x.derivable);
-const report = all.filter((x) => !x.derivable);
+const drifted = all.filter((x) => x.state === 'conformant' && x.copyDrift);
+const fail = all.filter((x) => x.state === 'conformant' && x.derivable && !x.copyDrift);
+const report = all.filter((x) => !x.derivable && !x.copyDrift);
+
+if (drifted.length > 0) {
+  console.error('[check-color-tokens] FAIL — an exempted palette copy no longer equals its token (PALETTE_COPY_EXEMPTIONS):');
+  for (const x of drifted) {
+    console.error(`  ${x.file}:${x.line}  ${x.selector} { ${x.property}: ${x.value} }`);
+  }
+  console.error('\n  The copy must be the token\'s current value from canonical-css.ts, written as');
+  console.error('  an opaque hex. Update it, or remove the copy.');
+  process.exit(1);
+}
 
 if (fail.length > 0) {
   console.error('[check-color-tokens] FAIL — raw tint of a palette token (Design.md §2.5):');
