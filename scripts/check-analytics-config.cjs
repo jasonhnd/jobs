@@ -99,27 +99,47 @@ function readFile(rel) {
   return fs.readFileSync(path.join(ROOT, rel), 'utf-8');
 }
 
-/** Repo-relative source files under `roots` (files or directories); tests excluded. */
+/**
+ * Repo-relative source files under `roots`; tests excluded. A root with a
+ * source extension is a single file (always included, so a missing one fails
+ * when it is read); any other root is a directory, skipped if absent.
+ */
 function sourceFiles(roots) {
   const out = [];
   for (const root of roots) {
-    const full = path.join(ROOT, root);
-    if (!fs.existsSync(full)) continue;
-    const files = fs.statSync(full).isDirectory()
-      ? walkFiles(full, { ext: SOURCE_EXT, skip: new Set(['node_modules']) })
-      : [full];
+    if (SOURCE_EXT.test(root)) {
+      out.push(root);
+      continue;
+    }
+    let files;
+    try {
+      files = walkFiles(path.join(ROOT, root), { ext: SOURCE_EXT, skip: new Set(['node_modules']) });
+    } catch (err) {
+      if (err.code === 'ENOENT') continue;
+      throw err;
+    }
     for (const file of files) {
       if (!/\.test\./.test(file)) out.push(path.relative(ROOT, file));
     }
   }
-  return out.sort();
+  return [...new Set(out)].sort();
 }
 
-/** Env names each file reads, as [file, name] pairs. */
+/**
+ * Env names each file reads, as [file, name] pairs. A file that cannot be
+ * read fails the guard with its error code only — the message may carry
+ * file contents or paths that do not belong in a build log.
+ */
 function envReads(files) {
   const reads = [];
   for (const file of files) {
-    for (const match of readFile(file).matchAll(ENV_READ)) reads.push([file, match[1] || match[2]]);
+    let content;
+    try {
+      content = readFile(file);
+    } catch (err) {
+      fail([`Cannot read required ${file} for env checks (${err.code || 'read error'}).`]);
+    }
+    for (const match of content.matchAll(ENV_READ)) reads.push([file, match[1] || match[2]]);
   }
   return reads;
 }
@@ -196,6 +216,13 @@ for (const match of envExample.matchAll(/^([A-Z][A-Z0-9_]*)\s*=/gm)) {
   envDeclared.add(match[1]);
 }
 
+// middleware.ts is the one file this guard cannot run without.
+try {
+  readFile('middleware.ts');
+} catch (err) {
+  fail([`Cannot read required middleware.ts for server env checks (${err.code || 'read error'}).`]);
+}
+
 const publicEnvReferenced = new Set();
 for (const [, name] of envReads(sourceFiles(PUBLIC_ENV_SCAN_ROOTS))) {
   if (name.startsWith('PUBLIC_')) publicEnvReferenced.add(name);
@@ -212,9 +239,6 @@ for (const ref of publicEnvReferenced) {
 
 // ─── Step D: server-only env of the runtime surface is documented ─────────
 
-if (!fs.existsSync(path.join(ROOT, 'middleware.ts'))) {
-  fail(['Cannot read required middleware.ts for server env checks (ENOENT).']);
-}
 const reportedServerEnv = new Set();
 for (const [file, name] of envReads(sourceFiles(SERVER_ENV_SCAN_ROOTS))) {
   // PUBLIC_* is covered by step C.

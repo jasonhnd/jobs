@@ -33,7 +33,9 @@ function walkError(action, target, err) {
 
 function walkFiles(dir, options = {}) {
   const { ext, skip = null, skipHidden = false } = options;
-  if (!(ext instanceof RegExp)) {
+  // Tag check, not instanceof: a RegExp from another realm (a vm sandbox
+  // running a gate script) is still a RegExp.
+  if (Object.prototype.toString.call(ext) !== '[object RegExp]') {
     throw new Error('walk-files: ext must be a RegExp tested against each entry name');
   }
 
