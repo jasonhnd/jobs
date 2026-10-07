@@ -13,6 +13,8 @@
 import type { Occupation } from './ranking/config.js';
 import { occupationPath } from '../lib/urls.js';
 import { formatRiskScore } from '../lib/score-format.js';
+import { riskClass } from '../lib/risk.js';
+import { displayScore } from '../data/lib/banker-round.js';
 
 /**
  * AI 影響度 threshold for "safe" jobs surfaced as escape routes.
@@ -36,7 +38,7 @@ export interface EscapeRouteCandidate {
   /** Occupation numeric id — used to build /<id> link. */
   id: number;
   nameJa: string;
-  /** AI 影響度 0-10 (always ≤ SAFE_AI_RISK_THRESHOLD by construction). */
+  /** AI 影響度 0-10 (displayed value always ≤ SAFE_AI_RISK_THRESHOLD by construction). */
   aiRisk: number;
   sectorJa: string;
   /** Short reason string for the card (Japanese). */
@@ -61,7 +63,8 @@ export function suggestEscapeRoutes(
 ): EscapeRouteCandidate[] {
   const fromRisk = fromJob.ai_risk ?? 10;
   const scored = allJobs
-    .filter((j) => j.id !== fromJob.id && j.ai_risk !== null && j.ai_risk <= SAFE_AI_RISK_THRESHOLD)
+    // The threshold and the reason word compare the displayed value (#864).
+    .filter((j) => j.id !== fromJob.id && j.ai_risk !== null && displayScore(j.ai_risk) <= SAFE_AI_RISK_THRESHOLD)
     .map((j) => {
       const risk = j.ai_risk as number;
       const sameSector = j.sector_id === fromJob.sector_id ? 1 : 0;
@@ -70,7 +73,7 @@ export function suggestEscapeRoutes(
       const score = sameSector * 2 + (10 - riskDiff) + workersScore;
       const reason = sameSector
         ? '同セクター'
-        : risk <= 3
+        : displayScore(risk) <= 3
           ? 'AI 影響度が低い職業'
           : '関連分野';
       return {
@@ -103,7 +106,7 @@ export function renderEscapeRouteSection(
         `<a href="${occupationPath(c.id)}">` +
         `<span class="ec-name">${escapeHtml(c.nameJa)}</span>` +
         `<span class="ec-meta">` +
-        `<span class="risk-pill low">AI ${formatRiskScore(c.aiRisk)}</span>` +
+        `<span class="risk-pill ${riskClass(c.aiRisk)}">AI ${formatRiskScore(c.aiRisk)}</span>` +
         (c.sectorJa
           ? `<span class="ec-sector">${escapeHtml(c.sectorJa)}</span>`
           : '') +

@@ -24,7 +24,7 @@ import { createElement as h } from 'react';
 import type { ReactElement } from 'react';
 import {
   DetailRecordSchema,
-  RISK_COLORS,
+  riskColorFor,
   WorktypesProjectionSchema,
   loadGoogleFont,
   padId,
@@ -105,7 +105,7 @@ export async function renderWorktypeOgCard(
   // Print the one-decimal public value; the detail projection stores the raw mean (#631).
   const scoreLabel = score != null && !Number.isNaN(score) ? String(displayScore(score)) : null;
   const scoreColor =
-    score != null ? (RISK_COLORS[Math.round(score)] ?? visual.accent) : visual.accent;
+    score != null && Number.isFinite(score) ? riskColorFor(score) : visual.accent;
   const accent = scoreLabel ? scoreColor : visual.accent;
   const sharePrompt = scoreLabel
     ? SHARE.challengeHookWithJob

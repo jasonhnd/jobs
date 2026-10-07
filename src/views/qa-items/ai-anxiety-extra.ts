@@ -1,4 +1,5 @@
 import type { QAItem } from '../qa-meta.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 
 export const AI_ANXIETY_EXTRA_ITEMS: ReadonlyArray<QAItem> = [
   // ── AI 不安系 追加 (3) ──
@@ -9,7 +10,7 @@ export const AI_ANXIETY_EXTRA_ITEMS: ReadonlyArray<QAItem> = [
     reasoning: 'AI 失業リスクへの対処は (1) 「移る」: AI 影響度 4 以下の身体性・対人系職業に移る、(2) 「使う」: AI ツールを業務に取り入れて生産性を倍化させる、(3) 「設計する」: AI による業務再設計を主導する立場 (DX 推進・AI ガバナンス) に移行、の 3 つ。最も現実的なのは現職で AI を使いこなす側に立つ戦略。完全に AI から逃げるよりも、AI と共存するスキルセットを育てる方が長期的に安定。',
     selector: (d) => {
       const ai = d.ai_risk?.score;
-      if (ai === null || ai === undefined || ai > 4) return null;
+      if (ai === null || ai === undefined || displayScore(ai) > 4) return null;
       return -ai * 1000 + (d.stats?.workers ?? 0) / 1000;
     },
     related_topics: ['ai-de-kienai', 'ai-jidai-osusume'],
@@ -23,7 +24,7 @@ export const AI_ANXIETY_EXTRA_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const ai = d.ai_risk?.score;
       if (ai === null || ai === undefined) return null;
-      if (ai < 4 || ai > 7) return null;
+      if (displayScore(ai) < 4 || displayScore(ai) > 7) return null;
       return d.stats?.salary_man_yen ?? 0;
     },
     related_topics: ['ai-augment-vs-replace', 'ai-frontier'],
@@ -37,7 +38,7 @@ export const AI_ANXIETY_EXTRA_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const ai = d.ai_risk?.score;
       if (ai === null || ai === undefined) return null;
-      if (ai < 4 || ai > 6) return null;
+      if (displayScore(ai) < 4 || displayScore(ai) > 6) return null;
       return -Math.abs(ai - 5) * 100 + (d.stats?.salary_man_yen ?? 0);
     },
     related_topics: ['ai-augmented', 'ai-augment-vs-replace'],

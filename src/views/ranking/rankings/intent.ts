@@ -17,6 +17,8 @@ import {
   INTERPERSONAL_SECTORS,
 } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
+import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
+import { formatScoreFixed1 } from '../../../lib/score-format.js';
 
 export interface IntentRankings {
   aiSafeHighDemand: Occupation[];
@@ -36,7 +38,7 @@ export function buildIntentRankings(
 ): IntentRankings {
   // 21. 高需要 × AI 安全
   const aiSafeHighDemand = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && demandScore(o.demand_band) >= HIGH_DEMAND_MIN)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && demandScore(o.demand_band) >= HIGH_DEMAND_MIN)
     // The filter above admits a single demand band (only `hot` clears
     // HIGH_DEMAND_MIN), so this term is currently always 0 and the ordering is
     // carried by the tiebreak. Kept, not deleted: lowering the threshold to admit
@@ -46,43 +48,43 @@ export function buildIntentRankings(
 
   // 22. 低労働時間 × AI 安全
   const aiSafeShortHours = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && o.monthly_hours)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.monthly_hours)
     .sort((a, b) => (a.monthly_hours ?? 9999) - (b.monthly_hours ?? 9999) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 
   // 23. 若手中心 × AI 安全
   const aiSafeYoung = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && o.average_age)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.average_age)
     .sort((a, b) => (a.average_age ?? 999) - (b.average_age ?? 999) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 
   // 24. 無資格 × AI 安全
   const aiSafeNoLicense = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && o.certs.length === 0)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.certs.length === 0)
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.salary ?? 0) - (a.salary ?? 0))
     .slice(0, limit);
 
   // 25. 身体性 × AI 安全
   const aiSafePhysical = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && inSectorSet(o, PHYSICAL_SECTORS))
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && inSectorSet(o, PHYSICAL_SECTORS))
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.workers ?? 0) - (a.workers ?? 0))
     .slice(0, limit);
 
   // 26. 対人 × AI 安全
   const aiSafeInterpersonal = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && inSectorSet(o, INTERPERSONAL_SECTORS))
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && inSectorSet(o, INTERPERSONAL_SECTORS))
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.workers ?? 0) - (a.workers ?? 0))
     .slice(0, limit);
 
   // 38. 規制で守られた職業 (certs >= 2 + ai_risk <= 5)
   const regulatedProtected = scored
-    .filter((o) => o.certs.length >= 2 && (o.ai_risk ?? 999) <= 5)
+    .filter((o) => o.certs.length >= 2 && (displayScoreOrNull(o.ai_risk) ?? 999) <= 5)
     .sort((a, b) => b.certs.length - a.certs.length || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 
   // 39. 低ストレス安定職 (short hours + low AI)
   const lowStressStable = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && o.monthly_hours && o.monthly_hours <= 165)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.monthly_hours && o.monthly_hours <= 165)
     .sort((a, b) => (a.monthly_hours ?? 999) - (b.monthly_hours ?? 999) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 
@@ -103,7 +105,7 @@ export function buildIntentRankings(
       introText: '採用されやすく賃金交渉余地もあり、かつ AI 代替リスクが低い「鉄板」キャリア候補。介護・建設・医療系が中心で、未経験参入のルートも整備されています。',
       statBlocks: [
         ['対象職業数', `${aiSafeHighDemand.length}`],
-        ['平均 AI 影響', `${safeMean(aiSafeHighDemand, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeHighDemand, 'ai_risk'))} / 10`],
         ['平均年収', `${Math.trunc(safeMean(aiSafeHighDemand, 'salary'))} 万円`],
       ],
     }],
@@ -120,7 +122,7 @@ export function buildIntentRankings(
       introText: '労働時間が短く、かつ AI 代替リスクも低い職業をランキング。教育・公務・専門職の一部が該当します。',
       statBlocks: [
         ['TOP30 平均月間労働', `${Math.trunc(safeMean(aiSafeShortHours, 'monthly_hours'))} 時間`],
-        ['TOP30 平均 AI 影響', `${safeMean(aiSafeShortHours, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeShortHours, 'ai_risk'))} / 10`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(aiSafeShortHours, 'salary'))} 万円`],
       ],
     }],
@@ -137,7 +139,7 @@ export function buildIntentRankings(
       introText: '若手が多く活躍し、かつ AI 代替リスクも低い職業をランキング。新卒・第二新卒のキャリア選択の参考に。',
       statBlocks: [
         ['TOP30 平均年齢', `${safeMean(aiSafeYoung, 'average_age').toFixed(1)} 歳`],
-        ['TOP30 平均 AI 影響', `${safeMean(aiSafeYoung, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeYoung, 'ai_risk'))} / 10`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(aiSafeYoung, 'salary'))} 万円`],
       ],
     }],
@@ -153,7 +155,7 @@ export function buildIntentRankings(
       introText: '関連国家資格を要さず、AI 代替リスクも低い職業群。実務経験で勝負できる分野を中心にランキング。',
       statBlocks: [
         ['対象職業数', `${aiSafeNoLicense.length}`],
-        ['平均 AI 影響', `${safeMean(aiSafeNoLicense, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeNoLicense, 'ai_risk'))} / 10`],
         ['平均年収', `${Math.trunc(safeMean(aiSafeNoLicense, 'salary'))} 万円`],
       ],
     }],
@@ -169,7 +171,7 @@ export function buildIntentRankings(
       introText: '手の感覚・現場判断・身体的調整を要する職業は AI で代替されにくく、構造的な優位性を持ちます。建設職人・整備士・農林漁業・配管工等が代表例。',
       statBlocks: [
         ['対象職業数', `${aiSafePhysical.length}`],
-        ['平均 AI 影響', `${safeMean(aiSafePhysical, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafePhysical, 'ai_risk'))} / 10`],
         ['平均年収', `${Math.trunc(safeMean(aiSafePhysical, 'salary'))} 万円`],
       ],
     }],
@@ -185,7 +187,7 @@ export function buildIntentRankings(
       introText: '感情の機微・信頼関係・即興的な調整を要する対人職は AI で代替しにくい。看護師・介護福祉士・保育士・教師・販売員・接客スタッフが代表例。',
       statBlocks: [
         ['対象職業数', `${aiSafeInterpersonal.length}`],
-        ['平均 AI 影響', `${safeMean(aiSafeInterpersonal, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatScoreFixed1(safeMean(aiSafeInterpersonal, 'ai_risk'))} / 10`],
         ['平均年収', `${Math.trunc(safeMean(aiSafeInterpersonal, 'salary'))} 万円`],
       ],
     }],
@@ -220,7 +222,7 @@ export function buildIntentRankings(
       statBlocks: [
         ['対象職業数', `${lowStressStable.length}`],
         ['TOP30 平均月間労働', `${Math.trunc(safeMean(lowStressStable, 'monthly_hours'))} 時間`],
-        ['TOP30 平均 AI 影響', `${safeMean(lowStressStable, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(lowStressStable, 'ai_risk'))} / 10`],
       ],
     }],
   ];

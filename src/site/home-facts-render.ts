@@ -1,4 +1,5 @@
 import type { GeoFacts } from './geo-facts.js';
+import { formatScoreFixed1 } from '../lib/score-format.js';
 
 export interface HomeKpiView {
   readonly occupationCount: string;
@@ -13,7 +14,7 @@ export function buildHomeKpiView(facts: GeoFacts): HomeKpiView {
   return {
     occupationCount: String(facts.occupationCount),
     workforceMan: Math.round(facts.totalWorkforce / 10_000).toLocaleString('en-US'),
-    meanAiImpact: facts.meanAiImpactRaw.toFixed(1),
+    meanAiImpact: formatScoreFixed1(facts.meanAiImpactRaw),
     highImpactCount: String(facts.highImpactCount),
     highImpactWagesTrillion: facts.highImpactAnnualWagesTrillion.toFixed(1),
     bands: Object.fromEntries(facts.fiveBandDistribution.map((band) => [

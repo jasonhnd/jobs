@@ -17,7 +17,7 @@
  * SEO copy contract and is pinned by tests + the SEO baseline diff.
  */
 import type { Aiois10 } from '../graph/types.js';
-import { displayScore } from '../data/lib/banker-round.js';
+import { bankerRound, displayScore } from '../data/lib/banker-round.js';
 import { SCORE_PANEL } from '../site/score-attribution.js';
 import { formatConsensusCitation } from '../site/consensus-copy.js';
 import {
@@ -99,20 +99,20 @@ export function buildAiFactSummary(input: AiFactInput): string {
 
   const parts: string[] = [];
 
-  // 1. Headline number + rank + vs mean.
-  let lead = `${nameJa}のAI影響度は${aiRisk}/10。`;
+  // 1. Headline number + rank + vs mean. Words follow the printed numbers (#864).
+  let lead = `${nameJa}のAI影響度は${fmtScore(aiRisk)}/10。`;
   if (rank !== null && total > 0) {
     const vsMean =
-      aiRisk >= meanRisk
-        ? `全体平均（${meanRisk.toFixed(2)}）を上回る`
-        : `全体平均（${meanRisk.toFixed(2)}）を下回る`;
+      displayScore(aiRisk) >= bankerRound(meanRisk, 2)
+        ? `全体平均（${fmtScore2(meanRisk)}）を上回る`
+        : `全体平均（${fmtScore2(meanRisk)}）を下回る`;
     lead += `全${total}職業を影響度の高い順に並べると${rank}位で、${vsMean}水準です。`;
   }
   parts.push(lead);
 
   // 2. Narrative from displacement risk + the dominant dimension.
   if (aiois) {
-    const disp = aiois.displacement;
+    const disp = displayScore(aiois.displacement);
     const moatLabel = DIM_LABEL[topDim(aiois, MOAT_KEYS)];
     const driverLabel = DIM_LABEL[topDim(aiois, DRIVER_KEYS)];
     let narrative: string;
@@ -174,7 +174,7 @@ function fmtScore(n: number): string {
 }
 
 function fmtScore2(n: number): string {
-  return n.toFixed(2);
+  return bankerRound(n, 2).toFixed(2);
 }
 
 function fmtSalaryMan(n: number): string {
@@ -280,9 +280,13 @@ export function buildCompareGeoFactSummary(input: CompareGeoFactInput): string {
 
   const [a, b] = occupationIds.map((id) => facts.occupations.find((occupation) => occupation.id === id));
   if (!a || !b) throw new Error(`ai-fact-summary: compare page ${subjectJa} has missing GEO occupation`);
-  const higher = a.aiImpact >= b.aiImpact ? a : b;
-  const lower = a.aiImpact >= b.aiImpact ? b : a;
-  const diff = Math.abs(a.aiImpact - b.aiImpact);
+  // Difference and higher side of the PRINTED values (#864): 4.2667 and 4.4333
+  // print 4.3 / 4.4, so the difference is 0.1 and equal prints are equal.
+  const shownA = displayScore(a.aiImpact);
+  const shownB = displayScore(b.aiImpact);
+  const higher = shownA >= shownB ? a : b;
+  const lower = shownA >= shownB ? b : a;
+  const diff = bankerRound(Math.abs(shownA - shownB), 1);
   const comparison = diff === 0
     ? `${a.nameJa}と${b.nameJa}は同じAI影響度です。`
     : `${higher.nameJa}の方が${lower.nameJa}よりAI影響度が高い比較です。`;

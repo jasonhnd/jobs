@@ -36,15 +36,19 @@
       }
       return out;
     })();
-    function bandForRisk(risk) {
-      if (risk <= 2) return 0;
-      if (risk <= 4) return 1;
-      if (risk <= 6) return 2;
-      if (risk <= 8) return 3;
+    // Five colour bands on the DISPLAYED value, lower bound inclusive:
+    // [0,2) [2,4) [4,6) [6,8) [8,10] (#864). Byte-identical copy in
+    // _index-inline.js — _risk-display-inline.test.ts pins the two together.
+    function riskBand5(v) {
+      var d = Number(fmtRisk(v));
+      if (!(d >= 2)) return 0; // also a missing score
+      if (d < 4) return 1;
+      if (d < 6) return 2;
+      if (d < 8) return 3;
       return 4;
     }
     function colorForRisk(risk) {
-      return RISK_PALETTE[bandForRisk(risk)];
+      return RISK_PALETTE[riskBand5(risk)];
     }
 
     var $content = document.getElementById('mapContent');
@@ -410,7 +414,7 @@
           var cellH = Math.max(rect.h - 2, 28);
           cell.style.width  = cellW.toFixed(1) + 'px';
           cell.style.height = cellH.toFixed(1) + 'px';
-          cell.dataset.band = String(bandForRisk(r.ai_risk || 5));
+          cell.dataset.band = String(riskBand5(r.ai_risk || 5));
           cell.style.background = colorForRisk(r.ai_risk || 5);
           if (r.__synthetic) cell.style.background = 'repeating-linear-gradient(45deg, ' + colorForRisk(r.ai_risk) + ', ' + colorForRisk(r.ai_risk) + ' 6px, rgba(255,255,255,0.18) 6px, rgba(255,255,255,0.18) 12px)';
           if (fits(r.name_ja, cellW, cellH, !!r.__synthetic)) {

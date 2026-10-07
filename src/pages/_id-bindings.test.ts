@@ -271,6 +271,14 @@ describe('verdictSentence', () => {
   });
 });
 
+describe('GA4 risk tier (#864)', () => {
+  test('tiers the displayed value: 6.9667 prints 7.0 (high), 4.9667 prints 5.0 (mid)', () => {
+    assert.equal(page({ ai_risk: 6.966666666666667 }).riskTierJs, 'high');
+    assert.equal(page({ ai_risk: 4.966666666666667 }).riskTierJs, 'mid');
+    assert.equal(page({ ai_risk: 4.933333333333334 }).riskTierJs, 'low');
+  });
+});
+
 describe('buildVerdictDoors', () => {
   test('null risk is mid-variant minus the score anchor', () => {
     assert.deepEqual(buildVerdictDoors({ risk: null, hasTransfer: true }), [
@@ -289,6 +297,12 @@ describe('buildVerdictDoors', () => {
     assert.equal(buildVerdictDoors({ risk: 8.5, hasTransfer: true })[1]?.href, '#sec-transfer');
     assert.equal(buildVerdictDoors({ risk: 8.5, hasTransfer: false })[1]?.href, '#sec-similar');
     assert.equal(buildVerdictDoors({ risk: 8.5, hasTransfer: true })[0]?.href, '#sec-aiois');
+  });
+  test('doors follow the displayed value at 5.0 and 7.0 (#864)', () => {
+    assert.equal(buildVerdictDoors({ risk: 6.966666666666667, hasTransfer: true })[0]?.label, 'AIで変わる作業を見る'); // prints 7.0
+    assert.equal(buildVerdictDoors({ risk: 6.933333333333334, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 6.9
+    assert.equal(buildVerdictDoors({ risk: 4.966666666666667, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 5.0
+    assert.equal(buildVerdictDoors({ risk: 4.933333333333334, hasTransfer: true })[0]?.label, 'なぜ守られやすいか'); // prints 4.9
   });
   test('mid uses スコアの中身', () => {
     assert.equal(buildVerdictDoors({ risk: 5.5, hasTransfer: false })[0]?.label, 'スコアの中身');

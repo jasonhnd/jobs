@@ -1,4 +1,5 @@
 import type { GenreHubConfig, DetailFileMin } from '../genre-hub.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 import { graduateShare } from '../../data/domain/education-share.js';
 
 // ─── K. 学歴 (education) — 6 hub ─────────────────────────
@@ -91,7 +92,7 @@ export const EDUCATION_CONFIGS: ReadonlyArray<GenreHubConfig> = [
       const ai = d.ai_risk?.score;
       if (certs < 1) return null;
       if (ai === null || ai === undefined) return null;
-      if (ai > 6) return null;
+      if (displayScore(ai) > 6) return null;
       return certs;
     },
   ),

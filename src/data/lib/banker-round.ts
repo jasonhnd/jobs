@@ -113,3 +113,24 @@ export function bankerRound(x: number, ndigits: number): number {
 export function displayScore(score: number): number {
   return bankerRound(score, 1);
 }
+
+/**
+ * The displayed value of an optional score, for threshold filters such as
+ * "≤ 5" or "≥ 8" (#864): a mean of 4.9666… prints 5.0, so it passes "≤ 5".
+ * Missing or non-finite scores return `null` so callers keep their own
+ * fallback (`displayScoreOrNull(x) ?? 999`). Sorting keeps the raw value.
+ */
+export function displayScoreOrNull(score: number | null | undefined): number | null {
+  if (score == null || !Number.isFinite(score)) return null;
+  return displayScore(score);
+}
+
+/**
+ * Integer step (0-10) of the displayed value, for the integer-labelled bands
+ * (0-2 / 3-4 / 5-6 / 7-8 / 9-10) and the OG card palette (#864). Banker's
+ * rounding applies to the printed one-decimal number, so every occupation that
+ * prints 4.5 lands on the same step (4), whatever its raw mean.
+ */
+export function displayScoreStep(score: number): number {
+  return Math.max(0, Math.min(10, bankerRound(displayScore(score), 0)));
+}
