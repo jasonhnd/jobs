@@ -8,8 +8,20 @@
  * Providers plug in through `ScoringProvider` (see provider.ts); they supply
  * transport only.
  */
-import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
-import { basename, extname, isAbsolute, join, relative, resolve } from 'node:path';
+import {
+  appendFileSync,
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  readlinkSync,
+  realpathSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
+import { basename, dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 
 import {
   ScoreSchema,
@@ -364,15 +376,74 @@ export interface RunScoringResult {
  * `args.outPath`. Shared by every entry point so no runner can drift from the
  * contract, the retry policy, or the audit layout.
  */
+const MAX_SYMLINK_HOPS = 40;
+
+/**
+ * The real filesystem path `path` refers to, even when it does not exist yet:
+ * the nearest existing ancestor is resolved with realpath and the missing
+ * segments are appended. A dangling symlink is followed to its target, since
+ * writing through it would create that target.
+ */
+export function canonicalPath(path: string, hops = 0): string {
+  const abs = resolve(path);
+  try {
+    return realpathSync.native(abs);
+  } catch {
+    // Does not exist (yet), or a dangling link somewhere on the way.
+  }
+  let isLink = false;
+  try {
+    isLink = lstatSync(abs).isSymbolicLink();
+  } catch {
+    isLink = false;
+  }
+  if (isLink) {
+    if (hops >= MAX_SYMLINK_HOPS) throw new Error(`too many symlinks resolving ${path}`);
+    return canonicalPath(resolve(dirname(abs), readlinkSync(abs)), hops + 1);
+  }
+  const parent = dirname(abs);
+  if (parent === abs) return abs;
+  return join(canonicalPath(parent, hops), basename(abs));
+}
+
+/** True when `child` is `dir` itself or anything below it (both canonical). */
+function isWithin(dir: string, child: string): boolean {
+  const rel = relative(dir, child);
+  return rel === '' || !(rel === '..' || rel.startsWith(`..${sep}`) || isAbsolute(rel));
+}
+
+/** True when `path` is a hard link to (the same inode as) any file below `dir`. */
+function isHardLinkInto(dir: string, path: string): boolean {
+  let target;
+  try {
+    target = statSync(path);
+  } catch {
+    return false;
+  }
+  if (!target.isFile() || target.nlink < 2 || !existsSync(dir)) return false;
+  for (const entry of readdirSync(dir, { recursive: true }) as string[]) {
+    try {
+      const st = statSync(join(dir, entry));
+      if (st.isFile() && st.ino === target.ino && st.dev === target.dev) return true;
+    } catch {
+      // Vanished or unreadable entry: it cannot be the file we are about to write.
+    }
+  }
+  return false;
+}
+
 /**
  * Refuse an output path that would destroy data. A fresh run truncates
  * `outPath`, so a non-empty file (a finished, paid run) needs `--resume` or an
  * explicit `--overwrite`. Score batches under `data/scores/` are append-only
- * and only `assemble-scores.ts` may create them, so no raw run writes there.
+ * and only `assemble-scores.ts` may create them, so no raw run writes there —
+ * checked on real paths, so a symlink, a hard link, or an alias of the repo
+ * root (e.g. /tmp vs /private/tmp) cannot reach a batch either.
  */
 export function assertWritableOutput(args: ScoringArgs, root: string): void {
-  const rel = relative(resolve(root, 'data', 'scores'), resolve(args.outPath));
-  if (rel === '' || (!rel.startsWith('..') && !isAbsolute(rel))) {
+  const scoresDir = canonicalPath(join(root, 'data', 'scores'));
+  const out = canonicalPath(args.outPath);
+  if (isWithin(scoresDir, out) || isHardLinkInto(scoresDir, args.outPath)) {
     throw new Error(`--out must not be under data/scores/ (append-only batches): ${args.outPath}`);
   }
   if (args.resume || args.overwrite) return;
