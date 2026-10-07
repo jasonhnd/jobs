@@ -130,7 +130,7 @@ for (const failure of ['binary HTTP', 'network'] as const) {
 // and stay in the promise cache, so a warm instance kept failing the render.
 test('font loading rejects non-font bytes and evicts them so the next call refetches', async () => {
   let binaryCalls = 0;
-  let payload: Uint8Array = new TextEncoder().encode('<html>not a font</html>');
+  let payload: Uint8Array<ArrayBuffer> = new TextEncoder().encode('<html>not a font</html>');
   globalThis.fetch = async input => {
     if (String(input) === binaryUrl) {
       binaryCalls++;
