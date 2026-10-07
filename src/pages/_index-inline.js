@@ -674,7 +674,7 @@
       // Default-safe: every input is escapeHtml'd before interpolation. Most
       // callers pass occupation names from data.json (highest-pay, oldest,
       // longest-hours, top-recruit-ratio) — escaping is correct. Numeric
-      // strings ("5.0 / 10", "180 h") survive escaping unchanged.
+      // strings ("4.9/10 変化 中くらい", "180 h") survive escaping unchanged.
       // Audit CODE-001 R1 — closes the 5 stats-panel injection sites that
       // the first-pass fix missed (lines 2592 / 2620 / 2625 / 2651 / 2677).
       function statBlock(label, value, sub) {
@@ -744,10 +744,14 @@
             return [fmtSalBand(lo, hi), sub.length, wA];
           });
 
-          blocks.push(statBlock(
+          // The word stays on its own line. A single escaped string wraps inside
+          // the narrow card and splits 中くらい.
+          const shownAvg = Number(fmtRisk(wAvg)).toFixed(1);
+          blocks.push(statBlockHTML(
             L.weightedAvg[lang],
-            Number(fmtRisk(wAvg)).toFixed(1) + " / 10",
-            "就業者数で加重"
+            `<div class="stat-value"><span class="stat-score">${escapeHtml(shownAvg)}/10</span>` +
+            `<span class="stat-band">${escapeHtml(riskBandWord(wAvg))}</span></div>` +
+            `<div class="stat-sub">就業者数で加重</div>`
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
           blocks.push(statBlockHTML(

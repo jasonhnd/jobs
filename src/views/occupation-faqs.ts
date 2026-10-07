@@ -26,6 +26,7 @@
 import { displayScore } from '../data/lib/banker-round.js';
 import { riskBand } from '../data/lib/bands.js';
 import { fmtInt } from '../lib/num.js';
+import { formatShownMeanLabel } from '../lib/score-format.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
 import { findGeoOccupation, type GeoFacts } from '../site/geo-facts.js';
 
@@ -60,10 +61,6 @@ const HOWTO_FALLBACK_SLICE = 200;
 /** The one-decimal public display of a score — the same number riskBand() classifies (#631). */
 function fmtScore(n: number): string {
   return displayScore(n).toFixed(1);
-}
-
-function fmtScore2(n: number): string {
-  return n.toFixed(2);
 }
 
 export function buildOccupationFaqs(
@@ -108,7 +105,7 @@ export function buildOccupationFaqs(
           : '高めで、業務の多くが AI による代替・補助の対象となる可能性';
     const rationaleStr = rationale ? `主な要因は「${rationale}」。` : '';
     const geoRankStr = geoOccupation && geoFacts
-      ? `AI影響度の高い順では全${geoFacts.occupationCount}職業中${geoOccupation.aiImpactRank}位で、全体平均${fmtScore2(geoFacts.meanAiImpact)}/10と比較できます。`
+      ? `AI影響度の高い順では全${geoFacts.occupationCount}職業中${geoOccupation.aiImpactRank}位で、全体平均${formatShownMeanLabel(geoFacts.meanAiImpactRaw)}と比較できます。`
       : '';
     const displacementStr = geoOccupation?.displacementRisk !== null && geoOccupation?.displacementRisk !== undefined
       ? `AIOIS-10の仕事が減るリスクは${fmtScore(geoOccupation.displacementRisk)}/10です。`

@@ -135,6 +135,8 @@ export interface GeoOccupationGroupSummary {
   readonly occupationCount: number;
   readonly totalWorkforce: number;
   readonly meanAiImpact: number | null;
+  /** Unrounded mean. Labels round this once via displayScore. */
+  readonly meanAiImpactRaw: number | null;
   readonly firstOccupation: GeoOccupationSummary | null;
   readonly largestOccupation: GeoOccupationSummary | null;
   readonly highestImpactOccupation: GeoOccupationSummary | null;
@@ -583,6 +585,7 @@ export function summarizeGeoOccupationIds(
       occupationCount: 0,
       totalWorkforce: 0,
       meanAiImpact: null,
+      meanAiImpactRaw: null,
       firstOccupation: null,
       largestOccupation: null,
       highestImpactOccupation: null,
@@ -606,10 +609,12 @@ export function summarizeGeoOccupationIds(
     (a.id - b.id),
   );
 
+  const meanAiImpactRaw = fmean(occupations.map((occupation) => occupation.aiImpact));
   return {
     occupationCount: occupations.length,
     totalWorkforce: bankerRound(fsum(occupations.map((occupation) => occupation.workers ?? 0)), 0),
-    meanAiImpact: round2(fmean(occupations.map((occupation) => occupation.aiImpact))),
+    meanAiImpact: round2(meanAiImpactRaw),
+    meanAiImpactRaw,
     firstOccupation: occupations[0]!,
     largestOccupation: byWorkforceDesc[0]!,
     highestImpactOccupation: byImpactDesc[0]!,

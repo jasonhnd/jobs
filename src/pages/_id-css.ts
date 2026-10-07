@@ -47,7 +47,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .v-num.subn .score-num{font-size:var(--t-h3);margin-top:8px}
     .score-num small{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta);margin-left:2px}
     .score-num.unscored{font-size:var(--t-h1)}
-    .score-band{display:block;margin-top:var(--s-1);font-size:var(--t-sm);font-weight:700;line-height:1.3;color:var(--ink);overflow-wrap:anywhere}
+    .score-band{display:block;margin-top:var(--s-1);font-size:var(--t-sm);font-weight:700;line-height:1.3;color:var(--ink);white-space:nowrap}
     .v-rank{margin:0;font-size:var(--t-sm);line-height:1.45;color:var(--ink-meta);font-variant-numeric:tabular-nums;font-weight:600}
     .v-obs{margin:0;font-size:var(--t-sm);line-height:1.65;color:var(--ink-2);line-break:strict;overflow-wrap:anywhere;word-break:normal}
     .v-obs a{color:var(--ink-2);text-decoration:underline;text-decoration-thickness:0.06em;text-underline-offset:0.16em}
@@ -126,6 +126,8 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .score-history-current-label{font-size:var(--t-xs);line-height:1.2;color:var(--orange-hot);font-weight:700;overflow-wrap:break-word;word-break:normal}
     .score-history-current-model{font-size:var(--t-h3);line-height:1.35;font-weight:700;color:var(--ink);overflow-wrap:break-word;word-break:normal}
     .score-history-current-date{font-size:var(--t-xs);line-height:1.35;color:var(--ink-meta);font-weight:400;}
+    .score-history-current-value{display:flex;flex-direction:column;align-items:flex-end;min-width:0;flex:none}
+    .score-history-current-value .score-band{text-align:right}
     .score-history-current strong{font-family:var(--font-sans);font-size:var(--t-h1);line-height:1;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
     .score-history-current strong span{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta);margin-left:2px}
     .score-history-details{max-width:var(--content-max);margin:0;background:transparent}
@@ -149,7 +151,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .score-history-item-facts dd{margin:3px 0 0;color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:break-word;word-break:normal}
     .score-history-item-facts .sh-num,.score-history-item-facts .sh-delta{font-family:var(--font-sans)}
     .score-history-item-facts .sh-num span{font-size:var(--t-xs);font-weight:600;color:var(--ink-meta);margin-left:2px}
-    @media (max-width:640px){.score-history-current{align-items:flex-start;flex-direction:column}.score-history-item{grid-template-columns:1fr}.score-history-item-facts{grid-template-columns:1fr}}
+    @media (max-width:640px){.score-history-current{align-items:flex-start;flex-direction:column}.score-history-current-value{align-items:flex-start}.score-history-current-value .score-band{text-align:left}.score-history-item{grid-template-columns:1fr}.score-history-item-facts{grid-template-columns:1fr}}
 
     /* Citable fact block (Phase 1, SEO_GEO_STRATEGY.md) — the number-dense,
        attributed lead paragraph AI answer engines can quote verbatim. */
@@ -307,6 +309,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .aio-idx-lbl{font-family:var(--font-sans);font-size:var(--t-xs);font-weight:700;letter-spacing:0.04em;color:var(--ink-meta)}
     .aio-idx-num{font-family:var(--font-sans);font-size:var(--t-h1);font-weight:700;line-height:1;letter-spacing:-0.03em;color:var(--ink)}
     .aio-idx-num small{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta);margin-left:3px}
+    .aio-idx-num .score-band{display:inline;margin-top:0;margin-left:var(--s-2);letter-spacing:0;vertical-align:middle}
     .aio-idx-sub{font-size:var(--t-xs);color:var(--ink-meta)}
     .aio-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px}
     .aio-row{display:grid;grid-template-columns:34px 1.7fr 2fr 34px;align-items:center;gap:8px;font-size:var(--t-xs);line-height:1.35}
