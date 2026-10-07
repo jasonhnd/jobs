@@ -249,3 +249,13 @@ describe('mobile search pill prints with banker rounding (#864)', () => {
     assert.doesNotMatch(mobileNav, /Number\(doc\.ai_risk\)\.toFixed\(1\)/);
   });
 });
+
+describe('/me similar jobs: ±1.0 on the displayed values (#864)', () => {
+  test('riskWithin compares printed tenths, so FP residue cannot decide', () => {
+    const riskWithin = load<(a: unknown, b: unknown, tenths: number) => boolean>(meJs, ['fmtRisk', 'riskWithin'], 'riskWithin');
+    assert.equal(riskWithin(5.3, 4.3, 10), true); // 5.3 - 4.3 = 1.0000000000000009 raw
+    assert.equal(riskWithin(5.266666666666667, 4.3, 10), true); // prints 5.3 vs 4.3
+    assert.equal(riskWithin(5.366666666666666, 4.3, 10), false); // prints 5.4
+    assert.match(meJs, /if \(!riskWithin\(r\.ai_risk, risk, 10\)\) continue;/);
+  });
+});

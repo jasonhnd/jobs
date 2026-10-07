@@ -94,6 +94,11 @@
       var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
       return String(Number(inc.toFixed(1)));
     }
+    // Are two scores within `tenths` tenths of each other as DISPLAYED? Integer
+    // tenths, so FP residue (5.3 - 4.3 = 1.0000000000000009) cannot decide (#864).
+    function riskWithin(a, b, tenths) {
+      return Math.abs(Math.round(Number(fmtRisk(a)) * 10) - Math.round(Number(fmtRisk(b)) * 10)) <= tenths;
+    }
     function fmtSalary(s) { if (s == null) return '—'; return Math.round(s) + ' 万円'; }
     function fmtWorkers(w) {
       if (w == null) return '—';
@@ -744,7 +749,7 @@
         if (r.id === pos.jobId) continue;
         if (r.sector_id !== sid) continue;
         if (r.ai_risk == null) continue;
-        if (Math.abs(r.ai_risk - risk) > 1) continue;
+        if (!riskWithin(r.ai_risk, risk, 10)) continue;
         candidates.push(r);
       }
       // Sort: closer AI risk first, then by workers desc.
