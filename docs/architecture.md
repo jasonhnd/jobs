@@ -15,7 +15,7 @@
 - 下位層は上位層を import しない。
 - `src/pages/` に business logic を溜めず、route binding を薄く保つ。
 - `src/templates/` は graph や filesystem を直接読まない。
-- `api/og.tsx`、`api/shindan-share.ts`、`middleware.ts` はいずれも `runtime: "nodejs"` を設定している。Vercel Function バンドルの依存ファイルに `.tsx` を含めない（入口ファイル自体の `.tsx` は可）。この依存ルールの自動検証は Edge 入口を対象とし、現在の nodejs 入口は走査しない。
+- `api/og.tsx`、`api/shindan-share.ts`、`middleware.ts` はいずれも `runtime: "nodejs"` を設定している。Vercel Function バンドルの依存ファイルに `.tsx` を含めない（入口ファイル自体の `.tsx` は可）。`check:architecture` は runtime を問わず、`api/**`（`_` で始まるファイル・ディレクトリとテストを除く）と `middleware.*` の全入口から依存を辿ってこれを検証する。
 - 共通処理は既存の graph、view、page-data、data helper に置き、ページ内へ複製しない。
 
 `bun run check:architecture` がこれらの境界を検証する。違反時は import を迂回せず、責務を正しい層へ切り出す。
