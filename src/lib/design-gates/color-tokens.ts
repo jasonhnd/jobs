@@ -16,7 +16,7 @@ import { join } from 'node:path';
 import { DESIGN_TOKENS } from '../design-tokens.js';
 import { blankDataUris, isNeutral, parseColours, RAW_COLOUR, rgbKey } from './colour-parse.js';
 import { readLedger, surfaceStateFor, type SurfaceState } from './ledger.js';
-import { isUnassigned, stripComments, walkSource } from './scan.js';
+import { blankInterpolations, isUnassigned, scanDeclarations, stripComments, walkSource } from './scan.js';
 
 export interface ColourViolation {
   readonly file: string;
@@ -27,6 +27,12 @@ export interface ColourViolation {
   readonly state: SurfaceState;
   /** True when the base is a palette token, so §2.5's color-mix() applies. */
   readonly derivable: boolean;
+  /**
+   * True when the declaration sits where PALETTE_COPY_EXEMPTIONS allows a
+   * literal copy of a token but no longer equals it — a failure in its own
+   * right, whatever the colour now is (on-palette, off-palette, alpha added).
+   */
+  readonly copyDrift: boolean;
 }
 
 /**
@@ -91,11 +97,22 @@ function isPaletteDefinition(file: string, selector: string, property: string): 
   return file === CANON && property.startsWith('--') && /^:root(?![\w-])/.test(selector);
 }
 
-function isPaletteCopy(file: string, selector: string, property: string, value: string, root: string): boolean {
-  if (!PALETTE_COPY_EXEMPTIONS.some((e) => e.file === file && e.selector.test(selector))) return false;
+/**
+ * `none` — no exemption covers this declaration; `copy` — an exact literal
+ * copy of the token it is named after; `drift` — it is in an exempted rule and
+ * named after a token, but no longer equals it.
+ *
+ * "Equals" is the whole value: one opaque hex literal with the token's RGB. A
+ * copy that gains an alpha (`#7A6F5E80`) or anything else is drift, not a copy.
+ */
+function copyStatus(file: string, selector: string, property: string, value: string, root: string): 'none' | 'copy' | 'drift' {
+  if (!PALETTE_COPY_EXEMPTIONS.some((e) => e.file === file && e.selector.test(selector))) return 'none';
   const canonical = paletteByName(root).get(property);
-  const [rgb, ...rest] = parseColours(value);
-  return canonical != null && rgb != null && rest.length === 0 && rgbKey(rgb) === canonical;
+  if (canonical == null) return 'none';
+  const literal = value.replace(/!important$/i, '').trim();
+  if (!/^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(literal)) return 'drift';
+  const [rgb] = parseColours(literal);
+  return rgb != null && rgbKey(rgb) === canonical ? 'copy' : 'drift';
 }
 
 /**
@@ -166,38 +183,32 @@ export function findColourViolations(root: string = process.cwd()): ColourViolat
     const state = surfaceStateFor(file, surfaces);
     if (state == null || state === 'legacy') continue;
 
-    const lines = stripComments(readFileSync(join(root, file), 'utf-8')).split('\n');
-    let selector = '';
-    lines.forEach((raw, idx) => {
-      const sel = raw.match(/^\s*([^{}@]+?)\s*\{/);
-      if (sel) selector = (sel[1] ?? '').trim();
-      if (isUnassigned(file, selector)) return;
-      const text = blankDataUris(raw);
-      for (const m of text.matchAll(DECLARATION)) {
-        const property = (m[1] ?? '').toLowerCase();
-        const value = (m[2] ?? '').trim();
-        if (isPaletteDefinition(file, selector, property)) continue;
-        if (isPaletteCopy(file, selector, property, value, root)) continue;
-        const known = TOKENISED.has(property);
-        // Outside the original list, only CSS syntax counts: a colour inside
-        // quotes there is data (`CPB: '#D96B3D'`, `CPB: { accent: '#…' }`),
-        // not a CSS colour — CSS never quotes one.
-        const css = known ? value : value.replace(/(['"`])(?:\\.|(?!\1).)*\1/g, (q) => ' '.repeat(q.length));
-        const bare = stripVars(css);
-        if (!RAW_COLOUR.test(bare)) continue;
-        // Neutral black/white shadows and highlights have no hue to tokenise.
-        // Exempt only on the newly read properties, so nothing that failed
-        // before #866 passes now.
-        const colours = parseColours(bare);
-        const unparsed = /(?<![\w-])(?:hwb|lab|lch|oklab|color)\(/i.test(bare);
-        if (!known && !unparsed && colours.length > 0 && colours.every(isNeutral)) continue;
-        out.push({
-          file, line: idx + 1, selector, property,
-          value: value.slice(0, 60), state,
-          derivable: paletteTokenFor(bare, root) != null,
-        });
-      }
-    });
+    const src = blankDataUris(blankInterpolations(stripComments(readFileSync(join(root, file), 'utf-8'))));
+    for (const { property, value, line, selector } of scanDeclarations(src)) {
+      if (isUnassigned(file, selector)) continue;
+      if (isPaletteDefinition(file, selector, property)) continue;
+      const copy = copyStatus(file, selector, property, value, root);
+      if (copy === 'copy') continue;
+      const known = TOKENISED.has(property);
+      // Outside the original list, only CSS syntax counts: a colour inside
+      // quotes there is data (`CPB: '#D96B3D'`, `CPB: { accent: '#…' }`),
+      // not a CSS colour — CSS never quotes one.
+      const css = known ? value : value.replace(/(['"`])(?:\\.|(?!\1).)*\1/g, (q) => ' '.repeat(q.length));
+      const bare = stripVars(css);
+      if (!RAW_COLOUR.test(bare)) continue;
+      // Neutral black/white shadows and highlights have no hue to tokenise.
+      // Exempt only on the newly read properties, so nothing that failed
+      // before #866 passes now.
+      const colours = parseColours(bare);
+      const unparsed = /(?<![\w-])(?:hwb|lab|lch|oklab|color)\(/i.test(bare);
+      if (copy === 'none' && !known && !unparsed && colours.length > 0 && colours.every(isNeutral)) continue;
+      out.push({
+        file, line, selector, property,
+        value: value.slice(0, 60), state,
+        derivable: paletteTokenFor(bare, root) != null,
+        copyDrift: copy === 'drift',
+      });
+    }
   }
   return out;
 }

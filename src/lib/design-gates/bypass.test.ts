@@ -10,6 +10,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { readLedger } from './ledger.js';
@@ -376,5 +377,127 @@ describe('ledger — an empty or unparseable ledger fails (#866 P2)', () => {
     withRepo({}, (root) => {
       assert.throws(() => readLedger(root), /DESIGN_CONFORMANCE/);
     }, { 'docs/DESIGN_CONFORMANCE.md': `${states}\n` });
+  });
+});
+
+// ── #866 review round 1 — the same bypasses through the real CLIs ──────────
+
+/** Run a gate CLI with `root` as its working directory. */
+function cli(script: string, root: string): { code: number; out: string } {
+  const r = spawnSync(process.execPath, [join(REAL, 'scripts', script)], { cwd: root, encoding: 'utf-8' });
+  return { code: r.status ?? -1, out: `${r.stdout}${r.stderr}` };
+}
+
+describe('check-contrast CLI — a role row that does not parse fails (#866 review R1)', () => {
+  const realDoc = readFileSync(join(REAL, 'docs/Design.md'), 'utf-8');
+  const realCss = readFileSync(join(REAL, 'src/lib/canonical-css.ts'), 'utf-8');
+  const withRow = <T>(row: string, fn: (root: string) => T): T => {
+    const doc = realDoc.replace('| ツールチップ | `--t-sm` | sans | 400 | `--ink` | |', `| ツールチップ | \`--t-sm\` | sans | 400 | \`--ink\` | |\n${row}`);
+    assert.notEqual(doc, realDoc, 'fixture did not insert the row');
+    return withRepo({}, fn, { 'docs/Design.md': doc, 'src/lib/canonical-css.ts': realCss });
+  };
+
+  test('control: a well-formed row is measured and passes', () => {
+    withRow('| REVIEW | `--t-body` | sans | 400 | `--ink` | |', (root) => {
+      const r = cli('check-contrast.ts', root);
+      assert.equal(r.code, 0, r.out);
+      assert.match(r.out, /99 foreground × background pair\(s\) from 34/);
+    });
+  });
+
+  test('an unknown hyphenated size token fails instead of dropping the row', () => {
+    withRow('| REVIEW | `--t-body-copy` | sans | 400 | `--ink` | |', (root) => {
+      const r = cli('check-contrast.ts', root);
+      assert.equal(r.code, 1, r.out);
+      assert.match(r.out, /REVIEW: --t-body-copy/);
+    });
+  });
+
+  test('a colour cell that is not one token fails instead of dropping the row', () => {
+    withRow('| REVIEW | `--t-body` | sans | 400 | `color-mix(in srgb, var(--ink) 50%, transparent)` | |', (root) => {
+      const r = cli('check-contrast.ts', root);
+      assert.equal(r.code, 1, r.out);
+      assert.match(r.out, /REVIEW: .*color-mix/);
+    });
+  });
+
+  test('文脈色 stays the documented non-token colour, and --paper the documented foreground exception', () => {
+    withRow('| REVIEW | `--t-xs` | sans | 600 | 文脈色 | |\n| REVIEW2 | `--t-sm` | sans | 700 | `--paper` | |', (root) => {
+      assert.equal(cli('check-contrast.ts', root).code, 0);
+    });
+  });
+});
+
+describe('check-type-scale CLI — custom size variables and multi-line shorthands (#866 review R2)', () => {
+  const run = (body: string) =>
+    withRepo({ 'src/pages/demo.css': body }, (root) => ({ cli: cli('check-type-scale.ts', root), v: findTypeScaleViolations(root) }));
+
+  test('a font: shorthand whose size is a non-scale var() fails', () => {
+    const r = run('.a { --custom-size: 10px; font: 400 var(--custom-size) sans-serif; }');
+    assert.equal(r.cli.code, 1, r.cli.out);
+    assert.deepEqual(r.v.map((x) => x.value), ['var(--custom-size)']);
+  });
+
+  test('a font: shorthand split over lines is read whole', () => {
+    const r = run('.a {\n  font: 400\n    10px/1 sans-serif;\n}');
+    assert.equal(r.cli.code, 1, r.cli.out);
+    assert.deepEqual(r.v.map((x) => [x.value, x.line]), [['10px', 2]]);
+  });
+
+  test('a font-size value on its own line is read', () => {
+    assert.deepEqual(run('.a {\n  font-size:\n    13px;\n}').v.map((x) => x.value), ['13px']);
+  });
+
+  test('an undeterminable shorthand fails; only known no-size forms pass', () => {
+    assert.deepEqual(run('.a { font: var(--whole-font); }').v.map((x) => x.value), ['var(--whole-font)']);
+    const ok = run('.a { font: 700 var(--t-sm)/1.4 var(--font-sans); }\n.b { font: inherit; }\n.c { font: menu; }');
+    assert.equal(ok.cli.code, 0, ok.cli.out);
+    withRepo({ 'src/pages/demo.ts': 'interface F {\n  font: string;\n}\n' }, (root) => {
+      assert.deepEqual(findTypeScaleViolations(root), []);
+    });
+  });
+});
+
+describe('check-color-tokens CLI — multi-line declarations and copy drift (#866 review R3 / R4)', () => {
+  const run = (files: Record<string, string>) =>
+    withRepo(files, (root) => ({ cli: cli('check-color-tokens.ts', root), v: findColourViolations(root) }));
+
+  test('box-shadow with its value on the next line fails', () => {
+    const r = run({ 'src/pages/demo.css': '.a {\n  box-shadow:\n    0 1px 0 rgba(217,107,61,.2);\n}\n' });
+    assert.equal(r.cli.code, 1, r.cli.out);
+    assert.deepEqual(r.v.map((x) => [x.property, x.line, x.selector]), [['box-shadow', 2, '.a']]);
+  });
+
+  test('a custom property whose colour function spans lines fails', () => {
+    const r = run({ 'src/pages/demo.css': '.a {\n  --edge: rgba(\n    36, 30, 24,\n    0.1\n  );\n}\n' });
+    assert.equal(r.cli.code, 1, r.cli.out);
+    assert.deepEqual(r.v.map((x) => x.property), ['--edge']);
+  });
+
+  test('controls: data URI then a declaration on one line, JS data strings, prose in HTML comments', () => {
+    const uri = ".a { background: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E\"); color: #D96B3D; }";
+    assert.deepEqual(run({ 'src/pages/demo.ts': css(uri) }).v.map((x) => x.property), ['color']);
+    assert.deepEqual(run({ 'src/pages/demo.ts': "export const C = {\n  CPB: '#D96B3D',\n  RDK: '#7A6F5E',\n};\n" }).v, []);
+    assert.deepEqual(run({ 'src/pages/demo.html': '<!-- note: see\n #D96B3D for the accent -->\n<p>x</p>\n' }).v, []);
+  });
+
+  const copy = (v: string) => ({ 'src/pages/_index.css': `:root {\n  --fg2: ${v};\n}\n` });
+
+  test('copy control: an exact copy of the token passes', () => {
+    const r = run(copy('#7A6F5E'));
+    assert.equal(r.cli.code, 0, r.cli.out);
+  });
+
+  test('a copy that gains an alpha is drift and fails', () => {
+    const r = run(copy('#7A6F5E80'));
+    assert.equal(r.cli.code, 1, r.cli.out);
+    assert.ok(r.v.every((x) => x.copyDrift));
+    assert.match(r.cli.out, /no longer equals its token/);
+  });
+
+  test('a copy moved off the palette is drift and fails (not merely reported)', () => {
+    const r = run(copy('#123456'));
+    assert.equal(r.cli.code, 1, r.cli.out);
+    assert.deepEqual(r.v.map((x) => [x.copyDrift, x.derivable]), [[true, false]]);
   });
 });

@@ -117,6 +117,95 @@ export function blankInterpolations(src: string): string {
   return out;
 }
 
+/**
+ * What precedes a rule's `{` up to the previous `;`/`{`/`}` can carry the
+ * opening of a template literal or a `<style>` tag; the selector starts after
+ * them. `offset` is where the selector text begins inside `raw`.
+ */
+export function cleanSelector(raw: string): { selector: string; offset: number } {
+  let offset = 0;
+  const cut = (re: RegExp): void => {
+    let last = -1;
+    for (const m of raw.matchAll(re)) last = (m.index ?? 0) + m[0].length;
+    if (last > offset) offset = last;
+  };
+  cut(/`/g);
+  cut(/<style[^>]*>/gi);
+  const rest = raw.slice(offset);
+  offset += rest.length - rest.trimStart().length;
+  return { selector: raw.slice(offset).trim().replace(/\s+/g, ' '), offset };
+}
+
+export interface Declaration {
+  /** Lower-cased property name; custom properties keep their `--`. */
+  readonly property: string;
+  /** The value with whitespace (including newlines) collapsed. */
+  readonly value: string;
+  /** 1-based line of the property name. */
+  readonly line: number;
+  /** The innermost enclosing rule's selector (at-rules skipped), or ''. */
+  readonly selector: string;
+}
+
+/**
+ * A declaration: a `--custom` or CSS property name (any case, optional space
+ * before the colon) and a value that runs to `;`, `{` or `}`. The value may
+ * continue onto the next line — `box-shadow:\n  0 1px 0 rgba(…);` — unless
+ * that line starts another `name:`; reading line by line let a value written
+ * on its own line skip every gate (#866 review).
+ */
+const DECLARATION =
+  /(?:^|[;{\s])(--[A-Za-z0-9_-]+|-?[A-Za-z][A-Za-z-]*)\s*:\s*((?:[^;{}<\n]|\n(?!\s*(?:--)?[A-Za-z][A-Za-z0-9_-]*\s*:))*)/g;
+
+/**
+ * Blank `<!-- … -->` bodies (newlines kept). A multi-line value would otherwise
+ * read prose such as `entry: H2 + trust signal …` as a declaration. A value
+ * also stops at `<`, which CSS never writes outside a string.
+ */
+export function blankHtmlComments(src: string): string {
+  return src.replace(/<!--[\s\S]*?-->/g, (c) => c.replace(/[^\n]/g, ' '));
+}
+
+/** The innermost non-at-rule selector open at each (ascending) position. */
+function selectorsAt(src: string, positions: readonly number[]): string[] {
+  const out: string[] = [];
+  const stack: string[] = [];
+  let segment = 0;
+  let p = 0;
+  for (let i = 0; i <= src.length && p < positions.length; i += 1) {
+    while (p < positions.length && positions[p] === i) {
+      out.push([...stack].reverse().find((s) => !s.startsWith('@')) ?? '');
+      p += 1;
+    }
+    const ch = src[i];
+    if (ch === '{') { stack.push(cleanSelector(src.slice(segment, i)).selector); segment = i + 1; }
+    else if (ch === '}') { stack.pop(); segment = i + 1; }
+    else if (ch === ';') segment = i + 1;
+  }
+  return out;
+}
+
+/**
+ * Every declaration in already-prepared source (comments stripped, `${…}`
+ * blanked), with the line it starts on and the rule it sits in.
+ */
+export function scanDeclarations(prepared: string): Declaration[] {
+  const src = blankHtmlComments(prepared);
+  const found: Array<{ property: string; value: string; at: number }> = [];
+  for (const m of src.matchAll(DECLARATION)) {
+    const property = m[1] ?? '';
+    const at = (m.index ?? 0) + m[0].indexOf(property);
+    found.push({ property: property.toLowerCase(), value: (m[2] ?? '').replace(/\s+/g, ' ').trim(), at });
+  }
+  const selectors = selectorsAt(src, found.map((f) => f.at));
+  let line = 1;
+  let cursor = 0;
+  return found.map((f, i) => {
+    for (; cursor < f.at; cursor += 1) if (src[cursor] === '\n') line += 1;
+    return { property: f.property, value: f.value, line, selector: selectors[i] ?? '' };
+  });
+}
+
 export function scan(root: string, file: string, re: RegExp): Hit[] {
   const lines = stripComments(readFileSync(join(root, file), 'utf-8')).split('\n');
   const hits: Hit[] = [];
