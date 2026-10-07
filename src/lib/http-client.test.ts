@@ -164,3 +164,82 @@ test('clears the timeout after both success and network rejection', async () => 
     globalThis.fetch = originalFetch;
   }
 });
+
+// Audit 2026-10-07 P1 (#861): the timeout must also cover the body read. A
+// real local server sends headers plus a partial body and then stalls.
+describe('body-reading helpers keep the timeout armed until the body is read', () => {
+  async function withStallingServer(
+    run: (url: string) => Promise<void>,
+  ): Promise<void> {
+    const { createServer } = await import('node:http');
+    const sockets = new Set<import('node:net').Socket>();
+    const server = createServer((_req, res) => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.write('{"partial":');
+      // Never end the response.
+    });
+    server.on('connection', (socket) => { sockets.add(socket); });
+    await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+    const { port } = server.address() as import('node:net').AddressInfo;
+    try {
+      await run(`http://127.0.0.1:${port}/stall`);
+    } finally {
+      for (const socket of sockets) socket.destroy();
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
+  }
+
+  for (const name of ['fetchJsonWithTimeout', 'fetchTextWithTimeout', 'fetchBufferWithTimeout'] as const) {
+    test(`${name} rejects with AbortError when the body stalls after the headers`, async () => {
+      const mod = await import('./http-client.js') as Record<string, unknown>;
+      const helper = mod[name] as (url: string, init: RequestInit, ms: number) => Promise<unknown>;
+      assert.equal(typeof helper, 'function', `${name} is exported`);
+      await withStallingServer(async (url) => {
+        const started = Date.now();
+        await assert.rejects(
+          () => helper(url, {}, 150),
+          (err: unknown) => err instanceof Error && err.name === 'AbortError',
+        );
+        assert.ok(Date.now() - started < 2000, 'aborted near the deadline');
+      });
+    });
+  }
+
+  test('fetchJsonWithTimeout returns the response and the parsed body', async () => {
+    const { fetchJsonWithTimeout } = await import('./http-client.js');
+    const result = await fetchJsonWithTimeout('https://example.com/x', {}, 1000,
+      async () => new Response('{"a":1}', { status: 404 }));
+    assert.equal(result.response.status, 404);
+    assert.deepEqual(result.body, { a: 1 });
+  });
+
+  test('fetchJsonWithTimeout yields a null body for a non-JSON payload', async () => {
+    const { fetchJsonWithTimeout } = await import('./http-client.js');
+    const result = await fetchJsonWithTimeout('https://example.com/x', {}, 1000,
+      async () => new Response('<html>oops</html>', { status: 200 }));
+    assert.equal(result.response.status, 200);
+    assert.equal(result.body, null);
+  });
+
+  test('fetchTextWithTimeout and fetchBufferWithTimeout return the full body', async () => {
+    const { fetchTextWithTimeout, fetchBufferWithTimeout } = await import('./http-client.js');
+    const text = await fetchTextWithTimeout('https://example.com/x', {}, 1000,
+      async () => new Response('hello'));
+    assert.equal(text.body, 'hello');
+    const buf = await fetchBufferWithTimeout('https://example.com/x', {}, 1000,
+      async () => new Response(new Uint8Array([1, 2, 3])));
+    assert.deepEqual(new Uint8Array(buf.body), new Uint8Array([1, 2, 3]));
+  });
+
+  test('the timer is cleared after the body has been read', async () => {
+    const { fetchTextWithTimeout } = await import('./http-client.js');
+    let signal: AbortSignal | undefined;
+    const result = await fetchTextWithTimeout('https://example.com/x', {}, 20, async (_u, init) => {
+      signal = init?.signal ?? undefined;
+      return new Response('done');
+    });
+    assert.equal(result.body, 'done');
+    await new Promise((resolve) => setTimeout(resolve, 40));
+    assert.equal(signal?.aborted, false);
+  });
+});
