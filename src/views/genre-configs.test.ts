@@ -214,7 +214,7 @@ for (const [configs, slug] of [
     assert.equal(run({ related_certs_ja: ['Cert'] }), null);
     assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: null }), null);
     assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: null } }), null);
-    assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: 6.01 } }), null);
+    assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: 6.1 } }), null); // 6.01 prints 6.0 and passes (#864)
     assert.equal(run({ related_certs_ja: ['One', 'Two'], ai_risk: { score: 6 } }), 2);
     assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: 0 } }), 1);
   });
@@ -304,7 +304,7 @@ test('life balance risk guards distinguish optional risk from required known ris
   assert.equal(child(null), -165);
   assert.equal(child({ score: null }), -165);
   assert.equal(child({ score: 6 }), -165);
-  assert.equal(child({ score: 6.01 }), null);
+  assert.equal(child({ score: 6.1 }), null);
   const mental = (ai_risk?: DetailFileMin['ai_risk']) => runFilter(LIFE_BALANCE_CONFIGS, 'mental-health-friendly', { stats: { monthly_hours: 170 }, ai_risk });
   assert.equal(mental(), null);
   assert.equal(mental(null), null);
@@ -322,7 +322,7 @@ test('senior balance requires age at least 45 and excludes only known risk above
   assert.equal(run({ stats: { average_age: 60 }, ai_risk: null }), 60);
   assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: null } }), 60);
   assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: 5 } }), 60);
-  assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: 5.01 } }), null);
+  assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: 5.1 } }), null); // 5.01 prints 5.0 and passes (#864)
 });
 
 test('new-graduate and mid-career entry filters retain inclusive age boundaries', () => {
@@ -363,5 +363,5 @@ test('apprenticeship entry sums low education shares and permits absent risk', (
   assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: null } }), 0.4);
   assert.equal(run({ education_distribution: { below_high_school: 0.4 }, ai_risk: null }), 0.4);
   assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: 5 } }), 0.4);
-  assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: 5.01 } }), null);
+  assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: 5.1 } }), null);
 });

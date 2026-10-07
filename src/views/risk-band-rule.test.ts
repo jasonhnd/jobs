@@ -146,7 +146,7 @@ describe('group-mean tier words are judged on the printed mean (#631)', () => {
   });
 
   test('genre and interest hubs print and judge the same rounded mean', () => {
-    for (const file of ['genre-hub.ts', 'interests.ts']) {
+    for (const file of ['genre-hub.ts', 'interests.ts', 'skills-hub.ts']) { // skills-hub: #864
       const source = readFileSync(join(import.meta.dirname, file), 'utf8');
       assert.match(source, /const shownMean = displayScore\(meanRisk\);/, file);
       assert.match(source, /shownMean <= 3\.5 \? '低め' : shownMean <= 5\.5 \? '中程度' : 'やや高め'/, file);

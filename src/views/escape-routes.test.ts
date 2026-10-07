@@ -91,7 +91,7 @@ describe('suggestEscapeRoutes', () => {
     assert.deepEqual(suggestEscapeRoutes(source, [
       makeOccupation({ id: 1 }),
       makeOccupation({ id: 2, ai_risk: null }),
-      makeOccupation({ id: 3, ai_risk: 4.01 }),
+      makeOccupation({ id: 3, ai_risk: 4.1 }), // 4.01 prints 4.0 and is eligible (#864)
     ]), []);
   });
 });
@@ -119,7 +119,8 @@ describe('renderEscapeRouteSection', () => {
     assert.ok(html.includes(`「${escaped}」`));
     assert.equal((html.match(/class="ec-sector"/g) ?? []).length, 1);
     assert.match(html, /class="risk-pill low">AI 3\.1\/10<\/span>/);
-    assert.match(html, /class="risk-pill low">AI 4\/10<\/span>/);
+    // 4.0 is mid on the site rule (#864); the pill was hard-coded low.
+    assert.match(html, /class="risk-pill mid">AI 4\/10<\/span>/);
     assert.ok(!html.includes(raw));
     assert.ok(html.endsWith('</ul></section>'));
   });
