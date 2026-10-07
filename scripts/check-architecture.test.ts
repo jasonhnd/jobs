@@ -99,6 +99,10 @@ describe('check-architecture layer rules resolve imports before judging them', (
     ['templates → @/data/lib alias', 'src/templates/bad.ts', "import { helper } from '@/data/lib/helper.js';\n"],
     ['pages → src/data/projections via ../ path', 'src/pages/bad.ts', "import p from '../data/projections/p.json';\n"],
     ['views → static import after another statement on the same line', 'src/views/bad.js', "export const view = 1; import { T } from '../templates/T.js';\n"],
+    ['views → multi-line namespace import whose next line starts with *', 'src/views/bad.js', "import\n  * as T from '../templates/T.js';\nexport const view = T;\n"],
+    ['views → require() after a closed block comment on the same line', 'src/views/bad.js', "/* explanatory comment */ const fs = require('fs');\nexport const view = 1;\n"],
+    ['views → import after a multi-line block comment closes', 'src/views/bad.ts', "/*\n * docs\n */ import { T } from '../templates/T.js';\n"],
+    ['views → import after a string containing a comment opener', 'src/views/bad.ts', "const glob = '@/lib/*'; import { T } from '../templates/T.js';\n"],
   ];
 
   for (const [name, file, source] of cases) {
@@ -123,6 +127,13 @@ describe('check-architecture layer rules resolve imports before judging them', (
   test('a require() inside a comment line is not an import', () => {
     const result = run(fixture({
       'src/views/commented.ts': "// const fs = require('fs');\n/*\n * import('node:fs') is forbidden here\n */\nexport const x = 1;\n",
+    }));
+    assert.equal(result.status, 0, result.stderr);
+  });
+
+  test('imports inside trailing and block comments are not imports', () => {
+    const result = run(fixture({
+      'src/views/commented.ts': "export const x = 1; // require('fs')\nexport const y = /* import('node:fs') */ 2;\nexport const re = /\\/\\/ '/; // import x from 'fs'\n",
     }));
     assert.equal(result.status, 0, result.stderr);
   });
