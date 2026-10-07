@@ -440,7 +440,8 @@ const expected = {
   'no-license-required': [11, 9, 7, 5, 12],
   'high-school-ok': [10, 7, 5, 6, 9, 3],
   'university-required': [10, 8, 4, 3, 6],
-  'graduate-school-required': [10, 8, 5, 3, 6, 11],
+  // 院卒 = max(修士, 博士) (#863): 3 (20/10) and 6 (10/20) no longer reach 30.
+  'graduate-school-required': [10, 8, 5, 11],
   'public-sector': [8, 11],
   'freelance-friendly': [10, 7, 5, 9, 3],
   'self-employed-typical': [10, 7, 3, 6, 11],

@@ -40,6 +40,7 @@ export function inSectorSet(o: Occupation, set: ReadonlySet<string>): boolean {
 // JA labels. Any future label rename now propagates mechanically;
 // TypeScript catches stale literals downstream.
 import { EDU, EMP } from '../../data/domain/distribution-labels.js';
+import { graduateShare } from '../../data/domain/education-share.js';
 // Re-export for ranking sub-files (../rankings/*).
 export { EDU, EMP };
 
@@ -52,10 +53,11 @@ export function eduPct(o: Occupation, key: string): number {
 }
 
 /**
- * 大学院卒比率 = 修士 + 博士 (combined).
+ * 大学院卒比率 = max(修士, 博士) — see data/domain/education-share.ts for why
+ * not the sum (multi-answer data; the sum reached 137%).
  */
 export function gradPct(o: Occupation): number {
-  return eduPct(o, EDU.masters) + eduPct(o, EDU.doctorate);
+  return graduateShare(eduPct(o, EDU.masters), eduPct(o, EDU.doctorate));
 }
 
 /**

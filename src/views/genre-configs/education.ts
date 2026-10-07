@@ -1,4 +1,5 @@
 import type { GenreHubConfig, DetailFileMin } from '../genre-hub.js';
+import { graduateShare } from '../../data/domain/education-share.js';
 
 // ─── K. 学歴 (education) — 6 hub ─────────────────────────
 
@@ -76,7 +77,7 @@ export const EDUCATION_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     (d) => {
       const ed = d.education_distribution;
       if (!ed) return null;
-      const v = (ed['masters'] ?? 0) + (ed['doctorate'] ?? 0);
+      const v = graduateShare(ed['masters'] ?? 0, ed['doctorate'] ?? 0);
       return v >= 0.2 ? v : null;
     },
   ),
