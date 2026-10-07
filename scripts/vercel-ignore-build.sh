@@ -74,17 +74,19 @@ DOC_ONLY_PATHS='^(docs/|ROADMAP\.md$|CHANGELOG\.md$|README\.md$|CONTRIBUTING\.md
 # NOT the same as a failed lookup: the first means "nothing changed since the
 # last successful deployment" (build, to be safe), the second means the base is
 # unreachable in this shallow clone (fall back to HEAD^).
+# --no-renames: with rename detection, `git mv src/x.ts docs/x.ts` lists only
+# docs/x.ts and would look documentation-only; listing both sides forces a build.
 CHANGED=""
 BASE_RESOLVED=0
 
 if [ -n "${VERCEL_GIT_PREVIOUS_SHA:-}" ]; then
-  if CHANGED="$(git diff --name-only "$VERCEL_GIT_PREVIOUS_SHA" HEAD 2>/dev/null)"; then
+  if CHANGED="$(git diff --name-only --no-renames "$VERCEL_GIT_PREVIOUS_SHA" HEAD 2>/dev/null)"; then
     BASE_RESOLVED=1
   fi
 fi
 
 if [ "$BASE_RESOLVED" -eq 0 ]; then
-  if CHANGED="$(git diff --name-only 'HEAD^' HEAD 2>/dev/null)"; then
+  if CHANGED="$(git diff --name-only --no-renames 'HEAD^' HEAD 2>/dev/null)"; then
     BASE_RESOLVED=1
   fi
 fi
