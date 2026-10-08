@@ -25,6 +25,8 @@ import type { Edition } from '@/site/route-policy';
 const SITE = siteConfig.origin;
 
 export interface RankingsSlugBindings {
+  readonly pageTitle: string;
+  readonly pageDescription: string;
   readonly canonical: string;
   readonly ogImage: string;
   readonly statsHtml: string;
@@ -46,6 +48,8 @@ export function buildRankingsSlugBindings(
   geoFacts: GeoFacts = loadGeoFacts(),
   edition: Edition = 'ordinary',
 ): RankingsSlugBindings {
+  const pageTitle = edition === 'pro' ? `Pro | ${result.title}` : result.title;
+  const pageDescription = edition === 'pro' ? `Pro · ${result.seoDesc}` : result.seoDesc;
   const slug = result.slug as RankingSlug;
   const canonical = rankingCanonicalUrl(slug, edition);
   const ogImage = `${SITE}/api/og?ranking=${slug}`;
@@ -68,10 +72,10 @@ export function buildRankingsSlugBindings(
     pageKindJa: 'ランキング',
     occupationIds: result.items.map((item) => item.id),
   }));
-  const jsonLd = renderJsonLd(rankingUrl(slug, edition), result.title, result.seoDesc, result.items, result.faqItems, edition);
+  const jsonLd = renderJsonLd(rankingUrl(slug, edition), pageTitle, pageDescription, result.items, result.faqItems, edition);
   const summaryHtml = renderRankingSummary(result.items);
   return {
-    canonical, ogImage, statsHtml, highlightsHtml, sectorChartHtml,
+    pageTitle, pageDescription, canonical, ogImage, statsHtml, highlightsHtml, sectorChartHtml,
     rankItems, faqHtml, relatedHtml, crossHubHtml, introInlinedHtml, aiFactHtml,
     summaryHtml, jsonLd,
   };

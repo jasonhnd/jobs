@@ -699,7 +699,10 @@ export function renderInsightCards(insights: ReadonlyArray<string>): SafeHtml {
   ) as SafeHtml;
 }
 
-export function renderHubJsonLd(edition: Edition = 'ordinary'): string {
+export function renderHubJsonLd(
+  edition: Edition = 'ordinary',
+  proMetadata?: { readonly title: string; readonly description: string },
+): string {
   const canonical = `${SITE}${edition === 'pro' ? '/pro/rankings' : '/rankings'}`;
   // RA-003 (2026-05-18): SCORED count.
   const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
@@ -710,8 +713,8 @@ export function renderHubJsonLd(edition: Edition = 'ordinary'): string {
         '@type': 'WebPage',
         '@id': `${canonical}#webpage`,
         url: canonical,
-        name: '職業ランキング',
-        description: seoDesc,
+        name: edition === 'pro' ? (proMetadata?.title ?? 'Pro | 職業ランキング') : '職業ランキング',
+        description: edition === 'pro' ? (proMetadata?.description ?? `Pro · ${seoDesc}`) : seoDesc,
         isPartOf: { '@id': `${SITE}/#website` },
         inLanguage: 'ja',
         datePublished: DATE_PUBLISHED,
