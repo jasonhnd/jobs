@@ -19,6 +19,9 @@ import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import type { GeoFacts } from '@/site/geo-facts';
 import { siteConfig } from '@/site/config';
 
+import { rankingCanonicalUrl, rankingUrl } from '@/lib/urls';
+import type { Edition } from '@/site/route-policy';
+
 const SITE = siteConfig.origin;
 
 export interface RankingsSlugBindings {
@@ -41,9 +44,10 @@ export function buildRankingsSlugBindings(
   result: RankingResult,
   graph: KnowledgeGraph,
   geoFacts: GeoFacts = loadGeoFacts(),
+  edition: Edition = 'ordinary',
 ): RankingsSlugBindings {
   const slug = result.slug as RankingSlug;
-  const canonical = `${SITE}/rankings/${slug}`;
+  const canonical = rankingCanonicalUrl(slug, edition);
   const ogImage = `${SITE}/api/og?ranking=${slug}`;
   const statsHtml = result.statBlocks.length > 0
     ? `<dl class="stats">${result.statBlocks.map(([l, v]) => `<div><dt>${escapeHtml(l)}</dt><dd>${escapeHtml(v)}</dd></div>`).join('')}</dl>`
@@ -64,7 +68,7 @@ export function buildRankingsSlugBindings(
     pageKindJa: 'ランキング',
     occupationIds: result.items.map((item) => item.id),
   }));
-  const jsonLd = renderJsonLd(canonical, result.title, result.seoDesc, result.items, result.faqItems);
+  const jsonLd = renderJsonLd(rankingUrl(slug, edition), result.title, result.seoDesc, result.items, result.faqItems, edition);
   const summaryHtml = renderRankingSummary(result.items);
   return {
     canonical, ogImage, statsHtml, highlightsHtml, sectorChartHtml,

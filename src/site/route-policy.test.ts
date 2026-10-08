@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import { describe, expect, test } from 'bun:test';
 import manifest from '../../docs/pro-split/route-manifest.json';
 import { occupationRoute, rankingRoute, editionHref, editionHtmlLinks } from './route-policy';
@@ -7,21 +8,21 @@ describe('stage 1A edition routing', () => {
   test('occupation 404 has independent page and stable ordinary canonical URLs', () => {
     expect(occupationPath(404)).toBe('/occupations/404');
     expect(occupationPath(404, 'pro')).toBe('/pro/404');
-    expect(occupationRoute(404, 'pro')).toMatchObject({ pagePath: '/pro/404', canonicalPath: '/occupations/404', noindex: false, sitemap: false });
+    assert.deepEqual(occupationRoute(404, 'pro'), { pagePath: '/pro/404', canonicalPath: '/occupations/404', noindex: false, sitemap: false, ordinarySwitchPath: '/occupations/404' });
     expect(occupationUrl(428, 'pro')).toBe('https://mirai-shigoto.com/pro/428');
     expect(occupationCanonicalUrl(428, 'pro')).toBe('https://mirai-shigoto.com/428');
     for (const invalid of [0, -1, 0.3, NaN, Infinity]) expect(() => occupationRoute(invalid, 'pro')).toThrow();
   });
   test('all 39 copies use the stage-1 canonical, including 31 future migrations', () => {
-    expect(manifest.rankings).toHaveLength(39);
+    expect(manifest.rankings.length).toBe(39);
     for (const row of manifest.rankings) {
-      expect(rankingRoute(row.slug, 'pro')).toMatchObject({ pagePath: row.proPath, canonicalPath: row.phase1ProCanonical, noindex: row.noindex, sitemap: false });
+      assert.deepEqual(rankingRoute(row.slug, 'pro'), { pagePath: row.proPath, canonicalPath: row.phase1ProCanonical, noindex: row.noindex, sitemap: false, ordinarySwitchPath: row.ordinaryPath ?? '/' });
       expect(rankingUrl(row.slug, 'pro')).toBe(`https://mirai-shigoto.com${row.proPath}`);
       expect(rankingCanonicalUrl(row.slug, 'pro')).toBe(`https://mirai-shigoto.com${row.oldPath}`);
       expect(rankingRoute(row.slug, 'ordinary').pagePath).toBe(row.oldPath);
       expect(rankingRoute(row.slug, 'pro').ordinarySwitchPath).toBe(row.ordinaryPath ?? '/');
     }
-    expect(manifest.rankings.filter(r => r.noindex)).toHaveLength(4);
+    expect(manifest.rankings.filter(r => r.noindex).length).toBe(4);
     expect(() => rankingRoute('not-a-ranking', 'pro')).toThrow();
   });
   test('edition links preserve suffixes and shared/external/unknown route boundaries', () => {

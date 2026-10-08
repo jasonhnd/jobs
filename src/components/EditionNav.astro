@@ -1,0 +1,14 @@
+---
+interface Props { ordinaryPath: string }
+const { ordinaryPath } = Astro.props;
+---
+<nav class="edition-nav" aria-label="版の切り替え">
+  <a href="/pro" aria-current={Astro.url.pathname === '/pro' ? 'page' : undefined}>Pro</a>
+  <span aria-hidden="true"> · </span>
+  <a href={ordinaryPath}>通常版へ</a>
+</nav>
+<style is:global>
+.edition-nav{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:var(--s-4)}
+.edition-nav a{color:var(--ink-meta)}
+.edition-nav a:focus-visible{outline:var(--s-1) solid var(--accent);outline-offset:var(--s-1)}
+</style>

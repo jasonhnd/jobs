@@ -132,6 +132,8 @@ export interface OccupationJsonLdInput {
    *  `https://mirai-shigoto.com/42`. Used as the base for all
    *  `@id` fragment URIs in the graph. */
   readonly canonical: string;
+  readonly pageUrl?: string;
+  readonly edition?: 'ordinary' | 'pro';
   /** Pre-resolved page title (e.g. "看護師 — AI 影響 6/10"). */
   readonly pageName: string;
   /** Pre-resolved page description, with full fallback chain
@@ -330,12 +332,13 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
     }
   }
 
+  const pageUrl = input.pageUrl ?? canonical;
   // Build the graph.
   const graphNodes: JsonLdGraphNode[] = [
     {
       '@type': 'WebPage',
-      '@id': `${canonical}#webpage`,
-      url: canonical,
+      '@id': `${pageUrl}#webpage`,
+      url: pageUrl,
       name: pageName,
       description: pageDesc,
       isPartOf: { '@id': WEBSITE_REF },
@@ -343,7 +346,7 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
       mainEntity: { '@id': `${canonical}#occupation` },
       primaryImageOfPage: `${siteConfig.origin}/api/og?id=${id}`,
       inLanguage: 'ja',
-      breadcrumb: { '@id': `${canonical}#breadcrumb` },
+      breadcrumb: { '@id': `${pageUrl}#breadcrumb` },
       datePublished,
       dateModified,
       publisher: { '@id': ORG_REF },
@@ -353,10 +356,11 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
     occupationNode,
     {
       '@type': 'BreadcrumbList',
-      '@id': `${canonical}#breadcrumb`,
+      '@id': `${pageUrl}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: BREADCRUMB_ROOT, item: HOME_URL },
-        { '@type': 'ListItem', position: 2, name: nameJa, item: canonical },
+        ...(input.edition === 'pro' ? [{ '@type': 'ListItem' as const, position: 2, name: 'Pro', item: `${siteConfig.origin}/pro` }] : []),
+        { '@type': 'ListItem', position: input.edition === 'pro' ? 3 : 2, name: nameJa, item: pageUrl },
       ],
     },
   ];
@@ -364,7 +368,7 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
   if (faqs.length) {
     graphNodes.push({
       '@type': 'FAQPage',
-      '@id': `${canonical}#faq`,
+      '@id': `${pageUrl}#faq`,
       inLanguage: 'ja',
       mainEntity: faqs.map(([q, a]) => ({
         '@type': 'Question',
