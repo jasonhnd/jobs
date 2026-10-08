@@ -94,8 +94,16 @@ all old dated run pages → their matching Pro run. The manifest derives targets
 from score batches and checks current aliases against `vercel.json`, using
 `scripts/check-model-redirects.ts:44-80`. Explicit legacy aliases such as
 `/ja/about/methodology` go straight to `/pro/methodology`; shared `/about`
-aliases retain their meaning. Expand legacy language/occupation wildcards
-against valid built routes; preserve ID 404 and avoid intermediate old roots.
+aliases retain their meaning. Ordinary occupation aliases keep their ordinary
+root targets: `/occ/:id` and `/occ/:id-:slug*` (the existing numeric-ID patterns)
+still target `/:id`, while `/occ/404`, `/occ/404-:slug*`, `/ja/404` and
+`/ja/404.html` still target `/occupations/404`. `/ja/about` and
+`/ja/about/glossary` still target `/about` (`vercel.json:134-151,168-186`).
+Expand `/ja/:path*` and `/en/:path*` against valid built routes using each current
+destination's page family: root-retained families stay at root; migrated families
+go in one hop to their final Pro URL. Never redirect ordinary occupation aliases
+to Pro and never introduce a `/pro/:path*` blanket redirect. Preserve existing
+specific-rule precedence, including ID 404, before expanding language wildcards.
 Update the existing model-redirect gate at implementation time; do not disable it.
 
 Retain redirects long term (at least one year). Cached permanent redirects
@@ -105,13 +113,20 @@ outlive code rollback; rollback planning must keep final Pro targets reachable.
 
 | Content state | Canonical | Main HTML sitemap eligibility |
 | --- | --- | --- |
-| Stage 1A duplicate Pro occupations and rankings | Ordinary occupation URL | Ordinary only |
+| Stage 1A duplicate Pro occupations and rankings | Corresponding ordinary old URL: occupations `/<id>` (ID404 `/occupations/404`), rankings `/rankings/<slug>` | Ordinary canonical URLs only; no duplicate Pro entries |
 | Stage 2 genuinely simplified ordinary occupation and complete Pro occupation | Each edition self-canonical | Both editions |
-| Eight rankings with equivalent ordinary/Pro tables | Ordinary self; Pro points to ordinary | Ordinary only |
+| Stage 1B onward: eight rankings with equivalent ordinary/Pro tables | Ordinary self; Pro points to ordinary | Ordinary only |
 | Eight Pro rankings after separately verified substantial independent analysis | Each edition may self-canonical after content review | Both if indexable |
-| Migrated 31 rankings and other complete pages | Final Pro URL self-canonical; never old 301 URL | Final indexable canonical URLs, preserving existing family eligibility |
-| Four existing noindex rankings | Pro self-canonical + `noindex, follow` | Excluded under selected 3A |
-| Model run subpages | Final Pro URL self-canonical, indexable | Still omitted under existing model-subpage policy |
+| After authorized stage 1B migration: 31 rankings and other complete pages | Final Pro URL self-canonical; never old 301 URL | Final indexable canonical URLs, preserving existing family eligibility |
+| Stage 1B onward: four existing noindex rankings | Pro self-canonical + `noindex, follow` | Excluded under selected 3A |
+| After stage 1B migration: model run subpages | Final Pro URL self-canonical, indexable | Still omitted under existing model-subpage policy |
+
+Every manifest ranking has `phase1ProCanonical = oldPath` while its old page
+is still 200 in stage 1A, including all 31 rankings scheduled to migrate.
+`proCanonicalStage: "1B"` labels the existing `proCanonical` field as the policy
+after the authorized migration: eight retained copies still point to their old
+ranking URL, while 31 migrated copies self-canonicalize to `proPath`. No ranking
+canonical points to an occupation URL. Noindex is inherited in both stages.
 
 The four exclusions are `self-employed-typical`, `freelance-friendly`,
 `ai-safe-young-workforce`, `ai-safe-short-hours`
@@ -122,7 +137,9 @@ Model subpages being absent from sitemap does not mean noindex
 (`src/pages/models/[model].astro:82-90`).
 
 Keep root sitemap/robots/llms entrances. Sitemap generation is explicit
-(`src/views/sitemap.ts:151-238`); moving Astro files does not update it. Compare
+(`src/views/sitemap.ts:151-276`), including the later careers (244-246), licenses
+(250-252), q (256-258), answers (262-264), yearly (268-271) and explore (274-276)
+entries in that same file. Moving Astro files does not update these URLs. Compare
 sets, not the existing >=600 floor: 556 ordinary occupations; 556 Pro
 occupations generated (stage-dependent sitemap inclusion); 39 Pro rankings;
 eight ordinary rankings; 31 old ranking redirects; all valid migrated family
@@ -177,7 +194,7 @@ llms/JSON-LD/speakable are descriptive outputs, not proof of actual AI citation.
 Share existing data → ETL → JSON → graph/page-data → view/template → Astro.
 Do not duplicate scoring data, overwrite runs or recalculate browser bands.
 Use unrounded inputs for averages and displayed one-decimal values for the
-existing <4.0 / 4.0–6.9 / >=7.0 bands (`docs/DATA_ARCHITECTURE.md:48-50`).
+existing <4.0 / 4.0–6.9 / >=7.0 bands (`docs/DATA_ARCHITECTURE.md:49-50`).
 Ordinary summaries have at most three primary numbers (planned AI change,
 salary, monthly hours), signed advice, similar occupations and a real Pro link.
 Missing values remain missing. Pro retains model reasons verbatim, full data,
@@ -200,9 +217,14 @@ Cover desktop/mobile nav, Footer, breadcrumbs, switches, home body links,
 search, 404 recommendations, occupation spokes, related rankings, compare,
 classification/q/answers ItemLists, `/me` browser-generated links, diagnosis/share
 landing, GEO and JSON-LD. Both frontmatter and inline browser scripts consume
-the same mapping. Hardcoded sites include `src/index-source.html:388-647`,
-`src/templates/Ranking.ts:247-254,418`, `src/views/spoke-hub-graph.ts:162-167`,
-`src/pages/_me-inline.js:658`, `src/pages/404.astro:235-238`.
+the same mapping. Home ranking cards are at `src/index-source.html:388-647`;
+other body entrances include `/gyakuten` at `src/index-source.html:57`,
+`/compare` at `src/index-source.html:148` and the retained `/rankings` entrance
+at `src/index-source.html:660`. Related-ranking href producers are at
+`src/templates/Ranking.ts:255` and hub-card href producers at
+`src/templates/Ranking.ts:419`; further producers include
+`src/views/spoke-hub-graph.ts:162-167`, `src/pages/_me-inline.js:696` and
+`src/pages/404.astro:235-238`.
 Keep `/me`, `/shindan`, `/map`, `/sectors`, legal, API/data/assets and external
 links in their intended root/external locations. No universal href prefixing.
 

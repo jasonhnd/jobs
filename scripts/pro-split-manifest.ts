@@ -61,7 +61,9 @@ export function buildManifest() {
     return {
       slug: meta.slug, name_ja: meta.name_ja, oldPath, oldStatus: retained ? 200 : 301,
       ordinaryPath: retained ? oldPath : null, proPath,
-      proCanonical: retained ? oldPath : proPath, noindex,
+      phase1ProCanonical: oldPath,
+      // proCanonical is the policy after the authorized stage-1B migration.
+      proCanonicalStage: '1B', proCanonical: retained ? oldPath : proPath, noindex,
       ordinarySitemap: retained, proSitemap: !retained && !noindex,
     };
   });
@@ -88,6 +90,9 @@ export function buildManifest() {
     return !r.source.startsWith('/models/') && !r.destination.includes(':')
       && classifyKnownMigratedDestination(r.destination);
   }).map(r => ({ source: r.source, currentDestination: r.destination, destination: `/pro${r.destination}`, plannedStatus: 301 }));
+  const retainedLegacyTargets = currentRedirects.filter(r =>
+    r.source.startsWith('/occ/') || ['/ja/404', '/ja/404.html', '/ja/about', '/ja/about/glossary'].includes(r.source),
+  ).map(r => `${r.source} -> ${r.destination}`).join('; ');
   return {
     schemaVersion: 1, stage: 'planning-only', redirectAuthorization: 'pending-owner-decision',
     sources: ['src/views/rankings-meta.ts', 'src/pages/**/*.astro', 'src/lib/urls.ts', 'data/scores/*.json', 'vercel.json'],
@@ -99,7 +104,7 @@ export function buildManifest() {
       invalidIdStatus: 404,
     },
     modelAliases, legacyAliases,
-    legacyWildcardPolicy: 'Expand existing language/occupation aliases against valid built routes; directly target final edition URL; preserve ID 404 exception. No blanket migration wildcard.',
+    legacyWildcardPolicy: `Ordinary occupation aliases retain their existing targets: ${retainedLegacyTargets}. Expand language wildcards against valid built routes by the current destination family: Root-retained families stay at root; migrated families go directly to their final Pro URL. No /pro/:path* blanket redirect.`,
     infrastructure: ['/api/*', '/data.*.json', '/sitemap.xml', '/image-sitemap.xml', '/llms.txt', '/llms-full.txt', '/robots.txt', '/404', '/fonts/*', '/_astro/*'],
   };
 }
