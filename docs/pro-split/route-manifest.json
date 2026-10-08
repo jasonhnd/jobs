@@ -1,0 +1,1265 @@
+{
+  "schemaVersion": 1,
+  "stage": "planning-only",
+  "redirectAuthorization": "pending-owner-decision",
+  "sources": [
+    "src/views/rankings-meta.ts",
+    "src/pages/**/*.astro",
+    "src/lib/urls.ts",
+    "data/scores/*.json",
+    "vercel.json"
+  ],
+  "rankings": [
+    {
+      "slug": "ai-risk-high",
+      "name_ja": "AIに奪われる仕事 TOP30",
+      "oldPath": "/rankings/ai-risk-high",
+      "oldStatus": 200,
+      "ordinaryPath": "/rankings/ai-risk-high",
+      "proPath": "/pro/rankings/ai-risk-high",
+      "phase1ProCanonical": "/rankings/ai-risk-high",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/rankings/ai-risk-high",
+      "noindex": false,
+      "ordinarySitemap": true,
+      "proSitemap": false
+    },
+    {
+      "slug": "ai-risk-low",
+      "name_ja": "AI影響が少ない仕事 TOP30",
+      "oldPath": "/rankings/ai-risk-low",
+      "oldStatus": 200,
+      "ordinaryPath": "/rankings/ai-risk-low",
+      "proPath": "/pro/rankings/ai-risk-low",
+      "phase1ProCanonical": "/rankings/ai-risk-low",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/rankings/ai-risk-low",
+      "noindex": false,
+      "ordinarySitemap": true,
+      "proSitemap": false
+    },
+    {
+      "slug": "salary-safe",
+      "name_ja": "高年収×低AIリスク TOP30",
+      "oldPath": "/rankings/salary-safe",
+      "oldStatus": 200,
+      "ordinaryPath": "/rankings/salary-safe",
+      "proPath": "/pro/rankings/salary-safe",
+      "phase1ProCanonical": "/rankings/salary-safe",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/rankings/salary-safe",
+      "noindex": false,
+      "ordinarySitemap": true,
+      "proSitemap": false
+    },
+    {
+      "slug": "workers",
+      "name_ja": "就業者数ランキング TOP30",
+      "oldPath": "/rankings/workers",
+      "oldStatus": 200,
+      "ordinaryPath": "/rankings/workers",
+      "proPath": "/pro/rankings/workers",
+      "phase1ProCanonical": "/rankings/workers",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/rankings/workers",
+      "noindex": false,
+      "ordinarySitemap": true,
+      "proSitemap": false
+    },
+    {
+      "slug": "salary",
+      "name_ja": "年収ランキング TOP30",
+      "oldPath": "/rankings/salary",
+      "oldStatus": 200,
+      "ordinaryPath": "/rankings/salary",
+      "proPath": "/pro/rankings/salary",
+      "phase1ProCanonical": "/rankings/salary",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/rankings/salary",
+      "noindex": false,
+      "ordinarySitemap": true,
+      "proSitemap": false
+    },
+    {
+      "slug": "entry-salary",
+      "name_ja": "初任給ランキング TOP30",
+      "oldPath": "/rankings/entry-salary",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/entry-salary",
+      "phase1ProCanonical": "/rankings/entry-salary",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/entry-salary",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "young-workforce",
+      "name_ja": "平均年齢が若い職業 TOP30",
+      "oldPath": "/rankings/young-workforce",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/young-workforce",
+      "phase1ProCanonical": "/rankings/young-workforce",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/young-workforce",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "short-hours",
+      "name_ja": "労働時間が短い職業 TOP30",
+      "oldPath": "/rankings/short-hours",
+      "oldStatus": 200,
+      "ordinaryPath": "/rankings/short-hours",
+      "proPath": "/pro/rankings/short-hours",
+      "phase1ProCanonical": "/rankings/short-hours",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/rankings/short-hours",
+      "noindex": false,
+      "ordinarySitemap": true,
+      "proSitemap": false
+    },
+    {
+      "slug": "high-demand",
+      "name_ja": "人手不足の職業 TOP30",
+      "oldPath": "/rankings/high-demand",
+      "oldStatus": 200,
+      "ordinaryPath": "/rankings/high-demand",
+      "proPath": "/pro/rankings/high-demand",
+      "phase1ProCanonical": "/rankings/high-demand",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/rankings/high-demand",
+      "noindex": false,
+      "ordinarySitemap": true,
+      "proSitemap": false
+    },
+    {
+      "slug": "hourly-wage",
+      "name_ja": "時給が高い職業 TOP30",
+      "oldPath": "/rankings/hourly-wage",
+      "oldStatus": 200,
+      "ordinaryPath": "/rankings/hourly-wage",
+      "proPath": "/pro/rankings/hourly-wage",
+      "phase1ProCanonical": "/rankings/hourly-wage",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/rankings/hourly-wage",
+      "noindex": false,
+      "ordinarySitemap": true,
+      "proSitemap": false
+    },
+    {
+      "slug": "recruit-ratio",
+      "name_ja": "求人倍率が高い職業 TOP30",
+      "oldPath": "/rankings/recruit-ratio",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/recruit-ratio",
+      "phase1ProCanonical": "/rankings/recruit-ratio",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/recruit-ratio",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "aging-workforce",
+      "name_ja": "シニア中心の職業 TOP30",
+      "oldPath": "/rankings/aging-workforce",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/aging-workforce",
+      "phase1ProCanonical": "/rankings/aging-workforce",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/aging-workforce",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "monthly-hours-long",
+      "name_ja": "労働時間が長い職業 TOP30",
+      "oldPath": "/rankings/monthly-hours-long",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/monthly-hours-long",
+      "phase1ProCanonical": "/rankings/monthly-hours-long",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/monthly-hours-long",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "recruit-ratio-low",
+      "name_ja": "求人倍率が低い職業 TOP30",
+      "oldPath": "/rankings/recruit-ratio-low",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/recruit-ratio-low",
+      "phase1ProCanonical": "/rankings/recruit-ratio-low",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/recruit-ratio-low",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-replaced-soon",
+      "name_ja": "AI 置き換えが進む職業 TOP30",
+      "oldPath": "/rankings/ai-replaced-soon",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-replaced-soon",
+      "phase1ProCanonical": "/rankings/ai-replaced-soon",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-replaced-soon",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-resistant-craft",
+      "name_ja": "伝統技能で AI に強い職業 TOP30",
+      "oldPath": "/rankings/ai-resistant-craft",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-resistant-craft",
+      "phase1ProCanonical": "/rankings/ai-resistant-craft",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-resistant-craft",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-at-risk-but-paid",
+      "name_ja": "AI リスク高 × 高年収 TOP30",
+      "oldPath": "/rankings/ai-at-risk-but-paid",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-at-risk-but-paid",
+      "phase1ProCanonical": "/rankings/ai-at-risk-but-paid",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-at-risk-but-paid",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-augmented",
+      "name_ja": "AI で補強される職業 TOP30",
+      "oldPath": "/rankings/ai-augmented",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-augmented",
+      "phase1ProCanonical": "/rankings/ai-augmented",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-augmented",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-frontier",
+      "name_ja": "AI を使いこなす側の職業 TOP21",
+      "oldPath": "/rankings/ai-frontier",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-frontier",
+      "phase1ProCanonical": "/rankings/ai-frontier",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-frontier",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-stable-employment",
+      "name_ja": "AI 安全 × 正規雇用率高 TOP30",
+      "oldPath": "/rankings/ai-stable-employment",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-stable-employment",
+      "phase1ProCanonical": "/rankings/ai-stable-employment",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-stable-employment",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-safe-high-demand",
+      "name_ja": "高需要 × AI 安全 TOP30",
+      "oldPath": "/rankings/ai-safe-high-demand",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-safe-high-demand",
+      "phase1ProCanonical": "/rankings/ai-safe-high-demand",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-safe-high-demand",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-safe-short-hours",
+      "name_ja": "低労働時間 × AI 安全 TOP30",
+      "oldPath": "/rankings/ai-safe-short-hours",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-safe-short-hours",
+      "phase1ProCanonical": "/rankings/ai-safe-short-hours",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-safe-short-hours",
+      "noindex": true,
+      "ordinarySitemap": false,
+      "proSitemap": false
+    },
+    {
+      "slug": "ai-safe-young-workforce",
+      "name_ja": "若手中心 × AI 安全 TOP30",
+      "oldPath": "/rankings/ai-safe-young-workforce",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-safe-young-workforce",
+      "phase1ProCanonical": "/rankings/ai-safe-young-workforce",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-safe-young-workforce",
+      "noindex": true,
+      "ordinarySitemap": false,
+      "proSitemap": false
+    },
+    {
+      "slug": "ai-safe-no-license",
+      "name_ja": "無資格 × AI 安全 TOP30",
+      "oldPath": "/rankings/ai-safe-no-license",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-safe-no-license",
+      "phase1ProCanonical": "/rankings/ai-safe-no-license",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-safe-no-license",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-safe-physical",
+      "name_ja": "身体性 × AI 安全 TOP30",
+      "oldPath": "/rankings/ai-safe-physical",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-safe-physical",
+      "phase1ProCanonical": "/rankings/ai-safe-physical",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-safe-physical",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "ai-safe-interpersonal",
+      "name_ja": "対人 × AI 安全 TOP30",
+      "oldPath": "/rankings/ai-safe-interpersonal",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/ai-safe-interpersonal",
+      "phase1ProCanonical": "/rankings/ai-safe-interpersonal",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/ai-safe-interpersonal",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "high-salary-high-demand",
+      "name_ja": "高年収 × 高需要 TOP30",
+      "oldPath": "/rankings/high-salary-high-demand",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/high-salary-high-demand",
+      "phase1ProCanonical": "/rankings/high-salary-high-demand",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/high-salary-high-demand",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "high-salary-young-entry",
+      "name_ja": "初任給が高い × 若手活躍 TOP30",
+      "oldPath": "/rankings/high-salary-young-entry",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/high-salary-young-entry",
+      "phase1ProCanonical": "/rankings/high-salary-young-entry",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/high-salary-young-entry",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "license-required",
+      "name_ja": "国家資格が必要な職業 TOP30",
+      "oldPath": "/rankings/license-required",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/license-required",
+      "phase1ProCanonical": "/rankings/license-required",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/license-required",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "no-license-required",
+      "name_ja": "無資格で就ける × AI 安全な職業 TOP30",
+      "oldPath": "/rankings/no-license-required",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/no-license-required",
+      "phase1ProCanonical": "/rankings/no-license-required",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/no-license-required",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "high-school-ok",
+      "name_ja": "高卒で目指せる職業 TOP30",
+      "oldPath": "/rankings/high-school-ok",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/high-school-ok",
+      "phase1ProCanonical": "/rankings/high-school-ok",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/high-school-ok",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "university-required",
+      "name_ja": "大卒以上が中心の職業 TOP30",
+      "oldPath": "/rankings/university-required",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/university-required",
+      "phase1ProCanonical": "/rankings/university-required",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/university-required",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "graduate-school-required",
+      "name_ja": "大学院卒中心の職業 TOP30",
+      "oldPath": "/rankings/graduate-school-required",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/graduate-school-required",
+      "phase1ProCanonical": "/rankings/graduate-school-required",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/graduate-school-required",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "public-sector",
+      "name_ja": "公的機関・公務員系の職業 TOP15",
+      "oldPath": "/rankings/public-sector",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/public-sector",
+      "phase1ProCanonical": "/rankings/public-sector",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/public-sector",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "freelance-friendly",
+      "name_ja": "フリーランス向きの職業 TOP30",
+      "oldPath": "/rankings/freelance-friendly",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/freelance-friendly",
+      "phase1ProCanonical": "/rankings/freelance-friendly",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/freelance-friendly",
+      "noindex": true,
+      "ordinarySitemap": false,
+      "proSitemap": false
+    },
+    {
+      "slug": "self-employed-typical",
+      "name_ja": "独立・開業が典型の職業 TOP30",
+      "oldPath": "/rankings/self-employed-typical",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/self-employed-typical",
+      "phase1ProCanonical": "/rankings/self-employed-typical",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/self-employed-typical",
+      "noindex": true,
+      "ordinarySitemap": false,
+      "proSitemap": false
+    },
+    {
+      "slug": "large-workforce-stable",
+      "name_ja": "大規模就業 × AI 安全 TOP30",
+      "oldPath": "/rankings/large-workforce-stable",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/large-workforce-stable",
+      "phase1ProCanonical": "/rankings/large-workforce-stable",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/large-workforce-stable",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "regulated-protected",
+      "name_ja": "規制で守られた職業 TOP30",
+      "oldPath": "/rankings/regulated-protected",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/regulated-protected",
+      "phase1ProCanonical": "/rankings/regulated-protected",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/regulated-protected",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    },
+    {
+      "slug": "low-stress-stable",
+      "name_ja": "低ストレス安定職 TOP30",
+      "oldPath": "/rankings/low-stress-stable",
+      "oldStatus": 301,
+      "ordinaryPath": null,
+      "proPath": "/pro/rankings/low-stress-stable",
+      "phase1ProCanonical": "/rankings/low-stress-stable",
+      "proCanonicalStage": "1B",
+      "proCanonical": "/pro/rankings/low-stress-stable",
+      "noindex": false,
+      "ordinarySitemap": false,
+      "proSitemap": true
+    }
+  ],
+  "pageTemplates": [
+    {
+      "source": "src/pages/404.astro",
+      "oldTemplate": "/404",
+      "oldStatus": 404,
+      "ordinaryTemplate": "/404",
+      "proTemplate": null,
+      "scope": "error-document"
+    },
+    {
+      "source": "src/pages/[...id].astro",
+      "oldTemplate": "/[...id]",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/<id> (404: /occupations/404)",
+      "proTemplate": "/pro/<id>",
+      "scope": "valid-occupation-ids"
+    },
+    {
+      "source": "src/pages/abilities/[ability].astro",
+      "oldTemplate": "/abilities/[ability]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/abilities/[ability]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/abilities/index.astro",
+      "oldTemplate": "/abilities",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/abilities",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/about.astro",
+      "oldTemplate": "/about",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/about",
+      "proTemplate": null,
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/aiadoption.astro",
+      "oldTemplate": "/aiadoption",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/aiadoption",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/aiadoption/[release].astro",
+      "oldTemplate": "/aiadoption/[release]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/aiadoption/[release]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/answers/[topic].astro",
+      "oldTemplate": "/answers/[topic]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/answers/[topic]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/answers/index.astro",
+      "oldTemplate": "/answers",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/answers",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/careers/[career].astro",
+      "oldTemplate": "/careers/[career]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/careers/[career]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/careers/index.astro",
+      "oldTemplate": "/careers",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/careers",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/compare/[pair].astro",
+      "oldTemplate": "/compare/[pair]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/compare/[pair]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/compare/index.astro",
+      "oldTemplate": "/compare",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/compare",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/compliance.astro",
+      "oldTemplate": "/compliance",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/compliance",
+      "proTemplate": null,
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/data.astro",
+      "oldTemplate": "/data",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/data",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/education/[education].astro",
+      "oldTemplate": "/education/[education]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/education/[education]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/education/index.astro",
+      "oldTemplate": "/education",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/education",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/employment-types/[employment].astro",
+      "oldTemplate": "/employment-types/[employment]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/employment-types/[employment]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/employment-types/index.astro",
+      "oldTemplate": "/employment-types",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/employment-types",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/entry-paths/[entry].astro",
+      "oldTemplate": "/entry-paths/[entry]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/entry-paths/[entry]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/entry-paths/index.astro",
+      "oldTemplate": "/entry-paths",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/entry-paths",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/explore/[route].astro",
+      "oldTemplate": "/explore/[route]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/explore/[route]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/explore/index.astro",
+      "oldTemplate": "/explore",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/explore",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/gyakuten.astro",
+      "oldTemplate": "/gyakuten",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/gyakuten",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/haid.astro",
+      "oldTemplate": "/haid",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/haid",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/index.astro",
+      "oldTemplate": "/",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/",
+      "proTemplate": null,
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/interests/[type].astro",
+      "oldTemplate": "/interests/[type]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/interests/[type]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/interests/index.astro",
+      "oldTemplate": "/interests",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/interests",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/knowledge/[knowledge].astro",
+      "oldTemplate": "/knowledge/[knowledge]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/knowledge/[knowledge]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/knowledge/index.astro",
+      "oldTemplate": "/knowledge",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/knowledge",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/licenses/[license].astro",
+      "oldTemplate": "/licenses/[license]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/licenses/[license]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/licenses/index.astro",
+      "oldTemplate": "/licenses",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/licenses",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/life-balance/[balance].astro",
+      "oldTemplate": "/life-balance/[balance]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/life-balance/[balance]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/life-balance/index.astro",
+      "oldTemplate": "/life-balance",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/life-balance",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/map.astro",
+      "oldTemplate": "/map",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/map",
+      "proTemplate": null,
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/me.astro",
+      "oldTemplate": "/me",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/me",
+      "proTemplate": null,
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/methodology.astro",
+      "oldTemplate": "/methodology",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/methodology",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/models.astro",
+      "oldTemplate": "/models",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/models",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/models/[model].astro",
+      "oldTemplate": "/models/[model]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/models/[model]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/privacy.astro",
+      "oldTemplate": "/privacy",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/privacy",
+      "proTemplate": null,
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/q/[q].astro",
+      "oldTemplate": "/q/[q]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/q/[q]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/q/index.astro",
+      "oldTemplate": "/q",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/q",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/rankings/[type].astro",
+      "oldTemplate": "/rankings/[type]",
+      "oldStatus": "per-ranking-manifest",
+      "ordinaryTemplate": "/rankings/<8 selected slugs>",
+      "proTemplate": "/pro/rankings/<39 registered slugs>",
+      "scope": "registered-ranking-slugs"
+    },
+    {
+      "source": "src/pages/rankings/index.astro",
+      "oldTemplate": "/rankings",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/rankings",
+      "proTemplate": "/pro/rankings",
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/sectors/[sector].astro",
+      "oldTemplate": "/sectors/[sector]",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/sectors/[sector]",
+      "proTemplate": null,
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/sectors/index.astro",
+      "oldTemplate": "/sectors",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/sectors",
+      "proTemplate": null,
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/shindan.astro",
+      "oldTemplate": "/shindan",
+      "oldStatus": 200,
+      "ordinaryTemplate": "/shindan",
+      "proTemplate": null,
+      "scope": "existing-valid-pages"
+    },
+    {
+      "source": "src/pages/skills/[skill].astro",
+      "oldTemplate": "/skills/[skill]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/skills/[skill]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/skills/index.astro",
+      "oldTemplate": "/skills",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/skills",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/standard.astro",
+      "oldTemplate": "/standard",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/standard",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/training/[training].astro",
+      "oldTemplate": "/training/[training]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/training/[training]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/training/index.astro",
+      "oldTemplate": "/training",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/training",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/values/[value].astro",
+      "oldTemplate": "/values/[value]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/values/[value]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/values/index.astro",
+      "oldTemplate": "/values",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/values",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/work-styles/[workstyle].astro",
+      "oldTemplate": "/work-styles/[workstyle]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/work-styles/[workstyle]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/work-styles/index.astro",
+      "oldTemplate": "/work-styles",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/work-styles",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/yearly/2026-report.astro",
+      "oldTemplate": "/yearly/2026-report",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/yearly/2026-report",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/yearly/5year-changes.astro",
+      "oldTemplate": "/yearly/5year-changes",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/yearly/5year-changes",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/yearly/index.astro",
+      "oldTemplate": "/yearly",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/yearly",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/yearly/next-decade.astro",
+      "oldTemplate": "/yearly/next-decade",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/yearly/next-decade",
+      "scope": "existing-valid-pages-only"
+    }
+  ],
+  "occupation": {
+    "ordinaryStatus": 200,
+    "proTemplate": "/pro/<numeric-id>",
+    "exception": {
+      "id": 404,
+      "ordinaryPath": "/occupations/404",
+      "proPath": "/pro/404"
+    },
+    "phase1ProCanonical": "ordinary occupation URL",
+    "finalCanonical": "each distinct edition self-canonical",
+    "invalidIdStatus": 404
+  },
+  "modelAliases": [
+    {
+      "source": "/models/fable-5",
+      "currentDestination": "/models/fable-5@2026-06-13",
+      "currentStatus": 308,
+      "destination": "/pro/models/fable-5@2026-06-13",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/fable-5",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/fable-5@2026-06-13",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/fable-5-1",
+      "currentDestination": "/models/fable-5-1@2026-09-09",
+      "currentStatus": 308,
+      "destination": "/pro/models/fable-5-1@2026-09-09",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/fable-5-1",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/fable-5-1@2026-09-09",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/gpt-5.6-sol",
+      "currentDestination": "/models/gpt-5.6-sol@2026-07-12",
+      "currentStatus": 308,
+      "destination": "/pro/models/gpt-5.6-sol@2026-07-12",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/gpt-5.6-sol",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/gpt-5.6-sol@2026-07-12",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/gpt-6-astra",
+      "currentDestination": "/models/gpt-6-astra@2026-09-10",
+      "currentStatus": 308,
+      "destination": "/pro/models/gpt-6-astra@2026-09-10",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/gpt-6-astra",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/gpt-6-astra@2026-09-10",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/gpt-6-sol",
+      "currentDestination": "/models/gpt-6-sol@2026-09-23",
+      "currentStatus": 308,
+      "destination": "/pro/models/gpt-6-sol@2026-09-23",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/gpt-6-sol",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/gpt-6-sol@2026-09-23",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/gpt-6.1-sol",
+      "currentDestination": "/models/gpt-6.1-sol@2026-10-01",
+      "currentStatus": 308,
+      "destination": "/pro/models/gpt-6.1-sol@2026-10-01",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/gpt-6.1-sol",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/gpt-6.1-sol@2026-10-01",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/grok-4.5",
+      "currentDestination": "/models/grok-4.5@2026-09-10",
+      "currentStatus": 308,
+      "destination": "/pro/models/grok-4.5@2026-09-10",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/grok-4.5",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/grok-4.5@2026-09-10",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/grok-4.6",
+      "currentDestination": "/models/grok-4.6@2026-09-07",
+      "currentStatus": 308,
+      "destination": "/pro/models/grok-4.6@2026-09-07",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/grok-4.6",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/grok-4.6@2026-09-07",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/grok-4.7",
+      "currentDestination": "/models/grok-4.7@2026-09-22",
+      "currentStatus": 308,
+      "destination": "/pro/models/grok-4.7@2026-09-22",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/grok-4.7",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/grok-4.7@2026-09-22",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/opus-4-7",
+      "currentDestination": "/models/opus-4-7@2026-04-25",
+      "currentStatus": 308,
+      "destination": "/pro/models/opus-4-7@2026-04-25",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/opus-4-7",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/opus-4-7@2026-04-25",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/opus-4-8",
+      "currentDestination": "/models/opus-4-8@2026-05-30",
+      "currentStatus": 308,
+      "destination": "/pro/models/opus-4-8@2026-05-30",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/opus-4-8",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/opus-4-8@2026-05-30",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/opus-5",
+      "currentDestination": "/models/opus-5@2026-07-26",
+      "currentStatus": 308,
+      "destination": "/pro/models/opus-5@2026-07-26",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/opus-5",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/opus-5@2026-07-26",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/models/opus-5-5",
+      "currentDestination": "/models/opus-5-5@2026-09-23",
+      "currentStatus": 308,
+      "destination": "/pro/models/opus-5-5@2026-09-23",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/pro/models/opus-5-5",
+      "currentDestination": null,
+      "currentStatus": null,
+      "destination": "/pro/models/opus-5-5@2026-09-23",
+      "plannedStatus": 301
+    }
+  ],
+  "legacyAliases": [
+    {
+      "source": "/ja/about/methodology",
+      "currentDestination": "/methodology",
+      "destination": "/pro/methodology",
+      "plannedStatus": 301
+    },
+    {
+      "source": "/ja/about/data-sources",
+      "currentDestination": "/methodology",
+      "destination": "/pro/methodology",
+      "plannedStatus": 301
+    }
+  ],
+  "legacyWildcardPolicy": "Ordinary occupation aliases retain their existing targets: /occ/404-:slug* -> /occupations/404; /occ/404 -> /occupations/404; /occ/:id(\\d+)-:slug* -> /:id; /occ/:id(\\d+) -> /:id; /ja/about/glossary -> /about; /ja/about -> /about; /ja/404.html -> /occupations/404; /ja/404 -> /occupations/404. Expand language wildcards against valid built routes by the current destination family: Root-retained families stay at root; migrated families go directly to their final Pro URL. No /pro/:path* blanket redirect.",
+  "infrastructure": [
+    "/api/*",
+    "/data.*.json",
+    "/sitemap.xml",
+    "/image-sitemap.xml",
+    "/llms.txt",
+    "/llms-full.txt",
+    "/robots.txt",
+    "/404",
+    "/fonts/*",
+    "/_astro/*"
+  ]
+}
