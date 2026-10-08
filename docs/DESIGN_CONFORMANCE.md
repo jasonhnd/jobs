@@ -31,6 +31,15 @@
 | `misc` | `/shindan` `/me` `/gyakuten` | 3 | **Hub class** + 個別 | `conformant` | 2026-09-15 完了（#531）。3 ページとも Hub class に収容し `CANONICAL_HUB_CSS` を配線。見出し規則 21 件除去 |
 | `og` | OG 画像レンダラ（1200×630 PNG） | — | `src/lib/og-renderers/` | `legacy` | 2026-09-17 新設（design-1.18）。**意図的に `legacy`。** Satori のスタイルオブジェクトで PNG を組む別媒体であり、§4.2 の**網頁**字階（12px 下限・7 段）は 1200×630 の画像に 適用されない。一方 §2.3 の影響度色は参照しており、色の正典は共通。台帳に**在る**こと が重要で、不在は「きれい」と読めてしまう（design-1.16） |
 
+## Planned cross-surface work
+
+This is a pending task ledger, separate from the current surface counts below.
+It does not introduce a page class or change current conformance claims.
+
+| Work | Scope | Status | Approval and completion evidence |
+| --- | --- | --- | --- |
+| Ordinary / Pro split (JOB_0223, [#892](https://github.com/jasonhnd/jobs/issues/892)) | Existing detail/hub/doc/feature/misc/chrome surfaces, future `src/pages/pro/` and shared full-body/summary/edition-navigation components | Pending implementation; owner visual/Design scope decision pending | [PRO_SPLIT.md](PRO_SPLIT.md) PS-07 / PS-08: obtain owner approval for §6.5 scope and three-width compositions before canon changes; preserve tokens/classes; add Pro/shared paths to surface and page-class gates; record 1440/768/375 renders and each family migration in its implementation PR. Stage-zero documentation is not visual acceptance. |
+
 ## 進捗
 
 ```
