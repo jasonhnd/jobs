@@ -7,21 +7,30 @@
 
 import { siteConfig } from '@/site/config';
 
-/**
- * Root-level paths that are owned by a static page rather than an occupation.
- *
- * Occupation IDs normally keep the historic `/{id}` URL. ID 404 is the one
- * exception because `/404` must remain the host's custom not-found document.
- * Keeping the exception here prevents individual URL producers from drifting.
- */
-const RESERVED_ROOT_OCCUPATION_IDS = new Set([404]);
+import { occupationRoute, rankingRoute, type Edition } from '@/site/route-policy';
 
-/** Canonical path for an occupation detail page. */
-export function occupationPath(id: number): string {
-  return RESERVED_ROOT_OCCUPATION_IDS.has(id) ? `/occupations/${id}` : `/${id}`;
+/** Page path; ID404 is distinct from the root custom error document. */
+export function occupationPath(id: number, edition: Edition = 'ordinary'): string {
+  return occupationRoute(id, edition).pagePath;
 }
 
-/** Canonical absolute URL for a Japanese occupation detail page. */
+export function occupationUrl(id: number, edition: Edition = 'ordinary'): string {
+  return `${siteConfig.origin}${occupationPath(id, edition)}`;
+}
+
+export function occupationCanonicalUrl(id: number, edition: Edition = 'ordinary'): string {
+  return `${siteConfig.origin}${occupationRoute(id, edition).canonicalPath}`;
+}
+
+export function rankingUrl(slug: string, edition: Edition = 'ordinary'): string {
+  return `${siteConfig.origin}${rankingRoute(slug, edition).pagePath}`;
+}
+
+export function rankingCanonicalUrl(slug: string, edition: Edition = 'ordinary'): string {
+  return `${siteConfig.origin}${rankingRoute(slug, edition).canonicalPath}`;
+}
+
+/** Historic ordinary entity URL retained for existing consumers. */
 export function jaUrl(id: number): string {
-  return `${siteConfig.origin}${occupationPath(id)}`;
+  return occupationCanonicalUrl(id);
 }
