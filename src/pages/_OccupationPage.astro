@@ -98,8 +98,8 @@ const CHAPTERS = [
 
 ---
 <BaseLayout
-  title={title}
-  description={seoDesc}
+  title={edition === 'pro' ? `Pro | ${title}` : title}
+  description={edition === 'pro' ? `Pro · ${seoDesc}` : seoDesc}
   keywords={keywords}
   canonical={canonical}
   ogTitle={ogTitle}

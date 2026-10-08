@@ -41,8 +41,8 @@ const moversHtml = renderRankingsMovers(loadRankingMovers(graph));
 const jsonLd = renderHubJsonLd(edition);
 ---
 <BaseLayout
-  title={title}
-  description={seoDesc}
+  title={edition === 'pro' ? `Pro | ${title}` : title}
+  description={edition === 'pro' ? `Pro · ${seoDesc}` : seoDesc}
   canonical={canonical}
   ogImage={`${siteConfig.origin}/api/og?page=rankings`}
   ogTitle={title}

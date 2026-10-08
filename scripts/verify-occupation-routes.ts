@@ -7,7 +7,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { loadGraph } from '../src/graph/index.js';
-import { occupationPath, jaUrl } from '../src/lib/urls.js';
+import { occupationPath, jaUrl, occupationUrl } from '../src/lib/urls.js';
 import { OCCUPATION_COUNT } from '../src/site/config.js';
 
 const ROOT = process.cwd();
@@ -113,10 +113,10 @@ if (occupations.length !== OCCUPATION_COUNT.TOTAL) {
   fail(`graph has ${occupations.length} occupations; expected ${OCCUPATION_COUNT.TOTAL}`);
 }
 
-const expectedPaths = occupations.map(({ id }) => occupationPath(id));
+const expectedPaths = occupations.flatMap(({ id }) => [occupationPath(id), occupationPath(id, 'pro')]);
 const uniquePaths = new Set(expectedPaths);
-if (uniquePaths.size !== occupations.length) {
-  fail(`${occupations.length - uniquePaths.size} duplicate occupation canonical path(s)`);
+if (uniquePaths.size !== occupations.length * 2) {
+  fail(`${occupations.length * 2 - uniquePaths.size} duplicate occupation canonical path(s)`);
 }
 
 const staticPaths = new Set(walkFiles(PAGES).map(staticSourcePath).filter((path): path is string => path !== null));
@@ -135,7 +135,8 @@ for (const file of walkFiles(DIST).filter((candidate) => candidate.endsWith('.ht
 }
 
 for (const { id, occupation } of occupations) {
-  const pathname = occupationPath(id);
+ for (const edition of ['ordinary', 'pro'] as const) {
+  const pathname = occupationPath(id, edition);
   const canonical = jaUrl(id);
   const file = outputFile(pathname);
   if (!existsSync(file)) fail(`occupation ${id} is missing rendered output ${pathname}`);
@@ -155,11 +156,15 @@ for (const { id, occupation } of occupations) {
   if (id === 404 && node.name !== occupation.titleJa) {
     fail(`occupation 404 JSON-LD name is ${JSON.stringify(node.name)}; expected ${JSON.stringify(occupation.titleJa)}`);
   }
+  const webpage = jsonLdNodes(html).find(node => node['@type'] === 'WebPage');
+  const pageUrl = occupationUrl(id, edition);
+  if (webpage?.url !== pageUrl || webpage?.['@id'] !== `${pageUrl}#webpage`) fail(`${pathname} has wrong WebPage identity`);
+ }
 }
 
-if (renderedOccupationPaths.size !== occupations.length) {
+if (renderedOccupationPaths.size !== occupations.length * 2) {
   const unexpected = [...renderedOccupationPaths.keys()].filter((pathname) => !uniquePaths.has(pathname));
-  fail(`rendered ${renderedOccupationPaths.size} occupation paths; expected ${occupations.length}; unexpected=${unexpected.join(',')}`);
+  fail(`rendered ${renderedOccupationPaths.size} occupation paths; expected ${occupations.length * 2}; unexpected=${unexpected.join(',')}`);
 }
 
 const notFoundFile = join(DIST, '404.html');
@@ -179,6 +184,7 @@ for (const sitemapName of ['sitemap.xml', 'image-sitemap.xml']) {
       fail(`${sitemapName} contains ${countExact(sitemap, loc)} entries for occupation ${id}; expected 1`);
     }
   }
+  if (sitemap.includes(`<loc>${SITE}/pro`)) fail(`${sitemapName} advertises stage-1A Pro duplicates`);
   if (sitemap.includes(`<loc>${SITE}/404</loc>`)) fail(`${sitemapName} advertises the custom /404 document`);
 }
 
