@@ -21,9 +21,9 @@ import { buildOccupationFaqs } from './occupation-faqs.js';
 import { buildSectorFaqs } from './sector-faqs.js';
 
 const FAQ1_WORD: Record<RiskBand, string> = {
-  low: '低めで、AI に代替されにくい職業',
-  mid: '中程度で、業務の一部が AI 補助に移行する可能性',
-  high: '高めで、業務の多くが AI による代替・補助の対象となる可能性',
+  low: '変化は小さく、AI に代替されにくい職業',
+  mid: '変化は中くらいで、業務の一部が AI 補助に移行する可能性',
+  high: '変化は大きく、業務の多くが AI による代替・補助の対象となる可能性',
 };
 const FAQ2_WORD: Record<RiskBand, string> = {
   low: 'AI に代替されにくく、将来性は比較的安定した',
@@ -38,9 +38,9 @@ function expectedBand(x: number): RiskBand {
 
 function calloutBand(x: number): RiskBand {
   const line = pickRiskOneLineCallout(x);
-  if (line.startsWith('低 AI 影響')) return 'low';
-  if (line.startsWith('AI 影響度は中程度')) return 'mid';
-  return 'high'; // AI 影響度が高い / 定型業務が中心
+  if (line.startsWith('変化は小さい。')) return 'low';
+  if (line.startsWith('変化は中くらい。')) return 'mid';
+  return 'high'; // 変化は大きい / 定型業務が中心
 }
 
 function seoDescription(x: number): string {

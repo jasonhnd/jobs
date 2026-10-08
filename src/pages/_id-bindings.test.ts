@@ -269,7 +269,7 @@ describe('formatVerdictFacts', () => {
 describe('verdictSentence', () => {
   test('reuses rationale verbatim and falls back to the callout', () => {
     assert.equal(verdictSentence('現場の判断が残る。', 3.6), '現場の判断が残る。');
-    assert.equal(verdictSentence('  ', 3.6), '低 AI 影響。専門性と判断が必要な業務が中心で、当面は安定。');
+    assert.equal(verdictSentence('  ', 3.6), '変化は小さい。専門性と判断が必要な業務が中心で、当面は安定。');
     assert.equal(verdictSentence('', null), 'AI 影響度未評価。');
   });
 });

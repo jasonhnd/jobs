@@ -65,7 +65,7 @@ export const GEO_ANSWER_TOPIC_CONFIGS: readonly GeoAnswerTopicConfig[] = [
     titleJa: '年収が高く、AIに代替されにくい仕事（日本のデータ）',
     h1Ja: '年収が高く、AIに代替されにくい仕事（日本のデータ）',
     questionJa: '年収が高く、AIに代替されにくい仕事を日本のデータで教えてください。',
-    shortAnswerJa: '高年収とAI安全度を両立しやすいのは、AI影響度が中程度以下で、専門性・対人判断・制度上の壁がある仕事です。',
+    shortAnswerJa: '高年収とAI安全度を両立しやすいのは、変化が中くらい以下で、専門性・対人判断・制度上の壁がある仕事です。',
     introJa: 'AI影響度4.0未満の職業から、年収中央値が高い順に並べます。収入とAI安全度を同時に見たい人向けの入口です。',
     itemReasonJa: 'AI影響度4.0未満、年収中央値が高い順',
     selector: (occupation) => displayScore(occupation.aiImpact) < 4.0 && occupation.salaryMan !== null,

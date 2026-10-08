@@ -121,9 +121,9 @@ describe('buildOccupationFaqs', () => {
     const low = buildOccupationFaqs({ ...baseInput, aiRisk: 2 });
     const mid = buildOccupationFaqs({ ...baseInput, aiRisk: 5 });
     const high = buildOccupationFaqs({ ...baseInput, aiRisk: 8 });
-    assert.ok(low[0][1].includes('低めで、AI に代替されにくい'));
-    assert.ok(mid[0][1].includes('中程度で、業務の一部が'));
-    assert.ok(high[0][1].includes('高めで、業務の多くが'));
+    assert.ok(low[0][1].includes('変化は小さく、AI に代替されにくい'));
+    assert.ok(mid[0][1].includes('変化は中くらいで、業務の一部が'));
+    assert.ok(high[0][1].includes('変化は大きく、業務の多くが'));
   });
 
   test('AI replacement answer uses geo-facts values when provided', () => {
