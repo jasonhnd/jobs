@@ -35,7 +35,7 @@ describe('renderSkillItem', () => {
       '<span class="rl-meta">医療 · <span class="skill-score">批判的思考 4.82</span> · <span class="rl-salary">500万円</span> · <span class="rl-workers">100人</span></span>' +
       '</span>' +
       '<span class="rl-end">' +
-      '<span class="risk-pill low">3.6/10</span>' +
+      '<span class="risk-pill low">3.6/10 変化 小さい</span>' +
       '<span class="rl-chevron" aria-hidden="true">›</span>' +
       '</span>' +
       '</a>' +

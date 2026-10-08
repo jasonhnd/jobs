@@ -39,10 +39,10 @@ const jsonLd = `{
 ---
 <BaseLayout
   title={`職業マップ｜全 ${OCCUPATION_COUNT.SCORED} 職業 × AI 影響度ヒートマップ | 未来の仕事`}
-  description={`日本の全 ${OCCUPATION_COUNT.SCORED} 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。タップで職業詳細へ。`}
+  description={`日本の全 ${OCCUPATION_COUNT.SCORED} 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に変化 大きい仕事を一目で確認。タップで職業詳細へ。`}
   canonical={`${siteConfig.origin}/map`}
   ogTitle={`職業マップ｜全 ${OCCUPATION_COUNT.SCORED} 職業 × AI 影響度ヒートマップ`}
-  ogDescription={`日本の全 ${OCCUPATION_COUNT.SCORED} 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。`}
+  ogDescription={`日本の全 ${OCCUPATION_COUNT.SCORED} 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に変化 大きい仕事を一目で確認。`}
   ogImage={`${siteConfig.origin}/api/og?page=map`}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
@@ -100,7 +100,7 @@ const jsonLd = `{
         <span style="background:var(--risk-3)"></span>
         <span style="background:var(--risk-4)"></span>
       </span>
-      <span>色 = AI 影響(低 → 高)</span>
+      <span class="legend-words"><span>変化 小さい</span><span>変化 中くらい</span><span>変化 大きい</span></span>
     </div>
 
     <div id="mapContent" role="region" aria-label={`${OCCUPATION_COUNT.SCORED} 職業の AI 影響ヒートマップ`}>

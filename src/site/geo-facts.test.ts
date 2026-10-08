@@ -34,6 +34,17 @@ const scores = new Map<number, GeoScoreEntry>([
   [4, { ai_risk: 9.2, aiois: { displacement: 8.0 } }],
 ]);
 
+function templateWithFixtureSectors(template: string, facts: GeoFacts): string {
+  const ids = facts.sectorsByMeanImpact.map((sector) => sector.id);
+  if (ids.length === 0) return template.replace(/__SECTOR_BAND_[a-z0-9]+__/g, '');
+  let index = 0;
+  return template.replace(/__SECTOR_BAND_[a-z0-9]+__/g, () => {
+    const id = ids[index % ids.length]!;
+    index += 1;
+    return `__SECTOR_BAND_${id}__`;
+  });
+}
+
 function scoreRun(
   date: string,
   model: string,
@@ -141,8 +152,11 @@ describe('computeGeoFacts', () => {
       scoreRun('2026-07-02', 'gpt-next-6', nextScores, 'openai'),
     ]);
     const template = await readFile(join(process.cwd(), 'src', 'index-source.html'), 'utf-8');
-    const oldHome = bindHomeFacts(template, oldLatest);
-    const newHome = bindHomeFacts(template, newLatest);
+    // The homepage names the 16 real sectors. This fixture only scores s1/s2,
+    // so point every card placeholder at a sector the fixture can fill.
+    const fixtureTemplate = templateWithFixtureSectors(template, oldLatest);
+    const oldHome = bindHomeFacts(fixtureTemplate, oldLatest);
+    const newHome = bindHomeFacts(fixtureTemplate, newLatest);
     const newMethodology = buildMethodologyBatchView(newLatest);
     const oldJsonLd = renderHomeJsonLd(oldLatest);
     const newJsonLd = renderHomeJsonLd(newLatest);
@@ -254,9 +268,9 @@ describe('displayed-value rule for KPI bands and counts (#864)', () => {
     assert.equal(bandOf(4.566666666666666), '5-6'); // prints 4.6
   });
 
-  test('「影響≥5」 counts a mean that prints 5.0, and its wages', () => {
-    const facts = factsFor([4.966666666666667, 4.933333333333334, 5.2]);
-    assert.equal(facts.highImpactCount, 2); // 5.0 and 5.2; 4.9 stays out
+  test('「影響≥7」 counts a mean that prints 7.0, and its wages', () => {
+    const facts = factsFor([6.966666666666667, 6.94, 7.2]);
+    assert.equal(facts.highImpactCount, 2); // 7.0 and 7.2; 6.9 stays out
     assert.equal(facts.highImpactAnnualWagesTrillion, 0.001); // 2 × 500万円 × 100人
   });
 

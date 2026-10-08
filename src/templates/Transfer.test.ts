@@ -24,7 +24,7 @@ describe('renderTransfer', () => {
         '<a class="transfer-card" href="/42">' +
         '<span class="tc-name">プログラマー</span>' +
         '<span class="tc-meta">' +
-        '<span class="tc-risk">AI 影響 6/10</span>' +
+        '<span class="tc-risk">AI 影響 6/10 変化 中くらい</span>' +
         '<span class="tc-similarity">類似度 82%</span>' +
         '</span>' +
         '</a>' +
@@ -47,7 +47,7 @@ describe('renderTransfer', () => {
     ]);
     assert.ok(!out.includes('tc-similarity'));
     assert.ok(!out.includes('類似度'));
-    assert.ok(out.includes('AI 影響 5/10'));
+    assert.ok(out.includes('AI 影響 5/10 変化 中くらい'));
   });
 
   test('null similarity also omits the similarity chip', () => {

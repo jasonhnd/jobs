@@ -8,7 +8,7 @@
 import { TOP_N, HIGH_DEMAND_MIN, demandScore, demandLabel, type Occupation, type RankingResult } from '../config.js';
 import { byKeyDesc, byKeyAsc, safeMean } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
-import { formatScoreFixed1 } from '../../../lib/score-format.js';
+import { formatShownMeanLabel } from '../../../lib/score-format.js';
 
 export interface WorkConditionsRankings {
   byHours: Occupation[];
@@ -85,7 +85,7 @@ export function buildWorkConditionsRankings(
       statBlocks: [
         ['TOP30 平均月間労働', `${Math.trunc(meanHours)} 時間`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byHours, 'salary'))} 万円`],
-        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(byHours, 'ai_risk'))} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(byHours, 'ai_risk'))}`],
         ['TOP30 平均年齢', `${safeMean(byHours, 'average_age').toFixed(1)} 歳`],
       ],
     }],
@@ -103,7 +103,7 @@ export function buildWorkConditionsRankings(
       statBlocks: [
         ['TOP30 平均月間労働', `${Math.trunc(meanHoursLong)} 時間`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byHoursLong, 'salary'))} 万円`],
-        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(byHoursLong, 'ai_risk'))} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(byHoursLong, 'ai_risk'))}`],
       ],
     }],
     ['hourly-wage', {
@@ -120,7 +120,7 @@ export function buildWorkConditionsRankings(
       statBlocks: [
         ['TOP30 平均時給', `¥${Math.round(meanHourly).toLocaleString('en-US')}`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byHourly, 'salary'))} 万円`],
-        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(byHourly, 'ai_risk'))} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(byHourly, 'ai_risk'))}`],
       ],
     }],
     ['recruit-ratio', {
@@ -137,7 +137,7 @@ export function buildWorkConditionsRankings(
       statBlocks: [
         ['TOP30 平均求人倍率', `${meanRecruitRatio.toFixed(2)} 倍`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byRecruitRatio, 'salary'))} 万円`],
-        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(byRecruitRatio, 'ai_risk'))} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(byRecruitRatio, 'ai_risk'))}`],
       ],
     }],
     ['recruit-ratio-low', {
@@ -154,7 +154,7 @@ export function buildWorkConditionsRankings(
       statBlocks: [
         ['TOP30 平均求人倍率', `${meanRecruitLow.toFixed(2)} 倍`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byRecruitLow, 'salary'))} 万円`],
-        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(byRecruitLow, 'ai_risk'))} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(byRecruitLow, 'ai_risk'))}`],
       ],
     }],
     ['high-demand', {
@@ -175,7 +175,7 @@ export function buildWorkConditionsRankings(
         ['全体「需要高」職業数', `${hotCount}`],
         ['全体「安定」職業数', `${normalCount}`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byDemand, 'salary'))} 万円`],
-        ['TOP30 平均 AI 影響', `${formatScoreFixed1(safeMean(byDemand, 'ai_risk'))} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(byDemand, 'ai_risk'))}`],
       ],
     }],
   ];

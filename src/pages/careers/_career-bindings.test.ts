@@ -50,7 +50,7 @@ describe('buildCareerBindings', () => {
     assert.equal(b.title, '試験ペルソナ｜推薦 TOP 3 | 未来の仕事');
     assert.ok(b.seoDesc.includes('D'.repeat(80) + '…'));
     assert.ok(b.statsHtml.includes('<dd>3</dd>'));
-    assert.ok(b.statsHtml.includes('5.0 / 10'));
+    assert.ok(b.statsHtml.includes('5.0/10 変化 中くらい'));
     assert.ok(b.statsHtml.includes('600 万円'));
   });
 

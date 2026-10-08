@@ -112,7 +112,7 @@ export interface GeoFacts {
   /** Active mean Transformation minus the immediately preceding batch mean. */
   readonly meanAiImpactDeltaFromPredecessor: number | null;
   readonly fiveBandDistribution: readonly GeoBand[];
-  readonly highImpactThreshold: 5;
+  readonly highImpactThreshold: number;
   readonly highImpactCount: number;
   /** Sum(salary in man-yen * workers), converted to trillion yen. */
   readonly highImpactAnnualWagesTrillion: number;
@@ -135,6 +135,8 @@ export interface GeoOccupationGroupSummary {
   readonly occupationCount: number;
   readonly totalWorkforce: number;
   readonly meanAiImpact: number | null;
+  /** Unrounded mean. Labels round this once via displayScore. */
+  readonly meanAiImpactRaw: number | null;
   readonly firstOccupation: GeoOccupationSummary | null;
   readonly largestOccupation: GeoOccupationSummary | null;
   readonly highestImpactOccupation: GeoOccupationSummary | null;
@@ -224,7 +226,7 @@ const FIVE_BANDS = [
   { key: '9-10', label: '9-10' },
 ] as const;
 
-const HIGH_IMPACT_THRESHOLD = 5 as const;
+const HIGH_IMPACT_THRESHOLD = 7 as const;
 
 function round2(n: number): number {
   return bankerRound(n, 2);
@@ -437,7 +439,7 @@ export function computeGeoFacts(
 
   const risks = scoredRows.map((row) => row.ai_risk as number);
   const totalWorkforce = fsum(scoredRows.map((row) => row.workers ?? 0));
-  // 「影響≥5」 counts the displayed value (#864): 4.9666… prints 5.0.
+  // 「影響≥7」 counts the displayed value: 6.9666… prints 7.0 (変化 大きい).
   const highImpactRows = scoredRows.filter((row) => displayScore(row.ai_risk!) >= HIGH_IMPACT_THRESHOLD);
   const highImpactAnnualWagesTrillion = fsum(highImpactRows.map((row) =>
     (row.salary ?? 0) * (row.workers ?? 0),
@@ -578,6 +580,7 @@ export function summarizeGeoOccupationIds(
       occupationCount: 0,
       totalWorkforce: 0,
       meanAiImpact: null,
+      meanAiImpactRaw: null,
       firstOccupation: null,
       largestOccupation: null,
       highestImpactOccupation: null,
@@ -601,10 +604,12 @@ export function summarizeGeoOccupationIds(
     (a.id - b.id),
   );
 
+  const meanAiImpactRaw = fmean(occupations.map((occupation) => occupation.aiImpact));
   return {
     occupationCount: occupations.length,
     totalWorkforce: bankerRound(fsum(occupations.map((occupation) => occupation.workers ?? 0)), 0),
-    meanAiImpact: round2(fmean(occupations.map((occupation) => occupation.aiImpact))),
+    meanAiImpact: round2(meanAiImpactRaw),
+    meanAiImpactRaw,
     firstOccupation: occupations[0]!,
     largestOccupation: byWorkforceDesc[0]!,
     highestImpactOccupation: byImpactDesc[0]!,

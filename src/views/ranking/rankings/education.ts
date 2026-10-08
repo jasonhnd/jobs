@@ -9,7 +9,7 @@ import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { safeMean, eduPct, gradPct, EDU } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
 import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
-import { formatScoreFixed1 } from '../../../lib/score-format.js';
+import { formatShownMeanLabel } from '../../../lib/score-format.js';
 
 export interface EducationRankings {
   highSchoolOk: Occupation[];
@@ -70,7 +70,7 @@ export function buildEducationRankings(
       statBlocks: [
         ['対象職業数', `${highSchoolOk.length}`],
         ['平均年収', `${Math.trunc(safeMean(highSchoolOk, 'salary'))} 万円`],
-        ['平均 AI 影響', `${formatScoreFixed1(safeMean(highSchoolOk, 'ai_risk'))} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(highSchoolOk, 'ai_risk'))}`],
       ],
     }],
     ['university-required', {
@@ -87,7 +87,7 @@ export function buildEducationRankings(
       statBlocks: [
         ['対象職業数', `${universityRequired.length}`],
         ['平均年収', `${Math.trunc(safeMean(universityRequired, 'salary'))} 万円`],
-        ['平均 AI 影響', `${formatScoreFixed1(safeMean(universityRequired, 'ai_risk'))} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(universityRequired, 'ai_risk'))}`],
       ],
     }],
     ['graduate-school-required', {
@@ -104,7 +104,7 @@ export function buildEducationRankings(
       statBlocks: [
         ['対象職業数', `${graduateSchoolRequired.length}`],
         ['平均年収', `${Math.trunc(safeMean(graduateSchoolRequired, 'salary'))} 万円`],
-        ['平均 AI 影響', `${formatScoreFixed1(safeMean(graduateSchoolRequired, 'ai_risk'))} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(graduateSchoolRequired, 'ai_risk'))}`],
       ],
     }],
     ['license-required', {
@@ -121,7 +121,7 @@ export function buildEducationRankings(
       statBlocks: [
         ['対象職業数', `${licenseRequired.length}`],
         ['平均年収', `${Math.trunc(safeMean(licenseRequired, 'salary'))} 万円`],
-        ['平均 AI 影響', `${formatScoreFixed1(safeMean(licenseRequired, 'ai_risk'))} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(licenseRequired, 'ai_risk'))}`],
       ],
     }],
     ['no-license-required', {
@@ -136,7 +136,7 @@ export function buildEducationRankings(
       introText: '関連国家資格を要さず、AI 代替リスクも低い職業群。建設技能職・運輸・対人サービスの一部が該当します。',
       statBlocks: [
         ['対象職業数', `${noLicenseRequired.length}`],
-        ['平均 AI 影響', `${formatScoreFixed1(safeMean(noLicenseRequired, 'ai_risk'))} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(noLicenseRequired, 'ai_risk'))}`],
         ['平均年収', `${Math.trunc(safeMean(noLicenseRequired, 'salary'))} 万円`],
       ],
     }],
