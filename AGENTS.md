@@ -69,7 +69,7 @@ approval before restoring Actions or CI requirements.
 
 | Branch | Role | Who may push | Who may merge into it |
 | --- | --- | --- | --- |
-| `preview` | Integration branch. Every topic branch starts from the latest `origin/preview`; every PR targets it. | Nobody pushes directly. | The supervisor — the owner, or a supervising agent the owner has delegated `preview` merges to — after reading the diff and an independent review, after checking the real local Acceptance commands output in the PR description, with `Vercel` successful and all review conversations resolved. Never the executor. |
+| `preview` | Integration branch. Every topic branch starts from the latest `origin/preview`; every PR targets it. | Nobody pushes directly. | The supervisor — the owner, or a supervising agent the owner has delegated `preview` merges to — after reading the diff and an independent review and checking the real local Acceptance commands output in the PR description, with `Vercel` successful and all review conversations resolved. Never the executor. |
 | `main` | Vercel production. | Nobody pushes directly. | Only a promotion PR with head=`preview`, merged by the owner (a human) after explicitly approving that promotion, using a merge commit. The supervisor manually verifies head=`preview` and base=`main`, checks the local verification evidence and successful `Vercel` check, and ensures all review conversations are resolved; the retained CI promotion guard does not run. |
 | topic branch | One Issue, one focused change. | The executor assigned to that Issue. | — |
 
@@ -95,8 +95,8 @@ approval before restoring Actions or CI requirements.
    build on Vercel (the Ignored Build Step skips every branch except
    `preview` and `main`, unless explicitly requested with `[vercel-build]`).
    With Actions disabled, local verification is the acceptance evidence;
-   the supervisor must check it before merging into `preview`. Commit locally after each step as
-   usual; push only verified states. If a reviewer requests
+   the supervisor must check it before merging into `preview`. Commit locally after
+   each step as usual; push only verified states. If a reviewer requests
    changes, fix locally, rerun the chain, then push.
 5. The PR description contains, in this order:
    - `Closes #N` on the first line;
