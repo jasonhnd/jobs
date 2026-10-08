@@ -40,6 +40,7 @@ describe('derivePrevDelta', () => {
 function page(rec: Partial<Rec> = {}, options: {
   scoreHistory?: readonly ScoreHistoryComparisonEntry[];
   prevDelta?: number | null;
+  edition?: 'ordinary' | 'pro';
 } = {}) {
   return buildIdPageBindings({
     rec: { ...adaptDetailFile({ id: 156, title: { ja: 'Fixture & <job>' } }), ...rec },
@@ -312,4 +313,15 @@ describe('buildVerdictDoors', () => {
   test('mid uses スコアの中身', () => {
     assert.equal(buildVerdictDoors({ risk: 5.5, hasTransfer: false })[0]?.label, 'スコアの中身');
   });
+});
+
+test('shared bindings preserve both editions at rounding and float boundaries', () => {
+  for (const score of [4.9667, 6.9667, 3.9667, 0.3, null]) {
+    const rec = { ai_risk: score, aiois: score === null ? null : { d1: score, d2: score, d3: score, d4: score, d5: score, d6: score, d7: score, d8: score, d9: score, d10: score, transformation: score, displacement: score } };
+    const { jsonLd: oldLd, ...ordinary } = page(rec);
+    const { jsonLd: proLd, ...pro } = page(rec, { edition: 'pro' });
+    assert.deepEqual(pro, ordinary);
+    const entity = (payload: string) => JSON.parse(payload)['@graph'].find((n: { '@type': string }) => n['@type'] === 'Occupation');
+    assert.deepEqual(entity(proLd), entity(oldLd));
+  }
 });
