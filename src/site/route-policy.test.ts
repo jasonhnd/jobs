@@ -16,11 +16,12 @@ describe('stage 1A edition routing', () => {
   test('all 39 copies use the stage-1 canonical, including 31 future migrations', () => {
     expect(manifest.rankings.length).toBe(39);
     for (const row of manifest.rankings) {
-      assert.deepEqual(rankingRoute(row.slug, 'pro'), { pagePath: row.proPath, canonicalPath: row.phase1ProCanonical, noindex: row.noindex, sitemap: false, ordinarySwitchPath: row.ordinaryPath ?? '/' });
+      assert.deepEqual(rankingRoute(row.slug, 'pro'), { pagePath: row.proPath, canonicalPath: row.phase1ProCanonical, noindex: row.noindex, sitemap: false, ordinarySwitchPath: row.oldPath, ordinaryProCta: row.ordinaryPath !== null });
       expect(rankingUrl(row.slug, 'pro')).toBe(`https://mirai-shigoto.com${row.proPath}`);
       expect(rankingCanonicalUrl(row.slug, 'pro')).toBe(`https://mirai-shigoto.com${row.oldPath}`);
+      expect(rankingRoute(row.slug, 'ordinary').ordinaryProCta).toBe(row.ordinaryPath !== null);
       expect(rankingRoute(row.slug, 'ordinary').pagePath).toBe(row.oldPath);
-      expect(rankingRoute(row.slug, 'pro').ordinarySwitchPath).toBe(row.ordinaryPath ?? '/');
+      expect(rankingRoute(row.slug, 'pro').ordinarySwitchPath).toBe(row.oldPath);
     }
     expect(manifest.rankings.filter(r => r.noindex).length).toBe(4);
     expect(() => rankingRoute('not-a-ranking', 'pro')).toThrow();
