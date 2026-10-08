@@ -10,6 +10,11 @@ export interface RoutePolicy {
   readonly ordinarySwitchPath: string;
 }
 
+export interface RankingRoutePolicy extends RoutePolicy {
+  /** Only the eight final ordinary rankings receive the ordinary-page Pro CTA. */
+  readonly ordinaryProCta: boolean;
+}
+
 export const PRO_RANKINGS = manifest.rankings;
 const rankings = new Map(PRO_RANKINGS.map(row => [row.slug, row]));
 
@@ -22,7 +27,7 @@ export function occupationRoute(id: number, edition: Edition = 'ordinary'): Rout
   return { pagePath: edition === 'pro' ? pro : ordinary, canonicalPath: ordinary, noindex: false, sitemap: edition === 'ordinary', ordinarySwitchPath: ordinary };
 }
 
-export function rankingRoute(slug: string, edition: Edition = 'ordinary'): RoutePolicy {
+export function rankingRoute(slug: string, edition: Edition = 'ordinary'): RankingRoutePolicy {
   const row = rankings.get(slug);
   if (!row) throw new Error(`Unknown ranking: ${slug}`);
   return {
@@ -31,7 +36,9 @@ export function rankingRoute(slug: string, edition: Edition = 'ordinary'): Route
     noindex: row.noindex,
     // Stage 1A preserves the existing ordinary sitemap, including its four noindex entries.
     sitemap: edition === 'ordinary',
-    ordinarySwitchPath: row.ordinaryPath ?? '/',
+    // All old ranking pages are still live in stage 1A, even future migrations.
+    ordinarySwitchPath: row.oldPath,
+    ordinaryProCta: row.ordinaryPath !== null,
   };
 }
 

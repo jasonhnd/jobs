@@ -40,8 +40,11 @@ test('unknown Pro IDs and slugs retain real 404 semantics', async ({ page }) => 
   }
 });
 
-test('non-retained Pro ranking returns to ordinary home', async ({ page }) => {
+test('stage-1A migrating ranking returns to its live ordinary page without adding a CTA', async ({ page }) => {
   await page.goto('/pro/rankings/entry-salary');
-  await expect(page.locator('.edition-nav a', { hasText: '通常版へ' })).toHaveAttribute('href', '/');
+  await expect(page.locator('.edition-nav a', { hasText: '通常版へ' })).toHaveAttribute('href', '/rankings/entry-salary');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://mirai-shigoto.com/rankings/entry-salary');
+  await page.locator('.edition-nav a', { hasText: '通常版へ' }).click();
+  await expect(page).toHaveURL(/\/rankings\/entry-salary$/);
+  await expect(page.locator('[data-pro-cta]')).toHaveCount(0);
 });

@@ -174,7 +174,7 @@ ${RANK_LIST_CSS}
 
     <Fragment set:html={editionHtmlLinks(escapeRoutesHtml, edition)} />
 
-    {edition === 'ordinary' && policy.ordinarySwitchPath !== '/' && <p data-pro-cta><a href={rankingRoute(result.slug, 'pro').pagePath}>Pro で詳しく見る</a></p>}
+    {edition === 'ordinary' && policy.ordinaryProCta && <p data-pro-cta><a href={rankingRoute(result.slug, 'pro').pagePath}>Pro で詳しく見る</a></p>}
     <Footer />
   </div>
 
