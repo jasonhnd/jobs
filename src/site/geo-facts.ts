@@ -238,12 +238,14 @@ function roundPct(n: number, total: number): number {
 }
 
 /**
- * Apportion whole percentages with the Hamilton/largest-remainder method.
+ * Apportion percentages with the Hamilton/largest-remainder method.
  * Leftover points go to the largest remainders, one tie group at a time: a
  * group of equal remainders gets a point each only when the whole group fits,
  * so equal counts always print equal shares (#864 — two bands of 2/556 printed
- * 1% and 0%). Points a split group would need pass to the next group; only if
- * no later group can take them do they fall back to band order.
+ * 1% and 0%). A group that does not fit is left unchanged. If that still
+ * leaves points over, integers cannot both stay equal and sum to 100, so the
+ * result is one-decimal banker's rounding of the exact shares instead of
+ * splitting the tie by band order (#886 — [1,1,1,1,2] was [17,17,16,16,34]).
  */
 function apportionWholePercent(counts: readonly number[]): number[] {
   const total = fsum(counts);
@@ -258,20 +260,13 @@ function apportionWholePercent(counts: readonly number[]): number[] {
   // Equal counts have equal remainders; Map keeps the remainder order.
   const byCount = new Map<number, typeof order>();
   for (const entry of order) byCount.set(entry.count, [...(byCount.get(entry.count) ?? []), entry]);
-  const groups = [...byCount.values()];
-  const skipped: typeof order = [];
-  for (const group of groups) {
-    if (group.length > remaining) {
-      skipped.push(...group);
-      continue;
-    }
+  for (const group of byCount.values()) {
+    if (group.length > remaining) continue;
     for (const entry of group) result[entry.index]! += 1;
     remaining -= group.length;
   }
-  for (let i = 0; i < remaining && i < skipped.length; i += 1) {
-    result[skipped[i]!.index]! += 1;
-  }
-  return result;
+  if (remaining === 0) return result;
+  return raw.map((value) => bankerRound(value, 1));
 }
 
 function fiveBandIndex(score: number): number {
