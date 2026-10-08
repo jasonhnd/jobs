@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-10-08T00:44:16.721Z",
-  "gitCommit": "08d24ec2e73678fae354c0ac3d14536adab31deb",
-  "gitBranch": "fix/three-band-score-labels",
-  "distFileCount": 845,
-  "urlCount": 845,
+  "capturedAt": "2026-10-08T14:08:51.445Z",
+  "gitCommit": "0c8ab9863f0d495ca4db7c163f5bbbc493ff2b2e",
+  "gitBranch": "feat/894-pro-stage-1a",
+  "distFileCount": 1442,
+  "urlCount": 1442,
   "dataFileCount": 616,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }
