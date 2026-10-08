@@ -147,7 +147,7 @@ export function buildRankings(
     `<strong>${escapeHtml(highestRiskSector)}</strong>セクターはAI影響度平均${formatShownMeanLabel(sectorMeanRisks.get(highestRiskSector) ?? 0)}と全セクターで最高`,
     `<strong>${escapeHtml(lowestRiskSector)}</strong>セクターはAI影響度平均${formatShownMeanLabel(sectorMeanRisks.get(lowestRiskSector) ?? 0)}と最も低い`,
     `年収上位30職業の平均AI影響度は<strong>${formatShownMeanLabel(safeMean(salary.bySalary, 'ai_risk'))}</strong>`,
-    '就業者数上位は事務・販売系が占めるが、AI影響度は<strong>高め</strong>の傾向',
+    '就業者数上位は事務・販売系が占めるが、変化は<strong>大きい</strong>傾向',
     'AI影響度が低い職業ほど<strong>身体性・対人スキル</strong>を求められる傾向',
   ];
 

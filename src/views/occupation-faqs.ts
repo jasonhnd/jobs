@@ -99,10 +99,10 @@ export function buildOccupationFaqs(
     const band = riskBand(factAiRisk);
     const tier =
       band === 'low'
-        ? '低めで、AI に代替されにくい職業'
+        ? '変化は小さく、AI に代替されにくい職業'
         : band === 'mid'
-          ? '中程度で、業務の一部が AI 補助に移行する可能性'
-          : '高めで、業務の多くが AI による代替・補助の対象となる可能性';
+          ? '変化は中くらいで、業務の一部が AI 補助に移行する可能性'
+          : '変化は大きく、業務の多くが AI による代替・補助の対象となる可能性';
     const rationaleStr = rationale ? `主な要因は「${rationale}」。` : '';
     const geoRankStr = geoOccupation && geoFacts
       ? `AI影響度の高い順では全${geoFacts.occupationCount}職業中${geoOccupation.aiImpactRank}位で、全体平均${formatShownMeanLabel(geoFacts.meanAiImpactRaw)}と比較できます。`
