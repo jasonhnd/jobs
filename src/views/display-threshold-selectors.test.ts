@@ -34,14 +34,15 @@ describe('Q&A predicates (#864)', () => {
 });
 
 describe('/answers/nenshu-ai-anzen (#864)', () => {
-  test('「AI影響度5.0以下」 keeps a mean that prints 5.0', () => {
+  test('「AI影響度4.0未満」 keeps a mean that prints 3.9 and drops 4.0', () => {
     const config = getGeoAnswerTopicConfig('nenshu-ai-anzen')!;
     const occ = (aiImpact: number): GeoOccupationSummary => ({
       id: 1, nameJa: '弁護士', aiImpact, aiImpactRank: 1, displacementRisk: null,
       salaryMan: 765.3, workers: 1000, recruitRatio: null, demandBand: null, sectorJa: '士業',
     });
-    assert.equal(config.selector(occ(5.033333333333333)), true); // prints 5.0
-    assert.equal(config.selector(occ(5.066666666666666)), false); // prints 5.1
+    assert.equal(config.selector(occ(3.933333333333333)), true); // prints 3.9
+    assert.equal(config.selector(occ(3.966666666666666)), false); // prints 4.0
+    assert.equal(config.selector(occ(5.033333333333333)), false); // prints 5.0, old cut
   });
 });
 

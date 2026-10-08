@@ -24,7 +24,7 @@ export const RANK_LIST_CSS = `
 .rank-list .rl-meta{font-size:var(--t-sm);line-height:1.4;color:var(--fg2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rank-list .rl-end{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .rank-list .rl-chevron{color:var(--ink-meta);font-size:var(--t-h3);line-height:1}
-.risk-pill{display:inline-block;padding:2px 10px;border-radius:var(--r-md);font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums}
+.risk-pill{display:inline-block;padding:2px 10px;border-radius:var(--r-md);font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums;max-width:9em;white-space:normal;text-align:center;line-height:1.3}
 .risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
 .risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
 .risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}

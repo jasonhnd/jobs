@@ -30,14 +30,32 @@ test('home reapplies only the latest queued query before the loaded treemap is r
 
 test('home shows one decimal everywhere a score is printed, via fmtRisk (design-1.21)', () => {
   // The treemap tile sub-info and the TOP10 pill both go through fmtRisk.
-  assert.match(source, /const scoreLabel = \(rec\.ai_risk != null\) \? fmtRisk\(rec\.ai_risk\) : "—";/);
+  assert.match(source, /const scoreLabel = \(rec\.ai_risk != null\) \? \(fmtRisk\(rec\.ai_risk\) \+ "\/10 " \+ riskBandWord\(rec\.ai_risk\)\) : "—";/);
   // The hover tooltip's AI リスク row (was `d.ai_risk + "/10"` — 4.266666666666667/10 on screen).
-  assert.match(source, /\? fmtRisk\(d\.ai_risk\) \+ "\/10" \+ \(riskPctTop/);
+  assert.match(source, /\? fmtRisk\(d\.ai_risk\) \+ "\/10 " \+ riskBandWord\(d\.ai_risk\) \+ \(riskPctTop/);
   assert.doesNotMatch(source, /[^t]\bd\.ai_risk \+ "\/10"/);
   assert.doesNotMatch(source, /score\.toFixed\(1\)/);
   // The dead raw-float spans are gone (they only ever hid behind :has()).
   assert.doesNotMatch(source, /class="num"/);
   assert.doesNotMatch(source, /class="denom"/);
+});
+
+test('home weighted average labels that displayed score', () => {
+  assert.match(source, /const shownAvg = Number\(fmtRisk\(wAvg\)\)\.toFixed\(1\);/);
+  assert.match(source, /<span class="stat-score">\$\{escapeHtml\(shownAvg\)\}\/10<\/span>/);
+  assert.match(source, /<span class="stat-band">\$\{escapeHtml\(riskBandWord\(wAvg\)\)\}<\/span>/);
+  assert.doesNotMatch(source, /toFixed\(1\) \+ " \/ 10"/);
+  assert.doesNotMatch(source, /toFixed\(1\) \+ "\/10 " \+ riskBandWord\(wAvg\)/);
+  const start = source.indexOf('function fmtRisk(v) {');
+  const end = source.indexOf('function gaRiskTier(v) {', start);
+  assert.ok(start > 0 && end > start);
+  const label = new Function(
+    `${source.slice(start, end)}\nreturn (v) => Number(fmtRisk(v)).toFixed(1) + "/10 " + riskBandWord(v);`,
+  )() as (v: number) => string;
+  assert.equal(label(4.866666666666666), '4.9/10 変化 中くらい');
+  assert.equal(label(3.933333333333333), '3.9/10 変化 小さい');
+  assert.equal(label(3.9666666666666663), '4.0/10 変化 中くらい');
+  assert.equal(label(6.966666666666667), '7.0/10 変化 大きい');
 });
 
 test('home fmtRisk is banker\'s rounding over the exact double, like displayScore() (design-1.21)', () => {

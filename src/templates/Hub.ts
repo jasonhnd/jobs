@@ -33,7 +33,7 @@ export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
 export function renderRankItem(o: GenreOccupation, shortJa: string, showScore = true): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
-  const scoreStr = formatRiskScore(o.ai_risk);
+  const scoreStr = formatRiskScoreLabel(o.ai_risk);
   const band = riskClass(o.ai_risk);
   const metaParts: string[] = [];
   if (o.sector_ja) metaParts.push(escapeHtml(o.sector_ja));
@@ -225,7 +225,7 @@ export function renderGenreIndexSpotlight(occs: ReadonlyArray<GenreOccupation>):
   const items = occs
     .map((o) => {
       const band = riskClass(o.ai_risk);
-      const riskStr = formatRiskScore(o.ai_risk);
+      const riskStr = formatRiskScoreLabel(o.ai_risk);
       const salaryStr = o.salary !== null ? `${Math.trunc(o.salary)} 万円` : '—';
       return (
         `<li><a href="${occupationPath(o.id)}">` +
@@ -382,7 +382,7 @@ export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc:
 // `_<page>-bindings.ts` パターンの 13 hub-index page がこれを `set:html` で食べる。
 
 import { CANONICAL_HUB_CSS } from '../lib/canonical/hub';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
 import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 const HUB_PAGE_SPECIFIC_CSS = `
@@ -400,7 +400,7 @@ ${AI_FACT_CSS}
 .genre-detail-grid ul{list-style:disc;padding-left:20px;margin:0}
 .genre-detail-grid li{font-size:var(--t-sm);color:var(--fg);margin-bottom:6px;line-height:1.6}
 .genre-score{font-family:var(--font-mono);font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums;font-weight:600}
-.risk-pill{display:inline-block;padding:2px 10px;border-radius:var(--r-md);font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums}
+.risk-pill{display:inline-block;padding:2px 10px;border-radius:var(--r-md);font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums;max-width:9em;white-space:normal;text-align:center;line-height:1.3}
 .risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
 .risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
 .risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}

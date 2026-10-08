@@ -16,7 +16,7 @@ import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { fmtInt } from '../lib/num.js';
 import { riskClass } from '../lib/risk.js';
 import { occupationPath } from '../lib/urls.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
 
 /** One row in a top-list or full-list. */
 export interface SectorListOccupation {
@@ -36,7 +36,7 @@ export interface RelatedSectorRow {
 }
 
 function riskScoreText(aiRisk: number | null): string {
-  return formatRiskScore(aiRisk);
+  return formatRiskScoreLabel(aiRisk);
 }
 
 function listItem(

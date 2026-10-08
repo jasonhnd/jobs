@@ -23,6 +23,15 @@ describe('renderAiois10Profile', () => {
     assert.ok(html.includes('>7.6<'), 'displacement value');
   });
 
+  test('変化の大きさ carries its own band word; 仕事が減るリスク stays bare', () => {
+    const html = renderAiois10Profile(sample);
+    const change = html.slice(html.indexOf('class="aio-idx idx-t"'), html.indexOf('class="aio-idx idx-d"'));
+    const loss = html.slice(html.indexOf('class="aio-idx idx-d"'), html.indexOf('aio-list'));
+    assert.match(change, /9\.2<small>\/10<\/small> <span class="score-band">変化 大きい<\/span>/);
+    assert.match(loss, /7\.6<small>\/10<\/small>/);
+    assert.doesNotMatch(loss, /変化 /);
+  });
+
   test('bar fill width tracks the 0-10 value (×10%)', () => {
     const html = renderAiois10Profile(sample);
     assert.ok(html.includes('width:95%'), 'D1=9.5 → 95%');

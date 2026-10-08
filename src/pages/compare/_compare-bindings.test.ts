@@ -139,7 +139,8 @@ describe('buildComparePairBindings', () => {
     assert.ok(!bindings.introHtml.includes('href="/1"'));
     assert.ok(!bindings.introHtml.includes('href="/occupations/404"'));
     assert.match(bindings.introHtml, /&amp; &lt;intro&gt;/);
-    assert.match(bindings.aiFactHtml, /5\.00\/10/);
+    assert.match(bindings.aiFactHtml, /2職業の平均AI影響度は5\.0\/10 変化 中くらい/);
+    assert.doesNotMatch(bindings.aiFactHtml, /5\.00\/10/);
     assert.match(bindings.aiFactHtml, /300人/);
     assert.match(bindings.crossHubHtml, /href="\//);
     assert.ok(!bindings.relatedHtml.includes('href="/compare/kango-vs-helper"'));

@@ -19,7 +19,7 @@
 import { fmtInt } from '../lib/num.js';
 import { displayScore } from '../data/lib/banker-round.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel, formatShownMeanLabel } from '../lib/score-format.js';
 
 /** One ranked occupation summary as the FAQ builder consumes it.
  *  A subset of the page's SectorOccupationSummary shape. */
@@ -50,17 +50,7 @@ export interface SectorFaqsInput {
 
 export type SectorFaqItem = readonly [question: string, answer: string];
 
-const MEAN_RISK_LOW_CEIL = 4.0;
-const MEAN_RISK_HIGH_FLOOR = 6.0;
-// Sector-mean-risk → Japanese tier label. The cutoffs (3.5 / 5.5 / 7.0)
-// are intentionally distinct from per-occupation riskCallout thresholds
-// because a sector mean is smoothed over many occupations.
-function meanRiskTierLabel(mean: number): string {
-  if (mean <= 3.5) return '低め';
-  if (mean <= 5.5) return '中程度';
-  if (mean <= 7.0) return 'やや高め';
-  return '高め';
-}
+
 
 export function buildSectorFaqs(input: SectorFaqsInput): readonly SectorFaqItem[] {
   const { nameJa, occupationCount, workforceTotal, meanRisk, topWorkers, topHigh, topLow } =
@@ -86,7 +76,7 @@ export function buildSectorFaqs(input: SectorFaqsInput): readonly SectorFaqItem[
     const top3 = topHigh.slice(0, 3);
     const itemsStr = top3
       .filter((o) => o.titleJa && o.aiRisk !== null)
-      .map((o) => `${o.titleJa}（AI影響 ${formatRiskScore(o.aiRisk)}）`)
+      .map((o) => `${o.titleJa}（AI影響 ${formatRiskScoreLabel(o.aiRisk)}）`)
       .join('、');
     faqs.push([
       `${nameJa}業界で AI 影響度が最も高い職業は？`,
@@ -100,7 +90,7 @@ export function buildSectorFaqs(input: SectorFaqsInput): readonly SectorFaqItem[
     const top3 = topLow.slice(0, 3);
     const itemsStr = top3
       .filter((o) => o.titleJa && o.aiRisk !== null)
-      .map((o) => `${o.titleJa}（AI影響 ${formatRiskScore(o.aiRisk)}）`)
+      .map((o) => `${o.titleJa}（AI影響 ${formatRiskScoreLabel(o.aiRisk)}）`)
       .join('、');
     faqs.push([
       `${nameJa}業界で AI 影響度が最も低い職業は？`,
@@ -109,12 +99,11 @@ export function buildSectorFaqs(input: SectorFaqsInput): readonly SectorFaqItem[
     ]);
   }
 
-  // Q4: average AI impact + tier interpretation.
-  if (shownMean !== null) {
-    const tier = meanRiskTierLabel(shownMean);
+  // Q4: average AI impact. The signed band word follows the displayed mean.
+  if (meanRisk !== null && shownMean !== null) {
     faqs.push([
       `${nameJa}業界の平均 AI 影響度は？`,
-      `${nameJa}業界の${occupationCount}職業の平均 AI 影響度は10段階中 ${shownMean.toFixed(1)} で、${tier}の水準です。` +
+      `${nameJa}業界の${occupationCount}職業の平均 AI 影響度は ${formatShownMeanLabel(meanRisk)}。` +
         `${CONSENSUS_FAQ_SENTENCE}職業ごとのバラつきがあります。`,
     ]);
   }
@@ -127,16 +116,16 @@ export function buildSectorFaqs(input: SectorFaqsInput): readonly SectorFaqItem[
       .map((o) => o.titleJa)
       .join('、');
     let outlook: string;
-    if (shownMean <= MEAN_RISK_LOW_CEIL) {
+    if (shownMean < 4.0) {
       outlook = 'AIに代替されにくい職業が多く、将来性が比較的高い';
-    } else if (shownMean >= MEAN_RISK_HIGH_FLOOR) {
+    } else if (shownMean >= 7.0) {
       outlook = '業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要な';
     } else {
       outlook = '職業によって AI 影響度に差があり、個別に検討が必要な';
     }
     faqs.push([
       `${nameJa}業界の将来性は？`,
-      `平均 AI 影響度 ${shownMean.toFixed(1)}/10 で、${outlook}業界です。` +
+      `平均 AI 影響度 ${formatShownMeanLabel(shownMean)} で、${outlook}業界です。` +
         `特に AI リスクが低い職業として ${safeJobsStr} などが挙げられます。`,
     ]);
   }

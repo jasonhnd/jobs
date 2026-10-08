@@ -805,7 +805,8 @@
       .gradient-legend {
         display: flex;
         align-items: center;
-        gap: 6px;
+        flex-wrap: wrap;
+        gap: var(--s-2);
         font-size: var(--t-xs);
         color: var(--fg2);
         margin-left: auto;
@@ -946,6 +947,18 @@
         font-size: var(--t-h3);
         font-weight: 600;
         color: var(--fg);
+        line-height: 1.25;
+      }
+      .stat-block .stat-score,
+      .stat-block .stat-band {
+        display: block;
+        white-space: nowrap;
+      }
+      .stat-block .stat-band {
+        margin-top: var(--s-1);
+        font-size: var(--t-sm);
+        font-weight: 700;
+        line-height: 1.3;
       }
       .stat-block .stat-sub {
         font-size: var(--t-xs);
@@ -2214,6 +2227,7 @@
       .risk-distribution li .rd-text small { font-size: var(--t-xs); }
       .risk-distribution li .rd-text strong { display: block; font-weight: 600; color: var(--fg); font-size: var(--t-xs); }
       .risk-distribution li .rd-text small { color: var(--ink-meta); }
+      .risk-band-legend { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-2) 0 0; font-size: var(--t-xs); color: var(--fg2); }
       @media (max-width: 768px) {
         .kpi-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .kpi-row li strong { font-size: var(--t-h1); }

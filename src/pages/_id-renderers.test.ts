@@ -45,7 +45,7 @@ describe('occupation section adapters', () => {
     });
     const meta = renderOccupationMetaRow(record);
     assert.match(meta, /href="\/sectors\/iryo">Sector &amp; &lt;label&gt;/);
-    assert.match(meta, /class="band band-high">AI 影響 高/);
+    assert.match(meta, /class="band band-high">変化 大きい/);
     assert.match(meta, /class="band band-mid">規模 中/);
     assert.match(meta, /class="band band-low">需要 安定/);
     const radar = renderOccupationProfileRadar(record);
@@ -149,7 +149,7 @@ describe('occupation FAQ and JSON-LD adapters', () => {
     assert.equal(web.url, 'https://mirai-shigoto.com/occupations/404');
     assert.equal(web.datePublished, dates.datePublished);
     assert.equal(web.dateModified, dates.dateModified);
-    assert.ok(web.name.includes('1.5/10'));
+    assert.ok(web.name.includes('1.5/10 変化 小さい'));
     assert.equal(occupation.sameAs, record.url);
     assert.equal(occupation.occupationalCategory, 'MHLW');
     assert.deepEqual(occupation.alternateName, ['Alias A', 'Alias B']);

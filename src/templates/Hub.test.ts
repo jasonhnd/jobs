@@ -57,7 +57,7 @@ describe('renderRankItem', () => {
       '<span class="rl-meta">医療 · <span class="genre-score">問題敏感性 1.00</span> · <span class="rl-salary">500万円</span> · <span class="rl-workers">100人</span></span>' +
       '</span>' +
       '<span class="rl-end">' +
-      '<span class="risk-pill mid">4/10</span>' +
+      '<span class="risk-pill mid">4/10 変化 中くらい</span>' +
       '<span class="rl-chevron" aria-hidden="true">›</span>' +
       '</span>' +
       '</a>' +

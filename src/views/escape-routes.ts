@@ -12,7 +12,7 @@
  */
 import type { Occupation } from './ranking/config.js';
 import { occupationPath } from '../lib/urls.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
 import { riskClass } from '../lib/risk.js';
 import { displayScore } from '../data/lib/banker-round.js';
 
@@ -106,7 +106,7 @@ export function renderEscapeRouteSection(
         `<a href="${occupationPath(c.id)}">` +
         `<span class="ec-name">${escapeHtml(c.nameJa)}</span>` +
         `<span class="ec-meta">` +
-        `<span class="risk-pill ${riskClass(c.aiRisk)}">AI ${formatRiskScore(c.aiRisk)}</span>` +
+        `<span class="risk-pill ${riskClass(c.aiRisk)}">AI ${formatRiskScoreLabel(c.aiRisk)}</span>` +
         (c.sectorJa
           ? `<span class="ec-sector">${escapeHtml(c.sectorJa)}</span>`
           : '') +

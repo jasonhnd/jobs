@@ -7,8 +7,9 @@ const source = readFileSync('src/pages/_map-inline.js', 'utf8');
 
 test('map prints every AI-impact score through fmtRisk — no raw ai_risk in text (design-1.21)', () => {
   // tooltip, bottom sheet label, list rows, sector mean, aria-labels
-  assert.match(source, /\$ttRisk\.textContent = 'AI ' \+ fmtRisk\(r\.ai_risk\) \+ '\/10';/);
-  assert.match(source, /var s = fmtRisk\(r\) \+ '\/10';/);
+  assert.match(source, /\$ttRisk\.textContent = 'AI ' \+ riskScoreLabel\(r\.ai_risk\);/);
+  assert.match(source, /function riskScoreLabel\(v\)/);
+  assert.match(source, /return word \? shown \+ '\/10 ' \+ word : shown;/);
   assert.match(source, /meta\.textContent = recs\.length \+ ' 職業 ・ 平均 AI ' \+ fmtRisk\(sm\.mean_ai_risk\);/);
   assert.doesNotMatch(source, /\+ r\.ai_risk \+ '\/10'/);
   assert.doesNotMatch(source, /\(r\.ai_risk \|\| '\?'\) \+ '\/10/);

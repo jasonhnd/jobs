@@ -22,7 +22,7 @@ describe('buildOccupationSeo', () => {
       aiRisk: 3,
       salaryStanding: { topPercent: 39, universe: 544 },
     });
-    assert.equal(title, '看護師の年収は544職業中上位39%｜AI影響3/10');
+    assert.equal(title, '看護師の年収は544職業中上位39%｜AI影響3/10 変化 小さい');
   });
 
   test('title banker-rounds even-count medians to one decimal', () => {
@@ -31,7 +31,7 @@ describe('buildOccupationSeo', () => {
       aiRisk: 4.25,
       salaryStanding: { topPercent: 39, universe: 544 },
     });
-    assert.equal(title, '看護師の年収は544職業中上位39%｜AI影響4.2/10');
+    assert.equal(title, '看護師の年収は544職業中上位39%｜AI影響4.2/10 変化 中くらい');
   });
 
   test('title prints the universe it was given, not a hardcoded 556', () => {
@@ -58,7 +58,7 @@ describe('buildOccupationSeo', () => {
 
   test('title without salary still carries AI impact', () => {
     const { title } = buildOccupationSeo({ ...baseInput, aiRisk: 6 });
-    assert.equal(title, '看護師のAI影響6/10｜未来の仕事');
+    assert.equal(title, '看護師のAI影響6/10 変化 中くらい｜未来の仕事');
   });
 
   test('title with null aiRisk uses 未評価', () => {
@@ -79,23 +79,23 @@ describe('buildOccupationSeo', () => {
     });
     assert.equal(
       description,
-      '看護師の年収は544職業中で上位39%（厚生労働省 jobtag 2026年版）。就業者は1,500,000人。看護師のAI影響度は10段階中5と中程度です。仕事の中身がAIで変わる度合いであり、失業の確率ではありません。将来性やなり方、必要なスキルを詳しく解説。',
+      '看護師の年収は544職業中で上位39%（厚生労働省 jobtag 2026年版）。就業者は1,500,000人。看護師のAI影響度は5/10 変化 中くらいです。仕事の中身がAIで変わる度合いであり、失業の確率ではありません。将来性やなり方、必要なスキルを詳しく解説。',
     );
   });
 
   test('description tier: aiRisk <= 3 → 低め', () => {
     const { description } = buildOccupationSeo({ ...baseInput, aiRisk: 2 });
-    assert.ok(description.includes('10段階中2と低め'));
+    assert.ok(description.includes('2/10 変化 小さい'));
   });
 
   test('description tier: aiRisk 4-6 → 中程度', () => {
     const { description } = buildOccupationSeo({ ...baseInput, aiRisk: 5 });
-    assert.ok(description.includes('10段階中5と中程度'));
+    assert.ok(description.includes('5/10 変化 中くらい'));
   });
 
   test('description tier: aiRisk >= 7 → 高め', () => {
     const { description } = buildOccupationSeo({ ...baseInput, aiRisk: 8 });
-    assert.ok(description.includes('10段階中8と高め'));
+    assert.ok(description.includes('8/10 変化 大きい'));
   });
 
   test('description never says AI代替リスク', () => {

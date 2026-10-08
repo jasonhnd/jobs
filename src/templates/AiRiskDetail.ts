@@ -32,7 +32,7 @@
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
 
 export interface AiRiskDetailInput {
   /** 0.0–10.0 score (one decimal); displayed as "N/10" in the headline. Null
@@ -53,7 +53,7 @@ export function renderAiRiskDetail(input: AiRiskDetailInput): SafeHtml {
   const { aiRisk, rationaleLongJa, displaceableTasksJa, resilientTasksJa, horizon5yJa } = input;
   if (!rationaleLongJa) return '' as SafeHtml;
 
-  const scoreDisp = formatRiskScore(aiRisk);
+  const scoreDisp = formatRiskScoreLabel(aiRisk);
   let dispLis = '';
   for (const t of displaceableTasksJa) dispLis += `<li>${escapeHtml(t)}</li>`;
   let resiLis = '';
