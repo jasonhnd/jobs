@@ -48,7 +48,27 @@ describe('stage 1A rendered Pro contract', { skip: !ready && !required }, () => 
       const ids = (text: string) => jsonld(text).find(n => n['@type'] === 'ItemList')?.itemListElement.map((r: {url: string}) => r.url.split('/').pop());
       assert.deepEqual(ids(pro), ids(old), `ordering ${row.slug}`);
       assert.ok(jsonld(pro).find(n => n['@type'] === 'ItemList')?.itemListElement.every((r: {url: string}) => /^https:\/\/mirai-shigoto.com\/pro\/\d+$/.test(r.url)));
+      assert.ok(pro.includes(`href="${row.oldPath}">通常版へ</a>`), `ordinary return ${row.slug}`);
       assert.equal(old.includes('data-pro-cta'), row.ordinaryPath !== null, `CTA ${row.slug}`);
+    }
+  });
+  test('Pro ranking JSON-LD matches the actual title and description, including the index', () => {
+    for (const path of ['/pro/rankings', ...manifest.rankings.map(row => row.proPath)]) {
+      const text = html(path);
+      const unescape = (s: string) => s.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&#39;', "'").replaceAll('&lt;', '<').replaceAll('&gt;', '>');
+      const title = unescape(text.match(/<title>([\s\S]*?)<\/title>/)![1]!);
+      const description = unescape(text.match(/<meta name="description" content="([^"]*)"/)![1]!);
+      assert.ok(title.startsWith('Pro | '), path);
+      assert.ok(description.startsWith('Pro · '), path);
+      const nodes = jsonld(text);
+      const webpage = nodes.find(node => node['@type'] === 'WebPage');
+      assert.equal(webpage?.name, title, `${path} WebPage name`);
+      assert.equal(webpage?.description, description, `${path} WebPage description`);
+      const article = nodes.find(node => node['@type'] === 'Article');
+      if (path !== '/pro/rankings') {
+        assert.equal(article?.headline, title, `${path} Article headline`);
+        assert.equal(article?.description, description, `${path} Article description`);
+      }
     }
   });
   test('Pro is absent from both sitemaps, while hubs are indexable and unknown URLs are not generated', () => {

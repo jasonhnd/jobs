@@ -407,3 +407,11 @@ Japanese edition-navigation placeholders and Pro metadata markers require
 owner signature before merge, as listed in the PR. The approved ordinary CTA
 is `Pro で詳しく見る`. Stage 1B links/redirects, ordinary simplification, live
 preview verification and production promotion remain separate work.
+
+Stage-1A review follow-up: all 39 Pro ranking edition switches return to their
+still-live `oldPath`, including the 31 planned migrations. This current return
+policy is independent of the final ordinary subset: only the eight rows with
+`ordinaryPath !== null` receive an ordinary-page Pro CTA. Pro ranking detail
+WebPage/Article metadata and index WebPage metadata use the same `Pro |` title
+and `Pro ·` description values as their actual HTML metadata. Ordinary
+structured data remains unchanged.

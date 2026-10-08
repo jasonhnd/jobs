@@ -34,8 +34,8 @@ if (HIGH_RISK_SLUGS.has(result.slug) && result.items.length > 0) {
 }
 ---
 <BaseLayout
-  title={edition === 'pro' ? `Pro | ${result.title}` : result.title}
-  description={edition === 'pro' ? `Pro · ${result.seoDesc}` : result.seoDesc}
+  title={b.pageTitle}
+  description={b.pageDescription}
   canonical={b.canonical}
   ogImage={b.ogImage}
   ogTitle={result.title.slice(0, 120)}
