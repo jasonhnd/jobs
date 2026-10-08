@@ -135,9 +135,9 @@ The approximate 1,410 future HTML count is a planning estimate, not acceptance.
 Separate page URL from canonical URL, and edition from access state. Update
 canonical / `og:url` / existing Japanese alternates together
 (`src/layouts/BaseLayout.astro:119-125,143`), plus occupation bindings/renderers
-(`src/pages/_id-bindings.ts:317-323`, `src/pages/_id-renderers.ts:150-170`), ranking
+(`src/pages/_id-bindings.ts:324-328`, `src/pages/_id-renderers.ts:150-170`), ranking
 bindings (`src/pages/rankings/_rankings-bindings.ts:40-67`) and model views
-(`src/views/model-run-page.ts:87,143-144`). Both editions are Japanese; edition
+(`src/views/model-run-page.ts:88,142-143`). Both editions are Japanese; edition
 switches are not hreflang language alternates. Query variants canonicalize to
 unparameterized pages. Search engines may select another canonical; there is
 no promise that both editions will be indexed.
@@ -271,7 +271,7 @@ cannot establish server isolation.
 - First-visit cookie-banner screenshots: keep real unselected consent and use
   an explicit test UA containing HeadlessChrome or Playwright. First prove its
   `classifyClientKind` result is `other_bot` and MP is suppressed on that SHA
-  (`src/lib/middleware/client-kind.ts:19,143-151`, `mp-hit.ts:40-41`). Named AI
+  (`src/lib/middleware/client-kind.ts:25-26,99-105`, `mp-hit.ts:40-41`). Named AI
   crawler UAs are intentionally measured, so never impersonate them for QA.
 - If deployment SHA/MP suppression cannot be proven, take first-visit evidence
   locally with empty analytics configuration and mark that preview state
