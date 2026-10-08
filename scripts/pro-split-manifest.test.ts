@@ -25,6 +25,51 @@ describe('stage-zero Pro route contract', () => {
       expect(r.proSitemap).toBe(false);
     }
   });
+  test('every stage-1A ranking copy canonicalizes to its own old ranking URL', () => {
+    for (const r of buildManifest().rankings) {
+      expect(r.phase1ProCanonical).toBe(r.oldPath);
+      expect(r.phase1ProCanonical).toMatch(/^\/rankings\/[^/]+$/);
+      expect(r.proCanonicalStage).toBe('1B');
+      expect(r.proCanonical).toBe(r.oldStatus === 200 ? r.oldPath : r.proPath);
+      expect(r.proCanonical).toMatch(/^\/(pro\/)?rankings\/[^/]+$/);
+    }
+    const doc = readFileSync('docs/PRO_SPLIT.md', 'utf8');
+    const phase1 = doc.split('\n').find(line => line.startsWith('| Stage 1A duplicate')) ?? '';
+    expect(phase1).toContain('/rankings/<slug>');
+    expect(phase1).toContain('/occupations/404');
+    expect(doc).toContain('phase1ProCanonical');
+    expect(doc).toContain('proCanonicalStage');
+  });
+  test('ordinary occupation and shared about aliases retain their existing targets', () => {
+    const m = buildManifest();
+    const aliases = JSON.parse(readFileSync('vercel.json', 'utf8')).redirects as Array<{ source: string; destination: string }>;
+    const retained = aliases.filter(r => r.source.startsWith('/occ/') || ['/ja/404', '/ja/404.html', '/ja/about', '/ja/about/glossary'].includes(r.source));
+    expect(retained.length).toBe(8);
+    for (const r of retained) {
+      expect(m.legacyAliases.find(a => a.source === r.source)).toBe(undefined);
+      expect(m.legacyWildcardPolicy).toContain(`${r.source} -> ${r.destination}`);
+    }
+    expect(m.legacyWildcardPolicy).toContain('Ordinary occupation aliases retain their existing targets');
+    expect(m.legacyWildcardPolicy).toContain('Root-retained families stay at root');
+    expect(m.legacyWildcardPolicy).toContain('No /pro/:path* blanket redirect');
+  });
+  test('migration citations point to link producers and cover later hub entries', () => {
+    const doc = readFileSync('docs/PRO_SPLIT.md', 'utf8');
+    for (const [file, line, text] of [
+      ['src/pages/_me-inline.js', 696, "a.href = '/rankings/'"],
+      ['src/templates/Ranking.ts', 255, 'href="/rankings/'],
+      ['src/templates/Ranking.ts', 419, 'href="/rankings/'],
+      ['src/index-source.html', 57, 'href="/gyakuten"'],
+      ['src/index-source.html', 148, 'href="/compare"'],
+      ['src/index-source.html', 660, 'href="/rankings"'],
+    ] as const) {
+      expect(readFileSync(file, 'utf8').split('\n')[line - 1]).toContain(text);
+      expect(doc).toContain(`${file}:${line}`);
+    }
+    expect(doc).toContain('src/views/sitemap.ts:151-276');
+    expect(doc).toContain('docs/DATA_ARCHITECTURE.md:49-50');
+    expect(readFileSync('docs/DATA_ARCHITECTURE.md', 'utf8').split('\n')[49]).toContain('丸め前の値');
+  });
   test('ordinary ID 404 avoids the error document; Pro retains its numeric ID', () => {
     expect(ordinaryOccupationPath(404)).toBe('/occupations/404');
     expect(ordinaryOccupationPath(33)).toBe('/33');
