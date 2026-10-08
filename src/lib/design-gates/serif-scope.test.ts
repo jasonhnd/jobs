@@ -17,7 +17,7 @@ const ROOT = process.cwd();
 
 /** [file, selector-prefix] — every rule whose selector contains this must not use serif. */
 const SANS_ONLY: ReadonlyArray<readonly [string, string]> = [
-  ['src/pages/rankings/index.astro', '.ic-headline'],
+  ['src/pages/rankings/_RankingsIndex.astro', '.ic-headline'],
   ['src/pages/_index.css', '.hub-subgroup-title'],
   ['src/pages/_id-css.ts', '.v-line'],
   ['src/pages/_id-css.ts', '.verdict-lede'],
@@ -70,7 +70,7 @@ describe('role pins — §4.7 roles, not just "not serif"', () => {
   });
 
   test('.ic-headline is the small-section role: --t-h3 sans 700 --ink', () => {
-    const f = 'src/pages/rankings/index.astro';
+    const f = 'src/pages/rankings/_RankingsIndex.astro';
     assert.deepEqual(valuesOf(f, '.ic-headline', 'font-family'), ['var(--font-sans)']);
     assert.deepEqual(valuesOf(f, '.ic-headline', 'font-size'), ['var(--t-h3)']);
     assert.deepEqual(valuesOf(f, '.ic-headline', 'font-weight'), ['700']);
