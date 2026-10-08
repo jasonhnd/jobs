@@ -68,7 +68,7 @@ Eight ordinary slugs: `ai-risk-high`, `workers`, `ai-risk-low`, `high-demand`,
 `salary-safe`, `short-hours`, `hourly-wage`, `salary`. The advertising landing
 `/rankings/ai-risk-high` stays 200 throughout. Keep the complete RANKING_META and
 sorting registry, because Pro, OG and `/me` position projections depend on it
-(`src/views/rankings-meta.ts:124-181`, `src/data/projections/me-positions.ts:248-260`).
+(`src/views/rankings-meta.ts:124-176`, `src/data/projections/me-positions.ts:248-260`).
 
 ID 404 is an occupation, distinct from the root error document
 (`src/lib/urls.ts:10-26`, `src/pages/[...id].astro:43-67`,
@@ -105,7 +105,7 @@ outlive code rollback; rollback planning must keep final Pro targets reachable.
 
 | Content state | Canonical | Main HTML sitemap eligibility |
 | --- | --- | --- |
-| Stage 1A duplicate Pro occupations | Ordinary occupation URL | Ordinary only |
+| Stage 1A duplicate Pro occupations and rankings | Ordinary occupation URL | Ordinary only |
 | Stage 2 genuinely simplified ordinary occupation and complete Pro occupation | Each edition self-canonical | Both editions |
 | Eight rankings with equivalent ordinary/Pro tables | Ordinary self; Pro points to ordinary | Ordinary only |
 | Eight Pro rankings after separately verified substantial independent analysis | Each edition may self-canonical after content review | Both if indexable |
@@ -129,7 +129,7 @@ eight ordinary rankings; 31 old ranking redirects; all valid migrated family
 paths matched exactly. HTML sitemap entries must be 200, indexable canonical,
 without query duplicates or redirects. Check machine-file entries separately
 under their existing eligibility. Image sitemap can keep ordinary occupation
-URLs and shared `/api/og?id` images (`src/views/image-sitemap.ts:74-83`).
+URLs and shared `/api/og?id` images (`src/views/image-sitemap.ts:83-85`).
 The approximate 1,410 future HTML count is a planning estimate, not acceptance.
 
 Separate page URL from canonical URL, and edition from access state. Update
