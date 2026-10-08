@@ -14,6 +14,8 @@ file and a brief disagree, stop and say so in the PR instead of guessing.
 - [`docs/WORKFLOW.md`](docs/WORKFLOW.md) — development workflow, branch roles,
   promotion, and the Vercel operation authority boundary. Read it before
   non-trivial work.
+- [`docs/PRO_SPLIT.md`](docs/PRO_SPLIT.md) — ordinary / Pro route, SEO/GEO,
+  analytics isolation, approval boundaries and staged acceptance contract.
 - [`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) — canonical pins for Bun / Node /
   Astro / Vercel planes. Do not guess versions.
 - [`docs/Design.md`](docs/Design.md) — UI/UX canon: colour tokens, type scale,
