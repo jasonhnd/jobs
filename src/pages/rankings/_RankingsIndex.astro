@@ -1,0 +1,362 @@
+---
+/**
+ * index.astro — rankings hub page at /rankings.
+ *
+ * Inline CSS preserved verbatim from the v1.x design.
+ */
+import { editionHtmlLinks, type Edition } from '@/site/route-policy';
+import EditionNav from '@/components/EditionNav.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
+import MeEntry from '@/components/MeEntry.astro';
+import { buildRankings } from '@/views/ranking';
+import {
+  renderHubJsonLd, renderRankingsHubGroups, renderRankingsHubStats,
+  renderInsightCards, renderRankingsMovers,
+} from '@/templates/Ranking';
+import { loadGraph } from '@/graph';
+import { loadOccupationsFromGraph } from '@/views/ranking';
+import { loadRankingMovers } from '@/page-data/ranking-movers';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
+import { SCORE_PANEL } from '@/site/score-attribution';
+import { SOP_LANDINGS, formatSopCitation } from '@/views/geo-answer-topics';
+
+const { edition = 'ordinary' } = Astro.props as { edition?: Edition };
+const graph = await loadGraph();
+const { hub } = buildRankings(() => loadOccupationsFromGraph(graph));
+const canonical = `${siteConfig.origin}/rankings`;
+const title = '職業ランキング｜AI影響度・年収・就業者数・初任給・労働時間で比較 | 未来の仕事';
+// RA-003 (2026-05-18): SCORED count, not raw IPD total — match adjacent pages.
+const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事などを日本の職業データで一覧。`;
+const sopCite = formatSopCitation({
+  runDate: SCORE_PANEL.latestRunDate,
+  occupationCount: OCCUPATION_COUNT.SCORED,
+});
+
+const groupsHtml = renderRankingsHubGroups(hub.groups);
+const gsHtml = renderRankingsHubStats(hub.globalStats);
+const insightsHtml = renderInsightCards(hub.insights);
+const moversHtml = renderRankingsMovers(loadRankingMovers(graph));
+const jsonLd = renderHubJsonLd(edition);
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  canonical={canonical}
+  ogImage={`${siteConfig.origin}/api/og?page=rankings`}
+  ogTitle={title}
+  ogDescription={seoDesc}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={CANONICAL_HUB_CSS} />
+
+  <style slot="head" set:html={`
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65;font-feature-settings:"palt"}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--orange-hot)}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 80px}
+.crumb{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:24px}
+.crumb a{color:var(--ink-meta);}
+.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
+:where(main) header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+h1{line-height:1.25;color:var(--fg);margin-bottom:12px}
+h1 .accent{color:var(--ink)}
+.sub{color:var(--fg2);font-size:var(--t-h3)}
+.sub strong{color:var(--ink);font-weight:700}
+.intro{margin:24px 0;color:var(--fg);font-size:var(--t-body);max-width:64ch}
+.sop-cite{margin:16px 0 0;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:var(--t-sm);line-height:1.7;color:var(--fg);max-width:64ch}
+.sop-related{margin:28px 0 0;font-size:var(--t-sm);line-height:1.8;color:var(--fg2)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:32px 0}
+.stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
+.stats dt{font-size:var(--t-xs);color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.stats dd{font-family:var(--font-serif);font-size:var(--t-h2);font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
+section{margin:48px 0}
+h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.rank-list{list-style:none;counter-reset:rank}
+.rank-list li{counter-increment:rank;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px 18px;margin-bottom:8px;display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center}
+.rank-list li:hover{border-color:var(--accent)}
+.rank-list li::before{content:counter(rank);font-family:var(--font-serif);font-size:var(--t-h2);font-weight:700;color:var(--ink-meta);text-align:center}
+.rank-list li:nth-child(-n+3)::before{color:var(--orange-hot)}
+.rank-list .rl-main{display:flex;flex-direction:column;gap:4px}
+.rank-list .rl-name{font-family:var(--font-sans);font-size:var(--t-sm);font-weight:400;color:var(--fg);text-decoration:none}
+.rank-list .rl-name:hover{color:var(--orange-hot);text-decoration:underline}
+.rank-list .rl-sector{font-size:var(--t-xs);color:var(--fg2)}
+.rank-list .rl-stats{display:flex;gap:12px;flex-wrap:wrap;align-items:center;white-space:nowrap}
+.risk-pill{display:inline-block;padding:2px 10px;border-radius:var(--r-md);font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums;max-width:9em;white-space:normal;text-align:center;line-height:1.3}
+.risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
+.risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
+.risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
+.demand-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums}
+.demand-pill.hot{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
+.demand-pill.warm{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
+.demand-pill.cool{background:#D8E4F0;color:#3A5F7A}
+.demand-pill.cold{background:#E8E4DF;color:var(--fg2)}
+.rl-salary,.rl-workers,.rl-extra{font-size:var(--t-sm);color:var(--fg2);font-variant-numeric:tabular-nums}
+.rl-extra{color:var(--accent-deep);font-weight:600}
+.highlights{margin:24px 0}
+.highlights ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.highlights li{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);padding:10px 16px;border-radius:0 6px 6px 0;font-size:var(--t-sm);color:var(--fg);min-height:47px;display:flex;align-items:center}
+.movers-section{margin:40px 0}
+.movers-note{font-size:var(--t-sm);color:var(--fg2);margin:-8px 0 16px}
+.mover-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.mover-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px}
+.mover-card h3{color:var(--fg);margin:0 0 12px;line-height:1.35}
+.mover-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin:0;padding:0}
+.mover-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:start;background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:6px;padding:10px 12px;min-height:64px;transition:border-color 120ms,background 120ms,box-shadow 120ms}
+.mover-row:hover{border-color:var(--accent)}
+.mover-up{border-left-color:var(--accent-deep)}
+.mover-down{border-left-color:var(--fg3)}
+.mover-name{min-width:0;color:var(--fg);font-weight:400;text-decoration:none;font-size:var(--t-sm);line-height:1.45;font-family:var(--font-sans);}
+.mover-name:hover{color:var(--accent-deep);text-decoration:underline}
+.mover-delta{font-variant-numeric:tabular-nums;font-weight:700;font-size:var(--t-sm);white-space:nowrap}
+.mover-delta.up{color:var(--accent-deep)}
+.mover-delta.down{color:var(--fg2)}
+.mover-values{grid-column:1 / -1;color:var(--fg2);font-size:var(--t-xs);font-variant-numeric:tabular-nums}
+.mover-row.is-me{border-color:var(--accent);border-left-color:var(--orange-hot);background:color-mix(in srgb, var(--orange) 8%, transparent);box-shadow:0 0 0 2px color-mix(in srgb, var(--orange) 12%, transparent)}
+.mover-row.is-me .mover-name::after{content:"あなた";display:inline-block;margin-left:8px;padding:1px 7px;border-radius:999px;background:var(--accent-deep);color:var(--paper);font-size:var(--t-xs);font-family:var(--font-sans);font-weight:600;vertical-align:1px}
+.mover-row.is-family:not(.is-me){border-color:color-mix(in srgb, var(--green-deep) 40%, transparent);background:color-mix(in srgb, var(--green-deep) 6%, transparent)}
+.sector-chart{margin:24px 0}
+.sc-title{font-size:var(--t-sm);color:var(--fg2);margin-bottom:10px;font-weight:500}
+.sb-row{display:grid;grid-template-columns:110px 1fr 44px;gap:8px;align-items:center;margin-bottom:5px;font-size:var(--t-xs)}
+.sb-label{color:var(--fg2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-track{height:14px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.sb-fill{display:block;height:100%;background:var(--accent-deep);border-radius:3px;min-width:3px;transition:width .3s}
+.sb-count{color:var(--ink-meta);font-variant-numeric:tabular-nums;text-align:right}
+.faq{margin:48px 0}
+.faq details{background:var(--bg2);border:1px solid var(--border);border-radius:6px;margin-bottom:8px}
+.faq summary{padding:14px 18px;cursor:pointer;font-weight:500;font-size:var(--t-body);color:var(--fg);list-style:none}
+.faq summary::before{content:"Q. ";color:var(--orange-hot);font-weight:700}
+.faq summary::-webkit-details-marker{display:none}
+.faq .faq-a{padding:0 18px 14px;font-size:var(--t-sm);color:var(--fg2);line-height:1.7}
+.related-rankings{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;list-style:none}
+.related-rankings li a{display:block;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);font-weight:500;transition:border-color 150ms}
+.related-rankings li a:hover{border-color:var(--accent);color:var(--accent-deep)}
+.related-rankings .rr-desc{display:block;font-size:var(--t-sm);color:var(--fg2);font-weight:400;margin-top:4px}
+.insights{margin:48px 0}
+.insights ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.insights li{background:var(--bg2);border:1px solid var(--border);padding:12px 16px;border-radius:6px;font-size:var(--t-sm);color:var(--fg)}
+.insights li strong{color:var(--ink);font-weight:700}
+@media (max-width:600px){#wrapper{padding:20px var(--gutter) 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-name{min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.rank-list .rl-stats{margin-top:6px;flex-wrap:nowrap;font-size:var(--t-xs);grid-column:1 / -1}.sb-row{grid-template-columns:100px 1fr 40px}.sb-label{font-size:var(--t-xs)}}
+.ranking-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:0;margin:0;grid-auto-rows:1fr}
+.ranking-cards li a{display:flex;flex-direction:column;padding:20px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;height:100%}
+.ranking-cards li a:hover{border-color:var(--accent);transform:translateY(-1px)}
+.rr-title{font-family:var(--font-sans);font-size:var(--t-h3);font-weight:700;display:block;margin-bottom:8px;color:var(--ink);}
+.rr-desc{font-size:var(--t-sm);color:var(--fg2);margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.rr-preview{display:block;font-size:var(--t-xs);color:var(--accent-deep);margin-bottom:6px;font-weight:500}
+.rr-count{font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums}
+/* RA-128: 39-card grouping — sticky chip nav + 6 thematic sections */
+.ranking-anchor-nav{position:sticky;top:0;z-index:50;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:12px 16px;margin:0 -16px 24px;background:color-mix(in srgb, var(--cream) 94%, transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--border);scrollbar-width:thin}
+.ra-chip{flex:0 0 auto;padding:8px 14px;min-height:40px;border:1px solid var(--border);border-radius:999px;font-size:var(--t-sm);color:var(--fg);text-decoration:none;background:var(--bg2);white-space:nowrap;display:inline-flex;align-items:center;gap:6px;transition:background 120ms,border-color 120ms}
+.ra-chip span{font-size:var(--t-xs);color:var(--fg2)}
+.ra-chip:hover{background:var(--bg3);color:var(--accent-deep)}
+.ra-chip[aria-current="true"]{background:color-mix(in srgb, var(--orange) 12%, transparent);border-color:var(--accent);color:var(--accent-deep)}
+.ranking-group{margin-bottom:32px}
+.ranking-group-title{font-family:var(--font-sans);font-size:var(--t-h3);font-weight:700;margin:32px 0 4px;scroll-margin-top:80px;color:var(--ink);border-bottom:none;padding-bottom:0}
+.ranking-group-lede{color:var(--fg2);font-size:var(--t-sm);margin-bottom:16px}
+@media (max-width:600px){.ra-chip{padding:6px 10px;font-size:var(--t-xs);min-height:36px}.ranking-anchor-nav{padding:8px 16px;margin:0 -16px 16px}}
+/* RA-137: insights infographic — 5 screenshot-ready cards */
+.insights-section{margin:48px 0}
+.insight-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:24px 0;padding:0}
+.insight-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px;position:relative;transition:border-color 150ms}
+.insight-card:hover{border-color:var(--accent-deep)}
+.ic-icon{display:inline-flex;width:48px;height:48px;border-radius:8px;background:color-mix(in srgb, var(--green-deep) 10%, transparent);color:var(--accent-deep);align-items:center;justify-content:center}
+.ic-headline{font-family:var(--font-sans);font-size:var(--t-h3);font-weight:700;color:var(--ink);margin:0;line-height:1.3}
+.ic-body{color:var(--fg2);font-size:var(--t-sm);line-height:1.6;margin:0;flex:1}
+.ic-share{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:transparent;border:1px solid var(--border);border-radius:999px;font-size:var(--t-xs);color:var(--fg2);cursor:pointer;transition:background 120ms,border-color 120ms,color 120ms;font-family:inherit}
+.ic-share:hover{background:var(--bg3);border-color:var(--accent);color:var(--accent-deep)}
+@media (max-width:600px){.insight-cards{grid-template-columns:1fr;gap:12px}.insight-card{padding:16px}}
+`} />
+
+  <div id="wrapper">
+    {edition === 'pro' && <EditionNav ordinaryPath="/rankings" />}
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      {edition === 'pro' && <><a href="/pro" rel="up">Pro</a><span aria-hidden="true">›</span></>}
+      <span>ランキング</span>
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent">職業ランキング</span></h1>
+      <p class="sub"><strong>{OCCUPATION_COUNT.SCORED} 職業</strong> を AI 影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点で比較</p>
+      <p class="intro">日本の職業データを様々な視点でランキング。AIに代替されやすい仕事ランキング、年収が高くAIに代替されにくい仕事、なくならない仕事の候補を一覧できます。</p>
+      <p class="sop-cite">{sopCite}</p>
+    </header>
+
+    <Fragment set:html={editionHtmlLinks(gsHtml, edition)} />
+
+    <Fragment set:html={editionHtmlLinks(moversHtml, edition)} />
+
+    <section aria-label="ランキング一覧">
+      <h2>ランキング一覧</h2>
+      <Fragment set:html={editionHtmlLinks(groupsHtml, edition)} />
+    </section>
+
+    <Fragment set:html={editionHtmlLinks(insightsHtml, edition)} />
+
+    <nav class="sop-related" aria-label="関連する質問">
+      {SOP_LANDINGS.map((landing, i, arr) => (
+        <>
+          <a href={landing.href}>{landing.labelJa}</a>
+          {i < arr.length - 1 ? ' · ' : ''}
+        </>
+      ))}
+      {' · '}<a href="/standard">AIOIS-10 標準</a>
+    </nav>
+
+    <MeEntry source="rankings">
+      あなたの職業は、この <strong>39 ランキング</strong>でどこに立っていますか？
+    </MeEntry>
+
+    <Footer />
+  </div>
+
+  <script is:inline>
+(function(){
+  var groups = document.querySelectorAll('.ranking-group[data-group]');
+  var chips = document.querySelectorAll('.ra-chip[data-target]');
+  if (!groups.length || !chips.length || !('IntersectionObserver' in window)) return;
+  var obs = new IntersectionObserver(function (entries) {
+    for (var i = 0; i < entries.length; i++) {
+      var e = entries[i];
+      if (e.isIntersecting) {
+        var key = e.target.getAttribute('data-group');
+        for (var j = 0; j < chips.length; j++) {
+          chips[j].setAttribute('aria-current', chips[j].getAttribute('data-target') === key ? 'true' : 'false');
+        }
+      }
+    }
+  }, { rootMargin: '-30% 0% -60% 0%' });
+  groups.forEach(function (g) { obs.observe(g); });
+})();
+  </script>
+  <script is:inline>
+(function(){
+  var rows = document.querySelectorAll('.mover-row[data-occ-id]');
+  if (!rows.length) return;
+
+  var ids = {};
+  var families = {};
+
+  function addId(value) {
+    if (value === null || value === undefined || value === '') return;
+    var n = parseInt(String(value), 10);
+    if (isFinite(n) && n > 0) ids[String(n)] = true;
+  }
+
+  function addFamily(value) {
+    if (typeof value !== 'string') return;
+    var code = value.trim();
+    if (!/^[A-Za-z0-9_-]{1,48}$/.test(code)) return;
+    families[code] = true;
+  }
+
+  function walkSaved(value, depth) {
+    if (depth > 4 || value === null || value === undefined) return;
+    if (typeof value === 'number' || typeof value === 'string') {
+      addId(value);
+      return;
+    }
+    if (Array.isArray(value)) {
+      for (var i = 0; i < value.length; i++) walkSaved(value[i], depth + 1);
+      return;
+    }
+    if (typeof value !== 'object') return;
+
+    addId(value.occupationId);
+    addId(value.occupation_id);
+    addId(value.occId);
+    addId(value.jobId);
+    addId(value.job_id);
+    addId(value.id);
+    addFamily(value.familyCode);
+    addFamily(value.family_code);
+    addFamily(value.family);
+    addFamily(value.sectorId);
+    addFamily(value.sector_id);
+
+    var nested = ['result', 'diagnosis', 'profile', 'selected', 'occupation'];
+    for (var j = 0; j < nested.length; j++) {
+      if (Object.prototype.hasOwnProperty.call(value, nested[j])) {
+        walkSaved(value[nested[j]], depth + 1);
+      }
+    }
+  }
+
+  function inspectStorageValue(raw) {
+    if (!raw) return;
+    try {
+      walkSaved(JSON.parse(raw), 0);
+    } catch (e) {
+      walkSaved(raw, 0);
+    }
+  }
+
+  try {
+    var params = new URLSearchParams(location.search);
+    addId(params.get('me'));
+    addId(params.get('id'));
+    addId(params.get('occ'));
+    addId(params.get('occupation'));
+  } catch (e) {}
+
+  try {
+    var knownKeys = [
+      'ai-workstyle-result',
+      'ai_workstyle_result',
+      'mirai-shigoto:diagnosis',
+      'miraiShigotoDiagnosis',
+      'ai-shigoto-result',
+      'AI働き方診断'
+    ];
+    var seen = {};
+    for (var k = 0; k < knownKeys.length; k++) {
+      seen[knownKeys[k]] = true;
+      inspectStorageValue(localStorage.getItem(knownKeys[k]));
+    }
+    for (var s = 0; s < localStorage.length; s++) {
+      var key = localStorage.key(s);
+      if (!key || seen[key]) continue;
+      if (!/(diagnos|workstyle|働き方|shigoto|mirai)/i.test(key)) continue;
+      inspectStorageValue(localStorage.getItem(key));
+    }
+  } catch (e) {}
+
+  rows.forEach(function(row){
+    var occId = row.getAttribute('data-occ-id') || '';
+    var family = row.getAttribute('data-family-code') || '';
+    if (ids[occId]) {
+      row.classList.add('is-me');
+    } else if (family && families[family]) {
+      row.classList.add('is-family');
+    }
+  });
+})();
+  </script>
+  <script is:inline>
+(function(){
+  document.querySelectorAll('.ic-share[data-share-text]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var card = btn.closest('.insight-card');
+      var headlineEl = card ? card.querySelector('.ic-headline') : null;
+      var text = btn.getAttribute('data-share-text') || (headlineEl ? headlineEl.textContent : '');
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: '未来の仕事', text: text, url: url }).catch(function(){});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(text + ' — ' + url).then(function(){
+          var label = btn.querySelector('span');
+          if (!label) return;
+          label.textContent = 'コピーしました';
+          setTimeout(function(){ label.textContent = 'シェア'; }, 2000);
+        });
+      }
+    });
+  });
+})();
+  </script>
+</BaseLayout>

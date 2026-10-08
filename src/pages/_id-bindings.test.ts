@@ -207,7 +207,7 @@ describe('buildIdPageBindings', () => {
     assert.equal(canonicalOccupationRank(facts, -1), null);
     assert.equal(page().rankInUniverse, expectedRank);
     assert.equal(page().rankUniverseTotal, facts.occupationCount);
-    assert.throws(() => page({ id: -1 }), /occupation -1 missing from data\.worktypes\.json/);
+    assert.throws(() => page({ id: -1 }), /Invalid occupation ID: -1/);
   });
 });
 

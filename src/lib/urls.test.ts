@@ -25,7 +25,7 @@ describe('occupationPath', () => {
       .filter((name) => name.endsWith('.json'))
       .map((name) => JSON.parse(readFileSync(join(dir, name), 'utf8')) as { id: number })
       .map((record) => record.id);
-    const paths = ids.map(occupationPath);
+    const paths = ids.map(id => occupationPath(id));
 
     assert.equal(ids.length, OCCUPATION_COUNT.TOTAL);
     assert.equal(new Set(ids).size, OCCUPATION_COUNT.TOTAL);
