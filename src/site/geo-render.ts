@@ -2,13 +2,16 @@ import type { GeoAttribution, GeoFacts, GeoOccupationSummary, GeoSectorSummary }
 import { SCORE_PANEL } from './score-attribution.js';
 import { formatHomeFaqCurrentValue } from './consensus-copy.js';
 import { stringifyJsonLd } from '../lib/json-for-script.js';
+import { formatScoreFixed1 } from '../lib/score-format.js';
 
 function fmtInt(n: number | null): string {
   return typeof n === 'number' ? n.toLocaleString('en-US') : 'unknown';
 }
 
 function fmtScore(n: number | null): string {
-  return typeof n === 'number' && Number.isFinite(n) ? n.toFixed(1) : 'unknown';
+  // formatScoreFixed1 is banker's rounding. toFixed(1) prints a mean of
+  // 4.25 as 4.3 next to rows that print 4.2 (#886).
+  return typeof n === 'number' && Number.isFinite(n) ? formatScoreFixed1(n) : 'unknown';
 }
 
 function fmtMean(n: number): string {

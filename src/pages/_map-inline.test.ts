@@ -29,6 +29,44 @@ test("map fmtRisk is banker's rounding over the exact double, like displayScore(
   assert.equal(fmtRisk(undefined), '—');
 });
 
+function extractFunction(name: string): string {
+  const start = source.indexOf(`function ${name}`);
+  assert.ok(start > 0, name);
+  let depth = 0;
+  let seen = false;
+  for (let i = source.indexOf('{', start); i < source.length; i += 1) {
+    if (source[i] === '{') {
+      depth += 1;
+      seen = true;
+    } else if (source[i] === '}') {
+      depth -= 1;
+      if (seen && depth === 0) return source.slice(start, i + 1);
+    }
+  }
+  throw new Error(`unclosed ${name}`);
+}
+
+test('a legitimate AI impact of 0 stays in band 0; only null falls back to 5 (#886)', () => {
+  const riskBand5 = new Function(`${extractFunction('fmtRisk')}\n${extractFunction('riskBand5')}\nreturn riskBand5;`)() as (v: unknown) => number;
+  assert.equal(riskBand5(0), 0);
+  assert.equal(riskBand5(5), 2);
+
+  const expressions = ['cell.dataset.band', 'cell.style.background = colorForRisk', 'sw.style.background', 'mergedRiskSum +=']
+    .map((needle) => {
+      const line = source.split('\n').find((entry) => entry.includes(needle));
+      assert.ok(line, needle);
+      assert.match(line!, /ai_risk \?\? 5/);
+      assert.doesNotMatch(line!, /ai_risk \|\| 5/);
+      const arg = /ai_risk \?\? 5/.exec(line!)![0];
+      return arg;
+    });
+  const paint = new Function('r', 'return r.ai_risk ?? 5;') as (r: { ai_risk: unknown }) => number;
+  assert.equal(riskBand5(paint({ ai_risk: 0 })), 0);
+  assert.equal(riskBand5(paint({ ai_risk: null })), 2);
+  assert.equal(riskBand5(paint({ ai_risk: undefined })), 2);
+  assert.equal(expressions.length, 4);
+});
+
 test('map search: clearing the box empties the list and late responses are dropped (#884)', () => {
   const start = source.indexOf("$searchInput.addEventListener('input', function () {");
   const end = source.indexOf("$searchInput.addEventListener('blur'", start);

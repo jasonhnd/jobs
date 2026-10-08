@@ -333,7 +333,7 @@
           kept.push(r);
         } else {
           mergedWorkers += (r.workers || 0);
-          mergedRiskSum += (r.ai_risk || 5);
+          mergedRiskSum += (r.ai_risk ?? 5);
           mergedCount += 1;
         }
       });
@@ -421,8 +421,8 @@
           var cellH = Math.max(rect.h - 2, 28);
           cell.style.width  = cellW.toFixed(1) + 'px';
           cell.style.height = cellH.toFixed(1) + 'px';
-          cell.dataset.band = String(riskBand5(r.ai_risk || 5));
-          cell.style.background = colorForRisk(r.ai_risk || 5);
+          cell.dataset.band = String(riskBand5(r.ai_risk ?? 5));
+          cell.style.background = colorForRisk(r.ai_risk ?? 5);
           if (r.__synthetic) cell.style.background = 'repeating-linear-gradient(45deg, ' + colorForRisk(r.ai_risk) + ', ' + colorForRisk(r.ai_risk) + ' 6px, rgba(255,255,255,0.18) 6px, rgba(255,255,255,0.18) 12px)';
           if (fits(r.name_ja, cellW, cellH, !!r.__synthetic)) {
             var span = document.createElement('span');
@@ -850,7 +850,7 @@
           a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + riskScoreLabel(r.ai_risk) + '、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
           var sw = document.createElement('span');
           sw.className = 'swatch';
-          sw.style.background = colorForRisk(r.ai_risk || 5);
+          sw.style.background = colorForRisk(r.ai_risk ?? 5);
           var nm = document.createElement('span');
           nm.className = 'name';
           nm.textContent = r.name_ja;
