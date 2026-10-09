@@ -55,3 +55,9 @@ export function riskBandWord(
   if (score == null || !Number.isFinite(score)) return null;
   return RISK_BAND_WORD[riskClass(score)];
 }
+
+/** Existing result_view reporting bins; separate from the owner-signed display bands. */
+export function occupationAnalyticsTier(score: number | null): RiskClass {
+  const shown = score === null ? 0 : displayScore(score);
+  return shown >= 7 ? 'high' : shown >= 5 ? 'mid' : 'low';
+}

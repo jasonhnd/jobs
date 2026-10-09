@@ -425,9 +425,10 @@ structured data remains unchanged.
 
 47 existing research Astro templates move to `src/pages/pro/`; their shared
 bindings stay in place. Exactly 31 root ranking pages stop being emitted; eight
-remain. Pro occupations remain complete copies canonicalizing to ordinary until
-stage 2. Migrated families self-canonicalize, retained Pro ranking copies keep
-ordinary canonicals, four noindex rankings stay noindex and leave the main sitemap.
+remain. At this historical stage, Pro occupations remained complete copies
+canonicalizing to ordinary; stage 2 below supersedes that occupation policy.
+Migrated families self-canonicalize, retained Pro ranking copies keep ordinary
+canonicals, four noindex rankings stay noindex and leave the main sitemap.
 The Pro entrance enters the sitemap; the still-duplicate Pro rankings index
 canonicalizes to `/rankings` and stays outside it until stage 3.
 The latest HAID archive canonicalizes to `/pro/aiadoption` and stays outside
@@ -463,3 +464,30 @@ The exact 40-page old/new values are recorded in
 Local HTTP/three-width
 rendering evidence belongs to the implementation PR; deployed behavior remains
 unverified until the separate preview acceptance stage.
+
+## Stage 2 occupation implementation — Issue #897 / JOB_0230
+
+Ordinary occupations now render `_OrdinaryOccupationPage.astro`, with a narrow
+`occupation-summary.ts` projection from the same graph-owned records as Pro.
+The hero has one aggregate change score and band, one three-band conclusion
+and advice, annual salary and monthly hours, and one primary Pro action. Missing
+statistics render an accessible data-missing dash. Similar occupations and seven
+Pro chapter links follow; every existing `chp-*` / `sec-*` anchor and the model
+history entry is retained as a real link to its Pro target. Legacy section links
+become visible when their fragment is targeted; no full prose is hidden there.
+The complete Pro body, model rationale, history, FAQ, data and sources remain.
+
+Occupation pages in both editions are now self-canonical and the HTML sitemap
+includes the exact 556 + 556 occupation set. The image sitemap continues to use
+ordinary occupation URLs and shared images. Stable Occupation entity IDs remain
+ordinary URL + `#occupation`; ordinary schema has only the visible score, salary
+and hours, with no FAQPage or detailed dimensions, and speakable selects the
+visible conclusion/advice. Pro schema retains the complete original entity.
+
+This implements the occupation phase on top of the active stage 1B addresses,
+redirects and ranking canonical/sitemap policy. JOB_0237 merges the latest
+preview into the existing Issue #897 branch without changing those migrations.
+Public Japanese summary templates and the plain-language conclusion used in
+meta/OG descriptions were owner-signed (d1009-202854-1, as recorded in the
+JOB_0237 brief). No workflow, analytics-script or Vercel state change is included;
+local renders do not prove deployment or indexing.
