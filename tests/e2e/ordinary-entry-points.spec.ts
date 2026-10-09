@@ -48,6 +48,9 @@ test('ranking door count matches its target cards and the full index opens in Pr
   await door.click();
   await expect(page).toHaveURL(/#hub-rankings-title$/);
   await expect(page.locator('#hub-rankings-title')).toBeInViewport();
+  const titleTop = await page.locator('#hub-rankings-title').evaluate(node => node.getBoundingClientRect().top);
+  const headerBottom = await page.locator('.mob-topbar').evaluate(node => node.getBoundingClientRect().bottom);
+  expect(titleTop, 'the advertised ranking section heading must not be covered by sticky navigation').toBeGreaterThanOrEqual(headerBottom);
   await expect(page.locator('[aria-labelledby="hub-rankings-title"] .hub-card')).toHaveCount(advertisedCount);
   await page.locator('.hub-deep .hub-card').click();
   await expect(page).toHaveURL(/\/pro\/rankings$/);
