@@ -3,8 +3,8 @@
  * aiadoption/[release].astro — archived HAID releases (/aiadoption/2026-q3 …).
  *
  * One static page per directory under data/haid-release/. The newest
- * release is also served at /aiadoption; its archive URL carries a canonical
- * pointing to itself (permalink) — see _HaidReleasePage.astro.
+ * release is also served at /pro/aiadoption; its permalink canonicalizes to
+ * that entrance. Earlier archives self-canonicalize — see _HaidReleasePage.astro.
  */
 import HaidReleasePage from '../../_HaidReleasePage.astro';
 import { loadHaidReleaseLabels, loadHaidReleasePayload } from '../../_haid-release-labels';

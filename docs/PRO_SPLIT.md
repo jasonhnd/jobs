@@ -119,6 +119,8 @@ outlive code rollback; rollback planning must keep final Pro targets reachable.
 | Stage 1A duplicate Pro occupations and rankings | Corresponding ordinary old URL: occupations `/<id>` (ID404 `/occupations/404`), rankings `/rankings/<slug>` | Ordinary canonical URLs only; no duplicate Pro entries |
 | Stage 2 genuinely simplified ordinary occupation and complete Pro occupation | Each edition self-canonical | Both editions |
 | Stage 1B onward: eight rankings with equivalent ordinary/Pro tables | Ordinary self; Pro points to ordinary | Ordinary only |
+| Stage 1B: ranking indexes still share the complete 39-card content | Ordinary self; Pro index points to ordinary | Ordinary index only until stage 3 |
+| Latest HAID report entrance and its permanent archive URL | Entrance self; latest archive points to entrance | Entrance only; earlier self-canonical archives stay eligible |
 | Eight Pro rankings after separately verified substantial independent analysis | Each edition may self-canonical after content review | Both if indexable |
 | After authorized stage 1B migration: 31 rankings and other complete pages | Final Pro URL self-canonical; never old 301 URL | Final indexable canonical URLs, preserving existing family eligibility |
 | Stage 1B onward: four existing noindex rankings | Pro self-canonical + `noindex, follow` | Excluded under selected 3A |
@@ -134,10 +136,10 @@ canonical points to an occupation URL. Noindex is inherited in both stages.
 The four exclusions are `self-employed-typical`, `freelance-friendly`,
 `ai-safe-young-workforce`, `ai-safe-short-hours`
 (`src/views/rankings-meta.ts:97-113`; rendering: `src/pages/rankings/[type].astro:48`).
-They currently remain in sitemap intentionally; 3A changes that future policy,
-not the current source in this PR. Low traffic does not authorize more noindex.
+They are excluded from the main sitemap under stage 1B / selected 3A.
+Low traffic does not authorize more noindex.
 Model subpages being absent from sitemap does not mean noindex
-(`src/pages/models/[model].astro:82-90`).
+(`src/pages/pro/models/[model].astro`).
 
 Keep root sitemap/robots/llms entrances. Sitemap generation is explicit
 (`src/views/sitemap.ts:151-276`), including the later careers (244-246), licenses
@@ -426,11 +428,15 @@ bindings stay in place. Exactly 31 root ranking pages stop being emitted; eight
 remain. Pro occupations remain complete copies canonicalizing to ordinary until
 stage 2. Migrated families self-canonicalize, retained Pro ranking copies keep
 ordinary canonicals, four noindex rankings stay noindex and leave the main sitemap.
-Pro and full-ranking entrances enter the sitemap. Model runs retain the existing
+The Pro entrance enters the sitemap; the still-duplicate Pro rankings index
+canonicalizes to `/rankings` and stays outside it until stage 3.
+The latest HAID archive canonicalizes to `/pro/aiadoption` and stays outside
+the sitemap; earlier self-canonical archives remain listed.
+Model runs retain the existing
 indexable-but-not-in-sitemap policy; the image sitemap keeps ordinary occupations.
-The main sitemap lists canonical HTML pages only, so every location has a
-self-canonical document. GEO text companions retain their root endpoints and
-discovery links, outside the main sitemap because they have no HTML canonical.
+The main sitemap retains both root GEO discovery files under their original
+machine-file eligibility. Self-canonical checks apply to HTML entries;
+machine files are checked separately for final URLs, existence and HTTP 200.
 
 `route-policy.ts` supplies final links and trusted body/JSON-LD adapters. Return
 navigation and scripts/styles are opaque to body adaptation; occupation entity
@@ -448,7 +454,10 @@ query strings on same-host redirects. The Vercel configured-route limit is
 See [Vercel limits](https://vercel.com/docs/limits).
 
 Content/score data, sorting, analytics inline script bodies and existing Japanese
-body/meta wording are unchanged. Existing edition-navigation labels reused on
-new Pro surfaces remain in the PR signature package. Local HTTP/three-width
+body wording are unchanged. All 39 Pro ranking detail titles/descriptions and
+the Pro index use the `Pro | ` / `Pro · ` prefixes; OG title/description retain
+the original unprefixed copy. These metadata differences and edition-navigation
+labels are listed in the PR signature package; none is represented as signed.
+Local HTTP/three-width
 rendering evidence belongs to the implementation PR; deployed behavior remains
 unverified until the separate preview acceptance stage.

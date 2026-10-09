@@ -19,7 +19,7 @@ import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import type { GeoFacts } from '@/site/geo-facts';
 import { siteConfig } from '@/site/config';
 
-import { rankingCanonicalUrl, rankingUrl } from '@/lib/urls';
+import { rankingCanonicalUrl } from '@/lib/urls';
 import type { Edition } from '@/site/route-policy';
 
 const SITE = siteConfig.origin;
@@ -72,7 +72,7 @@ export function buildRankingsSlugBindings(
     pageKindJa: 'ランキング',
     occupationIds: result.items.map((item) => item.id),
   }));
-  const jsonLd = renderJsonLd(rankingUrl(slug, edition), pageTitle, pageDescription, result.items, result.faqItems, edition);
+  const jsonLd = renderJsonLd(canonical, pageTitle, pageDescription, result.items, result.faqItems, edition);
   const summaryHtml = renderRankingSummary(result.items);
   return {
     pageTitle, pageDescription, canonical, ogImage, statsHtml, highlightsHtml, sectorChartHtml,

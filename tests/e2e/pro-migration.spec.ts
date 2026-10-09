@@ -41,7 +41,7 @@ test('31 old rankings redirect, eight ordinary rankings and occupation 404 remai
   }
 });
 
-test('every sitemap location responds 200 with its own indexable canonical and alternates', async ({ request }) => {
+test('sitemap HTML is 200/indexable/self-canonical and both GEO discovery files are 200', async ({ request }) => {
   const xml = readFileSync('dist-astro/sitemap.xml','utf8');
   const locations = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]!);
   for (let i=0; i<locations.length; i+=4) {
@@ -49,11 +49,35 @@ test('every sitemap location responds 200 with its own indexable canonical and a
       const response = await request.get(loc.slice(origin.length), { maxRedirects: 0 });
       expect(response.status(), loc).toBe(200);
       const html = await response.text();
+      if (['/llms.txt','/llms-full.txt'].includes(loc.slice(origin.length))) {
+        expect(html,loc).toContain('https://mirai-shigoto.com/pro/models');
+        return;
+      }
       expect(html,loc).toContain(`<link rel="canonical" href="${loc}">`);
       expect(html,loc).toContain(`<link rel="alternate" hreflang="ja" href="${loc}">`);
       expect(html,loc).toContain('content="index, follow"');
     }));
   }
+});
+
+test('duplicate report/index and retained ranking metadata consolidate to their final canonicals', async ({ request }) => {
+  const latest = JSON.parse(readFileSync('public/data.haid-latest.json','utf8'));
+  const cases = [
+    ['/pro/rankings','/rankings'],
+    [`/pro/aiadoption/${latest.release}`,'/pro/aiadoption'],
+    ...manifest.rankings.filter(row => row.oldStatus===200).map(row => [`/pro/rankings/${row.slug}`,row.oldPath]),
+  ];
+  const xml = readFileSync('dist-astro/sitemap.xml','utf8');
+  for (const [path,canonical] of cases) {
+    const response = await request.get(path!,{maxRedirects:0});
+    expect(response.status(),path).toBe(200);
+    const html = await response.text();
+    expect(html,path).toContain(`<link rel="canonical" href="${origin}${canonical}">`);
+    const nodes = [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].flatMap(m => JSON.parse(m[1]!)['@graph'] ?? []);
+    expect(nodes.find(n => n['@type']==='WebPage')?.url,path).toBe(origin+canonical);
+    expect(xml,path).not.toContain(`<loc>${origin}${path}</loc>`);
+  }
+  for (const file of ['llms.txt','llms-full.txt']) expect(xml).toContain(`<loc>${origin}/${file}</loc>`);
 });
 
 test('migrated fragments and edition-return links remain usable without JavaScript', async ({ browser }) => {
