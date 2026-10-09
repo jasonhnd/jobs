@@ -1,6 +1,6 @@
 # mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model AIOIS-10 consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-10-01). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
+> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model AIOIS-10 consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-10-01). Per-model breakdown: https://mirai-shigoto.com/pro/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
 ## Key facts
 

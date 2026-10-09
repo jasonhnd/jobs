@@ -19,6 +19,7 @@ import {
   type GeoTreemapRow,
 } from './geo-facts.js';
 import { renderHomeJsonLd, renderLlmsFullTxt, renderLlmsTxt } from './geo-render.js';
+import { editionHref } from './route-policy';
 
 const rows: GeoTreemapRow[] = [
   { id: 1, name_ja: 'A', salary: 410, ai_risk: 1.5, workers: 100, recruit_ratio: 1.1, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1' },
@@ -338,6 +339,16 @@ describe('pickLatestGeoScoreRun', () => {
 });
 
 describe('geo renderers', () => {
+  test('all llms companion URLs use final routes, including prose links outside the Pages section', () => {
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
+    for (const rendered of [renderLlmsTxt(facts), renderLlmsFullTxt(facts)]) {
+      for (const match of rendered.matchAll(/https:\/\/mirai-shigoto\.com\/[^\s)}]*/g)) {
+        const href = match[0].replace(/[.,;:]+$/, '');
+        assert.equal(editionHref(href, 'ordinary'), href, `GEO URL still requires a redirect: ${href}`);
+      }
+    }
+  });
+
   test('llms surfaces and JSON-LD render consensus copy and no placeholders', () => {
     const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
     const llms = renderLlmsTxt(facts);

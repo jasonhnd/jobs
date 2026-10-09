@@ -428,6 +428,9 @@ stage 2. Migrated families self-canonicalize, retained Pro ranking copies keep
 ordinary canonicals, four noindex rankings stay noindex and leave the main sitemap.
 Pro and full-ranking entrances enter the sitemap. Model runs retain the existing
 indexable-but-not-in-sitemap policy; the image sitemap keeps ordinary occupations.
+The main sitemap lists canonical HTML pages only, so every location has a
+self-canonical document. GEO text companions retain their root endpoints and
+discovery links, outside the main sitemap because they have no HTML canonical.
 
 `route-policy.ts` supplies final links and trusted body/JSON-LD adapters. Return
 navigation and scripts/styles are opaque to body adaptation; occupation entity

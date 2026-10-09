@@ -41,9 +41,9 @@ test('31 old rankings redirect, eight ordinary rankings and occupation 404 remai
   }
 });
 
-test('every sitemap HTML location responds 200 with its own indexable canonical and alternates', async ({ request }) => {
+test('every sitemap location responds 200 with its own indexable canonical and alternates', async ({ request }) => {
   const xml = readFileSync('dist-astro/sitemap.xml','utf8');
-  const locations = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]!).filter(url=>!url.endsWith('.txt'));
+  const locations = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]!);
   for (let i=0; i<locations.length; i+=4) {
     await Promise.all(locations.slice(i,i+4).map(async loc => {
       const response = await request.get(loc.slice(origin.length), { maxRedirects: 0 });

@@ -80,7 +80,7 @@ export function renderLlmsTxt(facts: GeoFacts): string {
   const { attribution } = facts;
   return `# mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> Independent, unofficial analysis of ${facts.occupationCount} Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model ${attribution.standardLabel} consensus (mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; latest scoring ${attribution.runDate}). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
+> Independent, unofficial analysis of ${facts.occupationCount} Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model ${attribution.standardLabel} consensus (mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; latest scoring ${attribution.runDate}). Per-model breakdown: https://mirai-shigoto.com/pro/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
 ## Key facts
 
@@ -184,7 +184,7 @@ Extended GEO companion to https://mirai-shigoto.com/llms.txt. This file is gener
 
 The ordinary edition and the currently free, public Pro edition (https://mirai-shigoto.com/pro) share one dataset. Full methods, model runs, questions and research are under /pro. Selected ordinary rankings remain at https://mirai-shigoto.com/rankings; the full list is https://mirai-shigoto.com/pro/rankings. Methodology: https://mirai-shigoto.com/pro/methodology; standard: https://mirai-shigoto.com/pro/standard; data: https://mirai-shigoto.com/pro/data; answers: https://mirai-shigoto.com/pro/answers.
 
-mirai-shigoto.com maps ${facts.occupationCount} Japanese occupations against AI Impact using ${attribution.standardLabel} v1.0. Published scores are a multi-model consensus (mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; latest scoring ${attribution.runDate}). Per-model breakdown: https://mirai-shigoto.com/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
+mirai-shigoto.com maps ${facts.occupationCount} Japanese occupations against AI Impact using ${attribution.standardLabel} v1.0. Published scores are a multi-model consensus (mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; latest scoring ${attribution.runDate}). Per-model breakdown: https://mirai-shigoto.com/pro/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
 
 ## 2. Dataset
 
