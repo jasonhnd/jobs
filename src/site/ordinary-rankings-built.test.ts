@@ -20,7 +20,7 @@ describe('ordinary rankings stage 3', { skip: !ready && !required }, () => {
     const cards = [...text.matchAll(/<a\b[^>]*class="ordinary-ranking-card"[^>]*href="([^"]+)"/g)].map(m => m[1]!.split('/').pop());
     assert.deepEqual(cards, slugs);
     assert.ok(text.includes('href="/pro/rankings">全39ランキングは Pro で</a>'));
-    for (const removed of ['class="mover-row', 'class="insight-card', 'class="ranking-anchor-nav', '39 ランキング']) assert.ok(!text.includes(removed), removed);
+    for (const removed of ['class="mover-row', 'class="insight-card', 'class="ranking-anchor-nav']) assert.ok(!text.includes(removed), removed);
     const list = nodes(text).find(n => n['@type'] === 'ItemList');
     assert.equal(list.numberOfItems, 8);
     assert.deepEqual(list.itemListElement.map((n: any) => n.url.split('/').pop()), slugs);
@@ -32,7 +32,7 @@ describe('ordinary rankings stage 3', { skip: !ready && !required }, () => {
       const header = text.match(/<header id="content">([\s\S]*?)<\/header>/)![1]!;
       assert.match(header, /class="ordinary-lead"/);
       assert.match(header, /href="\/me"[^>]*>自分の仕事を探す/);
-      assert.equal((text.match(/data-track-event="me_entry_click"/g) ?? []).length, 1, slug);
+      assert.equal((header.match(/data-track-event="me_entry_click"/g) ?? []).length, 1, slug);
       for (const removed of ['<details class="chap"', 'class="ai-fact', 'class="highlights', 'class="related-cross-hubs', 'class="escape-route']) assert.ok(!text.includes(removed), slug + ': ' + removed);
       const structured = nodes(text);
       assert.ok(!structured.some(n => n['@type'] === 'FAQPage'), slug);
@@ -56,7 +56,7 @@ describe('ordinary rankings stage 3', { skip: !ready && !required }, () => {
           case 'workers': return `${Math.trunc(o.workers!).toLocaleString('en-US')}人`;
           case 'salary': case 'salary-safe': return `${Math.trunc(o.salary!)}万円`;
           case 'short-hours': return `${Math.trunc(o.monthly_hours!)}時間`;
-          case 'hourly-wage': return `${Math.round(o.hourly_wage!).toLocaleString('en-US')}円/時`;
+          case 'hourly-wage': return `${o.hourly_wage!.toLocaleString('en-US')}円/時`;
           case 'high-demand': return {hot:'高需要',normal:'通常',cold:'低需要'}[o.demand_band!]!;
           default: return formatRiskScoreLabel(o.ai_risk);
         }

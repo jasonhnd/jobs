@@ -63,7 +63,6 @@ test('sitemap HTML is 200/indexable/self-canonical and both GEO discovery files 
 test('duplicate report/index and retained ranking metadata consolidate to their final canonicals', async ({ request }) => {
   const latest = JSON.parse(readFileSync('public/data.haid-latest.json','utf8'));
   const cases = [
-    ['/pro/rankings','/rankings'],
     [`/pro/aiadoption/${latest.release}`,'/pro/aiadoption'],
     ...manifest.rankings.filter(row => row.oldStatus===200).map(row => [`/pro/rankings/${row.slug}`,row.oldPath]),
   ];
@@ -77,6 +76,7 @@ test('duplicate report/index and retained ranking metadata consolidate to their 
     expect(nodes.find(n => n['@type']==='WebPage')?.url,path).toBe(origin+canonical);
     expect(xml,path).not.toContain(`<loc>${origin}${path}</loc>`);
   }
+  expect(xml).toContain(`<loc>${origin}/pro/rankings</loc>`);
   for (const file of ['llms.txt','llms-full.txt']) expect(xml).toContain(`<loc>${origin}/${file}</loc>`);
 });
 

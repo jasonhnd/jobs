@@ -70,7 +70,7 @@ test('Pro JSON-LD adaptation preserves consolidated ranking page identities and 
     ]}), 'pro'))['@graph'];
     assert.equal(nodes[0].url, canonical);
     assert.equal(nodes[0]['@id'], canonical+'#webpage');
-    assert.equal(nodes[1].itemListElement[0].item, 'https://mirai-shigoto.com/rankings');
+    assert.equal(nodes[1].itemListElement[0].item, 'https://mirai-shigoto.com/pro/rankings');
     assert.equal(nodes[1].itemListElement[1].item, canonical);
     assert.equal(nodes[2].itemListElement[0].url, 'https://mirai-shigoto.com/pro/428');
   }
