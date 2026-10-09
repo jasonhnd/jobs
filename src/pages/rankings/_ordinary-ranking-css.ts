@@ -20,7 +20,7 @@ export const ORDINARY_RANKING_CSS = `
 .ordinary-ranking-cards{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-4);margin:var(--s-5) 0;padding:0}
 .ordinary-ranking-card{display:flex;flex-direction:column;gap:var(--s-2);height:100%;padding:var(--s-4);border:1px solid var(--border);border-radius:var(--r-md);background:var(--paper);color:var(--ink);text-decoration:none}
 .ordinary-ranking-card:hover{border-color:var(--green-deep);color:var(--ink)}
-.ordinary-ranking-card h2{font-family:var(--font-serif);font-size:var(--t-h2);color:var(--ink);margin:0;padding:0;border:0}
+.ordinary-ranking-card h2{color:var(--ink);margin:0;padding:0;border:0}
 .ordinary-ranking-card p{font-size:var(--t-body);color:var(--ink-2);line-height:1.6;margin:0}
 .ordinary-ranking-card:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .ordinary-rankings [data-pro-cta]{margin:var(--s-5) 0;font-size:var(--t-body)}

@@ -26,6 +26,7 @@ for (const width of [1440, 768, 375]) {
       await expect(page.locator('details.chap, .mover-row, .insight-card')).toHaveCount(0);
       if (slug === 'index') {
         await expect(page.locator('.ordinary-ranking-card')).toHaveCount(8);
+        await expect(page.locator('.ordinary-ranking-card h2').first()).toHaveCSS('font-size', '22px');
         expect(await page.locator('.ordinary-ranking-card').evaluateAll(links => links.map(link => link.getAttribute('href')))).toEqual(slugs.map(s => `/rankings/${s}`));
         await expect(page.locator('[data-pro-cta] a')).toHaveText('全39ランキングは Pro で');
         await expect(page.locator('[data-pro-cta] a')).toHaveAttribute('href', '/pro/rankings');
@@ -39,7 +40,9 @@ for (const width of [1440, 768, 375]) {
         const currentScores = await page.locator('ol.rank-list .risk-pill').allTextContents();
         const currentNames = await page.locator('ol.rank-list .rl-name').allTextContents();
         const pro = await page.context().newPage();
-        await pro.goto(`/pro/rankings/${slug}`);
+        const proResponse = await pro.goto(`/pro/rankings/${slug}`);
+        expect(proResponse?.status(), 'Pro comparison must load a real page').toBe(200);
+        await expect(pro.locator('ol.rank-list > li')).toHaveCount(30);
         expect(await pro.locator('ol.rank-list .risk-pill').allTextContents()).toEqual(currentScores);
         expect(await pro.locator('ol.rank-list .rl-name').allTextContents()).toEqual(currentNames);
         await expect(pro.locator('details.chap')).toHaveCount(1);
