@@ -30,8 +30,8 @@ Metric placeholder rules: workers = grouped integer + `人`; salary = truncated 
 | Meta description | `日本556職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事などを日本の職業データで一覧。` | `仕事の変化・働く人の数・収入など、8つのランキングで仕事を比べられます。` |
 | OG / Twitter title | `職業ランキング｜AI影響度・年収・就業者数・初任給・労働時間で比較 \| 未来の仕事` | `職業ランキング` |
 | OG / Twitter description | `日本556職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事などを日本の職業データで一覧。` | `仕事の変化・働く人の数・収入など、8つのランキングで仕事を比べられます。` |
-| H1 / breadcrumb / index-card title | `職業ランキング` | `職業ランキング` |
-| First-screen lead / index-card description | `日本の職業データを様々な視点でランキング。AIに代替されやすい仕事ランキング、年収が高くAIに代替されにくい仕事、なくならない仕事の候補を一覧できます。` | `仕事の変化・働く人の数・収入など、8つのランキングで仕事を比べられます。` |
+| H1 / breadcrumb | `職業ランキング` | `職業ランキング` |
+| Explanation (folded intro to first screen) | `日本の職業データを様々な視点でランキング。AIに代替されやすい仕事ランキング、年収が高くAIに代替されにくい仕事、なくならない仕事の候補を一覧できます。` | `仕事の変化・働く人の数・収入など、8つのランキングで仕事を比べられます。` |
 | Index subheading | `556 職業 を AI 影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点で比較` | `点数は、AIで仕事の中身が変わる度合い（0〜10）です。仕事がなくなる順位ではありません。` |
 | OG image eyebrow | `RANKINGS · 39 視点` | `RANKINGS · 8 視点` |
 | OG image title | `AI × 仕事 ランキング` | `職業ランキング` |
@@ -51,8 +51,11 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 | Meta description | `AI影響度が最も高い職業TOP30。平均スコア7.6/10 変化 大きい。AI代替リスク・年収・就業者数を一覧比較。複数のAIモデルによる採点の総合値（独自分析・非公式）。` | `仕事がなくなる順ではなく、AIで仕事の中身が大きく変わる順です。` |
 | OG / Twitter title | `AIに奪われる仕事ランキング TOP30【2026年版】\| 未来の仕事` | `AIで大きく変わる仕事 TOP30` |
 | OG / Twitter description | `AI影響度が最も高い職業TOP30。平均スコア7.6/10 変化 大きい。AI代替リスク・年収・就業者数を一覧比較。複数のAIモデルによる採点の総合値（独自分析・非公式）。` | `仕事がなくなる順ではなく、AIで仕事の中身が大きく変わる順です。` |
-| H1 / breadcrumb / index-card title | `AIに奪われる仕事 TOP30` | `AIで大きく変わる仕事 TOP30` |
-| First-screen lead / index-card description | `厚労省の職業データに基づき、複数のAIが AIOIS-10 で AI 影響を分析し、公開値はそれらの総合値です。0〜10 のスコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。` | `仕事がなくなる順ではなく、AIで仕事の中身が大きく変わる順です。` |
+| H1 / breadcrumb | `AIに奪われる仕事 TOP30` | `AIで大きく変わる仕事 TOP30` |
+| Explanation (folded intro to first screen) | `厚労省の職業データに基づき、複数のAIが AIOIS-10 で AI 影響を分析し、公開値はそれらの総合値です。0〜10 のスコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。` | `仕事がなくなる順ではなく、AIで仕事の中身が大きく変わる順です。` |
+| Index-card title | `AIに奪われる仕事 TOP30` | `AIで大きく変わる仕事 TOP30` |
+| Index-card description | `AI影響度が高い職業ランキング` | `仕事がなくなる順ではなく、AIで仕事の中身が大きく変わる順です。` |
+| First row supporting text | `事務・公務 · 356万円 · 155,710人` | `AI変化度` |
 | First-place subtitle | `1位はデータ入力（9.2/10 変化 大きい） · TOP30平均 7.6/10 変化 大きい · 2026年10月更新` | `1位はデータ入力（9.2/10 変化 大きい） · TOP30平均 7.6/10 変化 大きい · 2026年10月更新` |
 | OG image eyebrow | `RANKING · TOP 30` | `RANKING · TOP 30` |
 | OG image title | `AIに奪われる仕事 TOP30` | `AIで大きく変わる仕事 TOP30` |
@@ -72,8 +75,11 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 | Meta description | `日本で最も就業者が多い職業TOP30。合計15,907,206人。年収・AI影響度と合わせて比較。厚労省データに基づく独自分析。` | `就業者数が多い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
 | OG / Twitter title | `就業者数が多い職業ランキング TOP30【2026年版】\| 未来の仕事` | `就業者数ランキング TOP30` |
 | OG / Twitter description | `日本で最も就業者が多い職業TOP30。合計15,907,206人。年収・AI影響度と合わせて比較。厚労省データに基づく独自分析。` | `就業者数が多い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
-| H1 / breadcrumb / index-card title | `就業者数ランキング TOP30` | `就業者数ランキング TOP30` |
-| First-screen lead / index-card description | `厚労省の職業情報データベース（job tag）に基づく就業者数ランキング。最も多くの人が従事している職業をAI影響度・年収データと共に一覧できます。` | `就業者数が多い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| H1 / breadcrumb | `就業者数ランキング TOP30` | `就業者数ランキング TOP30` |
+| Explanation (folded intro to first screen) | `厚労省の職業情報データベース（job tag）に基づく就業者数ランキング。最も多くの人が従事している職業をAI影響度・年収データと共に一覧できます。` | `就業者数が多い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| Index-card title | `就業者数ランキング TOP30` | `就業者数ランキング TOP30` |
+| Index-card description | `日本で最も就業者が多い職業` | `就業者数が多い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| First row supporting text | `事務・公務 · 529万円 · 2,639,330人` | `就業者数 2,639,330人` |
 | First-place subtitle | `1位は一般事務（8.1/10 変化 大きい） · TOP30平均 5.0/10 変化 中くらい · 2026年10月更新` | `1位は一般事務（2,639,330人） · 2026年10月更新` |
 | OG image eyebrow | `RANKING · TOP 30` | `RANKING · TOP 30` |
 | OG image title | `就業者数ランキング TOP30` | `就業者数ランキング TOP30` |
@@ -93,8 +99,11 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 | Meta description | `AIに代替されにくい職業TOP30。平均スコア2.8/10 変化 小さい。将来性が高くAIリスクの低い仕事を年収・就業者数と共に一覧。` | `AIで仕事の中身が変わりにくい順です。点が低いほど、変わる部分が少ない仕事です。` |
 | OG / Twitter title | `AI影響が少ない仕事ランキング TOP30【2026年版】\| 未来の仕事` | `AI影響が少ない仕事 TOP30` |
 | OG / Twitter description | `AIに代替されにくい職業TOP30。平均スコア2.8/10 変化 小さい。将来性が高くAIリスクの低い仕事を年収・就業者数と共に一覧。` | `AIで仕事の中身が変わりにくい順です。点が低いほど、変わる部分が少ない仕事です。` |
-| H1 / breadcrumb / index-card title | `AI影響が少ない仕事 TOP30` | `AI影響が少ない仕事 TOP30` |
-| First-screen lead / index-card description | `身体性・対人関係・創造性が求められる職業はAIによる代替が難しく、スコアが低くなる傾向があります。「AIに奪われない仕事」をお探しの方に、将来性の高い職業を年収データと共に紹介します。` | `AIで仕事の中身が変わりにくい順です。点が低いほど、変わる部分が少ない仕事です。` |
+| H1 / breadcrumb | `AI影響が少ない仕事 TOP30` | `AI影響が少ない仕事 TOP30` |
+| Explanation (folded intro to first screen) | `身体性・対人関係・創造性が求められる職業はAIによる代替が難しく、スコアが低くなる傾向があります。「AIに奪われない仕事」をお探しの方に、将来性の高い職業を年収データと共に紹介します。` | `AIで仕事の中身が変わりにくい順です。点が低いほど、変わる部分が少ない仕事です。` |
+| Index-card title | `AI影響が少ない仕事 TOP30` | `AI影響が少ない仕事 TOP30` |
+| Index-card description | `AIリスクが低く将来性のある職業` | `AIで仕事の中身が変わりにくい順です。点が低いほど、変わる部分が少ない仕事です。` |
+| First row supporting text | `建設・土木 · 453万円 · 129,506人` | `AI変化度` |
 | First-place subtitle | `1位は潜水士（2.2/10 変化 小さい） · TOP30平均 2.8/10 変化 小さい · 2026年10月更新` | `1位は潜水士（2.2/10 変化 小さい） · TOP30平均 2.8/10 変化 小さい · 2026年10月更新` |
 | OG image eyebrow | `RANKING · TOP 30` | `RANKING · TOP 30` |
 | OG image title | `AI影響が少ない仕事 TOP30` | `AI影響が少ない仕事 TOP30` |
@@ -114,8 +123,11 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 | Meta description | `求人需要が最も高い職業TOP30。全556職業のうち「需要高」は270件・「安定」は105件。転職・就活の参考に。` | `求人需要の区分が高い順です。同じ区分では、年収が高い順に並べています。右の点数はAIで変わる度合い（0〜10）で、順位とは別です。` |
 | OG / Twitter title | `人手不足の職業ランキング TOP30【2026年版】\| 未来の仕事` | `人手不足の職業 TOP30` |
 | OG / Twitter description | `求人需要が最も高い職業TOP30。全556職業のうち「需要高」は270件・「安定」は105件。転職・就活の参考に。` | `求人需要の区分が高い順です。同じ区分では、年収が高い順に並べています。右の点数はAIで変わる度合い（0〜10）で、順位とは別です。` |
-| H1 / breadcrumb / index-card title | `人手不足の職業 TOP30` | `人手不足の職業 TOP30` |
-| First-screen lead / index-card description | `人手不足が深刻な職業を求人需要の高い順にランキング。採用されやすく待遇改善も期待できる職業を年収・AI影響度と共に確認できます。` | `求人需要の区分が高い順です。同じ区分では、年収が高い順に並べています。右の点数はAIで変わる度合い（0〜10）で、順位とは別です。` |
+| H1 / breadcrumb | `人手不足の職業 TOP30` | `人手不足の職業 TOP30` |
+| Explanation (folded intro to first screen) | `人手不足が深刻な職業を求人需要の高い順にランキング。採用されやすく待遇改善も期待できる職業を年収・AI影響度と共に確認できます。` | `求人需要の区分が高い順です。同じ区分では、年収が高い順に並べています。右の点数はAIで変わる度合い（0〜10）で、順位とは別です。` |
+| Index-card title | `人手不足の職業 TOP30` | `人手不足の職業 TOP30` |
+| Index-card description | `求人需要が高い職業` | `求人需要の区分が高い順です。同じ区分では、年収が高い順に並べています。右の点数はAIで変わる度合い（0〜10）で、順位とは別です。` |
+| First row supporting text | `医療・保健 · 1135万円 · 98,340人` | `求人需要 高需要` |
 | First-place subtitle | `1位は歯科医師（3.5/10 変化 小さい） · TOP30平均 4.7/10 変化 中くらい · 2026年10月更新` | `1位は歯科医師（高需要） · 2026年10月更新` |
 | OG image eyebrow | `RANKING · TOP 30` | `RANKING · TOP 30` |
 | OG image title | `人手不足の職業 TOP30` | `人手不足の職業 TOP30` |
@@ -135,8 +147,11 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 | Meta description | `年収が高くAI代替リスクが低い職業TOP30。平均年収976万円・平均AI影響4.2/10 変化 中くらい。将来性と収入を両立できる仕事を一覧。` | `AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。右の点数は順位とは別です。` |
 | OG / Twitter title | `高年収×低AIリスクの職業ランキング TOP30【2026年版】\| 未来の仕事` | `高年収×低AIリスク TOP30` |
 | OG / Twitter description | `年収が高くAI代替リスクが低い職業TOP30。平均年収976万円・平均AI影響4.2/10 変化 中くらい。将来性と収入を両立できる仕事を一覧。` | `AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。右の点数は順位とは別です。` |
-| H1 / breadcrumb / index-card title | `高年収×低AIリスク TOP30` | `高年収×低AIリスク TOP30` |
-| First-screen lead / index-card description | `高い年収を得ながらAIに代替されにくい——そんな職業を探している方へ。AI影響度5以下（10段階）かつ年収が高い順にランキングしました。` | `AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。右の点数は順位とは別です。` |
+| H1 / breadcrumb | `高年収×低AIリスク TOP30` | `高年収×低AIリスク TOP30` |
+| Explanation (folded intro to first screen) | `高い年収を得ながらAIに代替されにくい——そんな職業を探している方へ。AI影響度5以下（10段階）かつ年収が高い順にランキングしました。` | `AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。右の点数は順位とは別です。` |
+| Index-card title | `高年収×低AIリスク TOP30` | `高年収×低AIリスク TOP30` |
+| Index-card description | `年収が高くAI代替リスクが低い職業` | `AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。右の点数は順位とは別です。` |
+| First row supporting text | `設備・保守 · 1697万円 · 7,040人` | `年収 1697万円` |
 | First-place subtitle | `1位はパイロット（4.3/10 変化 中くらい） · TOP30平均 4.2/10 変化 中くらい · 2026年10月更新` | `1位はパイロット（1697万円） · 2026年10月更新` |
 | OG image eyebrow | `RANKING · TOP 30` | `RANKING · TOP 30` |
 | OG image title | `高年収×低AIリスク TOP30` | `高年収×低AIリスク TOP30` |
@@ -156,8 +171,11 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 | Meta description | `月間労働時間が最も短い職業TOP30。平均151時間。ワークライフバランスに優れた職業を年収・AI影響度と共に一覧。` | `労働時間が短い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
 | OG / Twitter title | `労働時間が短い職業ランキング TOP30【2026年版】\| 未来の仕事` | `労働時間が短い職業 TOP30` |
 | OG / Twitter description | `月間労働時間が最も短い職業TOP30。平均151時間。ワークライフバランスに優れた職業を年収・AI影響度と共に一覧。` | `労働時間が短い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
-| H1 / breadcrumb / index-card title | `労働時間が短い職業 TOP30` | `労働時間が短い職業 TOP30` |
-| First-screen lead / index-card description | `ワークライフバランスを重視する方向けに、月間労働時間が短い職業をランキング。年収やAI影響度も合わせて確認できます。` | `労働時間が短い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| H1 / breadcrumb | `労働時間が短い職業 TOP30` | `労働時間が短い職業 TOP30` |
+| Explanation (folded intro to first screen) | `ワークライフバランスを重視する方向けに、月間労働時間が短い職業をランキング。年収やAI影響度も合わせて確認できます。` | `労働時間が短い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| Index-card title | `労働時間が短い職業 TOP30` | `労働時間が短い職業 TOP30` |
+| Index-card description | `ワークライフバランスに優れた職業` | `労働時間が短い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| First row supporting text | `販売・営業 · 月141h · 500万円 · 155,683人` | `月間労働時間 141時間` |
 | First-place subtitle | `1位は保険営業（生命保険、損害保険）（5.7/10 変化 中くらい） · TOP30平均 5.4/10 変化 中くらい · 2026年10月更新` | `1位は保険営業（生命保険、損害保険）（141時間） · 2026年10月更新` |
 | OG image eyebrow | `RANKING · TOP 30` | `RANKING · TOP 30` |
 | OG image title | `労働時間が短い職業 TOP30` | `労働時間が短い職業 TOP30` |
@@ -177,8 +195,11 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 | Meta description | `時給ベースで報酬が高い職業 TOP30。平均時給 ¥3,441。AI 影響度・年収と共に一覧。` | `換算時給が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。時給は、求人の月額賃金を160時間で割った換算値です。実測の時給ではありません。` |
 | OG / Twitter title | `時給が高い職業ランキング TOP30【2026年版】\| 未来の仕事` | `時給が高い職業 TOP30` |
 | OG / Twitter description | `時給ベースで報酬が高い職業 TOP30。平均時給 ¥3,441。AI 影響度・年収と共に一覧。` | `換算時給が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。時給は、求人の月額賃金を160時間で割った換算値です。実測の時給ではありません。` |
-| H1 / breadcrumb / index-card title | `時給が高い職業 TOP30` | `時給が高い職業 TOP30` |
-| First-screen lead / index-card description | `時給ベースで報酬が高い職業をランキング。求人賃金 (月) を 160 時間で割った推計値で、フルタイム前提の参考値です。AI 影響度・年収も合わせて確認できます。` | `換算時給が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| H1 / breadcrumb | `時給が高い職業 TOP30` | `時給が高い職業 TOP30` |
+| Explanation (folded intro to first screen) | `時給ベースで報酬が高い職業をランキング。求人賃金 (月) を 160 時間で割った推計値で、フルタイム前提の参考値です。AI 影響度・年収も合わせて確認できます。` | `換算時給が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| Index-card title | `時給が高い職業 TOP30` | `時給が高い職業 TOP30` |
+| Index-card description | `時給ベースで報酬が高い職業` | `換算時給が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| First row supporting text | `医療・保健 · 時給 ¥6,850 · 1338万円 · 43,380人` | `換算時給 6,850円/時` |
 | First-place subtitle | `1位は外科医（2.8/10 変化 小さい） · TOP30平均 4.9/10 変化 中くらい · 2026年10月更新` | `1位は外科医（6,850円/時） · 2026年10月更新` |
 | OG image eyebrow | `RANKING · 時給` | `RANKING · 時給` |
 | OG image title | `時給が高い職業 TOP30` | `時給が高い職業 TOP30` |
@@ -198,8 +219,11 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 | Meta description | `日本で最も年収が高い職業TOP30。平均年収1044万円。AI影響度・就業者数も合わせて比較。` | `年収が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
 | OG / Twitter title | `年収が高い職業ランキング TOP30【2026年版】\| 未来の仕事` | `年収ランキング TOP30` |
 | OG / Twitter description | `日本で最も年収が高い職業TOP30。平均年収1044万円。AI影響度・就業者数も合わせて比較。` | `年収が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
-| H1 / breadcrumb / index-card title | `年収ランキング TOP30` | `年収ランキング TOP30` |
-| First-screen lead / index-card description | `厚労省の職業情報データベースに基づく年収ランキング。年収が高い職業をAI影響度・就業者数と共に一覧できます。` | `年収が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| H1 / breadcrumb | `年収ランキング TOP30` | `年収ランキング TOP30` |
+| Explanation (folded intro to first screen) | `厚労省の職業情報データベースに基づく年収ランキング。年収が高い職業をAI影響度・就業者数と共に一覧できます。` | `年収が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| Index-card title | `年収ランキング TOP30` | `年収ランキング TOP30` |
+| Index-card description | `年収が最も高い職業` | `年収が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
+| First row supporting text | `設備・保守 · 1697万円 · 7,040人` | `年収 1697万円` |
 | First-place subtitle | `1位はパイロット（4.3/10 変化 中くらい） · TOP30平均 4.9/10 変化 中くらい · 2026年10月更新` | `1位はパイロット（1697万円） · 2026年10月更新` |
 | OG image eyebrow | `RANKING · TOP 30` | `RANKING · TOP 30` |
 | OG image title | `年収ランキング TOP30` | `年収ランキング TOP30` |
