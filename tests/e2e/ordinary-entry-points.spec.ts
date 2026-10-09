@@ -89,3 +89,18 @@ test('completed diagnosis flows through me and the same occupation into Pro', as
   await page.goto('/me?id=404');
   await expect(page.locator('#meOccupationLink')).toHaveAttribute('href', '/occupations/404');
 });
+
+test('all 16 sector conclusions match their index scores and bands', async ({ page }) => {
+  await page.goto('/sectors');
+  const sectors = await page.locator('.sector-card').evaluateAll(nodes => nodes.map(node => ({
+    href: node.querySelector('a.sc-name-link')!.getAttribute('href')!,
+    label: node.querySelector('.sc-risk')!.textContent!.replace('AI 影響 平均 ', ''),
+  })));
+  expect(sectors).toHaveLength(16);
+  for (const sector of sectors) {
+    expect((await page.goto(sector.href))?.status()).toBe(200);
+    await expect(page.locator('.ordinary-score-meta')).toContainText(sector.label);
+    const band = sector.label.split('変化 ')[1];
+    await expect(page.locator('.ordinary-conclusion')).toContainText(`「${band}」`);
+  }
+});

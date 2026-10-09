@@ -60,9 +60,8 @@ describe('stage-zero Pro route contract', () => {
       ['src/pages/_me-inline.js', 696, 'a.href = rankingPaths[row.meta.slug]'],
       ['src/templates/Ranking.ts', 255, 'rankingRoute('],
       ['src/templates/Ranking.ts', 419, 'rankingRoute('],
-      ['src/index-source.html', 57, 'href="/pro/gyakuten"'],
-      ['src/index-source.html', 148, 'href="/pro/compare"'],
-      ['src/index-source.html', 660, 'href="/rankings"'],
+      ['src/index-source.html', 398, 'href="/rankings/ai-risk-high"'],
+      ['src/index-source.html', 438, 'href="/pro"'],
     ] as const) {
       expect(readFileSync(file, 'utf8')).toContain(text);
       expect(doc).toContain(`${file}:${line}`);
