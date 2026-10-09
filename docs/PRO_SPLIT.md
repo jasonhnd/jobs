@@ -458,6 +458,8 @@ body wording are unchanged. All 39 Pro ranking detail titles/descriptions and
 the Pro index use the `Pro | ` / `Pro · ` prefixes; OG title/description retain
 the original unprefixed copy. These metadata differences and edition-navigation
 labels are listed in the PR signature package; none is represented as signed.
+The exact 40-page old/new values are recorded in
+[`pro-split/owner-signature.md`](pro-split/owner-signature.md).
 Local HTTP/three-width
 rendering evidence belongs to the implementation PR; deployed behavior remains
 unverified until the separate preview acceptance stage.
