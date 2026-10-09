@@ -76,6 +76,11 @@ export const MAP_PAGE_CSS = `
       margin: 0; color: var(--fg);
     }
 
+    .map-introduction { margin: var(--s-4) 0; }
+    .ordinary-conclusion { font-size: var(--t-h3); color: var(--ink-2); max-width: 64ch; }
+    .map-reading-guide { font-size: var(--t-sm); color: var(--ink-meta); margin: var(--s-3) 0; }
+    #map-search-guidance { font-size: var(--t-body); color: var(--ink); }
+    .legend-words { flex-wrap: wrap; gap: var(--s-3); }
     .map-search {
       position: sticky; top: var(--h-head); z-index: var(--z-sticky);
       height: var(--h-search);
