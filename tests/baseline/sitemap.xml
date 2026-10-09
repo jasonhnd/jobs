@@ -13,19 +13,19 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/aiadoption</loc>
+    <loc>https://mirai-shigoto.com/pro/aiadoption</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/aiadoption/2026-q2</loc>
+    <loc>https://mirai-shigoto.com/pro/aiadoption/2026-q2</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/aiadoption/2026-q3</loc>
+    <loc>https://mirai-shigoto.com/pro/aiadoption/2026-q3</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -43,7 +43,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/gyakuten</loc>
+    <loc>https://mirai-shigoto.com/pro/gyakuten</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -61,31 +61,31 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/standard</loc>
+    <loc>https://mirai-shigoto.com/pro/standard</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/haid</loc>
+    <loc>https://mirai-shigoto.com/pro/haid</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/methodology</loc>
+    <loc>https://mirai-shigoto.com/pro/methodology</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/models</loc>
+    <loc>https://mirai-shigoto.com/pro/models</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/data</loc>
+    <loc>https://mirai-shigoto.com/pro/data</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -107,6 +107,18 @@
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/rankings</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mirai-shigoto.com/rankings</loc>
@@ -145,13 +157,13 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/entry-salary</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/entry-salary</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/young-workforce</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/young-workforce</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -175,175 +187,151 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/recruit-ratio</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/recruit-ratio</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/aging-workforce</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/aging-workforce</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/monthly-hours-long</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/monthly-hours-long</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/recruit-ratio-low</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/recruit-ratio-low</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-replaced-soon</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-replaced-soon</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-resistant-craft</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-resistant-craft</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-at-risk-but-paid</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-at-risk-but-paid</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-augmented</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-augmented</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-frontier</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-frontier</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-stable-employment</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-stable-employment</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-safe-high-demand</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-safe-high-demand</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-safe-short-hours</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-safe-no-license</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-safe-young-workforce</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-safe-physical</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-safe-no-license</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/ai-safe-interpersonal</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-safe-physical</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/high-salary-high-demand</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/ai-safe-interpersonal</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/high-salary-young-entry</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/high-salary-high-demand</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/license-required</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/high-salary-young-entry</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/no-license-required</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/license-required</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/high-school-ok</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/no-license-required</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/university-required</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/high-school-ok</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/graduate-school-required</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/university-required</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/public-sector</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/graduate-school-required</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/large-workforce-stable</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/public-sector</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/regulated-protected</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/rankings/freelance-friendly</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/rankings/self-employed-typical</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/rankings/large-workforce-stable</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/rankings/regulated-protected</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/rankings/low-stress-stable</loc>
+    <loc>https://mirai-shigoto.com/pro/rankings/low-stress-stable</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -451,1213 +439,1213 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/interests</loc>
+    <loc>https://mirai-shigoto.com/pro/interests</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/interests/realistic</loc>
+    <loc>https://mirai-shigoto.com/pro/interests/realistic</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/interests/investigative</loc>
+    <loc>https://mirai-shigoto.com/pro/interests/investigative</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/interests/artistic</loc>
+    <loc>https://mirai-shigoto.com/pro/interests/artistic</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/interests/social</loc>
+    <loc>https://mirai-shigoto.com/pro/interests/social</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/interests/enterprising</loc>
+    <loc>https://mirai-shigoto.com/pro/interests/enterprising</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/interests/conventional</loc>
+    <loc>https://mirai-shigoto.com/pro/interests/conventional</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/skills</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/critical-thinking</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/problem-solving</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/social-perceptiveness</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/coordination</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/instructing</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/programming</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/judgment</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/quality-control</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/time-management</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/skills/persuasion</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare</loc>
+    <loc>https://mirai-shigoto.com/pro/skills</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/kango-vs-helper</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/critical-thinking</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/se-vs-programmer</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/problem-solving</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/iryo-jimu-vs-ippan-jimu</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/social-perceptiveness</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/biyo-vs-riyo</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/coordination</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/truck-vs-taxi</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/instructing</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/denki-vs-haikan</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/programming</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/kango-vs-yakuzaishi</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/judgment</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/shoubou-vs-keisatsu</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/quality-control</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/pt-vs-shika-eisei</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/time-management</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/bengoshi-vs-kaikeishi</loc>
+    <loc>https://mirai-shigoto.com/pro/skills/persuasion</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/compare/tofu-vs-pan</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare/kyoshi-vs-hoikushi</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare/kaigo-vs-kea-mane</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare/kaikeishi-vs-zeirishi</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare/shihou-vs-gyousei</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare/web-marketer-vs-research</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare/data-scientist-vs-ai-engineer</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare/shika-vs-juui</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare/yochien-vs-hoikushi</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/compare/webdesigner-vs-illustrator</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/abilities</loc>
+    <loc>https://mirai-shigoto.com/pro/compare</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/stamina</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/kango-vs-helper</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/physical-strength</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/se-vs-programmer</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/manual-dexterity-fine</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/iryo-jimu-vs-ippan-jimu</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/visualization</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/biyo-vs-riyo</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/selective-attention</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/truck-vs-taxi</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/problem-sensitivity</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/denki-vs-haikan</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/oral-comprehension</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/kango-vs-yakuzaishi</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/inductive-reasoning</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/shoubou-vs-keisatsu</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/deductive-reasoning</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/pt-vs-shika-eisei</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/abilities/oral-expression</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/bengoshi-vs-kaikeishi</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/knowledge/production-processing</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/tofu-vs-pan</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge/customer-service</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/kyoshi-vs-hoikushi</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge/mechanical-knowledge</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/kaigo-vs-kea-mane</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge/medical-knowledge</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/kaikeishi-vs-zeirishi</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge/mathematics-knowledge</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/shihou-vs-gyousei</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge/psychology-knowledge</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/web-marketer-vs-research</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge/law-government-knowledge</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/data-scientist-vs-ai-engineer</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge/computers-electronics-knowledge</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/shika-vs-juui</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge/japanese-language-knowledge</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/yochien-vs-hoikushi</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/knowledge/sales-marketing-knowledge</loc>
+    <loc>https://mirai-shigoto.com/pro/compare/webdesigner-vs-illustrator</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/values</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/values/achievement</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/stamina</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/values/independence</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/physical-strength</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/values/recognition</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/manual-dexterity-fine</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/values/relationships</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/visualization</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/values/support</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/selective-attention</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/values/working-conditions</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/problem-sensitivity</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/values/expertise</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/oral-comprehension</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/values/self-growth</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/inductive-reasoning</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/education</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/education/no-school-required</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/deductive-reasoning</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/education/high-school-careers</loc>
+    <loc>https://mirai-shigoto.com/pro/abilities/oral-expression</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/education/vocational-school-careers</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/education/university-careers</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/education/graduate-school-careers</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/education/lifetime-learning</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/training</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/training/quick-start</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/production-processing</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/training/1-3-years</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/customer-service</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/training/3-5-years</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/mechanical-knowledge</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/training/5-10-years</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/medical-knowledge</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/training/lifelong-craft</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/mathematics-knowledge</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/work-styles</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/work-styles/indoor-vs-outdoor</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/psychology-knowledge</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/work-styles/desk-vs-genba</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/law-government-knowledge</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/work-styles/move-required</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/computers-electronics-knowledge</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/work-styles/shift-work</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/japanese-language-knowledge</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/work-styles/solo-vs-team</loc>
+    <loc>https://mirai-shigoto.com/pro/knowledge/sales-marketing-knowledge</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/work-styles/high-physical-load</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/work-styles/desk-sitting-work</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/employment-types</loc>
+    <loc>https://mirai-shigoto.com/pro/values</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/employment-types/full-time-mainstream</loc>
+    <loc>https://mirai-shigoto.com/pro/values/achievement</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/employment-types/freelance-friendly</loc>
+    <loc>https://mirai-shigoto.com/pro/values/independence</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/employment-types/part-time-mainstream</loc>
+    <loc>https://mirai-shigoto.com/pro/values/recognition</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/employment-types/public-employee</loc>
+    <loc>https://mirai-shigoto.com/pro/values/relationships</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/life-balance</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/life-balance/child-care-balance</loc>
+    <loc>https://mirai-shigoto.com/pro/values/support</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/life-balance/elderly-care-balance</loc>
+    <loc>https://mirai-shigoto.com/pro/values/working-conditions</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/life-balance/health-friendly</loc>
+    <loc>https://mirai-shigoto.com/pro/values/expertise</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/life-balance/mental-health-friendly</loc>
+    <loc>https://mirai-shigoto.com/pro/values/self-growth</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/life-balance/hobby-balance</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/life-balance/senior-friendly</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/entry-paths</loc>
+    <loc>https://mirai-shigoto.com/pro/education</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/entry-paths/new-grad-mainstream</loc>
+    <loc>https://mirai-shigoto.com/pro/education/no-school-required</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/entry-paths/mid-career-mainstream</loc>
+    <loc>https://mirai-shigoto.com/pro/education/high-school-careers</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/entry-paths/from-arbeit</loc>
+    <loc>https://mirai-shigoto.com/pro/education/vocational-school-careers</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/entry-paths/independent-typical</loc>
+    <loc>https://mirai-shigoto.com/pro/education/university-careers</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/entry-paths/apprenticeship</loc>
+    <loc>https://mirai-shigoto.com/pro/education/graduate-school-careers</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/careers</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/careers/shinsotsu</loc>
+    <loc>https://mirai-shigoto.com/pro/education/lifetime-learning</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/careers/20-late</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/careers/30s-early</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/careers/30s-late</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/careers/40s</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/careers/50s</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/careers/60s-shinia</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/careers/gakusei-arbeit</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/careers/shufu-fukki</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/careers/career-change</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses</loc>
+    <loc>https://mirai-shigoto.com/pro/training</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/licenses/national-vs-private</loc>
+    <loc>https://mirai-shigoto.com/pro/training/quick-start</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/licenses/gyoumu-dokusen</loc>
+    <loc>https://mirai-shigoto.com/pro/training/1-3-years</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/licenses/meishou-dokusen-hicchi</loc>
+    <loc>https://mirai-shigoto.com/pro/training/3-5-years</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/licenses/medical-licenses</loc>
+    <loc>https://mirai-shigoto.com/pro/training/5-10-years</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/licenses/welfare-licenses</loc>
+    <loc>https://mirai-shigoto.com/pro/training/lifelong-craft</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/licenses/education-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses/legal-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses/accounting-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses/construction-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses/it-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses/realestate-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses/food-safety-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses/easy-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses/no-degree-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/licenses/popular-licenses</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q</loc>
+    <loc>https://mirai-shigoto.com/pro/work-styles</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/q/ai-de-kienai</loc>
+    <loc>https://mirai-shigoto.com/pro/work-styles/indoor-vs-outdoor</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/q/ai-de-kieru</loc>
+    <loc>https://mirai-shigoto.com/pro/work-styles/desk-vs-genba</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/q/ai-augment-vs-replace</loc>
+    <loc>https://mirai-shigoto.com/pro/work-styles/move-required</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/q/shikaku-mamoru</loc>
+    <loc>https://mirai-shigoto.com/pro/work-styles/shift-work</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/q/genba-vs-jimu</loc>
+    <loc>https://mirai-shigoto.com/pro/work-styles/solo-vs-team</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/q/shokunin-mirai</loc>
+    <loc>https://mirai-shigoto.com/pro/work-styles/high-physical-load</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/q/hito-aite-shigoto</loc>
+    <loc>https://mirai-shigoto.com/pro/work-styles/desk-sitting-work</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/q/ai-jidai-osusume</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/kango-ai</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/it-engineer-ai</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/jimu-mirai</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/hanbai-mirai</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/driver-mirai</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/kyouiku-ai</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/shinso-osusume</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/tenshoku-30s</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/tenshoku-40s</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/over-50-katsuyaku</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/tenshoku-yasashii</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/career-change-mirai</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/blank-fukki</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/hoshou-nashi-tenshoku</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/tenshoku-kaisuu-ooi</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/ikuji-ryouritsu</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/kaigo-ryouritsu</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/female-long</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/zaitaku-shigoto</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/fukugyou-ok</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/shougai-mochi-ok</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/bunkei-osusume</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/rikei-osusume</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/hito-mishiri-ok</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/suugaku-nigate</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/eigo-ikasu</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/geijutsu-keikei</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/naiko-osusume</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/gaiko-osusume</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/kanjou-roudou-sukunai</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/ronri-shiko-ikasu</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/tsuukin-friendly</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/yakin-nashi</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/dokushin-friendly</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/ai-shitsugyou-yobou</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/ai-skill-mi-ni-tsukeru</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/ai-hoshou-shoku</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/gakureki-konpurekkusu</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/mikeiken-it</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/nenshu-up</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/q/kaigai-iju-shoku</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/answers</loc>
+    <loc>https://mirai-shigoto.com/pro/employment-types</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/answers/ai-de-nakunaru-shigoto</loc>
+    <loc>https://mirai-shigoto.com/pro/employment-types/full-time-mainstream</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/answers/nenshu-ai-anzen</loc>
+    <loc>https://mirai-shigoto.com/pro/employment-types/freelance-friendly</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/answers/nobiru-shigoto-top</loc>
+    <loc>https://mirai-shigoto.com/pro/employment-types/part-time-mainstream</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/yearly</loc>
+    <loc>https://mirai-shigoto.com/pro/employment-types/public-employee</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/life-balance</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/life-balance/child-care-balance</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/life-balance/elderly-care-balance</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/life-balance/health-friendly</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/life-balance/mental-health-friendly</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/life-balance/hobby-balance</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/life-balance/senior-friendly</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/entry-paths</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/entry-paths/new-grad-mainstream</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/entry-paths/mid-career-mainstream</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/entry-paths/from-arbeit</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/entry-paths/independent-typical</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/entry-paths/apprenticeship</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/shinsotsu</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/20-late</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/30s-early</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/30s-late</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/40s</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/50s</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/60s-shinia</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/gakusei-arbeit</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/shufu-fukki</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/careers/career-change</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/national-vs-private</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/gyoumu-dokusen</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/meishou-dokusen-hicchi</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/medical-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/welfare-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/education-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/legal-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/accounting-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/construction-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/it-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/realestate-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/food-safety-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/easy-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/no-degree-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/licenses/popular-licenses</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/ai-de-kienai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/ai-de-kieru</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/ai-augment-vs-replace</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/shikaku-mamoru</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/genba-vs-jimu</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/shokunin-mirai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/hito-aite-shigoto</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/ai-jidai-osusume</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/kango-ai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/it-engineer-ai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/jimu-mirai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/hanbai-mirai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/driver-mirai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/kyouiku-ai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/shinso-osusume</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/tenshoku-30s</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/tenshoku-40s</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/over-50-katsuyaku</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/tenshoku-yasashii</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/career-change-mirai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/blank-fukki</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/hoshou-nashi-tenshoku</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/tenshoku-kaisuu-ooi</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/ikuji-ryouritsu</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/kaigo-ryouritsu</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/female-long</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/zaitaku-shigoto</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/fukugyou-ok</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/shougai-mochi-ok</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/bunkei-osusume</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/rikei-osusume</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/hito-mishiri-ok</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/suugaku-nigate</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/eigo-ikasu</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/geijutsu-keikei</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/naiko-osusume</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/gaiko-osusume</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/kanjou-roudou-sukunai</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/ronri-shiko-ikasu</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/tsuukin-friendly</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/yakin-nashi</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/dokushin-friendly</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/ai-shitsugyou-yobou</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/ai-skill-mi-ni-tsukeru</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/ai-hoshou-shoku</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/gakureki-konpurekkusu</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/mikeiken-it</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/nenshu-up</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/q/kaigai-iju-shoku</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/answers</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/answers/ai-de-nakunaru-shigoto</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/answers/nenshu-ai-anzen</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/answers/nobiru-shigoto-top</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/yearly</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/yearly/2026-report</loc>
+    <loc>https://mirai-shigoto.com/pro/yearly/2026-report</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/yearly/5year-changes</loc>
+    <loc>https://mirai-shigoto.com/pro/yearly/5year-changes</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/yearly/next-decade</loc>
+    <loc>https://mirai-shigoto.com/pro/yearly/next-decade</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/explore</loc>
+    <loc>https://mirai-shigoto.com/pro/explore</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/explore/by-industry</loc>
+    <loc>https://mirai-shigoto.com/pro/explore/by-industry</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/explore/by-ranking</loc>
+    <loc>https://mirai-shigoto.com/pro/explore/by-ranking</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/explore/find-your-fit</loc>
+    <loc>https://mirai-shigoto.com/pro/explore/find-your-fit</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/explore/by-skill-and-license</loc>
+    <loc>https://mirai-shigoto.com/pro/explore/by-skill-and-license</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/explore/by-work-style</loc>
+    <loc>https://mirai-shigoto.com/pro/explore/by-work-style</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/explore/compare</loc>
+    <loc>https://mirai-shigoto.com/pro/explore/compare</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/explore/methodology-trust</loc>
+    <loc>https://mirai-shigoto.com/pro/explore/methodology-trust</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
