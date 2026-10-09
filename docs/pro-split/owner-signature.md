@@ -377,4 +377,3 @@ OG title/description retain the Old values above. Screenshot paths: `/tmp/JOB_02
 | Description | 月間労働時間 165 時間以下かつ AI 影響度 5 以下の職業 TOP30。長く続けやすい安定職を一覧。 | Pro · 月間労働時間 165 時間以下かつ AI 影響度 5 以下の職業 TOP30。長く続けやすい安定職を一覧。 |
 
 OG title/description retain the Old values above. Screenshot paths: `/tmp/JOB_0233/screenshots/pro-rankings-low-stress-stable-{1440,768,375}.png` (also `-full.png`).
-
