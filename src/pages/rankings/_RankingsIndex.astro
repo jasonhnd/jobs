@@ -4,7 +4,7 @@
  *
  * Inline CSS preserved verbatim from the v1.x design.
  */
-import { editionHtmlLinks, RANKINGS_INDEX_CANONICAL_PATH, type Edition } from '@/site/route-policy';
+import { editionHtmlLinks, rankingIndexCanonicalPath, type Edition } from '@/site/route-policy';
 import EditionNav from '@/components/EditionNav.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
@@ -25,7 +25,7 @@ import { SOP_LANDINGS, formatSopCitation } from '@/views/geo-answer-topics';
 const { edition = 'ordinary' } = Astro.props as { edition?: Edition };
 const graph = await loadGraph();
 const { hub } = buildRankings(() => loadOccupationsFromGraph(graph));
-const canonical = `${siteConfig.origin}${RANKINGS_INDEX_CANONICAL_PATH}`;
+const canonical = `${siteConfig.origin}${rankingIndexCanonicalPath(edition)}`;
 const title = '職業ランキング｜AI影響度・年収・就業者数・初任給・労働時間で比較 | 未来の仕事';
 // RA-003 (2026-05-18): SCORED count, not raw IPD total — match adjacent pages.
 const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事などを日本の職業データで一覧。`;
