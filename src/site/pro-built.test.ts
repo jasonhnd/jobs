@@ -2,6 +2,7 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import manifest from '../../docs/pro-split/route-manifest.json';
 import { occupationPath } from '../lib/urls';
 
@@ -117,6 +118,10 @@ describe('stage 2 occupations / stage 1B rendered Pro contract', { skip: !ready 
       for (const type of ['WebPage','Article']) assert.equal(nodes.find(n => n['@type'] === type)?.url, canonical, row.slug);
       assert.equal(nodes.find(n => n['@type'] === 'BreadcrumbList')?.itemListElement.at(-1).item, canonical);
     }
+  });
+  test('occupation route gate accepts final Pro ranking details alongside stage 2 occupations', () => {
+    const result = spawnSync(process.execPath, ['scripts/verify-occupation-routes.ts'], { cwd: process.cwd(), encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stdout + result.stderr);
   });
   test('main sitemap preserves both GEO discovery files, image sitemap retains ordinary entities, and unknown URLs are absent', () => {
     const sitemap = readFileSync(join(dist,'sitemap.xml'),'utf8');
