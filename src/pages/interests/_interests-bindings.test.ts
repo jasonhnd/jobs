@@ -14,7 +14,7 @@ describe('buildInterestsSlugBindings', () => {
   test('builds canonical, meta and section HTML for every interest', () => {
     for (const [slug, result] of buildInterests().results) {
       const b = buildInterestsSlugBindings(result, graph);
-      assert.equal(b.canonical, `https://mirai-shigoto.com/interests/${slug}`);
+      assert.equal(b.canonical, `https://mirai-shigoto.com/pro/interests/${slug}`);
       assert.equal(b.ogImage, `https://mirai-shigoto.com/api/og?interest=${slug}`);
       assert.ok(b.title.includes(result.meta.title_ja));
       assert.ok(b.seoDesc.includes(result.meta.letter));

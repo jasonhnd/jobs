@@ -184,7 +184,11 @@ for (const sitemapName of ['sitemap.xml', 'image-sitemap.xml']) {
       fail(`${sitemapName} contains ${countExact(sitemap, loc)} entries for occupation ${id}; expected 1`);
     }
   }
-  if (sitemap.includes(`<loc>${SITE}/pro`)) fail(`${sitemapName} advertises stage-1A Pro duplicates`);
+  // Stage 1B adds canonical Pro research pages, but occupation copies remain duplicates until stage 2.
+  for (const { id } of occupations) {
+    if (sitemap.includes(`<loc>${occupationUrl(id, 'pro')}</loc>`)) fail(`${sitemapName} advertises a duplicate Pro occupation ${id}`);
+  }
+  if (sitemapName === 'image-sitemap.xml' && sitemap.includes(`<loc>${SITE}/pro`)) fail('image sitemap advertises Pro duplicates');
   if (sitemap.includes(`<loc>${SITE}/404</loc>`)) fail(`${sitemapName} advertises the custom /404 document`);
 }
 

@@ -14,7 +14,7 @@ describe('buildSkillsSlugBindings', () => {
   test('builds canonical, meta and section HTML for every skill', () => {
     for (const [slug, result] of buildSkillsBundle().results) {
       const b = buildSkillsSlugBindings(result, graph);
-      assert.equal(b.canonical, `https://mirai-shigoto.com/skills/${slug}`);
+      assert.equal(b.canonical, `https://mirai-shigoto.com/pro/skills/${slug}`);
       assert.equal(b.ogImage, `https://mirai-shigoto.com/api/og?skill=${slug}`);
       assert.ok(b.title.includes(result.meta.title_ja));
       assert.ok(b.seoDesc.includes(result.meta.short_ja));

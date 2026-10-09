@@ -32,7 +32,7 @@ const FILES = [
   'pages/careers/_career-bindings.ts',
   'pages/licenses/_license-bindings.ts',
   'pages/q/_q-bindings.ts',
-  'pages/answers/[topic].astro',
+  'pages/pro/answers/[topic].astro',
   'site/home-facts-render.ts',
 ];
 

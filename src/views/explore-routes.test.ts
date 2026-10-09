@@ -55,7 +55,7 @@ describe('EXPLORE_ROUTES — structural contract', () => {
   test('each referenced genre path is a non-empty short identifier (e.g. "sectors", "abilities")', () => {
     // Genre paths are normally bare slugs (no leading slash); the
     // explore-route template prepends the / prefix at render time.
-    // A leading-slash path is an absolute root link (e.g. "/methodology",
+    // A leading-slash path is an absolute root link (e.g. "/pro/methodology",
     // "/about") used as-is — for the consolidated reference docs that
     // live at the site root rather than under /.
     for (const r of EXPLORE_ROUTES) {

@@ -45,8 +45,8 @@ describe('requireBuiltArtifact', () => {
   // assertions in a run that was supposed to have build output.
   test('throws for a missing artifact when the build is required', () => {
     assert.throws(
-      () => withFlag('1', () => requireBuiltArtifact(null, 'dist-astro/models/index.html')),
-      /dist-astro\/models\/index\.html.*REQUIRE_BUILT_ARTIFACTS is set/s,
+      () => withFlag('1', () => requireBuiltArtifact(null, 'dist-astro/pro/models/index.html')),
+      /dist-astro\/pro\/models\/index\.html.*REQUIRE_BUILT_ARTIFACTS is set/s,
     );
   });
 });

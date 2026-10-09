@@ -111,8 +111,8 @@ describe('renderRelatedInterests', () => {
     ]);
     assert.match(html, /<ul class="related-interests">/);
     assert.equal((html.match(/<li>/g) ?? []).length, 1);
-    assert.equal(html.includes('/interests/social'), false);
-    assert.match(html, /href="\/interests\/realistic"/);
+    assert.equal(html.includes('/pro/interests/social'), false);
+    assert.match(html, /href="\/pro\/interests\/realistic"/);
     assert.match(html, /class="ri-letter">R</);
     assert.match(html, /class="ri-name">N-R/);
     assert.match(html, /class="ri-desc">A・B・C</);
@@ -123,7 +123,7 @@ describe('renderRelatedInterests', () => {
 describe('InterestHub JSON-LD', () => {
   test('detail graph includes the list and an optional FAQPage', () => {
     const withFaq = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/interests/social',
+      'https://mirai-shigoto.com/pro/interests/social',
       interestMeta('social', 'S'),
       [{ ...item, name_ja: '' }],
       'desc',
@@ -138,7 +138,7 @@ describe('InterestHub JSON-LD', () => {
     assert.equal(list?.itemListElement?.[0]?.name, '#1');
 
     const bare = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/interests/social',
+      'https://mirai-shigoto.com/pro/interests/social',
       interestMeta('social', 'S'),
       [],
       'desc',
@@ -152,7 +152,7 @@ describe('InterestHub JSON-LD', () => {
     const got = JSON.parse(renderHubJsonLd());
     const page = (got['@graph'] as Array<{ '@type': string; url?: string }>)
       .find((node) => node['@type'] === 'WebPage');
-    assert.equal(page?.url, 'https://mirai-shigoto.com/interests');
+    assert.equal(page?.url, 'https://mirai-shigoto.com/pro/interests');
   });
 });
 
@@ -176,12 +176,12 @@ describe('renderInterestsHubCards', () => {
         top_count: 0,
       },
     ]);
-    assert.match(html, /href="\/interests\/social"/);
+    assert.match(html, /href="\/pro\/interests\/social"/);
     assert.match(html, /class="iri-letter">S</);
     assert.match(html, /class="iri-name">N &amp; N/);
     assert.match(html, /class="iri-preview">P &lt;1&gt;</);
     assert.match(html, /class="iri-count">TOP 30 /);
-    assert.match(html, /href="\/interests\/realistic"/);
+    assert.match(html, /href="\/pro\/interests\/realistic"/);
     assert.equal((html.match(/class="iri-preview"/g) ?? []).length, 1);
     assert.match(html, /class="iri-desc">short…</);
   });

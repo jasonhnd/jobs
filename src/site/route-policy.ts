@@ -1,5 +1,7 @@
-/** Stage 1A policy only. Planned redirects/final canonicals are not active. */
+/** Stage 1B final address policy. Occupation simplification remains stage 2. */
 import manifest from '../../docs/pro-split/route-manifest.json';
+import { siteConfig } from './config';
+import { stringifyJsonLd } from '../lib/json-for-script';
 
 export type Edition = 'ordinary' | 'pro';
 export interface RoutePolicy {
@@ -16,7 +18,12 @@ export interface RankingRoutePolicy extends RoutePolicy {
 }
 
 export const PRO_RANKINGS = manifest.rankings;
+/** Both indexes retain 39 cards until stage 3, so only the ordinary URL is canonical. */
+export const RANKINGS_INDEX_CANONICAL_PATH = '/rankings';
 const rankings = new Map(PRO_RANKINGS.map(row => [row.slug, row]));
+export const MIGRATED_FAMILIES = new Set(manifest.pageTemplates
+  .filter(row => row.oldStatus === 301)
+  .map(row => row.oldTemplate.split('/')[1]!));
 
 /** Called with graph-owned IDs; route generation, not this helper, validates existence. */
 export function occupationRoute(id: number, edition: Edition = 'ordinary'): RoutePolicy {
@@ -31,37 +38,75 @@ export function rankingRoute(slug: string, edition: Edition = 'ordinary'): Ranki
   const row = rankings.get(slug);
   if (!row) throw new Error(`Unknown ranking: ${slug}`);
   return {
-    pagePath: edition === 'pro' ? row.proPath : row.oldPath,
-    canonicalPath: edition === 'pro' ? row.phase1ProCanonical : row.oldPath,
+    pagePath: edition === 'pro' ? row.proPath : (row.ordinaryPath ?? row.proPath),
+    canonicalPath: edition === 'pro' ? row.proCanonical : (row.ordinaryPath ?? row.proPath),
     noindex: row.noindex,
-    // Stage 1A preserves the existing ordinary sitemap, including its four noindex entries.
-    sitemap: edition === 'ordinary',
-    // All old ranking pages are still live in stage 1A, even future migrations.
-    ordinarySwitchPath: row.oldPath,
+    sitemap: edition === 'pro' ? row.proSitemap : row.ordinarySitemap,
+    ordinarySwitchPath: row.ordinaryPath ?? '/',
     ordinaryProCta: row.ordinaryPath !== null,
   };
 }
 
-/** Only duplicated families switch edition. Shared and not-yet-migrated URLs stay at root. */
+/** Final links by edition, retaining shared endpoints and every query/fragment byte. */
 export function editionHref(href: string, edition: Edition): string {
-  if (edition === 'ordinary') return href;
+  if (href.startsWith(`${siteConfig.origin}/`)) return siteConfig.origin + editionHref(href.slice(siteConfig.origin.length), edition);
   const match = /^(\/[^?#]*)([?#].*)?$/.exec(href);
   if (!match) return href;
   const [, path, suffix = ''] = match;
-  if (path === '/rankings') return `/pro/rankings${suffix}`;
+  if (MIGRATED_FAMILIES.has(path!.split('/')[1]!)) return `/pro${path}${suffix}`;
+  if (path === '/rankings') return edition === 'pro' ? `/pro/rankings${suffix}` : href;
   const ranking = /^\/rankings\/([^/]+)$/.exec(path!);
   if (ranking && rankings.has(ranking[1]!)) return rankingRoute(ranking[1]!, edition).pagePath + suffix;
   const occupation = /^\/([1-9]\d*)$/.exec(path!);
-  if (occupation && Number(occupation[1]) !== manifest.occupation.exception.id) {
+  if (edition === 'pro' && occupation && Number(occupation[1]) !== manifest.occupation.exception.id) {
     return occupationRoute(Number(occupation[1]), edition).pagePath + suffix;
   }
-  if (path === manifest.occupation.exception.ordinaryPath) return manifest.occupation.exception.proPath + suffix;
+  if (edition === 'pro' && path === manifest.occupation.exception.ordinaryPath) return manifest.occupation.exception.proPath + suffix;
   return href;
+}
+
+/** Structured page links follow edition; the occupation entity and shared dataset stay stable. */
+export function editionJsonLd(json: string, edition: Edition): string {
+  function structuredHref(href: string): string {
+    const absolute = href.startsWith(`${siteConfig.origin}/`);
+    const raw = absolute ? href.slice(siteConfig.origin.length) : href;
+    const match = /^(\/[^?#]*)([?#].*)?$/.exec(raw);
+    if (match) {
+      const path = match[1]!;
+      const suffix = match[2] ?? '';
+      const ranking = /^\/(?:pro\/)?rankings\/([^/]+)$/.exec(path);
+      if (ranking && rankings.has(ranking[1]!)) {
+        return (absolute ? siteConfig.origin : '') + rankingRoute(ranking[1]!, edition).canonicalPath + suffix;
+      }
+      if (path === '/rankings' || path === '/pro/rankings') {
+        return (absolute ? siteConfig.origin : '') + RANKINGS_INDEX_CANONICAL_PATH + suffix;
+      }
+    }
+    return editionHref(href, edition);
+  }
+  function visit(value: unknown, key = '', stableEntity = false): unknown {
+    if (Array.isArray(value)) return value.map(it => visit(it, key, stableEntity));
+    if (value && typeof value === 'object') {
+      const record = value as Record<string, unknown>;
+      const stable = record['@type'] === 'Occupation';
+      return Object.fromEntries(Object.entries(record).map(([k,v]) => [k,visit(v,k,stable)]));
+    }
+    if (typeof value === 'string' && ['@id','url','item','mainEntityOfPage'].includes(key)
+      && !stableEntity && !value.endsWith('#occupation')) return structuredHref(value);
+    return value;
+  }
+  return stringifyJsonLd(visit(JSON.parse(json), '', false));
+}
+
+/** Adapt a trusted JSON-LD slot without touching any other inline script. */
+export function editionJsonLdSlot(html: string, edition: Edition): string {
+  return html.replace(/(<script\b[^>]*type="application\/ld\+json"[^>]*>)([\s\S]*?)(<\/script>)/g,
+    (_all, start: string, json: string, end: string) => start + editionJsonLd(json, edition) + end);
 }
 
 /** Adapt trusted renderer output; never prefix arbitrary links or change prose/scripts. */
 export function editionHtmlLinks<T extends string>(html: T, edition: Edition): T {
-  if (edition === 'ordinary') return html;
-  return html.replace(/\bhref=(['"])([^'"]*)\1/g, (_all, quote: string, href: string) =>
-    `href=${quote}${editionHref(href, edition)}${quote}`) as T;
+  // Scripts/styles are opaque. In particular, CSP-pinned analytics bytes never enter this adapter.
+  return html.replace(/(<script\b[\s\S]*?<\/script>|<style\b[\s\S]*?<\/style>|<nav\b[^>]*class="edition-nav"[^>]*>[\s\S]*?<\/nav>)|\bhref=(['"])([^'"]*)\2/gi,
+    (_all, opaque: string | undefined, quote: string, href: string) => opaque ?? `href=${quote}${editionHref(href, edition)}${quote}`) as T;
 }

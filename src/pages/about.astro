@@ -99,16 +99,16 @@ const jsonLd = `{
     <p class="meta-line">最終更新 {pageLastUpdated}</p>
 
     <p class="lead">
-      本サイトの基礎データは、すべて<strong>公開されている公的情報</strong>から取得しています。AI 影響度スコアのみが独自分析です。採点の詳しい手順とデータの整え方は <a href="/methodology">評価プロセス</a>、基準そのものの定義は <a href="/standard">AIOIS-10 標準</a> を参照してください。
+      本サイトの基礎データは、すべて<strong>公開されている公的情報</strong>から取得しています。AI 影響度スコアのみが独自分析です。採点の詳しい手順とデータの整え方は <a href="/pro/methodology">評価プロセス</a>、基準そのものの定義は <a href="/pro/standard">AIOIS-10 標準</a> を参照してください。
     </p>
 
     <h2><span class="num">1.</span>データソース（要約）</h2>
     <div class="src-card">
       <div class="src-row"><span class="src-label">職業マスタ</span><span><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a>／著作権者 JILPT「職業情報データベース」v7.00</span></div>
       <div class="src-row"><span class="src-label">労働統計</span><span>賃金構造基本統計調査・労働力調査・ハローワーク求人統計（年収・就業者数・有効求人倍率）</span></div>
-      <div class="src-row"><span class="src-label">AI 影響スコア</span><span>本サイト独自分析（複数のAIモデルによる総合、<a href="/standard">AIOIS-10</a> v1.0・最新採点 {SCORE_PANEL.latestRunDate}）</span></div>
+      <div class="src-row"><span class="src-label">AI 影響スコア</span><span>本サイト独自分析（複数のAIモデルによる総合、<a href="/pro/standard">AIOIS-10</a> v1.0・最新採点 {SCORE_PANEL.latestRunDate}）</span></div>
     </div>
-    <p>各出典の正式名・利用条件・引用ルールの詳細は <a href="/methodology">評価プロセス</a> にまとめています。</p>
+    <p>各出典の正式名・利用条件・引用ルールの詳細は <a href="/pro/methodology">評価プロセス</a> にまとめています。</p>
 
     <h2><span class="num">2.</span>スコアの目安</h2>
     <p>トップ指標「AI 影響」は <strong>0.0〜10.0</strong> の<strong>変化の大きさ</strong>（仕事のやり方が AI でどれだけ作り変えられるか）です。統計調査ではなく、職業データにもとづく現行 AI 時点の見立てです。</p>
@@ -152,11 +152,11 @@ const jsonLd = `{
       </details>
       <details>
         <summary>採点はどれくらい正確ですか？</summary>
-        <p>これは LLM の主観評価で、統計的検証はされていません。同じ職業でも別の採点者なら ±1〜2 ぶれる可能性があります。<strong>絶対値より相対比較</strong>（A 職業と B 職業の大小関係）の方が情報量があります。手順は <a href="/methodology">評価プロセス</a> を参照。</p>
+        <p>これは LLM の主観評価で、統計的検証はされていません。同じ職業でも別の採点者なら ±1〜2 ぶれる可能性があります。<strong>絶対値より相対比較</strong>（A 職業と B 職業の大小関係）の方が情報量があります。手順は <a href="/pro/methodology">評価プロセス</a> を参照。</p>
       </details>
       <details>
         <summary>どれくらいの頻度で更新されますか？</summary>
-        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は {SCORE_PANEL.latestRunDate}（複数のAIによる総合、<a href="/standard">AIOIS-10</a> v1.0）。{CONSENSUS_FAQ_DETAIL}元データ（jobtag／JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
+        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は {SCORE_PANEL.latestRunDate}（複数のAIによる総合、<a href="/pro/standard">AIOIS-10</a> v1.0）。{CONSENSUS_FAQ_DETAIL}元データ（jobtag／JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
       </details>
       <details>
         <summary>自分の職業がリストに見つかりません。</summary>
@@ -166,7 +166,7 @@ const jsonLd = `{
 
     <h2><span class="num">6.</span>運営会社</h2>
     <p>本サイト「mirai-shigoto.com」は、<strong>ZKSC株式会社</strong>（東京・日本／<a href="https://zksc.io" target="_blank" rel="noopener noreferrer">zksc.io</a>）が運営する独自分析プロジェクトです。ZKSC は金融戦略とテクノロジーを軸に、構造化された分析とデータの可視化に取り組んでいます。</p>
-    <p>本サイトの AI 影響度スコアは複数のAIによる総合（<a href="/standard">AIOIS-10</a>）であり、公的機関の公式見解を代表するものではありません。</p>
+    <p>本サイトの AI 影響度スコアは複数のAIによる総合（<a href="/pro/standard">AIOIS-10</a>）であり、公的機関の公式見解を代表するものではありません。</p>
 
     <Footer />
   </div>
