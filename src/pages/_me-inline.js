@@ -20,6 +20,8 @@
     var $quizError = document.getElementById('meQuizError');
     var LOAD_FAILED_TEXT = 'データの読み込みに失敗しました。再読み込みしてください。';
     var $results = document.getElementById('meResults');
+    var $occupationLink = document.getElementById('meOccupationLink');
+    var occupationPaths = JSON.parse(document.getElementById('meOccupationPaths').textContent);
     var $summaryName = document.getElementById('meSummaryName');
     var $summarySector = document.getElementById('meSummarySector');
     var $statRisk = document.getElementById('meStatRisk');
@@ -399,6 +401,11 @@
       $results.setAttribute('data-visible', 'true');
 
       $summaryName.textContent = pos.nameJa;
+      if ($occupationLink) {
+        var occupationHref = occupationPaths[currentJobId];
+        $occupationLink.hidden = !occupationHref;
+        if (occupationHref) $occupationLink.href = occupationHref;
+      }
       $summarySector.textContent = pos.summary.sectorJa || '';
       $statRisk.textContent = riskLabel(pos.summary.aiRisk);
       $statWorkers.textContent = fmtWorkers(pos.summary.workers);

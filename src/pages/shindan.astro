@@ -10,6 +10,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { editionHref } from '@/site/route-policy';
 import Footer from '@/components/Footer.astro';
 import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
 import { SHINDAN_CSS } from './_shindan-css';
@@ -218,6 +219,8 @@ const jsonLd = stringifyJsonLd({
 
           <div class="shindan-axis-list" id="shindanAxisList" aria-label="3軸の内訳"></div>
           <p class="shindan-rarity" id="shindanRarity"></p>
+
+          <p><a class="shindan-primary shindan-me-entry" href={editionHref('/me', 'ordinary')}>自分の仕事を探す</a></p>
 
           <div class="shindan-occupations">
             <h3>代表的な職業</h3>
