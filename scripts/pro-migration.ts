@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /** Exact stage-1B redirects. The inventory is checked against built pages, never wildcards. */
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import manifest from '../docs/pro-split/route-manifest.json';
 import oldRoutes from '../docs/pro-split/generated-routes.json';
@@ -62,10 +62,19 @@ export function verifyMigration(config: {redirects: Redirect[]}): void {
   for (const rule of expected) {
     const found = config.redirects.filter(r => r.source === rule.source);
     if (found.length !== 1 || JSON.stringify(found[0]) !== JSON.stringify(rule)) throw new Error(`Missing/stale exact 301: ${rule.source}`);
+    const target = rule.destination === '/' ? 'index' : rule.destination.slice(1);
+    if (!existsSync(`dist-astro/${target}.html`)) throw new Error(`Missing final target: ${rule.destination}`);
+  }
+  for (const old of oldRoutes.filter(path => finalPath(path) !== path)) {
+    if (existsSync(`dist-astro/${old.slice(1)}.html`)) throw new Error(`Retired root page still emitted: ${old}`);
   }
   const destinations = new Set(expected.map(r => r.destination));
   for (const rule of expected) if (destinations.has(rule.source)) throw new Error(`Two-hop/loop redirect: ${rule.source}`);
   for (const rule of config.redirects) {
+    if (!expected.some(row => row.source === rule.source)
+      && !['/me/start', '/data.json', '/occ/404-:slug*', '/occ/404', '/occ/:id(\\d+)-:slug*', '/occ/:id(\\d+)'].includes(rule.source)) {
+      throw new Error(`Redirect outside authorized exact inventory: ${rule.source}`);
+    }
     if (rule.source.includes(':path*') || /^\/pro\/.*:/.test(rule.source)) throw new Error(`Blanket redirect: ${rule.source}`);
     if (rule.source === '/rankings' || manifest.rankings.some(r => r.ordinaryPath === rule.source) || /^\/(\d+|occupations\/404)$/.test(rule.source)) throw new Error(`Retained route redirected: ${rule.source}`);
   }

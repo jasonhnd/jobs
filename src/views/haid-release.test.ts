@@ -211,3 +211,12 @@ describe('HAID release page model (2026-q3 final)', () => {
     assert.ok(model.list.paymentNote.includes('少なくとも 5,000 万 人'), model.list.paymentNote);
   });
 });
+
+test('a latest release permalink has its own canonical while current-state entrance stays self-canonical', () => {
+  const payload = loadLatest();
+  const current = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA);
+  const archive = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA, undefined, { archive: true });
+  assert.equal(current.canonicalPath, '/pro/aiadoption');
+  assert.equal(archive.canonicalPath, `/pro/aiadoption/${payload.release}`);
+  assert.equal(archive.isLatest, true);
+});

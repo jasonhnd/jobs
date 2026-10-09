@@ -379,7 +379,7 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
       <TopNav />
     </header>
     <main id="main-content">
-      {edition === 'pro' && !bodyHtml.includes('class="edition-nav"') && <EditionNav ordinaryPath="/" />}
+      {edition === 'pro' && !bodyHtml.includes('class="edition-nav"') && <div class="edition-nav-shell"><EditionNav ordinaryPath="/" /></div>}
       <Fragment set:html={bodyHtml} />
     </main>
     <slot name="bodyEnd" />
@@ -470,3 +470,6 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
     </script>
   </body>
 </html>
+<style is:global>
+  .edition-nav-shell{box-sizing:border-box;max-width:var(--content-max);margin:0 auto;padding:var(--s-4) var(--gutter) 0}
+</style>
