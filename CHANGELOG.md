@@ -1,3 +1,16 @@
+## Unreleased — Ordinary entry composition (#900)
+
+- Reduce ordinary homepage ranking cards from 39 to the retained eight and
+  collapse the research/classification catalogue into a Pro entrance.
+- Separate ordinary and Pro reading chrome; keep shared legal links.
+- Add unsigned map/sector first-screen candidates and explicit diagnosis → me
+  → selected occupation navigation without altering scoring or source data.
+- SEO baseline change is limited to the desktop homepage H1 and intended
+  internal-link removals/additions from shared chrome and ordinary entrances.
+  Canonicals, metadata, OG, JSON-LD, route inventory and sitemap remain unchanged.
+  Build regenerates only the CSP hash of the modified me continuation script;
+  pinned analytics/cookie script bytes stay unchanged.
+
 # Changelog
 
 ## Pro split stage 1B (Issue #896)

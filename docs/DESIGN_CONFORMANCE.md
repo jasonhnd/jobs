@@ -446,15 +446,15 @@ that dated count is preserved in the history, not used as the current total.
 | surface | 主な対象ファイル |
 |---|---|
 | `tokens` | `src/lib/design-tokens.ts`（新設）, `src/lib/canonical-css.ts` |
-| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/pro/models.astro`, `src/pages/pro/models/[model].astro`, `src/pages/pro/aiadoption.astro`, `src/pages/pro/aiadoption/[release].astro`, `src/pages/_HaidReleasePage.astro`, `src/pages/_haid-release-labels.ts`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） Stage 4 (#900): ordinary homepage uses eight ranking cards and a compact Pro entry; existing Feature tokens/classes retained. |
-| `interactive` | `src/pages/map.astro`, `src/pages/_map-css.ts` Stage 4 (#900): map conclusion, search guidance and accessible three-band legend use existing lead/helper roles. |
+| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/pro/models.astro`, `src/pages/pro/models/[model].astro`, `src/pages/pro/aiadoption.astro`, `src/pages/pro/aiadoption/[release].astro`, `src/pages/_HaidReleasePage.astro`, `src/pages/_haid-release-labels.ts`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
+| `interactive` | `src/pages/map.astro`, `src/pages/_map-css.ts` |
 | `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro`, `src/pages/_OccupationPage.astro`, `src/pages/pro/[id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_StatsGrid.astro`, `src/pages/_JobtagAnchor.astro`, `src/pages/_IdPageScript.astro` |
 | `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/pro/index.astro`, `src/pages/pro/rankings/`, `src/pages/compare/`, `src/pages/pro/compare/`, `src/pages/skills/`, `src/pages/pro/skills/`, `src/pages/interests/`, `src/pages/pro/interests/`, `src/pages/answers/`, `src/pages/pro/answers/`, `src/pages/q/`, `src/pages/pro/q/`, `src/pages/yearly/`, `src/pages/pro/yearly/`, `src/pages/abilities/`, `src/pages/pro/abilities/`, `src/pages/careers/`, `src/pages/pro/careers/`, `src/pages/education/`, `src/pages/pro/education/`, `src/pages/employment-types/`, `src/pages/pro/employment-types/`, `src/pages/entry-paths/`, `src/pages/pro/entry-paths/`, `src/pages/explore/`, `src/pages/pro/explore/`, `src/pages/knowledge/`, `src/pages/pro/knowledge/`, `src/pages/licenses/`, `src/pages/pro/licenses/`, `src/pages/life-balance/`, `src/pages/pro/life-balance/`, `src/pages/training/`, `src/pages/pro/training/`, `src/pages/values/`, `src/pages/pro/values/`, `src/pages/work-styles/`, `src/pages/pro/work-styles/`, `src/lib/ai-fact-css.ts` |
-| `sector` | `src/lib/canonical/sector.ts`, `src/pages/sectors/` Stage 4 (#900): all 17 sector surfaces use displayed-average conclusions and existing lead/meta/button tokens. |
+| `sector` | `src/lib/canonical/sector.ts`, `src/pages/sectors/` |
 | `doc` | `src/lib/canonical/doc.ts`, `src/pages/_haid-css.ts`, `src/pages/pro/haid.astro`, `src/pages/pro/standard.astro`, `src/pages/pro/methodology.astro`, `src/pages/about.astro`, `src/pages/pro/data.astro` |
 | `static` | `src/lib/canonical/static.ts`, `src/pages/privacy.astro`, `src/pages/compliance.astro`, `src/pages/404.astro` |
-| `chrome` | `src/lib/canonical-css.ts`, `src/components/TopNav.astro`, `src/components/Footer.astro`, `src/components/MobileNav.astro`, `src/components/MeEntry.astro`, `src/components/EditionNav.astro`, `src/layouts/BaseLayout.astro` Stage 4 (#900): ordinary desktop/drawer/footer navigation has six reading entries; Pro navigation preserved; legal links shared. |
-| `misc` | `src/pages/shindan.astro`, `src/pages/_shindan-css.ts`, `src/pages/me.astro`, `src/pages/pro/gyakuten.astro`, `src/pages/_gyakuten-css.ts`（すべて Hub class） Stage 4 (#900): diagnosis result links to /me and selected occupation links to its ordinary page via route-policy; algorithm unchanged. |
+| `chrome` | `src/lib/canonical-css.ts`, `src/components/TopNav.astro`, `src/components/Footer.astro`, `src/components/MobileNav.astro`, `src/components/MeEntry.astro`, `src/components/EditionNav.astro`, `src/layouts/BaseLayout.astro` |
+| `misc` | `src/pages/shindan.astro`, `src/pages/_shindan-css.ts`, `src/pages/me.astro`, `src/pages/pro/gyakuten.astro`, `src/pages/_gyakuten-css.ts`（すべて Hub class） |
 | `og` | `src/lib/og-renderers/` |
 
 **共通:** 見出しの分岐は `src/lib/canonical-css.ts` 側に置く。ページ CSS に見出しのサイズ・書体・字重を書かない（Design.md §4.9）。
@@ -488,11 +488,11 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | surface | 削除すべき見出し規則 |
 |---|---|
 | `detail` | 10（`_id-css.ts` 8 / `canonical/detail.ts` 2） |
-| `misc` | 7（`_shindan-css.ts` 5 / `me.astro` 2） Stage 4 (#900): diagnosis result links to /me and selected occupation links to its ordinary page via route-policy; algorithm unchanged. |
+| `misc` | 7（`_shindan-css.ts` 5 / `me.astro` 2） |
 | `hub` | 4（`templates/Hub.ts` 3 / `answers/index.astro` 1） |
-| `sector` | 3（`sectors/_sector-css.ts` 3） Stage 4 (#900): all 17 sector surfaces use displayed-average conclusions and existing lead/meta/button tokens. |
+| `sector` | 3（`sectors/_sector-css.ts` 3） |
 | `doc` | 2（`canonical/doc.ts` 1 / `data.astro` 1） |
-| `interactive` | 1（`_map-css.ts` 1） Stage 4 (#900): map conclusion, search guidance and accessible three-band legend use existing lead/helper roles. |
+| `interactive` | 1（`_map-css.ts` 1） |
 
 ## 実装手順
 
