@@ -35,8 +35,40 @@ test('homepage offers exactly eight ordinary ranking cards and a compact Pro ent
   const hrefs = await page.locator('[aria-labelledby="hub-rankings-title"] .hub-card').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
   expect(hrefs.sort()).toEqual(rankings.map(slug => `/rankings/${slug}`).sort());
   await expect(page.locator('.hub-deep .hub-card')).toHaveCount(1);
-  await expect(page.locator('.hub-deep a[href="/pro"]')).toHaveCount(1);
+  await expect(page.locator('.hub-deep a[href="/pro/rankings"]')).toHaveCount(1);
   await expect(page.locator('.home-entry-secondary')).toHaveCount(0);
+});
+
+test('ranking door count matches its target cards and the full index opens in Pro', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto('/');
+  const door = page.locator('.home-doors .home-door').filter({ has: page.locator('.home-door-meta') });
+  const advertisedCount = Number((await door.locator('.home-door-meta').textContent())!.match(/\d+/)![0]);
+  await expect(door).toHaveAttribute('href', '#hub-rankings-title');
+  await door.click();
+  await expect(page).toHaveURL(/#hub-rankings-title$/);
+  await expect(page.locator('#hub-rankings-title')).toBeInViewport();
+  await expect(page.locator('[aria-labelledby="hub-rankings-title"] .hub-card')).toHaveCount(advertisedCount);
+  await page.locator('.hub-deep .hub-card').click();
+  await expect(page).toHaveURL(/\/pro\/rankings$/);
+  await expect(page.locator('.ranking-cards li a')).toHaveCount(39);
+});
+
+test('ordinary home and search use the occupation entry label while Pro retains its label', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto('/');
+  await expect(page.locator('.home-door[href="/me"] .home-door-title')).toHaveText('自分の仕事を探す');
+  await expect(page.locator('.home-door[href="/me"] .home-door-desc')).toContainText('全 39 ランキング');
+  await expect(page.locator('.me-cta-strip a[href="/me"]')).toHaveText('自分の仕事を探す');
+  await expect(page.locator('.me-cta-strip')).toContainText('39 ランキング');
+  await expect(page.locator('.me-cta-strip')).toHaveAttribute('aria-label', '自分の仕事を探す');
+  for (const [path, label] of [['/', '自分の仕事を探す'], ['/pro', '自分の現在地']]) {
+    await page.goto(path);
+    await page.locator('#mobSearchBtn').click();
+    await page.locator('#mobSearchInput').fill('zzzznotajob');
+    await expect(page.locator('.mob-search-empty-head')).toBeVisible();
+    await expect(page.locator('.mob-search-door-row a[href="/me"]')).toHaveText(label);
+  }
 });
 
 test('map explains the colours, provides a search next step and exposes all three bands', async ({ page }) => {
@@ -59,6 +91,7 @@ test('sector index and 4.0 sector boundary show conclusions before numeric metad
   await expect(page.locator('.ordinary-conclusion')).toHaveText('医療・保健の36の仕事は、平均するとAIで変わる部分が「中くらい」です。');
   await expect(page.locator('.ordinary-score-meta')).toContainText('4.0/10 変化 中くらい');
   await expect(page.locator('.ordinary-next-step')).toHaveAttribute('href', '#sector-occupations');
+  await expect(page.locator('.ordinary-next-step')).toHaveText('下の一覧で確かめる');
   await page.locator('.ordinary-next-step').click();
   await expect(page.locator('#sector-occupations')).toBeInViewport();
 });
