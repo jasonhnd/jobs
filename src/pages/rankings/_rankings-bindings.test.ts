@@ -48,3 +48,19 @@ test('all Pro ranking WebPage and Article metadata matches the edition title and
     assert.equal(nodes(ordinary.jsonLd).find(n => n['@type'] === 'WebPage')?.description, result.seoDesc);
   }
 });
+
+test('retained Pro ranking JSON-LD page identity and breadcrumb match the ordinary canonical', () => {
+  const bundle = buildRankings(() => loadOccupationsFromGraph(graph));
+  for (const result of bundle.results.values()) {
+    if (!rankingRoute(result.slug, 'pro').ordinaryProCta) continue;
+    const pro = buildRankingsSlugBindings(result, graph, undefined, 'pro');
+    const nodes = JSON.parse(pro.jsonLd)['@graph'] as Array<Record<string, any>>;
+    for (const type of ['WebPage','Article']) {
+      const node = nodes.find(n => n['@type'] === type)!;
+      assert.equal(node.url, pro.canonical);
+      assert.ok(node['@id'].startsWith(pro.canonical+'#'));
+    }
+    const crumb = nodes.find(n => n['@type'] === 'BreadcrumbList')!;
+    assert.equal(crumb.itemListElement.at(-1).item, pro.canonical);
+  }
+});

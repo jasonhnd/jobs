@@ -58,3 +58,20 @@ test('JSON-LD link adaptation preserves occupation entity identity and shared en
   expect(nodes[2].itemListElement[1].url).toBe('https://mirai-shigoto.com/pro/428');
   expect(nodes[3]['@id']).toBe('https://mirai-shigoto.com/#dataset');
 });
+
+test('Pro JSON-LD adaptation preserves consolidated ranking page identities and index breadcrumbs', async () => {
+  const { editionJsonLd } = await import('./route-policy');
+  for (const row of manifest.rankings.filter(r => r.ordinaryPath !== null)) {
+    const canonical = `https://mirai-shigoto.com${row.ordinaryPath}`;
+    const nodes = JSON.parse(editionJsonLd(JSON.stringify({'@graph':[
+      {'@type':'WebPage','@id':canonical+'#webpage',url:canonical},
+      {'@type':'BreadcrumbList',itemListElement:[{item:'https://mirai-shigoto.com/pro/rankings'},{item:canonical}]},
+      {'@type':'ItemList',itemListElement:[{url:'https://mirai-shigoto.com/428'}]},
+    ]}), 'pro'))['@graph'];
+    assert.equal(nodes[0].url, canonical);
+    assert.equal(nodes[0]['@id'], canonical+'#webpage');
+    assert.equal(nodes[1].itemListElement[0].item, 'https://mirai-shigoto.com/rankings');
+    assert.equal(nodes[1].itemListElement[1].item, canonical);
+    assert.equal(nodes[2].itemListElement[0].url, 'https://mirai-shigoto.com/pro/428');
+  }
+});

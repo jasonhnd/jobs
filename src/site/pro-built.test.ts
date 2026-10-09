@@ -76,8 +76,40 @@ describe('stage 1B rendered Pro contract', { skip: !ready && !required }, () => 
       }
     }
   });
-  test('main sitemap includes final Pro hubs, image sitemap retains ordinary entities, and unknown URLs are absent', () => {
-    assert.ok(readFileSync(join(dist, 'sitemap.xml'), 'utf8').includes('https://mirai-shigoto.com/pro/rankings'));
+  test('duplicate ranking indexes consolidate until ordinary content changes, with shared 39-card content preserved', () => {
+    const canonical = 'https://mirai-shigoto.com/rankings';
+    const pro = html('/pro/rankings');
+    assert.ok(pro.includes(`<link rel="canonical" href="${canonical}">`));
+    assert.equal(jsonld(pro).find(n => n['@type'] === 'WebPage')?.url, canonical);
+    assert.ok(!readFileSync(join(dist, 'sitemap.xml'), 'utf8').includes('<loc>https://mirai-shigoto.com/pro/rankings</loc>'));
+    for (const path of ['/rankings','/pro/rankings']) {
+      const cards = [...html(path).matchAll(/<ul class="ranking-cards">([\s\S]*?)<\/ul>/g)].flatMap(m => [...m[1]!.matchAll(/<li\b/g)]);
+      assert.equal(cards.length, 39, path);
+    }
+  });
+  test('latest HAID permalink canonical and structured data consolidate to current entrance; older reports self-canonicalize', () => {
+    const latest = JSON.parse(readFileSync('public/data.haid-latest.json','utf8'));
+    const sitemap = readFileSync(join(dist,'sitemap.xml'),'utf8');
+    for (const id of latest.releases) {
+      const path = `/pro/aiadoption/${id}`;
+      const canonical = `https://mirai-shigoto.com${id === latest.release ? '/pro/aiadoption' : path}`;
+      const text = html(path);
+      assert.ok(text.includes(`<link rel="canonical" href="${canonical}">`), path);
+      assert.equal(jsonld(text).find(n => n['@type'] === 'WebPage')?.url, canonical);
+      assert.equal(sitemap.includes(`<loc>https://mirai-shigoto.com${path}</loc>`), id !== latest.release);
+    }
+  });
+  test('all retained Pro ranking WebPage/Article and breadcrumb identities match HTML canonical after adaptation', () => {
+    for (const row of manifest.rankings.filter(r => r.ordinaryPath !== null)) {
+      const canonical = `https://mirai-shigoto.com${row.ordinaryPath}`;
+      const nodes = jsonld(html(row.proPath));
+      for (const type of ['WebPage','Article']) assert.equal(nodes.find(n => n['@type'] === type)?.url, canonical, row.slug);
+      assert.equal(nodes.find(n => n['@type'] === 'BreadcrumbList')?.itemListElement.at(-1).item, canonical);
+    }
+  });
+  test('main sitemap preserves both GEO discovery files, image sitemap retains ordinary entities, and unknown URLs are absent', () => {
+    const sitemap = readFileSync(join(dist,'sitemap.xml'),'utf8');
+    for (const file of ['llms.txt','llms-full.txt']) assert.ok(sitemap.includes(`<loc>https://mirai-shigoto.com/${file}</loc>`));
     assert.ok(!readFileSync(join(dist, 'image-sitemap.xml'), 'utf8').includes('https://mirai-shigoto.com/pro'));
     for (const path of ['/pro', '/pro/rankings']) assert.ok(html(path).includes('content="index, follow"'));
     assert.ok(!existsSync(join(dist, 'pro/999999.html')));
