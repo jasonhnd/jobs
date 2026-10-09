@@ -1,3 +1,4 @@
+import { rankingRoute } from '@/site/route-policy';
 import { before, describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { loadGraph, type KnowledgeGraph } from '@/graph';
@@ -16,7 +17,7 @@ describe('buildRankingsSlugBindings', () => {
     assert.ok(bundle.results.size > 0);
     for (const [slug, result] of bundle.results) {
       const b = buildRankingsSlugBindings(result, graph);
-      assert.equal(b.canonical, `https://mirai-shigoto.com/rankings/${slug}`);
+      assert.equal(b.canonical, `https://mirai-shigoto.com${rankingRoute(slug).canonicalPath}`);
       assert.equal(b.ogImage, `https://mirai-shigoto.com/api/og?ranking=${slug}`);
       assert.ok(b.rankItems.length > 0);
       assert.ok(b.relatedHtml.length > 0);

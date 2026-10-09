@@ -114,7 +114,7 @@ describe('HAID spec invariants', () => {
   test('version, frozen date, canonical path, lead opener', () => {
     assert.match(HAID_SPEC_VERSION, /^\d+\.\d+$/);
     assert.equal(HAID_SPEC_DATE, '2026-09-11');
-    assert.equal(HAID_CANONICAL_PATH, '/haid');
+    assert.equal(HAID_CANONICAL_PATH, '/pro/haid');
     assert.ok(HAID_LEAD_JA[0].startsWith('「AI をどれだけの人が使っているか」'));
   });
 

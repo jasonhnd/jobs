@@ -131,7 +131,7 @@ export function renderExampleList(examples: ReadonlyArray<DetailFileMin>): strin
 
 function renderRelatedQAs(related: ReadonlyArray<QAItem>): string {
   return '<ul class="related-genre">' + related.map((r) =>
-    `<li><a href="/q/${r.slug}"><span class="rg-name">${escapeHtml(r.question)}</span>` +
+    `<li><a href="/pro/q/${r.slug}"><span class="rg-name">${escapeHtml(r.question)}</span>` +
     `<span class="rg-desc">${escapeHtml(r.short_answer.slice(0, 60))}…</span></a></li>`,
   ).join('') + '</ul>';
 }
@@ -162,7 +162,7 @@ function renderJsonLd(canonical: string, qa: QAItem, seoDesc: string): string {
       // (occupation, ranking) already do this correctly).
       { '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: '質問で探す', item: `${SITE}/q` },
+        { '@type': 'ListItem', position: 2, name: '質問で探す', item: `${SITE}/pro/q` },
         { '@type': 'ListItem', position: 3, name: qa.question, item: canonical },
       ] },
     ],
@@ -175,7 +175,7 @@ export function buildQSlugBindings(
   graph: KnowledgeGraph,
   geoFacts: GeoFacts = loadGeoFacts(),
 ): QSlugBindings {
-  const canonical = `${SITE}/q/${qa.slug}`;
+  const canonical = `${SITE}/pro/q/${qa.slug}`;
   const ogImage = `${SITE}/api/og?q=${qa.slug}`;
   const title = `${qa.question}｜独自分析で回答【2026 年版】 | 未来の仕事`;
   const seoDesc = qa.short_answer;

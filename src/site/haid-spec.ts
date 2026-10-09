@@ -17,7 +17,7 @@ export const HAID_LICENSE = 'CC BY 4.0';
 export const HAID_LICENSE_URL = 'https://creativecommons.org/licenses/by/4.0/';
 export const HAID_NAME_JA = '人類と AI の距離 10 段階';
 export const HAID_NAME_EN = 'Human–AI Distance (HAID)';
-export const HAID_CANONICAL_PATH = '/haid';
+export const HAID_CANONICAL_PATH = '/pro/haid';
 export const HAID_CITATION_JA = 'mirai-shigoto.com「人類と AI の距離 10 段階（HAID）」v1.0';
 
 export type HaidRelationId = 'none' | 'tool' | 'presence' | 'union';

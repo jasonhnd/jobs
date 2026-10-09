@@ -1,3 +1,4 @@
+import { rankingRoute } from '../site/route-policy';
 /**
  * src/templates/Ranking.ts — HTML / JSON-LD rendering helpers per ranking
  * page. Moved here from src/views/ranking-renderers.ts on 2026-05-14 as
@@ -253,7 +254,7 @@ export function renderRelatedRankings(
   const items = allRankings
     .filter(([slug]) => slug !== currentSlug)
     .map(([slug, name, desc]) =>
-      `<li><a href="/rankings/${slug}">` +
+      `<li><a href="${rankingRoute(slug).pagePath}">` +
       `${escapeHtml(name)}` +
       `<span class="rr-desc">${escapeHtml(desc)}</span>` +
       `</a></li>`,
@@ -419,7 +420,7 @@ export function renderRankingsHubGroups(
         .map((c) => {
           const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
           return (
-            `<li><a href="/rankings/${escapeHtml(c.slug)}">` +
+            `<li><a href="${rankingRoute(c.slug).pagePath}">` +
             `<span class="rr-title">${escapeHtml(c.name)}</span>` +
             `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
             `${previewHtml}` +

@@ -1,13 +1,24 @@
+import oldRoutes from '../../../docs/pro-split/generated-routes.json';
+
+const validRoutes = new Set(oldRoutes);
+
 export interface GeoReferralParams {
   readonly geo_referrer_engine: string;
   readonly geo_referrer_bucket: string;
   readonly geo_referrer_host: string;
   readonly geo_landing_family: string;
+  readonly geo_landing_edition: 'ordinary' | 'pro';
   readonly geo_citation_candidate: string;
 }
 
 export function landingFamily(pathname: string): string {
-  if (/^\/\d{1,3}$/.test(pathname)) return 'occupation';
+  if (pathname.startsWith('/pro/')) {
+    const logical = pathname.slice(4);
+    if (logical === '/404') return 'occupation';
+    if (!validRoutes.has(logical)) return 'other';
+    pathname = logical;
+  }
+  if (pathname === '/occupations/404' || (pathname !== '/404' && /^\/[1-9]\d*$/.test(pathname) && validRoutes.has(pathname))) return 'occupation';
   if (pathname === '/answers' || pathname.startsWith('/answers/')) return 'answers';
   if (pathname === '/q' || pathname.startsWith('/q/')) return 'qa';
   if (pathname === '/sectors' || pathname.startsWith('/sectors/')) return 'sector';
@@ -83,6 +94,7 @@ export function classifyGeoReferral(pageUrl: URL, referer: string): GeoReferralP
     geo_referrer_bucket: bucket,
     geo_referrer_host: refHost || '(direct)',
     geo_landing_family: family,
+    geo_landing_edition: pageUrl.pathname === '/pro' || pageUrl.pathname.startsWith('/pro/') ? 'pro' : 'ordinary',
     geo_citation_candidate: citationCandidate ? 'true' : 'false',
   };
 }

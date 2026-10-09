@@ -1,0 +1,314 @@
+---
+/**
+ * standard.astro — AIOIS-10 標準ページ（AI 職業影響スタンダードの定義）。
+ *
+ * 10 次元 + EMFO 4 段階モデル + 2 指数の公開リファレンス。docs/AIOIS-10.md の
+ * 日本語版。インライン JS なし（CSP ハッシュ追加なし）。共通文書 CSS は
+ * canonical/doc.ts（CANONICAL_DOC_CSS）に一元化し、/methodology・/about と統一。
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Footer from '../../components/Footer.astro';
+import { CANONICAL_DOC_CSS, heatBg, radarPoints, radarAxis, type DimDir } from '@/lib/canonical/doc';
+import { SCORE_PANEL } from '@/site/score-attribution';
+import { CONSENSUS_STANDARD_FORMAL } from '@/site/consensus-copy';
+import { CONTENT_DATE } from '@/lib/_content-date';
+import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
+import { SOP_LANDINGS, formatSopCitation } from '@/views/geo-answer-topics';
+import { stringifyJsonLd } from '@/lib/json-for-script';
+
+// Last content-change date — bump when this page's content actually changes.
+// Static (NOT the build clock): a build-time date drifted the SEO baseline on
+// every new UTC day. See src/data/projections/haid-release.ts (as_of from anchors) for the data-derived equivalent.
+// dateModified must track the data, not a calendar date typed once: this page
+// renders score-derived content, so it changes when a batch lands. The frozen
+// value also contradicted sitemapLastmods(), which reports the latest score
+// date for the same URL — two different answers for one page. Issue #219.
+const pageLastUpdated = CONTENT_DATE;
+
+interface Dim {
+  id: string; ja: string; en: string; dir: DimDir; stageNum: string; stageName: string; body: string;
+}
+// 向きの記号: up=▲ 影響を強める / moat=■ 人間の強み / friction=◐ 調整
+const GLY: Record<DimDir, string> = { up: '▲', moat: '■', friction: '◐' };
+const DIMS: Dim[] = [
+  { id: 'D1', ja: '頭脳・情報労働', en: 'Cognitive Exposure', dir: 'up', stageNum: '①', stageName: '到達', body: '文章・情報・分析・プログラムなど、現在の生成 AI が単独でほぼ完結できる仕事の割合。データ入力・機械翻訳・定型的な文章作成ほど高い。' },
+  { id: 'D2', ja: '定型反復', en: 'Routine', dir: 'up', stageNum: '①', stageName: '到達', body: 'ルールが定まり、繰り返しが多く、結果が予測できる度合い。従来型の自動化やソフトウェアでも置きかえやすい。' },
+  { id: 'D3', ja: '身体・現場性', en: 'Physical / On-site', dir: 'moat', stageNum: '②', stageName: '人間の強み', body: '身体動作・手先の器用さ・移動・現場での目視や手作業がどれだけ要るか。ロボットでしか置きかえられず、ソフトウェアより遅く高コスト。' },
+  { id: 'D4', ja: '判断と責任', en: 'Judgment & Accountability', dir: 'moat', stageNum: '②', stageName: '人間の強み', body: '正解のない局面での重い判断と、特定の人間が負うべき法的・倫理的な責任。' },
+  { id: 'D5', ja: '対人・情動', en: 'Interpersonal', dir: 'moat', stageNum: '②', stageName: '人間の強み', body: '対面のやりとり・共感・信頼構築・ケア・説得・交渉。人と人の関係そのものが価値になる度合い。' },
+  { id: 'D6', ja: '創造性', en: 'Creativity', dir: 'moat', stageNum: '②', stageName: '人間の強み', body: '既存の組み合わせ（生成 AI が得意）ではなく、真に新しいアイデア・作品・解を生み出す度合い。' },
+  { id: 'D7', ja: '資格・安全の壁', en: 'Regulatory Moat', dir: 'moat', stageNum: '③', stageName: '摩擦', body: '免許・専門職規制が人間を要求する、あるいは失敗が人命に関わるため人間の立ち会いが要る度合い（◐ 調整 と ■ 強み の両面）。' },
+  { id: 'D8', ja: '自動化の費用対効果', en: 'Cost-Parity', dir: 'up', stageNum: '③', stageName: '摩擦', body: '自動化コスト（設備・導入）が、置きかえる人件費より安いか。安いほど置きかえが進む（▲ 影響 と ◐ 調整 の両面）。' },
+  { id: 'D9', ja: '需給・制度', en: 'Friction (local)', dir: 'friction', stageNum: '③', stageName: '摩擦', body: '技術的に置きかえ可能でも、実際に置きかわるかを左右する地域要因。導入力・雇用慣行・人手の過不足。深刻な人手不足では AI は脅威ではなく助けになる。本標準で唯一、国・地域ごとに採点する項目。' },
+  { id: 'D10', ja: '雇用の将来性', en: 'Outlook', dir: 'up', stageNum: '④', stageName: '結果', body: '今後 5〜10 年でその仕事の人数・価値がどれだけ増減するか。AI による減少圧力と、新たに生まれる仕事の力を合わせて見る。' },
+];
+
+// 採点例（日本版・現行 AI 時点）。dir は列ごとの向き（ヒート着色用）。
+const COL_DIR: DimDir[] = ['up', 'up', 'moat', 'moat', 'moat', 'moat', 'moat', 'up', 'friction', 'up'];
+interface Ex { name: string; d: number[]; t: number; dr: number; }
+const EXAMPLES: Ex[] = [
+  { name: 'データ入力', d: [9.5, 9.5, 1.0, 1.0, 0.5, 0.5, 0.5, 9.5, 7.5, 9.5], t: 9.5, dr: 8.5 },
+  { name: '翻訳者', d: [9.2, 6.5, 0.5, 3.0, 1.5, 3.5, 0.5, 9.0, 7.5, 8.0], t: 7.9, dr: 6.0 },
+  { name: '会社経営者', d: [3.0, 1.5, 2.0, 9.5, 8.5, 7.5, 7.0, 1.5, 1.5, 2.0], t: 2.3, dr: 0.5 },
+  { name: '外科医', d: [2.8, 2.2, 9.5, 9.5, 7.5, 5.5, 9.8, 1.5, 1.5, 1.5], t: 2.5, dr: 0.3 },
+  { name: '訪問介護員', d: [1.2, 3.5, 9.5, 5.5, 8.5, 2.0, 6.5, 1.0, 0.5, 1.0], t: 2.4, dr: 0.5 },
+];
+
+const ACADEMIC_CITATIONS = [
+  {
+    '@type': 'ScholarlyArticle',
+    name: 'The Future of Employment: How Susceptible Are Jobs to Computerisation?',
+    author: [
+      { '@type': 'Person', name: 'Carl Benedikt Frey' },
+      { '@type': 'Person', name: 'Michael A. Osborne' },
+    ],
+    datePublished: '2013',
+    url: 'https://www.oxfordmartin.ox.ac.uk/publications/the-future-of-employment',
+  },
+  {
+    '@type': 'ScholarlyArticle',
+    name: 'GPTs are GPTs: An Early Look at the Labor Market Impact Potential of Large Language Models',
+    author: [
+      { '@type': 'Person', name: 'Tyna Eloundou' },
+      { '@type': 'Person', name: 'Sam Manning' },
+      { '@type': 'Person', name: 'Pamela Mishkin' },
+      { '@type': 'Person', name: 'Daniel Rock' },
+    ],
+    datePublished: '2023-03-17',
+    url: 'https://arxiv.org/abs/2303.10130',
+  },
+  {
+    '@type': 'ScholarlyArticle',
+    name: 'Automation and New Tasks: How Technology Displaces and Reinstates Labor',
+    author: [
+      { '@type': 'Person', name: 'Daron Acemoglu' },
+      { '@type': 'Person', name: 'Pascual Restrepo' },
+    ],
+    datePublished: '2019',
+    url: 'https://www.aeaweb.org/articles?id=10.1257/jep.33.2.3',
+  },
+];
+
+const AIOIS_DEFINED_TERM_SET = {
+  '@type': 'DefinedTermSet',
+  '@id': `${siteConfig.origin}/pro/standard#aiois-10`,
+  name: 'AIOIS-10',
+  description: 'AI Occupational Impact Standard — 10 dimensions (D1-D10) + Transformation and Displacement-Risk indices.',
+  hasDefinedTerm: DIMS.map((dim, index) => ({
+    '@type': 'DefinedTerm',
+    '@id': `${siteConfig.origin}/pro/standard#${dim.id}`,
+    termCode: dim.id,
+    position: index + 1,
+    name: dim.ja,
+    alternateName: dim.en,
+    description: dim.body,
+    inDefinedTermSet: { '@id': `${siteConfig.origin}/pro/standard#aiois-10` },
+  })),
+};
+
+// レーダー（2 職業の対比）。10 軸、真上始点・時計回り。
+const RC = 110, RR = 86;
+const ringOuter = radarPoints(Array(10).fill(10), RC, RC, RR);
+const ringMid = radarPoints(Array(10).fill(5), RC, RC, RR);
+const axes = Array.from({ length: 10 }, (_, i) => radarAxis(i, 10, RC, RC, RR));
+const axisLabels = Array.from({ length: 10 }, (_, i) => {
+  const p = radarAxis(i, 10, RC, RC, RR + 11);
+  return { x: p.x, y: p.y, t: `D${i + 1}` };
+});
+const RADAR = [EXAMPLES[0], EXAMPLES[4]].map((e) => ({ name: e.name, t: e.t, dr: e.dr, pts: radarPoints(e.d, RC, RC, RR) }));
+
+const jsonLd = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "${siteConfig.origin}/pro/standard#webpage",
+      "name": "AIOIS-10 標準 — AI 職業影響スタンダード",
+      "url": "${siteConfig.origin}/pro/standard",
+      "description": "AI が仕事に与える影響を 10 次元（D1–D10）と 2 つの指数（変化の大きさ・仕事が減るリスク）で測る公開リファレンス基準 AIOIS-10 の定義。",
+      "inLanguage": ["ja"],
+      "isPartOf": { "@id": "${siteConfig.origin}/#website" },
+      "datePublished": "2026-05-30",
+      "dateModified": "${pageLastUpdated}",
+      "breadcrumb": { "@id": "${siteConfig.origin}/pro/standard#breadcrumb" },
+      "mainEntity": { "@id": "${siteConfig.origin}/pro/standard#techarticle" },
+      "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "${siteConfig.origin}/pro/standard#techarticle",
+      "headline": "AIOIS-10 — AI 職業影響スタンダードの定義",
+      "description": "AI が仕事に与える影響を 10 次元（D1–D10）と 2 指数（変化の大きさ・仕事が減るリスク）で測る公開リファレンス基準 AIOIS-10。EMFO の 4 段階モデルにもとづく。",
+      "abstract": "AIOIS-10 is a Japanese occupational AI-impact standard that separates task transformation from displacement risk across ten dimensions. It uses Frey & Osborne, Eloundou et al., and Acemoglu & Restrepo as academic anchors, then adds human-moat and Japan-specific labor-market friction dimensions.",
+      "keywords": ["AIOIS-10", "AI occupational impact", "automation exposure", "LLM exposure", "displacement risk", "Japan labor market"],
+      "url": "${siteConfig.origin}/pro/standard",
+      "inLanguage": "ja",
+      "datePublished": "2026-05-30",
+      "dateModified": "${pageLastUpdated}",
+      "author": { "@id": "${siteConfig.origin}/#organization" },
+      "publisher": { "@id": "${siteConfig.origin}/#organization" },
+      "mainEntityOfPage": { "@id": "${siteConfig.origin}/pro/standard#webpage" },
+      "about": ${stringifyJsonLd(AIOIS_DEFINED_TERM_SET)},
+      "citation": ${stringifyJsonLd(ACADEMIC_CITATIONS)},
+      "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "${siteConfig.origin}/pro/standard#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "未来の仕事", "item": "${siteConfig.origin}/" },
+        { "@type": "ListItem", "position": 2, "name": "AIOIS-10 標準", "item": "${siteConfig.origin}/pro/standard" }
+      ]
+    }
+  ]
+}`;
+---
+<BaseLayout
+  title="AIOIS-10 標準 — AI 職業影響スタンダード | 未来の仕事"
+  description="AI が仕事に与える影響を 10 次元と 2 つの指数で測る公開リファレンス基準 AIOIS-10。EMFO の 4 段階、各次元の定義、変化の大きさ・仕事が減るリスクの算出。"
+  canonical={`${siteConfig.origin}/pro/standard`}
+  keywords="AIOIS-10, AI 影響, 職業, 10次元, 変化の大きさ, 仕事が減るリスク, EMFO, 人間の強み, 標準, スタンダード, Frey Osborne, Eloundou, Acemoglu"
+  ogTitle="AIOIS-10 標準 — AI が仕事に与える影響の基準"
+  ogDescription="AI が仕事に与える影響を 10 次元（D1–D10）と 2 つの指数で測る公開リファレンス基準。EMFO の 4 段階にもとづく。"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={CANONICAL_DOC_CSS} />
+
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>AIOIS-10 標準</span></nav>
+
+    <h1>AIOIS-10 <span class="accent">標準</span></h1>
+    <p class="subtitle">AI が仕事に与える影響を 10 次元で測る、公開リファレンス基準（v1.0）</p>
+    <p class="meta-line">最終更新 {pageLastUpdated} ・ AIOIS-10 v1.0（日本版）</p>
+
+    <p class="lead">
+      「AI の影響」は 1 つの数字では表せません。<strong>仕事のやり方がどれだけ変わるか</strong>と、<strong>仕事そのものがなくなるか</strong>は、しばしば逆を向きます（経営者は AI に大きく変えられても、職を失う可能性は低い）。AIOIS-10 は影響のもとになる性質を 10 の独立した次元で測り、別々の問いに別々の答えを返します。
+    </p>
+    <p class="lead">{formatSopCitation({
+      runDate: SCORE_PANEL.latestRunDate,
+      occupationCount: OCCUPATION_COUNT.SCORED,
+    })} 定義は本ページ、整理と採点の手順は <a href="/pro/methodology">評価プロセス</a>。</p>
+    <p>
+      {SOP_LANDINGS.map((landing, i, arr) => (
+        <>
+          <a href={landing.href}>{landing.labelJa}</a>
+          {i < arr.length - 1 ? ' · ' : ''}
+        </>
+      ))}
+    </p>
+
+    <h2>EMFO — 4 つの段階で考える</h2>
+    <p>AI の影響は 4 段階を通って「働く場」への結果になります。各段階が前の段階をしぼり込むため、技術的に「AI にできる」だけでは影響を過大評価します。<strong>人間の強み</strong>と<strong>摩擦</strong>こそが、単なる「AI 到達度」と AIOIS-10 を分けます。</p>
+    <div class="emfo">
+      <div class="stage s1"><div class="n">① 到達</div><div class="en">Exposure</div><div class="d">AI はどこまで届くか（D1・D2）</div></div>
+      <div class="stage s2"><div class="n">② 人間の強み</div><div class="en">Human Moat</div><div class="d">AI に届いても人が残る部分（D3〜D7）</div></div>
+      <div class="stage s3"><div class="n">③ 摩擦</div><div class="en">Friction</div><div class="d">置きかえを妨げる壁（D7〜D9）</div></div>
+      <div class="stage s4"><div class="n">④ 結果</div><div class="en">Outcome</div><div class="d">最終的な仕事の増減（D10）</div></div>
+    </div>
+    <p>各次元は <strong>0.0〜10.0</strong> で「その性質がどれだけ強いか」を点にします（「影響」そのものではありません）。記号が性質の向きを表します。</p>
+    <div class="legend">
+      <span class="chip chip-up"><span class="gly">▲</span> 影響を強める — 高いほど影響大</span>
+      <span class="chip chip-moat"><span class="gly">■</span> 人間の強み — 高いほど人が有利・影響小</span>
+      <span class="chip chip-friction"><span class="gly">◐</span> 調整 — 置きかえが本当に進むかを左右</span>
+    </div>
+
+    <h2>10 の次元</h2>
+    {DIMS.map((dm) => (
+      <div class={`dim ${dm.dir}`}>
+        <div class="head">
+          <span class="code">{dm.id}</span>
+          <span class="name">{dm.ja}<span class="en">{dm.en}</span></span>
+          <span class="stage-tag">{dm.stageNum} {dm.stageName}<span class="gly">{GLY[dm.dir]}</span></span>
+        </div>
+        <div class="body">{dm.body}</div>
+      </div>
+    ))}
+
+    <h2>2 つの指数</h2>
+    <p><strong>変化の大きさ（Transformation）</strong>— 仕事のやり方が AI でどれだけ作り変えられるか。頭脳・情報の仕事ほど高い。本サイトのトップ指標「AI 影響」はこの値です。</p>
+    <div class="formula">
+      <div class="flabel">Transformation</div>
+      <div class="row"><span class="k">変化の大きさ</span> ＝ D1 と D2 の平均</div>
+    </div>
+    <p><strong>仕事が減るリスク（Displacement-Risk）</strong>— 仕事そのものが減る・なくなる確率。「AI 到達度」が人間の強みを越えた分を、導入のしやすさと求人の見通しで調整します。</p>
+    <div class="formula">
+      <div class="flabel">Displacement-Risk</div>
+      <div class="row">
+        AI 到達度 E ＝ D1 と D2 の平均<br>
+        人間の強み M ＝ D3〜D7 の平均<br>
+        導入のしやすさ P ＝ D8 と D9 の平均（D9 が高い ＝ 広がりやすい）<br>
+        <span class="k">仕事が減るリスク</span> ＝ E ×（1 − M/10）×（0.6 + 0.4 ×（P + D10）/20）　※ 0〜10 に収める
+      </div>
+    </div>
+    <p>結果は<strong>「2 つの指数 ＋ 10 次元のレーダー」</strong>です。経営者は<em>変化は大きいがリスクは低い</em>、データ入力は<em>どちらも高い</em>、訪問介護員は<em>どちらも低い</em>と読めます。</p>
+
+    <div class="radar-row">
+      {RADAR.map((r) => (
+        <div class="radar-card">
+          <div class="rc-head">
+            <span class="rc-name">{r.name}</span>
+            <span class="rc-nums">変化 <b>{r.t.toFixed(1)}</b> ・ 減リスク <b>{r.dr.toFixed(1)}</b></span>
+          </div>
+          <div class="radar">
+            <svg viewBox="0 0 220 224" role="img" aria-label={`${r.name} の 10 次元レーダー`}>
+              <polygon class="grid" points={ringOuter} />
+              <polygon class="grid" points={ringMid} />
+              {axes.map((a) => <line class="axis" x1={RC} y1={RC} x2={a.x} y2={a.y} />)}
+              <polygon class="poly" points={r.pts} />
+              {axisLabels.map((l) => <text class="alabel" x={l.x} y={l.y} text-anchor="middle" dominant-baseline="middle">{l.t}</text>)}
+            </svg>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <h2>形式定義（本サイトの公開値）</h2>
+    <p>{CONSENSUS_STANDARD_FORMAL}</p>
+
+    <h2>採点のルール</h2>
+    <ul>
+      <li><strong>目もり</strong>：各次元 0.0〜10.0、小数 1 けた。</li>
+      <li><strong>「影響」ではなく性質に点を付ける</strong>：名前の付いた性質の強さを点にし、向き（プラス／マイナス）は記号で決める。だれが採点しても同じになるように。</li>
+      <li><strong>現行 AI の実力を基準に</strong>：D1・D2 は「今の AI でどこまでできるか」で採点する（必要なら「5 年後」版も）。AI が進歩したら<strong>点数</strong>だけ付け直し、10 次元の枠組み自体は変えない。</li>
+      <li><strong>自信度</strong>：各職業に自信度（0〜1）を付ける。同じ職種でも会社で実態がばらつく場合（例「管理職」）は、点ではなく自信度を下げて表す。</li>
+      <li><strong>採点者と記録</strong>：訓練を受けた人、または校正ずみの AI が、指標を手がかりに採点する。使用モデルと日付を毎回記録する。</li>
+    </ul>
+
+    <h2>世界共通 ＋ 国ごと</h2>
+    <p>AIOIS-10 が<strong>世界</strong>標準になれる理由：<strong>D1〜D8 と D10 は世界共通</strong>（仕事と AI の性質そのものなので、東京でもベルリンでもサンパウロでも同じ）。<strong>D9 だけが国ごとに変わる次元</strong>で、各国版は D9（と必要ならリスク式の重み）だけを付け直します。日本の深刻な人手不足は、D9 が低くなる一例です。</p>
+
+    <h2>採点例（日本版・現行 AI 時点）</h2>
+    <p>本サイトの採点（複数のAIによる総合、最新採点 {SCORE_PANEL.latestRunDate}、D9＝日本）からの抜粋。T＝変化の大きさ、DR＝仕事が減るリスク。</p>
+    <div class="wrap-x" tabindex="0" role="region" aria-label="横スクロールできる表">
+      <table class="ex">
+        <thead>
+          <tr>
+            <th>職業</th>
+            {DIMS.map((dm) => <th>{dm.id}<span class={`gly ${dm.dir}`}>{GLY[dm.dir]}</span></th>)}
+            <th>T<span class="gly up">▲</span></th>
+            <th>DR<span class="gly up">▲</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {EXAMPLES.map((e) => (
+            <tr>
+              <td>{e.name}</td>
+              {e.d.map((v, i) => <td class="cell" style={`background:${heatBg(v, COL_DIR[i])}`}>{v.toFixed(1)}</td>)}
+              <td class="idx">{e.t.toFixed(1)}</td>
+              <td class="idx">{e.dr.toFixed(1)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="heat-caption"><span class="swatch" aria-hidden="true"></span> 緑＝働く人に有利・影響小、赤＝影響大（■ 列は反転、◐ D9 は中立）。</p>
+    <p>経営者と外科医は<em>頭を使う仕事で大きく変わるが安全</em>（高い D4・D5・D7 が「仕事が減るリスク」を 1 前後に抑える）。介護員は <strong>D9（有効求人倍率 ≒ 28 の深刻な人手不足）</strong>と D3・D5 が「AI 到達度」を上回り<em>守られて</em>います。「AI にできる」が実際に職を奪うのは、人間の強みがうすいデータ入力・翻訳だけです。</p>
+
+    <h2>もとにした研究と注意点</h2>
+    <p>AIOIS-10 はこれまでの研究を置きかえるのではなく、まとめ直したものです — 定型／非定型業務（Autor–Levy–Murnane 2003）→ D2、3 つの「AI が苦手なこと」（Frey &amp; Osborne 2013）→ D3・D5・D6、機械学習による代替可能性（Brynjolfsson 2018）→ D1、代替の力 vs 創出の力（Acemoglu &amp; Restrepo）→ D8・D10、AI がこなせる業務（Eloundou 2023）→ D1。新しい点は、「AI 到達度」から「働く場の結果」までを、人間の強み・摩擦という段階ではっきり繋ぐ <strong>EMFO の流れ</strong>と、<strong>世界共通＋国ごと</strong>の設計です。</p>
+    <p>学術的には、Frey &amp; Osborne (2013) は職業ごとの computerisation susceptibility、Eloundou et al. (2023) は GPT/LLM の task exposure、Acemoglu &amp; Restrepo (2019) は automation による displacement と new-task reinstatement を見る枠組みです。AIOIS-10 はそれらを参照しつつ、<strong>Transformation</strong> と <strong>Displacement-Risk</strong> を分け、D3〜D7 の human moat と D9 の日本固有の需給・制度摩擦を明示する点が異なります。</p>
+    <p>注意：本標準は<strong>職業データにもとづく・現行 AI 時点</strong>の見立てであり、検証ずみの失職確率ではありません。採点手順・データの整え方は <a href="/pro/methodology">評価プロセス</a> を参照してください。</p>
+
+    <Footer />
+  </div>
+</BaseLayout>

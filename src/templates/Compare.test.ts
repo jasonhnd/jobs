@@ -66,7 +66,7 @@ describe('renderCompareDuelBar', () => {
 describe('Compare JSON-LD speakable', () => {
   test('WebPage points to the citable fact block and compare body', () => {
     const got = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/compare/kango-vs-helper',
+      'https://mirai-shigoto.com/pro/compare/kango-vs-helper',
       meta,
       side(1, 'A'),
       side(2, 'B'),
@@ -83,7 +83,7 @@ describe('Compare JSON-LD speakable', () => {
 
   test('adds FAQPage when faq items are present and omits a missing sector', () => {
     const got = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/compare/kango-vs-helper',
+      'https://mirai-shigoto.com/pro/compare/kango-vs-helper',
       meta,
       side(1, 'A & B'),
       { ...side(2, 'B'), sector_ja: null, ai_risk: null },
@@ -189,11 +189,11 @@ describe('renderRelatedCompares', () => {
     const html = renderRelatedCompares('kango-vs-helper', all);
     assert.match(html, /<ul class="related-compares">/);
     assert.equal((html.match(/<li>/g) ?? []).length, 6);
-    assert.equal(html.includes('/compare/kango-vs-helper"'), false);
-    assert.equal(html.includes('/compare/shoubou-vs-keisatsu'), false);
-    assert.match(html, /href="\/compare\/se-vs-programmer"/);
+    assert.equal(html.includes('/pro/compare/kango-vs-helper"'), false);
+    assert.equal(html.includes('/pro/compare/shoubou-vs-keisatsu'), false);
+    assert.match(html, /href="\/pro\/compare\/se-vs-programmer"/);
     assert.match(html, /class="rc-title">t-se-vs-programmer</);
-    assert.match(html, /href="\/compare\/kango-vs-yakuzaishi"/);
+    assert.match(html, /href="\/pro\/compare\/kango-vs-yakuzaishi"/);
   });
 });
 
@@ -222,7 +222,7 @@ describe('compare hub cards', () => {
 
   test('featured cards stack both sides and truncate a long description', () => {
     const html = renderFeaturedCompareCards(cards);
-    assert.equal((html.match(/<li><a href="\/compare\//g) ?? []).length, 2);
+    assert.equal((html.match(/<li><a href="\/pro\/compare\//g) ?? []).length, 2);
     assert.match(html, /class="cci-title">T &lt;1&gt;</);
     assert.match(html, /class="cci-pair"/);
     assert.match(html, /class="cci-vs-row"/);
@@ -267,6 +267,6 @@ describe('renderHubJsonLd compare index', () => {
     assert.deepEqual(types, ['WebPage', 'BreadcrumbList']);
     const page = (got['@graph'] as Array<{ '@type': string; url?: string }>)
       .find((node) => node['@type'] === 'WebPage');
-    assert.equal(page?.url, 'https://mirai-shigoto.com/compare');
+    assert.equal(page?.url, 'https://mirai-shigoto.com/pro/compare');
   });
 });

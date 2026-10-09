@@ -158,11 +158,11 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
     assert.equal(byPath('/privacy').lastmod, '2026-04-30');
     assert.equal(byPath('/sectors').lastmod, '2026-06-13');
     assert.equal(byPath('/1').lastmod, '2026-06-13');
-    assert.equal(byPath('/haid').changefreq, 'monthly');
-    assert.equal(byPath('/haid').priority, '0.6');
+    assert.equal(byPath('/pro/haid').changefreq, 'monthly');
+    assert.equal(byPath('/pro/haid').priority, '0.6');
     const xml = renderSitemapXml(entries);
-    assert.ok(xml.includes('<loc>https://mirai-shigoto.com/haid</loc>'));
-    const haidBlock = xml.slice(xml.indexOf('<loc>https://mirai-shigoto.com/haid</loc>'));
+    assert.ok(xml.includes('<loc>https://mirai-shigoto.com/pro/haid</loc>'));
+    const haidBlock = xml.slice(xml.indexOf('<loc>https://mirai-shigoto.com/pro/haid</loc>'));
     const haidUrl = haidBlock.slice(0, haidBlock.indexOf('</url>'));
     assert.ok(haidUrl.includes('<changefreq>monthly</changefreq>'));
     assert.ok(haidUrl.includes('<priority>0.6</priority>'));
@@ -186,9 +186,9 @@ describe('HAID release archive URLs', () => {
     const { buildSitemapEntries } = await import('./sitemap.js');
     const { loadGraph } = await import('../graph/index.js');
     const graph = await loadGraph();
-    const none = buildSitemapEntries(graph, '2026-06-13').filter((e) => e.loc.includes('/aiadoption/'));
+    const none = buildSitemapEntries(graph, '2026-06-13').filter((e) => e.loc.includes('/pro/aiadoption/'));
     assert.equal(none.length, 0);
-    const some = buildSitemapEntries(graph, '2026-06-13', { haidReleases: ['2026-q3', '2026-q2'] }).filter((e) => e.loc.includes('/aiadoption/'));
-    assert.deepEqual(some.map((e) => e.loc), ['https://mirai-shigoto.com/aiadoption/2026-q2', 'https://mirai-shigoto.com/aiadoption/2026-q3']);
+    const some = buildSitemapEntries(graph, '2026-06-13', { haidReleases: ['2026-q3', '2026-q2'] }).filter((e) => e.loc.includes('/pro/aiadoption/'));
+    assert.deepEqual(some.map((e) => e.loc), ['https://mirai-shigoto.com/pro/aiadoption/2026-q2', 'https://mirai-shigoto.com/pro/aiadoption/2026-q3']);
   });
 });

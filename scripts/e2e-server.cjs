@@ -148,7 +148,7 @@ function loadVercelRedirects() {
       .map((rule) => ({
         source: rule.source,
         destination: rule.destination,
-        statusCode: rule.permanent === false ? 307 : 308,
+        statusCode: rule.statusCode ?? (rule.permanent === false ? 307 : 308),
         regex: compileRedirectSource(rule.source),
       }));
   } catch {

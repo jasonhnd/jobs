@@ -1,0 +1,245 @@
+---
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { ModelsByModelProjectionSchema } from '@/lib/projection-schemas';
+import { runFromSlug } from '@/site/score-attribution';
+import { MODELS_RUN_HISTORY_NOTE, MODELS_RUN_IN_PANEL_NOTE } from '@/site/consensus-copy';
+import { knownRuns, loadModelBatchMetas, type ModelBatchMeta } from '../../models/_model-route-data';
+import { bandLabel, buildModelRunPageModel, scoreText, signedScore } from '@/views/model-run-page';
+
+interface Props {
+  readonly modelId: string;
+  readonly batchMeta: ModelBatchMeta;
+}
+
+export async function getStaticPaths() {
+  const metas = await loadModelBatchMetas();
+  const runs = knownRuns(metas);
+  for (const meta of metas) {
+    const resolved = runFromSlug(meta.slug, runs);
+    if (resolved?.model !== meta.model || resolved.runDate !== meta.date) {
+      throw new Error(
+        `/pro/models/${meta.slug} does not round-trip to ${meta.model} @ ${meta.date}. ` +
+        'Two batches sharing a model id and run date would collide here.',
+      );
+    }
+  }
+  return metas.map((batchMeta) => ({
+    params: { model: batchMeta.slug },
+    props: { modelId: batchMeta.model, batchMeta },
+  }));
+}
+
+const { modelId, batchMeta } = Astro.props as Props;
+const requestedSlug = Astro.params.model ?? '';
+const batchMetas = await loadModelBatchMetas();
+const resolvedRun = runFromSlug(requestedSlug, knownRuns(batchMetas));
+if (
+  resolvedRun === null ||
+  resolvedRun.model !== modelId ||
+  resolvedRun.runDate !== batchMeta.date ||
+  batchMeta.model !== modelId
+) {
+  Astro.response.status = 404;
+  throw new Error(`/pro/models/${requestedSlug} is not a known scoring run`);
+}
+
+const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_by_model.json'), 'utf-8');
+const projection = ModelsByModelProjectionSchema.parse(JSON.parse(projectionRaw));
+const page = projection.models[requestedSlug];
+if (!page || page.model !== modelId) {
+  Astro.response.status = 404;
+  throw new Error(`/pro/models/${requestedSlug} is missing from data.models_by_model.json`);
+}
+
+const {
+  modelDisplay,
+  providerDisplay,
+  scoringDate,
+  standardDisplay,
+  prevModelDisplay,
+  nextModelDisplay,
+  isBaseline,
+  isLegacyBatch,
+  comparisonDescription,
+  pageTitle,
+  pageDescription,
+  canonical,
+  inlinePayload,
+  driftSummary,
+  jsonLd,
+  localCss,
+  histogramWidth,
+  histogramHeight,
+  chartTop,
+  chartLeft,
+  plotWidth,
+  plotHeight,
+  maxBin,
+  barGap,
+  barWidth,
+} = buildModelRunPageModel(page, knownRuns(batchMetas));
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  keywords="AIモデル,モデル比較,AI職業スコア,AIOIS-10"
+  ogTitle={pageTitle}
+  ogDescription={pageDescription}
+  ogType="article"
+  bodyClass="models-surface"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={localCss} />
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <a href="/pro/models" rel="up">モデル比較</a>
+      <span aria-hidden="true">›</span>
+      <span>{modelDisplay}</span>
+    </nav>
+
+    <header class="model-hero" id="content">
+      <div>
+        <p class="eyebrow">モデル比較</p>
+        <h1>{modelDisplay} の職業スコア</h1>
+        <p class="lead">
+          {modelDisplay} が {page.covered_count} 件の職業をどう採点したかを、分布と上位・下位職業で確認します。{comparisonDescription}
+          {isLegacyBatch ? '' : ` ${page.in_panel ? MODELS_RUN_IN_PANEL_NOTE : MODELS_RUN_HISTORY_NOTE}`}
+        </p>
+      </div>
+      <aside class="profile-box" aria-label="モデル概要">
+        <dl>
+          <dt>提供元</dt><dd>{providerDisplay}</dd>
+          <dt>採点日</dt><dd>{scoringDate}</dd>
+          <dt>対象職業</dt><dd>{page.covered_count} 件</dd>
+          <dt>評価基準</dt><dd>{standardDisplay}</dd>
+        </dl>
+        <div class="profile-links">
+          <a href="/pro/methodology">評価プロセス</a>
+          <a href="/pro/standard">AIOIS-10 標準</a>
+        </div>
+      </aside>
+    </header>
+
+    <section class="section" aria-labelledby="distribution">
+      <h2 id="distribution">スコア分布</h2>
+      <p class="section-intro">
+        変化指数は 0 から 10 の範囲で、変化 小さいは 4.0 未満、変化 中くらいは 4.0 以上 7.0 未満、変化 大きいは 7.0 以上です。
+      </p>
+      <dl class="stats-grid">
+        <div class="stat"><dt>平均変化指数</dt><dd>{scoreText(page.distribution.mean_transformation)}</dd></div>
+        <div class="stat"><dt>中央値</dt><dd>{scoreText(page.distribution.median_transformation)}</dd></div>
+        <div class="stat"><dt>変化 大きい</dt><dd>{page.distribution.bands.high.count} 件</dd></div>
+        <div class="stat"><dt>変化 中くらい</dt><dd>{page.distribution.bands.mid.count} 件</dd></div>
+      </dl>
+      <div class="histogram-wrap" tabindex="0" role="region" aria-label="横スクロールできる分布図">
+        <svg
+          class="histogram"
+          viewBox={`0 0 ${histogramWidth} ${histogramHeight}`}
+          role="img"
+          aria-labelledby={`hist-title-${page.slug} hist-desc-${page.slug}`}
+        >
+          <title id={`hist-title-${page.slug}`}>{modelDisplay} の変化指数ヒストグラム</title>
+          <desc id={`hist-desc-${page.slug}`}>0 から 10 までを 0.5 刻みで分けた職業数の分布です。</desc>
+          <line class="axis" x1={chartLeft} y1={chartTop + plotHeight} x2={chartLeft + plotWidth} y2={chartTop + plotHeight}></line>
+          <line class="axis" x1={chartLeft} y1={chartTop} x2={chartLeft} y2={chartTop + plotHeight}></line>
+          {page.distribution.histogram.map((bin, i) => {
+            const height = (bin.count / maxBin) * plotHeight;
+            const x = chartLeft + i * (plotWidth / page.distribution.histogram.length) + barGap / 2;
+            const y = chartTop + plotHeight - height;
+            return <rect class="bar" x={x} y={y} width={barWidth} height={height} rx="2"><title>{bin.from.toFixed(1)}-{bin.to.toFixed(1)}: {bin.count} 件</title></rect>;
+          })}
+          <text x={chartLeft} y={histogramHeight - 12}>0</text>
+          <text x={chartLeft + plotWidth / 2 - 8} y={histogramHeight - 12}>5</text>
+          <text x={chartLeft + plotWidth - 18} y={histogramHeight - 12}>10</text>
+          <text x={chartLeft + 2} y={18}>職業数</text>
+          <text x={chartLeft + plotWidth - 126} y={18}>凡例: 0.5刻みの分布</text>
+        </svg>
+      </div>
+      <p class="fallback">
+        変化 小さい {page.distribution.bands.low.count} 件（{page.distribution.bands.low.pct.toFixed(1)}%）、
+        変化 中くらい {page.distribution.bands.mid.count} 件（{page.distribution.bands.mid.pct.toFixed(1)}%）、
+        変化 大きい {page.distribution.bands.high.count} 件（{page.distribution.bands.high.pct.toFixed(1)}%）。
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="extremes">
+      <h2 id="extremes">上位・下位の職業</h2>
+      <div class="two-col">
+        <article class="rank-card">
+          <h3>変化指数が高い職業</h3>
+          <ol class="rank-list">
+            {page.highest.map((row, index) => (
+              <li>
+                <span class="rank-no">{index + 1}</span>
+                <a class="rank-title" href={row.href}>{row.title_ja}</a>
+                <span class="score-pill">{scoreText(row.transformation)} / {bandLabel(row.band)}</span>
+              </li>
+            ))}
+          </ol>
+        </article>
+        <article class="rank-card">
+          <h3>変化指数が低い職業</h3>
+          <ol class="rank-list">
+            {page.lowest.map((row, index) => (
+              <li>
+                <span class="rank-no">{index + 1}</span>
+                <a class="rank-title" href={row.href}>{row.title_ja}</a>
+                <span class="score-pill">{scoreText(row.transformation)} / {bandLabel(row.band)}</span>
+              </li>
+            ))}
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="drift">
+      <h2 id="drift">{isBaseline ? 'モデル間比較について' : '前回モデルからの変化'}</h2>
+      <div class="drift-panel">
+        <p>{driftSummary}</p>
+        {!('baseline' in page.drift) && (
+          <div class="drift-grid">
+            <div>
+              <h3>動きが大きい職業</h3>
+              <ul class="mini-list">
+                {page.drift.movers.map((row) => (
+                  <li><a href={row.href}>{row.title_ja}</a><span class="delta">{signedScore(row.delta_t)}</span></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>リスク帯をまたいだ職業</h3>
+              <ul class="mini-list">
+                {page.drift.band_crossings.map((row) => (
+                  <li>
+                    <a href={row.href}>{row.title_ja}</a>
+                    <span class="delta">{bandLabel(row.from_band)} → {bandLabel(row.to_band)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="neighbours">
+      <h2 id="neighbours">ほかのモデルを見る</h2>
+      <nav class="nav-links" aria-label="モデルページ">
+        <a class="back-link" href="/pro/models">モデル比較へ戻る</a>
+        {page.nav.prev && <a href={`/pro/models/${page.nav.prev.slug}`}>前のモデル: {prevModelDisplay}</a>}
+        {page.nav.next && <a href={`/pro/models/${page.nav.next.slug}`}>次のモデル: {nextModelDisplay}</a>}
+      </nav>
+    </section>
+
+    <template id="model-page-payload" set:html={inlinePayload}></template>
+
+    <Footer />
+  </div>
+</BaseLayout>

@@ -1,3 +1,4 @@
+import { editionHref } from '../site/route-policy';
 /**
  * src/templates/Hub.ts — HTML / JSON-LD / CSS for the 9 genre-family
  * hub clusters (abilities / knowledge / values / education / training /
@@ -117,7 +118,7 @@ export function renderGenreJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: genreLabel, item: `${SITE}/${genrePath}` },
+        { '@type': 'ListItem', position: 2, name: genreLabel, item: `${SITE}/pro/${genrePath}` },
         { '@type': 'ListItem', position: 3, name: config.title_ja, item: canonical },
       ],
     },
@@ -204,7 +205,7 @@ export function renderGenreHubIndexCards(
   descMaxLen: number = 90,
 ): SafeHtml {
   return cards.map((c) =>
-    `<li><a href="/${pathPrefix}/${c.slug}">` +
+    `<li><a href="/pro/${pathPrefix}/${c.slug}">` +
     `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
     `<span class="gci-desc">${escapeHtml(c.description_ja.slice(0, descMaxLen))}…</span>` +
     (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
@@ -276,7 +277,7 @@ export function renderQGroupsHtml(
       `<summary>${escapeHtml(q.question)}</summary>` +
       `<div class="qa-body">` +
       `<p class="qa-short">${escapeHtml(q.short_answer)}</p>` +
-      `<a class="qa-detail-link" href="/q/${q.slug}">詳しく見る <span aria-hidden="true">→</span></a>` +
+      `<a class="qa-detail-link" href="/pro/q/${q.slug}">詳しく見る <span aria-hidden="true">→</span></a>` +
       `</div>` +
       `</details>` +
       `</li>`,
@@ -296,7 +297,7 @@ export interface ExploreIndexCard {
 
 export function renderExploreIndexCards(cards: ReadonlyArray<ExploreIndexCard>): SafeHtml {
   return cards.map((c) =>
-    `<li><a href="/explore/${c.slug}">` +
+    `<li><a href="/pro/explore/${c.slug}">` +
     `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
     `<span class="gci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
     `<span class="gci-count">${c.genreCount} 個の genre</span>` +
@@ -312,7 +313,7 @@ export interface ExploreGenreLink {
 
 export function renderExploreGenreCards(genres: ReadonlyArray<ExploreGenreLink>): SafeHtml {
   return genres.map((g) =>
-    `<li><a href="${g.path.startsWith('/') ? g.path : `/${g.path}`}">` +
+    `<li><a href="${editionHref(g.path.startsWith('/') ? g.path : `/${g.path}`, 'ordinary')}">` +
     `<span class="gci-name">${escapeHtml(g.label)}</span>` +
     `<span class="gci-desc">${escapeHtml(g.desc)}</span>` +
     `<span class="gci-count">→ 詳しく見る</span>` +
@@ -330,7 +331,7 @@ export function renderExploreOtherRoutes(
   routes: ReadonlyArray<ExploreOtherRoute>,
 ): SafeHtml {
   return ('<ul class="related-genre">' + routes.map((r) =>
-    `<li><a href="/explore/${r.slug}">` +
+    `<li><a href="/pro/explore/${r.slug}">` +
     `<span class="rg-name">${escapeHtml(r.short_ja)}</span>` +
     `<span class="rg-desc">${escapeHtml(r.description_ja.slice(0, 60))}…</span>` +
     `</a></li>`,
@@ -338,7 +339,7 @@ export function renderExploreOtherRoutes(
 }
 
 export function renderExploreIndexJsonLd(): string {
-  const canonical = `${siteConfig.origin}/explore`;
+  const canonical = `${siteConfig.origin}/pro/explore`;
   const seoDesc = `日本 ${OCCUPATION_COUNT.SCORED} 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。`;
   return stringifyJsonLd({
     '@context': 'https://schema.org',
@@ -353,14 +354,14 @@ export function renderExploreIndexJsonLd(): string {
 }
 
 export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc: string): string {
-  const canonical = `${siteConfig.origin}/explore/${slug}`;
+  const canonical = `${siteConfig.origin}/pro/explore/${slug}`;
   return stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title_ja, description: seoDesc, inLanguage: 'ja' },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: '探す方法', item: `${SITE}/explore` },
+        { '@type': 'ListItem', position: 2, name: '探す方法', item: `${SITE}/pro/explore` },
         { '@type': 'ListItem', position: 3, name: title_ja, item: canonical },
       ] },
     ],

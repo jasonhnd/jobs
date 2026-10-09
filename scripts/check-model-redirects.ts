@@ -26,6 +26,7 @@ interface VercelRedirect {
   readonly source: string;
   readonly destination: string;
   readonly permanent?: boolean;
+  readonly statusCode?: number;
 }
 
 function fail(message: string): never {
@@ -82,10 +83,11 @@ export function loadRedirects(): VercelRedirect[] {
 }
 
 export function main(): void {
-  const expected = expectedRedirects(loadScoreRuns());
+  const legacy = expectedRedirects(loadScoreRuns());
+  const expected = new Map([...legacy].flatMap(([source, destination]) => [[source, `/pro${destination}`], [`/pro${source}`, `/pro${destination}`]]));
   const actual = new Map<string, VercelRedirect>();
   for (const redirect of loadRedirects()) {
-    if (!redirect.source.startsWith('/models/')) continue;
+    if (!/^\/(pro\/)?models\//.test(redirect.source) || redirect.source.includes('@')) continue;
     if (actual.has(redirect.source)) {
       fail(`vercel.json declares ${redirect.source} twice; the second is dead`);
     }
@@ -102,8 +104,8 @@ export function main(): void {
     if (found.destination !== destination) {
       problems.push(`stale:   ${source} → ${found.destination} (latest run is ${destination})`);
     }
-    if (found.permanent !== true) {
-      problems.push(`not permanent: ${source} should be a 308, not a temporary redirect`);
+    if (found.statusCode !== 301 || found.permanent !== undefined) {
+      problems.push(`not permanent: ${source} must be an explicit 301 to the final Pro run`);
     }
   }
   for (const source of actual.keys()) {

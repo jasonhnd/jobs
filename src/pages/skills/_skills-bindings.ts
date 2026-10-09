@@ -41,7 +41,7 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 export function buildSkillsSlugBindings(result: SkillResult, graph: KnowledgeGraph): SkillsSlugBindings {
   const slug = result.meta.slug as SkillSlug;
   const meta = result.meta;
-  const canonical = `${SITE}/skills/${slug}`;
+  const canonical = `${SITE}/pro/skills/${slug}`;
   const ogImage = `${SITE}/api/og?skill=${slug}`;
   const title = `${meta.title_ja}｜TOP ${result.items.length}・AI 影響度付き【2026 年版】 | 未来の仕事`;
   const seoDesc =

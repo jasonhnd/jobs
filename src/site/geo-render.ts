@@ -121,20 +121,27 @@ Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=${fa
 - ${facts.highRiskCount} occupations score 7.0 or higher on AI Impact, covering ${fmtInt(facts.highRiskWorkforce)} mapped workers (${fmtPct(facts.highRiskWorkforceSharePct)}).
 - Highest-impact sector: ${facts.sectorsByMeanImpact[0]!.nameJa} (${fmtMean(facts.sectorsByMeanImpact[0]!.meanAiImpact)}/10). Lowest-impact sector: ${facts.sectorsByMeanImpact[facts.sectorsByMeanImpact.length - 1]!.nameJa} (${fmtMean(facts.sectorsByMeanImpact[facts.sectorsByMeanImpact.length - 1]!.meanAiImpact)}/10).
 
+## Editions
+
+The ordinary edition provides occupation, selected-ranking, map and sector entrances. Pro is currently free and publicly accessible at https://mirai-shigoto.com/pro, with full research, model runs, questions, methods and datasets. Both editions use the same scores and source facts.
+
 ## Pages
 
 - [Main map](https://mirai-shigoto.com/)
-- [AIOIS-10 standard](https://mirai-shigoto.com/standard)
-- [Methodology](https://mirai-shigoto.com/methodology)
-- [Public data](https://mirai-shigoto.com/data)
+- [AIOIS-10 standard](https://mirai-shigoto.com/pro/standard)
+- [Methodology](https://mirai-shigoto.com/pro/methodology)
+- [Public data](https://mirai-shigoto.com/pro/data)
 - [Rankings](https://mirai-shigoto.com/rankings)
+- [Full Pro rankings](https://mirai-shigoto.com/pro/rankings)
+- [Model runs](https://mirai-shigoto.com/pro/models)
+- [Questions](https://mirai-shigoto.com/pro/q)
 - [Sectors](https://mirai-shigoto.com/sectors)
-- [Answers](https://mirai-shigoto.com/answers)
+- [Answers](https://mirai-shigoto.com/pro/answers)
 - [Extended GEO companion](https://mirai-shigoto.com/llms-full.txt)
 
 ## Methodology
 
-AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are, for each dimension and both indices, the mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; Transformation is not recomputed from mean(D1, D2) after the mean. Per-model scores remain on /models.
+AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are, for each dimension and both indices, the mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; Transformation is not recomputed from mean(D1, D2) after the mean. Per-model scores remain on /pro/models.
 ${crossModelValidationNote(facts)}
 ## FAQ
 
@@ -174,6 +181,8 @@ export function renderLlmsFullTxt(facts: GeoFacts): string {
 Extended GEO companion to https://mirai-shigoto.com/llms.txt. This file is generated from the same source facts as the public data and homepage JSON-LD.
 
 ## 1. Summary
+
+The ordinary edition and the currently free, public Pro edition (https://mirai-shigoto.com/pro) share one dataset. Full methods, model runs, questions and research are under /pro. Selected ordinary rankings remain at https://mirai-shigoto.com/rankings; the full list is https://mirai-shigoto.com/pro/rankings. Methodology: https://mirai-shigoto.com/pro/methodology; standard: https://mirai-shigoto.com/pro/standard; data: https://mirai-shigoto.com/pro/data; answers: https://mirai-shigoto.com/pro/answers.
 
 mirai-shigoto.com maps ${facts.occupationCount} Japanese occupations against AI Impact using ${attribution.standardLabel} v1.0. Published scores are a multi-model consensus (mean of the latest model from each of ${SCORE_PANEL.vendorCount} vendors; latest scoring ${attribution.runDate}). Per-model breakdown: https://mirai-shigoto.com/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
 
