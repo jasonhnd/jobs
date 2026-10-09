@@ -4,7 +4,7 @@ import manifest from '../../docs/pro-split/route-manifest.json';
 import { occupationRoute, rankingRoute, editionHref, editionHtmlLinks } from './route-policy';
 import { occupationPath, occupationCanonicalUrl, occupationUrl, rankingUrl, rankingCanonicalUrl } from '../lib/urls';
 
-describe('stage 1A edition routing', () => {
+describe('stage 2 occupations / stage 1A rankings', () => {
   test('occupation 404 has independent page and stable ordinary canonical URLs', () => {
     expect(occupationPath(404)).toBe('/occupations/404');
     expect(occupationPath(404, 'pro')).toBe('/pro/404');

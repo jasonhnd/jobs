@@ -1,4 +1,4 @@
-/** Stage 1A policy only. Planned redirects/final canonicals are not active. */
+/** Occupations: stage 2 self-canonicals. Rankings: stage 1A; no redirects active. */
 import manifest from '../../docs/pro-split/route-manifest.json';
 
 export type Edition = 'ordinary' | 'pro';
@@ -24,7 +24,7 @@ export function occupationRoute(id: number, edition: Edition = 'ordinary'): Rout
   const exception = manifest.occupation.exception;
   const ordinary = id === exception.id ? exception.ordinaryPath : `/${id}`;
   const pro = id === exception.id ? exception.proPath : manifest.occupation.proTemplate.replace('<numeric-id>', String(id));
-  return { pagePath: edition === 'pro' ? pro : ordinary, canonicalPath: ordinary, noindex: false, sitemap: edition === 'ordinary', ordinarySwitchPath: ordinary };
+  return { pagePath: edition === 'pro' ? pro : ordinary, canonicalPath: edition === 'pro' ? pro : ordinary, noindex: false, sitemap: true, ordinarySwitchPath: ordinary };
 }
 
 export function rankingRoute(slug: string, edition: Edition = 'ordinary'): RankingRoutePolicy {

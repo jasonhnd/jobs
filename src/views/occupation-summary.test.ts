@@ -1,4 +1,5 @@
 import { expect, test } from 'bun:test';
+import assert from 'node:assert/strict';
 import { buildOccupationSummary, renderOccupationSummaryJsonLd, PRO_CHAPTER_LINKS } from './occupation-summary';
 
 const input = { id: 404, name_ja: '内科医', ai_risk: 3.9, salary: 1234.5, hours: 167.5 };
@@ -20,9 +21,9 @@ test('missing salary, hours and scores remain missing, including zero/invalid st
     expect(summary.salaryText).toBe('—');
     expect(summary.hoursText).toBe('—');
     expect(summary.scoreText).toBe('未評価');
-    expect(summary.bandWord).toBeNull();
-    expect(summary.conclusion).toBeNull();
-    expect(summary.advice).toBeNull();
+    expect(summary.bandWord).toBe(null);
+    expect(summary.conclusion).toBe(null);
+    expect(summary.advice).toBe(null);
   }
 });
 
@@ -30,22 +31,22 @@ test('ordinary structured data exposes only visible summary properties and stabl
   const summary = buildOccupationSummary(input);
   const data = JSON.parse(renderOccupationSummaryJsonLd(summary, { datePublished: '2026-05-30', dateModified: '2026-10-01' }));
   const nodes = data['@graph'];
-  expect(nodes.map((n: any) => n['@type'])).toEqual(['WebPage', 'Occupation', 'BreadcrumbList']);
+  assert.deepEqual(nodes.map((n: any) => n['@type']), ['WebPage', 'Occupation', 'BreadcrumbList']);
   expect(nodes[0].description).toBe(summary.conclusion);
   expect(nodes[0].mainEntity['@id']).toBe('https://mirai-shigoto.com/occupations/404#occupation');
-  expect(nodes[0].speakable.cssSelector).toEqual(['.summary-conclusion', '.summary-advice']);
-  expect(nodes[1].additionalProperty).toHaveLength(2);
-  expect(nodes[1].additionalProperty.map((p: any) => p.value)).toEqual([3.9, 167]);
+  assert.deepEqual(nodes[0].speakable.cssSelector, ['.summary-conclusion', '.summary-advice']);
+  expect(nodes[1].additionalProperty.length).toBe(2);
+  assert.deepEqual(nodes[1].additionalProperty.map((p: any) => p.value), [3.9, 167]);
   expect(nodes[1].estimatedSalary.median).toBe(12340000);
-  for (const key of ['skills', 'qualifications', 'responsibilities', 'educationRequirements', 'experienceRequirements']) expect(nodes[1][key]).toBeUndefined();
+  for (const key of ['skills', 'qualifications', 'responsibilities', 'educationRequirements', 'experienceRequirements']) expect(nodes[1][key]).toBe(undefined);
   const missing = JSON.parse(renderOccupationSummaryJsonLd(buildOccupationSummary({ ...input, salary: null, hours: null, ai_risk: null }), { datePublished: '2026-05-30', dateModified: '2026-10-01' }));
-  expect(missing['@graph'][1].additionalProperty).toEqual([]);
-  expect(missing['@graph'][1].estimatedSalary).toBeUndefined();
-  expect(missing['@graph'][0].speakable).toBeUndefined();
+  assert.deepEqual(missing['@graph'][1].additionalProperty, []);
+  expect(missing['@graph'][1].estimatedSalary).toBe(undefined);
+  expect(missing['@graph'][0].speakable).toBe(undefined);
 });
 
 test('compatibility table covers all existing sec/chp anchors and model-history entry', () => {
-  expect(PRO_CHAPTER_LINKS.flatMap(chapter => [chapter.id, ...chapter.anchors])).toEqual([
+  assert.deepEqual(PRO_CHAPTER_LINKS.flatMap(chapter => [chapter.id, ...chapter.anchors]), [
     'chp-score', 'sec-aiois', 'sec-ai-detail', 'score-history-details',
     'chp-about', 'chp-path', 'chp-work', 'chp-next', 'sec-transfer', 'sec-similar', 'chp-faq', 'chp-source',
   ]);

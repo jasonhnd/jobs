@@ -22,7 +22,7 @@ const CHAPTER_IDS = [
 ];
 
 test('390×844 /156: seven closed chapters, chip nav, FAQ still in HTML', async ({ page }) => {
-  await openConsentDecided(page, '/156', 390, 844);
+  await openConsentDecided(page, '/pro/156', 390, 844);
 
   const chaps = page.locator('details.chap');
   await expect(chaps).toHaveCount(7);
@@ -45,14 +45,14 @@ test('390×844 /156: seven closed chapters, chip nav, FAQ still in HTML', async 
 });
 
 test('/156 door #sec-aiois opens スコアの中身', async ({ page }) => {
-  await openConsentDecided(page, '/156', 390, 844);
+  await openConsentDecided(page, '/pro/156', 390, 844);
   await page.locator('.v-doors a.solid').click();
   await expect(page.locator('#chp-score')).toHaveAttribute('open', '');
   await expect(page.locator('#sec-aiois')).toBeVisible();
 });
 
 test('/430 door 移り先 opens 似た仕事・移り先', async ({ page }) => {
-  await openConsentDecided(page, '/430', 390, 844);
+  await openConsentDecided(page, '/pro/430', 390, 844);
   const ghost = page.locator('.v-doors a.ghost');
   await expect(ghost).toHaveAttribute('href', '#sec-transfer');
   await ghost.click();
@@ -60,7 +60,7 @@ test('/430 door 移り先 opens 似た仕事・移り先', async ({ page }) => {
 });
 
 test('desktop ≥1280 opens every chapter', async ({ page }) => {
-  await openConsentDecided(page, '/156', 1280, 800);
+  await openConsentDecided(page, '/pro/156', 1280, 800);
   const chaps = page.locator('details.chap');
   await expect(chaps).toHaveCount(7);
   for (let i = 0; i < 7; i++) {
@@ -69,7 +69,7 @@ test('desktop ≥1280 opens every chapter', async ({ page }) => {
 });
 
 test('chip tap opens the matching chapter', async ({ page }) => {
-  await openConsentDecided(page, '/156', 390, 844);
+  await openConsentDecided(page, '/pro/156', 390, 844);
   await page.locator('.chipnav a[href="#chp-about"]').click();
   await expect(page.locator('#chp-about')).toHaveAttribute('open', '');
 });
