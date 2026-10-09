@@ -28,6 +28,10 @@
  * Hidden on desktop via canonical-css.ts media query.
  */
 import { OCCUPATION_COUNT } from '@/site/config';
+import { editionHref } from '@/site/route-policy';
+import { ORDINARY_READING_ENTRIES, pageEdition, navigationCurrent } from '@/site/edition-navigation';
+const path = Astro.url.pathname;
+const edition = pageEdition(path);
 ---
 <header class="mob-topbar" aria-label="モバイルサイトヘッダー">
   <a href="/" class="mob-topbar-brand" aria-label="未来の仕事 — トップへ">
@@ -71,6 +75,23 @@ import { OCCUPATION_COUNT } from '@/site/config';
 <div class="mob-drawer" id="mobDrawer" hidden role="dialog" aria-modal="true" aria-label="メインメニュー">
   <div class="mob-drawer-inner">
 
+    {edition === 'ordinary' ? (
+      <section class="mob-drawer-sec">
+        <header class="mob-drawer-sec-head">
+          <p class="mob-drawer-title" role="heading" aria-level="2">探す入口</p>
+        </header>
+        <div class="mob-drawer-list">
+          {ORDINARY_READING_ENTRIES.map(item => (
+            <a class="mob-drawer-item" href={item.href}
+              {...(navigationCurrent(path, item.href) ? { 'aria-current': 'page' } : {})}
+              {...(item.trackEvent ? { 'data-track-event': item.trackEvent, 'data-occupation-id': '0', 'data-entry-source': 'nav_drawer' } : {})}>
+              <span class="mob-drawer-label">{item.label}</span>
+              <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ) : (<>
     <section class="mob-drawer-sec">
       <header class="mob-drawer-sec-head">
         <p class="mob-drawer-title" role="heading" aria-level="2">
@@ -80,18 +101,18 @@ import { OCCUPATION_COUNT } from '@/site/config';
         <p class="mob-drawer-lede">業種・ランキング・Q&A など主要な入口</p>
       </header>
       <div class="mob-drawer-list">
-        <a href="/shindan" class="mob-drawer-item mob-drawer-item-feature">
+        <a href={editionHref('/shindan', edition)} {...(navigationCurrent(path, editionHref('/shindan', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item mob-drawer-item-feature">
           <span class="mob-drawer-label">診断</span>
           <span class="mob-drawer-meta">9問・30秒で働き方タイプを見る</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/gyakuten" class="mob-drawer-item">
+        <a href={editionHref('/gyakuten', edition)} {...(navigationCurrent(path, editionHref('/gyakuten', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">図鑑</span>
           <span class="mob-drawer-meta">8家族24タイプをめくる</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
         <a
-          href="/me"
+          href={editionHref('/me', edition)} {...(navigationCurrent(path, editionHref('/me', edition)) ? { 'aria-current': 'page' } : {})}
           class="mob-drawer-item mob-drawer-item-feature"
           data-track-event="me_entry_click"
           data-occupation-id="0"
@@ -101,52 +122,52 @@ import { OCCUPATION_COUNT } from '@/site/config';
           <span class="mob-drawer-meta">職業を入力 → 全 39 ランキングでの位置</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/map" class="mob-drawer-item">
+        <a href={editionHref('/map', edition)} {...(navigationCurrent(path, editionHref('/map', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">職業マップ</span>
           <span class="mob-drawer-meta">{OCCUPATION_COUNT.SCORED} 職業の俯瞰</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/sectors" class="mob-drawer-item">
+        <a href={editionHref('/sectors', edition)} {...(navigationCurrent(path, editionHref('/sectors', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">業種から探す</span>
           <span class="mob-drawer-count">16</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/rankings" class="mob-drawer-item">
+        <a href={editionHref('/rankings', edition)} {...(navigationCurrent(path, editionHref('/rankings', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">ランキング</span>
           <span class="mob-drawer-count">39</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/compare" class="mob-drawer-item">
+        <a href={editionHref('/compare', edition)} {...(navigationCurrent(path, editionHref('/compare', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">比較</span>
           <span class="mob-drawer-count">20</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/q" class="mob-drawer-item">
+        <a href={editionHref('/q', edition)} {...(navigationCurrent(path, editionHref('/q', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">Q&amp;A</span>
           <span class="mob-drawer-count">49</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/explore" class="mob-drawer-item">
+        <a href={editionHref('/explore', edition)} {...(navigationCurrent(path, editionHref('/explore', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">探す方法</span>
           <span class="mob-drawer-meta">7 つの入口</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/careers" class="mob-drawer-item">
+        <a href={editionHref('/careers', edition)} {...(navigationCurrent(path, editionHref('/careers', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">キャリア段階</span>
           <span class="mob-drawer-count">10</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/licenses" class="mob-drawer-item">
+        <a href={editionHref('/licenses', edition)} {...(navigationCurrent(path, editionHref('/licenses', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">資格</span>
           <span class="mob-drawer-count">15</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/yearly" class="mob-drawer-item">
+        <a href={editionHref('/yearly', edition)} {...(navigationCurrent(path, editionHref('/yearly', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">年次レポート</span>
           <span class="mob-drawer-count">3</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/aiadoption" class="mob-drawer-item">
+        <a href={editionHref('/aiadoption', edition)} {...(navigationCurrent(path, editionHref('/aiadoption', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">人類と AI の距離</span>
           <span class="mob-drawer-meta">人類 83 億人が生成 AI からどれだけ離れているか</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
@@ -163,62 +184,62 @@ import { OCCUPATION_COUNT } from '@/site/config';
         <p class="mob-drawer-lede">スキル・能力・学歴など、自分の特性で絞り込む</p>
       </header>
       <div class="mob-drawer-list">
-        <a href="/pro/interests" class="mob-drawer-item">
+        <a href={editionHref('/interests', edition)} {...(navigationCurrent(path, editionHref('/interests', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">興味 (RIASEC)</span>
           <span class="mob-drawer-count">6</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/skills" class="mob-drawer-item">
+        <a href={editionHref('/skills', edition)} {...(navigationCurrent(path, editionHref('/skills', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">スキル</span>
           <span class="mob-drawer-count">10</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/abilities" class="mob-drawer-item">
+        <a href={editionHref('/abilities', edition)} {...(navigationCurrent(path, editionHref('/abilities', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">能力</span>
           <span class="mob-drawer-count">10</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/knowledge" class="mob-drawer-item">
+        <a href={editionHref('/knowledge', edition)} {...(navigationCurrent(path, editionHref('/knowledge', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">知識</span>
           <span class="mob-drawer-count">10</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/values" class="mob-drawer-item">
+        <a href={editionHref('/values', edition)} {...(navigationCurrent(path, editionHref('/values', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">価値観</span>
           <span class="mob-drawer-count">8</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/education" class="mob-drawer-item">
+        <a href={editionHref('/education', edition)} {...(navigationCurrent(path, editionHref('/education', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">学歴</span>
           <span class="mob-drawer-count">6</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/training" class="mob-drawer-item">
+        <a href={editionHref('/training', edition)} {...(navigationCurrent(path, editionHref('/training', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">習熟期間</span>
           <span class="mob-drawer-count">5</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/work-styles" class="mob-drawer-item">
+        <a href={editionHref('/work-styles', edition)} {...(navigationCurrent(path, editionHref('/work-styles', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">働き方</span>
           <span class="mob-drawer-count">7</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/employment-types" class="mob-drawer-item">
+        <a href={editionHref('/employment-types', edition)} {...(navigationCurrent(path, editionHref('/employment-types', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">雇用形態</span>
           <span class="mob-drawer-count">4</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/life-balance" class="mob-drawer-item">
+        <a href={editionHref('/life-balance', edition)} {...(navigationCurrent(path, editionHref('/life-balance', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">ライフバランス</span>
           <span class="mob-drawer-count">6</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/entry-paths" class="mob-drawer-item">
+        <a href={editionHref('/entry-paths', edition)} {...(navigationCurrent(path, editionHref('/entry-paths', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">入職経路</span>
           <span class="mob-drawer-count">5</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/pro/methodology" class="mob-drawer-item">
+        <a href={editionHref('/methodology', edition)} {...(navigationCurrent(path, editionHref('/methodology', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">評価プロセス</span>
           <span class="mob-drawer-meta">算出方法・データ出典</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
@@ -238,23 +259,24 @@ import { OCCUPATION_COUNT } from '@/site/config';
           the same right-edge anchor as sections 1+2; eliminates the
           "thin / unbalanced" feel from the count/meta column being empty. */}
       <div class="mob-drawer-list">
-        <a href="/about" class="mob-drawer-item">
+        <a href={editionHref('/about', edition)} {...(navigationCurrent(path, editionHref('/about', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">このサイトについて</span>
           <span class="mob-drawer-meta">概要・運営</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/compliance" class="mob-drawer-item">
+        <a href={editionHref('/compliance', edition)} {...(navigationCurrent(path, editionHref('/compliance', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">コンプライアンス</span>
           <span class="mob-drawer-meta">免責・引用</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
-        <a href="/privacy" class="mob-drawer-item">
+        <a href={editionHref('/privacy', edition)} {...(navigationCurrent(path, editionHref('/privacy', edition)) ? { 'aria-current': 'page' } : {})} class="mob-drawer-item">
           <span class="mob-drawer-label">プライバシー</span>
           <span class="mob-drawer-meta">Cookie・解析</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
       </div>
     </section>
+    </>)}
 
   </div>
 </div>
@@ -279,9 +301,9 @@ import { OCCUPATION_COUNT } from '@/site/config';
   <div class="mob-search-doors">
     <p class="mob-search-empty-head" hidden>見つからないとき</p>
     <div class="mob-search-door-row">
-      <a href="/sectors">業種から探す</a>
-      <a href="/rankings">ランキング</a>
-      <a href="/me">自分の現在地</a>
+      <a href={editionHref('/sectors', edition)}>業種から探す</a>
+      <a href={editionHref('/rankings', edition)}>ランキング</a>
+      <a href={editionHref('/me', edition)}>自分の現在地</a>
     </div>
   </div>
 </div>
