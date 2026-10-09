@@ -25,12 +25,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/pro/aiadoption/2026-q3</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://mirai-shigoto.com/me</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -97,13 +91,19 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/pro</loc>
+    <loc>https://mirai-shigoto.com/llms.txt</loc>
     <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/pro/rankings</loc>
+    <loc>https://mirai-shigoto.com/llms-full.txt</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
