@@ -23,7 +23,7 @@ test('390×844: 調べる, movers, door cards, H1 working copy', async ({ page }
   await expect(page.locator('.home-movers')).toBeVisible();
   await expect(page.locator('.home-movers-head a')).toHaveAttribute('href', '/rankings');
   await expect(page.locator('.home-doors a[href="/rankings"]')).toBeVisible();
-  await expect(page.locator('.home-doors a[href="/pro/compare"]')).toBeVisible();
+  await expect(page.locator('.home-doors a[href="/sectors"]')).toBeVisible();
   await expect(page.locator('.home-doors a[href="/map"]')).toBeVisible();
   const me = page.locator('.home-doors a[href="/me"]');
   await expect(me).toBeVisible();
