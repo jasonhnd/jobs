@@ -29,7 +29,7 @@ import { join } from 'node:path';
 import { escapeHtml, unsafeReviewedHtml, type SafeHtml } from '@/lib/safe-html';
 import { formatParagraphs } from '@/lib/format-paragraphs';
 import type { Edition } from '@/site/route-policy';
-import { jaUrl } from '@/lib/urls';
+import { occupationCanonicalUrl } from '@/lib/urls';
 import {
   buildOccupationGeoFactSummary,
   renderAiFactParagraph,
@@ -327,7 +327,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
 
   // ─── Field extraction ──────────────────────────────────────
   const id = rec.id;
-  const canonical = jaUrl(id);
+  const canonical = occupationCanonicalUrl(id, input.edition);
   const nameJa = rec.name_ja || '';
   const risk = rec.ai_risk;
   const rationaleJa = rec.ai_rationale_ja || '';
