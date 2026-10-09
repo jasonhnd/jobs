@@ -18,6 +18,8 @@ for (const width of [1440, 768, 375]) {
     expect(await links.evaluateAll(nodes => nodes.map(node => node.getAttribute('href')))).toEqual(ordinary);
     await expect(nav.locator('a[href="/map"]')).toHaveAttribute('aria-current', 'page');
     if (width <= 768) {
+      // Presence alone misses page toolbars painting over the open drawer.
+      for (const href of ordinary) await nav.locator(`a[href="${href}"]`).click({ trial: true, timeout: 2000 });
       await page.keyboard.press('Escape');
       await expect(page.locator('#mobDrawer')).toBeHidden();
       await expect(page.locator('#mobBurger')).toBeFocused();
