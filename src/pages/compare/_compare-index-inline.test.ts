@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { readFileSync } from 'node:fs';
 
-const page = readFileSync('src/pages/compare/index.astro', 'utf8');
+const page = readFileSync('src/pages/pro/compare/index.astro', 'utf8');
 
 function extractFn(name: string): string {
   const start = page.indexOf(`function ${name}(`);

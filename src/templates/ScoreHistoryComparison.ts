@@ -61,7 +61,7 @@ function formatDate(date: string): string {
 }
 
 function modelHref(entry: ScoreHistoryComparisonEntry): string {
-  return `/models/${runSlug({ model: entry.model, runDate: entry.date })}`;
+  return `/pro/models/${runSlug({ model: entry.model, runDate: entry.date })}`;
 }
 
 export function renderScoreHistoryComparison(
@@ -125,7 +125,7 @@ export function renderScoreHistoryComparison(
     `<section class="score-history" aria-labelledby="score-history-h2">` +
     `<h2 id="score-history-h2">${escapeHtml(H2)}</h2>` +
     `<p class="score-history-note">${escapeHtml(note)}` +
-    `<a href="/models">全モデルを見る</a></p>` +
+    `<a href="/pro/models">全モデルを見る</a></p>` +
     `<div class="score-history-current" aria-label="${escapeHtml(CONSENSUS_HEADLINE_LABEL)}">` +
     `<div>` +
     `<span class="score-history-current-label">${escapeHtml(CONSENSUS_HEADLINE_LABEL)}</span>` +

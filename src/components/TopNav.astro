@@ -38,14 +38,14 @@ interface NavItem {
 const items: ReadonlyArray<NavItem> = [
   { href: '/me',          label: '自分の現在地', prefix: '/me', trackEvent: 'me_entry_click', entrySource: 'top_nav' },
   { href: '/shindan',     label: '診断',        prefix: '/shindan' },
-  { href: '/gyakuten',    label: '図鑑',        prefix: '/gyakuten' },
+  { href: '/pro/gyakuten',    label: '図鑑',        prefix: '/pro/gyakuten' },
   { href: '/map',           label: '職業マップ',  prefix: '/map' },
   { href: '/sectors',    label: '業種',        prefix: '/sectors' },
   { href: '/rankings',   label: 'ランキング',  prefix: '/rankings' },
-  { href: '/compare',    label: '比較',        prefix: '/compare' },
-  { href: '/q',          label: 'Q&A',         prefix: '/q' },
-  { href: '/explore',    label: '探す方法',    prefix: '/explore' },
-  { href: '/aiadoption', label: '人類と AI の距離', prefix: '/aiadoption' },
+  { href: '/pro/compare',    label: '比較',        prefix: '/pro/compare' },
+  { href: '/pro/q',          label: 'Q&A',         prefix: '/pro/q' },
+  { href: '/pro/explore',    label: '探す方法',    prefix: '/pro/explore' },
+  { href: '/pro/aiadoption', label: '人類と AI の距離', prefix: '/pro/aiadoption' },
 ];
 
 const brandIsCurrent = isCurrent('/');

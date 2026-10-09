@@ -141,7 +141,7 @@ export function roleForSelector(part: string, file?: string): string | null {
   // Pseudo-elements may carry independent decorative or badge content.
   if (/:(?:hover|focus(?:-visible|-within)?|active)\b|::[a-z-]+/i.test(sel)) return null;
   const exact = EXACT_SELECTORS.get(sel);
-  if (exact === ROLE.breadcrumb && file != null && !BREADCRUMB_FILES.has(file)) return null;
+  if (exact === ROLE.breadcrumb && file != null && !BREADCRUMB_FILES.has(file.replace('src/pages/pro/', 'src/pages/'))) return null;
   if (exact != null) return exact;
   if (/\bsummary\b/.test(sel)) return null; // §4.9 exempts summary; only .qa-item summary is a role
   const compounds = sel.split(/[\s>+~]+/).filter(Boolean);

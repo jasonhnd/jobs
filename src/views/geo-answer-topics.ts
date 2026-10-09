@@ -86,10 +86,10 @@ export const GEO_ANSWER_TOPIC_CONFIGS: readonly GeoAnswerTopicConfig[] = [
 
 /** Primary indexable URL for each GEO SOP prompt (#272). */
 export const SOP_LANDINGS = [
-  { href: '/answers/ai-de-nakunaru-shigoto', labelJa: 'AIに代替されやすい仕事' },
-  { href: '/answers/nenshu-ai-anzen', labelJa: '年収とAI' },
-  { href: '/answers/nobiru-shigoto-top', labelJa: 'なくならない仕事' },
-  { href: '/methodology', labelJa: '指標とデータセット' },
+  { href: '/pro/answers/ai-de-nakunaru-shigoto', labelJa: 'AIに代替されやすい仕事' },
+  { href: '/pro/answers/nenshu-ai-anzen', labelJa: '年収とAI' },
+  { href: '/pro/answers/nobiru-shigoto-top', labelJa: 'なくならない仕事' },
+  { href: '/pro/methodology', labelJa: '指標とデータセット' },
 ] as const;
 
 export function formatSopCitation(opts: {
@@ -112,7 +112,7 @@ export function buildGeoAnswerTopic(facts: GeoFacts, slug: string): GeoAnswerTop
     .filter(config.selector)
     .sort(config.sorter)
     .slice(0, TOP_N);
-  const canonical = `${SITE}/answers/${config.slug}`;
+  const canonical = `${SITE}/pro/answers/${config.slug}`;
   const seoDesc = `${config.questionJa}${config.shortAnswerJa} ${formatSopCitation({
     runDate: facts.attribution.runDate,
     occupationCount: facts.occupationCount,
@@ -210,7 +210,7 @@ export function renderGeoAnswerTopicJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'AI回答トピック', item: `${SITE}/answers` },
+        { '@type': 'ListItem', position: 2, name: 'AI回答トピック', item: `${SITE}/pro/answers` },
         { '@type': 'ListItem', position: 3, name: config.h1Ja, item: canonical },
       ],
     },
@@ -219,7 +219,7 @@ export function renderGeoAnswerTopicJsonLd(
 }
 
 export function renderGeoAnswerIndexJsonLd(facts: GeoFacts): string {
-  const canonical = `${SITE}/answers`;
+  const canonical = `${SITE}/pro/answers`;
   const topics = buildGeoAnswerTopics(facts);
   const graph = [
     {

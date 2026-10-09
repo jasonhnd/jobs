@@ -26,7 +26,7 @@ import { requireBuiltArtifact } from '../../scripts/lib/built-artifacts.js';
 const DIST = join(process.cwd(), 'dist-astro');
 
 /**
- * `/me` links only — `/methodology` shares the prefix and must not match.
+ * `/me` links only — `/pro/methodology` shares the prefix and must not match.
  *
  * Built fresh per call rather than shared: a `/g` regex carries `lastIndex`
  * between calls, so a module-level constant reused with `.test()` in a loop

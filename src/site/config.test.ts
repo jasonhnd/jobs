@@ -61,17 +61,17 @@ test('the 13 page SITE declarations read siteConfig.origin (#780)', async () => 
   const files = [
     'src/pages/careers/_career-bindings.ts',
     'src/pages/compare/_compare-bindings.ts',
-    'src/pages/data.astro',
+    'src/pages/pro/data.astro',
     'src/pages/interests/_interests-bindings.ts',
     'src/pages/licenses/_license-bindings.ts',
     'src/pages/q/_q-bindings.ts',
     'src/pages/rankings/_rankings-bindings.ts',
     'src/pages/sectors/_sectors-index-bindings.ts',
     'src/pages/skills/_skills-bindings.ts',
-    'src/pages/yearly/2026-report.astro',
-    'src/pages/yearly/5year-changes.astro',
-    'src/pages/yearly/index.astro',
-    'src/pages/yearly/next-decade.astro',
+    'src/pages/pro/yearly/2026-report.astro',
+    'src/pages/pro/yearly/5year-changes.astro',
+    'src/pages/pro/yearly/index.astro',
+    'src/pages/pro/yearly/next-decade.astro',
   ];
   const offenders: string[] = [];
   for (const f of files) {

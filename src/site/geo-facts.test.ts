@@ -380,7 +380,7 @@ describe('geo renderers', () => {
     }
   });
 
-  test('llms.txt Pages section is eight markdown links with the existing labels and URLs', () => {
+  test('llms.txt Pages section is eleven markdown links with the existing labels and URLs', () => {
     const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
     const pages = pagesSection(renderLlmsTxt(facts));
     assert.deepEqual(markdownLinks(pages), LLMS_PAGE_LINKS);
@@ -393,12 +393,15 @@ describe('geo renderers', () => {
 
 const LLMS_PAGE_LINKS: ReadonlyArray<readonly [string, string]> = [
   ['Main map', 'https://mirai-shigoto.com/'],
-  ['AIOIS-10 standard', 'https://mirai-shigoto.com/standard'],
-  ['Methodology', 'https://mirai-shigoto.com/methodology'],
-  ['Public data', 'https://mirai-shigoto.com/data'],
+  ['AIOIS-10 standard', 'https://mirai-shigoto.com/pro/standard'],
+  ['Methodology', 'https://mirai-shigoto.com/pro/methodology'],
+  ['Public data', 'https://mirai-shigoto.com/pro/data'],
   ['Rankings', 'https://mirai-shigoto.com/rankings'],
+  ['Full Pro rankings', 'https://mirai-shigoto.com/pro/rankings'],
+  ['Model runs', 'https://mirai-shigoto.com/pro/models'],
+  ['Questions', 'https://mirai-shigoto.com/pro/q'],
   ['Sectors', 'https://mirai-shigoto.com/sectors'],
-  ['Answers', 'https://mirai-shigoto.com/answers'],
+  ['Answers', 'https://mirai-shigoto.com/pro/answers'],
   ['Extended GEO companion', 'https://mirai-shigoto.com/llms-full.txt'],
 ];
 

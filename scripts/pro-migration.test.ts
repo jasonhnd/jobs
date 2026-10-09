@@ -28,14 +28,14 @@ describe('stage 1B migration contract', () => {
     for (const row of manifest.rankings) {
       const rules = redirects.filter((r: {source: string}) => r.source === row.oldPath);
       expect(rules.length).toBe(row.oldStatus === 301 ? 1 : 0);
-      if (row.oldStatus === 301) expect(rules[0]).toEqual({source: row.oldPath, destination: row.proPath, statusCode: 301});
+      if (row.oldStatus === 301) expect(JSON.stringify(rules[0])).toBe(JSON.stringify({source: row.oldPath, destination: row.proPath, statusCode: 301}));
     }
     for (const alias of manifest.modelAliases) {
-      expect(redirects.find((r: {source: string}) => r.source === alias.source)).toEqual({source: alias.source, destination: alias.destination, statusCode: 301});
+      expect(JSON.stringify(redirects.find((r: {source: string}) => r.source === alias.source))).toBe(JSON.stringify({source: alias.source, destination: alias.destination, statusCode: 301}));
     }
   });
   test('Pro landing families and edition are distinct from root errors and prefix collisions', () => {
-    for (const [path, family] of [['/pro/rankings/entry-salary', 'ranking'], ['/pro/compare/programmer-vs-designer', 'compare'], ['/pro/q', 'qa'], ['/pro/answers', 'answers'], ['/pro/methodology', 'methodology'], ['/pro/404', 'occupation'], ['/occupations/404', 'occupation']] as const) {
+    for (const [path, family] of [['/pro/rankings/entry-salary', 'ranking'], ['/pro/compare/se-vs-programmer', 'compare'], ['/pro/q', 'qa'], ['/pro/answers', 'answers'], ['/pro/methodology', 'methodology'], ['/pro/404', 'occupation'], ['/occupations/404', 'occupation']] as const) {
       expect(landingFamily(path)).toBe(family);
       const result = classifyGeoReferral(new URL(`https://mirai-shigoto.com${path}`), '');
       expect((result as unknown as Record<string,string>).geo_landing_edition).toBe(path.startsWith('/pro/') ? 'pro' : 'ordinary');

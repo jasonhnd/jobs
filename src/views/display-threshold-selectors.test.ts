@@ -33,7 +33,7 @@ describe('Q&A predicates (#864)', () => {
   });
 });
 
-describe('/answers/nenshu-ai-anzen (#864)', () => {
+describe('/pro/answers/nenshu-ai-anzen (#864)', () => {
   test('「AI影響度4.0未満」 keeps a mean that prints 3.9 and drops 4.0', () => {
     const config = getGeoAnswerTopicConfig('nenshu-ai-anzen')!;
     const occ = (aiImpact: number): GeoOccupationSummary => ({

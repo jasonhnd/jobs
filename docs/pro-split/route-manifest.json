@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "stage": "planning-only",
-  "redirectAuthorization": "pending-owner-decision",
+  "stage": "stage-1B",
+  "redirectAuthorization": "owner authorization 2026-10-09, decision d1008-214048-1",
   "sources": [
     "src/views/rankings-meta.ts",
     "src/pages/**/*.astro",
@@ -575,92 +575,12 @@
       "scope": "valid-occupation-ids"
     },
     {
-      "source": "src/pages/abilities/[ability].astro",
-      "oldTemplate": "/abilities/[ability]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/abilities/[ability]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/abilities/index.astro",
-      "oldTemplate": "/abilities",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/abilities",
-      "scope": "existing-valid-pages-only"
-    },
-    {
       "source": "src/pages/about.astro",
       "oldTemplate": "/about",
       "oldStatus": 200,
       "ordinaryTemplate": "/about",
       "proTemplate": null,
       "scope": "existing-valid-pages"
-    },
-    {
-      "source": "src/pages/aiadoption.astro",
-      "oldTemplate": "/aiadoption",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/aiadoption",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/aiadoption/[release].astro",
-      "oldTemplate": "/aiadoption/[release]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/aiadoption/[release]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/answers/[topic].astro",
-      "oldTemplate": "/answers/[topic]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/answers/[topic]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/answers/index.astro",
-      "oldTemplate": "/answers",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/answers",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/careers/[career].astro",
-      "oldTemplate": "/careers/[career]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/careers/[career]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/careers/index.astro",
-      "oldTemplate": "/careers",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/careers",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/compare/[pair].astro",
-      "oldTemplate": "/compare/[pair]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/compare/[pair]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/compare/index.astro",
-      "oldTemplate": "/compare",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/compare",
-      "scope": "existing-valid-pages-only"
     },
     {
       "source": "src/pages/compliance.astro",
@@ -671,164 +591,12 @@
       "scope": "existing-valid-pages"
     },
     {
-      "source": "src/pages/data.astro",
-      "oldTemplate": "/data",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/data",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/education/[education].astro",
-      "oldTemplate": "/education/[education]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/education/[education]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/education/index.astro",
-      "oldTemplate": "/education",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/education",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/employment-types/[employment].astro",
-      "oldTemplate": "/employment-types/[employment]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/employment-types/[employment]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/employment-types/index.astro",
-      "oldTemplate": "/employment-types",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/employment-types",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/entry-paths/[entry].astro",
-      "oldTemplate": "/entry-paths/[entry]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/entry-paths/[entry]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/entry-paths/index.astro",
-      "oldTemplate": "/entry-paths",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/entry-paths",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/explore/[route].astro",
-      "oldTemplate": "/explore/[route]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/explore/[route]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/explore/index.astro",
-      "oldTemplate": "/explore",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/explore",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/gyakuten.astro",
-      "oldTemplate": "/gyakuten",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/gyakuten",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/haid.astro",
-      "oldTemplate": "/haid",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/haid",
-      "scope": "existing-valid-pages-only"
-    },
-    {
       "source": "src/pages/index.astro",
       "oldTemplate": "/",
       "oldStatus": 200,
       "ordinaryTemplate": "/",
       "proTemplate": null,
       "scope": "existing-valid-pages"
-    },
-    {
-      "source": "src/pages/interests/[type].astro",
-      "oldTemplate": "/interests/[type]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/interests/[type]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/interests/index.astro",
-      "oldTemplate": "/interests",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/interests",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/knowledge/[knowledge].astro",
-      "oldTemplate": "/knowledge/[knowledge]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/knowledge/[knowledge]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/knowledge/index.astro",
-      "oldTemplate": "/knowledge",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/knowledge",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/licenses/[license].astro",
-      "oldTemplate": "/licenses/[license]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/licenses/[license]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/licenses/index.astro",
-      "oldTemplate": "/licenses",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/licenses",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/life-balance/[balance].astro",
-      "oldTemplate": "/life-balance/[balance]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/life-balance/[balance]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/life-balance/index.astro",
-      "oldTemplate": "/life-balance",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/life-balance",
-      "scope": "existing-valid-pages-only"
     },
     {
       "source": "src/pages/map.astro",
@@ -847,30 +615,6 @@
       "scope": "existing-valid-pages"
     },
     {
-      "source": "src/pages/methodology.astro",
-      "oldTemplate": "/methodology",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/methodology",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/models.astro",
-      "oldTemplate": "/models",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/models",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/models/[model].astro",
-      "oldTemplate": "/models/[model]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/models/[model]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
       "source": "src/pages/privacy.astro",
       "oldTemplate": "/privacy",
       "oldStatus": 200,
@@ -887,12 +631,284 @@
       "scope": "stage-1A-public-copy"
     },
     {
+      "source": "src/pages/pro/abilities/[ability].astro",
+      "oldTemplate": "/abilities/[ability]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/abilities/[ability]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/abilities/index.astro",
+      "oldTemplate": "/abilities",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/abilities",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/aiadoption.astro",
+      "oldTemplate": "/aiadoption",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/aiadoption",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/aiadoption/[release].astro",
+      "oldTemplate": "/aiadoption/[release]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/aiadoption/[release]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/answers/[topic].astro",
+      "oldTemplate": "/answers/[topic]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/answers/[topic]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/answers/index.astro",
+      "oldTemplate": "/answers",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/answers",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/careers/[career].astro",
+      "oldTemplate": "/careers/[career]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/careers/[career]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/careers/index.astro",
+      "oldTemplate": "/careers",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/careers",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/compare/[pair].astro",
+      "oldTemplate": "/compare/[pair]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/compare/[pair]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/compare/index.astro",
+      "oldTemplate": "/compare",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/compare",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/data.astro",
+      "oldTemplate": "/data",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/data",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/education/[education].astro",
+      "oldTemplate": "/education/[education]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/education/[education]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/education/index.astro",
+      "oldTemplate": "/education",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/education",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/employment-types/[employment].astro",
+      "oldTemplate": "/employment-types/[employment]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/employment-types/[employment]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/employment-types/index.astro",
+      "oldTemplate": "/employment-types",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/employment-types",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/entry-paths/[entry].astro",
+      "oldTemplate": "/entry-paths/[entry]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/entry-paths/[entry]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/entry-paths/index.astro",
+      "oldTemplate": "/entry-paths",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/entry-paths",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/explore/[route].astro",
+      "oldTemplate": "/explore/[route]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/explore/[route]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/explore/index.astro",
+      "oldTemplate": "/explore",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/explore",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/gyakuten.astro",
+      "oldTemplate": "/gyakuten",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/gyakuten",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/haid.astro",
+      "oldTemplate": "/haid",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/haid",
+      "scope": "existing-valid-pages-only"
+    },
+    {
       "source": "src/pages/pro/index.astro",
       "oldTemplate": "/pro",
       "oldStatus": 200,
       "ordinaryTemplate": null,
       "proTemplate": "/pro",
       "scope": "stage-1A-public-copy"
+    },
+    {
+      "source": "src/pages/pro/interests/[type].astro",
+      "oldTemplate": "/interests/[type]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/interests/[type]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/interests/index.astro",
+      "oldTemplate": "/interests",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/interests",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/knowledge/[knowledge].astro",
+      "oldTemplate": "/knowledge/[knowledge]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/knowledge/[knowledge]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/knowledge/index.astro",
+      "oldTemplate": "/knowledge",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/knowledge",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/licenses/[license].astro",
+      "oldTemplate": "/licenses/[license]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/licenses/[license]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/licenses/index.astro",
+      "oldTemplate": "/licenses",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/licenses",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/life-balance/[balance].astro",
+      "oldTemplate": "/life-balance/[balance]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/life-balance/[balance]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/life-balance/index.astro",
+      "oldTemplate": "/life-balance",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/life-balance",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/methodology.astro",
+      "oldTemplate": "/methodology",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/methodology",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/models.astro",
+      "oldTemplate": "/models",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/models",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/models/[model].astro",
+      "oldTemplate": "/models/[model]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/models/[model]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/q/[q].astro",
+      "oldTemplate": "/q/[q]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/q/[q]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/q/index.astro",
+      "oldTemplate": "/q",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/q",
+      "scope": "existing-valid-pages-only"
     },
     {
       "source": "src/pages/pro/rankings/[slug].astro",
@@ -911,19 +927,107 @@
       "scope": "stage-1A-public-copy"
     },
     {
-      "source": "src/pages/q/[q].astro",
-      "oldTemplate": "/q/[q]",
+      "source": "src/pages/pro/skills/[skill].astro",
+      "oldTemplate": "/skills/[skill]",
       "oldStatus": 301,
       "ordinaryTemplate": null,
-      "proTemplate": "/pro/q/[q]",
+      "proTemplate": "/pro/skills/[skill]",
       "scope": "existing-valid-pages-only"
     },
     {
-      "source": "src/pages/q/index.astro",
-      "oldTemplate": "/q",
+      "source": "src/pages/pro/skills/index.astro",
+      "oldTemplate": "/skills",
       "oldStatus": 301,
       "ordinaryTemplate": null,
-      "proTemplate": "/pro/q",
+      "proTemplate": "/pro/skills",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/standard.astro",
+      "oldTemplate": "/standard",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/standard",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/training/[training].astro",
+      "oldTemplate": "/training/[training]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/training/[training]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/training/index.astro",
+      "oldTemplate": "/training",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/training",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/values/[value].astro",
+      "oldTemplate": "/values/[value]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/values/[value]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/values/index.astro",
+      "oldTemplate": "/values",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/values",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/work-styles/[workstyle].astro",
+      "oldTemplate": "/work-styles/[workstyle]",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/work-styles/[workstyle]",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/work-styles/index.astro",
+      "oldTemplate": "/work-styles",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/work-styles",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/yearly/2026-report.astro",
+      "oldTemplate": "/yearly/2026-report",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/yearly/2026-report",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/yearly/5year-changes.astro",
+      "oldTemplate": "/yearly/5year-changes",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/yearly/5year-changes",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/yearly/index.astro",
+      "oldTemplate": "/yearly",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/yearly",
+      "scope": "existing-valid-pages-only"
+    },
+    {
+      "source": "src/pages/pro/yearly/next-decade.astro",
+      "oldTemplate": "/yearly/next-decade",
+      "oldStatus": 301,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/yearly/next-decade",
       "scope": "existing-valid-pages-only"
     },
     {
@@ -965,110 +1069,6 @@
       "ordinaryTemplate": "/shindan",
       "proTemplate": null,
       "scope": "existing-valid-pages"
-    },
-    {
-      "source": "src/pages/skills/[skill].astro",
-      "oldTemplate": "/skills/[skill]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/skills/[skill]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/skills/index.astro",
-      "oldTemplate": "/skills",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/skills",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/standard.astro",
-      "oldTemplate": "/standard",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/standard",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/training/[training].astro",
-      "oldTemplate": "/training/[training]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/training/[training]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/training/index.astro",
-      "oldTemplate": "/training",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/training",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/values/[value].astro",
-      "oldTemplate": "/values/[value]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/values/[value]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/values/index.astro",
-      "oldTemplate": "/values",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/values",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/work-styles/[workstyle].astro",
-      "oldTemplate": "/work-styles/[workstyle]",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/work-styles/[workstyle]",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/work-styles/index.astro",
-      "oldTemplate": "/work-styles",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/work-styles",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/yearly/2026-report.astro",
-      "oldTemplate": "/yearly/2026-report",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/yearly/2026-report",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/yearly/5year-changes.astro",
-      "oldTemplate": "/yearly/5year-changes",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/yearly/5year-changes",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/yearly/index.astro",
-      "oldTemplate": "/yearly",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/yearly",
-      "scope": "existing-valid-pages-only"
-    },
-    {
-      "source": "src/pages/yearly/next-decade.astro",
-      "oldTemplate": "/yearly/next-decade",
-      "oldStatus": 301,
-      "ordinaryTemplate": null,
-      "proTemplate": "/pro/yearly/next-decade",
-      "scope": "existing-valid-pages-only"
     }
   ],
   "occupation": {
@@ -1086,8 +1086,8 @@
   "modelAliases": [
     {
       "source": "/models/fable-5",
-      "currentDestination": "/models/fable-5@2026-06-13",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/fable-5@2026-06-13",
+      "currentStatus": 301,
       "destination": "/pro/models/fable-5@2026-06-13",
       "plannedStatus": 301
     },
@@ -1100,8 +1100,8 @@
     },
     {
       "source": "/models/fable-5-1",
-      "currentDestination": "/models/fable-5-1@2026-09-09",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/fable-5-1@2026-09-09",
+      "currentStatus": 301,
       "destination": "/pro/models/fable-5-1@2026-09-09",
       "plannedStatus": 301
     },
@@ -1114,8 +1114,8 @@
     },
     {
       "source": "/models/gpt-5.6-sol",
-      "currentDestination": "/models/gpt-5.6-sol@2026-07-12",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/gpt-5.6-sol@2026-07-12",
+      "currentStatus": 301,
       "destination": "/pro/models/gpt-5.6-sol@2026-07-12",
       "plannedStatus": 301
     },
@@ -1128,8 +1128,8 @@
     },
     {
       "source": "/models/gpt-6-astra",
-      "currentDestination": "/models/gpt-6-astra@2026-09-10",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/gpt-6-astra@2026-09-10",
+      "currentStatus": 301,
       "destination": "/pro/models/gpt-6-astra@2026-09-10",
       "plannedStatus": 301
     },
@@ -1142,8 +1142,8 @@
     },
     {
       "source": "/models/gpt-6-sol",
-      "currentDestination": "/models/gpt-6-sol@2026-09-23",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/gpt-6-sol@2026-09-23",
+      "currentStatus": 301,
       "destination": "/pro/models/gpt-6-sol@2026-09-23",
       "plannedStatus": 301
     },
@@ -1156,8 +1156,8 @@
     },
     {
       "source": "/models/gpt-6.1-sol",
-      "currentDestination": "/models/gpt-6.1-sol@2026-10-01",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/gpt-6.1-sol@2026-10-01",
+      "currentStatus": 301,
       "destination": "/pro/models/gpt-6.1-sol@2026-10-01",
       "plannedStatus": 301
     },
@@ -1170,8 +1170,8 @@
     },
     {
       "source": "/models/grok-4.5",
-      "currentDestination": "/models/grok-4.5@2026-09-10",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/grok-4.5@2026-09-10",
+      "currentStatus": 301,
       "destination": "/pro/models/grok-4.5@2026-09-10",
       "plannedStatus": 301
     },
@@ -1184,8 +1184,8 @@
     },
     {
       "source": "/models/grok-4.6",
-      "currentDestination": "/models/grok-4.6@2026-09-07",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/grok-4.6@2026-09-07",
+      "currentStatus": 301,
       "destination": "/pro/models/grok-4.6@2026-09-07",
       "plannedStatus": 301
     },
@@ -1198,8 +1198,8 @@
     },
     {
       "source": "/models/grok-4.7",
-      "currentDestination": "/models/grok-4.7@2026-09-22",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/grok-4.7@2026-09-22",
+      "currentStatus": 301,
       "destination": "/pro/models/grok-4.7@2026-09-22",
       "plannedStatus": 301
     },
@@ -1212,8 +1212,8 @@
     },
     {
       "source": "/models/opus-4-7",
-      "currentDestination": "/models/opus-4-7@2026-04-25",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/opus-4-7@2026-04-25",
+      "currentStatus": 301,
       "destination": "/pro/models/opus-4-7@2026-04-25",
       "plannedStatus": 301
     },
@@ -1226,8 +1226,8 @@
     },
     {
       "source": "/models/opus-4-8",
-      "currentDestination": "/models/opus-4-8@2026-05-30",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/opus-4-8@2026-05-30",
+      "currentStatus": 301,
       "destination": "/pro/models/opus-4-8@2026-05-30",
       "plannedStatus": 301
     },
@@ -1240,8 +1240,8 @@
     },
     {
       "source": "/models/opus-5",
-      "currentDestination": "/models/opus-5@2026-07-26",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/opus-5@2026-07-26",
+      "currentStatus": 301,
       "destination": "/pro/models/opus-5@2026-07-26",
       "plannedStatus": 301
     },
@@ -1254,8 +1254,8 @@
     },
     {
       "source": "/models/opus-5-5",
-      "currentDestination": "/models/opus-5-5@2026-09-23",
-      "currentStatus": 308,
+      "currentDestination": "/pro/models/opus-5-5@2026-09-23",
+      "currentStatus": 301,
       "destination": "/pro/models/opus-5-5@2026-09-23",
       "plannedStatus": 301
     },
@@ -1270,18 +1270,18 @@
   "legacyAliases": [
     {
       "source": "/ja/about/methodology",
-      "currentDestination": "/methodology",
+      "currentDestination": "/pro/methodology",
       "destination": "/pro/methodology",
       "plannedStatus": 301
     },
     {
       "source": "/ja/about/data-sources",
-      "currentDestination": "/methodology",
+      "currentDestination": "/pro/methodology",
       "destination": "/pro/methodology",
       "plannedStatus": 301
     }
   ],
-  "legacyWildcardPolicy": "Ordinary occupation aliases retain their existing targets: /occ/404-:slug* -> /occupations/404; /occ/404 -> /occupations/404; /occ/:id(\\d+)-:slug* -> /:id; /occ/:id(\\d+) -> /:id; /ja/about/glossary -> /about; /ja/about -> /about; /ja/404.html -> /occupations/404; /ja/404 -> /occupations/404. Expand language wildcards against valid built routes by the current destination family: Root-retained families stay at root; migrated families go directly to their final Pro URL. No /pro/:path* blanket redirect.",
+  "legacyWildcardPolicy": "Ordinary occupation aliases retain their existing targets: /occ/404-:slug* -> /occupations/404; /occ/404 -> /occupations/404; /occ/:id(\\d+)-:slug* -> /:id; /occ/:id(\\d+) -> /:id; /ja/404 -> /occupations/404; /ja/404.html -> /occupations/404; /ja/about -> /about; /ja/about/glossary -> /about. Expand language wildcards against valid built routes by the current destination family: Root-retained families stay at root; migrated families go directly to their final Pro URL. No /pro/:path* blanket redirect.",
   "infrastructure": [
     "/api/*",
     "/data.*.json",

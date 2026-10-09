@@ -69,7 +69,7 @@ describe('shared Astro page-class membership', () => {
     const root = fs.mkdtempSync(path.join(process.env.TMPDIR ?? '/tmp/JOB_0225', 'page-class-'));
     try {
       fs.mkdirSync(path.join(root, 'src/pages/pro'), { recursive: true });
-      fs.writeFileSync(path.join(root, 'src/pages/pro/index.astro'), "---\nimport Page from '../_Page.astro';\n---\n<Page />");
+      fs.writeFileSync(path.join(root, 'src/pages/index.astro'), "---\nimport Page from '../_Page.astro';\n---\n<Page />");
       fs.writeFileSync(path.join(root, 'src/pages/_Page.astro'), '<BaseLayout><p>Body</p></BaseLayout>');
       const membership = require('./check-page-class.cjs').checkClassMembership;
       assert.equal(typeof membership, 'function');
