@@ -622,6 +622,6 @@ test('Pro rankings index JSON-LD uses the actual Pro page metadata', () => {
   const webpage = JSON.parse(renderHubJsonLd('pro', metadata))['@graph'][0];
   assert.equal(webpage.name, metadata.title);
   assert.equal(webpage.description, metadata.description);
-  assert.equal(webpage.url, 'https://mirai-shigoto.com/pro/rankings');
+  assert.equal(webpage.url, 'https://mirai-shigoto.com/rankings');
   assert.equal(JSON.parse(renderHubJsonLd())['@graph'][0].name, '職業ランキング');
 });

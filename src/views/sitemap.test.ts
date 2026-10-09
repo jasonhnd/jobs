@@ -98,10 +98,12 @@ describe('renderSitemapXml — pure XML serializer', () => {
 });
 
 describe('latestContentDate — content-derived <lastmod> (NOT the build clock)', () => {
-  test('the sitemap lists canonical HTML pages rather than GEO text companions without HTML canonicals', () => {
+  test('the sitemap preserves both root GEO discovery entries with their machine-file eligibility', () => {
     const graph = { sectors: new Map(), occupations: new Map([[1, { aiRisk: { date: '2026-06-13' } }]]) } as unknown as KnowledgeGraph;
     const entries = buildSitemapEntries(graph, sitemapLastmods(graph, '2026-06-13'));
-    assert.equal(entries.some(row => new URL(row.loc).pathname.endsWith('.txt')), false);
+    assert.deepEqual(entries.filter(row => new URL(row.loc).pathname.endsWith('.txt')).map(row => row.loc), [
+      'https://mirai-shigoto.com/llms.txt', 'https://mirai-shigoto.com/llms-full.txt',
+    ]);
   });
 
   // Minimal graph stub — latestContentDate only reads each occupation's
@@ -188,13 +190,13 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
 });
 
 describe('HAID release archive URLs', () => {
-  test('each release id becomes /aiadoption/<id>; none without extras', async () => {
+  test('only earlier self-canonical reports enter sitemap; the latest permalink is a duplicate', async () => {
     const { buildSitemapEntries } = await import('./sitemap.js');
     const { loadGraph } = await import('../graph/index.js');
     const graph = await loadGraph();
     const none = buildSitemapEntries(graph, '2026-06-13').filter((e) => e.loc.includes('/pro/aiadoption/'));
     assert.equal(none.length, 0);
-    const some = buildSitemapEntries(graph, '2026-06-13', { haidReleases: ['2026-q3', '2026-q2'] }).filter((e) => e.loc.includes('/pro/aiadoption/'));
-    assert.deepEqual(some.map((e) => e.loc), ['https://mirai-shigoto.com/pro/aiadoption/2026-q2', 'https://mirai-shigoto.com/pro/aiadoption/2026-q3']);
+    const some = buildSitemapEntries(graph, '2026-06-13', { haidReleases: ['2026-q3', '2026-q2'], haidLatestRelease: '2026-q3' }).filter((e) => e.loc.includes('/pro/aiadoption/'));
+    assert.deepEqual(some.map((e) => e.loc), ['https://mirai-shigoto.com/pro/aiadoption/2026-q2']);
   });
 });
