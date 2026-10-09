@@ -21,7 +21,8 @@
     var LOAD_FAILED_TEXT = 'データの読み込みに失敗しました。再読み込みしてください。';
     var $results = document.getElementById('meResults');
     var $occupationLink = document.getElementById('meOccupationLink');
-    var occupationPaths = JSON.parse(document.getElementById('meOccupationPaths').textContent);
+    var $occupationPaths = document.getElementById('meOccupationPaths');
+    var occupationPaths = $occupationPaths ? JSON.parse($occupationPaths.textContent) : {};
     var $summaryName = document.getElementById('meSummaryName');
     var $summarySector = document.getElementById('meSummarySector');
     var $statRisk = document.getElementById('meStatRisk');

@@ -68,3 +68,24 @@ test('sector index and 4.0 sector boundary show conclusions before numeric metad
   await expect(page.locator('.footer-nav a[href="/pro/skills"]')).toHaveCount(1);
   await expect(page.locator('.top-nav a[href="/me"]')).toHaveCount(1);
 });
+
+test('completed diagnosis flows through me and the same occupation into Pro', async ({ page }) => {
+  await page.goto('/shindan');
+  for (let i = 0; i < 9; i++) await page.locator('.shindan-question').nth(i).locator('.shindan-choice').first().click();
+  await page.locator('#shindanSubmit').click();
+  await expect(page.locator('#shindanResult')).toBeVisible();
+  await page.locator('.shindan-me-entry').click();
+  await expect(page).toHaveURL(/\/me$/);
+  await page.locator('#meEmpty [data-chip="一般事務"]').click();
+  await expect(page.locator('#meResults')).toHaveAttribute('data-visible', 'true');
+  await expect(page.locator('#meOccupationLink')).toHaveAttribute('href', '/428');
+  await page.locator('#meOccupationLink').click();
+  await expect(page).toHaveURL(/\/428$/);
+  const metadata = await page.locator('[data-occupation-page-meta]').getAttribute('data-risk-score');
+  expect(metadata).toBeTruthy();
+  await page.locator('[data-pro-cta] a').click();
+  await expect(page).toHaveURL(/\/pro\/428$/);
+  expect(await page.locator('[data-occupation-page-meta]').getAttribute('data-risk-score')).toBe(metadata);
+  await page.goto('/me?id=404');
+  await expect(page.locator('#meOccupationLink')).toHaveAttribute('href', '/occupations/404');
+});
