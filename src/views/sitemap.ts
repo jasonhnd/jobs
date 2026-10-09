@@ -123,7 +123,7 @@ function normalizeLastmods(lastmods: string | SitemapLastmods): SitemapLastmods 
  * URL clusters (matches the previous inline structure 1-for-1):
  *   - Home + /map (+ 16 sector-filter query-string variants)
  *   - 3 legal pages (/privacy /about /compliance)
- *   - Canonical HTML only; GEO text companions remain root assets, outside this index.
+ *   - Canonical HTML plus the two root GEO machine-file discovery entries.
  *   - Rankings (index + N ranking slugs)
  *   - Sectors (index + 16 hubs)
  *   - Interests / Skills / Compare clusters (index + each slug)
@@ -138,8 +138,9 @@ function normalizeLastmods(lastmods: string | SitemapLastmods): SitemapLastmods 
  * own content dates instead of being bumped as a group on every data update.
  */
 export interface SitemapExtras {
-  /** HAID release ids (yyyy-qN). Each gets /aiadoption/<id>; the newest is also /aiadoption. */
+  /** HAID release ids (yyyy-qN); the current permalink duplicates /pro/aiadoption. */
   readonly haidReleases?: readonly string[];
+  readonly haidLatestRelease?: string;
 }
 
 export function buildSitemapEntries(
@@ -167,6 +168,7 @@ export function buildSitemapEntries(
   // Archived HAID releases (aiadoption-1.4). The newest release is served at
   // /aiadoption itself; every release has its permanent /aiadoption/<id>.
   for (const id of [...(extras.haidReleases ?? [])].sort()) {
+    if (id === extras.haidLatestRelease) continue;
     entries.push(entry(`${SITE_ORIGIN}/pro/aiadoption/${id}`, lastmods.content, 'monthly', '0.5'));
   }
   // /me is the "self-positioning" tool linked from MobileNav + 3 hub pages —
@@ -187,11 +189,13 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/pro/data`, lastmods.data, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/compliance`, lastmods.compliance, 'monthly', '0.4'));
 
-  // Stage 1B requires every loc to expose a self-canonical HTML document.
-  // GEO companions retain their root endpoints and discovery links, without HTML canonicals.
+  // GEO text companions retain their original eligibility and root discovery entrances.
+  // HTML self-canonical checks do not apply to these machine files.
+  entries.push(entry(`${SITE_ORIGIN}/llms.txt`, lastmods.content, 'monthly', '0.2'));
+  entries.push(entry(`${SITE_ORIGIN}/llms-full.txt`, lastmods.content, 'monthly', '0.2'));
 
   entries.push(entry(`${SITE_ORIGIN}/pro`, lastmods.content, 'weekly', '0.8'));
-  entries.push(entry(`${SITE_ORIGIN}/pro/rankings`, lastmods.content, 'weekly', '0.8'));
+  // The Pro index still duplicates all 39 cards until the separate ordinary simplification.
 
   // Rankings cluster
   entries.push(entry(`${SITE_ORIGIN}/rankings`, lastmods.content, 'weekly', '0.8'));

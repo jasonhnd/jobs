@@ -1,4 +1,4 @@
-import { rankingRoute } from '../site/route-policy';
+import { rankingRoute, RANKINGS_INDEX_CANONICAL_PATH } from '../site/route-policy';
 /**
  * src/templates/Ranking.ts — HTML / JSON-LD rendering helpers per ranking
  * page. Moved here from src/views/ranking-renderers.ts on 2026-05-14 as
@@ -704,7 +704,7 @@ export function renderHubJsonLd(
   edition: Edition = 'ordinary',
   proMetadata?: { readonly title: string; readonly description: string },
 ): string {
-  const canonical = `${SITE}${edition === 'pro' ? '/pro/rankings' : '/rankings'}`;
+  const canonical = `${SITE}${RANKINGS_INDEX_CANONICAL_PATH}`;
   // RA-003 (2026-05-18): SCORED count.
   const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
   return stringifyJsonLd({

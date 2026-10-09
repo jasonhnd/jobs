@@ -215,8 +215,9 @@ describe('HAID release page model (2026-q3 final)', () => {
 test('the latest release permalink consolidates to the current report canonical', () => {
   const payload = loadLatest();
   const current = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA);
-  const archive = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA, undefined, { archive: true });
+  const archive = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA);
   assert.equal(current.canonicalPath, '/pro/aiadoption');
   assert.equal(archive.canonicalPath, '/pro/aiadoption');
   assert.equal(archive.isLatest, true);
+  assert.equal(archive.path, `/pro/aiadoption/${payload.release}`);
 });

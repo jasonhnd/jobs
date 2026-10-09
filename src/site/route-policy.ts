@@ -18,6 +18,8 @@ export interface RankingRoutePolicy extends RoutePolicy {
 }
 
 export const PRO_RANKINGS = manifest.rankings;
+/** Both indexes retain 39 cards until stage 3, so only the ordinary URL is canonical. */
+export const RANKINGS_INDEX_CANONICAL_PATH = '/rankings';
 const rankings = new Map(PRO_RANKINGS.map(row => [row.slug, row]));
 export const MIGRATED_FAMILIES = new Set(manifest.pageTemplates
   .filter(row => row.oldStatus === 301)
@@ -65,6 +67,23 @@ export function editionHref(href: string, edition: Edition): string {
 
 /** Structured page links follow edition; the occupation entity and shared dataset stay stable. */
 export function editionJsonLd(json: string, edition: Edition): string {
+  function structuredHref(href: string): string {
+    const absolute = href.startsWith(`${siteConfig.origin}/`);
+    const raw = absolute ? href.slice(siteConfig.origin.length) : href;
+    const match = /^(\/[^?#]*)([?#].*)?$/.exec(raw);
+    if (match) {
+      const path = match[1]!;
+      const suffix = match[2] ?? '';
+      const ranking = /^\/(?:pro\/)?rankings\/([^/]+)$/.exec(path);
+      if (ranking && rankings.has(ranking[1]!)) {
+        return (absolute ? siteConfig.origin : '') + rankingRoute(ranking[1]!, edition).canonicalPath + suffix;
+      }
+      if (path === '/rankings' || path === '/pro/rankings') {
+        return (absolute ? siteConfig.origin : '') + RANKINGS_INDEX_CANONICAL_PATH + suffix;
+      }
+    }
+    return editionHref(href, edition);
+  }
   function visit(value: unknown, key = '', stableEntity = false): unknown {
     if (Array.isArray(value)) return value.map(it => visit(it, key, stableEntity));
     if (value && typeof value === 'object') {
@@ -73,7 +92,7 @@ export function editionJsonLd(json: string, edition: Edition): string {
       return Object.fromEntries(Object.entries(record).map(([k,v]) => [k,visit(v,k,stable)]));
     }
     if (typeof value === 'string' && ['@id','url','item','mainEntityOfPage'].includes(key)
-      && !stableEntity && !value.endsWith('#occupation')) return editionHref(value, edition);
+      && !stableEntity && !value.endsWith('#occupation')) return structuredHref(value);
     return value;
   }
   return stringifyJsonLd(visit(JSON.parse(json), '', false));

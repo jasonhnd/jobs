@@ -225,7 +225,6 @@ export function buildHaidReleasePageModel(
   p: HaidReleasePayload,
   levelsNoteJa: string,
   labels: ReleaseLabels = {},
-  options: { readonly archive?: boolean } = {},
 ): HaidReleasePageModel {
   const byLevel = new Map(p.levels.map((l) => [l.level, l]));
   const anchorById = new Map(p.anchors.map((a) => [a.id, a]));
@@ -266,7 +265,7 @@ export function buildHaidReleasePageModel(
     isDraft: p.status === 'draft',
     asOf: p.as_of,
     path: `${HAID_RELEASE_BASE_PATH}/${p.release}`,
-    canonicalPath: isLatest && !options.archive ? HAID_RELEASE_BASE_PATH : `${HAID_RELEASE_BASE_PATH}/${p.release}`,
+    canonicalPath: isLatest ? HAID_RELEASE_BASE_PATH : `${HAID_RELEASE_BASE_PATH}/${p.release}`,
     specVersion: p.spec_version,
     specHref: HAID_CANONICAL_PATH,
     h1: '人類と AI の距離',
