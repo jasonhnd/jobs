@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import manifest from '../docs/pro-split/route-manifest.json';
 import { editionHref, rankingRoute } from '../src/site/route-policy';
 import { landingFamily, classifyGeoReferral } from '../src/lib/middleware/geo-referral';
@@ -42,4 +42,12 @@ describe('stage 1B migration contract', () => {
     }
     for (const path of ['/404', '/pro/999999', '/pro/not-a-family', '/pro-extra/q', '/pro/pro/q']) expect(landingFamily(path)).toBe('other');
   });
+});
+
+if (existsSync('dist-astro/pro.html')) test('built redirect gate rejects added invalid-route rules and missing final targets', async () => {
+  const { verifyMigration } = await import('./pro-migration');
+  const config = JSON.parse(readFileSync('vercel.json', 'utf8'));
+  expect(() => verifyMigration(config)).not.toThrow();
+  expect(() => verifyMigration({...config,redirects:[...config.redirects,{source:'/skills/unknown',destination:'/pro/skills/unknown',statusCode:301}]})).toThrow('outside authorized');
+  expect(() => verifyMigration({...config,redirects:config.redirects.filter((r:{source:string})=>r.source!=='/skills')})).toThrow('Missing/stale exact 301');
 });

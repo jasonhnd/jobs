@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test';
-import manifest from '../../docs/pro-split/route-manifest.json';
-import { migrationRedirects } from '../../scripts/pro-migration';
+
+
 import { readFileSync } from 'node:fs';
 
+const migrationRedirects = (): Array<{source:string;destination:string}> => JSON.parse(readFileSync('vercel.json','utf8')).redirects.filter((r:{statusCode?:number})=>r.statusCode===301);
+const manifest = JSON.parse(readFileSync('docs/pro-split/route-manifest.json','utf8')) as {rankings:Array<{slug:string;oldPath:string;oldStatus:number}>};
 const origin = 'https://mirai-shigoto.com';
 test('every exact migration and language/model alias is a single 301 preserving query bytes', async ({ request }) => {
   const query = '?utm_source=local-test&gclid=a%2Bb&fbclid=c%2Fd&filter=x&filter=y&q=%E8%81%B7%E6%A5%AD';

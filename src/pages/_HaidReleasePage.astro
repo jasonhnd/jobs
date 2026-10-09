@@ -25,7 +25,7 @@ interface Props {
 }
 
 const { payload, labels } = Astro.props;
-const m = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA, labels);
+const m = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA, labels, { archive: Astro.url.pathname.startsWith('/pro/aiadoption/') });
 const canonical = `${siteConfig.origin}${m.canonicalPath}`;
 const DIAGNOSIS_PATH = '/shindan';
 
