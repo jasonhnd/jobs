@@ -1,5 +1,9 @@
 # Changelog
 
+## Pro split stage 1B (Issue #896)
+
+Move research routes to /pro with exact owner-authorized 301s (2026-10-09, decision d1008-214048-1). Eight ordinary rankings and all ordinary occupations retain their URLs. SEO baseline changes reflect final canonicals, updated internal/JSON-LD links, Pro entrances, removal of 31 retired root rankings and four noindex sitemap entries, and generated llms edition references. Body copy, scores and sorting remain unchanged. No production promotion is included.
+
 mirai-shigoto.com — full per-release notes at <https://github.com/jasonhnd/jobs/releases>
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).

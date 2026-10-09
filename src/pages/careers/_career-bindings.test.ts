@@ -45,7 +45,7 @@ describe('buildCareerBindings', () => {
   test('builds canonical, title and stats', async () => {
     const items = [occ(1, 4, 500, '医療'), occ(2, 6, 700, '医療'), occ(3, null, null, '建設')];
     const b = buildCareerBindings({ persona, items, graph: await loadGraph() });
-    assert.equal(b.canonical, 'https://mirai-shigoto.com/careers/test-persona');
+    assert.equal(b.canonical, 'https://mirai-shigoto.com/pro/careers/test-persona');
     assert.equal(b.ogImage, 'https://mirai-shigoto.com/api/og?career=test-persona');
     assert.equal(b.title, '試験ペルソナ｜推薦 TOP 3 | 未来の仕事');
     assert.ok(b.seoDesc.includes('D'.repeat(80) + '…'));

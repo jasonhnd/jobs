@@ -72,32 +72,29 @@ export function buildManifest() {
   });
   const pageTemplates = astroFiles(join(ROOT, 'src/pages')).map(file => {
     const source = relative(ROOT, file);
-    const oldTemplate = '/' + relative(join(ROOT, 'src/pages'), file)
+    let oldTemplate = '/' + relative(join(ROOT, 'src/pages'), file)
       .replace(/\.astro$/, '').replace(/(^|\/)index$/, '');
+    if (oldTemplate.startsWith('/pro/') && MIGRATED.has(oldTemplate.split('/')[2]!)) oldTemplate = oldTemplate.slice(4);
     return { source, oldTemplate, ...classifyTemplate(oldTemplate) };
   });
   const currentRedirects = loadRedirects();
   const latest = expectedRedirects(loadScoreRuns());
   const modelAliases = [...latest.entries()].sort(([a], [b]) => a.localeCompare(b)).flatMap(([source, run]) => {
     const current = currentRedirects.filter(r => r.source === source);
-    if (current.length !== 1 || current[0]!.destination !== run || current[0]!.permanent !== true) {
+    if (current.length !== 1 || current[0]!.destination !== `/pro${run}` || current[0]!.statusCode !== 301) {
       throw new Error(`Existing model alias differs from latest score run: ${source}`);
     }
     return [
-      { source, currentDestination: run, currentStatus: 308, destination: `/pro${run}`, plannedStatus: 301 },
+      { source, currentDestination: `/pro${run}`, currentStatus: 301, destination: `/pro${run}`, plannedStatus: 301 },
       { source: `/pro${source}`, currentDestination: null, currentStatus: null, destination: `/pro${run}`, plannedStatus: 301 },
     ];
   });
-  const legacyAliases = currentRedirects.filter(r => {
-    // Wildcard legacy-language routes require enumeration against built valid URLs.
-    return !r.source.startsWith('/models/') && !r.destination.includes(':')
-      && classifyKnownMigratedDestination(r.destination);
-  }).map(r => ({ source: r.source, currentDestination: r.destination, destination: `/pro${r.destination}`, plannedStatus: 301 }));
+  const legacyAliases = ['/ja/about/methodology', '/ja/about/data-sources'].map(source => ({ source, currentDestination: '/pro/methodology', destination: '/pro/methodology', plannedStatus: 301 }));
   const retainedLegacyTargets = currentRedirects.filter(r =>
     r.source.startsWith('/occ/') || ['/ja/404', '/ja/404.html', '/ja/about', '/ja/about/glossary'].includes(r.source),
   ).map(r => `${r.source} -> ${r.destination}`).join('; ');
   return {
-    schemaVersion: 1, stage: 'planning-only', redirectAuthorization: 'pending-owner-decision',
+    schemaVersion: 1, stage: 'stage-1B', redirectAuthorization: 'owner authorization 2026-10-09, decision d1008-214048-1',
     sources: ['src/views/rankings-meta.ts', 'src/pages/**/*.astro', 'src/lib/urls.ts', 'data/scores/*.json', 'vercel.json'],
     rankings, pageTemplates,
     occupation: {
@@ -110,10 +107,6 @@ export function buildManifest() {
     legacyWildcardPolicy: `Ordinary occupation aliases retain their existing targets: ${retainedLegacyTargets}. Expand language wildcards against valid built routes by the current destination family: Root-retained families stay at root; migrated families go directly to their final Pro URL. No /pro/:path* blanket redirect.`,
     infrastructure: ['/api/*', '/data.*.json', '/sitemap.xml', '/image-sitemap.xml', '/llms.txt', '/llms-full.txt', '/robots.txt', '/404', '/fonts/*', '/_astro/*'],
   };
-}
-
-function classifyKnownMigratedDestination(path: string): boolean {
-  return MIGRATED.has(path.split('/')[1]!);
 }
 
 export function checkManifest(json: string): boolean {

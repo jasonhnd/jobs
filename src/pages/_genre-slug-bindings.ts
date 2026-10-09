@@ -95,7 +95,7 @@ export function buildGenreSlugBindings(input: GenreSlugInput): GenreSlugBindings
   const cfg = result.config;
   const n = result.items.length;
 
-  const canonical = `${SITE_ORIGIN}/${genrePath}/${cfg.slug}`;
+  const canonical = `${SITE_ORIGIN}/pro/${genrePath}/${cfg.slug}`;
   const ogImage = `${SITE_ORIGIN}/api/og?${ogParam}=${cfg.slug}`;
   const title = titleTemplate
     ? titleTemplate(cfg.title_ja, n)
@@ -129,7 +129,7 @@ export function buildGenreSlugBindings(input: GenreSlugInput): GenreSlugBindings
 
   const relatedHtml = '<ul class="related-genre">' + allConfigs
     .filter((m) => m.slug !== cfg.slug)
-    .map((m) => `<li><a href="/${genrePath}/${m.slug}"><span class="rg-name">${escapeHtml(m.short_ja)}</span><span class="rg-desc">${escapeHtml(m.description_ja.slice(0, 60))}…</span></a></li>`)
+    .map((m) => `<li><a href="/pro/${genrePath}/${m.slug}"><span class="rg-name">${escapeHtml(m.short_ja)}</span><span class="rg-desc">${escapeHtml(m.description_ja.slice(0, 60))}…</span></a></li>`)
     .join('') + '</ul>';
 
   return {

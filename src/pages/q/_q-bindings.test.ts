@@ -206,7 +206,7 @@ describe('buildQSlugBindings', () => {
       makeDoc({ id: 2, title_ja: 'BetaJob', ai: 7 })];
     const before = structuredClone(examples);
     const bindings = buildQSlugBindings(qa, examples, graph, facts);
-    assert.equal(bindings.canonical, 'https://mirai-shigoto.com/q/ai-de-kieru');
+    assert.equal(bindings.canonical, 'https://mirai-shigoto.com/pro/q/ai-de-kieru');
     assert.equal(bindings.ogImage, 'https://mirai-shigoto.com/api/og?q=ai-de-kieru');
     assert.ok(bindings.title.startsWith(qa.question));
     assert.equal(bindings.seoDesc, qa.short_answer);
@@ -223,9 +223,9 @@ describe('buildQSlugBindings', () => {
     assert.match(bindings.exampleListHtml, /href="\/occupations\/404"/);
     assert.deepEqual(bindings.relatedQAs.map(item => item.slug), related.slice(0, 5).map(item => item.slug));
     assert.equal([...bindings.relatedHtml.matchAll(/class="rg-name"/g)].length, 5);
-    assert.ok(!bindings.relatedHtml.includes(`href="/q/${qa.slug}"`));
+    assert.ok(!bindings.relatedHtml.includes(`href="/pro/q/${qa.slug}"`));
     for (const item of bindings.relatedQAs) {
-      assert.ok(bindings.relatedHtml.includes(`href="/q/${item.slug}"`));
+      assert.ok(bindings.relatedHtml.includes(`href="/pro/q/${item.slug}"`));
     }
     assert.match(bindings.crossHubHtml, /href="\//);
     const nodes = JSON.parse(bindings.jsonLd)['@graph'];

@@ -29,6 +29,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
 import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
+import { PRO_RANKINGS, rankingRoute } from '@/site/route-policy';
 import { NO_OCC_PATH } from '@/site/no-occ-path';
 import { QUESTIONS, SHARE, VARIANT_BUCKETS_BY_FAMILY } from '@/site/worktype-copy';
 import { escapeJsonForScript, stringifyJsonLd } from '@/lib/json-for-script';
@@ -448,6 +449,7 @@ const jsonLd = stringifyJsonLd({
         </button>
       </section>
 
+      <script id="meRankingPaths" type="application/json" set:html={escapeJsonForScript(JSON.stringify(Object.fromEntries(PRO_RANKINGS.map(row => [row.slug, rankingRoute(row.slug).pagePath]))))}></script>
       <script id="meQuizCopy" type="application/json" set:html={meQuizCopyJson}></script>
 
       <section class="me-quiz-cta" id="meQuizCta" hidden>

@@ -180,7 +180,7 @@ describe('HAID release projection', () => {
     assert.equal(p.standard, 'HAID');
     assert.equal(p.spec_version, '1.0');
     assert.equal(p.status, 'draft');
-    assert.equal(p.url, 'https://mirai-shigoto.com/aiadoption/2026-q3');
+    assert.equal(p.url, 'https://mirai-shigoto.com/pro/aiadoption/2026-q3');
     assert.equal(p.levels.length, 10);
     assert.equal(p.boundaries.length, 3);
     assert.equal(p.relations.length, 4);

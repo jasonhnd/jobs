@@ -85,7 +85,7 @@ export function buildModelRunPageModel(
         : `前回の${formatModelDisplay(drift.predecessor.model)}との変化も掲載しています。`;
   const pageDescription =
     `${modelDisplay}（${scoringDate}）が採点した日本の職業${page.covered_count}件のAI影響度分布と上位・下位職業。${comparisonDescription}`;
-  const canonical = `${siteConfig.origin}/models/${page.slug}`;
+  const canonical = `${siteConfig.origin}/pro/models/${page.slug}`;
   const inlinePayload = escapeJsonForScript(JSON.stringify(page));
 
   const histogramWidth = 720;
@@ -139,7 +139,7 @@ export function buildModelRunPageModel(
         '@id': `${canonical}#breadcrumb`,
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${siteConfig.origin}/` },
-          { '@type': 'ListItem', position: 2, name: 'モデル比較', item: `${siteConfig.origin}/models` },
+          { '@type': 'ListItem', position: 2, name: 'モデル比較', item: `${siteConfig.origin}/pro/models` },
           { '@type': 'ListItem', position: 3, name: modelDisplay, item: canonical },
         ],
       },

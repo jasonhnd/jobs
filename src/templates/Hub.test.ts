@@ -92,7 +92,7 @@ describe('renderRankItem', () => {
 describe('Hub JSON-LD speakable', () => {
   test('genre detail WebPage points to the citable fact block', () => {
     const got = JSON.parse(renderGenreJsonLd(
-      'https://mirai-shigoto.com/abilities/test',
+      'https://mirai-shigoto.com/pro/abilities/test',
       config,
       [item],
       'desc',
@@ -110,7 +110,7 @@ describe('Hub JSON-LD speakable', () => {
 
   test('genre index WebPage keeps a speakable hint without requiring a fact block', () => {
     const got = JSON.parse(renderGenreIndexJsonLd(
-      'https://mirai-shigoto.com/abilities',
+      'https://mirai-shigoto.com/pro/abilities',
       '能力から探す',
       'desc',
     ));
@@ -124,7 +124,7 @@ describe('Hub JSON-LD speakable', () => {
 
   test('detail graph adds FAQPage and falls back to an id label', () => {
     const got = JSON.parse(renderGenreJsonLd(
-      'https://mirai-shigoto.com/abilities/test',
+      'https://mirai-shigoto.com/pro/abilities/test',
       config,
       [{ ...item, id: 9, name_ja: '' }],
       'desc',
@@ -181,12 +181,12 @@ describe('renderGenreHubIndexCards', () => {
         countLabel: '1 <item>',
       },
     ], 'abilities', 10);
-    assert.match(html, /href="\/abilities\/one"/);
+    assert.match(html, /href="\/pro\/abilities\/one"/);
     assert.match(html, /class="gci-name">A &amp; B</);
     assert.match(html, new RegExp(`class="gci-desc">${'x'.repeat(10)}…`));
     assert.match(html, /class="iri-preview">1位 &lt;top&gt;</);
     assert.match(html, /class="gci-count">4 items</);
-    assert.match(html, /href="\/abilities\/two"/);
+    assert.match(html, /href="\/pro\/abilities\/two"/);
     assert.match(html, /class="gci-count">1 &lt;item&gt;</);
     assert.equal((html.match(/class="iri-preview"/g) ?? []).length, 1);
   });
@@ -226,7 +226,7 @@ describe('renderQGroupsHtml', () => {
     assert.match(html, /<ul class="qa-list">/);
     assert.match(html, /<li class="qa-item"><details><summary>Q &lt;1&gt;<\/summary>/);
     assert.match(html, /class="qa-short">A &amp; B</);
-    assert.match(html, /class="qa-detail-link" href="\/q\/alpha"/);
+    assert.match(html, /class="qa-detail-link" href="\/pro\/q\/alpha"/);
   });
 });
 
@@ -238,7 +238,7 @@ describe('explore hub renderers', () => {
       description_ja: 'y'.repeat(100),
       genreCount: 3,
     }]);
-    assert.match(html, /href="\/explore\/work"/);
+    assert.match(html, /href="\/pro\/explore\/work"/);
     assert.match(html, /class="gci-name">W &amp; W</);
     assert.match(html, new RegExp(`class="gci-desc">${'y'.repeat(90)}…`));
     assert.match(html, /class="gci-count">3 /);
@@ -247,10 +247,10 @@ describe('explore hub renderers', () => {
   test('genre cards prefix a relative path and keep an absolute one', () => {
     const html = renderExploreGenreCards([
       { path: 'abilities/x', label: 'L & L', desc: 'd' },
-      { path: '/skills/y', label: 'M', desc: 'e <f>' },
+      { path: '/pro/skills/y', label: 'M', desc: 'e <f>' },
     ]);
-    assert.match(html, /href="\/abilities\/x"/);
-    assert.match(html, /href="\/skills\/y"/);
+    assert.match(html, /href="\/pro\/abilities\/x"/);
+    assert.match(html, /href="\/pro\/skills\/y"/);
     assert.match(html, /class="gci-name">L &amp; L</);
     assert.match(html, /class="gci-desc">e &lt;f&gt;</);
     assert.match(html, /class="gci-count">/);
@@ -263,7 +263,7 @@ describe('explore hub renderers', () => {
       description_ja: 'z'.repeat(70),
     }]);
     assert.match(html, /^<ul class="related-genre">/);
-    assert.match(html, /href="\/explore\/compare"/);
+    assert.match(html, /href="\/pro\/explore\/compare"/);
     assert.match(html, /class="rg-name">C &amp; C</);
     assert.match(html, new RegExp(`class="rg-desc">${'z'.repeat(60)}…`));
     assert.match(html, /<\/ul>$/);
@@ -275,13 +275,13 @@ describe('explore hub renderers', () => {
     assert.deepEqual(indexTypes, ['WebPage', 'BreadcrumbList']);
     assert.equal(
       (index['@graph'] as Array<{ url?: string }>)[0]?.url,
-      'https://mirai-shigoto.com/explore',
+      'https://mirai-shigoto.com/pro/explore',
     );
 
     const slug = JSON.parse(renderExploreSlugJsonLd('work', 'Title <T>', 'desc'));
     const page = (slug['@graph'] as Array<{ '@type': string; url?: string; name?: string }>)
       .find((node) => node['@type'] === 'WebPage');
-    assert.equal(page?.url, 'https://mirai-shigoto.com/explore/work');
+    assert.equal(page?.url, 'https://mirai-shigoto.com/pro/explore/work');
     assert.equal(page?.name, 'Title <T>');
     const crumbs = (slug['@graph'] as Array<{ itemListElement?: unknown[] }>)
       .find((node) => node.itemListElement);

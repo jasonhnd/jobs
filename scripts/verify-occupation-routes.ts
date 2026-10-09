@@ -208,7 +208,8 @@ for (const sitemapName of ['sitemap.xml', 'image-sitemap.xml']) {
     const expected = sitemapName === 'sitemap.xml' ? 1 : 0;
     if (countExact(sitemap, loc) !== expected) fail(`${sitemapName} has wrong Pro occupation set: ${loc}`);
   }
-  if (sitemap.includes(`<loc>${SITE}/pro/rankings`)) fail(`${sitemapName} advertises stage-1A ranking duplicates`);
+  if (sitemap.includes(`<loc>${SITE}/pro/rankings`)) fail(`${sitemapName} advertises duplicate ranking indexes`);
+  if (sitemapName === 'image-sitemap.xml' && sitemap.includes(`<loc>${SITE}/pro`)) fail('image sitemap advertises Pro duplicates');
   if (sitemap.includes(`<loc>${SITE}/404</loc>`)) fail(`${sitemapName} advertises the custom /404 document`);
 }
 

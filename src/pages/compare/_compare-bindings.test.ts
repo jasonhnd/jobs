@@ -118,7 +118,7 @@ describe('buildComparePairBindings', () => {
   test('assembles escaped sections, GEO data, related links, metadata and JSON-LD', () => {
     const before = structuredClone(result);
     const bindings = buildComparePairBindings(result, graph, facts);
-    assert.equal(bindings.canonical, 'https://mirai-shigoto.com/compare/kango-vs-helper');
+    assert.equal(bindings.canonical, 'https://mirai-shigoto.com/pro/compare/kango-vs-helper');
     assert.equal(bindings.ogImage, 'https://mirai-shigoto.com/api/og?compare=kango-vs-helper');
     assert.ok(bindings.title.startsWith(result.meta.title_ja));
     assert.ok(bindings.seoDesc.startsWith(`${result.a.name_ja} と ${result.b.name_ja}`));
@@ -143,7 +143,7 @@ describe('buildComparePairBindings', () => {
     assert.doesNotMatch(bindings.aiFactHtml, /5\.00\/10/);
     assert.match(bindings.aiFactHtml, /300人/);
     assert.match(bindings.crossHubHtml, /href="\//);
-    assert.ok(!bindings.relatedHtml.includes('href="/compare/kango-vs-helper"'));
+    assert.ok(!bindings.relatedHtml.includes('href="/pro/compare/kango-vs-helper"'));
     assert.equal([...bindings.relatedHtml.matchAll(/class="rc-title"/g)].length, 6);
     const nodes = JSON.parse(bindings.jsonLd)['@graph'];
     const [web, article, breadcrumb, faq] = nodes;
