@@ -448,7 +448,7 @@ that dated count is preserved in the history, not used as the current total.
 | `tokens` | `src/lib/design-tokens.ts`（新設）, `src/lib/canonical-css.ts` |
 | `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/pro/models.astro`, `src/pages/pro/models/[model].astro`, `src/pages/pro/aiadoption.astro`, `src/pages/pro/aiadoption/[release].astro`, `src/pages/_HaidReleasePage.astro`, `src/pages/_haid-release-labels.ts`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
 | `interactive` | `src/pages/map.astro`, `src/pages/_map-css.ts` |
-| `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro`, `src/pages/_OccupationPage.astro`, `src/pages/pro/[id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_StatsGrid.astro`, `src/pages/_JobtagAnchor.astro`, `src/pages/_IdPageScript.astro` |
+| `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro`, `src/pages/_OccupationPage.astro`, `src/pages/_OrdinaryOccupationPage.astro`, `src/pages/pro/[id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_StatsGrid.astro`, `src/pages/_JobtagAnchor.astro`, `src/pages/_IdPageScript.astro` |
 | `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/pro/index.astro`, `src/pages/pro/rankings/`, `src/pages/compare/`, `src/pages/pro/compare/`, `src/pages/skills/`, `src/pages/pro/skills/`, `src/pages/interests/`, `src/pages/pro/interests/`, `src/pages/answers/`, `src/pages/pro/answers/`, `src/pages/q/`, `src/pages/pro/q/`, `src/pages/yearly/`, `src/pages/pro/yearly/`, `src/pages/abilities/`, `src/pages/pro/abilities/`, `src/pages/careers/`, `src/pages/pro/careers/`, `src/pages/education/`, `src/pages/pro/education/`, `src/pages/employment-types/`, `src/pages/pro/employment-types/`, `src/pages/entry-paths/`, `src/pages/pro/entry-paths/`, `src/pages/explore/`, `src/pages/pro/explore/`, `src/pages/knowledge/`, `src/pages/pro/knowledge/`, `src/pages/licenses/`, `src/pages/pro/licenses/`, `src/pages/life-balance/`, `src/pages/pro/life-balance/`, `src/pages/training/`, `src/pages/pro/training/`, `src/pages/values/`, `src/pages/pro/values/`, `src/pages/work-styles/`, `src/pages/pro/work-styles/`, `src/lib/ai-fact-css.ts` |
 | `sector` | `src/lib/canonical/sector.ts`, `src/pages/sectors/` |
 | `doc` | `src/lib/canonical/doc.ts`, `src/pages/_haid-css.ts`, `src/pages/pro/haid.astro`, `src/pages/pro/standard.astro`, `src/pages/pro/methodology.astro`, `src/pages/about.astro`, `src/pages/pro/data.astro` |
@@ -555,7 +555,20 @@ follows shared components and fails on any unclassified Pro route. No surface
 is downgraded and no Design token or canon is changed. Local rendered checks
 and 1440 / 768 / 375 screenshots are recorded in the PR.
 
-Stage 1B (JOB_0233 / Issue #896) moves existing research surfaces to their Pro paths with unchanged classes, tokens, prose and tables. Shared bindings remain under the root source directories; both locations are enforced. Screenshots and route/SEO evidence are recorded in the implementation PR. Stage 2–4 ordinary simplification and final deployed visual acceptance remain pending.
+Stage 1B (JOB_0233 / Issue #896) moves existing research surfaces to their Pro paths with unchanged classes, tokens, prose and tables. Shared bindings remain under the root source directories; both locations are enforced. Screenshots and route/SEO evidence are recorded in the implementation PR. Stage 3–4 ordinary simplification and final deployed visual acceptance remain pending.
+
+### Ordinary occupation stage 2 — Issue #897 / JOB_0230
+
+`_OrdinaryOccupationPage.astro` inherits the same conformant Detail class as
+`_OccupationPage.astro`. The summary uses existing statistic, lead, body, label,
+primary-button and note roles, gutter/content-max, spacing and radius tokens.
+No class, token, colour, font scale or Design version is added. The surface
+coverage list includes both shared occupation components; all Pro pages retain
+their existing coverage. Local 1440/768/375 paired renders, score/band agreement,
+old-anchor handoff, no-JavaScript links and missing-value checks are recorded in
+the implementation PR. Owner copy/composition signature was completed under the
+JOB_0237 brief.
+Live deployment validation remains an external acceptance step.
 
 ## Stage-4 local composition evidence (#900)
 
@@ -567,5 +580,8 @@ captures at 1440 / 768 / 375 are in `/tmp/JOB_0232/screenshots/`; ordinary
 navigation and the actual diagnosis → me → occupation → Pro path are covered by
 `tests/e2e/ordinary-entry-points.spec.ts`. The mobile topbar and drawer use the
 existing modal/overlay layer tokens so page-level sticky controls cannot cover
-reading links; trial-click checks reproduce the old obstruction at 768 / 375. Local renders do not establish deployed
+reading links; trial-click checks reproduce the old obstruction at 768 / 375.
+The homepage eight-ranking door targets its own card section; the 39-card index
+is entered through Pro. Sector detail actions target the list, and ordinary
+home/search labels are edition-specific. Local renders do not establish deployed
 preview acceptance. Independent review and owner copy signature remain required.
