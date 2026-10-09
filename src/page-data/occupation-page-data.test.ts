@@ -332,9 +332,9 @@ describe('occupation page loaders', () => {
     ] };
     const views = await buildOccupationSpokeViews(rec, [], [], interestsGraph);
     assert.equal(views.sameRiskHtml, '');
-    assert.match(views.relatedHubsHtml, /href="\/interests\/social"/);
-    assert.match(views.relatedHubsHtml, /href="\/interests\/realistic"/);
-    assert.doesNotMatch(views.relatedHubsHtml, /href="\/interests\/artistic"/);
+    assert.match(views.relatedHubsHtml, /href="\/pro\/interests\/social"/);
+    assert.match(views.relatedHubsHtml, /href="\/pro\/interests\/realistic"/);
+    assert.doesNotMatch(views.relatedHubsHtml, /href="\/pro\/interests\/artistic"/);
   });
 
   test('omits interest links for missing edges and returns empty spoke views for an unknown record', async () => {
@@ -342,7 +342,7 @@ describe('occupation page loaders', () => {
     const noInterests: KnowledgeGraph = { ...graph, interestsOf: () => [] };
     const views = await buildOccupationSpokeViews(rec, [], [], noInterests);
     assert.equal(views.sameRiskHtml, '');
-    assert.doesNotMatch(views.relatedHubsHtml, /href="\/interests\//);
+    assert.doesNotMatch(views.relatedHubsHtml, /href="\/pro\/interests\//);
     const unknown = await buildOccupationSpokeViews(fakeRec(999999, null), [], [], graph);
     assert.deepEqual(unknown, { sameRiskHtml: '', relatedHubsHtml: '' });
   });

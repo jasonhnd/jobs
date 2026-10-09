@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-10-09T11:05:48.146Z",
-  "gitCommit": "b51b744955dd6e0b8aa9aba57421e1464c7c1639",
-  "gitBranch": "feat/issue-897-ordinary-occupation-summary",
-  "distFileCount": 1442,
-  "urlCount": 1442,
+  "capturedAt": "2026-10-09T11:56:18.806Z",
+  "gitCommit": "fb415e7fc646f03ae546eca78eebf7d31552188f",
+  "gitBranch": "feat/896-pro-route-migration",
+  "distFileCount": 1411,
+  "urlCount": 1411,
   "dataFileCount": 616,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

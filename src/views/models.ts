@@ -166,7 +166,7 @@ function editorialCopyWithFallback(
 }
 
 function batchHref(model: string, date: string): string {
-  return `/models/${runSlug({ model, runDate: date })}`;
+  return `/pro/models/${runSlug({ model, runDate: date })}`;
 }
 
 function toPanelEntryView(

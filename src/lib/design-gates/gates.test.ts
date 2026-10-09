@@ -501,7 +501,7 @@ describe('check-role-color — §4.7 colour column is enforced, not just contras
 
   test('breadcrumb consumers are file-scoped and decoration is not breadcrumb text', () => {
     for (const sel of ['.crumb', '.crumb a', 'nav.crumb', 'nav.crumb a']) {
-      assert.equal(roleForSelector(sel, 'src/pages/models.astro'), 'パンくず');
+      assert.equal(roleForSelector(sel, 'src/pages/pro/models.astro'), 'パンくず');
       assert.equal(roleForSelector(sel, 'src/lib/canonical/doc.ts'), 'パンくず');
       assert.equal(roleForSelector(sel, 'src/pages/unclaimed.astro'), null);
     }

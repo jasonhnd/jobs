@@ -3,7 +3,7 @@
  */
 import { test, expect } from '@playwright/test';
 
-const PAIR = '/compare/kango-vs-helper';
+const PAIR = '/pro/compare/kango-vs-helper';
 
 async function openConsentDecided(
   page: import('@playwright/test').Page,

@@ -189,7 +189,7 @@ export function buildComparePairBindings(
 ): ComparePairBindings {
   const slug = result.meta.slug as CompareSlug;
   const meta = result.meta;
-  const canonical = `${SITE}/compare/${slug}`;
+  const canonical = `${SITE}/pro/compare/${slug}`;
   const ogImage = `${SITE}/api/og?compare=${slug}`;
   // The shorter "｜AI影響度・年収を比較" suffix keeps every pair's title under
   // Google's 60-char SERP truncation limit, including the longest pair

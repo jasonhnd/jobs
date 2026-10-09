@@ -41,6 +41,8 @@
 import TopNav from '../components/TopNav.astro';
 import MobileNav from '../components/MobileNav.astro';
 import { siteConfig } from '@/site/config';
+import { editionHref, editionHtmlLinks, editionJsonLdSlot } from '@/site/route-policy';
+import EditionNav from '@/components/EditionNav.astro';
 
 export interface Props {
   title: string;
@@ -60,7 +62,7 @@ const {
   title,
   description,
   keywords,
-  canonical,
+  canonical: inputCanonical,
   ogTitle = title,
   ogDescription = description,
   ogImage = siteConfig.defaultOgImage,
@@ -68,6 +70,10 @@ const {
   noindex = false,
   bodyClass,
 } = Astro.props;
+const edition = Astro.url.pathname === '/pro' || Astro.url.pathname.startsWith('/pro/') ? 'pro' : 'ordinary';
+const canonical = editionHref(inputCanonical, 'ordinary');
+const bodyHtml = editionHtmlLinks((await Astro.slots.render('default')) ?? '', edition);
+const jsonLdHtml = editionJsonLdSlot((await Astro.slots.render('jsonLd')) ?? '', edition);
 
 const robotsContent = noindex ? 'noindex, follow' : 'index, follow';
 
@@ -151,7 +157,7 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImage} />
 
-    <slot name="jsonLd" />
+    <Fragment set:html={jsonLdHtml} />
 
     <!-- Cloudflare Web Analytics — only emitted when PUBLIC_CF_BEACON_TOKEN is configured.
          No inline <script> body; the data-cf-beacon attribute is parsed by the
@@ -373,7 +379,8 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
       <TopNav />
     </header>
     <main id="main-content">
-      <slot />
+      {edition === 'pro' && !bodyHtml.includes('class="edition-nav"') && <div class="edition-nav-shell"><EditionNav ordinaryPath="/" /></div>}
+      <Fragment set:html={bodyHtml} />
     </main>
     <slot name="bodyEnd" />
 
@@ -463,3 +470,6 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
     </script>
   </body>
 </html>
+<style is:global>
+  .edition-nav-shell{box-sizing:border-box;max-width:var(--content-max);margin:0 auto;padding:var(--s-4) var(--gutter) 0}
+</style>

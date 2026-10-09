@@ -89,7 +89,7 @@ describe('HAID release page model (2026-q3 final)', () => {
     assert.equal(rows[2].atLeastCertaintyJa, '下限のみ');
     assert.equal(rows[3].atLeastRangeJa, '9.6 億〜20 億');
     assert.equal(rows[3].anchors.length, 13);
-    assert.equal(rows[0].definitionHref, '/haid#level-1');
+    assert.equal(rows[0].definitionHref, '/pro/haid#level-1');
   });
 
   test('headline and fact block use 1 significant figure for estimates, 2 for the population', () => {
@@ -110,8 +110,8 @@ describe('HAID release page model (2026-q3 final)', () => {
     assert.ok(model.metaParts.includes('第 2 回'));
     assert.equal(model.round, 2);
     assert.equal(model.isLatest, true);
-    assert.equal(model.path, '/aiadoption/2026-q3');
-    assert.equal(model.canonicalPath, '/aiadoption');
+    assert.equal(model.path, '/pro/aiadoption/2026-q3');
+    assert.equal(model.canonicalPath, '/pro/aiadoption');
     assert.equal(model.seo.title, '人類と AI の距離 — 2026 年 第 3 四半期 | 未来の仕事');
   });
 
@@ -120,8 +120,8 @@ describe('HAID release page model (2026-q3 final)', () => {
     assert.deepEqual(items.map((i) => i.release), ['2026-q3', '2026-q2']);
     assert.equal(items[0].current, true);
     assert.equal(items[0].latest, true);
-    assert.equal(items[0].href, '/aiadoption');
-    assert.equal(items[1].href, '/aiadoption/2026-q2');
+    assert.equal(items[0].href, '/pro/aiadoption');
+    assert.equal(items[1].href, '/pro/aiadoption/2026-q2');
     assert.equal(items[1].labelJa, '2026 年 第 2 四半期');
   });
 
@@ -185,7 +185,7 @@ describe('HAID release page model (2026-q3 final)', () => {
     const a = buildHaidReleasePageModel(q2, HAID_LEVELS_NOTE_JA, { '2026-q3': '2026 年 第 3 四半期' });
     assert.equal(a.isLatest, false);
     assert.equal(a.round, 1);
-    assert.equal(a.canonicalPath, '/aiadoption/2026-q2');
+    assert.equal(a.canonicalPath, '/pro/aiadoption/2026-q2');
     assert.ok(a.delta.body.includes('2026-Q3'));
     assert.equal(a.delta.rows.length, 0);
     assert.equal(a.map.columns[1].cells.find((c) => c.level === 3)?.hatched, true, 'Q2 level 3 is データなし inside the 道具 column');
@@ -210,4 +210,14 @@ describe('HAID release page model (2026-q3 final)', () => {
     assert.ok(model.anchorsTable.rows.some((r) => r.valueJa === '5,000 万'));
     assert.ok(model.list.paymentNote.includes('少なくとも 5,000 万 人'), model.list.paymentNote);
   });
+});
+
+test('the latest release permalink consolidates to the current report canonical', () => {
+  const payload = loadLatest();
+  const current = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA);
+  const archive = buildHaidReleasePageModel(payload, HAID_LEVELS_NOTE_JA);
+  assert.equal(current.canonicalPath, '/pro/aiadoption');
+  assert.equal(archive.canonicalPath, '/pro/aiadoption');
+  assert.equal(archive.isLatest, true);
+  assert.equal(archive.path, `/pro/aiadoption/${payload.release}`);
 });

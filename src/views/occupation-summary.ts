@@ -1,4 +1,4 @@
-/** Ordinary stage-2 projection. Japanese templates are unsigned candidates in Issue #897. */
+/** Ordinary stage-2 projection. Issue #897 templates were owner-signed in the JOB_0237 brief. */
 import { displayScore } from '../data/lib/banker-round';
 import { riskBandWord, riskClass } from '../lib/risk';
 import { occupationPath, occupationUrl } from '../lib/urls';

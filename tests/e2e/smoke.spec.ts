@@ -20,7 +20,7 @@ const PAGES = [
   { url: '/sectors',                  name: 'sectors index' },
   { url: '/sectors/iryo',             name: 'sector item (iryo)' },
   { url: '/156',                      name: 'occupation detail (looker)' },
-  { url: '/q/ai-de-kienai',           name: 'Q&A item' },
+  { url: '/pro/q/ai-de-kienai',           name: 'Q&A item' },
   { url: '/rankings/ai-risk-low',     name: 'ranking item' },
 ];
 

@@ -1,3 +1,4 @@
+import { rankingRoute, RANKINGS_INDEX_CANONICAL_PATH } from '../site/route-policy';
 /**
  * src/templates/Ranking.ts — HTML / JSON-LD rendering helpers per ranking
  * page. Moved here from src/views/ranking-renderers.ts on 2026-05-14 as
@@ -253,7 +254,7 @@ export function renderRelatedRankings(
   const items = allRankings
     .filter(([slug]) => slug !== currentSlug)
     .map(([slug, name, desc]) =>
-      `<li><a href="/rankings/${slug}">` +
+      `<li><a href="${rankingRoute(slug).pagePath}">` +
       `${escapeHtml(name)}` +
       `<span class="rr-desc">${escapeHtml(desc)}</span>` +
       `</a></li>`,
@@ -419,7 +420,7 @@ export function renderRankingsHubGroups(
         .map((c) => {
           const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
           return (
-            `<li><a href="/rankings/${escapeHtml(c.slug)}">` +
+            `<li><a href="${rankingRoute(c.slug).pagePath}">` +
             `<span class="rr-title">${escapeHtml(c.name)}</span>` +
             `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
             `${previewHtml}` +
@@ -703,7 +704,7 @@ export function renderHubJsonLd(
   edition: Edition = 'ordinary',
   proMetadata?: { readonly title: string; readonly description: string },
 ): string {
-  const canonical = `${SITE}${edition === 'pro' ? '/pro/rankings' : '/rankings'}`;
+  const canonical = `${SITE}${RANKINGS_INDEX_CANONICAL_PATH}`;
   // RA-003 (2026-05-18): SCORED count.
   const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
   return stringifyJsonLd({

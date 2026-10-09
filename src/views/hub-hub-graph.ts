@@ -1,3 +1,4 @@
+import { editionHref } from '../site/route-policy';
 /**
  * src/views/hub-hub-graph.ts — cross-genre hub-to-hub relations.
  *
@@ -469,7 +470,7 @@ function buildHubGraph(): Map<string, HubRef[]> {
   // Filter to slugs actually present in QA_ITEMS — some related_topics
   // arrays historically include cross-genre slugs (career personas,
   // interest types, employment patterns) which would emit dead
-  // `/q/<slug>` links. Cross-genre relations are modelled via
+  // `/pro/q/<slug>` links. Cross-genre relations are modelled via
   // CURATED_PAIRS instead. Skipping unknown slugs is the minimal fix;
   // a deeper refactor would type each related-topic entry with its
   // genre.
@@ -543,7 +544,7 @@ export function renderRelatedHubsBlock(genre: HubGenre, slug: string, limit: num
   if (items.length === 0) return '';
 
   const itemsHtml = items.map((it) => {
-    const href = `/${it.genre}/${it.slug}`;
+    const href = editionHref(`/${it.genre}/${it.slug}`, 'ordinary');
     const label = GENRE_LABEL_JA[it.genre];
     const descHtml = it.desc ? `<span class="rxh-desc">${escapeHtml(it.desc)}</span>` : '';
     return `<li><a class="rxh-link" href="${escapeHtml(href)}">` +

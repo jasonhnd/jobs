@@ -308,7 +308,7 @@ describe('isSuspectPath — vulnerability-scanner targets', () => {
     assert.equal(isSuspectPath('/sectors'), false);
     assert.equal(isSuspectPath('/rankings/ai-risk-low'), false);
     assert.equal(isSuspectPath('/privacy'), false);
-    assert.equal(isSuspectPath('/compare/foo-vs-bar'), false);
+    assert.equal(isSuspectPath('/pro/compare/foo-vs-bar'), false);
   });
 
   test('Path strings that LOOK suspect but are legitimate slug content are NOT flagged', () => {
