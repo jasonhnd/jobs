@@ -85,7 +85,8 @@ head, viewport, conclusions and overflow measurements. Mobile menu opens at
 768 / 375; at 1440 the real desktop navigation is the corresponding normal
 surface. A separately labelled forced-drawer specimen, if present, is not
 normal desktop responsive behaviour. Cookie-first-visit and rejected states,
-dark mode, keyboard focus, and per-sector text are retained as supplementary
+dark system preference (the Design canon neutralizes both themes to cream),
+keyboard focus, and per-sector text are retained as supplementary
 specimens. No deployed preview or production acceptance is claimed.
 
 ## Rendered sector pairs
