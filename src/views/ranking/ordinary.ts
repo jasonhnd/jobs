@@ -33,7 +33,7 @@ export function buildOrdinaryRankingView(result: RankingResult) {
   const lead = ORDINARY_RANKING_LEADS[slug];
   return {
     slug, h1,
-    title: slug === 'ai-risk-high' ? result.title.replace('AIに奪われる仕事ランキング', 'AIで大きく変わる仕事') : result.title,
+    title: slug === 'ai-risk-high' ? result.title.replace(/^.*? TOP\d+/, h1) : result.title,
     description: lead + (slug === 'hourly-wage' ? copy.hourlyNote : ''),
     lead,
     note: slug === 'hourly-wage' ? copy.hourlyNote : null,
