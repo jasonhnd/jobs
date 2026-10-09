@@ -6,11 +6,14 @@ import type { OrdinaryRankingRow } from '../views/ranking/ordinary';
 import { renderHubJsonLd } from './Ranking';
 
 export function renderOrdinaryRankingItem(row: OrdinaryRankingRow, isAiRanking: boolean): SafeHtml {
+  const split = row.score.indexOf(' ');
+  const scoreHtml = split < 0 ? escapeHtml(row.score)
+    : `<span class="ordinary-score">${escapeHtml(row.score.slice(0, split))}</span> <span class="ordinary-band">${escapeHtml(row.score.slice(split + 1))}</span>`;
   return (`<li><a class="rl-row" href="${escapeHtml(row.href)}" data-track-event="list_row_click">` +
     `<span class="rl-main"><span class="rl-name">${escapeHtml(row.name)}</span>` +
     // AI ranking's primary metric is already the same score shown on the right.
     `<span class="rl-meta rl-metric">${escapeHtml(row.metricLabel)}${isAiRanking ? '' : ` ${escapeHtml(row.metric)}`}</span></span>` +
-    `<span class="rl-end"><span class="risk-pill ${escapeHtml(row.band)}">${escapeHtml(row.score)}</span>` +
+    `<span class="rl-end"><span class="risk-pill ${escapeHtml(row.band)}">${scoreHtml}</span>` +
     `<span class="rl-chevron" aria-hidden="true">›</span></span></a></li>`) as SafeHtml;
 }
 

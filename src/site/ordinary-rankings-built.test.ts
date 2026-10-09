@@ -47,6 +47,8 @@ describe('ordinary rankings stage 3', { skip: !ready && !required }, () => {
     for (const slug of slugs) {
       const result = results.get(slug as any)!;
       const text = html('rankings/' + slug);
+      const direction = ['ai-risk-low', 'short-hours'].includes(slug) ? 'Ascending' : 'Descending';
+      assert.equal(nodes(text).find(n => n['@type'] === 'ItemList').itemListOrder, 'https://schema.org/ItemListOrder'+direction, slug);
       const rows = [...text.matchAll(/<a class="rl-row"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
       const proIds = nodes(html('pro/rankings/' + slug)).find(n => n['@type'] === 'ItemList').itemListElement.map((n: any) => Number(n.url.split('/').pop()));
       assert.deepEqual(rows.map(m => Number(m[1]!.split('/').pop())), result.items.map(o => o.id));
@@ -63,7 +65,7 @@ describe('ordinary rankings stage 3', { skip: !ready && !required }, () => {
       };
       rows.forEach((row, i) => {
         assert.ok(row[2]!.includes(metric(result.items[i]!)), slug + ': metric ' + i);
-        assert.ok(row[2]!.includes(formatRiskScoreLabel(result.items[i]!.ai_risk)), slug + ': score ' + i);
+        assert.ok(row[2]!.replace(/<[^>]+>/g, '').includes(formatRiskScoreLabel(result.items[i]!.ai_risk)), slug + ': score ' + i);
       });
       assert.ok(text.match(/<p class="rk-sum">([\s\S]*?)<\/p>/)![1]!.includes(metric(result.items[0]!)), slug + ': summary metric');
     }

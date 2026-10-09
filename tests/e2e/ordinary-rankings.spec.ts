@@ -33,6 +33,7 @@ for (const width of [1440, 768, 375]) {
         await expect(page.locator('.rl-metric').first()).toContainText(metricLabels[slug]!);
         await expect(page.locator('.risk-pill').first()).toContainText(/\/10 変化 (小さい|中くらい|大きい)/);
         await expect(page.locator('.rl-name').first()).toBeVisible();
+        await expect(page.locator('.ordinary-band').first()).toHaveCSS('white-space', 'nowrap');
         await expect(page.locator('[data-pro-cta] a')).toHaveAttribute('href', `/pro/rankings/${slug}`);
         if (slug === 'hourly-wage') await expect(page.locator('.ordinary-note')).toContainText('160時間');
         const currentScores = await page.locator('ol.rank-list .risk-pill').allTextContents();
@@ -51,6 +52,7 @@ for (const width of [1440, 768, 375]) {
         await page.screenshot({ path: `${process.env.RANKING_SCREENSHOTS}/${slug}-${width}-rejected.png` });
         await page.evaluate(() => localStorage.removeItem('cookieConsent'));
         await page.reload({ waitUntil: 'networkidle' });
+        await page.evaluate(() => document.fonts.ready);
         await page.screenshot({ path: `${process.env.RANKING_SCREENSHOTS}/${slug}-${width}-first-visit.png` });
       }
     });

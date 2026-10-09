@@ -7,5 +7,6 @@ test('ordinary row escapes data and retains full long names', () => {
   assert.ok(!html.includes('<script>'));
   assert.ok(html.includes('&lt;script&gt;&quot;長い職業名&quot;&lt;/script&gt;'));
   assert.ok(html.includes('href="/occupations/404"'));
+  assert.ok(html.includes('<span class="ordinary-band">変化 中くらい</span>'));
   assert.equal(renderOrdinaryMetricSummary(undefined), '');
 });

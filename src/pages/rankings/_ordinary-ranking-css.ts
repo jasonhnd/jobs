@@ -15,6 +15,8 @@ export const ORDINARY_RANKING_CSS = `
 .ordinary-rankings .rank-list .rl-row{padding:var(--s-3) var(--s-3) var(--s-3) var(--s-1);min-width:0}
 .ordinary-rankings .rank-list .rl-name{font-size:var(--t-h3);color:var(--ink);white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
 .ordinary-rankings .rank-list .rl-meta{font-size:var(--t-body);color:var(--ink-2);white-space:normal;overflow:visible;line-height:1.6}
+.ordinary-rankings .risk-pill{max-width:none}
+.ordinary-rankings .ordinary-score,.ordinary-rankings .ordinary-band{display:block;white-space:nowrap}
 .ordinary-ranking-cards{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-4);margin:var(--s-5) 0;padding:0}
 .ordinary-ranking-card{display:flex;flex-direction:column;gap:var(--s-2);height:100%;padding:var(--s-4);border:1px solid var(--border);border-radius:var(--r-md);background:var(--paper);color:var(--ink);text-decoration:none}
 .ordinary-ranking-card:hover{border-color:var(--green-deep);color:var(--ink)}
