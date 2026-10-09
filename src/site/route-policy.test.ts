@@ -76,7 +76,6 @@ test('Pro JSON-LD adaptation preserves consolidated ranking page identities and 
   }
 });
 
-
 test('stage 2 occupation indexing coexists with final stage 1B research and ranking addresses', async () => {
   const { buildSitemapEntries } = await import('../views/sitemap');
   const graph = { sectors: new Map(), occupations: new Map([[404, {}], [428, {}]]) } as unknown as import('../graph').KnowledgeGraph;
@@ -86,7 +85,7 @@ test('stage 2 occupation indexing coexists with final stage 1B research and rank
       const route = occupationRoute(id, edition);
       expect(route.canonicalPath).toBe(route.pagePath);
       expect(route.sitemap).toBe(true);
-      expect(paths.filter(path => path === route.pagePath)).toHaveLength(1);
+      expect(paths.filter(path => path === route.pagePath).length).toBe(1);
     }
   }
   expect(paths).toContain('/pro/skills');

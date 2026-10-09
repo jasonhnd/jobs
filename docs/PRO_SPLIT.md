@@ -425,9 +425,10 @@ structured data remains unchanged.
 
 47 existing research Astro templates move to `src/pages/pro/`; their shared
 bindings stay in place. Exactly 31 root ranking pages stop being emitted; eight
-remain. At this historical stage, Pro occupations remained complete copies canonicalizing
-to ordinary; stage 2 below supersedes that occupation policy. Migrated families self-canonicalize, retained Pro ranking copies keep
-ordinary canonicals, four noindex rankings stay noindex and leave the main sitemap.
+remain. At this historical stage, Pro occupations remained complete copies
+canonicalizing to ordinary; stage 2 below supersedes that occupation policy.
+Migrated families self-canonicalize, retained Pro ranking copies keep ordinary
+canonicals, four noindex rankings stay noindex and leave the main sitemap.
 The Pro entrance enters the sitemap; the still-duplicate Pro rankings index
 canonicalizes to `/rankings` and stays outside it until stage 3.
 The latest HAID archive canonicalizes to `/pro/aiadoption` and stays outside

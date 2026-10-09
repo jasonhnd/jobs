@@ -566,5 +566,6 @@ No class, token, colour, font scale or Design version is added. The surface
 coverage list includes both shared occupation components; all Pro pages retain
 their existing coverage. Local 1440/768/375 paired renders, score/band agreement,
 old-anchor handoff, no-JavaScript links and missing-value checks are recorded in
-the implementation PR. Owner copy/composition signature was completed under the JOB_0237 brief.
+the implementation PR. Owner copy/composition signature was completed under the
+JOB_0237 brief.
 Live deployment validation remains an external acceptance step.
