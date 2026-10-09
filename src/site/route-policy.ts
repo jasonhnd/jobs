@@ -1,4 +1,4 @@
-/** Stage 1B final address policy. Occupation simplification remains stage 2. */
+/** Stage 1B final addresses plus stage 2 self-canonical occupation summaries. */
 import manifest from '../../docs/pro-split/route-manifest.json';
 import { siteConfig } from './config';
 import { stringifyJsonLd } from '../lib/json-for-script';
@@ -31,7 +31,7 @@ export function occupationRoute(id: number, edition: Edition = 'ordinary'): Rout
   const exception = manifest.occupation.exception;
   const ordinary = id === exception.id ? exception.ordinaryPath : `/${id}`;
   const pro = id === exception.id ? exception.proPath : manifest.occupation.proTemplate.replace('<numeric-id>', String(id));
-  return { pagePath: edition === 'pro' ? pro : ordinary, canonicalPath: ordinary, noindex: false, sitemap: edition === 'ordinary', ordinarySwitchPath: ordinary };
+  return { pagePath: edition === 'pro' ? pro : ordinary, canonicalPath: edition === 'pro' ? pro : ordinary, noindex: false, sitemap: true, ordinarySwitchPath: ordinary };
 }
 
 export function rankingRoute(slug: string, edition: Edition = 'ordinary'): RankingRoutePolicy {

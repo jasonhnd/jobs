@@ -185,6 +185,8 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
     const locations = entries.map((entry) => entry.loc);
 
     assert.ok(locations.includes('https://mirai-shigoto.com/occupations/404'));
+    assert.ok(locations.includes('https://mirai-shigoto.com/pro/404'));
+    assert.equal(new Set(locations).size, locations.length);
     assert.ok(!locations.includes('https://mirai-shigoto.com/404'));
   });
 });
