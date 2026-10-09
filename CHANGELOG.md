@@ -27,6 +27,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ## [Unreleased]
 
+- Stage-4 review follow-up (#900): the homepage eight-ranking door targets its
+  own eight-card section; the complete 39-card index is entered through Pro.
+  Ordinary home/search occupation labels are consistent, and sector detail
+  actions explicitly target the list. Refresh the navigation baseline after
+  merging the stage-2 ordinary occupation summary from preview.
+
 ### Changed
 
 - **Public Pro skeleton, stage 1A (#894 / JOB_0225).** Add `/pro`, 556 complete Pro occupations (ID404 at `/pro/404`), `/pro/rankings` and 39 ranking copies using shared ordinary renderers and manifest-derived edition policy. Copies canonicalize to their old ordinary URLs and inherit exactly four noindex rankings; Pro is absent from both sitemaps. Ordinary SEO metadata, OG/Twitter and JSON-LD remain unchanged across all 845 existing pages. Baseline changes are exactly 597 new URLs and one approved Pro CTA href on 556 occupations plus eight retained rankings; no existing href or anchor is removed. Scores, ranking order, data files and sitemaps are unchanged. Minimal Pro edition labels/metadata require owner signature before merge. All 39 Pro ranking return links target their still-live ordinary pages during stage 1A; the eight ordinary CTAs are controlled separately. Pro ranking detail WebPage/Article and index WebPage metadata match their actual Pro title/description. No redirects or production/deployment changes.
