@@ -25,7 +25,7 @@ for (const width of [1440, 768, 375]) {
 
 test('numeric occupation 404 switches both ways and preserves chapter anchors', async ({ page }) => {
   await page.goto('/occupations/404');
-  await page.locator('[data-pro-cta] a').click();
+  await page.locator('[data-pro-cta] h2 a').click();
   await expect(page).toHaveURL(/\/pro\/404$/);
   await page.locator('.chipnav a[href="#chp-source"]').click();
   await expect(page.locator('#chp-source')).toHaveAttribute('open', '');

@@ -67,7 +67,7 @@ import {
   renderOccupationJsonLdFromRec,
 } from './_id-renderers';
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
-import { riskBandWord } from '@/lib/risk';
+import { riskBandWord, occupationAnalyticsTier } from '@/lib/risk';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { displayScore } from '@/data/lib/banker-round';
 import { SCORE_PANEL } from '@/site/score-attribution';
@@ -438,9 +438,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
 
   // ─── GA4 funnel classification ────────────────────────────
   // analytics/spec.yaml tiers (high >=7 / mid 5-6 / low <=4) on the displayed value (#864).
-  const shownRisk = risk !== null ? displayScore(risk) : null;
-  const riskTierJs: 'high' | 'mid' | 'low' =
-    shownRisk !== null && shownRisk >= 7 ? 'high' : shownRisk !== null && shownRisk >= 5 ? 'mid' : 'low';
+  const riskTierJs = occupationAnalyticsTier(risk);
 
   const scored = risk !== null;
   const latestObs = rec.latest_transformation != null && rec.latest_delta != null

@@ -45,21 +45,15 @@ function read(rel: string): string | null {
   return resolved === null ? null : readFileSync(resolved, 'utf-8');
 }
 
-/** Occupation pages are `/<id>.html` at the root; `404.html` is the not-found doc. */
+/** Complete Pro pages retain the original in-content entry after ordinary simplification. */
 function occupationPages(): string[] {
-  if (!existsSync(DIST)) return [];
-  const root = readdirSync(DIST)
-    .filter((f) => /^\d{1,3}\.html$/.test(f) && f !== '404.html')
-    .map((f) => join(DIST, f));
-  // Occupation id 404 renders under /occupations/ so it does not collide with
-  // the custom not-found document at the root.
-  const reserved = join(DIST, 'occupations', '404.html');
-  if (existsSync(reserved)) root.push(reserved);
-  return root;
+  const pro = join(DIST, 'pro');
+  if (!existsSync(pro)) return [];
+  return readdirSync(pro).filter(f => /^\d{1,3}\.html$/.test(f)).map(f => join(pro, f));
 }
 
 describe('me entry — built artifacts', () => {
-  test('every occupation page carries exactly one in-content /me entry', () => {
+  test('every Pro occupation page carries exactly one in-content /me entry', () => {
     const pages = occupationPages();
     if (requireBuiltArtifact(pages.length > 0 ? DIST : null, 'dist-astro/<id>.html') === null) {
       return;
@@ -72,11 +66,11 @@ describe('me entry — built artifacts', () => {
     }
 
     assert.deepEqual(wrong, [], `occupation pages without exactly one /me entry:\n${wrong.join('\n')}`);
-    assert.ok(pages.length >= 500, `expected the full occupation set, saw ${pages.length}`);
+    assert.equal(pages.length, 556, `expected the full Pro occupation set, saw ${pages.length}`);
   });
 
   test('the occupation entry pre-fills that occupation and declares its source', () => {
-    const html = read('1.html');
+    const html = read('pro/1.html');
     if (html === null) return;
 
     const entry = mainOf(html).match(/<a[^>]*data-track-event="me_entry_click"[^>]*>/);
@@ -86,6 +80,13 @@ describe('me entry — built artifacts', () => {
     assert.match(tag, /href="\/me\?id=1"/, 'entry must pre-fill the occupation being viewed');
     assert.match(tag, /data-entry-source="occupation"/);
     assert.match(tag, /data-occupation-id="1"/);
+  });
+
+  test('ordinary summaries omit the extra in-content /me entry', () => {
+    const html = read('1.html');
+    if (html === null) return;
+    assert.ok(!mainOf(html).includes('data-track-event="me_entry_click"'));
+    assert.ok(html.includes('data-primary-action'));
   });
 
   test('list surfaces send source but no occupation, since none is in context', () => {
