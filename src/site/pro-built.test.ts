@@ -46,7 +46,7 @@ describe('stage 2 occupations / stage 1A rendered rankings', { skip: !ready && !
       assert.equal(webpage?.url, proUrl);
       assert.equal(webpage?.['@id'], `${proUrl}#webpage`);
       assert.equal(pro.match(/<div data-occupation-page-meta[^>]*>/)?.[0], ordinary.match(/<div data-occupation-page-meta[^>]*>/)?.[0]);
-      assert.ok(ordinary.includes(`href="/pro/${id}">Pro で詳しく見る</a>`));
+      assert.match(ordinary, new RegExp(`<a[^>]*href="/pro/${id}"[^>]*>Pro で詳しく見る</a>`));
     }
   });
   test('exact 39 rankings inherit ordering, canonical and four noindex policies', () => {
