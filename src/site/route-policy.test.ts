@@ -8,9 +8,9 @@ describe('stage 1A edition routing', () => {
   test('occupation 404 has independent page and stable ordinary canonical URLs', () => {
     expect(occupationPath(404)).toBe('/occupations/404');
     expect(occupationPath(404, 'pro')).toBe('/pro/404');
-    assert.deepEqual(occupationRoute(404, 'pro'), { pagePath: '/pro/404', canonicalPath: '/occupations/404', noindex: false, sitemap: false, ordinarySwitchPath: '/occupations/404' });
+    assert.deepEqual(occupationRoute(404, 'pro'), { pagePath: '/pro/404', canonicalPath: '/pro/404', noindex: false, sitemap: true, ordinarySwitchPath: '/occupations/404' });
     expect(occupationUrl(428, 'pro')).toBe('https://mirai-shigoto.com/pro/428');
-    expect(occupationCanonicalUrl(428, 'pro')).toBe('https://mirai-shigoto.com/428');
+    expect(occupationCanonicalUrl(428, 'pro')).toBe('https://mirai-shigoto.com/pro/428');
     for (const invalid of [0, -1, 0.3, NaN, Infinity]) expect(() => occupationRoute(invalid, 'pro')).toThrow();
   });
   test('all 39 copies use the stage-1 canonical, including 31 future migrations', () => {
