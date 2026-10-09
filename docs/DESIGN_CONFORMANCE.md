@@ -581,7 +581,8 @@ navigation and the actual diagnosis → me → occupation → Pro path are cover
 `tests/e2e/ordinary-entry-points.spec.ts`. The mobile topbar and drawer use the
 existing modal/overlay layer tokens so page-level sticky controls cannot cover
 reading links; trial-click checks reproduce the old obstruction at 768 / 375.
-The homepage eight-ranking door targets its own card section; the 39-card index
+The homepage eight-ranking door targets its own card section with an existing
+spacing token keeping its heading below sticky navigation; the 39-card index
 is entered through Pro. Sector detail actions target the list, and ordinary
 home/search labels are edition-specific. Local renders do not establish deployed
 preview acceptance. Independent review and owner copy signature remain required.

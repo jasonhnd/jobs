@@ -1935,6 +1935,7 @@
         margin: 0 0 4px;
         line-height: 1.25;
       }
+      #hub-rankings-title { scroll-margin-top: var(--s-8); }
       .hub-section-sub {
         font-size: var(--t-sm);
         color: var(--fg2);

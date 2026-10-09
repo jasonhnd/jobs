@@ -86,7 +86,8 @@ is superseded by the owner-approved displayed-score rule.
 Native local Microsoft Edge, local built output, analytics variables empty.
 Paths follow `/tmp/JOB_0232/screenshots/{surface}-{width}-{state}.png`, widths
 1440 / 768 / 375. Surfaces: home, map, sectors, sectors-iryo, menu, diagnosis,
-me, occupation-428 and pro-428. `evidence.json` records actual captured files,
+me, occupation-428 and pro-428. Round-1 evidence also includes the real ranking
+anchor landing and ordinary/Pro search empty states. `evidence.json` records actual captured files,
 head, viewport, conclusions and overflow measurements. Mobile menu opens at
 768 / 375; at 1440 the real desktop navigation is the corresponding normal
 surface. A separately labelled forced-drawer specimen, if present, is not
