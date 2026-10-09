@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-/** Stage-zero documentation artifact only. Not imported by runtime routes. */
+/** Manifest generation/checking only; runtime routes consume the generated JSON. */
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { RANKING_META, DEINDEXED_RANKINGS, type RankingSlug } from '../src/views/rankings-meta';
@@ -25,6 +25,9 @@ export const ordinaryOccupationPath = occupationPath;
 
 /** Templates are rules for VALID generated pages, never deployable wildcards. */
 export function classifyTemplate(path: string) {
+  if (['/pro', '/pro/[id]', '/pro/rankings', '/pro/rankings/[slug]'].includes(path)) {
+    return { oldStatus: 200, ordinaryTemplate: null, proTemplate: path, scope: 'stage-1A-public-copy' };
+  }
   if (path === '/404') return { oldStatus: 404, ordinaryTemplate: path, proTemplate: null, scope: 'error-document' };
   if (path === '/[...id]') return { oldStatus: 200, ordinaryTemplate: '/<id> (404: /occupations/404)', proTemplate: '/pro/<id>', scope: 'valid-occupation-ids' };
   if (path === '/rankings/[type]') return { oldStatus: 'per-ranking-manifest', ordinaryTemplate: '/rankings/<8 selected slugs>', proTemplate: '/pro/rankings/<39 registered slugs>', scope: 'registered-ranking-slugs' };

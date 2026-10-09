@@ -142,21 +142,31 @@ const CLASS_EXCEPTIONS = new Set([
   'src/pages/models/[model].astro',
 ]);
 
-function checkClassMembership(files) {
-  const missing = [];
-  for (const rel of files) {
-    if (!rel.startsWith('src/pages/')) continue;
-    if (!rel.endsWith('.astro')) continue;
-    if (path.basename(rel).startsWith('_')) continue;
-    if (CLASS_EXCEPTIONS.has(rel)) continue;
-    const src = fs.readFileSync(path.join(PROJECT_ROOT, rel), 'utf-8');
-    if (!/BaseLayout/.test(src)) continue; // not a rendered page
-    if (CLASS_IMPORTS.some((n) => src.includes(n))) continue;
-    // A page may also inherit its class from a sibling _*-css.ts it imports.
-    if (/from '\.\/_[a-z0-9-]+-css'/.test(src) || /_[a-z0-9-]+-css'/.test(src)) continue;
-    missing.push(rel);
+/** Follow shared Astro components so a route shell cannot bypass class enforcement. */
+function hasClassCss(rel, root, seen = new Set()) {
+  if (seen.has(rel)) return false;
+  seen.add(rel);
+  const file = path.join(root, rel);
+  if (!fs.existsSync(file)) return false;
+  const src = fs.readFileSync(file, 'utf-8');
+  if (CLASS_IMPORTS.some(n => src.includes(n))) return true;
+  const imports = [...src.matchAll(/from\s+['"]([^'"]+)['"]/g)].map(m => m[1]);
+  for (const specifier of imports) {
+    let child;
+    if (specifier.startsWith('.')) child = path.resolve(path.dirname(file), specifier);
+    else if (specifier.startsWith('@/')) child = path.join(root, 'src', specifier.slice(2));
+    else continue;
+    for (const suffix of ['', '.ts', '.astro']) {
+      const target = child + suffix;
+      if (fs.existsSync(target) && fs.statSync(target).isFile() && hasClassCss(path.relative(root, target), root, seen)) return true;
+    }
   }
-  return missing;
+  return false;
+}
+
+function checkClassMembership(files, root = PROJECT_ROOT) {
+  return files.filter(rel => rel.startsWith('src/pages/') && rel.endsWith('.astro') &&
+    !path.basename(rel).startsWith('_') && !CLASS_EXCEPTIONS.has(rel) && !hasClassCss(rel, root));
 }
 
 function main() {
@@ -185,6 +195,11 @@ function main() {
     console.log('[check-page-class] \u00a718.7 class membership: OK');
   }
 
+  if (noClass.some(f => f.startsWith('src/pages/pro/'))) {
+    console.error('[check-page-class] FAIL — Pro routes must inherit real page-class CSS');
+    process.exit(1);
+  }
+
   if (allViolations.length === 0) {
     console.log('[check-page-class] ✓ Page Class System invariants respected');
     process.exit(0);
@@ -205,4 +220,4 @@ function main() {
 
 if (require.main === module) main();
 
-module.exports = { findViolations };
+module.exports = { findViolations, checkClassMembership };

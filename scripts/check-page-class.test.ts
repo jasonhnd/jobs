@@ -56,3 +56,24 @@ describe('check-page-class :root re-declaration', () => {
     assert.ok(rules(':root[data-theme="dark"]{--x:1}').includes(':root[data-theme] override block'));
   });
 });
+
+describe('shared Astro page-class membership', () => {
+  test('Pro shells inherit real Detail/Hub class CSS from shared pages', () => {
+    const membership = require('./check-page-class.cjs').checkClassMembership;
+    assert.equal(typeof membership, 'function');
+    assert.deepEqual(membership(['src/pages/pro/[id].astro', 'src/pages/pro/rankings/[slug].astro', 'src/pages/pro/rankings/index.astro', 'src/pages/pro/index.astro']), []);
+  });
+  test('a wrapper without class CSS cannot pass by hiding BaseLayout behind an import', () => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const root = fs.mkdtempSync(path.join(process.env.TMPDIR ?? '/tmp/JOB_0225', 'page-class-'));
+    try {
+      fs.mkdirSync(path.join(root, 'src/pages/pro'), { recursive: true });
+      fs.writeFileSync(path.join(root, 'src/pages/pro/index.astro'), "---\nimport Page from '../_Page.astro';\n---\n<Page />");
+      fs.writeFileSync(path.join(root, 'src/pages/_Page.astro'), '<BaseLayout><p>Body</p></BaseLayout>');
+      const membership = require('./check-page-class.cjs').checkClassMembership;
+      assert.equal(typeof membership, 'function');
+      assert.deepEqual(membership(['src/pages/pro/index.astro'], root), ['src/pages/pro/index.astro']);
+    } finally { fs.rmSync(root, { recursive: true, force: true }); }
+  });
+});

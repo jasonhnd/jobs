@@ -1,5 +1,5 @@
 ---
-import OccupationPage from './_OccupationPage.astro';
+import OccupationPage from '../_OccupationPage.astro';
 import { occupationPath } from '@/lib/urls';
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 //
@@ -16,7 +16,7 @@ export async function getStaticPaths() {
   const { allRecs, nameLookup, rankingHitsArr, sameRiskArr, scoreHistoryArr } = pageData;
 
   return allRecs.map((rec) => ({
-    params: { id: occupationPath(rec.id).slice(1) },
+    params: { id: occupationPath(rec.id, 'pro').slice('/pro/'.length) },
     props: {
       rec,
       related: pickRelatedOccupations(rec, allRecs),
@@ -29,4 +29,4 @@ export async function getStaticPaths() {
 }
 
 ---
-<OccupationPage {...Astro.props} />
+<OccupationPage {...Astro.props} edition="pro" />

@@ -387,3 +387,31 @@ only after reviewing source changes against approved policy; do not use it to
 silently authorize new routes. It neither edits vercel.json nor creates runtime
 routes. Exact valid dynamic slugs and live redirect behavior remain phase 1B/5
 acceptance work.
+
+## Stage 1A implementation record — JOB_0225 / Issue #894
+
+The ordinary templates remain available. Shared complete renderers are
+`src/pages/_OccupationPage.astro`, `src/pages/rankings/_RankingPage.astro` and
+`src/pages/rankings/_RankingsIndex.astro`. New `/pro`, `/pro/<id>` (including
+`/pro/404`), `/pro/rankings` and 39 ranking details are generated. Runtime
+`src/site/route-policy.ts` consumes this manifest without activating planned
+redirects or stage-1B canonicals. The manifest also inventories the four new
+Astro route templates; `oldStatus` on pre-existing rows still describes the
+planned final state, not stage-1A HTTP responses.
+
+Pro copies use ordinary canonical / OG URL / Japanese alternates while their
+JSON-LD WebPage, breadcrumbs and ItemList URLs identify the actual Pro pages.
+Occupation entities retain ordinary `#occupation` identity. No Pro URL enters
+either sitemap; the existing four noindex rankings inherit their policy. New
+Japanese edition-navigation placeholders and Pro metadata markers require
+owner signature before merge, as listed in the PR. The approved ordinary CTA
+is `Pro で詳しく見る`. Stage 1B links/redirects, ordinary simplification, live
+preview verification and production promotion remain separate work.
+
+Stage-1A review follow-up: all 39 Pro ranking edition switches return to their
+still-live `oldPath`, including the 31 planned migrations. This current return
+policy is independent of the final ordinary subset: only the eight rows with
+`ordinaryPath !== null` receive an ordinary-page Pro CTA. Pro ranking detail
+WebPage/Article metadata and index WebPage metadata use the same `Pro |` title
+and `Pro ·` description values as their actual HTML metadata. Ordinary
+structured data remains unchanged.

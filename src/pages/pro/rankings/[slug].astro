@@ -1,13 +1,13 @@
 ---
-import RankingPage from './_RankingPage.astro';
+import RankingPage from '../../rankings/_RankingPage.astro';
 import { loadGraph } from '@/graph';
 import { buildRankings } from '@/views/ranking';
 export async function getStaticPaths() {
   const { loadOccupationsFromGraph } = await import('@/views/ranking');
   const graph = await loadGraph();
   const { results } = buildRankings(() => loadOccupationsFromGraph(graph));
-  return Array.from(results.values()).map((r) => ({ params: { type: r.slug }, props: { result: r } }));
+  return Array.from(results.values()).map((r) => ({ params: { slug: r.slug }, props: { result: r } }));
 }
 
 ---
-<RankingPage {...Astro.props} />
+<RankingPage {...Astro.props} edition="pro" />

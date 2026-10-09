@@ -30,3 +30,20 @@ describe('buildRankingsSlugBindings', () => {
     assert.equal(buildRankingsSlugBindings({ ...result, statBlocks: [] }, graph).statsHtml, '');
   });
 });
+
+test('all Pro ranking WebPage and Article metadata matches the edition title and description', () => {
+  const bundle = buildRankings(() => loadOccupationsFromGraph(graph));
+  for (const result of bundle.results.values()) {
+    const pro = buildRankingsSlugBindings(result, graph, undefined, 'pro');
+    const ordinary = buildRankingsSlugBindings(result, graph);
+    const nodes = (payload: string) => JSON.parse(payload)['@graph'] as Array<Record<string, unknown>>;
+    const webpage = nodes(pro.jsonLd).find(n => n['@type'] === 'WebPage');
+    const article = nodes(pro.jsonLd).find(n => n['@type'] === 'Article');
+    assert.equal(webpage?.name, `Pro | ${result.title}`);
+    assert.equal(webpage?.description, `Pro · ${result.seoDesc}`);
+    assert.equal(article?.headline, `Pro | ${result.title}`);
+    assert.equal(article?.description, `Pro · ${result.seoDesc}`);
+    assert.equal(nodes(ordinary.jsonLd).find(n => n['@type'] === 'WebPage')?.name, result.title);
+    assert.equal(nodes(ordinary.jsonLd).find(n => n['@type'] === 'WebPage')?.description, result.seoDesc);
+  }
+});
