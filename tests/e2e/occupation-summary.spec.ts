@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const cases = ['/428', '/33', '/156', '/occupations/404'];
+const cases = ['/428', '/1', '/156', '/140', '/471', '/occupations/404'];
 for (const path of cases) {
   test(`${path} ordinary summary and full Pro page agree`, async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem('cookieConsent', 'rejected'));
@@ -12,6 +12,10 @@ for (const path of cases) {
     const band = await summary.locator('.score-band').textContent();
     const name = await page.locator('h1').textContent();
     await expect(summary.locator('[data-primary-action]')).toHaveCount(1);
+    if (path === '/140') {
+      await expect(summary.locator('.summary-stats dd')).toHaveText(['—', '—']);
+      await expect(summary.locator('[aria-label="データなし"]')).toHaveCount(2);
+    }
     await expect(page.locator('details.chap, .faq-item, .risk-rationale, .v-num.subn, .score-history')).toHaveCount(0);
     const proPath = path === '/occupations/404' ? '/pro/404' : `/pro${path}`;
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://mirai-shigoto.com${path}`);
@@ -31,7 +35,7 @@ for (const path of cases) {
     await expect(page.locator('#sec-aiois')).toBeVisible();
     await expect(page.locator('h1')).toHaveText(name!);
     await expect(page.locator('.v-num.main .score-num')).toHaveText(`${score}/10`);
-    await expect(page.locator('.score-band')).toHaveText(band!);
+    await expect(page.locator('.v-num.main .score-band')).toHaveText(band!);
     await expect(page.locator('details.chap')).toHaveCount(7);
     await expect(page.locator('.faq-item')).not.toHaveCount(0);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://mirai-shigoto.com${proPath}`);
@@ -49,4 +53,20 @@ test('ordinary hero fits 375px and retains old deep-link handoff with no JavaScr
   expect(box!.y + box!.height).toBeLessThan(844);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
   await context.close();
+});
+
+test('summary primary action has keyboard focus and existing token colours', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 844 });
+  await page.goto('/428');
+  const primary = page.locator('[data-primary-action]');
+  for (let i = 0; i < 30; i++) {
+    await page.keyboard.press('Tab');
+    if (await primary.evaluate(el => el === document.activeElement)) break;
+  }
+  await expect(primary).toBeFocused();
+  expect(await primary.evaluate(el => getComputedStyle(el).outlineStyle)).toBe('solid');
+  const headingLink = page.locator('.summary-pro h2 a');
+  expect(await headingLink.evaluate(el => getComputedStyle(el).color)).toBe(
+    await page.locator('.summary-pro h2').evaluate(el => getComputedStyle(el).color),
+  );
 });

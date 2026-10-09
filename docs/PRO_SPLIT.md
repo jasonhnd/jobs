@@ -415,3 +415,29 @@ policy is independent of the final ordinary subset: only the eight rows with
 WebPage/Article metadata and index WebPage metadata use the same `Pro |` title
 and `Pro ·` description values as their actual HTML metadata. Ordinary
 structured data remains unchanged.
+
+## Stage 2 occupation implementation — Issue #897 / JOB_0230
+
+Ordinary occupations now render `_OrdinaryOccupationPage.astro`, with a narrow
+`occupation-summary.ts` projection from the same graph-owned records as Pro.
+The hero has one aggregate change score and band, one three-band conclusion
+and advice, annual salary and monthly hours, and one primary Pro action. Missing
+statistics render an accessible data-missing dash. Similar occupations and seven
+Pro chapter links follow; every existing `chp-*` / `sec-*` anchor and the model
+history entry is retained as a real link to its Pro target. Legacy section links
+become visible when their fragment is targeted; no full prose is hidden there.
+The complete Pro body, model rationale, history, FAQ, data and sources remain.
+
+Occupation pages in both editions are now self-canonical and the HTML sitemap
+includes the exact 556 + 556 occupation set. The image sitemap continues to use
+ordinary occupation URLs and shared images. Stable Occupation entity IDs remain
+ordinary URL + `#occupation`; ordinary schema has only the visible score, salary
+and hours, with no FAQPage or detailed dimensions, and speakable selects the
+visible conclusion/advice. Pro schema retains the complete original entity.
+
+This implements only the explicitly dispatched occupation phase: stage 1B
+redirects and ranking canonical/sitemap policies are still inactive. No redirect,
+workflow, analytics-script or Vercel state change is included. Public Japanese
+summary templates and meta/OG descriptions are **unsigned candidate copy** from
+Issue #897. Owner signature on the exact strings and rendered compositions is
+required before merge; local renders do not prove deployment or indexing.

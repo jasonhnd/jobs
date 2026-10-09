@@ -48,3 +48,11 @@ describe('riskClass', () => {
     assert.equal(riskClass(7.0), 'high');
   });
 });
+
+
+test('occupation analytics preserves its historical 5.0/7.0 bins separately from display bands', async () => {
+  const { occupationAnalyticsTier } = await import('./risk');
+  for (const [score, tier] of [[3.9667, 'low'], [4.9333, 'low'], [4.9667, 'mid'], [6.9667, 'high'], [null, 'low']] as const) {
+    assert.equal(occupationAnalyticsTier(score), tier);
+  }
+});

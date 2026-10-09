@@ -14,28 +14,39 @@ function jsonld(text: string): Array<Record<string, any>> {
     .flatMap(m => { const p = JSON.parse(m[1]!); return p['@graph'] ?? [p]; });
 }
 
-describe('stage 1A rendered Pro contract', { skip: !ready && !required }, () => {
-  test('all 556 ordinary and Pro occupations retain the same body, score metadata and entity', () => {
+describe('stage 2 occupations / stage 1A rendered rankings', { skip: !ready && !required }, () => {
+  test('all 556 occupation editions agree on score/name/identity with summary-only ordinary schema', () => {
     assert.ok(ready, 'run bun run build');
     const ids = readdirSync('data/occupations').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync(join('data/occupations', f), 'utf8')).id as number);
     assert.equal(ids.length, 556);
     const proFiles = readdirSync(join(dist, 'pro')).filter(f => /^\d+\.html$/.test(f)).map(f => Number(f.replace('.html', '')));
     assert.deepEqual(proFiles.sort((a,b) => a-b), ids.sort((a,b) => a-b));
     for (const id of ids) {
-      const old = html(occupationPath(id)); const pro = html(occupationPath(id, 'pro'));
-      const expectedCanonical = `https://mirai-shigoto.com${occupationPath(id)}`;
-      assert.ok(pro.includes(`<link rel="canonical" href="${expectedCanonical}">`), `canonical ${id}`);
+      const ordinary = html(occupationPath(id)); const pro = html(occupationPath(id, 'pro'));
+      const ordinaryUrl = `https://mirai-shigoto.com${occupationPath(id)}`;
+      const proUrl = `https://mirai-shigoto.com${occupationPath(id, 'pro')}`;
+      assert.ok(pro.includes(`<link rel="canonical" href="${proUrl}">`), `canonical ${id}`);
+      assert.ok(ordinary.includes(`<link rel="canonical" href="${ordinaryUrl}">`), `ordinary canonical ${id}`);
       assert.ok(pro.includes('content="index, follow"'), `robots ${id}`);
-      const body = (text: string) => text.match(/<header id="content">[\s\S]*?(?=<p data-pro-cta|<footer class="site-footer")/)?.[0];
-      const normalize = (text: string | undefined) => text?.replace(/href="\/pro\/404/g, 'href="/occupations/404').replace(/href="\/pro\/rankings/g, 'href="/rankings').replace(/href="\/pro\/(\d+)/g, 'href="/$1');
-      assert.ok(body(old), `body ${id}`);
-      assert.equal(normalize(body(pro))?.trim(), body(old)?.trim(), `full occupation body ${id}`);
-      assert.deepEqual(jsonld(pro).find(n => n['@type'] === 'Occupation'), jsonld(old).find(n => n['@type'] === 'Occupation'), `entity ${id}`);
-      const webpage = jsonld(pro).find(n => n['@type'] === 'WebPage');
-      assert.equal(webpage?.url, `https://mirai-shigoto.com/pro/${id}`);
-      assert.equal(webpage?.['@id'], `https://mirai-shigoto.com/pro/${id}#webpage`);
-      assert.equal(pro.match(/<div data-occupation-page-meta[^>]*>/)?.[0], old.match(/<div data-occupation-page-meta[^>]*>/)?.[0]);
-      assert.ok(old.includes(`href="/pro/${id}">Pro で詳しく見る</a>`));
+      assert.equal((pro.match(/<details class="chap"/g) ?? []).length, 7, `full Pro chapters ${id}`);
+      assert.ok(pro.includes('class="faq-item'), `full Pro FAQ ${id}`);
+      assert.ok(ordinary.includes('data-occupation-summary'), `summary ${id}`);
+      assert.ok(!ordinary.includes('class="faq-item') && !ordinary.includes('class="risk-rationale'), `no full prose ${id}`);
+      const ordinaryNodes = jsonld(ordinary); const proNodes = jsonld(pro);
+      const ordinaryEntity = ordinaryNodes.find(n => n['@type'] === 'Occupation')!;
+      const proEntity = proNodes.find(n => n['@type'] === 'Occupation')!;
+      assert.equal(ordinaryEntity['@id'], `${ordinaryUrl}#occupation`);
+      assert.equal(proEntity['@id'], ordinaryEntity['@id']);
+      assert.equal(proEntity.name, ordinaryEntity.name);
+      assert.ok(!ordinaryNodes.some(n => n['@type'] === 'FAQPage'));
+      assert.ok(proNodes.some(n => n['@type'] === 'FAQPage'));
+      assert.ok(ordinaryEntity.additionalProperty.length <= 2);
+      assert.ok(proEntity.additionalProperty.length > ordinaryEntity.additionalProperty.length);
+      const webpage = proNodes.find(n => n['@type'] === 'WebPage');
+      assert.equal(webpage?.url, proUrl);
+      assert.equal(webpage?.['@id'], `${proUrl}#webpage`);
+      assert.equal(pro.match(/<div data-occupation-page-meta[^>]*>/)?.[0], ordinary.match(/<div data-occupation-page-meta[^>]*>/)?.[0]);
+      assert.ok(ordinary.includes(`href="/pro/${id}">Pro で詳しく見る</a>`));
     }
   });
   test('exact 39 rankings inherit ordering, canonical and four noindex policies', () => {
@@ -71,8 +82,13 @@ describe('stage 1A rendered Pro contract', { skip: !ready && !required }, () => 
       }
     }
   });
-  test('Pro is absent from both sitemaps, while hubs are indexable and unknown URLs are not generated', () => {
-    for (const name of ['sitemap.xml', 'image-sitemap.xml']) assert.ok(!readFileSync(join(dist, name), 'utf8').includes('https://mirai-shigoto.com/pro'));
+  test('only Pro occupations enter the HTML sitemap; image sitemap stays ordinary; unknown URLs are not generated', () => {
+    const sitemap = readFileSync(join(dist, 'sitemap.xml'), 'utf8');
+    const proLocs = [...sitemap.matchAll(/<loc>(https:\/\/mirai-shigoto.com\/pro[^<]*)<\/loc>/g)].map(m => m[1]);
+    assert.equal(proLocs.length, 556);
+    assert.equal(new Set(proLocs).size, 556);
+    assert.ok(proLocs.every(loc => /^https:\/\/mirai-shigoto.com\/pro\/\d+$/.test(loc!)));
+    assert.ok(!readFileSync(join(dist, 'image-sitemap.xml'), 'utf8').includes('https://mirai-shigoto.com/pro'));
     for (const path of ['/pro', '/pro/rankings']) assert.ok(html(path).includes('content="index, follow"'));
     assert.ok(!existsSync(join(dist, 'pro/999999.html')));
     assert.ok(!existsSync(join(dist, 'pro/rankings/unknown.html')));

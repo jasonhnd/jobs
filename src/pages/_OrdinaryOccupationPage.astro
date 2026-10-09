@@ -10,7 +10,7 @@ import { salaryStanding } from '@/site/geo-facts';
 import { occupationUrl, occupationPath } from '@/lib/urls';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { CONSENSUS_HEADLINE_LABEL } from '@/site/consensus-copy';
-import { riskClass } from '@/lib/risk';
+import { occupationAnalyticsTier } from '@/lib/risk';
 import { siteConfig } from '@/site/config';
 import type { Rec } from '@/views/occupation-detail';
 
@@ -66,7 +66,7 @@ const description = summary.conclusion ?? summary.nameJa;
     </section>
     <Footer />
   </div>
-  <IdPageScript occId={rec.id} riskScoreJs={rec.ai_risk} riskTierJs={riskClass(rec.ai_risk)} />
+  <IdPageScript occId={rec.id} riskScoreJs={rec.ai_risk} riskTierJs={occupationAnalyticsTier(rec.ai_risk)} />
 </BaseLayout>
 
 <style>
@@ -82,6 +82,8 @@ const description = summary.conclusion ?? summary.nameJa;
   .summary-stats dt{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta)}
   .summary-stats dd{font-size:var(--t-h2);font-family:var(--font-serif);font-variant-numeric:tabular-nums;color:var(--ink)}
   .summary-primary{display:inline-flex;align-items:center;justify-content:center;padding:var(--s-3) var(--s-4);border-radius:var(--r-md);font-size:var(--t-sm);font-weight:700;background:var(--orange-hot);color:var(--paper);text-align:center}
+  .summary-primary:focus-visible{outline:var(--s-1) solid var(--ink);outline-offset:var(--s-1)}
+  .summary-pro h2 a{color:var(--ink)}
   .summary-note{font-size:var(--t-sm);color:var(--ink-2);line-height:1.6}
   .summary-related,.summary-pro{display:flex;flex-direction:column;gap:var(--s-3);margin-top:var(--s-6)}
   .summary-related ul,.summary-pro ul{display:flex;flex-direction:column;gap:var(--s-2);list-style:none}

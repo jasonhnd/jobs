@@ -554,3 +554,16 @@ Hub CSS. Edition navigation belongs to conformant chrome. The page-class gate
 follows shared components and fails on any unclassified Pro route. No surface
 is downgraded and no Design token or canon is changed. Local rendered checks
 and 1440 / 768 / 375 screenshots are recorded in the PR.
+
+
+### Ordinary occupation stage 2 — Issue #897 / JOB_0230
+
+`_OrdinaryOccupationPage.astro` inherits the same conformant Detail class as
+`_OccupationPage.astro`. The summary uses existing statistic, lead, body, label,
+primary-button and note roles, gutter/content-max, spacing and radius tokens.
+No class, token, colour, font scale or Design version is added. The surface
+coverage list includes both shared occupation components; all Pro pages retain
+their existing coverage. Local 1440/768/375 paired renders, score/band agreement,
+old-anchor handoff, no-JavaScript links and missing-value checks are recorded in
+the implementation PR. Copy/composition signature and live deployment validation
+remain external acceptance steps.
