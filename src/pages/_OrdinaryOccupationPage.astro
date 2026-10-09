@@ -39,8 +39,8 @@ const description = summary.conclusion ?? summary.nameJa;
       {summary.conclusion && <p class="summary-conclusion">{summary.conclusion}</p>}
       {summary.advice && <p class="summary-advice">{summary.advice}</p>}
       <dl class="summary-stats">
-        <div><dt>年収（平均）</dt><dd>{summary.salary === null ? <span aria-label="データなし" title="データなし">—</span> : summary.salaryText}</dd></div>
-        <div><dt>月労働時間</dt><dd>{summary.hours === null ? <span aria-label="データなし" title="データなし">—</span> : summary.hoursText}</dd></div>
+        <div><dt>年収（平均）</dt><dd>{summary.salary === null ? <span aria-label="データなし" title="データなし">—</span> : <>{summary.salary?.toLocaleString('en-US')}<small> 万円</small></>}</dd></div>
+        <div><dt>月労働時間</dt><dd>{summary.hours === null ? <span aria-label="データなし" title="データなし">—</span> : <>{summary.hours}<small> 時間</small></>}</dd></div>
       </dl>
       <a class="summary-primary" data-primary-action href={summary.primaryHref}>{summary.primaryLabel}</a>
       <p class="summary-note">AIで仕事の中身がどれだけ変わるか（0〜10）</p>
@@ -81,6 +81,7 @@ const description = summary.conclusion ?? summary.nameJa;
   .summary-stats{display:flex;gap:var(--s-5);flex-wrap:wrap}
   .summary-stats dt{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta)}
   .summary-stats dd{font-size:var(--t-h2);font-family:var(--font-serif);font-variant-numeric:tabular-nums;color:var(--ink)}
+  .summary-stats dd small{font-size:var(--t-sm);font-family:var(--font-sans);font-weight:400;color:var(--ink-2)}
   .summary-primary{display:inline-flex;align-items:center;justify-content:center;padding:var(--s-3) var(--s-4);border-radius:var(--r-md);font-size:var(--t-sm);font-weight:700;background:var(--orange-hot);color:var(--paper);text-align:center}
   .summary-primary:focus-visible{outline:var(--s-1) solid var(--ink);outline-offset:var(--s-1)}
   .summary-pro h2 a{color:var(--ink)}

@@ -10,6 +10,20 @@ const label: Signature = { family: 'sans', weight: '600', px: '14px', colour: '-
 const list: Signature = { family: 'sans', weight: '400' };
 const crumb: Consumer = ['.crumb a', { family: 'sans', weight: '400', px: '14px', colour: '--ink-meta' }];
 const cases: readonly { url: string; consumers: readonly Consumer[] }[] = [
+  { url: '/156', consumers: [crumb,
+    ['.summary-label', label],
+    ['.summary-number', { family: 'serif', px: '28px', colour: '--ink', tabular: true }],
+    ['.summary-number small', { family: 'sans', px: '14px', colour: '--ink-2' }],
+    ['.score-band', { family: 'sans', weight: '600', px: '12px', colour: '--ink' }],
+    ['.summary-conclusion', { family: 'sans', weight: '400', px: '18px', colour: '--ink-2' }],
+    ['.summary-advice', { family: 'sans', weight: '400', px: '16px', colour: '--ink' }],
+    ['.summary-stats dt', label],
+    ['.summary-stats dd', { family: 'serif', px: '22px', colour: '--ink', tabular: true }],
+    ['.summary-stats dd small', { family: 'sans', weight: '400', px: '14px', colour: '--ink-2' }],
+    ['.summary-note', { family: 'sans', weight: '400', px: '14px', colour: '--ink-2' }],
+    ['.summary-related li a', { family: 'sans', weight: '400', px: '16px', colour: '--ink' }],
+    ['.summary-pro h2 a', { family: 'serif', px: '22px', colour: '--ink' }],
+  ] },
   { url: '/models', consumers: [
     ['.vendor-card h3 a', title], ['.vendor-history-date', { family: 'sans', weight: '400', px: '14px', colour: '--ink-2' }],
     ['.vendor-history-count', caption], ['.current-model-card dt', label], ['.vendor-facts dt', label],
@@ -35,7 +49,7 @@ const cases: readonly { url: string; consumers: readonly Consumer[] }[] = [
   { url: '/about', consumers: [crumb] },
   // Static pages currently have no rendered crumb; preserve their real title instead.
   { url: '/privacy', consumers: [['h1', { family: 'serif', px: '28px', colour: '--ink' }]] },
-  { url: '/156', consumers: [crumb, ['.transfer-card .tc-name', title], ['.topn-block .topn-name', { ...list, px: '14px' }],
+  { url: '/pro/156', consumers: [crumb, ['.transfer-card .tc-name', title], ['.topn-block .topn-name', { ...list, px: '14px' }],
     ['.aio-name', { family: 'sans', weight: '600', px: '12px', colour: '--ink' }],
     ['.score-history-current-date', caption], ['.score-history-item-model span', caption], ['.score-history-item-facts dt', label]] },
 ];
