@@ -17,7 +17,8 @@ export const ORDINARY_READING_ENTRIES: readonly ReadingEntry[] = [
 ];
 
 export function pageEdition(path: string): Edition {
-  return path === '/pro' || path.startsWith('/pro/') ? 'pro' : 'ordinary';
+  const route = path.replace(/\.html$/, '');
+  return route === '/pro' || route.startsWith('/pro/') ? 'pro' : 'ordinary';
 }
 
 export function navigationCurrent(path: string, href: string): boolean {

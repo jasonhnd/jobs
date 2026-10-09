@@ -71,8 +71,6 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   ['pages/pro/yearly/2026-report.astro', '高学歴の事務系専門職が高め'],
   ['pages/pro/yearly/2026-report.astro', 'AI 影響 大の事務系からの転換'],
   // Home hub-card descriptions.
-  ['index-source.html', '低 AI 影響かつ正社員中心'],
-  ['index-source.html', '短い労働時間 × 低 AI 影響'],
 ];
 
 const ALWAYS = [
