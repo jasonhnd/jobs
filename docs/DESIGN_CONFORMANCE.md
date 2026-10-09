@@ -565,5 +565,7 @@ remain unsigned. [Signature candidates](pro-split/stage-4-owner-signature.md)
 list exact replacements and rendered sector values. Local native Microsoft Edge
 captures at 1440 / 768 / 375 are in `/tmp/JOB_0232/screenshots/`; ordinary
 navigation and the actual diagnosis → me → occupation → Pro path are covered by
-`tests/e2e/ordinary-entry-points.spec.ts`. Local renders do not establish deployed
+`tests/e2e/ordinary-entry-points.spec.ts`. The mobile topbar and drawer use the
+existing modal/overlay layer tokens so page-level sticky controls cannot cover
+reading links; trial-click checks reproduce the old obstruction at 768 / 375. Local renders do not establish deployed
 preview acceptance. Independent review and owner copy signature remain required.
