@@ -303,7 +303,7 @@ const edition = pageEdition(path);
     <div class="mob-search-door-row">
       <a href={editionHref('/sectors', edition)}>業種から探す</a>
       <a href={editionHref('/rankings', edition)}>ランキング</a>
-      <a href={editionHref('/me', edition)}>自分の現在地</a>
+      <a href={editionHref('/me', edition)}>{edition === 'ordinary' ? '自分の仕事を探す' : '自分の現在地'}</a>
     </div>
   </div>
 </div>
