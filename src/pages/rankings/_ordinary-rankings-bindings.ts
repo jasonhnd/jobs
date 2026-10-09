@@ -13,6 +13,8 @@ export function buildOrdinaryRankingsBindings(result: RankingResult) {
   const jsonLd = JSON.parse(renderJsonLd(canonical, view.title, view.description, result.items, null));
   jsonLd['@graph'].find((n: any) => n['@type'] === 'WebPage').speakable.cssSelector = ['.ordinary-lead', '.ordinary-score-reading'];
   jsonLd['@graph'].find((n: any) => n['@type'] === 'Article').image = ogImage;
+  jsonLd['@graph'].find((n: any) => n['@type'] === 'ItemList').itemListOrder =
+    `https://schema.org/ItemListOrder${['ai-risk-low', 'short-hours'].includes(view.slug) ? 'Ascending' : 'Descending'}`;
   return {
     ...view, canonical, ogImage,
     rankItems: view.rows.map(row => renderOrdinaryRankingItem(row, view.isAiRanking)).join(''),
