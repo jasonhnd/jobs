@@ -138,7 +138,7 @@ export function renderRelatedCompares(
     .slice(0, 6)
     .map(
       (m) =>
-        `<li><a href="/compare/${m.slug}">` +
+        `<li><a href="/pro/compare/${m.slug}">` +
         `<span class="rc-title">${escapeHtml(m.title_ja)}</span>` +
         `</a></li>`,
     )
@@ -203,7 +203,7 @@ export function renderJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: '職業を比較する', item: `${SITE}/compare` },
+        { '@type': 'ListItem', position: 2, name: '職業を比較する', item: `${SITE}/pro/compare` },
         { '@type': 'ListItem', position: 3, name: meta.title_ja, item: canonical },
       ],
     },
@@ -251,7 +251,7 @@ export function renderFeaturedCompareCards(cards: ReadonlyArray<CompareHubCard>)
     const aRiskStr = formatRiskScoreLabel(c.a_risk);
     const bRiskStr = formatRiskScoreLabel(c.b_risk);
     return (
-      `<li><a href="/compare/${c.slug}">` +
+      `<li><a href="/pro/compare/${c.slug}">` +
       `<span class="cci-title">${escapeHtml(c.title_ja)}</span>` +
       `<span class="cci-pair">` +
       `<span class="cci-side">` +
@@ -281,7 +281,7 @@ export function renderCompactCompareCards(cards: ReadonlyArray<CompareHubCard>):
     const aRiskStr = formatRiskScoreLabel(c.a_risk);
     const bRiskStr = formatRiskScoreLabel(c.b_risk);
     return (
-      `<li><a href="/compare/${c.slug}">` +
+      `<li><a href="/pro/compare/${c.slug}">` +
       `<span class="ccq-title">${escapeHtml(c.title_ja)}</span>` +
       `<span class="ccq-pair">` +
       `<span class="ccq-name">${escapeHtml(c.a_name)}</span>` +
@@ -296,7 +296,7 @@ export function renderCompactCompareCards(cards: ReadonlyArray<CompareHubCard>):
 }
 
 export function renderHubJsonLd(): string {
-  const canonical = `${SITE}/compare`;
+  const canonical = `${SITE}/pro/compare`;
   const seoDesc =
     '日本の代表的な職業同士を side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
   return stringifyJsonLd(

@@ -19,6 +19,7 @@ import {
   type GeoTreemapRow,
 } from './geo-facts.js';
 import { renderHomeJsonLd, renderLlmsFullTxt, renderLlmsTxt } from './geo-render.js';
+import { editionHref } from './route-policy';
 
 const rows: GeoTreemapRow[] = [
   { id: 1, name_ja: 'A', salary: 410, ai_risk: 1.5, workers: 100, recruit_ratio: 1.1, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1' },
@@ -338,6 +339,16 @@ describe('pickLatestGeoScoreRun', () => {
 });
 
 describe('geo renderers', () => {
+  test('all llms companion URLs use final routes, including prose links outside the Pages section', () => {
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
+    for (const rendered of [renderLlmsTxt(facts), renderLlmsFullTxt(facts)]) {
+      for (const match of rendered.matchAll(/https:\/\/mirai-shigoto\.com\/[^\s)}]*/g)) {
+        const href = match[0].replace(/[.,;:]+$/, '');
+        assert.equal(editionHref(href, 'ordinary'), href, `GEO URL still requires a redirect: ${href}`);
+      }
+    }
+  });
+
   test('llms surfaces and JSON-LD render consensus copy and no placeholders', () => {
     const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
     const llms = renderLlmsTxt(facts);
@@ -380,7 +391,7 @@ describe('geo renderers', () => {
     }
   });
 
-  test('llms.txt Pages section is eight markdown links with the existing labels and URLs', () => {
+  test('llms.txt Pages section is eleven markdown links with the existing labels and URLs', () => {
     const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
     const pages = pagesSection(renderLlmsTxt(facts));
     assert.deepEqual(markdownLinks(pages), LLMS_PAGE_LINKS);
@@ -393,12 +404,15 @@ describe('geo renderers', () => {
 
 const LLMS_PAGE_LINKS: ReadonlyArray<readonly [string, string]> = [
   ['Main map', 'https://mirai-shigoto.com/'],
-  ['AIOIS-10 standard', 'https://mirai-shigoto.com/standard'],
-  ['Methodology', 'https://mirai-shigoto.com/methodology'],
-  ['Public data', 'https://mirai-shigoto.com/data'],
+  ['AIOIS-10 standard', 'https://mirai-shigoto.com/pro/standard'],
+  ['Methodology', 'https://mirai-shigoto.com/pro/methodology'],
+  ['Public data', 'https://mirai-shigoto.com/pro/data'],
   ['Rankings', 'https://mirai-shigoto.com/rankings'],
+  ['Full Pro rankings', 'https://mirai-shigoto.com/pro/rankings'],
+  ['Model runs', 'https://mirai-shigoto.com/pro/models'],
+  ['Questions', 'https://mirai-shigoto.com/pro/q'],
   ['Sectors', 'https://mirai-shigoto.com/sectors'],
-  ['Answers', 'https://mirai-shigoto.com/answers'],
+  ['Answers', 'https://mirai-shigoto.com/pro/answers'],
   ['Extended GEO companion', 'https://mirai-shigoto.com/llms-full.txt'],
 ];
 

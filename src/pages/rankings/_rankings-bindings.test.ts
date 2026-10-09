@@ -1,3 +1,4 @@
+import { rankingRoute } from '@/site/route-policy';
 import { before, describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { loadGraph, type KnowledgeGraph } from '@/graph';
@@ -16,7 +17,7 @@ describe('buildRankingsSlugBindings', () => {
     assert.ok(bundle.results.size > 0);
     for (const [slug, result] of bundle.results) {
       const b = buildRankingsSlugBindings(result, graph);
-      assert.equal(b.canonical, `https://mirai-shigoto.com/rankings/${slug}`);
+      assert.equal(b.canonical, `https://mirai-shigoto.com${rankingRoute(slug).canonicalPath}`);
       assert.equal(b.ogImage, `https://mirai-shigoto.com/api/og?ranking=${slug}`);
       assert.ok(b.rankItems.length > 0);
       assert.ok(b.relatedHtml.length > 0);
@@ -45,5 +46,21 @@ test('all Pro ranking WebPage and Article metadata matches the edition title and
     assert.equal(article?.description, `Pro · ${result.seoDesc}`);
     assert.equal(nodes(ordinary.jsonLd).find(n => n['@type'] === 'WebPage')?.name, result.title);
     assert.equal(nodes(ordinary.jsonLd).find(n => n['@type'] === 'WebPage')?.description, result.seoDesc);
+  }
+});
+
+test('retained Pro ranking JSON-LD page identity and breadcrumb match the ordinary canonical', () => {
+  const bundle = buildRankings(() => loadOccupationsFromGraph(graph));
+  for (const result of bundle.results.values()) {
+    if (!rankingRoute(result.slug, 'pro').ordinaryProCta) continue;
+    const pro = buildRankingsSlugBindings(result, graph, undefined, 'pro');
+    const nodes = JSON.parse(pro.jsonLd)['@graph'] as Array<Record<string, any>>;
+    for (const type of ['WebPage','Article']) {
+      const node = nodes.find(n => n['@type'] === type)!;
+      assert.equal(node.url, pro.canonical);
+      assert.ok(node['@id'].startsWith(pro.canonical+'#'));
+    }
+    const crumb = nodes.find(n => n['@type'] === 'BreadcrumbList')!;
+    assert.equal(crumb.itemListElement.at(-1).item, pro.canonical);
   }
 });

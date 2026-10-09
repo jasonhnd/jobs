@@ -1,3 +1,4 @@
+import { rankingRoute } from '../site/route-policy';
 /**
  * src/views/spoke-hub-graph.ts — Phase A: compute "related hubs" for each spoke (occupation).
  *
@@ -164,7 +165,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: 'ランキング',
         name,
-        href: `/rankings/${rh.slug}`,
+        href: meta ? rankingRoute(rh.slug).pagePath : `/rankings/${rh.slug}`,
         desc: `この職業は ${rh.rank} 位`,
       };
     });
@@ -180,7 +181,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '能力',
         name: cfg.short_ja,
-        href: `/abilities/${cfg.slug}`,
+        href: `/pro/abilities/${cfg.slug}`,
         desc: cfg.title_ja,
       };
     });
@@ -196,7 +197,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '知識',
         name: cfg.short_ja,
-        href: `/knowledge/${cfg.slug}`,
+        href: `/pro/knowledge/${cfg.slug}`,
         desc: cfg.title_ja,
       };
     });
@@ -212,7 +213,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: 'スキル',
         name: meta.short_ja,
-        href: `/skills/${meta.slug}`,
+        href: `/pro/skills/${meta.slug}`,
         desc: meta.title_ja,
       };
     });
@@ -228,7 +229,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '価値観',
         name: cfg.short_ja,
-        href: `/values/${cfg.slug}`,
+        href: `/pro/values/${cfg.slug}`,
         desc: cfg.title_ja,
       };
     });
@@ -244,7 +245,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '働き方',
         name: cfg.short_ja,
-        href: `/work-styles/${cfg.slug}`,
+        href: `/pro/work-styles/${cfg.slug}`,
         desc: cfg.title_ja,
       };
     });
@@ -259,7 +260,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '興味タイプ',
         name: `${meta.letter} (${meta.name_ja})`,
-        href: `/interests/${slug}`,
+        href: `/pro/interests/${slug}`,
         desc: `${meta.name_ja}タイプ向けの職業`,
       };
     });
@@ -276,7 +277,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
     const items: RelatedHub[] = personaScores.map((x) => ({
       category: 'キャリア段階',
       name: x.persona.short_ja,
-      href: `/careers/${x.persona.slug}`,
+      href: `/pro/careers/${x.persona.slug}`,
       desc: x.persona.title_ja,
     }));
     groups.push({ category: 'キャリア段階', items });
@@ -288,7 +289,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
     const items: RelatedHub[] = licenseHits.map((hub) => ({
       category: '資格',
       name: hub.short_ja,
-      href: `/licenses/${hub.slug}`,
+      href: `/pro/licenses/${hub.slug}`,
       desc: hub.title_ja,
     }));
     groups.push({ category: '資格', items });
@@ -304,7 +305,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
     const items: RelatedHub[] = qaHits.map((x) => ({
       category: 'Q&A',
       name: x.qa.question,
-      href: `/q/${x.qa.slug}`,
+      href: `/pro/q/${x.qa.slug}`,
       desc: x.qa.short_answer.slice(0, 50) + '…',
     }));
     groups.push({ category: 'Q&A', items });
@@ -316,7 +317,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
     const items: RelatedHub[] = compareHits.map((m) => ({
       category: '比較',
       name: m.title_ja,
-      href: `/compare/${m.slug}`,
+      href: `/pro/compare/${m.slug}`,
       desc: 'この職業の比較ページ',
     }));
     groups.push({ category: '比較', items });

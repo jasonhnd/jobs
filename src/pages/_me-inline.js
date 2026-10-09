@@ -693,7 +693,9 @@
       if (row.pos.rank !== null) li.classList.add('in-top');
       var leftWrap = document.createElement('div');
       var a = document.createElement('a');
-      a.href = '/rankings/' + row.meta.slug;
+      var routeData = document.getElementById('meRankingPaths');
+      var rankingPaths = routeData ? JSON.parse(routeData.textContent) : {};
+      a.href = rankingPaths[row.meta.slug] || '/pro/rankings';
       a.textContent = row.meta.name_ja;
       var desc = document.createElement('div');
       desc.className = 'me-rank-desc';

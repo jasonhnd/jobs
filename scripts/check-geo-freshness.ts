@@ -30,8 +30,8 @@ import { QA_ITEMS, selectExamples } from '../src/views/qa-meta.js';
 import { buildRankings, loadOccupationsFromGraph } from '../src/views/ranking.js';
 
 const GEO_ASTRO_PAGES = [
-  'src/pages/standard.astro',
-  'src/pages/methodology.astro',
+  'src/pages/pro/standard.astro',
+  'src/pages/pro/methodology.astro',
 ] as const;
 
 export function readText(rel: string): string {
@@ -276,10 +276,10 @@ export function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
   }
 
   const methodology = buildMethodologyBatchView(facts);
-  assertContains('dist-astro/methodology.html', '複数のAI');
-  assertContains('dist-astro/methodology.html', SCORE_PANEL.latestRunDate);
-  assertContains('dist-astro/methodology.html', methodology.meanAiImpact);
-  assertContains('dist-astro/methodology.html', 'Claude Fable 5');
+  assertContains('dist-astro/pro/methodology.html', '複数のAI');
+  assertContains('dist-astro/pro/methodology.html', SCORE_PANEL.latestRunDate);
+  assertContains('dist-astro/pro/methodology.html', methodology.meanAiImpact);
+  assertContains('dist-astro/pro/methodology.html', 'Claude Fable 5');
 
   const readme = readText('README.md');
   const staleCurrentClaims = [
@@ -388,7 +388,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   const ranking = rankings.results.get('ai-risk-high') ?? rankings.results.values().next().value;
   if (!ranking) fail('no ranking result available for rendered fact-block check');
   requireBlock(
-    `dist-astro/rankings/${ranking.slug}.html`,
+    `dist-astro/pro/rankings/${ranking.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
       subjectJa: ranking.h1Text,
@@ -401,7 +401,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   if (!genreConfig) fail('no genre config available for rendered fact-block check');
   const genreResult = buildGenreResult(loadGraphAdaptedDetails(graph), genreConfig);
   requireBlock(
-    `dist-astro/abilities/${genreConfig.slug}.html`,
+    `dist-astro/pro/abilities/${genreConfig.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
       subjectJa: genreConfig.title_ja,
@@ -413,7 +413,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   const compare = buildCompareBundle(makeCompareLoaderFromGraph(graph)).results.values().next().value;
   if (!compare) fail('no compare result available for rendered fact-block check');
   requireBlock(
-    `dist-astro/compare/${compare.meta.slug}.html`,
+    `dist-astro/pro/compare/${compare.meta.slug}.html`,
     renderAiFactParagraph(buildCompareGeoFactSummary({
       facts,
       subjectJa: compare.meta.title_ja,
@@ -425,7 +425,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   if (!qa) fail('no Q&A item available for rendered fact-block check');
   const examples = selectExamples(loadAllDetails(), qa, 10);
   requireBlock(
-    `dist-astro/q/${qa.slug}.html`,
+    `dist-astro/pro/q/${qa.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
       subjectJa: qa.question,
@@ -453,7 +453,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
     const topic = buildGeoAnswerTopic(facts, config.slug);
     if (!topic) fail(`no GEO answer topic available for ${config.slug}`);
     requireBlock(
-      `dist-astro/answers/${config.slug}.html`,
+      `dist-astro/pro/answers/${config.slug}.html`,
       renderAiFactParagraph(buildOccupationSetGeoFactSummary({
         facts,
         subjectJa: topic.config.h1Ja,
@@ -510,8 +510,8 @@ export async function main(): Promise<void> {
     assertOmitsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, why);
     assertOmitsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, why);
   }
-  assertContainsText('src/pages/methodology.astro', 'r=0.92〜0.97', 'D2-B cross-model validation correlation copy');
-  assertContainsText('src/pages/methodology.astro', '38/40 職業', 'D2-B cross-model validation agreement copy');
+  assertContainsText('src/pages/pro/methodology.astro', 'r=0.92〜0.97', 'D2-B cross-model validation correlation copy');
+  assertContainsText('src/pages/pro/methodology.astro', '38/40 職業', 'D2-B cross-model validation agreement copy');
 
   await assertRenderedFactBlocks(facts);
 

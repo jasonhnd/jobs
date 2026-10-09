@@ -109,8 +109,8 @@ export const EXPLORE_ROUTES: ReadonlyArray<ExploreRoute> = [
     description_ja: '本サイトの AI 影響度評価方法、用語、データソース、年次レポートを確認できる。',
     intro_ja: '本サイトの独自分析がどう行われているか、用語の定義、データの出典、年次レポート (2026 年版・5 年変化・10 年予測) を公開しています。透明性を重視する独立サイトです。',
     genres: [
-      { path: '/standard', label: 'AIOIS-10 標準', desc: '10 次元・EMFO・2 指数の定義' },
-      { path: '/methodology', label: '評価プロセス', desc: '複数のAIによる総合（AIOIS-10）の算出のしくみ・校正・限界' },
+      { path: '/pro/standard', label: 'AIOIS-10 標準', desc: '10 次元・EMFO・2 指数の定義' },
+      { path: '/pro/methodology', label: '評価プロセス', desc: '複数のAIによる総合（AIOIS-10）の算出のしくみ・校正・限界' },
       { path: '/about', label: 'データについて', desc: '出典の要約・スコアの目安・用語集・FAQ' },
       { path: 'yearly', label: '年次レポート', desc: '2026 年版・5 年変化・10 年予測' },
     ],

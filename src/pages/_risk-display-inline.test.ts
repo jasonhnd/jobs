@@ -16,7 +16,7 @@ const read = (rel: string): string => readFileSync(join(import.meta.dirname, rel
 const meJs = read('_me-inline.js');
 const mapJs = read('_map-inline.js');
 const shindanJs = read('_shindan.js');
-const compareAstro = read('compare/index.astro');
+const compareAstro = read('pro/compare/index.astro');
 const indexJs = read('_index-inline.js');
 
 /** Source of `function <name>(` through the closing brace at the same indent. */

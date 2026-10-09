@@ -446,15 +446,15 @@ that dated count is preserved in the history, not used as the current total.
 | surface | 主な対象ファイル |
 |---|---|
 | `tokens` | `src/lib/design-tokens.ts`（新設）, `src/lib/canonical-css.ts` |
-| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/models.astro`, `src/pages/models/[model].astro`, `src/pages/aiadoption.astro`, `src/pages/aiadoption/[release].astro`, `src/pages/_HaidReleasePage.astro`, `src/pages/_haid-release-labels.ts`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
+| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/pro/models.astro`, `src/pages/pro/models/[model].astro`, `src/pages/pro/aiadoption.astro`, `src/pages/pro/aiadoption/[release].astro`, `src/pages/_HaidReleasePage.astro`, `src/pages/_haid-release-labels.ts`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
 | `interactive` | `src/pages/map.astro`, `src/pages/_map-css.ts` |
 | `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro`, `src/pages/_OccupationPage.astro`, `src/pages/pro/[id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_StatsGrid.astro`, `src/pages/_JobtagAnchor.astro`, `src/pages/_IdPageScript.astro` |
-| `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/pro/index.astro`, `src/pages/pro/rankings/`, `src/pages/compare/`, `src/pages/skills/`, `src/pages/interests/`, `src/pages/answers/`, `src/pages/q/`, `src/pages/yearly/`, `src/pages/abilities/`, `src/pages/careers/`, `src/pages/education/`, `src/pages/employment-types/`, `src/pages/entry-paths/`, `src/pages/explore/`, `src/pages/knowledge/`, `src/pages/licenses/`, `src/pages/life-balance/`, `src/pages/training/`, `src/pages/values/`, `src/pages/work-styles/`, `src/lib/ai-fact-css.ts` |
+| `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/pro/index.astro`, `src/pages/pro/rankings/`, `src/pages/compare/`, `src/pages/pro/compare/`, `src/pages/skills/`, `src/pages/pro/skills/`, `src/pages/interests/`, `src/pages/pro/interests/`, `src/pages/answers/`, `src/pages/pro/answers/`, `src/pages/q/`, `src/pages/pro/q/`, `src/pages/yearly/`, `src/pages/pro/yearly/`, `src/pages/abilities/`, `src/pages/pro/abilities/`, `src/pages/careers/`, `src/pages/pro/careers/`, `src/pages/education/`, `src/pages/pro/education/`, `src/pages/employment-types/`, `src/pages/pro/employment-types/`, `src/pages/entry-paths/`, `src/pages/pro/entry-paths/`, `src/pages/explore/`, `src/pages/pro/explore/`, `src/pages/knowledge/`, `src/pages/pro/knowledge/`, `src/pages/licenses/`, `src/pages/pro/licenses/`, `src/pages/life-balance/`, `src/pages/pro/life-balance/`, `src/pages/training/`, `src/pages/pro/training/`, `src/pages/values/`, `src/pages/pro/values/`, `src/pages/work-styles/`, `src/pages/pro/work-styles/`, `src/lib/ai-fact-css.ts` |
 | `sector` | `src/lib/canonical/sector.ts`, `src/pages/sectors/` |
-| `doc` | `src/lib/canonical/doc.ts`, `src/pages/_haid-css.ts`, `src/pages/haid.astro`, `src/pages/standard.astro`, `src/pages/methodology.astro`, `src/pages/about.astro`, `src/pages/data.astro` |
+| `doc` | `src/lib/canonical/doc.ts`, `src/pages/_haid-css.ts`, `src/pages/pro/haid.astro`, `src/pages/pro/standard.astro`, `src/pages/pro/methodology.astro`, `src/pages/about.astro`, `src/pages/pro/data.astro` |
 | `static` | `src/lib/canonical/static.ts`, `src/pages/privacy.astro`, `src/pages/compliance.astro`, `src/pages/404.astro` |
 | `chrome` | `src/lib/canonical-css.ts`, `src/components/TopNav.astro`, `src/components/Footer.astro`, `src/components/MobileNav.astro`, `src/components/MeEntry.astro`, `src/components/EditionNav.astro`, `src/layouts/BaseLayout.astro` |
-| `misc` | `src/pages/shindan.astro`, `src/pages/_shindan-css.ts`, `src/pages/me.astro`, `src/pages/gyakuten.astro`, `src/pages/_gyakuten-css.ts`（すべて Hub class） |
+| `misc` | `src/pages/shindan.astro`, `src/pages/_shindan-css.ts`, `src/pages/me.astro`, `src/pages/pro/gyakuten.astro`, `src/pages/_gyakuten-css.ts`（すべて Hub class） |
 | `og` | `src/lib/og-renderers/` |
 
 **共通:** 見出しの分岐は `src/lib/canonical-css.ts` 側に置く。ページ CSS に見出しのサイズ・書体・字重を書かない（Design.md §4.9）。
@@ -554,3 +554,5 @@ Hub CSS. Edition navigation belongs to conformant chrome. The page-class gate
 follows shared components and fails on any unclassified Pro route. No surface
 is downgraded and no Design token or canon is changed. Local rendered checks
 and 1440 / 768 / 375 screenshots are recorded in the PR.
+
+Stage 1B (JOB_0233 / Issue #896) moves existing research surfaces to their Pro paths with unchanged classes, tokens, prose and tables. Shared bindings remain under the root source directories; both locations are enforced. Screenshots and route/SEO evidence are recorded in the implementation PR. Stage 2–4 ordinary simplification and final deployed visual acceptance remain pending.

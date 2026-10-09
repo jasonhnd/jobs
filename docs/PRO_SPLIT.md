@@ -1,4 +1,4 @@
-# Ordinary / Pro split contract — stage 0
+# Ordinary / Pro split contract
 
 **Planning contract, JOB_0223 / Issue #892, 2026-10-08.** No routes, redirects,
 public copy, analytics, or Design canon are implemented by this document.
@@ -31,10 +31,12 @@ including exclusion of the four noindex rankings from the future sitemap.
 Sign new public Japanese by page family (6B). Freeze #577's old-path observation
 before any production switch, then request separate owner promotion approval (7A).
 
-**Pending owner decision:** redirect configuration authorization (option 4),
-and ordinary visual approval / minimal Design scope (option 5). These do not
-block this documentation card. They gate the corresponding implementation;
-this document grants no configuration or production authority. GitHub Actions
+**Stage 1B authorization:** owner authorization 2026-10-09, decision d1008-214048-1
+authorizes exact old-address → final-Pro 301s and alias destination flattening in
+`vercel.json` for Issue #896 / JOB_0233. It grants no environment/domain/firewall
+operation or production promotion authority. Ordinary simplification and any
+new public Japanese copy remain separately approved stages. The introductory
+stage-zero evidence above is historical. GitHub Actions
 remain disabled; use real local acceptance evidence and independent review
 ([AGENTS.md](../AGENTS.md), lines 65-73, 130-167). Do not restore workflows.
 
@@ -42,8 +44,9 @@ remain disabled; use real local acceptance evidence and independent review
 
 The generated [route manifest](pro-split/route-manifest.json) is the exhaustive
 39-ranking list and the source-derived Astro **template** mapping. Its
-`stage: planning-only` and `redirectAuthorization: pending-owner-decision`
-are deliberate. `oldStatus` means the intended final status, not current HTTP.
+`stage: stage-1B` and the dated `redirectAuthorization` record the scoped
+owner authorization. The expanded [generated route inventory](pro-split/generated-routes.json)
+is checked against current built pages by `scripts/pro-migration.ts`. `oldStatus` means the intended final status, not current HTTP.
 Template parameters are valid generated pages only, never blanket redirect
 patterns. Stage 1B must expand them against built valid URLs and verify exact
 old/new sets before deploying configuration.
@@ -116,6 +119,8 @@ outlive code rollback; rollback planning must keep final Pro targets reachable.
 | Stage 1A duplicate Pro occupations and rankings | Corresponding ordinary old URL: occupations `/<id>` (ID404 `/occupations/404`), rankings `/rankings/<slug>` | Ordinary canonical URLs only; no duplicate Pro entries |
 | Stage 2 genuinely simplified ordinary occupation and complete Pro occupation | Each edition self-canonical | Both editions |
 | Stage 1B onward: eight rankings with equivalent ordinary/Pro tables | Ordinary self; Pro points to ordinary | Ordinary only |
+| Stage 1B: ranking indexes still share the complete 39-card content | Ordinary self; Pro index points to ordinary | Ordinary index only until stage 3 |
+| Latest HAID report entrance and its permanent archive URL | Entrance self; latest archive points to entrance | Entrance only; earlier self-canonical archives stay eligible |
 | Eight Pro rankings after separately verified substantial independent analysis | Each edition may self-canonical after content review | Both if indexable |
 | After authorized stage 1B migration: 31 rankings and other complete pages | Final Pro URL self-canonical; never old 301 URL | Final indexable canonical URLs, preserving existing family eligibility |
 | Stage 1B onward: four existing noindex rankings | Pro self-canonical + `noindex, follow` | Excluded under selected 3A |
@@ -131,10 +136,10 @@ canonical points to an occupation URL. Noindex is inherited in both stages.
 The four exclusions are `self-employed-typical`, `freelance-friendly`,
 `ai-safe-young-workforce`, `ai-safe-short-hours`
 (`src/views/rankings-meta.ts:97-113`; rendering: `src/pages/rankings/[type].astro:48`).
-They currently remain in sitemap intentionally; 3A changes that future policy,
-not the current source in this PR. Low traffic does not authorize more noindex.
+They are excluded from the main sitemap under stage 1B / selected 3A.
+Low traffic does not authorize more noindex.
 Model subpages being absent from sitemap does not mean noindex
-(`src/pages/models/[model].astro:82-90`).
+(`src/pages/pro/models/[model].astro`).
 
 Keep root sitemap/robots/llms entrances. Sitemap generation is explicit
 (`src/views/sitemap.ts:151-276`), including the later careers (244-246), licenses
@@ -415,3 +420,46 @@ policy is independent of the final ordinary subset: only the eight rows with
 WebPage/Article metadata and index WebPage metadata use the same `Pro |` title
 and `Pro ·` description values as their actual HTML metadata. Ordinary
 structured data remains unchanged.
+
+## Stage 1B implementation record (JOB_0233 / Issue #896)
+
+47 existing research Astro templates move to `src/pages/pro/`; their shared
+bindings stay in place. Exactly 31 root ranking pages stop being emitted; eight
+remain. Pro occupations remain complete copies canonicalizing to ordinary until
+stage 2. Migrated families self-canonicalize, retained Pro ranking copies keep
+ordinary canonicals, four noindex rankings stay noindex and leave the main sitemap.
+The Pro entrance enters the sitemap; the still-duplicate Pro rankings index
+canonicalizes to `/rankings` and stays outside it until stage 3.
+The latest HAID archive canonicalizes to `/pro/aiadoption` and stays outside
+the sitemap; earlier self-canonical archives remain listed.
+Model runs retain the existing
+indexable-but-not-in-sitemap policy; the image sitemap keeps ordinary occupations.
+The main sitemap retains both root GEO discovery files under their original
+machine-file eligibility. Self-canonical checks apply to HTML entries;
+machine files are checked separately for final URLs, existence and HTTP 200.
+
+`route-policy.ts` supplies final links and trusted body/JSON-LD adapters. Return
+navigation and scripts/styles are opaque to body adaptation; occupation entity
+IDs, WebSite/Organization/global Dataset identity and root data/API URLs stay
+stable. The migrated page URL differs from the canonical on intentional copies.
+Middleware records `geo_landing_edition` on server `page_delivery`; registering
+the new event dimension is unperformed and requires separate owner authorization.
+
+The exact redirect inventory is generated, not hand-maintained. Language
+wildcards are expanded against 845 logical legacy HTML routes; unknown language
+paths now retain real 404s. `/en/404` continues to reach the error document while
+`/ja/404` and `/ja/404.html` retain the occupation exception. Configuration keeps
+query strings on same-host redirects. The Vercel configured-route limit is
+2,048 including redirects, headers and rewrites; the gate enforces it.
+See [Vercel limits](https://vercel.com/docs/limits).
+
+Content/score data, sorting, analytics inline script bodies and existing Japanese
+body wording are unchanged. All 39 Pro ranking detail titles/descriptions and
+the Pro index use the `Pro | ` / `Pro · ` prefixes; OG title/description retain
+the original unprefixed copy. These metadata differences and edition-navigation
+labels are listed in the PR signature package; none is represented as signed.
+The exact 40-page old/new values are recorded in
+[`pro-split/owner-signature.md`](pro-split/owner-signature.md).
+Local HTTP/three-width
+rendering evidence belongs to the implementation PR; deployed behavior remains
+unverified until the separate preview acceptance stage.

@@ -23,6 +23,7 @@
  */
 
 import { siteConfig } from '../site/config.js';
+import { rankingRoute } from '../site/route-policy';
 import { ALL_RANKINGS } from './ranking.js';
 import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from './skills-meta.js';
@@ -122,7 +123,7 @@ function normalizeLastmods(lastmods: string | SitemapLastmods): SitemapLastmods 
  * URL clusters (matches the previous inline structure 1-for-1):
  *   - Home + /map (+ 16 sector-filter query-string variants)
  *   - 3 legal pages (/privacy /about /compliance)
- *   - 2 GEO surfaces (/llms.txt /llms-full.txt)
+ *   - Canonical HTML plus the two root GEO machine-file discovery entries.
  *   - Rankings (index + N ranking slugs)
  *   - Sectors (index + 16 hubs)
  *   - Interests / Skills / Compare clusters (index + each slug)
@@ -137,8 +138,9 @@ function normalizeLastmods(lastmods: string | SitemapLastmods): SitemapLastmods 
  * own content dates instead of being bumped as a group on every data update.
  */
 export interface SitemapExtras {
-  /** HAID release ids (yyyy-qN). Each gets /aiadoption/<id>; the newest is also /aiadoption. */
+  /** HAID release ids (yyyy-qN); the current permalink duplicates /pro/aiadoption. */
   readonly haidReleases?: readonly string[];
+  readonly haidLatestRelease?: string;
 }
 
 export function buildSitemapEntries(
@@ -162,11 +164,12 @@ export function buildSitemapEntries(
   // state only; canonical `/sectors/<id>` hub pages cover SEO for sectors.
   entries.push(entry(`${SITE_ORIGIN}/`, lastmods.content, 'weekly', '1.0'));
   entries.push(entry(`${SITE_ORIGIN}/map`, lastmods.content, 'monthly', '0.9'));
-  entries.push(entry(`${SITE_ORIGIN}/aiadoption`, lastmods.content, 'monthly', '0.7'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/aiadoption`, lastmods.content, 'monthly', '0.7'));
   // Archived HAID releases (aiadoption-1.4). The newest release is served at
   // /aiadoption itself; every release has its permanent /aiadoption/<id>.
   for (const id of [...(extras.haidReleases ?? [])].sort()) {
-    entries.push(entry(`${SITE_ORIGIN}/aiadoption/${id}`, lastmods.content, 'monthly', '0.5'));
+    if (id === extras.haidLatestRelease) continue;
+    entries.push(entry(`${SITE_ORIGIN}/pro/aiadoption/${id}`, lastmods.content, 'monthly', '0.5'));
   }
   // /me is the "self-positioning" tool linked from MobileNav + 3 hub pages —
   // a real indexable surface that was previously missing from the sitemap
@@ -174,26 +177,31 @@ export function buildSitemapEntries(
   // whenever an occupation's scores or salary updates.
   entries.push(entry(`${SITE_ORIGIN}/me`, lastmods.content, 'weekly', '0.7'));
   entries.push(entry(`${SITE_ORIGIN}/shindan`, lastmods.content, 'weekly', '0.7'));
-  entries.push(entry(`${SITE_ORIGIN}/gyakuten`, lastmods.content, 'weekly', '0.7'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/gyakuten`, lastmods.content, 'weekly', '0.7'));
 
   // Legal / static pages
   entries.push(entry(`${SITE_ORIGIN}/privacy`, lastmods.privacy, 'yearly', '0.3'));
   entries.push(entry(`${SITE_ORIGIN}/about`, lastmods.about, 'monthly', '0.5'));
-  entries.push(entry(`${SITE_ORIGIN}/standard`, lastmods.standard, 'monthly', '0.6'));
-  entries.push(entry(`${SITE_ORIGIN}/haid`, lastmods.haid, 'monthly', '0.6'));
-  entries.push(entry(`${SITE_ORIGIN}/methodology`, lastmods.methodology, 'monthly', '0.6'));
-  entries.push(entry(`${SITE_ORIGIN}/models`, lastmods.models, 'monthly', '0.6'));
-  entries.push(entry(`${SITE_ORIGIN}/data`, lastmods.data, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/standard`, lastmods.standard, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/haid`, lastmods.haid, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/methodology`, lastmods.methodology, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/models`, lastmods.models, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/data`, lastmods.data, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/compliance`, lastmods.compliance, 'monthly', '0.4'));
 
-  // GEO surface (llms.txt convention; listed for general crawlers)
+  // GEO text companions retain their original eligibility and root discovery entrances.
+  // HTML self-canonical checks do not apply to these machine files.
   entries.push(entry(`${SITE_ORIGIN}/llms.txt`, lastmods.content, 'monthly', '0.2'));
   entries.push(entry(`${SITE_ORIGIN}/llms-full.txt`, lastmods.content, 'monthly', '0.2'));
+
+  entries.push(entry(`${SITE_ORIGIN}/pro`, lastmods.content, 'weekly', '0.8'));
+  // The Pro index still duplicates all 39 cards until the separate ordinary simplification.
 
   // Rankings cluster
   entries.push(entry(`${SITE_ORIGIN}/rankings`, lastmods.content, 'weekly', '0.8'));
   for (const slug of rankingSlugs) {
-    entries.push(entry(`${SITE_ORIGIN}/rankings/${slug}`, lastmods.content, 'weekly', '0.7'));
+    const route = rankingRoute(slug, 'pro');
+    if (!route.noindex) entries.push(entry(`${SITE_ORIGIN}${route.canonicalPath}`, lastmods.content, 'weekly', '0.7'));
   }
 
   // Sectors cluster
@@ -203,21 +211,21 @@ export function buildSitemapEntries(
   }
 
   // Interests (RIASEC) cluster — 6 types + index
-  entries.push(entry(`${SITE_ORIGIN}/interests`, lastmods.content, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/interests`, lastmods.content, 'weekly', '0.8'));
   for (const meta of INTEREST_META) {
-    entries.push(entry(`${SITE_ORIGIN}/interests/${meta.slug}`, lastmods.content, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/pro/interests/${meta.slug}`, lastmods.content, 'weekly', '0.7'));
   }
 
   // Skills cluster — 10 skills + index
-  entries.push(entry(`${SITE_ORIGIN}/skills`, lastmods.content, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/skills`, lastmods.content, 'weekly', '0.8'));
   for (const meta of SKILL_META) {
-    entries.push(entry(`${SITE_ORIGIN}/skills/${meta.slug}`, lastmods.content, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/pro/skills/${meta.slug}`, lastmods.content, 'weekly', '0.7'));
   }
 
   // Compare (X vs Y) cluster — 12 pairs + index
-  entries.push(entry(`${SITE_ORIGIN}/compare`, lastmods.content, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/compare`, lastmods.content, 'weekly', '0.8'));
   for (const meta of COMPARE_META) {
-    entries.push(entry(`${SITE_ORIGIN}/compare/${meta.slug}`, lastmods.content, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/pro/compare/${meta.slug}`, lastmods.content, 'weekly', '0.7'));
   }
 
   // 9 Genre clusters (abilities / knowledge / values / education /
@@ -234,46 +242,46 @@ export function buildSitemapEntries(
     { path: 'entry-paths', configs: ENTRY_PATHS_CONFIGS },
   ];
   for (const g of genreClusters) {
-    entries.push(entry(`${SITE_ORIGIN}/${g.path}`, lastmods.content, 'weekly', '0.8'));
+    entries.push(entry(`${SITE_ORIGIN}/pro/${g.path}`, lastmods.content, 'weekly', '0.8'));
     for (const cfg of g.configs) {
-      entries.push(entry(`${SITE_ORIGIN}/${g.path}/${cfg.slug}`, lastmods.content, 'weekly', '0.7'));
+      entries.push(entry(`${SITE_ORIGIN}/pro/${g.path}/${cfg.slug}`, lastmods.content, 'weekly', '0.7'));
     }
   }
 
   // Careers personas
-  entries.push(entry(`${SITE_ORIGIN}/careers`, lastmods.content, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/careers`, lastmods.content, 'weekly', '0.8'));
   for (const p of CAREER_PERSONAS) {
-    entries.push(entry(`${SITE_ORIGIN}/careers/${p.slug}`, lastmods.content, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/pro/careers/${p.slug}`, lastmods.content, 'weekly', '0.7'));
   }
 
   // Licenses
-  entries.push(entry(`${SITE_ORIGIN}/licenses`, lastmods.content, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/licenses`, lastmods.content, 'weekly', '0.8'));
   for (const h of LICENSE_HUBS) {
-    entries.push(entry(`${SITE_ORIGIN}/licenses/${h.slug}`, lastmods.content, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/pro/licenses/${h.slug}`, lastmods.content, 'weekly', '0.7'));
   }
 
   // Q&A
-  entries.push(entry(`${SITE_ORIGIN}/q`, lastmods.content, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/q`, lastmods.content, 'weekly', '0.8'));
   for (const q of QA_ITEMS) {
-    entries.push(entry(`${SITE_ORIGIN}/q/${q.slug}`, lastmods.content, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/pro/q/${q.slug}`, lastmods.content, 'weekly', '0.7'));
   }
 
   // GEO answer topics
-  entries.push(entry(`${SITE_ORIGIN}/answers`, lastmods.content, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/answers`, lastmods.content, 'weekly', '0.8'));
   for (const topic of GEO_ANSWER_TOPIC_CONFIGS) {
-    entries.push(entry(`${SITE_ORIGIN}/answers/${topic.slug}`, lastmods.content, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/pro/answers/${topic.slug}`, lastmods.content, 'weekly', '0.7'));
   }
 
   // Yearly (hand-curated long-tail content)
-  entries.push(entry(`${SITE_ORIGIN}/yearly`, lastmods.yearly, 'monthly', '0.6'));
-  entries.push(entry(`${SITE_ORIGIN}/yearly/2026-report`, lastmods.yearly, 'yearly', '0.7'));
-  entries.push(entry(`${SITE_ORIGIN}/yearly/5year-changes`, lastmods.yearly, 'yearly', '0.6'));
-  entries.push(entry(`${SITE_ORIGIN}/yearly/next-decade`, lastmods.yearly, 'yearly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/yearly`, lastmods.yearly, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/yearly/2026-report`, lastmods.yearly, 'yearly', '0.7'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/yearly/5year-changes`, lastmods.yearly, 'yearly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/yearly/next-decade`, lastmods.yearly, 'yearly', '0.6'));
 
   // L2 explore routes
-  entries.push(entry(`${SITE_ORIGIN}/explore`, lastmods.content, 'weekly', '0.7'));
+  entries.push(entry(`${SITE_ORIGIN}/pro/explore`, lastmods.content, 'weekly', '0.7'));
   for (const r of EXPLORE_ROUTES) {
-    entries.push(entry(`${SITE_ORIGIN}/explore/${r.slug}`, lastmods.content, 'weekly', '0.6'));
+    entries.push(entry(`${SITE_ORIGIN}/pro/explore/${r.slug}`, lastmods.content, 'weekly', '0.6'));
   }
 
   // Per-occupation detail pages

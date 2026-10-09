@@ -134,12 +134,12 @@ const CLASS_IMPORTS = [
 const CLASS_EXCEPTIONS = new Set([
   'src/pages/index.astro',      // Interactive + Feature, _index.css
   'src/pages/map.astro',        // Interactive, _map-css.ts
-  'src/pages/models.astro',     // Feature, page-local
-  'src/pages/aiadoption.astro', // Feature, _ai-adoption-css.ts
-  'src/pages/aiadoption/[release].astro', // Feature, archived HAID releases; same _ai-adoption-css.ts via _HaidReleasePage.astro
+  'src/pages/pro/models.astro',     // Feature, page-local
+  'src/pages/pro/aiadoption.astro', // Feature, _ai-adoption-css.ts
+  'src/pages/pro/aiadoption/[release].astro', // Feature, archived HAID releases; same _ai-adoption-css.ts via _HaidReleasePage.astro
   // Feature family: a model page is not one of §4.8's three Feature pages, but
   // it shares their page-local CSS rather than a class.
-  'src/pages/models/[model].astro',
+  'src/pages/pro/models/[model].astro',
 ]);
 
 /** Follow shared Astro components so a route shell cannot bypass class enforcement. */

@@ -41,7 +41,7 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 export function buildInterestsSlugBindings(result: InterestResult, graph: KnowledgeGraph): InterestsSlugBindings {
   const slug = result.meta.slug as InterestType;
   const meta = result.meta;
-  const canonical = `${SITE}/interests/${slug}`;
+  const canonical = `${SITE}/pro/interests/${slug}`;
   const ogImage = `${SITE}/api/og?interest=${slug}`;
   const title = `${meta.title_ja}｜TOP ${result.items.length}・AI 影響度付き【2026 年版】 | 未来の仕事`;
   const seoDesc =

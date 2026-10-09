@@ -24,23 +24,23 @@ import {
 
 function builtModelsPath(): string | null {
   const candidates = [
-    join(process.cwd(), 'dist-astro', 'models', 'index.html'),
-    join(process.cwd(), 'dist-astro', 'models.html'),
+    join(process.cwd(), 'dist-astro', 'pro', 'models', 'index.html'),
+    join(process.cwd(), 'dist-astro', 'pro', 'models.html'),
   ];
   return requireBuiltArtifact(
     candidates.find((candidate) => existsSync(candidate)) ?? null,
-    'dist-astro/models/index.html',
+    'dist-astro/pro/models/index.html',
   );
 }
 
 function builtModelDetailPath(slug: string): string | null {
   const candidates = [
-    join(process.cwd(), 'dist-astro', 'models', slug, 'index.html'),
-    join(process.cwd(), 'dist-astro', 'models', `${slug}.html`),
+    join(process.cwd(), 'dist-astro', 'pro', 'models', slug, 'index.html'),
+    join(process.cwd(), 'dist-astro', 'pro', 'models', `${slug}.html`),
   ];
   return requireBuiltArtifact(
     candidates.find((candidate) => existsSync(candidate)) ?? null,
-    `dist-astro/models/${slug}/index.html`,
+    `dist-astro/pro/models/${slug}/index.html`,
   );
 }
 
