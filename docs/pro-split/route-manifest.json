@@ -879,6 +879,38 @@
       "scope": "existing-valid-pages"
     },
     {
+      "source": "src/pages/pro/[id].astro",
+      "oldTemplate": "/pro/[id]",
+      "oldStatus": 200,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/[id]",
+      "scope": "stage-1A-public-copy"
+    },
+    {
+      "source": "src/pages/pro/index.astro",
+      "oldTemplate": "/pro",
+      "oldStatus": 200,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro",
+      "scope": "stage-1A-public-copy"
+    },
+    {
+      "source": "src/pages/pro/rankings/[slug].astro",
+      "oldTemplate": "/pro/rankings/[slug]",
+      "oldStatus": 200,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/rankings/[slug]",
+      "scope": "stage-1A-public-copy"
+    },
+    {
+      "source": "src/pages/pro/rankings/index.astro",
+      "oldTemplate": "/pro/rankings",
+      "oldStatus": 200,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/rankings",
+      "scope": "stage-1A-public-copy"
+    },
+    {
       "source": "src/pages/q/[q].astro",
       "oldTemplate": "/q/[q]",
       "oldStatus": 301,

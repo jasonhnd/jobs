@@ -21,6 +21,7 @@ import { riskClass as riskBand } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 import { OCCUPATION_COUNT, siteConfig } from '../site/config.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
+import type { Edition } from '@/site/route-policy';
 import { occupationPath } from '../lib/urls.js';
 import { formatRiskScoreLabel, formatShownMeanLabel } from '../lib/score-format.js';
 import { stringifyJsonLd } from '../lib/json-for-script.js';
@@ -278,11 +279,12 @@ export function renderJsonLd(
   description: string,
   items: Occupation[],
   faqItems: ReadonlyArray<readonly [string, string]> | null,
+  edition: Edition = 'ordinary',
 ): string {
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}${occupationPath(o.id)}`,
+    url: `${SITE}${occupationPath(o.id, edition)}`,
     name: o.title_ja ?? `#${o.id}`,
   }));
 
@@ -330,8 +332,9 @@ export function renderJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'ランキング', item: `${SITE}/rankings` },
-        { '@type': 'ListItem', position: 3, name: title, item: canonical },
+        ...(edition === 'pro' ? [{ '@type': 'ListItem', position: 2, name: 'Pro', item: `${SITE}/pro` }] : []),
+        { '@type': 'ListItem', position: edition === 'pro' ? 3 : 2, name: 'ランキング', item: `${SITE}${edition === 'pro' ? '/pro/rankings' : '/rankings'}` },
+        { '@type': 'ListItem', position: edition === 'pro' ? 4 : 3, name: title, item: canonical },
       ],
     },
     {
@@ -696,8 +699,11 @@ export function renderInsightCards(insights: ReadonlyArray<string>): SafeHtml {
   ) as SafeHtml;
 }
 
-export function renderHubJsonLd(): string {
-  const canonical = `${SITE}/rankings`;
+export function renderHubJsonLd(
+  edition: Edition = 'ordinary',
+  proMetadata?: { readonly title: string; readonly description: string },
+): string {
+  const canonical = `${SITE}${edition === 'pro' ? '/pro/rankings' : '/rankings'}`;
   // RA-003 (2026-05-18): SCORED count.
   const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
   return stringifyJsonLd({
@@ -707,8 +713,8 @@ export function renderHubJsonLd(): string {
         '@type': 'WebPage',
         '@id': `${canonical}#webpage`,
         url: canonical,
-        name: '職業ランキング',
-        description: seoDesc,
+        name: edition === 'pro' ? (proMetadata?.title ?? 'Pro | 職業ランキング') : '職業ランキング',
+        description: edition === 'pro' ? (proMetadata?.description ?? `Pro · ${seoDesc}`) : seoDesc,
         isPartOf: { '@id': `${SITE}/#website` },
         inLanguage: 'ja',
         datePublished: DATE_PUBLISHED,
@@ -721,7 +727,8 @@ export function renderHubJsonLd(): string {
         '@id': `${canonical}#breadcrumb`,
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-          { '@type': 'ListItem', position: 2, name: 'ランキング', item: canonical },
+          ...(edition === 'pro' ? [{ '@type': 'ListItem', position: 2, name: 'Pro', item: `${SITE}/pro` }] : []),
+          { '@type': 'ListItem', position: edition === 'pro' ? 3 : 2, name: 'ランキング', item: canonical },
         ],
       },
     ],

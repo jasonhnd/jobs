@@ -29,7 +29,7 @@ const CHAP_PAGES = [
   'values/[value].astro',
   'abilities/[ability].astro',
   'careers/[career].astro',
-  'rankings/[type].astro',
+  'rankings/_RankingPage.astro',
   'knowledge/[knowledge].astro',
   'compare/[pair].astro',
   'skills/[skill].astro',

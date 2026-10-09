@@ -28,6 +28,7 @@
 import { join } from 'node:path';
 import { escapeHtml, unsafeReviewedHtml, type SafeHtml } from '@/lib/safe-html';
 import { formatParagraphs } from '@/lib/format-paragraphs';
+import type { Edition } from '@/site/route-policy';
 import { jaUrl } from '@/lib/urls';
 import {
   buildOccupationGeoFactSummary,
@@ -227,6 +228,7 @@ export interface WorktypeHeroBinding {
 }
 
 export interface IdPageBindingsInput {
+  readonly edition?: Edition;
   readonly rec: Rec;
   readonly related: ReadonlyArray<Rec>;
   readonly nameLookup: Record<number, string>;
@@ -431,6 +433,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     datePublished,
     dateModified,
     geoFacts,
+    edition: input.edition,
   });
 
   // ─── GA4 funnel classification ────────────────────────────
