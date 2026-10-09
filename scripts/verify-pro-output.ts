@@ -36,6 +36,17 @@ for (const file of files(root).filter(f=>f.endsWith('.html'))) {
     if (redirects.has(target)) throw new Error(`${path}: internal href points to redirect ${target}`);
   }
 }
+let geoReferences=0;
+for (const name of ['llms.txt','llms-full.txt']) {
+  const text = readFileSync(join(root,name),'utf8');
+  for (const match of text.matchAll(/https:\/\/mirai-shigoto\.com\/[^\s)}]*/g)) {
+    const target = new URL(match[0].replace(/[.,;:]+$/, '')).pathname;
+    geoReferences++;
+    if (redirects.has(target)) throw new Error(`${name}: GEO URL points to redirect ${target}`);
+    const file = target==='/'?'index':target.slice(1);
+    if (!existsSync(join(root,file)) && !existsSync(join(root,file+'.html'))) throw new Error(`${name}: GEO target missing ${target}`);
+  }
+}
 const sitemap = readFileSync(join(root,'sitemap.xml'),'utf8');
 const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]!);
 if (new Set(locs).size !== locs.length) throw new Error('Duplicate sitemap locations');
@@ -46,10 +57,10 @@ for (const row of manifest.rankings) {
   if (locs.includes(origin+row.proPath)!==row.proSitemap) throw new Error(`Ranking sitemap ${row.slug}`);
   if (locs.includes(origin+row.oldPath)!==row.ordinarySitemap) throw new Error(`Ordinary ranking sitemap ${row.slug}`);
 }
-for (const loc of locs.filter(l=>!l.endsWith('.txt'))) {
+for (const loc of locs) {
   const path = new URL(loc).pathname;
   if (redirects.has(path)) throw new Error(`Sitemap redirect ${loc}`);
   const html = readFileSync(join(root,(path==='/'?'index':path.slice(1))+'.html'),'utf8');
   if (!html.includes(`<link rel="canonical" href="${loc}">`) || !html.includes('content="index, follow"')) throw new Error(`Sitemap noncanonical/noindex ${loc}`);
 }
-console.log(`Pro output OK: ${pages} HTML pages, ${references} same-origin JSON-LD references, ${locs.length} sitemap locations; no redirected links/references`);
+console.log(`Pro output OK: ${pages} HTML pages, ${references} same-origin JSON-LD references, ${geoReferences} GEO URLs, ${locs.length} sitemap locations; no redirected links/references`);

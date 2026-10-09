@@ -123,7 +123,7 @@ function normalizeLastmods(lastmods: string | SitemapLastmods): SitemapLastmods 
  * URL clusters (matches the previous inline structure 1-for-1):
  *   - Home + /map (+ 16 sector-filter query-string variants)
  *   - 3 legal pages (/privacy /about /compliance)
- *   - 2 GEO surfaces (/llms.txt /llms-full.txt)
+ *   - Canonical HTML only; GEO text companions remain root assets, outside this index.
  *   - Rankings (index + N ranking slugs)
  *   - Sectors (index + 16 hubs)
  *   - Interests / Skills / Compare clusters (index + each slug)
@@ -187,9 +187,8 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/pro/data`, lastmods.data, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/compliance`, lastmods.compliance, 'monthly', '0.4'));
 
-  // GEO surface (llms.txt convention; listed for general crawlers)
-  entries.push(entry(`${SITE_ORIGIN}/llms.txt`, lastmods.content, 'monthly', '0.2'));
-  entries.push(entry(`${SITE_ORIGIN}/llms-full.txt`, lastmods.content, 'monthly', '0.2'));
+  // Stage 1B requires every loc to expose a self-canonical HTML document.
+  // GEO companions retain their root endpoints and discovery links, without HTML canonicals.
 
   entries.push(entry(`${SITE_ORIGIN}/pro`, lastmods.content, 'weekly', '0.8'));
   entries.push(entry(`${SITE_ORIGIN}/pro/rankings`, lastmods.content, 'weekly', '0.8'));

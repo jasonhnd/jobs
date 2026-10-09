@@ -98,6 +98,12 @@ describe('renderSitemapXml — pure XML serializer', () => {
 });
 
 describe('latestContentDate — content-derived <lastmod> (NOT the build clock)', () => {
+  test('the sitemap lists canonical HTML pages rather than GEO text companions without HTML canonicals', () => {
+    const graph = { sectors: new Map(), occupations: new Map([[1, { aiRisk: { date: '2026-06-13' } }]]) } as unknown as KnowledgeGraph;
+    const entries = buildSitemapEntries(graph, sitemapLastmods(graph, '2026-06-13'));
+    assert.equal(entries.some(row => new URL(row.loc).pathname.endsWith('.txt')), false);
+  });
+
   // Minimal graph stub — latestContentDate only reads each occupation's
   // `aiRisk?.date`, so we don't construct a full KnowledgeGraph.
   function makeGraph(dates: Array<string | null>): KnowledgeGraph {
