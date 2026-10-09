@@ -116,11 +116,14 @@ test('completed diagnosis flows through me and the same occupation into Pro', as
   await expect(page.locator('#meOccupationLink')).toHaveAttribute('href', '/428');
   await page.locator('#meOccupationLink').click();
   await expect(page).toHaveURL(/\/428$/);
-  const metadata = await page.locator('[data-occupation-page-meta]').getAttribute('data-risk-score');
-  expect(metadata).toBeTruthy();
-  await page.locator('[data-pro-cta] a').click();
+  const score = await page.locator('[data-summary-score]').getAttribute('data-summary-score');
+  const band = await page.locator('[data-occupation-summary] .score-band').textContent();
+  expect(score).toBeTruthy();
+  expect(band).toBeTruthy();
+  await page.locator('[data-pro-cta] h2 a').click();
   await expect(page).toHaveURL(/\/pro\/428$/);
-  expect(await page.locator('[data-occupation-page-meta]').getAttribute('data-risk-score')).toBe(metadata);
+  await expect(page.locator('.v-num.main .score-num')).toHaveText(`${score}/10`);
+  await expect(page.locator('.v-num.main .score-band')).toHaveText(band!);
   await page.goto('/me?id=404');
   await expect(page.locator('#meOccupationLink')).toHaveAttribute('href', '/occupations/404');
 });
