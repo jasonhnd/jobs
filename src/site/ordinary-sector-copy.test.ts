@@ -9,5 +9,5 @@ for (const [raw, band] of [[3.94, '小さい'], [3.97, '中くらい'], [6.94, '
 }
 
 test('missing and invalid sector averages never manufacture a band', () => {
-  for (const mean of [null, NaN, Infinity]) expect(ordinarySectorCopy('テスト業界', 1, mean)).toEqual(null);
+  for (const mean of [null, NaN, Infinity]) expect(ordinarySectorCopy('テスト業界', 1, mean)).toBe(null);
 });

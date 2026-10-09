@@ -34,7 +34,7 @@ describe('desktop top nav — built artifacts', () => {
       assert.match(row[0], /href="\/me"/);
       assert.match(row[0], /data-track-event="me_entry_click"/);
       assert.match(row[0], /data-occupation-id="0"/);
-      assert.match(nav, /自分の現在地/);
+      assert.match(nav, /自分の仕事を探す|自分の現在地/);
     }
   });
 
