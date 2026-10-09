@@ -47,6 +47,11 @@ test('ordinary hero fits 375px and retains old deep-link handoff with no JavaScr
   const page = await context.newPage();
   await page.goto('/428#sec-ai-detail');
   await expect(page.locator('#sec-ai-detail a')).toHaveAttribute('href', '/pro/428#sec-ai-detail');
+  await page.locator('#sec-ai-detail a').click();
+  expect(new URL(page.url()).pathname).toBe('/pro/428');
+  expect(new URL(page.url()).hash).toBe('#sec-ai-detail');
+  await expect(page.locator('h1')).toHaveText('一般事務');
+  await expect(page.locator('#sec-ai-detail')).toBeAttached();
   await page.goto('/428');
   const box = await page.locator('[data-primary-action]').boundingBox();
   expect(box).not.toBeNull();
