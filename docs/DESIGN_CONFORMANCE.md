@@ -555,7 +555,7 @@ follows shared components and fails on any unclassified Pro route. No surface
 is downgraded and no Design token or canon is changed. Local rendered checks
 and 1440 / 768 / 375 screenshots are recorded in the PR.
 
-Stage 1B (JOB_0233 / Issue #896) moves existing research surfaces to their Pro paths with unchanged classes, tokens, prose and tables. Shared bindings remain under the root source directories; both locations are enforced. Screenshots and route/SEO evidence are recorded in the implementation PR. Stage 3–4 ordinary simplification and final deployed visual acceptance remain pending.
+Stage 1B (JOB_0233 / Issue #896) moves existing research surfaces to their Pro paths with unchanged classes, tokens, prose and tables. Shared bindings remain under the root source directories; both locations are enforced. Screenshots and route/SEO evidence are recorded in the implementation PR. Stage 3 ordinary rankings and stage 4 local composition are recorded below; final deployed visual acceptance remains pending.
 
 ### Ordinary occupation stage 2 — Issue #897 / JOB_0230
 
@@ -572,10 +572,10 @@ Live deployment validation remains an external acceptance step.
 
 ## Stage-4 local composition evidence (#900)
 
-No new Design class, role, token, colour, font scale or version. The owner
-approved the subtraction-only implementation scope; public Japanese candidates
-remain unsigned. [Signature candidates](pro-split/stage-4-owner-signature.md)
-list exact replacements and rendered sector values. Local native Microsoft Edge
+No new Design class, role, token, colour, font scale or version. Owner signed
+2026-10-10, decision d1009-232009-1 (option A), covering all stage-4 Japanese.
+The [signed copy record](pro-split/stage-4-owner-signature.md) lists exact
+replacements and rendered sector values. Local native Microsoft Edge
 captures at 1440 / 768 / 375 are in `/tmp/JOB_0232/screenshots/`; ordinary
 navigation and the actual diagnosis → me → occupation → Pro path are covered by
 `tests/e2e/ordinary-entry-points.spec.ts`. The mobile topbar and drawer use the
@@ -585,4 +585,10 @@ The homepage eight-ranking door targets its own card section with an existing
 spacing token keeping its heading below sticky navigation; the 39-card index
 is entered through Pro. Sector detail actions target the list, and ordinary
 home/search labels are edition-specific. Local renders do not establish deployed
-preview acceptance. Independent review and owner copy signature remain required.
+preview acceptance. Independent review remains required before supervisor merge.
+
+Integration follow-up (JOB_0244): normally merge preview e5e52cfd (#902),
+retaining stage-2 occupation and stage-3 ranking records. Ordinary /rankings has
+eight cards; Pro /pro/rankings has 39. The signed homepage eight-card door stays
+at #hub-rankings-title. Re-capture composed SEO baselines from preview; local
+acceptance checks the stage-2/3/4 output together.
