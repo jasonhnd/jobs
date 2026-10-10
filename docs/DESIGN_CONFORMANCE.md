@@ -20,16 +20,25 @@
 |---|---|---|---|---|---|
 | `tokens` | `:root` トークン宣言 | — | `design-tokens.ts` + `canonical-css.ts` | `conformant` | 2026-09-14 完了（#525）。40 トークンを追加。参照者ゼロ → **視覚変化なし** |
 | `canonical-type` | 全 839 ページの h1/h2/h3/h4 + p | 839 | `canonical-css.ts` | `conformant` | 2026-09-15 完了（#526）。h1 27.2→28 / h2 18.4→22 / h3 16→18 sans700 / h4 新設 16px sans700。Heading `font-size: !important` removed on 2026-09-15 (design-1.9 / [#532](https://github.com/jasonhnd/jobs/issues/532)); see the dated history below|
-| `feature` | `/` `/models` `/aiadoption` `/aiadoption/<release>` | 3+ | `canonical-css.ts`（`body.page-feature`）+ 個別 | `conformant` | 2026-09-15 完了（#532、3 回に分けて実施）。`!important` 全廃・Display 分岐・H1 重複解消・ページ CSS 224 箇所のトークン化。2026-09-22 `/aiadoption` を HAID 現状ページとして書き直し（aiadoption-1.3〜1.7）: トークンのみ、inline JS なし、1440 / 768 / 375 で確認; 2026-10-02: Confirmed card-title, model raw-score, metadata and breadcrumb consumers corrected in #690; kicker, ordinary link states and delta semantics remain parked; 2026-10-03: Home `h3.hub-subgroup-title` page-level font/size/weight/colour removed so the canonical h3 (`--t-h3` sans 700 `--ink`) applies (§4.3 / §4.4 / §4.7, #774). |
-| `interactive` | `/map` | 1 | `_map-css.ts` + `_map-inline.js` | `conformant` | 2026-09-15 完了（#527）。`:root` 撤去、タイル 11.2px→12px・省略記号廃止（截断率 PC 54%→0 / SP 73%→0）、見出し規則 3 件除去 |
-| `detail` | `/<id>` | 556 | `canonical/detail.ts` + `_id-css.ts` + 関連ビュー 2 | `conformant` | 2026-09-15 完了（#530）。12px 未満 24 種を是正、`--ink-3` 文字色 31 箇所を `--ink-meta` へ（§2.2）、字重 800/900/500 を 19 箇所是正; 2026-10-02: Confirmed compact names and transfer titles use sans; history captions and paired labels follow their existing rows (#690). Owner-ratified main/secondary numbers are preserved; 2026-10-03: verdict line / lede, AI-risk detail prose, context prose, FAQ answers and cert list serif → sans (§4.4 / §4.7, #774); `.score-num` stays serif (numeric role). |
-| `hub` | genre index / slug / rankings / q / compare 等 | ~37 | `canonical/hub.ts` + `rank-list-css.ts` + `templates/Hub.ts` | `conformant` | 2026-09-15 完了（#529）。第 2 層 alias は使用箇所数まで不変（検証済）; 2026-10-02: Confirmed small card/list names use sans and existing weights (#690); ordinary related-link colours remain parked; 2026-10-03: `/rankings` `h3.ic-headline` serif 600 → sans 700 `--ink`, hub FAQ `summary` serif 600 → sans 700 (§4.4 / §4.7, #774). |
-| `sector` | `/sectors/*` | 17 | `canonical/sector.ts` + `sectors/_sector-css.ts` | `conformant` | 2026-09-15 完了（#529）。`palt` は §6.5 の意図的差分として維持; 2026-10-02: Confirmed small card/list names use sans (#690); link states are preserved. |
+| `feature` | `/` `/models` `/aiadoption` `/aiadoption/<release>` | 3+ | `canonical-css.ts`（`body.page-feature`）+ 個別 | `conformant` | 2026-09-15 完了（#532、3 回に分けて実施）。`!important` 全廃・Display 分岐・H1 重複解消・ページ CSS 224 箇所のトークン化。2026-09-22 `/aiadoption` を HAID 現状ページとして書き直し（aiadoption-1.3〜1.7）: トークンのみ、inline JS なし、1440 / 768 / 375 で確認; 2026-10-02: Confirmed card-title, model raw-score, metadata and breadcrumb consumers corrected in #690; kicker, ordinary link states and delta semantics remain parked; 2026-10-03: Home `h3.hub-subgroup-title` page-level font/size/weight/colour removed so the canonical h3 (`--t-h3` sans 700 `--ink`) applies (§4.3 / §4.4 / §4.7, #774). Stage 4 (#900): ordinary homepage uses eight ranking cards and a compact Pro entry; existing Feature tokens/classes retained. 2026-10-10: those two lists use the existing `.hub-card-grid` (the unmatched `hub-grid` class had no rule, so 1440 / 768 / 375 painted default markers in one column, #908). |
+| `interactive` | `/map` | 1 | `_map-css.ts` + `_map-inline.js` | `conformant` | 2026-09-15 完了（#527）。`:root` 撤去、タイル 11.2px→12px・省略記号廃止（截断率 PC 54%→0 / SP 73%→0）、見出し規則 3 件除去 Stage 4 (#900): map conclusion, search guidance and accessible three-band legend use existing lead/helper roles. |
+| `detail` | `/<id>` / `/occupations/404` / `/pro/<id>` | 1112 | `canonical/detail.ts` + `_id-css.ts` + 関連ビュー 2 | `conformant` | 2026-09-15 完了（#530）。12px 未満 24 種を是正、`--ink-3` 文字色 31 箇所を `--ink-meta` へ（§2.2）、字重 800/900/500 を 19 箇所是正; 2026-10-02: Confirmed compact names and transfer titles use sans; history captions and paired labels follow their existing rows (#690). Owner-ratified main/secondary numbers are preserved; 2026-10-03: verdict line / lede, AI-risk detail prose, context prose, FAQ answers and cert list serif → sans (§4.4 / §4.7, #774); `.score-num` stays serif (numeric role). |
+| `hub` | genre index / slug / rankings / q / compare / `/pro` / `/pro/rankings/*` 等 | ~78 | `canonical/hub.ts` + `rank-list-css.ts` + `templates/Hub.ts` | `conformant` | 2026-09-15 完了（#529）。第 2 層 alias は使用箇所数まで不変（検証済）; 2026-10-02: Confirmed small card/list names use sans and existing weights (#690); ordinary related-link colours remain parked; 2026-10-03: `/rankings` `h3.ic-headline` serif 600 → sans 700 `--ink`, hub FAQ `summary` serif 600 → sans 700 (§4.4 / §4.7, #774).; 2026-10-09: Ordinary eight-ranking index/details use a separate Hub composition with existing tokens, full wrapping names and true metric labels (#901, JOB_0231); Pro full bodies retained. Three-width rendering required; Owner signed 2026-10-10, decision d1009-221958-1. |
+| `sector` | `/sectors/*` | 17 | `canonical/sector.ts` + `sectors/_sector-css.ts` | `conformant` | 2026-09-15 完了（#529）。`palt` は §6.5 の意図的差分として維持; 2026-10-02: Confirmed small card/list names use sans (#690); link states are preserved. Stage 4 (#900): all 17 sector surfaces use displayed-average conclusions and existing lead/meta/button tokens. |
 | `doc` | `/standard` `/methodology` `/about` `/data` `/haid` | 5 | `canonical/doc.ts` | `conformant` | 2026-09-15 完了（#528）。等幅を `--font-mono` に統一（CDP 実測で `/aiadoption` の Osaka と一致）、見出し規則除去、39 箇所を役割別トークン化; 2026-10-02: Shared breadcrumb defaults use ink-meta (#690), with the about-page consumer checked at three widths. |
 | `static` | `/privacy` `/compliance` `/404` | 3 | `canonical/static.ts` | `conformant` | 2026-09-15 完了（#528）。`CANONICAL_STATIC_CSS` を 3 ページへ配線（§6.5.1）、`/about` を範囲から除外（§6.5.3）、34 箇所をトークン化; 2026-10-02: Shared breadcrumb declarations use ink-meta (#690); current static pages do not render this consumer, and their existing titles are preserved. |
-| `chrome` | 全 839 ページ共通のクロム（top-nav / footer / cookie banner / skip-link / mobile nav） | 839 | `canonical-css.ts` | `conformant` | 2026-09-17 新設・完了（design-1.13）。どの page class にも属さないがサイト全体に描画されるため独立 surface とした; 2026-10-02: Non-brand top-nav defaults use the navigation role (#690); current-page and hover states are preserved. |
-| `misc` | `/shindan` `/me` `/gyakuten` | 3 | **Hub class** + 個別 | `conformant` | 2026-09-15 完了（#531）。3 ページとも Hub class に収容し `CANONICAL_HUB_CSS` を配線。見出し規則 21 件除去 |
+| `chrome` | 全 839 ページ共通のクロム（top-nav / footer / cookie banner / skip-link / mobile nav） | 839 | `canonical-css.ts` | `conformant` | 2026-09-17 新設・完了（design-1.13）。どの page class にも属さないがサイト全体に描画されるため独立 surface とした; 2026-10-02: Non-brand top-nav defaults use the navigation role (#690); current-page and hover states are preserved. Stage 4 (#900): ordinary desktop/drawer/footer navigation has six reading entries; Pro navigation preserved; legal links shared. |
+| `misc` | `/shindan` `/me` `/gyakuten` | 3 | **Hub class** + 個別 | `conformant` | 2026-09-15 完了（#531）。3 ページとも Hub class に収容し `CANONICAL_HUB_CSS` を配線。見出し規則 21 件除去 Stage 4 (#900): diagnosis result links to /me and selected occupation links to its ordinary page via route-policy; algorithm unchanged. |
 | `og` | OG 画像レンダラ（1200×630 PNG） | — | `src/lib/og-renderers/` | `legacy` | 2026-09-17 新設（design-1.18）。**意図的に `legacy`。** Satori のスタイルオブジェクトで PNG を組む別媒体であり、§4.2 の**網頁**字階（12px 下限・7 段）は 1200×630 の画像に 適用されない。一方 §2.3 の影響度色は参照しており、色の正典は共通。台帳に**在る**こと が重要で、不在は「きれい」と読めてしまう（design-1.16） |
+
+## Planned cross-surface work
+
+This is a pending task ledger, separate from the current surface counts below.
+It does not introduce a page class or change current conformance claims.
+
+| Work | Scope | Status | Approval and completion evidence |
+| --- | --- | --- | --- |
+| Ordinary / Pro split (JOB_0223, [#892](https://github.com/jasonhnd/jobs/issues/892)) | Existing detail/hub/doc/feature/misc/chrome surfaces, future `src/pages/pro/` and shared full-body/summary/edition-navigation components | Pending implementation; owner visual/Design scope decision pending | [PRO_SPLIT.md](PRO_SPLIT.md) PS-07 / PS-08: obtain owner approval for §6.5 scope and three-width compositions before canon changes; preserve tokens/classes; add Pro/shared paths to surface and page-class gates; record 1440/768/375 renders and each family migration in its implementation PR. Stage-zero documentation is not visual acceptance. |
 
 ## 進捗
 
@@ -437,15 +446,15 @@ that dated count is preserved in the history, not used as the current total.
 | surface | 主な対象ファイル |
 |---|---|
 | `tokens` | `src/lib/design-tokens.ts`（新設）, `src/lib/canonical-css.ts` |
-| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/models.astro`, `src/pages/models/[model].astro`, `src/pages/aiadoption.astro`, `src/pages/aiadoption/[release].astro`, `src/pages/_HaidReleasePage.astro`, `src/pages/_haid-release-labels.ts`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
+| `feature` | `src/pages/index.astro`, `src/pages/_index.css`, `src/index-source.html`, `src/pages/_index-css.ts`, `src/pages/pro/models.astro`, `src/pages/pro/models/[model].astro`, `src/pages/pro/aiadoption.astro`, `src/pages/pro/aiadoption/[release].astro`, `src/pages/_HaidReleasePage.astro`, `src/pages/_haid-release-labels.ts`, `src/pages/_ai-adoption-css.ts`, `src/site/models-built.test.ts`（§19.2 のテスト書き換え） |
 | `interactive` | `src/pages/map.astro`, `src/pages/_map-css.ts` |
-| `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_StatsGrid.astro`, `src/pages/_JobtagAnchor.astro`, `src/pages/_IdPageScript.astro` |
-| `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/compare/`, `src/pages/skills/`, `src/pages/interests/`, `src/pages/answers/`, `src/pages/q/`, `src/pages/yearly/`, `src/pages/abilities/`, `src/pages/careers/`, `src/pages/education/`, `src/pages/employment-types/`, `src/pages/entry-paths/`, `src/pages/explore/`, `src/pages/knowledge/`, `src/pages/licenses/`, `src/pages/life-balance/`, `src/pages/training/`, `src/pages/values/`, `src/pages/work-styles/`, `src/lib/ai-fact-css.ts` |
+| `detail` | `src/lib/canonical/detail.ts`, `src/pages/_id-css.ts`, `src/pages/[...id].astro`, `src/pages/_OccupationPage.astro`, `src/pages/_OrdinaryOccupationPage.astro`, `src/pages/pro/[id].astro`, `src/pages/_RiskCard.astro`, `src/pages/_StatsGrid.astro`, `src/pages/_JobtagAnchor.astro`, `src/pages/_IdPageScript.astro` |
+| `hub` | `src/lib/canonical/hub.ts`, `src/lib/rank-list-css.ts`, `src/templates/Hub.ts`, `src/views/`, `src/pages/rankings/`, `src/pages/pro/index.astro`, `src/pages/pro/rankings/`, `src/pages/compare/`, `src/pages/pro/compare/`, `src/pages/skills/`, `src/pages/pro/skills/`, `src/pages/interests/`, `src/pages/pro/interests/`, `src/pages/answers/`, `src/pages/pro/answers/`, `src/pages/q/`, `src/pages/pro/q/`, `src/pages/yearly/`, `src/pages/pro/yearly/`, `src/pages/abilities/`, `src/pages/pro/abilities/`, `src/pages/careers/`, `src/pages/pro/careers/`, `src/pages/education/`, `src/pages/pro/education/`, `src/pages/employment-types/`, `src/pages/pro/employment-types/`, `src/pages/entry-paths/`, `src/pages/pro/entry-paths/`, `src/pages/explore/`, `src/pages/pro/explore/`, `src/pages/knowledge/`, `src/pages/pro/knowledge/`, `src/pages/licenses/`, `src/pages/pro/licenses/`, `src/pages/life-balance/`, `src/pages/pro/life-balance/`, `src/pages/training/`, `src/pages/pro/training/`, `src/pages/values/`, `src/pages/pro/values/`, `src/pages/work-styles/`, `src/pages/pro/work-styles/`, `src/lib/ai-fact-css.ts` |
 | `sector` | `src/lib/canonical/sector.ts`, `src/pages/sectors/` |
-| `doc` | `src/lib/canonical/doc.ts`, `src/pages/_haid-css.ts`, `src/pages/haid.astro`, `src/pages/standard.astro`, `src/pages/methodology.astro`, `src/pages/about.astro`, `src/pages/data.astro` |
+| `doc` | `src/lib/canonical/doc.ts`, `src/pages/_haid-css.ts`, `src/pages/pro/haid.astro`, `src/pages/pro/standard.astro`, `src/pages/pro/methodology.astro`, `src/pages/about.astro`, `src/pages/pro/data.astro` |
 | `static` | `src/lib/canonical/static.ts`, `src/pages/privacy.astro`, `src/pages/compliance.astro`, `src/pages/404.astro` |
-| `chrome` | `src/lib/canonical-css.ts`, `src/components/TopNav.astro`, `src/components/Footer.astro`, `src/components/MobileNav.astro`, `src/components/MeEntry.astro`, `src/layouts/BaseLayout.astro` |
-| `misc` | `src/pages/shindan.astro`, `src/pages/_shindan-css.ts`, `src/pages/me.astro`, `src/pages/gyakuten.astro`, `src/pages/_gyakuten-css.ts`（すべて Hub class） |
+| `chrome` | `src/lib/canonical-css.ts`, `src/components/TopNav.astro`, `src/components/Footer.astro`, `src/components/MobileNav.astro`, `src/components/MeEntry.astro`, `src/components/EditionNav.astro`, `src/layouts/BaseLayout.astro` |
+| `misc` | `src/pages/shindan.astro`, `src/pages/_shindan-css.ts`, `src/pages/me.astro`, `src/pages/pro/gyakuten.astro`, `src/pages/_gyakuten-css.ts`（すべて Hub class） |
 | `og` | `src/lib/og-renderers/` |
 
 **共通:** 見出しの分岐は `src/lib/canonical-css.ts` 側に置く。ページ CSS に見出しのサイズ・書体・字重を書かない（Design.md §4.9）。
@@ -535,3 +544,51 @@ canonical の `html body h1/h2/h3 { … !important }` が、ページ側の **cl
 | 2026-09-20 | ゲート | `check-role-color` 新設・`verify:gates` へ接続。§4.7 の役割 → トークンを CSS 実装と照合（`check-contrast` の残り半分） |
 | 2026-09-20 | `feature` `interactive` `misc` | One-decimal follow-up: hover tooltips, `/map` and `/me` lists ([#560](https://github.com/jasonhnd/jobs/pull/560)) |
 | 2026-09-21 | `feature` (`/`) | Home canvas follows `/map` geometry and 12px full-name-or-hidden labels; September 19 clipping ruling withdrawn ([#566](https://github.com/jasonhnd/jobs/pull/566), Design §5.7). Shipped with #558/#560 in [promotion #569](https://github.com/jasonhnd/jobs/pull/569) |
+| 2026-10-07 | ゲート | 2026-10-07 監査で見つかった Design ゲートの抜け穴を塞いだ（[#866](https://github.com/jasonhnd/jobs/issues/866)）。`check-color-tokens` は全プロパティ（カスタムプロパティ含む）と 8 桁 hex・空白区切り `rgb()`・`hsl()`・`oklch()` を読み、調色板と同値の生 hex も失敗にする。`check-design-sync` は §21.2 / 版の読取失敗で失敗し、モジュール→文書方向と `--s-*` / `--sh-*` も照合。`check-contrast` は解決できないトークンで失敗し検査対数を出す。`font:` 一括指定・大文字・コロン前空白・存在しない `--t-*`・`:is()` / `:where()`・`.js` を検出。抜けていた 42 箇所は同色のトークン参照へ置換（視覚変化なし）。`/` の初回描画用エイリアス複製（`_index.css` の `:root`）だけは `PALETTE_COPY_EXEMPTIONS` に明示し、トークン値との一致を照合する |
+
+## Stage 1A Pro extension (JOB_0225 / Issue #894)
+
+The 556 Pro occupations inherit the existing conformant Detail surface through
+`_OccupationPage.astro`. `/pro`, `/pro/rankings` and 39 ranking details inherit
+Hub CSS. Edition navigation belongs to conformant chrome. The page-class gate
+follows shared components and fails on any unclassified Pro route. No surface
+is downgraded and no Design token or canon is changed. Local rendered checks
+and 1440 / 768 / 375 screenshots are recorded in the PR.
+
+Stage 1B (JOB_0233 / Issue #896) moves existing research surfaces to their Pro paths with unchanged classes, tokens, prose and tables. Shared bindings remain under the root source directories; both locations are enforced. Screenshots and route/SEO evidence are recorded in the implementation PR. Stage 3 ordinary rankings and stage 4 local composition are recorded below; final deployed visual acceptance remains pending.
+
+### Ordinary occupation stage 2 — Issue #897 / JOB_0230
+
+`_OrdinaryOccupationPage.astro` inherits the same conformant Detail class as
+`_OccupationPage.astro`. The summary uses existing statistic, lead, body, label,
+primary-button and note roles, gutter/content-max, spacing and radius tokens.
+No class, token, colour, font scale or Design version is added. The surface
+coverage list includes both shared occupation components; all Pro pages retain
+their existing coverage. Local 1440/768/375 paired renders, score/band agreement,
+old-anchor handoff, no-JavaScript links and missing-value checks are recorded in
+the implementation PR. Owner copy/composition signature was completed under the
+JOB_0237 brief.
+Live deployment validation remains an external acceptance step.
+
+## Stage-4 local composition evidence (#900)
+
+No new Design class, role, token, colour, font scale or version. Owner signed
+2026-10-10, decision d1009-232009-1 (option A), covering all stage-4 Japanese.
+The [signed copy record](pro-split/stage-4-owner-signature.md) lists exact
+replacements and rendered sector values. Local native Microsoft Edge
+captures at 1440 / 768 / 375 are in `/tmp/JOB_0232/screenshots/`; ordinary
+navigation and the actual diagnosis → me → occupation → Pro path are covered by
+`tests/e2e/ordinary-entry-points.spec.ts`. The mobile topbar and drawer use the
+existing modal/overlay layer tokens so page-level sticky controls cannot cover
+reading links; trial-click checks reproduce the old obstruction at 768 / 375.
+The homepage eight-ranking door targets its own card section with an existing
+spacing token keeping its heading below sticky navigation; the 39-card index
+is entered through Pro. Sector detail actions target the list, and ordinary
+home/search labels are edition-specific. Local renders do not establish deployed
+preview acceptance. Independent review remains required before supervisor merge.
+
+Integration follow-up (JOB_0244): normally merge preview e5e52cfd (#902),
+retaining stage-2 occupation and stage-3 ranking records. Ordinary /rankings has
+eight cards; Pro /pro/rankings has 39. The signed homepage eight-card door stays
+at #hub-rankings-title. Re-capture composed SEO baselines from preview; local
+acceptance checks the stage-2/3/4 output together.

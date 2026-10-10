@@ -56,7 +56,7 @@ test('compare sides preserve source data and limit skills without mutating the i
     sector_id: 'sector-a', sector_ja: 'Sector A', related_certs_ja: a.related_certs_ja, top_skills: skills.slice(0, 5),
   });
   assert.deepEqual(result.rows, [
-    { label: 'AI 影響度', a_val: '3.5/10', b_val: '5.5/10', note: 'A は B より -2.0' },
+    { label: 'AI 影響度', a_val: '3.5/10 変化 小さい', b_val: '5.5/10 変化 中くらい', note: 'A は B より -2.0' },
     { label: '年収 (平均)', a_val: '501 万円', b_val: '400 万円', note: 'A は B より +101.7 万円' },
     { label: '就業者数', a_val: '12,345 人', b_val: '2,000 人', note: '' },
     { label: '月労働時間', a_val: '160 時間', b_val: '170 時間', note: 'A は B より -10 時間' },
@@ -92,8 +92,20 @@ test('compare equal and nearly equal values suppress difference notes', () => {
   assert.ok(result.rows.every((row) => row.note === ''));
   assert.equal(result.rows[7]!.a_val, 'One、Two');
   assert.equal(result.faqItems.length, 4);
-  assert.ok(result.faqItems[1]![1].includes('両者とも 4/10'));
-  assert.ok(result.faqItems[2]![1].includes('約 0 万円'));
+  assert.ok(result.faqItems[1]![1].includes('両者とも 4/10 変化 中くらい'));
+  // #884: a gap under 1 万円 used to print 「約 0 万円高い」.
+  assert.ok(!result.faqItems[2]![1].includes('約 0 万円'));
+  assert.ok(result.faqItems[2]![1].startsWith('両者の年収は同程度です（'));
+});
+
+test('compare salary FAQ says 同程度 when the gap truncates to 0 万円 (#884)', () => {
+  const result = firstPair(
+    { stats: { salary_man_yen: 500.9 } },
+    { stats: { salary_man_yen: 500.1 } },
+  );
+  const answer = result.faqItems.find(([q]) => q === '年収はどちらが高い？')![1];
+  assert.match(answer, /^両者の年収は同程度です（#\d+: 500 万円、#\d+: 500 万円）。/);
+  assert.doesNotMatch(answer, /約 0 万円/);
 });
 
 for (const [aRisk, bRisk, aSalary, bSalary, riskWinner, salaryWinner] of [
@@ -106,7 +118,7 @@ for (const [aRisk, bRisk, aSalary, bSalary, riskWinner, salaryWinner] of [
       { title: { ja: 'B' }, ai_risk: { score: bRisk }, stats: { salary_man_yen: bSalary } },
     );
     assert.equal(result.faqItems.length, 4);
-    assert.ok(result.faqItems[1]![1].startsWith(`${riskWinner} (2.2/10)`));
+    assert.ok(result.faqItems[1]![1].startsWith(`${riskWinner} (2.2/10 変化 小さい)`));
     assert.ok(result.faqItems[1]![1].endsWith(CONSENSUS_FAQ_SENTENCE));
     assert.ok(result.faqItems[2]![1].startsWith(`${salaryWinner} の方が約 100 万円`));
   });
@@ -117,7 +129,7 @@ test('compare zero values are retained and one-sided missing values omit their F
     { ai_risk: { score: 0 }, stats: { salary_man_yen: 0, workers: 0, monthly_hours: 0, average_age: 0, recruit_ratio: 0 } },
     { ai_risk: { score: null }, stats: { salary_man_yen: null } },
   );
-  assert.deepEqual(result.rows.map((row) => row.a_val), ['0/10', '0 万円', '0 人', '0 時間', '0.0 歳', '0.00 倍', '—', '—']);
+  assert.deepEqual(result.rows.map((row) => row.a_val), ['0/10 変化 小さい', '0 万円', '0 人', '0 時間', '0.0 歳', '0.00 倍', '—', '—']);
   assert.ok(result.rows.every((row) => row.note === ''));
   assert.equal(result.faqItems.length, 2);
 });
@@ -125,4 +137,22 @@ test('compare zero values are retained and one-sided missing values omit their F
 test('compare injected loader failures propagate instead of producing partial cards', () => {
   const failure = new Error('Fixture unavailable');
   assert.throws(() => buildCompareBundle(() => { throw failure; }), (error) => error === failure);
+});
+
+test('AI row difference and FAQ compare the printed values, not the raw means (#864)', () => {
+  const aiNote = (a: number, b: number) =>
+    firstPair({ ai_risk: { score: a } }, { ai_risk: { score: b } }).rows.find((row) => row.label === 'AI 影響度')!;
+  // tofu-vs-pan: prints 4.3 vs 4.4, raw difference −0.1667
+  assert.deepEqual(aiNote(4.266666666666667, 4.433333333333334), { label: 'AI 影響度', a_val: '4.3/10 変化 中くらい', b_val: '4.4/10 変化 中くらい', note: 'A は B より -0.1' });
+  // data-scientist-vs-ai-engineer: prints 6.4 vs 5.3, raw difference 1.1667
+  assert.equal(aiNote(6.433333333333334, 5.266666666666667).note, 'A は B より +1.1');
+  // yochien-vs-hoikushi: prints 3.3 vs 3.2, raw difference 0.0333 printed "+0.0"
+  assert.equal(aiNote(3.266666666666667, 3.2333333333333334).note, 'A は B より +0.1');
+  // same printed value → no note
+  assert.equal(aiNote(4.266666666666667, 4.3).note, '');
+  assert.equal(aiNote(5, 3).note, 'A は B より +2.0');
+
+  const faq = firstPair({ ai_risk: { score: 4.266666666666667 } }, { ai_risk: { score: 4.3 } }).faqItems
+    .find(([q]) => q === 'AI 影響度はどちらが低い？')!;
+  assert.match(faq[1], /^両者とも 4\.3\/10 変化 中くらい で同程度の AI 影響度。/);
 });

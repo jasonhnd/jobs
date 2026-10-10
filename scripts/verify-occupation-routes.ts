@@ -7,7 +7,8 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { loadGraph } from '../src/graph/index.js';
-import { occupationPath, jaUrl } from '../src/lib/urls.js';
+import { occupationPath, jaUrl, occupationUrl, occupationCanonicalUrl } from '../src/lib/urls.js';
+import { PRO_CHAPTER_LINKS } from '../src/views/occupation-summary.js';
 import { OCCUPATION_COUNT } from '../src/site/config.js';
 
 const ROOT = process.cwd();
@@ -113,10 +114,10 @@ if (occupations.length !== OCCUPATION_COUNT.TOTAL) {
   fail(`graph has ${occupations.length} occupations; expected ${OCCUPATION_COUNT.TOTAL}`);
 }
 
-const expectedPaths = occupations.map(({ id }) => occupationPath(id));
+const expectedPaths = occupations.flatMap(({ id }) => [occupationPath(id), occupationPath(id, 'pro')]);
 const uniquePaths = new Set(expectedPaths);
-if (uniquePaths.size !== occupations.length) {
-  fail(`${occupations.length - uniquePaths.size} duplicate occupation canonical path(s)`);
+if (uniquePaths.size !== occupations.length * 2) {
+  fail(`${occupations.length * 2 - uniquePaths.size} duplicate occupation canonical path(s)`);
 }
 
 const staticPaths = new Set(walkFiles(PAGES).map(staticSourcePath).filter((path): path is string => path !== null));
@@ -135,8 +136,10 @@ for (const file of walkFiles(DIST).filter((candidate) => candidate.endsWith('.ht
 }
 
 for (const { id, occupation } of occupations) {
-  const pathname = occupationPath(id);
-  const canonical = jaUrl(id);
+ for (const edition of ['ordinary', 'pro'] as const) {
+  const pathname = occupationPath(id, edition);
+  const canonical = occupationCanonicalUrl(id, edition);
+  const entityUrl = jaUrl(id);
   const file = outputFile(pathname);
   if (!existsSync(file)) fail(`occupation ${id} is missing rendered output ${pathname}`);
   const html = readFileSync(file, 'utf8');
@@ -146,8 +149,8 @@ for (const { id, occupation } of occupations) {
   if (robotsOf(html).includes('noindex')) fail(`occupation ${id} at ${pathname} is noindex`);
   const node = jsonLdNodes(html).find((candidate) => candidate['@type'] === 'Occupation');
   if (!node) fail(`occupation ${id} at ${pathname} has no Occupation JSON-LD`);
-  if (node['@id'] !== `${canonical}#occupation`) {
-    fail(`occupation ${id} JSON-LD @id is ${JSON.stringify(node['@id'])}; expected ${canonical}#occupation`);
+  if (node['@id'] !== `${entityUrl}#occupation`) {
+    fail(`occupation ${id} JSON-LD @id is ${JSON.stringify(node['@id'])}; expected ${entityUrl}#occupation`);
   }
   if (renderedOccupationPaths.get(pathname) !== 1) {
     fail(`occupation ${id} expected one rendered owner for ${pathname}; found ${renderedOccupationPaths.get(pathname) ?? 0}`);
@@ -155,11 +158,32 @@ for (const { id, occupation } of occupations) {
   if (id === 404 && node.name !== occupation.titleJa) {
     fail(`occupation 404 JSON-LD name is ${JSON.stringify(node.name)}; expected ${JSON.stringify(occupation.titleJa)}`);
   }
+  const webpage = jsonLdNodes(html).find(node => node['@type'] === 'WebPage');
+  const pageUrl = occupationUrl(id, edition);
+  if (webpage?.url !== pageUrl || webpage?.['@id'] !== `${pageUrl}#webpage`) fail(`${pathname} has wrong WebPage identity`);
+  if (edition === 'ordinary') {
+    if (!html.includes('data-occupation-summary')) fail(`${pathname} missing ordinary summary`);
+    if (jsonLdNodes(html).some(node => node['@type'] === 'FAQPage')) fail(`${pathname} includes invisible FAQ schema`);
+    if (/class="(?:faq-item|risk-rationale|[^"\n]*v-num subn)/.test(html)) fail(`${pathname} leaked full Pro content`);
+    const proHtml = readFileSync(outputFile(occupationPath(id, 'pro')), 'utf8');
+    if (attr(html.match(/<[^>]*data-summary-score[^>]*>/)?.[0] ?? '', 'data-summary-score') !==
+        /<span class="score-num">([^<]+)/.exec(proHtml)?.[1]) fail(`${pathname} summary / Pro score mismatch`);
+    const proNode = jsonLdNodes(proHtml).find(node => node['@type'] === 'Occupation')!;
+    if (node.name !== proNode.name) fail(`${pathname} summary / Pro occupation name mismatch`);
+    for (const chapter of PRO_CHAPTER_LINKS) {
+      for (const anchor of [chapter.id, ...chapter.anchors]) {
+        if (countExact(html, `id="${anchor}"`) !== 1) fail(`${pathname} lost or duplicated #${anchor}`);
+        if (!html.includes(`href="${occupationPath(id, 'pro')}#${anchor}"`)) fail(`${pathname} lost Pro #${anchor} handoff`);
+        if (!proHtml.includes(`id="${anchor}"`)) fail(`${pathname} Pro #${anchor} target missing`);
+      }
+    }
+  }
+ }
 }
 
-if (renderedOccupationPaths.size !== occupations.length) {
+if (renderedOccupationPaths.size !== occupations.length * 2) {
   const unexpected = [...renderedOccupationPaths.keys()].filter((pathname) => !uniquePaths.has(pathname));
-  fail(`rendered ${renderedOccupationPaths.size} occupation paths; expected ${occupations.length}; unexpected=${unexpected.join(',')}`);
+  fail(`rendered ${renderedOccupationPaths.size} occupation paths; expected ${occupations.length * 2}; unexpected=${unexpected.join(',')}`);
 }
 
 const notFoundFile = join(DIST, '404.html');
@@ -179,6 +203,18 @@ for (const sitemapName of ['sitemap.xml', 'image-sitemap.xml']) {
       fail(`${sitemapName} contains ${countExact(sitemap, loc)} entries for occupation ${id}; expected 1`);
     }
   }
+  const proLocs = occupations.map(({ id }) => `<loc>${occupationUrl(id, 'pro')}</loc>`);
+  for (const loc of proLocs) {
+    const expected = sitemapName === 'sitemap.xml' ? 1 : 0;
+    if (countExact(sitemap, loc) !== expected) fail(`${sitemapName} has wrong Pro occupation set: ${loc}`);
+  }
+  // Stage 3 separates the eight-card ordinary index from the complete Pro index.
+  const proIndexCount = countExact(sitemap, `<loc>${SITE}/pro/rankings</loc>`);
+  const expectedProIndexCount = sitemapName === 'sitemap.xml' ? 1 : 0;
+  if (proIndexCount !== expectedProIndexCount) {
+    fail(`${sitemapName} contains ${proIndexCount} Pro ranking indexes; expected ${expectedProIndexCount}`);
+  }
+  if (sitemapName === 'image-sitemap.xml' && sitemap.includes(`<loc>${SITE}/pro`)) fail('image sitemap advertises Pro duplicates');
   if (sitemap.includes(`<loc>${SITE}/404</loc>`)) fail(`${sitemapName} advertises the custom /404 document`);
 }
 

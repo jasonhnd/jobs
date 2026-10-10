@@ -29,7 +29,7 @@ describe('renderLegacyRelated', () => {
     assert.ok(out.includes('<section class="related" aria-label="類似する職業">'));
     assert.ok(out.includes('<h2>類似する職業</h2>'));
     assert.ok(out.includes('<a class="r-name" href="/42">プログラマー</a>'));
-    assert.ok(out.includes('<span class="r-risk">AI 影響 6/10</span>'));
+    assert.ok(out.includes('<span class="r-risk">AI 影響 6/10 変化 中くらい</span>'));
   });
 
   test('null aiRisk renders em-dash', () => {

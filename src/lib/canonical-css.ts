@@ -150,7 +150,7 @@ html body .cookie-banner {
   inset: auto 0 0 0;
   z-index: var(--z-toast);
   background: var(--ink);
-  color: #fff;
+  color: var(--paper);
   padding: 2px 8px calc(2px + env(safe-area-inset-bottom, 0px));
   box-shadow: var(--sh-sheet);
   font-size: var(--t-xs);
@@ -169,7 +169,7 @@ html body .cookie-banner .cb-text {
   margin: 0;
   flex: 1 1 auto;
   min-width: 0;
-  color: #fff;
+  color: var(--paper);
   font-size: var(--t-xs);
   line-height: 1.2;
 }
@@ -198,7 +198,7 @@ html body .cookie-banner .cb-btn {
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: #fff;
+  color: var(--paper);
   font-weight: 600;
   font-size: var(--t-xs);
   line-height: 1;
@@ -218,10 +218,10 @@ html body .cookie-banner .cb-btn::before {
   border-radius: 999px;
   pointer-events: none;
 }
-html body .cookie-banner .cb-btn-accept { color: #fff; }
+html body .cookie-banner .cb-btn-accept { color: var(--paper); }
 html body .cookie-banner .cb-btn-accept::before { background: var(--accent); }
 html body .cookie-banner .cb-btn-accept:hover::before { filter: brightness(1.08); }
-html body .cookie-banner .cb-btn-reject { color: #fff; }
+html body .cookie-banner .cb-btn-reject { color: var(--paper); }
 html body .cookie-banner .cb-btn-reject::before {
   border: 1px solid color-mix(in srgb, var(--paper) 40%, transparent);
 }
@@ -255,7 +255,7 @@ html body a.skip-link {
   left: 12px;
   z-index: var(--z-toast);
   background: var(--orange-hot);
-  color: #fff;
+  color: var(--paper);
   padding: 10px 16px;
   border-radius: 8px;
   font-weight: 600;
@@ -602,7 +602,7 @@ html body footer.site-footer .share-btn[hidden] { display: none; }
 html body footer.site-footer .share-btn:hover {
   transform: translateY(-1px);
   border-color: transparent;
-  color: #fff;
+  color: var(--paper);
   text-decoration: none;
 }
 html body footer.site-footer .share-btn[data-platform="x"]:hover        { background: #000; }
@@ -775,7 +775,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body header.mob-topbar {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: var(--z-modal);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1034,7 +1034,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     right: 0;
     bottom: 0;
     background: var(--bg);
-    z-index: 99;
+    z-index: var(--z-overlay);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     opacity: 0;

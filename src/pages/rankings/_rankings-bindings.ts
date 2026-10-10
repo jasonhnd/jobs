@@ -19,9 +19,14 @@ import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import type { GeoFacts } from '@/site/geo-facts';
 import { siteConfig } from '@/site/config';
 
+import { rankingCanonicalUrl } from '@/lib/urls';
+import type { Edition } from '@/site/route-policy';
+
 const SITE = siteConfig.origin;
 
 export interface RankingsSlugBindings {
+  readonly pageTitle: string;
+  readonly pageDescription: string;
   readonly canonical: string;
   readonly ogImage: string;
   readonly statsHtml: string;
@@ -41,9 +46,12 @@ export function buildRankingsSlugBindings(
   result: RankingResult,
   graph: KnowledgeGraph,
   geoFacts: GeoFacts = loadGeoFacts(),
+  edition: Edition = 'ordinary',
 ): RankingsSlugBindings {
+  const pageTitle = edition === 'pro' ? `Pro | ${result.title}` : result.title;
+  const pageDescription = edition === 'pro' ? `Pro · ${result.seoDesc}` : result.seoDesc;
   const slug = result.slug as RankingSlug;
-  const canonical = `${SITE}/rankings/${slug}`;
+  const canonical = rankingCanonicalUrl(slug, edition);
   const ogImage = `${SITE}/api/og?ranking=${slug}`;
   const statsHtml = result.statBlocks.length > 0
     ? `<dl class="stats">${result.statBlocks.map(([l, v]) => `<div><dt>${escapeHtml(l)}</dt><dd>${escapeHtml(v)}</dd></div>`).join('')}</dl>`
@@ -64,10 +72,10 @@ export function buildRankingsSlugBindings(
     pageKindJa: 'ランキング',
     occupationIds: result.items.map((item) => item.id),
   }));
-  const jsonLd = renderJsonLd(canonical, result.title, result.seoDesc, result.items, result.faqItems);
+  const jsonLd = renderJsonLd(canonical, pageTitle, pageDescription, result.items, result.faqItems, edition);
   const summaryHtml = renderRankingSummary(result.items);
   return {
-    canonical, ogImage, statsHtml, highlightsHtml, sectorChartHtml,
+    pageTitle, pageDescription, canonical, ogImage, statsHtml, highlightsHtml, sectorChartHtml,
     rankItems, faqHtml, relatedHtml, crossHubHtml, introInlinedHtml, aiFactHtml,
     summaryHtml, jsonLd,
   };

@@ -192,14 +192,16 @@ for (const [slug, key, minimum] of [
   });
 }
 
-test('graduate education sums masters and doctorate, including partially missing keys', () => {
+test('graduate education takes the larger of masters / doctorate (#863), including partially missing keys', () => {
   const run = (education_distribution?: Record<string, number> | null) =>
     runFilter(EDUCATION_CONFIGS, 'graduate-school-careers', { education_distribution });
   assert.equal(run(), null);
   assert.equal(run(null), null);
   assert.equal(run({}), null);
   assert.equal(run({ masters: 0.1, doctorate: 0.09 }), null);
-  assert.equal(run({ masters: 0.1, doctorate: 0.1 }), 0.2);
+  assert.equal(run({ masters: 0.1, doctorate: 0.1 }), null); // overlapping multi-answer shares do not add up
+  assert.equal(run({ masters: 0.2, doctorate: 0.1 }), 0.2);
+  assert.equal(run({ masters: 0.8, doctorate: 0.57 }), 0.8);
   assert.equal(run({ doctorate: 0.2 }), 0.2);
   assert.equal(run({ masters: 0.3 }), 0.3);
 });
@@ -214,7 +216,7 @@ for (const [configs, slug] of [
     assert.equal(run({ related_certs_ja: ['Cert'] }), null);
     assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: null }), null);
     assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: null } }), null);
-    assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: 6.01 } }), null);
+    assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: 6.1 } }), null); // 6.01 prints 6.0 and passes (#864)
     assert.equal(run({ related_certs_ja: ['One', 'Two'], ai_risk: { score: 6 } }), 2);
     assert.equal(run({ related_certs_ja: ['Cert'], ai_risk: { score: 0 } }), 1);
   });
@@ -304,7 +306,7 @@ test('life balance risk guards distinguish optional risk from required known ris
   assert.equal(child(null), -165);
   assert.equal(child({ score: null }), -165);
   assert.equal(child({ score: 6 }), -165);
-  assert.equal(child({ score: 6.01 }), null);
+  assert.equal(child({ score: 6.1 }), null);
   const mental = (ai_risk?: DetailFileMin['ai_risk']) => runFilter(LIFE_BALANCE_CONFIGS, 'mental-health-friendly', { stats: { monthly_hours: 170 }, ai_risk });
   assert.equal(mental(), null);
   assert.equal(mental(null), null);
@@ -322,7 +324,7 @@ test('senior balance requires age at least 45 and excludes only known risk above
   assert.equal(run({ stats: { average_age: 60 }, ai_risk: null }), 60);
   assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: null } }), 60);
   assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: 5 } }), 60);
-  assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: 5.01 } }), null);
+  assert.equal(run({ stats: { average_age: 60 }, ai_risk: { score: 5.1 } }), null); // 5.01 prints 5.0 and passes (#864)
 });
 
 test('new-graduate and mid-career entry filters retain inclusive age boundaries', () => {
@@ -363,5 +365,5 @@ test('apprenticeship entry sums low education shares and permits absent risk', (
   assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: null } }), 0.4);
   assert.equal(run({ education_distribution: { below_high_school: 0.4 }, ai_risk: null }), 0.4);
   assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: 5 } }), 0.4);
-  assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: 5.01 } }), null);
+  assert.equal(run({ education_distribution: { high_school: 0.4 }, ai_risk: { score: 5.1 } }), null);
 });

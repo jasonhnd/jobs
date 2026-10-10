@@ -47,7 +47,7 @@ describe('renderScoreHistoryComparison', () => {
     const html = renderScoreHistoryComparison([threeRuns[2]!, threeRuns[0]!, threeRuns[1]!], opts);
 
     assert.ok(html.includes('モデル比較'));
-    assert.ok(html.includes('<a href="/models">全モデルを見る</a>'));
+    assert.ok(html.includes('<a href="/pro/models">全モデルを見る</a>'));
     assert.ok(html.includes(`id="score-history-details"`));
     assert.ok(html.includes('<summary>モデル別の採点を表示（3件）</summary>'));
     assert.ok(html.includes('2026年4月25日'));
@@ -57,9 +57,9 @@ describe('renderScoreHistoryComparison', () => {
     assert.ok(html.includes(CONSENSUS_HEADLINE_LABEL));
     assert.ok(html.includes('3社の最新モデルの平均 · 最新採点 2026年6月13日'));
     assert.equal(html.includes('score-history-current-model'), false);
-    assert.ok(html.includes('<a href="/models/fable-5@2026-06-13">Claude Fable 5</a>'));
-    assert.ok(html.includes('<a href="/models/opus-4-7@2026-04-25">Claude Opus 4.7</a>'));
-    assert.ok(html.includes('<a href="/models/opus-4-8@2026-05-30">Claude Opus 4.8</a>'));
+    assert.ok(html.includes('<a href="/pro/models/fable-5@2026-06-13">Claude Fable 5</a>'));
+    assert.ok(html.includes('<a href="/pro/models/opus-4-7@2026-04-25">Claude Opus 4.7</a>'));
+    assert.ok(html.includes('<a href="/pro/models/opus-4-8@2026-05-30">Claude Opus 4.8</a>'));
     assert.ok(html.includes('総合との差'));
     assert.ok(html.includes('<dd class="sh-delta">+1</dd>'));
     assert.ok(html.includes('<dd class="sh-delta">-1</dd>'));
@@ -81,8 +81,8 @@ describe('renderScoreHistoryComparison', () => {
       },
     ], { ...opts, latestRunDate: '2026-07-20', vendorCount: 3 });
 
-    assert.ok(html.includes('<a href="/models/gpt-5.6-sol@2026-07-20">GPT 5.6 SOL</a>'));
-    assert.ok(html.includes('<a href="/models/fable-5@2026-06-13">Claude Fable 5</a>'));
+    assert.ok(html.includes('<a href="/pro/models/gpt-5.6-sol@2026-07-20">GPT 5.6 SOL</a>'));
+    assert.ok(html.includes('<a href="/pro/models/fable-5@2026-06-13">Claude Fable 5</a>'));
     assert.equal(html.includes('score-history-current-model'), false);
     assert.ok(html.includes('<summary>モデル別の採点を表示（4件）</summary>'));
   });
@@ -103,7 +103,7 @@ describe('renderScoreHistoryComparison', () => {
     });
 
     assert.ok(html.includes('<details'));
-    assert.ok(html.includes('<a href="/models/fable-5@2026-06-13">Claude Fable 5</a>'));
+    assert.ok(html.includes('<a href="/pro/models/fable-5@2026-06-13">Claude Fable 5</a>'));
     assert.equal(html.includes('score-history-current-model'), false);
     assert.ok(!html.includes('<table'));
   });
@@ -140,7 +140,7 @@ describe('renderScoreHistoryComparison', () => {
 
       assert.ok(html.includes('<dt>旧方式スコア</dt>'));
       assert.ok(html.includes('<dt>変化指数</dt>'), 'the AIOIS vote still shows a transformation');
-      assert.ok(html.includes('<dd class="sh-num">7<span>/10</span></dd>'));
+      assert.ok(html.includes('<dd class="sh-num">7<span>/10</span> 変化 大きい</dd>'));
     });
 
     test('drops the same-standard claim when a legacy row is present', () => {
@@ -153,6 +153,16 @@ describe('renderScoreHistoryComparison', () => {
       const allAiois = renderScoreHistoryComparison([aiois, current], opts);
       assert.ok(allAiois.includes('同じ基準にもとづき'));
       assert.equal(allAiois.includes('旧方式スコア'), false);
+    });
+
+    test('each transformation label carries the word for its own displayed score', () => {
+      const html = renderScoreHistoryComparison([legacy, aiois, current], opts);
+      const currentBlock = html.slice(html.indexOf('score-history-current'), html.indexOf('score-history-details'));
+      assert.match(currentBlock, /<strong>4<span>\/10<\/span><\/strong><span class="score-band">変化 中くらい<\/span>/);
+      assert.match(html, /<dt>旧方式スコア<\/dt><dd class="sh-num">7<span>\/10<\/span> 変化 大きい<\/dd>/);
+      assert.match(html, /<dt>変化指数<\/dt><dd class="sh-num">5<span>\/10<\/span> 変化 中くらい<\/dd>/);
+      assert.match(html, /<dt>変化指数<\/dt><dd class="sh-num">3<span>\/10<\/span> 変化 小さい<\/dd>/);
+      assert.doesNotMatch(html, /<dd class="sh-delta">[^<]*変化 /);
     });
 
     test('a legacy row and an AIOIS row in the same list are treated differently', () => {

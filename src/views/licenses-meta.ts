@@ -66,6 +66,9 @@ export const LICENSE_HUBS: ReadonlyArray<LicenseHub> = [
     title_ja: '医療系資格と職業',
     description_ja: '医療従事者として働くための資格を要する職業群。医師・看護師・薬剤師から技師・療法士まで多彩。',
     cert_keywords: ['医師', '看護師', '薬剤師', '臨床検査', '臨床工学', '救急救命', '歯科', '助産', '保健師', '理学療法', '作業療法', '言語聴覚', 'はり', 'きゅう', 'あん摩マッサージ', '柔道整復', '視能訓練'],
+    // Substring false positives (#884): 愛玩動物看護師 ⊃ 看護師, 獣医師 ⊃ 医師,
+    // 診療報酬請求事務…（医科・歯科） and 歯科助手 ⊃ 歯科.
+    exclude_keywords: ['愛玩動物', '獣医', '診療報酬請求事務', '歯科助手'],
     og_eyebrow: 'LICENSE · 医療',
     cert_examples_ja: ['医師', '看護師', '薬剤師', '臨床検査技師', '理学療法士'],
     difficulty_ja: '国家試験、養成課程 3-6 年',
@@ -182,30 +185,19 @@ export const LICENSE_HUBS: ReadonlyArray<LicenseHub> = [
   },
 ];
 
+/** One cert counts for a hub when a keyword matches and no exclude keyword does. */
+function certMatchesHub(cert: string, hub: LicenseHub): boolean {
+  if (hub.exclude_keywords?.some((ex) => cert.includes(ex))) return false;
+  return hub.cert_keywords.some((kw) => cert.includes(kw));
+}
+
 export function matchLicense(d: DetailFileMin, hub: LicenseHub): boolean {
-  const certs = d.related_certs_ja ?? [];
-  if (certs.length === 0) return false;
-  for (const cert of certs) {
-    for (const kw of hub.cert_keywords) {
-      if (cert.includes(kw)) {
-        if (hub.exclude_keywords) {
-          if (hub.exclude_keywords.some((ex) => cert.includes(ex))) continue;
-        }
-        return true;
-      }
-    }
-  }
-  return false;
+  return (d.related_certs_ja ?? []).some((cert) => certMatchesHub(cert, hub));
 }
 
 export function rankLicense(d: DetailFileMin, hub: LicenseHub): number {
-  // Sort: more matching certs = higher rank, fallback to salary
-  const certs = d.related_certs_ja ?? [];
-  let matches = 0;
-  for (const cert of certs) {
-    for (const kw of hub.cert_keywords) {
-      if (cert.includes(kw)) { matches++; break; }
-    }
-  }
+  // Sort: more matching certs = higher rank, fallback to salary. Uses the
+  // same rule as matchLicense, exclude_keywords included (#884).
+  const matches = (d.related_certs_ja ?? []).filter((cert) => certMatchesHub(cert, hub)).length;
   return matches * 10000 + (d.stats?.salary_man_yen ?? 0);
 }

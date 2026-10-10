@@ -72,18 +72,18 @@ test('genre results aggregate nullable values, adapt fields, and include develop
     salary: 500.9, monthly_hours: 160, average_age: 40, sector_id: 's1', sector_ja: 'Sector 1',
   });
   assert.deepEqual(result.stats, [
-    ['平均 Axisスコア', '3.00'], ['平均 AI 影響', '3.0 / 10'],
-    ['平均年収', '400 万円'], ['TOP30 合計就業者数', '2,000 人'],
+    ['平均 Axisスコア', '3.00'], ['平均 AI 影響', '3.0/10 変化 小さい'],
+    ['平均年収', '400 万円'], ['TOP3 合計就業者数', '2,000 人'],
   ]);
   assert.deepEqual(result.sectorBreakdown, [['Sector 1', 2]]);
   assert.deepEqual(result.highlights, [
     '1 位は「Occupation 1」（Axisスコア 5.00）', 'TOP 3 は Occupation 1、Occupation 2、Occupation 3',
-    'セクターは「Sector 1」が 2 件と最多', 'TOP30 の平均 AI 影響は 3.0/10', '特徴: Characteristic',
+    'セクターは「Sector 1」が 2 件と最多', 'TOP3 の平均 AI 影響は 3.0/10 変化 小さい', '特徴: Characteristic',
   ]);
   assert.equal(result.faqItems.length, 4);
   assert.deepEqual(result.faqItems[0], ['Axisが中心となるのはどんな職業？', config.description_ja]);
   assert.ok(result.faqItems[1]![1].includes('TOP 3 職業'));
-  assert.equal(result.faqItems[2]![1], `本 hub の TOP 3 の平均 AI 影響度は 3.0/10 で 低め の水準です。${CONSENSUS_FAQ_SENTENCE}`);
+  assert.equal(result.faqItems[2]![1], `本 hub の TOP 3 の平均 AI 影響度は 3.0/10 変化 小さい。${CONSENSUS_FAQ_SENTENCE}`);
   assert.ok(result.faqItems[3]![1].includes('First。Second'));
   assert.ok(!result.faqItems[3]![1].includes('Third'));
 });
@@ -95,7 +95,7 @@ test('genre summaries and sector counts use only the retained TOP30 and cap sect
     sector: { ja: `Sector ${i % 7}` },
   }));
   const result = buildGenreResult(details, config);
-  assert.deepEqual(result.stats.map(([, value]) => value), ['21.50', '2.0 / 10', '400 万円', '300 人']);
+  assert.deepEqual(result.stats.map(([, value]) => value), ['21.50', '2.0/10 変化 小さい', '400 万円', '300 人']);
   assert.deepEqual(result.sectorBreakdown, [['Sector 0', 5], ['Sector 1', 5], ['Sector 2', 4], ['Sector 3', 4], ['Sector 4', 4]]);
 });
 
@@ -116,16 +116,17 @@ test('genre zero risk/salary do not generate a risk tier FAQ and missing sector 
   assert.equal(result.faqItems.length, 2);
 });
 
-for (const [raw, shown, tier] of [
-  [3.54, '3.5', '低め'], [3.56, '3.6', '中程度'],
-  [5.54, '5.5', '中程度'], [5.56, '5.6', 'やや高め'],
+for (const [raw, shown, word] of [
+  [3.54, '3.5', '変化 小さい'], [3.56, '3.6', '変化 小さい'],
+  [3.95, '4.0', '変化 中くらい'], [6.966666666666667, '7.0', '変化 大きい'],
+  [5.54, '5.5', '変化 中くらい'], [5.56, '5.6', '変化 中くらい'],
 ] as const) {
   test(`genre FAQ classifies the displayed mean ${shown}, from unrounded ${raw}`, () => {
     const result = buildGenreResult([
       detail(1, 2, { ai_risk: { score: raw - 0.02 } }),
       detail(2, 1, { ai_risk: { score: raw + 0.02 } }),
     ], config);
-    assert.equal(result.faqItems[2]![1], `本 hub の TOP 2 の平均 AI 影響度は ${shown}/10 で ${tier} の水準です。${CONSENSUS_FAQ_SENTENCE}`);
+    assert.equal(result.faqItems[2]![1], `本 hub の TOP 2 の平均 AI 影響度は ${shown}/10 ${word}。${CONSENSUS_FAQ_SENTENCE}`);
   });
 }
 
@@ -142,4 +143,27 @@ test('genre spotlight skips empty axes, deduplicates winners, preserves config o
   assert.deepEqual(buildGenreIndexSpotlight(details, []), []);
   const many = Array.from({ length: 15 }, (_, i) => detail(i + 1, i));
   assert.deepEqual(buildGenreIndexSpotlight(many, many.map((d) => pick(d.id))).map((o) => o.id), Array.from({ length: 12 }, (_, i) => i + 1));
+});
+
+test('genre hubs with fewer than 30 rows say TOP<n>, a full hub keeps TOP30 (#884)', () => {
+  const few = buildGenreResult([detail(1, 5, { ai_risk: { score: 2 } }), detail(2, 4, { ai_risk: { score: 3 } })], config);
+  assert.equal(few.stats[3]![0], 'TOP2 合計就業者数');
+  assert.ok(few.highlights.includes('TOP2 の平均 AI 影響は 2.5/10 変化 小さい'));
+  const full = buildGenreResult(Array.from({ length: 36 }, (_, i) => detail(i + 1, 36 - i)), config);
+  assert.equal(full.stats[3]![0], 'TOP30 合計就業者数');
+});
+
+test('hide_score hubs do not print their internal sort key as a スコア (#884)', () => {
+  const sortKeyConfig: GenreHubConfig = {
+    slug: 'sort-key', short_ja: '育児両立', title_ja: 't', description_ja: 'd', og_eyebrow: 'e',
+    custom_filter: (d) => -(d.stats?.monthly_hours ?? 0), hide_score: true,
+  };
+  const details = [
+    detail(1, 0, { stats: { monthly_hours: 141 }, ai_risk: { score: 2 } }),
+    detail(2, 0, { stats: { monthly_hours: 150 }, ai_risk: { score: 3 } }),
+  ];
+  const result = buildGenreResult(details, sortKeyConfig);
+  assert.deepEqual(result.stats.map(([label]) => label), ['平均 AI 影響', '平均年収', 'TOP2 合計就業者数']);
+  assert.equal(result.highlights[0], '1 位は「Occupation 1」');
+  assert.ok(!result.highlights.join('').includes('-141'));
 });

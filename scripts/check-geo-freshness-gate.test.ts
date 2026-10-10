@@ -203,8 +203,8 @@ describe('assertDocumentedDetailProjectionExamples', () => {
 describe('assertFreshGeoAstroPages', () => {
   const GOOD = 'const a = SCORE_ATTRIBUTION.modelDisplay; const b = SCORE_PANEL.latestRunDate; CONSENSUS_STANDARD_FORMAL';
   const pages = (std: string, meth = GOOD): Record<string, string> => ({
-    'src/pages/standard.astro': std,
-    'src/pages/methodology.astro': meth,
+    'src/pages/pro/standard.astro': std,
+    'src/pages/pro/methodology.astro': meth,
   });
 
   test('passes when both pages derive consensus copy and date', () => {
@@ -219,12 +219,12 @@ describe('assertFreshGeoAstroPages', () => {
 
   test('fails when the consensus derivation is missing', () => {
     fixture(pages('SCORE_PANEL.latestRunDate'));
-    assert.ok(failureOf(() => assertFreshGeoAstroPages())!.includes('src/pages/standard.astro must derive published-score copy'));
+    assert.ok(failureOf(() => assertFreshGeoAstroPages())!.includes('src/pages/pro/standard.astro must derive published-score copy'));
   });
 
   test('fails when the date derivation is missing', () => {
     fixture(pages(GOOD, 'CONSENSUS_STANDARD_FORMAL'));
-    assert.ok(failureOf(() => assertFreshGeoAstroPages())!.includes('src/pages/methodology.astro must derive the current scoring date'));
+    assert.ok(failureOf(() => assertFreshGeoAstroPages())!.includes('src/pages/pro/methodology.astro must derive the current scoring date'));
   });
 
   for (const token of ['__SCORE_X', '__GEO_X', 'claude-opus-4-8', 'version": "0.5.0"', '変化の大きさの平均差 <strong>−0.07</strong>']) {
@@ -329,7 +329,7 @@ describe('assertHomeAndReadmeConsistency', () => {
         `${view.highImpactWagesTrillion}<small>兆</small>`,
         `影響≥${f.highImpactThreshold}・${view.highImpactCount}職業`,
       ].join('\n'),
-      'dist-astro/methodology.html': `複数のAI ${SCORE_PANEL.latestRunDate} ${methodology.meanAiImpact} Claude Fable 5`,
+      'dist-astro/pro/methodology.html': `複数のAI ${SCORE_PANEL.latestRunDate} ${methodology.meanAiImpact} Claude Fable 5`,
       'README.md': README_OK,
     };
   };
@@ -401,7 +401,7 @@ describe('main', () => {
   test('rendered fact blocks: one block per surface, satisfied by a synthetic dist-astro', async () => {
     const facts = realFacts();
     const blocks = await collectRenderedFactBlocks(facts);
-    const surfaces = ['sectors/', 'rankings/', 'abilities/', 'compare/', 'q/', 'answers/'];
+    const surfaces = ['sectors/', 'pro/rankings/', 'pro/abilities/', 'pro/compare/', 'pro/q/', 'pro/answers/'];
     for (const surface of surfaces) {
       assert.ok(blocks.some((b) => b.rel.startsWith(`dist-astro/${surface}`)), `no block for ${surface}`);
     }

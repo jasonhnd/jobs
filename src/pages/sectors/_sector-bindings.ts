@@ -14,6 +14,7 @@
  * Page-local sibling (Astro `_`-prefix → not routed).
  */
 
+import { ordinarySectorCopy } from '@/site/ordinary-sector-copy';
 import { siteConfig } from '@/site/config';
 import { escapeHtml } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
@@ -48,6 +49,7 @@ import type {
   SectorDetailView,
 } from '@/views/sector';
 import type { GeoFacts } from '@/site/geo-facts';
+import { formatShownMeanLabel } from '@/lib/score-format';
 
 const SITE_ORIGIN = siteConfig.origin;
 const TOP_N = 5;
@@ -81,6 +83,7 @@ export interface SectorBindings {
   // Section headings (h1, h2s, breadcrumb labels)
   readonly h1Main: string;
   readonly subText: string;
+  readonly firstScreen: ReturnType<typeof ordinarySectorCopy>;
   readonly skipLabel: string;
   readonly crumbRoot: string;
   readonly crumbSectors: string;
@@ -203,7 +206,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
   const h1Main = `${nameLoc}の職業`;
   const subText =
     `<strong>${n} 職業</strong>` +
-    (meanRisk !== null ? ` · 平均 AI 影響 <strong>${meanRisk.toFixed(1)}/10</strong>` : '') +
+    (meanRisk !== null ? ` · 平均 AI 影響 <strong>${formatShownMeanLabel(meanRisk)}</strong>` : '') +
     ` · 就業者数 計 <strong>${fmtInt(workforceTotal)}</strong> 人`;
   const hHigh = `${nameLoc} の AI 影響 が高い職業 TOP 5`;
   const hLow = `${nameLoc} の AI 影響 が低い職業 TOP 5`;
@@ -295,6 +298,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
     keywordsStr,
     h1Main,
     subText,
+    firstScreen: ordinarySectorCopy(nameLoc, n, meanRisk),
     skipLabel,
     crumbRoot,
     crumbSectors,

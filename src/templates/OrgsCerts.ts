@@ -46,10 +46,12 @@ export function renderOrgsCerts(input: OrgsCertsInput): SafeHtml {
     let items = '';
     for (const o of orgs) {
       if (!o.nameJa) continue;
-      items +=
-        `<li><a href="${escapeHtml(o.url ?? '#')}" rel="external noopener noreferrer" target="_blank">` +
-        `${escapeHtml(o.nameJa)}` +
-        `</a></li>`;
+      // No URL: plain text rather than a dead href="#" that opens a new tab (#884).
+      items += o.url
+        ? `<li><a href="${escapeHtml(o.url)}" rel="external noopener noreferrer" target="_blank">` +
+          `${escapeHtml(o.nameJa)}` +
+          `</a></li>`
+        : `<li>${escapeHtml(o.nameJa)}</li>`;
     }
     orgBlock = `<div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list">${items}</ul></div>`;
   }

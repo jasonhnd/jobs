@@ -68,3 +68,15 @@ test('demandBand: hot (≥ 2.0)', () => {
   assert.equal(demandBand(2.0), 'hot');
   assert.equal(demandBand(5.0), 'hot');
 });
+
+test('riskBand: non-finite input returns null (fmean([]) is NaN)', () => {
+  assert.equal(riskBand(Number.NaN), null);
+  assert.equal(riskBand(Number.POSITIVE_INFINITY), null);
+  assert.equal(riskBand(Number.NEGATIVE_INFINITY), null);
+});
+
+test('riskBand: unrounded means classify by the displayed value', () => {
+  assert.equal(riskBand(3.9666666666666663), 'mid');
+  assert.equal(riskBand(6.966666666666667), 'high');
+  assert.equal(riskBand(3.9333333333333336), 'low');
+});

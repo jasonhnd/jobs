@@ -82,6 +82,24 @@ describe('response validation', () => {
     );
   });
 
+  test('accepts a valid score whose rationale merely mentions errors, failures, or refusal', () => {
+    for (const rationale of [
+      'サービス窓口でのエラー対応は人が担い、推論の失敗も現場で補う。',
+      'Inference service failures are handled by on-site staff; clients often refuse automation.',
+    ]) {
+      const score = validateAndNormalizeResponse(JSON.stringify({ ...validScore(3), rationale_ja: rationale }), 3);
+      assert.equal(score.rationale_ja, rationale);
+    }
+  });
+
+  test('scans for an upstream error only when the response does not parse', () => {
+    assert.throws(
+      () => validateAndNormalizeResponse('Provider error: inference service overloaded {', 1),
+      (err: unknown) => err instanceof Error && /upstream error\/refusal/.test(err.message),
+    );
+    assert.throws(() => validateAndNormalizeResponse('not json at all', 1), /invalid JSON/);
+  });
+
   test('normalizes a fenced JSON response before validation', () => {
     const score = validateAndNormalizeResponse(`\`\`\`json\n${JSON.stringify(validScore(2))}\n\`\`\``, 2);
     assert.equal(score.id, 2);

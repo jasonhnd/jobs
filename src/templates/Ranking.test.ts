@@ -125,7 +125,7 @@ describe('renderRankItem', () => {
       '<span class="rl-meta">医療・福祉 · <span class="rl-salary">500万円</span> · <span class="rl-workers">1,500,000人</span></span>' +
       '</span>' +
       '<span class="rl-end">' +
-      '<span class="risk-pill low">3/10</span>' +
+      '<span class="risk-pill low">3/10 変化 小さい</span>' +
       '<span class="rl-chevron" aria-hidden="true">›</span>' +
       '</span>' +
       '</a>' +
@@ -147,7 +147,7 @@ describe('renderRankItem', () => {
       '<span class="rl-meta"><span class="rl-extra">初任給 30万円</span> · <span class="rl-workers">100人</span></span>' +
       '</span>' +
       '<span class="rl-end">' +
-      '<span class="risk-pill high">8/10</span>' +
+      '<span class="risk-pill high">8/10 変化 大きい</span>' +
       '<span class="rl-chevron" aria-hidden="true">›</span>' +
       '</span>' +
       '</a>' +
@@ -216,8 +216,8 @@ describe('renderRankingSummary', () => {
     const got = renderRankingSummary(items);
     assert.equal(
       got,
-      `<p class="rk-sum">1位は<strong>データ入力</strong>（<strong>9.4/10</strong>）` +
-      ` · TOP2平均 <strong>8.3/10</strong> · ${monthLabel}更新</p>`,
+      `<p class="rk-sum">1位は<strong>データ入力</strong>（<strong>9.4/10 変化 大きい</strong>）` +
+      ` · TOP2平均 <strong>8.3/10 変化 大きい</strong> · ${monthLabel}更新</p>`,
     );
   });
 
@@ -227,7 +227,7 @@ describe('renderRankingSummary', () => {
       makeOcc({ title_ja: 'Y', ai_risk: 4 }),
     ]);
     assert.match(got, /（<strong>—<\/strong>）/);
-    assert.match(got, /TOP2平均 <strong>4\.0\/10<\/strong>/);
+    assert.match(got, /TOP2平均 <strong>4\.0\/10 変化 中くらい<\/strong>/);
   });
 
   test('escapes the occupation name', () => {
@@ -252,7 +252,7 @@ describe('renderHighlights', () => {
 
   test('ai-risk-high snapshot has the AI影響 phrasing', () => {
     const got = renderHighlights(fakeRanking(), 'ai-risk-high');
-    assert.match(got, /1位は「TopJob」（AI影響度 3\/10）/);
+    assert.match(got, /1位は「TopJob」（AI影響度 3\/10 変化 小さい）/);
     assert.match(got, /医療・福祉.*セクターが.*2件と最多/);
     assert.match(got, /平均年収は400万円/);
   });
@@ -428,8 +428,7 @@ describe('renderHomeMovers', () => {
   test('renders two columns, occupation links, and /rankings header', () => {
     const html = renderHomeMovers({
       meta: {
-        baseline: { model: 'a', date: '2026-06-13', scoreCount: 556 },
-        candidate: { model: 'b', date: '2026-07-26', scoreCount: 556 },
+        landed: { date: '2026-07-26', models: ['b'] },
         comparedCount: 556,
       },
       transformation: {
@@ -453,8 +452,7 @@ describe('renderRankingsMovers', () => {
   test('labels the displacement columns 仕事が減るリスク, the axis name the occupation page uses (design-1.21)', () => {
     const html = renderRankingsMovers({
       meta: {
-        baseline: { model: 'a', date: '2026-06-13', scoreCount: 556 },
-        candidate: { model: 'b', date: '2026-07-26', scoreCount: 556 },
+        landed: { date: '2026-07-26', models: ['b'] },
         comparedCount: 556,
       },
       transformation: { up: [], down: [] },
@@ -467,6 +465,16 @@ describe('renderRankingsMovers', () => {
     assert.match(html, /仕事が減るリスクが下がった職業/);
     assert.doesNotMatch(html, /代替リスク/);
     assert.match(html, /変化指数が上がった職業/);
+  });
+
+  test('the note describes a change of the public value around the latest batch (#863)', () => {
+    const html = renderRankingsMovers({
+      meta: { landed: { date: '2026-10-01', models: ['gpt-6.1-sol'] }, comparedCount: 556 },
+      transformation: { up: [], down: [] },
+      displacement: { up: [], down: [] },
+    });
+    assert.match(html, /<p class="movers-note">公開値（3社の最新モデルの平均）の変化：2026-10-01 gpt-6\.1-sol の採点の反映前 → 反映後、共通 556 職業<\/p>/);
+    assert.doesNotMatch(html, /先月比/);
   });
 });
 
@@ -541,8 +549,7 @@ describe('renderHomeMovers date fallback', () => {
     });
     const html = renderHomeMovers({
       meta: {
-        baseline: { model: 'a', date: '2026-06-13', scoreCount: 4 },
-        candidate: { model: 'b', date: 'not-a-date', scoreCount: 4 },
+        landed: { date: 'not-a-date', models: ['b'] },
         comparedCount: 4,
       },
       transformation: { up: [row(1), row(2), row(3), row(4)], down: [row(2)] },
@@ -563,8 +570,7 @@ describe('renderRankingsMovers family code', () => {
   test('writes the family code onto the mover row', () => {
     const html = renderRankingsMovers({
       meta: {
-        baseline: { model: 'a & b', date: '2026-06-13', scoreCount: 1 },
-        candidate: { model: 'c', date: '2026-07-26', scoreCount: 1 },
+        landed: { date: '2026-07-26', models: ['a & b', 'c'] },
         comparedCount: 1,
       },
       transformation: {
@@ -578,7 +584,7 @@ describe('renderRankingsMovers family code', () => {
     assert.match(html, /class="mover-name" href="\/5">Up &lt;1&gt;</);
     assert.match(html, /class="mover-delta up">\+0\.0</);
     assert.match(html, /class="mover-values">1\.3 → 2\.0</);
-    assert.match(html, /a &amp; b/);
+    assert.match(html, /a &amp; b \/ c の採点/);
   });
 });
 
@@ -609,4 +615,13 @@ describe('renderInsightCards', () => {
     assert.match(html, /class="ic-share"/);
     assert.match(html, /<svg viewBox="0 0 24 24"/);
   });
+});
+
+test('Pro rankings index JSON-LD uses the actual Pro page metadata', () => {
+  const metadata = { title: 'Pro | Ranking index title', description: 'Pro · Ranking index description' };
+  const webpage = JSON.parse(renderHubJsonLd('pro', metadata))['@graph'][0];
+  assert.equal(webpage.name, metadata.title);
+  assert.equal(webpage.description, metadata.description);
+  assert.equal(webpage.url, 'https://mirai-shigoto.com/pro/rankings');
+  assert.equal(JSON.parse(renderHubJsonLd())['@graph'][0].name, '職業ランキング');
 });

@@ -1,4 +1,5 @@
 import type { QAItem } from '../qa-meta.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 
 export const APTITUDE_EXTRA_ITEMS: ReadonlyArray<QAItem> = [
   // ── 適性 / 興味 追加 (4) ──
@@ -25,7 +26,7 @@ export const APTITUDE_EXTRA_ITEMS: ReadonlyArray<QAItem> = [
       const sid = d.sector?.id ?? '';
       if (!['hanbai', 'service', 'kyoiku', 'shigyo'].includes(sid)) return null;
       const ai = d.ai_risk?.score ?? 99;
-      if (ai > 6) return null;
+      if (displayScore(ai) > 6) return null;
       return -ai * 100 + (d.stats?.salary_man_yen ?? 0) / 100;
     },
     related_topics: ['social', 'enterprising'],

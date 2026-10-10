@@ -5,7 +5,7 @@ import { buildIndexes, type Indexes } from '../lib/indexes.js';
 import type { ScoreRun } from '../schema/index.js';
 import { VENDOR_WHITELIST, formatModelDisplay, isWhitelistedVendor, runSlug } from '../../site/score-attribution.js';
 import { ModelsByModelProjectionSchema } from '../../lib/projection-schemas.js';
-import { buildModelsByModelPayload, modelsByModelMaxPageBytes } from './models-by-model.js';
+import { buildModelsByModelPayload, modelsByModelMaxPageBytes, round1 } from './models-by-model.js';
 
 let indexesPromise: Promise<Indexes> | null = null;
 
@@ -221,6 +221,29 @@ describe('models-by-model projection', () => {
     }
     assert.equal(containsKey(payload, 'rationale_ja'), false);
     assert.ok(modelsByModelMaxPageBytes(payload) <= 24 * 1024);
+  });
+});
+
+describe('models-by-model rounding and tie order (#863)', () => {
+  test('round1 is banker rounding, not half-up', () => {
+    assert.equal(round1(0.25), 0.2);
+    assert.equal(round1(0.35), 0.3); // stored as 0.34999…
+    assert.equal(round1(0.75), 0.8);
+    assert.equal(round1(52.25), 52.2);
+  });
+
+  test('drift movers: equal |delta_t| ties are ordered by id, not FP residue', async () => {
+    const indexes = await indexesFixture();
+    const payload = buildModelsByModelPayload(indexes, '2026-07-13T00:00:00.000Z');
+    for (const [slug, page] of Object.entries(payload.models)) {
+      if ('baseline' in page.drift) continue;
+      const movers = page.drift.movers;
+      for (let i = 1; i < movers.length; i += 1) {
+        const prev = Math.round(Math.abs(movers[i - 1]!.delta_t) * 10);
+        const cur = Math.round(Math.abs(movers[i]!.delta_t) * 10);
+        assert.ok(prev > cur || (prev === cur && movers[i - 1]!.id < movers[i]!.id), `${slug}: ${movers[i - 1]!.id} before ${movers[i]!.id}`);
+      }
+    }
   });
 });
 

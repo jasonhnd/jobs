@@ -39,6 +39,8 @@ import {
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import { siteConfig } from '@/site/config';
+import { formatShownMeanLabel } from '@/lib/score-format';
+import { stringifyJsonLd } from '../../lib/json-for-script.js';
 
 const SITE = siteConfig.origin;
 
@@ -71,7 +73,7 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 
 export function buildLicenseBindings(input: LicenseBindingsInput): LicenseBindings {
   const { hub, items, graph } = input;
-  const canonical = `${SITE}/licenses/${hub.slug}`;
+  const canonical = `${SITE}/pro/licenses/${hub.slug}`;
   const ogImage = `${SITE}/api/og?license=${hub.slug}`;
   const title = `${hub.title_ja}｜${items.length} 職業 | 未来の仕事`;
   const seoDesc = `${hub.short_ja}カテゴリーの資格と関連職業 ${items.length} 件。${hub.description_ja.slice(0, 80)}…`;
@@ -83,7 +85,7 @@ export function buildLicenseBindings(input: LicenseBindingsInput): LicenseBindin
   const statsHtml =
     `<dl class="stats">` +
     `<div><dt>関連職業数</dt><dd>${items.length}</dd></div>` +
-    `<div><dt>平均 AI 影響</dt><dd>${meanRisk > 0 ? meanRisk.toFixed(1) + ' / 10' : '—'}</dd></div>` +
+    `<div><dt>平均 AI 影響</dt><dd>${meanRisk > 0 ? formatShownMeanLabel(meanRisk) : '—'}</dd></div>` +
     `<div><dt>平均年収</dt><dd>${meanSalary > 0 ? Math.trunc(meanSalary) + ' 万円' : '—'}</dd></div>` +
     `<div><dt>合計就業者数</dt><dd>${fmtInt(totalWorkers)} 人</dd></div>` +
     `</dl>`;
@@ -97,7 +99,7 @@ export function buildLicenseBindings(input: LicenseBindingsInput): LicenseBindin
   const highlights = [
     `1 位は「${items[0]?.name_ja ?? '—'}」`,
     top3 ? `TOP 3 は ${top3}` : '',
-    meanRisk > 0 ? `平均 AI 影響度 ${meanRisk.toFixed(1)}/10` : '',
+    meanRisk > 0 ? `平均 AI 影響度 ${formatShownMeanLabel(meanRisk)}` : '',
     `代表資格: ${hub.cert_examples_ja.slice(0, 3).join('、')}`,
   ].filter(Boolean);
   const highlightsHtml = renderHighlights(highlights);
@@ -118,24 +120,24 @@ export function buildLicenseBindings(input: LicenseBindingsInput): LicenseBindin
 
   const relatedHtml = '<ul class="related-genre">' + LICENSE_HUBS
     .filter((h) => h.slug !== hub.slug).slice(0, 8)
-    .map((h) => `<li><a href="/licenses/${h.slug}"><span class="rg-name">${escapeHtml(h.short_ja)}</span><span class="rg-desc">${escapeHtml(h.description_ja.slice(0, 60))}…</span></a></li>`)
+    .map((h) => `<li><a href="/pro/licenses/${h.slug}"><span class="rg-name">${escapeHtml(h.short_ja)}</span><span class="rg-desc">${escapeHtml(h.description_ja.slice(0, 60))}…</span></a></li>`)
     .join('') + '</ul>';
 
   const itemList = items.map((o, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}${occupationPath(o.id)}`, name: o.name_ja }));
-  const jsonLd = JSON.stringify({
+  const jsonLd = stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: hub.title_ja, description: seoDesc },
       { '@type': 'CollectionPage', '@id': `${canonical}#collection`, name: hub.title_ja, description: seoDesc },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: '資格から探す', item: `${SITE}/licenses` },
+        { '@type': 'ListItem', position: 2, name: '資格から探す', item: `${SITE}/pro/licenses` },
         { '@type': 'ListItem', position: 3, name: hub.title_ja, item: canonical },
       ] },
       { '@type': 'ItemList', numberOfItems: itemList.length, itemListElement: itemList },
       { '@type': 'FAQPage', mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
     ],
-  }, null, 2);
+  }, 2);
 
   return {
     canonical, ogImage, title, seoDesc,

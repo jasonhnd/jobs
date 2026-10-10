@@ -33,11 +33,54 @@
         const inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
         return String(Number(inc.toFixed(1)));
       }
+      // Bands, tiers and steps are judged on the DISPLAYED value (#864) —
+      // the number fmtRisk prints — never on the raw three-vendor mean.
+      // Five colour bands, lower bound inclusive: [0,2) [2,4) [4,6) [6,8)
+      // [8,10]. Byte-identical copy in _map-inline.js —
+      // _risk-display-inline.test.ts pins the two together.
+      function riskBand5(v) {
+        var d = Number(fmtRisk(v));
+        if (!(d >= 2)) return 0; // also a missing score
+        if (d < 4) return 1;
+        if (d < 6) return 2;
+        if (d < 8) return 3;
+        return 4;
+      }
+      // Site three-band rule (low < 4.0 <= mid < 7.0 <= high), as riskClass().
+      function riskClass3(v) {
+        const d = Number(fmtRisk(v));
+        return d < 4.0 ? "low" : d < 7.0 ? "mid" : "high";
+      }
+      function riskBandWord(v) {
+        const d = Number(fmtRisk(v));
+        if (!Number.isFinite(d)) return "";
+        if (d < 4.0) return "変化 小さい";
+        if (d < 7.0) return "変化 中くらい";
+        return "変化 大きい";
+      }
+      // GA4 risk_tier, analytics/spec.yaml: high >=7 / mid 5-6 / low <=4.
+      function gaRiskTier(v) {
+        const d = Number(fmtRisk(v));
+        return d >= 7 ? "high" : (d >= 5 ? "mid" : "low");
+      }
+      // Integer step (0-10) of the displayed value, banker's on a printed .5
+      // — the server's displayScoreStep (src/data/lib/banker-round.ts).
+      function riskStep(v) {
+        const d = Number(fmtRisk(v));
+        const whole = Math.floor(d);
+        const tenths = Math.round((d - whole) * 10);
+        const step = tenths > 5 || (tenths === 5 && whole % 2 !== 0) ? whole + 1 : whole;
+        return Math.max(0, Math.min(10, step));
+      }
       let layer = "ai_risk";
       let palette = "redgreen"; // or "viridis"
       let data = [];
       let searchData = [];
       let searchDataPromise = null;
+      // True once data.search.json has been read, even if it held no rows:
+      // an empty projection must not look "not loaded yet", or callers would
+      // re-enter ensureSearchData() forever (#884 review).
+      let searchDataLoaded = false;
       let rects = [];
       let hovered = null;
       let searchQuery = "";
@@ -123,7 +166,7 @@
       function fireTileClick(rec, source) {
         if (!window.gtag || !rec) return;
         const risk = rec.ai_risk != null ? rec.ai_risk : 0;
-        const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
+        const tier = gaRiskTier(risk);
         const idx = (typeof rects !== "undefined" && rects.indexOf) ? rects.indexOf(rec) : -1;
         gtag("event", "occupation_tile_click", {
           occupation_id: rec.id,
@@ -159,8 +202,8 @@
           tiers: { ja: "段階別", en: "Tiers" },
           crosstab: { ja: "クロス集計", en: "Cross-tab" },
           impact: { ja: "影響度", en: "Impact" },
-          wagesExposed: { ja: "高リスク賃金総額（リスク≥5）", en: "Wages exposed (risk≥5)" },
-          highRiskJobs: { ja: "高リスク職業数", en: "High-risk jobs" },
+          wagesExposed: { ja: "変化 大きいの賃金総額（7.0以上）", en: "Wages exposed (risk≥5)" },
+          highRiskJobs: { ja: "変化 大きいの職業数", en: "High-risk jobs" },
           topPay: { ja: "最高年収", en: "Top salary" },
           medianPay: { ja: "中央値年収", en: "Median salary" },
           totalWages: { ja: "賃金総額", en: "Total wages" },
@@ -226,9 +269,10 @@
       // Was previously interpolating between stops + boostContrast + alpha 0.85
       // which produced muddy brown/olive midtones absent from /map's flat blocks.
       // User wants the two pages to look identical — switching to flat discrete.
-      // t ∈ [0,1] → band 0..4, the same cut points as /map's bandForRisk
-      // (risk ≤2 / ≤4 / ≤6 / ≤8 / else). Fill and label colour both go
-      // through here so a tile can never get a mismatched pair.
+      // t ∈ [0,1] → band 0..4 for the continuous layers. The ai_risk layer
+      // goes through riskBand5 instead — the same function /map uses — so
+      // its tiles band the displayed score (#864). Fill and label colour both
+      // go through tileBand so a tile can never get a mismatched pair.
       function bandForT(t) {
         t = clamp(t);
         if (t < 0.2) return 0;
@@ -237,9 +281,15 @@
         if (t < 0.8) return 3;
         return 4;
       }
-      function mapPaletteCSS(t, alpha) {
-        const stop = MAP_PALETTE_STOPS[bandForT(t)];
+      function bandPaletteCSS(band, alpha) {
+        const stop = MAP_PALETTE_STOPS[band];
         return `rgba(${stop[0]},${stop[1]},${stop[2]},${alpha})`;
+      }
+      function mapPaletteCSS(t, alpha) {
+        return bandPaletteCSS(bandForT(t), alpha);
+      }
+      function tileBand(d, t) {
+        return layer === "ai_risk" ? riskBand5(d.ai_risk) : bandForT(t);
       }
       // WCAG 2.1 relative luminance / contrast, for the palettes the §2.3
       // table does not cover (viridis toggle, the grey no-data tile).
@@ -256,7 +306,7 @@
       // fill: whichever of white / --ink contrasts more with the drawn colour.
       function tileLabelFg(d) {
         const t = layerT(d);
-        if (t != null && palette !== "viridis") return MAP_LABEL_FG[bandForT(t)];
+        if (t != null && palette !== "viridis") return MAP_LABEL_FG[tileBand(d, t)];
         const m = tileColorCSS(d, 1).match(/(\d+),\s*(\d+),\s*(\d+)/);
         const fill = m ? [Number(m[1]), Number(m[2]), Number(m[3])] : [120, 120, 120];
         const white = MAP_LABEL_FG[0], ink = MAP_LABEL_FG[1];
@@ -325,7 +375,7 @@
         }
         if (layer === "ai_risk") {
           if (d.ai_risk == null) return null;
-          return d.ai_risk / 10;
+          return Number(fmtRisk(d.ai_risk)) / 10;
         }
         return null;
       }
@@ -333,6 +383,7 @@
       function tileColorCSS(d, alpha) {
         const t = layerT(d);
         if (t == null) return `rgba(120,120,120,${alpha})`;
+        if (palette !== "viridis") return bandPaletteCSS(tileBand(d, clamp(t)), alpha);
         return paletteCSS(t, alpha);
       }
 
@@ -490,11 +541,13 @@
         }
         return sorted;
       }
-      function pctRank(v, arr) {
+      // 「上位 X%」: share of occupations at or above v, rounded up, so the
+      // highest one reads 上位 1% instead of 上位 0% (#884).
+      function pctTop(v, arr) {
         if (!arr || arr.length === 0 || v == null) return null;
-        let i = 0;
-        while (i < arr.length && arr[i] < v) i++;
-        return Math.round((i / arr.length) * 100);
+        let atOrAbove = 0;
+        for (let i = 0; i < arr.length; i++) if (arr[i] >= v) atOrAbove++;
+        return Math.max(1, Math.ceil((atOrAbove / arr.length) * 100));
       }
 
       function showTooltip(d, mx, my) {
@@ -506,8 +559,8 @@
           const eduLabel = idx >= 0 ? EDU_LABELS[idx] : "—";
           const eduPct = idx >= 0 ? (d.education_pct[EDU_LABELS[idx]] || 0).toFixed(1) + "%" : "";
           // Percentile context: top X% of N occupations. For salary & ai_risk: higher is "top".
-          const salaryPctTop = d.salary != null && percentiles.salary ? 100 - pctRank(d.salary, percentiles.salary) : null;
-          const riskPctTop = d.ai_risk != null && percentiles.ai_risk ? 100 - pctRank(d.ai_risk, percentiles.ai_risk) : null;
+          const salaryPctTop = d.salary != null && percentiles.salary ? pctTop(d.salary, percentiles.salary) : null;
+          const riskPctTop = d.ai_risk != null && percentiles.ai_risk ? pctTop(d.ai_risk, percentiles.ai_risk) : null;
 
           // Defensive: new fields (employment_type, hourly_wage, prior_experience) may be missing
           const empType = d.employment_type;
@@ -534,7 +587,7 @@
           if (topEmp) rowsJa.push(["最多雇用形態", topEmp[0] + " " + topEmp[1].toFixed(0) + "%"]);
           if (hourlyWage != null) rowsJa.push(["時給", Math.round(hourlyWage).toLocaleString() + " 円"]);
           rowsJa.push(["AI リスク", d.ai_risk != null
-            ? fmtRisk(d.ai_risk) + "/10" + (riskPctTop != null ? "（上位 " + riskPctTop + "%）" : "")
+            ? fmtRisk(d.ai_risk) + "/10 " + riskBandWord(d.ai_risk) + (riskPctTop != null ? "（上位 " + riskPctTop + "%）" : "")
             : "—"]);
           rowsJa.push(["理由", d.ai_rationale_ja || "—"]);
 
@@ -621,7 +674,7 @@
       // Default-safe: every input is escapeHtml'd before interpolation. Most
       // callers pass occupation names from data.json (highest-pay, oldest,
       // longest-hours, top-recruit-ratio) — escaping is correct. Numeric
-      // strings ("5.0 / 10", "180 h") survive escaping unchanged.
+      // strings ("4.9/10 変化 中くらい", "180 h") survive escaping unchanged.
       // Audit CODE-001 R1 — closes the 5 stats-panel injection sites that
       // the first-pass fix missed (lines 2592 / 2620 / 2625 / 2651 / 2677).
       function statBlock(label, value, sub) {
@@ -669,12 +722,12 @@
           const totalW = items.reduce((s, d) => s + d.workers, 0);
           const wAvg = items.reduce((s, d) => s + d.ai_risk * d.workers, 0) / totalW;
           const hist = new Array(11).fill(0);
-          for (const d of items) hist[Math.round(d.ai_risk)]++;
+          for (const d of items) hist[riskStep(d.ai_risk)]++;
           // 段階別 tiers table removed (2026-05-31): redundant — the same band
           // distribution is shown by this panel's 分布 histogram AND the home
           // KPI band's "AI 影響度の分布" bar. Keeping it made a 5-row card that
           // towered over the single-number cards.
-          const highRiskItems = items.filter(d => d.ai_risk >= 5 && d.salary != null);
+          const highRiskItems = items.filter(d => Number(fmtRisk(d.ai_risk)) >= 7 && d.salary != null);
           const wagesExposed = highRiskItems.reduce((s, d) => s + d.salary * d.workers, 0);
           const highRiskJobsCount = highRiskItems.length;
           // Cross-tab: avg AI risk by salary band
@@ -691,16 +744,20 @@
             return [fmtSalBand(lo, hi), sub.length, wA];
           });
 
-          blocks.push(statBlock(
+          // The word stays on its own line. A single escaped string wraps inside
+          // the narrow card and splits 中くらい.
+          const shownAvg = Number(fmtRisk(wAvg)).toFixed(1);
+          blocks.push(statBlockHTML(
             L.weightedAvg[lang],
-            wAvg.toFixed(1) + " / 10",
-            "就業者数で加重"
+            `<div class="stat-value"><span class="stat-score">${escapeHtml(shownAvg)}/10</span>` +
+            `<span class="stat-band">${escapeHtml(riskBandWord(wAvg))}</span></div>` +
+            `<div class="stat-sub">就業者数で加重</div>`
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
           blocks.push(statBlockHTML(
             "リスク × 年収",
             `<table class="tier-table">${ctRows.map(([b, n, a]) =>
-              `<tr><td>${b}</td><td>${n}</td><td>${a ? a.toFixed(1) : "—"}</td></tr>`).join("")}</table>`
+              `<tr><td>${b}</td><td>${n}</td><td>${a ? Number(fmtRisk(a)).toFixed(1) : "—"}</td></tr>`).join("")}</table>`
           ));
           blocks.push(statBlock(
             L.wagesExposed[lang],
@@ -868,11 +925,21 @@
           hours: {ja: ["短い", "長い"], en: ["Short", "Long"]},
           recruit_ratio: {ja: ["低い", "高い"], en: ["Low demand", "High demand"]},
           education: {ja: ["学歴低", "学歴高"], en: ["Low edu", "High edu"]},
-          ai_risk: {ja: ["低リスク", "高リスク"], en: ["Low risk", "High risk"]}
+          ai_risk: {ja: ["変化 小さい", "変化 大きい"], en: ["Low risk", "High risk"]}
         };
         const cfg = cfgs[layer] || cfgs.salary;
         document.getElementById("legendLow").textContent = cfg[lang][0];
         document.getElementById("legendHigh").textContent = cfg[lang][1];
+        const legendMid = document.getElementById("legendMid");
+        if (legendMid) {
+          if (layer === "ai_risk") {
+            legendMid.hidden = false;
+            legendMid.textContent = "変化 中くらい";
+          } else {
+            legendMid.hidden = true;
+            legendMid.textContent = "";
+          }
+        }
       }
 
       // ---- Layer toggle ----
@@ -1051,12 +1118,15 @@
         };
       }
 
+      // Search uses the search projection only: treemap rows carry no
+      // aliases_ja, so falling back to them broke alias search once the
+      // desktop treemap had loaded first (#884).
       function searchRows() {
-        return searchData.length ? searchData : data;
+        return searchData;
       }
 
       function ensureSearchData() {
-        if (searchRows().length) return Promise.resolve(searchRows());
+        if (searchDataLoaded) return Promise.resolve(searchData);
         if (searchDataPromise) return searchDataPromise;
         searchDataPromise = fetch("data.search.json", { credentials: "omit" })
           .then(r => {
@@ -1066,6 +1136,7 @@
           .then(payload => {
             const docs = payload && Array.isArray(payload.documents) ? payload.documents : [];
             searchData = docs.map(normalizeSearchDoc).filter(Boolean);
+            searchDataLoaded = true;
             return searchData;
           })
           .catch(err => {
@@ -1130,14 +1201,28 @@
       //   - partial match    → pre-fill all hero search inputs + trigger autocomplete
       // Loads the lightweight search projection on demand so the desktop treemap
       // payload can stay deferred until the canvas is near the viewport.
+      // Pre-fill all 3 hero inputs (only the visible one is seen; the other
+      // two are hidden but exist in the DOM).
+      function prefillSearchInputs(query) {
+        ["searchInputDesktop", "searchInputMobile", "searchInput"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.value = query;
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        });
+      }
+
       function handleSearchActionQuery() {
         const params = new URLSearchParams(window.location.search);
         const query = (params.get("q") || "").trim();
         if (!query) return;
-        if (!searchRows().length) {
+        if (!searchDataLoaded) {
           ensureSearchData()
             .then(handleSearchActionQuery)
             .catch(err => {
+              // Still show the visitor what they searched for (#884).
+              prefillSearchInputs(query);
               if (typeof console !== "undefined") console.warn("[search] data.search.json failed:", err);
             });
           return;
@@ -1152,7 +1237,7 @@
           // Exact match → redirect (use replace so the back button skips this hop)
           if (topNameJa === q || topNameEn === q) {
             if (window.gtag) gtag("event", "search_action_redirect", {
-              query: query.slice(0, 100),
+              query: sanitizeSearchQuery(query),
               occupation_id: top.id,
               language: "ja"
             });
@@ -1161,15 +1246,7 @@
           }
         }
 
-        // Partial / no match → pre-fill all 3 hero inputs (only the visible one
-        // is seen; the other two are hidden but exist in the DOM)
-        ["searchInputDesktop", "searchInputMobile", "searchInput"].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) {
-            el.value = query;
-            el.dispatchEvent(new Event("input", { bubbles: true }));
-          }
-        });
+        prefillSearchInputs(query);
 
         // Focus the visible one based on viewport
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -1181,7 +1258,7 @@
         }
 
         if (window.gtag) gtag("event", "search_action_landed", {
-          query: query.slice(0, 100),
+          query: sanitizeSearchQuery(query),
           match_count: matches.length,
           language: "ja"
         });
@@ -1331,7 +1408,7 @@
         function render(q) {
           const rawQuery = q || "";
           const trimmed = rawQuery.trim();
-          if (trimmed && !searchRows().length) {
+          if (trimmed && !searchDataLoaded) {
             ensureSearchData()
               .then(() => {
                 if (inputEl.value.trim() === trimmed) render(inputEl.value);
@@ -1364,12 +1441,11 @@
             const nameEn = rec.name_en || "";
             const display = nameJa || nameEn;
             const risk = rec.ai_risk != null ? rec.ai_risk : 0;
-            const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
-            const riskLabel = "AI 影響度 " + risk + "/10";
+            const riskLabel = "AI 影響度 " + fmtRisk(risk) + "/10 " + riskBandWord(risk);
             const focusClass = i === 0 ? " focused" : "";
             return '<li role="option" class="ss-item' + focusClass + '" data-job-id="' + Number(rec.id) + '" data-idx="' + Number(i) + '">' +
               '<span class="ss-name">' + escapeHtml(display) + '</span>' +
-              '<span class="ss-risk ' + tier + '">' + escapeHtml(riskLabel) + '</span>' +
+              '<span class="ss-risk ' + riskClass3(risk) + '">' + escapeHtml(riskLabel) + '</span>' +
               '</li>';
           }).join("");
           suggestEl.classList.add("visible");
@@ -1661,7 +1737,7 @@
         const cta = e.currentTarget;
         const occId = parseInt(cta.dataset.occId || "0", 10) || 0;
         const aiRisk = parseFloat(cta.dataset.aiRisk || "0");
-        const tier = aiRisk >= 7 ? "high" : (aiRisk >= 5 ? "mid" : "low");
+        const tier = gaRiskTier(aiRisk);
         if (window.gtag) gtag("event", "tooltip_cta_click", {
           occupation_id: occId,
           ai_risk_score: aiRisk,
@@ -1758,6 +1834,7 @@
       function showError(err) {
         const ls = document.getElementById("loadingState");
         if (!ls) return;
+        ls.hidden = false;
         ls.className = "error-state";
         // DOM construction (not innerHTML) so an err.message with HTML
         // characters renders as text. err originates from local fetch
@@ -1789,7 +1866,6 @@
         const section = document.getElementById("mTop10");
         if (!track || !section || !Array.isArray(top10) || !top10.length) return;
         if (top10.length === 0) return;
-        const tag = "大きく変わる仕事";
         const wLabel = "就業者";
         const sLabel = "年収";
         const fmtMan = n => {
@@ -1802,11 +1878,6 @@
           if (manYen == null) return "—";
           return Math.round(manYen) + "万円";
         };
-        const pillBand = (score) => {
-          if (score < 4.0) return "low";
-          if (score < 7.0) return "mid";
-          return "high";
-        };
         track.innerHTML = top10.map((rec, i) => {
           const rank = i + 1;
           const nameJa = rec.name_ja || "";
@@ -1814,7 +1885,7 @@
           const display = nameJa || nameEn;
           const sub = nameEn;
           const score = (rec.ai_risk != null) ? Number(rec.ai_risk) : 0;
-          const scoreLabel = (rec.ai_risk != null) ? fmtRisk(rec.ai_risk) : "—";
+          const scoreLabel = (rec.ai_risk != null) ? (fmtRisk(rec.ai_risk) + "/10 " + riskBandWord(rec.ai_risk)) : "—";
           const rationaleRaw = rec.ai_rationale_ja || "";
           const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
           const sValue = fmtTop10Salary(rec.salary);
@@ -1827,8 +1898,7 @@
                 (sub ? '<span class="m-top10-card-name-en">' + escapeHtml(sub) + '</span>' : "") +
               '</div>' +
               '<div class="m-top10-card-score">' +
-                '<span class="risk-pill ' + pillBand(score) + '">' + scoreLabel + '/10</span>' +
-                '<span class="m-top10-card-tag">' + escapeHtml(tag) + '</span>' +
+                '<span class="risk-pill ' + riskClass3(score) + '">' + scoreLabel + '</span>' +
               '</div>' +
               '<p class="m-top10-card-rationale">' + escapeHtml(rationaleRaw) + '</p>' +
               '<div class="m-top10-card-stats">' +
@@ -1870,8 +1940,11 @@
       function finishDesktopTreemapLoad(rows) {
         data = Array.isArray(rows) ? rows : [];
         percentiles = computePercentiles(data);
+        // Hide (not remove) the loading state before layout so the canvas
+        // measures as before; it is removed once rendering succeeded, so a
+        // throw below still leaves showError() a host to write into (#884).
         const ls = document.getElementById("loadingState");
-        if (ls) ls.remove();
+        if (ls) ls.hidden = true;
         canvas.style.visibility = "visible";
         // Defer a capped screen-reader fallback list until the browser is idle.
         // The full accessible list remains available on /map via its list-view toggle.
@@ -1910,6 +1983,7 @@
         // layout, but update the matching set/count from the latest value now.
         applyFilter(pendingSearchQuery, true);
         resize();
+        if (ls) ls.remove();
         // Apply hash deep-link if present
         if (location.hash) setTimeout(applyHash, 50);
         // GA4 map_loaded — typed signal that initial render finished. Lets

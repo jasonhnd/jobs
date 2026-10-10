@@ -62,7 +62,11 @@ function walkSources(dir, results = []) {
 const VIOLATION_PATTERNS = [
   {
     name: ':root{} token re-declaration',
-    regex: /^[ \t]*:root\s*{/m,
+    // `:root` as an item of a selector list, wherever it sits: line start,
+    // `html,:root{`, minified `body{}:root{`, or inside a template literal.
+    // The old `^[ \t]*:root` form only caught it at the start of a line.
+    // `:root .x{}` (a descendant selector) declares no token and is allowed.
+    regex: /(?<![\w-]):root\s*(?:,[^{};]*)?\{/,
     hint: 'Tokens are emitted globally by canonical-css.ts via Footer.astro. Remove this :root{...} block.',
   },
   {
@@ -77,6 +81,27 @@ const VIOLATION_PATTERNS = [
   },
 ];
 
+// Comments are prose, not CSS: the source files document the rule itself
+// ("no :root, no raw values", "`:root{}` は canonical-css.ts 経由"). A `//`
+// only opens a line comment at the start of a line or after whitespace or
+// `;` `{` `}` `,` — after `:` (`https://`) it is part of a URL and is kept.
+// The body of a `url(…)` is matched first and kept whole, so `url(//cdn)`,
+// `url('//cdn')` and `url( //cdn)` never swallow the rest of the line.
+function stripComments(content) {
+  return content
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .replace(/(\burl\([^)\n]*\))|(^|[\s;{},])\/\/[^\n]*/gim, (match, url, lead) => url ?? lead);
+}
+
+function findViolations(content) {
+  const code = stripComments(content);
+  const violations = [];
+  for (const { name, regex, hint } of VIOLATION_PATTERNS) {
+    if (regex.test(code)) violations.push({ rule: name, hint });
+  }
+  return violations;
+}
+
 function checkFile(relPath) {
   // 2026-05-17 CI medium fix: normalize Windows backslashes to POSIX
   // forward-slashes before comparing against EXCEPTIONS (which is
@@ -85,13 +110,7 @@ function checkFile(relPath) {
   const posixRel = relPath.split(path.sep).join('/');
   if (EXCEPTIONS.has(posixRel)) return [];
   const content = fs.readFileSync(path.join(PROJECT_ROOT, relPath), 'utf8');
-  const violations = [];
-  for (const { name, regex, hint } of VIOLATION_PATTERNS) {
-    if (regex.test(content)) {
-      violations.push({ file: relPath, rule: name, hint });
-    }
-  }
-  return violations;
+  return findViolations(content).map((violation) => ({ file: relPath, ...violation }));
 }
 
 // ─── §18.7 class membership ───────────────────────────────────────
@@ -115,29 +134,39 @@ const CLASS_IMPORTS = [
 const CLASS_EXCEPTIONS = new Set([
   'src/pages/index.astro',      // Interactive + Feature, _index.css
   'src/pages/map.astro',        // Interactive, _map-css.ts
-  'src/pages/models.astro',     // Feature, page-local
-  'src/pages/aiadoption.astro', // Feature, _ai-adoption-css.ts
-  'src/pages/aiadoption/[release].astro', // Feature, archived HAID releases; same _ai-adoption-css.ts via _HaidReleasePage.astro
+  'src/pages/pro/models.astro',     // Feature, page-local
+  'src/pages/pro/aiadoption.astro', // Feature, _ai-adoption-css.ts
+  'src/pages/pro/aiadoption/[release].astro', // Feature, archived HAID releases; same _ai-adoption-css.ts via _HaidReleasePage.astro
   // Feature family: a model page is not one of §4.8's three Feature pages, but
   // it shares their page-local CSS rather than a class.
-  'src/pages/models/[model].astro',
+  'src/pages/pro/models/[model].astro',
 ]);
 
-function checkClassMembership(files) {
-  const missing = [];
-  for (const rel of files) {
-    if (!rel.startsWith('src/pages/')) continue;
-    if (!rel.endsWith('.astro')) continue;
-    if (path.basename(rel).startsWith('_')) continue;
-    if (CLASS_EXCEPTIONS.has(rel)) continue;
-    const src = fs.readFileSync(path.join(PROJECT_ROOT, rel), 'utf-8');
-    if (!/BaseLayout/.test(src)) continue; // not a rendered page
-    if (CLASS_IMPORTS.some((n) => src.includes(n))) continue;
-    // A page may also inherit its class from a sibling _*-css.ts it imports.
-    if (/from '\.\/_[a-z0-9-]+-css'/.test(src) || /_[a-z0-9-]+-css'/.test(src)) continue;
-    missing.push(rel);
+/** Follow shared Astro components so a route shell cannot bypass class enforcement. */
+function hasClassCss(rel, root, seen = new Set()) {
+  if (seen.has(rel)) return false;
+  seen.add(rel);
+  const file = path.join(root, rel);
+  if (!fs.existsSync(file)) return false;
+  const src = fs.readFileSync(file, 'utf-8');
+  if (CLASS_IMPORTS.some(n => src.includes(n))) return true;
+  const imports = [...src.matchAll(/from\s+['"]([^'"]+)['"]/g)].map(m => m[1]);
+  for (const specifier of imports) {
+    let child;
+    if (specifier.startsWith('.')) child = path.resolve(path.dirname(file), specifier);
+    else if (specifier.startsWith('@/')) child = path.join(root, 'src', specifier.slice(2));
+    else continue;
+    for (const suffix of ['', '.ts', '.astro']) {
+      const target = child + suffix;
+      if (fs.existsSync(target) && fs.statSync(target).isFile() && hasClassCss(path.relative(root, target), root, seen)) return true;
+    }
   }
-  return missing;
+  return false;
+}
+
+function checkClassMembership(files, root = PROJECT_ROOT) {
+  return files.filter(rel => rel.startsWith('src/pages/') && rel.endsWith('.astro') &&
+    !path.basename(rel).startsWith('_') && !CLASS_EXCEPTIONS.has(rel) && !hasClassCss(rel, root));
 }
 
 function main() {
@@ -166,6 +195,11 @@ function main() {
     console.log('[check-page-class] \u00a718.7 class membership: OK');
   }
 
+  if (noClass.some(f => f.startsWith('src/pages/pro/'))) {
+    console.error('[check-page-class] FAIL — Pro routes must inherit real page-class CSS');
+    process.exit(1);
+  }
+
   if (allViolations.length === 0) {
     console.log('[check-page-class] ✓ Page Class System invariants respected');
     process.exit(0);
@@ -184,4 +218,6 @@ function main() {
   process.exit(1);
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = { findViolations, checkClassMembership };

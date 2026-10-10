@@ -1,4 +1,5 @@
 import type { QAItem } from '../qa-meta.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 
 export const CAREER_ITEMS: ReadonlyArray<QAItem> = [
   // ── キャリア相談 (9) ──
@@ -10,7 +11,7 @@ export const CAREER_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const age = d.stats?.average_age;
       const ai = d.ai_risk?.score ?? 99;
-      if (!age || age > 35 || ai > 5) return null;
+      if (!age || age > 35 || displayScore(ai) > 5) return null;
       return -age * 100;
     },
     related_topics: ['shinsotsu', 'ai-jidai-osusume'],
@@ -24,7 +25,7 @@ export const CAREER_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const age = d.stats?.average_age;
       const ai = d.ai_risk?.score ?? 99;
-      if (!age || age < 30 || age > 45 || ai > 5) return null;
+      if (!age || age < 30 || age > 45 || displayScore(ai) > 5) return null;
       return d.stats?.salary_man_yen ?? 0;
     },
     related_topics: ['30s-early', '30s-late'],
@@ -38,7 +39,7 @@ export const CAREER_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const age = d.stats?.average_age;
       const ai = d.ai_risk?.score ?? 99;
-      if (!age || age < 40 || age > 55 || ai > 4) return null;
+      if (!age || age < 40 || age > 55 || displayScore(ai) > 4) return null;
       return d.stats?.salary_man_yen ?? 0;
     },
     related_topics: ['40s', '50s'],
@@ -52,7 +53,7 @@ export const CAREER_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const age = d.stats?.average_age;
       const ai = d.ai_risk?.score ?? 99;
-      if (!age || age < 45 || ai > 4) return null;
+      if (!age || age < 45 || displayScore(ai) > 4) return null;
       return age;
     },
     related_topics: ['50s', '60s-shinia'],
@@ -66,7 +67,7 @@ export const CAREER_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const ai = d.ai_risk?.score ?? 99;
       const recruit = d.stats?.recruit_ratio ?? 0;
-      if (ai > 5 || recruit < 1.5) return null;
+      if (displayScore(ai) > 5 || recruit < 1.5) return null;
       return recruit;
     },
     related_topics: ['career-change', 'ai-safe-high-demand'],
@@ -80,7 +81,7 @@ export const CAREER_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const ai = d.ai_risk?.score ?? 99;
       const certs = (d.related_certs_ja ?? []).length;
-      if (ai > 5 || certs > 2) return null;
+      if (displayScore(ai) > 5 || certs > 2) return null;
       return -ai * 100;
     },
     related_topics: ['career-change', 'tenshoku-yasashii'],
@@ -94,7 +95,7 @@ export const CAREER_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const ai = d.ai_risk?.score ?? 99;
       const recruit = d.stats?.recruit_ratio ?? 0;
-      if (ai > 5 || recruit < 1.2) return null;
+      if (displayScore(ai) > 5 || recruit < 1.2) return null;
       return recruit * (d.related_certs_ja ?? []).length;
     },
     related_topics: ['shufu-fukki', 'ai-safe-high-demand'],
@@ -122,7 +123,7 @@ export const CAREER_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const ai = d.ai_risk?.score ?? 99;
       const recruit = d.stats?.recruit_ratio ?? 0;
-      if (recruit < 1.2 || ai > 6) return null;
+      if (recruit < 1.2 || displayScore(ai) > 6) return null;
       return recruit;
     },
     related_topics: ['career-change', 'tenshoku-yasashii'],

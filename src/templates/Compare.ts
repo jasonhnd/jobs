@@ -16,7 +16,8 @@ import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass } from '../lib/risk.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { occupationPath } from '../lib/urls.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 export { escapeHtml };
 export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
@@ -24,8 +25,8 @@ export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 export function renderCompareHero(a: CompareSide, b: CompareSide): SafeHtml {
   const aBand = riskClass(a.ai_risk);
   const bBand = riskClass(b.ai_risk);
-  const aRiskStr = formatRiskScore(a.ai_risk);
-  const bRiskStr = formatRiskScore(b.ai_risk);
+  const aRiskStr = formatRiskScoreLabel(a.ai_risk);
+  const bRiskStr = formatRiskScoreLabel(b.ai_risk);
   return (
     `<div class="versus-hero">` +
     `<div class="vh-side">` +
@@ -58,7 +59,7 @@ export function duelDisplayName(name: string): string {
 export function renderCompareDuelBar(a: CompareSide, b: CompareSide): SafeHtml {
   function side(s: CompareSide): string {
     const band = riskClass(s.ai_risk);
-    const score = formatRiskScore(s.ai_risk);
+    const score = formatRiskScoreLabel(s.ai_risk);
     const shown = duelDisplayName(s.name_ja);
     const title = shown === s.name_ja ? '' : ` title="${escapeHtml(s.name_ja)}"`;
     return (
@@ -137,7 +138,7 @@ export function renderRelatedCompares(
     .slice(0, 6)
     .map(
       (m) =>
-        `<li><a href="/compare/${m.slug}">` +
+        `<li><a href="/pro/compare/${m.slug}">` +
         `<span class="rc-title">${escapeHtml(m.title_ja)}</span>` +
         `</a></li>`,
     )
@@ -202,7 +203,7 @@ export function renderJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: '職業を比較する', item: `${SITE}/compare` },
+        { '@type': 'ListItem', position: 2, name: '職業を比較する', item: `${SITE}/pro/compare` },
         { '@type': 'ListItem', position: 3, name: meta.title_ja, item: canonical },
       ],
     },
@@ -220,7 +221,7 @@ export function renderJsonLd(
     });
   }
 
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 // ─── compare/index hub-card renderer (Phase D audit #8 2026-05-14) ────
@@ -237,12 +238,6 @@ export interface CompareHubCard {
   readonly featured?: boolean;
 }
 
-function compareRiskClass(score: number | null): 'low' | 'mid' | 'high' {
-  if (score === null) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
-}
 
 /**
  * 2026-06-04 双層改造: 説明付きの大カード。/compare hub で featured ペアのみに使う。
@@ -251,12 +246,12 @@ function compareRiskClass(score: number | null): 'low' | 'mid' | 'high' {
  */
 export function renderFeaturedCompareCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
   return cards.map((c) => {
-    const aBand = compareRiskClass(c.a_risk);
-    const bBand = compareRiskClass(c.b_risk);
-    const aRiskStr = formatRiskScore(c.a_risk);
-    const bRiskStr = formatRiskScore(c.b_risk);
+    const aBand = riskClass(c.a_risk);
+    const bBand = riskClass(c.b_risk);
+    const aRiskStr = formatRiskScoreLabel(c.a_risk);
+    const bRiskStr = formatRiskScoreLabel(c.b_risk);
     return (
-      `<li><a href="/compare/${c.slug}">` +
+      `<li><a href="/pro/compare/${c.slug}">` +
       `<span class="cci-title">${escapeHtml(c.title_ja)}</span>` +
       `<span class="cci-pair">` +
       `<span class="cci-side">` +
@@ -281,12 +276,12 @@ export function renderFeaturedCompareCards(cards: ReadonlyArray<CompareHubCard>)
  */
 export function renderCompactCompareCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
   return cards.map((c) => {
-    const aBand = compareRiskClass(c.a_risk);
-    const bBand = compareRiskClass(c.b_risk);
-    const aRiskStr = formatRiskScore(c.a_risk);
-    const bRiskStr = formatRiskScore(c.b_risk);
+    const aBand = riskClass(c.a_risk);
+    const bBand = riskClass(c.b_risk);
+    const aRiskStr = formatRiskScoreLabel(c.a_risk);
+    const bRiskStr = formatRiskScoreLabel(c.b_risk);
     return (
-      `<li><a href="/compare/${c.slug}">` +
+      `<li><a href="/pro/compare/${c.slug}">` +
       `<span class="ccq-title">${escapeHtml(c.title_ja)}</span>` +
       `<span class="ccq-pair">` +
       `<span class="ccq-name">${escapeHtml(c.a_name)}</span>` +
@@ -301,10 +296,10 @@ export function renderCompactCompareCards(cards: ReadonlyArray<CompareHubCard>):
 }
 
 export function renderHubJsonLd(): string {
-  const canonical = `${SITE}/compare`;
+  const canonical = `${SITE}/pro/compare`;
   const seoDesc =
     '日本の代表的な職業同士を side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
-  return JSON.stringify(
+  return stringifyJsonLd(
     {
       '@context': 'https://schema.org',
       '@graph': [
@@ -331,7 +326,6 @@ export function renderHubJsonLd(): string {
         },
       ],
     },
-    null,
     2,
   );
 }

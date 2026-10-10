@@ -18,7 +18,7 @@ async function openConsentDecided(
 }
 
 test('390×844 /156 low-risk: numbers, なぜ守られやすいか door, disclaimer', async ({ page }) => {
-  await openConsentDecided(page, '/156', 390, 844);
+  await openConsentDecided(page, '/pro/156', 390, 844);
 
   const card = page.locator('.risk-card.verdict-card');
   await expect(card).toBeVisible();
@@ -43,7 +43,7 @@ test('390×844 /156 low-risk: numbers, なぜ守られやすいか door, disclai
 });
 
 test('390×844 /430 high-risk: AIで変わる作業 / 移り先 doors', async ({ page }) => {
-  await openConsentDecided(page, '/430', 390, 844);
+  await openConsentDecided(page, '/pro/430', 390, 844);
   const doors = page.locator('.v-doors a');
   await expect(doors.nth(0)).toHaveText('AIで変わる作業を見る');
   await expect(doors.nth(0)).toHaveAttribute('href', '#sec-aiois');
@@ -51,7 +51,7 @@ test('390×844 /430 high-risk: AIで変わる作業 / 移り先 doors', async ({
 });
 
 test('desktop ≥1280 keeps a two-column verdict grid', async ({ page }) => {
-  await openConsentDecided(page, '/156', 1280, 800);
+  await openConsentDecided(page, '/pro/156', 1280, 800);
   const display = await page.locator('.verdict-grid').evaluate((el) => getComputedStyle(el).display);
   expect(display).toBe('grid');
   await expect(page.locator('.v-doors a.solid')).toBeVisible();

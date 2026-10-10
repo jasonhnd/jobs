@@ -36,15 +36,19 @@
       }
       return out;
     })();
-    function bandForRisk(risk) {
-      if (risk <= 2) return 0;
-      if (risk <= 4) return 1;
-      if (risk <= 6) return 2;
-      if (risk <= 8) return 3;
+    // Five colour bands on the DISPLAYED value, lower bound inclusive:
+    // [0,2) [2,4) [4,6) [6,8) [8,10] (#864). Byte-identical copy in
+    // _index-inline.js — _risk-display-inline.test.ts pins the two together.
+    function riskBand5(v) {
+      var d = Number(fmtRisk(v));
+      if (!(d >= 2)) return 0; // also a missing score
+      if (d < 4) return 1;
+      if (d < 6) return 2;
+      if (d < 8) return 3;
       return 4;
     }
     function colorForRisk(risk) {
-      return RISK_PALETTE[bandForRisk(risk)];
+      return RISK_PALETTE[riskBand5(risk)];
     }
 
     var $content = document.getElementById('mapContent');
@@ -97,13 +101,20 @@
       return String(Number(inc.toFixed(1)));
     }
     // The label word is judged on the printed number, not the raw mean (#631).
+    function riskBandWord(v) {
+      var d = Number(fmtRisk(v));
+      if (!Number.isFinite(d)) return '';
+      if (d < 4.0) return '変化 小さい';
+      if (d < 7.0) return '変化 中くらい';
+      return '変化 大きい';
+    }
+    function riskScoreLabel(v) {
+      var shown = fmtRisk(v);
+      var word = riskBandWord(v);
+      return word ? shown + '/10 ' + word : shown;
+    }
     function riskLabel(r) {
-      var s = fmtRisk(r) + '/10';
-      var d = Number(fmtRisk(r));
-      if (d >= 9) return s + ' ▲ 大きく変わる仕事';
-      if (d >= 7) return s + ' ▲ 影響大';
-      if (d >= 4) return s + ' ▼ 中程度';
-      return s + ' ◎ 影響小';
+      return riskScoreLabel(r);
     }
     /**
      * Design.md §5.7 — a treemap tile shows its label in full or not at all.
@@ -322,7 +333,7 @@
           kept.push(r);
         } else {
           mergedWorkers += (r.workers || 0);
-          mergedRiskSum += (r.ai_risk || 5);
+          mergedRiskSum += (r.ai_risk ?? 5);
           mergedCount += 1;
         }
       });
@@ -399,7 +410,7 @@
           if (!r.__synthetic) cell.dataset.id = r.id;
           cell.setAttribute('aria-label', r.__synthetic
             ? r.name_ja + '（小規模職業をまとめた領域）'
-            : r.name_ja + '：AI 影響 ' + fmtRisk(r.ai_risk) + '/10、就業者数 ' + fmtWorkers(r.workers));
+            : r.name_ja + '：AI 影響 ' + riskScoreLabel(r.ai_risk) + '、就業者数 ' + fmtWorkers(r.workers));
           cell.style.left   = rect.x.toFixed(1) + 'px';
           cell.style.top    = rect.y.toFixed(1) + 'px';
           // Min 28px enforces a tappable cell — squarified geometry can
@@ -410,8 +421,8 @@
           var cellH = Math.max(rect.h - 2, 28);
           cell.style.width  = cellW.toFixed(1) + 'px';
           cell.style.height = cellH.toFixed(1) + 'px';
-          cell.dataset.band = String(bandForRisk(r.ai_risk || 5));
-          cell.style.background = colorForRisk(r.ai_risk || 5);
+          cell.dataset.band = String(riskBand5(r.ai_risk ?? 5));
+          cell.style.background = colorForRisk(r.ai_risk ?? 5);
           if (r.__synthetic) cell.style.background = 'repeating-linear-gradient(45deg, ' + colorForRisk(r.ai_risk) + ', ' + colorForRisk(r.ai_risk) + ' 6px, rgba(255,255,255,0.18) 6px, rgba(255,255,255,0.18) 12px)';
           if (fits(r.name_ja, cellW, cellH, !!r.__synthetic)) {
             var span = document.createElement('span');
@@ -569,7 +580,7 @@
         if (ttHideTimer) { clearTimeout(ttHideTimer); ttHideTimer = null; }
         $ttName.textContent = r.name_ja || '';
         $ttRisk.className = 'ct-risk risk-pill ' + riskClass(r.ai_risk);
-        $ttRisk.textContent = 'AI ' + fmtRisk(r.ai_risk) + '/10';
+        $ttRisk.textContent = 'AI ' + riskScoreLabel(r.ai_risk);
         $ttSalary.textContent = fmtTooltipSalary(r.salary);
         $ttWorkers.textContent = fmtTooltipWorkers(r.workers);
         $ttSector.textContent = r.sector_ja || '';
@@ -676,7 +687,7 @@
         nameSpan.textContent = d.title_ja || '';
         var riskSpan = document.createElement('span');
         riskSpan.className = 'risk';
-        riskSpan.textContent = 'AI ' + fmtRisk(d.ai_risk) + '/10';
+        riskSpan.textContent = 'AI ' + riskScoreLabel(d.ai_risk);
         li.appendChild(nameSpan);
         li.appendChild(riskSpan);
         $suggest.appendChild(li);
@@ -684,12 +695,23 @@
       $suggest.classList.add('open');
     }
     var searchDebounce;
+    var searchSeq = 0;
     $searchInput.addEventListener('input', function () {
       clearTimeout(searchDebounce);
+      // Every keystroke supersedes the previous one; an empty box also clears
+      // the rows, so Enter cannot jump to an earlier query's first hit (#884).
+      var seq = ++searchSeq;
       var q = $searchInput.value;
-      if (!q.trim()) { $suggest.classList.remove('open'); return; }
+      if (!q.trim()) { renderSuggest([]); return; }
       searchDebounce = setTimeout(function () {
-        loadSearchIndex().then(function () { renderSuggest(rankMatches(q)); });
+        loadSearchIndex().then(function () {
+          if (seq !== searchSeq) return;
+          renderSuggest(rankMatches(q));
+        }).catch(function (err) {
+          if (seq !== searchSeq) return;
+          renderSuggest([]);
+          if (typeof console !== 'undefined') console.warn('[map] search index failed:', err);
+        });
       }, 100);
     });
     $searchInput.addEventListener('blur', function () {
@@ -825,16 +847,16 @@
           var li = document.createElement('li');
           var a = document.createElement('a');
           a.href = occupationPath(r.id);
-          a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + fmtRisk(r.ai_risk) + '/10、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
+          a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + riskScoreLabel(r.ai_risk) + '、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
           var sw = document.createElement('span');
           sw.className = 'swatch';
-          sw.style.background = colorForRisk(r.ai_risk || 5);
+          sw.style.background = colorForRisk(r.ai_risk ?? 5);
           var nm = document.createElement('span');
           nm.className = 'name';
           nm.textContent = r.name_ja;
           var st = document.createElement('span');
           st.className = 'stats';
-          st.textContent = 'AI ' + fmtRisk(r.ai_risk) + '/10 ・ ' + fmtWorkers(r.workers);
+          st.textContent = 'AI ' + riskScoreLabel(r.ai_risk) + ' ・ ' + fmtWorkers(r.workers);
           a.appendChild(sw); a.appendChild(nm); a.appendChild(st);
           li.appendChild(a);
           ol.appendChild(li);

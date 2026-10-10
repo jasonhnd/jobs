@@ -10,7 +10,7 @@ import type {
 } from './haid-spec.js';
 import type { HaidRelease, HaidReleaseCertainty } from '../data/schema/haid-release.js';
 
-export const HAID_RELEASE_BASE_PATH = '/aiadoption';
+export const HAID_RELEASE_BASE_PATH = '/pro/aiadoption';
 
 export interface HaidReleaseLevelOut {
   level: number;

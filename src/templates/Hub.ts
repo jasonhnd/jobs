@@ -1,3 +1,4 @@
+import { editionHref } from '../site/route-policy';
 /**
  * src/templates/Hub.ts — HTML / JSON-LD / CSS for the 9 genre-family
  * hub clusters (abilities / knowledge / values / education / training /
@@ -31,15 +32,18 @@ export { renderHighlights } from './Highlights.js';
 export { renderSectorChart } from './SectorChart.js';
 export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
-export function renderRankItem(o: GenreOccupation, shortJa: string): SafeHtml {
+export function renderRankItem(o: GenreOccupation, shortJa: string, showScore = true): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
-  const scoreStr = formatRiskScore(o.ai_risk);
+  const scoreStr = formatRiskScoreLabel(o.ai_risk);
   const band = riskClass(o.ai_risk);
   const metaParts: string[] = [];
   if (o.sector_ja) metaParts.push(escapeHtml(o.sector_ja));
-  metaParts.push(
-    `<span class="genre-score">${escapeHtml(shortJa)} ${o.primary_score.toFixed(2)}</span>`,
-  );
+  // Hubs whose sort key is not a score (hide_score) omit the chip (#884).
+  if (showScore) {
+    metaParts.push(
+      `<span class="genre-score">${escapeHtml(shortJa)} ${o.primary_score.toFixed(2)}</span>`,
+    );
+  }
   if (o.salary) metaParts.push(`<span class="rl-salary">${Math.trunc(o.salary)}万円</span>`);
   if (o.workers) metaParts.push(`<span class="rl-workers">${fmtInt(o.workers)}人</span>`);
   const metaHtml = metaParts.length
@@ -114,7 +118,7 @@ export function renderGenreJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: genreLabel, item: `${SITE}/${genrePath}` },
+        { '@type': 'ListItem', position: 2, name: genreLabel, item: `${SITE}/pro/${genrePath}` },
         { '@type': 'ListItem', position: 3, name: config.title_ja, item: canonical },
       ],
     },
@@ -138,7 +142,7 @@ export function renderGenreJsonLd(
       })),
     });
   }
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 export function renderGenreIndexJsonLd(
@@ -146,7 +150,7 @@ export function renderGenreIndexJsonLd(
   genreLabel: string,
   description: string,
 ): string {
-  return JSON.stringify(
+  return stringifyJsonLd(
     {
       '@context': 'https://schema.org',
       '@graph': [
@@ -177,7 +181,6 @@ export function renderGenreIndexJsonLd(
         },
       ],
     },
-    null,
     2,
   );
 }
@@ -202,7 +205,7 @@ export function renderGenreHubIndexCards(
   descMaxLen: number = 90,
 ): SafeHtml {
   return cards.map((c) =>
-    `<li><a href="/${pathPrefix}/${c.slug}">` +
+    `<li><a href="/pro/${pathPrefix}/${c.slug}">` +
     `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
     `<span class="gci-desc">${escapeHtml(c.description_ja.slice(0, descMaxLen))}…</span>` +
     (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
@@ -223,7 +226,7 @@ export function renderGenreIndexSpotlight(occs: ReadonlyArray<GenreOccupation>):
   const items = occs
     .map((o) => {
       const band = riskClass(o.ai_risk);
-      const riskStr = formatRiskScore(o.ai_risk);
+      const riskStr = formatRiskScoreLabel(o.ai_risk);
       const salaryStr = o.salary !== null ? `${Math.trunc(o.salary)} 万円` : '—';
       return (
         `<li><a href="${occupationPath(o.id)}">` +
@@ -274,7 +277,7 @@ export function renderQGroupsHtml(
       `<summary>${escapeHtml(q.question)}</summary>` +
       `<div class="qa-body">` +
       `<p class="qa-short">${escapeHtml(q.short_answer)}</p>` +
-      `<a class="qa-detail-link" href="/q/${q.slug}">詳しく見る <span aria-hidden="true">→</span></a>` +
+      `<a class="qa-detail-link" href="/pro/q/${q.slug}">詳しく見る <span aria-hidden="true">→</span></a>` +
       `</div>` +
       `</details>` +
       `</li>`,
@@ -294,7 +297,7 @@ export interface ExploreIndexCard {
 
 export function renderExploreIndexCards(cards: ReadonlyArray<ExploreIndexCard>): SafeHtml {
   return cards.map((c) =>
-    `<li><a href="/explore/${c.slug}">` +
+    `<li><a href="/pro/explore/${c.slug}">` +
     `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
     `<span class="gci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
     `<span class="gci-count">${c.genreCount} 個の genre</span>` +
@@ -310,7 +313,7 @@ export interface ExploreGenreLink {
 
 export function renderExploreGenreCards(genres: ReadonlyArray<ExploreGenreLink>): SafeHtml {
   return genres.map((g) =>
-    `<li><a href="${g.path.startsWith('/') ? g.path : `/${g.path}`}">` +
+    `<li><a href="${editionHref(g.path.startsWith('/') ? g.path : `/${g.path}`, 'ordinary')}">` +
     `<span class="gci-name">${escapeHtml(g.label)}</span>` +
     `<span class="gci-desc">${escapeHtml(g.desc)}</span>` +
     `<span class="gci-count">→ 詳しく見る</span>` +
@@ -328,7 +331,7 @@ export function renderExploreOtherRoutes(
   routes: ReadonlyArray<ExploreOtherRoute>,
 ): SafeHtml {
   return ('<ul class="related-genre">' + routes.map((r) =>
-    `<li><a href="/explore/${r.slug}">` +
+    `<li><a href="/pro/explore/${r.slug}">` +
     `<span class="rg-name">${escapeHtml(r.short_ja)}</span>` +
     `<span class="rg-desc">${escapeHtml(r.description_ja.slice(0, 60))}…</span>` +
     `</a></li>`,
@@ -336,9 +339,9 @@ export function renderExploreOtherRoutes(
 }
 
 export function renderExploreIndexJsonLd(): string {
-  const canonical = `${siteConfig.origin}/explore`;
+  const canonical = `${siteConfig.origin}/pro/explore`;
   const seoDesc = `日本 ${OCCUPATION_COUNT.SCORED} 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。`;
-  return JSON.stringify({
+  return stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: '探す方法', description: seoDesc, isPartOf: { '@id': `${SITE}/#website` }, inLanguage: 'ja' },
@@ -347,22 +350,22 @@ export function renderExploreIndexJsonLd(): string {
         { '@type': 'ListItem', position: 2, name: '探す方法', item: canonical },
       ] },
     ],
-  }, null, 2);
+  }, 2);
 }
 
 export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc: string): string {
-  const canonical = `${siteConfig.origin}/explore/${slug}`;
-  return JSON.stringify({
+  const canonical = `${siteConfig.origin}/pro/explore/${slug}`;
+  return stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title_ja, description: seoDesc, inLanguage: 'ja' },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: '探す方法', item: `${SITE}/explore` },
+        { '@type': 'ListItem', position: 2, name: '探す方法', item: `${SITE}/pro/explore` },
         { '@type': 'ListItem', position: 3, name: title_ja, item: canonical },
       ] },
     ],
-  }, null, 2);
+  }, 2);
 }
 
 // ─── Shared CSS for genre hub pages ──────────────────────────
@@ -380,7 +383,8 @@ export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc:
 // `_<page>-bindings.ts` パターンの 13 hub-index page がこれを `set:html` で食べる。
 
 import { CANONICAL_HUB_CSS } from '../lib/canonical/hub';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 const HUB_PAGE_SPECIFIC_CSS = `
 .intro{margin:24px 0;color:var(--fg);font-size:var(--t-h3);max-width:64ch}
@@ -397,7 +401,7 @@ ${AI_FACT_CSS}
 .genre-detail-grid ul{list-style:disc;padding-left:20px;margin:0}
 .genre-detail-grid li{font-size:var(--t-sm);color:var(--fg);margin-bottom:6px;line-height:1.6}
 .genre-score{font-family:var(--font-mono);font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums;font-weight:600}
-.risk-pill{display:inline-block;padding:2px 10px;border-radius:var(--r-md);font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums}
+.risk-pill{display:inline-block;padding:2px 10px;border-radius:var(--r-md);font-size:var(--t-xs);font-weight:600;font-variant-numeric:tabular-nums;max-width:9em;white-space:normal;text-align:center;line-height:1.3}
 .risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
 .risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
 .risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
@@ -433,7 +437,7 @@ ${AI_FACT_CSS}
 /* RA-016 (2026-05-18): unified Q&A details list — see renderQGroupsHtml */
 .qa-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px}
 .qa-item details{background:var(--bg2);border:1px solid var(--border);border-radius:10px;transition:border-color 150ms,box-shadow 150ms}
-.qa-item details[open]{border-color:var(--accent);box-shadow:0 4px 14px rgba(217,107,61,0.08)}
+.qa-item details[open]{border-color:var(--accent);box-shadow:0 4px 14px color-mix(in srgb, var(--accent) 8%, transparent)}
 /* RA-120 (2026-05-18): mobile min-height stops alternating 61↔91 row heights when long questions wrap to 2 lines. */
 .qa-item summary{cursor:pointer;padding:16px 22px;font-family:var(--font-sans);font-size:var(--t-body);font-weight:700;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:60px}
 .qa-item summary::-webkit-details-marker{display:none}

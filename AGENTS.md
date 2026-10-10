@@ -14,6 +14,8 @@ file and a brief disagree, stop and say so in the PR instead of guessing.
 - [`docs/WORKFLOW.md`](docs/WORKFLOW.md) — development workflow, branch roles,
   promotion, and the Vercel operation authority boundary. Read it before
   non-trivial work.
+- [`docs/PRO_SPLIT.md`](docs/PRO_SPLIT.md) — ordinary / Pro route, SEO/GEO,
+  analytics isolation, approval boundaries and staged acceptance contract.
 - [`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md) — canonical pins for Bun / Node /
   Astro / Vercel planes. Do not guess versions.
 - [`docs/Design.md`](docs/Design.md) — UI/UX canon: colour tokens, type scale,
@@ -62,10 +64,15 @@ file and a brief disagree, stop and say so in the PR instead of guessing.
 
 ## Branches and merge authority
 
+GitHub Actions have been disabled since **2026-10-08**. `quality` no longer
+runs and is not a required check; `Vercel` remains required on `preview` and
+`main`. Workflow files are retained unchanged. Ask the owner for explicit
+approval before restoring Actions or CI requirements.
+
 | Branch | Role | Who may push | Who may merge into it |
 | --- | --- | --- | --- |
-| `preview` | Integration branch. Every topic branch starts from the latest `origin/preview`; every PR targets it. | Nobody pushes directly. | The supervisor — the owner, or a supervising agent the owner has delegated `preview` merges to — after reading the diff and an independent review, with `quality` and `Vercel` successful and all review conversations resolved. Never the executor. |
-| `main` | Vercel production. | Nobody pushes directly. | Only a promotion PR with head=`preview`, merged by the owner (a human) after explicitly approving that promotion, using a merge commit. CI enforces the head rule (`Enforce preview-to-main promotion` in `.github/workflows/ci.yml`). |
+| `preview` | Integration branch. Every topic branch starts from the latest `origin/preview`; every PR targets it. | Nobody pushes directly. | The supervisor — the owner, or a supervising agent the owner has delegated `preview` merges to — after reading the diff and an independent review and checking the real local Acceptance commands output in the PR description, with `Vercel` successful and all review conversations resolved. Never the executor. |
+| `main` | Vercel production. | Nobody pushes directly. | Only a promotion PR with head=`preview`, merged by the owner (a human) after explicitly approving that promotion, using a merge commit. The supervisor manually verifies head=`preview` and base=`main`, checks the local verification evidence and successful `Vercel` check, and ensures all review conversations are resolved; the retained CI promotion guard does not run. |
 | topic branch | One Issue, one focused change. | The executor assigned to that Issue. | — |
 
 - `pre.mirai-shigoto.com` is the preview **alias**, not a branch. There is no
@@ -88,14 +95,17 @@ file and a brief disagree, stop and say so in the PR instead of guessing.
    [Acceptance commands](#acceptance-commands) chain passes locally on it
    (docs-only: `bun run check:docs-links`). A push to a topic branch does not
    build on Vercel (the Ignored Build Step skips every branch except
-   `preview` and `main`; GitHub CI `quality` verifies the PR), but a failed
-   CI run still costs the reviewer's time. Commit locally after each step as
-   usual; push only verified states. If a reviewer requests
+   `preview` and `main`, unless explicitly requested with `[vercel-build]`).
+   With Actions disabled, local verification is the acceptance evidence;
+   the supervisor must check it before merging into `preview`. Commit locally after
+   each step as usual; push only verified states. If a reviewer requests
    changes, fix locally, rerun the chain, then push.
 5. The PR description contains, in this order:
    - `Closes #N` on the first line;
    - what changed, mapped to the Issue's steps;
-   - the real output of every verification command you ran;
+   - the real output of every verification command you ran, including command
+     names, exit codes, test pass/fail counts, and any skips (docs-only:
+     `bun run check:docs-links` output);
    - anything not done, deviations from the Issue, and open questions.
 6. Stop after opening the PR (and after pushing any follow-up commits the
    Issue asks for). Review and merging are someone else's job.
@@ -134,7 +144,7 @@ bun run build
 REQUIRE_BUILT_ARTIFACTS=1 bun test scripts/home-css-loading.test.ts src/site/models-built.test.ts scripts/home-js-asset.test.ts
 bun run verify:gates
 bun x playwright install --with-deps chromium   # the browser binary is not a package dependency
-bun x playwright test --reporter=line           # the CI "rendered-output checks" step
+bun x playwright test --reporter=line           # local rendered-output checks
 git diff --exit-code
 ```
 
@@ -150,8 +160,11 @@ git diff --exit-code
 - Playwright defaults to port 4321. For parallel workspaces, use
   `PLAYWRIGHT_PORT=<available port>` with a distinct port for each suite; never
   reuse another workspace's server. An explicit override disables server reuse.
-- CI (`quality`) runs this acceptance chain on Ubuntu, including the
-  Chromium installation and the Playwright suite.
+- The executor runs this chain locally and pastes its real output into the PR
+  description; the supervisor checks it before merging into `preview`.
+  GitHub Actions `quality` does not run while Actions are disabled.
+  Docs-only changes may use `bun run check:docs-links` instead of the full
+  chain unless the Issue explicitly requires the full chain.
 
 On a Cursor Cloud Agent, `.cursor/install.sh` provisions this toolchain at
 checkout. What that VM can and cannot verify on its own — e2e, scoring
@@ -163,8 +176,9 @@ providers, and everything that needs a Vercel deployment — is
 - **Hash-pinned analytics inline scripts.** The bytes of analytics
   `<script is:inline>` blocks (GA4, Meta Pixel, X, Google Ads, cookie banner,
   and related scripts) are pinned by CSP hashes and
-  `CSP_ANALYTICS_FALLBACK_HASHES`. CI builds with empty `PUBLIC_*` analytics
-  variables, so it does not render the conditional tracker blocks and cannot
+  `CSP_ANALYTICS_FALLBACK_HASHES`. The local acceptance build uses empty
+  `PUBLIC_*` analytics variables, so it does not render the conditional tracker
+  blocks and cannot
   detect changes to their bytes. Do not change any character inside these
   scripts, including comments. An intentional change must be explicitly
   scoped in the Issue, accompanied by recomputed fallback hashes, and

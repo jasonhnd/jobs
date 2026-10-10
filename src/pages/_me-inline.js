@@ -17,7 +17,12 @@
     var $listbox = document.getElementById('meListbox');
     var $announce = document.getElementById('meAnnounce');
     var $empty = document.getElementById('meEmpty');
+    var $quizError = document.getElementById('meQuizError');
+    var LOAD_FAILED_TEXT = 'データの読み込みに失敗しました。再読み込みしてください。';
     var $results = document.getElementById('meResults');
+    var $occupationLink = document.getElementById('meOccupationLink');
+    var $occupationPaths = document.getElementById('meOccupationPaths');
+    var occupationPaths = $occupationPaths ? JSON.parse($occupationPaths.textContent || '{}') : {};
     var $summaryName = document.getElementById('meSummaryName');
     var $summarySector = document.getElementById('meSummarySector');
     var $statRisk = document.getElementById('meStatRisk');
@@ -64,6 +69,7 @@
     var focusedIdx = -1;
     var rankExpanded = false;
     var currentJobId = null;
+    var selectSeq = 0;
 
     // ── format helpers ──────────────────────────────────────────────
     // One decimal, the server's rule: banker's rounding over the exact stored
@@ -94,6 +100,11 @@
       var inc = n >= 0 ? truncated + 0.1 : truncated - 0.1;
       return String(Number(inc.toFixed(1)));
     }
+    // Are two scores within `tenths` tenths of each other as DISPLAYED? Integer
+    // tenths, so FP residue (5.3 - 4.3 = 1.0000000000000009) cannot decide (#864).
+    function riskWithin(a, b, tenths) {
+      return Math.abs(Math.round(Number(fmtRisk(a)) * 10) - Math.round(Number(fmtRisk(b)) * 10)) <= tenths;
+    }
     function fmtSalary(s) { if (s == null) return '—'; return Math.round(s) + ' 万円'; }
     function fmtWorkers(w) {
       if (w == null) return '—';
@@ -110,9 +121,10 @@
     }
     function riskLabel(r) {
       if (r == null) return '—';
-      var band = riskBand(r);
-      var prefix = band === 'high' ? '▲ 影響大' : band === 'low' ? '◎ 影響小' : '▼ 中程度';
-      return fmtRisk(r) + '/10 ' + prefix;
+      var d = Number(fmtRisk(r));
+      if (!Number.isFinite(d)) return '—';
+      var word = d < 4.0 ? '変化 小さい' : d < 7.0 ? '変化 中くらい' : '変化 大きい';
+      return fmtRisk(r) + '/10 ' + word;
     }
 
     function ga(name, params) {
@@ -220,7 +232,7 @@
         var pill = document.createElement('span');
         var band = riskBand(d.ai_risk);
         pill.className = 'me-li-pill ' + (band || 'mid');
-        pill.textContent = 'AI ' + fmtRisk(d.ai_risk) + '/10';
+        pill.textContent = 'AI ' + riskLabel(d.ai_risk);
         li.appendChild(nameWrap);
         li.appendChild(pill);
         $listbox.appendChild(li);
@@ -340,7 +352,10 @@
     // ── render results ──────────────────────────────────────────────
     function selectJob(jobId, options) {
       if (!jobId || isNaN(jobId)) return;
+      // Only the latest selection may render (#884: out-of-order responses).
+      var seq = ++selectSeq;
       Promise.all([loadSearchIndex(), loadPositions(), loadTreemap()]).then(function () {
+        if (seq !== selectSeq) return;
         var pos = positionsData.positions[jobId];
         if (!pos) {
           $announce.textContent = 'データが見つかりませんでした';
@@ -354,7 +369,32 @@
         if (!(options && options.restored)) {
           ga('me_select_job', { job_id: jobId, sector: pos.summary.sectorId });
         }
+      }).catch(function (err) {
+        if (seq !== selectSeq) return;
+        showLoadFailure(err);
       });
+    }
+
+    // Visible notice when data cannot be loaded (#884: these paths had no
+    // .catch, so a failed fetch looked like a dead button).
+    function showLoadFailure(err) {
+      if (typeof console !== 'undefined') console.warn('[me] data load failed:', err);
+      if ($announce) $announce.textContent = LOAD_FAILED_TEXT;
+      if ($empty && !($results && $results.getAttribute('data-visible') === 'true')) {
+        $empty.style.display = '';
+        $empty.replaceChildren();
+        var fail = document.createElement('p');
+        fail.textContent = LOAD_FAILED_TEXT;
+        $empty.appendChild(fail);
+      }
+    }
+    function showQuizLoadFailure(err) {
+      if (typeof console !== 'undefined') console.warn('[me] quiz data load failed:', err);
+      if ($announce) $announce.textContent = LOAD_FAILED_TEXT;
+      if ($quizError) {
+        $quizError.textContent = LOAD_FAILED_TEXT;
+        $quizError.hidden = false;
+      }
     }
 
     function renderResults(pos, options) {
@@ -362,6 +402,11 @@
       $results.setAttribute('data-visible', 'true');
 
       $summaryName.textContent = pos.nameJa;
+      if ($occupationLink) {
+        var occupationHref = occupationPaths[currentJobId];
+        $occupationLink.hidden = !occupationHref;
+        if (occupationHref) $occupationLink.href = occupationHref;
+      }
       $summarySector.textContent = pos.summary.sectorJa || '';
       $statRisk.textContent = riskLabel(pos.summary.aiRisk);
       $statWorkers.textContent = fmtWorkers(pos.summary.workers);
@@ -551,7 +596,7 @@
             variant_bucket: result.bucket
           });
         }
-      });
+      }).catch(showQuizLoadFailure);
     }
 
     function restoreQuizResult(result) {
@@ -596,6 +641,7 @@
 
     function submitQuiz(e) {
       e.preventDefault();
+      if ($quizError) $quizError.hidden = true;
       loadWorktypes().then(function () {
         var result = scoreQuizAnswers();
         if (!result) return;
@@ -603,7 +649,7 @@
         if ($quiz) $quiz.hidden = true;
         updateUrl(currentJobId);
         showGap(result);
-      });
+      }).catch(showQuizLoadFailure);
     }
 
     function wireQuiz() {
@@ -655,7 +701,9 @@
       if (row.pos.rank !== null) li.classList.add('in-top');
       var leftWrap = document.createElement('div');
       var a = document.createElement('a');
-      a.href = '/rankings/' + row.meta.slug;
+      var routeData = document.getElementById('meRankingPaths');
+      var rankingPaths = routeData ? JSON.parse(routeData.textContent) : {};
+      a.href = rankingPaths[row.meta.slug] || '/pro/rankings';
       a.textContent = row.meta.name_ja;
       var desc = document.createElement('div');
       desc.className = 'me-rank-desc';
@@ -744,7 +792,7 @@
         if (r.id === pos.jobId) continue;
         if (r.sector_id !== sid) continue;
         if (r.ai_risk == null) continue;
-        if (Math.abs(r.ai_risk - risk) > 1) continue;
+        if (!riskWithin(r.ai_risk, risk, 10)) continue;
         candidates.push(r);
       }
       // Sort: closer AI risk first, then by workers desc.
@@ -769,7 +817,7 @@
         meta.className = 'me-similar-meta';
         var pill = document.createElement('span');
         pill.className = 'me-li-pill ' + (riskBand(r2.ai_risk) || 'mid');
-        pill.textContent = 'AI ' + fmtRisk(r2.ai_risk) + '/10';
+        pill.textContent = 'AI ' + riskLabel(r2.ai_risk);
         var workers = document.createElement('span');
         workers.textContent = fmtWorkers(r2.workers);
         meta.appendChild(pill);
@@ -917,7 +965,7 @@
         if ($empty) {
           $empty.replaceChildren();
           var fail = document.createElement('p');
-          fail.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
+          fail.textContent = LOAD_FAILED_TEXT;
           $empty.appendChild(fail);
         }
       });

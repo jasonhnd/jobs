@@ -98,6 +98,14 @@ describe('renderSitemapXml — pure XML serializer', () => {
 });
 
 describe('latestContentDate — content-derived <lastmod> (NOT the build clock)', () => {
+  test('the sitemap preserves both root GEO discovery entries with their machine-file eligibility', () => {
+    const graph = { sectors: new Map(), occupations: new Map([[1, { aiRisk: { date: '2026-06-13' } }]]) } as unknown as KnowledgeGraph;
+    const entries = buildSitemapEntries(graph, sitemapLastmods(graph, '2026-06-13'));
+    assert.deepEqual(entries.filter(row => new URL(row.loc).pathname.endsWith('.txt')).map(row => row.loc), [
+      'https://mirai-shigoto.com/llms.txt', 'https://mirai-shigoto.com/llms-full.txt',
+    ]);
+  });
+
   // Minimal graph stub — latestContentDate only reads each occupation's
   // `aiRisk?.date`, so we don't construct a full KnowledgeGraph.
   function makeGraph(dates: Array<string | null>): KnowledgeGraph {
@@ -158,11 +166,11 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
     assert.equal(byPath('/privacy').lastmod, '2026-04-30');
     assert.equal(byPath('/sectors').lastmod, '2026-06-13');
     assert.equal(byPath('/1').lastmod, '2026-06-13');
-    assert.equal(byPath('/haid').changefreq, 'monthly');
-    assert.equal(byPath('/haid').priority, '0.6');
+    assert.equal(byPath('/pro/haid').changefreq, 'monthly');
+    assert.equal(byPath('/pro/haid').priority, '0.6');
     const xml = renderSitemapXml(entries);
-    assert.ok(xml.includes('<loc>https://mirai-shigoto.com/haid</loc>'));
-    const haidBlock = xml.slice(xml.indexOf('<loc>https://mirai-shigoto.com/haid</loc>'));
+    assert.ok(xml.includes('<loc>https://mirai-shigoto.com/pro/haid</loc>'));
+    const haidBlock = xml.slice(xml.indexOf('<loc>https://mirai-shigoto.com/pro/haid</loc>'));
     const haidUrl = haidBlock.slice(0, haidBlock.indexOf('</url>'));
     assert.ok(haidUrl.includes('<changefreq>monthly</changefreq>'));
     assert.ok(haidUrl.includes('<priority>0.6</priority>'));
@@ -177,18 +185,20 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
     const locations = entries.map((entry) => entry.loc);
 
     assert.ok(locations.includes('https://mirai-shigoto.com/occupations/404'));
+    assert.ok(locations.includes('https://mirai-shigoto.com/pro/404'));
+    assert.equal(new Set(locations).size, locations.length);
     assert.ok(!locations.includes('https://mirai-shigoto.com/404'));
   });
 });
 
 describe('HAID release archive URLs', () => {
-  test('each release id becomes /aiadoption/<id>; none without extras', async () => {
+  test('only earlier self-canonical reports enter sitemap; the latest permalink is a duplicate', async () => {
     const { buildSitemapEntries } = await import('./sitemap.js');
     const { loadGraph } = await import('../graph/index.js');
     const graph = await loadGraph();
-    const none = buildSitemapEntries(graph, '2026-06-13').filter((e) => e.loc.includes('/aiadoption/'));
+    const none = buildSitemapEntries(graph, '2026-06-13').filter((e) => e.loc.includes('/pro/aiadoption/'));
     assert.equal(none.length, 0);
-    const some = buildSitemapEntries(graph, '2026-06-13', { haidReleases: ['2026-q3', '2026-q2'] }).filter((e) => e.loc.includes('/aiadoption/'));
-    assert.deepEqual(some.map((e) => e.loc), ['https://mirai-shigoto.com/aiadoption/2026-q2', 'https://mirai-shigoto.com/aiadoption/2026-q3']);
+    const some = buildSitemapEntries(graph, '2026-06-13', { haidReleases: ['2026-q3', '2026-q2'], haidLatestRelease: '2026-q3' }).filter((e) => e.loc.includes('/pro/aiadoption/'));
+    assert.deepEqual(some.map((e) => e.loc), ['https://mirai-shigoto.com/pro/aiadoption/2026-q2']);
   });
 });

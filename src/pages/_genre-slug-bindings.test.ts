@@ -41,7 +41,7 @@ async function input(overrides: Partial<GenreSlugInput> = {}, cfg = CONFIGS[0]!)
 describe('buildGenreSlugBindings', () => {
   test('derives canonical, og image, default title and templated text', async () => {
     const b = buildGenreSlugBindings(await input());
-    assert.equal(b.canonical, 'https://mirai-shigoto.com/abilities/alpha');
+    assert.equal(b.canonical, 'https://mirai-shigoto.com/pro/abilities/alpha');
     assert.equal(b.ogImage, 'https://mirai-shigoto.com/api/og?ability=alpha');
     assert.ok(b.title.startsWith('アルファ職業｜TOP 4'));
     assert.equal(b.seoDesc, 'アルファ|4|説明A');
@@ -81,8 +81,8 @@ describe('buildGenreSlugBindings', () => {
 
   test('related list excludes the current slug and truncates descriptions', async () => {
     const b = buildGenreSlugBindings(await input());
-    assert.ok(!b.relatedHtml.includes('/abilities/alpha"'));
-    assert.ok(b.relatedHtml.includes('href="/abilities/beta"'));
+    assert.ok(!b.relatedHtml.includes('/pro/abilities/alpha"'));
+    assert.ok(b.relatedHtml.includes('href="/pro/abilities/beta"'));
     assert.ok(b.relatedHtml.includes('B'.repeat(60) + '…'));
     assert.ok(!b.relatedHtml.includes('B'.repeat(61)));
   });

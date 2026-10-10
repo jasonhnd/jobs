@@ -165,7 +165,10 @@ export async function buildSectors(
   const meanRiskFor = (sid: string): number | null => {
     const vs = riskValues.get(sid);
     if (!vs || vs.length === 0) return null;
-    return roundTo2(fsum(vs) / vs.length);
+    // Unrounded, like every published score mean: consumers round once to the
+    // displayed one-decimal value (rounding to 2 decimals first turned 4.1496
+    // into 4.15 and then 4.2).
+    return fsum(vs) / vs.length;
   };
   const totalWorkforceFor = (sid: string): number => {
     const vs = workforceValues.get(sid);
@@ -289,9 +292,4 @@ export async function buildSectors(
     uncategorized: uncategorizedEntries.length,
     ambiguous: ambiguousEntries.length,
   };
-}
-
-/** Round to 2 decimal places, matching Python's `round(x, 2)`. */
-function roundTo2(x: number): number {
-  return bankerRound(x, 2);
 }

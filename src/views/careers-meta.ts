@@ -14,6 +14,7 @@
  * Pure-data モジュール、fs imports なし。
  */
 import type { DetailFileMin } from './genre-hub.js';
+import { displayScore } from '../data/lib/banker-round.js';
 
 export interface CareerPersona {
   slug: string;
@@ -76,7 +77,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
       const ai = d.ai_risk?.score;
       if (!age || age > 42 || age < 28) return null;
       if (ai === null || ai === undefined) return null;
-      if (ai > 6) return null;
+      if (displayScore(ai) > 6) return null;
       return 100 - Math.abs(age - 32);
     },
   },
@@ -102,7 +103,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
       const ai = d.ai_risk?.score;
       if (!age || !salary) return null;
       if (age < 30 || age > 45) return null;
-      if (ai !== null && ai !== undefined && ai > 6) return null;
+      if (ai !== null && ai !== undefined && displayScore(ai) > 6) return null;
       return salary;
     },
   },
@@ -128,7 +129,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
       const ai = d.ai_risk?.score;
       if (!age || age < 35 || age > 48) return null;
       if (ai === null || ai === undefined) return null;
-      if (ai > 5) return null;
+      if (displayScore(ai) > 5) return null;
       return certs * 100 + age;
     },
   },
@@ -154,7 +155,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
       const certs = (d.related_certs_ja ?? []).length;
       if (!age || age < 40 || age > 55) return null;
       if (ai === null || ai === undefined) return null;
-      if (ai > 4) return null;
+      if (displayScore(ai) > 4) return null;
       return certs * 50 + age;
     },
   },
@@ -180,7 +181,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
       const hours = d.stats?.monthly_hours;
       if (!age || age < 45) return null;
       if (ai === null || ai === undefined) return null;
-      if (ai > 4) return null;
+      if (displayScore(ai) > 4) return null;
       if (hours && hours > 175) return null;
       return age;
     },
@@ -207,7 +208,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
       const ai = d.ai_risk?.score;
       if (!age || age < 50) return null;
       if (ai === null || ai === undefined) return null;
-      if (ai > 4) return null;
+      if (displayScore(ai) > 4) return null;
       if (hours && hours > 165) return null;
       return age;
     },
@@ -259,7 +260,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
       const ai = d.ai_risk?.score;
       if (!hours || hours > 165) return null;
       if (ai === null || ai === undefined) return null;
-      if (ai > 5) return null;
+      if (displayScore(ai) > 5) return null;
       return -hours;
     },
   },
@@ -284,7 +285,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
       const workers = d.stats?.workers ?? 0;
       const certs = (d.related_certs_ja ?? []).length;
       if (ai === null || ai === undefined) return null;
-      if (ai > 5) return null;
+      if (displayScore(ai) > 5) return null;
       if (certs >= 3) return null;
       if (workers < 30000) return null;
       return workers / 10000;

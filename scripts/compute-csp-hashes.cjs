@@ -103,61 +103,55 @@ try {
   console.error(`[compute-csp-hashes] FAIL — ${err.message}`);
   process.exit(1);
 }
+if (files.length === 0) {
+  // An empty build must not rewrite the CSP down to the fallback list.
+  console.error('[compute-csp-hashes] FAIL — no .html files found under dist-astro/. Run `astro build` first.');
+  process.exit(1);
+}
 
-// ─── Extract inline <script> bodies ─────────────────────────────────────────
-// We match `<script …>…</script>` non-greedily across newlines, then filter
-// out any block that has a `src=` attribute (external script — covered by
-// host-allowlist in CSP) and any JSON-LD type (data, not executable).
-//
-// IMPORTANT: HTML comments (`<!-- … -->`) often contain LITERAL `<script>`
-// strings in their text (e.g. our own documentation comments reference
-// `<script src=…>`). Browsers do NOT enter script-parsing mode inside
-// comments, so they ignore those tokens — but a naive regex over the raw
-// HTML would match them. We strip comments first so we're computing
-// hashes over the exact same byte ranges the browser would execute.
-const SCRIPT_RE = /<script\b([^>]*)>([\s\S]*?)<\/script>/g;
-const STYLE_RE = /<style\b([^>]*)>([\s\S]*?)<\/style>/g;
-const COMMENT_RE = /<!--[\s\S]*?-->/g;
+// ─── Extract inline <script> / <style> bodies ───────────────────────────────
+// One left-to-right scan, in the order the browser's tokenizer reads the
+// page. At each step the earliest of these wins:
+//   * `<!--` — an HTML comment. Skip to its `-->`; with no `-->` the rest of
+//     the document is a comment, so stop. `<script>` text written inside a
+//     comment is therefore never hashed (browsers do not execute it).
+//   * `<script …>` / `<style …>` — a raw-text element. Its body runs to the
+//     first matching close tag and is taken verbatim; a `<!--` inside a body
+//     (e.g. the JS string "<!--") is just text and does NOT start a comment.
+// The previous approach computed comment ranges over the raw HTML first, so a
+// script body holding "<!--" opened a phantom comment that could swallow the
+// next real script and drop its hash (CSP would then block it).
+const OPEN_RE = /<!--|<(script|style)\b([^>]*)>/g;
+const CLOSE_TAG = { script: '</script>', style: '</style>' };
 
-function extractInlineScripts(html) {
-  // Compute HTML-comment byte ranges in the RAW html first, then extract
-  // `<script>` blocks from the SAME raw html and drop any whose tag starts
-  // inside a comment range. The previous order (strip comments first, then
-  // match scripts on the sanitized string) corrupted any real script body
-  // that itself contained the substring `<!--…-->` (e.g. a JS string literal
-  // holding HTML doc text) — those bytes were replaced with spaces before
-  // hashing, so the computed hash diverged from the on-the-wire script body
-  // and CSP would block the script on deploy. The new order preserves real
-  // script bodies verbatim while still ignoring `<script>` strings that
-  // appear inside HTML comments (browsers don't execute them either).
-  const commentRanges = [];
-  COMMENT_RE.lastIndex = 0;
-  let cm;
-  while ((cm = COMMENT_RE.exec(html)) !== null) {
-    commentRanges.push([cm.index, cm.index + cm[0].length]);
-  }
-  const commentRangeAt = (pos) => {
-    for (const [s, e] of commentRanges) {
-      if (pos >= s && pos < e) return [s, e];
-    }
-    return null;
-  };
-
-  const blocks = [];
-  let m;
-  SCRIPT_RE.lastIndex = 0;
-  while ((m = SCRIPT_RE.exec(html)) !== null) {
-    const containingComment = commentRangeAt(m.index);
-    if (containingComment) {
-      // A comment may mention an opening `<script>` without a matching
-      // `</script>`. In that case the regex consumes through the next REAL
-      // script's closing tag. Resume at the end of the comment instead of at
-      // the end of that false match so the real script is still discovered.
-      SCRIPT_RE.lastIndex = containingComment[1];
+function scanInlineBlocks(html) {
+  const scripts = [];
+  const styles = [];
+  let pos = 0;
+  for (;;) {
+    OPEN_RE.lastIndex = pos;
+    const m = OPEN_RE.exec(html);
+    if (m === null) break;
+    if (m[0] === '<!--') {
+      const end = html.indexOf('-->', m.index + 4);
+      if (end < 0) break;
+      pos = end + 3;
       continue;
     }
-    const attrs = m[1] || '';
-    const body = m[2] || '';
+    const tag = m[1];
+    const bodyStart = m.index + m[0].length;
+    const close = html.indexOf(CLOSE_TAG[tag], bodyStart);
+    if (close < 0) break;
+    const block = { attrs: m[2] || '', body: html.slice(bodyStart, close) };
+    (tag === 'script' ? scripts : styles).push(block);
+    pos = close + CLOSE_TAG[tag].length;
+  }
+  return { scripts, styles };
+}
+
+function extractInlineScripts(html) {
+  const blocks = [];
+  for (const { attrs, body } of scanInlineBlocks(html).scripts) {
     // Skip external scripts — they're already covered by the host
     // allowlist in script-src.
     if (/\bsrc\s*=/.test(attrs)) continue;
@@ -170,35 +164,7 @@ function extractInlineScripts(html) {
 }
 
 function extractInlineStyles(html) {
-  // Same comment-range trick as extractInlineScripts — preserves real style
-  // bodies verbatim (so the hash matches the on-the-wire bytes) while
-  // ignoring `<style>` text that appears inside HTML comments.
-  const commentRanges = [];
-  COMMENT_RE.lastIndex = 0;
-  let cm;
-  while ((cm = COMMENT_RE.exec(html)) !== null) {
-    commentRanges.push([cm.index, cm.index + cm[0].length]);
-  }
-  const commentRangeAt = (pos) => {
-    for (const [s, e] of commentRanges) {
-      if (pos >= s && pos < e) return [s, e];
-    }
-    return null;
-  };
-
-  const blocks = [];
-  let m;
-  STYLE_RE.lastIndex = 0;
-  while ((m = STYLE_RE.exec(html)) !== null) {
-    const containingComment = commentRangeAt(m.index);
-    if (containingComment) {
-      STYLE_RE.lastIndex = containingComment[1];
-      continue;
-    }
-    const body = m[2] || '';
-    blocks.push(body);
-  }
-  return blocks;
+  return scanInlineBlocks(html).styles.map(({ body }) => body);
 }
 
 // ─── Walk all pages, collect every unique inline script + style body ──────

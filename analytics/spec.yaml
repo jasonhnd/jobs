@@ -635,6 +635,7 @@ events:
       - { name: geo_referrer_bucket, type: string }
       - { name: geo_referrer_host, type: string }
       - { name: geo_landing_family, type: string }
+      - { name: geo_landing_edition, type: string, desc: "ordinary | pro; server page_delivery only" }
       - { name: geo_citation_candidate, type: string }
     conversion: false
 
@@ -785,6 +786,10 @@ event_scoped_dimensions:
   - parameter_name: geo_landing_family
     display_name: GEO Landing Family
     description: Landing page family for citation analysis. Values - occupation, answers, qa, sector, ranking, compare, standard, methodology, map, other.
+
+  - parameter_name: geo_landing_edition
+    display_name: GEO Landing Edition
+    description: "ordinary or pro, recorded on server page_delivery only. Registration is a separate authorized operation; the browser analytics scripts are unchanged."
 
   - parameter_name: geo_citation_candidate
     display_name: GEO Citation Candidate

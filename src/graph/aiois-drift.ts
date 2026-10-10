@@ -3,10 +3,17 @@
  * static site views. Keep this module free of I/O so pages can import it.
  */
 
-export type Band = 'low' | 'mid' | 'high';
+import { riskBand as displayedRiskBand, type RiskBand } from '../data/lib/bands.js';
+import { toTenths } from '../data/lib/score-compare.js';
 
-/** ai_risk band: < 4.0 low / < 7.0 mid / >= 7.0 high. */
-export const riskBand = (r: number): Band => (r < 4 ? 'low' : r < 7 ? 'mid' : 'high');
+export type Band = RiskBand;
+
+/** ai_risk band of the displayed value — the shared rule in src/data/lib/bands.ts. */
+export function riskBand(r: number): Band {
+  const band = displayedRiskBand(r);
+  if (band === null) throw new Error(`[aiois-drift] ai_risk ${r} is not a finite score`);
+  return band;
+}
 
 export interface AioisScore {
   /** Headline score (== aiois.transformation). */
@@ -125,8 +132,14 @@ export function computeDriftReport(
   });
   const bandCrossCount = rows.filter((r) => r.baseBand !== r.candBand).length;
 
-  const byDtDesc = (a: DriftRow, b: DriftRow): number => b.dT - a.dT || a.id - b.id;
-  const byDdDesc = (a: DriftRow, b: DriftRow): number => b.dD - a.dD || a.id - b.id;
+  // Deltas compare in integer tenths, then id: equal decimal moves must not be
+  // ordered by floating-point residue (−0.3000000000000007 vs −0.29999999999999993).
+  const byDtDesc = (a: DriftRow, b: DriftRow): number => toTenths(b.dT) - toTenths(a.dT) || a.id - b.id;
+  const byDtAsc = (a: DriftRow, b: DriftRow): number => toTenths(a.dT) - toTenths(b.dT) || a.id - b.id;
+  const byDdDesc = (a: DriftRow, b: DriftRow): number => toTenths(b.dD) - toTenths(a.dD) || a.id - b.id;
+  const byDdAsc = (a: DriftRow, b: DriftRow): number => toTenths(a.dD) - toTenths(b.dD) || a.id - b.id;
+  const byAbsDtDesc = (a: DriftRow, b: DriftRow): number =>
+    Math.abs(toTenths(b.dT)) - Math.abs(toTenths(a.dT)) || a.id - b.id;
 
   return {
     rows,
@@ -139,13 +152,13 @@ export function computeDriftReport(
     dimAbsDrift,
     bandMatrix,
     bandCrossCount,
-    topUpT: rows.filter((r) => r.dT > 0).sort(byDtDesc).slice(0, TOP_T_COUNT),
-    topDownT: rows.filter((r) => r.dT < 0).sort((a, b) => a.dT - b.dT || a.id - b.id).slice(0, TOP_T_COUNT),
+    topUpT: rows.filter((r) => toTenths(r.dT) > 0).sort(byDtDesc).slice(0, TOP_T_COUNT),
+    topDownT: rows.filter((r) => toTenths(r.dT) < 0).sort(byDtAsc).slice(0, TOP_T_COUNT),
     topRankShifts: [...rows].sort((a, b) => b.rankShift - a.rankShift || a.id - b.id).slice(0, TOP_RANK_COUNT),
-    topUpD: rows.filter((r) => r.dD > 0).sort(byDdDesc).slice(0, TOP_D_COUNT),
-    topDownD: rows.filter((r) => r.dD < 0).sort((a, b) => a.dD - b.dD || a.id - b.id).slice(0, TOP_D_COUNT),
+    topUpD: rows.filter((r) => toTenths(r.dD) > 0).sort(byDdDesc).slice(0, TOP_D_COUNT),
+    topDownD: rows.filter((r) => toTenths(r.dD) < 0).sort(byDdAsc).slice(0, TOP_D_COUNT),
     manualReview: rows
       .filter((r) => r.flags.length > 0)
-      .sort((a, b) => Math.abs(b.dT) - Math.abs(a.dT) || a.id - b.id),
+      .sort(byAbsDtDesc),
   };
 }

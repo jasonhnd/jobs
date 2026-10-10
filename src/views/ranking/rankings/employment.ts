@@ -8,6 +8,8 @@
 import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { safeMean, empPct, inSectorSet, PUBLIC_SECTORS, EMP } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
+import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
+import { formatShownMeanLabel } from '../../../lib/score-format.js';
 
 export interface EmploymentRankings {
   aiStableEmployment: Occupation[];
@@ -24,7 +26,7 @@ export function buildEmploymentRankings(
 ): EmploymentRankings {
   // 20. AI 安全 × 正規雇用率高
   const aiStableEmployment = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && empPct(o, EMP.regular) >= 60)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && empPct(o, EMP.regular) >= 60)
     .sort((a, b) => empPct(b, EMP.regular) - empPct(a, EMP.regular) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 
@@ -63,7 +65,7 @@ export function buildEmploymentRankings(
       introText: '低 AI 影響度かつ正社員比率が高い、長期的に安定したキャリア形成が期待できる職業群です。',
       statBlocks: [
         ['対象職業数', `${aiStableEmployment.length}`],
-        ['平均 AI 影響', `${safeMean(aiStableEmployment, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(aiStableEmployment, 'ai_risk'))}`],
         ['平均年収', `${Math.trunc(safeMean(aiStableEmployment, 'salary'))} 万円`],
       ],
     }],
@@ -81,7 +83,7 @@ export function buildEmploymentRankings(
       statBlocks: [
         ['対象職業数', `${freelanceFriendly.length}`],
         ['平均年収', `${Math.trunc(safeMean(freelanceFriendly, 'salary'))} 万円`],
-        ['平均 AI 影響', `${safeMean(freelanceFriendly, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(freelanceFriendly, 'ai_risk'))}`],
       ],
     }],
     ['self-employed-typical', {
@@ -98,7 +100,7 @@ export function buildEmploymentRankings(
       statBlocks: [
         ['対象職業数', `${selfEmployedTypical.length}`],
         ['平均年収', `${Math.trunc(safeMean(selfEmployedTypical, 'salary'))} 万円`],
-        ['平均 AI 影響', `${safeMean(selfEmployedTypical, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(selfEmployedTypical, 'ai_risk'))}`],
       ],
     }],
     ['public-sector', {
@@ -114,7 +116,7 @@ export function buildEmploymentRankings(
       statBlocks: [
         ['対象職業数', `${publicSector.length}`],
         ['平均年収', `${Math.trunc(safeMean(publicSector, 'salary'))} 万円`],
-        ['平均 AI 影響', `${safeMean(publicSector, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(publicSector, 'ai_risk'))}`],
       ],
     }],
   ];

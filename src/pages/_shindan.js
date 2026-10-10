@@ -79,6 +79,8 @@
     var searchDocs = null;
     var searchById = {};
     var transferPaths = null;
+    var transferPathsPromise = null;
+    var gapSelectSeq = 0;
     var dataReady = false;
     var currentResult = null;
     var currentGap = null;
@@ -242,13 +244,15 @@
 
     function loadTransferPaths() {
       if (transferPaths) return Promise.resolve(transferPaths);
-      return fetchWithTimeout(TRANSFER_PATHS_URL, FETCH_TIMEOUT_MS).then(function (json) {
+      if (transferPathsPromise) return transferPathsPromise;
+      transferPathsPromise = fetchWithTimeout(TRANSFER_PATHS_URL, FETCH_TIMEOUT_MS).then(function (json) {
         transferPaths = json && json.paths ? json.paths : {};
         return transferPaths;
       }).catch(function () {
         transferPaths = {};
         return transferPaths;
       });
+      return transferPathsPromise;
     }
 
     // One decimal, the server's rule: banker's rounding over the exact stored
@@ -286,6 +290,13 @@
       if (d < 4.0) return 'low';
       if (d < 7.0) return 'mid';
       return 'high';
+    }
+    function riskBandWord(value) {
+      var d = Number(fmtRisk(value));
+      if (!Number.isFinite(d)) return '';
+      if (d < 4.0) return '変化 小さい';
+      if (d < 7.0) return '変化 中くらい';
+      return '変化 大きい';
     }
 
     function scoreAnswers() {
@@ -584,11 +595,20 @@
       if (!(options && options.skipScroll)) {
         $result.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      track('shindan_result_view', {
-        family_code: result.code,
-        variant_id: result.variantId,
-        variant_bucket: result.bucket
-      });
+      if (countsAsNewResult(options)) {
+        track('shindan_result_view', {
+          family_code: result.code,
+          variant_id: result.variantId,
+          variant_bucket: result.bucket
+        });
+      }
+    }
+
+    // shindan_result_view is a conversion (analytics/spec.yaml): only a result
+    // the visitor just produced counts, not one restored from storage or
+    // opened from a shared URL (#884; /me's showGap already skips restores).
+    function countsAsNewResult(options) {
+      return !(options && (options.restored || options.fromUrl));
     }
 
     function colorAlpha(hex, alpha) {
@@ -781,7 +801,7 @@
 
         var pill = document.createElement('span');
         pill.className = 'shindan-job-pill ' + riskBand(doc.ai_risk);
-        pill.textContent = 'AI ' + (doc.ai_risk != null ? fmtRisk(doc.ai_risk) : '?') + '/10';
+        pill.textContent = 'AI ' + (doc.ai_risk != null ? fmtRisk(doc.ai_risk) + '/10 ' + riskBandWord(doc.ai_risk) : '—');
 
         li.appendChild(text);
         li.appendChild(pill);
@@ -867,7 +887,7 @@
 
     function formatRisk(value) {
       if (value == null || isNaN(value)) return '不明';
-      return fmtRisk(value) + '/10';
+      return fmtRisk(value) + '/10 ' + riskBandWord(value);
     }
 
     function jobTitle(doc, jobId) {
@@ -964,7 +984,11 @@
 
     function selectGapJob(jobId, options) {
       if (!currentResult || !worktypes || !jobId || isNaN(jobId)) return;
+      // Only the latest selection may render: two quick picks can resolve out
+      // of order and leave the older job on screen and in the URL (#884).
+      var seq = ++gapSelectSeq;
       Promise.all([loadSearchIndex(), loadTransferPaths()]).then(function () {
+        if (seq !== gapSelectSeq) return;
         var id = String(jobId);
         var doc = searchById[id];
         var record = worktypes.occupations[id];
@@ -1003,6 +1027,7 @@
           });
         }
       }).catch(function () {
+        if (seq !== gapSelectSeq) return;
         if ($jobAnnounce) $jobAnnounce.textContent = '職業データの読み込みに失敗しました';
       });
     }
@@ -1078,12 +1103,17 @@
         .trim();
     }
 
+    // One decimal, like the X/LINE text — never the raw three-vendor mean (#864).
+    function shareHookText(fields, variant) {
+      return fields.jobTitle && fields.score != null
+        ? fields.jobTitle + 'のAI影響度は' + fmtRisk(fields.score) + '/10。あなたの仕事は？'
+        : variant.name + '：' + variant.catch;
+    }
+
     function renderShare(result, variant, gap) {
       var resultUrl = canonicalResultUrl(result, gap);
       var fields = jobShareFields(gap);
-      var hook = fields.jobTitle && fields.score != null
-        ? fields.jobTitle + 'のAI影響度は' + fields.score + '/10。あなたの仕事は？'
-        : variant.name + '：' + variant.catch;
+      var hook = shareHookText(fields, variant);
       var shareText = fillShareTemplate(resultUrl, variant, gap, true);
       var xUrl = 'https://x.com/intent/post?text=' + encodeURIComponent(shareText);
       var lineUrl = 'https://line.me/R/msg/text/?' + encodeURIComponent(shareText);
@@ -1287,7 +1317,7 @@
       loadData().then(function () {
         var fromUrl = resultFromUrl();
         if (fromUrl) {
-          renderResult(fromUrl, { skipScroll: true });
+          renderResult(fromUrl, { fromUrl: true, skipScroll: true });
           return;
         }
         var fromStorage = resultFromStorage();
@@ -1307,6 +1337,8 @@
       window.__SHINDAN_TEST_HOOKS__.axesFromCodePattern = axesFromCodePattern;
       window.__SHINDAN_TEST_HOOKS__.resultStateParams = resultStateParams;
       window.__SHINDAN_TEST_HOOKS__.nextFunnelEvents = nextFunnelEvents;
+      window.__SHINDAN_TEST_HOOKS__.shareHookText = shareHookText;
+      window.__SHINDAN_TEST_HOOKS__.countsAsNewResult = countsAsNewResult;
     }
 
     if (document.readyState === 'loading') {

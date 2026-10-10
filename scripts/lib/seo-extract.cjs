@@ -10,7 +10,7 @@
  * Exports:
  *   extractTitle / extractCanonical / extractH1s / extractJsonLd /
  *   extractInternalLinks / extractAnchorIds / findMetaContent /
- *   findAllMeta / decodeEntities / stripTags
+ *   findAllMeta / decodeEntities / stripTags / parseStartTags / toInternalHref
  *   captureBaseline(distDir, publicDir) → {
  *     urls, seoLines, ogLines, ldLines, linkLines, dataFiles,
  *     sitemap, imageSitemap, htmlFileCount,
@@ -46,46 +46,159 @@ function stripTags(html) {
     .trim();
 }
 
+// ─── tag tokenizer ────────────────────────────────────────────────
+//
+// 2026-10-07 (#867): extraction used to be one regex per field, each
+// assuming a fixed attribute order and quoting style. `data-href` was taken
+// for `href`, unquoted values were missed, a `'` inside a double-quoted
+// meta value truncated it (`AI's` → `AI`), JSON-LD blocks with an `id` or
+// `nonce` attribute were invisible, ids containing `@` were dropped and
+// `data-id` was recorded as an id. Every extractor now reads the same list
+// of start tags produced by this small tokenizer, which follows the HTML
+// rules that matter here: comments are skipped, `<script>` / `<style>` /
+// `<textarea>` / `<title>` content is raw text (no tags inside), attribute
+// values may be double-, single- or un-quoted, and the first occurrence of
+// a duplicated attribute wins.
+
+const RAW_TEXT_ELEMENTS = new Set(['script', 'style', 'textarea', 'title']);
+
+function isSpace(code) {
+  return code === 32 || code === 9 || code === 10 || code === 12 || code === 13;
+}
+
+function isAsciiLetter(code) {
+  return (code >= 65 && code <= 90) || (code >= 97 && code <= 122);
+}
+
+/** Parse the attributes of a start tag beginning at `pos` (just after the
+ *  tag name). Returns { attrs, end } where `end` is the index after `>`. */
+function parseAttributes(html, pos) {
+  const n = html.length;
+  const attrs = new Map();
+  let j = pos;
+  while (j < n) {
+    while (j < n && (isSpace(html.charCodeAt(j)) || html[j] === '/')) j += 1;
+    if (j >= n || html[j] === '>') break;
+    let k = j + 1; // the first name character may be anything but space / '>'
+    while (k < n && !isSpace(html.charCodeAt(k)) && html[k] !== '/' && html[k] !== '>' && html[k] !== '=') k += 1;
+    const name = html.slice(j, k).toLowerCase();
+    j = k;
+    while (j < n && isSpace(html.charCodeAt(j))) j += 1;
+    let value = '';
+    if (html[j] === '=') {
+      j += 1;
+      while (j < n && isSpace(html.charCodeAt(j))) j += 1;
+      const quote = html[j];
+      if (quote === '"' || quote === "'") {
+        const close = html.indexOf(quote, j + 1);
+        const stop = close === -1 ? n : close;
+        value = html.slice(j + 1, stop);
+        j = close === -1 ? n : close + 1;
+      } else {
+        let e = j;
+        while (e < n && !isSpace(html.charCodeAt(e)) && html[e] !== '>') e += 1;
+        value = html.slice(j, e);
+        j = e;
+      }
+    }
+    if (!attrs.has(name)) attrs.set(name, decodeEntities(value));
+  }
+  return { attrs, end: j < n ? j + 1 : n };
+}
+
+/** Every start tag in document order: { name, attrs: Map, content }.
+ *  `content` is the raw text of a raw-text element, otherwise null. */
+function parseStartTags(html) {
+  const tags = [];
+  const n = html.length;
+  let i = 0;
+  while (i < n) {
+    const lt = html.indexOf('<', i);
+    if (lt === -1) break;
+    if (html.startsWith('<!--', lt)) {
+      const close = html.indexOf('-->', lt + 4);
+      i = close === -1 ? n : close + 3;
+      continue;
+    }
+    const next = html[lt + 1];
+    if (next === '!' || next === '?' || next === '/') {
+      const close = html.indexOf('>', lt + 2);
+      i = close === -1 ? n : close + 1;
+      continue;
+    }
+    if (!isAsciiLetter(html.charCodeAt(lt + 1))) {
+      i = lt + 1;
+      continue;
+    }
+    let j = lt + 1;
+    while (j < n && !isSpace(html.charCodeAt(j)) && html[j] !== '/' && html[j] !== '>') j += 1;
+    const name = html.slice(lt + 1, j).toLowerCase();
+    const { attrs, end } = parseAttributes(html, j);
+    let content = null;
+    i = end;
+    if (RAW_TEXT_ELEMENTS.has(name)) {
+      const closeRe = new RegExp(`</${name}[\\s/>]`, 'gi');
+      closeRe.lastIndex = end;
+      const close = closeRe.exec(html);
+      const stop = close ? close.index : n;
+      content = html.slice(end, stop);
+      i = stop;
+    }
+    tags.push({ name, attrs, content });
+  }
+  return tags;
+}
+
+// Each page is read by several extractors in a row; tokenize it once.
+let cachedHtml = null;
+let cachedTags = [];
+function startTags(html) {
+  if (html !== cachedHtml) {
+    cachedTags = parseStartTags(html);
+    cachedHtml = html;
+  }
+  return cachedTags;
+}
+
+function relTokens(tag) {
+  return (tag.attrs.get('rel') || '').toLowerCase().split(/\s+/).filter(Boolean);
+}
+
+// ─── field extractors ─────────────────────────────────────────────
+
 function findMetaContent(html, attrName, attrValue) {
-  const escAttr = attrValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const re1 = new RegExp(`<meta\\s+${attrName}=["']${escAttr}["']\\s+content=["']([^"']*)["']`, 'i');
-  const m1 = html.match(re1);
-  if (m1) return decodeEntities(m1[1]);
-  const re2 = new RegExp(`<meta\\s+content=["']([^"']*)["']\\s+${attrName}=["']${escAttr}["']`, 'i');
-  const m2 = html.match(re2);
-  if (m2) return decodeEntities(m2[1]);
+  const key = attrName.toLowerCase();
+  const wanted = attrValue.toLowerCase();
+  for (const tag of startTags(html)) {
+    if (tag.name !== 'meta' || !tag.attrs.has('content')) continue;
+    if ((tag.attrs.get(key) || '').toLowerCase() === wanted) return tag.attrs.get('content');
+  }
   return null;
 }
 
 function findAllMeta(html, attrName, prefix) {
+  const key = attrName.toLowerCase();
+  const head = `${prefix.toLowerCase()}:`;
   const out = {};
-  const re = new RegExp(
-    `<meta\\s+(?:${attrName}=["']${prefix}:([^"']+)["']\\s+content=["']([^"']*)["']|content=["']([^"']*)["']\\s+${attrName}=["']${prefix}:([^"']+)["'])`,
-    'gi',
-  );
-  let m;
-  while ((m = re.exec(html)) !== null) {
-    const key = m[1] || m[4];
-    const val = m[2] !== undefined ? m[2] : m[3];
-    if (key !== undefined && val !== undefined) {
-      out[`${prefix}:${key}`] = decodeEntities(val);
-    }
+  for (const tag of startTags(html)) {
+    if (tag.name !== 'meta' || !tag.attrs.has('content')) continue;
+    const name = tag.attrs.get(key);
+    if (!name || !name.toLowerCase().startsWith(head) || name.length === head.length) continue;
+    out[`${prefix}:${name.slice(head.length)}`] = tag.attrs.get('content');
   }
   return out;
 }
 
 function extractTitle(html) {
-  const m = html.match(/<title>([^<]*)<\/title>/i);
-  return m ? decodeEntities(m[1]).trim() : null;
+  const title = startTags(html).find((tag) => tag.name === 'title');
+  return title ? decodeEntities(title.content).trim() : null;
 }
 
 function extractCanonical(html) {
-  const re1 = /<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i;
-  const m1 = html.match(re1);
-  if (m1) return decodeEntities(m1[1]);
-  const re2 = /<link\s+href=["']([^"']+)["']\s+rel=["']canonical["']/i;
-  const m2 = html.match(re2);
-  if (m2) return decodeEntities(m2[1]);
+  for (const tag of startTags(html)) {
+    if (tag.name !== 'link' || !tag.attrs.get('href')) continue;
+    if (relTokens(tag).includes('canonical')) return tag.attrs.get('href');
+  }
   return null;
 }
 
@@ -102,10 +215,10 @@ function extractH1s(html) {
 
 function extractJsonLd(html) {
   const out = [];
-  const re = /<script\s+type=["']application\/ld\+json["']\s*>([\s\S]*?)<\/script>/gi;
-  let m;
-  while ((m = re.exec(html)) !== null) {
-    const raw = m[1].trim();
+  for (const tag of startTags(html)) {
+    if (tag.name !== 'script') continue;
+    if ((tag.attrs.get('type') || '').trim().toLowerCase() !== 'application/ld+json') continue;
+    const raw = tag.content.trim();
     try {
       out.push(JSON.parse(raw));
     } catch (err) {
@@ -115,63 +228,52 @@ function extractJsonLd(html) {
   return out;
 }
 
+// `https://mirai-shigoto.com`, `http://www.…`, `//mirai-shigoto.com` — every
+// spelling of this site's origin, so a same-site absolute link is checked as
+// the internal path it is.
+const SITE_ORIGIN_RE = /^(?:https?:)?\/\/(?:www\.)?mirai-shigoto\.com(?::\d+)?(?=[/?#]|$)/i;
+
+/** The in-site form of a link target, or null when it leaves the site.
+ *  Root-relative, relative (`./x`, `../x`, `x`) and fragment links are kept
+ *  verbatim — the caller resolves them against the page they appear on. */
+function toInternalHref(raw) {
+  const href = raw.trim();
+  if (!href) return null;
+  const origin = href.match(SITE_ORIGIN_RE);
+  if (origin) {
+    const rest = href.slice(origin[0].length);
+    if (rest === '') return '/';
+    return rest.startsWith('/') ? rest : `/${rest}`;
+  }
+  if (href.startsWith('//')) return null; // another host, protocol-relative
+  if (/^[a-z][a-z\d+.-]*:/i.test(href)) return null; // https:, mailto:, tel:, javascript:, …
+  return href;
+}
+
+const LINK_RELS = new Set(['canonical', 'alternate', 'next', 'prev']);
+
+/** Every internal link target on the page: `<a href>`, `<link rel=
+ *  canonical|alternate|next|prev href>` (2026-05-17 H20 — so hreflang /
+ *  canonical drift is baselined too) and `<form action>`. */
 function extractInternalLinks(html) {
   const out = new Set();
-  // <a href="..."> — primary navigation
-  const aRe = /<a\b[^>]*?\bhref=["']([^"']+)["']/gi;
-  let m;
-  while ((m = aRe.exec(html)) !== null) {
-    const href = decodeEntities(m[1]);
-    if (
-      href.startsWith('/') ||
-      href.startsWith(SITE) ||
-      href.startsWith('./') ||
-      href.startsWith('#')
-    ) {
-      const norm = href.startsWith(SITE) ? href.slice(SITE.length) || '/' : href;
-      out.add(norm);
-    }
-  }
-  // 2026-05-17 H20: extend coverage to <link rel="canonical|alternate
-  // |next|prev"> and <form action> so hreflang / canonical / form
-  // submit URLs are baselined too. Previously only <a href> was
-  // tracked — broken canonical or hreflang silently drifted past
-  // both SEO baseline diff AND internal-link verification.
-  const linkRe = /<link\b[^>]*?\brel=["'](canonical|alternate|next|prev)["'][^>]*?\bhref=["']([^"']+)["']/gi;
-  while ((m = linkRe.exec(html)) !== null) {
-    const href = decodeEntities(m[2]);
-    if (href.startsWith('/') || href.startsWith(SITE)) {
-      const norm = href.startsWith(SITE) ? href.slice(SITE.length) || '/' : href;
-      out.add(norm);
-    }
-  }
-  // Also catch href-then-rel attribute ordering.
-  const linkReReverse = /<link\b[^>]*?\bhref=["']([^"']+)["'][^>]*?\brel=["'](canonical|alternate|next|prev)["']/gi;
-  while ((m = linkReReverse.exec(html)) !== null) {
-    const href = decodeEntities(m[1]);
-    if (href.startsWith('/') || href.startsWith(SITE)) {
-      const norm = href.startsWith(SITE) ? href.slice(SITE.length) || '/' : href;
-      out.add(norm);
-    }
-  }
-  // <form action="...">
-  const formRe = /<form\b[^>]*?\baction=["']([^"']+)["']/gi;
-  while ((m = formRe.exec(html)) !== null) {
-    const href = decodeEntities(m[1]);
-    if (href.startsWith('/') || href.startsWith(SITE)) {
-      const norm = href.startsWith(SITE) ? href.slice(SITE.length) || '/' : href;
-      out.add(norm);
-    }
+  for (const tag of startTags(html)) {
+    let raw = null;
+    if (tag.name === 'a') raw = tag.attrs.get('href');
+    else if (tag.name === 'link' && relTokens(tag).some((rel) => LINK_RELS.has(rel))) raw = tag.attrs.get('href');
+    else if (tag.name === 'form') raw = tag.attrs.get('action');
+    if (raw === undefined || raw === null) continue;
+    const href = toInternalHref(raw);
+    if (href !== null) out.add(href);
   }
   return [...out].sort();
 }
 
 function extractAnchorIds(html) {
   const out = new Set();
-  const re = /\bid=["']([a-zA-Z][\w:.\-]*)["']/g;
-  let m;
-  while ((m = re.exec(html)) !== null) {
-    out.add(m[1]);
+  for (const tag of startTags(html)) {
+    const id = tag.attrs.get('id');
+    if (id) out.add(id);
   }
   return [...out].sort();
 }
@@ -293,6 +395,8 @@ module.exports = {
   extractJsonLd,
   extractInternalLinks,
   extractAnchorIds,
+  parseStartTags,
+  toInternalHref,
   walkFiles,
   htmlPathToUrl,
   captureBaseline,

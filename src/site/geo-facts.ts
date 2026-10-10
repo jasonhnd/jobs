@@ -1,5 +1,5 @@
 import { fmean, fsum } from '../data/lib/fsum.js';
-import { bankerRound } from '../data/lib/banker-round.js';
+import { bankerRound, displayScore, displayScoreStep } from '../data/lib/banker-round.js';
 import { riskBand } from '../data/lib/bands.js';
 import {
   tryPickFlagshipMeanScore,
@@ -112,7 +112,7 @@ export interface GeoFacts {
   /** Active mean Transformation minus the immediately preceding batch mean. */
   readonly meanAiImpactDeltaFromPredecessor: number | null;
   readonly fiveBandDistribution: readonly GeoBand[];
-  readonly highImpactThreshold: 5;
+  readonly highImpactThreshold: number;
   readonly highImpactCount: number;
   /** Sum(salary in man-yen * workers), converted to trillion yen. */
   readonly highImpactAnnualWagesTrillion: number;
@@ -135,6 +135,8 @@ export interface GeoOccupationGroupSummary {
   readonly occupationCount: number;
   readonly totalWorkforce: number;
   readonly meanAiImpact: number | null;
+  /** Unrounded mean. Labels round this once via displayScore. */
+  readonly meanAiImpactRaw: number | null;
   readonly firstOccupation: GeoOccupationSummary | null;
   readonly largestOccupation: GeoOccupationSummary | null;
   readonly highestImpactOccupation: GeoOccupationSummary | null;
@@ -224,7 +226,7 @@ const FIVE_BANDS = [
   { key: '9-10', label: '9-10' },
 ] as const;
 
-const HIGH_IMPACT_THRESHOLD = 5 as const;
+const HIGH_IMPACT_THRESHOLD = 7 as const;
 
 function round2(n: number): number {
   return bankerRound(n, 2);
@@ -236,36 +238,46 @@ function roundPct(n: number, total: number): number {
 }
 
 /**
- * Apportion whole percentages with the Hamilton/largest-remainder method.
- * Ties resolve by band order, so non-empty distributions always sum to 100
- * without hand-written exceptions for tiny bands.
+ * Apportion percentages with the Hamilton/largest-remainder method.
+ * Leftover points go to the largest remainders, one tie group at a time: a
+ * group of equal remainders gets a point each only when the whole group fits,
+ * so equal counts always print equal shares (#864 — two bands of 2/556 printed
+ * 1% and 0%). A group that does not fit is left unchanged. If that still
+ * leaves points over, integers cannot both stay equal and sum to 100, so the
+ * result is one-decimal banker's rounding of the exact shares instead of
+ * splitting the tie by band order (#886 — [1,1,1,1,2] was [17,17,16,16,34]).
  */
 function apportionWholePercent(counts: readonly number[]): number[] {
   const total = fsum(counts);
   if (total === 0) return counts.map(() => 0);
   const raw = counts.map((count) => (count / total) * 100);
   const result = raw.map(Math.floor);
-  const remaining = 100 - fsum(result);
+  let remaining = 100 - fsum(result);
   const order = raw
-    .map((value, index) => ({ index, remainder: value - Math.floor(value) }))
+    .map((value, index) => ({ index, remainder: value - Math.floor(value), count: counts[index]! }))
+    .filter((entry) => entry.remainder > 0)
     .sort((a, b) => (b.remainder - a.remainder) || (a.index - b.index));
-  for (let i = 0; i < remaining; i += 1) {
-    result[order[i]!.index]! += 1;
+  // Equal counts have equal remainders; Map keeps the remainder order.
+  const byCount = new Map<number, typeof order>();
+  for (const entry of order) byCount.set(entry.count, [...(byCount.get(entry.count) ?? []), entry]);
+  for (const group of byCount.values()) {
+    if (group.length > remaining) continue;
+    for (const entry of group) result[entry.index]! += 1;
+    remaining -= group.length;
   }
-  return result;
+  if (remaining === 0) return result;
+  return raw.map((value) => bankerRound(value, 1));
 }
 
 function fiveBandIndex(score: number): number {
-  // bankerRound, not Math.round: this was the one holdout in a file where every
-  // other derived number already rounds half-to-even, and the rule is repo-wide
-  // (see data/lib/banker-round.ts on why Math.round is wrong here). 63 of 556
-  // occupations in the active batch land in a different band under the two
-  // rules — every `.5` whose Math.round result is odd. Issue #216.
-  const rounded = Math.max(0, Math.min(10, bankerRound(score, 0)));
-  if (rounded <= 2) return 0;
-  if (rounded <= 4) return 1;
-  if (rounded <= 6) return 2;
-  if (rounded <= 8) return 3;
+  // The integer step of the DISPLAYED value (#864): banker's rounding (Issue
+  // #216) applied to the printed one-decimal number, so every occupation that
+  // prints 6.5 lands in 5-6 whatever its raw mean (6.4667 and 6.5333 both).
+  const step = displayScoreStep(score);
+  if (step <= 2) return 0;
+  if (step <= 4) return 1;
+  if (step <= 6) return 2;
+  if (step <= 8) return 3;
   return 4;
 }
 
@@ -427,7 +439,8 @@ export function computeGeoFacts(
 
   const risks = scoredRows.map((row) => row.ai_risk as number);
   const totalWorkforce = fsum(scoredRows.map((row) => row.workers ?? 0));
-  const highImpactRows = scoredRows.filter((row) => row.ai_risk! >= HIGH_IMPACT_THRESHOLD);
+  // 「影響≥7」 counts the displayed value: 6.9666… prints 7.0 (変化 大きい).
+  const highImpactRows = scoredRows.filter((row) => displayScore(row.ai_risk!) >= HIGH_IMPACT_THRESHOLD);
   const highImpactAnnualWagesTrillion = fsum(highImpactRows.map((row) =>
     (row.salary ?? 0) * (row.workers ?? 0),
   )) / 1e8;
@@ -567,6 +580,7 @@ export function summarizeGeoOccupationIds(
       occupationCount: 0,
       totalWorkforce: 0,
       meanAiImpact: null,
+      meanAiImpactRaw: null,
       firstOccupation: null,
       largestOccupation: null,
       highestImpactOccupation: null,
@@ -590,10 +604,12 @@ export function summarizeGeoOccupationIds(
     (a.id - b.id),
   );
 
+  const meanAiImpactRaw = fmean(occupations.map((occupation) => occupation.aiImpact));
   return {
     occupationCount: occupations.length,
     totalWorkforce: bankerRound(fsum(occupations.map((occupation) => occupation.workers ?? 0)), 0),
-    meanAiImpact: round2(fmean(occupations.map((occupation) => occupation.aiImpact))),
+    meanAiImpact: round2(meanAiImpactRaw),
+    meanAiImpactRaw,
     firstOccupation: occupations[0]!,
     largestOccupation: byWorkforceDesc[0]!,
     highestImpactOccupation: byImpactDesc[0]!,

@@ -1,3 +1,4 @@
+import { rankingRoute, rankingIndexCanonicalPath } from '../site/route-policy';
 /**
  * src/templates/Ranking.ts — HTML / JSON-LD rendering helpers per ranking
  * page. Moved here from src/views/ranking-renderers.ts on 2026-05-14 as
@@ -21,8 +22,10 @@ import { riskClass as riskBand } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 import { OCCUPATION_COUNT, siteConfig } from '../site/config.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
+import type { Edition } from '@/site/route-policy';
 import { occupationPath } from '../lib/urls.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel, formatShownMeanLabel } from '../lib/score-format.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 // Local mirror of views/rankings.ts:safeMean — takes occupation objects +
 // numeric key, returns the mean over non-null values. Templates can't import
@@ -92,13 +95,13 @@ export function renderRankingSummary(items: Occupation[]): SafeHtml {
   if (items.length === 0) return '' as SafeHtml;
   const top = items[0];
   const name = escapeHtml(top.title_ja ?? `#${top.id}`);
-  const scoreHtml = formatRiskScore(top.ai_risk);
+  const scoreHtml = formatRiskScoreLabel(top.ai_risk);
   const meanVals = items
     .map((o) => o.ai_risk)
     .filter((v): v is number => typeof v === 'number');
   const meanHtml = meanVals.length === 0
     ? '—'
-    : `${safeMean(items, 'ai_risk').toFixed(1)}/10`;
+    : `${formatShownMeanLabel(safeMean(items, 'ai_risk'))}`;
   const n = items.length;
   const month = formatContentMonth(CONTENT_DATE);
   return (
@@ -114,7 +117,7 @@ export function renderRankItem(
 ): SafeHtml {
   const title = o.title_ja ?? `#${o.id}`;
   const score = o.ai_risk;
-  const scoreStr = formatRiskScore(score);
+  const scoreStr = formatRiskScoreLabel(score);
   const band = riskBand(score);
   const sector = o.sector_ja || '';
   const salary = o.salary;
@@ -169,7 +172,7 @@ export function renderHighlights(items: Occupation[], slug: RankingSlug): SafeHt
   const hl: string[] = [];
 
   if (slug === 'ai-risk-high' || slug === 'ai-risk-low') {
-    hl.push(`1位は「${name}」（AI影響度 ${formatRiskScore(top.ai_risk)}）`);
+    hl.push(`1位は「${name}」（AI影響度 ${formatRiskScoreLabel(top.ai_risk)}）`);
   } else if (slug === 'salary') {
     hl.push(`1位は「${name}」（年収 ${Math.trunc(top.salary ?? 0)}万円）`);
   } else if (slug === 'entry-salary') {
@@ -204,7 +207,7 @@ export function renderHighlights(items: Occupation[], slug: RankingSlug): SafeHt
   const meanSal = safeMean(items, 'salary');
   const meanRisk = safeMean(items, 'ai_risk');
   if (meanSal > 0) {
-    hl.push(`TOP${items.length}の平均年収は${Math.trunc(meanSal)}万円、平均AI影響度は${meanRisk.toFixed(1)}/10`);
+    hl.push(`TOP${items.length}の平均年収は${Math.trunc(meanSal)}万円、平均AI影響度は${formatShownMeanLabel(meanRisk)}`);
   }
 
   const itemsHtml = hl.map((h) => `<li>${escapeHtml(h)}</li>`).join('');
@@ -251,7 +254,7 @@ export function renderRelatedRankings(
   const items = allRankings
     .filter(([slug]) => slug !== currentSlug)
     .map(([slug, name, desc]) =>
-      `<li><a href="/rankings/${slug}">` +
+      `<li><a href="${rankingRoute(slug).pagePath}">` +
       `${escapeHtml(name)}` +
       `<span class="rr-desc">${escapeHtml(desc)}</span>` +
       `</a></li>`,
@@ -277,11 +280,12 @@ export function renderJsonLd(
   description: string,
   items: Occupation[],
   faqItems: ReadonlyArray<readonly [string, string]> | null,
+  edition: Edition = 'ordinary',
 ): string {
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}${occupationPath(o.id)}`,
+    url: `${SITE}${occupationPath(o.id, edition)}`,
     name: o.title_ja ?? `#${o.id}`,
   }));
 
@@ -329,8 +333,9 @@ export function renderJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'ランキング', item: `${SITE}/rankings` },
-        { '@type': 'ListItem', position: 3, name: title, item: canonical },
+        ...(edition === 'pro' ? [{ '@type': 'ListItem', position: 2, name: 'Pro', item: `${SITE}/pro` }] : []),
+        { '@type': 'ListItem', position: edition === 'pro' ? 3 : 2, name: 'ランキング', item: `${SITE}${edition === 'pro' ? '/pro/rankings' : '/rankings'}` },
+        { '@type': 'ListItem', position: edition === 'pro' ? 4 : 3, name: title, item: canonical },
       ],
     },
     {
@@ -355,7 +360,7 @@ export function renderJsonLd(
     });
   }
 
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 // ─── rankings/index hub-card renderer (Phase D audit #8 2026-05-14) ────
@@ -415,7 +420,7 @@ export function renderRankingsHubGroups(
         .map((c) => {
           const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
           return (
-            `<li><a href="/rankings/${escapeHtml(c.slug)}">` +
+            `<li><a href="${rankingRoute(c.slug).pagePath}">` +
             `<span class="rr-title">${escapeHtml(c.name)}</span>` +
             `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
             `${previewHtml}` +
@@ -460,15 +465,10 @@ export interface RankingsMoverView {
 
 export interface RankingsMoversView {
   readonly meta: {
-    readonly baseline: {
-      readonly model: string;
+    /** The latest score batch: movers compare the public value before vs after it landed. */
+    readonly landed: {
       readonly date: string;
-      readonly scoreCount: number;
-    };
-    readonly candidate: {
-      readonly model: string;
-      readonly date: string;
-      readonly scoreCount: number;
+      readonly models: readonly string[];
     };
     readonly comparedCount: number;
   };
@@ -509,7 +509,7 @@ function renderMoverList(
 
 /** Compact two-column 今月の変動 for the mobile home first screen (#325). */
 export function renderHomeMovers(movers: RankingsMoversView): SafeHtml {
-  const monthMatch = /^(\d{4})-(\d{2})/.exec(movers.meta.candidate.date);
+  const monthMatch = /^(\d{4})-(\d{2})/.exec(movers.meta.landed.date);
   const monthJa = monthMatch ? `${Number(monthMatch[2])}月` : '';
   const heading = monthJa ? `今月の変動 · ${monthJa}スコア改定` : '今月の変動';
 
@@ -538,14 +538,13 @@ export function renderHomeMovers(movers: RankingsMoversView): SafeHtml {
 
 export function renderRankingsMovers(movers: RankingsMoversView): SafeHtml {
   const note =
-    `${movers.meta.baseline.date} ${movers.meta.baseline.model} → ` +
-    `${movers.meta.candidate.date} ${movers.meta.candidate.model}、` +
+    `${movers.meta.landed.date} ${movers.meta.landed.models.join(' / ')} の採点の反映前 → 反映後、` +
     `共通 ${movers.meta.comparedCount} 職業`;
 
   return (
     `<section class="movers-section" aria-label="今月の急上昇・急降下">` +
     `<h2>今月の急上昇・急降下</h2>` +
-    `<p class="movers-note">AIOIS-10 先月比：${escapeHtml(note)}</p>` +
+    `<p class="movers-note">公開値（3社の最新モデルの平均）の変化：${escapeHtml(note)}</p>` +
     `<div class="mover-grid">` +
     `${renderMoverList('変化指数が上がった職業', movers.transformation.up, 'up')}` +
     `${renderMoverList('変化指数が下がった職業', movers.transformation.down, 'down')}` +
@@ -701,19 +700,22 @@ export function renderInsightCards(insights: ReadonlyArray<string>): SafeHtml {
   ) as SafeHtml;
 }
 
-export function renderHubJsonLd(): string {
-  const canonical = `${SITE}/rankings`;
+export function renderHubJsonLd(
+  edition: Edition = 'ordinary',
+  proMetadata?: { readonly title: string; readonly description: string },
+): string {
+  const canonical = `${SITE}${rankingIndexCanonicalPath(edition)}`;
   // RA-003 (2026-05-18): SCORED count.
   const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
-  return JSON.stringify({
+  return stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'WebPage',
         '@id': `${canonical}#webpage`,
         url: canonical,
-        name: '職業ランキング',
-        description: seoDesc,
+        name: edition === 'pro' ? (proMetadata?.title ?? 'Pro | 職業ランキング') : '職業ランキング',
+        description: edition === 'pro' ? (proMetadata?.description ?? `Pro · ${seoDesc}`) : seoDesc,
         isPartOf: { '@id': `${SITE}/#website` },
         inLanguage: 'ja',
         datePublished: DATE_PUBLISHED,
@@ -726,9 +728,10 @@ export function renderHubJsonLd(): string {
         '@id': `${canonical}#breadcrumb`,
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-          { '@type': 'ListItem', position: 2, name: 'ランキング', item: canonical },
+          ...(edition === 'pro' ? [{ '@type': 'ListItem', position: 2, name: 'Pro', item: `${SITE}/pro` }] : []),
+          { '@type': 'ListItem', position: edition === 'pro' ? 3 : 2, name: 'ランキング', item: canonical },
         ],
       },
     ],
-  }, null, 2);
+  }, 2);
 }

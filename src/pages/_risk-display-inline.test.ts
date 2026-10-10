@@ -16,7 +16,7 @@ const read = (rel: string): string => readFileSync(join(import.meta.dirname, rel
 const meJs = read('_me-inline.js');
 const mapJs = read('_map-inline.js');
 const shindanJs = read('_shindan.js');
-const compareAstro = read('compare/index.astro');
+const compareAstro = read('pro/compare/index.astro');
 const indexJs = read('_index-inline.js');
 
 /** Source of `function <name>(` through the closing brace at the same indent. */
@@ -121,21 +121,21 @@ return String(Number(inc.toFixed(1)));
     assert.equal(riskBand(6.966666666666667), 'high');
     assert.equal(riskBand(3.9333333333333336), 'low');
     assert.equal(riskBand(null), null);
-    assert.equal(riskLabel(3.9666666666666663), '4/10 ▼ 中程度');
-    assert.equal(riskLabel(4.266666666666667), '4.3/10 ▼ 中程度');
+    assert.equal(riskLabel(3.9666666666666663), '4/10 変化 中くらい');
+    assert.equal(riskLabel(4.266666666666667), '4.3/10 変化 中くらい');
     assert.equal(riskLabel(null), '—');
   });
 
   test('/map: tooltip class and label follow the printed value', () => {
     const riskClass = load<Band>(mapJs, ['fmtRisk', 'riskClass'], 'riskClass');
-    const riskLabel = load<Label>(mapJs, ['fmtRisk', 'riskLabel'], 'riskLabel');
+    const riskLabel = load<Label>(mapJs, ['fmtRisk', 'riskBandWord', 'riskScoreLabel', 'riskLabel'], 'riskLabel');
     assert.equal(riskClass(3.9666666666666663), 'mid');
     assert.equal(riskClass(6.966666666666667), 'high');
     assert.equal(riskClass(3.9333333333333336), 'low');
     assert.equal(riskClass(null), 'low'); // unchanged from before #631
-    assert.equal(riskLabel(3.9666666666666663), '4/10 ▼ 中程度');
-    assert.equal(riskLabel(8.966666666666667), '9/10 ▲ 大きく変わる仕事');
-    assert.equal(riskLabel(6.966666666666667), '7/10 ▲ 影響大');
+    assert.equal(riskLabel(3.9666666666666663), '4/10 変化 中くらい');
+    assert.equal(riskLabel(8.966666666666667), '9/10 変化 大きい');
+    assert.equal(riskLabel(6.966666666666667), '7/10 変化 大きい');
   });
 
   test('/shindan and /compare: suggestion pills print one decimal and band it', () => {
@@ -146,11 +146,11 @@ return String(Number(inc.toFixed(1)));
       assert.equal(riskBand(3.9333333333333336), 'low', name);
       assert.equal(riskBand(null), 'mid', name);
     }
-    assert.match(shindanJs, /'AI ' \+ \(doc\.ai_risk != null \? fmtRisk\(doc\.ai_risk\) : '\?'\) \+ '\/10'/);
+    assert.match(shindanJs, /'AI ' \+ \(doc\.ai_risk != null \? fmtRisk\(doc\.ai_risk\) \+ '\/10 ' \+ riskBandWord\(doc\.ai_risk\) : '—'\)/);
     assert.doesNotMatch(shindanJs, /\? doc\.ai_risk : '\?'/);
-    assert.match(shindanJs, /return fmtRisk\(value\) \+ '\/10';/);
+    assert.match(shindanJs, /return fmtRisk\(value\) \+ '\/10 ' \+ riskBandWord\(value\);/);
     assert.doesNotMatch(shindanJs, /return value \+ '\/10';/);
-    assert.match(compareAstro, /'AI ' \+ fmtRisk\(o\.ai_risk\) \+ '\/10'/);
+    assert.match(compareAstro, /'AI ' \+ fmtRisk\(o\.ai_risk\) \+ '\/10 ' \+ riskBandWord\(o\.ai_risk\)/);
     assert.doesNotMatch(compareAstro, /'AI ' \+ o\.ai_risk \+ '\/10'/);
   });
 });
@@ -172,5 +172,90 @@ describe('OG cards print the displayed value (#631)', () => {
 
   test('sector card: the mean printed with the same rounding as /sectors', () => {
     assert.match(ogSector, /displayScore\(sector\.mean_ai_risk\)\.toFixed\(1\)/);
+  });
+});
+
+describe('home and /map band the displayed value with one shared function (#864)', () => {
+  test('riskBand5 is byte-identical in _index-inline.js and _map-inline.js', () => {
+    assert.equal(dedent(fnSource(indexJs, 'riskBand5')), dedent(fnSource(mapJs, 'riskBand5')));
+  });
+
+  test('riskBand5: five bands on the displayed value, lower bound inclusive', () => {
+    for (const [name, source] of [['_index-inline.js', indexJs], ['_map-inline.js', mapJs]] as const) {
+      const band = load<(v: unknown) => number>(source, ['fmtRisk', 'riskBand5'], 'riskBand5');
+      const cases: Array<[number, number]> = [
+        [0, 0], [1.9333333333333336, 0], [1.9666666666666666, 1], [2, 1],
+        [3.9333333333333336, 1], [3.9666666666666663, 2], [4, 2], [4.033333333333333, 2],
+        [5.966666666666667, 3], [6, 3], [6.033333333333333, 3],
+        [7.933333333333334, 3], [7.966666666666667, 4], [8, 4], [10, 4],
+      ];
+      for (const [v, want] of cases) assert.equal(band(v), want, `${name} riskBand5(${v})`);
+    }
+  });
+
+  test('/map colours and cell bands go through riskBand5', () => {
+    assert.doesNotMatch(mapJs, /function bandForRisk\(/);
+    assert.match(mapJs, /RISK_PALETTE\[riskBand5\(risk\)\]/);
+    assert.match(mapJs, /cell\.dataset\.band = String\(riskBand5\(/);
+  });
+
+  test('home treemap: the ai_risk layer colours tiles through riskBand5', () => {
+    assert.match(indexJs, /layer === "ai_risk" \? riskBand5\(d\.ai_risk\) : bandForT\(t\)/);
+    const layerT = fnSource(indexJs, 'layerT');
+    assert.match(layerT, /return Number\(fmtRisk\(d\.ai_risk\)\) \/ 10;/);
+    assert.doesNotMatch(layerT, /return d\.ai_risk \/ 10;/);
+  });
+
+  test('home: suggestion pill and TOP10 pill use the three-band rule on the displayed value', () => {
+    const riskClass3 = load<(v: unknown) => string>(indexJs, ['fmtRisk', 'riskClass3'], 'riskClass3');
+    assert.equal(riskClass3(4.266666666666667), 'mid'); // 豆腐: was low under ">= 5"
+    assert.equal(riskClass3(3.9666666666666663), 'mid');
+    assert.equal(riskClass3(3.9333333333333336), 'low');
+    assert.equal(riskClass3(6.966666666666667), 'high');
+    assert.match(indexJs, /const riskLabel = "AI 影響度 " \+ fmtRisk\(risk\) \+ "\/10 " \+ riskBandWord\(risk\);/);
+    assert.doesNotMatch(indexJs, /"AI 影響度 " \+ risk \+ "\/10"/);
+    assert.match(indexJs, /'<span class="ss-risk ' \+ riskClass3\(risk\) \+ '">'/);
+    assert.doesNotMatch(indexJs, /const pillBand = /);
+  });
+
+  test('home: GA4 risk_tier keeps the spec cut points on the displayed value', () => {
+    const gaRiskTier = load<(v: unknown) => string>(indexJs, ['fmtRisk', 'gaRiskTier'], 'gaRiskTier');
+    assert.equal(gaRiskTier(6.966666666666667), 'high');
+    assert.equal(gaRiskTier(4.966666666666667), 'mid');
+    assert.equal(gaRiskTier(4.933333333333334), 'low');
+    assert.doesNotMatch(indexJs, /risk >= 7 \? "high"/);
+    assert.doesNotMatch(indexJs, /aiRisk >= 7 \? "high"/);
+  });
+
+  test('home stats: histogram step and the ≥7 wage block use the displayed value', async () => {
+    const { displayScoreStep } = await import('../data/lib/banker-round.js');
+    const riskStep = load<(v: unknown) => number>(indexJs, ['fmtRisk', 'riskStep'], 'riskStep');
+    for (let k = 0; k <= 300; k += 1) {
+      const v = k / 30;
+      assert.equal(riskStep(v), displayScoreStep(v), `riskStep(${v})`);
+    }
+    assert.equal(riskStep(4.533333333333333), 4); // prints 4.5
+    assert.doesNotMatch(indexJs, /hist\[Math\.round\(d\.ai_risk\)\]/);
+    assert.match(indexJs, /hist\[riskStep\(d\.ai_risk\)\]\+\+/);
+    assert.match(indexJs, /Number\(fmtRisk\(d\.ai_risk\)\) >= 7 && d\.salary != null/);
+  });
+});
+
+describe('mobile search pill prints with banker rounding (#864)', () => {
+  const mobileNav = read('../components/MobileNav.astro');
+  test('MobileNav carries the /me fmtRisk and uses it for the pill', () => {
+    assert.equal(dedent(fnSource(mobileNav, 'fmtRisk')), dedent(fnSource(meJs, 'fmtRisk')));
+    assert.match(mobileNav, /pill\.textContent = doc\.ai_risk != null \? \(Number\(fmtRisk\(doc\.ai_risk\)\)\.toFixed\(1\) \+ '\/10 ' \+ riskBandWord\(doc\.ai_risk\)\) : '—';/);
+    assert.doesNotMatch(mobileNav, /Number\(doc\.ai_risk\)\.toFixed\(1\)/);
+  });
+});
+
+describe('/me similar jobs: ±1.0 on the displayed values (#864)', () => {
+  test('riskWithin compares printed tenths, so FP residue cannot decide', () => {
+    const riskWithin = load<(a: unknown, b: unknown, tenths: number) => boolean>(meJs, ['fmtRisk', 'riskWithin'], 'riskWithin');
+    assert.equal(riskWithin(5.3, 4.3, 10), true); // 5.3 - 4.3 = 1.0000000000000009 raw
+    assert.equal(riskWithin(5.266666666666667, 4.3, 10), true); // prints 5.3 vs 4.3
+    assert.equal(riskWithin(5.366666666666666, 4.3, 10), false); // prints 5.4
+    assert.match(meJs, /if \(!riskWithin\(r\.ai_risk, risk, 10\)\) continue;/);
   });
 });

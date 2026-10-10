@@ -15,6 +15,7 @@ import {
   DEFAULT_MODEL_STORY_EDITORIAL_ID,
   modelStoryEditorialSentenceId,
 } from '@/site/model-editorial';
+import { escapeJsonForScript } from '../lib/json-for-script.js';
 
 export type ModelsDeepProjection = ModelsDeepProjectionShape;
 
@@ -164,15 +165,8 @@ function editorialCopyWithFallback(
   return requireCopy(copy, DEFAULT_MODEL_STORY_EDITORIAL_ID, 'editorial fallback');
 }
 
-function escapeInlineJson(json: string): string {
-  return json
-    .replace(/</g, '\\u003c')
-    .replace(/\u2028/g, '\\u2028')
-    .replace(/\u2029/g, '\\u2029');
-}
-
 function batchHref(model: string, date: string): string {
-  return `/models/${runSlug({ model, runDate: date })}`;
+  return `/pro/models/${runSlug({ model, runDate: date })}`;
 }
 
 function toPanelEntryView(
@@ -276,7 +270,7 @@ export function buildModelsFeaturePageModel(
   const lastPanel = panelEntries[panelEntries.length - 1]!;
 
   return {
-    projectionJson: escapeInlineJson(JSON.stringify(projection)),
+    projectionJson: escapeJsonForScript(JSON.stringify(projection)),
     pageLastUpdated: newestPanel.date,
     batchDatesText: dates.join(' / '),
     modelCount: modelRoster.length,

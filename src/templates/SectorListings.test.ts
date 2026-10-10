@@ -29,7 +29,7 @@ describe('renderSectorOccupationTopList', () => {
         '<span class="rl-meta"><span class="rl-workers">1,500,000 就業者</span></span>' +
         '</span>' +
         '<span class="rl-end">' +
-        '<span class="risk-pill mid">4/10</span>' +
+        '<span class="risk-pill mid">4/10 変化 中くらい</span>' +
         '<span class="rl-chevron" aria-hidden="true">›</span>' +
         '</span>' +
         '</a>' +
@@ -51,12 +51,12 @@ describe('renderSectorOccupationTopList', () => {
       id: i + 1, titleJa: `r${r}`, aiRisk: r, workers: 0,
     }));
     const out = renderSectorOccupationTopList(items);
-    assert.ok(out.match(/risk-pill low.>0\/10/));
-    assert.ok(out.match(/risk-pill low.>3\/10/));
-    assert.ok(out.match(/risk-pill mid.>4\/10/));
-    assert.ok(out.match(/risk-pill mid.>6\/10/));
-    assert.ok(out.match(/risk-pill high.>7\/10/));
-    assert.ok(out.match(/risk-pill high.>10\/10/));
+    assert.ok(out.match(/risk-pill low.>0\/10 変化 小さい/));
+    assert.ok(out.match(/risk-pill low.>3\/10 変化 小さい/));
+    assert.ok(out.match(/risk-pill mid.>4\/10 変化 中くらい/));
+    assert.ok(out.match(/risk-pill mid.>6\/10 変化 中くらい/));
+    assert.ok(out.match(/risk-pill high.>7\/10 変化 大きい/));
+    assert.ok(out.match(/risk-pill high.>10\/10 変化 大きい/));
   });
 
   test('missing titleJa falls back to "#id"', () => {
@@ -94,7 +94,7 @@ describe('renderSectorOccupationFullList', () => {
     ]);
     assert.match(out, /<a class="rl-row" href="\/1" data-track-event="list_row_click">/);
     assert.match(out, /<span class="rl-name">看護師<\/span>/);
-    assert.match(out, /<span class="risk-pill mid">4\/10<\/span>/);
+    assert.match(out, /<span class="risk-pill mid">4\/10 変化 中くらい<\/span>/);
     assert.equal(out.includes('就業者'), false);
     assert.equal(out.includes('rl-meta'), false);
     assert.equal(out.includes('class="rl-name" href='), false);

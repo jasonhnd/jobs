@@ -9,7 +9,8 @@
  * The distribution bar is three `<span>`s with `style="width:N%"`
  * — values come from src/views/sector-meta.computeSectorPatterns.
  * Counts + percentages render with 0-decimal-place rounding to
- * keep the legend chips compact (e.g. "32%").
+ * keep the legend chips compact (e.g. "32%"). The band labels name the
+ * displayed-value cut points (low < 4.0 <= mid < 7.0 <= high, #864).
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
@@ -52,14 +53,14 @@ export function renderSectorPatterns(input: SectorPatternsInput): SafeHtml {
     `       <h2>${escapeHtml(H2)}</h2>\n` +
     `       <div class="ai-distribution">\n` +
     `         <div class="ai-dist-bar">\n` +
-    `           <span class="dist-low" style="width:${lowPct}%" title="AI 影響 低 (3 以下): ${aiLowCount} 職業"></span>\n` +
-    `           <span class="dist-mid" style="width:${midPct}%" title="AI 影響 中 (4-6): ${aiMidCount} 職業"></span>\n` +
-    `           <span class="dist-high" style="width:${highPct}%" title="AI 影響 高 (7+): ${aiHighCount} 職業"></span>\n` +
+    `           <span class="dist-low" style="width:${lowPct}%" title="変化 小さい (4.0 未満): ${aiLowCount} 職業"></span>\n` +
+    `           <span class="dist-mid" style="width:${midPct}%" title="変化 中くらい (4.0-6.9): ${aiMidCount} 職業"></span>\n` +
+    `           <span class="dist-high" style="width:${highPct}%" title="変化 大きい (7.0 以上): ${aiHighCount} 職業"></span>\n` +
     `         </div>\n` +
     `         <div class="ai-dist-legend">\n` +
-    `           <span><span class="ldot ldot-low"></span>低 (≤3): <strong>${aiLowCount}</strong> 職業 (${lowPct}%)</span>\n` +
-    `           <span><span class="ldot ldot-mid"></span>中 (4-6): <strong>${aiMidCount}</strong> 職業 (${midPct}%)</span>\n` +
-    `           <span><span class="ldot ldot-high"></span>高 (≥7): <strong>${aiHighCount}</strong> 職業 (${highPct}%)</span>\n` +
+    `           <span><span class="ldot ldot-low"></span>変化 小さい (&lt;4.0): <strong>${aiLowCount}</strong> 職業 (${lowPct}%)</span>\n` +
+    `           <span><span class="ldot ldot-mid"></span>変化 中くらい (4.0-6.9): <strong>${aiMidCount}</strong> 職業 (${midPct}%)</span>\n` +
+    `           <span><span class="ldot ldot-high"></span>変化 大きい (≥7.0): <strong>${aiHighCount}</strong> 職業 (${highPct}%)</span>\n` +
     `         </div>\n` +
     `       </div>\n` +
     `       <ul class="pattern-observations">\n` +

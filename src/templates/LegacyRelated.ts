@@ -25,7 +25,7 @@
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { occupationPath } from '../lib/urls.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
 
 /** One related-occupation row. */
 export interface LegacyRelatedItem {
@@ -48,7 +48,7 @@ export function renderLegacyRelated(input: LegacyRelatedInput): SafeHtml {
   let items = '';
   for (const r of input.related) {
     const name = r.nameJa || `#${r.id}`;
-    const riskStr = formatRiskScore(r.aiRisk);
+    const riskStr = formatRiskScoreLabel(r.aiRisk);
     items +=
       `<li>` +
       `<a class="r-name" href="${occupationPath(r.id)}">${escapeHtml(name)}</a>` +

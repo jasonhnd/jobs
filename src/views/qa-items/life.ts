@@ -1,4 +1,5 @@
 import type { QAItem } from '../qa-meta.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 
 export const LIFE_ITEMS: ReadonlyArray<QAItem> = [
   // ── ライフ条件 (6) ──
@@ -35,7 +36,7 @@ export const LIFE_ITEMS: ReadonlyArray<QAItem> = [
     reasoning: 'ライフイベント (出産・育児・介護) を経て長く続けやすい職業の条件は、(1) 制度が整備された業界、(2) 同じ立場の女性同僚が多い、(3) 短時間勤務・時短勤務の選択肢、(4) ブランクからの復帰を支援する仕組み。看護師・保育士・教師・公務員・大企業総合職などが該当。男女比率の偏りも参考に。',
     selector: (d) => {
       const ai = d.ai_risk?.score ?? 99;
-      if (ai > 5) return null;
+      if (displayScore(ai) > 5) return null;
       return -ai * 100;
     },
     related_topics: ['ikuji-ryouritsu', 'shufu-fukki'],

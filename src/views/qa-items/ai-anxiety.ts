@@ -1,6 +1,7 @@
 import type { QAItem } from '../qa-meta.js';
 import { lowAi, highAi, lowAiSector } from './predicates.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../../site/consensus-copy.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 
 export const AI_ANXIETY_ITEMS: ReadonlyArray<QAItem> = [
   // ── AI 不安系 (8) ──
@@ -30,7 +31,7 @@ export const AI_ANXIETY_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const ai = d.ai_risk?.score;
       if (ai === null || ai === undefined) return null;
-      if (ai < 4 || ai > 6) return null;
+      if (displayScore(ai) < 4 || displayScore(ai) > 6) return null;
       return -Math.abs(ai - 5) * 100 + (d.stats?.salary_man_yen ?? 0);
     },
     related_topics: ['ai-de-kienai', 'ai-de-kieru', 'ai-jidai-osusume'],
@@ -44,7 +45,7 @@ export const AI_ANXIETY_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => {
       const certs = (d.related_certs_ja ?? []).length;
       const ai = d.ai_risk?.score ?? 99;
-      if (certs < 1 || ai > 5) return null;
+      if (certs < 1 || displayScore(ai) > 5) return null;
       return certs * 1000 - ai * 100;
     },
     related_topics: ['license-required', 'ai-de-kienai'],

@@ -52,12 +52,14 @@ describe('renderOrgsCerts', () => {
     assert.ok(out.indexOf('関連業界団体') < out.indexOf('関連資格'));
   });
 
-  test('null URL falls back to # anchor', () => {
+  test('null URL renders the name as text, not a dead href="#" link (#884)', () => {
     const out = renderOrgsCerts({
       orgs: [{ nameJa: 'X', url: null }],
       certs: [],
     });
-    assert.ok(out.includes('href="#"'));
+    assert.ok(!out.includes('href="#"'));
+    assert.ok(!out.includes('target="_blank"'));
+    assert.ok(out.includes('<ul class="org-list"><li>X</li></ul>'));
   });
 
   test('orgs with null nameJa are dropped (no empty <a>)', () => {

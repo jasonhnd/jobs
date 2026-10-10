@@ -28,7 +28,8 @@
 import { join } from 'node:path';
 import { escapeHtml, unsafeReviewedHtml, type SafeHtml } from '@/lib/safe-html';
 import { formatParagraphs } from '@/lib/format-paragraphs';
-import { jaUrl } from '@/lib/urls';
+import type { Edition } from '@/site/route-policy';
+import { occupationCanonicalUrl } from '@/lib/urls';
 import {
   buildOccupationGeoFactSummary,
   renderAiFactParagraph,
@@ -66,6 +67,7 @@ import {
   renderOccupationJsonLdFromRec,
 } from './_id-renderers';
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
+import { riskBandWord, occupationAnalyticsTier } from '@/lib/risk';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { displayScore } from '@/data/lib/banker-round';
 import { SCORE_PANEL } from '@/site/score-attribution';
@@ -103,6 +105,8 @@ export interface VerdictDoor {
 export interface VerdictBinding {
   readonly scored: boolean;
   readonly scoreLabel: string;
+  /** Signed band word for the displayed transformation score. Null when unscored. */
+  readonly bandWord: string | null;
   readonly transformationDisp: string;
   readonly displacementDisp: string | null;
   readonly rankLine: string;
@@ -184,7 +188,9 @@ export function buildVerdictDoors(opts: {
     return [{ href: '#sec-similar', label: '似た仕事', kind: 'ghost' }];
   }
   const ghostSimilar: VerdictDoor = { href: '#sec-similar', label: '似た仕事', kind: 'ghost' };
-  if (opts.risk >= 7) {
+  // Judged on the displayed value, like the rest of the card (#864).
+  const shown = displayScore(opts.risk);
+  if (shown >= 7) {
     const ghost: VerdictDoor = opts.hasTransfer
       ? { href: '#sec-transfer', label: '移り先の候補', kind: 'ghost' }
       : ghostSimilar;
@@ -193,7 +199,7 @@ export function buildVerdictDoors(opts: {
       ghost,
     ];
   }
-  if (opts.risk < 5) {
+  if (shown < 4.0) {
     return [
       { href: '#sec-aiois', label: 'なぜ守られやすいか', kind: 'solid' },
       ghostSimilar,
@@ -222,6 +228,7 @@ export interface WorktypeHeroBinding {
 }
 
 export interface IdPageBindingsInput {
+  readonly edition?: Edition;
   readonly rec: Rec;
   readonly related: ReadonlyArray<Rec>;
   readonly nameLookup: Record<number, string>;
@@ -320,7 +327,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
 
   // ─── Field extraction ──────────────────────────────────────
   const id = rec.id;
-  const canonical = jaUrl(id);
+  const canonical = occupationCanonicalUrl(id, input.edition);
   const nameJa = rec.name_ja || '';
   const risk = rec.ai_risk;
   const rationaleJa = rec.ai_rationale_ja || '';
@@ -426,11 +433,12 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     datePublished,
     dateModified,
     geoFacts,
+    edition: input.edition,
   });
 
   // ─── GA4 funnel classification ────────────────────────────
-  const riskTierJs: 'high' | 'mid' | 'low' =
-    risk !== null && risk >= 7 ? 'high' : risk !== null && risk >= 5 ? 'mid' : 'low';
+  // analytics/spec.yaml tiers (high >=7 / mid 5-6 / low <=4) on the displayed value (#864).
+  const riskTierJs = occupationAnalyticsTier(risk);
 
   const scored = risk !== null;
   const latestObs = rec.latest_transformation != null && rec.latest_delta != null
@@ -439,6 +447,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const verdict: VerdictBinding = {
     scored,
     scoreLabel: CONSENSUS_HEADLINE_LABEL,
+    bandWord: scored ? riskBandWord(aioisTransformation) : null,
     transformationDisp: scored ? fmtScoreDisp(aioisTransformation) : '未採点',
     displacementDisp: scored ? fmtScoreDisp(aioisDisplacement) : null,
     rankLine: formatVerdictRankLine({

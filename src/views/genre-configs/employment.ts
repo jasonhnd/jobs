@@ -48,6 +48,7 @@ export const EMPLOYMENT_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '公務員系の職業',
     description_ja: '公的機関で働く職業群。保安・公安系を中心に、地方公務員・国家公務員職。',
     og_eyebrow: 'EMPLOY · 公務員',
+    hide_score: true,
     custom_filter: (d) => {
       // Approximate via sector_id == 'hoan' or large workforce + low ai
       const sid = d.sector?.id;

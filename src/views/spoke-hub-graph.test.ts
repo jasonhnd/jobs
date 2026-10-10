@@ -109,15 +109,15 @@ describe('computeSpokeHubs', () => {
     assert.deepEqual(
       result.groups[2]!.items.map((item) => [item.name, item.href]),
       [
-        ['持久力', '/abilities/stamina'],
-        ['細かい手作業', '/abilities/manual-dexterity-fine'],
+        ['持久力', '/pro/abilities/stamina'],
+        ['細かい手作業', '/pro/abilities/manual-dexterity-fine'],
       ],
     );
     assert.deepEqual(
       result.groups[3]!.items.map((item) => [item.name, item.href]),
       [
-        ['R (現実的)', '/interests/realistic'],
-        ['S (社会的)', '/interests/social'],
+        ['R (現実的)', '/pro/interests/realistic'],
+        ['S (社会的)', '/pro/interests/social'],
       ],
     );
   });
@@ -146,14 +146,14 @@ describe('computeSpokeHubs', () => {
       '知識', 'スキル', '価値観', '働き方', 'キャリア段階', '資格', 'Q&A', '比較',
     ]);
     assert.deepEqual(result.groups.map((g) => g.items.map((item) => item.href)), [
-      ['/knowledge/customer-service', '/knowledge/mechanical-knowledge'],
-      ['/skills/programming', '/skills/critical-thinking'],
-      ['/values/independence'],
-      ['/work-styles/desk-vs-genba'],
-      ['/careers/30s-early', '/careers/20-late'],
-      ['/licenses/national-vs-private', '/licenses/gyoumu-dokusen'],
-      ['/q/shikaku-mamoru', '/q/tenshoku-30s'],
-      ['/compare/kango-vs-helper', '/compare/kango-vs-yakuzaishi'],
+      ['/pro/knowledge/customer-service', '/pro/knowledge/mechanical-knowledge'],
+      ['/pro/skills/programming', '/pro/skills/critical-thinking'],
+      ['/pro/values/independence'],
+      ['/pro/work-styles/desk-vs-genba'],
+      ['/pro/careers/30s-early', '/pro/careers/20-late'],
+      ['/pro/licenses/national-vs-private', '/pro/licenses/gyoumu-dokusen'],
+      ['/pro/q/shikaku-mamoru', '/pro/q/tenshoku-30s'],
+      ['/pro/compare/kango-vs-helper', '/pro/compare/kango-vs-yakuzaishi'],
     ]);
     assert.equal(result.total, 14);
     for (const group of result.groups) {
@@ -171,7 +171,7 @@ describe('computeSpokeHubs', () => {
   test('finds comparisons when the occupation is the second side of a pair', () => {
     const result = computeSpokeHubs({ id: 133 });
     assert.deepEqual(result.groups.map((g) => g.items.map((item) => item.href)), [
-      ['/compare/kango-vs-helper'],
+      ['/pro/compare/kango-vs-helper'],
     ]);
     assert.equal(result.total, 1);
   });
@@ -182,7 +182,7 @@ describe('computeSpokeHubs', () => {
       ...Array.from({ length: 5 }, (_, i) => ({ key: `unknown-${i}`, label_ja: 'fixture', score: 10 - i })),
     ];
     const result = computeSpokeHubs({ id: 999_999, abilities_top5: dimensions, interests: { artistic: 4 } });
-    assert.deepEqual(result.groups.map((g) => g.items.map((item) => item.href)), [['/interests/artistic']]);
+    assert.deepEqual(result.groups.map((g) => g.items.map((item) => item.href)), [['/pro/interests/artistic']]);
     assert.equal(result.total, 1);
     assert.equal(dimensions[0]!.key, 'stamina');
   });

@@ -16,8 +16,8 @@
         --accent: #D96B3D; /* terracotta — CTA, italic emphasis */
         --accent-2: #6E9B89;     /* sage green — safe / low-risk */
         --accent-deep: #48705F;  /* sage deep — heading on warm */
-        --border: rgba(36, 30, 24, 0.10);
-        --shadow-card: 0 1px 0 rgba(36, 30, 24, 0.04), 0 8px 24px -12px rgba(36, 30, 24, 0.10);
+        --border: color-mix(in srgb, var(--fg) 10%, transparent);
+        --shadow-card: 0 1px 0 color-mix(in srgb, var(--fg) 4%, transparent), 0 8px 24px -12px color-mix(in srgb, var(--fg) 10%, transparent);
         --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
         --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
       }
@@ -27,14 +27,14 @@
           --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
           --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
           --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
-          --border: rgba(36, 30, 24, 0.10);
+          --border: color-mix(in srgb, var(--fg) 10%, transparent);
         }
       }
       :root[data-theme="light"], :root[data-theme="dark"] {
         --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
         --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
         --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
-        --border: rgba(36, 30, 24, 0.10);
+        --border: color-mix(in srgb, var(--fg) 10%, transparent);
       }
       /* Theme toggle button (sits next to lang-switch) */
       .theme-toggle {
@@ -173,14 +173,14 @@
         text-decoration: none;
         color: var(--fg);
         position: relative;
-        box-shadow: 0 1px 0 rgba(36,30,24,0.04), 0 8px 24px -12px color-mix(in srgb, var(--ink) 10%, transparent);
+        box-shadow: 0 1px 0 color-mix(in srgb, var(--fg) 4%, transparent), 0 8px 24px -12px color-mix(in srgb, var(--ink) 10%, transparent);
       }
       .m-top10-card:hover { text-decoration: none; }
       .m-top10-card-rank {
         position: absolute;
         top: 14px; right: 14px;
         background: var(--orange-hot);
-        color: #fff;
+        color: var(--bg2);
         padding: 2px 9px;
         border-radius: 999px;
         font-family: var(--font-sans);
@@ -384,7 +384,7 @@
           border-radius: 16px;
           text-decoration: none;
           color: inherit;
-          box-shadow: 0 1px 0 rgba(36,30,24,.04);
+          box-shadow: 0 1px 0 color-mix(in srgb, var(--fg) 4%, transparent);
         }
         .home-door:hover { text-decoration: none; }
         .home-door-title { font-family:var(--font-sans); font-size: var(--t-h3); font-weight:700; color:var(--ink); }
@@ -412,8 +412,8 @@
           background: var(--bg2);
           color: var(--fg);
           text-decoration: none;
-          box-shadow: 0 1px 0 rgba(36,30,24,.04);
-          -webkit-tap-highlight-color: rgba(226, 122, 51, 0.18);
+          box-shadow: 0 1px 0 color-mix(in srgb, var(--fg) 4%, transparent);
+          -webkit-tap-highlight-color: color-mix(in srgb, var(--risk-3) 18%, transparent);
         }
         .m-map-preview:active {
           transform: scale(0.998);
@@ -805,7 +805,8 @@
       .gradient-legend {
         display: flex;
         align-items: center;
-        gap: 6px;
+        flex-wrap: wrap;
+        gap: var(--s-2);
         font-size: var(--t-xs);
         color: var(--fg2);
         margin-left: auto;
@@ -946,6 +947,18 @@
         font-size: var(--t-h3);
         font-weight: 600;
         color: var(--fg);
+        line-height: 1.25;
+      }
+      .stat-block .stat-score,
+      .stat-block .stat-band {
+        display: block;
+        white-space: nowrap;
+      }
+      .stat-block .stat-band {
+        margin-top: var(--s-1);
+        font-size: var(--t-sm);
+        font-weight: 700;
+        line-height: 1.3;
       }
       .stat-block .stat-sub {
         font-size: var(--t-xs);
@@ -1056,14 +1069,14 @@
       }
       .top-banner .badge {
         background: var(--orange-hot);
-        color: #fff;
+        color: var(--bg2);
         font-weight: 700;
         padding: 3px 10px;
         border-radius: 4px;
         font-size: var(--t-xs);
         letter-spacing: 0.08em;
         white-space: nowrap;
-        box-shadow: 0 1px 4px rgba(192, 65, 30, 0.28);
+        box-shadow: 0 1px 4px color-mix(in srgb, var(--orange-hot) 28%, transparent);
       }
       .top-banner .banner-text strong {
         color: var(--ink);
@@ -1117,7 +1130,7 @@
         transition: filter 150ms ease;
       }
       :root[data-theme="light"] #tooltip .tt-cta {
-        color: #fff;
+        color: var(--bg2);
       }
       #tooltip .tt-cta:hover {
         filter: brightness(1.05);
@@ -1353,7 +1366,7 @@
       }
       .home-entry-primary {
         background: var(--orange-hot);
-        color: #fff;
+        color: var(--bg2);
         border: 1px solid var(--orange-hot);
       }
       .home-entry-secondary {
@@ -1369,7 +1382,7 @@
       .home-entry-primary:hover {
         background: var(--accent-deep);
         border-color: var(--accent-deep);
-        color: #fff;
+        color: var(--bg2);
       }
       .home-entry-secondary:hover {
         border-color: var(--accent);
@@ -1531,7 +1544,7 @@
         top: 50%;
         transform: translateY(-50%);
         background: var(--orange-hot);
-        color: #fff;
+        color: var(--bg2);
         border: 0;
         min-height: 44px;
         padding: 7px 16px;
@@ -1845,7 +1858,7 @@
       .share-btn:hover {
         transform: translateY(-1px);
         border-color: transparent;
-        color: #fff;
+        color: var(--bg2);
       }
       .share-btn[data-platform="x"]:hover       { background: #000; }
       .share-btn[data-platform="line"]:hover    { background: #06C755; }
@@ -1922,6 +1935,7 @@
         margin: 0 0 4px;
         line-height: 1.25;
       }
+      #hub-rankings-title { scroll-margin-top: var(--s-8); }
       .hub-section-sub {
         font-size: var(--t-sm);
         color: var(--fg2);
@@ -2214,6 +2228,7 @@
       .risk-distribution li .rd-text small { font-size: var(--t-xs); }
       .risk-distribution li .rd-text strong { display: block; font-weight: 600; color: var(--fg); font-size: var(--t-xs); }
       .risk-distribution li .rd-text small { color: var(--ink-meta); }
+      .risk-band-legend { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-2) 0 0; font-size: var(--t-xs); color: var(--fg2); }
       @media (max-width: 768px) {
         .kpi-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .kpi-row li strong { font-size: var(--t-h1); }

@@ -66,7 +66,7 @@ describe('renderCompareDuelBar', () => {
 describe('Compare JSON-LD speakable', () => {
   test('WebPage points to the citable fact block and compare body', () => {
     const got = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/compare/kango-vs-helper',
+      'https://mirai-shigoto.com/pro/compare/kango-vs-helper',
       meta,
       side(1, 'A'),
       side(2, 'B'),
@@ -83,7 +83,7 @@ describe('Compare JSON-LD speakable', () => {
 
   test('adds FAQPage when faq items are present and omits a missing sector', () => {
     const got = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/compare/kango-vs-helper',
+      'https://mirai-shigoto.com/pro/compare/kango-vs-helper',
       meta,
       side(1, 'A & B'),
       { ...side(2, 'B'), sector_ja: null, ai_risk: null },
@@ -189,11 +189,11 @@ describe('renderRelatedCompares', () => {
     const html = renderRelatedCompares('kango-vs-helper', all);
     assert.match(html, /<ul class="related-compares">/);
     assert.equal((html.match(/<li>/g) ?? []).length, 6);
-    assert.equal(html.includes('/compare/kango-vs-helper"'), false);
-    assert.equal(html.includes('/compare/shoubou-vs-keisatsu'), false);
-    assert.match(html, /href="\/compare\/se-vs-programmer"/);
+    assert.equal(html.includes('/pro/compare/kango-vs-helper"'), false);
+    assert.equal(html.includes('/pro/compare/shoubou-vs-keisatsu'), false);
+    assert.match(html, /href="\/pro\/compare\/se-vs-programmer"/);
     assert.match(html, /class="rc-title">t-se-vs-programmer</);
-    assert.match(html, /href="\/compare\/kango-vs-yakuzaishi"/);
+    assert.match(html, /href="\/pro\/compare\/kango-vs-yakuzaishi"/);
   });
 });
 
@@ -222,7 +222,7 @@ describe('compare hub cards', () => {
 
   test('featured cards stack both sides and truncate a long description', () => {
     const html = renderFeaturedCompareCards(cards);
-    assert.equal((html.match(/<li><a href="\/compare\//g) ?? []).length, 2);
+    assert.equal((html.match(/<li><a href="\/pro\/compare\//g) ?? []).length, 2);
     assert.match(html, /class="cci-title">T &lt;1&gt;</);
     assert.match(html, /class="cci-pair"/);
     assert.match(html, /class="cci-vs-row"/);
@@ -233,6 +233,18 @@ describe('compare hub cards', () => {
     assert.match(html, new RegExp(`class="cci-desc">${'d'.repeat(80)}…`));
     assert.match(html, /class="cci-desc">ok</);
     assert.equal(html.includes(`${'d'.repeat(81)}`), false);
+  });
+
+  test('hub pills band the displayed value like every other pill (#864)', () => {
+    const pills = (a: number | null, b: number | null): string[] => {
+      const html = renderFeaturedCompareCards([{ slug: 'x', title_ja: 'x', a_name: 'A', a_risk: a, b_name: 'B', b_risk: b, description_ja: '' }]);
+      return [...html.matchAll(/class="risk-pill (\w+)"/g)].map((m) => m[1]!);
+    };
+    assert.deepEqual(pills(3.5, 6.8), ['low', 'mid']); // 看護師 3.5 / 税理士 6.8
+    assert.deepEqual(pills(3.9666666666666663, 6.966666666666667), ['mid', 'high']); // print 4.0 / 7.0
+    assert.deepEqual(pills(3.9333333333333336, 6.933333333333334), ['low', 'mid']); // print 3.9 / 6.9
+    const compact = renderCompactCompareCards([{ slug: 'x', title_ja: 'x', a_name: 'A', a_risk: 3.5, b_name: 'B', b_risk: 6.8, description_ja: '' }]);
+    assert.deepEqual([...compact.matchAll(/class="risk-pill (\w+)"/g)].map((m) => m[1]), ['low', 'mid']);
   });
 
   test('compact cards omit the description and still show both pills', () => {
@@ -255,6 +267,6 @@ describe('renderHubJsonLd compare index', () => {
     assert.deepEqual(types, ['WebPage', 'BreadcrumbList']);
     const page = (got['@graph'] as Array<{ '@type': string; url?: string }>)
       .find((node) => node['@type'] === 'WebPage');
-    assert.equal(page?.url, 'https://mirai-shigoto.com/compare');
+    assert.equal(page?.url, 'https://mirai-shigoto.com/pro/compare');
   });
 });

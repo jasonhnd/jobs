@@ -1,43 +1,53 @@
 /**
- * Build-time movers for the /rankings hub.
+ * Build-time movers for the /rankings hub (今月の急上昇・急降下) and the home
+ * 今月の変動 module.
  *
- * This module owns score-batch file loading and keeps the actual diff math in
- * scripts/aiois-drift-report.ts, so the public page uses the same core as the
- * scoring drift report.
+ * A mover is a change in the PUBLISHED score — the vendor-flagship mean that
+ * every occupation page shows (`pickFlagshipMeanScore`) — from just before the
+ * latest score batch landed to now (owner decision 2026-10-07, option A,
+ * #863). "Before" is the public value computed from runs dated before the
+ * latest batch date; "after" is today's public value. Both sides are the
+ * one-decimal values the site displays, so a listed delta always equals
+ * current − base as printed.
+ *
+ * The diff math is the shared core in src/graph/aiois-drift.ts.
  */
-import { join } from 'node:path';
-
-import { computeDriftReport, type AioisScore, type DriftRow } from '../../scripts/aiois-drift-report.js';
-import { ScoreRunSchema, type ScoreRun } from '../data/schema/score-run.js';
-import { pickLatestScore } from '../graph/score-strategy.js';
+import { displayScore } from '../data/lib/banker-round.js';
+import { toTenths } from '../data/lib/score-compare.js';
+import { computeDriftReport, type AioisScore, type DriftRow } from '../graph/aiois-drift.js';
+import { asScoreHist } from '../graph/loader.js';
+import {
+  tryPickFlagshipMeanScore,
+  type ConsensusDims,
+  type FlagshipMeanScore,
+  type ScoreHistEntry,
+} from '../graph/score-strategy.js';
 import type { KnowledgeGraph } from '../graph/types.js';
-import { strictLoadDir } from '../lib/strict-load.js';
 
-const AIOIS_DIM_KEYS = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10'] as const;
+const DIM_KEYS = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10'] as const satisfies readonly (keyof ConsensusDims)[];
 const DEFAULT_TOP_N = 5;
 
-export interface ComparableAioisBatch {
-  readonly model: string;
+/** The newest score batch date (non-backfill, AIOIS-10) and the models scored on it. */
+export interface LandedBatch {
   readonly date: string;
-  readonly runId: string;
-  readonly scoreCount: number;
-  readonly scores: ReadonlyMap<number, AioisScore>;
-  readonly backfill: boolean;
+  readonly models: readonly string[];
 }
 
 export interface RankingMover {
   readonly id: number;
   readonly name: string;
+  /** Displayed public value before the latest batch landed. */
   readonly base: number;
+  /** Displayed public value now. */
   readonly current: number;
+  /** current − base, in tenths. */
   readonly delta: number;
   readonly familyCode: string | null;
 }
 
 export interface RankingMovers {
   readonly meta: {
-    readonly baseline: Omit<ComparableAioisBatch, 'scores' | 'backfill'>;
-    readonly candidate: Omit<ComparableAioisBatch, 'scores' | 'backfill'>;
+    readonly landed: LandedBatch;
     readonly comparedCount: number;
     readonly meanDriftT: number;
     readonly meanDriftD: number;
@@ -54,90 +64,40 @@ export interface RankingMovers {
 
 export interface RankingMoversOptions {
   readonly topN?: number;
-  readonly rankThreshold?: number;
-  readonly lowConfidence?: number;
   readonly familyById?: ReadonlyMap<number, string>;
 }
 
-export function toComparableAioisBatch(run: ScoreRun): ComparableAioisBatch | null {
-  if (run.scope !== 'occupations') return null;
+type ScoreHistoryByOcc = ReadonlyMap<number, readonly ScoreHistEntry[]>;
 
-  const scores = new Map<number, AioisScore>();
-  for (const [idRaw, entry] of Object.entries(run.scores)) {
-    const id = Number.parseInt(idRaw, 10);
-    if (!Number.isFinite(id) || entry.aiois == null) continue;
-    scores.set(id, {
-      aiRisk: entry.ai_risk,
-      displacement: entry.aiois.displacement,
-      dims: AIOIS_DIM_KEYS.map((key) => entry.aiois![key]),
-      confidence: entry.confidence ?? null,
-    });
-  }
-
-  if (scores.size === 0) return null;
-  return {
-    model: run.scorer.model,
-    date: run.run.run_date,
-    runId: run.run.run_id,
-    scoreCount: scores.size,
-    scores,
-    backfill: run.run.backfill === true,
-  };
+function isComparable(entry: ScoreHistEntry): boolean {
+  return entry.aiois != null && entry.backfill !== true;
 }
 
-export function selectLatestComparableAioisPair(
-  runs: readonly ScoreRun[],
-): { baseline: ComparableAioisBatch; candidate: ComparableAioisBatch } {
-  const batches = runs
-    .map((run, index) => ({ batch: toComparableAioisBatch(run), index }))
-    .filter((item): item is { batch: ComparableAioisBatch; index: number } => item.batch !== null)
-    .filter((item) => !item.batch.backfill)
-    .sort((a, b) => a.batch.date.localeCompare(b.batch.date) || a.index - b.index);
-
-  if (batches.length < 2) {
-    throw new Error(
-      `[ranking-movers] expected at least two comparable, non-backfill AIOIS-10 occupation batches, found ${batches.length}.`,
-    );
-  }
-
-  const baseline = batches[batches.length - 2]!.batch;
-  const candidate = batches[batches.length - 1]!.batch;
-  return { baseline, candidate };
-}
-
-export function assertCandidateMatchesPickLatestScore(
-  candidate: ComparableAioisBatch,
-  runs: readonly ScoreRun[],
-): void {
-  for (const id of candidate.scores.keys()) {
-    const history = runs
-      .filter((run) => run.scope === 'occupations' && run.scores[String(id)] !== undefined)
-      .map((run) => {
-        const entry = run.scores[String(id)]!;
-        return {
-          date: run.run.run_date,
-          model: run.scorer.model,
-          provider: run.scorer.model_provider,
-          backfill: run.run.backfill === true,
-          aiois: entry.aiois ?? null,
-        };
-      });
-    const pick = pickLatestScore(history);
-    if (pick.date !== candidate.date || pick.model !== candidate.model) {
-      throw new Error(
-        `[ranking-movers] latest comparable AIOIS batch ${candidate.model} (${candidate.date}) ` +
-        `does not match pickLatestScore for occupation ${id}: ${pick.model} (${pick.date}).`,
-      );
+export function latestLandedBatch(historyByOcc: ScoreHistoryByOcc): LandedBatch {
+  let date = '';
+  const models = new Set<string>();
+  for (const history of historyByOcc.values()) {
+    for (const entry of history) {
+      if (!isComparable(entry) || entry.date < date) continue;
+      if (entry.date > date) {
+        date = entry.date;
+        models.clear();
+      }
+      models.add(entry.model);
     }
   }
+  if (date === '') {
+    throw new Error('[ranking-movers] no comparable, non-backfill AIOIS-10 occupation score found.');
+  }
+  return { date, models: [...models].sort() };
 }
 
-function compactBatchMeta(batch: ComparableAioisBatch): Omit<ComparableAioisBatch, 'scores' | 'backfill'> {
+function displayedPublicScore(flagship: FlagshipMeanScore): AioisScore {
   return {
-    model: batch.model,
-    date: batch.date,
-    runId: batch.runId,
-    scoreCount: batch.scoreCount,
+    aiRisk: displayScore(flagship.transformation),
+    displacement: displayScore(flagship.displacement),
+    dims: DIM_KEYS.map((key) => displayScore(flagship.dims[key])),
+    confidence: null,
   };
 }
 
@@ -146,43 +106,45 @@ function asMover(
   metric: 'transformation' | 'displacement',
   familyById: ReadonlyMap<number, string>,
 ): RankingMover {
-  if (metric === 'transformation') {
-    return {
-      id: row.id,
-      name: row.title,
-      base: row.baseT,
-      current: row.candT,
-      delta: row.dT,
-      familyCode: familyById.get(row.id) ?? null,
-    };
-  }
+  const isT = metric === 'transformation';
   return {
     id: row.id,
     name: row.title,
-    base: row.baseD,
-    current: row.candD,
-    delta: row.dD,
+    base: isT ? row.baseT : row.baseD,
+    current: isT ? row.candT : row.candD,
+    delta: toTenths(isT ? row.dT : row.dD) / 10,
     familyCode: familyById.get(row.id) ?? null,
   };
 }
 
-export function buildRankingMoversFromPair(
-  baseline: ComparableAioisBatch,
-  candidate: ComparableAioisBatch,
+export function buildRankingMoversFromHistory(
+  historyByOcc: ScoreHistoryByOcc,
   titles: ReadonlyMap<number, string>,
   options: RankingMoversOptions = {},
 ): RankingMovers {
   const topN = options.topN ?? DEFAULT_TOP_N;
   const familyById = options.familyById ?? new Map<number, string>();
-  const report = computeDriftReport(baseline.scores, candidate.scores, titles, {
-    rankThreshold: options.rankThreshold ?? 50,
-    lowConfidence: options.lowConfidence ?? 0.7,
-  });
+  const landed = latestLandedBatch(historyByOcc);
 
+  const before = new Map<number, AioisScore>();
+  const after = new Map<number, AioisScore>();
+  for (const [id, history] of historyByOcc) {
+    const previous = tryPickFlagshipMeanScore(history.filter((entry) => entry.date < landed.date));
+    const current = tryPickFlagshipMeanScore(history);
+    if (!previous || !current) continue;
+    before.set(id, displayedPublicScore(previous));
+    after.set(id, displayedPublicScore(current));
+  }
+  if (before.size === 0) {
+    throw new Error(
+      `[ranking-movers] no occupation has a published score from before the latest batch (${landed.date}).`,
+    );
+  }
+
+  const report = computeDriftReport(before, after, titles, { rankThreshold: 50, lowConfidence: 0.7 });
   return {
     meta: {
-      baseline: compactBatchMeta(baseline),
-      candidate: compactBatchMeta(candidate),
+      landed,
       comparedCount: report.comparedCount,
       meanDriftT: report.meanDriftT,
       meanDriftD: report.meanDriftD,
@@ -198,35 +160,20 @@ export function buildRankingMoversFromPair(
   };
 }
 
-export function buildRankingMoversFromRuns(
-  runs: readonly ScoreRun[],
-  titles: ReadonlyMap<number, string>,
-  options: RankingMoversOptions = {},
-): RankingMovers {
-  const { baseline, candidate } = selectLatestComparableAioisPair(runs);
-  assertCandidateMatchesPickLatestScore(candidate, runs);
-  return buildRankingMoversFromPair(baseline, candidate, titles, options);
-}
-
 export function loadRankingMovers(
   graph: KnowledgeGraph,
   options: Omit<RankingMoversOptions, 'familyById'> = {},
 ): RankingMovers {
-  const runs = strictLoadDir(
-    join(process.cwd(), 'data', 'scores'),
-    (name) => name.endsWith('.json') && !name.startsWith('.'),
-    ScoreRunSchema,
-    'ranking-movers.scores',
-  ).items as ScoreRun[];
-
+  const historyByOcc = new Map<number, ScoreHistEntry[]>();
   const titles = new Map<number, string>();
   const familyById = new Map<number, string>();
   for (const [id, occ] of graph.occupations) {
     const numericId = Number(id);
+    historyByOcc.set(numericId, asScoreHist(graph.scoreHistoryByOcc.get(id) ?? []));
     titles.set(numericId, occ.titleJa);
     const sectorId = graph.sectorOf(id);
     if (sectorId !== null) familyById.set(numericId, String(sectorId));
   }
 
-  return buildRankingMoversFromRuns(runs, titles, { ...options, familyById });
+  return buildRankingMoversFromHistory(historyByOcc, titles, { ...options, familyById });
 }

@@ -440,7 +440,8 @@ const expected = {
   'no-license-required': [11, 9, 7, 5, 12],
   'high-school-ok': [10, 7, 5, 6, 9, 3],
   'university-required': [10, 8, 4, 3, 6],
-  'graduate-school-required': [10, 8, 5, 3, 6, 11],
+  // 院卒 = max(修士, 博士) (#863): 3 (20/10) and 6 (10/20) no longer reach 30.
+  'graduate-school-required': [10, 8, 5, 11],
   'public-sector': [8, 11],
   'freelance-friendly': [10, 7, 5, 9, 3],
   'self-employed-typical': [10, 7, 3, 6, 11],
@@ -528,5 +529,50 @@ test('me-positions build writes a temp payload without touching data/', { timeou
     }
   } finally {
     await rm(dir, { recursive: true, force: true });
+  }
+});
+
+// #864: every AI-impact threshold in the rankings compares the DISPLAYED value,
+// in the public builders and in the RANKERS mirror alike. Raw means such as
+// 7.9667 (prints 8.0) used to fall out of the "8 以上" list.
+test('ranking thresholds compare the displayed value on both sides of the drift guard (#864)', async () => {
+  const { buildCanonicalFullRankings } = await import('./me-positions/universe.js');
+  const base = {
+    workers: 60_000, salary: 600, monthly_hours: 160, average_age: 35, recruit_wage: 25,
+    recruit_ratio: 2.5, demand_band: 'hot' as const, certs: ['A', 'B'], hourly_wage: 2000,
+    education_pct: {}, employment_type: { [EMP.regular]: 80 },
+  };
+  const boundary: Occupation[] = [
+    occupation({ ...base, id: 101, ai_risk: 7.966666666666667, sector_id: 'jimu' }), // 8.0
+    occupation({ ...base, id: 102, ai_risk: 6.966666666666667, sector_id: 'it' }), // 7.0
+    occupation({ ...base, id: 103, ai_risk: 3.0333333333333337, sector_id: 'noringyo' }), // 3.0
+    occupation({ ...base, id: 104, ai_risk: 5.033333333333333, sector_id: 'seizo' }), // 5.0
+    occupation({ ...base, id: 105, ai_risk: 3.9666666666666663, sector_id: 'service' }), // 4.0
+    occupation({ ...base, id: 106, ai_risk: 6.033333333333333, sector_id: 'service' }), // 6.0
+    occupation({ ...base, id: 107, ai_risk: 4.966666666666667, sector_id: 'it' }), // 5.0
+    occupation({ ...base, id: 108, ai_risk: 8.033333333333333, sector_id: 'jimu' }), // 8.0
+  ];
+  const scoredB = boundary.filter((job) => job.ai_risk !== null);
+  const salaryB = boundary.filter((job) => job.salary && job.ai_risk !== null);
+  const views = buildCanonicalFullRankings(boundary);
+  const cases: ReadonlyArray<[RankingSlug, readonly number[], readonly number[]]> = [
+    ['ai-replaced-soon', [101, 108], [102]], // >= 8
+    ['ai-at-risk-but-paid', [101, 102, 108], [106]], // >= 7, salary >= 500
+    ['ai-resistant-craft', [103], [105]], // <= 3, craft sectors
+    ['ai-augmented', [105, 106, 104, 107], [102, 103]], // 4-6
+    ['ai-frontier', [102, 107], []], // it + >= 5
+    ['salary-safe', [103, 104, 105, 107], [106]], // <= 5
+    ['ai-safe-physical', [103, 104], []], // <= 5
+    ['ai-stable-employment', [104, 107], [106]], // <= 5
+    ['regulated-protected', [104, 107], [102]], // certs >= 2, <= 5
+    ['large-workforce-stable', [104, 107], [106]], // <= 5, workers >= 50000
+    ['no-license-required', [], [104]], // certs 0 only
+  ];
+  for (const [slug, included, excluded] of cases) {
+    const view = views.get(slug)!;
+    const mirror = rankIdsForSlug(slug, scoredB, boundary, salaryB);
+    assert.deepEqual(mirror, view, `${slug}: RANKERS mirror == public builder`);
+    for (const id of included) assert.ok(view.includes(id), `${slug} includes ${id}`);
+    for (const id of excluded) assert.ok(!view.includes(id), `${slug} excludes ${id}`);
   }
 });

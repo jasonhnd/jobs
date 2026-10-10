@@ -30,6 +30,13 @@ import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from './skills-meta.js';
 import { COMPARE_META } from './compare-meta.js';
 import { EXPLORE_ROUTES } from './explore-routes.js';
+import {
+  ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS, EDUCATION_CONFIGS, TRAINING_CONFIGS,
+  WORK_STYLES_CONFIGS, EMPLOYMENT_CONFIGS, LIFE_BALANCE_CONFIGS, ENTRY_PATHS_CONFIGS,
+} from './genre-configs.js';
+import { CAREER_PERSONAS } from './careers-meta.js';
+import { LICENSE_HUBS } from './licenses-meta.js';
+import { qaQuestionCount } from './qa-groups.js';
 import type { GenericCardConfig } from '../lib/og-helpers.js';
 import { OCCUPATION_COUNT } from '../site/config.js';
 import type { FamilyCode } from '../site/worktype-copy.js';
@@ -92,10 +99,12 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
     title: '業界別 AI 影響',
     subtitle: `16 業界 ${OCCUPATION_COUNT.SCORED} 職業を業界別にナビゲート`,
   },
+  // Counts come from the lists themselves (#884: these had drifted, e.g.
+  // 「9 視点」 for 39 rankings, 「12 ペア」 for 20 pairs).
   rankings: {
-    eyebrow: 'RANKINGS · 9 視点',
+    eyebrow: `RANKINGS · ${RANKING_META.length} 視点`,
     title: 'AI × 仕事 ランキング',
-    subtitle: '9 視点で見る "変わる仕事" / "変わらない仕事"',
+    subtitle: `${RANKING_META.length} 視点で見る "変わる仕事" / "変わらない仕事"`,
   },
   interests: {
     eyebrow: 'INTERESTS · RIASEC 6 タイプ',
@@ -103,28 +112,28 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
     subtitle: `RIASEC 6 分類で ${OCCUPATION_COUNT.SCORED} 職業を整理`,
   },
   skills: {
-    eyebrow: 'SKILLS · 主要 10 スキル',
+    eyebrow: `SKILLS · 主要 ${SKILL_META.length} スキル`,
     title: 'スキルから職業を探す',
-    subtitle: 'IPD 39 スキル軸から 10 を hub 化',
+    subtitle: `IPD 39 スキル軸から ${SKILL_META.length} を hub 化`,
   },
   compare: {
-    eyebrow: 'COMPARE · 12 ペア',
+    eyebrow: `COMPARE · ${COMPARE_META.length} ペア`,
     title: '職業を比較する',
-    subtitle: '迷いやすい職業 12 ペアを side-by-side で',
+    subtitle: `迷いやすい職業 ${COMPARE_META.length} ペアを side-by-side で`,
   },
   // Phase 3 page cards
-  abilities:        { eyebrow: 'ABILITIES · 8 軸',   title: '能力から職業を探す',       subtitle: 'IPD 52 能力軸から 8 を hub 化' },
-  knowledge:        { eyebrow: 'KNOWLEDGE · 5 軸',   title: '知識から職業を探す',       subtitle: 'IPD 33 知識領域から 5 を hub 化' },
-  values:           { eyebrow: 'VALUES · 6 軸',      title: '価値観から職業を探す',     subtitle: 'IPD 12 価値観軸から 6 を hub 化' },
-  education:        { eyebrow: 'EDUCATION · 6 段階', title: '学歴から職業を探す',       subtitle: `学歴別 6 段階で ${OCCUPATION_COUNT.SCORED} 職業を分類` },
-  training:         { eyebrow: 'TRAINING · 4 段階',  title: '修行期間から職業を探す',   subtitle: '入職後 4 段階の修行期間別' },
-  'work-styles':    { eyebrow: 'WORK-STYLE · 6 軸',  title: '働き方から職業を探す',     subtitle: '業務形態 6 軸で分類' },
-  'employment-types': { eyebrow: 'EMPLOY · 4 軸',   title: '雇用形態から職業を探す',   subtitle: '正社員/フリー/パート/公務員' },
-  'life-balance':   { eyebrow: 'LIFE · 5 軸',        title: 'ライフ整合から職業を探す', subtitle: '育児・介護・健康・趣味との両立' },
-  'entry-paths':    { eyebrow: 'ENTRY · 4 軸',       title: '入職経路から職業を探す',   subtitle: '新卒/中途/バイト/独立' },
-  careers:          { eyebrow: 'CAREER · 10 persona', title: 'キャリア段階から探す',   subtitle: '10 persona 別おすすめ職業' },
-  licenses:         { eyebrow: 'LICENSE · 15 カテゴリー', title: '資格から職業を探す', subtitle: '15 資格カテゴリー別の関連職業' },
-  qa:               { eyebrow: 'Q&A · 49 個',        title: 'よくある質問',            subtitle: 'AI 時代のキャリア 49 質問に回答' },
+  abilities:        { eyebrow: `ABILITIES · ${ABILITIES_CONFIGS.length} 軸`,   title: '能力から職業を探す',       subtitle: `IPD 52 能力軸から ${ABILITIES_CONFIGS.length} を hub 化` },
+  knowledge:        { eyebrow: `KNOWLEDGE · ${KNOWLEDGE_CONFIGS.length} 軸`,   title: '知識から職業を探す',       subtitle: `IPD 33 知識領域から ${KNOWLEDGE_CONFIGS.length} を hub 化` },
+  values:           { eyebrow: `VALUES · ${VALUES_CONFIGS.length} 軸`,      title: '価値観から職業を探す',     subtitle: `IPD 12 価値観軸から ${VALUES_CONFIGS.length} を hub 化` },
+  education:        { eyebrow: `EDUCATION · ${EDUCATION_CONFIGS.length} 段階`, title: '学歴から職業を探す',       subtitle: `学歴別 ${EDUCATION_CONFIGS.length} 段階で ${OCCUPATION_COUNT.SCORED} 職業を分類` },
+  training:         { eyebrow: `TRAINING · ${TRAINING_CONFIGS.length} 段階`,  title: '修行期間から職業を探す',   subtitle: `入職後 ${TRAINING_CONFIGS.length} 段階の修行期間別` },
+  'work-styles':    { eyebrow: `WORK-STYLE · ${WORK_STYLES_CONFIGS.length} 軸`,  title: '働き方から職業を探す',     subtitle: `業務形態 ${WORK_STYLES_CONFIGS.length} 軸で分類` },
+  'employment-types': { eyebrow: `EMPLOY · ${EMPLOYMENT_CONFIGS.length} 軸`,   title: '雇用形態から職業を探す',   subtitle: '正社員/フリー/パート/公務員' },
+  'life-balance':   { eyebrow: `LIFE · ${LIFE_BALANCE_CONFIGS.length} 軸`,        title: 'ライフ整合から職業を探す', subtitle: '育児・介護・健康・趣味との両立' },
+  'entry-paths':    { eyebrow: `ENTRY · ${ENTRY_PATHS_CONFIGS.length} 軸`,       title: '入職経路から職業を探す',   subtitle: '新卒/中途/バイト/独立' },
+  careers:          { eyebrow: `CAREER · ${CAREER_PERSONAS.length} persona`, title: 'キャリア段階から探す',   subtitle: `${CAREER_PERSONAS.length} persona 別おすすめ職業` },
+  licenses:         { eyebrow: `LICENSE · ${LICENSE_HUBS.length} カテゴリー`, title: '資格から職業を探す', subtitle: `${LICENSE_HUBS.length} 資格カテゴリー別の関連職業` },
+  qa:               { eyebrow: `Q&A · ${qaQuestionCount()} 個`,        title: 'よくある質問',            subtitle: `AI 時代のキャリア ${qaQuestionCount()} 質問に回答` },
   'about-trust':    { eyebrow: 'ABOUT',              title: '方法論・信頼性',          subtitle: '本サイトの分析方法を全公開' },
   methodology:      { eyebrow: 'METHOD',             title: 'AI 影響度評価の方法論',   subtitle: 'AIOIS-10 採点ロジック詳細' },
   glossary:         { eyebrow: 'GLOSSARY',           title: '用語集',                  subtitle: '本サイト独自用語の定義' },

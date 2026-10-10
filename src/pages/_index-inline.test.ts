@@ -30,14 +30,32 @@ test('home reapplies only the latest queued query before the loaded treemap is r
 
 test('home shows one decimal everywhere a score is printed, via fmtRisk (design-1.21)', () => {
   // The treemap tile sub-info and the TOP10 pill both go through fmtRisk.
-  assert.match(source, /const scoreLabel = \(rec\.ai_risk != null\) \? fmtRisk\(rec\.ai_risk\) : "—";/);
+  assert.match(source, /const scoreLabel = \(rec\.ai_risk != null\) \? \(fmtRisk\(rec\.ai_risk\) \+ "\/10 " \+ riskBandWord\(rec\.ai_risk\)\) : "—";/);
   // The hover tooltip's AI リスク row (was `d.ai_risk + "/10"` — 4.266666666666667/10 on screen).
-  assert.match(source, /\? fmtRisk\(d\.ai_risk\) \+ "\/10" \+ \(riskPctTop/);
+  assert.match(source, /\? fmtRisk\(d\.ai_risk\) \+ "\/10 " \+ riskBandWord\(d\.ai_risk\) \+ \(riskPctTop/);
   assert.doesNotMatch(source, /[^t]\bd\.ai_risk \+ "\/10"/);
   assert.doesNotMatch(source, /score\.toFixed\(1\)/);
   // The dead raw-float spans are gone (they only ever hid behind :has()).
   assert.doesNotMatch(source, /class="num"/);
   assert.doesNotMatch(source, /class="denom"/);
+});
+
+test('home weighted average labels that displayed score', () => {
+  assert.match(source, /const shownAvg = Number\(fmtRisk\(wAvg\)\)\.toFixed\(1\);/);
+  assert.match(source, /<span class="stat-score">\$\{escapeHtml\(shownAvg\)\}\/10<\/span>/);
+  assert.match(source, /<span class="stat-band">\$\{escapeHtml\(riskBandWord\(wAvg\)\)\}<\/span>/);
+  assert.doesNotMatch(source, /toFixed\(1\) \+ " \/ 10"/);
+  assert.doesNotMatch(source, /toFixed\(1\) \+ "\/10 " \+ riskBandWord\(wAvg\)/);
+  const start = source.indexOf('function fmtRisk(v) {');
+  const end = source.indexOf('function gaRiskTier(v) {', start);
+  assert.ok(start > 0 && end > start);
+  const label = new Function(
+    `${source.slice(start, end)}\nreturn (v) => Number(fmtRisk(v)).toFixed(1) + "/10 " + riskBandWord(v);`,
+  )() as (v: number) => string;
+  assert.equal(label(4.866666666666666), '4.9/10 変化 中くらい');
+  assert.equal(label(3.933333333333333), '3.9/10 変化 小さい');
+  assert.equal(label(3.9666666666666663), '4.0/10 変化 中くらい');
+  assert.equal(label(6.966666666666667), '7.0/10 変化 大きい');
 });
 
 test('home fmtRisk is banker\'s rounding over the exact double, like displayScore() (design-1.21)', () => {
@@ -88,4 +106,96 @@ test('home treemap labels take the per-band foreground from :root (§2.3 タイ�
   assert.match(source, /ctx\.fillStyle = labelFg;/);
   assert.doesNotMatch(source, /rgba\(255,255,255,0\.92\)/);
   assert.doesNotMatch(source, /rgba\(255,255,255,0\.55\)/);
+});
+
+test('home search never falls back to treemap rows, so aliases keep matching (#884)', () => {
+  const start = source.indexOf('function searchRows() {');
+  const body = source.slice(start, source.indexOf('}', start));
+  assert.doesNotMatch(body, /: data/);
+  assert.match(source, /function ensureSearchData\(\) \{\n\s+if \(searchDataLoaded\) return Promise\.resolve\(searchData\);/);
+});
+
+test('home tooltip percentile: the top occupation is 上位 1%, never 上位 0% (#884)', () => {
+  const start = source.indexOf('function pctTop(v, arr) {');
+  assert.ok(start > 0, 'pctTop not found');
+  const end = source.indexOf('\n      }\n', start) + '\n      }'.length;
+  const pctTop = new Function(`${source.slice(start, end)}; return pctTop;`)() as (v: unknown, arr: number[]) => number | null;
+  const arr = Array.from({ length: 556 }, (_, i) => i / 10);
+  assert.equal(pctTop(arr[555], arr), 1);
+  assert.equal(pctTop(arr[0], arr), 100);
+  assert.equal(pctTop(2, [1, 2, 2, 3]), 75);
+  assert.equal(pctTop(null, arr), null);
+  assert.equal(pctTop(1, []), null);
+  assert.doesNotMatch(source, /100 - pctRank\(/);
+});
+
+test('home ?q= reaches GA4 only through sanitizeSearchQuery (#884)', () => {
+  const start = source.indexOf('function handleSearchActionQuery() {');
+  const end = source.indexOf('// Chip click', start);
+  const body = source.slice(start, end);
+  assert.doesNotMatch(body, /query: query\.slice\(0, 100\)/);
+  assert.equal(body.match(/query: sanitizeSearchQuery\(query\)/g)?.length, 2);
+});
+
+test('home ?q= is still copied into the search box when data.search.json fails (#884)', () => {
+  const start = source.indexOf('function handleSearchActionQuery() {');
+  const end = source.indexOf('// Chip click', start);
+  const body = source.slice(start, end);
+  const catchAt = body.indexOf('.catch(err => {');
+  assert.ok(catchAt > 0);
+  assert.match(body.slice(catchAt, catchAt + 300), /prefillSearchInputs\(query\)/);
+});
+
+test('home keeps #loadingState until the treemap has rendered, so showError can use it (#884)', () => {
+  const start = source.indexOf('function finishDesktopTreemapLoad(rows) {');
+  const end = source.indexOf('function loadDesktopTreemap()', start);
+  const body = source.slice(start, end);
+  const removeAt = body.indexOf('ls.remove()');
+  const resizeAt = body.indexOf('resize();');
+  assert.ok(removeAt > resizeAt && resizeAt > 0, 'loading state must be removed after resize()');
+});
+
+// Runs the real search loader + ?q= handler against a stubbed fetch/DOM.
+async function runSearchActionWith(payload: unknown, query = '看護') {
+  const start = source.indexOf('function normalizeSearchDoc(rec) {');
+  const end = source.indexOf('// Chip click — direct nav', start);
+  assert.ok(start > 0 && end > start, 'search block not found');
+  let fetches = 0;
+  let handled = 0;
+  const inputs: Record<string, { value: string; dispatchEvent: () => void; focus: () => void }> = {};
+  for (const id of ['searchInputDesktop', 'searchInputMobile', 'searchInput']) inputs[id] = { value: '', dispatchEvent: () => undefined, focus: () => undefined } as never;
+  const fetchStub = async () => { fetches++; return { ok: true, json: async () => payload }; };
+  const windowStub = {
+    location: { search: `?q=${encodeURIComponent(query)}`, replace: () => undefined, href: '' },
+    matchMedia: () => ({ matches: false }),
+  };
+  const documentStub = { getElementById: (id: string) => inputs[id] ?? null };
+  const harness = new Function('fetch', 'window', 'document', 'Event', 'onHandle',
+    `let searchData = []; let searchDataPromise = null; let searchDataLoaded = false;
+     const lang = 'ja'; const occUrl = (r) => '/' + r.id; const sanitizeSearchQuery = (q) => q;
+     ${source.slice(start, end)}
+     const original = handleSearchActionQuery;
+     handleSearchActionQuery = function () { onHandle(); if (onHandle.count > 50) throw new Error('LOOP'); return original(); };
+     return { run: () => handleSearchActionQuery(), ensure: ensureSearchData };`);
+  const onHandle = Object.assign(() => { handled++; (onHandle as unknown as { count: number }).count = handled; }, { count: 0 });
+  const api = harness(fetchStub, windowStub, documentStub, class { constructor(public type: string) {} }, onHandle);
+  api.run();
+  for (let i = 0; i < 20; i++) await new Promise((r) => setTimeout(r, 0));
+  await api.ensure();
+  return { fetches, handled, prefilled: inputs.searchInputDesktop!.value };
+}
+
+test('home ?q= with an empty search projection stops after one load instead of looping (#884)', async () => {
+  for (const payload of [{ documents: [] }, [], { nope: 1 }]) {
+    const r = await runSearchActionWith(payload);
+    assert.equal(r.fetches, 1, `fetches for ${JSON.stringify(payload)}`);
+    assert.ok(r.handled <= 2, `handler re-entered ${r.handled} times for ${JSON.stringify(payload)}`);
+    assert.equal(r.prefilled, '看護', 'query still copied into the search box');
+  }
+});
+
+test('home ?q= with real documents still prefills partial matches', async () => {
+  const r = await runSearchActionWith({ documents: [{ id: 1, name_ja: '看護師', aliases_ja: [] }] });
+  assert.equal(r.fetches, 1);
+  assert.equal(r.prefilled, '看護');
 });
