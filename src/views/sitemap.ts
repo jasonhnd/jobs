@@ -287,7 +287,9 @@ export function buildSitemapEntries(
 
   // Per-occupation detail pages
   for (const id of occupationIds) {
-    entries.push(entry(`${SITE_ORIGIN}${occupationPath(id)}`, lastmods.content, 'weekly', '0.6'));
+    for (const edition of ['ordinary', 'pro'] as const) {
+      entries.push(entry(`${SITE_ORIGIN}${occupationPath(id, edition)}`, lastmods.content, 'weekly', '0.6'));
+    }
   }
 
   return entries;
