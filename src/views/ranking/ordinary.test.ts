@@ -39,4 +39,3 @@ test('missing metrics and zero values are distinct; rounded band boundaries matc
   }
   assert.equal(buildOrdinaryRankingView({ ...result, items: [{ ...o, ai_risk: null }] }).rows[0]!.score, '—');
 });
-
