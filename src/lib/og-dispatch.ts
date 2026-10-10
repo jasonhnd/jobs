@@ -33,6 +33,7 @@ import {
   WORKTYPE_CARDS,
   type WorktypeCardConfig,
 } from '../views/og-cards.js';
+import { ORDINARY_RANKING_COPY as ordinaryCopy, ORDINARY_RANKING_LEADS, isOrdinaryRankingSlug } from '../site/ordinary-ranking-copy.js';
 import { type GenericCardConfig } from './og-helpers.js';
 import {
   GAP,
@@ -160,7 +161,18 @@ export function decideDispatch(
   // has a fixed lookup table built from a single source of truth in
   // src/views/ (PAGE_CARDS hand-maintained; the rest derived from their
   // *_META / EXPLORE_ROUTES modules).
+  if (pageParam === 'rankings' && url.searchParams.get('edition') === 'ordinary') {
+    return { kind: 'render-generic', config: { eyebrow: 'RANKINGS · 8 視点', title: ordinaryCopy.indexTitle, subtitle: ordinaryCopy.indexLead } };
+  }
   if (pageParam) return generic(catalog.page, pageParam);
+  if (rankingParam && url.searchParams.get('edition') === 'ordinary' && isOrdinaryRankingSlug(rankingParam)) {
+    const card = generic(catalog.ranking, rankingParam);
+    if (card.kind !== 'render-generic' || !Object.hasOwn(catalog.ranking, rankingParam)) return card;
+    return { kind: 'render-generic', config: { ...card.config,
+      title: rankingParam === 'ai-risk-high' ? ordinaryCopy.highTitle : card.config.title,
+      subtitle: ORDINARY_RANKING_LEADS[rankingParam],
+    } };
+  }
   if (rankingParam) return generic(catalog.ranking, rankingParam);
   if (interestParam) return generic(catalog.interest, interestParam);
   if (skillParam) return generic(catalog.skill, skillParam);
