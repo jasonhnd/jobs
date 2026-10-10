@@ -320,7 +320,10 @@ test('shared bindings preserve both editions at rounding and float boundaries', 
     const rec = { ai_risk: score, aiois: score === null ? null : { d1: score, d2: score, d3: score, d4: score, d5: score, d6: score, d7: score, d8: score, d9: score, d10: score, transformation: score, displacement: score } };
     const { jsonLd: oldLd, ...ordinary } = page(rec);
     const { jsonLd: proLd, ...pro } = page(rec, { edition: 'pro' });
-    assert.deepEqual(pro, ordinary);
+    assert.equal(pro.canonical, ordinary.canonical.replace(/\/(\d+)$/, '/pro/$1'));
+    const { canonical: _proCanonical, ...proContent } = pro;
+    const { canonical: _ordinaryCanonical, ...ordinaryContent } = ordinary;
+    assert.deepEqual(proContent, ordinaryContent);
     const entity = (payload: string) => JSON.parse(payload)['@graph'].find((n: { '@type': string }) => n['@type'] === 'Occupation');
     assert.deepEqual(entity(proLd), entity(oldLd));
   }

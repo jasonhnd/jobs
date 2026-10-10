@@ -4,13 +4,13 @@ import manifest from '../../docs/pro-split/route-manifest.json';
 import { occupationRoute, rankingRoute, editionHref, editionHtmlLinks } from './route-policy';
 import { occupationPath, occupationCanonicalUrl, occupationUrl, rankingUrl, rankingCanonicalUrl } from '../lib/urls';
 
-describe('stage 1B edition routing', () => {
+describe('stage 2 occupations / stage 1B edition routing', () => {
   test('occupation 404 has independent page and stable ordinary canonical URLs', () => {
     expect(occupationPath(404)).toBe('/occupations/404');
     expect(occupationPath(404, 'pro')).toBe('/pro/404');
-    assert.deepEqual(occupationRoute(404, 'pro'), { pagePath: '/pro/404', canonicalPath: '/occupations/404', noindex: false, sitemap: false, ordinarySwitchPath: '/occupations/404' });
+    assert.deepEqual(occupationRoute(404, 'pro'), { pagePath: '/pro/404', canonicalPath: '/pro/404', noindex: false, sitemap: true, ordinarySwitchPath: '/occupations/404' });
     expect(occupationUrl(428, 'pro')).toBe('https://mirai-shigoto.com/pro/428');
-    expect(occupationCanonicalUrl(428, 'pro')).toBe('https://mirai-shigoto.com/428');
+    expect(occupationCanonicalUrl(428, 'pro')).toBe('https://mirai-shigoto.com/pro/428');
     for (const invalid of [0, -1, 0.3, NaN, Infinity]) expect(() => occupationRoute(invalid, 'pro')).toThrow();
   });
   test('all 39 copies use final canonical policy, including 31 migrations', () => {
@@ -73,5 +73,26 @@ test('Pro JSON-LD adaptation preserves consolidated ranking page identities and 
     assert.equal(nodes[1].itemListElement[0].item, 'https://mirai-shigoto.com/pro/rankings');
     assert.equal(nodes[1].itemListElement[1].item, canonical);
     assert.equal(nodes[2].itemListElement[0].url, 'https://mirai-shigoto.com/pro/428');
+  }
+});
+
+test('stage 2 occupation indexing coexists with final stage 1B research and ranking addresses', async () => {
+  const { buildSitemapEntries } = await import('../views/sitemap');
+  const graph = { sectors: new Map(), occupations: new Map([[404, {}], [428, {}]]) } as unknown as import('../graph').KnowledgeGraph;
+  const paths = buildSitemapEntries(graph, '2026-10-01').map(row => new URL(row.loc).pathname);
+  for (const id of [404, 428]) {
+    for (const edition of ['ordinary', 'pro'] as const) {
+      const route = occupationRoute(id, edition);
+      expect(route.canonicalPath).toBe(route.pagePath);
+      expect(route.sitemap).toBe(true);
+      expect(paths.filter(path => path === route.pagePath).length).toBe(1);
+    }
+  }
+  expect(paths).toContain('/pro/skills');
+  expect(paths).not.toContain('/skills');
+  expect(paths).not.toContain('/pro/rankings');
+  for (const row of manifest.rankings) {
+    expect(paths.includes(row.proCanonical)).toBe(!row.noindex);
+    expect(editionHref(row.oldPath + '?me=428#content', 'ordinary')).toBe((row.ordinaryPath ?? row.proPath) + '?me=428#content');
   }
 });

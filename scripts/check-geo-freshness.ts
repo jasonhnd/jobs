@@ -437,15 +437,15 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   const occupation = facts.occupations[0];
   if (!occupation) fail('no GEO occupation facts available for rendered occupation check');
   requireBlock(
-    `dist-astro/${occupation.id}.html`,
+    `dist-astro/pro/${occupation.id}.html`,
     renderAiFactParagraph(buildOccupationGeoFactSummary({ facts, occupationId: occupation.id })),
   );
   requireBlock(
-    `dist-astro/${occupation.id}.html`,
+    `dist-astro/pro/${occupation.id}.html`,
     `<details class="faq-item faq-ai-replacement"><summary>${occupation.nameJa}はAIでなくなる・AIに代替される仕事ですか？</summary>`,
   );
   requireBlock(
-    `dist-astro/${occupation.id}.html`,
+    `dist-astro/pro/${occupation.id}.html`,
     `GEO-AではAI影響度が10段階中 ${occupation.aiImpact.toFixed(1)} で`,
   );
 
