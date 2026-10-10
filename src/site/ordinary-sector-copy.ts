@@ -1,4 +1,4 @@
-/** Unsigned stage-4 candidates: the owner signs templates before merge. */
+/** Owner signed 2026-10-10, decision d1009-232009-1: stage-4 templates. */
 import { riskBandWord, riskClass } from '../lib/risk';
 
 export function ordinarySectorCopy(name: string, count: number, mean: number | null) {

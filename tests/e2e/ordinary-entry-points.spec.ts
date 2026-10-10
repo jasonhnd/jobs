@@ -27,6 +27,13 @@ for (const width of [1440, 768, 375]) {
     expect(await page.locator('.footer-nav a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')))).toEqual(ordinary);
     await expect(page.locator('.footer-legal a[href="/about"]')).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    // Stage 3 (#902) reduces the ordinary index; Pro keeps the full inventory.
+    await page.locator('.footer-nav a[href="/rankings"]').click();
+    await expect(page).toHaveURL(/\/rankings$/);
+    await expect(page.locator('.ordinary-ranking-card')).toHaveCount(8);
+    await page.locator('[data-pro-cta] a[href="/pro/rankings"]').click();
+    await expect(page).toHaveURL(/\/pro\/rankings$/);
+    await expect(page.locator('.ranking-cards li a')).toHaveCount(39);
   });
 }
 
