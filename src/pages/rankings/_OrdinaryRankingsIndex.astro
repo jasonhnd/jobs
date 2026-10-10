@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
+import { buildRankings, loadOccupationsFromGraph } from '@/views/ranking';
+import { buildOrdinaryRankingView } from '@/views/ranking/ordinary';
+import { loadGraph } from '@/graph';
+import { siteConfig } from '@/site/config';
+import { ORDINARY_RANKING_SLUGS, ORDINARY_RANKING_COPY as copy } from '@/site/ordinary-ranking-copy';
+import { renderOrdinaryRankingIndexJsonLd } from '@/templates/OrdinaryRanking';
+import { ORDINARY_RANKING_CSS } from './_ordinary-ranking-css';
+const graph = await loadGraph();
+const { results } = buildRankings(() => loadOccupationsFromGraph(graph));
+const cards = ORDINARY_RANKING_SLUGS.map(slug => buildOrdinaryRankingView(results.get(slug)!));
+const canonical = `${siteConfig.origin}/rankings`;
+const jsonLd = renderOrdinaryRankingIndexJsonLd(copy.indexTitle, copy.indexLead, cards);
+---
+<BaseLayout title={copy.indexTitle} description={copy.indexLead} canonical={canonical}
+  ogImage={`${siteConfig.origin}/api/og?page=rankings&edition=ordinary`} ogTitle={copy.indexTitle} ogDescription={copy.indexLead}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={CANONICAL_HUB_CSS + ORDINARY_RANKING_CSS} />
+  <div id="wrapper" class="ordinary-rankings">
+    <nav class="crumb" aria-label="パンくずリスト"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>ランキング</span></nav>
+    <header id="content">
+      <h1>{copy.indexTitle}</h1>
+      <p class="ordinary-lead">{copy.indexLead}</p>
+      <p class="ordinary-score-reading">{copy.indexScoreReading}</p>
+      <a class="ordinary-search" href="/me" data-track-event="me_entry_click" data-entry-source="rankings" data-occupation-id="0">{copy.search}</a>
+    </header>
+    <ul class="ordinary-ranking-cards">
+      {cards.map(card => <li><a class="ordinary-ranking-card" href={`/rankings/${card.slug}`}><h2>{card.h1}</h2><p>{card.lead}</p></a></li>)}
+    </ul>
+    <p data-pro-cta><a href="/pro/rankings">{copy.allPro}</a></p>
+    <Footer />
+  </div>
+</BaseLayout>

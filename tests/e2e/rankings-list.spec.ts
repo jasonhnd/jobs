@@ -21,7 +21,7 @@ async function openConsentDecided(
 }
 
 test('390×844 first screen shows H1, summary, and rows 1–4', async ({ page }) => {
-  await openConsentDecided(page, '/rankings/ai-risk-high', 390, 844);
+  await openConsentDecided(page, '/pro/rankings/ai-risk-high', 390, 844);
 
   const h1 = page.locator('h1').filter({ visible: true }).first();
   await expect(h1).toBeVisible();
@@ -58,7 +58,7 @@ test('salary ranking still renders salary extras in the row', async ({ page }) =
 });
 
 test('folded chapter exists and desktop helper opens it at 1280', async ({ page }) => {
-  await openConsentDecided(page, '/rankings/ai-risk-high', 1280, 800);
+  await openConsentDecided(page, '/pro/rankings/ai-risk-high', 1280, 800);
   const chap = page.locator('details.chap');
   await expect(chap).toHaveCount(1);
   await expect(chap.locator('summary')).toHaveText('このランキングの読み方・出典');

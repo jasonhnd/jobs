@@ -88,15 +88,17 @@ describe('stage 2 occupations / stage 1B rendered Pro contract', { skip: !ready 
       }
     }
   });
-  test('duplicate ranking indexes consolidate until ordinary content changes, with shared 39-card content preserved', () => {
-    const canonical = 'https://mirai-shigoto.com/rankings';
-    const pro = html('/pro/rankings');
-    assert.ok(pro.includes(`<link rel="canonical" href="${canonical}">`));
-    assert.equal(jsonld(pro).find(n => n['@type'] === 'WebPage')?.url, canonical);
-    assert.ok(!readFileSync(join(dist, 'sitemap.xml'), 'utf8').includes('<loc>https://mirai-shigoto.com/pro/rankings</loc>'));
-    for (const path of ['/rankings','/pro/rankings']) {
-      const cards = [...html(path).matchAll(/<ul class="ranking-cards">([\s\S]*?)<\/ul>/g)].flatMap(m => [...m[1]!.matchAll(/<li\b/g)]);
-      assert.equal(cards.length, 39, path);
+  test('stage-3 indexes have independent canonicals, with eight ordinary and 39 Pro cards', () => {
+    for (const [path, count] of [['/rankings', 8], ['/pro/rankings', 39]] as const) {
+      const text = html(path);
+      const canonical = `https://mirai-shigoto.com${path}`;
+      assert.ok(text.includes(`<link rel="canonical" href="${canonical}">`));
+      assert.equal(jsonld(text).find(n => n['@type'] === 'WebPage')?.url, canonical);
+      assert.ok(readFileSync(join(dist, 'sitemap.xml'), 'utf8').includes(`<loc>${canonical}</loc>`));
+      const cards = path === '/rankings'
+        ? [...text.matchAll(/class="ordinary-ranking-card"/g)]
+        : [...text.matchAll(/<ul class="ranking-cards">([\s\S]*?)<\/ul>/g)].flatMap(m => [...m[1]!.matchAll(/<li\b/g)]);
+      assert.equal(cards.length, count, path);
     }
   });
   test('latest HAID permalink canonical and structured data consolidate to current entrance; older reports self-canonicalize', () => {

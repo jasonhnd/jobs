@@ -490,3 +490,18 @@ describe('decideDispatch — type discipline', () => {
     assert.equal(KNOWN_KINDS.length, 5, 'expected 5 dispatch kinds');
   });
 });
+
+test('ordinary ranking sample has edition-specific AI-high and eight-view OG copy; Pro/default stays unchanged', () => {
+  const config = (query: string) => {
+    const decision = decideDispatch(new URL('https://example.test/api/og?' + query));
+    if (decision.kind !== 'render-generic') throw new Error('Expected generic ranking card');
+    return decision.config;
+  };
+  assert.equal(config('ranking=ai-risk-high&edition=ordinary').title, 'AIで大きく変わる仕事 TOP30');
+  assert.equal(config('ranking=ai-risk-high').title, 'AIに奪われる仕事 TOP30');
+  assert.deepEqual(config('ranking=ai-risk-high&edition=pro'), config('ranking=ai-risk-high'));
+  assert.equal(config('page=rankings&edition=ordinary').eyebrow, 'RANKINGS · 8 視点');
+  assert.equal(config('page=rankings').eyebrow, 'RANKINGS · 39 視点');
+  assert.deepEqual(config('page=home&edition=ordinary'), config('page=home'));
+  assert.deepEqual(config('ranking=entry-salary&edition=ordinary'), config('ranking=entry-salary'));
+});

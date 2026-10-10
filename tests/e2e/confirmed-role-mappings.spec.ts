@@ -42,7 +42,8 @@ const cases: readonly { url: string; consumers: readonly Consumer[] }[] = [
   { url: '/pro/interests', consumers: [crumb, ['.iri-name', title]] },
   { url: '/pro/interests/realistic', consumers: [crumb, ['.related-interests .ri-name', list]] },
   { url: '/pro/careers', consumers: [crumb, ['.gci-name', title]] },
-  { url: '/rankings', consumers: [crumb, ['.rr-title', title], ['.ranking-group-title', title], ['.mover-name', { ...list, px: '14px', colour: '--ink' }]] },
+  { url: '/pro/rankings', consumers: [crumb, ['.rr-title', title], ['.ranking-group-title', title], ['.mover-name', { ...list, px: '14px', colour: '--ink' }]] },
+  { url: '/rankings', consumers: [crumb, ['.ordinary-ranking-card h2', { family: 'serif', px: '22px', colour: '--ink' }]] },
   // Shared occupation cards are already sans700/18px; do not flatten them to the inactive index-page list style.
   { url: '/rankings/ai-risk-low', consumers: [['.rank-list .rl-name', title]] },
   { url: '/pro/compare/kango-vs-helper', consumers: [['.duel-name', { family: 'sans', weight: '700', px: '16px' }], ['.related-compares .rc-title', { ...list, px: '14px' }]] },

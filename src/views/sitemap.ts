@@ -195,7 +195,8 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/llms-full.txt`, lastmods.content, 'monthly', '0.2'));
 
   entries.push(entry(`${SITE_ORIGIN}/pro`, lastmods.content, 'weekly', '0.8'));
-  // The Pro index still duplicates all 39 cards until the separate ordinary simplification.
+  // Stage 3: the complete Pro index differs from the eight-card ordinary index.
+  entries.push(entry(`${SITE_ORIGIN}/pro/rankings`, lastmods.content, 'weekly', '0.8'));
 
   // Rankings cluster
   entries.push(entry(`${SITE_ORIGIN}/rankings`, lastmods.content, 'weekly', '0.8'));
