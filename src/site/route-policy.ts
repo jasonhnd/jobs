@@ -18,8 +18,10 @@ export interface RankingRoutePolicy extends RoutePolicy {
 }
 
 export const PRO_RANKINGS = manifest.rankings;
-/** Both indexes retain 39 cards until stage 3, so only the ordinary URL is canonical. */
-export const RANKINGS_INDEX_CANONICAL_PATH = '/rankings';
+/** Stage 3: the eight-card ordinary index and complete Pro index are distinct. */
+export function rankingIndexCanonicalPath(edition: Edition = 'ordinary'): string {
+  return edition === 'pro' ? '/pro/rankings' : '/rankings';
+}
 const rankings = new Map(PRO_RANKINGS.map(row => [row.slug, row]));
 export const MIGRATED_FAMILIES = new Set(manifest.pageTemplates
   .filter(row => row.oldStatus === 301)
@@ -79,7 +81,7 @@ export function editionJsonLd(json: string, edition: Edition): string {
         return (absolute ? siteConfig.origin : '') + rankingRoute(ranking[1]!, edition).canonicalPath + suffix;
       }
       if (path === '/rankings' || path === '/pro/rankings') {
-        return (absolute ? siteConfig.origin : '') + RANKINGS_INDEX_CANONICAL_PATH + suffix;
+        return (absolute ? siteConfig.origin : '') + rankingIndexCanonicalPath(edition) + suffix;
       }
     }
     return editionHref(href, edition);

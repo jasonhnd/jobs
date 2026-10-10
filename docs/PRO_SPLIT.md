@@ -119,7 +119,7 @@ outlive code rollback; rollback planning must keep final Pro targets reachable.
 | Stage 1A duplicate Pro occupations and rankings | Corresponding ordinary old URL: occupations `/<id>` (ID404 `/occupations/404`), rankings `/rankings/<slug>` | Ordinary canonical URLs only; no duplicate Pro entries |
 | Stage 2 genuinely simplified ordinary occupation and complete Pro occupation | Each edition self-canonical | Both editions |
 | Stage 1B onward: eight rankings with equivalent ordinary/Pro tables | Ordinary self; Pro points to ordinary | Ordinary only |
-| Stage 1B: ranking indexes still share the complete 39-card content | Ordinary self; Pro index points to ordinary | Ordinary index only until stage 3 |
+| Stage 3: simplified eight-card ordinary index and complete 39-card Pro index | Each index self-canonical | Both indexes |
 | Latest HAID report entrance and its permanent archive URL | Entrance self; latest archive points to entrance | Entrance only; earlier self-canonical archives stay eligible |
 | Eight Pro rankings after separately verified substantial independent analysis | Each edition may self-canonical after content review | Both if indexable |
 | After authorized stage 1B migration: 31 rankings and other complete pages | Final Pro URL self-canonical; never old 301 URL | Final indexable canonical URLs, preserving existing family eligibility |
@@ -494,3 +494,34 @@ Public Japanese summary templates and the plain-language conclusion used in
 meta/OG descriptions were owner-signed (d1009-202854-1, as recorded in the
 JOB_0237 brief). No workflow, analytics-script or Vercel state change is included;
 local renders do not prove deployment or indexing.
+
+## Stage 3 ordinary ranking implementation (JOB_0231 / Issue #901)
+
+The ordinary index now selects exactly eight retained rankings. Each ordinary
+ranking uses the existing ordered result and graph data, exposes its actual
+ranking metric plus the shared displayed AI-change score/band, and links to
+`/me` and the full matching Pro page. Pro ranking bodies, the 39-entry registry,
+and all sorting/filtering remain unchanged. The index becomes self-canonical
+at `/pro/rankings` and enters the sitemap because the two indexes now differ;
+the eight equivalent ranked detail tables retain their consolidated canonicals.
+
+Salary-safe filters by the **displayed score <=5**, which can include the
+signed middle band; it does not filter at the <4 band boundary. High-demand
+sorts by demand tier, then salary descending, then occupation ID. Hourly wage
+is the existing graph projection of recruitment monthly wage divided by 160
+hours, not observed hourly pay. Missing values stay missing.
+
+The exact public Japanese is **Owner signed 2026-10-10, decision
+d1009-221958-1 (option A)**. Exact old-to-new strings and
+three-width local screenshot paths are recorded in the
+[ordinary-ranking signature package](pro-split/ordinary-ranking-signature.md).
+Independent review is required before supervisor merge;
+production promotion, advertisement-copy changes and deployment verification
+are separate tasks. No navigation, redirects or analytics scripts are changed.
+
+Stage 2/3 integration (JOB_0242): merge preview's occupation summaries into
+PR #902 without rewriting its history. Regenerate the complete SEO baseline
+from preview's inputs with both stages present. The occupation-route gate now
+requires the distinct Pro ranking index exactly once in the main sitemap and
+keeps it out of the ordinary-only image sitemap; the stage 2 occupation paths,
+summary schema and legacy-anchor checks remain enforced.

@@ -64,9 +64,10 @@ for (const row of manifest.rankings) {
   const crumb = nodes.find(n => n['@type'] === 'BreadcrumbList');
   if (crumb?.itemListElement.at(-1)?.item!==origin+row.proCanonical) throw new Error(`Ranking breadcrumb canonical ${row.slug}`);
 }
+if (!locs.includes(origin+'/pro/rankings')) throw new Error('Missing independent Pro index');
 const machinePaths = new Set(['/llms.txt','/llms-full.txt']);
 for (const path of machinePaths) if (!locs.includes(origin+path)) throw new Error(`Missing GEO discovery entry ${path}`);
-for (const path of ['/pro/rankings', `/pro/aiadoption/${JSON.parse(readFileSync(join(root,'data.haid-latest.json'),'utf8')).release}`]) {
+for (const path of [`/pro/aiadoption/${JSON.parse(readFileSync(join(root,'data.haid-latest.json'),'utf8')).release}`]) {
   if (locs.includes(origin+path)) throw new Error(`Duplicate content in sitemap ${path}`);
 }
 let htmlLocations=0;

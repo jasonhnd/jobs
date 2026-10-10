@@ -13,6 +13,19 @@
 
 # Changelog
 
+## Ordinary rankings — Issue #901 (Owner signed 2026-10-10)
+
+- Simplify the ordinary index to eight selected rankings and a complete Pro
+  entrance. Ordinary details expose metric-aware summaries/rows, shared score
+  bands, explicit hourly conversion, and a first-screen occupation-search CTA.
+- Pro bodies, RANKING_META, sorting and scoring remain unchanged. The now
+  distinct Pro index self-canonicalizes and enters the sitemap; eight duplicate
+  detail canonicals remain consolidated.
+- Public Japanese and ordinary OG variants are Owner signed 2026-10-10,
+  decision d1009-221958-1. Integration baselines retain stage 2 occupation
+  summaries and stage 3 changes to the nine ordinary ranking pages, Pro
+  index identity, and Pro index breadcrumb references; no routes are removed.
+
 ## Pro split stage 1B (Issue #896)
 
 Move research routes to /pro with exact owner-authorized 301s (2026-10-09, decision d1008-214048-1). Eight ordinary rankings and all ordinary occupations retain their URLs. SEO baseline changes reflect final canonicals, updated internal/JSON-LD links, Pro entrances, removal of 31 retired root rankings and four noindex sitemap entries, and generated llms edition references. Body copy, scores and sorting remain unchanged. No production promotion is included.
