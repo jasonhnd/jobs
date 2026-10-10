@@ -21,7 +21,7 @@ const SRC = join(import.meta.dirname, '..');
 
 /** [path relative to src/, phrase from the allowed sentence]. */
 const ALLOW: ReadonlyArray<readonly [string, string]> = [
-  // Exact unsigned ranking title mandated by JOB_0231 / #901; not a band label.
+  // Exact ranking title: Owner signed 2026-10-10, decision d1009-221958-1 (#901); not a band label.
   ['site/ordinary-ranking-copy.ts', 'AIで大きく変わる仕事 TOP30'],
   // 仕事が減るリスク (displacement) explanation, not the AI-impact band.
   ['lib/ai-fact-summary.ts', '職そのものが大きく減るリスクは低め'],

@@ -1,6 +1,6 @@
 # Changelog
 
-## Ordinary ranking sample — Issue #901 (2026-10-09)
+## Ordinary rankings — Issue #901 (Owner signed 2026-10-10)
 
 - Simplify the ordinary index to eight selected rankings and a complete Pro
   entrance. Ordinary details expose metric-aware summaries/rows, shared score
@@ -8,8 +8,9 @@
 - Pro bodies, RANKING_META, sorting and scoring remain unchanged. The now
   distinct Pro index self-canonicalizes and enters the sitemap; eight duplicate
   detail canonicals remain consolidated.
-- New public Japanese and ordinary OG variants are unsigned owner-review
-  samples. SEO baseline changes are limited to the nine ordinary pages, Pro
+- Public Japanese and ordinary OG variants are Owner signed 2026-10-10,
+  decision d1009-221958-1. Integration baselines retain stage 2 occupation
+  summaries and stage 3 changes to the nine ordinary ranking pages, Pro
   index identity, and Pro index breadcrumb references; no routes are removed.
 
 ## Pro split stage 1B (Issue #896)

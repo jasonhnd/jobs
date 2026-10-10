@@ -4,7 +4,7 @@ import { buildOccupationSummary, renderOccupationSummaryJsonLd, PRO_CHAPTER_LINK
 
 const input = { id: 404, name_ja: '内科医', ai_risk: 3.9, salary: 1234.5, hours: 167.5 };
 
-test('uses displayed-value boundaries and the exact unsigned three-band copy', () => {
+test('uses displayed-value boundaries and the exact owner-signed three-band copy', () => {
   for (const [risk, band, word] of [[3.94, 'low', '変化 小さい'], [3.9666, 'mid', '変化 中くらい'], [6.9666, 'high', '変化 大きい']] as const) {
     const summary = buildOccupationSummary({ ...input, ai_risk: risk });
     expect(summary.band).toBe(band);

@@ -71,7 +71,7 @@ describe('ordinary rankings stage 3', { skip: !ready && !required }, () => {
     }
   });
 
-  test('AI-high unsigned title changes only ordinary; hourly conversion and real selection/order are explicit', () => {
+  test('AI-high owner-signed title changes only ordinary; hourly conversion and real selection/order are explicit', () => {
     const high = html('rankings/ai-risk-high');
     assert.match(high, /<h1>[^]*?AIで大きく変わる仕事 TOP30/);
     assert.ok(high.includes('/api/og?ranking=ai-risk-high&amp;edition=ordinary'));
