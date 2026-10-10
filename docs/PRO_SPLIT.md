@@ -515,3 +515,10 @@ three-width local screenshot paths are recorded in the
 Independent review is required before supervisor merge;
 production promotion, advertisement-copy changes and deployment verification
 are separate tasks. No navigation, redirects or analytics scripts are changed.
+
+Stage 2/3 integration (JOB_0242): merge preview's occupation summaries into
+PR #902 without rewriting its history. Regenerate the complete SEO baseline
+from preview's inputs with both stages present. The occupation-route gate now
+requires the distinct Pro ranking index exactly once in the main sitemap and
+keeps it out of the ordinary-only image sitemap; the stage 2 occupation paths,
+summary schema and legacy-anchor checks remain enforced.
