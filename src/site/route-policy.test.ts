@@ -70,13 +70,13 @@ test('Pro JSON-LD adaptation preserves consolidated ranking page identities and 
     ]}), 'pro'))['@graph'];
     assert.equal(nodes[0].url, canonical);
     assert.equal(nodes[0]['@id'], canonical+'#webpage');
-    assert.equal(nodes[1].itemListElement[0].item, 'https://mirai-shigoto.com/rankings');
+    assert.equal(nodes[1].itemListElement[0].item, 'https://mirai-shigoto.com/pro/rankings');
     assert.equal(nodes[1].itemListElement[1].item, canonical);
     assert.equal(nodes[2].itemListElement[0].url, 'https://mirai-shigoto.com/pro/428');
   }
 });
 
-test('stage 2 occupation indexing coexists with final stage 1B research and ranking addresses', async () => {
+test('stage 2 occupation indexing coexists with stage 3 independent ranking indexes', async () => {
   const { buildSitemapEntries } = await import('../views/sitemap');
   const graph = { sectors: new Map(), occupations: new Map([[404, {}], [428, {}]]) } as unknown as import('../graph').KnowledgeGraph;
   const paths = buildSitemapEntries(graph, '2026-10-01').map(row => new URL(row.loc).pathname);
@@ -90,7 +90,7 @@ test('stage 2 occupation indexing coexists with final stage 1B research and rank
   }
   expect(paths).toContain('/pro/skills');
   expect(paths).not.toContain('/skills');
-  expect(paths).not.toContain('/pro/rankings');
+  expect(paths.filter(path => path === '/pro/rankings').length).toBe(1);
   for (const row of manifest.rankings) {
     expect(paths.includes(row.proCanonical)).toBe(!row.noindex);
     expect(editionHref(row.oldPath + '?me=428#content', 'ordinary')).toBe((row.ordinaryPath ?? row.proPath) + '?me=428#content');

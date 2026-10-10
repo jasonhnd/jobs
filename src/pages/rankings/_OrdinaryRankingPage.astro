@@ -1,0 +1,38 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
+import { RANK_LIST_CSS } from '@/lib/rank-list-css';
+import type { RankingResult } from '@/views/ranking';
+import { rankingRoute } from '@/site/route-policy';
+import { ORDINARY_RANKING_COPY as copy } from '@/site/ordinary-ranking-copy';
+import { ORDINARY_RANKING_CSS } from './_ordinary-ranking-css';
+import { buildOrdinaryRankingsBindings } from './_ordinary-rankings-bindings';
+const { result } = Astro.props as { result: RankingResult };
+const b = buildOrdinaryRankingsBindings(result);
+---
+<BaseLayout title={b.title} description={b.description} canonical={b.canonical}
+  ogImage={b.ogImage} ogTitle={b.h1} ogDescription={b.description}>
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
+  <style slot="head" set:html={CANONICAL_HUB_CSS + RANK_LIST_CSS + ORDINARY_RANKING_CSS} />
+  <div id="wrapper" class="ordinary-rankings">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span>
+      <a href="/rankings" rel="up">ランキング</a><span aria-hidden="true">›</span><span>{b.h1}</span>
+    </nav>
+    <header id="content">
+      <h1>{b.h1}</h1>
+      <p class="ordinary-lead">{b.lead}</p>
+      <p class="ordinary-score-reading">{copy.scoreReading}</p>
+      {b.note && <p class="ordinary-note">{b.note}</p>}
+      <a class="ordinary-search" href="/me" data-track-event="me_entry_click" data-entry-source="rankings" data-occupation-id="0">{copy.search}</a>
+      <Fragment set:html={b.summaryHtml} />
+    </header>
+    <section class="rk-list-sec" aria-label="ランキング">
+      <h2>TOP {result.items.length}</h2>
+      <ol class="rank-list" set:html={b.rankItems} />
+    </section>
+    <p data-pro-cta><a href={rankingRoute(result.slug, 'pro').pagePath}>{copy.pro}</a></p>
+    <Footer />
+  </div>
+</BaseLayout>
