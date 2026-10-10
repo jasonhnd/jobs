@@ -9,6 +9,7 @@
  *   - src/templates/* (SectorJsonLd / SectorListings / SectorPatterns / OccFaq)
  *   - src/views/sector-faqs.ts                  (FAQ Q/A builder)
  */
+import { editionHref } from '@/site/route-policy';
 import { formatShownMeanLabel } from '@/lib/score-format';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
@@ -48,7 +49,7 @@ const bindings = buildSectorBindings({
 const {
   nameLoc, canonical, ogImage, n, workforceTotal, meanRisk,
   title, ogTitle, seoDesc, keywordsStr,
-  h1Main, subText, crumbRoot, crumbSectors,
+  h1Main, subText, firstScreen, crumbRoot, crumbSectors,
   hHigh, hLow, hPop, hFull, hRelated,
   topHighHtml, topLowHtml, topWorkersHtml, fullListHtml, relatedHtml,
   faqHtml, introSection, aiFactHtml, aiEraEssayHtml, patternsHtml, crossHubHtml,
@@ -72,9 +73,9 @@ const {
 
   <div id="wrapper">
     <nav class="crumb" aria-label="パンくずリスト">
-      <a href="/" rel="up">{crumbRoot}</a>
+      <a href={editionHref('/', 'ordinary')} rel="up">{crumbRoot}</a>
       <span aria-hidden="true">›</span>
-      <a href="/sectors" rel="up">{crumbSectors}</a>
+      <a href={editionHref('/sectors', 'ordinary')} rel="up">{crumbSectors}</a>
       <span aria-hidden="true">›</span>
       <span>{nameLoc}</span>
     </nav>
@@ -83,10 +84,15 @@ const {
       <h1>
         <span class="accent">{h1Main}</span>
       </h1>
-      <p class="sub" set:html={subText} />
+      {firstScreen && <>
+        <p class="ordinary-conclusion">{firstScreen.conclusion}</p>
+        <p class="ordinary-guidance">{firstScreen.guidance}</p>
+      </>}
+      <p class="ordinary-score-meta" set:html={subText} />
+      <a class="ordinary-next-step" href="#sector-occupations">下の一覧で確かめる</a>
     </header>
 
-    <section class="sec-list-sec" aria-label={hFull}>
+    <section id="sector-occupations" class="sec-list-sec" aria-label={hFull}>
       <h2>{hFull}</h2>
       <Fragment set:html={fullListHtml} />
     </section>

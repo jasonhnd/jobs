@@ -8,6 +8,9 @@
  * page that renders <Footer /> picks up the same typography baseline —
  * beats per-page page-local CSS by specificity).
  */
+import { editionHref } from '@/site/route-policy';
+import { ORDINARY_READING_ENTRIES, pageEdition } from '@/site/edition-navigation';
+const edition = pageEdition(Astro.url.pathname);
 import { CANONICAL_CSS } from '../lib/canonical-css.ts';
 import { siteConfig, OCCUPATION_COUNT } from '@/site/config';
 import { SCORE_PANEL } from '@/site/score-attribution';
@@ -81,44 +84,52 @@ const { iso, display } = formatJst(buildTime);
       footer carries only the complementary hubs. Grouped + labelled
       (2026-05-31) so the link set reads as navigation, not a tag cloud. */}
   <nav class="footer-nav" aria-label="サイト内ナビゲーション">
+    {edition === 'ordinary' ? (
+      <div class="footer-links">
+        {ORDINARY_READING_ENTRIES.map(item => <a href={item.href}>{item.label}</a>)}
+      </div>
+    ) : (<>
     <div class="footer-group">
       <span class="footer-group-label">適職を探す</span>
       <div class="footer-links">
-        <a href="/pro/interests">興味</a>
-        <a href="/pro/skills">スキル</a>
-        <a href="/pro/abilities">能力</a>
-        <a href="/pro/knowledge">知識</a>
-        <a href="/pro/values">価値観</a>
-        <a href="/pro/education">学歴</a>
-        <a href="/pro/training">習熟期間</a>
-        <a href="/pro/work-styles">働き方</a>
-        <a href="/pro/employment-types">雇用形態</a>
-        <a href="/pro/life-balance">ライフバランス</a>
-        <a href="/pro/entry-paths">入職経路</a>
+        <a href={editionHref('/interests', edition)}>興味</a>
+        <a href={editionHref('/skills', edition)}>スキル</a>
+        <a href={editionHref('/abilities', edition)}>能力</a>
+        <a href={editionHref('/knowledge', edition)}>知識</a>
+        <a href={editionHref('/values', edition)}>価値観</a>
+        <a href={editionHref('/education', edition)}>学歴</a>
+        <a href={editionHref('/training', edition)}>習熟期間</a>
+        <a href={editionHref('/work-styles', edition)}>働き方</a>
+        <a href={editionHref('/employment-types', edition)}>雇用形態</a>
+        <a href={editionHref('/life-balance', edition)}>ライフバランス</a>
+        <a href={editionHref('/entry-paths', edition)}>入職経路</a>
       </div>
     </div>
     <div class="footer-group">
       <span class="footer-group-label">キャリア</span>
       <div class="footer-links">
-        <a href="/pro/careers">キャリア段階</a>
-        <a href="/pro/licenses">資格</a>
-        <a href="/pro/yearly">年次レポート</a>
+        <a href={editionHref('/careers', edition)}>キャリア段階</a>
+        <a href={editionHref('/licenses', edition)}>資格</a>
+        <a href={editionHref('/yearly', edition)}>年次レポート</a>
       </div>
     </div>
     <div class="footer-group">
       <span class="footer-group-label">データ・方法</span>
       <div class="footer-links">
-        <a href="/pro/standard">AIOIS-10 標準</a>
-        <a href="/pro/haid">HAID 標準</a>
-        <a href="/pro/methodology">評価プロセス</a>
-        <a href="/pro/models">モデル比較</a>
-        <a href="/pro/data">公開データセット</a>
-        <a href="/about">データについて</a>
-        <a href="/pro/aiadoption">人類と AI の距離</a>
+        <a href={editionHref('/standard', edition)}>AIOIS-10 標準</a>
+        <a href={editionHref('/haid', edition)}>HAID 標準</a>
+        <a href={editionHref('/methodology', edition)}>評価プロセス</a>
+        <a href={editionHref('/models', edition)}>モデル比較</a>
+        <a href={editionHref('/data', edition)}>公開データセット</a>
+        <a href={editionHref('/about', edition)}>データについて</a>
+        <a href={editionHref('/aiadoption', edition)}>人類と AI の距離</a>
       </div>
     </div>
+    </>)}
   </nav>
   <div class="footer-legal">
+    <a href={editionHref('/about', edition)}>このサイトについて</a>
+    <span aria-hidden="true">·</span>
     <a href="/compliance">コンプライアンス</a>
     <span aria-hidden="true">·</span>
     <a href="/privacy">プライバシー</a>

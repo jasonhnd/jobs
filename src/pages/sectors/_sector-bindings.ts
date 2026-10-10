@@ -14,6 +14,7 @@
  * Page-local sibling (Astro `_`-prefix → not routed).
  */
 
+import { ordinarySectorCopy } from '@/site/ordinary-sector-copy';
 import { siteConfig } from '@/site/config';
 import { escapeHtml } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
@@ -82,6 +83,7 @@ export interface SectorBindings {
   // Section headings (h1, h2s, breadcrumb labels)
   readonly h1Main: string;
   readonly subText: string;
+  readonly firstScreen: ReturnType<typeof ordinarySectorCopy>;
   readonly skipLabel: string;
   readonly crumbRoot: string;
   readonly crumbSectors: string;
@@ -296,6 +298,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
     keywordsStr,
     h1Main,
     subText,
+    firstScreen: ordinarySectorCopy(nameLoc, n, meanRisk),
     skipLabel,
     crumbRoot,
     crumbSectors,

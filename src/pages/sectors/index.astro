@@ -7,6 +7,7 @@ import MeEntry from '@/components/MeEntry.astro';
 import { loadGraph } from '@/graph';
 import { formatShownMeanLabel } from '@/lib/score-format';
 import { buildSectorsIndexBindings, fmtInt, riskClass } from './_sectors-index-bindings';
+import { editionHref } from '@/site/route-policy';
 import { occupationPath } from '@/lib/urls';
 
 const b = buildSectorsIndexBindings(await loadGraph());
@@ -120,8 +121,9 @@ section.faq{margin:48px 0}
       <h1>
         <span class="accent">{b.h1}</span>
       </h1>
-      <p class="sub"><strong>{b.totalOcc} 職業</strong> を 16 業界に分類。クリックで業界別の AI 影響度ランキング・代表職業へ。</p>
-      <p class="intro">業界別に職業を一覧化したインデックスです。各業種を開くと、AI 影響度・就業者数・年収のランキング、その業界に属する全職業の一覧が確認できます。</p>
+      {b.firstScreen && <p class="ordinary-conclusion">{b.firstScreen.conclusion}</p>}
+      <p class="ordinary-guidance">{b.firstScreen?.guidance}</p>
+      <a class="ordinary-next-step" href={editionHref('/me', 'ordinary')}>自分の仕事を探す</a>
     </header>
 
     <section aria-label={b.hList}>
@@ -139,12 +141,12 @@ section.faq{margin:48px 0}
               <div class="sc-body">
                 <div class="sc-head">
                   <h3 class="sc-name">
-                    <a class="sc-name-link" href={`/sectors/${s.id}`}>{s.ja}</a>
+                    <a class="sc-name-link" href={editionHref(`/sectors/${s.id}`, 'ordinary')}>{s.ja}</a>
                   </h3>
                   <span class="sc-count">{s.occupationCount} 職業</span>
                 </div>
                 <div class="sc-stats">
-                  <span class={`sc-risk risk-pill ${cls}`}>AI 影響 平均 {formatShownMeanLabel(mean)}</span>
+                  <span class={`sc-risk risk-pill ${cls}`}>{s.meanAiRisk === null ? '—' : `AI 影響 平均 ${formatShownMeanLabel(mean)}`}</span>
                   <span class="sc-workers">{fmtInt(s.totalWorkforce)} 人</span>
                 </div>
                 <p class="sc-samples">
@@ -165,12 +167,12 @@ section.faq{margin:48px 0}
     <section aria-label="他の探し方">
       <h2>他の探し方</h2>
       <ul class="related-genre">
-        <li><a href="/rankings"><span class="rg-name">ランキングで探す</span><span class="rg-desc">AI影響度・年収・労働時間など 39 のランキング</span></a></li>
-        <li><a href="/pro/explore/find-your-fit"><span class="rg-name">自分に合う仕事を見つける</span><span class="rg-desc">質問・キャリア段階・興味タイプ・価値観の 4 軸</span></a></li>
-        <li><a href="/pro/skills"><span class="rg-name">スキル・資格から探す</span><span class="rg-desc">スキル・資格・能力・知識・学歴の 5 軸</span></a></li>
-        <li><a href="/pro/work-styles"><span class="rg-name">働き方から探す</span><span class="rg-desc">業務形態・雇用形態・習熟期間・ライフバランス・入職経路の 5 軸</span></a></li>
-        <li><a href="/pro/compare"><span class="rg-name">職業を比較する</span><span class="rg-desc">迷いやすい 20 の職業ペアを side-by-side で比較</span></a></li>
-        <li><a href="/pro/methodology"><span class="rg-name">評価プロセス</span><span class="rg-desc">算出方法・スコア帯・データ出典・限界</span></a></li>
+        <li><a href={editionHref('/rankings', 'pro')}><span class="rg-name">ランキングで探す</span><span class="rg-desc">AI影響度・年収・労働時間など 39 のランキング</span></a></li>
+        <li><a href={editionHref('/explore/find-your-fit', 'ordinary')}><span class="rg-name">自分に合う仕事を見つける</span><span class="rg-desc">質問・キャリア段階・興味タイプ・価値観の 4 軸</span></a></li>
+        <li><a href={editionHref('/skills', 'ordinary')}><span class="rg-name">スキル・資格から探す</span><span class="rg-desc">スキル・資格・能力・知識・学歴の 5 軸</span></a></li>
+        <li><a href={editionHref('/work-styles', 'ordinary')}><span class="rg-name">働き方から探す</span><span class="rg-desc">業務形態・雇用形態・習熟期間・ライフバランス・入職経路の 5 軸</span></a></li>
+        <li><a href={editionHref('/compare', 'ordinary')}><span class="rg-name">職業を比較する</span><span class="rg-desc">迷いやすい 20 の職業ペアを side-by-side で比較</span></a></li>
+        <li><a href={editionHref('/methodology', 'ordinary')}><span class="rg-name">評価プロセス</span><span class="rg-desc">算出方法・スコア帯・データ出典・限界</span></a></li>
       </ul>
     </section>
 

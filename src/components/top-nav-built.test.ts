@@ -13,7 +13,14 @@ import { strict as assert } from 'node:assert';
 import { requireBuiltArtifact } from '../../scripts/lib/built-artifacts.js';
 
 const DIST = join(process.cwd(), 'dist-astro');
-const SAMPLE_PAGES = ['index.html', 'rankings.html', 'compare.html', '1.html'] as const;
+const SAMPLE_PAGES = [
+  { rel: 'index.html', label: '自分の仕事を探す' },
+  { rel: 'rankings.html', label: '自分の仕事を探す' },
+  { rel: '1.html', label: '自分の仕事を探す' },
+  { rel: 'pro.html', label: '自分の現在地' },
+  { rel: 'pro/compare.html', label: '自分の現在地' },
+  { rel: 'pro/1.html', label: '自分の現在地' },
+] as const;
 
 function read(rel: string): string | null {
   const full = join(DIST, rel);
@@ -23,18 +30,18 @@ function read(rel: string): string | null {
 
 describe('desktop top nav — built artifacts', () => {
   test('every sampled page has a /me row in nav.top-nav with source=top_nav', () => {
-    for (const rel of SAMPLE_PAGES) {
+    for (const { rel, label } of SAMPLE_PAGES) {
       const html = read(rel);
       if (html === null) continue;
 
       const nav = html.match(/<nav class="top-nav"[\s\S]*?<\/nav>/)?.[0] ?? '';
       assert.ok(nav, `${rel} has no nav.top-nav`);
-      const row = nav.match(/<a[^>]*data-entry-source="top_nav"[^>]*>/);
+      const row = nav.match(/<a[^>]*data-entry-source="top_nav"[^>]*>[\s\S]*?<\/a>/);
       assert.ok(row, `${rel} top-nav has no /me row with data-entry-source="top_nav"`);
       assert.match(row[0], /href="\/me"/);
       assert.match(row[0], /data-track-event="me_entry_click"/);
       assert.match(row[0], /data-occupation-id="0"/);
-      assert.match(nav, /自分の現在地/);
+      assert.equal(row[0].replace(/<[^>]*>/g, '').trim(), label, `${rel} must use its edition's exact /me label`);
     }
   });
 

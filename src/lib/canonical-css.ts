@@ -775,7 +775,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body header.mob-topbar {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: var(--z-modal);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1034,7 +1034,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     right: 0;
     bottom: 0;
     background: var(--bg);
-    z-index: 99;
+    z-index: var(--z-overlay);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     opacity: 0;

@@ -2,6 +2,8 @@
  * src/pages/sectors/_sectors-index-bindings.ts — bindings for sectors/index.astro.
  * Phase D audit #7 (2026-05-14): page frontmatter ≤30 lines per doc §2.5.
  */
+import { ordinarySectorCopy } from '@/site/ordinary-sector-copy';
+import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import type { KnowledgeGraph } from '@/graph';
 import { sectorIndexView, type SectorIndexEntry } from '@/views/sector';
 import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
@@ -29,6 +31,7 @@ export interface SectorsIndexBindings {
   readonly jsonLd: string;
   /** OCCUPATION_COUNT.SCORED — user-facing occupation count. */
   readonly totalOcc: number;
+  readonly firstScreen: ReturnType<typeof ordinarySectorCopy>;
 }
 
 export { displayScore, fmtInt, riskClass };
@@ -95,5 +98,6 @@ export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBi
     sectors, canonical, pageTitle, ogTitle, seoDesc, keywords,
     h1, hList, crumbRoot, crumbSelf, skipLabel, jsonLd,
     totalOcc: OCCUPATION_COUNT.SCORED,
+    firstScreen: ordinarySectorCopy('日本', OCCUPATION_COUNT.SCORED, loadGeoFacts().meanAiImpactRaw),
   };
 }
