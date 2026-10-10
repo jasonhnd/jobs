@@ -1,3 +1,17 @@
+## Unreleased — Ordinary entry composition (#900, Owner signed 2026-10-10)
+
+- Reduce ordinary homepage ranking cards from 39 to the retained eight and
+  collapse the research/classification catalogue into a Pro entrance.
+- Separate ordinary and Pro reading chrome; keep shared legal links.
+- Add owner-signed map/sector first-screen copy and explicit diagnosis → me
+  → selected occupation navigation without altering scoring or source data.
+  Owner signed 2026-10-10, decision d1009-232009-1 (option A).
+- SEO baseline change is limited to the desktop homepage H1 and intended
+  internal-link removals/additions from shared chrome and ordinary entrances.
+  Canonicals, metadata, OG, JSON-LD, route inventory and sitemap remain unchanged.
+  Build regenerates only the CSP hash of the modified me continuation script;
+  pinned analytics/cookie script bytes stay unchanged.
+
 # Changelog
 
 ## Ordinary rankings — Issue #901 (Owner signed 2026-10-10)
@@ -26,6 +40,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 ---
 
 ## [Unreleased]
+
+- Stage-4 review follow-up (#900): the homepage eight-ranking door targets its
+  own eight-card section; the complete 39-card index is entered through Pro.
+  Ordinary home/search occupation labels are consistent, and sector detail
+  actions explicitly target the list. Integration with preview (#898 / #902)
+  preserves stage-2 occupation summaries and the stage-3 eight-card ordinary
+  index / 39-card Pro index. Re-capture composed baselines from the preview
+  baseline; only stage-4 homepage H1 and shared/entry links differ from preview.
+  All stage-4 Japanese is Owner signed 2026-10-10, decision d1009-232009-1.
 
 ### Changed
 

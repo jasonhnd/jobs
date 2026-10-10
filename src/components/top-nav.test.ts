@@ -3,14 +3,15 @@ import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
+import { ORDINARY_READING_ENTRIES } from '../site/edition-navigation';
+
 const source = readFileSync(join(import.meta.dirname, 'TopNav.astro'), 'utf8');
 
 describe('desktop top nav — /me', () => {
-  test('lists 自分の現在地 before 診断', () => {
-    const meAt = source.indexOf("href: '/me'");
-    const shindanAt = source.indexOf("href: '/shindan'");
-    assert.ok(meAt > 0 && shindanAt > meAt);
-    assert.match(source, /label: '自分の現在地'/);
+  test('lists occupation search before diagnosis in ordinary navigation', () => {
+    assert.deepEqual(ORDINARY_READING_ENTRIES.slice(0, 2).map(it => it.href), ['/me', '/shindan']);
+    assert.equal(ORDINARY_READING_ENTRIES[0]!.label, '自分の仕事を探す');
+    assert.match(source, /ORDINARY_READING_ENTRIES\.map/);
   });
 
   test('the /me row carries the me_entry_click contract Footer.astro reads', () => {

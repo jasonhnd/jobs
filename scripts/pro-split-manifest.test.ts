@@ -60,13 +60,13 @@ describe('stage-zero Pro route contract', () => {
       ['src/pages/_me-inline.js', 696, 'a.href = rankingPaths[row.meta.slug]'],
       ['src/templates/Ranking.ts', 255, 'rankingRoute('],
       ['src/templates/Ranking.ts', 419, 'rankingRoute('],
-      ['src/index-source.html', 57, 'href="/pro/gyakuten"'],
-      ['src/index-source.html', 148, 'href="/pro/compare"'],
-      ['src/index-source.html', 660, 'href="/rankings"'],
+      ['src/index-source.html', 381, 'href="/rankings/ai-risk-high"'],
+      ['src/index-source.html', 434, 'href="__PRO_RANKINGS_PATH__"'],
     ] as const) {
       expect(readFileSync(file, 'utf8')).toContain(text);
       expect(doc).toContain(`${file}:${line}`);
     }
+    expect(readFileSync('src/pages/_index-bindings.ts', 'utf8')).toContain("editionHref('/rankings', 'pro')");
     expect(doc).toContain('src/views/sitemap.ts:151-276');
     expect(doc).toContain('docs/DATA_ARCHITECTURE.md:49-50');
     expect(readFileSync('docs/DATA_ARCHITECTURE.md', 'utf8').split('\n')[49]).toContain('丸め前の値');

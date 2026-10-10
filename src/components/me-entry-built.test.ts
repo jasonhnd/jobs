@@ -36,7 +36,8 @@ const meHref = (): RegExp => /href="\/me(?=["?/])/g;
 
 function mainOf(html: string): string {
   const main = html.match(/<main[\s\S]*?<\/main>/);
-  return main ? main[0] : '';
+  // Footer navigation is shared chrome, not the page's tracked in-content entry.
+  return main ? main[0].replace(/<footer[\s\S]*?<\/footer>/g, '') : '';
 }
 
 function read(rel: string): string | null {
