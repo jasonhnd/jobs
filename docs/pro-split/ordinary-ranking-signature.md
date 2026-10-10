@@ -1,14 +1,14 @@
 # Ordinary ranking owner-signature package
 
-**Unsigned sample, JOB_0231 / Issue #901. Do not merge before owner signature.**
+**Owner signed 2026-10-10, decision d1009-221958-1 (option A), JOB_0231 / Issue #901 / PR #902.**
 
-Source candidates: roadmap section 10.6 and first-screen-copy-draft section 2. The draft is corrected to actual salary-safe displayed-score <=5 filtering and high-demand tier / salary / ID ordering (Issue correction comment). No scores, sort rules, RANKING_META, Pro text or global navigation are changed.
+Signed source: roadmap section 10.6 and first-screen-copy-draft section 2. The draft is corrected to actual salary-safe displayed-score <=5 filtering and high-demand tier / salary / ID ordering (Issue correction comment). No scores, sort rules, RANKING_META, Pro text or global navigation are changed.
 
 All nine routes retain HTTP 200. These exact strings apply to ordinary page H1/breadcrumb, title, description, OG/Twitter text and card occurrences as listed. Pro uses the previous copy. The complete Pro index becomes self-canonical under PS-02; eight equivalent detail tables keep their previous canonical policy.
 
 ## Reused and added labels
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | Search CTA on each first screen | `自分の現在地を確認 → (below the full analysis)` | `自分の仕事を探す` |
 | Score reading on each detail | `— (new)` | `点数は0〜10。7以上は「変化 大きい」、4未満は「変化 小さい」です。` |
@@ -24,7 +24,7 @@ Metric placeholder rules: workers = grouped integer + `人`; salary = truncated 
 
 ## /rankings
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | HTML title | `職業ランキング｜AI影響度・年収・就業者数・初任給・労働時間で比較 \| 未来の仕事` | `職業ランキング` |
 | Meta description | `日本556職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに代替されやすい仕事、年収が高くAIに代替されにくい仕事などを日本の職業データで一覧。` | `仕事の変化・働く人の数・収入など、8つのランキングで仕事を比べられます。` |
@@ -45,7 +45,7 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 
 ## /rankings/ai-risk-high
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | HTML title | `AIに奪われる仕事ランキング TOP30【2026年版】\| 未来の仕事` | `AIで大きく変わる仕事 TOP30【2026年版】\| 未来の仕事` |
 | Meta description | `AI影響度が最も高い職業TOP30。平均スコア7.6/10 変化 大きい。AI代替リスク・年収・就業者数を一覧比較。複数のAIモデルによる採点の総合値（独自分析・非公式）。` | `仕事がなくなる順ではなく、AIで仕事の中身が大きく変わる順です。` |
@@ -69,7 +69,7 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 
 ## /rankings/workers
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | HTML title | `就業者数が多い職業ランキング TOP30【2026年版】\| 未来の仕事` | `就業者数が多い職業ランキング TOP30【2026年版】\| 未来の仕事` |
 | Meta description | `日本で最も就業者が多い職業TOP30。合計15,907,206人。年収・AI影響度と合わせて比較。厚労省データに基づく独自分析。` | `就業者数が多い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
@@ -93,7 +93,7 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 
 ## /rankings/ai-risk-low
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | HTML title | `AI影響が少ない仕事ランキング TOP30【2026年版】\| 未来の仕事` | `AI影響が少ない仕事ランキング TOP30【2026年版】\| 未来の仕事` |
 | Meta description | `AIに代替されにくい職業TOP30。平均スコア2.8/10 変化 小さい。将来性が高くAIリスクの低い仕事を年収・就業者数と共に一覧。` | `AIで仕事の中身が変わりにくい順です。点が低いほど、変わる部分が少ない仕事です。` |
@@ -117,7 +117,7 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 
 ## /rankings/high-demand
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | HTML title | `人手不足の職業ランキング TOP30【2026年版】\| 未来の仕事` | `人手不足の職業ランキング TOP30【2026年版】\| 未来の仕事` |
 | Meta description | `求人需要が最も高い職業TOP30。全556職業のうち「需要高」は270件・「安定」は105件。転職・就活の参考に。` | `求人需要の区分が高い順です。同じ区分では、年収が高い順に並べています。右の点数はAIで変わる度合い（0〜10）で、順位とは別です。` |
@@ -141,7 +141,7 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 
 ## /rankings/salary-safe
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | HTML title | `高年収×低AIリスクの職業ランキング TOP30【2026年版】\| 未来の仕事` | `高年収×低AIリスクの職業ランキング TOP30【2026年版】\| 未来の仕事` |
 | Meta description | `年収が高くAI代替リスクが低い職業TOP30。平均年収976万円・平均AI影響4.2/10 変化 中くらい。将来性と収入を両立できる仕事を一覧。` | `AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。右の点数は順位とは別です。` |
@@ -165,7 +165,7 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 
 ## /rankings/short-hours
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | HTML title | `労働時間が短い職業ランキング TOP30【2026年版】\| 未来の仕事` | `労働時間が短い職業ランキング TOP30【2026年版】\| 未来の仕事` |
 | Meta description | `月間労働時間が最も短い職業TOP30。平均151時間。ワークライフバランスに優れた職業を年収・AI影響度と共に一覧。` | `労働時間が短い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
@@ -189,7 +189,7 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 
 ## /rankings/hourly-wage
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | HTML title | `時給が高い職業ランキング TOP30【2026年版】\| 未来の仕事` | `時給が高い職業ランキング TOP30【2026年版】\| 未来の仕事` |
 | Meta description | `時給ベースで報酬が高い職業 TOP30。平均時給 ¥3,441。AI 影響度・年収と共に一覧。` | `換算時給が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。時給は、求人の月額賃金を160時間で割った換算値です。実測の時給ではありません。` |
@@ -213,7 +213,7 @@ Local Microsoft Edge first-screen screenshots (PNG, 900px height):
 
 ## /rankings/salary
 
-| Occurrence | Old | New candidate |
+| Occurrence | Old | New signed value |
 | --- | --- | --- |
 | HTML title | `年収が高い職業ランキング TOP30【2026年版】\| 未来の仕事` | `年収が高い職業ランキング TOP30【2026年版】\| 未来の仕事` |
 | Meta description | `日本で最も年収が高い職業TOP30。平均年収1044万円。AI影響度・就業者数も合わせて比較。` | `年収が高い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。` |
@@ -241,4 +241,4 @@ The full intro, AI-fact summary, stats, highlights, sector chart, FAQ, cross-hub
 
 ## Approval and verification boundary
 
-Owner signature: **pending**. Independent review: **pending**. Local acceptance and three-width evidence are reported in the PR. Screenshot files expire with card temporary cleanup; this exact text package remains in git. Deployment rendering, advertisements, GSC experiment results, and production promotion are not verified by this sample.
+Owner signature: **complete — Owner signed 2026-10-10, decision d1009-221958-1 (option A)**. Independent review: **pending**. Local acceptance and three-width evidence are reported in the PR. Screenshot files expire with card temporary cleanup; this exact text package remains in git. Deployment rendering, advertisements, GSC experiment results, and production promotion are not verified by this local implementation.

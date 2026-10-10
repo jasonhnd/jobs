@@ -492,7 +492,7 @@ meta/OG descriptions were owner-signed (d1009-202854-1, as recorded in the
 JOB_0237 brief). No workflow, analytics-script or Vercel state change is included;
 local renders do not prove deployment or indexing.
 
-## Stage 3 ordinary ranking sample (JOB_0231 / Issue #901)
+## Stage 3 ordinary ranking implementation (JOB_0231 / Issue #901)
 
 The ordinary index now selects exactly eight retained rankings. Each ordinary
 ranking uses the existing ordered result and graph data, exposes its actual
@@ -508,10 +508,10 @@ sorts by demand tier, then salary descending, then occupation ID. Hourly wage
 is the existing graph projection of recruitment monthly wage divided by 160
 hours, not observed hourly pay. Missing values stay missing.
 
-The new Japanese is an **unsigned sample** authorized for implementation by
-the dispatch brief, not publication approval. Exact old-to-new strings and
+The exact public Japanese is **Owner signed 2026-10-10, decision
+d1009-221958-1 (option A)**. Exact old-to-new strings and
 three-width local screenshot paths are recorded in the
 [ordinary-ranking signature package](pro-split/ordinary-ranking-signature.md).
-Independent review and owner signature are required before supervisor merge;
+Independent review is required before supervisor merge;
 production promotion, advertisement-copy changes and deployment verification
 are separate tasks. No navigation, redirects or analytics scripts are changed.

@@ -1,4 +1,4 @@
-/** Unsigned stage-3 samples, Issue #901. Never changes the shared Pro registry. */
+/** Owner signed 2026-10-10, decision d1009-221958-1, Issue #901. Shared Pro registry unchanged. */
 export const ORDINARY_RANKING_SLUGS = [
   'ai-risk-high', 'workers', 'ai-risk-low', 'high-demand', 'salary-safe',
   'short-hours', 'hourly-wage', 'salary',
