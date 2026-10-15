@@ -12,7 +12,8 @@
  *   1. Reads a Desktop OAuth client JSON from ~/.config/mirai-shigoto/oauth-client.json
  *      (downloaded from GCP Console → APIs & Services → Credentials →
  *      OAuth client ID → Desktop app)
- *   2. Spins up a localhost HTTP server on a random port
+ *   2. Spins up a localhost HTTP server on a random port (gives up after
+ *      OAUTH_CALLBACK_TIMEOUT_MS if the browser never comes back)
  *   3. Opens the browser to Google's OAuth consent page
  *   4. User signs in + clicks "Allow"
  *   5. Google redirects back to the localhost callback with an auth code
@@ -28,24 +29,10 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import http from "node:http";
 import crypto from "node:crypto";
 import { execFile } from "node:child_process";
 import { google } from "googleapis";
-
-/**
- * HTML-escape for the localhost callback's tiny response page. Tiny because
- * the page is only seen for a few seconds before the user closes the tab,
- * but defensive because we interpolate query-string values into it.
- */
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#x27;");
-}
+import { OAUTH_CALLBACK_TIMEOUT_MS, startOAuthCallbackServer, writePrivateJson } from "./oauth-helpers.mjs";
 
 const CONFIG_DIR = path.join(os.homedir(), ".config", "mirai-shigoto");
 const CLIENT_FILE = path.join(CONFIG_DIR, "oauth-client.json");
@@ -69,22 +56,19 @@ const installed = clientCreds.installed || clientCreds.web;
 if (!installed) fatal("OAuth client JSON missing `installed` field. Did you pick Desktop app type?");
 const { client_id, client_secret } = installed;
 
-// Find a free port on localhost for the OAuth callback.
-const port = await new Promise((resolve, reject) => {
-  const tmp = http.createServer();
-  tmp.listen(0, "127.0.0.1", () => {
-    const p = tmp.address().port;
-    tmp.close(() => resolve(p));
-  });
-  tmp.on("error", reject);
-});
-const redirectUri = `http://127.0.0.1:${port}/callback`;
-
-const oauth2 = new google.auth.OAuth2(client_id, client_secret, redirectUri);
 // Audit's #6.3: bind a CSRF token to the authorization URL so a stranger
 // who tricks the user into hitting the callback can't pass off their own
 // code as ours. The state is 32 hex chars from crypto.randomBytes.
 const stateToken = crypto.randomBytes(16).toString("hex");
+
+// The callback server listens on the port it reports, so the redirect URI
+// cannot point at a port another process took in between (#862).
+const callback = await startOAuthCallbackServer({ expectedState: stateToken }).catch((err) =>
+  fatal(`Could not start the localhost OAuth callback server: ${err.message}`),
+);
+const redirectUri = `http://127.0.0.1:${callback.port}/callback`;
+
+const oauth2 = new google.auth.OAuth2(client_id, client_secret, redirectUri);
 const authUrl = oauth2.generateAuthUrl({
   access_type: "offline",          // request a refresh_token (not just an access token)
   prompt: "consent",                // force consent screen so refresh_token is returned even on re-auth
@@ -95,61 +79,23 @@ const authUrl = oauth2.generateAuthUrl({
 log("Opening browser for Google OAuth consent…");
 log("If the browser does not open automatically, paste this URL into any browser:");
 log("  " + authUrl);
+log(`Waiting up to ${OAUTH_CALLBACK_TIMEOUT_MS / 60000} minutes for the browser to come back…`);
 
-const code = await new Promise((resolve, reject) => {
-  const server = http.createServer((req, res) => {
-    const url = new URL(req.url, `http://127.0.0.1:${port}`);
-    if (url.pathname !== "/callback") {
-      res.writeHead(404).end("Not found");
-      return;
-    }
-    const c = url.searchParams.get("code");
-    const e = url.searchParams.get("error");
-    const returnedState = url.searchParams.get("state");
-    // CSRF: reject any callback whose state doesn't match what we issued.
-    if (returnedState !== stateToken) {
-      res
-        .writeHead(400, { "Content-Type": "text/html; charset=utf-8" })
-        .end(
-          `<!doctype html><meta charset="utf-8"><h1 style="font-family:system-ui">OAuth state mismatch</h1>` +
-          `<p style="font-family:system-ui">This callback didn't originate from your terminal. Close the tab and re-run.</p>`,
-        );
-      server.close();
-      reject(new Error("OAuth state mismatch — possible CSRF"));
-      return;
-    }
-    if (e) {
-      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
-        .end(`<!doctype html><meta charset="utf-8"><h1>OAuth error</h1><p>${escapeHtml(e)}</p><p>Close this tab and re-run.</p>`);
-      server.close();
-      reject(new Error(`OAuth denied: ${e}`));
-      return;
-    }
-    if (!c) {
-      res.writeHead(400).end("Missing ?code");
-      return;
-    }
-    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
-      .end(`<!doctype html><meta charset="utf-8"><h1 style="font-family:system-ui">✓ Authentication successful</h1><p style="font-family:system-ui">You can close this tab and return to the terminal.</p>`);
-    server.close();
-    resolve(c);
-  });
-  server.listen(port, "127.0.0.1");
+// execFile with an args array avoids shell interpretation of the URL
+// (audit's #6.3 third bullet). The opener binaries (open/xdg-open/cmd)
+// accept the URL as a positional argument; no shell quoting required.
+if (process.platform === "darwin") {
+  execFile("open", [authUrl]);
+} else if (process.platform === "win32") {
+  // Windows: `cmd /c start "" "<url>"`. The empty "" is the window title
+  // — without it `start` interprets the URL as the title and the URL as
+  // the command.
+  execFile("cmd", ["/c", "start", "", authUrl]);
+} else {
+  execFile("xdg-open", [authUrl]);
+}
 
-  // execFile with an args array avoids shell interpretation of the URL
-  // (audit's #6.3 third bullet). The opener binaries (open/xdg-open/cmd)
-  // accept the URL as a positional argument; no shell quoting required.
-  if (process.platform === "darwin") {
-    execFile("open", [authUrl]);
-  } else if (process.platform === "win32") {
-    // Windows: `cmd /c start "" "<url>"`. The empty "" is the window title
-    // — without it `start` interprets the URL as the title and the URL as
-    // the command.
-    execFile("cmd", ["/c", "start", "", authUrl]);
-  } else {
-    execFile("xdg-open", [authUrl]);
-  }
-});
+const code = await callback.code.catch((err) => fatal(err.message));
 
 const { tokens } = await oauth2.getToken(code);
 if (!tokens.refresh_token) {
@@ -163,21 +109,16 @@ if (!tokens.refresh_token) {
   );
 }
 
-fs.mkdirSync(CONFIG_DIR, { recursive: true, mode: 0o700 });
-fs.writeFileSync(
-  TOKEN_FILE,
-  JSON.stringify({
-    type: "authorized_user",
-    client_id,
-    client_secret,
-    refresh_token: tokens.refresh_token,
-    token_uri: "https://oauth2.googleapis.com/token",
-  }, null, 2),
-  { mode: 0o600 },
-);
+writePrivateJson(CONFIG_DIR, TOKEN_FILE, {
+  type: "authorized_user",
+  client_id,
+  client_secret,
+  refresh_token: tokens.refresh_token,
+  token_uri: "https://oauth2.googleapis.com/token",
+});
 
 log(`✓ Saved OAuth refresh token: ${TOKEN_FILE}`);
-log(`  Permissions: 0600 (owner-only read)`);
+log(`  Permissions: file 0600, directory 0700 (owner-only)`);
 log("");
 log("Setup complete. From the repository root, run:");
 log("  corepack pnpm@12.6.0 --dir analytics run discover   # list GA4 properties");

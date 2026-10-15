@@ -1,6 +1,6 @@
 import { afterEach, describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -44,11 +44,15 @@ function fixture(): string {
     'scripts/lib/analytics-spec/scan.ts',
     'scripts/lib/analytics-spec/spec.ts',
     'scripts/lib/analytics-spec/compare.ts',
+    'scripts/lib/analytics-spec/ast.ts',
+    'scripts/lib/analytics-spec/emits.ts',
     'analytics/ga4-spec-validation.mjs',
   ]) {
     mkdirSync(dirname(join(root, file)), { recursive: true });
     copyFileSync(join(REPO, file), join(root, file));
   }
+  // spec.ts imports js-yaml; resolve it from the repository's install.
+  symlinkSync(join(REPO, 'node_modules'), join(root, 'node_modules'), 'dir');
   write(root, 'analytics/spec.yaml', spec());
   write(root, 'src/literal.ts',
     "gtag('event', 'literal_event', {item_id: 'fixture', page_title: 'A } title', value: {nested_key: true}});");
@@ -61,7 +65,7 @@ function fixture(): string {
       `function ${wrapper}(name, params) { gtag('event', name, params); }\n` +
       `${wrapper}('${event}', {group_id: 'fixture'});`);
   }
-  write(root, 'src/components/Footer.astro', "gtag('event', eventName);");
+  write(root, 'src/components/Footer.astro', "<script>gtag('event', eventName);</script>");
   write(root, 'src/pages/_index-inline.js',
     "gtag('event', source === 'chip' ? 'popular_job_click' : 'job_search_navigate');");
   write(root, 'src/lib/middleware/mp-hit.ts', [
@@ -118,20 +122,174 @@ describe('check-analytics-spec CLI regression contract', () => {
     rejects(root, 'parsed zero event-scoped dimensions — the parser is broken.');
   });
 
-  test('rejects dimension contract violations, block scalars and property caps', () => {
+  test('rejects dimension contract violations and property caps', () => {
     const root = fixture();
     write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', `description: ${'x'.repeat(151)}`));
     rejects(root, /violates the GA4 Admin API dimension contract[\s\S]*description exceeds 150 characters/);
-    write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', 'description: |'));
-    rejects(root, 'uses a YAML block scalar for description.');
     write(root, 'analytics/spec.yaml', spec(events, Array.from({ length: 51 }, (_, i) => `dimension_${i}`)));
     rejects(root, 'declares 51 event-scoped dimensions, over the GA4 property cap of 50.');
   });
+
+  // setup-ga4.mjs reads spec.yaml with js-yaml; the gate must measure the same
+  // strings, or it passes descriptions that setup then rejects (audit P1-7).
+  const longText = Array.from({ length: 30 }, (_, i) => `word${i}`).join(' '); // 199 chars
+  for (const [label, yaml] of [
+    ['a multi-line plain scalar', `description: ${longText.slice(0, 60)}\n      ${longText.slice(61)}`],
+    ['a multi-line double-quoted scalar', `description: "${longText.slice(0, 60)}\n      ${longText.slice(61)}"`],
+    ['a keep-chomping folded block', `description: >+\n      ${longText}\n`],
+    ['an indentation-indicator literal block', `description: |2\n      ${longText}\n`],
+  ] as const) {
+    test(`measures ${label} the way setup-ga4.mjs (js-yaml) does`, () => {
+      const root = fixture();
+      write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', yaml));
+      rejects(root, /violates the GA4 Admin API dimension contract[\s\S]*description exceeds 150 characters/);
+    });
+  }
+
+  test('accepts a short block scalar and rejects invalid YAML', () => {
+    const root = fixture();
+    write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', 'description: |\n      Short text.'));
+    assert.equal(run(root).status, 0);
+    write(root, 'analytics/spec.yaml', spec().replace('description: Fixture', 'description: "unterminated'));
+    rejects(root, 'analytics/spec.yaml is not valid YAML');
+  });
+
 
   test('rejects an undeclared dynamic call instead of silently skipping it', () => {
     const root = fixture();
     write(root, 'src/new-dynamic.ts', "gtag('event', unknownName, {});");
     rejects(root, /not in DYNAMIC_EMIT_SITES:\n    src\/new-dynamic.ts/);
+  });
+
+  test('ignores commented-out calls so they do not count as sent', () => {
+    const root = fixture();
+    write(root, 'src/commented.ts', [
+      "// gtag('event', 'commented_event', {});",
+      "/* gtag('event', 'block_commented', {}); */",
+      "const url = 'https://example.com/gtag/js'; // a gtag mention in a string",
+    ].join('\n'));
+    write(root, 'src/pages/_map-inline.js',
+      "function ga(name, params) { gtag('event', name, params); }\n" +
+      "ga('map_event', {group_id: 'fixture'});\n// ga('commented_event', {});");
+    write(root, 'src/markup.astro',
+      "<!-- Keep `function gtag()` top-level; gtag('event', 'html_commented') -->\n<p>don't</p>");
+    write(root, 'analytics/spec.yaml', spec([...events, 'commented_event']));
+    rejects(root, /registered in spec.yaml but never sent:\n    commented_event/);
+  });
+
+  for (const [label, source, reason] of [
+    ['a space before the call paren', "gtag ('event', 'Bad-Name', {});", /invalid GA4 event name "Bad-Name"/],
+    ['an upper-case name', "gtag('event', 'BadName', {});", /invalid GA4 event name "BadName"/],
+    ['a template-literal name', "gtag('event', `literal_event`, {});", /template literal/],
+    ['a non-literal command', "gtag(command, 'literal_event', {});", /non-literal gtag command/],
+    ['bracket access', "window['gtag']('event', 'literal_event', {});", /bracket access/],
+    ['aliasing', "const g = window.gtag; g('event', 'literal_event', {});", /gtag is referenced/],
+    ['a TS import-equals alias', "declare namespace analytics { function gtag(...args: any[]): void; }\nimport send = analytics.gtag; send('event', 'literal_event', {unknown_param: 1});", /gtag is aliased with `import … =`/],
+    ['an exported import-equals alias', "export import send = analytics.gtag;", /gtag is aliased with `import … =`/],
+    ['an import-equals alias of dataLayer', "import dl = window.dataLayer; dl.push({event: 'literal_event'});", /dataLayer is aliased with `import … =`/],
+    ['gtag.apply', "gtag.apply(null, ['event', 'literal_event']);", /gtag is referenced/],
+    ['a direct dataLayer.push', "window.dataLayer.push({event: 'literal_event'});", /dataLayer is referenced/],
+    ['shorthand params', "const unknown_param = 1; gtag('event', 'literal_event', {unknown_param});", /unknown_param\s+← literal_event/],
+    ['quoted params', "gtag('event', 'literal_event', {'unknown_param': 1});", /unknown_param\s+← literal_event/],
+    ['a params variable', "gtag('event', 'literal_event', params);", /params that are not an object literal/],
+    ['spread params', "gtag('event', 'literal_event', {...base});", /spread or computed/],
+    ['computed params', "gtag('event', 'literal_event', {[key]: 1});", /spread or computed/],
+  ] as const) {
+    test(`fails closed on ${label}`, () => {
+      const root = fixture();
+      write(root, 'src/unreadable.ts', source);
+      rejects(root, reason);
+    });
+  }
+
+  // Review of #868: calls the lexer used to blank, and expressions that only
+  // start with an object literal. Each must still reach the comparison.
+  for (const [label, file, source] of [
+    ['an apostrophe in Astro markup before a same-line script', 'src/probe.astro',
+      `<p>don't</p><script>gtag("event", "literal_event", {unknown_param: 1});</script>`],
+    ['a division after a postfix ++', 'src/probe.ts',
+      "let clicks = 1, total = 2; const rate = clicks++ / total; gtag('event', 'literal_event', {unknown_param: 1});"],
+    ['a division after a closing paren', 'src/probe.ts',
+      "const r = (a + b) / 2; gtag('event', 'literal_event', {unknown_param: 1});"],
+  ] as const) {
+    test(`still sees a call after ${label}`, () => {
+      const root = fixture();
+      write(root, file, source);
+      rejects(root, /unknown_param\s+← literal_event/);
+    });
+  }
+
+  // Review round 2: a regex literal after a block or a control-statement
+  // paren used to hide the next call from the hand-written scanner.
+  for (const [label, source] of [
+    ['a regex after a block', "if (true) {} /[//]/.test('/'); gtag('event', 'literal_event', {unknown_param: 1});"],
+    ['a regex after a control-statement paren', "if (true) /https?:\\/\\//.test('https://a'); gtag('event', 'literal_event', {unknown_param: 1});"],
+    ['a quote inside a regex after a paren', "if (x) /'/.test(s); gtag('event', 'literal_event', {unknown_param: 1});"],
+  ] as const) {
+    test(`still sees a call after ${label}`, () => {
+      const root = fixture();
+      write(root, 'src/probe.ts', source);
+      rejects(root, /unknown_param\s+← literal_event/);
+    });
+  }
+
+  test('fails with file and line when a script region does not parse', () => {
+    const root = fixture();
+    write(root, 'src/broken.ts', "const ok = 1;\ngtag('event', 'literal_event', {item_id: 1};");
+    rejects(root, /src\/broken.ts:2: cannot be parsed/);
+    const astro = fixture();
+    write(astro, 'src/broken.astro', "<p>x</p>\n<script>\nif (\n</script>");
+    rejects(astro, /src\/broken.astro:\d+: cannot be parsed/);
+  });
+
+  test('fails on gtag in markup outside a <script> block', () => {
+    const root = fixture();
+    write(root, 'src/onclick.astro', `<button onclick="gtag('event', 'literal_event', {unknown_param: 1})">x</button>`);
+    rejects(root, /src\/onclick.astro:1: gtag outside a <script> block the gate can parse/);
+  });
+
+  for (const suffix of ['&& {unknown_param: 1}', '|| {unknown_param: 1}', '? {a: 1} : {unknown_param: 1}']) {
+    test(`fails on params "{…} ${suffix}"`, () => {
+      const root = fixture();
+      write(root, 'src/probe.ts', `gtag('event', 'literal_event', {item_id: 1} ${suffix});`);
+      rejects(root, /literal_event is sent with params that are not an object literal/);
+    });
+  }
+
+  test('accepts strings, regexes and comments that only mention gtag / dataLayer', () => {
+    const root = fixture();
+    write(root, 'src/mentions.ts', [
+      'const doc = "window[\'gtag\'] and x[\'dataLayer\'] are rejected by the gate";',
+      "const url = 'https://www.googletagmanager.com/gtag/js?id=' + id;",
+      "const re = /gtag\\(|dataLayer/; const half = total / 2; const rate = clicks++ / total;",
+      "console.warn('[analytics] gtag event failed'); // gtag('event', 'x') in a comment",
+      "/* gtag('event', 'undeclared_event', {unknown_param: 1}); */",
+      "const example = \"gtag('event', 'documentation_example', {unknown_param: 1})\";",
+      "const tpl = `see gtag('event', 'x') and dataLayer.push({})`;",
+      "declare global { interface Window { gtag?: (...args: unknown[]) => void; dataLayer: unknown[] } }",
+      "declare namespace analytics { type gtag = (...args: unknown[]) => void; }",
+      "import type GtagTypes = require('./gtag'); type GtagFn = analytics.gtag; import ns = analytics; import fs = require('node:fs');",
+    ].join('\n'));
+    write(root, 'src/mentions.astro', [
+      "---\nconst title = 'gtag';\n---",
+      "<p>don't worry</p>",
+      "{/* gtag('event', 'commented') */}",
+      "<script>if (window.gtag) gtag('event', 'literal_event', {item_id: 1});</script>",
+    ].join('\n'));
+    const result = run(root);
+    assert.equal(result.status, 0, result.stderr);
+  });
+
+  test('fails closed on a non-literal wrapper call and an undeclared Footer branch', () => {
+    const root = fixture();
+    write(root, 'src/pages/_shindan.js',
+      "function track(name, params) { gtag('event', name, params); }\n" +
+      "track('track_event', {group_id: 'fixture'});\ntrack(eventName, {});");
+    rejects(root, /src\/pages\/_shindan.js:3: track\(…\) is called with a non-literal event name/);
+    const fresh = fixture();
+    write(fresh, 'src/components/Footer.astro',
+      "<script>if (name === 'jobtag_outbound_click') {} else if (name === 'new_branch') {}\ngtag('event', name, params);</script>");
+    rejects(fresh, /Footer.astro:1: branches on "new_branch", which DYNAMIC_EMIT_SITES does not declare/);
   });
 
   test('rejects missing or stale dynamic registry entries', () => {

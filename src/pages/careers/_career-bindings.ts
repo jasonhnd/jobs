@@ -36,6 +36,8 @@ import {
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import { siteConfig } from '@/site/config';
+import { formatShownMeanLabel } from '@/lib/score-format';
+import { stringifyJsonLd } from '../../lib/json-for-script.js';
 
 const SITE = siteConfig.origin;
 
@@ -69,7 +71,7 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 
 export function buildCareerBindings(input: CareerBindingsInput): CareerBindings {
   const { persona, items, graph } = input;
-  const canonical = `${SITE}/careers/${persona.slug}`;
+  const canonical = `${SITE}/pro/careers/${persona.slug}`;
   const ogImage = `${SITE}/api/og?career=${persona.slug}`;
   const title = `${persona.title_ja}｜推薦 TOP ${items.length} | 未来の仕事`;
   const seoDesc = `${persona.short_ja}向けの推薦職業 TOP ${items.length}。${persona.description_ja.slice(0, 80)}…`;
@@ -80,7 +82,7 @@ export function buildCareerBindings(input: CareerBindingsInput): CareerBindings 
   const statsHtml =
     `<dl class="stats">` +
     `<div><dt>推薦数</dt><dd>${items.length}</dd></div>` +
-    `<div><dt>平均 AI 影響</dt><dd>${meanRisk > 0 ? meanRisk.toFixed(1) + ' / 10' : '—'}</dd></div>` +
+    `<div><dt>平均 AI 影響</dt><dd>${meanRisk > 0 ? formatShownMeanLabel(meanRisk) : '—'}</dd></div>` +
     `<div><dt>平均年収</dt><dd>${meanSalary > 0 ? Math.trunc(meanSalary) + ' 万円' : '—'}</dd></div>` +
     `</dl>`;
 
@@ -93,7 +95,7 @@ export function buildCareerBindings(input: CareerBindingsInput): CareerBindings 
   const highlights = [
     `1 位は「${items[0]?.name_ja ?? '—'}」`,
     top3 ? `TOP 3 は ${top3}` : '',
-    meanRisk > 0 ? `平均 AI 影響度 ${meanRisk.toFixed(1)}/10` : '',
+    meanRisk > 0 ? `平均 AI 影響度 ${formatShownMeanLabel(meanRisk)}` : '',
     persona.advantages_ja[0] ? `利点: ${persona.advantages_ja[0]}` : '',
   ].filter(Boolean);
   const highlightsHtml = renderHighlights(highlights);
@@ -117,7 +119,7 @@ export function buildCareerBindings(input: CareerBindingsInput): CareerBindings 
 
   const relatedHtml = '<ul class="related-genre">' + CAREER_PERSONAS
     .filter((p) => p.slug !== persona.slug)
-    .map((p) => `<li><a href="/careers/${p.slug}"><span class="rg-name">${escapeHtml(p.short_ja)}</span><span class="rg-desc">${escapeHtml(p.description_ja.slice(0, 60))}…</span></a></li>`)
+    .map((p) => `<li><a href="/pro/careers/${p.slug}"><span class="rg-name">${escapeHtml(p.short_ja)}</span><span class="rg-desc">${escapeHtml(p.description_ja.slice(0, 60))}…</span></a></li>`)
     .join('') + '</ul>';
 
   const itemList = items.map((o, i) => ({
@@ -126,20 +128,20 @@ export function buildCareerBindings(input: CareerBindingsInput): CareerBindings 
     url: `${SITE}${occupationPath(o.id)}`,
     name: o.name_ja,
   }));
-  const jsonLd = JSON.stringify({
+  const jsonLd = stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: persona.title_ja, description: seoDesc, isPartOf: { '@id': `${SITE}/#website` }, inLanguage: 'ja' },
       { '@type': 'CollectionPage', '@id': `${canonical}#collection`, name: persona.title_ja, description: seoDesc },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'キャリア段階から探す', item: `${SITE}/careers` },
+        { '@type': 'ListItem', position: 2, name: 'キャリア段階から探す', item: `${SITE}/pro/careers` },
         { '@type': 'ListItem', position: 3, name: persona.title_ja, item: canonical },
       ] },
       { '@type': 'ItemList', numberOfItems: itemList.length, itemListElement: itemList },
       { '@type': 'FAQPage', mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
     ],
-  }, null, 2);
+  }, 2);
 
   return {
     canonical, ogImage, title, seoDesc,

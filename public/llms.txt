@@ -1,6 +1,6 @@
 # mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model AIOIS-10 consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-10-01). Per-model breakdown: https://mirai-shigoto.com/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
+> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Published scores are a multi-model AIOIS-10 consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-10-01). Per-model breakdown: https://mirai-shigoto.com/pro/models. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
 ## Key facts
 
@@ -16,8 +16,8 @@
 | Mean AI Impact | 4.68 / 10 |
 | Median AI Impact | 4.50 / 10 |
 | Mean Displacement-Risk | 1.83 / 10 |
-| Occupations at AI Impact >= 5 | 198 |
-| Annual wages in occupations at AI Impact >= 5 | 106.423322 trillion yen |
+| Occupations at AI Impact >= 7 | 31 |
+| Annual wages in occupations at AI Impact >= 7 | 30.637063 trillion yen |
 | High AI Impact occupations | 31 / 556 (5.6%) |
 | Workers in high AI Impact occupations | 5,994,023 (11.0% of mapped workforce) |
 | Largest occupation | 一般事務 (2,639,330 workers; AI Impact 8.1/10) |
@@ -28,10 +28,10 @@
 
 | AI Impact band | Occupations | Share |
 |---|---:|---:|
-| 0-2 | 2 | 1.0% |
+| 0-2 | 4 | 1.0% |
 | 3-4 | 278 | 50.0% |
-| 5-6 | 224 | 40.0% |
-| 7-8 | 50 | 9.0% |
+| 5-6 | 228 | 41.0% |
+| 7-8 | 44 | 8.0% |
 | 9-10 | 2 | 0.0% |
 
 Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=157, mid=368, high=31.
@@ -45,20 +45,27 @@ Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=157,
 - 31 occupations score 7.0 or higher on AI Impact, covering 5,994,023 mapped workers (11.0%).
 - Highest-impact sector: 事務・公務 (6.41/10). Lowest-impact sector: 建設・土木 (3.09/10).
 
+## Editions
+
+The ordinary edition provides occupation, selected-ranking, map and sector entrances. Pro is currently free and publicly accessible at https://mirai-shigoto.com/pro, with full research, model runs, questions, methods and datasets. Both editions use the same scores and source facts.
+
 ## Pages
 
 - [Main map](https://mirai-shigoto.com/)
-- [AIOIS-10 standard](https://mirai-shigoto.com/standard)
-- [Methodology](https://mirai-shigoto.com/methodology)
-- [Public data](https://mirai-shigoto.com/data)
+- [AIOIS-10 standard](https://mirai-shigoto.com/pro/standard)
+- [Methodology](https://mirai-shigoto.com/pro/methodology)
+- [Public data](https://mirai-shigoto.com/pro/data)
 - [Rankings](https://mirai-shigoto.com/rankings)
+- [Full Pro rankings](https://mirai-shigoto.com/pro/rankings)
+- [Model runs](https://mirai-shigoto.com/pro/models)
+- [Questions](https://mirai-shigoto.com/pro/q)
 - [Sectors](https://mirai-shigoto.com/sectors)
-- [Answers](https://mirai-shigoto.com/answers)
+- [Answers](https://mirai-shigoto.com/pro/answers)
 - [Extended GEO companion](https://mirai-shigoto.com/llms-full.txt)
 
 ## Methodology
 
-AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are, for each dimension and both indices, the mean of the latest model from each of 3 vendors; Transformation is not recomputed from mean(D1, D2) after the mean. Per-model scores remain on /models.
+AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are, for each dimension and both indices, the mean of the latest model from each of 3 vendors; Transformation is not recomputed from mean(D1, D2) after the mean. Per-model scores remain on /pro/models.
 
 ## FAQ
 

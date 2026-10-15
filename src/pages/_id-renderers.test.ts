@@ -45,7 +45,7 @@ describe('occupation section adapters', () => {
     });
     const meta = renderOccupationMetaRow(record);
     assert.match(meta, /href="\/sectors\/iryo">Sector &amp; &lt;label&gt;/);
-    assert.match(meta, /class="band band-high">AI 影響 高/);
+    assert.match(meta, /class="band band-high">変化 大きい/);
     assert.match(meta, /class="band band-mid">規模 中/);
     assert.match(meta, /class="band band-low">需要 安定/);
     const radar = renderOccupationProfileRadar(record);
@@ -92,8 +92,10 @@ describe('occupation section adapters', () => {
     }));
     assert.match(html, /href="https:\/\/example\.test\/\?a=1&amp;b=2"/);
     assert.match(html, /Org &amp; &lt;x&gt;/);
-    assert.match(html, /href="#"[^>]*>No URL/);
-    assert.equal([...html.matchAll(/target="_blank"/g)].length, 2);
+    // #884: no URL → plain text, not a dead href="#" opening a new tab.
+    assert.match(html, /<li>No URL<\/li>/);
+    assert.ok(!html.includes('href="#"'));
+    assert.equal([...html.matchAll(/target="_blank"/g)].length, 1);
     assert.match(html, /<li>Cert &lt;x&gt;<\/li>/);
   });
 
@@ -147,7 +149,7 @@ describe('occupation FAQ and JSON-LD adapters', () => {
     assert.equal(web.url, 'https://mirai-shigoto.com/occupations/404');
     assert.equal(web.datePublished, dates.datePublished);
     assert.equal(web.dateModified, dates.dateModified);
-    assert.ok(web.name.includes('1.5/10'));
+    assert.ok(web.name.includes('1.5/10 変化 小さい'));
     assert.equal(occupation.sameAs, record.url);
     assert.equal(occupation.occupationalCategory, 'MHLW');
     assert.deepEqual(occupation.alternateName, ['Alias A', 'Alias B']);

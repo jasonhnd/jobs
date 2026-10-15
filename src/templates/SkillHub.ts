@@ -20,7 +20,8 @@ import { riskClass } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 import { CONTENT_DATE } from '../lib/_content-date.js';
 import { occupationPath } from '../lib/urls.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 // Re-export escapeHtml so pages can import it from the template entrypoint.
 export { escapeHtml };
@@ -33,7 +34,7 @@ export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
 export function renderSkillItem(o: SkillOccupation, shortJa: string): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
-  const scoreStr = formatRiskScore(o.ai_risk);
+  const scoreStr = formatRiskScoreLabel(o.ai_risk);
   const band = riskClass(o.ai_risk);
   const metaParts: string[] = [];
   if (o.sector_ja) metaParts.push(escapeHtml(o.sector_ja));
@@ -74,7 +75,7 @@ export function renderRelatedSkills(
     .filter((m) => m.slug !== currentSlug)
     .map(
       (m) =>
-        `<li><a href="/skills/${m.slug}">` +
+        `<li><a href="/pro/skills/${m.slug}">` +
         `<span class="rs-name">${escapeHtml(m.short_ja)}</span>` +
         `<span class="rs-desc">${escapeHtml(m.description_ja.slice(0, 60))}…</span>` +
         `</a></li>`,
@@ -131,7 +132,7 @@ export function renderJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'スキルから探す', item: `${SITE}/skills` },
+        { '@type': 'ListItem', position: 2, name: 'スキルから探す', item: `${SITE}/pro/skills` },
         { '@type': 'ListItem', position: 3, name: meta.title_ja, item: canonical },
       ],
     },
@@ -157,7 +158,7 @@ export function renderJsonLd(
     });
   }
 
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 // ─── skills/index hub-card renderer (Phase D audit #8 2026-05-14) ────
@@ -174,7 +175,7 @@ export function renderSkillsHubCards(cards: ReadonlyArray<SkillsHubCard>): SafeH
   return cards.map((c) => {
     const previewHtml = c.top_preview ? `<span class="sci-preview">${escapeHtml(c.top_preview)}</span>` : '';
     return (
-      `<li><a href="/skills/${c.slug}">` +
+      `<li><a href="/pro/skills/${c.slug}">` +
       `<span class="sci-name">${escapeHtml(c.short_ja)}</span>` +
       `<span class="sci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
       `${previewHtml}` +
@@ -185,11 +186,11 @@ export function renderSkillsHubCards(cards: ReadonlyArray<SkillsHubCard>): SafeH
 }
 
 export function renderHubJsonLd(): string {
-  const canonical = `${SITE}/skills`;
+  const canonical = `${SITE}/pro/skills`;
   const seoDesc =
     'IPD 39 スキル軸から reader value の高い 10 を選んだスキル別 hub 群。' +
     '各スキルが核となる職業 TOP 30 を AI 影響度・年収と共に一覧。';
-  return JSON.stringify(
+  return stringifyJsonLd(
     {
       '@context': 'https://schema.org',
       '@graph': [
@@ -216,7 +217,6 @@ export function renderHubJsonLd(): string {
         },
       ],
     },
-    null,
     2,
   );
 }

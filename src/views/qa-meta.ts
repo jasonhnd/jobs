@@ -23,6 +23,7 @@ import { APTITUDE_EXTRA_ITEMS } from './qa-items/aptitude-extra.js';
 import { LIFE_EXTRA_ITEMS } from './qa-items/life-extra.js';
 import { AI_ANXIETY_EXTRA_ITEMS } from './qa-items/ai-anxiety-extra.js';
 import { CAREER_EXTRA_ITEMS } from './qa-items/career-extra.js';
+import { QA_GROUP_SLUGS, QA_HUB_SECTIONS } from './qa-groups.js';
 
 export interface QAItem {
   slug: string;
@@ -47,47 +48,7 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
   ...CAREER_EXTRA_ITEMS,
 ];
 
-/**
- * Nine thematic groups of QA_ITEMS, matching the section comments above.
- * #328 writes the first-screen answer line per group (different sort
- * dimensions). Keep this partition in lockstep with the catalog — the
- * test in qa-meta.test.ts asserts every slug is in exactly one group.
- */
-export const QA_GROUP_SLUGS = {
-  'ai-anxiety': [
-    'ai-de-kienai', 'ai-de-kieru', 'ai-augment-vs-replace', 'shikaku-mamoru',
-    'genba-vs-jimu', 'shokunin-mirai', 'hito-aite-shigoto', 'ai-jidai-osusume',
-  ],
-  'sector-future': [
-    'kango-ai', 'it-engineer-ai', 'jimu-mirai', 'hanbai-mirai',
-    'driver-mirai', 'kyouiku-ai',
-  ],
-  'career': [
-    'shinso-osusume', 'tenshoku-30s', 'tenshoku-40s', 'over-50-katsuyaku',
-    'tenshoku-yasashii', 'career-change-mirai', 'blank-fukki',
-    'hoshou-nashi-tenshoku', 'tenshoku-kaisuu-ooi',
-  ],
-  'life': [
-    'ikuji-ryouritsu', 'kaigo-ryouritsu', 'female-long', 'zaitaku-shigoto',
-    'fukugyou-ok', 'shougai-mochi-ok',
-  ],
-  'aptitude': [
-    'bunkei-osusume', 'rikei-osusume', 'hito-mishiri-ok', 'suugaku-nigate',
-    'eigo-ikasu', 'geijutsu-keikei',
-  ],
-  'aptitude-extra': [
-    'naiko-osusume', 'gaiko-osusume', 'kanjou-roudou-sukunai', 'ronri-shiko-ikasu',
-  ],
-  'life-extra': [
-    'tsuukin-friendly', 'yakin-nashi', 'dokushin-friendly',
-  ],
-  'ai-anxiety-extra': [
-    'ai-shitsugyou-yobou', 'ai-skill-mi-ni-tsukeru', 'ai-hoshou-shoku',
-  ],
-  'career-extra': [
-    'gakureki-konpurekkusu', 'mikeiken-it', 'nenshu-up', 'kaigai-iju-shoku',
-  ],
-} as const;
+export { QA_GROUP_SLUGS, QA_HUB_SECTIONS, qaQuestionCount } from './qa-groups.js';
 
 export type QaGroup = keyof typeof QA_GROUP_SLUGS;
 
@@ -105,6 +66,22 @@ export function qaGroup(slug: string): QaGroup {
   const group = QA_SLUG_TO_GROUP.get(slug);
   if (!group) throw new Error(`qa-meta: unknown Q&A slug ${slug}`);
   return group;
+}
+
+/**
+ * The /q hub sections, in page order, built from QA_GROUP_SLUGS so a question
+ * added to any group is linked (#884: a hard-coded slice(0, 36) dropped 13).
+ */
+export function buildQaHubSections(): ReadonlyArray<readonly [string, ReadonlyArray<QAItem>]> {
+  const bySlug = new Map(QA_ITEMS.map((q) => [q.slug, q] as const));
+  return QA_HUB_SECTIONS.map(([title, groups]) => [
+    title,
+    groups.flatMap((group) => QA_GROUP_SLUGS[group].map((slug) => {
+      const item = bySlug.get(slug);
+      if (!item) throw new Error(`qa-meta: unknown Q&A slug ${slug} in group ${group}`);
+      return item;
+    })),
+  ] as const);
 }
 
 export function selectExamples(items: ReadonlyArray<DetailFileMin>, qa: QAItem, n: number = 10): ReadonlyArray<DetailFileMin> {

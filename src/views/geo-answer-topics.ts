@@ -1,6 +1,8 @@
 import { siteConfig } from '../site/config.js';
 import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
 import { occupationPath } from '../lib/urls.js';
+import { displayScore } from '../data/lib/banker-round.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 const SITE = siteConfig.origin;
 const TOP_N = 30;
@@ -63,10 +65,10 @@ export const GEO_ANSWER_TOPIC_CONFIGS: readonly GeoAnswerTopicConfig[] = [
     titleJa: '年収が高く、AIに代替されにくい仕事（日本のデータ）',
     h1Ja: '年収が高く、AIに代替されにくい仕事（日本のデータ）',
     questionJa: '年収が高く、AIに代替されにくい仕事を日本のデータで教えてください。',
-    shortAnswerJa: '高年収とAI安全度を両立しやすいのは、AI影響度が中程度以下で、専門性・対人判断・制度上の壁がある仕事です。',
-    introJa: 'AI影響度5.0以下の職業から、年収中央値が高い順に並べます。収入とAI安全度を同時に見たい人向けの入口です。',
-    itemReasonJa: 'AI影響度5.0以下、年収中央値が高い順',
-    selector: (occupation) => occupation.aiImpact <= 5 && occupation.salaryMan !== null,
+    shortAnswerJa: '高年収とAI安全度を両立しやすいのは、変化が中くらい以下で、専門性・対人判断・制度上の壁がある仕事です。',
+    introJa: 'AI影響度4.0未満の職業から、年収中央値が高い順に並べます。収入とAI安全度を同時に見たい人向けの入口です。',
+    itemReasonJa: 'AI影響度4.0未満、年収中央値が高い順',
+    selector: (occupation) => displayScore(occupation.aiImpact) < 4.0 && occupation.salaryMan !== null,
     sorter: bySalarySafe,
   },
   {
@@ -84,10 +86,10 @@ export const GEO_ANSWER_TOPIC_CONFIGS: readonly GeoAnswerTopicConfig[] = [
 
 /** Primary indexable URL for each GEO SOP prompt (#272). */
 export const SOP_LANDINGS = [
-  { href: '/answers/ai-de-nakunaru-shigoto', labelJa: 'AIに代替されやすい仕事' },
-  { href: '/answers/nenshu-ai-anzen', labelJa: '年収とAI' },
-  { href: '/answers/nobiru-shigoto-top', labelJa: 'なくならない仕事' },
-  { href: '/methodology', labelJa: '指標とデータセット' },
+  { href: '/pro/answers/ai-de-nakunaru-shigoto', labelJa: 'AIに代替されやすい仕事' },
+  { href: '/pro/answers/nenshu-ai-anzen', labelJa: '年収とAI' },
+  { href: '/pro/answers/nobiru-shigoto-top', labelJa: 'なくならない仕事' },
+  { href: '/pro/methodology', labelJa: '指標とデータセット' },
 ] as const;
 
 export function formatSopCitation(opts: {
@@ -110,7 +112,7 @@ export function buildGeoAnswerTopic(facts: GeoFacts, slug: string): GeoAnswerTop
     .filter(config.selector)
     .sort(config.sorter)
     .slice(0, TOP_N);
-  const canonical = `${SITE}/answers/${config.slug}`;
+  const canonical = `${SITE}/pro/answers/${config.slug}`;
   const seoDesc = `${config.questionJa}${config.shortAnswerJa} ${formatSopCitation({
     runDate: facts.attribution.runDate,
     occupationCount: facts.occupationCount,
@@ -208,16 +210,16 @@ export function renderGeoAnswerTopicJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'AI回答トピック', item: `${SITE}/answers` },
+        { '@type': 'ListItem', position: 2, name: 'AI回答トピック', item: `${SITE}/pro/answers` },
         { '@type': 'ListItem', position: 3, name: config.h1Ja, item: canonical },
       ],
     },
   ];
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }
 
 export function renderGeoAnswerIndexJsonLd(facts: GeoFacts): string {
-  const canonical = `${SITE}/answers`;
+  const canonical = `${SITE}/pro/answers`;
   const topics = buildGeoAnswerTopics(facts);
   const graph = [
     {
@@ -250,5 +252,5 @@ export function renderGeoAnswerIndexJsonLd(facts: GeoFacts): string {
       })),
     },
   ];
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }

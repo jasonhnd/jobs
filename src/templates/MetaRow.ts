@@ -44,7 +44,7 @@ type BandField = 'risk_band' | 'workforce_band' | 'demand_band';
 
 // Keys aligned with data layer (src/data/lib/bands.ts + test-consistency.ts).
 const BAND_LABELS: Record<BandField, Record<string, string>> = {
-  risk_band: { low: 'AI 影響 低', mid: 'AI 影響 中', high: 'AI 影響 高' },
+  risk_band: { low: '変化 小さい', mid: '変化 中くらい', high: '変化 大きい' },
   workforce_band: { small: '規模 小', mid: '規模 中', large: '規模 大' },
   demand_band: { cold: '需要 安定', normal: '需要 旺盛', hot: '需要 過熱' },
 };

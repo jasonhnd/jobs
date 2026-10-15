@@ -8,6 +8,20 @@ Historical deployment evidence recorded **as of 2026-08-25** on `preview` `aa1e7
 
 Refreshed 2026-09-24 on preview 9b4e7197 for the 2026-09 series (#635).
 
+**2026-10-08 workflow change:** GitHub Actions are disabled; `quality` no longer
+runs or gates merges. `Vercel` remains the required check on `preview` and
+`main`. Workflow files and their pins are retained unchanged as configuration,
+not evidence of execution. Ask the owner for explicit approval before restoring
+Actions or CI requirements. Executors run the full local
+[`AGENTS.md`](../AGENTS.md) Acceptance commands chain before pushing (docs-only:
+`bun run check:docs-links`, unless the Issue requires the full chain) and paste
+real command output, exit codes, pass/fail counts, and skips into the PR. Before
+merging into `preview`, the supervisor checks that output, the diff, independent
+review, successful `Vercel`, and resolved conversations. For promotion, the
+supervisor manually checks head=`preview` and base=`main` as well as verification
+evidence and `Vercel`; the owner approves and merges with a merge commit. The
+retained CI promotion guard does not run.
+
 **PR 299** set `"bunVersion": "1.4.x"` and did **not** put Functions on Bun 1.4 (`engines.node` won; inspect was still Edge). **#302–#305** (PRs 307–310) removed `engines.node` and moved `api/og`, `api/shindan-share`, and middleware to `runtime: "nodejs"`. On that preview they run as `lambda.runtime: "bun1.4.x"`, `edge: null`. §9 is the shipped series, not remaining work.
 
 ---
@@ -18,8 +32,8 @@ A deploy is not one runtime. Mixing these planes is how `bunVersion` accidentall
 
 | Plane | What it is | What sets the version | What actually runs |
 | --- | --- | --- | --- |
-| **A Install** | `vercel.json` `installCommand` | Build-image Bun (`"bunVersion": "1.4.x"`), unless the command pins with `bunx bun@x.y.z` | Today: `bun install --frozen-lockfile`. **2026-09-20:** the `bunx bun@1.4.0` pin stopped working on Vercel CLI 59.23.2 — the bunx bootstrap exited 1 before `bun install` ran, on every deploy (preview `d0d945ed`, then an empty-commit retry). The build image's own Bun is 1.4.x via `bunVersion`, so the exact pin is dropped; the current CI pin is maintained only in §2 (updated by [PR #653](https://github.com/jasonhnd/jobs/pull/653)); it is separate from this failed historical bootstrap. Must be able to read `bun.lock`. |
-| **B Build** | `buildCommand` in the same container | **No `engines.node`** (#302) so it cannot steal Function runtime from `bunVersion`. Builds stay Node **24.x** via platform default + `.nvmrc` + CI `node-version: 24.x`. | `rm -rf dist-astro node_modules/.astro && bun run build` only. `typecheck`, `verify:gates` and `test` run in GitHub CI `quality`, not on Vercel (Issue #855). `bun run build` still runs `check-rendered-leaks` and `compute-csp-hashes`, so CSP hashes are regenerated against the real `PUBLIC_*` values. **`astro build` uses the `astro` bin shebang (Node).** ETL, `bun test`, and most `scripts/*` use Bun. |
+| **A Install** | `vercel.json` `installCommand` | Build-image Bun (`"bunVersion": "1.4.x"`), unless the command pins with `bunx bun@x.y.z` | Today: `bun install --frozen-lockfile`. **2026-09-20:** the `bunx bun@1.4.0` pin stopped working on Vercel CLI 59.23.2 — the bunx bootstrap exited 1 before `bun install` ran, on every deploy (preview `d0d945ed`, then an empty-commit retry). The build image's own Bun is 1.4.x via `bunVersion`, so the exact pin is dropped; the retained CI pin is maintained only in §2 (updated by [PR #653](https://github.com/jasonhnd/jobs/pull/653)); it is separate from this failed historical bootstrap. Must be able to read `bun.lock`. |
+| **B Build** | `buildCommand` in the same container | **No `engines.node`** (#302) so it cannot steal Function runtime from `bunVersion`. Builds stay Node **24.x** via platform default + `.nvmrc` + the retained CI `node-version: 24.x` pin. | `rm -rf dist-astro node_modules/.astro && bun run build` only. `typecheck`, `verify:gates` and `test` run in the executor's local acceptance chain, not on Vercel (Issue #855). `bun run build` still runs `check-rendered-leaks` and `compute-csp-hashes`, so CSP hashes are regenerated against the real `PUBLIC_*` values. **`astro build` uses the `astro` bin shebang (Node).** ETL, `bun test`, and most `scripts/*` use Bun. |
 | **C Runtime** | After the deploy is live | Not the install Bun | HTML: CDN files from `outputDirectory` `dist-astro/`. **Today (#305):** `api/og`, `api/shindan-share`, and `middleware.ts` are `runtime: "nodejs"` + `"bunVersion": "1.4.x"` (Bun 1.4). OG/share `regions: ["hnd1", "kix1"]`. Middleware uses `@vercel/functions` (`next`, `rewrite`, `waitUntil`). |
 
 This repo does **not** use `@astrojs/vercel`. Static Astro + `outputDirectory: dist-astro` is the deploy model. Do not add the adapter as part of a version bump.
@@ -37,18 +51,18 @@ Node v24.20.0 is the earlier local record retained by the 2026-09-24 refresh,
 not a new measurement of this executor's shell. Bun 1.4.2 is the local/CI target
 from [PR #653](https://github.com/jasonhnd/jobs/pull/653).
 
-| Item | Local target / recorded observation | CI `quality` (`.github/workflows/ci.yml`) | Vercel configuration / dated observation |
+| Item | Local target / recorded observation | Retained CI configuration (disabled; `.github/workflows/ci.yml`) | Vercel configuration / dated observation |
 | --- | --- | --- | --- |
 | Node | **v24.20.0** (`nvm alias default` → 24). Non-interactive shells may still see Hermes **22** first via `~/.local/bin/node`. | `24.x` via `actions/setup-node` | Builds: **no `engines.node`** (#302). Node **24.x** via Vercel default ([Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)). Functions do **not** use this — they use `bunVersion`. |
 | Bun | **1.4.2** (`744846f84`) | **`bun-version: 1.4.2`** | Install Command: `bun install --frozen-lockfile` (build image 1.4.x (observed **1.4.1** on 2026-09-23); the bunx pin was dropped 2026-09-20, see §1 plane A). **`"bunVersion": "1.4.x"`**. `#303`–`#305`: `api/og`, `api/shindan-share`, **and middleware** all `lambda.runtime: "bun1.4.x"` (`edge: null`). Historical 2026-08-25 post-build pack step on `aa1e7e40` (after the Edge migration) printed `bun install v1.4.0` twice (not 1.3.14). Keep lockfileVersion 1 until a dedicated Issue proves v2. |
 | Astro | lockfile **7.3.5** | same lockfile | same |
 | `esbuild` | **0.28.2** (exact `package.json` pin); home-script minification in `astro.config.mjs`, guarded by `scripts/home-js-asset.test.ts` | same lockfile | same home-script minification during the Astro build |
 | `typescript` (JS package) | **7.0.2** (native compiler; platform binary via optional deps) | same | same |
-| typecheck binary | `typescript` **7.0.2** via `node node_modules/typescript/bin/tsc --noEmit` (the `@typescript/native` alias was removed in #635 order 8) | same | same (`bun run typecheck` in CI `quality`; not in `buildCommand` since Issue #855) |
+| typecheck binary | `typescript` **7.0.2** via `node node_modules/typescript/bin/tsc --noEmit` (the `@typescript/native` alias was removed in #635 order 8) | same | same (`bun run typecheck` locally; not in `buildCommand` since Issue #855) |
 | `@vercel/og` | **1.0.1** (exact pin; 1.0.2/1.0.3 abort — vercel/satori#801). overrides.fflate ^0.7.5. | same | `api/og` `runtime: "nodejs"` + Bun 1.4. Named `GET`. |
 | `@vercel/functions` | **3.9.9** | same | `middleware.ts` (`next`, `rewrite`, `waitUntil`). `@vercel/edge` removed. |
 | React | **19.3.0** (`@types/react` **19.3.0**; OG `createElement` only; no `@astrojs/react`, no client React) | same | inside the `api/og` Bun 1.4 bundle |
-| Playwright / axe | **1.63.0** / **4.13.0** (exact pins, no `^`; Chromium 153) | **executed** since design-1.20 (f05ba940, 2026-09-17): bun x playwright install --with-deps chromium, then bun x playwright test --reporter=line | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
+| Playwright / axe | **1.63.0** / **4.13.0** (exact pins, no `^`; Chromium 153) | **historically executed** from design-1.20 (f05ba940, 2026-09-17) until Actions were disabled on 2026-10-08; now run locally: bun x playwright install --with-deps chromium, then bun x playwright test --reporter=line | npm packages may install as devDependencies; **Chromium is not installed**; e2e is not in `buildCommand` |
 | `api/og` Function | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **18,051,748** bytes, `[hnd1, kix1]`. Named `GET`. (Issue 287 Edge was 855.83 KB.) CLI inspect may still draw `λ` — that glyph is not proof of Edge; read `builds[].output[].lambda.runtime` and `edge` in deployment JSON. |
 | `api/shindan-share` | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **373,416** bytes, `[hnd1, kix1]`. Named `GET`. |
 | middleware | — | — | Preview `aa1e7e40`: **bun1.4.x**, `edge: null`, **57,461** bytes, `[iad1, hnd1]`. Default export + `@vercel/functions`. |
@@ -56,7 +70,7 @@ from [PR #653](https://github.com/jasonhnd/jobs/pull/653).
 
 overrides.sharp ^0.35.4 (GHSA-rgj7-g3m4-5g8c; astro and @vercel/og only declare sharp as optional ^0.35).
 
-`bun.lock` today: **`lockfileVersion: 1`**. Current CI and Vercel install selection are in the §2 table above (Bun 1.4 can read v1). A v2 lockfile previously broke a preview while Edge packing still ran `bun install v1.3.14`. Historical 2026-08-25 evidence after #305: `aa1e7e40` had no Edge entries and packed with **1.4.0**. Still do not migrate to v2 without a dedicated Issue.
+`bun.lock` today: **`lockfileVersion: 1`**. Retained CI pins and Vercel install selection are in the §2 table above (Bun 1.4 can read v1). A v2 lockfile previously broke a preview while Edge packing still ran `bun install v1.3.14`. Historical 2026-08-25 evidence after #305: `aa1e7e40` had no Edge entries and packed with **1.4.0**. Still do not migrate to v2 without a dedicated Issue.
 
 `.nvmrc` contains `24`. Use that locally before Astro compiler work. `astro build` is Node. Do **not** put `engines.node` back after §9.1 — Vercel treats it as winning over `bunVersion` for Function runtime.
 
@@ -93,9 +107,9 @@ Citations include the document date so they can go stale on purpose.
 | `@vercel/og` on Edge vs Node | Platform OG docs (2026-06-16) lead with **Node.js**. npm `@vercel/og@1.0.1` README still says Node **and** Edge. **1.0.1 boots on Edge** (Issue 287: `λ api/og (855.83KB) [hnd1, kix1]`; six production PNGs byte-identical). The #280 series was forbidden from flipping runtime. **§9 is the architecture series that does flip** `api/og` to `runtime: "nodejs"` so `bunVersion` can apply. If that preview fails to boot or PNGs regress, stop — do not invent `runtime: "bun"` (docs say `nodejs` + `bunVersion`). | [OG image generation](https://vercel.com/docs/og-image-generation) (2026-06-16) |
 | Playwright / axe on Vercel | Not run. Do not add them to `buildCommand`. | this repo `vercel.json` + CHANGELOG |
 
-`vercel.json` `buildCommand` is `bun run build` only (Issue #855). `verify:gates`, which includes the SEO baseline diff, runs in GitHub CI `quality`: extracted-field HTML drift **fails `quality`**, not the Vercel build. (Before #855 `buildCommand` also ran `typecheck`, `verify:gates` and `test`.)
+`vercel.json` `buildCommand` is `bun run build` only (Issue #855). `verify:gates`, which includes the SEO baseline diff, runs in the local acceptance chain: extracted-field HTML drift **fails local acceptance**, not the Vercel build. (Before #855 `buildCommand` also ran `typecheck`, `verify:gates` and `test`.)
 
-Vercel's Ignored Build Step (`scripts/vercel-ignore-build.sh`, via `ignoreCommand`) skips every branch except `preview` and `main`: a topic-branch push or PR does not build on Vercel, because `quality` already verifies it. The skipped deployment is reported as a successful `Vercel` status ("Canceled by Ignored Build Step"), so the required `Vercel` check stays green and branch protection needs no change. To force a Vercel preview build on a topic branch, put `[vercel-build]` in the HEAD commit message (e.g. `git commit --allow-empty -m "ci: vercel preview [vercel-build]"`). On `preview` / `main`, documentation-only commits are still skipped and everything else builds; any anomaly builds (fail-safe).
+Vercel's Ignored Build Step (`scripts/vercel-ignore-build.sh`, via `ignoreCommand`) skips every branch except `preview` and `main`: a topic-branch push or PR does not build on Vercel, with the executor's local acceptance output reviewed by the supervisor. The skipped deployment is reported as a successful `Vercel` status ("Canceled by Ignored Build Step"), so the required `Vercel` check stays green and branch protection needs no change. To force a Vercel preview build on a topic branch, put `[vercel-build]` in the HEAD commit message (e.g. `git commit --allow-empty -m "ci: vercel preview [vercel-build]"`). On `preview` / `main`, documentation-only commits are still skipped and everything else builds; any anomaly builds (fail-safe).
 
 ---
 
@@ -115,7 +129,7 @@ Vercel's Ignored Build Step (`scripts/vercel-ignore-build.sh`, via `ignoreComman
 
 ## 5. Upgrade queue (#280) — historical
 
-One Issue → one PR → `preview` (`quality` + `Vercel`) → next Issue. Do not combine lockfiles. Do not stack on product branches.
+One Issue → one PR → `preview` (supervisor-reviewed local acceptance + `Vercel`) → next Issue. Do not combine lockfiles. Do not stack on product branches.
 
 | Order | Kind | Issue | Target |
 | --- | --- | --- | --- |
@@ -138,11 +152,14 @@ Not in the series: Node 26; `typescript` package → 7; analytics/ `googleapis` 
 
 ## 6. What “green” means
 
+With Actions disabled, `quality` supplies no current verification evidence.
+The local command output below is checked by the supervisor before merge.
+
 | Check | Proves | Does not prove |
 | --- | --- | --- |
-| GitHub **`quality`** | CI Bun pin can `bun install --frozen-lockfile`; unit tests; native typecheck; production `build`; `home-css-loading` + `models-built` + `home-js-asset` with `REQUIRE_BUILT_ARTIFACTS=1`; `verify:gates`; no uncommitted generated files (`git diff --exit-code`); Playwright + axe rendered-output suite against the CI build (design-1.20) | a real `/api/og` PNG, production alias |
-| GitHub **`Vercel`** | On `preview` / `main` (or a topic branch with `[vercel-build]` in its HEAD commit message), ran `installCommand` + `buildCommand` (`bun run build`) on Vercel’s image. Otherwise the check is the skipped-and-passing "Canceled by Ignored Build Step" status and proves nothing about the build. `verify:gates` (SEO baseline) is a `quality` gate, not a Vercel one. Install log must show `bun install` succeeding with the build-image Bun (1.4.x). | e2e; OG pixels. A green check is not enough — read `inspect --format=json` `lambda.runtime` (`bun1.4.x` after #303–#305). |
-| Local `bun run test:e2e` | Chromium against `dist-astro/` via `scripts/e2e-server.cjs`. The CI / [`AGENTS.md`](../AGENTS.md) acceptance build exports `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_X_PIXEL_ID`, `PUBLIC_META_PIXEL_ID`, `PUBLIC_CF_BEACON_TOKEN`, and `PUBLIC_GOOGLE_ADS_ID` as empty strings, so the dist has no GA4 markup and `tests/e2e/analytics.spec.ts` skips. The dedicated analytics run (`scripts/run-e2e.sh`) is a separate isolated config: it rebuilds with the throwaway id `PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000` and must leave the other four tracker variables empty. Do not copy tracker IDs from production HTML or a live preview. `vercel env pull` writes empty strings for Encrypted vars; leave those empty. | CI/Vercel |
+| Supervisor-reviewed local Acceptance commands output | Local Bun pin can `bun install --frozen-lockfile`; unit tests; native typecheck; production `build`; `home-css-loading` + `models-built` + `home-js-asset` with `REQUIRE_BUILT_ARTIFACTS=1`; `verify:gates`; no uncommitted generated files (`git diff --exit-code`); Playwright + axe rendered-output suite against the local build | a real `/api/og` PNG, production alias |
+| GitHub **`Vercel`** | On `preview` / `main` (or a topic branch with `[vercel-build]` in its HEAD commit message), ran `installCommand` + `buildCommand` (`bun run build`) on Vercel’s image. Otherwise the check is the skipped-and-passing "Canceled by Ignored Build Step" status and proves nothing about the build. `verify:gates` (SEO baseline) is a local acceptance gate, not a Vercel one. Install log must show `bun install` succeeding with the build-image Bun (1.4.x). | e2e; OG pixels. A green check is not enough — read `inspect --format=json` `lambda.runtime` (`bun1.4.x` after #303–#305). |
+| Local `bun run test:e2e` | Chromium against `dist-astro/` via `scripts/e2e-server.cjs`. The local [`AGENTS.md`](../AGENTS.md) acceptance build exports `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_X_PIXEL_ID`, `PUBLIC_META_PIXEL_ID`, `PUBLIC_CF_BEACON_TOKEN`, and `PUBLIC_GOOGLE_ADS_ID` as empty strings, so the dist has no GA4 markup and `tests/e2e/analytics.spec.ts` skips. The dedicated analytics run (`scripts/run-e2e.sh`) is a separate isolated config: it rebuilds with the throwaway id `PUBLIC_GA4_MEASUREMENT_ID=G-E2E0000000` and must leave the other four tracker variables empty. Do not copy tracker IDs from production HTML or a live preview. `vercel env pull` writes empty strings for Encrypted vars; leave those empty. | CI/Vercel |
 | Preview `/api/og` | Function boots and returns PNG. After #303: Bun 1.4 (`lambda.runtime: "bun1.4.x"`). | `astro preview` (it does **not** serve `/api/`) |
 
 Five HTML fingerprints (do not treat them as one):
@@ -151,8 +168,8 @@ Five HTML fingerprints (do not treat them as one):
 | --- | --- | --- |
 | SEO baseline | Extracted title/description/canonical/h1/og/JSON-LD/links/sitemap | Often unchanged if copy/helpers unchanged |
 | CSP | SHA-256 of static `is:inline` scripts → `vercel.json` | One compiler whitespace change rewrites hashes; commit them with a reason |
-| Home CSS URL | `scripts/home-css-loading.test.ts` pattern `/_astro/_index.[A-Za-z0-9_-]+\.css` | Hash change still passes; filename **shape** change fails CI, not `verify:gates` |
-| Home JS URL | Content-addressed `/_astro/_index-inline.<sha256>.js` from the final minified bytes; `scripts/home-js-asset.test.ts` guards emission and the built HTML reference | Changed final bytes change the URL; a filename/hash mismatch fails CI |
+| Home CSS URL | `scripts/home-css-loading.test.ts` pattern `/_astro/_index.[A-Za-z0-9_-]+\.css` | Hash change still passes; filename **shape** change fails the local built-artifact test, not `verify:gates` |
+| Home JS URL | Content-addressed `/_astro/_index-inline.<sha256>.js` from the final minified bytes; `scripts/home-js-asset.test.ts` guards emission and the built HTML reference | Changed final bytes change the URL; a filename/hash mismatch fails the local built-artifact test |
 | Fonts | `scripts/subset-fonts.ts` content-hash | Nav/footer glyph change retargets `/fonts/*`; no SEO gate |
 
 Occupation bodies are mostly `src/templates/` SafeHtml injected from `[...id].astro`. Compiler risk is layout, slots, asset URLs, and output filenames (`156.html` vs `156/index.html`).
@@ -195,13 +212,13 @@ Two independent blockers. Fixing only one still left Functions off Bun. Both are
 | **1. `engines.node` wins** | `package.json` `"engines": { "node": "24.x" }` plus `vercel.json` `"bunVersion"` → Vercel uses **Node** for the non-Edge runtime choice. | PR 299 Build log, four times: `Warning detected "engines": { "node": ... } in package.json and "bunVersion" in vercel.json. package.json takes precedence, using "node".` | **Remove** `engines.node`. Keep Node 24 for **Builds** via `.nvmrc` `24`, CI `node-version: 24.x`, and Vercel’s default Node **24.x**. Do not jump Node 26. Do not put `engines.node` back. |
 | **2. Edge excludes the flag** | [vercel.json `bunVersion`](https://vercel.com/docs/project-configuration/vercel-json#bunversion): the flag applies to Functions and Routing Middleware **not** using Edge. | `api/og.tsx` and `api/shindan-share.ts` export `runtime: "edge"`. `middleware.ts` has no `runtime` (platform default **edge**) and imports `next` / `rewrite` from `@vercel/edge`. Historical PR 299 inspect JSON identified Edge; the displayed `λ api/og … [hnd1, kix1]` line alone does not identify runtime. | Set each entry `runtime: "nodejs"`. Middleware also needs that key ([Routing Middleware API](https://vercel.com/docs/routing-middleware/api)). Replace `@vercel/edge` with `@vercel/functions`. |
 
-`engines.node` existed only to pin Builds to Node 24. Vercel’s current default **is already 24.x**, CI already pins 24.x, `.nvmrc` is `24`, and `astro` still uses the Node shebang. Removing the key does **not** move `astro build` onto Bun. Do not put it back.
+`engines.node` existed only to pin Builds to Node 24. Vercel’s current default **is already 24.x**, the retained CI configuration pins 24.x, `.nvmrc` is `24`, and `astro` still uses the Node shebang. Removing the key does **not** move `astro build` onto Bun. Do not put it back.
 
 There is no `runtime: "bun"` in this repo’s contract. Official path: `runtime: "nodejs"` + `"bunVersion": "1.4.x"`.
 
 ### 9.2 Serial queue
 
-One Issue → one PR → `preview` (`quality` + `Vercel`) → next. Do not combine lockfiles. Do not stack on product branches. Do not open a PR against `main`.
+One Issue → one PR → `preview` (supervisor-reviewed local acceptance + `Vercel`) → next. Do not combine lockfiles. Do not stack on product branches. Do not open a PR against `main`.
 
 | Order | Kind | Issue | Target | Failure domain |
 | --- | --- | --- | --- | --- |
@@ -255,7 +272,7 @@ Order is mandatory: if order 2–4 run while `engines.node` is still present, Ve
 
 ### 9.5 What “green” means for this series
 
-Historical migration acceptance (2026-08-25). Runtime criteria use deployment JSON, not the CLI glyph; sizes and dated observations remain in §2. This checklist does not assert a newly verified live runtime.
+Historical migration acceptance (2026-08-25). The `quality` row below records that historical criterion only; since 2026-10-08 use supervisor-reviewed local acceptance output instead. Runtime criteria use deployment JSON, not the CLI glyph; sizes and dated observations remain in §2. This checklist does not assert a newly verified live runtime.
 
 | Check | Order 1 | Order 2–4 |
 | --- | --- | --- |
@@ -310,12 +327,12 @@ prepends the nvm Node and Bun.
 
 | Surface | Cloud Agent | Note |
 | --- | --- | --- |
-| `test` / `typecheck` / `build` / `verify:gates` / `git diff --exit-code` | Yes | The whole `quality` chain runs on the VM. This is the §6 green bar minus the Vercel build half (which only runs on `preview` / `main`, or on a topic branch whose HEAD commit message contains `[vercel-build]`). |
-| `bun run test:e2e` | Yes | CI `quality` runs the Playwright suite after installing Chromium (`bun x playwright install --with-deps chromium`, step "Install Chromium for rendered-output checks" in `.github/workflows/ci.yml`), then `bun x playwright test --reporter=line` (step "Run rendered-output checks (a11y, §4.2 floor, layout invariants)" in `.github/workflows/ci.yml`), so it gates merges. The analytics specs skip themselves when the build carries no GA4 markup (build with the `PUBLIC_*` analytics variables exported as empty strings, see [`AGENTS.md`](../AGENTS.md) → Acceptance commands). Playwright defaults to port 4321. For parallel workspaces, use `PLAYWRIGHT_PORT=<available port>` with a distinct port for each suite; never reuse another workspace's server. An explicit override disables server reuse. |
+| `test` / `typecheck` / `build` / `verify:gates` / `git diff --exit-code` | Yes | The executor can run the local acceptance chain on the VM and paste its real output into the PR; Actions do not run it. This is the §6 green bar minus the Vercel build half (which only runs on `preview` / `main`, or on a topic branch whose HEAD commit message contains `[vercel-build]`). |
+| `bun run test:e2e` | Yes | The executor installs Chromium locally (`bun x playwright install --with-deps chromium`), then runs `bun x playwright test --reporter=line` for rendered-output checks (a11y, §4.2 floor, layout invariants). The supervisor checks its real output before merge; the retained CI steps do not run. The analytics specs skip themselves when the build carries no GA4 markup (build with the `PUBLIC_*` analytics variables exported as empty strings, see [`AGENTS.md`](../AGENTS.md) → Acceptance commands). Playwright defaults to port 4321. For parallel workspaces, use `PLAYWRIGHT_PORT=<available port>` with a distinct port for each suite; never reuse another workspace's server. An explicit override disables server reuse. |
 | Scoring batches | Yes, `in-agent` only | The `in-agent` provider needs no credential — the agent session is the model, as for `claude-opus-4-8`, `claude-fable-5`, `grok-4.6`, `claude-fable-5-1`, the `grok-4.5` backfill, and `claude-opus-5-5`. Any keyed provider is owner-only. The `codex` provider (gpt-5.6-sol, gpt-6-astra, gpt-6-sol, gpt-6.1-sol) is owner-machine only. The `grok-cli` provider is owner-machine only, alongside `codex`. See [`SCORING_RUNBOOK.md`](SCORING_RUNBOOK.md). |
 | `bun run audit` | No | `analytics/` pins `pnpm@12.6.0` for corepack to fetch, and the GA4 scripts need credentials. |
 | Vercel CLI (`alerts`, `ls`, `inspect`, `firewall overview`) | No | Not installed, not authenticated. §8's refresh procedure needs an operator. |
-| Preview deployment | No | Verification ends at `git push`. A topic-branch push does not build on Vercel unless its HEAD commit message contains `[vercel-build]`; §6 and §9.5 — `lambda.runtime`, OG pixels — still need a human. The SEO baseline is a GitHub CI `quality` gate (`verify:gates`), not a deploy gate, so the VM covers it.
+| Preview deployment | No | Verification ends at `git push`. A topic-branch push does not build on Vercel unless its HEAD commit message contains `[vercel-build]`; §6 and §9.5 — `lambda.runtime`, OG pixels — still need a human. The SEO baseline is a local acceptance gate (`verify:gates`), not a deploy gate, so the VM can cover it when the executor runs the chain and supplies real output. |
 
 ---
 
@@ -335,7 +352,7 @@ prepends the nvm Node and Bun.
 | 7 | code | #643 | `subset-font` 2.5.0 → **2.9.0** (font hashes) — done (#656) |
 | 8 | code | #644 | `typescript` 6.0.3 → **7.0.2**; drop the `@typescript/native` alias — done (#657) |
 | 9 | code | #645 | `@types/node` 24.13.3 → **24.13.6** (stay on 24) — done (#658) |
-| 10 | code | #646 | `@playwright/test` 1.62.1 → **1.63.0** + dedupe `playwright-core` (CI runs Playwright + axe since design-1.20 `f05ba940`) — done (#659) |
+| 10 | code | #646 | `@playwright/test` 1.62.1 → **1.63.0** + dedupe `playwright-core` (CI historically ran Playwright + axe from design-1.20 `f05ba940`; Actions disabled 2026-10-08) — done (#659) |
 | 11 | code | #647 | `.github/workflows/ci.yml`: `actions/checkout` v4 → **v7**, `actions/setup-node` v4 → **v7** — done (#660) |
 | 12 | code | #648 | `analytics/`: `js-yaml` → **5.4.2**, `googleapis` → **181**, `qs` override **^6.16.0**, pnpm 11.9.0 → **12.6.0** — done (#661) |
 

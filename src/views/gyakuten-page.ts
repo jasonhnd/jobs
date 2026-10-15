@@ -12,6 +12,7 @@ import {
   VARIANTS,
   VARIANT_IDS_BY_FAMILY,
 } from '@/site/worktype-copy';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 const REPRESENTATIVE_OCCUPATION_COUNT = 4;
 
@@ -93,19 +94,12 @@ function treemapName(row: TreemapRecordSummary): string {
   return typeof name === 'string' && name.length > 0 ? name : `職業 ${row.id}`;
 }
 
-function safeJsonForScript(value: unknown): string {
-  const text = JSON.stringify(value) ?? 'null';
-  return text
-    .replace(/<\//g, '<\\/')
-    .replace(/\u2028/g, '\\u2028')
-    .replace(/\u2029/g, '\\u2029');
-}
 
 export function buildGyakutenPageModel(
   worktypes: WorktypesData,
   treemapRows: readonly TreemapRecordSummary[],
 ): GyakutenPageModel {
-  const canonical = `${siteConfig.origin}/gyakuten`;
+  const canonical = `${siteConfig.origin}/pro/gyakuten`;
   const title = 'AI働き方診断 図鑑｜8家族と24タイプを見る | 未来の仕事';
   const seoDesc =
     'AI働き方診断の8家族と24バリアントを一覧できる図鑑ページ。家族ごとのAIとの関係、次の一手、代表職業、職業データ全体での静的な分布を確認できます。';
@@ -182,7 +176,7 @@ export function buildGyakutenPageModel(
     description: `${FAMILIES[left].share} / ${FAMILIES[right].share}`,
   }));
 
-  const jsonLd = safeJsonForScript({
+  const jsonLd = stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       {

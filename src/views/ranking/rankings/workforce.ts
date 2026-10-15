@@ -8,6 +8,8 @@ import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { byKeyDesc, byKeyAsc, safeMean } from '../utilities.js';
 import { fmtInt } from '../../../lib/num.js';
 import { FAQS } from '../../ranking-copy.js';
+import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
+import { formatShownMeanLabel } from '../../../lib/score-format.js';
 
 export interface WorkforceRankings {
   byWorkers: Occupation[];
@@ -43,7 +45,7 @@ export function buildWorkforceRankings(
 
   // 37. 大規模就業 × AI 安全 (workers desc among low-AI)
   const largeWorkforceStable = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 5 && o.workers && o.workers >= 50000)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.workers && o.workers >= 50000)
     .sort((a, b) => (b.workers ?? 0) - (a.workers ?? 0) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 
@@ -60,7 +62,7 @@ export function buildWorkforceRankings(
       introText: '厚労省の職業情報データベース（job tag）に基づく就業者数ランキング。最も多くの人が従事している職業をAI影響度・年収データと共に一覧できます。',
       statBlocks: [
         ['TOP30 合計就業者数', `${fmtInt(totalWorkersTop)} 人`],
-        ['TOP30 平均 AI 影響', `${safeMean(byWorkers, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(byWorkers, 'ai_risk'))}`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byWorkers, 'salary'))} 万円`],
       ],
     }],
@@ -78,7 +80,7 @@ export function buildWorkforceRankings(
       statBlocks: [
         ['TOP30 平均年齢', `${meanAgeYoung.toFixed(1)} 歳`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byYoung, 'salary'))} 万円`],
-        ['TOP30 平均 AI 影響', `${safeMean(byYoung, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(byYoung, 'ai_risk'))}`],
       ],
     }],
     ['aging-workforce', {
@@ -95,7 +97,7 @@ export function buildWorkforceRankings(
       statBlocks: [
         ['TOP30 平均年齢', `${meanAgeAging.toFixed(1)} 歳`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byAging, 'salary'))} 万円`],
-        ['TOP30 平均 AI 影響', `${safeMean(byAging, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(byAging, 'ai_risk'))}`],
       ],
     }],
     ['large-workforce-stable', {
@@ -111,7 +113,7 @@ export function buildWorkforceRankings(
       statBlocks: [
         ['対象職業数', `${largeWorkforceStable.length}`],
         ['TOP 合計就業者数', `${fmtInt(largeWorkforceStable.reduce((s, o) => s + (o.workers ?? 0), 0))} 人`],
-        ['平均 AI 影響', `${safeMean(largeWorkforceStable, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(largeWorkforceStable, 'ai_risk'))}`],
       ],
     }],
   ];

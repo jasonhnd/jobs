@@ -155,6 +155,32 @@ describe('classifyClientKind — browser / ai_agent / other_bot', () => {
   });
 });
 
+// Audit 2026-10-07 (#861): the overlap promised by the comment on
+// AI_AGENT_UA_PATTERNS was not enforced. Seven agents slipped past
+// BOT_UA_RE, so the middleware 301'd them from /shindan?job= to the
+// client-rendered /me instead of serving the share page.
+describe('isBotUserAgent — every AI agent pattern is a bot', () => {
+  for (const [pattern, agentName] of AI_AGENT_UA_PATTERNS) {
+    const token = pattern.source.replace(/\\b/g, '');
+    test(`${agentName}: "${token}" matches BOT_UA_RE`, () => {
+      assert.equal(isBotUserAgent(`Mozilla/5.0 (compatible; ${token}/1.0)`), true);
+    });
+  }
+  for (const ua of [
+    'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; OAI-SearchBot/1.0; +https://openai.com/searchbot)',
+    'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Claude-User/1.0; +Claude-User@anthropic.com)',
+    'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Claude-SearchBot/1.0; +Claude-SearchBot@anthropic.com)',
+    'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Perplexity-User/1.0; +https://perplexity.ai/perplexity-user)',
+    'DuckAssistBot/1.2; (+http://duckduckgo.com/duckassistbot.html)',
+    'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; MistralAI-User/1.0; +https://docs.mistral.ai/robots)',
+    'Mozilla/5.0 (compatible; YouBot/1.0; +http://www.you.com)',
+  ]) {
+    test(`real UA is a bot: ${ua.match(/[A-Za-z-]+(?=\/1\.)/)?.[0] ?? ua}`, () => {
+      assert.equal(isBotUserAgent(ua), true);
+    });
+  }
+});
+
 describe('isBotUserAgent — P0-1 expansion (modern AI / LLM / scanner UAs)', () => {
   // Pre-P0-1 these UAs slipped through because `\bbot\b` (word boundary)
   // doesn't match between two letters — `Amazonbot`, `GPTBot`,
@@ -282,7 +308,7 @@ describe('isSuspectPath — vulnerability-scanner targets', () => {
     assert.equal(isSuspectPath('/sectors'), false);
     assert.equal(isSuspectPath('/rankings/ai-risk-low'), false);
     assert.equal(isSuspectPath('/privacy'), false);
-    assert.equal(isSuspectPath('/compare/foo-vs-bar'), false);
+    assert.equal(isSuspectPath('/pro/compare/foo-vs-bar'), false);
   });
 
   test('Path strings that LOOK suspect but are legitimate slug content are NOT flagged', () => {

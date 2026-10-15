@@ -491,7 +491,8 @@ function computeScoreHistory(runs: readonly ScoreRun[]): ReadonlyMap<OccupationI
   return frozen;
 }
 
-function asScoreHist(hist: readonly ScoreHistoryEntry[]): ScoreHistEntry[] {
+/** Graph score history → the entry shape score-strategy selects from (public value, movers). */
+export function asScoreHist(hist: readonly ScoreHistoryEntry[]): ScoreHistEntry[] {
   return hist.map((entry) => ({
     model: entry.model,
     provider: entry.provider,

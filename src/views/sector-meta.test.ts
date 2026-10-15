@@ -119,6 +119,23 @@ describe('computeSectorPatterns — per-sector observation derivation', () => {
     assert.ok(Array.isArray(result.observations));
   });
 
+  test('low/mid/high count the displayed value: low < 4.0 <= mid < 7.0 <= high (#864)', () => {
+    const risks = [3.6, 3.9333333333333336, 3.9666666666666663, 6.933333333333334, 6.966666666666667, 3.0333333333333337, 7.5];
+    const occs = risks.map((ai_risk, i) => makeOcc({ id: i + 1, ai_risk }));
+    const result = computeSectorPatterns(occs, computeSiteBaseline(occs), 'テストセクター');
+    // low: 3.6, 3.9 (3.9333), 3.0 (3.0333) · mid: 4.0 (3.9667), 6.9 (6.9333) · high: 7.0 (6.9667), 7.5
+    assert.equal(result.ai_low_count, 3);
+    assert.equal(result.ai_mid_count, 2);
+    assert.equal(result.ai_high_count, 2);
+  });
+
+  test('every scored occupation lands in exactly one band for every k/30 mean (#864)', () => {
+    const occs = Array.from({ length: 301 }, (_, k) => makeOcc({ id: k + 1, ai_risk: k / 30 }));
+    const result = computeSectorPatterns(occs, computeSiteBaseline(occs), 'テストセクター');
+    assert.equal(result.ai_low_count + result.ai_mid_count + result.ai_high_count, occs.length);
+    assert.equal(Math.round(result.ai_low_pct + result.ai_mid_pct + result.ai_high_pct), 100);
+  });
+
   test('empty sector still returns a valid result (does not throw)', () => {
     // The function emits structural observations (e.g. "no data") even
     // when the sector has zero occupations — assert it returns a valid

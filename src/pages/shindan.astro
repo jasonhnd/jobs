@@ -10,6 +10,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { editionHref } from '@/site/route-policy';
 import Footer from '@/components/Footer.astro';
 import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
 import { SHINDAN_CSS } from './_shindan-css';
@@ -26,6 +27,7 @@ import {
 } from '@/site/worktype-copy';
 import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import { CONTENT_DATE } from '@/lib/_content-date';
+import { escapeJsonForScript, stringifyJsonLd } from '@/lib/json-for-script';
 
 const canonical = `${siteConfig.origin}/shindan`;
 const title = 'AI働き方診断｜9問でわかるあなたの働き方タイプ | 未来の仕事';
@@ -38,15 +40,7 @@ const SHINDAN_INLINE_JS = readFileSync(
   'utf-8',
 );
 
-function safeJsonForScript(value: unknown): string {
-  const text = JSON.stringify(value) ?? 'null';
-  return text
-    .replace(/<\//g, '<\\/')
-    .replace(/\u2028/g, '\\u2028')
-    .replace(/\u2029/g, '\\u2029');
-}
-
-const copyJson = safeJsonForScript({
+const copyJson = escapeJsonForScript(JSON.stringify({
   questions: QUESTIONS,
   families: FAMILIES,
   variants: VARIANTS,
@@ -56,9 +50,9 @@ const copyJson = safeJsonForScript({
   labels: LABELS,
   rarity: RARITY,
   disclaimer: DISCLAIMER,
-});
+}));
 
-const jsonLd = safeJsonForScript({
+const jsonLd = stringifyJsonLd({
   '@context': 'https://schema.org',
   '@graph': [
     {
@@ -225,6 +219,8 @@ const jsonLd = safeJsonForScript({
 
           <div class="shindan-axis-list" id="shindanAxisList" aria-label="3軸の内訳"></div>
           <p class="shindan-rarity" id="shindanRarity"></p>
+
+          <p><a class="shindan-primary shindan-me-entry" href={editionHref('/me', 'ordinary')}>自分の仕事を探す</a></p>
 
           <div class="shindan-occupations">
             <h3>代表的な職業</h3>

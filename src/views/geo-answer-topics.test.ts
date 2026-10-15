@@ -92,7 +92,7 @@ describe('geo answer topics', () => {
     const itemList = parsed['@graph'].find((node) => node['@type'] === 'ItemList');
     assert.equal(itemList?.numberOfItems, 5);
     const article = parsed['@graph'].find((node) => node['@type'] === 'Article');
-    assert.equal(article?.url, 'https://mirai-shigoto.com/answers/ai-de-nakunaru-shigoto');
+    assert.equal(article?.url, 'https://mirai-shigoto.com/pro/answers/ai-de-nakunaru-shigoto');
     const webPage = parsed['@graph'].find((node) => node['@type'] === 'WebPage');
     assert.deepEqual(webPage?.speakable?.cssSelector, ['.ai-fact', '.answer-lead', '.sop-cite']);
     const faq = parsed['@graph'].find((node) => node['@type'] === 'FAQPage') as {
@@ -116,9 +116,10 @@ describe('geo answer topics', () => {
     assert.equal(GEO_ANSWER_TOPIC_CONFIGS[2].h1Ja, 'AIでなくならない仕事は何ですか');
   });
 
-  test('salary x AI safety topic filters to AI impact <= 5 and sorts by salary', () => {
+  test('salary x AI safety topic keeps 変化 小さい (displayed < 4.0) and sorts by salary', () => {
     const topic = buildGeoAnswerTopic(facts, 'nenshu-ai-anzen')!;
-    assert.deepEqual(topic.items.map((item) => item.nameJa), ['B', 'C', 'A']);
+    // C prints 4.0, so it is 変化 中くらい and leaves the list.
+    assert.deepEqual(topic.items.map((item) => item.nameJa), ['B', 'A']);
   });
 
   test('growth topic sorts by recruit ratio and omits missing ratios', () => {
@@ -137,8 +138,8 @@ describe('geo answer topics', () => {
     const topics = buildGeoAnswerTopics(facts);
     assert.equal(topics.length, 3);
     const json = renderGeoAnswerIndexJsonLd(facts);
-    assert.match(json, /https:\/\/mirai-shigoto\.com\/answers\/ai-de-nakunaru-shigoto/);
-    assert.match(json, /https:\/\/mirai-shigoto\.com\/answers\/nenshu-ai-anzen/);
-    assert.match(json, /https:\/\/mirai-shigoto\.com\/answers\/nobiru-shigoto-top/);
+    assert.match(json, /https:\/\/mirai-shigoto\.com\/pro\/answers\/ai-de-nakunaru-shigoto/);
+    assert.match(json, /https:\/\/mirai-shigoto\.com\/pro\/answers\/nenshu-ai-anzen/);
+    assert.match(json, /https:\/\/mirai-shigoto\.com\/pro\/answers\/nobiru-shigoto-top/);
   });
 });

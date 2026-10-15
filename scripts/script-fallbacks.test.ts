@@ -23,6 +23,7 @@ function fixture(script: string): string {
 describe('assemble-scores fallback diagnostics', () => {
   test('warns for missing and malformed batches, inherits from latest valid non-backfill batch', () => {
     const dir = fixture('assemble-scores.ts');
+    symlinkSync(join(ROOT, 'scripts', 'lib'), join(dir, 'scripts', 'lib'), 'dir');
     symlinkSync(join(ROOT, 'src'), join(dir, 'src'), 'dir');
     symlinkSync(join(ROOT, 'node_modules'), join(dir, 'node_modules'), 'dir');
     mkdirSync(join(dir, 'data', 'occupations'), { recursive: true });
@@ -52,6 +53,8 @@ describe('assemble-scores fallback diagnostics', () => {
 describe('analytics guard middleware read failures', () => {
   function analyticsFixture(): string {
     const dir = fixture('check-analytics-config.cjs');
+    mkdirSync(join(dir, 'scripts', 'lib'));
+    copyFileSync(join(ROOT, 'scripts', 'lib', 'walk-files.cjs'), join(dir, 'scripts', 'lib', 'walk-files.cjs'));
     mkdirSync(join(dir, 'src', 'layouts'), { recursive: true });
     for (const file of ['vercel.json', '.env.example', 'middleware.ts', 'src/layouts/BaseLayout.astro']) {
       copyFileSync(join(ROOT, file), join(dir, file));

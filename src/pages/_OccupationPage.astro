@@ -1,0 +1,260 @@
+---
+/**
+ * [...id].astro — per-occupation detail page (JA only), one HTML per
+ * occupation generated statically via getStaticPaths() from the
+ * knowledge graph (see src/page-data/occupation-page-data).
+ *
+ * This file is a thin binding shell:
+ *   - getStaticPaths delegates to buildOccupationPageData +
+ *     pickRelatedOccupations.
+ *   - Page-render data prep delegates to buildIdPageBindings
+ *     (src/pages/_id-bindings) and buildOccupationSpokeViews
+ *     (src/page-data/occupation-page-data).
+ *   - The body is composed of page-local Astro components
+ *     (_RiskCard / _StatsGrid / _JobtagAnchor / _IdPageScript)
+ *     and `<Fragment set:html={…}>` injections of SafeHtml from
+ *     ~14 template modules under src/templates/.
+ *   - Inline CSS lives in src/pages/_id-css.
+ */
+import { siteConfig } from '@/site/config';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import IdPageScript from './_IdPageScript.astro';
+import RiskCard from './_RiskCard.astro';
+import MeEntry from '@/components/MeEntry.astro';
+import StatsGrid from './_StatsGrid.astro';
+import JobtagAnchor from './_JobtagAnchor.astro';
+import { buildIdPageBindings } from './_id-bindings';
+import { ID_PAGE_CSS } from './_id-css';
+import type { Rec } from '@/views/occupation-detail';
+import type { ScoreHistoryView } from '@/page-data/occupation-page-data';
+import { type SpokeNeighbor } from '@/views/spoke-spoke-graph';
+import { CONTENT_DATE } from '@/lib/_content-date';
+import { occupationPath } from '@/lib/urls';
+import { editionHtmlLinks, type Edition } from '@/site/route-policy';
+import EditionNav from '@/components/EditionNav.astro';
+
+// Schema.org dates. DATE_PUBLISHED is page-internal versioning (set once when
+// the family of pages was published). DATE_MODIFIED is derived at build time
+// (latest score-run date) — see src/lib/_content-date.ts. Both must satisfy
+// `dateModified >= datePublished` (Google's structured-data validator rejects
+// otherwise).
+const DATE_PUBLISHED = '2026-05-30';
+const DATE_MODIFIED = CONTENT_DATE;
+
+// ─── Page render ─────────────────────────────────────────────────────────────
+
+interface Props {
+  edition?: Edition;
+  rec: Rec;
+  related: Rec[];
+  nameLookup: Record<number, string>;
+  rankingHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
+  sameRiskArr: Array<[number, SpokeNeighbor[]]>;
+  scoreHistoryArr: Array<[number, ScoreHistoryView[]]>;
+}
+
+const { edition = 'ordinary' } = Astro.props as Props;
+const { rec, related, nameLookup, rankingHitsArr, sameRiskArr, scoreHistoryArr } =
+  Astro.props as Props;
+
+const { loadGraph } = await import('@/graph');
+const graph = await loadGraph();
+
+const { buildOccupationSpokeViews } = await import('@/page-data/occupation-page-data');
+const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
+  rec, rankingHitsArr, sameRiskArr, graph,
+);
+
+const bindings = buildIdPageBindings({
+  edition,
+  rec, related, nameLookup,
+  scoreHistory: new Map(scoreHistoryArr).get(rec.id) ?? [],
+  datePublished: DATE_PUBLISHED,
+  dateModified: DATE_MODIFIED,
+});
+const {
+  id, canonical, nameJa, risk, mhlwUrl,
+  rankInUniverse, rankUniverseTotal, aioisModelDisclaimer, worktype, verdict, aiFactHtml,
+  title, seoDesc, ogTitle, ogDesc, keywords,
+  ctxH2, ctxHtml,
+  metaRowHtml, scoreHistoryHtml, aiRiskDetailHtml, aioisHtml, profileHtml, topnHtml, faqHtml,
+  transferHtml, orgsCertsHtml, howSection, condSection,
+  legacyRelatedHtml,
+  riskClass, riskNumDisp, recruitDisp, hourlyDisp,
+  workersCell, ageCell, hoursCell, salaryCell,
+  jsonLd, riskTierJs,
+} = bindings;
+
+const CHAPTERS = [
+  { id: 'chp-score', title: 'スコアの中身' },
+  { id: 'chp-about', title: 'この仕事とは' },
+  { id: 'chp-path', title: 'なるには・資格' },
+  { id: 'chp-work', title: '待遇と働き方' },
+  { id: 'chp-next', title: '似た仕事・移り先' },
+  { id: 'chp-faq', title: 'よくある質問' },
+  { id: 'chp-source', title: '出典と数字' },
+] as const;
+
+---
+<BaseLayout
+  title={edition === 'pro' ? `Pro | ${title}` : title}
+  description={edition === 'pro' ? `Pro · ${seoDesc}` : seoDesc}
+  keywords={keywords}
+  canonical={canonical}
+  ogTitle={ogTitle}
+  ogDescription={ogDesc}
+  ogImage={`${siteConfig.origin}/api/og?id=${id}`}
+  ogType="article"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={ID_PAGE_CSS} />
+
+  <div id="wrapper">
+    {edition === 'pro' && <EditionNav ordinaryPath={occupationPath(id)} />}
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      {edition === 'pro' && <><a href="/pro" rel="up">Pro</a><span aria-hidden="true">›</span></>}
+      <span>{nameJa}</span>
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent">{nameJa}</span></h1>
+      <Fragment set:html={editionHtmlLinks(metaRowHtml, edition)} />
+    </header>
+
+    <RiskCard
+      {id}
+      {nameJa}
+      {riskClass}
+      {riskNumDisp}
+      {verdict}
+    />
+
+    <MeEntry source="occupation" occupationId={id}>
+      {
+        rankInUniverse !== null
+          ? `AI 影響度では ${rankUniverseTotal} 職中 第${rankInUniverse}位。給与・需要・働き方では、どのあたりでしょう。`
+          : '給与・需要・働き方では、この仕事はどのあたりでしょう。'
+      }
+    </MeEntry>
+
+    <p class="aiois-disc">{aioisModelDisclaimer}</p>
+
+    <nav class="chipnav" aria-label="このページの章">
+      {CHAPTERS.map((c) => (
+        <a href={`#${c.id}`}>{c.title}</a>
+      ))}
+    </nav>
+
+    <details class="chap" id="chp-score">
+      <summary>スコアの中身</summary>
+      <div class="chap-body">
+        <Fragment set:html={editionHtmlLinks(scoreHistoryHtml, edition)} />
+        <div id="sec-aiois">
+          <Fragment set:html={editionHtmlLinks(aioisHtml, edition)} />
+        </div>
+        <div id="sec-ai-detail">
+          <Fragment set:html={editionHtmlLinks(aiRiskDetailHtml, edition)} />
+        </div>
+        <Fragment set:html={editionHtmlLinks(profileHtml, edition)} />
+        <Fragment set:html={editionHtmlLinks(topnHtml, edition)} />
+        <section
+          class="type-block"
+          aria-labelledby="worktype-verdict-title"
+          data-worktype-code={worktype.worktypeFamilyCode}
+          data-worktype-family-id={worktype.worktypeFamilyId}
+        >
+          <div class="verdict-copy">
+            <p class="verdict-kicker">AI働き方診断 · この職業のタイプ</p>
+            <div class="verdict-title-row">
+              <h2 id="worktype-verdict-title">{worktype.worktypeFamilyName}</h2>
+            </div>
+            <p class="verdict-lede">{worktype.worktypeIdentity}</p>
+            <div class="verdict-task-grid" aria-label="AIで変わる作業と今できる一手">
+              <div class="verdict-task">
+                <span>AIが補助しやすい</span>
+                <p>{worktype.worktypeAiRelation}</p>
+              </div>
+              <div class="verdict-task">
+                <span>人が残る価値</span>
+                <p>{worktype.worktypeHumanValue}</p>
+              </div>
+              <div class="verdict-task">
+                <span>今できる一手</span>
+                <p>{worktype.worktypeNextStep}</p>
+              </div>
+            </div>
+          </div>
+          <p class="verdict-one-line">{worktype.worktypeOneLine}</p>
+        </section>
+      </div>
+    </details>
+
+    <details class="chap" id="chp-about">
+      <summary>この仕事とは</summary>
+      <div class="chap-body">
+        <section class="context">
+          <h2>{ctxH2}</h2>
+          <Fragment set:html={editionHtmlLinks(ctxHtml, edition)} />
+        </section>
+      </div>
+    </details>
+
+    <details class="chap" id="chp-path">
+      <summary>なるには・資格</summary>
+      <div class="chap-body">
+        <Fragment set:html={editionHtmlLinks(howSection, edition)} />
+        <Fragment set:html={editionHtmlLinks(orgsCertsHtml, edition)} />
+      </div>
+    </details>
+
+    <details class="chap" id="chp-work">
+      <summary>待遇と働き方</summary>
+      <div class="chap-body">
+        <Fragment set:html={editionHtmlLinks(condSection, edition)} />
+        <StatsGrid {workersCell} {salaryCell} {ageCell} {hoursCell} {recruitDisp} {hourlyDisp} />
+      </div>
+    </details>
+
+    <details class="chap" id="chp-next">
+      <summary>似た仕事・移り先</summary>
+      <div class="chap-body">
+        <div id="sec-transfer">
+          <Fragment set:html={editionHtmlLinks(transferHtml, edition)} />
+        </div>
+        <div id="sec-similar">
+          <Fragment set:html={editionHtmlLinks(sameRiskHtml, edition)} />
+          <Fragment set:html={editionHtmlLinks(legacyRelatedHtml, edition)} />
+        </div>
+      </div>
+    </details>
+
+    <details class="chap" id="chp-faq">
+      <summary>よくある質問</summary>
+      <div class="chap-body">
+        <Fragment set:html={editionHtmlLinks(faqHtml, edition)} />
+      </div>
+    </details>
+
+    <details class="chap" id="chp-source">
+      <summary>出典と数字</summary>
+      <div class="chap-body">
+        <Fragment set:html={editionHtmlLinks(aiFactHtml, edition)} />
+        {/* Hidden jobtag outbound for GA4; visible 出典 is in Footer. */}
+        <JobtagAnchor occId={id} nameJa={nameJa} mhlwUrl={mhlwUrl} aiRisk={risk} />
+        <Fragment set:html={editionHtmlLinks(relatedHubsHtml, edition)} />
+        <nav class="map-back-link" aria-label="職業マップへ戻る">
+          <a href="/map">← 職業マップへ</a>
+        </nav>
+      </div>
+    </details>
+
+    {edition === 'ordinary' && <p data-pro-cta><a href={occupationPath(id, 'pro')}>Pro で詳しく見る</a></p>}
+    <Footer />
+  </div>
+
+  <IdPageScript occId={id} riskScoreJs={risk} {riskTierJs} />
+</BaseLayout>

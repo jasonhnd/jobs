@@ -21,6 +21,7 @@
  */
 
 import { occupationPath } from '../lib/urls.js';
+import { stringifyJsonLd } from '../lib/json-for-script.js';
 
 // ─── Internal Schema.org types ───────────────────────────────
 
@@ -212,5 +213,5 @@ export function renderSectorJsonLd(input: SectorJsonLdInput): string {
     });
   }
 
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  return stringifyJsonLd({ '@context': 'https://schema.org', '@graph': graph }, 2);
 }

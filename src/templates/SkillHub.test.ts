@@ -35,7 +35,7 @@ describe('renderSkillItem', () => {
       '<span class="rl-meta">医療 · <span class="skill-score">批判的思考 4.82</span> · <span class="rl-salary">500万円</span> · <span class="rl-workers">100人</span></span>' +
       '</span>' +
       '<span class="rl-end">' +
-      '<span class="risk-pill low">3.6/10</span>' +
+      '<span class="risk-pill low">3.6/10 変化 小さい</span>' +
       '<span class="rl-chevron" aria-hidden="true">›</span>' +
       '</span>' +
       '</a>' +
@@ -99,8 +99,8 @@ describe('renderRelatedSkills', () => {
     ]);
     assert.match(html, /<ul class="related-skills">/);
     assert.equal((html.match(/<li>/g) ?? []).length, 1);
-    assert.equal(html.includes('/skills/programming'), false);
-    assert.match(html, /href="\/skills\/judgment"/);
+    assert.equal(html.includes('/pro/skills/programming'), false);
+    assert.match(html, /href="\/pro\/skills\/judgment"/);
     assert.match(html, /class="rs-name">S-judgment</);
     assert.match(html, new RegExp(`class="rs-desc">${'d'.repeat(60)}…`));
   });
@@ -109,7 +109,7 @@ describe('renderRelatedSkills', () => {
 describe('SkillHub JSON-LD', () => {
   test('detail graph includes the list and an optional FAQPage', () => {
     const withFaq = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/skills/programming',
+      'https://mirai-shigoto.com/pro/skills/programming',
       skillMeta('programming'),
       [{ ...item, name_ja: '' }],
       'desc',
@@ -124,7 +124,7 @@ describe('SkillHub JSON-LD', () => {
     assert.equal(list?.itemListElement?.[0]?.name, '#1');
 
     const bare = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/skills/programming',
+      'https://mirai-shigoto.com/pro/skills/programming',
       skillMeta('programming'),
       [],
       'desc',
@@ -138,7 +138,7 @@ describe('SkillHub JSON-LD', () => {
     const got = JSON.parse(renderHubJsonLd());
     const page = (got['@graph'] as Array<{ '@type': string; url?: string }>)
       .find((node) => node['@type'] === 'WebPage');
-    assert.equal(page?.url, 'https://mirai-shigoto.com/skills');
+    assert.equal(page?.url, 'https://mirai-shigoto.com/pro/skills');
   });
 });
 
@@ -160,11 +160,11 @@ describe('renderSkillsHubCards', () => {
         top_count: 0,
       },
     ]);
-    assert.match(html, /href="\/skills\/programming"/);
+    assert.match(html, /href="\/pro\/skills\/programming"/);
     assert.match(html, /class="sci-name">P &amp; P</);
     assert.match(html, /class="sci-preview">Top &lt;1&gt;</);
     assert.match(html, /class="sci-count">TOP 30 /);
-    assert.match(html, /href="\/skills\/judgment"/);
+    assert.match(html, /href="\/pro\/skills\/judgment"/);
     assert.equal((html.match(/class="sci-preview"/g) ?? []).length, 1);
     assert.match(html, /class="sci-desc">short…</);
   });

@@ -8,7 +8,8 @@
 #   - /llms-full.txt: reachable (extended GEO companion)
 #   - For each URL in the sitemap:
 #       HTTP status, <title> length, meta description length, canonical,
-#       hreflang count, OG tags (5 required), Twitter Card,
+#       hreflang (ja + x-default; the site is Japanese-only), OG tags
+#       (5 required), Twitter Card,
 #       Schema.org JSON-LD (presence + @types + page-specific expectations:
 #         home → FAQPage / ItemList / Dataset / Organization;
 #         /privacy → BreadcrumbList),
@@ -22,10 +23,13 @@
 #   ./scripts/seo-check.sh https://pre.mirai-shigoto.com --sample 5 # preview alias (npm test:seo)
 #   ./scripts/seo-check.sh http://localhost:8765                    # local dev server
 #
-# Production hosts (mirai-shigoto.com, www.mirai-shigoto.com) exit 2 before
-# any request unless ALLOW_PROD=1. Sitemap <loc> values are rewritten onto
-# the requested host, so a preview run does not follow canonical production
-# URLs. `bun run test:seo` targets the preview alias with --sample 5.
+# Production hosts (mirai-shigoto.com, www.mirai-shigoto.com, in any case,
+# with a trailing dot, port, userinfo or fragment) exit 2 before any request
+# unless ALLOW_PROD=1. Sitemap <loc> values are rewritten onto the requested
+# host, so a preview run does not follow canonical production URLs, and
+# redirects are never followed (a redirect could land on production); a 3xx
+# is reported as such. `bun run test:seo` targets the preview alias with
+# --sample 5.
 #
 # Exit codes:
 #   0 = all green
@@ -36,13 +40,25 @@
 
 set -uo pipefail
 
+usage() {
+  printf '%s\n' "usage: $0 [BASE_URL] [--sample N]   (N: positive integer)" >&2
+  exit 2
+}
+
 BASE="${1:-https://mirai-shigoto.com}"
 BASE="${BASE%/}"  # strip trailing slash
 
-# Optional --sample N picks the first 4 sentinel URLs (home/privacy/llms*) plus
-# N evenly-spaced occupation URLs. Useful when sitemap has 552+ URLs.
+# Optional --sample N checks the home page plus N evenly-spaced other sitemap
+# URLs. Useful when the sitemap has 800+ URLs. Anything else after BASE_URL
+# is an error: a typo'd or non-numeric N used to fall through to a full crawl.
 SAMPLE=0
-if [ "${2:-}" = "--sample" ] && [ -n "${3:-}" ]; then
+if [ "$#" -gt 1 ]; then
+  if [ "$#" -ne 3 ] || [ "$2" != "--sample" ]; then
+    usage
+  fi
+  case "$3" in
+    ''|*[!0-9]*|0*) usage ;;
+  esac
   SAMPLE="$3"
 fi
 
@@ -50,13 +66,27 @@ fi
 # mirai-shigoto.com from a script (platform mitigation can challenge the IP
 # and break the GEO policy). pre.mirai-shigoto.com and other hosts are allowed.
 # Set ALLOW_PROD=1 to opt in; that path prints a warning and continues.
+#
+# The guard only works if it reads the same host curl will connect to. curl
+# accepts spellings a hand-rolled parser reads differently — `https:///host`
+# (empty authority), `https://%6dirai-shigoto.com` (percent-encoded host),
+# userinfo, `\\` separators — so BASE must be exactly
+# `http(s)://<letters, digits, dots, hyphens>[:port][/path]`. Anything else
+# is refused before any request instead of being guessed at.
+BASE_RE='^[Hh][Tt][Tt][Pp]([Ss])?://([A-Za-z0-9][A-Za-z0-9.-]*)(:[0-9]{1,5})?(/[^?#[:space:]\\]*)?$'
+if ! [[ "$BASE" =~ $BASE_RE ]]; then
+  printf '%s\n' "seo-check: BASE_URL must be http(s)://host[:port][/path] with a plain host (got: ${BASE})" >&2
+  usage
+fi
+
+# Host of a URL already validated against BASE_RE (or built from BASE).
 request_host() {
   local rest host
   rest="${1#*://}"
-  rest="${rest%%\?*}"
-  rest="${rest%%/*}"
-  host="${rest##*@}"
+  host="${rest%%/*}"
   host="${host%%:*}"
+  # A fully-qualified `mirai-shigoto.com.` is the same host.
+  while [ "${host%.}" != "$host" ]; do host="${host%.}"; done
   printf '%s' "$host" | tr '[:upper:]' '[:lower:]'
 }
 
@@ -122,8 +152,10 @@ fail()   { printf "  ${R}✗${X} %s\n" "$1"; ERR=$((ERR+1)); }
 section(){ printf "\n${B}== %s ==${X}\n" "$1"; }
 note()   { printf "    ${D}%s${X}\n" "$1"; }
 
-fetch_body()   { curl -fsSL  --max-time 12 -A "seo-check.sh/1.0" "$1" 2>/dev/null; }
-fetch_header() { curl -fsSI  --max-time 12 -A "seo-check.sh/1.0" "$1" 2>/dev/null; }
+# No -L: a redirect target is not rewritten onto BASE, so following it could
+# crawl production. A 3xx surfaces as an HTTP status failure instead.
+fetch_body()   { curl -fsS --proto '=http,https' --max-time 12 -A "seo-check.sh/1.0" "$1" 2>/dev/null; }
+fetch_header() { curl -fsSI --proto '=http,https' --max-time 12 -A "seo-check.sh/1.0" "$1" 2>/dev/null; }
 
 printf "${B}SEO + GEO health check${X}  ${D}(target: %s)${X}\n" "$BASE"
 
@@ -158,28 +190,26 @@ if [ -z "$SITEMAP" ]; then
   URLS=""
 else
   ok "reachable"
-  URL_COUNT=$(grep -c "<loc>" <<<"$SITEMAP" || true)
+  URL_COUNT=$(grep -oE "<loc>" <<<"$SITEMAP" | wc -l | tr -d ' ')
   ok "$URL_COUNT URL(s) declared"
-  HREFLANG_COUNT=$(grep -c "hreflang=" <<<"$SITEMAP" || true)
-  if [ "$HREFLANG_COUNT" -ge 1 ]; then
-    ok "$HREFLANG_COUNT hreflang alternate(s)"
-  else
-    warn "no hreflang alternates in sitemap"
-  fi
+  # The site is Japanese-only (v1.4.0): pages carry ja + x-default hreflang
+  # and the sitemap needs no alternates, so their absence is not a warning.
+  HREFLANG_COUNT=$(grep -oE "hreflang=" <<<"$SITEMAP" | wc -l | tr -d ' ')
+  note "$HREFLANG_COUNT hreflang alternate(s) in sitemap"
   URLS=$(grep -oE "<loc>[^<]+</loc>" <<<"$SITEMAP" | sed 's|<[^>]*>||g')
   if [ "$SAMPLE" -gt 0 ]; then
-    # Always keep the 4 sentinel URLs (home, privacy, llms.txt, llms-full.txt) at the top of the sitemap,
-    # then evenly sample $SAMPLE occupation pages from the rest.
-    HEAD_URLS=$(echo "$URLS" | head -n 4)
-    OCC_URLS=$(echo "$URLS" | tail -n +5)
-    OCC_TOTAL=$(echo "$OCC_URLS" | wc -l | tr -d ' ')
-    if [ "$OCC_TOTAL" -gt "$SAMPLE" ]; then
-      STEP=$(( OCC_TOTAL / SAMPLE ))
-      [ "$STEP" -lt 1 ] && STEP=1
-      OCC_URLS=$(echo "$OCC_URLS" | awk -v step="$STEP" 'NR % step == 1' | head -n "$SAMPLE")
+    # Always keep the home page (wherever it sits in the sitemap), then
+    # evenly sample $SAMPLE of the other URLs. llms.txt / llms-full.txt are
+    # checked in their own sections above.
+    HOME_URLS=$(grep -E '^[a-zA-Z][a-zA-Z0-9+.-]*://[^/]+/?$' <<<"$URLS" | head -n 1)
+    REST_URLS=$(grep -vE '^[a-zA-Z][a-zA-Z0-9+.-]*://[^/]+/?$' <<<"$URLS" || true)
+    REST_TOTAL=$(grep -c . <<<"$REST_URLS" || true)
+    if [ "$REST_TOTAL" -gt "$SAMPLE" ]; then
+      STEP=$(( REST_TOTAL / SAMPLE ))
+      REST_URLS=$(awk -v step="$STEP" '(NR - 1) % step == 0' <<<"$REST_URLS" | head -n "$SAMPLE")
     fi
-    URLS=$(printf '%s\n%s' "$HEAD_URLS" "$OCC_URLS")
-    note "sampling: 4 sentinel + $(echo "$OCC_URLS" | wc -l | tr -d ' ') occupation URLs (of $OCC_TOTAL total)"
+    URLS=$(printf '%s\n%s' "$HOME_URLS" "$REST_URLS")
+    note "sampling: home + $(grep -c . <<<"$REST_URLS" || true) of $REST_TOTAL other URLs"
   fi
   rewritten=""
   while IFS= read -r loc; do
@@ -243,7 +273,14 @@ else
     HEADERS=$(fetch_header "$URL")
 
     if [ -z "$HTML_RAW" ]; then
-      fail "page unreachable"
+      STATUS=$(echo "$HEADERS" | grep -oE "HTTP/[0-9.]+ [0-9]+" | tail -1 | awk '{print $2}')
+      case "$STATUS" in
+        3[0-9][0-9])
+          LOCATION=$(echo "$HEADERS" | grep -i '^location:' | head -1 | sed 's/^[Ll]ocation: *//' | tr -d '\r')
+          fail "HTTP $STATUS redirect to ${LOCATION:-?} (not followed)"
+          ;;
+        *) fail "page unreachable" ;;
+      esac
       continue
     fi
 
@@ -312,12 +349,14 @@ else
       fail "no <link rel='canonical'>"
     fi
 
-    # hreflang (count occurrences, not matching lines — HTML is flattened)
-    HC=$(grep -oE 'hreflang="[^"]+"' <<<"$HTML" | wc -l | tr -d ' ')
-    if [ "$HC" -ge 3 ]; then
-      ok "hreflang: $HC tags"
-    elif [ "$HC" -ge 1 ]; then
-      warn "hreflang: $HC tag(s) — recommend 3 (ja/en/x-default)"
+    # hreflang: the site is Japanese-only (no English UI since v1.4.0), so
+    # every page declares ja + x-default. An `en` alternate is not expected.
+    HAS_JA=$(grep -cE 'hreflang="ja"' <<<"$HTML" || true)
+    HAS_XD=$(grep -cE 'hreflang="x-default"' <<<"$HTML" || true)
+    if [ "$HAS_JA" -ge 1 ] && [ "$HAS_XD" -ge 1 ]; then
+      ok "hreflang: ja + x-default"
+    elif [ "$HAS_JA" -ge 1 ] || [ "$HAS_XD" -ge 1 ]; then
+      warn "hreflang: expected both ja and x-default"
     else
       fail "no hreflang"
     fi

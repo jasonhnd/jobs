@@ -9,6 +9,8 @@
 import { TOP_N, type Occupation, type RankingResult } from '../config.js';
 import { byKeyDesc, safeMean, inSectorSet, CRAFT_SECTORS } from '../utilities.js';
 import { FAQS } from '../../ranking-copy.js';
+import { displayScoreOrNull } from '../../../data/lib/banker-round.js';
+import { formatShownMeanLabel } from '../../../lib/score-format.js';
 
 export interface HighRiskRankings {
   aiHigh: Occupation[];
@@ -31,7 +33,7 @@ export function buildHighRiskRankings(
 
   // 15. AI 置き換えが進行中 (ai_risk >= 8 desc, workers as tie)
   const aiReplacedSoon = scored
-    .filter((o) => (o.ai_risk ?? 0) >= 8)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 0) >= 8)
     .sort((a, b) => {
       // ai_risk descending — higher risk first. (The earlier version named
       // the variables `ra = b.ai_risk` / `rb = a.ai_risk` and returned
@@ -47,13 +49,13 @@ export function buildHighRiskRankings(
 
   // 16. 伝統技能で AI に強い (ai_risk <= 3 + craft sectors)
   const aiResistantCraft = scored
-    .filter((o) => (o.ai_risk ?? 999) <= 3 && inSectorSet(o, CRAFT_SECTORS))
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 3 && inSectorSet(o, CRAFT_SECTORS))
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || a.id - b.id)
     .slice(0, limit);
 
   // 17. AI リスク高 × 高年収
   const aiAtRiskPaid = scored
-    .filter((o) => (o.ai_risk ?? 0) >= 7 && (o.salary ?? 0) >= 500)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 0) >= 7 && (o.salary ?? 0) >= 500)
     .sort((a, b) => {
       const sa = b.salary ?? 0; const sb = a.salary ?? 0;
       if (sa !== sb) return sa - sb;
@@ -63,13 +65,13 @@ export function buildHighRiskRankings(
 
   // 18. AI で補強される (ai_risk 4-6, sort by salary desc)
   const aiAugmented = scored
-    .filter((o) => (o.ai_risk ?? -1) >= 4 && (o.ai_risk ?? -1) <= 6)
+    .filter((o) => (displayScoreOrNull(o.ai_risk) ?? -1) >= 4 && (displayScoreOrNull(o.ai_risk) ?? -1) <= 6)
     .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || a.id - b.id)
     .slice(0, limit);
 
   // 19. AI を使いこなす側 (sector=it + ai_risk >= 5)
   const aiFrontier = scored
-    .filter((o) => o.sector_id === 'it' && (o.ai_risk ?? 0) >= 5)
+    .filter((o) => o.sector_id === 'it' && (displayScoreOrNull(o.ai_risk) ?? 0) >= 5)
     .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || a.id - b.id)
     .slice(0, limit);
 
@@ -80,13 +82,13 @@ export function buildHighRiskRankings(
       showSalary: true,
       faqItems: FAQS['ai-risk-high'],
       title: 'AIに奪われる仕事ランキング TOP30【2026年版】| 未来の仕事',
-      seoDesc: `AI影響度が最も高い職業TOP${TOP_N}。平均スコア${meanHigh.toFixed(1)}/10。AI代替リスク・年収・就業者数を一覧比較。複数のAIモデルによる採点の総合値（独自分析・非公式）。`,
+      seoDesc: `AI影響度が最も高い職業TOP${TOP_N}。平均スコア${formatShownMeanLabel(meanHigh)}。AI代替リスク・年収・就業者数を一覧比較。複数のAIモデルによる採点の総合値（独自分析・非公式）。`,
       h1Text: `AIに奪われる仕事 TOP${TOP_N}`,
       subText: `AI 影響度が最も <strong>高い</strong> 職業ランキング（${scored.length} 職業中）`,
       introText: `厚労省の職業データに基づき、複数のAIが AIOIS-10 で AI 影響を分析し、公開値はそれらの総合値です。0〜10 のスコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。`,
       statBlocks: [
         ['対象職業数', `${scored.length}`],
-        ['TOP30 平均 AI 影響', `${meanHigh.toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(meanHigh)}`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(aiHigh, 'salary'))} 万円`],
         ['TOP30 平均年齢', `${safeMean(aiHigh, 'average_age').toFixed(1)} 歳`],
       ],
@@ -103,7 +105,7 @@ export function buildHighRiskRankings(
       introText: '5-10 年で業務内容が大きく変わる可能性が高い、AI 影響度 8 以上の職業群。職業自体が消えるわけではなく、業務再設計が急務であるシグナルです。',
       statBlocks: [
         ['対象職業数', `${aiReplacedSoon.length}`],
-        ['TOP30 平均 AI 影響', `${meanAiReplaced.toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(meanAiReplaced)}`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(aiReplacedSoon, 'salary'))} 万円`],
       ],
     }],
@@ -119,7 +121,7 @@ export function buildHighRiskRankings(
       introText: '手技・経験的判断・身体的調整を要する技能職は AI で代替しにくく、製造・建設・メンテ・農林の現場職が低 AI 影響度のまま安定する傾向にあります。',
       statBlocks: [
         ['対象職業数', `${aiResistantCraft.length}`],
-        ['TOP 平均 AI 影響', `${safeMean(aiResistantCraft, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP 平均 AI 影響', `${formatShownMeanLabel(safeMean(aiResistantCraft, 'ai_risk'))}`],
         ['TOP 平均年収', `${Math.trunc(safeMean(aiResistantCraft, 'salary'))} 万円`],
       ],
     }],
@@ -136,7 +138,7 @@ export function buildHighRiskRankings(
       statBlocks: [
         ['対象職業数', `${aiAtRiskPaid.length}`],
         ['平均年収', `${Math.trunc(safeMean(aiAtRiskPaid, 'salary'))} 万円`],
-        ['平均 AI 影響', `${safeMean(aiAtRiskPaid, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(aiAtRiskPaid, 'ai_risk'))}`],
       ],
     }],
     ['ai-augmented', {
@@ -151,7 +153,7 @@ export function buildHighRiskRankings(
       introText: 'AI が業務を一部肩代わりする「補強域」の職業。完全代替されるリスクは低いが、AI ツールを使いこなせるかでパフォーマンス差が広がります。',
       statBlocks: [
         ['対象職業数', `${aiAugmented.length}`],
-        ['TOP30 平均 AI 影響', `${safeMean(aiAugmented, 'ai_risk').toFixed(1)} / 10`],
+        ['TOP30 平均 AI 影響', `${formatShownMeanLabel(safeMean(aiAugmented, 'ai_risk'))}`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(aiAugmented, 'salary'))} 万円`],
       ],
     }],
@@ -168,7 +170,7 @@ export function buildHighRiskRankings(
       statBlocks: [
         ['対象職業数', `${aiFrontier.length}`],
         ['平均年収', `${Math.trunc(safeMean(aiFrontier, 'salary'))} 万円`],
-        ['平均 AI 影響', `${safeMean(aiFrontier, 'ai_risk').toFixed(1)} / 10`],
+        ['平均 AI 影響', `${formatShownMeanLabel(safeMean(aiFrontier, 'ai_risk'))}`],
       ],
     }],
   ];

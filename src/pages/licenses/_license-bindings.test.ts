@@ -44,7 +44,7 @@ describe('buildLicenseBindings', () => {
   test('builds canonical, title, stats with totals', async () => {
     const items = [occ(1, 4, 500, 100, '医療'), occ(2, 6, 700, 200, '医療'), occ(3, null, null, null, '')];
     const b = buildLicenseBindings({ hub, items, graph: await loadGraph() });
-    assert.equal(b.canonical, 'https://mirai-shigoto.com/licenses/test-hub');
+    assert.equal(b.canonical, 'https://mirai-shigoto.com/pro/licenses/test-hub');
     assert.equal(b.ogImage, 'https://mirai-shigoto.com/api/og?license=test-hub');
     assert.equal(b.title, '試験資格ハブ｜3 職業 | 未来の仕事');
     assert.ok(b.seoDesc.includes('E'.repeat(80) + '…'));

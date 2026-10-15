@@ -19,7 +19,7 @@ async function openConsentDecided(
   expect(resp?.ok(), `${url} should respond 200`).toBe(true);
 }
 
-test('390×844 first screen shows H1, sub, and full-list rows; prose is folded', async ({ page }) => {
+test('390×844 first screen shows the conclusion, next step and full-list rows; prose is folded', async ({ page }) => {
   await openConsentDecided(page, '/sectors/iryo', 390, 844);
 
   const h1 = page.locator('h1').filter({ visible: true }).first();
@@ -28,9 +28,13 @@ test('390×844 first screen shows H1, sub, and full-list rows; prose is folded',
   expect(h1Box, 'H1 must paint').not.toBeNull();
   expect(h1Box!.y + h1Box!.height).toBeLessThan(844);
 
-  const sub = page.locator('header#content .sub');
-  await expect(sub).toBeVisible();
-  await expect(sub).toContainText('職業');
+  const conclusion = page.locator('header#content .ordinary-conclusion');
+  await expect(conclusion).toBeVisible();
+  await expect(conclusion).toContainText('AIで変わる部分が「中くらい」');
+  await expect(page.locator('.ordinary-next-step')).toBeInViewport();
+  const metadata = page.locator('header#content .ordinary-score-meta');
+  await expect(metadata).toBeVisible();
+  await expect(metadata).toContainText('36 職業');
 
   const rows = page.locator('section.sec-list-sec ol.rank-list > li');
   expect(await rows.count()).toBeGreaterThanOrEqual(4);

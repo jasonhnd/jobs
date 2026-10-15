@@ -13,6 +13,7 @@ let root = '';
 let docsRepo = '';
 let codeRepo = '';
 let singleCommitRepo = '';
+let renameRepo = '';
 
 function git(cwd: string, ...args: string[]): void {
   const result = spawnSync('git', args, { cwd, encoding: 'utf8' });
@@ -55,6 +56,12 @@ before(() => {
   docsRepo = makeRepo('docs', ['docs/NOTES.md']);
   codeRepo = makeRepo('code', ['src/page.ts']);
   singleCommitRepo = makeRepo('single', ['src/page.ts'], true);
+  // Moves a code file into docs/: with rename detection the diff lists only
+  // docs/page.ts, which would look documentation-only.
+  renameRepo = makeRepo('rename', ['src/page.ts']);
+  mkdirSync(join(renameRepo, 'docs'));
+  git(renameRepo, 'mv', 'src/page.ts', 'docs/page.ts');
+  git(renameRepo, 'commit', '-q', '-m', 'move code into docs');
 });
 
 after(() => {
@@ -96,4 +103,9 @@ test('preview with no usable diff base builds (fail-safe)', () => {
 test('vercel.json buildCommand only runs the build', () => {
   const cfg = JSON.parse(readFileSync('vercel.json', 'utf8')) as { buildCommand: string };
   assert.equal(cfg.buildCommand, 'rm -rf dist-astro node_modules/.astro && bun run build');
+});
+
+test('preview and main build when a code file is renamed into docs/', () => {
+  assert.equal(run(renameRepo, 'preview', 'chore: move'), BUILD);
+  assert.equal(run(renameRepo, 'main', 'chore: move'), BUILD);
 });

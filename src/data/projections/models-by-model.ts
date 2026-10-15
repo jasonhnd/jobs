@@ -19,6 +19,8 @@ import { formatModelDisplay, runSlug } from '../../site/score-attribution.js';
 import type { ScoreRun } from '../schema/index.js';
 import type { ScoreEntry } from '../schema/score-run.js';
 import type { Indexes } from '../lib/indexes.js';
+import { bankerRound } from '../lib/banker-round.js';
+import { toTenths } from '../lib/score-compare.js';
 
 const HISTOGRAM_BINS = 20;
 const HISTOGRAM_WIDTH = 0.5;
@@ -57,8 +59,9 @@ export interface ModelsByModelBuildResult {
   maxPageBytes: number;
 }
 
-function round1(value: number): number {
-  return Math.round(value * 10) / 10;
+/** One decimal, banker rounding — the project's rounding contract (banker-round.ts). */
+export function round1(value: number): number {
+  return bankerRound(value, 1);
 }
 
 function batchKey(run: ScoreRun): string {
@@ -323,7 +326,7 @@ function driftFor(
     compared_count: report.comparedCount,
     mean_delta_t: round1(report.meanDriftT),
     movers: [...report.rows]
-      .sort((a, b) => Math.abs(b.dT) - Math.abs(a.dT) || a.id - b.id)
+      .sort((a, b) => Math.abs(toTenths(b.dT)) - Math.abs(toTenths(a.dT)) || a.id - b.id)
       .slice(0, DRIFT_N)
       .map((row) => ({
         id: row.id,

@@ -49,6 +49,8 @@ export interface DynamicEmitSite {
   readonly file: string;
   readonly wrapper?: string;
   readonly emits?: readonly string[];
+  /** The variable an `emits` site compares (`name === '…'`); every branch must be declared. */
+  readonly branchVar?: string;
   readonly why: string;
 }
 
@@ -66,6 +68,8 @@ export interface SourceFile {
 export interface ScanResult {
   emissions: Emission[];
   undeclaredDynamic: string[];
+  /** `file:line: reason` for every gtag / dataLayer use the gate cannot read. */
+  unreadable: string[];
 }
 
 export interface DimensionEntry {

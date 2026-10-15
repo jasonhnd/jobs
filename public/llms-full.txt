@@ -4,7 +4,9 @@ Extended GEO companion to https://mirai-shigoto.com/llms.txt. This file is gener
 
 ## 1. Summary
 
-mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10 v1.0. Published scores are a multi-model consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-10-01). Per-model breakdown: https://mirai-shigoto.com/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
+The ordinary edition and the currently free, public Pro edition (https://mirai-shigoto.com/pro) share one dataset. Full methods, model runs, questions and research are under /pro. Selected ordinary rankings remain at https://mirai-shigoto.com/rankings; the full list is https://mirai-shigoto.com/pro/rankings. Methodology: https://mirai-shigoto.com/pro/methodology; standard: https://mirai-shigoto.com/pro/standard; data: https://mirai-shigoto.com/pro/data; answers: https://mirai-shigoto.com/pro/answers.
+
+mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10 v1.0. Published scores are a multi-model consensus (mean of the latest model from each of 3 vendors; latest scoring 2026-10-01). Per-model breakdown: https://mirai-shigoto.com/pro/models. The site UI is Japanese-only; this companion gives AI systems and researchers a compact English reference.
 
 ## 2. Dataset
 
@@ -15,8 +17,8 @@ mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10
 | Mean AI Impact | 4.68 / 10 |
 | Median AI Impact | 4.50 / 10 |
 | Mean Displacement-Risk | 1.83 / 10 |
-| Occupations at AI Impact >= 5 | 198 |
-| Annual wages at AI Impact >= 5 | 106.423322 trillion yen |
+| Occupations at AI Impact >= 7 | 31 |
+| Annual wages at AI Impact >= 7 | 30.637063 trillion yen |
 | Low / mid / high risk-band counts | 157 / 368 / 31 |
 | High-impact workforce | 5,994,023 (11.0%) |
 
@@ -24,10 +26,10 @@ mirai-shigoto.com maps 556 Japanese occupations against AI Impact using AIOIS-10
 
 | Band | Occupations | Share |
 |---|---:|---:|
-| 0-2 | 2 | 1.0% |
+| 0-2 | 4 | 1.0% |
 | 3-4 | 278 | 50.0% |
-| 5-6 | 224 | 40.0% |
-| 7-8 | 50 | 9.0% |
+| 5-6 | 228 | 41.0% |
+| 7-8 | 44 | 8.0% |
 | 9-10 | 2 | 0.0% |
 
 ## 3. Methodology
