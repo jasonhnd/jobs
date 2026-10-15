@@ -33,10 +33,12 @@
 import type { Occupation } from '../data/schema/occupation.js';
 import { fsum } from '../data/lib/fsum.js';
 import { bankerRound } from '../data/lib/banker-round.js';
+import { displayTenths, toTenths } from '../data/lib/score-compare.js';
 
 // Phase C (2026-05-10): TOP_N raised 4 → 5 for the new spoke-spoke link block.
 export const TRANSFER_TOP_N = 5;
 export const TRANSFER_MIN_RISK_DROP = 1.0;
+const MIN_RISK_DROP_TENTHS = toTenths(TRANSFER_MIN_RISK_DROP);
 export const TRANSFER_MIN_SIMILARITY = 0.3;
 
 /**
@@ -118,7 +120,7 @@ export interface TransferComputeInput {
   readonly sortedOccIds: ReadonlyArray<number>;
   /** Map occ id → raw IPD `skills` numeric block (or null/missing). */
   readonly skillsByOcc: ReadonlyMap<number, Record<string, number> | null>;
-  /** Map occ id → latest AI-risk 0.0–10.0 (one decimal). */
+  /** Map occ id → canonical AI-risk 0.0–10.0 (unrounded vendor mean; compared by its displayed value). */
   readonly riskByOcc: ReadonlyMap<number, number>;
   /** Map occ id → resolved sector id string. */
   readonly sectorByOcc: ReadonlyMap<number, string>;
@@ -131,8 +133,9 @@ export interface TransferComputeInput {
  *
  * For each source occupation:
  *   1. Look up its same-sector candidate pool (pre-indexed once).
- *   2. Filter to strictly safer candidates (risk drop ≥ MIN_RISK_DROP).
- *      If empty → fall back to the whole same-sector pool with
+ *   2. Filter to strictly safer candidates (displayed-value risk drop
+ *      ≥ MIN_RISK_DROP). If empty → fall back to the same-sector pool whose
+ *      displayed risk is not higher than the source, with
  *      `fallback: 'no_safer_in_sector'`.
  *   3. Score each candidate by `cosine(sourceSkills, candSkills)`,
  *      drop below MIN_SIMILARITY, sort desc, keep top N.
@@ -149,6 +152,7 @@ export function computeTransferCandidatesMap(
     readonly id: number;
     readonly cand_skills: Record<string, number>;
     readonly cand_risk: number;
+    readonly cand_tenths: number;
   }
   const candidatesBySector = new Map<string, CandidateEntry[]>();
   for (const candId of input.sortedOccIds) {
@@ -163,7 +167,7 @@ export function computeTransferCandidatesMap(
       bucket = [];
       candidatesBySector.set(candSector, bucket);
     }
-    bucket.push({ id: candId, cand_skills: candSkills, cand_risk: candRisk });
+    bucket.push({ id: candId, cand_skills: candSkills, cand_risk: candRisk, cand_tenths: displayTenths(candRisk) });
   }
 
   const out = new Map<number, TransferPathEntry>();
@@ -182,16 +186,21 @@ export function computeTransferCandidatesMap(
       continue;
     }
 
+    // Risk drops compare the displayed one-decimal values in integer tenths
+    // (owner rule 2026-10-07): 4.3 → 3.3 is a 1.0 drop even when the
+    // unrounded means are 4.2667 and 3.3333, and FP residue cannot hide it.
+    const sourceTenths = displayTenths(sourceRisk);
     const sectorPool = candidatesBySector.get(sourceSector) ?? [];
     const pool = sectorPool.filter((c) => c.id !== occId);
-    const safer = pool.filter((c) => c.cand_risk <= sourceRisk - TRANSFER_MIN_RISK_DROP);
+    const safer = pool.filter((c) => c.cand_tenths <= sourceTenths - MIN_RISK_DROP_TENTHS);
 
     let chosenPool: ReadonlyArray<CandidateEntry>;
     let fallbackLabel: string | null = null;
     if (safer.length > 0) {
       chosenPool = safer;
     } else {
-      chosenPool = pool;
+      // A transfer suggestion must never be riskier than the source job.
+      chosenPool = pool.filter((c) => c.cand_tenths <= sourceTenths);
       fallbackLabel = 'no_safer_in_sector';
     }
 

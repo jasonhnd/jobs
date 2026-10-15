@@ -8,6 +8,7 @@
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
+import { riskBandWord } from '../lib/risk.js';
 import { formatModelDisplay, runSlug } from '../site/score-attribution.js';
 import {
   CONSENSUS_AGING_NOTE,
@@ -39,6 +40,14 @@ function formatScore(value: number): string {
   return formatConsensusScore(value);
 }
 
+/** A visible X/10 transformation label: `8.1/10 変化 大きい`. */
+function formatScoreLabel(value: number): string {
+  const shown = escapeHtml(formatScore(value));
+  const word = riskBandWord(value);
+  const num = `${shown}<span>/10</span>`;
+  return word ? `${num} ${escapeHtml(word)}` : num;
+}
+
 function formatDelta(value: number): string {
   const rounded = formatConsensusScore(Math.abs(value));
   if (rounded === '0') return '±0';
@@ -52,7 +61,7 @@ function formatDate(date: string): string {
 }
 
 function modelHref(entry: ScoreHistoryComparisonEntry): string {
-  return `/models/${runSlug({ model: entry.model, runDate: entry.date })}`;
+  return `/pro/models/${runSlug({ model: entry.model, runDate: entry.date })}`;
 }
 
 export function renderScoreHistoryComparison(
@@ -75,9 +84,9 @@ export function renderScoreHistoryComparison(
     // but drop the delta.
     const isLegacy = entry.dims == null;
     const scoreRow = isLegacy
-      ? `<div><dt>旧方式スコア</dt><dd class="sh-num">${escapeHtml(formatScore(entry.transformation))}<span>/10</span></dd></div>` +
+      ? `<div><dt>旧方式スコア</dt><dd class="sh-num">${formatScoreLabel(entry.transformation)}</dd></div>` +
         `<div><dt>総合との差</dt><dd>AIOIS-10 導入前のため比較対象外</dd></div>`
-      : `<div><dt>変化指数</dt><dd class="sh-num">${escapeHtml(formatScore(entry.transformation))}<span>/10</span></dd></div>` +
+      : `<div><dt>変化指数</dt><dd class="sh-num">${formatScoreLabel(entry.transformation)}</dd></div>` +
         `<div><dt>総合との差</dt><dd class="sh-delta">${escapeHtml(formatDelta(entry.transformation - options.consensusTransformation))}</dd></div>`;
     items +=
       `<li class="score-history-item">` +
@@ -104,6 +113,10 @@ export function renderScoreHistoryComparison(
     `</details>`;
 
   const hasLegacy = history.some((entry) => entry.dims == null);
+  const currentWord = riskBandWord(options.consensusTransformation);
+  const currentBand = currentWord
+    ? `<span class="score-band">${escapeHtml(currentWord)}</span>`
+    : '';
   const note = hasLegacy
     ? 'AI 影響スコアは、異なるAIモデルが異なる日付で評価した結果です。AIOIS-10 導入前の旧方式スコアは基準が異なるため、総合値とは比較できません。'
     : 'AI 影響スコアは、異なるAIモデルが異なる日付で同じ基準にもとづき評価した結果です。';
@@ -112,13 +125,16 @@ export function renderScoreHistoryComparison(
     `<section class="score-history" aria-labelledby="score-history-h2">` +
     `<h2 id="score-history-h2">${escapeHtml(H2)}</h2>` +
     `<p class="score-history-note">${escapeHtml(note)}` +
-    `<a href="/models">全モデルを見る</a></p>` +
+    `<a href="/pro/models">全モデルを見る</a></p>` +
     `<div class="score-history-current" aria-label="${escapeHtml(CONSENSUS_HEADLINE_LABEL)}">` +
     `<div>` +
     `<span class="score-history-current-label">${escapeHtml(CONSENSUS_HEADLINE_LABEL)}</span>` +
     `<span class="score-history-current-date">${escapeHtml(formatScoreHistoryCurrentLine(options.latestRunDate))}</span>` +
     `</div>` +
+    `<div class="score-history-current-value">` +
     `<strong>${escapeHtml(formatScore(options.consensusTransformation))}<span>/10</span></strong>` +
+    currentBand +
+    `</div>` +
     `</div>` +
     details +
     `</section>`

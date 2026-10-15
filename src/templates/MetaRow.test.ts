@@ -51,7 +51,7 @@ describe('renderMetaRow', () => {
       workforceBand: 'large',
       demandBand: 'hot',
     });
-    assert.ok(out.includes('<span class="band band-high">AI 影響 高</span>'));
+    assert.ok(out.includes('<span class="band band-high">変化 大きい</span>'));
     assert.ok(out.includes('<span class="band band-high">規模 大</span>'));
     assert.ok(out.includes('<span class="band band-high">需要 過熱</span>'));
   });
@@ -129,7 +129,7 @@ describe('renderMetaRow', () => {
       demandBand: 'hot',
     });
     const sectorAt = out.indexOf('sector-chip');
-    const riskAt = out.indexOf('AI 影響');
+    const riskAt = out.indexOf('変化 中くらい');
     const workforceAt = out.indexOf('規模');
     const demandAt = out.indexOf('需要');
     assert.ok(sectorAt < riskAt && riskAt < workforceAt && workforceAt < demandAt);

@@ -71,7 +71,7 @@ describe('buildSkillsBundle (injected loaders)', () => {
   });
 
   test('FAQ risk tier covers low / mid / high bands', () => {
-    const tiers = [[2, '低め'], [5, '中程度'], [8, 'やや高め']] as const;
+    const tiers = [[2, '変化 小さい'], [5, '変化 中くらい'], [8, '変化 大きい']] as const;
     for (const [risk, word] of tiers) {
       const b = buildSkillsBundle({
         skillRanking: () => ranking([1]),

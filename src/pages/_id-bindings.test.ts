@@ -40,6 +40,7 @@ describe('derivePrevDelta', () => {
 function page(rec: Partial<Rec> = {}, options: {
   scoreHistory?: readonly ScoreHistoryComparisonEntry[];
   prevDelta?: number | null;
+  edition?: 'ordinary' | 'pro';
 } = {}) {
   return buildIdPageBindings({
     rec: { ...adaptDetailFile({ id: 156, title: { ja: 'Fixture & <job>' } }), ...rec },
@@ -86,6 +87,7 @@ describe('buildIdPageBindings', () => {
     assert.equal(bindings.verdict.scored, true);
     assert.equal(bindings.verdict.showShare, true);
     assert.equal(bindings.verdict.transformationDisp, '8.2');
+    assert.equal(bindings.verdict.bandWord, '変化 大きい');
     assert.equal(bindings.verdict.displacementDisp, '1.8');
     assert.equal(bindings.verdict.sentence, 'Rationale & <text>');
     assert.equal(bindings.verdict.facts, '年収 約519万円 · 就業者 約69万人 · 月155h');
@@ -144,6 +146,7 @@ describe('buildIdPageBindings', () => {
     assert.equal(bindings.verdict.scored, false);
     assert.equal(bindings.verdict.showShare, false);
     assert.equal(bindings.verdict.transformationDisp, '未採点');
+    assert.equal(bindings.verdict.bandWord, null);
     assert.equal(bindings.verdict.displacementDisp, null);
     assert.equal(bindings.verdict.latestObs, null);
     assert.equal(bindings.prevDelta, null);
@@ -190,6 +193,7 @@ describe('buildIdPageBindings', () => {
     assert.ok(!body.includes('&lt;tail&gt;'));
     assert.ok(body.includes('x'.repeat(240)));
     assert.equal(bindings.verdict.transformationDisp, '0');
+    assert.equal(bindings.verdict.bandWord, '変化 小さい');
     assert.equal(bindings.verdict.scored, true);
     assert.equal(bindings.riskTierJs, 'low');
     assert.equal(bindings.verdict.doors[0]?.href, '#sec-aiois');
@@ -204,7 +208,7 @@ describe('buildIdPageBindings', () => {
     assert.equal(canonicalOccupationRank(facts, -1), null);
     assert.equal(page().rankInUniverse, expectedRank);
     assert.equal(page().rankUniverseTotal, facts.occupationCount);
-    assert.throws(() => page({ id: -1 }), /occupation -1 missing from data\.worktypes\.json/);
+    assert.throws(() => page({ id: -1 }), /Invalid occupation ID: -1/);
   });
 });
 
@@ -266,8 +270,16 @@ describe('formatVerdictFacts', () => {
 describe('verdictSentence', () => {
   test('reuses rationale verbatim and falls back to the callout', () => {
     assert.equal(verdictSentence('現場の判断が残る。', 3.6), '現場の判断が残る。');
-    assert.equal(verdictSentence('  ', 3.6), '低 AI 影響。専門性と判断が必要な業務が中心で、当面は安定。');
+    assert.equal(verdictSentence('  ', 3.6), '変化は小さい。専門性と判断が必要な業務が中心で、当面は安定。');
     assert.equal(verdictSentence('', null), 'AI 影響度未評価。');
+  });
+});
+
+describe('GA4 risk tier (#864)', () => {
+  test('tiers the displayed value: 6.9667 prints 7.0 (high), 4.9667 prints 5.0 (mid)', () => {
+    assert.equal(page({ ai_risk: 6.966666666666667 }).riskTierJs, 'high');
+    assert.equal(page({ ai_risk: 4.966666666666667 }).riskTierJs, 'mid');
+    assert.equal(page({ ai_risk: 4.933333333333334 }).riskTierJs, 'low');
   });
 });
 
@@ -277,7 +289,7 @@ describe('buildVerdictDoors', () => {
       { href: '#sec-similar', label: '似た仕事', kind: 'ghost' },
     ]);
   });
-  test('low <5 targets なぜ守られやすいか + 似た仕事', () => {
+  test('low <4.0 targets なぜ守られやすいか + 似た仕事', () => {
     const doors = buildVerdictDoors({ risk: 3.6, hasTransfer: true });
     assert.deepEqual(doors, [
       { href: '#sec-aiois', label: 'なぜ守られやすいか', kind: 'solid' },
@@ -290,7 +302,29 @@ describe('buildVerdictDoors', () => {
     assert.equal(buildVerdictDoors({ risk: 8.5, hasTransfer: false })[1]?.href, '#sec-similar');
     assert.equal(buildVerdictDoors({ risk: 8.5, hasTransfer: true })[0]?.href, '#sec-aiois');
   });
+  test('doors follow the displayed value at 5.0 and 7.0 (#864)', () => {
+    assert.equal(buildVerdictDoors({ risk: 6.966666666666667, hasTransfer: true })[0]?.label, 'AIで変わる作業を見る'); // prints 7.0
+    assert.equal(buildVerdictDoors({ risk: 6.933333333333334, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 6.9
+    assert.equal(buildVerdictDoors({ risk: 4.966666666666667, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 5.0
+    assert.equal(buildVerdictDoors({ risk: 4.933333333333334, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 4.9
+    assert.equal(buildVerdictDoors({ risk: 3.9666666666666663, hasTransfer: true })[0]?.label, 'スコアの中身'); // prints 4.0
+    assert.equal(buildVerdictDoors({ risk: 3.9333333333333336, hasTransfer: true })[0]?.label, 'なぜ守られやすいか'); // prints 3.9
+  });
   test('mid uses スコアの中身', () => {
     assert.equal(buildVerdictDoors({ risk: 5.5, hasTransfer: false })[0]?.label, 'スコアの中身');
   });
+});
+
+test('shared bindings preserve both editions at rounding and float boundaries', () => {
+  for (const score of [4.9667, 6.9667, 3.9667, 0.3, null]) {
+    const rec = { ai_risk: score, aiois: score === null ? null : { d1: score, d2: score, d3: score, d4: score, d5: score, d6: score, d7: score, d8: score, d9: score, d10: score, transformation: score, displacement: score } };
+    const { jsonLd: oldLd, ...ordinary } = page(rec);
+    const { jsonLd: proLd, ...pro } = page(rec, { edition: 'pro' });
+    assert.equal(pro.canonical, ordinary.canonical.replace(/\/(\d+)$/, '/pro/$1'));
+    const { canonical: _proCanonical, ...proContent } = pro;
+    const { canonical: _ordinaryCanonical, ...ordinaryContent } = ordinary;
+    assert.deepEqual(proContent, ordinaryContent);
+    const entity = (payload: string) => JSON.parse(payload)['@graph'].find((n: { '@type': string }) => n['@type'] === 'Occupation');
+    assert.deepEqual(entity(proLd), entity(oldLd));
+  }
 });

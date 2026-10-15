@@ -30,8 +30,8 @@ export const GET: APIRoute = async () => {
   // fallback for the degenerate case of a graph with no scored occupation.
   const lastmods = sitemapLastmods(graph, nowIso().slice(0, 10));
   // HAID release ids come from the projection, not the graph (aiadoption-1.4).
-  const haidLatest = JSON.parse(await readFile(join(process.cwd(), 'public', 'data.haid-latest.json'), 'utf-8')) as { releases: string[] };
-  const entries = buildSitemapEntries(graph, lastmods, { haidReleases: haidLatest.releases });
+  const haidLatest = JSON.parse(await readFile(join(process.cwd(), 'public', 'data.haid-latest.json'), 'utf-8')) as { releases: string[]; release: string };
+  const entries = buildSitemapEntries(graph, lastmods, { haidReleases: haidLatest.releases, haidLatestRelease: haidLatest.release });
 
   if (entries.length < SITEMAP_MIN_URL_COUNT) {
     // The sitemap is the single biggest crawl-budget signal we send to

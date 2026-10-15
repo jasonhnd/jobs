@@ -267,3 +267,14 @@ describe('renderOccupationJsonLd', () => {
     assert.ok(estAt < eduAt, `estimatedSalary (${estAt}) must come before educationRequirements (${eduAt})`);
   });
 });
+
+test('Pro WebPage identity differs while occupation entity remains stable', () => {
+  const ordinary = JSON.parse(renderOccupationJsonLd({ ...baseInput, id: 404, canonical: 'https://mirai-shigoto.com/occupations/404' }));
+  const pro = JSON.parse(renderOccupationJsonLd({ ...baseInput, id: 404, canonical: 'https://mirai-shigoto.com/occupations/404', pageUrl: 'https://mirai-shigoto.com/pro/404', edition: 'pro' }));
+  assert.equal(pro['@graph'][0]['@id'], 'https://mirai-shigoto.com/pro/404#webpage');
+  assert.equal(pro['@graph'][0].url, 'https://mirai-shigoto.com/pro/404');
+  assert.deepEqual(pro['@graph'][1], ordinary['@graph'][1]);
+  assert.deepEqual(pro['@graph'][0].mainEntity, { '@id': 'https://mirai-shigoto.com/occupations/404#occupation' });
+  assert.equal(pro['@graph'][2].itemListElement[1].item, 'https://mirai-shigoto.com/pro');
+  assert.equal(pro['@graph'][2].itemListElement[2].item, 'https://mirai-shigoto.com/pro/404');
+});

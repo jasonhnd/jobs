@@ -41,6 +41,15 @@ h1 .accent{color:var(--ink)}
 .sub strong{color:var(--ink);font-weight:700}
 .intro{margin:24px 0;color:var(--fg);font-size:var(--t-h3);max-width:64ch}
 
+/* Stage-4 summary composition: existing lead, helper, meta and button roles. */
+.ordinary-conclusion{font-size:var(--t-h3);color:var(--ink-2);max-width:64ch;margin:var(--s-3) 0}
+.ordinary-guidance{font-size:var(--t-sm);color:var(--ink-meta);max-width:64ch;margin:var(--s-3) 0}
+.ordinary-score-meta{font-size:var(--t-sm);color:var(--ink-meta);margin:var(--s-3) 0}
+.ordinary-next-step{display:inline-flex;align-items:center;min-height:44px;padding:var(--s-3) var(--s-4);border-radius:var(--r-md);background:var(--orange-hot);color:var(--paper);font-size:var(--t-sm);font-weight:600;text-decoration:none;margin-top:var(--s-3)}
+.ordinary-next-step:hover{color:var(--paper);filter:brightness(1.05)}
+.ordinary-next-step:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+#sector-occupations{scroll-margin-top:var(--s-8)}
+
 /* Section spacing + h2 with bottom border */
 section{margin:48px 0}
 h2{color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}

@@ -20,7 +20,7 @@ async function openConsentDecided(
 }
 
 test('390×844 first screen shows H1, answer line, and rows; 直答 is folded', async ({ page }) => {
-  await openConsentDecided(page, '/q/ai-de-kieru', 390, 844);
+  await openConsentDecided(page, '/pro/q/ai-de-kieru', 390, 844);
 
   const h1 = page.locator('h1').filter({ visible: true }).first();
   await expect(h1).toBeVisible();
@@ -59,7 +59,7 @@ test('390×844 first screen shows H1, answer line, and rows; 直答 is folded', 
 });
 
 test('folded chapter opens on desktop helper at 1280 and keeps 直答 + ai-fact', async ({ page }) => {
-  await openConsentDecided(page, '/q/ai-de-kieru', 1280, 800);
+  await openConsentDecided(page, '/pro/q/ai-de-kieru', 1280, 800);
   const chap = page.locator('details.chap');
   await expect(chap).toHaveCount(1);
   await expect(chap).toHaveAttribute('open', '');

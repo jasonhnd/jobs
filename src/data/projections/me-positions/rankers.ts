@@ -5,6 +5,8 @@ import {
   type RankingSlug,
 } from '../../../views/ranking/index.js';
 import { EDU, EMP } from '../../domain/distribution-labels.js';
+import { displayScoreOrNull } from '../../lib/banker-round.js';
+import { graduateShare } from '../../domain/education-share.js';
 
 // ───────────────────────────────────────────────────────────────────
 // Per-ranking "ranker" — produces the FULL sorted+filtered universe.
@@ -12,7 +14,9 @@ import { EDU, EMP } from '../../domain/distribution-labels.js';
 // full universe gives outOfUniverse directly. The full universe size
 // varies per slug — full count for unfiltered rankings, smaller for filtered.
 //
-// Mirrors src/views/ranking/rankings/*.ts. Keep in lockstep.
+// Mirrors src/views/ranking/rankings/*.ts. Keep in lockstep. AI-impact
+// thresholds compare the displayed value (displayScoreOrNull, #864);
+// sorts keep the raw mean.
 // ───────────────────────────────────────────────────────────────────
 
 // Sector groupings — mirror src/views/ranking/utilities.ts
@@ -35,7 +39,7 @@ function eduPct(o: Occupation, key: string): number {
   return o.education_pct?.[key] ?? 0;
 }
 function gradPct(o: Occupation): number {
-  return eduPct(o, EDU.masters) + eduPct(o, EDU.doctorate);
+  return graduateShare(eduPct(o, EDU.masters), eduPct(o, EDU.doctorate));
 }
 function empPct(o: Occupation, key: string): number {
   return o.employment_type?.[key] ?? 0;
@@ -64,7 +68,7 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
     [...scored].sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || a.id - b.id),
   'salary-safe': (_scored, _occs, withSalary) =>
     withSalary
-      .filter((o) => (o.ai_risk ?? 0) <= 5)
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 0) <= 5)
       .sort((a, b) => {
         const sa = a.salary ?? 0;
         const sb = b.salary ?? 0;
@@ -135,7 +139,7 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
   // ── Phase 2 AI 軸派生 ──
   'ai-replaced-soon': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 0) >= 8)
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 0) >= 8)
       .sort((a, b) => {
         const r = (b.ai_risk ?? 0) - (a.ai_risk ?? 0);
         if (r !== 0) return r;
@@ -143,11 +147,11 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
       }),
   'ai-resistant-craft': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 999) <= 3 && inSet(o, CRAFT_SECTORS))
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 3 && inSet(o, CRAFT_SECTORS))
       .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || a.id - b.id),
   'ai-at-risk-but-paid': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 0) >= 7 && (o.salary ?? 0) >= 500)
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 0) >= 7 && (o.salary ?? 0) >= 500)
       .sort((a, b) => {
         const s = (b.salary ?? 0) - (a.salary ?? 0);
         if (s !== 0) return s;
@@ -155,15 +159,15 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
       }),
   'ai-augmented': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? -1) >= 4 && (o.ai_risk ?? -1) <= 6)
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? -1) >= 4 && (displayScoreOrNull(o.ai_risk) ?? -1) <= 6)
       .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || a.id - b.id),
   'ai-frontier': (scored) =>
     scored
-      .filter((o) => o.sector_id === 'it' && (o.ai_risk ?? 0) >= 5)
+      .filter((o) => o.sector_id === 'it' && (displayScoreOrNull(o.ai_risk) ?? 0) >= 5)
       .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0) || a.id - b.id),
   'ai-stable-employment': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 999) <= 5 && empPct(o, EMP.regular) >= 60)
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && empPct(o, EMP.regular) >= 60)
       .sort(
         (a, b) =>
           empPct(b, EMP.regular) - empPct(a, EMP.regular) ||
@@ -175,7 +179,7 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
     scored
       .filter(
         (o) =>
-          (o.ai_risk ?? 999) <= 5 &&
+          (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 &&
           demandScore(o.demand_band) >= HIGH_DEMAND_MIN,
       )
       // Single demand band clears HIGH_DEMAND_MIN, so this term is currently
@@ -189,7 +193,7 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
       ),
   'ai-safe-short-hours': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 999) <= 5 && o.monthly_hours)
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.monthly_hours)
       .sort(
         (a, b) =>
           (a.monthly_hours ?? 9999) - (b.monthly_hours ?? 9999) ||
@@ -197,7 +201,7 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
       ),
   'ai-safe-young-workforce': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 999) <= 5 && o.average_age)
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.average_age)
       .sort(
         (a, b) =>
           (a.average_age ?? 999) - (b.average_age ?? 999) ||
@@ -205,21 +209,21 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
       ),
   'ai-safe-no-license': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 999) <= 5 && o.certs.length === 0)
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.certs.length === 0)
       .sort(
         (a, b) =>
           (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.salary ?? 0) - (a.salary ?? 0),
       ),
   'ai-safe-physical': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 999) <= 5 && inSet(o, PHYSICAL_SECTORS))
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && inSet(o, PHYSICAL_SECTORS))
       .sort(
         (a, b) =>
           (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.workers ?? 0) - (a.workers ?? 0),
       ),
   'ai-safe-interpersonal': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 999) <= 5 && inSet(o, INTERPERSONAL_SECTORS))
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && inSet(o, INTERPERSONAL_SECTORS))
       .sort(
         (a, b) =>
           (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.workers ?? 0) - (a.workers ?? 0),
@@ -253,7 +257,7 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
       ),
   'no-license-required': (scored) =>
     scored
-      .filter((o) => o.certs.length === 0 && (o.ai_risk ?? 999) <= 5)
+      .filter((o) => o.certs.length === 0 && (displayScoreOrNull(o.ai_risk) ?? 999) <= 5)
       .sort(
         (a, b) =>
           (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || (b.salary ?? 0) - (a.salary ?? 0),
@@ -310,14 +314,14 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
       ),
   'large-workforce-stable': (scored) =>
     scored
-      .filter((o) => (o.ai_risk ?? 999) <= 5 && o.workers && o.workers >= 50000)
+      .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.workers && o.workers >= 50000)
       .sort(
         (a, b) =>
           (b.workers ?? 0) - (a.workers ?? 0) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0),
       ),
   'regulated-protected': (scored) =>
     scored
-      .filter((o) => o.certs.length >= 2 && (o.ai_risk ?? 999) <= 5)
+      .filter((o) => o.certs.length >= 2 && (displayScoreOrNull(o.ai_risk) ?? 999) <= 5)
       .sort(
         (a, b) =>
           b.certs.length - a.certs.length || (a.ai_risk ?? 0) - (b.ai_risk ?? 0),
@@ -326,7 +330,7 @@ export const RANKERS: Record<RankingSlug, Ranker> = {
     scored
       .filter(
         (o) =>
-          (o.ai_risk ?? 999) <= 5 && o.monthly_hours && o.monthly_hours <= 165,
+          (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.monthly_hours && o.monthly_hours <= 165,
       )
       .sort(
         (a, b) =>

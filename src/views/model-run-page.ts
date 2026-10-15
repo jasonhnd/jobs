@@ -6,6 +6,7 @@ import type { ModelsByModelProjectionShape } from '@/lib/projection-schemas';
 import { siteConfig } from '@/site/config';
 import { formatModelDisplay, runFromSlug, type ScoreRunRef } from '@/site/score-attribution';
 import { formatEvaluationStandard, formatJapaneseDate, formatProviderDisplay } from './models.js';
+import { escapeJsonForScript, stringifyJsonLd } from '../lib/json-for-script.js';
 
 export type ModelRunRecord = ModelsByModelProjectionShape['models'][string];
 
@@ -84,11 +85,8 @@ export function buildModelRunPageModel(
         : `前回の${formatModelDisplay(drift.predecessor.model)}との変化も掲載しています。`;
   const pageDescription =
     `${modelDisplay}（${scoringDate}）が採点した日本の職業${page.covered_count}件のAI影響度分布と上位・下位職業。${comparisonDescription}`;
-  const canonical = `${siteConfig.origin}/models/${page.slug}`;
-  const inlinePayload = JSON.stringify(page)
-    .replace(/</g, '\\u003c')
-    .replace(/\u2028/g, '\\u2028')
-    .replace(/\u2029/g, '\\u2029');
+  const canonical = `${siteConfig.origin}/pro/models/${page.slug}`;
+  const inlinePayload = escapeJsonForScript(JSON.stringify(page));
 
   const histogramWidth = 720;
   const histogramHeight = 260;
@@ -110,7 +108,7 @@ export function buildModelRunPageModel(
         ? `${modelDisplay} は AIOIS-10 系列で最初の採点です。比較可能な前回モデルがないため、以後の変化を見るための基準点として扱います。`
         : `${modelDisplay} は ${formatModelDisplay(drift.predecessor.model)}（${formatJapaneseDate(drift.predecessor.date)}）と比べて、平均変化指数が ${signedScore(drift.mean_delta_t)} ポイント動きました。共通して比較できた職業は ${drift.compared_count} 件です。`;
 
-  const jsonLd = JSON.stringify({
+  const jsonLd = stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       {
@@ -141,7 +139,7 @@ export function buildModelRunPageModel(
         '@id': `${canonical}#breadcrumb`,
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${siteConfig.origin}/` },
-          { '@type': 'ListItem', position: 2, name: 'モデル比較', item: `${siteConfig.origin}/models` },
+          { '@type': 'ListItem', position: 2, name: 'モデル比較', item: `${siteConfig.origin}/pro/models` },
           { '@type': 'ListItem', position: 3, name: modelDisplay, item: canonical },
         ],
       },

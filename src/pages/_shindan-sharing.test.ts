@@ -15,6 +15,10 @@ interface RuntimeHooks {
     gap: { jobId: string; kind: string } | null,
     familyParam: 'self' | 'worktype',
   ): URLSearchParams;
+  shareHookText(
+    fields: { jobTitle: string | null; score: number | null },
+    variant: { name: string; catch: string },
+  ): string;
 }
 
 function loadRuntimeHooks(): RuntimeHooks {
@@ -70,5 +74,20 @@ describe('shindan browser share-state runtime', () => {
     for (const value of ['3-0/2-1', '3-0/2-1/1-2', 'left,right,left', '', null]) {
       assert.equal(hooks.validAxesPattern(value), false, String(value));
     }
+  });
+});
+
+describe('/shindan share hook (#864)', () => {
+  test('prints the one-decimal public value, never the raw mean', () => {
+    const variant = { name: 'Type', catch: 'Catch' };
+    assert.equal(
+      hooks.shareHookText({ jobTitle: '豆腐製造、豆腐職人', score: 4.266666666666667 }, variant),
+      '豆腐製造、豆腐職人のAI影響度は4.3/10。あなたの仕事は？',
+    );
+    assert.equal(
+      hooks.shareHookText({ jobTitle: 'パン製造、パン職人', score: 4.433333333333334 }, variant),
+      'パン製造、パン職人のAI影響度は4.4/10。あなたの仕事は？',
+    );
+    assert.equal(hooks.shareHookText({ jobTitle: null, score: null }, variant), 'Type：Catch');
   });
 });

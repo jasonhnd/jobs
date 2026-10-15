@@ -1,7 +1,7 @@
 import { describe, test, afterEach, before, after } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { renderOccupationOgCard, statLabels } from './occupation.js';
+import { occupationNameFontSize, renderOccupationOgCard, statLabels } from './occupation.js';
 
 const originalFetch = globalThis.fetch;
 afterEach(() => {
@@ -153,6 +153,18 @@ describe('renderOccupationOgCard — fetch URL construction', () => {
   });
 });
 
+describe('occupationNameFontSize — every name fits in three lines', () => {
+  // The name column is 700px wide: 9 full-width glyphs per line at 72px.
+  for (const [length, size] of [[0, 72], [9, 72], [26, 72], [27, 72], [28, 60], [30, 60], [33, 60], [34, 52]] as const) {
+    test(`${length} characters → ${size}px`, () => {
+      assert.equal(occupationNameFontSize('字'.repeat(length)), size);
+    });
+  }
+  test('counts characters, not UTF-16 code units', () => {
+    assert.equal(occupationNameFontSize('𠮷'.repeat(27)), 72);
+  });
+});
+
 describe('statLabels — null stats render an em-dash, not 0', () => {
   test('present values render with their unit', () => {
     const { workersLabel, salaryLabel } = statLabels(123456, 540);
@@ -194,7 +206,7 @@ interface Options {
 const images: { tree: ReactNode; options: Options }[] = [];
 const origin = 'https://jobs-tree-zkscio.vercel.app';
 const url = new URL(`${origin}/api/og`);
-const fontBytes = new Uint8Array([1, 2, 3]);
+const fontBytes = new Uint8Array([0x00, 0x01, 0x00, 0x00, 1, 2, 3]);
 const fontSubsets: string[] = [];
 const dataRequests: string[] = [];
 
@@ -294,6 +306,16 @@ function prepare(t: import('node:test').TestContext, data: Record<string, unknow
       }
     });
   }
+
+  // Audit 2026-10-07 (#861): the 30-character id 471 name wrapped to 4 lines
+  // at 72px and pushed the scale into the footer rule.
+  test('a name longer than three 72px lines renders at a smaller size', async t => {
+    const title = 'M&Aマネージャー、M&Aコンサルタント/M&Aアドバイザー';
+    prepare(t, { '/data.detail/0471.json': { id: 471, title: { ja: title }, ai_risk: { score: 4.8 } } });
+    await renderOccupationOgCard(url, '471');
+    assert.equal(nodeAtSize('60px').props.children, title);
+    assert.ok(!elements(images[0].tree).some(node => node.props.style.fontSize === '72px'));
+  });
 
   test('occupation missing fields keep empty title and missing-stat labels; zero stats stay zero', async t => {
     for (const stats of [undefined, { workers: null, salary_man_yen: null }, { workers: 0, salary_man_yen: 0 }]) {

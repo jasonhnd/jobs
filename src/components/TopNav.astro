@@ -2,8 +2,7 @@
 /**
  * TopNav.astro — sticky slim top navigation, included in BaseLayout so it
  * appears on every BaseLayout-driven page automatically (~50 page templates,
- * 821 built pages). The home page (`/`) is a separate inline copy in
- * src/index-source.html since it doesn't go through BaseLayout.
+ * built pages). The homepage also uses this shared component through BaseLayout.
  *
  * Behavior:
  *   - Sticky to viewport top (z-index 50)
@@ -15,7 +14,11 @@
  * so home + every BaseLayout page render it identically.
  */
 
+import { editionHref } from '@/site/route-policy';
+import { ORDINARY_READING_ENTRIES, pageEdition } from '@/site/edition-navigation';
+
 const path = Astro.url.pathname;
+const edition = pageEdition(path);
 
 /**
  * Mark a link as the current section if the path starts with the prefix.
@@ -35,7 +38,7 @@ interface NavItem {
   entrySource?: string;
 }
 
-const items: ReadonlyArray<NavItem> = [
+const proItems: ReadonlyArray<NavItem> = [
   { href: '/me',          label: '自分の現在地', prefix: '/me', trackEvent: 'me_entry_click', entrySource: 'top_nav' },
   { href: '/shindan',     label: '診断',        prefix: '/shindan' },
   { href: '/gyakuten',    label: '図鑑',        prefix: '/gyakuten' },
@@ -48,6 +51,9 @@ const items: ReadonlyArray<NavItem> = [
   { href: '/aiadoption', label: '人類と AI の距離', prefix: '/aiadoption' },
 ];
 
+const items = edition === 'ordinary'
+  ? ORDINARY_READING_ENTRIES.map(item => ({ ...item, prefix: item.href, entrySource: 'top_nav' }))
+  : proItems.map(item => ({ ...item, href: editionHref(item.href, edition), prefix: editionHref(item.prefix, edition) }));
 const brandIsCurrent = isCurrent('/');
 ---
 <nav class="top-nav" aria-label="主要ナビゲーション">

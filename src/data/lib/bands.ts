@@ -57,8 +57,9 @@ export const RISK_MID_MAX = 7.0; // < 7.0 → mid (sand); ≥ 7.0 → high (terr
 
 /** Map an ai_risk score (0-10) to the three-colour band of the value the site displays. */
 export function riskBand(aiRisk: number | null | undefined): RiskBand | null {
-  if (aiRisk === null || aiRisk === undefined) return null;
-  const shown = Number.isFinite(aiRisk) ? displayScore(aiRisk) : aiRisk;
+  // NaN (e.g. fmean([])) and ±Infinity are not scores: no band, not 'high'.
+  if (aiRisk === null || aiRisk === undefined || !Number.isFinite(aiRisk)) return null;
+  const shown = displayScore(aiRisk);
   if (shown < RISK_LOW_MAX) return 'low';
   if (shown < RISK_MID_MAX) return 'mid';
   return 'high';

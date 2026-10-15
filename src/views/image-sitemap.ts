@@ -20,6 +20,7 @@ import { siteConfig } from '../site/config.js';
 import type { KnowledgeGraph } from '@/graph';
 import { occupationPath } from '@/lib/urls';
 import { displayScore } from '../data/lib/banker-round.js';
+import { riskBandWord } from '../lib/risk.js';
 
 const SITE = siteConfig.origin;
 
@@ -75,7 +76,9 @@ export function renderImageSitemapXml(
   entries: ReadonlyArray<ImageSitemapEntry>,
 ): string {
   const blocks = entries.map((o) => {
-    const title = `${o.title} — AI影響 ${displayScore(o.score)}/10`;
+    const shown = displayScore(o.score);
+    const word = riskBandWord(shown);
+    const title = word ? `${o.title} — AI影響 ${shown}/10 ${word}` : `${o.title} — AI影響 ${shown}/10`;
     return `  <url>
     <loc>${escapeXml(`${SITE}${occupationPath(o.id)}`)}</loc>
     <image:image>

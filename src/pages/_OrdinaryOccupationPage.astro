@@ -1,0 +1,96 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import IdPageScript from './_IdPageScript.astro';
+import { CANONICAL_DETAIL_CSS } from '@/lib/canonical/detail';
+import { buildOccupationSummary, renderOccupationSummaryJsonLd, PRO_CHAPTER_LINKS } from '@/views/occupation-summary';
+import { buildOccupationSeo } from '@/views/occupation-seo';
+import { loadGeoFacts } from '@/page-data/geo-facts-loader';
+import { salaryStanding } from '@/site/geo-facts';
+import { occupationUrl, occupationPath } from '@/lib/urls';
+import { CONTENT_DATE } from '@/lib/_content-date';
+import { CONSENSUS_HEADLINE_LABEL } from '@/site/consensus-copy';
+import { occupationAnalyticsTier } from '@/lib/risk';
+import { siteConfig } from '@/site/config';
+import type { Rec } from '@/views/occupation-detail';
+
+interface Props { rec: Rec; related: Rec[]; }
+const { rec, related } = Astro.props;
+const summary = buildOccupationSummary(rec);
+const seo = buildOccupationSeo({ nameJa: rec.name_ja, aiRisk: rec.ai_risk, salaryStanding: salaryStanding(loadGeoFacts(), rec.id), workers: rec.workers, aliasesJa: rec.aliases_ja });
+const jsonLd = renderOccupationSummaryJsonLd(summary, { datePublished: '2026-05-30', dateModified: CONTENT_DATE });
+const description = summary.conclusion ?? summary.nameJa;
+---
+<BaseLayout title={seo.title} description={description} keywords={seo.keywords} canonical={occupationUrl(rec.id)}
+  ogTitle={seo.ogTitle} ogDescription={description} ogImage={`${siteConfig.origin}/api/og?id=${rec.id}`} ogType="article">
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={CANONICAL_DETAIL_CSS} />
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>{summary.nameJa}</span>
+    </nav>
+    <header id="content"><h1>{summary.nameJa}</h1></header>
+    <section class="occupation-summary" data-occupation-summary aria-label="AI影響度">
+      <div class="summary-score">
+        <span class="summary-label">{CONSENSUS_HEADLINE_LABEL}</span>
+        <span class="summary-number" data-summary-score={summary.scoreText}>{summary.scoreText}{summary.score !== null && <small>/10</small>}</span>
+        {summary.bandWord && <span class="score-band">{summary.bandWord}</span>}
+      </div>
+      {summary.conclusion && <p class="summary-conclusion">{summary.conclusion}</p>}
+      {summary.advice && <p class="summary-advice">{summary.advice}</p>}
+      <dl class="summary-stats">
+        <div><dt>年収（平均）</dt><dd>{summary.salary === null ? <span aria-label="データなし" title="データなし">—</span> : <>{summary.salary?.toLocaleString('en-US')}<small> 万円</small></>}</dd></div>
+        <div><dt>月労働時間</dt><dd>{summary.hours === null ? <span aria-label="データなし" title="データなし">—</span> : <>{summary.hours}<small> 時間</small></>}</dd></div>
+      </dl>
+      <a class="summary-primary" data-primary-action href={summary.primaryHref}>{summary.primaryLabel}</a>
+      <p class="summary-note">AIで仕事の中身がどれだけ変わるか（0〜10）</p>
+      <p class="summary-note">この点数は、複数のAIが見た目安です。将来を約束するものではありません。</p>
+    </section>
+
+    <section class="summary-related" id="sec-similar" aria-label="類似する職業">
+      <h2>類似する職業</h2>
+      <ul>{related.map(job => <li><a href={occupationPath(job.id)}>{job.name_ja}</a></li>)}</ul>
+      <a href={`${summary.proPath}#sec-similar`}>Pro で詳しく見る</a>
+    </section>
+
+    <section class="summary-pro" data-pro-cta>
+      <h2><a href={summary.proPath}>Pro で詳しく見る</a></h2>
+      <ul>{PRO_CHAPTER_LINKS.map(chapter => (
+        <li id={chapter.id}>
+          <a href={`${summary.proPath}#${chapter.id}`}>{chapter.title}</a>
+          {chapter.anchors.filter(anchor => anchor !== 'sec-similar').map(anchor => (
+            <span class="summary-legacy-anchor" id={anchor}><a href={`${summary.proPath}#${anchor}`}>{chapter.title} · Pro で詳しく見る</a></span>
+          ))}
+        </li>
+      ))}</ul>
+    </section>
+    <Footer />
+  </div>
+  <IdPageScript occId={rec.id} riskScoreJs={rec.ai_risk} riskTierJs={occupationAnalyticsTier(rec.ai_risk)} />
+</BaseLayout>
+
+<style>
+  .occupation-summary{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-3);margin-top:var(--s-4);padding:var(--s-4);background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg)}
+  .summary-score{display:flex;align-items:baseline;gap:var(--s-2);flex-wrap:wrap}
+  .summary-label{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta)}
+  .summary-number{font-size:var(--t-h1);font-family:var(--font-serif);font-variant-numeric:tabular-nums;color:var(--ink)}
+  .summary-number small{font-size:var(--t-sm);font-family:var(--font-sans);color:var(--ink-2)}
+  .score-band{font-size:var(--t-xs);font-weight:600;color:var(--ink);padding:var(--s-1) var(--s-2);border:1px solid var(--line);border-radius:var(--r-pill)}
+  .summary-conclusion{font-size:var(--t-h3);font-family:var(--font-sans);color:var(--ink-2);line-height:1.6}
+  .summary-advice{font-size:var(--t-body);font-family:var(--font-sans);color:var(--ink);line-height:1.75}
+  .summary-stats{display:flex;gap:var(--s-5);flex-wrap:wrap}
+  .summary-stats dt{font-size:var(--t-sm);font-weight:600;color:var(--ink-meta)}
+  .summary-stats dd{font-size:var(--t-h2);font-family:var(--font-serif);font-variant-numeric:tabular-nums;color:var(--ink)}
+  .summary-stats dd small{font-size:var(--t-sm);font-family:var(--font-sans);font-weight:400;color:var(--ink-2)}
+  .summary-primary{display:inline-flex;align-items:center;justify-content:center;padding:var(--s-3) var(--s-4);border-radius:var(--r-md);font-size:var(--t-sm);font-weight:700;background:var(--orange-hot);color:var(--paper);text-align:center}
+  .summary-primary:focus-visible{outline:var(--s-1) solid var(--ink);outline-offset:var(--s-1)}
+  .summary-pro h2 a{color:var(--ink)}
+  .summary-note{font-size:var(--t-sm);color:var(--ink-2);line-height:1.6}
+  .summary-related,.summary-pro{display:flex;flex-direction:column;gap:var(--s-3);margin-top:var(--s-6)}
+  .summary-related ul,.summary-pro ul{display:flex;flex-direction:column;gap:var(--s-2);list-style:none}
+  .summary-related a,.summary-pro li>a{font-size:var(--t-body);color:var(--ink);text-decoration:underline;text-underline-offset:0.2em}
+  .summary-legacy-anchor{display:block;scroll-margin-top:var(--s-8)}
+  .summary-legacy-anchor a{display:none;font-size:var(--t-sm);color:var(--ink-2);padding:var(--s-2) 0}
+  .summary-legacy-anchor:target a{display:inline-block}
+  .summary-pro li,#sec-similar{scroll-margin-top:var(--s-8)}
+</style>

@@ -27,10 +27,11 @@ import { renderOrgsCerts } from '@/templates/OrgsCerts';
 import { renderAiRiskDetail } from '@/templates/AiRiskDetail';
 import { renderAiois10Profile } from '@/templates/Aiois10Profile';
 import { renderOccupationJsonLd } from '@/views/occupation-jsonld';
-import { jaUrl } from '@/lib/urls';
+import { jaUrl, occupationUrl } from '@/lib/urls';
+import type { Edition } from '@/site/route-policy';
 import type { SafeHtml } from '@/lib/safe-html';
 import type { GeoFacts } from '@/site/geo-facts';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
 
 const TRANSFER_TOP_N = 5;
 
@@ -149,7 +150,7 @@ export function renderOccupationAiois10(rec: Rec): SafeHtml {
  */
 export function renderOccupationJsonLdFromRec(
   rec: Rec,
-  options: { readonly datePublished: string; readonly dateModified: string; readonly geoFacts?: GeoFacts },
+  options: { readonly datePublished: string; readonly dateModified: string; readonly geoFacts?: GeoFacts; readonly edition?: Edition },
 ): string {
   const id = rec.id;
   const nameJa = rec.name_ja || '';
@@ -168,8 +169,10 @@ export function renderOccupationJsonLdFromRec(
   return renderOccupationJsonLd({
     id,
     canonical: jaUrl(id),
+    pageUrl: occupationUrl(id, options.edition),
+    edition: options.edition,
     pageName:
-      risk !== null ? `${nameJa} — AI 影響 ${formatRiskScore(risk)}` : `${nameJa} | 未来の仕事`,
+      risk !== null ? `${nameJa} — AI 影響 ${formatRiskScoreLabel(risk)}` : `${nameJa} | 未来の仕事`,
     pageDesc: makeOccupationDefinitionFromRec(rec) || rationaleJa || descJa || nameJa,
     nameJa,
     aliasesJa: rec.aliases_ja ?? [],

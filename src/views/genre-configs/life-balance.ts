@@ -1,4 +1,5 @@
 import type { GenreHubConfig } from '../genre-hub.js';
+import { displayScore } from '../../data/lib/banker-round.js';
 
 // ─── P. ライフバランス (life-balance) — 6 hub ────────────────
 
@@ -9,11 +10,12 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '育児と両立しやすい職業',
     description_ja: '労働時間が短く、シフト柔軟性のある、育児中の親が続けやすい職業群。',
     og_eyebrow: 'LIFE · 育児',
+    hide_score: true,
     custom_filter: (d) => {
       const hours = d.stats?.monthly_hours;
       const ai = d.ai_risk?.score;
       if (!hours || hours > 165) return null;
-      if (ai !== null && ai !== undefined && ai > 6) return null;
+      if (ai !== null && ai !== undefined && displayScore(ai) > 6) return null;
       return -hours; // lower hours rank higher
     },
   },
@@ -23,6 +25,7 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '介護と両立しやすい職業',
     description_ja: '勤務時間の柔軟性・有給取得・リモート可能性で介護と両立しやすい職業群。',
     og_eyebrow: 'LIFE · 介護',
+    hide_score: true,
     custom_filter: (d) => {
       const hours = d.stats?.monthly_hours;
       if (!hours || hours > 170) return null;
@@ -35,6 +38,7 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '体力に自信がない人にも続けられる職業',
     description_ja: '体力負荷が低く、長く続けられる職業群。事務系・専門職・知的労働中心。',
     og_eyebrow: 'LIFE · 健康',
+    hide_score: true,
     custom_filter: (d) => {
       const hours = d.stats?.monthly_hours;
       if (!hours || hours > 175) return null;
@@ -47,6 +51,7 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '精神的負担が軽い職業',
     description_ja: '対人ストレスや即断のプレッシャーが比較的少ない職業群。研究・技能・データ系等。',
     og_eyebrow: 'LIFE · 精神',
+    hide_score: true,
     custom_filter: (d) => {
       const hours = d.stats?.monthly_hours;
       const ai = d.ai_risk?.score;
@@ -61,6 +66,7 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '趣味・私生活と両立しやすい職業',
     description_ja: '労働時間が比較的短く、平日の余暇や週末の活動が確保しやすい職業群。',
     og_eyebrow: 'LIFE · 趣味',
+    hide_score: true,
     custom_filter: (d) => {
       const hours = d.stats?.monthly_hours;
       if (!hours || hours > 160) return null;
@@ -73,11 +79,12 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '60 代以降も続けやすい職業',
     description_ja: '平均年齢が高めで体力負荷が控えめ、AI 影響度も低く、定年後も継続しやすい職業群。経験・人脈が活きる分野。',
     og_eyebrow: 'LIFE · シニア',
+    hide_score: true,
     custom_filter: (d) => {
       const age = d.stats?.average_age;
       const ai = d.ai_risk?.score;
       if (!age || age < 45) return null;
-      if (ai !== null && ai !== undefined && ai > 5) return null;
+      if (ai !== null && ai !== undefined && displayScore(ai) > 5) return null;
       return age;
     },
   },

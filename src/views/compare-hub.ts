@@ -106,7 +106,8 @@ function detailToSide(d: DetailFile): CompareSide {
 
 import { fmtInt } from '../lib/num.js';
 import { CONSENSUS_FAQ_SENTENCE } from '../site/consensus-copy.js';
-import { formatRiskScore } from '../lib/score-format.js';
+import { formatRiskScoreLabel } from '../lib/score-format.js';
+import { bankerRound, displayScoreOrNull } from '../data/lib/banker-round.js';
 
 function fmtDiff(a: number | null, b: number | null, suffix = ''): string {
   if (a === null || b === null) return '';
@@ -116,13 +117,27 @@ function fmtDiff(a: number | null, b: number | null, suffix = ''): string {
   return `A は B より ${sign}${diff.toFixed(diff % 1 === 0 ? 0 : 1)}${suffix}`;
 }
 
+/**
+ * AI-impact difference of the two PRINTED values (#864): the raw means of
+ * 4.2667 and 4.4333 print 4.3 / 4.4, so the note reads -0.1, not -0.2.
+ * Equal printed values get no note.
+ */
+function fmtRiskDiff(a: number | null, b: number | null): string {
+  const shownA = displayScoreOrNull(a);
+  const shownB = displayScoreOrNull(b);
+  if (shownA === null || shownB === null) return '';
+  const diff = bankerRound(shownA - shownB, 1);
+  if (diff === 0) return '';
+  return `A は B より ${diff > 0 ? '+' : ''}${diff.toFixed(1)}`;
+}
+
 function buildRows(a: CompareSide, b: CompareSide): CompareResult['rows'] {
   const rows: CompareResult['rows'] = [
     {
       label: 'AI 影響度',
-      a_val: formatRiskScore(a.ai_risk),
-      b_val: formatRiskScore(b.ai_risk),
-      note: fmtDiff(a.ai_risk, b.ai_risk),
+      a_val: formatRiskScoreLabel(a.ai_risk),
+      b_val: formatRiskScoreLabel(b.ai_risk),
+      note: fmtRiskDiff(a.ai_risk, b.ai_risk),
     },
     {
       label: '年収 (平均)',
@@ -180,19 +195,22 @@ function buildFaqs(meta: CompareMeta, a: CompareSide, b: CompareSide): Array<rea
   ]);
 
   // Q2: AI 影響度
-  if (a.ai_risk !== null && b.ai_risk !== null) {
-    const winner = a.ai_risk < b.ai_risk ? a : b;
-    const loser = a.ai_risk < b.ai_risk ? b : a;
-    if (a.ai_risk !== b.ai_risk) {
+  const shownA = displayScoreOrNull(a.ai_risk);
+  const shownB = displayScoreOrNull(b.ai_risk);
+  if (shownA !== null && shownB !== null) {
+    // Judged on the printed values (#864), so the answer never contradicts them.
+    const winner = shownA < shownB ? a : b;
+    const loser = shownA < shownB ? b : a;
+    if (shownA !== shownB) {
       faqs.push([
         `AI 影響度はどちらが低い？`,
-        `${winner.name_ja} (${formatRiskScore(winner.ai_risk)}) の方が ${loser.name_ja} (${formatRiskScore(loser.ai_risk)}) より AI 影響度が低い傾向です。` +
+        `${winner.name_ja} (${formatRiskScoreLabel(winner.ai_risk)}) の方が ${loser.name_ja} (${formatRiskScoreLabel(loser.ai_risk)}) より AI 影響度が低い傾向です。` +
           CONSENSUS_FAQ_SENTENCE,
       ]);
     } else {
       faqs.push([
         `AI 影響度はどちらが低い？`,
-        `両者とも ${formatRiskScore(a.ai_risk)} で同程度の AI 影響度。具体的な業務内容での違いを見る必要があります。`,
+        `両者とも ${formatRiskScoreLabel(a.ai_risk)} で同程度の AI 影響度。具体的な業務内容での違いを見る必要があります。`,
       ]);
     }
   }
@@ -200,11 +218,15 @@ function buildFaqs(meta: CompareMeta, a: CompareSide, b: CompareSide): Array<rea
   // Q3: 年収
   if (a.salary !== null && b.salary !== null) {
     const winner = a.salary > b.salary ? a : b;
-    const diff = Math.abs(a.salary - b.salary);
+    const diff = Math.trunc(Math.abs(a.salary - b.salary));
+    const amounts = `（${a.name_ja}: ${Math.trunc(a.salary)} 万円、${b.name_ja}: ${Math.trunc(b.salary)} 万円）`;
+    // Under 1 万円 apart there is no 「高い」 side to name (#884: 「約 0 万円高い」).
+    const lead = diff === 0
+      ? `両者の年収は同程度です${amounts}。`
+      : `${winner.name_ja} の方が約 ${diff} 万円高い傾向です${amounts}。`;
     faqs.push([
       `年収はどちらが高い？`,
-      `${winner.name_ja} の方が約 ${Math.trunc(diff)} 万円高い傾向です（${a.name_ja}: ${Math.trunc(a.salary)} 万円、${b.name_ja}: ${Math.trunc(b.salary)} 万円）。` +
-        `これは厚労省 jobtag のデータで、勤務先・地域・経験により幅があります。`,
+      lead + `これは厚労省 jobtag のデータで、勤務先・地域・経験により幅があります。`,
     ]);
   }
 

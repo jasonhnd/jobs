@@ -119,6 +119,23 @@ describe('decideDispatch — page generic branch', () => {
   });
 });
 
+// Audit 2026-10-07 (#861): `table[slug]` used to resolve Object.prototype
+// members, rendering a blank card that was cached for a day.
+describe('decideDispatch — Object.prototype keys never become a card', () => {
+  const families = ['page', 'ranking', 'interest', 'skill', 'compare', 'route'];
+  const keys = ['constructor', '__proto__', 'toString', 'hasOwnProperty', 'valueOf', 'isPrototypeOf'];
+  for (const family of families) {
+    for (const key of keys) {
+      test(`?${family}=${key} → HOME fallback`, () => {
+        assertHomeFallback(decideDispatch(url(`?${family}=${key}`), STUB_CATALOG));
+      });
+    }
+  }
+  test('production catalog: ?page=constructor → the production home card', () => {
+    assert.deepEqual(decideDispatch(url('?page=constructor')), decideDispatch(url('?page=home')));
+  });
+});
+
 describe('decideDispatch — ranking branch', () => {
   test('?ranking=ai-risk-low → render-generic', () => {
     const d = decideDispatch(url('?ranking=ai-risk-low'), STUB_CATALOG);
@@ -472,4 +489,19 @@ describe('decideDispatch — type discipline', () => {
     ];
     assert.equal(KNOWN_KINDS.length, 5, 'expected 5 dispatch kinds');
   });
+});
+
+test('ordinary ranking sample has edition-specific AI-high and eight-view OG copy; Pro/default stays unchanged', () => {
+  const config = (query: string) => {
+    const decision = decideDispatch(new URL('https://example.test/api/og?' + query));
+    if (decision.kind !== 'render-generic') throw new Error('Expected generic ranking card');
+    return decision.config;
+  };
+  assert.equal(config('ranking=ai-risk-high&edition=ordinary').title, 'AIで大きく変わる仕事 TOP30');
+  assert.equal(config('ranking=ai-risk-high').title, 'AIに奪われる仕事 TOP30');
+  assert.deepEqual(config('ranking=ai-risk-high&edition=pro'), config('ranking=ai-risk-high'));
+  assert.equal(config('page=rankings&edition=ordinary').eyebrow, 'RANKINGS · 8 視点');
+  assert.equal(config('page=rankings').eyebrow, 'RANKINGS · 39 視点');
+  assert.deepEqual(config('page=home&edition=ordinary'), config('page=home'));
+  assert.deepEqual(config('ranking=entry-salary&edition=ordinary'), config('ranking=entry-salary'));
 });

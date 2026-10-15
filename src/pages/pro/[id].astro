@@ -1,0 +1,32 @@
+---
+import OccupationPage from '../_OccupationPage.astro';
+import { occupationPath } from '@/lib/urls';
+// ─── getStaticPaths ──────────────────────────────────────────────────────────
+//
+// URL params are NOT zero-padded — legacy URLs are /1, /162, /584.
+// The rest parameter allows the reserved ID 404 to render at
+// /occupations/404 while /404 remains the custom not-found document.
+// The detail-JSON filename `data.detail/{padded}.json` IS zero-padded;
+// padding lives inside the JSON load step, not in routing.
+export async function getStaticPaths() {
+  const { buildOccupationPageData, pickRelatedOccupations } = await import(
+    '@/page-data/occupation-page-data'
+  );
+  const pageData = await buildOccupationPageData();
+  const { allRecs, nameLookup, rankingHitsArr, sameRiskArr, scoreHistoryArr } = pageData;
+
+  return allRecs.map((rec) => ({
+    params: { id: occupationPath(rec.id, 'pro').slice('/pro/'.length) },
+    props: {
+      rec,
+      related: pickRelatedOccupations(rec, allRecs),
+      nameLookup,
+      rankingHitsArr,
+      sameRiskArr,
+      scoreHistoryArr,
+    },
+  }));
+}
+
+---
+<OccupationPage {...Astro.props} edition="pro" />

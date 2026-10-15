@@ -40,11 +40,11 @@ const PAGES: ReadonlyArray<{ url: string; name: string }> = [
   { url: '/sectors/iryo',                name: 'sector hub (iryo)' },
   { url: '/156',                         name: 'occupation detail (looker)' },
   { url: '/rankings/ai-risk-low',        name: 'ranking item' },
-  { url: '/skills',                      name: 'skills index' },
-  { url: '/compare',                     name: 'compare hub index' },
-  { url: '/q/ai-de-kienai',              name: 'Q&A item' },
+  { url: '/pro/skills',                      name: 'skills index' },
+  { url: '/pro/compare',                     name: 'compare hub index' },
+  { url: '/pro/q/ai-de-kienai',              name: 'Q&A item' },
   { url: '/privacy',                     name: 'privacy legal page' },
-  { url: '/models',                      name: 'models comparison page' },
+  { url: '/pro/models',                      name: 'models comparison page' },
 ];
 
 // Rules we intentionally skip:

@@ -14,17 +14,16 @@ import { strict as assert } from 'node:assert';
 
 import { displayScore } from '../data/lib/banker-round.js';
 import { riskBand, type RiskBand } from '../data/lib/bands.js';
-import { riskClass } from '../lib/risk.js';
+import { RISK_BAND_WORD, riskClass } from '../lib/risk.js';
 import { pickRiskOneLineCallout } from '../lib/risk-callout.js';
 import { buildOccupationSeo } from './occupation-seo.js';
 import { buildOccupationFaqs } from './occupation-faqs.js';
 import { buildSectorFaqs } from './sector-faqs.js';
 
-const SEO_WORD: Record<RiskBand, string> = { low: '低め', mid: '中程度', high: '高め' };
 const FAQ1_WORD: Record<RiskBand, string> = {
-  low: '低めで、AI に代替されにくい職業',
-  mid: '中程度で、業務の一部が AI 補助に移行する可能性',
-  high: '高めで、業務の多くが AI による代替・補助の対象となる可能性',
+  low: '変化は小さく、AI に代替されにくい職業',
+  mid: '変化は中くらいで、業務の一部が AI 補助に移行する可能性',
+  high: '変化は大きく、業務の多くが AI による代替・補助の対象となる可能性',
 };
 const FAQ2_WORD: Record<RiskBand, string> = {
   low: 'AI に代替されにくく、将来性は比較的安定した',
@@ -39,9 +38,9 @@ function expectedBand(x: number): RiskBand {
 
 function calloutBand(x: number): RiskBand {
   const line = pickRiskOneLineCallout(x);
-  if (line.startsWith('低 AI 影響')) return 'low';
-  if (line.startsWith('AI 影響度は中程度')) return 'mid';
-  return 'high'; // AI 影響度が高い / 定型業務が中心
+  if (line.startsWith('変化は小さい。')) return 'low';
+  if (line.startsWith('変化は中くらい。')) return 'mid';
+  return 'high'; // 変化は大きい / 定型業務が中心
 }
 
 function seoDescription(x: number): string {
@@ -91,7 +90,7 @@ describe('one band rule (#631)', () => {
     for (const x of SWEEP) {
       const want = expectedBand(x);
       assert.ok(
-        seoDescription(x).includes(`AI影響度は10段階中${displayScore(x)}と${SEO_WORD[want]}です。`),
+        seoDescription(x).includes(`AI影響度は${displayScore(x)}/10 ${RISK_BAND_WORD[want]}です。`),
         `seo(${x})`,
       );
     }
@@ -130,8 +129,8 @@ describe('one band rule (#631)', () => {
   });
 });
 
-describe('group-mean tier words are judged on the printed mean (#631)', () => {
-  test('sector FAQ: 3.54 prints 3.5 and reads 低め (cut point <= 3.5)', () => {
+describe('group-mean tier words use the signed three bands on the printed mean', () => {
+  test('sector FAQ: 3.54 prints 3.5 and reads 変化 小さい', () => {
     const faqs = buildSectorFaqs({
       nameJa: '業種',
       occupationCount: 2,
@@ -141,16 +140,34 @@ describe('group-mean tier words are judged on the printed mean (#631)', () => {
       topHigh: [],
       topLow: [],
     });
-    const answer = faqs.map(([, a]) => a).find((a) => a.includes('の平均 AI 影響度は10段階中'));
-    assert.ok(answer?.includes('10段階中 3.5 で、低めの水準です。'), answer);
+    const answer = faqs.map(([, a]) => a).find((a) => a.includes('の平均 AI 影響度は'));
+    assert.ok(answer?.includes('3.5/10 変化 小さい'), answer);
   });
 
-  test('genre and interest hubs print and judge the same rounded mean', () => {
-    for (const file of ['genre-hub.ts', 'interests.ts']) {
+  test('a displayed sector mean of 4.0 is 変化 中くらい, and 6.9666… is 変化 大きい', () => {
+    for (const [meanRisk, word] of [
+      [3.9666666666666663, '4.0/10 変化 中くらい'],
+      [6.966666666666667, '7.0/10 変化 大きい'],
+    ] as const) {
+      const faqs = buildSectorFaqs({
+        nameJa: '業種',
+        occupationCount: 2,
+        workforceTotal: 100,
+        meanRisk,
+        topWorkers: [],
+        topHigh: [],
+        topLow: [],
+      });
+      const answer = faqs.map(([, a]) => a).find((a) => a.includes('の平均 AI 影響度は'));
+      assert.ok(answer?.includes(word), `${meanRisk} -> ${answer}`);
+    }
+  });
+
+  test('genre, interest and skill hubs print the signed label, not the old four-tier words', () => {
+    for (const file of ['genre-hub.ts', 'interests.ts', 'skills-hub.ts']) {
       const source = readFileSync(join(import.meta.dirname, file), 'utf8');
-      assert.match(source, /const shownMean = displayScore\(meanRisk\);/, file);
-      assert.match(source, /shownMean <= 3\.5 \? '低め' : shownMean <= 5\.5 \? '中程度' : 'やや高め'/, file);
-      assert.match(source, /\$\{shownMean\.toFixed\(1\)\}\/10/, file);
+      assert.match(source, /formatShownMeanLabel\(meanRisk\)/, file);
+      assert.doesNotMatch(source, /低め|中程度|やや高め/, file);
     }
   });
 });

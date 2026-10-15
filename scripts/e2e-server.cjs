@@ -12,7 +12,7 @@
  * `sectors.html`. Vercel also redirects legacy `/ja/...` URLs to canonical
  * paths before resolving static files. This server applies those same rules
  * so e2e sees exactly what Vercel serves. Test-only (localhost); not a
- * production server.
+ * production server. It listens on 127.0.0.1 only.
  *
  * Resolution order for an extensionless path `/x`:
  *   1. `x`            (real assets: .css/.js/.json/.xml/.png/…)
@@ -27,6 +27,8 @@ const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..', 'dist-astro');
 const PORT = Number(process.env.E2E_PORT) || 4321;
+// Loopback only: this test server must never be reachable from the network.
+const HOST = '127.0.0.1';
 const VERCEL_JSON = path.resolve(__dirname, '..', 'vercel.json');
 
 const CONTENT_TYPES = {
@@ -146,7 +148,7 @@ function loadVercelRedirects() {
       .map((rule) => ({
         source: rule.source,
         destination: rule.destination,
-        statusCode: rule.permanent === false ? 307 : 308,
+        statusCode: rule.statusCode ?? (rule.permanent === false ? 307 : 308),
         regex: compileRedirectSource(rule.source),
       }));
   } catch {
@@ -155,12 +157,24 @@ function loadVercelRedirects() {
 }
 const REDIRECTS = loadVercelRedirects();
 
+/** Returns null for a request path that cannot be parsed (e.g. a bad %-escape). */
 function parseRequestUrl(rawPath) {
-  const url = new URL(rawPath || '/', 'http://localhost');
-  let urlPath = decodeURIComponent(url.pathname);
+  let url;
+  let urlPath;
+  try {
+    url = new URL(rawPath || '/', 'http://localhost');
+    urlPath = decodeURIComponent(url.pathname);
+  } catch {
+    return null;
+  }
   // trailingSlash: false — treat /x/ the same as /x (except root)
   if (urlPath.length > 1 && urlPath.endsWith('/')) urlPath = urlPath.replace(/\/+$/, '');
   return { urlPath, search: url.search };
+}
+
+/** True only for ROOT itself or a path inside it (not a sibling like dist-astro-x). */
+function isInsideRoot(candidate) {
+  return candidate === ROOT || candidate.startsWith(ROOT + path.sep);
 }
 
 function interpolateRedirectDestination(destination, params) {
@@ -192,7 +206,7 @@ function resolveFile(rawPath) {
         ];
 
   for (const candidate of candidates) {
-    if (!candidate.startsWith(ROOT)) continue; // path-traversal guard
+    if (!isInsideRoot(candidate)) continue; // path-traversal guard
     try {
       if (fs.statSync(candidate).isFile()) return candidate;
     } catch {
@@ -203,6 +217,11 @@ function resolveFile(rawPath) {
 }
 
 const server = http.createServer((req, res) => {
+  if (parseRequestUrl(req.url || '/') === null) {
+    res.writeHead(400, { 'content-type': 'text/plain; charset=utf-8' });
+    res.end('Bad Request');
+    return;
+  }
   const responseHeaders = headersForRequest(req);
   const redirect = resolveRedirect(req.url || '/');
   if (redirect) {
@@ -230,6 +249,6 @@ const server = http.createServer((req, res) => {
   fs.createReadStream(file).pipe(res);
 });
 
-server.listen(PORT, () => {
-  console.log(`[e2e-server] serving ${ROOT} at http://localhost:${PORT} (Vercel cleanUrls mirror)`);
+server.listen(PORT, HOST, () => {
+  console.log(`[e2e-server] serving ${ROOT} at http://${HOST}:${PORT} (Vercel cleanUrls mirror)`);
 });

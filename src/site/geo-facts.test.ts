@@ -19,6 +19,7 @@ import {
   type GeoTreemapRow,
 } from './geo-facts.js';
 import { renderHomeJsonLd, renderLlmsFullTxt, renderLlmsTxt } from './geo-render.js';
+import { editionHref } from './route-policy';
 
 const rows: GeoTreemapRow[] = [
   { id: 1, name_ja: 'A', salary: 410, ai_risk: 1.5, workers: 100, recruit_ratio: 1.1, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1' },
@@ -33,6 +34,17 @@ const scores = new Map<number, GeoScoreEntry>([
   [3, { ai_risk: 7.0, aiois: { displacement: 3.0 } }],
   [4, { ai_risk: 9.2, aiois: { displacement: 8.0 } }],
 ]);
+
+function templateWithFixtureSectors(template: string, facts: GeoFacts): string {
+  const ids = facts.sectorsByMeanImpact.map((sector) => sector.id);
+  if (ids.length === 0) return template.replace(/__SECTOR_BAND_[a-z0-9]+__/g, '');
+  let index = 0;
+  return template.replace(/__SECTOR_BAND_[a-z0-9]+__/g, () => {
+    const id = ids[index % ids.length]!;
+    index += 1;
+    return `__SECTOR_BAND_${id}__`;
+  });
+}
 
 function scoreRun(
   date: string,
@@ -141,8 +153,11 @@ describe('computeGeoFacts', () => {
       scoreRun('2026-07-02', 'gpt-next-6', nextScores, 'openai'),
     ]);
     const template = await readFile(join(process.cwd(), 'src', 'index-source.html'), 'utf-8');
-    const oldHome = bindHomeFacts(template, oldLatest);
-    const newHome = bindHomeFacts(template, newLatest);
+    // The homepage names the 16 real sectors. This fixture only scores s1/s2,
+    // so point every card placeholder at a sector the fixture can fill.
+    const fixtureTemplate = templateWithFixtureSectors(template, oldLatest);
+    const oldHome = bindHomeFacts(fixtureTemplate, oldLatest);
+    const newHome = bindHomeFacts(fixtureTemplate, newLatest);
     const newMethodology = buildMethodologyBatchView(newLatest);
     const oldJsonLd = renderHomeJsonLd(oldLatest);
     const newJsonLd = renderHomeJsonLd(newLatest);
@@ -234,6 +249,53 @@ describe('five-band distribution rounding (issue #216)', () => {
   });
 });
 
+// #864: bands, counts and the ≥ 5 KPI follow the displayed one-decimal value.
+describe('displayed-value rule for KPI bands and counts (#864)', () => {
+  function factsFor(risks: readonly number[]) {
+    const scoredRows: GeoTreemapRow[] = risks.map((ai_risk, i) => ({
+      id: i + 1, name_ja: `X${i + 1}`, salary: 500, ai_risk, workers: 100,
+      recruit_ratio: 1.0, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1',
+    }));
+    const entries = new Map<number, GeoScoreEntry>(risks.map((ai_risk, i) => [i + 1, { ai_risk, aiois: { displacement: 0 } }]));
+    return computeGeoFacts(scoredRows, [scoreRun('2026-06-13', 'claude-fable-5', entries)]);
+  }
+  const bandOf = (score: number): string => factsFor([score]).fiveBandDistribution.find((band) => band.count === 1)!.key;
+
+  test('a mean that prints 6.5 sits in 5-6 like every other printed 6.5', () => {
+    assert.equal(bandOf(6.533333333333333), '5-6'); // raw rounds to 7
+    assert.equal(bandOf(6.466666666666667), '5-6');
+    assert.equal(bandOf(4.533333333333333), '3-4'); // prints 4.5
+    assert.equal(bandOf(2.5333333333333337), '0-2'); // prints 2.5
+    assert.equal(bandOf(4.566666666666666), '5-6'); // prints 4.6
+  });
+
+  test('「影響≥7」 counts a mean that prints 7.0, and its wages', () => {
+    const facts = factsFor([6.966666666666667, 6.94, 7.2]);
+    assert.equal(facts.highImpactCount, 2); // 7.0 and 7.2; 6.9 stays out
+    assert.equal(facts.highImpactAnnualWagesTrillion, 0.001); // 2 × 500万円 × 100人
+  });
+
+  test('bands with equal counts get equal shares (no tie-break by band order)', () => {
+    // The live batch: 0-2 and 9-10 both hold 2 of 556 and printed 1% vs 0%.
+    const risks = [
+      ...Array(2).fill(1.0), ...Array(278).fill(4.0), ...Array(224).fill(6.0),
+      ...Array(50).fill(8.0), ...Array(2).fill(9.5),
+    ];
+    const shares = Object.fromEntries(factsFor(risks).fiveBandDistribution.map((band) => [band.key, band.sharePct]));
+    assert.equal(shares['0-2'], shares['9-10']);
+    assert.deepEqual(shares, { '0-2': 0, '3-4': 50, '5-6': 41, '7-8': 9, '9-10': 0 });
+    assert.equal(Object.values(shares).reduce((a, b) => a + b, 0), 100);
+  });
+
+  test('the leftover fallback does not split a tied remainder group (#886)', () => {
+    // [1,1,1,1,2] floors to 97 and has 3 points left. The four equal
+    // remainders do not fit, so the old fallback handed points out by band
+    // order and printed [17,17,16,16,34].
+    const shares = factsFor([1, 3, 5, 7, 9, 9]).fiveBandDistribution.map((band) => band.sharePct);
+    assert.deepEqual(shares, [16.7, 16.7, 16.7, 16.7, 33.3]);
+  });
+});
+
 describe('pickLatestGeoScoreRun', () => {
   const run = (date: string, model: string, aiois: boolean): GeoScoreRunLike => ({
     scope: 'occupations',
@@ -277,6 +339,16 @@ describe('pickLatestGeoScoreRun', () => {
 });
 
 describe('geo renderers', () => {
+  test('all llms companion URLs use final routes, including prose links outside the Pages section', () => {
+    const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
+    for (const rendered of [renderLlmsTxt(facts), renderLlmsFullTxt(facts)]) {
+      for (const match of rendered.matchAll(/https:\/\/mirai-shigoto\.com\/[^\s)}]*/g)) {
+        const href = match[0].replace(/[.,;:]+$/, '');
+        assert.equal(editionHref(href, 'ordinary'), href, `GEO URL still requires a redirect: ${href}`);
+      }
+    }
+  });
+
   test('llms surfaces and JSON-LD render consensus copy and no placeholders', () => {
     const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
     const llms = renderLlmsTxt(facts);
@@ -299,7 +371,27 @@ describe('geo renderers', () => {
     assert.doesNotMatch(jsonld, /__SCORE_/);
   });
 
-  test('llms.txt Pages section is eight markdown links with the existing labels and URLs', () => {
+  test('a two-vendor mean of 4.25 prints 4.2 in llms and JSON-LD (#886)', () => {
+    const row: GeoTreemapRow = {
+      id: 1, name_ja: '境界', salary: 400, ai_risk: 0, workers: 100,
+      recruit_ratio: 1, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1',
+    };
+    const vote = (risk: number) => new Map<number, GeoScoreEntry>([[1, { ai_risk: risk, aiois: { displacement: risk } }]]);
+    const facts = computeGeoFacts([row], [
+      scoreRun('2026-06-13', 'claude-fable-5', vote(4.2), 'anthropic'),
+      scoreRun('2026-06-14', 'gpt-6', vote(4.3), 'openai'),
+    ]);
+    assert.equal(facts.occupations[0]!.aiImpact, 4.25);
+    const llms = renderLlmsTxt(facts);
+    const llmsFull = renderLlmsFullTxt(facts);
+    const jsonld = renderHomeJsonLd(facts);
+    for (const rendered of [llms, llmsFull, jsonld]) {
+      assert.match(rendered, /4\.2\/10/);
+      assert.doesNotMatch(rendered, /4\.3\/10/);
+    }
+  });
+
+  test('llms.txt Pages section is eleven markdown links with the existing labels and URLs', () => {
     const facts = computeGeoFacts(rows, [scoreRun('2026-06-13', 'claude-fable-5')]);
     const pages = pagesSection(renderLlmsTxt(facts));
     assert.deepEqual(markdownLinks(pages), LLMS_PAGE_LINKS);
@@ -312,12 +404,15 @@ describe('geo renderers', () => {
 
 const LLMS_PAGE_LINKS: ReadonlyArray<readonly [string, string]> = [
   ['Main map', 'https://mirai-shigoto.com/'],
-  ['AIOIS-10 standard', 'https://mirai-shigoto.com/standard'],
-  ['Methodology', 'https://mirai-shigoto.com/methodology'],
-  ['Public data', 'https://mirai-shigoto.com/data'],
+  ['AIOIS-10 standard', 'https://mirai-shigoto.com/pro/standard'],
+  ['Methodology', 'https://mirai-shigoto.com/pro/methodology'],
+  ['Public data', 'https://mirai-shigoto.com/pro/data'],
   ['Rankings', 'https://mirai-shigoto.com/rankings'],
+  ['Full Pro rankings', 'https://mirai-shigoto.com/pro/rankings'],
+  ['Model runs', 'https://mirai-shigoto.com/pro/models'],
+  ['Questions', 'https://mirai-shigoto.com/pro/q'],
   ['Sectors', 'https://mirai-shigoto.com/sectors'],
-  ['Answers', 'https://mirai-shigoto.com/answers'],
+  ['Answers', 'https://mirai-shigoto.com/pro/answers'],
   ['Extended GEO companion', 'https://mirai-shigoto.com/llms-full.txt'],
 ];
 

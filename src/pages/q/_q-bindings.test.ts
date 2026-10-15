@@ -48,8 +48,8 @@ describe('renderQaAnswerLine', () => {
     ]);
     assert.match(html, /<p class="qa-sum">/);
     assert.match(html, /AI で消えるの2職/);
-    assert.match(html, /最も高いのは<strong>データ入力<\/strong>（9\.4\/10）/);
-    assert.match(html, /2職の平均は8\.7\/10です/);
+    assert.match(html, /最も高いのは<strong>データ入力<\/strong>（9\.4\/10 変化 大きい）/);
+    assert.match(html, /2職の平均は8\.7\/10 変化 大きいです/);
     assert.equal(html.includes('一般事務'), false);
   });
 
@@ -59,7 +59,7 @@ describe('renderQaAnswerLine', () => {
       makeDoc({ id: 1, title_ja: '看護師', ai: 2.1 }),
       makeDoc({ id: 2, title_ja: '介護福祉士', ai: 3.4 }),
     ]);
-    assert.match(html, /最も低いのは<strong>看護師<\/strong>（2\.1\/10）/);
+    assert.match(html, /最も低いのは<strong>看護師<\/strong>（2\.1\/10 変化 小さい）/);
     assert.equal(html.includes('最も高いのは'), false);
   });
 
@@ -70,8 +70,8 @@ describe('renderQaAnswerLine', () => {
       makeDoc({ id: 2, title_ja: '編集', ai: 5 }),
     ]);
     // equal scores → 先頭は (not 最も高い/低い)
-    assert.match(html, /先頭は<strong>営業<\/strong>（5\/10）/);
-    assert.match(html, /2職の平均は5\.0\/10です/);
+    assert.match(html, /先頭は<strong>営業<\/strong>（5\/10 変化 中くらい）/);
+    assert.match(html, /2職の平均は5\.0\/10 変化 中くらいです/);
   });
 
   test('sector-future uses に当てはまる + 先頭は, not AI 最も高い', () => {
@@ -151,7 +151,7 @@ describe('renderExampleList', () => {
     assert.match(got, /<a class="rl-row" href="\/7" data-track-event="list_row_click">/);
     assert.match(got, /<span class="rl-name">看護師<\/span>/);
     assert.match(got, /<span class="rl-meta">事務・公務 · <span class="rl-salary">400万円<\/span><\/span>/);
-    assert.match(got, /<span class="risk-pill low">3\/10<\/span>/);
+    assert.match(got, /<span class="risk-pill low">3\/10 変化 小さい<\/span>/);
     assert.match(got, /<span class="rl-chevron" aria-hidden="true">›<\/span>/);
     assert.equal([...got.matchAll(/<a /g)].length, 1);
     assert.equal(got.includes('class="rl-name" href='), false);
@@ -170,7 +170,7 @@ describe('renderExampleList', () => {
     assert.equal(got.includes('<b>'), false);
     assert.match(got, /&lt;b&gt;x&lt;\/b&gt;/);
     assert.match(got, /A &amp; B/);
-    assert.match(got, /<span class="risk-pill high">8\/10<\/span>/);
+    assert.match(got, /<span class="risk-pill high">8\/10 変化 大きい<\/span>/);
   });
 
   test('null AI score renders em-dash pill in mid band', () => {
@@ -206,7 +206,7 @@ describe('buildQSlugBindings', () => {
       makeDoc({ id: 2, title_ja: 'BetaJob', ai: 7 })];
     const before = structuredClone(examples);
     const bindings = buildQSlugBindings(qa, examples, graph, facts);
-    assert.equal(bindings.canonical, 'https://mirai-shigoto.com/q/ai-de-kieru');
+    assert.equal(bindings.canonical, 'https://mirai-shigoto.com/pro/q/ai-de-kieru');
     assert.equal(bindings.ogImage, 'https://mirai-shigoto.com/api/og?q=ai-de-kieru');
     assert.ok(bindings.title.startsWith(qa.question));
     assert.equal(bindings.seoDesc, qa.short_answer);
@@ -216,15 +216,16 @@ describe('buildQSlugBindings', () => {
     assert.match(bindings.reasoningHtml, /href="\/2"/);
     assert.match(bindings.reasoningHtml, /&amp; &lt;reason&gt;/);
     assert.match(bindings.aiFactHtml, /class="ai-fact"/);
-    assert.match(bindings.aiFactHtml, /5\.00\/10/);
+    assert.match(bindings.aiFactHtml, /5\.0\/10 変化 中くらい/);
+    assert.doesNotMatch(bindings.aiFactHtml, /5\.00\/10/);
     assert.match(bindings.aiFactHtml, /300人/);
     assert.match(bindings.answerLineHtml, /<strong>AlphaJob<\/strong>/);
     assert.match(bindings.exampleListHtml, /href="\/occupations\/404"/);
     assert.deepEqual(bindings.relatedQAs.map(item => item.slug), related.slice(0, 5).map(item => item.slug));
     assert.equal([...bindings.relatedHtml.matchAll(/class="rg-name"/g)].length, 5);
-    assert.ok(!bindings.relatedHtml.includes(`href="/q/${qa.slug}"`));
+    assert.ok(!bindings.relatedHtml.includes(`href="/pro/q/${qa.slug}"`));
     for (const item of bindings.relatedQAs) {
-      assert.ok(bindings.relatedHtml.includes(`href="/q/${item.slug}"`));
+      assert.ok(bindings.relatedHtml.includes(`href="/pro/q/${item.slug}"`));
     }
     assert.match(bindings.crossHubHtml, /href="\//);
     const nodes = JSON.parse(bindings.jsonLd)['@graph'];
@@ -248,7 +249,8 @@ describe('buildQSlugBindings', () => {
     assert.equal(bindings.exampleListHtml, '<p>該当例なし</p>');
     assert.deepEqual(bindings.relatedQAs, []);
     assert.equal(bindings.relatedHtml, '<ul class="related-genre"></ul>');
-    assert.match(bindings.aiFactHtml, /5\.00\/10/);
+    assert.match(bindings.aiFactHtml, /5\.0\/10 変化 中くらい/);
+    assert.doesNotMatch(bindings.aiFactHtml, /5\.00\/10/);
     assert.equal(JSON.parse(bindings.jsonLd)['@graph'][1].mainEntity.name, qa.question);
   });
 });

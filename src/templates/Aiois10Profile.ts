@@ -17,6 +17,7 @@
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
+import { riskBandWord } from '../lib/risk.js';
 import { CONSENSUS_DIM_NOTE, formatConsensusScoreFixed1 } from '../site/consensus-copy.js';
 
 export interface Aiois10ProfileInput {
@@ -43,6 +44,13 @@ const DIMS: ReadonlyArray<{ key: keyof Aiois10ProfileInput; code: string; ja: st
 const pct = (v: number): number => Math.max(0, Math.min(100, Math.round(Number(formatConsensusScoreFixed1(v)) * 10)));
 const fmt = (v: number): string => formatConsensusScoreFixed1(v);
 
+/** Transformation is an AI-change score. Displacement stays a bare number. */
+function transformationLabel(v: number): string {
+  const word = riskBandWord(v);
+  const num = `${fmt(v)}<small>/10</small>`;
+  return word ? `${num} <span class="score-band">${escapeHtml(word)}</span>` : num;
+}
+
 export function renderAiois10Profile(a: Aiois10ProfileInput | null): SafeHtml {
   if (!a) return '' as SafeHtml;
 
@@ -59,11 +67,11 @@ export function renderAiois10Profile(a: Aiois10ProfileInput | null): SafeHtml {
   }
 
   return (`<section class="aiois10" aria-labelledby="aiois10-h2">
-        <h2 id="aiois10-h2">AI 影響の内訳 — <a href="/standard">AIOIS-10</a></h2>
+        <h2 id="aiois10-h2">AI 影響の内訳 — <a href="/pro/standard">AIOIS-10</a></h2>
         <div class="aio-indices">
           <div class="aio-idx idx-t">
             <span class="aio-idx-lbl">変化の大きさ</span>
-            <span class="aio-idx-num">${fmt(a.transformation)}<small>/10</small></span>
+            <span class="aio-idx-num">${transformationLabel(a.transformation)}</span>
             <span class="aio-idx-sub">仕事のやり方がどれだけ変わるか</span>
           </div>
           <div class="aio-idx idx-d">
@@ -73,6 +81,6 @@ export function renderAiois10Profile(a: Aiois10ProfileInput | null): SafeHtml {
           </div>
         </div>
         <ul class="aio-list">${rows}</ul>
-        <p class="aio-note">見方：<span class="aio-tag">▲</span>AI が届く部分（高いほど影響が大きい）／<span class="aio-tag">■</span>人間の強み（高いほど守られる）／<span class="aio-tag">◐</span>その他の調整。各 0〜10。${escapeHtml(CONSENSUS_DIM_NOTE)}くわしくは <a href="/standard">AIOIS-10 とは</a>、点数の付け方は <a href="/methodology">調べ方</a> を参照。</p>
+        <p class="aio-note">見方：<span class="aio-tag">▲</span>AI が届く部分（高いほど影響が大きい）／<span class="aio-tag">■</span>人間の強み（高いほど守られる）／<span class="aio-tag">◐</span>その他の調整。各 0〜10。${escapeHtml(CONSENSUS_DIM_NOTE)}くわしくは <a href="/pro/standard">AIOIS-10 とは</a>、点数の付け方は <a href="/pro/methodology">調べ方</a> を参照。</p>
       </section>`) as SafeHtml;
 }

@@ -137,3 +137,25 @@ describe('QAItem type — every entry is a valid QAItem at runtime', () => {
     assert.ok(true);
   });
 });
+
+describe('QA_HUB_SECTIONS — /q links every question once (#884)', () => {
+  test('the five hub sections cover all QA_ITEMS, each exactly once', async () => {
+    const { buildQaHubSections } = await import('./qa-meta.js');
+    const sections = buildQaHubSections();
+    assert.deepEqual(sections.map(([title]) => title), [
+      'AI 不安に答える', '業種別の未来', 'キャリア相談', 'ライフ条件', '適性・興味',
+    ]);
+    const linked = sections.flatMap(([, items]) => items.map((q) => q.slug));
+    assert.equal(linked.length, QA_ITEMS.length);
+    assert.deepEqual([...linked].sort(), QA_ITEMS.map((q) => q.slug).sort());
+  });
+
+  test('extra groups fold into their parent section (naiko-osusume is 適性・興味)', async () => {
+    const { buildQaHubSections } = await import('./qa-meta.js');
+    const bySection = new Map(buildQaHubSections().map(([t, items]) => [t, items.map((q) => q.slug)]));
+    assert.ok(bySection.get('適性・興味')!.includes('naiko-osusume'));
+    assert.ok(bySection.get('ライフ条件')!.includes('yakin-nashi'));
+    assert.ok(bySection.get('AI 不安に答える')!.includes('ai-shitsugyou-yobou'));
+    assert.ok(bySection.get('キャリア相談')!.includes('kaigai-iju-shoku'));
+  });
+});

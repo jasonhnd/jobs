@@ -16,7 +16,7 @@
  * dependencies. See _frame.ts for the shared OG renderer convention.
  */
 
-import { fetchWithTimeout } from '../http-client.js';
+import { fetchJsonWithTimeout } from '../http-client.js';
 import { OG_DATA_FETCH_TIMEOUT_MS } from '../og-helpers.js';
 
 import { ImageResponse } from '@vercel/og';
@@ -24,7 +24,7 @@ import { createElement as h } from 'react';
 import type { ReactElement } from 'react';
 import {
   DetailRecordSchema,
-  RISK_COLORS,
+  riskColorFor,
   WorktypesProjectionSchema,
   loadGoogleFont,
   padId,
@@ -81,12 +81,12 @@ export async function renderWorktypeOgCard(
   input: WorktypeRenderInput,
 ): Promise<Response> {
   const worktypesUrl = new URL('/data.worktypes.json', trustedFetchOrigin(url));
-  const worktypesRes = await fetchWithTimeout(worktypesUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
+  const { response: worktypesRes, body: worktypesRaw } =
+    await fetchJsonWithTimeout(worktypesUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
   if (!worktypesRes.ok) {
     return new Response('Upstream worktypes fetch failed', { status: 502 });
   }
 
-  const worktypesRaw: unknown = await worktypesRes.json();
   const worktypesParsed = WorktypesProjectionSchema.safeParse(worktypesRaw);
   if (!worktypesParsed.success) {
     // eslint-disable-next-line no-console
@@ -105,7 +105,7 @@ export async function renderWorktypeOgCard(
   // Print the one-decimal public value; the detail projection stores the raw mean (#631).
   const scoreLabel = score != null && !Number.isNaN(score) ? String(displayScore(score)) : null;
   const scoreColor =
-    score != null ? (RISK_COLORS[Math.round(score)] ?? visual.accent) : visual.accent;
+    score != null && Number.isFinite(score) ? riskColorFor(score) : visual.accent;
   const accent = scoreLabel ? scoreColor : visual.accent;
   const sharePrompt = scoreLabel
     ? SHARE.challengeHookWithJob
@@ -523,10 +523,10 @@ async function fetchJobContext(
   }
 
   const detailUrl = new URL(`/data.detail/${paddedId}.json`, trustedFetchOrigin(url));
-  const detailRes = await fetchWithTimeout(detailUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
+  const { response: detailRes, body: detailRaw } =
+    await fetchJsonWithTimeout(detailUrl.toString(), {}, OG_DATA_FETCH_TIMEOUT_MS);
   if (!detailRes.ok) return null;
 
-  const detailRaw: unknown = await detailRes.json();
   const detailParsed = DetailRecordSchema.safeParse(detailRaw);
   if (!detailParsed.success) return null;
 

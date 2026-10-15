@@ -30,8 +30,8 @@ import { QA_ITEMS, selectExamples } from '../src/views/qa-meta.js';
 import { buildRankings, loadOccupationsFromGraph } from '../src/views/ranking.js';
 
 const GEO_ASTRO_PAGES = [
-  'src/pages/standard.astro',
-  'src/pages/methodology.astro',
+  'src/pages/pro/standard.astro',
+  'src/pages/pro/methodology.astro',
 ] as const;
 
 export function readText(rel: string): string {
@@ -101,6 +101,11 @@ export function staleModelTokens(runs: readonly ScoreRun[], active: ScoreRun): S
   return { identifiers: [...identifiers], displayNames: [...displayNames] };
 }
 
+/** Template placeholders and the retired schema version: forbidden anywhere. */
+const BUILD_MARKERS = ['__SCORE_', '__GEO_', 'version": "0.5.0"'] as const;
+
+const RUN_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
 /**
  * `allowValidationModelNames` exempts display names only — never ids or run
  * dates. `llms.txt` may legitimately name an older model inside the historical
@@ -112,11 +117,34 @@ export function firstStaleToken(
   stale: StaleModelTokens,
   options: { allowValidationModelNames?: boolean } = {},
 ): string | null {
-  const forbidden = ['__SCORE_', '__GEO_', 'version": "0.5.0"', ...stale.identifiers];
+  const names = [...stale.identifiers];
   if (!options.allowValidationModelNames) {
-    forbidden.push(...stale.displayNames);
+    names.push(...stale.displayNames);
   }
-  return forbidden.find((token) => text.includes(token)) ?? null;
+  return BUILD_MARKERS.find((marker) => text.includes(marker)) ??
+    names.find((name) => containsWholeName(text, name)) ??
+    null;
+}
+
+/**
+ * Whether `name` occurs in `text` as a whole name rather than as the prefix
+ * of a longer one. Model names grow by suffix — `claude-opus-5` →
+ * `claude-opus-5-5`, `Opus 5` → `Opus 5.5` — so a plain substring test
+ * flagged the live successor of every superseded model and would fail the
+ * build on the next flagship switch (#867). A match counts only when it is
+ * not glued to a letter/digit on the left and is not continued on the right
+ * by a letter/digit or by `-`/`.` + letter/digit (a version step). Sentence
+ * punctuation, quotes, `_`, `/` and brackets end a name. A run date ends at
+ * anything but a digit, so `2026-07-26T00:00Z` still counts.
+ */
+function containsWholeName(text: string, name: string): boolean {
+  const continuation = RUN_DATE_RE.test(name) ? /^\d/ : /^(?:[A-Za-z0-9]|[.-][A-Za-z0-9])/;
+  for (let at = text.indexOf(name); at !== -1; at = text.indexOf(name, at + 1)) {
+    const before = at > 0 ? text[at - 1]! : '';
+    const after = text.slice(at + name.length, at + name.length + 2);
+    if (!/[A-Za-z0-9]/.test(before) && !continuation.test(after)) return true;
+  }
+  return false;
 }
 
 export function assertNoStaleOrPlaceholders(
@@ -248,10 +276,10 @@ export function assertHomeAndReadmeConsistency(facts: GeoFacts): void {
   }
 
   const methodology = buildMethodologyBatchView(facts);
-  assertContains('dist-astro/methodology.html', '複数のAI');
-  assertContains('dist-astro/methodology.html', SCORE_PANEL.latestRunDate);
-  assertContains('dist-astro/methodology.html', methodology.meanAiImpact);
-  assertContains('dist-astro/methodology.html', 'Claude Fable 5');
+  assertContains('dist-astro/pro/methodology.html', '複数のAI');
+  assertContains('dist-astro/pro/methodology.html', SCORE_PANEL.latestRunDate);
+  assertContains('dist-astro/pro/methodology.html', methodology.meanAiImpact);
+  assertContains('dist-astro/pro/methodology.html', 'Claude Fable 5');
 
   const readme = readText('README.md');
   const staleCurrentClaims = [
@@ -360,7 +388,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   const ranking = rankings.results.get('ai-risk-high') ?? rankings.results.values().next().value;
   if (!ranking) fail('no ranking result available for rendered fact-block check');
   requireBlock(
-    `dist-astro/rankings/${ranking.slug}.html`,
+    `dist-astro/pro/rankings/${ranking.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
       subjectJa: ranking.h1Text,
@@ -373,7 +401,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   if (!genreConfig) fail('no genre config available for rendered fact-block check');
   const genreResult = buildGenreResult(loadGraphAdaptedDetails(graph), genreConfig);
   requireBlock(
-    `dist-astro/abilities/${genreConfig.slug}.html`,
+    `dist-astro/pro/abilities/${genreConfig.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
       subjectJa: genreConfig.title_ja,
@@ -385,7 +413,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   const compare = buildCompareBundle(makeCompareLoaderFromGraph(graph)).results.values().next().value;
   if (!compare) fail('no compare result available for rendered fact-block check');
   requireBlock(
-    `dist-astro/compare/${compare.meta.slug}.html`,
+    `dist-astro/pro/compare/${compare.meta.slug}.html`,
     renderAiFactParagraph(buildCompareGeoFactSummary({
       facts,
       subjectJa: compare.meta.title_ja,
@@ -397,7 +425,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   if (!qa) fail('no Q&A item available for rendered fact-block check');
   const examples = selectExamples(loadAllDetails(), qa, 10);
   requireBlock(
-    `dist-astro/q/${qa.slug}.html`,
+    `dist-astro/pro/q/${qa.slug}.html`,
     renderAiFactParagraph(buildOccupationSetGeoFactSummary({
       facts,
       subjectJa: qa.question,
@@ -409,15 +437,15 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   const occupation = facts.occupations[0];
   if (!occupation) fail('no GEO occupation facts available for rendered occupation check');
   requireBlock(
-    `dist-astro/${occupation.id}.html`,
+    `dist-astro/pro/${occupation.id}.html`,
     renderAiFactParagraph(buildOccupationGeoFactSummary({ facts, occupationId: occupation.id })),
   );
   requireBlock(
-    `dist-astro/${occupation.id}.html`,
+    `dist-astro/pro/${occupation.id}.html`,
     `<details class="faq-item faq-ai-replacement"><summary>${occupation.nameJa}はAIでなくなる・AIに代替される仕事ですか？</summary>`,
   );
   requireBlock(
-    `dist-astro/${occupation.id}.html`,
+    `dist-astro/pro/${occupation.id}.html`,
     `GEO-AではAI影響度が10段階中 ${occupation.aiImpact.toFixed(1)} で`,
   );
 
@@ -425,7 +453,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
     const topic = buildGeoAnswerTopic(facts, config.slug);
     if (!topic) fail(`no GEO answer topic available for ${config.slug}`);
     requireBlock(
-      `dist-astro/answers/${config.slug}.html`,
+      `dist-astro/pro/answers/${config.slug}.html`,
       renderAiFactParagraph(buildOccupationSetGeoFactSummary({
         facts,
         subjectJa: topic.config.h1Ja,
@@ -482,8 +510,8 @@ export async function main(): Promise<void> {
     assertOmitsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, why);
     assertOmitsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, why);
   }
-  assertContainsText('src/pages/methodology.astro', 'r=0.92〜0.97', 'D2-B cross-model validation correlation copy');
-  assertContainsText('src/pages/methodology.astro', '38/40 職業', 'D2-B cross-model validation agreement copy');
+  assertContainsText('src/pages/pro/methodology.astro', 'r=0.92〜0.97', 'D2-B cross-model validation correlation copy');
+  assertContainsText('src/pages/pro/methodology.astro', '38/40 職業', 'D2-B cross-model validation agreement copy');
 
   await assertRenderedFactBlocks(facts);
 

@@ -63,7 +63,7 @@ describe('buildSectorFaqs', () => {
       ],
     });
     const q2 = out.find(([q]) => q.includes('最も高い'))!;
-    assert.ok(q2[1].includes('A（AI影響 9/10）、B（AI影響 8/10）、C（AI影響 7/10）'));
+    assert.ok(q2[1].includes('A（AI影響 9/10 変化 大きい）、B（AI影響 8/10 変化 大きい）、C（AI影響 7/10 変化 大きい）'));
   });
 
   test('Q3 (lowest AI impact) skipped when topLow is empty', () => {
@@ -76,17 +76,20 @@ describe('buildSectorFaqs', () => {
     assert.ok(!out.some(([q]) => q.includes('平均 AI 影響度は')));
   });
 
-  test('Q4 tier labels: <=3.5 低め / <=5.5 中程度 / <=7.0 やや高め / >7.0 高め', () => {
+  test('Q4 prints the signed band word of the displayed mean', () => {
     const tiers: Array<[number, string]> = [
-      [2.0, '低め'],
-      [4.5, '中程度'],
-      [6.5, 'やや高め'],
-      [8.0, '高め'],
+      [2.0, '2.0/10 変化 小さい'],
+      [3.9666666666666663, '4.0/10 変化 中くらい'],
+      [4.0, '4.0/10 変化 中くらい'],
+      [4.5, '4.5/10 変化 中くらい'],
+      [6.5, '6.5/10 変化 中くらい'],
+      [6.966666666666667, '7.0/10 変化 大きい'],
+      [8.0, '8.0/10 変化 大きい'],
     ];
     for (const [risk, expected] of tiers) {
       const out = buildSectorFaqs({ ...baseInput, meanRisk: risk });
       const q4 = out.find(([q]) => q.includes('平均 AI 影響度は'))!;
-      assert.ok(q4[1].includes(`${expected}の水準`), `meanRisk=${risk} expected ${expected}`);
+      assert.ok(q4[1].includes(expected), `meanRisk=${risk} expected ${expected} in ${q4[1]}`);
     }
   });
 
@@ -102,7 +105,7 @@ describe('buildSectorFaqs', () => {
     assert.ok(!out2.some(([q]) => q.includes('将来性は')));
   });
 
-  test('Q5 outlook copy: meanRisk <= 4.0 → 比較的高い', () => {
+  test('Q5 outlook copy: displayed mean < 4.0 → 比較的高い', () => {
     const out = buildSectorFaqs({
       ...baseInput,
       meanRisk: 3.5,
@@ -113,7 +116,7 @@ describe('buildSectorFaqs', () => {
     assert.ok(!q5[1].includes('高いな業界'));
   });
 
-  test('Q5 outlook copy: meanRisk >= 6.0 → 業界全体で', () => {
+  test('Q5 outlook copy: displayed mean >= 7.0 → 業界全体で', () => {
     const out = buildSectorFaqs({
       ...baseInput,
       meanRisk: 7.0,
@@ -122,6 +125,18 @@ describe('buildSectorFaqs', () => {
     const q5 = out.find(([q]) => q.includes('将来性は'))!;
     assert.ok(q5[1].includes('業界全体で AI による業務変化'));
     assert.ok(q5[1].includes('代替リスクの確認が重要な業界です。'));
+  });
+
+  test('Q5 outlook copy: 4.0 and 6.5 stay in the middle band', () => {
+    for (const meanRisk of [4.0, 6.5]) {
+      const out = buildSectorFaqs({
+        ...baseInput,
+        meanRisk,
+        topLow: [{ titleJa: 'safe1', aiRisk: 1 }],
+      });
+      const q5 = out.find(([q]) => q.includes('将来性は'))!;
+      assert.ok(q5[1].includes('個別に検討が必要な業界です。'), `meanRisk=${meanRisk}`);
+    }
   });
 
   test('Q5 outlook copy: 4 < meanRisk < 6 → 個別に検討', () => {

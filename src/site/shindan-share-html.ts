@@ -46,7 +46,11 @@ function replaceMeta(
     'i',
   );
   const tag = `<meta ${attribute}="${key}" content="${escapeHtmlAttribute(value)}">`;
-  return pattern.test(html) ? html.replace(pattern, tag) : html.replace('</head>', `  ${tag}\n</head>`);
+  // Function replacements: a string replacement would expand `$'`, `$&`, …
+  // inside the data into slices of the page (#861).
+  return pattern.test(html)
+    ? html.replace(pattern, () => tag)
+    : html.replace('</head>', () => `  ${tag}\n</head>`);
 }
 
 export function buildShindanShareMetadata(
@@ -85,10 +89,8 @@ export function renderShindanShareHtml(
   let html = replaceMeta(baseHtml, 'name', 'robots', 'noindex, follow');
   if (!metadata) return html;
 
-  html = html.replace(
-    /<title>[^<]*<\/title>/i,
-    `<title>${escapeHtmlAttribute(metadata.title)}</title>`,
-  );
+  const titleTag = `<title>${escapeHtmlAttribute(metadata.title)}</title>`;
+  html = html.replace(/<title>[^<]*<\/title>/i, () => titleTag);
   html = replaceMeta(html, 'name', 'description', metadata.description);
   html = replaceMeta(html, 'property', 'og:title', metadata.title);
   html = replaceMeta(html, 'property', 'og:description', metadata.description);
