@@ -59,7 +59,6 @@ const jsonLd = renderOccupationSummaryJsonLd(summary, { datePublished: '2026-05-
             </span>
             <span class="summary-related-meta">
               <span class="summary-related-measure">
-                <span class="summary-label">AI影響度</span>
                 <span class:list={['summary-related-score', { 'summary-related-missing': job.score === null }]}>{job.scoreText}{job.score !== null && <small>/10</small>}</span>
               </span>
               {job.bandWord && <span class="score-band">{job.bandWord}</span>}
@@ -112,7 +111,7 @@ const jsonLd = renderOccupationSummaryJsonLd(summary, { datePublished: '2026-05-
   .summary-related-card,.summary-pro-card{flex:1;display:flex;gap:var(--s-4);padding:var(--s-4);background:var(--paper);border:1px solid var(--line);border-radius:var(--r-md);font-size:var(--t-body);font-family:var(--font-sans);color:var(--ink);text-decoration:none;box-shadow:var(--sh-card);overflow-wrap:anywhere}
   .summary-related-card{flex-direction:column;justify-content:space-between}
   .summary-card-top,.summary-pro-card{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3)}
-  .summary-related-name{font-weight:700;line-height:1.5}
+  .summary-related-name{font-size:var(--t-h3);font-weight:700;line-height:1.5}
   .summary-card-arrow{flex:none;width:var(--s-5);height:var(--s-5);color:var(--ink-meta)}
   .summary-related-meta,.summary-related-measure{display:flex;align-items:baseline;flex-wrap:wrap;gap:var(--s-2)}
   .summary-related-score{font-size:var(--t-h2);font-family:var(--font-serif);font-variant-numeric:tabular-nums;color:var(--ink)}

@@ -79,6 +79,10 @@ for (const width of [1440, 768, 375]) {
         score: link.querySelector('.summary-related-score')!.textContent!,
         band: link.querySelector('.score-band')?.textContent ?? null,
       })));
+      // Related cards may reuse only the name, score and existing band wording.
+      await expect(page.locator('.summary-related-card')).toHaveText(
+        related.map(job => [job.name, job.score, job.band].filter(Boolean).join(' ')),
+      );
       for (const job of related) {
         await page.goto(job.href);
         await expect(page.locator('h1')).toHaveText(job.name);

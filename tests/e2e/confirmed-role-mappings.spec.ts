@@ -21,7 +21,7 @@ const cases: readonly { url: string; consumers: readonly Consumer[] }[] = [
     ['.summary-stats dd', { family: 'serif', px: '22px', colour: '--ink', tabular: true }],
     ['.summary-stats dd small', { family: 'sans', weight: '400', px: '14px', colour: '--ink-2' }],
     ['.summary-note', { family: 'sans', weight: '400', px: '14px', colour: '--ink-2' }],
-    ['.summary-related-name', { family: 'sans', weight: '700', px: '16px', colour: '--ink' }],
+    ['.summary-related-name', title],
     ['.summary-related-score', { family: 'serif', px: '22px', colour: '--ink', tabular: true }],
     ['.summary-related-score small', { family: 'sans', weight: '400', px: '14px', colour: '--ink-2' }],
     ['.summary-pro-card', { family: 'sans', weight: '600', px: '14px', colour: '--ink' }],
