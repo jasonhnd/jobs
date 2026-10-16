@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
 interface SeoMetadata {
-  url: string; title: string; description: string; keywords: string;
+  url: string; title: string; description: string; keywords: string | null;
   canonical: string; robots: string; h1Texts: string[];
 }
 interface SocialMetadata {
@@ -24,7 +24,10 @@ async function checkBaselineMetadata(page: Page, path: string) {
   const social = socialBaseline.get(path)!;
   await expect(page).toHaveTitle(seo.title);
   for (const name of ['description', 'keywords', 'robots'] as const) {
-    await expect(page.locator(`meta[name="${name}"]`)).toHaveAttribute('content', seo[name]);
+    const meta = page.locator(`meta[name="${name}"]`);
+    const value = seo[name];
+    if (value === null) await expect(meta).toHaveCount(0);
+    else await expect(meta).toHaveAttribute('content', value);
   }
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', seo.canonical);
   await expect(page.locator('h1')).toHaveText(seo.h1Texts);
