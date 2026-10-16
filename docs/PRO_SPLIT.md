@@ -495,6 +495,24 @@ meta/OG descriptions were owner-signed (d1009-202854-1, as recorded in the
 JOB_0237 brief). No workflow, analytics-script or Vercel state change is included;
 local renders do not prove deployment or indexing.
 
+### Ordinary occupation metadata follow-up — Issue #912 / JOB_0011
+
+The ordinary-only SEO helper uses variant A, owner-signed by Jason on
+2026-10-16, for title, description and matching OG/Twitter text. Eligibility
+uses the existing summary projection: annual salary, monthly working hours
+and the AI score must all be displayable. Of 556 occupations, 544 qualify;
+IDs 140, 141, 142, 144, 145, 148, 152, 153, 154, 250, 512 and 514 retain their
+old title/description exactly because salary and hours are missing.
+Occupation 404 remains at `/occupations/404` and qualifies for variant A.
+
+The shared Pro SEO helper and all Pro metadata remain unchanged, as do the
+visible ordinary conclusion/advice, H1, statistics, JSON-LD, keywords, links,
+canonical and OG images. Home and ranking metadata remain controls. The
+baseline update permits only the 544 ordinary pages' metadata text and
+capture provenance. The target is occupation CTR >=2.0% after three weeks
+with daily impressions flat or increasing, from approximately 0.9%; actual
+production deployment timing and the later GSC comparison are separate work.
+
 ## Stage 3 ordinary ranking implementation (JOB_0231 / Issue #901)
 
 The ordinary index now selects exactly eight retained rankings. Each ordinary
