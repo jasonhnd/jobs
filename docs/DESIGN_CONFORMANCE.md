@@ -573,8 +573,9 @@ Live deployment validation remains an external acceptance step.
 ### Ordinary occupation related navigation — Issue #916 / JOB_0014
 
 Only `_OrdinaryOccupationPage.astro` changes visually. Related occupations use
-fully clickable paper cards with the existing small-card title, medium statistic,
-label and pill roles. Pro chapter links use the existing secondary-button role
+fully clickable paper cards with the existing card-title (`--t-h3`, sans 700,
+`--ink`), medium-statistic and pill roles. Each card shows only its existing name,
+score and band, with no added score label (review follow-up). Pro chapter links use the existing secondary-button role
 and decorative arrows. The grids follow the 900 / 600 breakpoints with three,
 two and one columns, token spacing/radius/shadows, full name wrapping and visible
 keyboard focus. No Design class, role, token, public wording or canon is added.
