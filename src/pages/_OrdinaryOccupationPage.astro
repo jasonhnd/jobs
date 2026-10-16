@@ -5,6 +5,7 @@ import IdPageScript from './_IdPageScript.astro';
 import { CANONICAL_DETAIL_CSS } from '@/lib/canonical/detail';
 import { buildOccupationSummary, renderOccupationSummaryJsonLd, PRO_CHAPTER_LINKS } from '@/views/occupation-summary';
 import { buildOccupationSeo } from '@/views/occupation-seo';
+import { buildOrdinaryOccupationSeo } from '@/views/ordinary-occupation-seo';
 import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import { salaryStanding } from '@/site/geo-facts';
 import { occupationUrl, occupationPath } from '@/lib/urls';
@@ -17,12 +18,11 @@ import type { Rec } from '@/views/occupation-detail';
 interface Props { rec: Rec; related: Rec[]; }
 const { rec, related } = Astro.props;
 const summary = buildOccupationSummary(rec);
-const seo = buildOccupationSeo({ nameJa: rec.name_ja, aiRisk: rec.ai_risk, salaryStanding: salaryStanding(loadGeoFacts(), rec.id), workers: rec.workers, aliasesJa: rec.aliases_ja });
+const seo = buildOrdinaryOccupationSeo(summary, buildOccupationSeo({ nameJa: rec.name_ja, aiRisk: rec.ai_risk, salaryStanding: salaryStanding(loadGeoFacts(), rec.id), workers: rec.workers, aliasesJa: rec.aliases_ja }));
 const jsonLd = renderOccupationSummaryJsonLd(summary, { datePublished: '2026-05-30', dateModified: CONTENT_DATE });
-const description = summary.conclusion ?? summary.nameJa;
 ---
-<BaseLayout title={seo.title} description={description} keywords={seo.keywords} canonical={occupationUrl(rec.id)}
-  ogTitle={seo.ogTitle} ogDescription={description} ogImage={`${siteConfig.origin}/api/og?id=${rec.id}`} ogType="article">
+<BaseLayout title={seo.title} description={seo.description} keywords={seo.keywords} canonical={occupationUrl(rec.id)}
+  ogTitle={seo.ogTitle} ogDescription={seo.ogDescription} ogImage={`${siteConfig.origin}/api/og?id=${rec.id}`} ogType="article">
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={CANONICAL_DETAIL_CSS} />
   <div id="wrapper">
