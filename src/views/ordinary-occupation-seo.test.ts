@@ -1,4 +1,5 @@
 import { expect, test } from 'bun:test';
+import assert from 'node:assert/strict';
 import { buildOrdinaryOccupationSeo } from './ordinary-occupation-seo';
 import { buildOccupationSeo } from './occupation-seo';
 import { buildOccupationSummary } from './occupation-summary';
@@ -28,7 +29,7 @@ const signedCases = [
 for (const [id, name_ja, title, description] of signedCases) {
   test(`/${id} uses the exact complete signed metadata`, () => {
     const seo = buildOrdinaryOccupationSeo(buildOccupationSummary({ ...input, id, name_ja }), legacy);
-    expect(seo).toEqual({ title, description, ogTitle: title, ogDescription: description, keywords: legacy.keywords });
+    assert.deepEqual(seo, { title, description, ogTitle: title, ogDescription: description, keywords: legacy.keywords });
   });
 }
 
@@ -39,7 +40,7 @@ test('any combination of missing statistics preserves every legacy ordinary meta
       hours: mask & 2 ? null : input.hours, ai_risk: mask & 4 ? null : input.ai_risk,
     });
     const oldDescription = summary.conclusion ?? summary.nameJa;
-    expect(buildOrdinaryOccupationSeo(summary, legacy)).toEqual({
+    assert.deepEqual(buildOrdinaryOccupationSeo(summary, legacy), {
       ...legacy, description: oldDescription, ogDescription: oldDescription,
     });
   }
@@ -49,16 +50,16 @@ test('availability follows summary normalization for null, zero, negative and no
   for (const field of ['salary', 'hours'] as const) {
     for (const value of [null, 0, -1, NaN, Infinity, -Infinity]) {
       const summary = buildOccupationSummary({ ...input, [field]: value });
-      expect(summary[field]).toBeNull();
-      expect(buildOrdinaryOccupationSeo(summary, legacy)).toEqual({
+      expect(summary[field]).toBe(null);
+      assert.deepEqual(buildOrdinaryOccupationSeo(summary, legacy), {
         ...legacy, description: summary.conclusion, ogDescription: summary.conclusion,
       });
     }
   }
   for (const ai_risk of [null, NaN, Infinity, -Infinity]) {
     const summary = buildOccupationSummary({ ...input, ai_risk });
-    expect(summary.score).toBeNull();
-    expect(buildOrdinaryOccupationSeo(summary, legacy)).toEqual({
+    expect(summary.score).toBe(null);
+    assert.deepEqual(buildOrdinaryOccupationSeo(summary, legacy), {
       ...legacy, description: summary.nameJa, ogDescription: summary.nameJa,
     });
   }
@@ -75,7 +76,7 @@ test('keyword order/alias cap and the shared Pro SEO result are preserved withou
   const summary = buildOccupationSummary(input);
   const seo = buildOrdinaryOccupationSeo(Object.freeze(summary), Object.freeze(legacy));
   expect(seo.keywords).toBe('花火師, 0, 1, 2, 3, 4, 5, 6, 7');
-  expect(legacy).toEqual(before);
+  assert.deepEqual(legacy, before);
   expect(seo.description).not.toBe(legacy.description);
 });
 
@@ -83,7 +84,7 @@ test('all 556 real occupations select 544 signed templates and 12 exact legacy f
   const { allRecs } = await buildOccupationPageData();
   const facts = loadGeoFacts();
   const unchanged: number[] = [];
-  expect(allRecs).toHaveLength(556);
+  expect(allRecs.length).toBe(556);
   for (const rec of allRecs) {
     const summary = buildOccupationSummary(rec);
     const oldSeo = buildOccupationSeo({
@@ -94,15 +95,15 @@ test('all 556 real occupations select 544 signed templates and 12 exact legacy f
     if (summary.salary === null || summary.hours === null || summary.score === null) {
       unchanged.push(rec.id);
       const description = summary.conclusion ?? summary.nameJa;
-      expect(seo).toEqual({ ...oldSeo, description, ogDescription: description });
+      assert.deepEqual(seo, { ...oldSeo, description, ogDescription: description });
     } else {
       expect(seo.title).toBe(`${rec.name_ja}の年収・労働時間・AIの影響｜未来の仕事`);
     }
     if (rec.id === 404) {
       expect(summary.ordinaryPath).toBe('/occupations/404');
       expect(summary.proPath).toBe('/pro/404');
-      expect(seo.title).toEndWith('の年収・労働時間・AIの影響｜未来の仕事');
+      assert.ok(seo.title.endsWith('の年収・労働時間・AIの影響｜未来の仕事'));
     }
   }
-  expect(unchanged).toEqual([140, 141, 142, 144, 145, 148, 152, 153, 154, 250, 512, 514]);
+  assert.deepEqual(unchanged, [140, 141, 142, 144, 145, 148, 152, 153, 154, 250, 512, 514]);
 });
