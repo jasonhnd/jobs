@@ -52,6 +52,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **Ordinary occupation related navigation (#916 / JOB_0014).** Replace the
+  related-occupation text list with responsive paper cards showing existing
+  summary scores and displayed-value bands, and turn the seven Pro chapters
+  into arrow navigation cards. Use existing Design tokens and public wording;
+  preserve all chapter/legacy anchors and related occupation destinations.
+  Remove only the redundant visible related-section Pro link. The internal-link
+  baseline drops exactly `/pro/<id>#sec-similar` on the 556 ordinary pages;
+  title, metadata, OG, JSON-LD, URLs, sitemaps and Pro output stay unchanged.
+
 - **Ordinary occupation search metadata, variant A (#912).** Use the exact
   title/description templates owner-signed by Jason on 2026-10-16 for the 544
   occupations with displayable annual salary, monthly working hours and AI

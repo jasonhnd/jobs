@@ -173,7 +173,9 @@ for (const { id, occupation } of occupations) {
     for (const chapter of PRO_CHAPTER_LINKS) {
       for (const anchor of [chapter.id, ...chapter.anchors]) {
         if (countExact(html, `id="${anchor}"`) !== 1) fail(`${pathname} lost or duplicated #${anchor}`);
-        if (!html.includes(`href="${occupationPath(id, 'pro')}#${anchor}"`)) fail(`${pathname} lost Pro #${anchor} handoff`);
+        // #916 keeps the visible ordinary related section and its Pro target,
+        // but removes the duplicate Pro link; chp-next remains the Pro entry.
+        if (anchor !== 'sec-similar' && !html.includes(`href="${occupationPath(id, 'pro')}#${anchor}"`)) fail(`${pathname} lost Pro #${anchor} handoff`);
         if (!proHtml.includes(`id="${anchor}"`)) fail(`${pathname} Pro #${anchor} target missing`);
       }
     }
