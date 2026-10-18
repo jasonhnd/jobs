@@ -52,6 +52,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **Ordinary occupation related navigation (#916 / JOB_0014).** Replace the
+  related-occupation text list with responsive paper cards showing existing
+  summary scores and displayed-value bands, and turn the seven Pro chapters
+  into arrow navigation cards. Use existing Design tokens and public wording;
+  preserve all chapter/legacy anchors and related occupation destinations.
+  Remove only the redundant visible related-section Pro link. The internal-link
+  baseline drops exactly `/pro/<id>#sec-similar` on the 556 ordinary pages;
+  title, metadata, OG, JSON-LD, URLs, sitemaps and Pro output stay unchanged.
+
+- **Ordinary occupation search metadata, variant A (#912).** Use the exact
+  title/description templates owner-signed by Jason on 2026-10-16 for the 544
+  occupations with displayable annual salary, monthly working hours and AI
+  score. The other 12 retain their existing metadata byte for byte. The SEO
+  baseline intentionally changes only ordinary occupation title/description
+  and matching OG/Twitter text, plus capture provenance. Pro, home, rankings,
+  body copy, JSON-LD, links, canonicals and OG images remain unchanged. The
+  three-week CTR target (>=2.0%, with daily impressions flat or increasing)
+  requires a separate post-deployment observation; no outcome is claimed.
+
 - **Ordinary occupation summaries, stage 2 (#897 / JOB_0230).** Replace the full ordinary body on 556 routes with one aggregate score/band, owner-signed three-band conclusion/advice, salary/hours, similar occupations and Pro chapter links. Retain every old occupation chapter/section anchor as a Pro handoff and keep the complete Pro body and entity schema. Both occupation editions become self-canonical; add exactly 556 Pro occupation URLs to the HTML sitemap, while retaining the ordinary-only image sitemap. Ordinary meta/OG descriptions use the visible plain-language conclusion, and JSON-LD describes visible summary content only, without FAQ or detailed dimensions. SEO baselines intentionally change only occupation summaries, Pro occupation canonicals and HTML sitemap membership. Rankings, other families, redirects and analytics scripts remain unchanged. The conclusion/advice retain the exact wording owner-signed under d1009-202854-1.
 
 - **Public Pro skeleton, stage 1A (#894 / JOB_0225).** Add `/pro`, 556 complete Pro occupations (ID404 at `/pro/404`), `/pro/rankings` and 39 ranking copies using shared ordinary renderers and manifest-derived edition policy. Copies canonicalize to their old ordinary URLs and inherit exactly four noindex rankings; Pro is absent from both sitemaps. Ordinary SEO metadata, OG/Twitter and JSON-LD remain unchanged across all 845 existing pages. Baseline changes are exactly 597 new URLs and one approved Pro CTA href on 556 occupations plus eight retained rankings; no existing href or anchor is removed. Scores, ranking order, data files and sitemaps are unchanged. Minimal Pro edition labels/metadata require owner signature before merge. All 39 Pro ranking return links target their still-live ordinary pages during stage 1A; the eight ordinary CTAs are controlled separately. Pro ranking detail WebPage/Article and index WebPage metadata match their actual Pro title/description. No redirects or production/deployment changes.
