@@ -5,9 +5,10 @@ import IdPageScript from './_IdPageScript.astro';
 import { CANONICAL_DETAIL_CSS } from '@/lib/canonical/detail';
 import { buildOccupationSummary, renderOccupationSummaryJsonLd, PRO_CHAPTER_LINKS } from '@/views/occupation-summary';
 import { buildOccupationSeo } from '@/views/occupation-seo';
+import { buildOrdinaryOccupationSeo } from '@/views/ordinary-occupation-seo';
 import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import { salaryStanding } from '@/site/geo-facts';
-import { occupationUrl, occupationPath } from '@/lib/urls';
+import { occupationUrl } from '@/lib/urls';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { CONSENSUS_HEADLINE_LABEL } from '@/site/consensus-copy';
 import { occupationAnalyticsTier } from '@/lib/risk';
@@ -17,12 +18,12 @@ import type { Rec } from '@/views/occupation-detail';
 interface Props { rec: Rec; related: Rec[]; }
 const { rec, related } = Astro.props;
 const summary = buildOccupationSummary(rec);
-const seo = buildOccupationSeo({ nameJa: rec.name_ja, aiRisk: rec.ai_risk, salaryStanding: salaryStanding(loadGeoFacts(), rec.id), workers: rec.workers, aliasesJa: rec.aliases_ja });
+const relatedSummaries = related.map(buildOccupationSummary);
+const seo = buildOrdinaryOccupationSeo(summary, buildOccupationSeo({ nameJa: rec.name_ja, aiRisk: rec.ai_risk, salaryStanding: salaryStanding(loadGeoFacts(), rec.id), workers: rec.workers, aliasesJa: rec.aliases_ja }));
 const jsonLd = renderOccupationSummaryJsonLd(summary, { datePublished: '2026-05-30', dateModified: CONTENT_DATE });
-const description = summary.conclusion ?? summary.nameJa;
 ---
-<BaseLayout title={seo.title} description={description} keywords={seo.keywords} canonical={occupationUrl(rec.id)}
-  ogTitle={seo.ogTitle} ogDescription={description} ogImage={`${siteConfig.origin}/api/og?id=${rec.id}`} ogType="article">
+<BaseLayout title={seo.title} description={seo.description} keywords={seo.keywords} canonical={occupationUrl(rec.id)}
+  ogTitle={seo.ogTitle} ogDescription={seo.ogDescription} ogImage={`${siteConfig.origin}/api/og?id=${rec.id}`} ogType="article">
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={CANONICAL_DETAIL_CSS} />
   <div id="wrapper">
@@ -49,15 +50,32 @@ const description = summary.conclusion ?? summary.nameJa;
 
     <section class="summary-related" id="sec-similar" aria-label="類似する職業">
       <h2>類似する職業</h2>
-      <ul>{related.map(job => <li><a href={occupationPath(job.id)}>{job.name_ja}</a></li>)}</ul>
-      <a href={`${summary.proPath}#sec-similar`}>Pro で詳しく見る</a>
+      <ul class="summary-card-grid">{relatedSummaries.map(job => (
+        <li>
+          <a class="summary-related-card" href={job.ordinaryPath}>
+            <span class="summary-card-top">
+              <span class="summary-related-name">{job.nameJa}</span>
+              <svg class="summary-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+            </span>
+            <span class="summary-related-meta">
+              <span class="summary-related-measure">
+                <span class:list={['summary-related-score', { 'summary-related-missing': job.score === null }]}>{job.scoreText}{job.score !== null && <small>/10</small>}</span>
+              </span>
+              {job.bandWord && <span class="score-band">{job.bandWord}</span>}
+            </span>
+          </a>
+        </li>
+      ))}</ul>
     </section>
 
     <section class="summary-pro" data-pro-cta>
       <h2><a href={summary.proPath}>Pro で詳しく見る</a></h2>
-      <ul>{PRO_CHAPTER_LINKS.map(chapter => (
+      <ul class="summary-card-grid">{PRO_CHAPTER_LINKS.map(chapter => (
         <li id={chapter.id}>
-          <a href={`${summary.proPath}#${chapter.id}`}>{chapter.title}</a>
+          <a class="summary-pro-card" href={`${summary.proPath}#${chapter.id}`}>
+            <span>{chapter.title}</span>
+            <svg class="summary-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+          </a>
           {chapter.anchors.filter(anchor => anchor !== 'sec-similar').map(anchor => (
             <span class="summary-legacy-anchor" id={anchor}><a href={`${summary.proPath}#${anchor}`}>{chapter.title} · Pro で詳しく見る</a></span>
           ))}
@@ -87,8 +105,24 @@ const description = summary.conclusion ?? summary.nameJa;
   .summary-pro h2 a{color:var(--ink)}
   .summary-note{font-size:var(--t-sm);color:var(--ink-2);line-height:1.6}
   .summary-related,.summary-pro{display:flex;flex-direction:column;gap:var(--s-3);margin-top:var(--s-6)}
-  .summary-related ul,.summary-pro ul{display:flex;flex-direction:column;gap:var(--s-2);list-style:none}
-  .summary-related a,.summary-pro li>a{font-size:var(--t-body);color:var(--ink);text-decoration:underline;text-underline-offset:0.2em}
+  .summary-related>h2,.summary-pro>h2{margin:0}
+  .summary-card-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-3);list-style:none}
+  .summary-card-grid>li{min-width:0;display:flex;flex-direction:column}
+  .summary-related-card,.summary-pro-card{flex:1;display:flex;gap:var(--s-4);padding:var(--s-4);background:var(--paper);border:1px solid var(--line);border-radius:var(--r-md);font-size:var(--t-body);font-family:var(--font-sans);color:var(--ink);text-decoration:none;box-shadow:var(--sh-card);overflow-wrap:anywhere}
+  .summary-related-card{flex-direction:column;justify-content:space-between}
+  .summary-card-top,.summary-pro-card{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3)}
+  .summary-related-name{font-size:var(--t-h3);font-weight:700;line-height:1.5}
+  .summary-card-arrow{flex:none;width:var(--s-5);height:var(--s-5);color:var(--ink-meta)}
+  .summary-related-meta,.summary-related-measure{display:flex;align-items:baseline;flex-wrap:wrap;gap:var(--s-2)}
+  .summary-related-score{font-size:var(--t-h2);font-family:var(--font-serif);font-variant-numeric:tabular-nums;color:var(--ink)}
+  .summary-related-score small{font-size:var(--t-sm);font-family:var(--font-sans);color:var(--ink-2)}
+  .summary-related-missing{font-size:var(--t-sm);font-family:var(--font-sans);color:var(--ink-2)}
+  .summary-pro-card{font-size:var(--t-sm);font-weight:600;line-height:1.5}
+  .summary-related-card:hover,.summary-pro-card:hover{border-color:var(--orange-hot);box-shadow:var(--sh-raised);text-decoration:none}
+  .summary-related-card:hover .summary-card-arrow,.summary-pro-card:hover .summary-card-arrow{color:var(--orange-hot)}
+  .summary-related-card:focus-visible,.summary-pro-card:focus-visible,.summary-pro h2 a:focus-visible{outline:var(--s-1) solid var(--ink);outline-offset:var(--s-1)}
+  @media (min-width:600px){.summary-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (min-width:900px){.summary-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
   .summary-legacy-anchor{display:block;scroll-margin-top:var(--s-8)}
   .summary-legacy-anchor a{display:none;font-size:var(--t-sm);color:var(--ink-2);padding:var(--s-2) 0}
   .summary-legacy-anchor:target a{display:inline-block}
