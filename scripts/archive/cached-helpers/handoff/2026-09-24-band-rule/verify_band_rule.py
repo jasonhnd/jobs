@@ -103,7 +103,7 @@ for d in search:
         fail("page exists", f"{oid}: no page")
         continue
     h = p.read_text(encoding="utf-8")
-    m = re.search(r"ri__REDACTED_PROVIDER__ verdict-card risk-(low|mid|high)", h)
+    m = re.search(r"risk-card verdict-card risk-(low|mid|high)", h)
     if not m or m.group(1) != want:
         fail(checks[3], f"{oid}: {m.group(1) if m else None} (want {want}, shows {s})")
     for name, pat in (
