@@ -172,7 +172,7 @@ def build(args, redactor):
         members = {}
         inventory = []
         excluded = Counter()
-        models, dates = set(), set()
+        models, dates, envelope_models = set(), set(), set()
         redactions_before = redactor.counts.copy()
         for path in files_under(batch):
             relative = path.relative_to(batch)
@@ -180,7 +180,7 @@ def build(args, redactor):
             kind, payload = None, None
             if path.name.startswith("occupations") and path.suffix == ".json":
                 value = json.loads(path.read_text())
-                if not isinstance(value, dict) or not isinstance(value.get("scores"), list):
+                if not isinstance(value, dict) or not isinstance(value.get("scores"), (dict, list)):
                     raise ValueError("Unexpected final scoring schema: " + name)
                 model = value.get("scorer", {}).get("model")
                 date = value.get("run", {}).get("run_date")
@@ -207,6 +207,7 @@ def build(args, redactor):
                     name = str(relative.with_suffix(".jsonl"))
             elif path.name.endswith(".envelope.json"):
                 value = json.loads(path.read_text())
+                envelope_models.update(value.get("modelUsage", {}))
                 scores = scores_from_text(json.dumps(value.get("structuredOutput"), ensure_ascii=False))
                 if not scores:
                     scores = scores_from_text(value.get("text") or "")
@@ -236,12 +237,15 @@ def build(args, redactor):
         if not dates:
             dates.update(re.findall(r"20\d{2}-\d{2}-\d{2}", batch.name))
         if not models:
+            models.update(envelope_models)
+        if not models:
             for model in ["claude-opus-5", "grok-4.6", "gpt-5.6-sol"]:
                 if model in batch.name:
                     models.add(model)
         manifest = {"schema_version": 1, "source": ".cache/scoring/" + batch.name,
                     "models": sorted(models), "run_dates": sorted(dates),
                     "date_basis": "final run metadata or batch name; empty means unknown",
+                    "model_basis": "final metadata, or envelope model usage / batch name when no final survives",
                     "excluded": dict(sorted(excluded.items())),
                     "redactions": dict(sorted((redactor.counts - redactions_before).items())),
                     "files": inventory}
