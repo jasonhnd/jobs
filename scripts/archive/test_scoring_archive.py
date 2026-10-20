@@ -36,6 +36,16 @@ class ArchiveTests(unittest.TestCase):
         self.assertEqual(sanitized["score"], self.score)
         self.assertIsNone(sanitized["user_id"])
 
+    def test_provider_key_boundary_preserves_page_class_regex(self):
+        pattern = r"risk-card verdict-card risk-(low|mid|high)"
+        self.assertEqual(self.redactor.text(pattern), pattern)
+        self.assertFalse(self.redactor.hits(pattern))
+        for prefix in ("", '"', "=", "日本語"):
+            for provider in ("sk", "xai"):
+                value = prefix + provider + "-" + "ExampleSecret"
+                self.assertTrue(self.redactor.hits(value))
+                self.assertFalse(self.redactor.hits(self.redactor.text(value)))
+
     def test_extracts_only_answers_from_retry_text(self):
         raw = ("progress\n--- attempt 2 ---\n" + json.dumps({**self.score, "sessionId": "private"})
                + "\ntransport failed\n--- attempt 3 ---\n" + json.dumps(self.score))
