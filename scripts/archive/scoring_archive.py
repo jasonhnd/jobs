@@ -28,7 +28,7 @@ PATTERNS = {
     "local_path": r"/(?:Users|home|private)/[^\s\"'`<>;,)}\]]*",
     "email": r"[\w.+%-]+@[\w.-]+\.[A-Za-z]{2,}",
     "email_domain": r"@[A-Za-z0-9.-]+\.(?:com|jp|net|org)",
-    "provider_key": r"(?:sk|xai)-[A-Za-z0-9_-]+",
+    "provider_key": r"(?<![A-Za-z0-9_])(?:sk|xai)-[A-Za-z0-9_-]+",
     "github_token": r"(?:gh[pousr]|github_pat)_[A-Za-z0-9_]+",
     "bearer": r"(?i:bearer)\s+[^\s\"'`,;]+",
     "aws_key": r"A[K]IA[A-Z0-9]*",
