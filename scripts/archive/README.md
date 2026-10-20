@@ -6,7 +6,7 @@ Local paths and private identifiers have been replaced by placeholders; manual a
 
 | Original cached path | Purpose | Bytes |
 | --- | --- | ---: |
-| `handoff/2026-09-24-band-rule/verify_band_rule.py` | Historical numerical band-rule verification. | 7676 |
+| `handoff/2026-09-24-band-rule/verify_band_rule.py` | Historical numerical band-rule verification. | 7662 |
 | `handoff/merge-queue.sh` | Historical sequential PR queue controller (inactive). | 1893 |
 | `mms-829-preview-check.mjs` | Historical preview browser verification. | 14921 |
 | `scoring/mms-12-full/start-after-opus.sh` | Historical dependent scoring-run trigger (inactive). | 1466 |
@@ -22,3 +22,5 @@ Skipped exact GitHub/repository duplicates:
 
 The cached `etl/build-manifest.json` is omitted: `src/data/promote.ts` regenerates it during `bun run build:data`; it records build IDs, finish time and promoted entries, rather than unique source data.
 Other cached Markdown is outside this Issue. The generator and verifier are in `scoring_archive.py`.
+
+Issue #924 corrects a provider-key false positive in `verify_band_rule.py`: the safe `risk-card` page-class regex is preserved, while the workstation path remains redacted. Provider-key matching now requires a token boundary so regenerating the helper retains the source regex.
