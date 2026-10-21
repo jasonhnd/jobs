@@ -2,7 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildFindings, csv, CSV_HEADERS, loadFindings, sha256 } from './data';
-import { FINDINGS, publishedFindings, findingsForRun } from './registry';
+import { FINDINGS, discoverableFindings, publishedFindings, findingsForRun } from './registry';
 import { findingsCopy, unexpectedJapanese, renderTemplate } from './copy';
 
 const issue = FINDINGS[0]!;
@@ -41,6 +41,7 @@ describe('frozen Findings issue 1', () => {
     const future = { ...issue, issue_id: '2026-11-01-example', issue_number: 2, status: 'draft' as const };
     const releases = [...FINDINGS, future];
     assert.deepEqual(publishedFindings(releases), []);
+    assert.deepEqual(discoverableFindings(), [issue]);
     // Build a later identity between two independent builds of the old release.
     expect(buildFindings(future).downloads[0]!.href).toContain('2026-11-01-example');
     assert.deepEqual(buildFindings(releases[0]!).downloads.map(file => [file.href, file.text, file.sha256]), before);
@@ -53,8 +54,9 @@ describe('frozen Findings issue 1', () => {
     expect(() => buildFindings({ ...issue, report: { ...issue.report, sha256: '0'.repeat(64) } })).toThrow('source hash mismatch');
     expect(() => buildFindings({ ...issue, panels: { ...issue.panels, before: issue.panels.before.slice(1) } })).toThrow('one seat per provider');
     expect(() => buildFindings({ ...issue, incoming_run_date: '2026-09-30' })).toThrow('incoming seat');
-    const unsigned = { ...issue, status: 'published' as const, first_published_on: '2026-10-21' };
+    const unsigned = { ...issue, status: 'published' as const, template_signed: false, rights_signed: false, first_published_on: '2026-10-22T09:30:00+09:00' };
     assert.deepEqual(publishedFindings([unsigned]), []);
+    assert.deepEqual(publishedFindings([{ ...issue, status: 'published', first_published_on: '2026-10-22' }]), []);
   });
 });
 
@@ -71,7 +73,8 @@ describe('Findings template contract', () => {
     expect(copy.T06).toBe('2026-10-01 の更新前後で、全職業のAI影響度の平均は4.55から4.68になりました。');
     expect(copy.upSentence).toBe('2026-10-01 の更新前後で、AIエンジニアのAI影響度は4.7から5.3へ、+0.6点変わりました。');
     expect(copy.T41).toContain(`より${data.provenance.ipd_retrieved_at}にダウンロード`);
-    expect(copy.T25).toContain('{{issue_url}}');
+    expect(copy.T25).toBe('ZKSC株式会社「AIの仕事への見方の変化 — 第1号」https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol（最新採点 2026-10-01、参照日 {{accessed_on}}）。');
+    expect(copy.T25).not.toContain('{{issue_url}}');
     expect(copy.T25).toContain('{{accessed_on}}');
     expect(copy.rightsSections.flatMap(section => section.lines).join('\n')).not.toMatch(/\bT\d{2}\b/);
     expect(() => renderTemplate('T01', {})).toThrow('missing template variable');

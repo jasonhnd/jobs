@@ -139,7 +139,7 @@ export type FindingsData = ReturnType<typeof buildFindings>;
 export type FindingsRow = FindingsData['rows'][number];
 const cache = new Map<string, FindingsData>();
 export function loadFindings(issue: FindingsManifest): FindingsData {
-  const key = `${issue.issue_id}/${issue.dataset_version}`;
+  const key = `${issue.issue_id}/${issue.dataset_version}/${issue.status}/${issue.first_published_on ?? ''}/${issue.modified_on}`;
   if (cache.has(key)) return cache.get(key)!;
   const data = buildFindings(issue);
   for (const download of data.downloads) {
