@@ -103,6 +103,26 @@ describe('computeDriftReport', () => {
 });
 
 describe('riskBand / renderDriftMarkdown', () => {
+  test('keeps graph means raw and formats signed, absolute and dimension means half-even', () => {
+    const raw = computeDriftReport(
+      new Map([[1, sc(0, 8.75, 0)]]),
+      new Map([[1, sc(4.625, 4.125, 4.875)]]),
+      TITLES, OPTS,
+    );
+    assert.equal(raw.meanDriftT, 4.625);
+    assert.equal(raw.meanDriftD, -4.625);
+    assert.equal(raw.dimDrift[0], 4.875);
+    const md = renderDriftMarkdown(raw, {
+      baseModel: 'baseline', baseDate: '2026-01-01',
+      candModel: 'candidate', candDate: '2026-01-02', rankThreshold: 10,
+      baseMethodId: 'aiois-semantic-judgment', candMethodId: 'aiois-semantic-judgment',
+    });
+    assert.ok(md.includes('Mean transformation drift: **+4.62** (mean |drift| 4.62)'));
+    assert.ok(md.includes('Mean displacement drift: **-4.62** (mean |drift| 4.62)'));
+    assert.ok(md.includes('| D1 | +4.88 | 4.88 |'));
+    assert.equal(raw.meanDriftT, 4.625); // rendering must not mutate the graph result
+  });
+
   test('band boundaries', () => {
     assert.equal(riskBand(3.9), 'low');
     assert.equal(riskBand(7.0), 'high');

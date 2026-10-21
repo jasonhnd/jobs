@@ -64,6 +64,18 @@ function history(
 }
 
 describe('flagship switch drift', () => {
+  test('headline and reference means aggregate unrounded occupation scores', () => {
+    const summary = computeFlagshipSwitchDrift(
+      new Map([[1, history(4.1, 4.2, 4.3, 4.4, 4.0, 4.3)]]), INCOMING, new Map(), '2026-09-09',
+    );
+    assert.equal(summary.meanBefore, 4.2);
+    assert.equal(summary.meanAfter, 4.23); // (4.3 + 4.4 + 4.0) / 3, before display
+    assert.equal(summary.meanMedianWithIncoming, 4.25); // six-vote median, before display
+    assert.equal(summary.movers[0]!.after, 4.2);
+    assert.equal(summary.bandChanges, 0);
+    assert.equal(summary.absDeltaGe05, 0);
+  });
+
   test('synthetic 3-occupation history: 5-vote median vs 3-vendor mean with incoming Anthropic', () => {
     const occ1 = history(2, 4, 6, 8, 10, 9);
     const occ2 = history(4, 4, 5, 5, 6, 6.5);

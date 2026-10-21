@@ -20,6 +20,7 @@
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bankerRound } from '../src/data/lib/banker-round.js';
 export {
   computeDriftReport,
   riskBand,
@@ -41,7 +42,8 @@ const TOP_T_COUNT = 20;
 const TOP_RANK_COUNT = 20;
 const TOP_D_COUNT = 10;
 const f1 = (n: number): string => n.toFixed(1);
-const f2s = (n: number): string => `${n >= 0 ? '+' : ''}${n.toFixed(2)}`;
+const f2 = (n: number): string => bankerRound(n, 2).toFixed(2);
+const f2s = (n: number): string => `${n >= 0 ? '+' : ''}${f2(n)}`;
 
 function rowLine(r: DriftRow): string {
   return (
@@ -98,8 +100,8 @@ ${methodologyNote(meta)}
 ## Summary
 
 - Compared ids (common set): **${rep.comparedCount}**
-- Mean transformation drift: **${f2s(rep.meanDriftT)}** (mean |drift| ${rep.meanAbsDriftT.toFixed(2)})
-- Mean displacement drift: **${f2s(rep.meanDriftD)}** (mean |drift| ${rep.meanAbsDriftD.toFixed(2)})
+- Mean transformation drift: **${f2s(rep.meanDriftT)}** (mean |drift| ${f2(rep.meanAbsDriftT)})
+- Mean displacement drift: **${f2s(rep.meanDriftD)}** (mean |drift| ${f2(rep.meanAbsDriftD)})
 - Band crossings: **${rep.bandCrossCount} / ${rep.comparedCount}**
 - Manual review candidates: **${rep.manualReview.length}**（rank threshold ≥ ${meta.rankThreshold}）
 
@@ -107,7 +109,7 @@ ${methodologyNote(meta)}
 
 | dim | signed mean | mean abs |
 |---|---|---|
-${dims.map((d, k) => `| ${d} | ${f2s(rep.dimDrift[k]!)} | ${rep.dimAbsDrift[k]!.toFixed(2)} |`).join('\n')}
+${dims.map((d, k) => `| ${d} | ${f2s(rep.dimDrift[k]!)} | ${f2(rep.dimAbsDrift[k]!)} |`).join('\n')}
 
 ## Band movement（baseline 行 → candidate 列）
 
@@ -227,8 +229,8 @@ export function runDriftCli(argv: readonly string[], root: string): void {
 
   console.log(`[aiois-drift-report] OK → ${outPath}`);
   console.log(
-    `  compared=${report.comparedCount}  meanΔT=${f2s(report.meanDriftT)} (|${report.meanAbsDriftT.toFixed(2)}|)` +
-      `  meanΔD=${f2s(report.meanDriftD)} (|${report.meanAbsDriftD.toFixed(2)}|)`,
+    `  compared=${report.comparedCount}  meanΔT=${f2s(report.meanDriftT)} (|${f2(report.meanAbsDriftT)}|)` +
+      `  meanΔD=${f2s(report.meanDriftD)} (|${f2(report.meanAbsDriftD)}|)`,
   );
   console.log(`  band crossings=${report.bandCrossCount}  manual review=${report.manualReview.length} (rank≥${rankThreshold})`);
 }
