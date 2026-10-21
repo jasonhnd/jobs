@@ -26,6 +26,8 @@ import {
   MODELS_HUB_VENDORS_INTRO,
 } from '@/site/consensus-copy';
 import { stringifyJsonLd } from '@/lib/json-for-script';
+import { FINDINGS, findingsPath } from '@/site/findings/registry';
+import { findingsLinkTitle } from '@/site/findings/links';
 
 const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_deep.json'), 'utf-8');
 const projection = JSON.parse(projectionRaw);
@@ -209,6 +211,8 @@ a:hover{color:var(--orange-hot)}
         <a class="current-model-link" href={page.consensusSummary.latestModelHref}>{page.consensusSummary.latestModelDisplay} の分布を見る</a>
       </aside>
     </header>
+
+    <p><a href={findingsPath(FINDINGS[0]!)}>{findingsLinkTitle(FINDINGS[0]!)}</a></p>
 
     <section class="feature-section" aria-labelledby="models-vendors">
       <h2 id="models-vendors">{MODELS_HUB_VENDORS_HEADING}</h2>

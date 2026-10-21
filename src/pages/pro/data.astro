@@ -29,6 +29,8 @@ import {
 import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 import { CONTENT_DATE } from '@/lib/_content-date';
 import { stringifyJsonLd } from '@/lib/json-for-script';
+import { FINDINGS, findingsPath } from '@/site/findings/registry';
+import { findingsLinkTitle } from '@/site/findings/links';
 
 const UPDATE_HISTORY_CSS = `
 .update-history{margin:20px 0 28px;padding:12px 16px;border:1px solid var(--border);border-radius:9px;background:var(--bg2)}
@@ -151,6 +153,8 @@ const jsonLd = stringifyJsonLd({
         詳しくは<a href="/compliance#data-license">データ出典・利用条件</a>をご覧ください。
       </p>
     </header>
+
+    <p><a href={findingsPath(FINDINGS[0]!)}>{findingsLinkTitle(FINDINGS[0]!)}</a></p>
 
     <section class="doc-prose">
       <div class="callout">
