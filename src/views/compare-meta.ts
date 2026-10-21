@@ -199,7 +199,7 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
     title_ja: '看護師 vs 薬剤師',
     description_ja:
       'ともに医療系国家資格職だが、業務の中心 (患者ケア vs 調剤・服薬指導)、養成期間、年収、AI 影響度に差がある。' +
-      '6 年制薬学部を経る薬剤師と 3-4 年看護課程の看護師、初期投資から将来性まで比較。',
+      '6 年制薬学部を経る薬剤師と 3-4 年看護課程の看護師、初期投資から AI での変化まで比較。',
     comparison_points_ja: [
       '養成期間 (3-4 年 vs 6 年)',
       '業務の中心 (ケア vs 薬学知識)',

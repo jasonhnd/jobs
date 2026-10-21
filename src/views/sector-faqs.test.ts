@@ -96,23 +96,23 @@ describe('buildSectorFaqs', () => {
   test('Q5 (outlook) gated on meanRisk AND topLow both present', () => {
     // Has meanRisk, no topLow → Q5 skipped.
     const out1 = buildSectorFaqs({ ...baseInput, meanRisk: 3 });
-    assert.ok(!out1.some(([q]) => q.includes('将来性は')));
+    assert.ok(!out1.some(([q]) => q.includes('AIでどのくらい変わる？')));
     // Has topLow, no meanRisk → Q5 skipped.
     const out2 = buildSectorFaqs({
       ...baseInput,
       topLow: [{ titleJa: 'x', aiRisk: 1 }],
     });
-    assert.ok(!out2.some(([q]) => q.includes('将来性は')));
+    assert.ok(!out2.some(([q]) => q.includes('AIでどのくらい変わる？')));
   });
 
-  test('Q5 outlook copy: displayed mean < 4.0 → 比較的高い', () => {
+  test('Q5 outlook copy: displayed mean < 4.0 → smaller work changes', () => {
     const out = buildSectorFaqs({
       ...baseInput,
       meanRisk: 3.5,
       topLow: [{ titleJa: 'safe1', aiRisk: 1 }],
     });
-    const q5 = out.find(([q]) => q.includes('将来性は'))!;
-    assert.ok(q5[1].includes('代替されにくい職業が多く、将来性が比較的高い業界です。'));
+    const q5 = out.find(([q]) => q.includes('AIでどのくらい変わる？'))!;
+    assert.ok(q5[1].includes('AIで仕事の中身が変わる部分が小さい職業が多い業界です。'));
     assert.ok(!q5[1].includes('高いな業界'));
   });
 
@@ -122,9 +122,9 @@ describe('buildSectorFaqs', () => {
       meanRisk: 7.0,
       topLow: [{ titleJa: 'safe1', aiRisk: 1 }],
     });
-    const q5 = out.find(([q]) => q.includes('将来性は'))!;
+    const q5 = out.find(([q]) => q.includes('AIでどのくらい変わる？'))!;
     assert.ok(q5[1].includes('業界全体で AI による業務変化'));
-    assert.ok(q5[1].includes('代替リスクの確認が重要な業界です。'));
+    assert.ok(q5[1].includes('職業ごとの点数の確認が大切な業界です。'));
   });
 
   test('Q5 outlook copy: 4.0 and 6.5 stay in the middle band', () => {
@@ -134,7 +134,7 @@ describe('buildSectorFaqs', () => {
         meanRisk,
         topLow: [{ titleJa: 'safe1', aiRisk: 1 }],
       });
-      const q5 = out.find(([q]) => q.includes('将来性は'))!;
+      const q5 = out.find(([q]) => q.includes('AIでどのくらい変わる？'))!;
       assert.ok(q5[1].includes('個別に検討が必要な業界です。'), `meanRisk=${meanRisk}`);
     }
   });
@@ -145,7 +145,7 @@ describe('buildSectorFaqs', () => {
       meanRisk: 5.0,
       topLow: [{ titleJa: 'safe1', aiRisk: 1 }],
     });
-    const q5 = out.find(([q]) => q.includes('将来性は'))!;
+    const q5 = out.find(([q]) => q.includes('AIでどのくらい変わる？'))!;
     assert.ok(q5[1].includes('個別に検討が必要な業界です。'));
   });
 
@@ -164,6 +164,6 @@ describe('buildSectorFaqs', () => {
     assert.ok(out[1][0].includes('最も高い'));
     assert.ok(out[2][0].includes('最も低い'));
     assert.ok(out[3][0].includes('平均 AI 影響度は'));
-    assert.ok(out[4][0].includes('将来性は'));
+    assert.ok(out[4][0].includes('AIでどのくらい変わる？'));
   });
 });
