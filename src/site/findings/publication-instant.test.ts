@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'bun:test';
+import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -60,27 +61,27 @@ const rejected = [
 ];
 
 describe('Findings publication instant calendar and field ranges', () => {
-  test.each(accepted)('accepts %s', instant => {
+  for (const instant of accepted) test(`accepts ${instant}`, () => {
     expect(isPublicationInstant(instant)).toBe(true);
   });
 
-  test.each(rejected)('rejects %s', instant => {
+  for (const instant of rejected) test(`rejects ${JSON.stringify(instant)}`, () => {
     expect(isPublicationInstant(instant)).toBe(false);
   });
 });
 
 describe('Findings publication boundaries share strict validation', () => {
-  test.each(accepted)('preserves accepted instant %s', instant => {
+  for (const instant of accepted) test(`preserves accepted instant ${instant}`, () => {
     const published = applyFindingsPublication(issue, instant);
     expect(published.first_published_on).toBe(instant);
-    expect(publishedFindings([published])).toEqual([published]);
+    assert.deepEqual(publishedFindings([published]), [published]);
     expect(renderFindingsAtom([published])).toContain(`<published>${instant}</published>`);
     expect(atomInstant(instant)).toBe(instant);
   });
 
-  test.each(rejected)('refuses invalid publication %s', instant => {
+  for (const instant of rejected) test(`refuses invalid publication ${JSON.stringify(instant)}`, () => {
     expect(() => applyFindingsPublication(issue, instant)).toThrow('timezone');
-    expect(publishedFindings([{ ...issue, status: 'published', first_published_on: instant }])).toEqual([]);
+    assert.deepEqual(publishedFindings([{ ...issue, status: 'published', first_published_on: instant }]), []);
     expect(() => renderFindingsAtom([{ ...issue, first_published_on: instant }])).toThrow('timezone');
   });
 
@@ -108,7 +109,7 @@ describe('Findings publication boundaries share strict validation', () => {
     expect(atomInstant('2000-02-29')).toBe('2000-02-29T00:00:00+09:00');
   });
 
-  test.each(rejected)('CLI rejects %s before reading or writing a manifest', instant => {
+  for (const instant of rejected) test(`CLI rejects ${JSON.stringify(instant)} before reading or writing a manifest`, () => {
     const dir = mkdtempSync(join(tmpdir(), 'findings-cli-invalid-'));
     try {
       const result = spawnSync(process.execPath, [script, issue.issue_id, instant], { cwd: dir, encoding: 'utf8' });
@@ -121,7 +122,7 @@ describe('Findings publication boundaries share strict validation', () => {
     }
   });
 
-  test.each(accepted)('CLI records %s only in a temporary manifest', instant => {
+  for (const instant of accepted) test(`CLI records ${instant} only in a temporary manifest`, () => {
     const dir = mkdtempSync(join(tmpdir(), 'findings-cli-valid-'));
     const manifestDir = join(dir, 'data/findings', issue.issue_id);
     const path = join(manifestDir, 'manifest.json');
@@ -130,8 +131,8 @@ describe('Findings publication boundaries share strict validation', () => {
       writeFileSync(path, `${JSON.stringify(issue, null, 2)}\n`);
       const result = spawnSync(process.execPath, [script, issue.issue_id, instant], { cwd: dir, encoding: 'utf8' });
       expect(result.status).toBe(0);
-      expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual({ ...issue, status: 'published', first_published_on: instant });
-      expect(issue.first_published_on).toBeNull();
+      assert.deepEqual(JSON.parse(readFileSync(path, 'utf8')), { ...issue, status: 'published', first_published_on: instant });
+      expect(issue.first_published_on).toBe(null);
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
