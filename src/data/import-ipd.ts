@@ -21,7 +21,9 @@
  * a single canonical key order on every write).
  *
  * Usage:
- *   tsx src/data/import-ipd.ts [--numeric path] [--description path]
+ *   bun src/data/import-ipd.ts [--numeric path] [--description path]
+ *     [--retrieved-at YYYY-MM-DD]
+ * Retrieval requires an explicit date or provenance for the same source hashes.
  */
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
@@ -393,12 +395,13 @@ async function loadSheet(
 interface CliArgs {
   numericPath: string;
   descriptionPath: string;
+  retrievedAt?: string;
 }
 
-function parseArgs(): CliArgs {
-  const args = process.argv.slice(2);
+export function parseArgs(args = process.argv.slice(2)): CliArgs {
   let numericPath = DEFAULT_NUM_FP;
   let descriptionPath = DEFAULT_DESC_FP;
+  let retrievedAt: string | undefined;
   for (let i = 0; i < args.length; i += 1) {
     if (args[i] === '--numeric' && args[i + 1]) {
       numericPath = args[i + 1]!;
@@ -406,13 +409,70 @@ function parseArgs(): CliArgs {
     } else if (args[i] === '--description' && args[i + 1]) {
       descriptionPath = args[i + 1]!;
       i += 1;
+    } else if (args[i] === '--retrieved-at') {
+      retrievedAt = args[i + 1];
+      if (!retrievedAt || retrievedAt.startsWith('--')) {
+        throw new Error('--retrieved-at requires a YYYY-MM-DD date');
+      }
+      i += 1;
     }
   }
-  return { numericPath, descriptionPath };
+  return { numericPath, descriptionPath, retrievedAt };
+}
+
+interface IpdProvenance {
+  ipd_retrieved_at?: unknown;
+  ipd_retrieved_at_evidence?: unknown;
+  files?: {
+    numeric?: { sha256?: string };
+    description?: { sha256?: string };
+  };
+}
+
+/** Never substitute the import clock for a source download date. */
+export async function resolveRetrievalMetadata(
+  override: string | undefined,
+  provenancePath: string,
+  sourceHashes: { numeric: string; description: string },
+): Promise<{ retrievedAt: string; evidence?: string }> {
+  let previous: IpdProvenance | undefined;
+  try {
+    previous = JSON.parse(await readFile(provenancePath, 'utf-8')) as IpdProvenance;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
+
+  const retrievedAt = override ?? previous?.ipd_retrieved_at;
+  if (retrievedAt === undefined) {
+    throw new Error('IPD retrieval date is required: use --retrieved-at YYYY-MM-DD or record ipd_retrieved_at in provenance');
+  }
+  if (
+    typeof retrievedAt !== 'string' ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(retrievedAt) ||
+    !Number.isFinite(Date.parse(retrievedAt)) ||
+    new Date(retrievedAt).toISOString().slice(0, 10) !== retrievedAt
+  ) {
+    throw new Error('IPD retrieval date must be a valid YYYY-MM-DD date');
+  }
+
+  const sameSources = previous?.files?.numeric?.sha256 === sourceHashes.numeric &&
+    previous?.files?.description?.sha256 === sourceHashes.description;
+  if (override === undefined && !sameSources) {
+    throw new Error('IPD source hashes differ from provenance: supply --retrieved-at for these files');
+  }
+  const evidence = sameSources && retrievedAt === previous?.ipd_retrieved_at &&
+    typeof previous.ipd_retrieved_at_evidence === 'string'
+    ? previous.ipd_retrieved_at_evidence : undefined;
+  return { retrievedAt, ...(evidence === undefined ? {} : { evidence }) };
 }
 
 async function main(): Promise<void> {
-  const { numericPath, descriptionPath } = parseArgs();
+  const { numericPath, descriptionPath, retrievedAt: override } = parseArgs();
+  const numSha = await sha256OfFile(numericPath);
+  const descSha = await sha256OfFile(descriptionPath);
+  const { retrievedAt, evidence } = await resolveRetrievalMetadata(
+    override, PROVENANCE_FILE, { numeric: numSha, description: descSha },
+  );
 
   console.log(`Loading ${numericPath} ...`);
   const { rows: numData, sheetIdx: numIdx } = await loadSheet(
@@ -437,16 +497,14 @@ async function main(): Promise<void> {
 
   await mkdir(OUTPUT_DIR, { recursive: true });
 
-  console.log(`Computing source SHA256 ...`);
-  const numSha = await sha256OfFile(numericPath);
-  const descSha = await sha256OfFile(descriptionPath);
-
   const provenance = {
     ipd_version: IPD_VERSION,
     ipd_published_at: '2026-03-17',
     ipd_data_cut_numeric: '2026-02-10',
     ipd_data_cut_description: '2026-02-26',
-    ipd_retrieved_at: INGESTED_AT,
+    ipd_retrieved_at: retrievedAt,
+    ipd_ingested_at: INGESTED_AT,
+    ...(evidence === undefined ? {} : { ipd_retrieved_at_evidence: evidence }),
     files: {
       numeric: { name: numericPath.split(/[\\/]/).pop()!, sha256: numSha },
       description: { name: descriptionPath.split(/[\\/]/).pop()!, sha256: descSha },
@@ -562,7 +620,7 @@ async function main(): Promise<void> {
       data_source_versions: {
         ipd_numeric: IPD_VERSION,
         ipd_description: IPD_VERSION,
-        ipd_retrieved_at: INGESTED_AT,
+        ipd_retrieved_at: retrievedAt,
       },
       last_updated_per_section: buildLastUpdated(descRow, numRow),
     };
@@ -597,7 +655,9 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((err) => {
-  console.error('import-ipd crashed:', err);
-  process.exit(1);
-});
+if (import.meta.main) {
+  main().catch((err) => {
+    console.error('import-ipd crashed:', err);
+    process.exit(1);
+  });
+}

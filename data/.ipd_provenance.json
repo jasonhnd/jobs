@@ -3,7 +3,9 @@
   "ipd_published_at": "2026-03-17",
   "ipd_data_cut_numeric": "2026-02-10",
   "ipd_data_cut_description": "2026-02-26",
-  "ipd_retrieved_at": "2026-05-04",
+  "ipd_retrieved_at": "2026-05-02",
+  "ipd_ingested_at": "2026-05-04",
+  "ipd_retrieved_at_evidence": "Original XLSX mtime 2026-05-02 21:24–21:25 JST; SHA-256 matches the hashes recorded here.",
   "files": {
     "numeric": {
       "name": "IPD_DL_numeric_7_00.xlsx",

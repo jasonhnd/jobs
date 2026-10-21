@@ -366,8 +366,13 @@ describe('geo renderers', () => {
       assert.doesNotMatch(rendered, /data\.detail\/(?:<id>|\{id\})\.json/i, name);
     }
 
-    const parsed = JSON.parse(jsonld) as { '@graph': Array<{ '@type': string; dateModified?: string }> };
+    const parsed = JSON.parse(jsonld) as { '@graph': Array<{ '@type': string; dateModified?: string; license?: string }> };
     assert.equal(parsed['@graph'].find((n) => n['@type'] === 'WebSite')!.dateModified, '2026-06-13');
+    for (const type of ['WebSite', 'Dataset']) {
+      assert.equal(parsed['@graph'].find((n) => n['@type'] === type)!.license,
+        'https://mirai-shigoto.com/compliance#data-license');
+    }
+    assert.doesNotMatch(jsonld, /opensource\.org\/licenses\/MIT/);
     assert.doesNotMatch(jsonld, /__SCORE_/);
   });
 

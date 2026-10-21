@@ -43,6 +43,7 @@ const UPDATE_HISTORY_CSS = `
 // date for the same URL — two different answers for one page. Issue #219.
 const pageLastUpdated = CONTENT_DATE;
 const SITE = siteConfig.origin;
+const dataDescription = `日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアの JSON エンドポイント一覧。本サイトの採点と差分はMITライセンス、出典データはそれぞれの利用条件に従います。`;
 
 interface Endpoint {
   path: string;
@@ -86,8 +87,7 @@ const jsonLd = stringifyJsonLd({
       '@id': `${SITE}/pro/data#webpage`,
       name: `公開データセット — ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10`,
       url: `${SITE}/pro/data`,
-      description:
-        `日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアのオープンデータ（MIT ライセンス）。開発者・研究者・AI エージェント向けの JSON エンドポイント一覧。`,
+      description: dataDescription,
       inLanguage: 'ja',
       isPartOf: { '@id': `${SITE}/#website` },
       datePublished: '2026-06-05',
@@ -106,7 +106,7 @@ const jsonLd = stringifyJsonLd({
       url: `${SITE}/pro/data`,
       inLanguage: 'ja',
       isAccessibleForFree: true,
-      license: 'https://opensource.org/licenses/MIT',
+      license: `${SITE}/compliance#data-license`,
       creator: { '@id': `${SITE}/#organization` },
       isBasedOn: { '@id': `${SITE}/#dataset` },
       distribution,
@@ -123,12 +123,12 @@ const jsonLd = stringifyJsonLd({
 }, 2);
 ---
 <BaseLayout
-  title={`公開データセット — ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10（MIT ライセンス）| 未来の仕事`}
-  description={`日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアをオープンデータ（MIT）で公開。treemap・detail・search・sectors・skills など JSON エンドポイント一覧。開発者・研究者・AI エージェント向け。`}
+  title={`公開データセット — ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 | 未来の仕事`}
+  description={dataDescription}
   canonical={`${siteConfig.origin}/pro/data`}
   keywords={`オープンデータ, データセット, AIOIS-10, JSON, API, ${OCCUPATION_COUNT.SCORED} 職業, MIT, open data, dataset, 機械可読`}
   ogTitle={`公開データセット — ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10`}
-  ogDescription={`日本の ${OCCUPATION_COUNT.SCORED} 職業 × AIOIS-10 スコアを MIT ライセンスの JSON で公開。開発者・研究者・AI エージェント向けのエンドポイント一覧。`}
+  ogDescription={dataDescription}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={CANONICAL_DOC_CSS + UPDATE_HISTORY_CSS} />
@@ -144,13 +144,17 @@ const jsonLd = stringifyJsonLd({
       <h1><span class="accent">公開データセット</span></h1>
       <p class="lead">
         本サイトの全データ —— {OCCUPATION_COUNT.SCORED} の日本の職業を <a href="/pro/standard">AIOIS-10</a> 標準で採点したスコア（変化の大きさ・仕事が減るリスク + 10 次元）と、労働統計・スキル・セクター ——
-        を <strong>MIT ライセンス</strong>の構造化 JSON として公開しています。開発者・研究者・AI エージェントが自由に利用できます。
+        を構造化 JSON として公開しています。
+      </p>
+      <p>
+        AIOIS-10の採点と差分は本サイトの独自分析です。本サイトの採点と差分にはMITライセンスを適用します。出典データには、それぞれの利用条件が適用されます。
+        詳しくは<a href="/compliance#data-license">データ出典・利用条件</a>をご覧ください。
       </p>
     </header>
 
     <section class="doc-prose">
       <div class="callout">
-        <strong>ライセンス</strong>：MIT（コード + データビュー）。出典表記の上、自由に利用・再配布できます。<br />
+        <strong>ライセンス</strong>：本サイトの採点と差分はMITライセンス、出典データはそれぞれの利用条件に従います。<a href="/compliance#data-license">データ出典・利用条件</a>をご確認ください。<br />
         <strong>引用</strong>：ZKSC (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/<br />
         <strong>注意</strong>：{CONSENSUS_FAQ_SENTENCE}政府の公式予測ではありません。出典の労働統計は厚生労働省 jobtag ＋ JILPT IPD。
       </div>
