@@ -1,4 +1,4 @@
-## Signed Findings issue 1 — preview discovery, not a production publication
+## Signed Findings issue 1 — Issue #938 (preview discovery, not a production publication)
 
 - Treat the signed 2026-10-01 issue as discoverable. Drop page-level noindex
   on the three Findings HTML pages, list those URLs in the sitemap, and
