@@ -42,6 +42,10 @@ test('Findings structured dates, summary numbers, CSV bytes and machine exclusio
   await expect(page.locator('[data-claim="T06"]')).toContainText(copy.T06);
   await expect(page.locator('dt').filter({ hasText: copy.labels.meta[1] }).locator('..')).toContainText(issue.modified_on);
   await expect(page.locator('#findings-bibliography')).toHaveText(copy.T25);
+  // Connect only to the local mirror; exercise the existing preview Host rule.
+  const preview = await request.get(findingsPath(issue), { headers: { Host: 'pre.mirai-shigoto.com' } });
+  expect(preview.status()).toBe(200);
+  expect(preview.headers()['x-robots-tag']).toBe('noindex, nofollow');
   for (const file of data.downloads) {
     const response = await request.get(file.href);
     expect(response.status()).toBe(200);
@@ -65,6 +69,7 @@ test('Findings exact clipboard text uses the reader local day', async ({ browser
   await page.clock.install({ time: new Date('2026-10-21T15:10:00Z') });
   await page.goto(findingsPath(issue));
   const buttons = page.locator('[data-copy-target]');
+  expect(await buttons.nth(0).evaluate(button => button.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);
   await buttons.nth(0).click();
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(copy.citation);
   await expect(page.locator('[role="status"]').nth(0)).toHaveText(controls.copied);

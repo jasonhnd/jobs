@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-10-21T11:41:11.733Z",
-  "gitCommit": "bd06b43f0d3299570a6fb3cf882f1ae4f9a06fa3",
-  "gitBranch": "fix/job-0042-signed-legacy-copy",
-  "distFileCount": 1411,
-  "urlCount": 1411,
+  "capturedAt": "2026-10-21T12:26:32.595Z",
+  "gitCommit": "98ff3dabcb2f7470ba7f5f6a0431f0449a424ca7",
+  "gitBranch": "feat/job-0044-findings-v1",
+  "distFileCount": 1414,
+  "urlCount": 1414,
   "dataFileCount": 616,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

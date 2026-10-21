@@ -6,6 +6,8 @@ export const FINDINGS_CSS = `
 .findings p{max-width:none;margin:0}
 .findings h1,.findings h2,.findings h3,.findings h4{margin:0;padding:0;border:0}
 .findings a{text-underline-offset:.18em;text-decoration:underline}
+.findings h2 a,.findings h3 a,.findings h4 a,.findings-header p a{color:var(--ink)}
+.findings-header .findings-caption a{color:var(--ink-meta)}
 .findings a:focus-visible,.findings button:focus-visible{outline:2px solid var(--orange-hot);outline-offset:var(--s-1)}
 .findings-crumb{display:flex;align-items:center;gap:var(--s-2);font-size:var(--t-sm);color:var(--ink-meta);min-width:0}
 .findings-crumb a{color:var(--ink-meta);min-width:0}
@@ -24,7 +26,7 @@ export const FINDINGS_CSS = `
 .findings-caption{font-size:var(--t-xs);color:var(--ink-meta)}
 .findings-legend{display:flex;gap:var(--s-5);font-size:var(--t-sm);color:var(--ink);align-items:center}
 .findings-legend span{display:flex;align-items:center;gap:var(--s-2)}
-.findings-dot{display:inline-block;width:var(--s-3);height:var(--s-3);border:2px solid var(--ink-meta);border-radius:var(--r-pill);background:var(--paper)}
+.findings-dot{display:inline-block;width:var(--s-2);height:var(--s-2);border:2px solid var(--ink-meta);border-radius:var(--r-pill);background:var(--paper)}
 .findings-dot.after{border-color:var(--ink);background:var(--ink)}
 .findings-plot-row{display:flex;flex-direction:column;gap:var(--s-2)}
 .findings-plot-name{display:flex;justify-content:space-between;gap:var(--s-3);font-size:var(--t-sm);color:var(--ink)}

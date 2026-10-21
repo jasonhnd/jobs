@@ -62,7 +62,7 @@ const metadata = [issue.first_published_on ?? '—', issue.modified_on, issue.in
       <aside class="findings-notes">{[copy.T16, copy.T17, copy.T18, copy.T19].map(text => <p>{text}</p>)}</aside>
       <section class="findings-section" aria-labelledby="chart-title">
         <figure class="findings-chart" aria-describedby="chart-description chart-alternative">
-          <h2 id="chart-title">{copy.T26}</h2>
+          <h3 id="chart-title">{copy.T26}</h3>
           <div class="findings-legend"><span><i class="findings-dot" aria-hidden="true" />{copy.labels.chart[2]}</span><span><i class="findings-dot after" aria-hidden="true" />{copy.labels.chart[3]}</span></div>
           {data.chartRows.map(row => <div class="findings-plot-row" data-chart-occupation={row.id}>
             <div class="findings-plot-name"><a href={occupationRoute(row.id, 'pro').pagePath}>{row.title}</a><span>{signed(row.delta)}</span></div>
