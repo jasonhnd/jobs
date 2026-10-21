@@ -27,8 +27,25 @@ for (const route of routes) {
       return texts;
     });
     expect(unexpectedJapanese(texts, data, route.endsWith('/rights'))).toEqual([]);
+    const visibleText = await page.locator('body').innerText();
+    expect(visibleText).not.toMatch(/\bT\d{2}\b/);
+    expect(visibleText).not.toMatch(/:\d+-L\d+/);
   });
 }
+
+test('Findings evidence uses existing headings and readable ranges with pinned anchors', async ({ page }) => {
+  await page.goto(findingsPath(issue));
+  const sources = page.locator('#sources .findings-evidence');
+  const lines = [3, 4, 12, 9, 12, 12, '10-L11', data.reportRows[data.up[0]!.id], data.reportRows[data.down[0]!.id], data.reportRows[copy.citationRow.id]];
+  const references = lines.map(line => `${issue.report.path}:${line === '10-L11' ? '10-11' : line}`);
+  await expect(sources.locator('dt')).toHaveText([
+    references[0]!, references[1]!, references[2]!, copy.T05, copy.T07, copy.T07,
+    copy.T10, copy.T12, copy.T14, references[9]!,
+  ]);
+  await expect(sources.locator('dd')).toHaveText(references);
+  const hrefs = await sources.locator('a').evaluateAll(links => links.map(link => link.getAttribute('href')));
+  expect(hrefs).toEqual(lines.map(line => `https://github.com/jasonhnd/jobs/blob/${issue.snapshot_commit}/${issue.report.path}#L${line}`));
+});
 
 test('Findings structured dates, summary numbers, CSV bytes and machine exclusion', async ({ page, request }) => {
   await page.goto(findingsPath(issue));

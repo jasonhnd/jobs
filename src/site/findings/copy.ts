@@ -43,7 +43,7 @@ export function findingsCopy(data: FindingsData) {
   };
   const citation = `${copy.T21}${copy.T22}${copy.T23}`;
   const rightsSections = rights.map(section => ({ heading: section.heading, lines: section.lines.map(line =>
-    'template' in line ? copy[line.template as TemplateId] : line.text!) }));
+    'template' in line ? copy[line.template as TemplateId] : line.text!.replace('（[T20–T25]）', '')) }));
   return { ...copy, labels, citation, citationRow, rightsSections, issueLabel: copy.T01.split(' — ')[1]!,
     upSentence: copy[data.up.length ? 'T13a' : 'T13b'], downSentence: copy[data.down.length ? 'T15a' : 'T15b'] };
 }

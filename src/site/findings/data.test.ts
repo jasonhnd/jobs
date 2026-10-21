@@ -70,6 +70,7 @@ describe('Findings template contract', () => {
     expect(copy.T41).toContain(`より${data.provenance.ipd_retrieved_at}にダウンロード`);
     expect(copy.T25).toContain('{{issue_url}}');
     expect(copy.T25).toContain('{{accessed_on}}');
+    expect(copy.rightsSections.flatMap(section => section.lines).join('\n')).not.toMatch(/\bT\d{2}\b/);
     expect(() => renderTemplate('T01', {})).toThrow('missing template variable');
   });
 
@@ -82,5 +83,8 @@ describe('Findings template contract', () => {
     const legal = copy.rightsSections[0]!.lines[0]!;
     assert.deepEqual(unexpectedJapanese([legal], data), [legal]);
     assert.deepEqual(unexpectedJapanese([legal], data, true), []);
+    const citation = copy.rightsSections[4]!.lines[0]!;
+    assert.deepEqual(unexpectedJapanese([citation], data, true), []);
+    assert.deepEqual(unexpectedJapanese([citation + added], data, true), [citation + added]);
   });
 });
