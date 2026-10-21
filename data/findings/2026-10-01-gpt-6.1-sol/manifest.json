@@ -1,0 +1,118 @@
+{
+  "issue_id": "2026-10-01-gpt-6.1-sol",
+  "issue_number": 1,
+  "status": "draft",
+  "template_version": "findings-ja-v1-draft",
+  "first_published_on": null,
+  "modified_on": "2026-10-21",
+  "incoming_run_date": "2026-10-01",
+  "standard_version": "AIOIS-10 v1.0",
+  "dataset_version": "r1",
+  "snapshot_commit": "813a6308cda7dc81f99b4ea98c472522757b1618",
+  "report": {
+    "path": "docs/VENDOR_UPDATE_DRIFT_gpt-6.1-sol_2026-10-01.md",
+    "sha256": "9c6b9c0cf518b469ad12331b8db75b0ded0c4fc212eec6c9bf2f9ea78e879aae",
+    "generated_on": "2026-09-30"
+  },
+  "occupations": {
+    "path": "data/findings/2026-10-01-gpt-6.1-sol/occupations.json",
+    "sha256": "034d16acb68964c1c3ddf83900528f4d1abfe413a326151b1227eeae73a7414f"
+  },
+  "provenance": {
+    "path": "data/findings/2026-10-01-gpt-6.1-sol/ipd-provenance.json",
+    "sha256": "5eb8bffffdf0e086e3ce3672200f4d4699c0ea30155d2997e726f3e1e0865f98",
+    "source_path": "data/.ipd_provenance.json"
+  },
+  "panels": {
+    "before": [
+      {
+        "provider": "xai",
+        "model_id": "grok-4.7",
+        "run_date": "2026-09-22",
+        "batch_file": "data/scores/occupations_grok-4.7_2026-09-22.json",
+        "batch_sha256": "df6e2c5ae7a0272caafb8a73d77cdebdd3abc888f2f73849b1b75e09e012ffaa",
+        "scoring_method_id": "aiois-semantic-judgment",
+        "prompt_file": "data/prompts/2026-09-22_grok-4.7-aiois10.ja.md",
+        "prompt_sha256": "854533769f1920c67440d80958490fc353b359a8795b97e85dcef041d11b766f",
+        "backfill": false
+      },
+      {
+        "provider": "anthropic",
+        "model_id": "claude-opus-5-5",
+        "run_date": "2026-09-23",
+        "batch_file": "data/scores/occupations_claude-opus-5-5_2026-09-23.json",
+        "batch_sha256": "7ecd0af8f5ac0b75a6860b5edad797a82a69fdf7bc08a9f8fa317c04ac66d53a",
+        "scoring_method_id": "aiois-semantic-judgment",
+        "prompt_file": "data/prompts/2026-09-23_claude-opus-5-5-aiois10.ja.md",
+        "prompt_sha256": "3b7b2f83bf88bfe0e374945bf013258a9feb8841e5c47d12f02a2000b9dd8687",
+        "backfill": false
+      },
+      {
+        "provider": "openai",
+        "model_id": "gpt-6-sol",
+        "run_date": "2026-09-23",
+        "batch_file": "data/scores/occupations_gpt-6-sol_2026-09-23.json",
+        "batch_sha256": "b4516815a81ae476d504c007c9e8425342f47e538740ee40ac76fe62063fb97e",
+        "scoring_method_id": "aiois-semantic-judgment",
+        "prompt_file": "data/prompts/2026-09-23_gpt-6-sol-aiois10.ja.md",
+        "prompt_sha256": "2570029f962bc9f4df0f7b9256ff77bc73dbce0f3bc065ce2faf9140f715fff3",
+        "backfill": false
+      }
+    ],
+    "after": [
+      {
+        "provider": "xai",
+        "model_id": "grok-4.7",
+        "run_date": "2026-09-22",
+        "batch_file": "data/scores/occupations_grok-4.7_2026-09-22.json",
+        "batch_sha256": "df6e2c5ae7a0272caafb8a73d77cdebdd3abc888f2f73849b1b75e09e012ffaa",
+        "scoring_method_id": "aiois-semantic-judgment",
+        "prompt_file": "data/prompts/2026-09-22_grok-4.7-aiois10.ja.md",
+        "prompt_sha256": "854533769f1920c67440d80958490fc353b359a8795b97e85dcef041d11b766f",
+        "backfill": false
+      },
+      {
+        "provider": "anthropic",
+        "model_id": "claude-opus-5-5",
+        "run_date": "2026-09-23",
+        "batch_file": "data/scores/occupations_claude-opus-5-5_2026-09-23.json",
+        "batch_sha256": "7ecd0af8f5ac0b75a6860b5edad797a82a69fdf7bc08a9f8fa317c04ac66d53a",
+        "scoring_method_id": "aiois-semantic-judgment",
+        "prompt_file": "data/prompts/2026-09-23_claude-opus-5-5-aiois10.ja.md",
+        "prompt_sha256": "3b7b2f83bf88bfe0e374945bf013258a9feb8841e5c47d12f02a2000b9dd8687",
+        "backfill": false
+      },
+      {
+        "provider": "openai",
+        "model_id": "gpt-6.1-sol",
+        "run_date": "2026-10-01",
+        "batch_file": "data/scores/occupations_gpt-6.1-sol_2026-10-01.json",
+        "batch_sha256": "d0e47435cfe4e8b81b56aaecf88833d601deec2e6a8c2ec69dd664e1b8de6ece",
+        "scoring_method_id": "aiois-semantic-judgment",
+        "prompt_file": "data/prompts/2026-10-01_gpt-6.1-sol-aiois10.ja.md",
+        "prompt_sha256": "62ce6257a8d90e54953c324c2a4a35348eefe4cd2ece426fcf62e6e0dd02e044",
+        "backfill": false
+      }
+    ]
+  },
+  "downloads": {
+    "scores.csv": {
+      "bytes": 532047,
+      "sha256": "50d3bd91af6fcda56ec275821eeffb03ede423baf93f30e3a6726ce7d4d779ea"
+    },
+    "summary.csv": {
+      "bytes": 408,
+      "sha256": "9b0bd608054f6380d60b99546794e9a8cb2183bd7fa01cd28b170e2e0dd15196"
+    },
+    "panel.csv": {
+      "bytes": 1326,
+      "sha256": "4a37c384a3e26a1e1e699816fcc5003fded81de7a789153a7ac94e68eab4e37b"
+    },
+    "provenance.csv": {
+      "bytes": 2651,
+      "sha256": "735e60f92b671ad93d04030a8ea50faf6510499985751cca7aec8d49564a7eb7"
+    }
+  },
+  "template_signed": false,
+  "rights_signed": false
+}

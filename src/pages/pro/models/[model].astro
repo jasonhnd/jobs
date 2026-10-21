@@ -8,6 +8,8 @@ import { runFromSlug } from '@/site/score-attribution';
 import { MODELS_RUN_HISTORY_NOTE, MODELS_RUN_IN_PANEL_NOTE } from '@/site/consensus-copy';
 import { knownRuns, loadModelBatchMetas, type ModelBatchMeta } from '../../models/_model-route-data';
 import { bandLabel, buildModelRunPageModel, scoreText, signedScore } from '@/views/model-run-page';
+import { findingsForRun, findingsPath } from '@/site/findings/registry';
+import { findingsLinkTitle } from '@/site/findings/links';
 
 interface Props {
   readonly modelId: string;
@@ -126,6 +128,8 @@ const {
         </div>
       </aside>
     </header>
+
+    {findingsForRun(modelId, batchMeta.date).map(issue => <p><a href={findingsPath(issue)}>{findingsLinkTitle(issue)}</a></p>)}
 
     <section class="section" aria-labelledby="distribution">
       <h2 id="distribution">スコア分布</h2>
