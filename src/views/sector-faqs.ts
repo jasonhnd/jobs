@@ -117,16 +117,16 @@ export function buildSectorFaqs(input: SectorFaqsInput): readonly SectorFaqItem[
       .join('、');
     let outlook: string;
     if (shownMean < 4.0) {
-      outlook = 'AIに代替されにくい職業が多く、将来性が比較的高い';
+      outlook = 'AIで仕事の中身が変わる部分が小さい職業が多い';
     } else if (shownMean >= 7.0) {
-      outlook = '業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要な';
+      outlook = '業界全体で AI による業務変化が見込まれ、職業ごとの点数の確認が大切な';
     } else {
       outlook = '職業によって AI 影響度に差があり、個別に検討が必要な';
     }
     faqs.push([
-      `${nameJa}業界の将来性は？`,
+      `${nameJa}業界は、AIでどのくらい変わる？`,
       `平均 AI 影響度 ${formatShownMeanLabel(shownMean)} で、${outlook}業界です。` +
-        `特に AI リスクが低い職業として ${safeJobsStr} などが挙げられます。`,
+        `特に点数が低い職業として ${safeJobsStr} などが挙げられます。`,
     ]);
   }
 
