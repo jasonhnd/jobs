@@ -1,4 +1,5 @@
 # 旗艦入れ替え drift（mms-8.34）
+Correction: the correct count for |Δ| ≥ 0.5 is 63; the recorded 62 missed id 52 (4.1→3.6) because of floating-point comparison error. Integer-tenths comparison gives 63. See #930.
 
 生成: 2026-09-22 / incoming: grok-4.7@2026-09-22
 vendor swapped: xAI grok-4.6@2026-09-07 → grok-4.7@2026-09-22
