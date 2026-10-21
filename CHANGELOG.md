@@ -1,3 +1,23 @@
+## Draft Findings issue 1 — Issue #934 (preview review only)
+
+- Add the Findings index, the 2026-10-01 GPT-6.1 SOL comparison and its
+  field-level rights page. Japanese template and rights copy remain unsigned;
+  owner signature and separate production approval are required before main.
+- Freeze the historical three-vendor panels, occupation/source snapshots and
+  four revisioned CSV hashes. Use canonical drift arithmetic and verify the
+  archival report; omit salary, employment counts and evaluation rationales.
+- Add only the Pro home/data/model entry links. Drafts have self-canonicals
+  and noindex, stay outside sitemap/llms/feed, and do not create subscriptions.
+- Refresh SEO baselines for the three new draft HTML pages and five new Pro
+  entry links. Sitemap, existing metadata/JSON-LD and ordinary page sources
+  remain unchanged. Build adds only the new citation script CSP hash; the
+  Findings stylesheet uses the existing style policy. Analytics script bytes
+  and redirect rules stay fixed.
+- The shared serif subset gains four heading glyphs from the new pages;
+  generated protected HTML differs only in its font asset hash and existing
+  footer build timestamp. Three-width renders and a normalized full protected
+  HTML comparison are recorded with local acceptance evidence in the PR.
+
 ## Signed legacy copy batch 1 — Issue #927 (Owner signed 2026-10-21)
 
 - Apply the approved 404, sector, Pro Q&A, annual-report and comparison
