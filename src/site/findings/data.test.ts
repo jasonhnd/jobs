@@ -59,9 +59,12 @@ describe('frozen Findings issue 1', () => {
 });
 
 describe('Findings template contract', () => {
-  test('pins the verbatim unsigned Japanese template and Legal draft', () => {
+  test('pins the verbatim signed Japanese template and rights page', () => {
     assert.equal(sha256(readFileSync('src/content/findings.ja.json')), '0e51b1fe9e06fba20aa5add835532515602e9fb52b985867a3ba54e8ee01c3ab');
-    assert.equal(sha256(readFileSync('src/content/findings-rights.ja.json')), 'e32d5c108c6368a28caea939c490f5eef5b9bf5e2316a62d7c2651f99cefcd2a');
+    assert.equal(sha256(readFileSync('src/content/findings-rights.ja.json')), '2f9bcd49794aa552f8216b1951092f882608e37fe7d237fb38ebc7e606b08ef5');
+    const citation = findingsCopy(data).rightsSections.find(section => section.heading === '引用するとき')!.lines[0];
+    assert.equal(citation, 'ページ上の「引用する場合」の書式を使ってください。データだけを使う場合も、第1部分と第2部分の両方の出典を残してください。');
+    assert.equal(readFileSync('src/content/findings-rights.ja.json', 'utf8').includes('（[T20–T25]）'), false);
   });
   test('keeps copy variables from raw totals, source provenance and frozen panel only', () => {
     const copy = findingsCopy(data);
