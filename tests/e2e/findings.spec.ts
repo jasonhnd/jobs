@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { FINDINGS, findingsPath, rightsPath, findingsUrl } from '../../src/site/findings/registry';
 import { loadFindings } from '../../src/site/findings/data';
 import { findingsCopy, unexpectedJapanese, controls } from '../../src/site/findings/copy';
+import { FINDINGS_ATOM_PATH, renderFindingsAtom } from '../../src/site/findings/atom';
 
 const issue = FINDINGS[0]!;
 const data = loadFindings(issue);
@@ -11,10 +13,14 @@ const copy = findingsCopy(data);
 const routes = ['/pro/findings', findingsPath(issue), rightsPath(issue)];
 
 for (const route of routes) {
-  test(`Findings verbatim Japanese and draft canonical: ${route}`, async ({ page }) => {
+  test(`Findings verbatim Japanese and signed canonical: ${route}`, async ({ page }) => {
     expect((await page.goto(route))?.status()).toBe(200);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://mirai-shigoto.com${route}`);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
+    const feed = page.locator('link[rel="alternate"][type="application/atom+xml"]');
+    await expect(feed).toHaveCount(1);
+    await expect(feed).toHaveAttribute('href', FINDINGS_ATOM_PATH);
+    await expect(feed).toHaveAttribute('title', copy.T44);
     const texts = await page.locator('[data-findings-copy]').evaluate(root => {
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
       const texts: string[] = [];
@@ -39,8 +45,8 @@ test('Findings evidence uses existing headings and readable ranges with pinned a
   const lines = [3, 4, 12, 9, 12, 12, '10-L11', data.reportRows[data.up[0]!.id], data.reportRows[data.down[0]!.id], data.reportRows[copy.citationRow.id]];
   const references = lines.map(line => `${issue.report.path}:${line === '10-L11' ? '10-11' : line}`);
   await expect(sources.locator('dt')).toHaveText([
-    references[0]!, references[1]!, references[2]!, copy.T05, copy.T07, copy.T07,
-    copy.T10, copy.T12, copy.T14, references[9]!,
+    '', '', '', copy.T05, copy.T07, copy.T07,
+    copy.T10, copy.T12, copy.T14, '',
   ]);
   await expect(sources.locator('dd')).toHaveText(references);
   const hrefs = await sources.locator('a').evaluateAll(links => links.map(link => link.getAttribute('href')));
@@ -72,11 +78,53 @@ test('Findings structured dates, summary numbers, CSV bytes and machine exclusio
     expect(bytes.toString('utf8')).toBe(file.text);
     expect(createHash('sha256').update(bytes).digest('hex')).toBe(file.sha256);
   }
+  const htmlUrls = ['/pro/findings', findingsPath(issue), rightsPath(issue)];
   for (const file of ['sitemap.xml', 'llms.txt', 'llms-full.txt']) {
-    expect(readFileSync(`dist-astro/${file}`, 'utf8')).not.toContain('/pro/findings');
+    const text = readFileSync(`dist-astro/${file}`, 'utf8');
+    for (const url of htmlUrls) expect(text).toContain(url);
   }
-  expect(existsSync('dist-astro/pro/findings/atom.xml')).toBe(false);
-  await expect(page.locator('a[href$="atom.xml"],link[type="application/atom+xml"]')).toHaveCount(0);
+  expect(readFileSync('dist-astro/sitemap.xml', 'utf8')).not.toContain('atom.xml');
+  const atom = readFileSync(`dist-astro${FINDINGS_ATOM_PATH}`, 'utf8');
+  expect(atom).toBe(renderFindingsAtom());
+  expect(atom).not.toContain('<published>');
+  expect(atom).not.toContain('{{');
+  const parsed = spawnSync('python3', ['-c', `
+import json, sys, xml.etree.ElementTree as ET
+ns = {"a": "http://www.w3.org/2005/Atom"}
+root = ET.fromstring(sys.stdin.read())
+def text(el, name):
+    node = el.find(f"a:{name}", ns)
+    return None if node is None else node.text
+entry = root.find("a:entry", ns)
+self_link = root.find("a:link[@rel='self']", ns)
+alt = entry.find("a:link[@rel='alternate']", ns)
+print(json.dumps({
+  "id": text(root, "id"), "title": text(root, "title"), "updated": text(root, "updated"),
+  "self": None if self_link is None else self_link.get("href"),
+  "entry_id": text(entry, "id"), "entry_title": text(entry, "title"),
+  "published": text(entry, "published"), "summary": text(entry, "summary"),
+  "link": None if alt is None else alt.get("href"),
+}))
+`], { input: atom, encoding: 'utf8' });
+  expect(parsed.status, parsed.stderr).toBe(0);
+  expect(JSON.parse(parsed.stdout)).toEqual({
+    id: 'https://mirai-shigoto.com/pro/findings',
+    title: copy.T44,
+    updated: '2026-10-21T00:00:00+09:00',
+    self: `https://mirai-shigoto.com${FINDINGS_ATOM_PATH}`,
+    entry_id: findingsUrl(issue),
+    entry_title: copy.T43,
+    published: null,
+    summary: copy.T42,
+    link: findingsUrl(issue),
+  });
+  await page.goto('/pro/findings');
+  await expect(page.locator(`a[href="${FINDINGS_ATOM_PATH}"]`)).toHaveText(copy.labels.links[6]);
+  await page.goto(rightsPath(issue));
+  await expect(page.locator('main')).toContainText('ページ上の「引用する場合」の書式を使ってください。データだけを使う場合も、第1部分と第2部分の両方の出典を残してください。');
+  expect(await page.locator('main').innerText()).not.toContain('（[T20–T25]）');
+  await page.goto(findingsPath(issue));
+  await expect(page.locator('a[href$="atom.xml"]')).toHaveCount(0);
 });
 
 test('Findings exact clipboard text uses the reader local day', async ({ browser, baseURL }) => {

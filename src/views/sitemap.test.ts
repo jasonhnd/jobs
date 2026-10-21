@@ -184,6 +184,12 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
     const entries = buildSitemapEntries(graph, '2026-06-13');
     const locations = entries.map((entry) => entry.loc);
 
+    assert.deepEqual(entries.filter(row => row.loc.includes('/pro/findings')).map(row => [row.loc, row.lastmod]), [
+      ['https://mirai-shigoto.com/pro/findings', '2026-10-21'],
+      ['https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol', '2026-10-21'],
+      ['https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol/rights', '2026-10-21'],
+    ]);
+    assert.equal(locations.some(loc => loc.endsWith('/atom.xml') || loc.endsWith('.csv')), false);
     assert.ok(locations.includes('https://mirai-shigoto.com/occupations/404'));
     assert.ok(locations.includes('https://mirai-shigoto.com/pro/404'));
     assert.equal(new Set(locations).size, locations.length);
