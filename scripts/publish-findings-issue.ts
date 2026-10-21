@@ -10,9 +10,10 @@
  * The instant must include a timezone. A scoring date is not accepted.
  */
 import { writePublishedManifest } from '../src/site/findings/publish';
+import { isPublicationInstant } from '../src/site/findings/publication-instant';
 
 const [issueId, instant] = process.argv.slice(2);
-if (!issueId || !instant || !/^[a-z0-9][a-z0-9.-]*$/i.test(issueId)) {
+if (!issueId || !instant || !/^[a-z0-9][a-z0-9.-]*$/i.test(issueId) || !isPublicationInstant(instant)) {
   console.error('Usage: bun scripts/publish-findings-issue.ts <issue_id> <rfc3339-with-timezone>');
   process.exit(2);
 }
