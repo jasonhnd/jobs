@@ -17,7 +17,7 @@ describe('findings llms appendix', () => {
     const once = withFindingsLlms(stub);
     expect(once).toBe(withFindingsLlms(once));
     for (const url of urls) expect(once).toContain(url);
-    expect(once.indexOf(FINDINGS_ATOM_PATH)).toBeLessThan(once.indexOf('## Methodology'));
+    expect(once.indexOf(FINDINGS_ATOM_PATH) < once.indexOf('## Methodology')).toBe(true);
     expect(once.startsWith('# title\n')).toBe(true);
     const full = withFindingsLlmsFull('facts\n');
     expect(full).toBe(withFindingsLlmsFull(full));
