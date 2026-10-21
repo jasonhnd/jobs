@@ -1,5 +1,5 @@
 import { riskBand, type RiskBand } from '../../src/data/lib/bands.js';
-import { displayScore } from '../../src/data/lib/banker-round.js';
+import { bankerRound, displayScore } from '../../src/data/lib/banker-round.js';
 import { fmean } from '../../src/data/lib/fsum.js';
 import type { ScoreHistEntry } from '../../src/graph/score-strategy.js';
 import { LATEST_OBSERVATION_THRESHOLD } from '../../src/site/consensus-copy.js';
@@ -44,9 +44,6 @@ interface DriftScores {
 interface DriftStrategy<T extends DriftScores> {
   readonly comparableOf: (history: readonly ScoreHistEntry[]) => ScoreHistEntry[];
   readonly selectScores: (comparable: ScoreHistEntry[], withoutIncoming: ScoreHistEntry[]) => T;
-  // Preserve each tool's historical aggregate basis. Deltas and bands always
-  // use displayScore; the latest-line threshold always uses unrounded values.
-  readonly meanBasis: 'displayed' | 'unrounded';
 }
 
 interface DriftComputation<T extends DriftScores> {
@@ -56,7 +53,7 @@ interface DriftComputation<T extends DriftScores> {
 }
 
 export function driftMean(values: readonly number[]): number {
-  return Math.round(fmean(values) * 100) / 100;
+  return bankerRound(fmean(values), 2);
 }
 
 /** Shared traversal and statistics; score eligibility/selection stay with callers. */
@@ -113,8 +110,9 @@ export function computeDrift<T extends DriftScores>(
       continue;
     }
 
-    beforeVals.push(strategy.meanBasis === 'displayed' ? before : beforeUnrounded);
-    afterVals.push(strategy.meanBasis === 'displayed' ? after : afterUnrounded);
+    // Aggregate raw scores; only deltas and bands use the displayed endpoints.
+    beforeVals.push(beforeUnrounded);
+    afterVals.push(afterUnrounded);
     selectedScores.push(scores);
     if (absTenths >= 5) absDeltaGe05 += 1;
     if (absTenths >= 10) absDeltaGe10 += 1;
