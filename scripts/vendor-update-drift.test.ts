@@ -3,6 +3,7 @@ import { strict as assert } from 'node:assert';
 
 import { displayScore } from '../src/data/lib/banker-round.js';
 import { fmean } from '../src/data/lib/fsum.js';
+import { buildIndexes } from '../src/data/lib/indexes.js';
 import { pickFlagshipMeanScore, type ScoreHistEntry } from '../src/graph/score-strategy.js';
 import type { Aiois10 } from '../src/graph/types.js';
 import {
@@ -34,6 +35,37 @@ function vote(model: string, provider: string, date: string, transformation: num
 }
 
 const INCOMING = 'claude-fable-5-1';
+
+describe('historical vendor-update drift', () => {
+  for (const { model, date, means, bandChanges, ge05, ge10 } of [
+    { model: 'gpt-6.1-sol', date: '2026-10-01', means: [4.55, 4.68], bandChanges: 34, ge05: 12, ge10: 0 },
+    { model: 'grok-4.7', date: '2026-09-22', means: [4.69, 4.54], bandChanges: 43, ge05: 63, ge10: 1 },
+  ]) {
+    test(`${model} reproduces its landing-day panel from append-only history`, async () => {
+      const { indexes, errors } = await buildIndexes();
+      assert.deepEqual(errors, []);
+      // Later batches must not take seats in the historical period's panel.
+      const histories = new Map([...indexes.historyByOcc].map(([id, entries]) =>
+        [id, entries.filter((entry) => entry.date <= date)] as const,
+      ));
+      const summary = computeVendorUpdateDrift(histories, model, new Map(), date);
+      assert.equal(summary.occupationCount, 556);
+      assert.deepEqual(summary.skippedOccupationIds, []);
+      assert.deepEqual([summary.meanBefore, summary.meanAfter], means);
+      assert.equal(summary.bandChanges, bandChanges);
+      assert.equal(summary.absDeltaGe05, ge05);
+      assert.equal(summary.absDeltaGe10, ge10);
+
+      if (model === 'grok-4.7') {
+        const row = summary.movers.find((m) => m.id === 52)!;
+        assert.deepEqual([row.before, row.after, row.delta], [4.1, 3.6, -0.5]);
+        assert.ok(Math.abs(row.after - row.before) < 0.5);
+        // The old float comparison omitted id 52, explaining the archived 62.
+        assert.equal(summary.movers.filter((m) => Math.abs(m.after - m.before) >= 0.5).length, 62);
+      }
+    });
+  }
+});
 
 /** Three vendor flagships + a newer Anthropic run that replaces Opus 5. */
 function panel(opus5: number, sol: number, grok: number, incoming: number): ScoreHistEntry[] {
