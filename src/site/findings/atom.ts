@@ -2,7 +2,8 @@ import templates from '../../content/findings.ja.json' with { type: 'json' };
 import { siteConfig } from '../config';
 import { findingsCopy } from './copy';
 import { loadFindings } from './data';
-import { atomInstant, PUBLICATION_INSTANT } from './publish';
+import { atomInstant } from './publish';
+import { isPublicationInstant } from './publication-instant';
 import { discoverableFindings, FINDINGS, findingsUrl, type FindingsManifest } from './registry';
 
 export const FINDINGS_ATOM_PATH = '/pro/findings/atom.xml';
@@ -20,7 +21,7 @@ function entryXml(issue: FindingsManifest): string {
   const copy = findingsCopy(loadFindings(issue));
   const url = findingsUrl(issue);
   const published = issue.first_published_on;
-  if (published !== null && !PUBLICATION_INSTANT.test(published)) {
+  if (published !== null && !isPublicationInstant(published)) {
     throw new Error('findings: first_published_on must be an RFC 3339 instant with a timezone');
   }
   const content = [copy.T06, copy.T08, copy.T11].join('\n');
