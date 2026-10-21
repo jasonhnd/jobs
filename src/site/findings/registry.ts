@@ -16,7 +16,7 @@ export interface FindingsPanelRun {
 export interface FindingsManifest {
   readonly issue_id: string;
   readonly issue_number: number;
-  readonly status: 'draft' | 'published';
+  readonly status: 'draft' | 'signed' | 'published';
   readonly template_version: string;
   readonly template_signed: boolean;
   readonly rights_signed: boolean;
@@ -43,8 +43,20 @@ export const rightsPath = (issue: FindingsManifest) => `${findingsPath(issue)}/r
 export const downloadPath = (issue: FindingsManifest, file: CsvFile) =>
   `/data.findings/${issue.issue_id}/${issue.dataset_version}/${file}.csv`;
 
+const PUBLICATION_INSTANT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/;
+
+/** Signed copy is discoverable. The production publication instant may still be null. */
+export function isDiscoverable(issue: FindingsManifest): boolean {
+  return issue.status !== 'draft' && issue.template_signed && issue.rights_signed;
+}
+
+export function discoverableFindings(issues: readonly FindingsManifest[] = FINDINGS): readonly FindingsManifest[] {
+  return issues.filter(isDiscoverable);
+}
+
 export function publishedFindings(issues: readonly FindingsManifest[] = FINDINGS): readonly FindingsManifest[] {
-  return issues.filter(issue => issue.status === 'published' && issue.template_signed && issue.rights_signed && issue.first_published_on !== null);
+  return issues.filter(issue => issue.status === 'published' && issue.template_signed && issue.rights_signed
+    && issue.first_published_on !== null && PUBLICATION_INSTANT.test(issue.first_published_on));
 }
 
 /** Only the two runs in the changed seat get a comparison link. */

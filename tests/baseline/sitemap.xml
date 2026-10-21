@@ -85,6 +85,24 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://mirai-shigoto.com/pro/findings</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol/rights</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://mirai-shigoto.com/compliance</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>

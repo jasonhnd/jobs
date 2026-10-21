@@ -788,7 +788,7 @@
       "oldStatus": 200,
       "ordinaryTemplate": null,
       "proTemplate": "/pro/findings/[issue]",
-      "scope": "findings-draft-preview-only"
+      "scope": "findings-signed"
     },
     {
       "source": "src/pages/pro/findings/[issue]/rights.astro",
@@ -796,7 +796,7 @@
       "oldStatus": 200,
       "ordinaryTemplate": null,
       "proTemplate": "/pro/findings/[issue]/rights",
-      "scope": "findings-draft-preview-only"
+      "scope": "findings-signed"
     },
     {
       "source": "src/pages/pro/findings/index.astro",
@@ -804,7 +804,7 @@
       "oldStatus": 200,
       "ordinaryTemplate": null,
       "proTemplate": "/pro/findings",
-      "scope": "findings-draft-preview-only"
+      "scope": "findings-signed"
     },
     {
       "source": "src/pages/pro/gyakuten.astro",

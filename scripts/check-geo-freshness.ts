@@ -20,6 +20,7 @@ import {
   renderLlmsFullTxt,
   renderLlmsTxt,
 } from '../src/site/geo-render.js';
+import { withFindingsLlms, withFindingsLlmsFull } from '../src/site/findings/llms';
 import { makeCompareLoaderFromGraph } from '../src/views/compare.js';
 import { buildCompareBundle } from '../src/views/compare-hub.js';
 import { ABILITIES_CONFIGS } from '../src/views/genre-configs.js';
@@ -484,8 +485,8 @@ export async function main(): Promise<void> {
   const treemapRows = GeoTreemapRowsSchema.parse(JSON.parse(readText('public/data.treemap.json')));
   const facts = computeGeoFacts(treemapRows, scoreRuns);
 
-  assertExact('public/llms.txt', renderLlmsTxt(facts));
-  assertExact('public/llms-full.txt', renderLlmsFullTxt(facts));
+  assertExact('public/llms.txt', withFindingsLlms(renderLlmsTxt(facts)));
+  assertExact('public/llms-full.txt', withFindingsLlmsFull(renderLlmsFullTxt(facts)));
   assertExact('src/pages/_index-json-ld.json', renderHomeJsonLd(facts));
 
   const stale = staleModelTokens(scoreRuns, activeRun);
