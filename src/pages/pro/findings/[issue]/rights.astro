@@ -1,0 +1,31 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
+import { stringifyJsonLd } from '@/lib/json-for-script';
+import { siteConfig } from '@/site/config';
+import { FINDINGS, findingsPath, rightsPath, type FindingsManifest } from '@/site/findings/registry';
+import { loadFindings } from '@/site/findings/data';
+import { findingsCopy } from '@/site/findings/copy';
+import { findingsJsonLd } from '@/site/findings/structured';
+import { FINDINGS_CSS } from '../_styles';
+export function getStaticPaths() { return FINDINGS.map(issue => ({ params: { issue: issue.issue_id }, props: { issue } })); }
+const { issue } = Astro.props as { issue: FindingsManifest };
+const data = loadFindings(issue);
+const copy = findingsCopy(data);
+const [intro, ...sections] = copy.rightsSections;
+---
+<BaseLayout title={intro!.heading} description={copy.T42} canonical={siteConfig.origin + rightsPath(issue)} noindex={issue.status === 'draft'} bodyClass="page-doc findings-surface">
+  <script slot="jsonLd" type="application/ld+json" set:html={stringifyJsonLd(findingsJsonLd(data, 'rights'))} />
+  <style slot="head" set:html={CANONICAL_DOC_CSS + FINDINGS_CSS} />
+  <div id="wrapper" class="findings-page">
+    <main id="content" class="findings" data-findings-copy="rights">
+      <nav class="findings-crumb" aria-label={copy.T44}><a href="/pro">Pro</a><span aria-hidden="true">›</span><a class="series-crumb" href="/pro/findings">{copy.T44}</a><span aria-hidden="true">›</span><a href={findingsPath(issue)}>{copy.issueLabel}</a></nav>
+      <header class="findings-header"><h1>{intro!.heading}</h1>{intro!.lines.map(text => <p>{text}</p>)}</header>
+      {sections.map(section => <section class="findings-legal"><h2>{section.heading}</h2>{section.lines.map(text => <p>{text}</p>)}</section>)}
+      <ul class="findings-downloads">{data.downloads.map(file => <li><a href={file.href} download>{file.file}.csv</a><span class="findings-file-meta">{file.bytes} B · SHA-256 {file.sha256}</span></li>)}</ul>
+      <nav class="findings-footer-links" aria-label={copy.labels.links[4]}><a href={`${findingsPath(issue)}#citation`}>{copy.T20}</a><a href="/pro/findings">{copy.labels.links[4]}</a></nav>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>

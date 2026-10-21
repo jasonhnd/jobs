@@ -1,0 +1,31 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
+import { stringifyJsonLd } from '@/lib/json-for-script';
+import { siteConfig } from '@/site/config';
+import { FINDINGS, findingsPath } from '@/site/findings/registry';
+import { loadFindings } from '@/site/findings/data';
+import { controls, findingsCopy } from '@/site/findings/copy';
+import { findingsJsonLd } from '@/site/findings/structured';
+import { FINDINGS_CSS } from './_styles';
+const latest = loadFindings(FINDINGS[0]!);
+const copy = findingsCopy(latest);
+---
+<BaseLayout title={copy.T44} description={copy.T42} ogTitle={copy.T44} canonical={`${siteConfig.origin}/pro/findings`} noindex bodyClass="page-doc findings-surface">
+  <script slot="jsonLd" type="application/ld+json" set:html={stringifyJsonLd(findingsJsonLd(latest, 'index'))} />
+  <style slot="head" set:html={CANONICAL_DOC_CSS + FINDINGS_CSS} />
+  <div id="wrapper" class="findings-page">
+    <main id="content" class="findings" data-findings-copy="index">
+      <nav class="findings-crumb" aria-label={copy.T44}><a href="/pro">Pro</a><span aria-hidden="true">›</span><span>{copy.T44}</span></nav>
+      <header class="findings-header"><h1>{copy.T44}</h1><p>{copy.T42}</p></header>
+      <article class="findings-latest">
+        <h2><a href={findingsPath(latest.issue)}>{copy.T43}</a></h2>
+        <p class="findings-caption">{copy.T02}</p><p>{copy.T06}</p>
+        <a href={findingsPath(latest.issue)}>{controls.read}</a>
+      </article>
+      <nav class="findings-footer-links" aria-label={copy.labels.links[1]}><a href="/pro/methodology">{copy.labels.links[1]}</a><a href="/pro/standard">{copy.labels.links[2]}</a></nav>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>

@@ -1,5 +1,5 @@
-import templates from '../../content/findings.ja.json';
-import rights from '../../content/findings-rights.ja.json';
+import templates from '../../content/findings.ja.json' with { type: 'json' };
+import rights from '../../content/findings-rights.ja.json' with { type: 'json' };
 import { formatVendorDisplay } from '../score-attribution';
 import { findingsUrl } from './registry';
 import { signed, type FindingsData } from './data';

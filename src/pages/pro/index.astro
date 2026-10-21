@@ -5,6 +5,7 @@ import EditionNav from '@/components/EditionNav.astro';
 import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
 import { siteConfig } from '@/site/config';
 import { stringifyJsonLd } from '@/lib/json-for-script';
+import { findingsTitle } from '@/site/findings/links';
 const canonical = `${siteConfig.origin}/pro`;
 const jsonLd = stringifyJsonLd({ '@context': 'https://schema.org', '@graph': [
   { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: 'Pro | 未来の仕事', description: 'Pro', inLanguage: 'ja', isPartOf: { '@id': `${siteConfig.origin}/#website` }, breadcrumb: { '@id': `${canonical}#breadcrumb` } },
@@ -22,6 +23,7 @@ const jsonLd = stringifyJsonLd({ '@context': 'https://schema.org', '@graph': [
     <header id="content"><h1>Pro</h1></header>
     <p><a href="/pro/rankings">職業ランキング</a></p>
     <p><a href="/map">職業マップ</a></p>
+    <p><a href="/pro/findings">{findingsTitle}</a></p>
     <Footer />
   </div>
 </BaseLayout>
