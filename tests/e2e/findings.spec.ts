@@ -121,8 +121,9 @@ print(json.dumps({
   await page.goto('/pro/findings');
   await expect(page.locator(`a[href="${FINDINGS_ATOM_PATH}"]`)).toHaveText(copy.labels.links[6]);
   await page.goto(rightsPath(issue));
-  await expect(page.locator('main')).toContainText('ページ上の「引用する場合」の書式を使ってください。データだけを使う場合も、第1部分と第2部分の両方の出典を残してください。');
-  expect(await page.locator('main').innerText()).not.toContain('（[T20–T25]）');
+  const rights = page.locator('#content');
+  await expect(rights).toContainText('ページ上の「引用する場合」の書式を使ってください。データだけを使う場合も、第1部分と第2部分の両方の出典を残してください。');
+  expect(await rights.innerText()).not.toContain('（[T20–T25]）');
   await page.goto(findingsPath(issue));
   await expect(page.locator('a[href$="atom.xml"]')).toHaveCount(0);
 });
