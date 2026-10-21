@@ -47,6 +47,23 @@ function reject(args: string[], cwd: string, message: string): void {
 }
 
 describe('aiois drift CLI', () => {
+  test('stdout and markdown use half-even for genuine halfway mean displays', () => {
+    fixture((dir, args) => {
+      const base = score(0);
+      const cand = score(4.625);
+      base.aiois.displacement = 8.75;
+      cand.aiois.displacement = 4.125;
+      writeFileSync(join(dir, 'base.json'), JSON.stringify(batch({ '900001': base })));
+      writeFileSync(join(dir, 'cand.json'), JSON.stringify(batch({ '900001': cand })));
+      const result = cli(args, dir);
+      assert.equal(result.status, 0, result.stderr);
+      assert.ok(result.stdout.includes('meanΔT=+4.62 (|4.62|)  meanΔD=-4.62 (|4.62|)'));
+      const md = readFileSync(join(dir, 'nested', 'report.md'), 'utf8');
+      assert.ok(md.includes('Mean transformation drift: **+4.62** (mean |drift| 4.62)'));
+      assert.ok(md.includes('Mean displacement drift: **-4.62** (mean |drift| 4.62)'));
+    });
+  });
+
   test('requires each path and rejects switches without values', () => {
     fixture((dir, args) => {
       reject([], dir, 'missing --baseline');

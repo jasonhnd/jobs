@@ -2,7 +2,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { computeDrift } from './drift-core.js';
+import { computeDrift, driftMean } from './drift-core.js';
 import type { ScoreHistEntry } from '../../src/graph/score-strategy.js';
 
 interface Pair {
@@ -23,11 +23,47 @@ const run = (pairs: readonly (readonly [number, number])[]) => {
       i += 1;
       return { beforeUnrounded, afterUnrounded, latestT: afterUnrounded };
     },
-    meanBasis: 'displayed',
   }).summary;
 };
 
+describe('drift means', () => {
+  test('rounds genuine halfway means to an even hundredth', () => {
+    assert.equal(driftMean([4.5, 4.75]), 4.62); // 4.625: even retained digit
+    assert.equal(driftMean([4.75, 5]), 4.88); // 4.875: odd retained digit
+    assert.equal(driftMean([-4.5, -4.75]), -4.62);
+    assert.equal(driftMean([-4.75, -5]), -4.88);
+  });
+
+  test('averages raw scores before rounding the aggregate display', () => {
+    const summary = run([[4.5, 4.75], [4.75, 5]]);
+    assert.equal(summary.meanBefore, 4.62);
+    assert.equal(summary.meanAfter, 4.88);
+    assert.deepEqual(summary.movers.map((m) => [m.before, m.after]), [[4.5, 4.8], [4.8, 5]]);
+  });
+});
+
 describe('computeDrift thresholds', () => {
+  test('4.1 → 3.6 and its reverse count as exactly half a point', () => {
+    const summary = run([[4.1, 3.6], [3.6, 4.1]]);
+    assert.equal(summary.absDeltaGe05, 2);
+    assert.equal(summary.absDeltaGe10, 0);
+    assert.deepEqual(summary.movers.map((m) => m.delta), [-0.5, 0.5]);
+  });
+
+  test('0.45/0.55 boundaries use displayed endpoints, in both directions', () => {
+    // The canonical banker helper rounds the exact stored double: 0.45 and
+    // 0.55 are just above their decimal halves, displaying 0.5 and 0.6.
+    for (const [raw, displayed, counted] of [
+      [0.449, 0.4, 0], [0.45, 0.5, 2], [0.451, 0.5, 2],
+      [0.549, 0.5, 2], [0.55, 0.6, 2], [0.551, 0.6, 2],
+    ] as const) {
+      const summary = run([[0, raw], [raw, 0]]);
+      assert.equal(summary.absDeltaGe05, counted, `raw ${raw}`);
+      assert.equal(summary.absDeltaGe10, 0);
+      assert.deepEqual(summary.movers.map((m) => m.delta), [displayed, -displayed]);
+    }
+  });
+
   test('a displayed change of exactly 0.5 or 1.0 counts, whatever the float residue', () => {
     // In floating point these differences are 0.49999999999999994 / 0.9999999999999999.
     const summary = run([
