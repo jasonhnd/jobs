@@ -1,5 +1,15 @@
 import { describe, expect, test } from 'bun:test';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
+import { renderFindingsAtom } from './atom';
+import { applyFindingsPublication, atomInstant, writePublishedManifest } from './publish';
 import { isPublicationInstant } from './publication-instant';
+import { FINDINGS, publishedFindings } from './registry';
+
+const issue = FINDINGS[0]!;
+const script = resolve('scripts/publish-findings-issue.ts');
 
 const accepted = [
   '2026-11-10T09:00:00+09:00',
@@ -56,5 +66,74 @@ describe('Findings publication instant calendar and field ranges', () => {
 
   test.each(rejected)('rejects %s', instant => {
     expect(isPublicationInstant(instant)).toBe(false);
+  });
+});
+
+describe('Findings publication boundaries share strict validation', () => {
+  test.each(accepted)('preserves accepted instant %s', instant => {
+    const published = applyFindingsPublication(issue, instant);
+    expect(published.first_published_on).toBe(instant);
+    expect(publishedFindings([published])).toEqual([published]);
+    expect(renderFindingsAtom([published])).toContain(`<published>${instant}</published>`);
+    expect(atomInstant(instant)).toBe(instant);
+  });
+
+  test.each(rejected)('refuses invalid publication %s', instant => {
+    expect(() => applyFindingsPublication(issue, instant)).toThrow('timezone');
+    expect(publishedFindings([{ ...issue, status: 'published', first_published_on: instant }])).toEqual([]);
+    expect(() => renderFindingsAtom([{ ...issue, first_published_on: instant }])).toThrow('timezone');
+  });
+
+  test('invalid publication never changes manifest bytes', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'findings-instant-'));
+    const path = join(dir, 'manifest.json');
+    const original = `${JSON.stringify(issue, null, 2)}\n`;
+    try {
+      writeFileSync(path, original);
+      for (const instant of rejected) {
+        expect(() => writePublishedManifest(path, instant)).toThrow('timezone');
+        expect(readFileSync(path, 'utf8')).toBe(original);
+      }
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  test('Atom updated rejects invalid instants and calendar days', () => {
+    for (const value of [...rejected.filter(value => value !== '2026-11-10'), '2026-13-40', '2026-02-30', '1900-02-29']) {
+      expect(() => atomInstant(value)).toThrow('calendar day');
+      expect(() => renderFindingsAtom([{ ...issue, modified_on: value }])).toThrow('calendar day');
+    }
+    expect(atomInstant('2026-11-10')).toBe('2026-11-10T00:00:00+09:00');
+    expect(atomInstant('2000-02-29')).toBe('2000-02-29T00:00:00+09:00');
+  });
+
+  test.each(rejected)('CLI rejects %s before reading or writing a manifest', instant => {
+    const dir = mkdtempSync(join(tmpdir(), 'findings-cli-invalid-'));
+    try {
+      const result = spawnSync(process.execPath, [script, issue.issue_id, instant], { cwd: dir, encoding: 'utf8' });
+      expect(result.status).toBe(2);
+      expect(result.stderr).toContain('Usage:');
+      expect(result.stderr).not.toContain('ENOENT');
+      expect(result.stdout).toBe('');
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  test.each(accepted)('CLI records %s only in a temporary manifest', instant => {
+    const dir = mkdtempSync(join(tmpdir(), 'findings-cli-valid-'));
+    const manifestDir = join(dir, 'data/findings', issue.issue_id);
+    const path = join(manifestDir, 'manifest.json');
+    try {
+      mkdirSync(manifestDir, { recursive: true });
+      writeFileSync(path, `${JSON.stringify(issue, null, 2)}\n`);
+      const result = spawnSync(process.execPath, [script, issue.issue_id, instant], { cwd: dir, encoding: 'utf8' });
+      expect(result.status).toBe(0);
+      expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual({ ...issue, status: 'published', first_published_on: instant });
+      expect(issue.first_published_on).toBeNull();
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
