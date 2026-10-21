@@ -63,6 +63,12 @@ The ordinary edition provides occupation, selected-ranking, map and sector entra
 - [Answers](https://mirai-shigoto.com/pro/answers)
 - [Extended GEO companion](https://mirai-shigoto.com/llms-full.txt)
 
+- [AIの仕事への見方の変化](https://mirai-shigoto.com/pro/findings)
+- [AIの仕事への見方の変化 — 第1号（最新採点 2026-10-01）](https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol)
+採点モデルの更新前後で、職業別のAI影響度がどう変わったかを比べます。
+- [このデータの利用条件](https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol/rights)
+- [購読](https://mirai-shigoto.com/pro/findings/atom.xml)
+
 ## Methodology
 
 AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. Published values are, for each dimension and both indices, the mean of the latest model from each of 3 vendors; Transformation is not recomputed from mean(D1, D2) after the mean. Per-model scores remain on /pro/models.

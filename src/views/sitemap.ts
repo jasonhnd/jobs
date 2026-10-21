@@ -40,6 +40,7 @@ import { EXPLORE_ROUTES } from './explore-routes.js';
 import { GEO_ANSWER_TOPIC_CONFIGS } from './geo-answer-topics.js';
 import type { KnowledgeGraph } from '@/graph';
 import { occupationPath } from '@/lib/urls';
+import { discoverableFindings, findingsPath, rightsPath } from '../site/findings/registry';
 
 const SITE_ORIGIN = siteConfig.origin;
 
@@ -143,6 +144,20 @@ export interface SitemapExtras {
   readonly haidLatestRelease?: string;
 }
 
+/** Signed HTML only. The Atom feed and CSV downloads stay out of the sitemap. */
+export function findingsSitemapEntries(): SitemapEntry[] {
+  const issues = discoverableFindings();
+  if (issues.length === 0) return [];
+  const indexLast = issues.map(issue => issue.modified_on.slice(0, 10)).sort().at(-1)!;
+  const rows = [entry(`${SITE_ORIGIN}/pro/findings`, indexLast, 'weekly', '0.6')];
+  for (const issue of issues) {
+    const day = issue.modified_on.slice(0, 10);
+    rows.push(entry(`${SITE_ORIGIN}${findingsPath(issue)}`, day, 'monthly', '0.6'));
+    rows.push(entry(`${SITE_ORIGIN}${rightsPath(issue)}`, day, 'monthly', '0.4'));
+  }
+  return rows;
+}
+
 export function buildSitemapEntries(
   graph: KnowledgeGraph,
   lastmodsInput: string | SitemapLastmods,
@@ -187,6 +202,7 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/pro/methodology`, lastmods.methodology, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/pro/models`, lastmods.models, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/pro/data`, lastmods.data, 'monthly', '0.6'));
+  entries.push(...findingsSitemapEntries());
   entries.push(entry(`${SITE_ORIGIN}/compliance`, lastmods.compliance, 'monthly', '0.4'));
 
   // GEO text companions retain their original eligibility and root discovery entrances.

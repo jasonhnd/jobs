@@ -158,3 +158,16 @@ Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
 ## 11. Disclaimer
 
 This site is independent and unofficial. It does not represent MHLW, jobtag, or JILPT. The AI Impact and Displacement-Risk scores are subjective estimates and should not be used as the sole basis for career, hiring, investment, or policy decisions.
+
+## AIの仕事への見方の変化
+
+- [AIの仕事への見方の変化](https://mirai-shigoto.com/pro/findings)
+- [AIの仕事への見方の変化 — 第1号（最新採点 2026-10-01）](https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol)
+2026-10-01 の更新前後で、全職業のAI影響度の平均は4.55から4.68になりました。
+2026-10-01 の更新前後で、変化の大きさの区分が変わった職業は34職業でした。
+2026-10-01 の更新前後で、AI影響度が0.5点以上動いた職業は12職業、1.0点以上動いた職業は0職業でした。
+- [scores.csv](https://mirai-shigoto.com/data.findings/2026-10-01-gpt-6.1-sol/r1/scores.csv)
+- [panel.csv](https://mirai-shigoto.com/data.findings/2026-10-01-gpt-6.1-sol/r1/panel.csv)
+- [出典と数字](https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol#sources)
+- [このデータの利用条件](https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol/rights)
+- [購読](https://mirai-shigoto.com/pro/findings/atom.xml)

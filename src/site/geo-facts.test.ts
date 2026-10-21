@@ -403,7 +403,14 @@ describe('geo renderers', () => {
     assert.doesNotMatch(pages, /^- [^[\n]+: https:\/\//);
 
     const published = pagesSection(readFileSync('public/llms.txt', 'utf8'));
-    assert.deepEqual(markdownLinks(published), LLMS_PAGE_LINKS);
+    const publishedLinks = markdownLinks(published);
+    assert.deepEqual(publishedLinks.slice(0, LLMS_PAGE_LINKS.length), [...LLMS_PAGE_LINKS]);
+    assert.deepEqual(publishedLinks.slice(LLMS_PAGE_LINKS.length).map(([, url]) => url), [
+      'https://mirai-shigoto.com/pro/findings',
+      'https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol',
+      'https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol/rights',
+      'https://mirai-shigoto.com/pro/findings/atom.xml',
+    ]);
   });
 });
 

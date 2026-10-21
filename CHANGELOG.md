@@ -1,3 +1,17 @@
+## Signed Findings issue 1 — Issue #938 (preview discovery, not a production publication)
+
+- Treat the signed 2026-10-01 issue as discoverable. Drop page-level noindex
+  on the three Findings HTML pages, list those URLs in the sitemap, and
+  append them to llms.txt and llms-full.txt after the shared facts render.
+- Add `/pro/findings/atom.xml`. While `first_published_on` is null, omit
+  `atom:published` and keep `updated`. `scripts/publish-findings-issue.ts`
+  records the zoned instant later; this preview build leaves it empty.
+- Store the signed rights citation sentence in the source JSON and stop
+  rewriting it at render time. Leave the four duplicated source terms empty.
+- Homepage JSON-LD, occupation pages, rankings, preview-host noindex,
+  analytics bytes, and redirect rules stay unchanged. SEO baselines move
+  only for the Findings robots meta, sitemap URLs, and the new feed link.
+
 ## Draft Findings issue 1 — Issue #934 (preview review only)
 
 - Add the Findings index, the 2026-10-01 GPT-6.1 SOL comparison and its

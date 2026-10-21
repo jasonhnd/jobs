@@ -27,7 +27,7 @@ export const ordinaryOccupationPath = occupationPath;
 export function classifyTemplate(path: string) {
   // New Findings pages have no legacy route or redirect authorization.
   if (['/pro/findings', '/pro/findings/[issue]', '/pro/findings/[issue]/rights'].includes(path)) {
-    return { oldStatus: 200, ordinaryTemplate: null, proTemplate: path, scope: 'findings-draft-preview-only' };
+    return { oldStatus: 200, ordinaryTemplate: null, proTemplate: path, scope: 'findings-signed' };
   }
   if (['/pro', '/pro/[id]', '/pro/rankings', '/pro/rankings/[slug]'].includes(path)) {
     return { oldStatus: 200, ordinaryTemplate: null, proTemplate: path, scope: 'stage-1A-public-copy' };
