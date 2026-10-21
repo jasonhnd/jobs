@@ -1,4 +1,5 @@
 # 旗艦平均への切替 drift（mms-8.28）
+Correction: the correct count for |Δ| ≥ 0.5 is 33; the recorded 32 missed id 513 because of the same floating-point boundary comparison error. Integer-tenths comparison gives 33. See #930.
 
 生成: 2026-09-09 / incoming: claude-fable-5-1@2026-09-09 / 旧規則: 5 票中央値（着地前）/ 新規則: 各社最新 run の平均
 
