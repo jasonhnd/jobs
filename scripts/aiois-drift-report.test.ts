@@ -121,6 +121,13 @@ describe('riskBand / renderDriftMarkdown', () => {
     assert.ok(md.includes('Mean displacement drift: **-4.62** (mean |drift| 4.62)'));
     assert.ok(md.includes('| D1 | +4.88 | 4.88 |'));
     assert.equal(raw.meanDriftT, 4.625); // rendering must not mutate the graph result
+    const nearZero = renderDriftMarkdown({ ...raw, meanDriftT: -0.001, meanDriftD: 0.001 }, {
+      baseModel: 'baseline', baseDate: '2026-01-01',
+      candModel: 'candidate', candDate: '2026-01-02', rankThreshold: 10,
+      baseMethodId: 'aiois-semantic-judgment', candMethodId: 'aiois-semantic-judgment',
+    });
+    assert.ok(nearZero.includes('Mean transformation drift: **-0.00**'));
+    assert.ok(nearZero.includes('Mean displacement drift: **+0.00**'));
   });
 
   test('band boundaries', () => {

@@ -43,7 +43,7 @@ const TOP_RANK_COUNT = 20;
 const TOP_D_COUNT = 10;
 const f1 = (n: number): string => n.toFixed(1);
 const f2 = (n: number): string => bankerRound(n, 2).toFixed(2);
-const f2s = (n: number): string => `${n >= 0 ? '+' : ''}${f2(n)}`;
+const f2s = (n: number): string => `${n >= 0 ? '+' : '-'}${f2(Math.abs(n))}`;
 
 function rowLine(r: DriftRow): string {
   return (
