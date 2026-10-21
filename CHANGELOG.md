@@ -58,7 +58,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
   publication dates. Imports require an explicit retrieval date or provenance
   with matching source hashes. Pro data and compliance distinguish MIT-licensed
   site scoring/differences from source-data terms. WebSite and Dataset license
-  URLs now point to the compliance explanation. SEO baselines intentionally
+  URLs (including the same blanket MIT label found on the map during the audit)
+  now point to the compliance explanation. SEO baselines intentionally
   update those JSON-LD licenses, occupation retrieval-date properties, Pro data
   metadata and compliance links/anchor. Any build-generated CSP changes reflect
   these JSON-LD bytes only; analytics inline scripts stay unchanged. The new
