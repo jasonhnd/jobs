@@ -13,7 +13,7 @@
  *   2. {sector}業界で AI 影響度が最も高い職業は？     — needs topHigh
  *   3. {sector}業界で AI 影響度が最も低い職業は？     — needs topLow
  *   4. {sector}業界の平均 AI 影響度は？               — needs meanRisk
- *   5. {sector}業界の将来性は？                       — needs both
+ *   5. {sector}業界は、AIでどのくらい変わる？                       — needs both
  */
 
 import { fmtInt } from '../lib/num.js';
