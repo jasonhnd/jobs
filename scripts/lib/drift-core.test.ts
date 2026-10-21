@@ -2,7 +2,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { computeDrift } from './drift-core.js';
+import { computeDrift, driftMean } from './drift-core.js';
 import type { ScoreHistEntry } from '../../src/graph/score-strategy.js';
 
 interface Pair {
@@ -23,9 +23,24 @@ const run = (pairs: readonly (readonly [number, number])[]) => {
       i += 1;
       return { beforeUnrounded, afterUnrounded, latestT: afterUnrounded };
     },
-    meanBasis: 'displayed',
   }).summary;
 };
+
+describe('drift means', () => {
+  test('rounds genuine halfway means to an even hundredth', () => {
+    assert.equal(driftMean([4.5, 4.75]), 4.62); // 4.625: even retained digit
+    assert.equal(driftMean([4.75, 5]), 4.88); // 4.875: odd retained digit
+    assert.equal(driftMean([-4.5, -4.75]), -4.62);
+    assert.equal(driftMean([-4.75, -5]), -4.88);
+  });
+
+  test('averages raw scores before rounding the aggregate display', () => {
+    const summary = run([[4.5, 4.75], [4.75, 5]]);
+    assert.equal(summary.meanBefore, 4.62);
+    assert.equal(summary.meanAfter, 4.88);
+    assert.deepEqual(summary.movers.map((m) => [m.before, m.after]), [[4.5, 4.8], [4.8, 5]]);
+  });
+});
 
 describe('computeDrift thresholds', () => {
   test('4.1 → 3.6 and its reverse count as exactly half a point', () => {

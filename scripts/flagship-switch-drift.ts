@@ -10,7 +10,6 @@
  */
 import { writeFileSync } from 'node:fs';
 import { buildIndexes } from '../src/data/lib/indexes.js';
-import { displayScore } from '../src/data/lib/banker-round.js';
 import {
   pickConsensusScore,
   pickFlagshipMeanScore,
@@ -65,7 +64,6 @@ export function computeFlagshipSwitchDrift(
 ): FlagshipSwitchDriftSummary {
   const { summary, selectedScores } = computeDrift(historyByOcc, incomingModel, titles, {
     comparableOf: (history) => history.filter((entry) => entry.aiois != null),
-    meanBasis: 'displayed',
     selectScores: (comparable, withoutIncoming) => ({
       beforeUnrounded: pickConsensusScore(withoutIncoming).transformation,
       afterUnrounded: pickFlagshipMeanScore(comparable).transformation,
@@ -83,7 +81,7 @@ export function computeFlagshipSwitchDrift(
     meanBefore: summary.meanBefore,
     meanAfter: summary.meanAfter,
     meanMedianWithIncoming: driftMean(
-      selectedScores.map((scores) => displayScore(scores.medianWithIncomingUnrounded)),
+      selectedScores.map((scores) => scores.medianWithIncomingUnrounded),
     ),
     absDeltaGe05: summary.absDeltaGe05,
     absDeltaGe10: summary.absDeltaGe10,
