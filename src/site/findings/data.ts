@@ -1,6 +1,8 @@
 /** Frozen release inputs, canonical arithmetic and byte-pinned CSV exports. */
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 import { computeDrift } from '../../../scripts/lib/drift-core';
 import { ScoreRunSchema } from '../../data/schema/score-run';
@@ -17,9 +19,13 @@ const ProvenanceSchema = z.object({
   files: z.object({ description: z.object({ name: z.string(), sha256: z.string().regex(/^[a-f0-9]{64}$/) }) }),
 });
 
+// Frozen paths are repo-relative. Callers such as the GEO freshness CLI run
+// with a temporary cwd, so resolution cannot follow process.cwd().
+const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '../../..');
+
 function verifiedText(file: FrozenFile): string {
   assert(!file.path.includes('..') && /^(data|docs)\//.test(file.path), 'invalid frozen source path');
-  const text = readFileSync(file.path, 'utf8');
+  const text = readFileSync(join(REPO_ROOT, file.path), 'utf8');
   assert(sha256(text) === file.sha256, `source hash mismatch: ${file.path}`);
   return text;
 }
