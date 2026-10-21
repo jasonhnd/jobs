@@ -1,8 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import type { FindingsManifest } from './registry';
-
-/** RFC 3339 date-time with an explicit zone. A calendar day is not an instant. */
-export const PUBLICATION_INSTANT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/;
+import { isPublicationInstant } from './publication-instant';
 
 /**
  * Atom `updated` needs an RFC 3339 instant. A manifest calendar day is the
@@ -10,8 +8,9 @@ export const PUBLICATION_INSTANT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-
  * time and must not be copied into `first_published_on`.
  */
 export function atomInstant(value: string): string {
-  if (PUBLICATION_INSTANT.test(value)) return value;
-  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return `${value}T00:00:00+09:00`;
+  if (isPublicationInstant(value)) return value;
+  const startOfDay = `${value}T00:00:00+09:00`;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value) && isPublicationInstant(startOfDay)) return startOfDay;
   throw new Error(`findings: ${value} is not a calendar day or an RFC 3339 instant with a timezone`);
 }
 
@@ -20,7 +19,7 @@ export function publishedOnLabel(issue: Pick<FindingsManifest, 'first_published_
 }
 
 export function applyFindingsPublication<T extends FindingsManifest>(issue: T, instant: string): T {
-  if (!PUBLICATION_INSTANT.test(instant)) {
+  if (!isPublicationInstant(instant)) {
     throw new Error('findings: first_published_on must be an RFC 3339 instant with a timezone');
   }
   if (issue.status === 'draft' || !issue.template_signed || !issue.rights_signed) {

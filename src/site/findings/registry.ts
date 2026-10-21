@@ -1,5 +1,6 @@
 import firstIssue from '../../../data/findings/2026-10-01-gpt-6.1-sol/manifest.json' with { type: 'json' };
 import { siteConfig } from '../config';
+import { isPublicationInstant } from './publication-instant';
 
 export interface FrozenFile { readonly path: string; readonly sha256: string }
 export interface FindingsPanelRun {
@@ -43,8 +44,6 @@ export const rightsPath = (issue: FindingsManifest) => `${findingsPath(issue)}/r
 export const downloadPath = (issue: FindingsManifest, file: CsvFile) =>
   `/data.findings/${issue.issue_id}/${issue.dataset_version}/${file}.csv`;
 
-const PUBLICATION_INSTANT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/;
-
 /** Signed copy is discoverable. The production publication instant may still be null. */
 export function isDiscoverable(issue: FindingsManifest): boolean {
   return issue.status !== 'draft' && issue.template_signed && issue.rights_signed;
@@ -56,7 +55,7 @@ export function discoverableFindings(issues: readonly FindingsManifest[] = FINDI
 
 export function publishedFindings(issues: readonly FindingsManifest[] = FINDINGS): readonly FindingsManifest[] {
   return issues.filter(issue => issue.status === 'published' && issue.template_signed && issue.rights_signed
-    && issue.first_published_on !== null && PUBLICATION_INSTANT.test(issue.first_published_on));
+    && issue.first_published_on !== null && isPublicationInstant(issue.first_published_on));
 }
 
 /** Only the two runs in the changed seat get a comparison link. */
