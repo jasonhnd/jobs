@@ -4,10 +4,11 @@ import Footer from '@/components/Footer.astro';
 import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
 import { stringifyJsonLd } from '@/lib/json-for-script';
 import { siteConfig } from '@/site/config';
-import { FINDINGS, findingsPath, rightsPath, type FindingsManifest } from '@/site/findings/registry';
+import { FINDINGS, findingsPath, isDiscoverable, rightsPath, type FindingsManifest } from '@/site/findings/registry';
 import { loadFindings } from '@/site/findings/data';
 import { findingsCopy } from '@/site/findings/copy';
 import { findingsJsonLd } from '@/site/findings/structured';
+import { FINDINGS_ATOM_PATH } from '@/site/findings/atom';
 import { FINDINGS_CSS } from '../_styles';
 export function getStaticPaths() { return FINDINGS.map(issue => ({ params: { issue: issue.issue_id }, props: { issue } })); }
 const { issue } = Astro.props as { issue: FindingsManifest };
@@ -15,8 +16,9 @@ const data = loadFindings(issue);
 const copy = findingsCopy(data);
 const [intro, ...sections] = copy.rightsSections;
 ---
-<BaseLayout title={intro!.heading} description={copy.T42} canonical={siteConfig.origin + rightsPath(issue)} noindex={issue.status === 'draft'} bodyClass="page-doc findings-surface">
+<BaseLayout title={intro!.heading} description={copy.T42} canonical={siteConfig.origin + rightsPath(issue)} noindex={!isDiscoverable(issue)} bodyClass="page-doc findings-surface">
   <script slot="jsonLd" type="application/ld+json" set:html={stringifyJsonLd(findingsJsonLd(data, 'rights'))} />
+  <link slot="head" rel="alternate" type="application/atom+xml" href={FINDINGS_ATOM_PATH} title={copy.T44} />
   <style slot="head" set:html={CANONICAL_DOC_CSS + FINDINGS_CSS} />
   <div id="wrapper" class="findings-page">
     <main id="content" class="findings" data-findings-copy="rights">

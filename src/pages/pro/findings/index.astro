@@ -4,16 +4,19 @@ import Footer from '@/components/Footer.astro';
 import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
 import { stringifyJsonLd } from '@/lib/json-for-script';
 import { siteConfig } from '@/site/config';
-import { FINDINGS, findingsPath } from '@/site/findings/registry';
+import { FINDINGS, discoverableFindings, findingsPath } from '@/site/findings/registry';
 import { loadFindings } from '@/site/findings/data';
 import { controls, findingsCopy } from '@/site/findings/copy';
 import { findingsJsonLd } from '@/site/findings/structured';
+import { FINDINGS_ATOM_PATH } from '@/site/findings/atom';
 import { FINDINGS_CSS } from './_styles';
-const latest = loadFindings(FINDINGS[0]!);
+const discoverable = discoverableFindings();
+const latest = loadFindings(discoverable.at(-1) ?? FINDINGS[0]!);
 const copy = findingsCopy(latest);
 ---
-<BaseLayout title={copy.T44} description={copy.T42} ogTitle={copy.T44} canonical={`${siteConfig.origin}/pro/findings`} noindex bodyClass="page-doc findings-surface">
+<BaseLayout title={copy.T44} description={copy.T42} ogTitle={copy.T44} canonical={`${siteConfig.origin}/pro/findings`} noindex={discoverable.length === 0} bodyClass="page-doc findings-surface">
   <script slot="jsonLd" type="application/ld+json" set:html={stringifyJsonLd(findingsJsonLd(latest, 'index'))} />
+  <link slot="head" rel="alternate" type="application/atom+xml" href={FINDINGS_ATOM_PATH} title={copy.T44} />
   <style slot="head" set:html={CANONICAL_DOC_CSS + FINDINGS_CSS} />
   <div id="wrapper" class="findings-page">
     <main id="content" class="findings" data-findings-copy="index">
@@ -24,7 +27,7 @@ const copy = findingsCopy(latest);
         <p class="findings-caption">{copy.T02}</p><p>{copy.T06}</p>
         <a href={findingsPath(latest.issue)}>{controls.read}</a>
       </article>
-      <nav class="findings-footer-links" aria-label={copy.labels.links[1]}><a href="/pro/methodology">{copy.labels.links[1]}</a><a href="/pro/standard">{copy.labels.links[2]}</a></nav>
+      <nav class="findings-footer-links" aria-label={copy.labels.links[1]}><a href="/pro/methodology">{copy.labels.links[1]}</a><a href="/pro/standard">{copy.labels.links[2]}</a><a href={FINDINGS_ATOM_PATH}>{copy.labels.links[6]}</a></nav>
     </main>
     <Footer />
   </div>
