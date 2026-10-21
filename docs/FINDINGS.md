@@ -33,6 +33,8 @@ require a new revision and a reviewed correction record, keeping r1 intact.
 The initial template and rights copy live in `src/content/findings*.ja.json`;
 their exact bytes and rendered copy are guarded by tests. Template variables
 are constrained release data, not editorial or model-generated prose.
+Rendering omits the rights draft's internal `（[T20–T25]）` cross-reference;
+the source JSON bytes remain pinned.
 
 Draft pages have self-canonicals and noindex. Drafts are excluded from the
 sitemap, both llms files and published release selection. This first draft
