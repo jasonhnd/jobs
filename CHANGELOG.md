@@ -1,3 +1,14 @@
+## Signed legacy copy batch 1 — Issue #927 (Owner signed 2026-10-21)
+
+- Apply the approved 404, sector, Pro Q&A, annual-report and comparison
+  wording; preserve historical annual figures with the signed snapshot note.
+- Retire GEO-A only in sector/comparison fact prefixes. Occupation facts,
+  ranking set facts, home copy and ranking/occupation source files stay frozen.
+- Refresh SEO baselines only for the three affected descriptions (and their
+  OG/Twitter counterparts), FAQ/Article JSON-LD on the 16 sectors and five
+  Pro Q&A/comparison pages, and capture provenance. URL inventories, links,
+  canonicals, sitemap, score data, redirects and analytics scripts are unchanged.
+
 ## Unreleased — Ordinary entry composition (#900, Owner signed 2026-10-10)
 
 - Reduce ordinary homepage ranking cards from 39 to the retained eight and

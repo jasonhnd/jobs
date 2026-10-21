@@ -209,7 +209,7 @@ import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 
   <div id="wrapper">
     <div class="top-bar">
-      <a class="back" href="/">← マップへ戻る</a>
+      <a class="back" href="/">← トップへ戻る</a>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="ライト・ダークモード切替">
         <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
@@ -230,12 +230,12 @@ import { OCCUPATION_COUNT, siteConfig } from '@/site/config';
 
     <div class="helpful-links">
       <div class="label">こちらもどうぞ</div>
-      <a href="/sectors"><span>16 セクターから探す</span><span class="desc">業界別 {OCCUPATION_COUNT.SCORED} 職業</span></a>
-      <a href="/rankings"><span>ランキングから探す</span><span class="desc">AIリスク・年収・就業者数</span></a>
-      <a href="/rankings/ai-risk-high"><span>AIに奪われる仕事 TOP30</span><span class="desc">AI影響度が高い職業</span></a>
-      <a href="/rankings/ai-risk-low"><span>AI影響が少ない仕事 TOP30</span><span class="desc">将来性のある職業</span></a>
-      <a href="/rankings/salary-safe"><span>高年収×低AIリスク TOP30</span><span class="desc">収入と安定を両立</span></a>
-      <a href="/rankings/workers"><span>就業者数ランキング TOP30</span><span class="desc">最も人が多い職業</span></a>
+      <a href="/sectors"><span>業種から探す</span><span class="desc">業種別 {OCCUPATION_COUNT.SCORED} 職業</span></a>
+      <a href="/rankings"><span>ランキングから探す</span><span class="desc">仕事の変化・働く人の数・収入など</span></a>
+      <a href="/rankings/ai-risk-high"><span>AIで大きく変わる仕事 TOP30</span><span class="desc">仕事がなくなる順ではなく、AIで仕事の中身が大きく変わる順です。</span></a>
+      <a href="/rankings/ai-risk-low"><span>AI影響が少ない仕事 TOP30</span><span class="desc">AIで仕事の中身が変わりにくい順です。点が低いほど、変わる部分が少ない仕事です。</span></a>
+      <a href="/rankings/salary-safe"><span>高年収×低AIリスク TOP30</span><span class="desc">AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。右の点数は順位とは別です。</span></a>
+      <a href="/rankings/workers"><span>就業者数ランキング TOP30</span><span class="desc">就業者数が多い順に並べました。右の点数はAIで変わる度合いで、順位とは別です。</span></a>
       <a href="/about"><span>データについて</span><span class="desc">ソース・スコア算出方法・FAQ</span></a>
       <a href="/compliance"><span>利用規約・コンプライアンス</span><span class="desc">免責事項・引用ポリシー</span></a>
       <a href="/privacy"><span>プライバシーポリシー</span><span class="desc">アクセス解析と Cookie</span></a>
