@@ -10,6 +10,18 @@
 - `src/data/build.ts` は `loadValidatedIndexes()` → `updateGeneratedMetadata()` → `prepareStagingDirectory()` → `runProjections()` → `logProjectionRuns()` → promote の命名されたステップで構成する。`runProjections()` は `runCoreProjections()`、`runDiscoveryProjections()`、`runModelProjections()`、`runGraphAndGeoProjections()` に分かれ、公開用 projection を staging dir に書く。
 - 全 projection 成功後、`src/data/promote.ts` の `promoteStagedOutputs()` が `public/` のトップレベル entry を backup してから置き換える。同一 filesystem の rename は entry 単位で atomic、置換失敗時は移動済み entry の rollback を試みる（ディレクトリ全体の atomic swap ではなく、EXDEV は copy + remove に fallback）。中断は sentinel と manifest で記録する。生成されるソース側 metadata とホーム JSON-LD は staging / rollback の対象外。Astro build は `public/` を `dist-astro/` にコピーする。
 
+## IPD source dates
+
+`ipd_retrieved_at` records the source download date, never the import clock.
+`bun run import:ipd -- --retrieved-at YYYY-MM-DD` supplies an explicit date;
+without it, `src/data/import-ipd.ts` reads `data/.ipd_provenance.json` and
+requires both input SHA-256 hashes to match the recorded files. Missing or
+invalid dates fail before output is written. A changed source requires an
+explicit date. Timestamp evidence is retained only for the same source hashes
+and retrieval date. Provenance `ipd_ingested_at` and occupation `ingested_at`
+record the import date separately. The 2026-10-21 correction changes only the
+historical retrieval date; existing occupation ingestion dates stay unchanged.
+
 ## Projection
 
 現在の主要 projection は以下。
