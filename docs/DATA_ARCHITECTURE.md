@@ -35,7 +35,7 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `data.haid-spec.json` — `/haid` の HAID v1.0 定義（10 段階・4 関係・3 境目・用語・境界事例）。数字を持たない。正典は `src/site/haid-spec.ts`、文言の正本は `docs/HAID.md`。（haid-1.3 で生成）
 - `data.haid-<yyyy-qN>.json` / `data.haid-latest.json` — HAID の四半期リリース（`/aiadoption`）。段階ごとの N(≥k)（低・中・高・display・clamped）、n(k)（display・share・確度）、錨点、重なり率、対価。`latest` は最新回のコピーに `releases` 一覧を足したもの。（aiadoption-1.2 で生成）
 - `data.me-positions.json` — `/me` self-positioning tool。全職業 × 全 ranking の位置を持つ。
-- `public/llms.txt` / `public/llms-full.txt` — `src/site/geo-build.ts` が staging の treemap と score run から生成する GEO text surfaces。同じ facts から `src/pages/_index-json-ld.json` も直接更新し、ホーム JSON-LD と揃える。
+- `public/llms.txt` / `public/llms-full.txt` — `src/site/geo-build.ts` が staging の treemap と score run から生成する GEO text surfaces。同じ facts から `src/pages/_index-json-ld.json` も直接更新し、ホーム JSON-LD と揃える。署名済みの「発見」本文は facts の描画のあとにだけ足す。ホーム JSON-LD は `renderHomeJsonLd(facts)` のままなので、その追加では変わらない。
 
 古い `data.featured.json`, `data.tasks/*`, `data.score-history/*` は runtime consumer がないため削除済み。`data.score_history.json` は multi-model comparison のため 2026-07 に単一 JSON projection として復活した。
 
