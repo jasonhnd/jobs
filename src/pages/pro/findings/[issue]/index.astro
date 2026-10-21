@@ -28,9 +28,10 @@ const claims = [
   { id: 'T15', heading: copy.T14, lines: [{ text: copy.downSentence, line: reportLine(data.down[0]!.id) }] },
 ];
 const evidence = [
-  ['T02', 3], ['T03', 4], ['T04', 12], ['T06', 9], ['T08', 12], ['T09', 12],
-  ['T11', '10-L11'], ['T13', reportLine(data.up[0]!.id)], ['T15', reportLine(data.down[0]!.id)], ['T21', reportLine(copy.citationRow.id)],
+  [null, 3], [null, 4], [null, 12], [copy.T05, 9], [copy.T07, 12], [copy.T07, 12],
+  [copy.T10, '10-L11'], [copy.T12, reportLine(data.up[0]!.id)], [copy.T14, reportLine(data.down[0]!.id)], [null, reportLine(copy.citationRow.id)],
 ] as const;
+const sourceLabel = (line: number | string) => `${issue.report.path}:${String(line).replace('-L', '-')}`;
 const panelRuns = [...new Map([...issue.panels.before, ...issue.panels.after].map(run => [run.batch_file, run])).values()];
 const metadata = [issue.first_published_on ?? '—', issue.modified_on, issue.incoming_run_date, data.summary.occupationCount, issue.standard_version];
 ---
@@ -115,7 +116,7 @@ const metadata = [issue.first_published_on ?? '—', issue.modified_on, issue.in
           <p><a href={`${reportUrl}#L3-L12`}>{copy.T33}</a></p>
           <p>{copy.T34}</p>
           <ul>{panelRuns.map(run => <li><a href={`/pro/models/${runSlug({ model: run.model_id, runDate: run.run_date })}`}>{run.provider}:{run.model_id}@{run.run_date}</a></li>)}</ul>
-          <dl class="findings-evidence">{evidence.map(([claim, line]) => <><dt>{claim}</dt><dd><a href={`${reportUrl}#L${line}`}>{issue.report.path}:{line}</a></dd></>)}</dl>
+          <dl class="findings-evidence">{evidence.map(([heading, line]) => <><dt>{heading ?? sourceLabel(line)}</dt><dd><a href={`${reportUrl}#L${line}`}>{sourceLabel(line)}</a></dd></>)}</dl>
           <p>{copy.T39}</p><p>{copy.T40}</p><p>{copy.T41}</p>
           <div class="findings-footer-links"><a href="/pro/methodology">{copy.labels.links[1]}</a><a href="/pro/standard">{copy.labels.links[2]}</a><a href={rightsPath(issue)}>{copy.labels.meta[5]}</a></div>
           <h3 id="past-reports">{copy.T45}</h3>
