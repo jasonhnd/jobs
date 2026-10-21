@@ -24,7 +24,7 @@ export function findingsCopy(data: FindingsData) {
     low_after: summary.bandAfter.low, mid_after: summary.bandAfter.mid, high_after: summary.bandAfter.high,
     n_abs_ge_05: summary.absDeltaGe05, n_abs_ge_10: summary.absDeltaGe10,
     cite_occupation_name: citationRow.title, cite_score: citationRow.after.toFixed(1),
-    issue_url: issue.status === 'published' ? findingsUrl(issue) : '{{issue_url}}', accessed_on: '{{accessed_on}}',
+    issue_url: issue.status === 'draft' ? '{{issue_url}}' : findingsUrl(issue), accessed_on: '{{accessed_on}}',
     source_report_ref: `${issue.report.path}:3–12 @ ${issue.snapshot_commit} (sha256:${issue.report.sha256})`,
     before_panel_refs: issue.panels.before.map(run => `${run.provider}:${run.model_id}@${run.run_date}`).join('、'),
     after_panel_refs: issue.panels.after.map(run => `${run.provider}:${run.model_id}@${run.run_date}`).join('、'),

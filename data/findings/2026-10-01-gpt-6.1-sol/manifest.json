@@ -1,8 +1,8 @@
 {
   "issue_id": "2026-10-01-gpt-6.1-sol",
   "issue_number": 1,
-  "status": "draft",
-  "template_version": "findings-ja-v1-draft",
+  "status": "signed",
+  "template_version": "findings-ja-v1",
   "first_published_on": null,
   "modified_on": "2026-10-21",
   "incoming_run_date": "2026-10-01",
@@ -113,6 +113,6 @@
       "sha256": "735e60f92b671ad93d04030a8ea50faf6510499985751cca7aec8d49564a7eb7"
     }
   },
-  "template_signed": false,
-  "rights_signed": false
+  "template_signed": true,
+  "rights_signed": true
 }
