@@ -63,6 +63,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
 
 ### Changed
 
+- **IPD retrieval evidence and layered licensing (#926, SB-20261021-04).**
+  Correct the source download date to 2026-05-02 across provenance, all 556
+  occupations, compliance and Pro methodology; retain ingestion and page
+  publication dates. Imports require an explicit retrieval date or provenance
+  with matching source hashes. Pro data and compliance distinguish MIT-licensed
+  site scoring/differences from source-data terms. WebSite and Dataset license
+  URLs (including the same blanket MIT label found on the map during the audit)
+  now point to the compliance explanation. SEO baselines intentionally
+  update those JSON-LD licenses, Pro data metadata and compliance links/anchor.
+  The build leaves CSP hashes unchanged; analytics inline scripts stay
+  unchanged. The new
+  Japanese copy is an unsigned draft recorded verbatim in Issue #926, authorized
+  for preview owner review only and not for production before signature.
+
 - **Ordinary occupation related navigation (#916 / JOB_0014).** Replace the
   related-occupation text list with responsive paper cards showing existing
   summary scores and displayed-value bands, and turn the seven Pro chapters

@@ -48,7 +48,7 @@
       "publisher": {
         "@id": "https://mirai-shigoto.com/#organization"
       },
-      "license": "https://opensource.org/licenses/MIT",
+      "license": "https://mirai-shigoto.com/compliance#data-license",
       "isAccessibleForFree": true,
       "datePublished": "2026-10-01",
       "dateModified": "2026-10-01",
@@ -82,7 +82,7 @@
       "publisher": {
         "@id": "https://mirai-shigoto.com/#organization"
       },
-      "license": "https://opensource.org/licenses/MIT",
+      "license": "https://mirai-shigoto.com/compliance#data-license",
       "isAccessibleForFree": true,
       "datePublished": "2026-10-01",
       "dateModified": "2026-10-01",

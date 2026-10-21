@@ -102,3 +102,15 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `bun run build` — ETL + Astro + rendered leak / CSP hash checks。
 - `bun run test:consistency` — built projection の L3 sanity check。`src/data/test-consistency.ts` は `src/data/consistency/files.ts`、`src/data/consistency/models.ts`、`src/data/consistency/shared.ts`、`src/data/consistency/treemap.ts` を呼び出す薄い入口。
 - `bun run verify:gates` — consistency、architecture、internal links、JSON-LD、SEO baseline。
+
+## IPD source dates
+
+`ipd_retrieved_at` records the source download date, never the import clock.
+`bun run import:ipd -- --retrieved-at YYYY-MM-DD` supplies an explicit date;
+without it, `src/data/import-ipd.ts` reads `data/.ipd_provenance.json` and
+requires both input SHA-256 hashes to match the recorded files. Missing or
+invalid dates fail before output is written. A changed source requires an
+explicit date. Timestamp evidence is retained only for the same source hashes
+and retrieval date. Provenance `ipd_ingested_at` and occupation `ingested_at`
+record the import date separately. The 2026-10-21 correction changes only the
+historical retrieval date; existing occupation ingestion dates stay unchanged.
