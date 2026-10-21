@@ -59,6 +59,7 @@ export function buildFindings(issue: FindingsManifest) {
   const incoming = swapped[0]!;
   const outgoing = issue.panels.before.find(run => run.provider === incoming.provider)!;
   assert(outgoing && outgoing.run_date < incoming.run_date && outgoing.model_id !== incoming.model_id, 'invalid outgoing seat');
+  assert(outgoing.scoring_method_id === incoming.scoring_method_id, 'method changes require separate reviewed copy');
   assert(issue.panels.after.every(run => run.run_date <= issue.incoming_run_date), 'future panel contamination');
 
   const union = [...new Map([...issue.panels.before, ...issue.panels.after].map(run => [run.batch_file, run])).values()];
@@ -68,6 +69,7 @@ export function buildFindings(issue: FindingsManifest) {
       && batch.scorer.model_provider === ref.provider && batch.scorer.scoring_method_id === ref.scoring_method_id
       && batch.run.backfill !== true, `batch metadata mismatch: ${ref.batch_file}`);
     assert(batch.prompt.prompt_file === ref.prompt_file && batch.prompt.prompt_sha256 === ref.prompt_sha256, 'prompt metadata mismatch');
+    verifiedText({ path: ref.prompt_file, sha256: ref.prompt_sha256 });
     assert(Object.keys(batch.scores).length === ids.length && ids.every(id => batch.scores[String(id)]?.aiois != null), 'incomplete occupation coverage');
     return { ref, batch };
   });
@@ -104,23 +106,31 @@ export function buildFindings(issue: FindingsManifest) {
     `| \\|Δ\\| ≥ 1.0 | — | ${summary.absDeltaGe10} |`,
     `| リスク帯 low / mid / high | ${b.low} / ${b.mid} / ${b.high} | ${a.low} / ${a.mid} / ${a.high}（変化 ${summary.bandChanges} 職業） |`,
   ]) assert(report.includes(evidence), `report disagrees with canonical computation: ${evidence}`);
+  const reportRows = Object.fromEntries(report.split('\n').flatMap((line, i) => {
+    const match = /^\| (\d+) \|/.exec(line);
+    return match ? [[Number(match[1]), i + 1]] : [];
+  })) as Record<number, number>;
+  for (const row of [...up.slice(0, 2), ...down.slice(0, 2)]) {
+    const sourceLine = report.split('\n')[reportRows[row.id]! - 1];
+    assert(sourceLine?.includes(`| ${row.title} | ${row.before.toFixed(1)} | ${row.after.toFixed(1)} | ${signed(row.delta)} |`), `report example disagrees: ${row.id}`);
+  }
 
   const payloads: Record<CsvFile, string> = {
     scores: csv(CSV_HEADERS.scores, rows.map(row => [issue.issue_id, row.id, row.title, row.sourceUrl, issue.standard_version, panelId('before'), panelId('after'), row.beforeRaw, row.afterRaw, row.before.toFixed(1), row.after.toFixed(1), signed(row.delta), row.deltaRaw, row.beforeBand, row.afterBand, row.beforeBand !== row.afterBand, row.sourceRef])),
     summary: csv(CSV_HEADERS.summary, [[issue.issue_id, issue.incoming_run_date, issue.report.generated_on, summary.occupationCount, summary.skippedOccupationIds.length, meanBeforeRaw, meanAfterRaw, summary.meanBefore.toFixed(2), summary.meanAfter.toFixed(2), summary.absDeltaGe05, summary.absDeltaGe10, b.low, b.mid, b.high, a.low, a.mid, a.high, summary.bandChanges, up[0]?.id, down[0]?.id]]),
     panel: csv(CSV_HEADERS.panel, (['before', 'after'] as const).flatMap(side => issue.panels[side].map(run => [panelId(side), run.provider, run.model_id, run.run_date, run.batch_file, run.batch_sha256, run.scoring_method_id, run.backfill]))),
     provenance: csv(CSV_HEADERS.provenance, [
-      ['site-analysis', 'before_raw;after_raw;before_display;after_display;delta_display;delta_raw;before_band;after_band;band_changed;summary;panel', issue.report.path, issue.standard_version, `https://github.com/jasonhnd/jobs/blob/${issue.snapshot_commit}/${issue.report.path}`, '', 'mirai-shigoto.com', `https://github.com/jasonhnd/jobs/blob/${issue.snapshot_commit}/LICENSE`, 'AIOIS-10 vendor means and displayed-score differences; MIT applies only to site-owned contributions.', issue.snapshot_commit, issue.report.sha256],
+      ['site-analysis', 'issue_id;standard_version;before_panel_id;after_panel_id;before_raw;after_raw;before_display;after_display;delta_display;delta_raw;before_band;after_band;band_changed;run_date;report_generated_on;occupation_count;skipped_count;mean_before_raw;mean_after_raw;mean_before_display;mean_after_display;n_abs_ge_05;n_abs_ge_10;low_before;mid_before;high_before;low_after;mid_after;high_after;n_band_changed;up_example_id;down_example_id;panel_id;scoring_method_id;backfill', issue.report.path, issue.standard_version, `https://github.com/jasonhnd/jobs/blob/${issue.snapshot_commit}/${issue.report.path}`, '', 'mirai-shigoto.com', `https://github.com/jasonhnd/jobs/blob/${issue.snapshot_commit}/LICENSE`, 'AIOIS-10 vendor means and displayed-score differences; MIT applies only to site-owned contributions.', issue.snapshot_commit, issue.report.sha256],
       ['ipd-description', 'occupation_name_ja;occupation_source_url', provenance.files.description.name, provenance.ipd_version.replace(/^v/, ''), provenance.source_file_url_description, provenance.ipd_retrieved_at, 'JILPT', provenance.tos_url, 'Selected occupation names and source URLs; edited into a comparison table. Job tag TOS Article 9; no MIT sublicense.', issue.snapshot_commit, provenance.files.description.sha256],
       ['site-occupation-id', 'occupation_id', issue.occupations.path, issue.dataset_version, `https://github.com/jasonhnd/jobs/tree/${issue.snapshot_commit}/data/occupations`, '', 'mirai-shigoto.com', `https://github.com/jasonhnd/jobs/blob/${issue.snapshot_commit}/LICENSE`, 'Site identifiers, not IPD identifiers.', issue.snapshot_commit, issue.occupations.sha256],
-      ['source-records', 'source_ref;batch_file;batch_sha256;source_id;source_file_name;source_version;source_url;retrieved_on;rights_holder;terms_url;transform_note;snapshot_commit;source_sha256', issue.provenance.source_path, provenance.ipd_version.replace(/^v/, ''), provenance.source_index_url, provenance.ipd_retrieved_at, '', provenance.tos_url, 'Factual attribution records. Source organizations and model names remain the property of their respective rights holders; no affiliation or endorsement.', issue.snapshot_commit, issue.provenance.sha256],
+      ['source-records', 'provider;model_id;source_ref;batch_file;batch_sha256;source_id;field_names;source_file_name;source_version;source_url;retrieved_on;rights_holder;terms_url;transform_note;snapshot_commit;source_sha256', issue.provenance.source_path, provenance.ipd_version.replace(/^v/, ''), provenance.source_index_url, provenance.ipd_retrieved_at, '', provenance.tos_url, 'Factual attribution records. Source organizations and model names remain the property of their respective rights holders; no affiliation or endorsement.', issue.snapshot_commit, issue.provenance.sha256],
     ]),
   };
   const downloads = CSV_FILES.map(file => {
     const text = payloads[file];
     return { file, text, href: downloadPath(issue, file), bytes: Buffer.byteLength(text), sha256: sha256(text) };
   });
-  return { issue, provenance, summary, rows, up, down, chartRows: [...up.slice(0, 2), ...down.slice(0, 2)],
+  return { issue, provenance, summary, rows, up, down, reportRows, chartRows: [...up.slice(0, 2), ...down.slice(0, 2)],
     tableRows: rows.filter(row => row.beforeBand !== row.afterBand || Math.abs(row.delta * 10) >= 5),
     incoming, outgoing, meanBeforeRaw, meanAfterRaw, downloads };
 }

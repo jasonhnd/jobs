@@ -1,4 +1,4 @@
-import firstIssue from '../../../data/findings/2026-10-01-gpt-6.1-sol/manifest.json';
+import firstIssue from '../../../data/findings/2026-10-01-gpt-6.1-sol/manifest.json' with { type: 'json' };
 import { siteConfig } from '../config';
 
 export interface FrozenFile { readonly path: string; readonly sha256: string }

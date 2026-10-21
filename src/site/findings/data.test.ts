@@ -26,7 +26,9 @@ describe('frozen Findings issue 1', () => {
     }
     assert.equal(data.downloads[0]!.text.trim().split('\n').length, 557);
     assert.equal(data.downloads.find(file => file.file === 'panel')!.text.trim().split('\n').length, 7);
-    expect(data.provenance.ipd_retrieved_at).toBe(JSON.parse(readFileSync('data/.ipd_provenance.json', 'utf8')).ipd_retrieved_at);
+    expect(data.provenance.ipd_retrieved_at).toBe(JSON.parse(readFileSync(issue.provenance.path, 'utf8')).ipd_retrieved_at);
+    const mappedFields = new Set(data.downloads.find(file => file.file === 'provenance')!.text.trim().split('\n').slice(1).flatMap(line => line.split(',')[1]!.split(';')));
+    for (const fields of Object.values(CSV_HEADERS)) for (const field of fields) assert(mappedFields.has(field), `missing field-level attribution: ${field}`);
     const provenance = data.downloads.find(file => file.file === 'provenance')!.text;
     expect(provenance).toContain('MIT applies only to site-owned contributions');
     expect(provenance).toContain('Job tag TOS Article 9; no MIT sublicense');
@@ -57,6 +59,10 @@ describe('frozen Findings issue 1', () => {
 });
 
 describe('Findings template contract', () => {
+  test('pins the verbatim unsigned Japanese template and Legal draft', () => {
+    assert.equal(sha256(readFileSync('src/content/findings.ja.json')), '0e51b1fe9e06fba20aa5add835532515602e9fb52b985867a3ba54e8ee01c3ab');
+    assert.equal(sha256(readFileSync('src/content/findings-rights.ja.json')), 'e32d5c108c6368a28caea939c490f5eef5b9bf5e2316a62d7c2651f99cefcd2a');
+  });
   test('keeps copy variables from raw totals, source provenance and frozen panel only', () => {
     const copy = findingsCopy(data);
     expect(copy.T06).toBe('2026-10-01 の更新前後で、全職業のAI影響度の平均は4.55から4.68になりました。');
