@@ -26,8 +26,8 @@ export const AI_ANXIETY_ITEMS: ReadonlyArray<QAItem> = [
   {
     slug: 'ai-augment-vs-replace',
     question: 'AI 補強 vs 置き換え、何が違う？',
-    short_answer: 'AI 補強 = 業務生産性が AI で向上する。AI 置き換え = 業務の大部分が AI で完結する。前者は AI 影響度 4-6、後者は 7+ で評価。',
-    reasoning: 'AI 補強職業 (AI 影響度 4-6) は、AI ツールを使いこなすことで生産性が大きく上がる。業務の本質は人が担い、AI は付加部分を担当。一方、AI 置き換え職業 (7+) は業務の中核が AI で実行可能で、人の役割が「監督」にシフトする。どちらに該当するかでキャリア戦略が変わります。',
+    short_answer: 'AI 補強 = 業務生産性が AI で向上する。AI 置き換え = 業務の大部分が AI で完結する。前者は AI 影響度 4.0〜6.9、後者は 7.0 以上に多い。',
+    reasoning: 'AI 補強職業 (AI 影響度 4.0〜6.9) は、AI ツールを使いこなすことで生産性が大きく上がる。業務の本質は人が担い、AI は付加部分を担当。一方、AI 置き換え職業 (7.0 以上) は業務の中核が AI で実行可能で、人の役割が「監督」にシフトする。どちらに該当するかでキャリア戦略が変わります。',
     selector: (d) => {
       const ai = d.ai_risk?.score;
       if (ai === null || ai === undefined) return null;
