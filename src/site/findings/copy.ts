@@ -6,6 +6,10 @@ import { signed, type FindingsData } from './data';
 
 export type TemplateId = keyof typeof templates;
 export const controls = { copy: 'コピー', copied: 'コピーしました', read: '読む' } as const;
+// Owner-signed display replacement; the citation template remains unchanged for copying.
+export function citationForDisplay(text: string): string {
+  return text.replaceAll('{{accessed_on}}', '（コピー時に自動で入ります）');
+}
 export function renderTemplate(id: TemplateId, values: Readonly<Record<string, string | number>>): string {
   return templates[id].replace(/\{\{(\w+)\}\}/g, (_, key: string) => {
     if (!(key in values)) throw new Error(`findings: missing template variable ${key}`);
@@ -52,7 +56,7 @@ export function findingsCopy(data: FindingsData) {
 export function allowedJapanese(data: FindingsData, withRights = false): ReadonlySet<string> {
   const copy = findingsCopy(data);
   const lines = [...Object.keys(templates).map(id => copy[id as TemplateId]), ...Object.values(copy.labels).flat(),
-    ...Object.values(controls), copy.issueLabel, copy.citation, ...data.rows.map(row => row.title), data.issue.standard_version];
+    ...Object.values(controls), copy.issueLabel, copy.citation, citationForDisplay(copy.T25), ...data.rows.map(row => row.title), data.issue.standard_version];
   if (withRights) lines.push(...copy.rightsSections.flatMap(section => [section.heading, ...section.lines]));
   return new Set(lines.filter((line): line is string => typeof line === 'string').map(normalizeCopy));
 }
