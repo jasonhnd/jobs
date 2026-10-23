@@ -2,8 +2,9 @@ import { describe, expect, test } from 'bun:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildFindings, csv, CSV_HEADERS, loadFindings, sha256 } from './data';
+import { citationForCopy } from './clipboard';
 import { FINDINGS, discoverableFindings, publishedFindings, findingsForRun } from './registry';
-import { findingsCopy, unexpectedJapanese, renderTemplate } from './copy';
+import { findingsCopy, unexpectedJapanese, renderTemplate, citationForDisplay } from './copy';
 
 const issue = FINDINGS[0]!;
 const data = loadFindings(issue);
@@ -78,6 +79,19 @@ describe('Findings template contract', () => {
     expect(copy.T25).toContain('{{accessed_on}}');
     expect(copy.rightsSections.flatMap(section => section.lines).join('\n')).not.toMatch(/\bT\d{2}\b/);
     expect(() => renderTemplate('T01', {})).toThrow('missing template variable');
+  });
+
+  test('displays the copy-time note while copying the unchanged template with the local date', () => {
+    const copy = findingsCopy(data);
+    const display = citationForDisplay(copy.T25);
+    expect(display).toBe(copy.T25.replace('{{accessed_on}}', '（コピー時に自動で入ります）'));
+    expect(display).not.toContain('{{');
+    assert.deepEqual(unexpectedJapanese([display], data), []);
+    assert.deepEqual(unexpectedJapanese([display + '追加'], data), [display + '追加']);
+    const now = new Date(2026, 0, 2, 0, 1);
+    expect(citationForCopy(copy.T25, now)).toBe(copy.T25.replace('{{accessed_on}}', '2026-01-02'));
+    expect(citationForCopy(copy.T25, now)).toMatch(/参照日 \d{4}-\d{2}-\d{2}/);
+    expect(citationForCopy(copy.citation, now)).toBe(copy.citation);
   });
 
   test('rejects a Japanese sentence appended outside the template or inside a valid node', () => {
