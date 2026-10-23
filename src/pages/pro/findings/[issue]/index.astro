@@ -6,7 +6,7 @@ import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
 import { stringifyJsonLd } from '@/lib/json-for-script';
 import { FINDINGS, findingsUrl, isDiscoverable, rightsPath, type FindingsManifest } from '@/site/findings/registry';
 import { loadFindings, signed } from '@/site/findings/data';
-import { controls, findingsCopy } from '@/site/findings/copy';
+import { controls, findingsCopy, citationForDisplay } from '@/site/findings/copy';
 import { findingsJsonLd } from '@/site/findings/structured';
 import { publishedOnLabel } from '@/site/findings/publish';
 import { FINDINGS_ATOM_PATH } from '@/site/findings/atom';
@@ -96,12 +96,12 @@ const metadata = [publishedOnLabel(issue), issue.modified_on, issue.incoming_run
         <div class="findings-citation">
           <p id="findings-citation">{copy.citation}</p>
           <a href="#sources">{copy.T24}</a>
-          <button hidden type="button" class="findings-copy-button" data-copy-target="findings-citation" data-copy-success={controls.copied}>{controls.copy}</button>
+          <button hidden type="button" class="findings-copy-button" data-copy-target="findings-citation" data-copy-template={copy.citation} data-copy-success={controls.copied}>{controls.copy}</button>
           <span class="findings-copy-status" role="status" aria-live="polite" />
         </div>
         <div class="findings-citation">
-          <p id="findings-bibliography" class="findings-bibliography">{copy.T25}</p>
-          <button hidden type="button" class="findings-copy-button" data-copy-target="findings-bibliography" data-copy-success={controls.copied}>{controls.copy}</button>
+          <p id="findings-bibliography" class="findings-bibliography">{citationForDisplay(copy.T25)}</p>
+          <button hidden type="button" class="findings-copy-button" data-copy-target="findings-bibliography" data-copy-template={copy.T25} data-copy-success={controls.copied}>{controls.copy}</button>
           <span class="findings-copy-status" role="status" aria-live="polite" />
         </div>
       </section>
@@ -140,7 +140,7 @@ const metadata = [publishedOnLabel(issue), issue.modified_on, issue.incoming_run
     document.querySelectorAll<HTMLButtonElement>('[data-copy-target]').forEach(button => {
       button.hidden = false;
       button.addEventListener('click', async () => {
-        const text = document.getElementById(button.dataset.copyTarget!)?.textContent;
+        const text = button.dataset.copyTemplate;
         if (!text) return;
         try {
           await navigator.clipboard.writeText(citationForCopy(text, new Date()));

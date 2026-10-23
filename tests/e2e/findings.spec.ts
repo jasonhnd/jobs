@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { FINDINGS, findingsPath, rightsPath, findingsUrl } from '../../src/site/findings/registry';
 import { loadFindings } from '../../src/site/findings/data';
-import { findingsCopy, unexpectedJapanese, controls } from '../../src/site/findings/copy';
+import { findingsCopy, unexpectedJapanese, controls, citationForDisplay } from '../../src/site/findings/copy';
 import { FINDINGS_ATOM_PATH, renderFindingsAtom } from '../../src/site/findings/atom';
 
 const issue = FINDINGS[0]!;
@@ -34,6 +34,7 @@ for (const route of routes) {
     });
     expect(unexpectedJapanese(texts, data, route.endsWith('/rights'))).toEqual([]);
     const visibleText = await page.locator('body').innerText();
+    expect(visibleText).not.toContain('{{');
     expect(visibleText).not.toMatch(/\bT\d{2}\b/);
     expect(visibleText).not.toMatch(/:\d+-L\d+/);
   });
@@ -64,7 +65,7 @@ test('Findings structured dates, summary numbers, CSV bytes and machine exclusio
   expect(properties).toEqual({ mean_before_display: 4.55, mean_after_display: 4.68, n_band_changed: 34, n_abs_ge_05: 12, n_abs_ge_10: 0, occupation_count: 556 });
   await expect(page.locator('[data-claim="T06"]')).toContainText(copy.T06);
   await expect(page.locator('dt').filter({ hasText: copy.labels.meta[1] }).locator('..')).toContainText(issue.modified_on);
-  await expect(page.locator('#findings-bibliography')).toHaveText(copy.T25);
+  await expect(page.locator('#findings-bibliography')).toHaveText(citationForDisplay(copy.T25));
   // Connect only to the local mirror; exercise the existing preview Host rule.
   const preview = await request.get(findingsPath(issue), { headers: { Host: 'pre.mirai-shigoto.com' } });
   expect(preview.status()).toBe(200);
@@ -140,8 +141,11 @@ test('Findings exact clipboard text uses the reader local day', async ({ browser
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(copy.citation);
   await expect(page.locator('[role="status"]').nth(0)).toHaveText(controls.copied);
   await buttons.nth(1).click();
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(copy.T25.replace('{{accessed_on}}', '2026-10-22'));
-  await expect(page.locator('#findings-bibliography')).toHaveText(copy.T25);
+  const bibliography = await page.evaluate(() => navigator.clipboard.readText());
+  expect(bibliography).toBe(copy.T25.replace('{{accessed_on}}', '2026-10-22'));
+  expect(bibliography).toMatch(/参照日 \d{4}-\d{2}-\d{2}/);
+  expect(bibliography).not.toContain('{{');
+  await expect(page.locator('#findings-bibliography')).toHaveText(citationForDisplay(copy.T25));
   await context.close();
 });
 
@@ -157,6 +161,8 @@ test('Findings complete content and downloads survive disabled JavaScript', asyn
   await expect(page.locator('[data-findings-table="chart"] .findings-cards > li')).toHaveCount(4);
   await expect(page.locator('[data-findings-table="changes"] .findings-cards > li')).toHaveCount(45);
   await expect(page.locator('#findings-citation')).toHaveText(copy.citation);
+  await expect(page.locator('#findings-bibliography')).toHaveText(citationForDisplay(copy.T25));
+  expect(await page.locator('body').innerText()).not.toContain('{{');
   await expect(page.locator('a[download]')).toHaveCount(4);
   await expect(page.locator('#sources')).toBeVisible();
   await expect(page.locator('[data-copy-target]').nth(0)).toBeHidden();
