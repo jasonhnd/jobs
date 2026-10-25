@@ -66,3 +66,9 @@ export function findingsForRun(model: string, date: string): readonly FindingsMa
     return [incoming, outgoing].some(run => run?.model_id === model && run.run_date === date);
   });
 }
+
+/** Scoring history links an issue only to its own incoming run. */
+export function findingsForIncomingRun(model: string, date: string): readonly FindingsManifest[] {
+  return FINDINGS.filter(issue => issue.incoming_run_date === date
+    && issue.panels.after.some(run => run.model_id === model && run.run_date === date));
+}
