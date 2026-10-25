@@ -351,6 +351,9 @@ describe('/models built page contract', () => {
     const display = escapeRegExp(sample.modelDisplay);
 
     assert.match(visible, new RegExp(`<h1>${display} の職業スコア</h1>`));
+    const expectedOgImage = `https://mirai-shigoto.com/api/og?model=${encodeURIComponent(sample.slug)}`;
+    assert.match(html, new RegExp(`<meta property="og:image" content="${escapeRegExp(expectedOgImage)}">`));
+    assert.match(html, new RegExp(`<meta name="twitter:image" content="${escapeRegExp(expectedOgImage)}">`));
     assert.match(visible, /<dt>評価基準<\/dt><dd>AIOIS-10 v1\.0<\/dd>/);
     assert.match(visible, new RegExp(escapeRegExp(formatJapaneseDate(sample.runDate))));
     assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(sample.model)}`).test(visible), false);
@@ -385,6 +388,18 @@ describe('/models built page contract', () => {
         assert.match(history, new RegExp(escapeRegExp(MODELS_RUN_HISTORY_NOTE)));
         assert.equal(history.includes(MODELS_RUN_IN_PANEL_NOTE), false);
       }
+    }
+  });
+
+  test('sets every generated model run OG and Twitter image to its dated-run card URL', async () => {
+    const runs = await occupationRuns();
+    for (const run of runs) {
+      const path = builtModelDetailPath(run.slug);
+      if (path == null) return;
+      const html = readFileSync(path, 'utf-8');
+      const expected = `https://mirai-shigoto.com/api/og?model=${encodeURIComponent(run.slug)}`;
+      assert.match(html, new RegExp(`<meta property="og:image" content="${escapeRegExp(expected)}">`), run.slug);
+      assert.match(html, new RegExp(`<meta name="twitter:image" content="${escapeRegExp(expected)}">`), run.slug);
     }
   });
 
