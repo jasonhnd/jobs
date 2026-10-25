@@ -399,16 +399,22 @@ describe('signed legacy copy batch 1', () => {
     });
   }
 
-  test('#12 preserves both ranking set prefixes and the occupation fact function', () => {
+  test('#12 occupation and ranking-set fact prefixes use 本サイト', () => {
     const source = read('lib/ai-fact-summary.ts');
+    const occupation = functionBody(source, 'buildOccupationGeoFactSummary');
     const set = functionBody(source, 'buildOccupationSetGeoFactSummary');
-    assert.equal(count(set, 'GEO-Aの全${facts.occupationCount}職業データでは、'), 1);
-    assert.equal(count(set, 'GEO-Aの全${facts.occupationCount}職業データから、'), 1);
-    assert.equal(count(source, '本サイトの全${facts.occupationCount}職業データでは、'), 2);
-    assert.equal(createHash('sha256').update(functionBody(source, 'buildOccupationGeoFactSummary')).digest('hex'),
-      'c41cf14d50931250e2b22c48e68f2020168a451887d8740784216357121c99e9');
-    assert.equal(createHash('sha256').update(functionBody(source, 'buildOccupationSetGeoFactSummary')).digest('hex'),
-      '03f97a45647dfe15b2600db62010580d9a4efc8d39c6ec4805be7f0364d5ec52');
+    assert.equal(count(occupation, '本サイトの全${facts.occupationCount}職業データでは、'), 1);
+    assert.equal(count(occupation, 'GEO-Aの全'), 0);
+    assert.equal(count(set, '本サイトの全${facts.occupationCount}職業データでは、'), 1);
+    assert.equal(count(set, '本サイトの全${facts.occupationCount}職業データから、'), 1);
+    assert.equal(count(set, 'GEO-Aの全'), 0);
+    assert.equal(count(source, '本サイトの全${facts.occupationCount}職業データでは、'), 4);
+    assert.equal(count(source, '本サイトの全${facts.occupationCount}職業データから、'), 1);
+    assert.equal(count(source, 'GEO-Aの全'), 0);
+    assert.equal(createHash('sha256').update(occupation).digest('hex'),
+      '775ef91ea068b0b7d6393fe698ecbf463ac9950dd1e1ca7e946ccd7d8d7ea9c4');
+    assert.equal(createHash('sha256').update(set).digest('hex'),
+      'ab58cee24c238b3de6a0b9263331dbe269d4f59b1e39c4d14d3e39ec39d8ab94');
   });
 
   test('#26 retains the historical distribution instead of recalculating it', () => {
