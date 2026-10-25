@@ -26,7 +26,7 @@ import {
   MODELS_HUB_VENDORS_INTRO,
 } from '@/site/consensus-copy';
 import { stringifyJsonLd } from '@/lib/json-for-script';
-import { FINDINGS, findingsPath } from '@/site/findings/registry';
+import { FINDINGS, findingsPath, findingsForRun, isDiscoverable } from '@/site/findings/registry';
 import { findingsLinkTitle } from '@/site/findings/links';
 
 const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_deep.json'), 'utf-8');
@@ -158,6 +158,14 @@ a:hover{color:var(--orange-hot)}
 .data-note-history{margin-top:16px}
 .data-note-history summary{cursor:pointer;font-weight:600;color:var(--fg)}
 .data-note-history[open] summary{margin-bottom:12px}
+.scoring-history-list{list-style:none;margin:0;padding:var(--s-1)}
+.scoring-history-list li{border-top:1px solid var(--border);padding:var(--s-4) 0}
+.scoring-history-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-4);margin:0;font-size:var(--t-sm)}
+.scoring-history-row div{min-width:0}
+.scoring-history-row dt{color:var(--ink-meta);font-size:var(--t-xs);font-weight:600}
+.scoring-history-row dd{margin:var(--s-1) 0 0;color:var(--ink);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.scoring-history-findings{display:block;margin-top:var(--s-2)}
+@media(max-width:599px){.scoring-history-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:880px){
   .models-hero,.vendor-grid,.contrast,.quote-grid,.cta-band{grid-template-columns:1fr}
   .cta-actions{justify-content:flex-start}
@@ -336,6 +344,28 @@ a:hover{color:var(--orange-hot)}
         <p>{CONSENSUS_SWITCH_NOTE_LEAD}</p>
         <p>{CONSENSUS_SWITCH_NOTE_IMPACT}</p>
       </details>
+    </section>
+
+    <section class="feature-section scoring-history" aria-labelledby="models-scoring-history">
+      <h2 id="models-scoring-history">採点の記録</h2>
+      <p class="section-intro">各回の採点日と対象職業数です。最新の回から並べています。</p>
+      <ol class="scoring-history-list" role="list">
+        {page.scoringHistory.map((run) => (
+          <li>
+            <dl class="scoring-history-row">
+              <div><dt>採点日</dt><dd><time datetime={run.date}>{formatJapaneseDate(run.date)}</time></dd></div>
+              <div><dt>モデル</dt><dd>
+                <a href={run.href}>{run.modelDisplay}</a>
+                {findingsForRun(run.model, run.date).filter(isDiscoverable).map((issue) => (
+                  <a class="scoring-history-findings" href={findingsPath(issue)}>{findingsLinkTitle(issue)}</a>
+                ))}
+              </dd></div>
+              <div><dt>提供元</dt><dd>{run.vendorDisplay}</dd></div>
+              <div><dt>対象職業数</dt><dd>{run.covered_count}</dd></div>
+            </dl>
+          </li>
+        ))}
+      </ol>
     </section>
 
     <template id="models-projection" set:html={page.projectionJson}></template>
