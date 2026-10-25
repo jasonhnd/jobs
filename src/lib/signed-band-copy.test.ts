@@ -34,7 +34,8 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   // Occupation FAQ 将来性 clause (not in the signed set).
   ['views/occupation-faqs.ts', 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性がある'],
   // Ranking intros, hub descriptions and FAQ prose waiting for a rewrite.
-  ['views/ranking/rankings/high-risk.ts', '現場職が低 AI 影響度のまま安定する'],
+  // Owner-signed legacy-copy batch 2 (#956), row #2. 低め is degree, not a score band.
+  ['views/ranking/rankings/high-risk.ts', 'AI 影響度が低めです'],
   ['views/ranking/rankings/employment.ts', '低 AI 影響度かつ正社員比率が高い'],
   ['views/ranking/rankings/employment.ts', 'AI 影響度も低めの傾向です'],
   ['views/ranking/rankings/intent.ts', '求人需要 <strong>高め以上</strong>'],
