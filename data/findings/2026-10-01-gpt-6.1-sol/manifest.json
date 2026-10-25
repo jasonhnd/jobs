@@ -1,9 +1,9 @@
 {
   "issue_id": "2026-10-01-gpt-6.1-sol",
   "issue_number": 1,
-  "status": "signed",
+  "status": "published",
   "template_version": "findings-ja-v1",
-  "first_published_on": null,
+  "first_published_on": "2026-10-25T10:30:00+09:00",
   "modified_on": "2026-10-21",
   "incoming_run_date": "2026-10-01",
   "standard_version": "AIOIS-10 v1.0",
