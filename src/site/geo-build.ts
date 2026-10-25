@@ -10,6 +10,7 @@ import {
   renderLlmsFullTxt,
   renderLlmsTxt,
 } from './geo-render.js';
+import { withFindingsLlms, withFindingsLlmsFull } from './findings/llms';
 
 export interface GeoSurfaceBuildResult {
   readonly files: string[];
@@ -37,8 +38,8 @@ export async function buildGeoSurfaces(
   const llmsFullPath = join(distRoot, 'llms-full.txt');
   const homeJsonLdPath = join(repoRoot, 'src', 'pages', '_index-json-ld.json');
 
-  await writeIfChanged(llmsPath, renderLlmsTxt(facts));
-  await writeIfChanged(llmsFullPath, renderLlmsFullTxt(facts));
+  await writeIfChanged(llmsPath, withFindingsLlms(renderLlmsTxt(facts)));
+  await writeIfChanged(llmsFullPath, withFindingsLlmsFull(renderLlmsFullTxt(facts)));
   await writeIfChanged(homeJsonLdPath, renderHomeJsonLd(facts));
 
   return {

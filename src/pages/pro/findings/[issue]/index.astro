@@ -1,0 +1,153 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import FindingsTable from '@/components/findings/FindingsTable.astro';
+import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
+import { stringifyJsonLd } from '@/lib/json-for-script';
+import { FINDINGS, findingsUrl, isDiscoverable, rightsPath, type FindingsManifest } from '@/site/findings/registry';
+import { loadFindings, signed } from '@/site/findings/data';
+import { controls, findingsCopy, citationForDisplay } from '@/site/findings/copy';
+import { findingsJsonLd } from '@/site/findings/structured';
+import { publishedOnLabel } from '@/site/findings/publish';
+import { FINDINGS_ATOM_PATH } from '@/site/findings/atom';
+import { HISTORICAL_REPORTS } from '@/site/findings/links';
+import { occupationRoute } from '@/site/route-policy';
+import { runSlug } from '@/site/score-attribution';
+import { FINDINGS_CSS } from '../_styles';
+
+export function getStaticPaths() { return FINDINGS.map(issue => ({ params: { issue: issue.issue_id }, props: { issue } })); }
+const { issue } = Astro.props as { issue: FindingsManifest };
+const data = loadFindings(issue);
+const copy = findingsCopy(data);
+const canonical = findingsUrl(issue);
+const reportUrl = `https://github.com/jasonhnd/jobs/blob/${issue.snapshot_commit}/${issue.report.path}`;
+const reportLine = (id: number) => data.reportRows[id]!;
+const claims = [
+  { id: 'T06', heading: copy.T05, lines: [{ text: copy.T06, line: 9 }] },
+  { id: 'T08', heading: copy.T07, lines: [{ text: copy.T08, line: 12 }, { text: copy.T09, line: 12 }] },
+  { id: 'T11', heading: copy.T10, lines: [{ text: copy.T11, line: '10-L11' }] },
+  { id: 'T13', heading: copy.T12, lines: [{ text: copy.upSentence, line: reportLine(data.up[0]!.id) }] },
+  { id: 'T15', heading: copy.T14, lines: [{ text: copy.downSentence, line: reportLine(data.down[0]!.id) }] },
+];
+const evidence = [
+  [null, 3], [null, 4], [null, 12], [copy.T05, 9], [copy.T07, 12], [copy.T07, 12],
+  [copy.T10, '10-L11'], [copy.T12, reportLine(data.up[0]!.id)], [copy.T14, reportLine(data.down[0]!.id)], [null, reportLine(copy.citationRow.id)],
+] as const;
+const sourceLabel = (line: number | string) => `${issue.report.path}:${String(line).replace('-L', '-')}`;
+const panelRuns = [...new Map([...issue.panels.before, ...issue.panels.after].map(run => [run.batch_file, run])).values()];
+const metadata = [publishedOnLabel(issue), issue.modified_on, issue.incoming_run_date, data.summary.occupationCount, issue.standard_version];
+---
+<BaseLayout title={copy.T01} description={copy.T42} ogTitle={copy.T43} ogDescription={copy.T42} canonical={canonical} noindex={!isDiscoverable(issue)} bodyClass="page-doc findings-surface">
+  <script slot="jsonLd" type="application/ld+json" set:html={stringifyJsonLd(findingsJsonLd(data))} />
+  <link slot="head" rel="alternate" type="application/atom+xml" href={FINDINGS_ATOM_PATH} title={copy.T44} />
+  <style slot="head" set:html={CANONICAL_DOC_CSS + FINDINGS_CSS} />
+  <div id="wrapper" class="findings-page">
+    <main id="content" class="findings" data-findings-copy="issue">
+      <nav class="findings-crumb" aria-label={copy.T44}>
+        <a href="/pro">Pro</a><span aria-hidden="true">›</span>
+        <a class="series-crumb" href="/pro/findings">{copy.T44}</a><span aria-hidden="true">›</span><span>{copy.issueLabel}</span>
+      </nav>
+      <header class="findings-header">
+        <h1>{copy.T01}</h1>
+        <p class="findings-caption"><a href={`${reportUrl}#L3`}>{copy.T02}</a></p>
+        <p><a href={`${reportUrl}#L4`}>{copy.T03}</a></p>
+        <p><a href={`${reportUrl}#L12`}>{copy.T04}</a></p>
+      </header>
+      <dl class="findings-meta">
+        {metadata.map((value, index) => <div><dt>{copy.labels.meta[index]}</dt><dd>{value}</dd></div>)}
+        <div><dt>{copy.labels.meta[5]}</dt><dd><a href={rightsPath(issue)}>{copy.labels.meta[5]}</a></dd></div>
+      </dl>
+      <div class="findings-claims">
+        {claims.map(claim => <section class="findings-claim" data-claim={claim.id} aria-labelledby={`claim-${claim.id}`}>
+          <h2 id={`claim-${claim.id}`}>{claim.heading}</h2>
+          {claim.lines.map(line => <p><a href={`${reportUrl}#L${line.line}`}>{line.text}</a></p>)}
+        </section>)}
+      </div>
+      <aside class="findings-notes">{[copy.T16, copy.T17, copy.T18, copy.T19].map(text => <p>{text}</p>)}</aside>
+      <section class="findings-section" aria-labelledby="chart-title">
+        <figure class="findings-chart" aria-describedby="chart-description chart-alternative">
+          <h3 id="chart-title">{copy.T26}</h3>
+          <div class="findings-legend"><span><i class="findings-dot" aria-hidden="true" />{copy.labels.chart[2]}</span><span><i class="findings-dot after" aria-hidden="true" />{copy.labels.chart[3]}</span></div>
+          {data.chartRows.map(row => <div class="findings-plot-row" data-chart-occupation={row.id}>
+            <div class="findings-plot-name"><a href={occupationRoute(row.id, 'pro').pagePath}>{row.title}</a><span>{signed(row.delta)}</span></div>
+            <div class="findings-plot" data-axis-min="0" data-axis-max="10">
+              <span class="findings-plot-value before" style={`left:${row.before * 10}%`}>{row.before.toFixed(1)}</span>
+              <svg viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true">
+                <line class="axis" x1="0" x2="100" y1="32" y2="32" />
+                <line class="connector" x1={row.before * 10} x2={row.after * 10} y1="32" y2="32" />
+              </svg>
+              <i class="findings-dot findings-plot-dot" style={`left:${row.before * 10}%`} aria-hidden="true" />
+              <i class="findings-dot after findings-plot-dot" style={`left:${row.after * 10}%`} aria-hidden="true" />
+              <span class="findings-plot-value after" style={`left:${row.after * 10}%`}>{row.after.toFixed(1)}</span>
+            </div>
+          </div>)}
+          <div><div class="findings-axis"><span>0</span><span>5</span><span>10</span></div><p class="findings-axis-label">{copy.labels.chart[0]}</p></div>
+          <figcaption id="chart-description" class="findings-caption"><p>{copy.T28}</p><p>{copy.T29}</p></figcaption>
+          <div id="chart-alternative" class="findings-caption"><p>{copy.T30}</p><p>{copy.T31}</p></div>
+        </figure>
+        <FindingsTable rows={data.chartRows} copy={copy} kind="chart" />
+      </section>
+      <section class="findings-section" aria-labelledby="changes-title">
+        <h2 id="changes-title">{copy.T10}</h2>
+        <FindingsTable rows={data.tableRows} copy={copy} kind="changes" />
+      </section>
+      <section id="citation" class="findings-section" aria-labelledby="citation-title">
+        <h2 id="citation-title">{copy.T20}</h2>
+        <div class="findings-citation">
+          <p id="findings-citation">{copy.citation}</p>
+          <a href="#sources">{copy.T24}</a>
+          <button hidden type="button" class="findings-copy-button" data-copy-target="findings-citation" data-copy-template={copy.citation} data-copy-success={controls.copied}>{controls.copy}</button>
+          <span class="findings-copy-status" role="status" aria-live="polite" />
+        </div>
+        <div class="findings-citation">
+          <p id="findings-bibliography" class="findings-bibliography">{citationForDisplay(copy.T25)}</p>
+          <button hidden type="button" class="findings-copy-button" data-copy-target="findings-bibliography" data-copy-template={copy.T25} data-copy-success={controls.copied}>{controls.copy}</button>
+          <span class="findings-copy-status" role="status" aria-live="polite" />
+        </div>
+      </section>
+      <section class="findings-section" aria-labelledby="download-title">
+        <h2 id="download-title">{copy.labels.links[0]}</h2>
+        <ul class="findings-downloads">{data.downloads.map(file => <li>
+          <a href={file.href} download>{file.file}.csv</a>
+          <span class="findings-file-meta">{file.bytes} B · SHA-256 {file.sha256}</span>
+        </li>)}</ul>
+        <a href={rightsPath(issue)}>{copy.labels.meta[5]}</a>
+      </section>
+      <section id="sources" class="findings-section" aria-labelledby="sources-title">
+        <h2 id="sources-title">{copy.T32}</h2>
+        <div class="findings-sources">
+          <p><a href={`${reportUrl}#L3-L12`}>{copy.T33}</a></p>
+          <p>{copy.T34}</p>
+          <ul>{panelRuns.map(run => <li><a href={`/pro/models/${runSlug({ model: run.model_id, runDate: run.run_date })}`}>{run.provider}:{run.model_id}@{run.run_date}</a></li>)}</ul>
+          <dl class="findings-evidence">{evidence.map(([heading, line]) => <><dt aria-hidden={heading == null ? 'true' : undefined}>{heading ?? ''}</dt><dd><a href={`${reportUrl}#L${line}`}>{sourceLabel(line)}</a></dd></>)}</dl>
+          <p>{copy.T39}</p><p>{copy.T40}</p><p>{copy.T41}</p>
+          <div class="findings-footer-links"><a href="/pro/methodology">{copy.labels.links[1]}</a><a href="/pro/standard">{copy.labels.links[2]}</a><a href={rightsPath(issue)}>{copy.labels.meta[5]}</a></div>
+          <h3 id="past-reports">{copy.T45}</h3>
+          <ul>{HISTORICAL_REPORTS.map(file => <li><a href={`https://github.com/jasonhnd/jobs/blob/${issue.snapshot_commit}/docs/${file}`}>{file}</a></li>)}</ul>
+        </div>
+      </section>
+      <nav class="findings-pager" aria-label={copy.labels.links[4]}>
+        <a href="#past-reports">{copy.T45}</a>
+        <a href="/pro/findings">{copy.labels.links[4]}</a>
+      </nav>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>
+<script>
+  import { citationForCopy } from '@/site/findings/clipboard';
+  if (navigator.clipboard?.writeText) {
+    document.querySelectorAll<HTMLButtonElement>('[data-copy-target]').forEach(button => {
+      button.hidden = false;
+      button.addEventListener('click', async () => {
+        const text = button.dataset.copyTemplate;
+        if (!text) return;
+        try {
+          await navigator.clipboard.writeText(citationForCopy(text, new Date()));
+          const status = button.nextElementSibling;
+          if (status) status.textContent = button.dataset.copySuccess!;
+        } catch { /* The visible citation remains available for manual copying. */ }
+      });
+    });
+  }
+</script>

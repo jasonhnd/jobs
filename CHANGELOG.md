@@ -1,3 +1,48 @@
+## Signed Findings issue 1 — Issue #938 (preview discovery, not a production publication)
+
+- Treat the signed 2026-10-01 issue as discoverable. Drop page-level noindex
+  on the three Findings HTML pages, list those URLs in the sitemap, and
+  append them to llms.txt and llms-full.txt after the shared facts render.
+- Add `/pro/findings/atom.xml`. While `first_published_on` is null, omit
+  `atom:published` and keep `updated`. `scripts/publish-findings-issue.ts`
+  records the zoned instant later; this preview build leaves it empty.
+- Store the signed rights citation sentence in the source JSON and stop
+  rewriting it at render time. Leave the four duplicated source terms empty.
+- Homepage JSON-LD, occupation pages, rankings, preview-host noindex,
+  analytics bytes, and redirect rules stay unchanged. SEO baselines move
+  only for the Findings robots meta, sitemap URLs, and the new feed link.
+
+## Draft Findings issue 1 — Issue #934 (preview review only)
+
+- Add the Findings index, the 2026-10-01 GPT-6.1 SOL comparison and its
+  field-level rights page. Japanese template and rights copy remain unsigned;
+  owner signature and separate production approval are required before main.
+- Freeze the historical three-vendor panels, occupation/source snapshots and
+  four revisioned CSV hashes. Use canonical drift arithmetic and verify the
+  archival report; omit salary, employment counts and evaluation rationales.
+- Add only the Pro home/data/model entry links. Drafts have self-canonicals
+  and noindex, stay outside sitemap/llms/feed, and do not create subscriptions.
+- Refresh SEO baselines for the three new draft HTML pages and five new Pro
+  entry links. Sitemap, existing metadata/JSON-LD and ordinary page sources
+  remain unchanged. Build adds only the new citation script CSP hash; the
+  Findings stylesheet uses the existing style policy. Analytics script bytes
+  and redirect rules stay fixed.
+- The shared serif subset gains four heading glyphs from the new pages;
+  generated protected HTML differs only in its font asset hash and existing
+  footer build timestamp. Three-width renders and a normalized full protected
+  HTML comparison are recorded with local acceptance evidence in the PR.
+
+## Signed legacy copy batch 1 — Issue #927 (Owner signed 2026-10-21)
+
+- Apply the approved 404, sector, Pro Q&A, annual-report and comparison
+  wording; preserve historical annual figures with the signed snapshot note.
+- Retire GEO-A only in sector/comparison fact prefixes. Occupation facts,
+  ranking set facts, home copy and ranking/occupation source files stay frozen.
+- Refresh SEO baselines only for the three affected descriptions (and their
+  OG/Twitter counterparts), FAQ/Article JSON-LD on the 16 sectors and five
+  Pro Q&A/comparison pages, and capture provenance. URL inventories, links,
+  canonicals, sitemap, score data, redirects and analytics scripts are unchanged.
+
 ## Unreleased — Ordinary entry composition (#900, Owner signed 2026-10-10)
 
 - Reduce ordinary homepage ranking cards from 39 to the retained eight and
@@ -51,6 +96,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · [Semantic Ve
   All stage-4 Japanese is Owner signed 2026-10-10, decision d1009-232009-1.
 
 ### Changed
+
+- **IPD retrieval evidence and layered licensing (#926, SB-20261021-04).**
+  Correct the source download date to 2026-05-02 across provenance, all 556
+  occupations, compliance and Pro methodology; retain ingestion and page
+  publication dates. Imports require an explicit retrieval date or provenance
+  with matching source hashes. Pro data and compliance distinguish MIT-licensed
+  site scoring/differences from source-data terms. WebSite and Dataset license
+  URLs (including the same blanket MIT label found on the map during the audit)
+  now point to the compliance explanation. SEO baselines intentionally
+  update those JSON-LD licenses, Pro data metadata and compliance links/anchor.
+  The build leaves CSP hashes unchanged; analytics inline scripts stay
+  unchanged. The new
+  Japanese copy is an unsigned draft recorded verbatim in Issue #926, authorized
+  for preview owner review only and not for production before signature.
 
 - **Ordinary occupation related navigation (#916 / JOB_0014).** Replace the
   related-occupation text list with responsive paper cards showing existing

@@ -1,9 +1,9 @@
 import { test, before, after } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync, readFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { mkdirSync, rmSync, writeFileSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
+import { createTestTempDir } from './lib/test-temp-dir';
 
 const SCRIPT = resolve('scripts/vercel-ignore-build.sh');
 const SKIP = 0;
@@ -52,7 +52,7 @@ function run(cwd: string, ref: string | undefined, message: string | undefined):
 }
 
 before(() => {
-  root = mkdtempSync(join(process.env.TMPDIR ?? tmpdir(), 'vercel-ignore-'));
+  root = createTestTempDir('vercel-ignore-');
   docsRepo = makeRepo('docs', ['docs/NOTES.md']);
   codeRepo = makeRepo('code', ['src/page.ts']);
   singleCommitRepo = makeRepo('single', ['src/page.ts'], true);

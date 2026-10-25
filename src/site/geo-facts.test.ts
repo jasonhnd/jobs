@@ -366,8 +366,13 @@ describe('geo renderers', () => {
       assert.doesNotMatch(rendered, /data\.detail\/(?:<id>|\{id\})\.json/i, name);
     }
 
-    const parsed = JSON.parse(jsonld) as { '@graph': Array<{ '@type': string; dateModified?: string }> };
+    const parsed = JSON.parse(jsonld) as { '@graph': Array<{ '@type': string; dateModified?: string; license?: string }> };
     assert.equal(parsed['@graph'].find((n) => n['@type'] === 'WebSite')!.dateModified, '2026-06-13');
+    for (const type of ['WebSite', 'Dataset']) {
+      assert.equal(parsed['@graph'].find((n) => n['@type'] === type)!.license,
+        'https://mirai-shigoto.com/compliance#data-license');
+    }
+    assert.doesNotMatch(jsonld, /opensource\.org\/licenses\/MIT/);
     assert.doesNotMatch(jsonld, /__SCORE_/);
   });
 
@@ -398,7 +403,14 @@ describe('geo renderers', () => {
     assert.doesNotMatch(pages, /^- [^[\n]+: https:\/\//);
 
     const published = pagesSection(readFileSync('public/llms.txt', 'utf8'));
-    assert.deepEqual(markdownLinks(published), LLMS_PAGE_LINKS);
+    const publishedLinks = markdownLinks(published);
+    assert.deepEqual(publishedLinks.slice(0, LLMS_PAGE_LINKS.length), [...LLMS_PAGE_LINKS]);
+    assert.deepEqual(publishedLinks.slice(LLMS_PAGE_LINKS.length).map(([, url]) => url), [
+      'https://mirai-shigoto.com/pro/findings',
+      'https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol',
+      'https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol/rights',
+      'https://mirai-shigoto.com/pro/findings/atom.xml',
+    ]);
   });
 });
 

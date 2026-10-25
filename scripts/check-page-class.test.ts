@@ -1,6 +1,7 @@
 import { strict as assert } from 'node:assert';
 import { createRequire } from 'node:module';
 import { describe, test } from 'node:test';
+import { createTestTempDir } from './lib/test-temp-dir';
 
 interface PageClassChecker {
   findViolations(content: string): ReadonlyArray<{ rule: string }>;
@@ -66,7 +67,7 @@ describe('shared Astro page-class membership', () => {
   test('a wrapper without class CSS cannot pass by hiding BaseLayout behind an import', () => {
     const fs = require('node:fs');
     const path = require('node:path');
-    const root = fs.mkdtempSync(path.join(process.env.TMPDIR ?? '/tmp/JOB_0225', 'page-class-'));
+    const root = createTestTempDir('page-class-');
     try {
       fs.mkdirSync(path.join(root, 'src/pages/pro'), { recursive: true });
       fs.writeFileSync(path.join(root, 'src/pages/index.astro'), "---\nimport Page from '../_Page.astro';\n---\n<Page />");

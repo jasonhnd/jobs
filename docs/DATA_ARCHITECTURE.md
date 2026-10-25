@@ -35,7 +35,7 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `data.haid-spec.json` — `/haid` の HAID v1.0 定義（10 段階・4 関係・3 境目・用語・境界事例）。数字を持たない。正典は `src/site/haid-spec.ts`、文言の正本は `docs/HAID.md`。（haid-1.3 で生成）
 - `data.haid-<yyyy-qN>.json` / `data.haid-latest.json` — HAID の四半期リリース（`/aiadoption`）。段階ごとの N(≥k)（低・中・高・display・clamped）、n(k)（display・share・確度）、錨点、重なり率、対価。`latest` は最新回のコピーに `releases` 一覧を足したもの。（aiadoption-1.2 で生成）
 - `data.me-positions.json` — `/me` self-positioning tool。全職業 × 全 ranking の位置を持つ。
-- `public/llms.txt` / `public/llms-full.txt` — `src/site/geo-build.ts` が staging の treemap と score run から生成する GEO text surfaces。同じ facts から `src/pages/_index-json-ld.json` も直接更新し、ホーム JSON-LD と揃える。
+- `public/llms.txt` / `public/llms-full.txt` — `src/site/geo-build.ts` が staging の treemap と score run から生成する GEO text surfaces。同じ facts から `src/pages/_index-json-ld.json` も直接更新し、ホーム JSON-LD と揃える。署名済みの「発見」本文は facts の描画のあとにだけ足す。ホーム JSON-LD は `renderHomeJsonLd(facts)` のままなので、その追加では変わらない。
 
 古い `data.featured.json`, `data.tasks/*`, `data.score-history/*` は runtime consumer がないため削除済み。`data.score_history.json` は multi-model comparison のため 2026-07 に単一 JSON projection として復活した。
 
@@ -102,3 +102,15 @@ must call `occupationPath()` or `jaUrl()` rather than interpolate an ID.
 - `bun run build` — ETL + Astro + rendered leak / CSP hash checks。
 - `bun run test:consistency` — built projection の L3 sanity check。`src/data/test-consistency.ts` は `src/data/consistency/files.ts`、`src/data/consistency/models.ts`、`src/data/consistency/shared.ts`、`src/data/consistency/treemap.ts` を呼び出す薄い入口。
 - `bun run verify:gates` — consistency、architecture、internal links、JSON-LD、SEO baseline。
+
+## IPD source dates
+
+`ipd_retrieved_at` records the source download date, never the import clock.
+`bun run import:ipd -- --retrieved-at YYYY-MM-DD` supplies an explicit date;
+without it, `src/data/import-ipd.ts` reads `data/.ipd_provenance.json` and
+requires both input SHA-256 hashes to match the recorded files. Missing or
+invalid dates fail before output is written. A changed source requires an
+explicit date. Timestamp evidence is retained only for the same source hashes
+and retrieval date. Provenance `ipd_ingested_at` and occupation `ingested_at`
+record the import date separately. The 2026-10-21 correction changes only the
+historical retrieval date; existing occupation ingestion dates stay unchanged.

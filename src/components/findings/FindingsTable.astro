@@ -1,0 +1,25 @@
+---
+import { signed, type FindingsRow } from '@/site/findings/data';
+import type { findingsCopy } from '@/site/findings/copy';
+import { occupationRoute } from '@/site/route-policy';
+interface Props { rows: readonly FindingsRow[]; copy: ReturnType<typeof findingsCopy>; kind: 'chart' | 'changes' }
+const { rows, copy, kind } = Astro.props;
+const band = (value: 'low' | 'mid' | 'high') => copy.labels.bands[['low', 'mid', 'high'].indexOf(value)];
+---
+<div data-findings-table={kind}>
+  <table class="findings-table" aria-label={kind === 'chart' ? copy.T26 : copy.T10}>
+    <thead><tr>{copy.labels.table.map(label => <th scope="col">{label}</th>)}</tr></thead>
+    <tbody>{rows.map(row => <tr data-occupation={row.id}>
+      <th scope="row"><a href={occupationRoute(row.id, 'pro').pagePath}>{row.title}</a></th>
+      <td>{row.before.toFixed(1)}</td><td>{row.after.toFixed(1)}</td><td>{signed(row.delta)}</td>
+      <td>{band(row.beforeBand)}</td><td>{band(row.afterBand)}</td>
+    </tr>)}</tbody>
+  </table>
+  <ol class="findings-cards">{rows.map(row => <li data-occupation={row.id}>
+    <article>
+      <h4><a href={occupationRoute(row.id, 'pro').pagePath}>{row.title}</a></h4>
+      <p class="findings-card-score"><span>{copy.labels.table[1]}</span> <b>{row.before.toFixed(1)}</b> → <span>{copy.labels.table[2]}</span> <b>{row.after.toFixed(1)}</b> （{signed(row.delta)}）</p>
+      <p class="findings-card-bands"><span>{copy.labels.table[4]}</span> <span>{band(row.beforeBand)}</span> → <span>{copy.labels.table[5]}</span> <span>{band(row.afterBand)}</span></p>
+    </article>
+  </li>)}</ol>
+</div>

@@ -1195,6 +1195,9 @@
 /pro/explore/compare
 /pro/explore/find-your-fit
 /pro/explore/methodology-trust
+/pro/findings
+/pro/findings/2026-10-01-gpt-6.1-sol
+/pro/findings/2026-10-01-gpt-6.1-sol/rights
 /pro/gyakuten
 /pro/haid
 /pro/interests

@@ -116,8 +116,6 @@ export function computeVendorUpdateDrift(
   const swap = resolveVendorSwap(historyByOcc, incomingModel);
   const { summary } = computeDrift(historyByOcc, incomingModel, titles, {
     comparableOf,
-    // Aggregate means use unrounded values; counts use displayed values (#631).
-    meanBasis: 'unrounded',
     selectScores: (comparable, withoutIncoming) => ({
       beforeUnrounded: pickFlagshipMeanScore(withoutIncoming).transformation,
       afterUnrounded: pickFlagshipMeanScore(comparable).transformation,

@@ -24,6 +24,9 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   // Exact ranking title: Owner signed 2026-10-10, decision d1009-221958-1 (#901); not a band label.
   ['site/ordinary-ranking-copy.ts', 'AIで大きく変わる仕事 TOP30'],
   ['index-source.html', '<strong class="hc-name">AIで大きく変わる仕事 TOP30</strong>'],
+  // Owner-signed legacy-copy batch 1, 2026-10-21 (#927), rows #3 and #26a.
+  ['pages/404.astro', 'AIで大きく変わる仕事 TOP30'],
+  ['pages/pro/yearly/2026-report.astro', 'ケアの仕事は AI 影響が低めで、需要も高い'],
   // 仕事が減るリスク (displacement) explanation, not the AI-impact band.
   ['lib/ai-fact-summary.ts', '職そのものが大きく減るリスクは低め'],
   ['lib/ai-fact-summary.ts', '職そのものが縮小するリスクも相対的に高め'],

@@ -783,6 +783,30 @@
       "scope": "existing-valid-pages-only"
     },
     {
+      "source": "src/pages/pro/findings/[issue]/index.astro",
+      "oldTemplate": "/pro/findings/[issue]",
+      "oldStatus": 200,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/findings/[issue]",
+      "scope": "findings-signed"
+    },
+    {
+      "source": "src/pages/pro/findings/[issue]/rights.astro",
+      "oldTemplate": "/pro/findings/[issue]/rights",
+      "oldStatus": 200,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/findings/[issue]/rights",
+      "scope": "findings-signed"
+    },
+    {
+      "source": "src/pages/pro/findings/index.astro",
+      "oldTemplate": "/pro/findings",
+      "oldStatus": 200,
+      "ordinaryTemplate": null,
+      "proTemplate": "/pro/findings",
+      "scope": "findings-signed"
+    },
+    {
       "source": "src/pages/pro/gyakuten.astro",
       "oldTemplate": "/gyakuten",
       "oldStatus": 301,

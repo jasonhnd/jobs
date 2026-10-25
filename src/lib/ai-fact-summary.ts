@@ -244,7 +244,7 @@ export function buildSectorGeoFactSummary(input: SectorGeoFactInput): string {
 
   const relative = sector.meanAiImpact >= facts.meanAiImpact ? '上回る' : '下回る';
   return (
-    `${sector.nameJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
+    `${sector.nameJa}の引用用ファクト：本サイトの全${facts.occupationCount}職業データでは、` +
     `${sector.nameJa}セクターは${sector.occupationCount}職業、就業者${fmtInt(sector.totalWorkforce)}人、` +
     `平均AI影響度${formatShownMeanLabel(sector.meanAiImpactRaw)}です。` +
     `全体平均${formatShownMeanLabel(facts.meanAiImpactRaw)}を${relative}水準で、` +
@@ -300,7 +300,7 @@ export function buildCompareGeoFactSummary(input: CompareGeoFactInput): string {
     : `${higher.nameJa}の方が${lower.nameJa}よりAI影響度が高い比較です。`;
 
   return (
-    `${subjectJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
+    `${subjectJa}の引用用ファクト：本サイトの全${facts.occupationCount}職業データでは、` +
     `${a.nameJa}はAI影響度${scoreWithBand(a.aiImpact)}、${b.nameJa}は${scoreWithBand(b.aiImpact)}です。` +
     `差は${fmtScore(diff)}ポイントで、${comparison}` +
     `2職業の平均AI影響度は${formatShownMeanLabel(summary.meanAiImpactRaw)}、就業者合計は${fmtInt(summary.totalWorkforce)}人です。` +

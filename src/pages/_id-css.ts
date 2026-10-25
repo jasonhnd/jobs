@@ -65,7 +65,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     html body #wrapper details.chap{margin:0 0 9px}
     html body #wrapper details.chap .chap-body{padding:2px 15px 15px}
     html body #wrapper details.chap .chap-body > :first-child{margin-top:0}
-    .chipnav{display:flex;gap:7px;overflow-x:auto;padding:10px 18px;margin:4px -18px 10px;background:color-mix(in srgb, var(--cream) 94%, transparent);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .chipnav{display:flex;gap:7px;overflow-x:auto;padding:10px var(--gutter);margin:4px calc(-1 * var(--gutter)) 10px;background:color-mix(in srgb, var(--cream) 94%, transparent);scrollbar-width:none;-webkit-overflow-scrolling:touch}
     .chipnav::-webkit-scrollbar{display:none}
     .chipnav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:7px 13px;border:1px solid color-mix(in srgb, var(--fg3) 40%, transparent);border-radius:999px;font-size:var(--t-xs);font-weight:700;color:var(--ink-meta);text-decoration:none;background:var(--paper);white-space:nowrap}
     .chipnav a:hover{text-decoration:none;color:var(--ink)}
@@ -74,7 +74,6 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
       body>header{position:sticky;top:0;z-index:100;background:var(--bg)}
       .chipnav{position:sticky;top:48px;z-index:90}
     }
-    @media (min-width:640px){.chipnav{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}}
     @media (min-width:900px){
       .chipnav{margin-left:-32px;margin-right:-32px;padding-left:32px;padding-right:32px}
       details.chap{scroll-margin-top:24px}
