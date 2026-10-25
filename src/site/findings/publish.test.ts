@@ -11,7 +11,8 @@ import { findingsJsonLd } from './structured';
 import { renderFindingsAtom } from './atom';
 import { applyFindingsPublication, atomInstant, publishedOnLabel, writePublishedManifest } from './publish';
 
-const issue = FINDINGS[0]!;
+// Publication tests start from an unpublished copy regardless of the live release state.
+const issue = { ...structuredClone(FINDINGS[0]!), status: 'signed' as const, first_published_on: null };
 const INSTANT = '2026-10-22T09:30:00+09:00';
 const ZONE = /(?:Z|[+-]\d{2}:\d{2})$/;
 
@@ -60,11 +61,11 @@ describe('preview publication instants stay empty', () => {
     assert.equal(dataset.datePublished, undefined);
     assert.equal(page.datePublished, undefined);
     assert.equal(dataset.dateModified, issue.modified_on);
-    assert.deepEqual(publishedFindings(), []);
-    const feed = parseAtom(renderFindingsAtom());
+    assert.deepEqual(publishedFindings([issue]), []);
+    const feed = parseAtom(renderFindingsAtom([issue]));
     assert.equal(feed.entries.length, 1);
     assert.equal(feed.entries[0]!.published, null);
-    assert.doesNotMatch(renderFindingsAtom(), /<published>/);
+    assert.doesNotMatch(renderFindingsAtom([issue]), /<published>/);
     for (const value of [publishedOnLabel(issue), feed.entries[0]!.updated, copy.T25]) {
       assert.equal(value.includes('{{'), value === copy.T25);
     }
