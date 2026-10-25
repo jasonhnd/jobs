@@ -106,7 +106,7 @@ export function buildWorkforceRankings(
       showSalary: true,
       faqItems: FAQS['large-workforce-stable'],
       title: '大規模就業 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
-      seoDesc: `就業者数 5 万人以上かつ AI 影響度 5 以下の職業 TOP${largeWorkforceStable.length}。日本の労働市場の安定軸を一覧。`,
+      seoDesc: `就業者数 5 万人以上かつ AI 影響度 5 以下の職業 TOP${largeWorkforceStable.length} を一覧。`,
       h1Text: `大規模就業 × AI 安全 TOP${largeWorkforceStable.length}`,
       subText: '就業者数 <strong>5 万人以上</strong> × AI 影響 <strong>5 以下</strong>',
       introText: '日本の労働人口に占める比重が大きく、かつ AI 影響度も低い「中軸を支える」職業群。看護師・介護福祉士・建設職人・運輸・小売・サービス系等。',
