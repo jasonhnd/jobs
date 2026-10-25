@@ -154,8 +154,8 @@ export function buildRankings(
   const cardsAsWritten: RankingsBundle['hub']['cards'] = [
     // ── Phase 1 baseline (9) ──
     { slug: 'ai-risk-high', name: 'AIに奪われる仕事 TOP30', desc: 'AI影響度が高い職業ランキング', count: highRisk.aiHigh.length, preview: makePreview(highRisk.aiHigh, (o) => `AI影響 ${formatRiskScoreLabel(o.ai_risk)}`) },
-    { slug: 'ai-risk-low', name: 'AI影響が少ない仕事 TOP30', desc: 'AIリスクが低く将来性のある職業', count: lowRisk.aiLow.length, preview: makePreview(lowRisk.aiLow, (o) => `AI影響 ${formatRiskScoreLabel(o.ai_risk)}`) },
-    { slug: 'salary-safe', name: '高年収×低AIリスク TOP30', desc: '年収が高くAI代替リスクが低い職業', count: lowRisk.salarySafe.length, preview: makePreview(lowRisk.salarySafe, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
+    { slug: 'ai-risk-low', name: 'AI影響が少ない仕事 TOP30', desc: 'AIで仕事の中身が変わりにくい順です。', count: lowRisk.aiLow.length, preview: makePreview(lowRisk.aiLow, (o) => `AI影響 ${formatRiskScoreLabel(o.ai_risk)}`) },
+    { slug: 'salary-safe', name: '高年収×低AIリスク TOP30', desc: 'AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。', count: lowRisk.salarySafe.length, preview: makePreview(lowRisk.salarySafe, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
     { slug: 'workers', name: '就業者数ランキング TOP30', desc: '日本で最も就業者が多い職業', count: workforce.byWorkers.length, preview: makePreview(workforce.byWorkers, (o) => `${fmtInt(o.workers)}人`) },
     { slug: 'salary', name: '年収ランキング TOP30', desc: '年収が最も高い職業', count: salary.bySalary.length, preview: makePreview(salary.bySalary, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
     { slug: 'entry-salary', name: '初任給ランキング TOP30', desc: '初任給が高い職業', count: salary.byEntry.length, preview: makePreview(salary.byEntry, (o) => `初任給 ${Math.trunc(o.recruit_wage ?? 0)}万円`) },
@@ -174,7 +174,7 @@ export function buildRankings(
     { slug: 'ai-at-risk-but-paid', name: 'AI リスク高 × 高年収', desc: 'AI 影響度高でも現状年収高の要注意組', count: highRisk.aiAtRiskPaid.length, preview: makePreview(highRisk.aiAtRiskPaid, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
     { slug: 'ai-augmented', name: 'AI で補強される職業', desc: 'AI 影響度 4-6 の AI 共存域', count: highRisk.aiAugmented.length, preview: makePreview(highRisk.aiAugmented, (o) => `AI影響 ${formatRiskScoreLabel(o.ai_risk)}`) },
     { slug: 'ai-frontier', name: 'AI を使いこなす側の職業', desc: 'IT・通信セクターの AI フロンティア職', count: highRisk.aiFrontier.length, preview: makePreview(highRisk.aiFrontier, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
-    { slug: 'ai-stable-employment', name: 'AI 安全 × 正規雇用率高', desc: '低 AI 影響かつ正社員中心の安定職', count: employment.aiStableEmployment.length, preview: makePreview(employment.aiStableEmployment, (o) => `正規 ${empPct(o, EMP.regular).toFixed(0)}%`) },
+    { slug: 'ai-stable-employment', name: 'AI 安全 × 正規雇用率高', desc: '低 AI 影響かつ正規雇用率が高い職業', count: employment.aiStableEmployment.length, preview: makePreview(employment.aiStableEmployment, (o) => `正規 ${empPct(o, EMP.regular).toFixed(0)}%`) },
     // ── Phase 2 組合せ (8) ──
     { slug: 'ai-safe-high-demand', name: '高需要 × AI 安全', desc: '人手不足かつ AI 影響度が低い', count: intent.aiSafeHighDemand.length, preview: makePreview(intent.aiSafeHighDemand, (o) => demandLabel(o.demand_band)) },
     { slug: 'ai-safe-short-hours', name: '低労働時間 × AI 安全', desc: '労働時間が短く AI 影響も低い', count: intent.aiSafeShortHours.length, preview: makePreview(intent.aiSafeShortHours, (o) => `月${Math.trunc(o.monthly_hours ?? 0)}h`) },
@@ -196,7 +196,7 @@ export function buildRankings(
     { slug: 'self-employed-typical', name: '独立・開業が典型の職業', desc: '独立がキャリアの自然な到達点', count: employment.selfEmployedTypical.length, preview: makePreview(employment.selfEmployedTypical, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
     { slug: 'large-workforce-stable', name: '大規模就業 × AI 安全', desc: '就業者 5 万人+ かつ AI 影響低', count: workforce.largeWorkforceStable.length, preview: makePreview(workforce.largeWorkforceStable, (o) => `${fmtInt(o.workers)}人`) },
     { slug: 'regulated-protected', name: '規制で守られた職業', desc: '関連資格 2 個+ かつ AI 影響低', count: intent.regulatedProtected.length, preview: makePreview(intent.regulatedProtected, (o) => `資格 ${o.certs.length}`) },
-    { slug: 'low-stress-stable', name: '低ストレス安定職', desc: '短い労働時間 × 低 AI 影響', count: intent.lowStressStable.length, preview: makePreview(intent.lowStressStable, (o) => `月${Math.trunc(o.monthly_hours ?? 0)}h`) },
+    { slug: 'low-stress-stable', name: '短時間 × AI影響が少ない職業 TOP30', desc: '短い労働時間 × 低 AI 影響', count: intent.lowStressStable.length, preview: makePreview(intent.lowStressStable, (o) => `月${Math.trunc(o.monthly_hours ?? 0)}h`) },
   ];
 
   const cards = cardsAsWritten.map((c) => ({ ...c, name: topCountText(c.name, c.count) }));
