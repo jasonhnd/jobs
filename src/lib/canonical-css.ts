@@ -939,6 +939,15 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-search .mob-search-kicker,
   html body div.mob-search .mob-search-empty-head {
     margin: 0 4px 8px;
+  }
+  html body div.mob-search .mob-search-kicker {
+    font-family: var(--font-sans);
+    font-size: var(--t-xs);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink-meta);
+  }
+  html body div.mob-search .mob-search-empty-head {
     font-size: var(--t-xs);
     color: var(--fg2);
     font-weight: 700;

@@ -15,7 +15,9 @@ export const CANONICAL_SECTOR_CSS = `
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65;font-feature-settings:"palt"}
-a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+/* U1: ordinary links inherit the surrounding text, stay underlined, and use
+   orange-hot only as a hover on the cream page canvas. */
+a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 a:hover{color:var(--orange-hot)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 
@@ -23,8 +25,9 @@ a:hover{color:var(--orange-hot)}
 #wrapper{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 80px}
 
 /* Breadcrumb */
-.crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:24px}
-.crumb a{color:var(--fg2)}
+.crumb{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:24px}
+.crumb a{color:var(--ink-meta)}
+.crumb a:hover{color:var(--orange-hot)}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* Header + h1 (sector class can have flex layout for switch widgets) */
@@ -45,7 +48,7 @@ h1 .accent{color:var(--ink)}
 .ordinary-conclusion{font-size:var(--t-h3);color:var(--ink-2);max-width:64ch;margin:var(--s-3) 0}
 .ordinary-guidance{font-size:var(--t-sm);color:var(--ink-meta);max-width:64ch;margin:var(--s-3) 0}
 .ordinary-score-meta{font-size:var(--t-sm);color:var(--ink-meta);margin:var(--s-3) 0}
-.ordinary-next-step{display:inline-flex;align-items:center;min-height:44px;padding:var(--s-3) var(--s-4);border-radius:var(--r-md);background:var(--orange-hot);color:var(--paper);font-size:var(--t-sm);font-weight:600;text-decoration:none;margin-top:var(--s-3)}
+.ordinary-next-step{display:inline-flex;align-items:center;min-height:44px;padding:var(--s-3) var(--s-4);border-radius:var(--r-md);background:var(--orange-hot);color:var(--paper);font-size:var(--t-sm);font-weight:700;text-decoration:none;margin-top:var(--s-3)}
 .ordinary-next-step:hover{color:var(--paper);filter:brightness(1.05)}
 .ordinary-next-step:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 #sector-occupations{scroll-margin-top:var(--s-8)}

@@ -15,7 +15,9 @@ export const CANONICAL_HUB_CSS = `
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65}
-a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+/* U1: ordinary links inherit the surrounding text, stay underlined, and use
+   orange-hot only as a hover on the cream page canvas. */
+a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 a:hover{color:var(--orange-hot)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 
@@ -25,6 +27,7 @@ a:hover{color:var(--orange-hot)}
 /* Breadcrumb */
 .crumb{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:24px}
 .crumb a{color:var(--ink-meta);}
+.crumb a:hover{color:var(--orange-hot)}
 .crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 
 /* Header + h1 — hub class signature */

@@ -18,7 +18,14 @@ export const CANONICAL_DETAIL_CSS = `
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html,body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.6}
     h1,h2,h3,h4{letter-spacing:-0.005em;color:var(--ink)}
-    a{color:var(--orange-hot);text-decoration:none}a:hover{text-decoration:underline}
+    /* U1: inherit the surrounding role. Prose keeps a resting underline.
+       Orange-hot hover is limited to prose on cream/paper, so card and button
+       anchors keep the colour their own rule assigns. cream-2 prose stays ink. */
+    a{color:inherit;text-decoration:none}
+    a:hover{text-decoration:underline}
+    p a,a.inline-link{text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+    p a:hover,a.inline-link:hover{color:var(--orange-hot)}
+    p.definition a:hover{color:inherit}
     /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
     .theme-toggle{display:none !important}
 

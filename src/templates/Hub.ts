@@ -423,12 +423,12 @@ ${AI_FACT_CSS}
 .faq summary::-webkit-details-marker{display:none}
 .faq .faq-a{padding:0 18px 14px;font-size:var(--t-body);color:var(--fg2);line-height:1.7}
 .related-genre{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;padding:0;margin:0;grid-auto-rows:1fr}
-.related-genre li a{display:flex;flex-direction:column;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms;height:100%}
+.related-genre li a{display:flex;flex-direction:column;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);height:100%}
 .related-genre li a:hover{border-color:var(--accent)}
 .related-genre .rg-name{display:block;font-family:var(--font-sans);font-weight:700;color:var(--accent-deep);margin-bottom:4px}
 .related-genre .rg-desc{display:block;font-size:var(--t-xs);color:var(--fg2)}
 .genre-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:0;margin:0;grid-auto-rows:1fr}
-.genre-cards li a{display:flex;flex-direction:column;padding:22px 22px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;min-height:160px;height:100%}
+.genre-cards li a{display:flex;flex-direction:column;padding:22px 22px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:transform var(--dur-fast) var(--ease);min-height:160px;height:100%}
 .genre-cards li a:hover{border-color:var(--accent);transform:translateY(-1px)}
 .gci-name{display:block;font-family:var(--font-sans);font-size:var(--t-h3);font-weight:700;color:var(--ink);margin-bottom:10px}
 .gci-desc{display:-webkit-box;font-size:var(--t-sm);color:var(--fg2);line-height:1.6;margin-bottom:10px;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
@@ -436,7 +436,7 @@ ${AI_FACT_CSS}
 .gci-count{font-size:var(--t-xs);color:var(--ink-meta);font-variant-numeric:tabular-nums}
 /* RA-016 (2026-05-18): unified Q&A details list — see renderQGroupsHtml */
 .qa-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px}
-.qa-item details{background:var(--bg2);border:1px solid var(--border);border-radius:10px;transition:border-color 150ms,box-shadow 150ms}
+.qa-item details{background:var(--bg2);border:1px solid var(--border);border-radius:10px}
 .qa-item details[open]{border-color:var(--accent);box-shadow:0 4px 14px color-mix(in srgb, var(--accent) 8%, transparent)}
 /* RA-120 (2026-05-18): mobile min-height stops alternating 61↔91 row heights when long questions wrap to 2 lines. */
 .qa-item summary{cursor:pointer;padding:16px 22px;font-family:var(--font-sans);font-size:var(--t-body);font-weight:700;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:60px}
@@ -446,16 +446,17 @@ ${AI_FACT_CSS}
 .qa-item summary:hover{color:var(--orange-hot)}
 .qa-item .qa-body{padding:0 22px 18px;border-top:1px solid var(--line)}
 .qa-item .qa-short{margin:14px 0 12px;color:var(--fg);line-height:1.7;font-size:var(--t-body)}
-.qa-item .qa-detail-link{display:inline-block;font-size:var(--t-sm);color:var(--orange-hot);text-decoration:none;font-weight:600;padding:6px 0}
-.qa-item .qa-detail-link:hover{text-decoration:underline}
+.qa-item .qa-detail-link{display:inline-block;font-size:var(--t-sm);color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;font-weight:600;padding:6px 0}
+.qa-item .qa-detail-link:hover{color:var(--orange-hot)}
 /* 2026-06-04 (Batch 1-B'): genre index spotlight — 各軸の代表職業 occupation links */
 .gsp-lead{color:var(--fg2);font-size:var(--t-sm);margin:0 0 14px}
 .genre-spotlight{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;margin:0;grid-auto-rows:1fr}
-.genre-spotlight li a{display:flex;flex-direction:column;gap:8px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;height:100%}
+.genre-spotlight li a{display:flex;flex-direction:column;gap:8px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:transform var(--dur-fast) var(--ease);height:100%}
 .genre-spotlight li a:hover{border-color:var(--accent);transform:translateY(-1px)}
 .gsp-name{font-family:var(--font-sans);font-size:var(--t-h3);font-weight:700;color:var(--fg);line-height:1.3}
 .gsp-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .gsp-salary{font-size:var(--t-xs);color:var(--fg2);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.genre-cards li a,.genre-spotlight li a{transition:none}.genre-cards li a:hover,.genre-spotlight li a:hover{transform:none}}
 @media (max-width:600px){.sb-row{grid-template-columns:80px 1fr 36px}.genre-spotlight{grid-template-columns:1fr}}
 .hub-slug header{margin-bottom:16px;padding-bottom:14px}
 .hub-list-sec{margin:8px 0 28px}
