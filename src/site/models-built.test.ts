@@ -13,6 +13,7 @@ import {
   isWhitelistedVendor,
   runSlug,
 } from './score-attribution.js';
+import { findingsForRun, findingsPath, isDiscoverable } from './findings/registry.js';
 import { formatJapaneseDate } from '../views/models.js';
 import {
   CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD,
@@ -298,6 +299,26 @@ describe('/models built page contract', () => {
       (html.match(/<figure class="quote-block">/g) ?? []).length,
       storyCards.length * SCORE_PANEL.vendorCount,
     );
+  });
+
+  test('scoring history renders every run newest first with matching Findings links', async () => {
+    if (htmlPath == null) return;
+    const html = readFileSync(htmlPath, 'utf-8');
+    const section = html.match(/<section class="feature-section scoring-history"[\s\S]*?<\/section>/)?.[0];
+    assert.ok(section);
+    const rows = [...section.matchAll(/<li>([\s\S]*?)<\/li>/g)].map(match => match[1]!);
+    const runs = [...await occupationRuns()].sort((a, b) => b.runDate.localeCompare(a.runDate) || a.model.localeCompare(b.model));
+    assert.equal(rows.length, runs.length);
+    rows.forEach((row, index) => {
+      const run = runs[index]!;
+      assert.ok(row.includes(`<time datetime="${run.runDate}">${formatJapaneseDate(run.runDate)}</time>`));
+      assert.ok(row.includes(`href="/pro/models/${run.slug}">${run.modelDisplay}</a>`));
+      assert.ok(row.includes(`<dt>対象職業数</dt><dd>${run.coveredCount}</dd>`));
+      const expectedLinks = findingsForRun(run.model, run.runDate).filter(isDiscoverable).map(findingsPath);
+      const actualLinks = [...row.matchAll(/class="scoring-history-findings" href="([^" ]+)"/g)].map(match => match[1]);
+      assert.deepEqual(actualLinks, expectedLinks);
+    });
+    assert.ok(rows.some(row => row.includes('scoring-history-findings')));
   });
 
   test('keeps serif headings at the magazine title size', () => {
