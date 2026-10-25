@@ -12,7 +12,7 @@
   "rankings": [
     {
       "slug": "ai-risk-high",
-      "name_ja": "AIに奪われる仕事 TOP30",
+      "name_ja": "AIで大きく変わる仕事 TOP30",
       "oldPath": "/rankings/ai-risk-high",
       "oldStatus": 200,
       "ordinaryPath": "/rankings/ai-risk-high",
@@ -278,7 +278,7 @@
     },
     {
       "slug": "ai-stable-employment",
-      "name_ja": "AI 安全 × 正規雇用率高 TOP30",
+      "name_ja": "AI影響が少ない × 正規雇用率高 TOP30",
       "oldPath": "/rankings/ai-stable-employment",
       "oldStatus": 301,
       "ordinaryPath": null,
@@ -292,7 +292,7 @@
     },
     {
       "slug": "ai-safe-high-demand",
-      "name_ja": "高需要 × AI 安全 TOP30",
+      "name_ja": "高需要 × AI影響が少ない TOP30",
       "oldPath": "/rankings/ai-safe-high-demand",
       "oldStatus": 301,
       "ordinaryPath": null,
@@ -306,7 +306,7 @@
     },
     {
       "slug": "ai-safe-short-hours",
-      "name_ja": "低労働時間 × AI 安全 TOP30",
+      "name_ja": "低労働時間 × AI影響が少ない TOP30",
       "oldPath": "/rankings/ai-safe-short-hours",
       "oldStatus": 301,
       "ordinaryPath": null,
@@ -320,7 +320,7 @@
     },
     {
       "slug": "ai-safe-young-workforce",
-      "name_ja": "若手中心 × AI 安全 TOP30",
+      "name_ja": "若手中心 × AI影響が少ない TOP30",
       "oldPath": "/rankings/ai-safe-young-workforce",
       "oldStatus": 301,
       "ordinaryPath": null,
@@ -334,7 +334,7 @@
     },
     {
       "slug": "ai-safe-no-license",
-      "name_ja": "無資格 × AI 安全 TOP30",
+      "name_ja": "無資格 × AI影響が少ない TOP30",
       "oldPath": "/rankings/ai-safe-no-license",
       "oldStatus": 301,
       "ordinaryPath": null,
@@ -348,7 +348,7 @@
     },
     {
       "slug": "ai-safe-physical",
-      "name_ja": "身体性 × AI 安全 TOP30",
+      "name_ja": "身体性 × AI影響が少ない TOP30",
       "oldPath": "/rankings/ai-safe-physical",
       "oldStatus": 301,
       "ordinaryPath": null,
@@ -362,7 +362,7 @@
     },
     {
       "slug": "ai-safe-interpersonal",
-      "name_ja": "対人 × AI 安全 TOP30",
+      "name_ja": "対人 × AI影響が少ない TOP30",
       "oldPath": "/rankings/ai-safe-interpersonal",
       "oldStatus": 301,
       "ordinaryPath": null,
@@ -418,7 +418,7 @@
     },
     {
       "slug": "no-license-required",
-      "name_ja": "無資格で就ける × AI 安全な職業 TOP30",
+      "name_ja": "無資格で就ける × AI影響が少ない職業 TOP30",
       "oldPath": "/rankings/no-license-required",
       "oldStatus": 301,
       "ordinaryPath": null,
@@ -516,7 +516,7 @@
     },
     {
       "slug": "large-workforce-stable",
-      "name_ja": "大規模就業 × AI 安全 TOP30",
+      "name_ja": "大規模就業 × AI影響が少ない TOP30",
       "oldPath": "/rankings/large-workforce-stable",
       "oldStatus": 301,
       "ordinaryPath": null,
