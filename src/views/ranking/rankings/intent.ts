@@ -214,9 +214,9 @@ export function buildIntentRankings(
       showSalary: true,
       extraColFn: (o) => (o.monthly_hours ? [`月${Math.trunc(o.monthly_hours)}h`] : []),
       faqItems: FAQS['low-stress-stable'],
-      title: '低ストレス安定職 TOP30【2026年版】| 未来の仕事',
+      title: '短時間 × AI影響が少ない職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `月間労働時間 165 時間以下かつ AI 影響度 5 以下の職業 TOP${lowStressStable.length} を一覧。`,
-      h1Text: `低ストレス安定職 TOP${lowStressStable.length}`,
+      h1Text: `短時間 × AI影響が少ない職業 TOP${lowStressStable.length}`,
       subText: '月間労働時間 <strong>165 時間以下</strong> × AI 影響 <strong>5 以下</strong>',
       introText: '労働時間が短く、AI 影響度も低い職業群です。教育・公務・専門職の一部が該当します。',
       statBlocks: [
