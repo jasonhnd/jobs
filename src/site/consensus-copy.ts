@@ -46,7 +46,7 @@ export function formatModelsHubContrastCopy(comparedCount: number): string {
 }
 
 export function formatModelsHubLead(modelCount: number, coverageText: string): string {
-  return `3社のAIそれぞれの最新モデルによる採点を平均しています。これまで${modelCount}つのAIモデルの採点を公開し、各回の対象は${coverageText}です。AIの判断にはそれぞれの見方があり、同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。`;
+  return `3社のAIそれぞれの最新モデルによる採点を平均しています。これまで${modelCount}のAIモデルの採点を公開し、各回の対象は${coverageText}です。AIの判断にはそれぞれの見方があり、同じ職業でも、現場性を重く見るか、手順化や自動化の進みやすさを重く見るかで、仕事の未来は違って見えます。`;
 }
 
 export function formatModelsHubDescription(coverageText: string): string {
