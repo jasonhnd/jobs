@@ -42,7 +42,43 @@ export function migrationRedirects(): Redirect[] {
   return [...rules.values()].sort((a,b) => a.source.localeCompare(b.source));
 }
 
-/** Compress only /ja, grouping identical parent/target mappings by enumerated final segment. */
+/** Reproduce the approved /en slice using only its finite exact inventory. */
+function configuredEnglishRedirects(exact: Redirect[]): Redirect[] {
+  const en = exact.filter(rule => rule.source === '/en' || rule.source.startsWith('/en/'));
+  const ordered = (values: string[]) => values.sort((a, b) => b.length - a.length || (a < b ? -1 : a > b ? 1 : 0));
+  const finite = (rules: Redirect[], prefix: string, name: string, destination: string): Redirect => {
+    const values = ordered(rules.map(rule => rule.source.slice(prefix.length)))
+      .map(value => value.replaceAll('.', '\\.'));
+    return { source: `${prefix}:${name}(${values.join('|')})`, destination, statusCode: 301 };
+  };
+  const models = en.filter(rule => rule.source.startsWith('/en/models/'));
+  const aliases = models.filter(rule => !rule.source.includes('@'));
+  const aliasBySource = new Map(aliases.map(rule => [rule.source, rule]));
+  const result = ordered(aliases.map(rule => rule.source)).map(source => aliasBySource.get(source)!);
+  result.push(finite(models.filter(rule => rule.source.includes('@')), '/en/models/', 'run', '/pro/models/:run'));
+  const families = [...new Set(en.filter(rule => rule.source.split('/').length === 4).map(rule => rule.source.split('/')[2]!))]
+    .filter(family => !['models', 'rankings', 'occupations', 'sectors'].includes(family)).sort();
+  for (const family of [...families, 'sectors']) {
+    const prefix = `/en/${family}/`;
+    result.push(finite(en.filter(rule => rule.source.startsWith(prefix)), prefix, 'slug',
+      family === 'sectors' ? '/sectors/:slug' : `/pro/${family}/:slug`));
+  }
+  for (const destination of ['/pro/rankings/', '/rankings/']) {
+    result.push(finite(en.filter(rule => rule.source.startsWith('/en/rankings/') && rule.destination.startsWith(destination)),
+      '/en/rankings/', 'slug', `${destination}:slug`));
+  }
+  result.push(en.find(rule => rule.source === '/en/occupations/404')!);
+  result.push(finite(en.filter(rule => /^\/en\/\d+$/.test(rule.source)), '/en/', 'id', '/:id'));
+  const indexes = en.filter(rule => /^\/en\/[^/]+$/.test(rule.source) && !/^\/en\/\d+$/.test(rule.source));
+  for (const [prefix, name] of [['/pro/', 'section'], ['/', 'page']] as const) {
+    result.push(finite(indexes.filter(rule => rule.destination === `${prefix}${rule.source.slice(4)}`),
+      '/en/', name, `${prefix}:${name}`));
+  }
+  result.push(en.find(rule => rule.source === '/en')!);
+  return result;
+}
+
+/** Compress /ja and /en, leaving all other migration slices unchanged. */
 export function configuredMigrationRedirects(): Redirect[] {
   const exact = migrationRedirects();
   const literals: Redirect[] = [];
@@ -67,7 +103,9 @@ export function configuredMigrationRedirects(): Redirect[] {
     return { source: `${group.source}:path(${values.join('|')})`, destination: `${group.destination}:path`, statusCode: 301 };
   });
   const ja = [...literals, ...finite];
-  return exact.flatMap(rule => rule.source === '/ja' ? [rule, ...ja] : rule.source.startsWith('/ja/') ? [] : [rule]);
+  const en = configuredEnglishRedirects(exact);
+  return exact.flatMap(rule => rule.source === '/ja' ? [rule, ...ja] : rule.source.startsWith('/ja/') ? []
+    : rule.source === '/en' ? en : rule.source.startsWith('/en/') ? [] : [rule]);
 }
 export function builtLegacyInventory(root = 'dist-astro'): string[] {
   function walk(dir: string): string[] {

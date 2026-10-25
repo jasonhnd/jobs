@@ -19,6 +19,7 @@ describe('finite redirect resolution', () => {
     }
     expect(JSON.stringify(configured.flatMap(rule => finiteRedirectSources(rule.source, expected.length)).sort())).toBe(JSON.stringify(expected.map(rule => rule.source).sort()));
     expect(configured.filter(r => r.source === '/ja' || r.source.startsWith('/ja/')).length).toBe(45);
+    expect(configured.filter(r => r.source === '/en' || r.source.startsWith('/en/')).length).toBe(41);
   });
   test('matches case and trailing slashes strictly and keeps unknown paths uncaptured', () => {
     const resolve = redirectResolver(configuredMigrationRedirects());
@@ -26,6 +27,9 @@ describe('finite redirect resolution', () => {
       expect(resolve(path)).toBe(undefined);
     }
     expect(resolve('/ja/models/gpt-6.1-sol@2026-10-01')?.destination).toBe('/pro/models/gpt-6.1-sol@2026-10-01');
+    for (const path of ['/en/34', '/en/01', '/en/1/', '/en/abilities/unknown', '/en/models/gpt-6x1-sol@2026-10-01', '/en/occupations/1']) {
+      expect(resolve(path)).toBe(undefined);
+    }
   });
   test('uses the first matching rule, substitutes multiple parameters and respects permanent status', () => {
     const rules = [
