@@ -338,7 +338,8 @@ describe('models feature view model', () => {
     assert.equal(page.consensusSummary.latestModelHref, '/pro/models/fable-5@2026-06-13');
     assert.equal(page.pageLastUpdated, '2026-06-13');
     assert.equal(page.comparedCount, 2);
-    assert.match(page.lead, /これまで2つのAIモデル/);
+    assert.match(page.lead, /これまで2のAIモデル/);
+    assert.equal(/つの/.test(page.lead), false);
     assert.match(page.description, /各回2職業/);
   });
 
