@@ -1,9 +1,15 @@
 import { test, expect } from '@playwright/test';
-
-
 import { readFileSync } from 'node:fs';
+import { finiteRedirectSources, redirectResolver, type Redirect } from '../../scripts/lib/redirect-resolution';
 
-const migrationRedirects = (): Array<{source:string;destination:string}> => JSON.parse(readFileSync('vercel.json','utf8')).redirects.filter((r:{statusCode?:number})=>r.statusCode===301);
+const migrationRedirects = () => {
+  const rules = (JSON.parse(readFileSync('vercel.json', 'utf8')).redirects as Redirect[]).filter(rule => rule.statusCode === 301);
+  const resolve = redirectResolver(rules);
+  return rules.flatMap(rule => finiteRedirectSources(rule.source, 2048).map(source => ({
+    source, destination: resolve(source)!.destination,
+  })));
+};
+
 const manifest = JSON.parse(readFileSync('docs/pro-split/route-manifest.json','utf8')) as {rankings:Array<{slug:string;oldPath:string;oldStatus:number}>};
 const origin = 'https://mirai-shigoto.com';
 test('every exact migration and language/model alias is a single 301 preserving query bytes', async ({ request }) => {
