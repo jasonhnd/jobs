@@ -34,7 +34,7 @@
  *
  * Description: salary standing (jobtag) → workers → AI-impact tier →
  * "degree of work change, not unemployment probability" when scored →
- * the 将来性 tail. Do not say AI代替リスク in the meta description.
+ * the AI-change tail. Do not say AI代替リスク in the meta description.
  *
  * OG title/description are the same as title/description but
  * capped at 120 / 300 chars respectively.
@@ -74,7 +74,7 @@ export interface OccupationSeoOutput {
 const OG_TITLE_MAX = 120;
 const OG_DESCRIPTION_MAX = 300;
 const KEYWORDS_ALIAS_MAX = 8;
-const NATIONAL_AVG_TAIL = '将来性やなり方、必要なスキルを詳しく解説。';
+const NATIONAL_AVG_TAIL = 'AIでの変化やなり方、必要なスキルを詳しく解説。';
 
 /** Locale-aware comma rendering for the workers count in the
  *  description's data clause. Inlined to avoid pulling fmtInt into
