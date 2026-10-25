@@ -174,7 +174,7 @@ html body .cookie-banner .cb-text {
   line-height: 1.2;
 }
 html body .cookie-banner .cb-text a {
-  color: var(--orange-soft);
+  color: var(--paper);
   text-decoration: underline;
   margin-left: 0.4em;
   white-space: nowrap;
@@ -187,23 +187,23 @@ html body .cookie-banner .cb-actions {
 }
 html body .cookie-banner .cb-btn {
   position: relative;
-  z-index: 0;
+  z-index: var(--z-base);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   min-height: 44px;
   min-width: 44px;
-  padding: 0 8px;
+  padding: 0 var(--s-2);
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   background: transparent;
   color: var(--paper);
   font-weight: 600;
-  font-size: var(--t-xs);
+  font-size: var(--t-sm);
   line-height: 1;
   cursor: pointer;
-  font-family: inherit;
+  font-family: var(--font-sans);
   white-space: nowrap;
 }
 html body .cookie-banner .cb-btn::before {
@@ -215,18 +215,19 @@ html body .cookie-banner .cb-btn::before {
   top: 50%;
   height: 28px;
   transform: translateY(-50%);
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   pointer-events: none;
 }
-html body .cookie-banner .cb-btn-accept { color: var(--paper); }
-html body .cookie-banner .cb-btn-accept::before { background: var(--accent); }
-html body .cookie-banner .cb-btn-accept:hover::before { filter: brightness(1.08); }
-html body .cookie-banner .cb-btn-reject { color: var(--paper); }
+html body .cookie-banner .cb-btn-accept { color: var(--paper); font-weight: 700; }
+html body .cookie-banner .cb-btn-accept::before { background: var(--orange-hot); }
+html body .cookie-banner .cb-btn-accept:hover::before { background: var(--green-deep); }
+html body .cookie-banner .cb-btn-reject { color: var(--ink); }
 html body .cookie-banner .cb-btn-reject::before {
-  border: 1px solid color-mix(in srgb, var(--paper) 40%, transparent);
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
 }
 html body .cookie-banner .cb-btn-reject:hover::before {
-  background: color-mix(in srgb, var(--paper) 8%, transparent);
+  background: var(--cream);
 }
 html body .cookie-banner .cb-btn:focus-visible {
   outline: 2px solid var(--orange-soft);
@@ -251,25 +252,25 @@ html body .cookie-banner .cb-btn:focus-visible {
    + src/pages/_index-css.ts were removed in the same audit pass. */
 html body a.skip-link {
   position: fixed;
-  top: 12px;
-  left: 12px;
+  top: var(--s-3);
+  left: var(--s-3);
   z-index: var(--z-toast);
   background: var(--orange-hot);
   color: var(--paper);
-  padding: 10px 16px;
-  border-radius: 8px;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--orange) 28%, transparent);
+  box-shadow: var(--sh-accent);
   /* Hide visually without removing from focus order: zero size + clip-path */
   transform: translateY(-200%);
-  transition: transform 150ms ease;
+  transition: transform var(--dur-fast) var(--ease);
 }
 html body a.skip-link:focus,
 html body a.skip-link:focus-visible,
 html body a.skip-link.is-focused {
   transform: translateY(0);
-  outline: 2px solid #fff;
+  outline: 2px solid var(--paper);
   outline-offset: 2px;
 }
 
@@ -280,7 +281,7 @@ html body a.skip-link.is-focused {
 html body :focus-visible {
   outline: 2px solid var(--orange);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: var(--r-sm);
 }
 
 /* ───── Canonical typography (single source of truth) ───── */
@@ -405,16 +406,17 @@ html body footer.site-footer {
      that separates the footer from the page, so this was a second line on
      every page (owner ruling 2026-09-20). */
   font-size: var(--t-xs);
-  color: var(--fg2);
+  color: var(--ink-meta);
   text-align: center;
   font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
   line-height: 1.65;
 }
 html body footer.site-footer a {
-  color: var(--orange-hot);
+  color: inherit;
   text-decoration: none;
 }
 html body footer.site-footer a:hover {
+  color: var(--orange-hot);
   text-decoration: underline;
 }
 html body footer.site-footer .footer-links {
@@ -426,7 +428,7 @@ html body footer.site-footer .footer-links {
   margin: 0;
 }
 html body footer.site-footer .footer-links a {
-  color: var(--fg2);
+  color: var(--ink-meta);
   text-decoration: none;
   /* RA-009 (2026-05-18): tap target ≥24px (WCAG 2.5.8). Was 5px 14px →
      ~22px tall, now 8px 14px → ~28px tall. */
@@ -438,12 +440,11 @@ html body footer.site-footer .footer-links a {
   border-radius: 999px;
   font-size: var(--t-xs);
   line-height: 1.2;
-  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
 }
 html body footer.site-footer .footer-links a:hover {
   color: var(--orange-hot);
   border-color: var(--accent);
-  background: color-mix(in srgb, var(--orange) 6%, transparent);
+  background: var(--paper);
   text-decoration: none;
 }
 /* Footer nav grouped by purpose (2026-05-31): a right-aligned label column
@@ -482,7 +483,7 @@ html body footer.site-footer .footer-legal {
   font-size: var(--t-xs);
 }
 html body footer.site-footer .footer-legal a {
-  color: var(--fg2);
+  color: var(--ink-meta);
   text-decoration: none;
 }
 html body footer.site-footer .footer-legal a:hover {
@@ -525,6 +526,9 @@ html body footer.site-footer .footer-meta {
   line-height: 1.65;
 }
 html body footer.site-footer .footer-meta a {
+  color: inherit;
+}
+html body footer.site-footer .footer-meta a:hover {
   color: var(--orange-hot);
 }
 html body footer.site-footer .footer-meta em a {
@@ -543,8 +547,8 @@ html body footer.site-footer time {
 /* ───── Footer share section ───── */
 /* Phase 8: 7 share buttons (X / LINE / Hatena / LinkedIn / Facebook / Copy /
    Native) sit at the very top of the footer on every page. Each button
-   shares the CURRENT page URL via window.location.href; per-platform brand
-   color appears on hover. */
+   shares the CURRENT page URL via window.location.href; service SVGs use
+   neutral ink at rest and paper on orange-hot on hover (owner U3, #995). */
 
 html body footer.site-footer .share-divider {
   font-size: var(--t-xs);
@@ -584,14 +588,14 @@ html body footer.site-footer .share-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--fg2);
+  width: 44px;
+  height: 44px;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  color: var(--ink);
   cursor: pointer;
-  transition: background 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+  transition: transform var(--dur-fast) var(--ease);
   text-decoration: none;
   padding: 0;
   -webkit-appearance: none;
@@ -601,24 +605,18 @@ html body footer.site-footer .share-btn {
 html body footer.site-footer .share-btn[hidden] { display: none; }
 html body footer.site-footer .share-btn:hover {
   transform: translateY(-1px);
-  border-color: transparent;
+  background: var(--orange-hot);
+  border-color: var(--orange-hot);
   color: var(--paper);
   text-decoration: none;
 }
-html body footer.site-footer .share-btn[data-platform="x"]:hover        { background: #000; }
-html body footer.site-footer .share-btn[data-platform="line"]:hover     { background: #06C755; }
-html body footer.site-footer .share-btn[data-platform="hatena"]:hover   { background: #00A4DE; }
-html body footer.site-footer .share-btn[data-platform="linkedin"]:hover { background: #0A66C2; }
-html body footer.site-footer .share-btn[data-platform="facebook"]:hover { background: #1877F2; }
-html body footer.site-footer .share-btn[data-platform="copy"]:hover,
-html body footer.site-footer .share-btn[data-platform="native"]:hover   { background: var(--accent); color: #1a1206; }
 html body footer.site-footer .share-btn svg {
   width: 18px;
   height: 18px;
   fill: currentColor;
 }
 html body footer.site-footer .share-btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--orange);
   outline-offset: 2px;
 }
 
@@ -627,14 +625,13 @@ html body footer.site-footer .share-toast {
   color: var(--orange-hot);
   margin-left: 6px;
   opacity: 0;
-  transition: opacity 200ms ease;
+  transition: opacity var(--dur-base) var(--ease);
   font-variant-numeric: tabular-nums;
 }
 html body footer.site-footer .share-toast.visible { opacity: 1; }
 
 @media (max-width: 540px) {
   html body footer.site-footer .share-row { gap: 8px; }
-  html body footer.site-footer .share-btn { width: 36px; height: 36px; }
   html body footer.site-footer .share-toast {
     flex-basis: 100%;
     text-align: center;
@@ -691,7 +688,7 @@ html body nav.top-nav .top-nav-brand {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-family: var(--font-sans);
   font-weight: 600;
   font-size: var(--t-body);
   color: var(--fg);
@@ -714,7 +711,6 @@ html body nav.top-nav a:not(.top-nav-brand) {
   text-decoration: none;
   padding: 2px 0;
   font-size: var(--t-sm);
-  transition: color 150ms ease;
 }
 html body nav.top-nav a:not(.top-nav-brand):hover {
   color: var(--orange-hot);
@@ -798,7 +794,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+    font-family: var(--font-sans);
     font-size: var(--t-body);
     font-weight: 600;
     color: var(--fg);
@@ -851,7 +847,6 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     border-radius: 8px;
     cursor: pointer;
     padding: 0;
-    transition: background 150ms;
   }
   html body header.mob-topbar button.mob-topbar-burger:hover {
     background: var(--bg2);
@@ -865,7 +860,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     height: 1.5px;
     background: var(--fg);
     border-radius: 1px;
-    transition: transform 200ms ease, opacity 150ms ease;
+    transition: transform var(--dur-base) var(--ease), opacity var(--dur-fast) var(--ease);
   }
   html body header.mob-topbar button.mob-topbar-burger[aria-expanded="true"] span:nth-child(1) {
     transform: translateY(5.5px) rotate(45deg);
@@ -1040,7 +1035,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     opacity: 0;
     pointer-events: none;
     transform: translateY(-12px);
-    transition: opacity 220ms ease, transform 220ms ease;
+    transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
   }
   html body div.mob-drawer:not([hidden]) {
     opacity: 1;
@@ -1126,26 +1121,34 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 8px;
-    color: var(--fg);
+    color: var(--ink);
     text-decoration: none;
-    font-size: var(--t-body);
-    font-weight: 500;
-    transition: transform 100ms ease, border-color 150ms ease, background 150ms ease;
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    font-weight: 600;
+    transition: transform var(--dur-fast) var(--ease);
   }
   html body div.mob-drawer a.mob-drawer-item:hover {
-    background: color-mix(in srgb, var(--orange) 4%, transparent);
+    background: var(--paper);
     border-color: var(--accent);
     text-decoration: none;
   }
   html body div.mob-drawer a.mob-drawer-item:active {
     transform: scale(0.98);
-    background: color-mix(in srgb, var(--orange) 8%, transparent);
+    background: var(--paper);
     border-color: var(--accent);
+  }
+
+  html body div.mob-drawer a.mob-drawer-item[aria-current="page"] {
+    color: var(--orange-hot);
+    text-decoration: underline;
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.2em;
   }
 
   html body div.mob-drawer .mob-drawer-label {
     font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-    color: var(--fg);
+    color: inherit;
     flex: 1 1 auto;
     line-height: 1.35;
   }
@@ -1180,7 +1183,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     line-height: 1;
     flex-shrink: 0;
     margin-left: 2px;
-    transition: color 150ms, transform 150ms;
+    transition: transform var(--dur-fast) var(--ease);
   }
   html body div.mob-drawer a.mob-drawer-item:hover .mob-drawer-arrow,
   html body div.mob-drawer a.mob-drawer-item:active .mob-drawer-arrow {
@@ -1230,16 +1233,16 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   padding: 11px 20px;
   min-height: 44px;
   background: var(--orange-hot, #c0411e);
-  color: var(--bg, #FAF6EE);
+  color: var(--paper);
   text-decoration: none;
   border-radius: 999px;
   font-size: var(--t-sm);
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
-  transition: background 120ms, transform 120ms;
+  transition: transform var(--dur-fast) var(--ease);
 }
 .me-cta-strip a:hover {
-  background: var(--accent-deep, #48705F);
+  background: var(--green-deep);
   transform: translateY(-1px);
 }
 .me-cta-strip a:focus-visible {
@@ -1250,6 +1253,15 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   .me-cta-strip { padding: 16px 18px; flex-direction: column; align-items: stretch; gap: 12px; }
   .me-cta-strip p { flex: 0 0 auto; }
   .me-cta-strip a { justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body a.skip-link,
+  html body footer.site-footer .share-btn,
+  html body footer.site-footer .share-toast,
+  .me-cta-strip a { transition: none; }
+  html body footer.site-footer .share-btn:hover,
+  .me-cta-strip a:hover { transform: none; }
 }
 
 /* ───── Shared chapter fold (#321; reused by later mobile-shape issues) ─────
