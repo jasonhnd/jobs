@@ -1,7 +1,7 @@
 /**
  * src/views/ranking/rankings/intent.ts — intent-driven combination rankings.
  *
- * AI 安全 × 他軸の組合せ + 規制保護 + 低ストレス. These rankings answer the
+ * AI影響が少ない × 他軸の組合せ + 規制保護 + 低ストレス. These rankings answer the
  * shape "I want a job that's AI-safe AND <constraint>".
  *
  *   ai-safe-high-demand / ai-safe-short-hours / ai-safe-young-workforce /
@@ -98,9 +98,9 @@ export function buildIntentRankings(
         return label ? [{ kind: 'demand-pill' as const, band: o.demand_band ?? '', label }] : [];
       },
       faqItems: FAQS['ai-safe-high-demand'],
-      title: '高需要 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
+      title: '高需要 × AI影響が少ない職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `人手不足かつ AI 影響度が低い職業 TOP${aiSafeHighDemand.length}。介護・建設・医療系を中心とした「鉄板」キャリア候補。`,
-      h1Text: `高需要 × AI 安全 TOP${aiSafeHighDemand.length}`,
+      h1Text: `高需要 × AI影響が少ない TOP${aiSafeHighDemand.length}`,
       subText: '求人需要 <strong>高め以上</strong> × AI 影響 <strong>5 以下</strong>',
       introText: '求人が多く、AI 影響度も低めの職業です。介護・建設・医療系が中心で、未経験から入るルートがある分野もあります。',
       statBlocks: [
@@ -115,9 +115,9 @@ export function buildIntentRankings(
       showSalary: true,
       extraColFn: (o) => (o.monthly_hours ? [`月${Math.trunc(o.monthly_hours)}h`] : []),
       faqItems: FAQS['ai-safe-short-hours'],
-      title: '低労働時間 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
+      title: '低労働時間 × AI影響が少ない職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `労働時間が短く AI 影響度も低い職業 TOP${TOP_N} を一覧。`,
-      h1Text: `低労働時間 × AI 安全 TOP${TOP_N}`,
+      h1Text: `低労働時間 × AI影響が少ない TOP${TOP_N}`,
       subText: 'AI 影響 <strong>5 以下</strong> × 月間労働時間 <strong>昇順</strong>',
       introText: '労働時間が短く、かつ AI 影響度も低い職業をランキング。教育・公務・専門職の一部が該当します。',
       statBlocks: [
@@ -132,9 +132,9 @@ export function buildIntentRankings(
       showSalary: true,
       extraColFn: (o) => (o.average_age ? [`${o.average_age.toFixed(1)} 歳`] : []),
       faqItems: FAQS['ai-safe-young-workforce'],
-      title: '若手中心 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
+      title: '若手中心 × AI影響が少ない職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `平均年齢が若く AI 影響度も低い職業 TOP${TOP_N}。新卒・第二新卒の参考に。`,
-      h1Text: `若手中心 × AI 安全 TOP${TOP_N}`,
+      h1Text: `若手中心 × AI影響が少ない TOP${TOP_N}`,
       subText: 'AI 影響 <strong>5 以下</strong> × 平均年齢 <strong>昇順</strong>',
       introText: '若手が多く活躍し、かつ AI 影響度も低い職業をランキング。新卒・第二新卒のキャリア選択の参考に。',
       statBlocks: [
@@ -148,9 +148,9 @@ export function buildIntentRankings(
       items: aiSafeNoLicense,
       showSalary: true,
       faqItems: FAQS['ai-safe-no-license'],
-      title: '無資格 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
+      title: '無資格 × AI影響が少ない職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `関連資格不要で AI 影響度も低い職業 TOP${aiSafeNoLicense.length}。資格に頼らず長く続けられる分野を一覧。`,
-      h1Text: `無資格 × AI 安全 TOP${aiSafeNoLicense.length}`,
+      h1Text: `無資格 × AI影響が少ない TOP${aiSafeNoLicense.length}`,
       subText: '関連資格 <strong>なし</strong> × AI 影響 <strong>5 以下</strong>',
       introText: '関連国家資格を要さず、AI 影響度も低い職業群。実務経験で勝負できる分野を中心にランキング。',
       statBlocks: [
@@ -164,9 +164,9 @@ export function buildIntentRankings(
       items: aiSafePhysical,
       showSalary: true,
       faqItems: FAQS['ai-safe-physical'],
-      title: '身体性 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
+      title: '身体性 × AI影響が少ない職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `身体技能職で AI 影響度も低い職業 TOP${aiSafePhysical.length}。製造・建設・農林等の現場職を一覧。`,
-      h1Text: `身体性 × AI 安全 TOP${aiSafePhysical.length}`,
+      h1Text: `身体性 × AI影響が少ない TOP${aiSafePhysical.length}`,
       subText: '製造・建設・メンテ・農林・軽作業セクター × AI 影響 <strong>5 以下</strong>',
       introText: '手の感覚・現場判断・身体的調整を要する職業は AI で代替されにくく、構造的な優位性を持ちます。建設職人・整備士・農林漁業・配管工等が代表例。',
       statBlocks: [
@@ -180,9 +180,9 @@ export function buildIntentRankings(
       items: aiSafeInterpersonal,
       showSalary: true,
       faqItems: FAQS['ai-safe-interpersonal'],
-      title: '対人 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
+      title: '対人 × AI影響が少ない職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `対人スキル中心で AI 影響度も低い職業 TOP${aiSafeInterpersonal.length}。医療・福祉・教育・販売・サービス系を一覧。`,
-      h1Text: `対人 × AI 安全 TOP${aiSafeInterpersonal.length}`,
+      h1Text: `対人 × AI影響が少ない TOP${aiSafeInterpersonal.length}`,
       subText: '医療・福祉・教育・販売・サービスセクター × AI 影響 <strong>5 以下</strong>',
       introText: '感情の機微・信頼関係・即興的な調整を要する対人職は AI で代替しにくい。看護師・介護福祉士・保育士・教師・販売員・接客スタッフが代表例。',
       statBlocks: [
