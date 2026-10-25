@@ -71,11 +71,11 @@ describe('ordinary rankings stage 3', { skip: !ready && !required }, () => {
     }
   });
 
-  test('AI-high owner-signed title changes only ordinary; hourly conversion and real selection/order are explicit', () => {
+  test('AI-high owner-signed title on ordinary and Pro; hourly conversion and real selection/order are explicit', () => {
     const high = html('rankings/ai-risk-high');
     assert.match(high, /<h1>[^]*?AIで大きく変わる仕事 TOP30/);
     assert.ok(high.includes('/api/og?ranking=ai-risk-high&amp;edition=ordinary'));
-    assert.match(html('pro/rankings/ai-risk-high'), /<h1>[^]*?AIに奪われる仕事 TOP30/);
+    assert.match(html('pro/rankings/ai-risk-high'), /<h1>[^]*?AIで大きく変わる仕事 TOP30/);
     assert.ok(html('rankings/hourly-wage').includes('求人の月額賃金を160時間で割った換算値'));
     assert.ok(html('rankings/salary-safe').includes('5以下'));
     assert.ok(html('rankings/high-demand').includes('同じ区分では、年収が高い順'));

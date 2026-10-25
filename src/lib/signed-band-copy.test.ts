@@ -27,6 +27,9 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   // Owner-signed legacy-copy batch 2 R1/R2 card names (#1003). Same title, not a band label.
   ['views/ranking/build.ts', 'AIで大きく変わる仕事 TOP30'],
   ['views/rankings-meta.ts', 'AIで大きく変わる仕事 TOP30'],
+  // Owner-signed legacy-copy batch 2 R1/R2 Pro titles (#1003). Same title, not a band label.
+  ['views/ranking/rankings/high-risk.ts', 'AIで大きく変わる仕事ランキング TOP30【2026年版】| 未来の仕事'],
+  ['views/ranking/rankings/high-risk.ts', 'AIで大きく変わる仕事 TOP${TOP_N}'],
   // Owner-signed legacy-copy batch 1, 2026-10-21 (#927), rows #3 and #26a.
   ['pages/404.astro', 'AIで大きく変わる仕事 TOP30'],
   ['pages/pro/yearly/2026-report.astro', 'ケアの仕事は AI 影響が低めで、需要も高い'],
