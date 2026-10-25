@@ -233,7 +233,7 @@ h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break
 .mini-list li:last-child{border-bottom:0}
 .mini-list a{font-weight:700;color:var(--fg);overflow-wrap:anywhere}
 .delta-number{font-family:var(--font-mono);font-size:var(--t-sm);font-weight:400;font-variant-numeric:tabular-nums;color:var(--ink)}
-.delta{font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent-deep)}
+.delta{font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
 .nav-links{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 template{display:none}
 @media(max-width:860px){
