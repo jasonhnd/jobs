@@ -116,49 +116,61 @@ describe('runCliProcess', () => {
     }
   });
 
-  test('a runner stopped by SIGINT or SIGTERM takes the CLI process group down with it', {
-    skip: process.platform === 'win32',
-    // Each signal has bounded startup, runner-exit and grandchild-exit waits.
-    timeout: 70_000,
-  }, async () => {
-    const waitMs = 10_000;
-    for (const signal of ['SIGINT', 'SIGTERM'] as const) {
-      const dir = mkdtempSync(join(tmpdir(), 'cli-spawn-'));
-      const gcFile = join(dir, 'grandchild.pid');
-      let proc: ReturnType<typeof spawn> | undefined;
-      try {
-        const runner = join(dir, 'runner.ts');
-        writeFileSync(
-          runner,
-          `import { runCliProcess } from ${JSON.stringify(CLI_SPAWN)};\n` +
-            `await runCliProcess('/bin/sh', ['-c', ${JSON.stringify(launcherScript(gcFile))}], ` +
-            `{ cwd: ${JSON.stringify(dir)}, timeoutMs: 60_000, killGraceMs: 200 });\n`,
-          'utf8',
-        );
-        proc = spawn(process.execPath, [runner], { stdio: 'ignore' });
-        let runnerExited = false;
-        let exitSignal: NodeJS.Signals | null = null;
-        proc.on('exit', (_c, sig) => {
-          exitSignal = sig;
-          runnerExited = true;
-        });
-        assert.ok(
-          await waitFor(() => existsSync(gcFile) && readFileSync(gcFile, 'utf8').trim() !== '', waitMs),
-          `${signal}: grandchild must write its PID before signalling the runner`,
-        );
-        const pid = Number(readFileSync(gcFile, 'utf8').trim());
-        assert.ok(Number.isSafeInteger(pid) && pid > 0 && isAlive(pid), `${signal}: grandchild must be running`);
-        assert.ok(proc.kill(signal), `${signal}: signal must reach the runner`);
-        assert.ok(await waitFor(() => runnerExited, waitMs), `${signal}: runner must exit after receiving the signal`);
-        assert.equal(exitSignal, signal, 'the runner must still die by the signal it received');
-        assert.ok(await waitFor(() => !isAlive(pid), waitMs), `${signal}: grandchild ${pid} must not survive the runner`);
-      } finally {
-        if (proc && proc.exitCode === null && proc.signalCode === null) proc.kill('SIGKILL');
-        killPidFile(gcFile);
-        rmSync(dir, { recursive: true, force: true });
+  for (const spawnDelayMs of [0, 250]) {
+    test(`a runner stopped by SIGINT or SIGTERM takes the CLI process group down with it (spawn delay ${spawnDelayMs}ms)`, {
+      skip: process.platform === 'win32',
+      // Each signal has bounded startup, runner-exit and grandchild-exit waits.
+      timeout: 70_000,
+    }, async () => {
+      const waitMs = 10_000;
+      for (const signal of ['SIGINT', 'SIGTERM'] as const) {
+        const dir = mkdtempSync(join(tmpdir(), 'cli-spawn-'));
+        const gcFile = join(dir, 'grandchild.pid');
+        let proc: ReturnType<typeof spawn> | undefined;
+        try {
+          const runner = join(dir, 'runner.ts');
+          writeFileSync(
+            runner,
+            // Pause after the OS starts the CLI but before spawn returns, as if
+            // the runner lost its CPU slice while the grandchild became ready.
+            `import { mock } from 'bun:test';\n` +
+              `import * as cp from 'node:child_process';\n` +
+              `const realSpawn = cp.spawn;\n` +
+              `mock.module('node:child_process', () => ({ ...cp, spawn(...args) {\n` +
+              `  const child = realSpawn(...args);\n` +
+              `  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ${spawnDelayMs});\n` +
+              `  return child;\n` +
+              `} }));\n` +
+              `const { runCliProcess } = await import(${JSON.stringify(CLI_SPAWN)});\n` +
+              `await runCliProcess('/bin/sh', ['-c', ${JSON.stringify(launcherScript(gcFile))}], ` +
+              `{ cwd: ${JSON.stringify(dir)}, timeoutMs: 60_000, killGraceMs: 200 });\n`,
+            'utf8',
+          );
+          proc = spawn(process.execPath, [runner], { stdio: 'ignore' });
+          let runnerExited = false;
+          let exitSignal: NodeJS.Signals | null = null;
+          proc.on('exit', (_c, sig) => {
+            exitSignal = sig;
+            runnerExited = true;
+          });
+          assert.ok(
+            await waitFor(() => existsSync(gcFile) && readFileSync(gcFile, 'utf8').trim() !== '', waitMs),
+            `${signal}: grandchild must write its PID before signalling the runner`,
+          );
+          const pid = Number(readFileSync(gcFile, 'utf8').trim());
+          assert.ok(Number.isSafeInteger(pid) && pid > 0 && isAlive(pid), `${signal}: grandchild must be running`);
+          assert.ok(proc.kill(signal), `${signal}: signal must reach the runner`);
+          assert.ok(await waitFor(() => runnerExited, waitMs), `${signal}: runner must exit after receiving the signal`);
+          assert.equal(exitSignal, signal, 'the runner must still die by the signal it received');
+          assert.ok(await waitFor(() => !isAlive(pid), waitMs), `${signal}: grandchild ${pid} must not survive the runner`);
+        } finally {
+          if (proc && proc.exitCode === null && proc.signalCode === null) proc.kill('SIGKILL');
+          killPidFile(gcFile);
+          rmSync(dir, { recursive: true, force: true });
+        }
       }
-    }
-  });
+    });
+  }
 
   test('reports a spawn error without throwing', async () => {
     const res = await runCliProcess('/nonexistent/scoring-cli', [], { cwd: tmpdir(), timeoutMs: 5_000 });
