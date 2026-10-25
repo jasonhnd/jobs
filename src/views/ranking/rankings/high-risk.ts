@@ -81,9 +81,9 @@ export function buildHighRiskRankings(
       items: aiHigh,
       showSalary: true,
       faqItems: FAQS['ai-risk-high'],
-      title: 'AIに奪われる仕事ランキング TOP30【2026年版】| 未来の仕事',
+      title: 'AIで大きく変わる仕事ランキング TOP30【2026年版】| 未来の仕事',
       seoDesc: '仕事がなくなる順ではなく、AIで仕事の中身が大きく変わる順です。',
-      h1Text: `AIに奪われる仕事 TOP${TOP_N}`,
+      h1Text: `AIで大きく変わる仕事 TOP${TOP_N}`,
       subText: `AI 影響度が最も <strong>高い</strong> 職業ランキング（${scored.length} 職業中）`,
       introText: `厚労省の職業データに基づき、複数のAIが AIOIS-10 で AI 影響を分析し、公開値はそれらの総合値です。0〜10 のスコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。`,
       statBlocks: [

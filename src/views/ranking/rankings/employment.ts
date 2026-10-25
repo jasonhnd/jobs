@@ -58,9 +58,9 @@ export function buildEmploymentRankings(
       showSalary: true,
       extraColFn: (o) => [`正規 ${empPct(o, EMP.regular).toFixed(0)}%`],
       faqItems: FAQS['ai-stable-employment'],
-      title: 'AI 安全 × 正規雇用率高の職業 TOP30【2026年版】| 未来の仕事',
+      title: 'AI影響が少ない × 正規雇用率高の職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `AI 影響度 5 以下かつ正規雇用率 60% 以上の安定職業 TOP${aiStableEmployment.length}。長期的なキャリア安定性が期待できる分野。`,
-      h1Text: `AI 安全 × 正規雇用率高 TOP${aiStableEmployment.length}`,
+      h1Text: `AI影響が少ない × 正規雇用率高 TOP${aiStableEmployment.length}`,
       subText: 'AI 影響度 <strong>5 以下</strong> × 正規雇用率 <strong>60% 以上</strong>',
       introText: '低 AI 影響度かつ正社員比率が高い、長期的に安定したキャリア形成が期待できる職業群です。',
       statBlocks: [
