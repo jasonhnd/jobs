@@ -321,6 +321,13 @@ describe('/models built page contract', () => {
       assert.deepEqual(actualLinks, expectedLinks);
     });
     assert.ok(rows.some(row => row.includes('scoring-history-findings')));
+    const head = section.match(/<div class="scoring-history-head" aria-hidden="true">([\s\S]*?)<\/div>/)?.[1] ?? '';
+    assert.notEqual(head, '');
+    for (const label of ['採点日', 'モデル', '提供元', '対象職業数']) {
+      assert.equal((head.match(new RegExp(`<span>${label}</span>`, 'g')) ?? []).length, 1);
+      assert.equal((section.match(new RegExp(`<dt>${label}</dt>`, 'g')) ?? []).length, runs.length);
+    }
+    assert.match(section, /class="scoring-history-nowrap">変化 — 第\d+号</);
   });
 
   test('keeps serif headings at the magazine title size', () => {
