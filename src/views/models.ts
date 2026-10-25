@@ -106,6 +106,7 @@ export interface ModelsFeaturePageModel {
   readonly currentModel: ModelsPanelEntryView;
   readonly modelCards: ReadonlyArray<ModelsPanelEntryView>;
   readonly modelRoster: ReadonlyArray<ModelsPanelEntryView>;
+  readonly scoringHistory: ReadonlyArray<ModelsPanelEntryView>;
   readonly dateRangeText: string;
 }
 
@@ -324,6 +325,7 @@ export function buildModelsFeaturePageModel(
     currentModel: newestPanel,
     modelCards: modelRoster,
     modelRoster,
+    scoringHistory: [...modelRoster].sort((a, b) => b.date.localeCompare(a.date) || a.model.localeCompare(b.model)),
     dateRangeText: dates.length === 1 ? dates[0]! : `${dates[0]} から ${dates[dates.length - 1]}`,
   };
 }
