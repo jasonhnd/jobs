@@ -8,7 +8,7 @@ export type TemplateId = keyof typeof templates;
 export const controls = { copy: 'コピー', copied: 'コピーしました', read: '読む' } as const;
 // Owner-signed display replacement; the citation template remains unchanged for copying.
 export function citationForDisplay(text: string): string {
-  return text.replaceAll('{{accessed_on}}', '（コピー時に自動で入ります）');
+  return text.replaceAll('参照日 {{accessed_on}}', '参照日はコピー時に自動で入ります');
 }
 export function renderTemplate(id: TemplateId, values: Readonly<Record<string, string | number>>): string {
   return templates[id].replace(/\{\{(\w+)\}\}/g, (_, key: string) => {
