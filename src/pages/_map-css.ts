@@ -43,7 +43,7 @@ export const MAP_PAGE_CSS = `
        gone too: canonical owns heading typeface (§4.9) and the shipped serif has
        a single weight, so declaring 600 was a claim it cannot honour (§4.5). */
     html, body {
-      --h-head: 48px; --h-search: 56px; --h-chips: 52px;
+      --h-head: 48px; --h-search: 60px; --h-chips: 60px;
       background: var(--bg); color: var(--fg);
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
@@ -92,7 +92,7 @@ export const MAP_PAGE_CSS = `
     }
     .map-search-input {
       flex: 1; min-width: 0;
-      height: 40px; padding: 0 14px 0 38px;
+      height: 44px; padding: 0 var(--s-3) 0 var(--s-7);
       border: 1px solid var(--border); border-radius: var(--r-pill);
       background: var(--bg2); color: var(--fg);
       font-size: var(--t-body);
@@ -102,7 +102,7 @@ export const MAP_PAGE_CSS = `
     .map-search-input::placeholder { color: var(--fg2); }
     .map-search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
     .map-search-btn {
-      height: 40px; padding: 0 16px;
+      height: 44px; padding: 0 var(--s-4);
       background: var(--orange-hot); color: var(--paper);
       border-radius: var(--r-pill);
       font-size: var(--t-sm); font-weight: 700; white-space: nowrap;
@@ -143,7 +143,7 @@ export const MAP_PAGE_CSS = `
     }
     .map-chips {
       flex: 1; min-width: 0;
-      display: flex; gap: 6px;
+      display: flex; gap: 6px; padding: var(--s-1);
       overflow-x: auto; overflow-y: hidden;
       scroll-snap-type: x proximity;
       scrollbar-width: none;
@@ -151,21 +151,21 @@ export const MAP_PAGE_CSS = `
     .map-chips::-webkit-scrollbar { display: none; }
     .map-chips .chip {
       flex: 0 0 auto;
-      height: 34px; padding: 0 14px;
+      height: 44px; padding: 0 var(--s-3);
       border: 1px solid var(--border); border-radius: var(--r-pill);
-      background: var(--bg2); color: var(--fg2);
-      font-size: var(--t-sm); font-weight: 600;
+      background: var(--paper); color: var(--ink);
+      font-size: var(--t-xs); font-weight: 600;
       scroll-snap-align: start; white-space: nowrap;
     }
     .map-chips .chip:hover { color: var(--fg); border-color: var(--fg3); }
     .map-chips .chip.active {
-      background: var(--orange-hot); color: var(--paper);
+      background: var(--orange-soft); color: var(--ink);
       border-color: var(--orange-hot);
     }
     .map-chips .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .map-sort {
       flex: 0 0 auto;
-      height: 34px; padding: 0 28px 0 12px;
+      height: 44px; padding: 0 var(--s-6) 0 var(--s-3);
       background: var(--bg2);
       border: 1px solid var(--border); border-radius: var(--r-md);
       color: var(--fg); font-size: var(--t-body);
@@ -175,7 +175,7 @@ export const MAP_PAGE_CSS = `
     }
     .map-view-toggle {
       flex: 0 0 auto;
-      width: 34px; height: 34px;
+      width: 44px; height: 44px;
       margin-right: 16px;
       display: inline-flex; align-items: center; justify-content: center;
       background: var(--bg2);
@@ -183,7 +183,7 @@ export const MAP_PAGE_CSS = `
       color: var(--fg2);
     }
     .map-view-toggle:hover, .map-view-toggle:focus-visible {
-      color: var(--orange-hot); border-color: var(--accent); outline: none;
+      color: var(--orange-hot); border-color: var(--accent);
     }
     .map-view-toggle[aria-pressed="true"] {
       background: var(--orange-hot); color: var(--paper); border-color: var(--orange-hot);
@@ -227,7 +227,7 @@ export const MAP_PAGE_CSS = `
       font-variant-numeric: tabular-nums; white-space: nowrap;
     }
     .map-list-section ol li a:hover, .map-list-section ol li a:focus-visible {
-      background: var(--bg2); outline: none;
+      background: var(--bg2);
     }
 
     main { max-width: var(--content-max); margin: 0 auto; padding: 16px var(--gutter) 96px; }
@@ -266,14 +266,12 @@ export const MAP_PAGE_CSS = `
       line-height: var(--lh-dense);
       cursor: pointer; overflow: hidden;
       display: flex; align-items: flex-end;
-      /* Hover-only filter tween — keep it fast so the map feels responsive. */
-      transition: filter 120ms cubic-bezier(0.16, 1, 0.3, 1);
+      /* Preserve the band foreground/fill contrast in every interaction state. */
       -webkit-tap-highlight-color: transparent;
       border: 0;
     }
     .cell:hover {
-      filter: brightness(1.1);
-      outline: 2px solid rgba(0,0,0,0.15);
+      outline: 2px solid var(--ink);
       outline-offset: -2px;
       z-index: var(--z-raised);
     }
@@ -351,7 +349,7 @@ export const MAP_PAGE_CSS = `
       position: fixed; inset: 0; z-index: var(--z-overlay);
       background: color-mix(in srgb, var(--ink) 40%, transparent);
       opacity: 0; pointer-events: none;
-      transition: opacity 200ms ease;
+      transition: opacity var(--dur-base) var(--ease);
     }
     .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
     .sheet {
@@ -362,7 +360,7 @@ export const MAP_PAGE_CSS = `
       padding: 8px 20px calc(20px + env(safe-area-inset-bottom)) 20px;
       max-height: 56vh; overflow-y: auto;
       transform: translateY(100%);
-      transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform var(--dur-base) var(--ease);
     }
     .sheet.open { transform: translateY(0); }
     .sheet-handle {
@@ -379,7 +377,7 @@ export const MAP_PAGE_CSS = `
       display: inline-flex; align-items: center; justify-content: center;
       background: var(--bg3);
     }
-    .sheet-close:hover { color: var(--orange-hot); }
+    .sheet-close:hover { color: var(--ink); }
     .sheet-close::before { content: ""; position: absolute; inset: -6px; }
     /* Margin only — it keeps the title clear of the 32px close button at
        right:14px. Size / typeface / weight come from canonical (§4.9). */
