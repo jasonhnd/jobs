@@ -32,8 +32,9 @@ const jsonLd = renderGeoAnswerIndexJsonLd(facts);
   <style slot="head" set:html={CANONICAL_HUB_CSS} />
   <style slot="head">
     .answers-wrap{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 56px}
-    .crumb{font-size:var(--t-sm);margin-bottom:22px;color:var(--fg2)}
+    .crumb{font-size:var(--t-sm);margin-bottom:22px;color:var(--ink-meta)}
     .crumb a{color:inherit}
+    .crumb a:hover{color:var(--orange-hot)}
     h1{line-height:1.15;margin:0 0 14px;color:var(--fg)}
     .lead{font-size:var(--t-h3);line-height:1.9;max-width:72ch;color:var(--fg);margin:0 0 28px}
     .topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:28px 0 36px}

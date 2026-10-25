@@ -101,12 +101,16 @@ ul,ol{margin:0 0 14px 22px;max-width:74ch}
 li{margin-bottom:7px;line-height:1.7}
 strong{color:var(--ink);font-weight:700}
 em{color:var(--ink);font-weight:700}
-a{color:var(--orange-hot);text-decoration:none}
+/* U1: inherit the surrounding role. Orange-hot hover is prose on cream/paper only. */
+a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline}
 /* WCAG 1.4.1 — a link sitting inside running text may not be distinguished by
    colour alone. Prose containers get a resting underline; standalone links
    (breadcrumb, legend, FAQ summary, card lists) keep the clean treatment. */
-p a,li a,.step-item .d a,.callout a{text-decoration:underline;text-decoration-thickness:0.06em;text-underline-offset:0.16em}
+p a,li a,.step-item .d a,.callout a,a.inline-link{text-decoration:underline;text-decoration-thickness:0.06em;text-underline-offset:0.16em}
+p a:hover,li a:hover,.step-item .d a:hover,.callout a:hover,a.inline-link:hover{color:var(--orange-hot)}
+/* §2.2: --orange-hot text fails on cream-2 (--bg3). */
+table.ex td.idx a:hover,table.bands thead a:hover{color:inherit}
 code{font-family:var(--font-mono);font-size:var(--t-sm);background:var(--bg2);padding:1px 6px;border-radius:4px;color:var(--orange-hot);border:1px solid var(--border)}
 
 /* ── Direction legend (▲ ■ ◐) ── */

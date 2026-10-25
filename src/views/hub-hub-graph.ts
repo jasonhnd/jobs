@@ -564,7 +564,7 @@ export const RELATED_CROSS_HUB_CSS = `
 .related-cross-hub{margin:36px 0}
 .related-cross-hub h2{color:var(--ink);margin:0 0 14px}
 .rxh-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;grid-auto-rows:1fr}
-.rxh-link{display:flex;flex-direction:column;gap:3px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);height:100%;transition:border-color 150ms,background 150ms}
+.rxh-link{display:flex;flex-direction:column;gap:3px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);height:100%}
 .rxh-link:hover{border-color:var(--accent);background:color-mix(in srgb, var(--orange) 4%, transparent);text-decoration:none}
 .rxh-genre{font-size:var(--t-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);font-weight:600}
 .rxh-name{font-family:var(--font-sans);font-size:var(--t-sm);color:var(--accent-deep);line-height:1.35;font-weight:400;}
