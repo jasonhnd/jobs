@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-21T14:14:31.605Z",
-  "gitCommit": "3463d1d3f7fa6e1e43c2fd543cf1b8c8cf6713a4",
-  "gitBranch": "feat/findings-signed-publish-ready",
+  "capturedAt": "2026-10-25T13:41:05.119Z",
+  "gitCommit": "b40840e6a094fc9c21d264e518806ebe9856445d",
+  "gitBranch": "ib/jobs-966",
   "distFileCount": 1414,
   "urlCount": 1414,
   "dataFileCount": 616,
