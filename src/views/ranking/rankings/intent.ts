@@ -82,7 +82,7 @@ export function buildIntentRankings(
     .sort((a, b) => b.certs.length - a.certs.length || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, limit);
 
-  // 39. 低ストレス安定職 (short hours + low AI)
+  // 39. monthly hours <= 165 and low AI impact
   const lowStressStable = scored
     .filter((o) => (displayScoreOrNull(o.ai_risk) ?? 999) <= 5 && o.monthly_hours && o.monthly_hours <= 165)
     .sort((a, b) => (a.monthly_hours ?? 999) - (b.monthly_hours ?? 999) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
@@ -214,9 +214,9 @@ export function buildIntentRankings(
       showSalary: true,
       extraColFn: (o) => (o.monthly_hours ? [`月${Math.trunc(o.monthly_hours)}h`] : []),
       faqItems: FAQS['low-stress-stable'],
-      title: '低ストレス安定職 TOP30【2026年版】| 未来の仕事',
+      title: '短時間 × AI影響が少ない職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `月間労働時間 165 時間以下かつ AI 影響度 5 以下の職業 TOP${lowStressStable.length}。長く続けやすい安定職を一覧。`,
-      h1Text: `低ストレス安定職 TOP${lowStressStable.length}`,
+      h1Text: `短時間 × AI影響が少ない職業 TOP${lowStressStable.length}`,
       subText: '月間労働時間 <strong>165 時間以下</strong> × AI 影響 <strong>5 以下</strong>',
       introText: '労働時間が短く、かつ AI 代替リスクも低い「長く続けやすい」職業群。教育・公務・専門職の一部が該当します。',
       statBlocks: [
