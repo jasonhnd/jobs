@@ -187,7 +187,7 @@ a:hover{color:var(--orange-hot)}
 .crumb a:hover{color:var(--orange-hot);text-decoration:underline}
 .crumb span[aria-hidden]{color:var(--fg3)}
 .model-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:28px;align-items:end;padding:18px 0 30px;border-bottom:1px solid var(--border)}
-.eyebrow{margin:0 0 12px;color:var(--accent-deep);font-weight:700;font-size:var(--t-xs)}
+.eyebrow{margin:0 0 12px;color:var(--ink-meta);font-family:var(--font-sans);font-weight:400;font-size:var(--t-xs);line-height:1.5}
 h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break:normal}
 .lead{max-width:720px;margin:18px 0 0;color:var(--fg2);font-size:var(--t-h3);line-height:1.9;overflow-wrap:break-word;word-break:normal}
 .profile-box{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px}
