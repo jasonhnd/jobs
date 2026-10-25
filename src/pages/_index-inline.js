@@ -187,7 +187,7 @@
         searchPlaceholder: { ja: "職業名で検索…", en: "Search occupations…" },
         searchHits: { ja: n => n + " 件", en: n => n + " match" + (n === 1 ? "" : "es") },
         statTitle: {
-          ai_risk: { ja: "AI リスク", en: "AI Risk" },
+          ai_risk: { ja: "AI変化度", en: "AI Risk" },
           salary: { ja: "年収", en: "Salary" },
           age: { ja: "平均年齢", en: "Avg Age" },
           hours: { ja: "労働時間", en: "Hours" },
