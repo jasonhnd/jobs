@@ -367,7 +367,7 @@ export const RELATED_HUBS_CSS = `
 .related-hub-group .rh-cat{margin:0 0 8px}
 .related-hub-group .rh-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;flex:1}
 .related-hub-group .rh-list li{margin:0;display:flex}
-.related-hub-group .rh-link{display:flex;flex-direction:column;justify-content:center;gap:2px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms,background 150ms;width:100%;min-height:71px}
+.related-hub-group .rh-link{display:flex;flex-direction:column;justify-content:center;gap:2px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);width:100%;min-height:71px}
 .related-hub-group .rh-link:hover{border-color:var(--accent);background:color-mix(in srgb, var(--orange) 4%, transparent);text-decoration:none}
 .related-hub-group .rh-name{font-size:var(--t-h3);color:var(--fg);line-height:1.35}
 .related-hub-group .rh-desc{font-size:var(--t-xs);color:var(--fg2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
