@@ -149,9 +149,11 @@ a:hover{color:var(--orange-hot)}
 .cta-band h2{margin:0 0 8px;color:var(--bg)}
 .cta-band p{margin:0;line-height:1.75;color:color-mix(in srgb, var(--paper) 82%, transparent);overflow-wrap:break-word;word-break:normal}
 .cta-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
-.cta-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;border-radius:6px;padding:0 16px;font-weight:700;text-decoration:none;overflow-wrap:anywhere}
-.cta-primary{background:var(--bg);color:var(--fg)}
-.cta-secondary{border:1px solid color-mix(in srgb, var(--paper) 45%, transparent);color:var(--bg)}
+.cta-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border-radius:var(--r-sm);padding:0 var(--s-4);font-family:var(--font-sans);font-size:var(--t-sm);font-weight:700;text-decoration:none;overflow-wrap:anywhere}
+.cta-primary{background:var(--cream);color:var(--ink)}
+.cta-actions .cta-primary:hover{background:var(--paper);color:var(--ink)}
+.cta-actions .cta-secondary{border:1px solid color-mix(in srgb, var(--paper) 45%, transparent);background:transparent;color:var(--cream);font-weight:600}
+.cta-actions .cta-secondary:hover{background:var(--paper);color:var(--ink)}
 .data-note{padding:26px 0;color:var(--fg2);font-size:var(--t-sm);line-height:1.8}
 .data-note p{margin:0;overflow-wrap:break-word;word-break:normal}
 .data-note p + p{margin-top:12px}
