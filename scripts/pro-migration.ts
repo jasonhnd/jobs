@@ -78,7 +78,30 @@ function configuredEnglishRedirects(exact: Redirect[]): Redirect[] {
   return result;
 }
 
-/** Compress /ja and /en, leaving all other migration slices unchanged. */
+/** Consolidate the remaining approved sources; /entry-paths stays literal. */
+function configuredRemainingRedirects(exact: Redirect[]): Redirect[] {
+  const remaining = exact.filter(rule => !rule.source.startsWith('/ja')
+    && !rule.source.startsWith('/en') && !rule.source.startsWith('/entry-paths'));
+  const indexes = remaining.filter(rule => rule.source.split('/').length === 2);
+  const emitted = new Set<string>();
+  return remaining.flatMap(rule => {
+    const [, family, slug] = rule.source.split('/');
+    const group = !slug ? 'indexes' : family === 'models' && slug.includes('@') ? 'models'
+      : !['models', 'pro'].includes(family!) ? family! : null;
+    if (!group) return [rule];
+    if (emitted.has(group)) return [];
+    emitted.add(group);
+    const rules = group === 'indexes' ? indexes : remaining.filter(r => r.source.startsWith(`/${family}/`)
+      && (group !== 'models' || r.source.includes('@')));
+    const prefix = group === 'indexes' ? '/' : `/${family}/`;
+    const name = group === 'indexes' ? 'family' : 'slug';
+    const values = rules.map(r => r.source.slice(prefix.length)).sort().map(value => value.replaceAll('.', '\\.'));
+    return [{ source: `${prefix}:${name}(${values.join('|')})`,
+      destination: group === 'indexes' ? `/pro/:${name}` : `/pro/${family}/:${name}`, statusCode: 301 }];
+  });
+}
+
+/** Reproduce all three approved slices, preserving the untouched entry paths. */
 export function configuredMigrationRedirects(): Redirect[] {
   const exact = migrationRedirects();
   const literals: Redirect[] = [];
@@ -104,8 +127,12 @@ export function configuredMigrationRedirects(): Redirect[] {
   });
   const ja = [...literals, ...finite];
   const en = configuredEnglishRedirects(exact);
+  const remaining = configuredRemainingRedirects(exact);
+  let emittedRemaining = false;
   return exact.flatMap(rule => rule.source === '/ja' ? [rule, ...ja] : rule.source.startsWith('/ja/') ? []
-    : rule.source === '/en' ? en : rule.source.startsWith('/en/') ? [] : [rule]);
+    : rule.source === '/en' ? en : rule.source.startsWith('/en/') ? []
+    : rule.source.startsWith('/entry-paths') ? [rule]
+    : emittedRemaining ? [] : (emittedRemaining = true, remaining));
 }
 export function builtLegacyInventory(root = 'dist-astro'): string[] {
   function walk(dir: string): string[] {

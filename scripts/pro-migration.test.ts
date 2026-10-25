@@ -20,10 +20,12 @@ describe('finite redirect resolution', () => {
     expect(JSON.stringify(configured.flatMap(rule => finiteRedirectSources(rule.source, expected.length)).sort())).toBe(JSON.stringify(expected.map(rule => rule.source).sort()));
     expect(configured.filter(r => r.source === '/ja' || r.source.startsWith('/ja/')).length).toBe(45);
     expect(configured.filter(r => r.source === '/en' || r.source.startsWith('/en/')).length).toBe(41);
+    expect(configured.filter(r => r.source.startsWith('/entry-paths')).length).toBe(6);
+    expect(configured.length).toBe(139);
   });
   test('matches case and trailing slashes strictly and keeps unknown paths uncaptured', () => {
     const resolve = redirectResolver(configuredMigrationRedirects());
-    for (const path of ['/JA/1', '/ja/About', '/ja/1/', '/ja/999999', '/ja/34', '/ja/skills/unknown', '/ja/pro/1', '/ja/404.html/extra', '/ja/models/gpt-6x1-sol@2026-10-01', '/pro/1', '/1', '/occupations/404']) {
+    for (const path of ['/JA/1', '/ja/About', '/ja/1/', '/ja/999999', '/ja/34', '/ja/skills/unknown', '/ja/pro/1', '/ja/404.html/extra', '/ja/models/gpt-6x1-sol@2026-10-01', '/pro/1', '/1', '/occupations/404', '/Skills', '/skills/', '/skills/unknown', '/models/gpt-6x1-sol@2026-10-01', '/rankings/salary']) {
       expect(resolve(path)).toBe(undefined);
     }
     expect(resolve('/ja/models/gpt-6.1-sol@2026-10-01')?.destination).toBe('/pro/models/gpt-6.1-sol@2026-10-01');
@@ -66,12 +68,15 @@ describe('stage 1B migration contract', () => {
       expect(editionHref(href, 'pro')).toBe(href);
     }
   });
-  test('exact migration redirects and model aliases are explicit 301s', () => {
+  test('migration redirects and model aliases resolve to the exact 301s', () => {
     const redirects = JSON.parse(readFileSync('vercel.json', 'utf8')).redirects;
+    const resolve = redirectResolver(redirects);
     for (const row of manifest.rankings) {
-      const rules = redirects.filter((r: {source: string}) => r.source === row.oldPath);
-      expect(rules.length).toBe(row.oldStatus === 301 ? 1 : 0);
-      if (row.oldStatus === 301) expect(JSON.stringify(rules[0])).toBe(JSON.stringify({source: row.oldPath, destination: row.proPath, statusCode: 301}));
+      const found = resolve(row.oldPath);
+      if (row.oldStatus === 301) {
+        expect(found?.destination).toBe(row.proPath);
+        expect(found?.statusCode).toBe(301);
+      } else expect(found).toBe(undefined);
     }
     for (const alias of manifest.modelAliases) {
       expect(JSON.stringify(redirects.find((r: {source: string}) => r.source === alias.source))).toBe(JSON.stringify({source: alias.source, destination: alias.destination, statusCode: 301}));
@@ -92,7 +97,7 @@ if (existsSync('dist-astro/pro.html')) test('built redirect gate rejects added i
   const config = JSON.parse(readFileSync('vercel.json', 'utf8'));
   expect(() => verifyMigration(config)).not.toThrow();
   expect(() => verifyMigration({...config,redirects:[...config.redirects,{source:'/skills/unknown',destination:'/pro/skills/unknown',statusCode:301}]})).toThrow('outside authorized');
-  expect(() => verifyMigration({...config,redirects:config.redirects.filter((r:{source:string})=>r.source!=='/skills')})).toThrow('Missing/stale exact 301');
+  expect(() => verifyMigration({...config,redirects:config.redirects.filter((r:Redirect)=>!r.source.startsWith('/:family('))})).toThrow('Missing/stale exact 301');
   const jaPattern = config.redirects.findIndex((r: Redirect) => r.source.startsWith('/ja/:path('));
   const replaceJa = (source: string) => ({ ...config, redirects: config.redirects.map((rule: Redirect, i: number) => i === jaPattern ? { ...rule, source } : rule) });
   const pattern = config.redirects[jaPattern].source;
