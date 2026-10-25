@@ -38,6 +38,8 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   ['views/ranking/rankings/employment.ts', '低 AI 影響度かつ正社員比率が高い'],
   ['views/ranking/rankings/employment.ts', 'AI 影響度も低めの傾向です'],
   ['views/ranking/rankings/intent.ts', '求人需要 <strong>高め以上</strong>'],
+  // Owner-signed legacy-copy batch 2 (#957), row #7. The sentence uses 低め as degree, not a score band.
+  ['views/ranking/rankings/intent.ts', 'AI 影響度も低めの職業です'],
   ['views/ranking/build.ts', 'と全セクターで最高'],
   ['views/ranking/build.ts', '低 AI 影響かつ正社員中心の安定職'],
   ['views/ranking/build.ts', '短い労働時間 × 低 AI 影響'],
