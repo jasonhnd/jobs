@@ -363,7 +363,8 @@ export const RELATED_HUBS_CSS = `
    does not. */
 .related-hubs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;grid-auto-rows:1fr;align-items:start}
 .related-hub-group{display:flex;flex-direction:column;height:100%}
-.related-hub-group .rh-cat{font-size:var(--t-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);margin:0 0 8px;font-weight:600;font-family:var(--font-sans)}
+/* h3: canonical-css owns size, sans, 700, ink and heading leading (§4.7, §4.9). */
+.related-hub-group .rh-cat{margin:0 0 8px}
 .related-hub-group .rh-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;flex:1}
 .related-hub-group .rh-list li{margin:0;display:flex}
 .related-hub-group .rh-link{display:flex;flex-direction:column;justify-content:center;gap:2px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms,background 150ms;width:100%;min-height:71px}
