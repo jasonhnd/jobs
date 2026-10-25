@@ -30,6 +30,8 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   // Owner-signed legacy-copy batch 2 (#960), rows #22 and #24; prose, not band labels.
   ['views/ranking-copy.ts', '同じ業種の中で、AI影響度が低めの職業を探すのも一つの方法です。'],
   ['views/ranking-copy.ts', 'AI影響度は低めですが、少子高齢化や産業構造の変化など、ほかの要因も考える必要があります。'],
+  // Owner-signed legacy-copy batch 2, item 14 (#958): ranking description, not a band label.
+  ['templates/Ranking.ts', 'AIで大きく変わる仕事、高年収×低AIリスクの職業などを一覧。'],
   // 仕事が減るリスク (displacement) explanation, not the AI-impact band.
   ['lib/ai-fact-summary.ts', '職そのものが大きく減るリスクは低め'],
   ['lib/ai-fact-summary.ts', '職そのものが縮小するリスクも相対的に高め'],

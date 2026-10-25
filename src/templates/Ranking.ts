@@ -706,7 +706,7 @@ export function renderHubJsonLd(
 ): string {
   const canonical = `${SITE}${rankingIndexCanonicalPath(edition)}`;
   // RA-003 (2026-05-18): SCORED count.
-  const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
+  const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要でランキング。AIで大きく変わる仕事、高年収×低AIリスクの職業などを一覧。`;
   return stringifyJsonLd({
     '@context': 'https://schema.org',
     '@graph': [
