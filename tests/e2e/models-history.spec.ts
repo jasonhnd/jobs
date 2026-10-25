@@ -15,7 +15,7 @@ const allowedJapanese = new Set([
   '採点日', 'モデル', '提供元', '対象職業数',
   ...model.scoringHistory.map(run => formatJapaneseDate(run.date)),
   ...model.scoringHistory.flatMap(run => findingsForIncomingRun(run.model, run.date).filter(isDiscoverable)
-    .flatMap(issue => findingsLinkTitle(issue).split(/(（.*?）)/u))),
+    .flatMap(issue => findingsLinkTitle(issue).split(/(変化 — 第\d+号|（.*?）)/u))),
 ]);
 
 for (const width of [390, 820, 1440]) {
@@ -28,8 +28,29 @@ for (const width of [390, 820, 1440]) {
     await expect(section.getByRole('heading')).toHaveText('採点の記録');
     const rows = section.locator('li');
     await expect(rows).toHaveCount(model.scoringHistory.length);
+    const head = section.locator('.scoring-history-head');
+    await expect(head).toHaveAttribute('aria-hidden', 'true');
+    await expect(head.locator('span')).toHaveText(['採点日', 'モデル', '提供元', '対象職業数']);
+    if (width >= 600) {
+      await expect(head).toBeVisible();
+      const align = await section.evaluate(root => {
+        const labels = [...root.querySelectorAll('.scoring-history-head span')];
+        const cells = [...root.querySelectorAll('.scoring-history-row div')].slice(0, 4);
+        return labels.map((label, index) => Math.abs(label.getBoundingClientRect().left - cells[index]!.getBoundingClientRect().left));
+      });
+      expect(Math.max(...align)).toBeLessThan(1);
+    } else {
+      await expect(head).toBeHidden();
+    }
     for (const [index, run] of model.scoringHistory.entries()) {
       const row = rows.nth(index);
+      await expect(row.locator('dt')).toHaveText(['採点日', 'モデル', '提供元', '対象職業数']);
+      const labelLaidOut = await row.locator('dt').first().evaluate(element => {
+        const style = getComputedStyle(element);
+        const box = element.getBoundingClientRect();
+        return style.position !== 'absolute' && box.width > 2 && box.height > 2;
+      });
+      expect(labelLaidOut).toBe(width < 600);
       await expect(row.locator('time')).toHaveAttribute('datetime', run.date);
       await expect(row.getByRole('link', { name: run.modelDisplay, exact: true })).toHaveAttribute('href', run.href);
       await expect(row.locator('dd').nth(2)).toHaveText(run.vendorDisplay);
@@ -47,6 +68,26 @@ for (const width of [390, 820, 1440]) {
       return new Set([...range.getClientRects()].map(rect => rect.top)).size;
     }));
     expect(lineCounts.every(count => count === 1)).toBe(true);
+    const nowrapTexts = await section.locator('.scoring-history-nowrap').allTextContents();
+    expect(nowrapTexts.some(text => /変化 — 第\d+号/u.test(text))).toBe(true);
+    const orphanIssueLines = await section.locator('.scoring-history-findings').evaluateAll(links => links.flatMap(link => {
+      const range = document.createRange();
+      const lines = new Map<number, string>();
+      const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT);
+      while (walker.nextNode()) {
+        const text = walker.currentNode.textContent ?? '';
+        for (let index = 0; index < text.length; index += 1) {
+          range.setStart(walker.currentNode, index);
+          range.setEnd(walker.currentNode, index + 1);
+          const rect = range.getClientRects()[0];
+          if (rect == null) continue;
+          const key = Math.round(rect.top);
+          lines.set(key, (lines.get(key) ?? '') + text[index]);
+        }
+      }
+      return [...lines.values()].map(line => line.trim()).filter(line => /^第\d+号$/u.test(line));
+    }));
+    expect(orphanIssueLines).toEqual([]);
     const leftEdges = await section.evaluate(root => [
       root.querySelector('h2')!, root.querySelector('.section-intro')!, root.querySelector('dl')!,
     ].map(element => element.getBoundingClientRect().left));
