@@ -84,7 +84,7 @@ describe('Findings template contract', () => {
   test('displays the copy-time note while copying the unchanged template with the local date', () => {
     const copy = findingsCopy(data);
     const display = citationForDisplay(copy.T25);
-    expect(display).toBe(copy.T25.replace('{{accessed_on}}', '（コピー時に自動で入ります）'));
+    expect(display).toBe('ZKSC株式会社「AIの仕事への見方の変化 — 第1号」https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol（最新採点 2026-10-01、参照日はコピー時に自動で入ります）。');
     expect(display).not.toContain('{{');
     assert.deepEqual(unexpectedJapanese([display], data), []);
     assert.deepEqual(unexpectedJapanese([display + '追加'], data), [display + '追加']);
