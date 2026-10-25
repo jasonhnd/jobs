@@ -26,7 +26,7 @@ import {
   MODELS_HUB_VENDORS_INTRO,
 } from '@/site/consensus-copy';
 import { stringifyJsonLd } from '@/lib/json-for-script';
-import { FINDINGS, findingsPath, findingsForRun, isDiscoverable } from '@/site/findings/registry';
+import { FINDINGS, findingsPath, findingsForIncomingRun, isDiscoverable } from '@/site/findings/registry';
 import { findingsLinkTitle } from '@/site/findings/links';
 
 const projectionRaw = await readFile(join(process.cwd(), 'public', 'data.models_deep.json'), 'utf-8');
@@ -158,14 +158,23 @@ a:hover{color:var(--orange-hot)}
 .data-note-history{margin-top:16px}
 .data-note-history summary{cursor:pointer;font-weight:600;color:var(--fg)}
 .data-note-history[open] summary{margin-bottom:12px}
-.scoring-history-list{list-style:none;margin:0;padding:var(--s-1)}
+.scoring-history-list{list-style:none;margin:0;padding:0}
 .scoring-history-list li{border-top:1px solid var(--border);padding:var(--s-4) 0}
-.scoring-history-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-4);margin:0;font-size:var(--t-sm)}
-.scoring-history-row div{min-width:0}
-.scoring-history-row dt{color:var(--ink-meta);font-size:var(--t-xs);font-weight:600}
-.scoring-history-row dd{margin:var(--s-1) 0 0;color:var(--ink);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.scoring-history-head,.scoring-history-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-4)}
+.scoring-history-head{margin:0;padding:0 0 var(--s-3);color:var(--ink-meta);font-size:var(--t-xs);font-weight:600;line-height:1.5}
+.scoring-history-head span,.scoring-history-row div{min-width:0}
+.scoring-history-row{margin:0;font-size:var(--t-sm)}
+.scoring-history-row div{position:relative}
+.scoring-history-row dt{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.scoring-history-row dd{margin:0;color:var(--ink);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
 .scoring-history-findings{display:block;margin-top:var(--s-2)}
-@media(max-width:599px){.scoring-history-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.scoring-history time,.scoring-history-nowrap{white-space:nowrap;overflow-wrap:normal;word-break:normal}
+@media(max-width:599px){
+  .scoring-history-head{display:none}
+  .scoring-history-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .scoring-history-row dt{position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto;white-space:normal;color:var(--ink-meta);font-size:var(--t-xs);font-weight:600}
+  .scoring-history-row dd{margin-top:var(--s-1)}
+}
 @media(max-width:880px){
   .models-hero,.vendor-grid,.contrast,.quote-grid,.cta-band{grid-template-columns:1fr}
   .cta-actions{justify-content:flex-start}
@@ -349,6 +358,12 @@ a:hover{color:var(--orange-hot)}
     <section class="feature-section scoring-history" aria-labelledby="models-scoring-history">
       <h2 id="models-scoring-history">採点の記録</h2>
       <p class="section-intro">各回の採点日と対象職業数です。最新の回から並べています。</p>
+      <div class="scoring-history-head" aria-hidden="true">
+        <span>採点日</span>
+        <span>モデル</span>
+        <span>提供元</span>
+        <span>対象職業数</span>
+      </div>
       <ol class="scoring-history-list" role="list">
         {page.scoringHistory.map((run) => (
           <li>
@@ -356,8 +371,10 @@ a:hover{color:var(--orange-hot)}
               <div><dt>採点日</dt><dd><time datetime={run.date}>{formatJapaneseDate(run.date)}</time></dd></div>
               <div><dt>モデル</dt><dd>
                 <a href={run.href}>{run.modelDisplay}</a>
-                {findingsForRun(run.model, run.date).filter(isDiscoverable).map((issue) => (
-                  <a class="scoring-history-findings" href={findingsPath(issue)}>{findingsLinkTitle(issue)}</a>
+                {findingsForIncomingRun(run.model, run.date).filter(isDiscoverable).map((issue) => (
+                  <a class="scoring-history-findings" href={findingsPath(issue)}>{findingsLinkTitle(issue).split(/(変化 — 第\d+号|（.*?）)/u).map((part) => (
+                    part === '' ? null : <span class:list={{ 'scoring-history-nowrap': /^(?:変化 — 第\d+号|（)/u.test(part) }}>{part}</span>
+                  ))}</a>
                 ))}
               </dd></div>
               <div><dt>提供元</dt><dd>{run.vendorDisplay}</dd></div>
