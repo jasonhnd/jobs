@@ -493,6 +493,20 @@ html body footer.site-footer .footer-legal a:hover {
 html body footer.site-footer .footer-legal span {
   color: var(--ink-meta);
 }
+/* #1035: each "·" is in one nowrap unit with the following link, so a
+   wrapped row cannot end on the separator. Use the existing row-gap token
+   between the separator and its link. */
+html body footer.site-footer .footer-legal .footer-legal-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  white-space: nowrap;
+}
+/* #1035: the banner measures its actual height, including wrapped content.
+   Reserve it below the existing footer padding only while the banner is shown. */
+html body:has(#cookieBanner:not([hidden])) footer.site-footer {
+  padding-bottom: calc(var(--s-5) + var(--cookie-banner-h, 0px) + env(safe-area-inset-bottom, 0px));
+}
 @media (max-width: 560px) {
   html body footer.site-footer .footer-group {
     flex-direction: column;
