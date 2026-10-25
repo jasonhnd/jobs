@@ -134,6 +134,7 @@
         align-items: flex-start;
         gap: 6px;
         margin-bottom: 14px;
+        /* Direct text is a contextual caption (U8). .m-top10-title keeps the TOP 10 heading. */
       }
       .m-top10-eyebrow {
         font-family: var(--font-sans);
@@ -1218,7 +1219,11 @@
         max-width: var(--content-max);
         margin: 0 auto;
         padding: 14px 0 0;
+        font-family: var(--font-sans);
         font-size: var(--t-xs);
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--ink-meta);
       }
       .desktop-hero-utility .dh-brand {
         color: var(--fg2);
@@ -1297,8 +1302,11 @@
         border-radius: var(--r-sm);
       }
       .desktop-hero-popular-label {
+        font-family: var(--font-sans);
         font-size: var(--t-xs);
-        color: var(--fg2);
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--ink-meta);
         letter-spacing: 0.06em;
         margin: 0 0 10px;
         text-transform: uppercase;
@@ -1353,6 +1361,8 @@
         font-family: var(--font-sans);
         font-size: var(--t-xs);
         font-weight: 400;
+        line-height: 1.5;
+        letter-spacing: 0;
       }
       .home-entry-copy h2 {
         margin: 0 0 7px;
@@ -1516,10 +1526,12 @@
       .mobile-hero { display: none; }
       .mobile-hero-kicker {
         margin: 8px 0 0;
+        font-family: var(--font-sans);
         font-size: var(--t-xs);
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        color: var(--orange-hot);
+        font-weight: 400;
+        line-height: 1.5;
+        letter-spacing: 0;
+        color: var(--ink-meta);
       }
       /* §4.9 — canonical owns heading size / weight / line-height. This is an
          H2 since design-1.9 demoted it (§4.3-1: one H1 per page). */
@@ -1943,12 +1955,13 @@
       }
       .hub-eyebrow {
         display: inline-block;
-        font-family: var(--font-sans);
+        font-family: var(--font-mono);
         font-size: var(--t-xs);
-        font-weight: 700;
-        letter-spacing: 0.14em;
+        font-weight: 600;
+        line-height: 1.5;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--orange-hot);
+        color: var(--ink-meta);
         margin-bottom: 6px;
       }
       .hub-section-title {
@@ -2040,8 +2053,10 @@
         text-decoration: none;
       }
       .hc-eyebrow {
+        font-family: var(--font-sans);
         font-size: var(--t-xs);
-        font-weight: 700;
+        font-weight: 400;
+        line-height: 1.5;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         /* §2.2 規則 1 — .hub-card は --cream-2 面なので --orange-hot ですら 4.37 で
