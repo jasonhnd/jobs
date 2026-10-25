@@ -15,7 +15,7 @@ a:hover{color:var(--orange-hot);text-decoration:underline}
 .gyakuten-crumb a{color:var(--fg2)}
 .gyakuten-crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 .gyakuten-hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:end;margin:0 0 32px}
-.gyakuten-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;color:var(--accent-deep);font-size:var(--t-xs);font-weight:700;letter-spacing:0}
+.gyakuten-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;color:var(--ink-meta);font-family:var(--font-sans);font-size:var(--t-xs);font-weight:400;line-height:1.5;letter-spacing:0}
 .gyakuten-hero h1{letter-spacing:0;margin:0 0 14px;color:var(--fg)}
 .gyakuten-hero h1 .accent{color:var(--ink)}
 .gyakuten-lead{max-width:68ch;margin:0;color:var(--fg);font-size:var(--t-h3);line-height:1.85}
