@@ -74,7 +74,7 @@ export interface OccupationSeoOutput {
 const OG_TITLE_MAX = 120;
 const OG_DESCRIPTION_MAX = 300;
 const KEYWORDS_ALIAS_MAX = 8;
-const NATIONAL_AVG_TAIL = '将来性やなり方、必要なスキルを詳しく解説。';
+const NATIONAL_AVG_TAIL = 'AIでの変化やなり方、必要なスキルを詳しく解説。';
 
 /** Locale-aware comma rendering for the workers count in the
  *  description's data clause. Inlined to avoid pulling fmtInt into
