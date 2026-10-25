@@ -44,9 +44,9 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   // Owner-signed legacy-copy batch 2 (#957), row #7. The sentence uses 低め as degree, not a score band.
   ['views/ranking/rankings/intent.ts', 'AI 影響度も低めの職業です'],
   ['views/ranking/build.ts', 'と全セクターで最高'],
-  ['views/ranking/build.ts', '低 AI 影響かつ正社員中心の安定職'],
+  ['views/ranking/build.ts', '低 AI 影響かつ正規雇用率が高い職業'],
   ['views/ranking/build.ts', '短い労働時間 × 低 AI 影響'],
-  ['views/rankings-meta.ts', '低 AI 影響かつ安定雇用率が高い職業'],
+  ['views/rankings-meta.ts', '低 AI 影響かつ正規雇用率が高い職業'],
   ['views/genre-configs/life-balance.ts', '平均年齢が高めで体力負荷が控えめ'],
   ['views/ranking-copy.ts', 'IT系は高め、サービス・建設系は低めと'],
   ['views/ranking-copy.ts', '時給が高く AI 影響度も低めの傾向です'],

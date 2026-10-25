@@ -125,8 +125,8 @@ export interface RankingMeta {
 export const RANKING_META: ReadonlyArray<RankingMeta> = [
   // ── Phase 1 baseline ──
   { slug: 'ai-risk-high',    name_ja: 'AIに奪われる仕事 TOP30',   description_ja: 'AI影響度が高い職業ランキング',     og_eyebrow: 'RANKING · TOP 30' },
-  { slug: 'ai-risk-low',     name_ja: 'AI影響が少ない仕事 TOP30', description_ja: 'AIリスクが低く将来性のある職業',   og_eyebrow: 'RANKING · TOP 30' },
-  { slug: 'salary-safe',     name_ja: '高年収×低AIリスク TOP30',  description_ja: '年収が高くAI代替リスクが低い職業', og_eyebrow: 'RANKING · TOP 30' },
+  { slug: 'ai-risk-low',     name_ja: 'AI影響が少ない仕事 TOP30', description_ja: 'AIで仕事の中身が変わりにくい順です。',   og_eyebrow: 'RANKING · TOP 30' },
+  { slug: 'salary-safe',     name_ja: '高年収×低AIリスク TOP30',  description_ja: 'AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。', og_eyebrow: 'RANKING · TOP 30' },
   { slug: 'workers',         name_ja: '就業者数ランキング TOP30', description_ja: '日本で最も就業者が多い職業',       og_eyebrow: 'RANKING · TOP 30' },
   { slug: 'salary',          name_ja: '年収ランキング TOP30',     description_ja: '年収が最も高い職業',               og_eyebrow: 'RANKING · TOP 30' },
   { slug: 'entry-salary',    name_ja: '初任給ランキング TOP30',   description_ja: '初任給が高い職業',                 og_eyebrow: 'RANKING · TOP 30' },
@@ -147,15 +147,15 @@ export const RANKING_META: ReadonlyArray<RankingMeta> = [
   { slug: 'ai-at-risk-but-paid', name_ja: 'AI リスク高 × 高年収 TOP30',  description_ja: 'AI 影響度高だが現状年収も高い注意組',  og_eyebrow: 'RANKING · 要注意' },
   { slug: 'ai-augmented',        name_ja: 'AI で補強される職業 TOP30',    description_ja: 'AI 影響度 4-6、業務がAIで増強される',  og_eyebrow: 'RANKING · AI 補強域' },
   { slug: 'ai-frontier',         name_ja: 'AI を使いこなす側の職業 TOP21', description_ja: 'IT・通信セクターで AI 活用が業務の中心', og_eyebrow: 'RANKING · AI 使い手' },
-  { slug: 'ai-stable-employment',name_ja: 'AI 安全 × 正規雇用率高 TOP30', description_ja: '低 AI 影響かつ安定雇用率が高い職業',   og_eyebrow: 'RANKING · 安定職' },
+  { slug: 'ai-stable-employment',name_ja: 'AI 安全 × 正規雇用率高 TOP30', description_ja: '低 AI 影響かつ正規雇用率が高い職業',   og_eyebrow: 'RANKING · 正規雇用' },
 
   // ── Phase 2 組合せ (8) ──
-  { slug: 'ai-safe-high-demand',     name_ja: '高需要 × AI 安全 TOP30',       description_ja: '人手不足かつ AI 影響度が低い職業',   og_eyebrow: 'RANKING · AI 安全 × 需要' },
-  { slug: 'ai-safe-short-hours',     name_ja: '低労働時間 × AI 安全 TOP30',  description_ja: '労働時間が短く AI 影響も低い職業',   og_eyebrow: 'RANKING · AI 安全 × 短時間' },
-  { slug: 'ai-safe-young-workforce', name_ja: '若手中心 × AI 安全 TOP30',     description_ja: '平均年齢が若くて AI 影響も低い職業', og_eyebrow: 'RANKING · AI 安全 × 若手' },
-  { slug: 'ai-safe-no-license',      name_ja: '無資格 × AI 安全 TOP30',       description_ja: '資格なしで就けて AI 影響も低い職業', og_eyebrow: 'RANKING · AI 安全 × 無資格' },
-  { slug: 'ai-safe-physical',        name_ja: '身体性 × AI 安全 TOP30',       description_ja: '身体技能職で AI 影響も低い職業',     og_eyebrow: 'RANKING · AI 安全 × 身体性' },
-  { slug: 'ai-safe-interpersonal',   name_ja: '対人 × AI 安全 TOP30',         description_ja: '対人スキル中心で AI 影響も低い職業', og_eyebrow: 'RANKING · AI 安全 × 対人' },
+  { slug: 'ai-safe-high-demand',     name_ja: '高需要 × AI 安全 TOP30',       description_ja: '人手不足かつ AI 影響度が低い職業',   og_eyebrow: 'RANKING · AI影響 少 × 需要' },
+  { slug: 'ai-safe-short-hours',     name_ja: '低労働時間 × AI 安全 TOP30',  description_ja: '労働時間が短く AI 影響も低い職業',   og_eyebrow: 'RANKING · AI影響 少 × 短時間' },
+  { slug: 'ai-safe-young-workforce', name_ja: '若手中心 × AI 安全 TOP30',     description_ja: '平均年齢が若くて AI 影響も低い職業', og_eyebrow: 'RANKING · AI影響 少 × 若手' },
+  { slug: 'ai-safe-no-license',      name_ja: '無資格 × AI 安全 TOP30',       description_ja: '資格なしで就けて AI 影響も低い職業', og_eyebrow: 'RANKING · AI影響 少 × 無資格' },
+  { slug: 'ai-safe-physical',        name_ja: '身体性 × AI 安全 TOP30',       description_ja: '身体技能職で AI 影響も低い職業',     og_eyebrow: 'RANKING · AI影響 少 × 身体性' },
+  { slug: 'ai-safe-interpersonal',   name_ja: '対人 × AI 安全 TOP30',         description_ja: '対人スキル中心で AI 影響も低い職業', og_eyebrow: 'RANKING · AI影響 少 × 対人' },
   { slug: 'high-salary-high-demand', name_ja: '高年収 × 高需要 TOP30',        description_ja: '年収が高くかつ人手不足の職業',       og_eyebrow: 'RANKING · 高年収 × 需要' },
   { slug: 'high-salary-young-entry', name_ja: '初任給が高い × 若手活躍 TOP30', description_ja: '初任給が高くて若手が多い職業',       og_eyebrow: 'RANKING · 高初任給' },
 
@@ -170,7 +170,7 @@ export const RANKING_META: ReadonlyArray<RankingMeta> = [
   { slug: 'public-sector',          name_ja: '公的機関・公務員系の職業 TOP15',     description_ja: '保安・公務系セクターの職業',           og_eyebrow: 'RANKING · 公務' },
   { slug: 'freelance-friendly',     name_ja: 'フリーランス向きの職業 TOP30',      description_ja: 'フリーランス・自営の比率が高い職業',   og_eyebrow: 'RANKING · フリーランス' },
   { slug: 'self-employed-typical',  name_ja: '独立・開業が典型の職業 TOP30',      description_ja: '自営業比率が高く独立が典型キャリア',   og_eyebrow: 'RANKING · 独立' },
-  { slug: 'large-workforce-stable', name_ja: '大規模就業 × AI 安全 TOP30',         description_ja: '就業者数が多くかつ AI 影響も低い職業', og_eyebrow: 'RANKING · 大規模 × 安全' },
+  { slug: 'large-workforce-stable', name_ja: '大規模就業 × AI 安全 TOP30',         description_ja: '就業者数が多くかつ AI 影響も低い職業', og_eyebrow: 'RANKING · 大規模' },
   { slug: 'regulated-protected',    name_ja: '規制で守られた職業 TOP30',          description_ja: '関連資格が多くかつ AI 影響も低い職業', og_eyebrow: 'RANKING · 規制保護' },
-  { slug: 'low-stress-stable',      name_ja: '低ストレス安定職 TOP30',            description_ja: '短い労働時間かつ AI 影響も低い職業',   og_eyebrow: 'RANKING · 低ストレス' },
+  { slug: 'low-stress-stable',      name_ja: '短時間 × AI影響が少ない職業 TOP30', description_ja: '短い労働時間かつ AI 影響も低い職業',   og_eyebrow: 'RANKING · 短時間' },
 ];
