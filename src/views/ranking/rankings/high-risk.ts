@@ -82,7 +82,7 @@ export function buildHighRiskRankings(
       showSalary: true,
       faqItems: FAQS['ai-risk-high'],
       title: 'AIに奪われる仕事ランキング TOP30【2026年版】| 未来の仕事',
-      seoDesc: `AI影響度が最も高い職業TOP${TOP_N}。平均スコア${formatShownMeanLabel(meanHigh)}。AI代替リスク・年収・就業者数を一覧比較。複数のAIモデルによる採点の総合値（独自分析・非公式）。`,
+      seoDesc: '仕事がなくなる順ではなく、AIで仕事の中身が大きく変わる順です。',
       h1Text: `AIに奪われる仕事 TOP${TOP_N}`,
       subText: `AI 影響度が最も <strong>高い</strong> 職業ランキング（${scored.length} 職業中）`,
       introText: `厚労省の職業データに基づき、複数のAIが AIOIS-10 で AI 影響を分析し、公開値はそれらの総合値です。0〜10 のスコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。`,
@@ -118,7 +118,7 @@ export function buildHighRiskRankings(
       seoDesc: `製造・建設・メンテ・農林系で AI 影響度が低い職業 TOP${aiResistantCraft.length}。手技中心で AI 代替が難しい分野を一覧。`,
       h1Text: `伝統技能で AI に強い職業 TOP${aiResistantCraft.length}`,
       subText: '製造・建設・メンテ系で AI 影響度 <strong>3 以下</strong> の技能職',
-      introText: '手技・経験的判断・身体的調整を要する技能職は AI で代替しにくく、製造・建設・メンテ・農林の現場職が低 AI 影響度のまま安定する傾向にあります。',
+      introText: '手技・経験的判断・身体的調整を要する技能職は AI で置き換えにくく、製造・建設・メンテ・農林の現場職は AI 影響度が低めです。',
       statBlocks: [
         ['対象職業数', `${aiResistantCraft.length}`],
         ['TOP 平均 AI 影響', `${formatShownMeanLabel(safeMean(aiResistantCraft, 'ai_risk'))}`],
