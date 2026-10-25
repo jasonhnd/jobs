@@ -389,7 +389,7 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
         sends consent 'update' denied. Default before a choice is granted
         (PR #5, 2026-05-23), which replaced the 2026-05-18 denied default.
         Presentation: compact one-line bar (#320 / MOBILE_SHAPES §3.4).
-        Ids, button labels, and the inline script body stay byte-identical. */}
+        Ids, button labels, and consent behavior are preserved (#1035). */}
     <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie 同意" aria-live="polite" hidden>
       <div class="cb-inner">
         <p class="cb-text">解析のためCookieを使用します。<a href="/privacy">詳細</a></p>
@@ -426,11 +426,27 @@ const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
         if (prior && document.cookie.indexOf(KEY + '=') === -1) {
           writeCookie(prior);
         }
-        if (!prior) banner.hidden = false;
+        function syncBannerHeight() {
+          if (banner.hidden) {
+            document.body.style.removeProperty('--cookie-banner-h');
+          } else {
+            document.body.style.setProperty('--cookie-banner-h', banner.getBoundingClientRect().height + 'px');
+          }
+        }
+        if (!prior) {
+          banner.hidden = false;
+          syncBannerHeight();
+          if (typeof ResizeObserver === 'function') {
+            new ResizeObserver(syncBannerHeight).observe(banner);
+          } else {
+            window.addEventListener('resize', syncBannerHeight);
+          }
+        }
         function save(val) {
           try { localStorage.setItem(KEY, val); } catch (e) {}
           writeCookie(val);
           banner.hidden = true;
+          syncBannerHeight();
         }
         document.getElementById('cookieAccept')?.addEventListener('click', function () {
           save('accepted');
