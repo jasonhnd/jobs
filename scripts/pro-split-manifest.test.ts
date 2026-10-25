@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { RANKING_META, DEINDEXED_RANKINGS } from '../src/views/rankings-meta';
 import { expectedRedirects, loadScoreRuns } from './check-model-redirects';
 import { buildManifest, checkManifest, classifyTemplate, ordinaryOccupationPath } from './pro-split-manifest';
+import { redirectResolver } from './lib/redirect-resolution';
 
 describe('stage-zero Pro route contract', () => {
   test('partitions the actual registry into 8 retained and 31 migrated rankings', () => {
@@ -42,12 +43,17 @@ describe('stage-zero Pro route contract', () => {
   });
   test('ordinary occupation and shared about aliases retain their existing targets', () => {
     const m = buildManifest();
-    const aliases = JSON.parse(readFileSync('vercel.json', 'utf8')).redirects as Array<{ source: string; destination: string }>;
-    const retained = aliases.filter(r => r.source.startsWith('/occ/') || ['/ja/404', '/ja/404.html', '/ja/about', '/ja/about/glossary'].includes(r.source));
-    expect(retained.length).toBe(8);
-    for (const r of retained) {
-      expect(m.legacyAliases.find(a => a.source === r.source)).toBe(undefined);
-      expect(m.legacyWildcardPolicy).toContain(`${r.source} -> ${r.destination}`);
+    const resolve = redirectResolver(JSON.parse(readFileSync('vercel.json', 'utf8')).redirects);
+    for (const [source, destination, statusCode] of [
+      ['/ja/404', '/occupations/404', 301], ['/ja/404.html', '/occupations/404', 301],
+      ['/ja/about', '/about', 301], ['/ja/about/glossary', '/about', 301],
+      ['/occ/404', '/occupations/404', 308], ['/occ/404-example', '/occupations/404', 308],
+      ['/occ/1', '/1', 308], ['/occ/1-example', '/1', 308],
+    ] as const) {
+      expect(resolve(source)?.destination).toBe(destination);
+      expect(resolve(source)?.statusCode).toBe(statusCode);
+      expect(m.legacyAliases.find(a => a.source === source)).toBe(undefined);
+      if (source.startsWith('/ja/')) expect(m.legacyWildcardPolicy).toContain(`${source} -> ${destination}`);
     }
     expect(m.legacyWildcardPolicy).toContain('Ordinary occupation aliases retain their existing targets');
     expect(m.legacyWildcardPolicy).toContain('Root-retained families stay at root');
