@@ -151,318 +151,238 @@
       "permanent": true
     },
     {
-      "source": "/abilities",
-      "destination": "/pro/abilities",
+      "source": "/:family(abilities|aiadoption|answers|careers|compare|data|education|employment-types|explore|gyakuten|haid|interests|knowledge|licenses|life-balance|methodology|models|q|skills|standard|training|values|work-styles|yearly)",
+      "destination": "/pro/:family",
       "statusCode": 301
     },
     {
-      "source": "/abilities/deductive-reasoning",
-      "destination": "/pro/abilities/deductive-reasoning",
+      "source": "/abilities/:slug(deductive-reasoning|inductive-reasoning|manual-dexterity-fine|oral-comprehension|oral-expression|physical-strength|problem-sensitivity|selective-attention|stamina|visualization)",
+      "destination": "/pro/abilities/:slug",
       "statusCode": 301
     },
     {
-      "source": "/abilities/inductive-reasoning",
-      "destination": "/pro/abilities/inductive-reasoning",
+      "source": "/aiadoption/:slug(2026-q2|2026-q3)",
+      "destination": "/pro/aiadoption/:slug",
       "statusCode": 301
     },
     {
-      "source": "/abilities/manual-dexterity-fine",
-      "destination": "/pro/abilities/manual-dexterity-fine",
+      "source": "/answers/:slug(ai-de-nakunaru-shigoto|nenshu-ai-anzen|nobiru-shigoto-top)",
+      "destination": "/pro/answers/:slug",
       "statusCode": 301
     },
     {
-      "source": "/abilities/oral-comprehension",
-      "destination": "/pro/abilities/oral-comprehension",
+      "source": "/careers/:slug(20-late|30s-early|30s-late|40s|50s|60s-shinia|career-change|gakusei-arbeit|shinsotsu|shufu-fukki)",
+      "destination": "/pro/careers/:slug",
       "statusCode": 301
     },
     {
-      "source": "/abilities/oral-expression",
-      "destination": "/pro/abilities/oral-expression",
+      "source": "/compare/:slug(bengoshi-vs-kaikeishi|biyo-vs-riyo|data-scientist-vs-ai-engineer|denki-vs-haikan|iryo-jimu-vs-ippan-jimu|kaigo-vs-kea-mane|kaikeishi-vs-zeirishi|kango-vs-helper|kango-vs-yakuzaishi|kyoshi-vs-hoikushi|pt-vs-shika-eisei|se-vs-programmer|shihou-vs-gyousei|shika-vs-juui|shoubou-vs-keisatsu|tofu-vs-pan|truck-vs-taxi|web-marketer-vs-research|webdesigner-vs-illustrator|yochien-vs-hoikushi)",
+      "destination": "/pro/compare/:slug",
       "statusCode": 301
     },
     {
-      "source": "/abilities/physical-strength",
-      "destination": "/pro/abilities/physical-strength",
+      "source": "/education/:slug(graduate-school-careers|high-school-careers|lifetime-learning|no-school-required|university-careers|vocational-school-careers)",
+      "destination": "/pro/education/:slug",
       "statusCode": 301
     },
     {
-      "source": "/abilities/problem-sensitivity",
-      "destination": "/pro/abilities/problem-sensitivity",
+      "source": "/employment-types/:slug(freelance-friendly|full-time-mainstream|part-time-mainstream|public-employee)",
+      "destination": "/pro/employment-types/:slug",
       "statusCode": 301
     },
     {
-      "source": "/abilities/selective-attention",
-      "destination": "/pro/abilities/selective-attention",
+      "source": "/explore/:slug(by-industry|by-ranking|by-skill-and-license|by-work-style|compare|find-your-fit|methodology-trust)",
+      "destination": "/pro/explore/:slug",
       "statusCode": 301
     },
     {
-      "source": "/abilities/stamina",
-      "destination": "/pro/abilities/stamina",
+      "source": "/interests/:slug(artistic|conventional|enterprising|investigative|realistic|social)",
+      "destination": "/pro/interests/:slug",
       "statusCode": 301
     },
     {
-      "source": "/abilities/visualization",
-      "destination": "/pro/abilities/visualization",
+      "source": "/knowledge/:slug(computers-electronics-knowledge|customer-service|japanese-language-knowledge|law-government-knowledge|mathematics-knowledge|mechanical-knowledge|medical-knowledge|production-processing|psychology-knowledge|sales-marketing-knowledge)",
+      "destination": "/pro/knowledge/:slug",
       "statusCode": 301
     },
     {
-      "source": "/aiadoption",
-      "destination": "/pro/aiadoption",
+      "source": "/licenses/:slug(accounting-licenses|construction-licenses|easy-licenses|education-licenses|food-safety-licenses|gyoumu-dokusen|it-licenses|legal-licenses|medical-licenses|meishou-dokusen-hicchi|national-vs-private|no-degree-licenses|popular-licenses|realestate-licenses|welfare-licenses)",
+      "destination": "/pro/licenses/:slug",
       "statusCode": 301
     },
     {
-      "source": "/aiadoption/2026-q2",
-      "destination": "/pro/aiadoption/2026-q2",
+      "source": "/life-balance/:slug(child-care-balance|elderly-care-balance|health-friendly|hobby-balance|mental-health-friendly|senior-friendly)",
+      "destination": "/pro/life-balance/:slug",
       "statusCode": 301
     },
     {
-      "source": "/aiadoption/2026-q3",
-      "destination": "/pro/aiadoption/2026-q3",
+      "source": "/models/fable-5",
+      "destination": "/pro/models/fable-5@2026-06-13",
       "statusCode": 301
     },
     {
-      "source": "/answers",
-      "destination": "/pro/answers",
+      "source": "/models/fable-5-1",
+      "destination": "/pro/models/fable-5-1@2026-09-09",
       "statusCode": 301
     },
     {
-      "source": "/answers/ai-de-nakunaru-shigoto",
-      "destination": "/pro/answers/ai-de-nakunaru-shigoto",
+      "source": "/models/:slug(fable-5-1@2026-09-09|fable-5@2026-06-13|gpt-5\\.6-sol@2026-07-12|gpt-6-astra@2026-09-10|gpt-6-sol@2026-09-23|gpt-6\\.1-sol@2026-10-01|grok-4\\.5@2026-09-10|grok-4\\.6@2026-09-07|grok-4\\.7@2026-09-22|opus-4-7@2026-04-25|opus-4-8@2026-05-30|opus-5-5@2026-09-23|opus-5@2026-07-26)",
+      "destination": "/pro/models/:slug",
       "statusCode": 301
     },
     {
-      "source": "/answers/nenshu-ai-anzen",
-      "destination": "/pro/answers/nenshu-ai-anzen",
+      "source": "/models/gpt-5.6-sol",
+      "destination": "/pro/models/gpt-5.6-sol@2026-07-12",
       "statusCode": 301
     },
     {
-      "source": "/answers/nobiru-shigoto-top",
-      "destination": "/pro/answers/nobiru-shigoto-top",
+      "source": "/models/gpt-6-astra",
+      "destination": "/pro/models/gpt-6-astra@2026-09-10",
       "statusCode": 301
     },
     {
-      "source": "/careers",
-      "destination": "/pro/careers",
+      "source": "/models/gpt-6-sol",
+      "destination": "/pro/models/gpt-6-sol@2026-09-23",
       "statusCode": 301
     },
     {
-      "source": "/careers/20-late",
-      "destination": "/pro/careers/20-late",
+      "source": "/models/gpt-6.1-sol",
+      "destination": "/pro/models/gpt-6.1-sol@2026-10-01",
       "statusCode": 301
     },
     {
-      "source": "/careers/30s-early",
-      "destination": "/pro/careers/30s-early",
+      "source": "/models/grok-4.5",
+      "destination": "/pro/models/grok-4.5@2026-09-10",
       "statusCode": 301
     },
     {
-      "source": "/careers/30s-late",
-      "destination": "/pro/careers/30s-late",
+      "source": "/models/grok-4.6",
+      "destination": "/pro/models/grok-4.6@2026-09-07",
       "statusCode": 301
     },
     {
-      "source": "/careers/40s",
-      "destination": "/pro/careers/40s",
+      "source": "/models/grok-4.7",
+      "destination": "/pro/models/grok-4.7@2026-09-22",
       "statusCode": 301
     },
     {
-      "source": "/careers/50s",
-      "destination": "/pro/careers/50s",
+      "source": "/models/opus-4-7",
+      "destination": "/pro/models/opus-4-7@2026-04-25",
       "statusCode": 301
     },
     {
-      "source": "/careers/60s-shinia",
-      "destination": "/pro/careers/60s-shinia",
+      "source": "/models/opus-4-8",
+      "destination": "/pro/models/opus-4-8@2026-05-30",
       "statusCode": 301
     },
     {
-      "source": "/careers/career-change",
-      "destination": "/pro/careers/career-change",
+      "source": "/models/opus-5",
+      "destination": "/pro/models/opus-5@2026-07-26",
       "statusCode": 301
     },
     {
-      "source": "/careers/gakusei-arbeit",
-      "destination": "/pro/careers/gakusei-arbeit",
+      "source": "/models/opus-5-5",
+      "destination": "/pro/models/opus-5-5@2026-09-23",
       "statusCode": 301
     },
     {
-      "source": "/careers/shinsotsu",
-      "destination": "/pro/careers/shinsotsu",
+      "source": "/pro/models/fable-5",
+      "destination": "/pro/models/fable-5@2026-06-13",
       "statusCode": 301
     },
     {
-      "source": "/careers/shufu-fukki",
-      "destination": "/pro/careers/shufu-fukki",
+      "source": "/pro/models/fable-5-1",
+      "destination": "/pro/models/fable-5-1@2026-09-09",
       "statusCode": 301
     },
     {
-      "source": "/compare",
-      "destination": "/pro/compare",
+      "source": "/pro/models/gpt-5.6-sol",
+      "destination": "/pro/models/gpt-5.6-sol@2026-07-12",
       "statusCode": 301
     },
     {
-      "source": "/compare/bengoshi-vs-kaikeishi",
-      "destination": "/pro/compare/bengoshi-vs-kaikeishi",
+      "source": "/pro/models/gpt-6-astra",
+      "destination": "/pro/models/gpt-6-astra@2026-09-10",
       "statusCode": 301
     },
     {
-      "source": "/compare/biyo-vs-riyo",
-      "destination": "/pro/compare/biyo-vs-riyo",
+      "source": "/pro/models/gpt-6-sol",
+      "destination": "/pro/models/gpt-6-sol@2026-09-23",
       "statusCode": 301
     },
     {
-      "source": "/compare/data-scientist-vs-ai-engineer",
-      "destination": "/pro/compare/data-scientist-vs-ai-engineer",
+      "source": "/pro/models/gpt-6.1-sol",
+      "destination": "/pro/models/gpt-6.1-sol@2026-10-01",
       "statusCode": 301
     },
     {
-      "source": "/compare/denki-vs-haikan",
-      "destination": "/pro/compare/denki-vs-haikan",
+      "source": "/pro/models/grok-4.5",
+      "destination": "/pro/models/grok-4.5@2026-09-10",
       "statusCode": 301
     },
     {
-      "source": "/compare/iryo-jimu-vs-ippan-jimu",
-      "destination": "/pro/compare/iryo-jimu-vs-ippan-jimu",
+      "source": "/pro/models/grok-4.6",
+      "destination": "/pro/models/grok-4.6@2026-09-07",
       "statusCode": 301
     },
     {
-      "source": "/compare/kaigo-vs-kea-mane",
-      "destination": "/pro/compare/kaigo-vs-kea-mane",
+      "source": "/pro/models/grok-4.7",
+      "destination": "/pro/models/grok-4.7@2026-09-22",
       "statusCode": 301
     },
     {
-      "source": "/compare/kaikeishi-vs-zeirishi",
-      "destination": "/pro/compare/kaikeishi-vs-zeirishi",
+      "source": "/pro/models/opus-4-7",
+      "destination": "/pro/models/opus-4-7@2026-04-25",
       "statusCode": 301
     },
     {
-      "source": "/compare/kango-vs-helper",
-      "destination": "/pro/compare/kango-vs-helper",
+      "source": "/pro/models/opus-4-8",
+      "destination": "/pro/models/opus-4-8@2026-05-30",
       "statusCode": 301
     },
     {
-      "source": "/compare/kango-vs-yakuzaishi",
-      "destination": "/pro/compare/kango-vs-yakuzaishi",
+      "source": "/pro/models/opus-5",
+      "destination": "/pro/models/opus-5@2026-07-26",
       "statusCode": 301
     },
     {
-      "source": "/compare/kyoshi-vs-hoikushi",
-      "destination": "/pro/compare/kyoshi-vs-hoikushi",
+      "source": "/pro/models/opus-5-5",
+      "destination": "/pro/models/opus-5-5@2026-09-23",
       "statusCode": 301
     },
     {
-      "source": "/compare/pt-vs-shika-eisei",
-      "destination": "/pro/compare/pt-vs-shika-eisei",
+      "source": "/q/:slug(ai-augment-vs-replace|ai-de-kienai|ai-de-kieru|ai-hoshou-shoku|ai-jidai-osusume|ai-shitsugyou-yobou|ai-skill-mi-ni-tsukeru|blank-fukki|bunkei-osusume|career-change-mirai|dokushin-friendly|driver-mirai|eigo-ikasu|female-long|fukugyou-ok|gaiko-osusume|gakureki-konpurekkusu|geijutsu-keikei|genba-vs-jimu|hanbai-mirai|hito-aite-shigoto|hito-mishiri-ok|hoshou-nashi-tenshoku|ikuji-ryouritsu|it-engineer-ai|jimu-mirai|kaigai-iju-shoku|kaigo-ryouritsu|kango-ai|kanjou-roudou-sukunai|kyouiku-ai|mikeiken-it|naiko-osusume|nenshu-up|over-50-katsuyaku|rikei-osusume|ronri-shiko-ikasu|shikaku-mamoru|shinso-osusume|shokunin-mirai|shougai-mochi-ok|suugaku-nigate|tenshoku-30s|tenshoku-40s|tenshoku-kaisuu-ooi|tenshoku-yasashii|tsuukin-friendly|yakin-nashi|zaitaku-shigoto)",
+      "destination": "/pro/q/:slug",
       "statusCode": 301
     },
     {
-      "source": "/compare/se-vs-programmer",
-      "destination": "/pro/compare/se-vs-programmer",
+      "source": "/rankings/:slug(aging-workforce|ai-at-risk-but-paid|ai-augmented|ai-frontier|ai-replaced-soon|ai-resistant-craft|ai-safe-high-demand|ai-safe-interpersonal|ai-safe-no-license|ai-safe-physical|ai-safe-short-hours|ai-safe-young-workforce|ai-stable-employment|entry-salary|freelance-friendly|graduate-school-required|high-salary-high-demand|high-salary-young-entry|high-school-ok|large-workforce-stable|license-required|low-stress-stable|monthly-hours-long|no-license-required|public-sector|recruit-ratio|recruit-ratio-low|regulated-protected|self-employed-typical|university-required|young-workforce)",
+      "destination": "/pro/rankings/:slug",
       "statusCode": 301
     },
     {
-      "source": "/compare/shihou-vs-gyousei",
-      "destination": "/pro/compare/shihou-vs-gyousei",
+      "source": "/skills/:slug(coordination|critical-thinking|instructing|judgment|persuasion|problem-solving|programming|quality-control|social-perceptiveness|time-management)",
+      "destination": "/pro/skills/:slug",
       "statusCode": 301
     },
     {
-      "source": "/compare/shika-vs-juui",
-      "destination": "/pro/compare/shika-vs-juui",
+      "source": "/training/:slug(1-3-years|3-5-years|5-10-years|lifelong-craft|quick-start)",
+      "destination": "/pro/training/:slug",
       "statusCode": 301
     },
     {
-      "source": "/compare/shoubou-vs-keisatsu",
-      "destination": "/pro/compare/shoubou-vs-keisatsu",
+      "source": "/values/:slug(achievement|expertise|independence|recognition|relationships|self-growth|support|working-conditions)",
+      "destination": "/pro/values/:slug",
       "statusCode": 301
     },
     {
-      "source": "/compare/tofu-vs-pan",
-      "destination": "/pro/compare/tofu-vs-pan",
+      "source": "/work-styles/:slug(desk-sitting-work|desk-vs-genba|high-physical-load|indoor-vs-outdoor|move-required|shift-work|solo-vs-team)",
+      "destination": "/pro/work-styles/:slug",
       "statusCode": 301
     },
     {
-      "source": "/compare/truck-vs-taxi",
-      "destination": "/pro/compare/truck-vs-taxi",
-      "statusCode": 301
-    },
-    {
-      "source": "/compare/web-marketer-vs-research",
-      "destination": "/pro/compare/web-marketer-vs-research",
-      "statusCode": 301
-    },
-    {
-      "source": "/compare/webdesigner-vs-illustrator",
-      "destination": "/pro/compare/webdesigner-vs-illustrator",
-      "statusCode": 301
-    },
-    {
-      "source": "/compare/yochien-vs-hoikushi",
-      "destination": "/pro/compare/yochien-vs-hoikushi",
-      "statusCode": 301
-    },
-    {
-      "source": "/data",
-      "destination": "/pro/data",
-      "statusCode": 301
-    },
-    {
-      "source": "/education",
-      "destination": "/pro/education",
-      "statusCode": 301
-    },
-    {
-      "source": "/education/graduate-school-careers",
-      "destination": "/pro/education/graduate-school-careers",
-      "statusCode": 301
-    },
-    {
-      "source": "/education/high-school-careers",
-      "destination": "/pro/education/high-school-careers",
-      "statusCode": 301
-    },
-    {
-      "source": "/education/lifetime-learning",
-      "destination": "/pro/education/lifetime-learning",
-      "statusCode": 301
-    },
-    {
-      "source": "/education/no-school-required",
-      "destination": "/pro/education/no-school-required",
-      "statusCode": 301
-    },
-    {
-      "source": "/education/university-careers",
-      "destination": "/pro/education/university-careers",
-      "statusCode": 301
-    },
-    {
-      "source": "/education/vocational-school-careers",
-      "destination": "/pro/education/vocational-school-careers",
-      "statusCode": 301
-    },
-    {
-      "source": "/employment-types",
-      "destination": "/pro/employment-types",
-      "statusCode": 301
-    },
-    {
-      "source": "/employment-types/freelance-friendly",
-      "destination": "/pro/employment-types/freelance-friendly",
-      "statusCode": 301
-    },
-    {
-      "source": "/employment-types/full-time-mainstream",
-      "destination": "/pro/employment-types/full-time-mainstream",
-      "statusCode": 301
-    },
-    {
-      "source": "/employment-types/part-time-mainstream",
-      "destination": "/pro/employment-types/part-time-mainstream",
-      "statusCode": 301
-    },
-    {
-      "source": "/employment-types/public-employee",
-      "destination": "/pro/employment-types/public-employee",
+      "source": "/yearly/:slug(2026-report|5year-changes|next-decade)",
+      "destination": "/pro/yearly/:slug",
       "statusCode": 301
     },
     {
@@ -701,91 +621,6 @@
       "statusCode": 301
     },
     {
-      "source": "/explore",
-      "destination": "/pro/explore",
-      "statusCode": 301
-    },
-    {
-      "source": "/explore/by-industry",
-      "destination": "/pro/explore/by-industry",
-      "statusCode": 301
-    },
-    {
-      "source": "/explore/by-ranking",
-      "destination": "/pro/explore/by-ranking",
-      "statusCode": 301
-    },
-    {
-      "source": "/explore/by-skill-and-license",
-      "destination": "/pro/explore/by-skill-and-license",
-      "statusCode": 301
-    },
-    {
-      "source": "/explore/by-work-style",
-      "destination": "/pro/explore/by-work-style",
-      "statusCode": 301
-    },
-    {
-      "source": "/explore/compare",
-      "destination": "/pro/explore/compare",
-      "statusCode": 301
-    },
-    {
-      "source": "/explore/find-your-fit",
-      "destination": "/pro/explore/find-your-fit",
-      "statusCode": 301
-    },
-    {
-      "source": "/explore/methodology-trust",
-      "destination": "/pro/explore/methodology-trust",
-      "statusCode": 301
-    },
-    {
-      "source": "/gyakuten",
-      "destination": "/pro/gyakuten",
-      "statusCode": 301
-    },
-    {
-      "source": "/haid",
-      "destination": "/pro/haid",
-      "statusCode": 301
-    },
-    {
-      "source": "/interests",
-      "destination": "/pro/interests",
-      "statusCode": 301
-    },
-    {
-      "source": "/interests/artistic",
-      "destination": "/pro/interests/artistic",
-      "statusCode": 301
-    },
-    {
-      "source": "/interests/conventional",
-      "destination": "/pro/interests/conventional",
-      "statusCode": 301
-    },
-    {
-      "source": "/interests/enterprising",
-      "destination": "/pro/interests/enterprising",
-      "statusCode": 301
-    },
-    {
-      "source": "/interests/investigative",
-      "destination": "/pro/interests/investigative",
-      "statusCode": 301
-    },
-    {
-      "source": "/interests/realistic",
-      "destination": "/pro/interests/realistic",
-      "statusCode": 301
-    },
-    {
-      "source": "/interests/social",
-      "destination": "/pro/interests/social",
-      "statusCode": 301
-    },
-    {
       "source": "/ja",
       "destination": "/",
       "statusCode": 301
@@ -1008,981 +843,6 @@
     {
       "source": "/ja/yearly/:path(2026-report|5year-changes|next-decade)",
       "destination": "/pro/yearly/:path",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge",
-      "destination": "/pro/knowledge",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/computers-electronics-knowledge",
-      "destination": "/pro/knowledge/computers-electronics-knowledge",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/customer-service",
-      "destination": "/pro/knowledge/customer-service",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/japanese-language-knowledge",
-      "destination": "/pro/knowledge/japanese-language-knowledge",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/law-government-knowledge",
-      "destination": "/pro/knowledge/law-government-knowledge",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/mathematics-knowledge",
-      "destination": "/pro/knowledge/mathematics-knowledge",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/mechanical-knowledge",
-      "destination": "/pro/knowledge/mechanical-knowledge",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/medical-knowledge",
-      "destination": "/pro/knowledge/medical-knowledge",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/production-processing",
-      "destination": "/pro/knowledge/production-processing",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/psychology-knowledge",
-      "destination": "/pro/knowledge/psychology-knowledge",
-      "statusCode": 301
-    },
-    {
-      "source": "/knowledge/sales-marketing-knowledge",
-      "destination": "/pro/knowledge/sales-marketing-knowledge",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses",
-      "destination": "/pro/licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/accounting-licenses",
-      "destination": "/pro/licenses/accounting-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/construction-licenses",
-      "destination": "/pro/licenses/construction-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/easy-licenses",
-      "destination": "/pro/licenses/easy-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/education-licenses",
-      "destination": "/pro/licenses/education-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/food-safety-licenses",
-      "destination": "/pro/licenses/food-safety-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/gyoumu-dokusen",
-      "destination": "/pro/licenses/gyoumu-dokusen",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/it-licenses",
-      "destination": "/pro/licenses/it-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/legal-licenses",
-      "destination": "/pro/licenses/legal-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/medical-licenses",
-      "destination": "/pro/licenses/medical-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/meishou-dokusen-hicchi",
-      "destination": "/pro/licenses/meishou-dokusen-hicchi",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/national-vs-private",
-      "destination": "/pro/licenses/national-vs-private",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/no-degree-licenses",
-      "destination": "/pro/licenses/no-degree-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/popular-licenses",
-      "destination": "/pro/licenses/popular-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/realestate-licenses",
-      "destination": "/pro/licenses/realestate-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/licenses/welfare-licenses",
-      "destination": "/pro/licenses/welfare-licenses",
-      "statusCode": 301
-    },
-    {
-      "source": "/life-balance",
-      "destination": "/pro/life-balance",
-      "statusCode": 301
-    },
-    {
-      "source": "/life-balance/child-care-balance",
-      "destination": "/pro/life-balance/child-care-balance",
-      "statusCode": 301
-    },
-    {
-      "source": "/life-balance/elderly-care-balance",
-      "destination": "/pro/life-balance/elderly-care-balance",
-      "statusCode": 301
-    },
-    {
-      "source": "/life-balance/health-friendly",
-      "destination": "/pro/life-balance/health-friendly",
-      "statusCode": 301
-    },
-    {
-      "source": "/life-balance/hobby-balance",
-      "destination": "/pro/life-balance/hobby-balance",
-      "statusCode": 301
-    },
-    {
-      "source": "/life-balance/mental-health-friendly",
-      "destination": "/pro/life-balance/mental-health-friendly",
-      "statusCode": 301
-    },
-    {
-      "source": "/life-balance/senior-friendly",
-      "destination": "/pro/life-balance/senior-friendly",
-      "statusCode": 301
-    },
-    {
-      "source": "/methodology",
-      "destination": "/pro/methodology",
-      "statusCode": 301
-    },
-    {
-      "source": "/models",
-      "destination": "/pro/models",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/fable-5",
-      "destination": "/pro/models/fable-5@2026-06-13",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/fable-5-1",
-      "destination": "/pro/models/fable-5-1@2026-09-09",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/fable-5-1@2026-09-09",
-      "destination": "/pro/models/fable-5-1@2026-09-09",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/fable-5@2026-06-13",
-      "destination": "/pro/models/fable-5@2026-06-13",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/gpt-5.6-sol",
-      "destination": "/pro/models/gpt-5.6-sol@2026-07-12",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/gpt-5.6-sol@2026-07-12",
-      "destination": "/pro/models/gpt-5.6-sol@2026-07-12",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/gpt-6-astra",
-      "destination": "/pro/models/gpt-6-astra@2026-09-10",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/gpt-6-astra@2026-09-10",
-      "destination": "/pro/models/gpt-6-astra@2026-09-10",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/gpt-6-sol",
-      "destination": "/pro/models/gpt-6-sol@2026-09-23",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/gpt-6-sol@2026-09-23",
-      "destination": "/pro/models/gpt-6-sol@2026-09-23",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/gpt-6.1-sol",
-      "destination": "/pro/models/gpt-6.1-sol@2026-10-01",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/gpt-6.1-sol@2026-10-01",
-      "destination": "/pro/models/gpt-6.1-sol@2026-10-01",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/grok-4.5",
-      "destination": "/pro/models/grok-4.5@2026-09-10",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/grok-4.5@2026-09-10",
-      "destination": "/pro/models/grok-4.5@2026-09-10",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/grok-4.6",
-      "destination": "/pro/models/grok-4.6@2026-09-07",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/grok-4.6@2026-09-07",
-      "destination": "/pro/models/grok-4.6@2026-09-07",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/grok-4.7",
-      "destination": "/pro/models/grok-4.7@2026-09-22",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/grok-4.7@2026-09-22",
-      "destination": "/pro/models/grok-4.7@2026-09-22",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/opus-4-7",
-      "destination": "/pro/models/opus-4-7@2026-04-25",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/opus-4-7@2026-04-25",
-      "destination": "/pro/models/opus-4-7@2026-04-25",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/opus-4-8",
-      "destination": "/pro/models/opus-4-8@2026-05-30",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/opus-4-8@2026-05-30",
-      "destination": "/pro/models/opus-4-8@2026-05-30",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/opus-5",
-      "destination": "/pro/models/opus-5@2026-07-26",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/opus-5-5",
-      "destination": "/pro/models/opus-5-5@2026-09-23",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/opus-5-5@2026-09-23",
-      "destination": "/pro/models/opus-5-5@2026-09-23",
-      "statusCode": 301
-    },
-    {
-      "source": "/models/opus-5@2026-07-26",
-      "destination": "/pro/models/opus-5@2026-07-26",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/fable-5",
-      "destination": "/pro/models/fable-5@2026-06-13",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/fable-5-1",
-      "destination": "/pro/models/fable-5-1@2026-09-09",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/gpt-5.6-sol",
-      "destination": "/pro/models/gpt-5.6-sol@2026-07-12",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/gpt-6-astra",
-      "destination": "/pro/models/gpt-6-astra@2026-09-10",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/gpt-6-sol",
-      "destination": "/pro/models/gpt-6-sol@2026-09-23",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/gpt-6.1-sol",
-      "destination": "/pro/models/gpt-6.1-sol@2026-10-01",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/grok-4.5",
-      "destination": "/pro/models/grok-4.5@2026-09-10",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/grok-4.6",
-      "destination": "/pro/models/grok-4.6@2026-09-07",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/grok-4.7",
-      "destination": "/pro/models/grok-4.7@2026-09-22",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/opus-4-7",
-      "destination": "/pro/models/opus-4-7@2026-04-25",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/opus-4-8",
-      "destination": "/pro/models/opus-4-8@2026-05-30",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/opus-5",
-      "destination": "/pro/models/opus-5@2026-07-26",
-      "statusCode": 301
-    },
-    {
-      "source": "/pro/models/opus-5-5",
-      "destination": "/pro/models/opus-5-5@2026-09-23",
-      "statusCode": 301
-    },
-    {
-      "source": "/q",
-      "destination": "/pro/q",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/ai-augment-vs-replace",
-      "destination": "/pro/q/ai-augment-vs-replace",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/ai-de-kienai",
-      "destination": "/pro/q/ai-de-kienai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/ai-de-kieru",
-      "destination": "/pro/q/ai-de-kieru",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/ai-hoshou-shoku",
-      "destination": "/pro/q/ai-hoshou-shoku",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/ai-jidai-osusume",
-      "destination": "/pro/q/ai-jidai-osusume",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/ai-shitsugyou-yobou",
-      "destination": "/pro/q/ai-shitsugyou-yobou",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/ai-skill-mi-ni-tsukeru",
-      "destination": "/pro/q/ai-skill-mi-ni-tsukeru",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/blank-fukki",
-      "destination": "/pro/q/blank-fukki",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/bunkei-osusume",
-      "destination": "/pro/q/bunkei-osusume",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/career-change-mirai",
-      "destination": "/pro/q/career-change-mirai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/dokushin-friendly",
-      "destination": "/pro/q/dokushin-friendly",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/driver-mirai",
-      "destination": "/pro/q/driver-mirai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/eigo-ikasu",
-      "destination": "/pro/q/eigo-ikasu",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/female-long",
-      "destination": "/pro/q/female-long",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/fukugyou-ok",
-      "destination": "/pro/q/fukugyou-ok",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/gaiko-osusume",
-      "destination": "/pro/q/gaiko-osusume",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/gakureki-konpurekkusu",
-      "destination": "/pro/q/gakureki-konpurekkusu",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/geijutsu-keikei",
-      "destination": "/pro/q/geijutsu-keikei",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/genba-vs-jimu",
-      "destination": "/pro/q/genba-vs-jimu",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/hanbai-mirai",
-      "destination": "/pro/q/hanbai-mirai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/hito-aite-shigoto",
-      "destination": "/pro/q/hito-aite-shigoto",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/hito-mishiri-ok",
-      "destination": "/pro/q/hito-mishiri-ok",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/hoshou-nashi-tenshoku",
-      "destination": "/pro/q/hoshou-nashi-tenshoku",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/ikuji-ryouritsu",
-      "destination": "/pro/q/ikuji-ryouritsu",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/it-engineer-ai",
-      "destination": "/pro/q/it-engineer-ai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/jimu-mirai",
-      "destination": "/pro/q/jimu-mirai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/kaigai-iju-shoku",
-      "destination": "/pro/q/kaigai-iju-shoku",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/kaigo-ryouritsu",
-      "destination": "/pro/q/kaigo-ryouritsu",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/kango-ai",
-      "destination": "/pro/q/kango-ai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/kanjou-roudou-sukunai",
-      "destination": "/pro/q/kanjou-roudou-sukunai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/kyouiku-ai",
-      "destination": "/pro/q/kyouiku-ai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/mikeiken-it",
-      "destination": "/pro/q/mikeiken-it",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/naiko-osusume",
-      "destination": "/pro/q/naiko-osusume",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/nenshu-up",
-      "destination": "/pro/q/nenshu-up",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/over-50-katsuyaku",
-      "destination": "/pro/q/over-50-katsuyaku",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/rikei-osusume",
-      "destination": "/pro/q/rikei-osusume",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/ronri-shiko-ikasu",
-      "destination": "/pro/q/ronri-shiko-ikasu",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/shikaku-mamoru",
-      "destination": "/pro/q/shikaku-mamoru",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/shinso-osusume",
-      "destination": "/pro/q/shinso-osusume",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/shokunin-mirai",
-      "destination": "/pro/q/shokunin-mirai",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/shougai-mochi-ok",
-      "destination": "/pro/q/shougai-mochi-ok",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/suugaku-nigate",
-      "destination": "/pro/q/suugaku-nigate",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/tenshoku-30s",
-      "destination": "/pro/q/tenshoku-30s",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/tenshoku-40s",
-      "destination": "/pro/q/tenshoku-40s",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/tenshoku-kaisuu-ooi",
-      "destination": "/pro/q/tenshoku-kaisuu-ooi",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/tenshoku-yasashii",
-      "destination": "/pro/q/tenshoku-yasashii",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/tsuukin-friendly",
-      "destination": "/pro/q/tsuukin-friendly",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/yakin-nashi",
-      "destination": "/pro/q/yakin-nashi",
-      "statusCode": 301
-    },
-    {
-      "source": "/q/zaitaku-shigoto",
-      "destination": "/pro/q/zaitaku-shigoto",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/aging-workforce",
-      "destination": "/pro/rankings/aging-workforce",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-at-risk-but-paid",
-      "destination": "/pro/rankings/ai-at-risk-but-paid",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-augmented",
-      "destination": "/pro/rankings/ai-augmented",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-frontier",
-      "destination": "/pro/rankings/ai-frontier",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-replaced-soon",
-      "destination": "/pro/rankings/ai-replaced-soon",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-resistant-craft",
-      "destination": "/pro/rankings/ai-resistant-craft",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-safe-high-demand",
-      "destination": "/pro/rankings/ai-safe-high-demand",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-safe-interpersonal",
-      "destination": "/pro/rankings/ai-safe-interpersonal",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-safe-no-license",
-      "destination": "/pro/rankings/ai-safe-no-license",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-safe-physical",
-      "destination": "/pro/rankings/ai-safe-physical",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-safe-short-hours",
-      "destination": "/pro/rankings/ai-safe-short-hours",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-safe-young-workforce",
-      "destination": "/pro/rankings/ai-safe-young-workforce",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/ai-stable-employment",
-      "destination": "/pro/rankings/ai-stable-employment",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/entry-salary",
-      "destination": "/pro/rankings/entry-salary",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/freelance-friendly",
-      "destination": "/pro/rankings/freelance-friendly",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/graduate-school-required",
-      "destination": "/pro/rankings/graduate-school-required",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/high-salary-high-demand",
-      "destination": "/pro/rankings/high-salary-high-demand",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/high-salary-young-entry",
-      "destination": "/pro/rankings/high-salary-young-entry",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/high-school-ok",
-      "destination": "/pro/rankings/high-school-ok",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/large-workforce-stable",
-      "destination": "/pro/rankings/large-workforce-stable",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/license-required",
-      "destination": "/pro/rankings/license-required",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/low-stress-stable",
-      "destination": "/pro/rankings/low-stress-stable",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/monthly-hours-long",
-      "destination": "/pro/rankings/monthly-hours-long",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/no-license-required",
-      "destination": "/pro/rankings/no-license-required",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/public-sector",
-      "destination": "/pro/rankings/public-sector",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/recruit-ratio",
-      "destination": "/pro/rankings/recruit-ratio",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/recruit-ratio-low",
-      "destination": "/pro/rankings/recruit-ratio-low",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/regulated-protected",
-      "destination": "/pro/rankings/regulated-protected",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/self-employed-typical",
-      "destination": "/pro/rankings/self-employed-typical",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/university-required",
-      "destination": "/pro/rankings/university-required",
-      "statusCode": 301
-    },
-    {
-      "source": "/rankings/young-workforce",
-      "destination": "/pro/rankings/young-workforce",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills",
-      "destination": "/pro/skills",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/coordination",
-      "destination": "/pro/skills/coordination",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/critical-thinking",
-      "destination": "/pro/skills/critical-thinking",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/instructing",
-      "destination": "/pro/skills/instructing",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/judgment",
-      "destination": "/pro/skills/judgment",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/persuasion",
-      "destination": "/pro/skills/persuasion",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/problem-solving",
-      "destination": "/pro/skills/problem-solving",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/programming",
-      "destination": "/pro/skills/programming",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/quality-control",
-      "destination": "/pro/skills/quality-control",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/social-perceptiveness",
-      "destination": "/pro/skills/social-perceptiveness",
-      "statusCode": 301
-    },
-    {
-      "source": "/skills/time-management",
-      "destination": "/pro/skills/time-management",
-      "statusCode": 301
-    },
-    {
-      "source": "/standard",
-      "destination": "/pro/standard",
-      "statusCode": 301
-    },
-    {
-      "source": "/training",
-      "destination": "/pro/training",
-      "statusCode": 301
-    },
-    {
-      "source": "/training/1-3-years",
-      "destination": "/pro/training/1-3-years",
-      "statusCode": 301
-    },
-    {
-      "source": "/training/3-5-years",
-      "destination": "/pro/training/3-5-years",
-      "statusCode": 301
-    },
-    {
-      "source": "/training/5-10-years",
-      "destination": "/pro/training/5-10-years",
-      "statusCode": 301
-    },
-    {
-      "source": "/training/lifelong-craft",
-      "destination": "/pro/training/lifelong-craft",
-      "statusCode": 301
-    },
-    {
-      "source": "/training/quick-start",
-      "destination": "/pro/training/quick-start",
-      "statusCode": 301
-    },
-    {
-      "source": "/values",
-      "destination": "/pro/values",
-      "statusCode": 301
-    },
-    {
-      "source": "/values/achievement",
-      "destination": "/pro/values/achievement",
-      "statusCode": 301
-    },
-    {
-      "source": "/values/expertise",
-      "destination": "/pro/values/expertise",
-      "statusCode": 301
-    },
-    {
-      "source": "/values/independence",
-      "destination": "/pro/values/independence",
-      "statusCode": 301
-    },
-    {
-      "source": "/values/recognition",
-      "destination": "/pro/values/recognition",
-      "statusCode": 301
-    },
-    {
-      "source": "/values/relationships",
-      "destination": "/pro/values/relationships",
-      "statusCode": 301
-    },
-    {
-      "source": "/values/self-growth",
-      "destination": "/pro/values/self-growth",
-      "statusCode": 301
-    },
-    {
-      "source": "/values/support",
-      "destination": "/pro/values/support",
-      "statusCode": 301
-    },
-    {
-      "source": "/values/working-conditions",
-      "destination": "/pro/values/working-conditions",
-      "statusCode": 301
-    },
-    {
-      "source": "/work-styles",
-      "destination": "/pro/work-styles",
-      "statusCode": 301
-    },
-    {
-      "source": "/work-styles/desk-sitting-work",
-      "destination": "/pro/work-styles/desk-sitting-work",
-      "statusCode": 301
-    },
-    {
-      "source": "/work-styles/desk-vs-genba",
-      "destination": "/pro/work-styles/desk-vs-genba",
-      "statusCode": 301
-    },
-    {
-      "source": "/work-styles/high-physical-load",
-      "destination": "/pro/work-styles/high-physical-load",
-      "statusCode": 301
-    },
-    {
-      "source": "/work-styles/indoor-vs-outdoor",
-      "destination": "/pro/work-styles/indoor-vs-outdoor",
-      "statusCode": 301
-    },
-    {
-      "source": "/work-styles/move-required",
-      "destination": "/pro/work-styles/move-required",
-      "statusCode": 301
-    },
-    {
-      "source": "/work-styles/shift-work",
-      "destination": "/pro/work-styles/shift-work",
-      "statusCode": 301
-    },
-    {
-      "source": "/work-styles/solo-vs-team",
-      "destination": "/pro/work-styles/solo-vs-team",
-      "statusCode": 301
-    },
-    {
-      "source": "/yearly",
-      "destination": "/pro/yearly",
-      "statusCode": 301
-    },
-    {
-      "source": "/yearly/2026-report",
-      "destination": "/pro/yearly/2026-report",
-      "statusCode": 301
-    },
-    {
-      "source": "/yearly/5year-changes",
-      "destination": "/pro/yearly/5year-changes",
-      "statusCode": 301
-    },
-    {
-      "source": "/yearly/next-decade",
-      "destination": "/pro/yearly/next-decade",
       "statusCode": 301
     }
   ]
