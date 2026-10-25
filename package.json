@@ -64,6 +64,7 @@
     "exceljs": "^4.4.0",
     "fontkitten": "1.0.3",
     "js-yaml": "^4.3.2",
+    "path-to-regexp": "6.1.0",
     "subset-font": "^2.9.0",
     "typescript": "^7.0.2"
   },
