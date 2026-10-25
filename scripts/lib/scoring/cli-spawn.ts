@@ -128,7 +128,6 @@ function uninstallHandlers(): void {
 
 function trackTree(child: ChildProcess, killGraceMs: number): void {
   liveTrees.set(child, killGraceMs);
-  installHandlers();
 }
 function untrackTree(child: ChildProcess): void {
   liveTrees.delete(child);
@@ -142,13 +141,23 @@ export function runCliProcess(command: string, args: readonly string[], options:
     let settled = false;
     let stdout = '';
     let stderr = '';
-    const child = spawn(command, [...args], {
-      cwd: options.cwd,
-      stdio: [options.input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'],
-      // Own process group on POSIX so the timeout can signal the whole tree.
-      detached: !IS_WINDOWS,
-    });
-    if (child.pid !== undefined) trackTree(child, killGraceMs);
+    // The CLI can run before spawn returns, especially if the runner loses
+    // its CPU slice. Protect signals first so they cannot take the default
+    // exit path and leave the detached group without its grace-period kill.
+    installHandlers();
+    let child: ChildProcess;
+    try {
+      child = spawn(command, [...args], {
+        cwd: options.cwd,
+        stdio: [options.input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'],
+        // Own process group on POSIX so the timeout can signal the whole tree.
+        detached: !IS_WINDOWS,
+      });
+      if (child.pid !== undefined) trackTree(child, killGraceMs);
+    } catch (error) {
+      if (liveTrees.size === 0 && !stopping) uninstallHandlers();
+      throw error;
+    }
     const finish = (result: Omit<CliRunResult, 'stdout' | 'stderr'>): void => {
       if (settled) return;
       settled = true;
