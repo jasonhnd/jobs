@@ -10,6 +10,7 @@ import { FINDINGS_ATOM_PATH, renderFindingsAtom } from '../../src/site/findings/
 const issue = FINDINGS[0]!;
 const data = loadFindings(issue);
 const copy = findingsCopy(data);
+const displayBibliography = 'ZKSC株式会社「AIの仕事への見方の変化 — 第1号」https://mirai-shigoto.com/pro/findings/2026-10-01-gpt-6.1-sol（最新採点 2026-10-01、参照日はコピー時に自動で入ります）。';
 const routes = ['/pro/findings', findingsPath(issue), rightsPath(issue)];
 
 for (const route of routes) {
@@ -33,6 +34,7 @@ for (const route of routes) {
       return texts;
     });
     expect(unexpectedJapanese(texts, data, route.endsWith('/rights'))).toEqual([]);
+    expect(citationForDisplay(copy.T25)).toBe(displayBibliography);
     const visibleText = await page.locator('body').innerText();
     expect(visibleText).not.toContain('{{');
     expect(visibleText).not.toMatch(/\bT\d{2}\b/);
