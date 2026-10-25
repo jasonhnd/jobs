@@ -53,16 +53,16 @@ export const FINDINGS_CSS = `
 .findings-copy-status{font-size:var(--t-sm);color:var(--ink-meta)}
 .findings-downloads{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-4);max-width:none}
 .findings-downloads li{margin:0;display:flex;flex-direction:column;gap:var(--s-1);padding-block:var(--s-3);border-bottom:1px solid var(--border);min-width:0}
-.findings-downloads a{font-family:var(--font-mono);font-size:var(--t-body);color:var(--ink)}
+.findings-downloads a{font-family:var(--font-mono);font-size:var(--t-sm);color:var(--ink)}
 .findings-file-meta{font-family:var(--font-mono);font-size:var(--t-xs);color:var(--ink-meta);overflow-wrap:anywhere}
 .findings-sources{display:flex;flex-direction:column;gap:var(--s-4);font-size:var(--t-sm)}
 .findings-evidence{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);font-size:var(--t-xs);font-family:var(--font-mono)}
 .findings-evidence dd{margin:0;min-width:0}
 .findings-footer-links{display:flex;flex-wrap:wrap;gap:var(--s-4)}
 .findings-pager{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-4)}
-.findings-pager a{padding:var(--s-4);background:var(--paper);border:1px solid var(--border);border-radius:var(--r-sm);font-size:var(--t-sm)}
+.findings-pager a{padding:var(--s-4);background:var(--paper);border:1px solid var(--border);border-radius:var(--r-sm);font-size:var(--t-sm);color:inherit}
 .findings-latest{display:flex;flex-direction:column;gap:var(--s-5);padding:var(--s-6);background:var(--paper);border:1px solid var(--border);border-radius:var(--r-md)}
-.findings-latest>a{align-self:flex-start;min-height:44px;display:inline-flex;align-items:center;padding:var(--s-2) var(--s-5);border:1px solid var(--ink-meta);border-radius:var(--r-sm);color:var(--ink)}
+.findings-latest>a{align-self:flex-start;min-height:44px;display:inline-flex;align-items:center;padding:var(--s-2) var(--s-5);border:1px solid var(--ink-meta);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:var(--t-sm);font-weight:600;background:var(--paper);color:var(--ink)}
 .findings-legal{gap:var(--s-5)}
 @media(max-width:599px){
   .findings{gap:var(--s-6)}

@@ -24,8 +24,9 @@ button,input{font:inherit}
   margin:0 auto;
   padding:28px var(--gutter) 84px;
 }
-.shindan-crumb{font-size:var(--t-sm);color:var(--fg2);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
-.shindan-crumb a{color:var(--fg2)}
+.shindan-crumb{font-family:var(--font-sans);font-weight:400;font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.shindan-crumb a{color:inherit}
+.shindan-crumb a:hover{color:var(--orange-hot)}
 .shindan-crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
 .shindan-hero{margin-bottom:28px}
 .shindan-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;color:var(--accent-deep);font-size:var(--t-xs);font-weight:700;letter-spacing:.08em}
