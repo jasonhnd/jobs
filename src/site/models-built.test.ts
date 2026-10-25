@@ -13,7 +13,7 @@ import {
   isWhitelistedVendor,
   runSlug,
 } from './score-attribution.js';
-import { findingsForRun, findingsPath, isDiscoverable } from './findings/registry.js';
+import { FINDINGS, findingsPath, isDiscoverable } from './findings/registry.js';
 import { formatJapaneseDate } from '../views/models.js';
 import {
   CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD,
@@ -314,7 +314,9 @@ describe('/models built page contract', () => {
       assert.ok(row.includes(`<time datetime="${run.runDate}">${formatJapaneseDate(run.runDate)}</time>`));
       assert.ok(row.includes(`href="/pro/models/${run.slug}">${run.modelDisplay}</a>`));
       assert.ok(row.includes(`<dt>対象職業数</dt><dd>${run.coveredCount}</dd>`));
-      const expectedLinks = findingsForRun(run.model, run.runDate).filter(isDiscoverable).map(findingsPath);
+      const expectedLinks = FINDINGS.filter(issue => isDiscoverable(issue)
+        && issue.incoming_run_date === run.runDate
+        && issue.panels.after.some(panel => panel.model_id === run.model && panel.run_date === run.runDate)).map(findingsPath);
       const actualLinks = [...row.matchAll(/class="scoring-history-findings" href="([^" ]+)"/g)].map(match => match[1]);
       assert.deepEqual(actualLinks, expectedLinks);
     });

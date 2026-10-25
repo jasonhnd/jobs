@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { buildModelsFeaturePageModel, formatJapaneseDate } from '../../src/views/models';
 import personalityCopy from '../../src/content/model-personality.ja.json' with { type: 'json' };
 import storyCopy from '../../src/content/model-story-overrides.ja.json' with { type: 'json' };
-import { findingsForRun, findingsPath, isDiscoverable } from '../../src/site/findings/registry';
+import { findingsForIncomingRun, findingsPath, isDiscoverable } from '../../src/site/findings/registry';
 import { findingsLinkTitle } from '../../src/site/findings/links';
 
 const model = buildModelsFeaturePageModel(
@@ -14,7 +14,8 @@ const allowedJapanese = new Set([
   '採点の記録', '各回の採点日と対象職業数です。最新の回から並べています。',
   '採点日', 'モデル', '提供元', '対象職業数',
   ...model.scoringHistory.map(run => formatJapaneseDate(run.date)),
-  ...model.scoringHistory.flatMap(run => findingsForRun(run.model, run.date).filter(isDiscoverable).map(findingsLinkTitle)),
+  ...model.scoringHistory.flatMap(run => findingsForIncomingRun(run.model, run.date).filter(isDiscoverable)
+    .flatMap(issue => findingsLinkTitle(issue).split(/(（.*?）)/u))),
 ]);
 
 for (const width of [390, 820, 1440]) {
@@ -33,12 +34,23 @@ for (const width of [390, 820, 1440]) {
       await expect(row.getByRole('link', { name: run.modelDisplay, exact: true })).toHaveAttribute('href', run.href);
       await expect(row.locator('dd').nth(2)).toHaveText(run.vendorDisplay);
       await expect(row.locator('dd').nth(3)).toHaveText(String(run.covered_count));
-      const issues = findingsForRun(run.model, run.date).filter(isDiscoverable);
+      const issues = findingsForIncomingRun(run.model, run.date).filter(isDiscoverable);
       await expect(row.locator('.scoring-history-findings')).toHaveCount(issues.length);
       for (const issue of issues) {
         await expect(row.getByRole('link', { name: findingsLinkTitle(issue), exact: true })).toHaveAttribute('href', findingsPath(issue));
       }
     }
+    // A Range reports each rendered line; nowrap must preserve the full suffix and every date.
+    const lineCounts = await section.locator('time, .scoring-history-nowrap').evaluateAll(elements => elements.map(element => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return new Set([...range.getClientRects()].map(rect => rect.top)).size;
+    }));
+    expect(lineCounts.every(count => count === 1)).toBe(true);
+    const leftEdges = await section.evaluate(root => [
+      root.querySelector('h2')!, root.querySelector('.section-intro')!, root.querySelector('dl')!,
+    ].map(element => element.getBoundingClientRect().left));
+    expect(Math.max(...leftEdges) - Math.min(...leftEdges)).toBeLessThan(1);
     const japanese = await section.evaluate(root => {
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
       const texts: string[] = [];
