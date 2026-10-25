@@ -210,7 +210,7 @@ export function buildOccupationGeoFactSummary(input: OccupationGeoFactInput): st
   // Words attached to a printed score are judged on the printed value (#631).
   const relative = displayScore(occupation.aiImpact) >= facts.meanAiImpact ? '上回る' : '下回る';
   const parts: string[] = [
-    `${occupation.nameJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
+    `${occupation.nameJa}の引用用ファクト：本サイトの全${facts.occupationCount}職業データでは、` +
       `${occupation.nameJa}のAI影響度は${scoreWithBand(occupation.aiImpact)}です。` +
       `AI影響度の高い順では${occupation.aiImpactRank}/${facts.occupationCount}位で、` +
       `全体平均${formatShownMeanLabel(facts.meanAiImpactRaw)}を${relative}水準です。`,
@@ -258,7 +258,7 @@ export function buildOccupationSetGeoFactSummary(input: OccupationSetGeoFactInpu
   const summary = summarizeGeoOccupationIds(facts, occupationIds);
   if (summary.occupationCount === 0 || summary.meanAiImpactRaw === null) {
     return (
-      `${subjectJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
+      `${subjectJa}の引用用ファクト：本サイトの全${facts.occupationCount}職業データでは、` +
       `全体平均AI影響度は${formatShownMeanLabel(facts.meanAiImpactRaw)}、中央値は${formatShownMeanLabel(facts.medianAiImpact)}です。` +
       geoSource()
     );
@@ -269,7 +269,7 @@ export function buildOccupationSetGeoFactSummary(input: OccupationSetGeoFactInpu
   const lowest = requireGroupOccupation(summary, 'lowestImpactOccupation');
 
   return (
-    `${subjectJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データから、` +
+    `${subjectJa}の引用用ファクト：本サイトの全${facts.occupationCount}職業データから、` +
     `この${pageKindJa}で表示する${summary.occupationCount}職業を同じ口径で集計すると、` +
     `平均AI影響度は${formatShownMeanLabel(summary.meanAiImpactRaw)}、就業者合計は${fmtInt(summary.totalWorkforce)}人です。` +
     `先頭の${first.nameJa}はAI影響度${scoreWithBand(first.aiImpact)}、` +
