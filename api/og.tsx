@@ -13,6 +13,8 @@
 // GET /api/og?worktype=<family>&variant=<variant>&axes=<margins>
 //                  [&job=<id>&gap=<kind>][&shape=square]
 //                                         — AI働き方診断 result card
+// GET /api/og?model=<model@date>          — per-run model card (four signed
+//                                         lines; histogram is a later card)
 //   (interest / skill / compare families are also text-only — see og-dispatch.ts)
 //
 //   Unrenderable input (unknown slug / bad id / no param) never 400s —
@@ -66,6 +68,7 @@ import { renderMapOgCard } from "../src/lib/og-renderers/map.js";
 import { renderSectorOgCard } from "../src/lib/og-renderers/sector.js";
 import { renderOccupationOgCard } from "../src/lib/og-renderers/occupation.js";
 import { renderWorktypeOgCard } from "../src/lib/og-renderers/worktype.js";
+import { renderModelOgCard } from "../src/lib/og-renderers/model.js";
 
 export const config = {
   // nodejs + vercel.json bunVersion 1.4.x → Bun 1.4 (TOOLCHAIN §9 / #303).
@@ -111,7 +114,7 @@ export async function GET(req: Request): Promise<Response> {
     // (`public, immutable, no-transform, max-age=31536000`) with any
     // per-renderer header, shipping a duplicated directive list; the
     // generic cards set nothing and inherit the bare 1-year default.
-    // Normalize every 200 here so all five card kinds share one policy
+    // Normalize every 200 here so every card kind shares one policy
     // (#330).
     const headers = new Headers(res.headers);
     headers.set("Cache-Control", OG_CACHE_CONTROL);
@@ -161,5 +164,7 @@ async function renderHandler(req: Request): Promise<Response> {
       return renderOccupationOgCard(url, decision.id);
     case "render-worktype":
       return renderWorktypeOgCard(url, decision);
+    case "render-model":
+      return renderModelOgCard(url, decision.slug);
   }
 }

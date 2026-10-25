@@ -29,7 +29,7 @@ if (process.env.OG_HANDLER_TEST_CHILD !== '1') {
   for (const [kind, name] of [
     ['generic', 'renderGenericOgCard'], ['map', 'renderMapOgCard'],
     ['sector', 'renderSectorOgCard'], ['occupation', 'renderOccupationOgCard'],
-    ['worktype', 'renderWorktypeOgCard'],
+    ['worktype', 'renderWorktypeOgCard'], ['model', 'renderModelOgCard'],
   ]) {
     mock.module(fileURLToPath(new URL(`./og-renderers/${kind}.ts`, import.meta.url)), () => ({
       [name]: async (...args: unknown[]) => {
@@ -50,7 +50,9 @@ if (process.env.OG_HANDLER_TEST_CHILD !== '1') {
       ['?page=map', 'map'], ['?page=about', 'generic'],
       ['?sector=information', 'sector'], ['?id=133', 'occupation'],
       ['?worktype=RPK&variant=mediator&axes=3-0%2F2-1%2F2-1&job=133&gap=aligned&shape=square', 'worktype'],
-      ['?page=unknown', 'generic'], ['?id=invalid', 'generic'], ['', 'generic'],
+      ['?model=opus-5%402026-07-26', 'model'],
+      ['?page=unknown', 'generic'], ['?id=invalid', 'generic'], ['?model=opus-5', 'generic'],
+      ['?model=opus-5@not-a-date', 'generic'], ['', 'generic'],
     ];
     for (const [query, kind] of cases) {
       test(`dispatches ${query || 'empty query'} and normalizes successful caching`, async () => {
@@ -74,6 +76,7 @@ if (process.env.OG_HANDLER_TEST_CHILD !== '1') {
           assert.equal(String(args[0]), String(url));
           if (kind === 'sector') assert.equal(args[1], 'information');
           if (kind === 'occupation') assert.equal(args[1], '133');
+          if (kind === 'model') assert.equal(args[1], 'opus-5@2026-07-26');
           if (kind === 'worktype') assert.deepEqual(args[1], {
             kind: 'render-worktype', family: 'RPK', variant: 'mediator',
             axes: '3-0/2-1/2-1', job: '133', gap: 'aligned', shape: 'square',

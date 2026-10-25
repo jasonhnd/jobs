@@ -16,6 +16,7 @@ import {
   modelIdFromSlug,
   modelSlug,
   pickAttributionBatch,
+  isDatedRunSlug,
   runFromSlug,
   runSlug,
   type ScoreRunRef,
@@ -330,6 +331,19 @@ describe('runSlug / runFromSlug', () => {
 
     // A genuine collision — two DISTINCT ids sharing a slug — still returns null.
     assert.equal(modelIdFromSlug('opus-5', ['claude-opus-5', 'opus-5']), null);
+  });
+
+  test('isDatedRunSlug accepts only the model@YYYY-MM-DD shape', () => {
+    assert.equal(isDatedRunSlug('opus-5@2026-07-26'), true);
+    assert.equal(isDatedRunSlug('gpt-5.6-sol@2026-07-12'), true);
+    assert.equal(isDatedRunSlug('opus-5'), false);
+    assert.equal(isDatedRunSlug('opus-5@'), false);
+    assert.equal(isDatedRunSlug('@2026-07-26'), false);
+    assert.equal(isDatedRunSlug('opus-5@2026-7-26'), false);
+    assert.equal(isDatedRunSlug('opus-5@2026-07-26-extra'), false);
+    assert.equal(isDatedRunSlug('opus-5@2026-07-26/../../etc'), false);
+    assert.equal(isDatedRunSlug(''), false);
+    assert.equal(isDatedRunSlug('constructor'), false);
   });
 
   test('runFromSlug rejects anything that is not model@YYYY-MM-DD', () => {
