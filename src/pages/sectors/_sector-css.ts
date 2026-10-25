@@ -90,6 +90,7 @@ section.faq{margin:48px 0}
 .ai-dist-legend strong{color:var(--fg);font-variant-numeric:tabular-nums}
 .pattern-observations{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:8px}
 .pattern-observations li{padding:10px 14px;background:var(--bg3);border-radius:4px;font-size:var(--t-sm);color:var(--fg);line-height:1.65}
+.pattern-observations a:hover{color:inherit}
 .pattern-observations li strong{color:var(--ink);font-weight:700}
 @media (max-width:600px){.ai-dist-legend{gap:8px}}
 :where(main) header{margin-bottom:16px;padding-bottom:14px}

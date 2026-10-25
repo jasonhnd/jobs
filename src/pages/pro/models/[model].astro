@@ -215,7 +215,7 @@ const {
               <h3>動きが大きい職業</h3>
               <ul class="mini-list">
                 {page.drift.movers.map((row) => (
-                  <li><a href={row.href}>{row.title_ja}</a><span class="delta">{signedScore(row.delta_t)}</span></li>
+                  <li><a href={row.href}>{row.title_ja}</a><span class="delta-number">{signedScore(row.delta_t)}</span></li>
                 ))}
               </ul>
             </div>

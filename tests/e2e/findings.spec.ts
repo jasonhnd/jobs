@@ -61,7 +61,8 @@ test('Findings structured dates, summary numbers, CSV bytes and machine exclusio
   const nodes = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => scripts.flatMap(script => JSON.parse(script.textContent ?? '{}')['@graph'] ?? []));
   const dataset = nodes.find(node => node['@type'] === 'Dataset');
   expect(dataset).toMatchObject({ '@id': `${findingsUrl(issue)}#dataset`, name: copy.T43, dateModified: issue.modified_on, license: `https://mirai-shigoto.com${rightsPath(issue)}` });
-  expect(dataset.datePublished).toBeUndefined();
+  if (issue.first_published_on === null) expect(dataset.datePublished).toBeUndefined();
+  else expect(dataset.datePublished).toBe(issue.first_published_on);
   expect(dataset.distribution).toHaveLength(4);
   const properties = Object.fromEntries(dataset.additionalProperty.map((property: { propertyID: string; value: unknown }) => [property.propertyID, property.value]));
   expect(properties).toEqual({ mean_before_display: 4.55, mean_after_display: 4.68, n_band_changed: 34, n_abs_ge_05: 12, n_abs_ge_10: 0, occupation_count: 556 });
@@ -89,7 +90,8 @@ test('Findings structured dates, summary numbers, CSV bytes and machine exclusio
   expect(readFileSync('dist-astro/sitemap.xml', 'utf8')).not.toContain('atom.xml');
   const atom = readFileSync(`dist-astro${FINDINGS_ATOM_PATH}`, 'utf8');
   expect(atom).toBe(renderFindingsAtom());
-  expect(atom).not.toContain('<published>');
+  if (issue.first_published_on === null) expect(atom).not.toContain('<published>');
+  else expect(atom).toContain(`<published>${issue.first_published_on}</published>`);
   expect(atom).not.toContain('{{');
   const parsed = spawnSync('python3', ['-c', `
 import json, sys, xml.etree.ElementTree as ET
@@ -117,7 +119,7 @@ print(json.dumps({
     self: `https://mirai-shigoto.com${FINDINGS_ATOM_PATH}`,
     entry_id: findingsUrl(issue),
     entry_title: copy.T43,
-    published: null,
+    published: issue.first_published_on,
     summary: copy.T42,
     link: findingsUrl(issue),
   });
@@ -197,9 +199,15 @@ for (const width of [375, 768, 1440]) {
           const box = element.getBoundingClientRect();
           if (box.left < -1 || box.right > innerWidth + 1) outside.push(`${element.tagName}.${element.className}`);
         });
-        return { body: document.body.scrollWidth, root: document.documentElement.scrollWidth, viewport: innerWidth, small, outside };
+        const client = document.documentElement.clientWidth;
+        return { body: document.body.scrollWidth, root: document.documentElement.scrollWidth, viewport: innerWidth, client, small, outside };
       });
-      expect(geometry).toEqual({ body: width, root: width, viewport: width, small: [], outside: [] });
+      // Classic scrollbars shrink clientWidth below innerWidth. No horizontal overflow means scrollWidth matches that content box.
+      expect(geometry.viewport).toBe(width);
+      expect(geometry.body).toBe(geometry.client);
+      expect(geometry.root).toBe(geometry.client);
+      expect(geometry.small).toEqual([]);
+      expect(geometry.outside).toEqual([]);
       if (route === findingsPath(issue)) {
         const table = page.locator('[data-findings-table="changes"]');
         if (width < 600) { await expect(table.locator('.findings-cards')).toBeVisible(); await expect(table.locator('table')).toBeHidden(); }

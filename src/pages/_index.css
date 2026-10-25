@@ -123,11 +123,18 @@
         .stats-panel { display: none !important; }
       }
       .m-top10-head {
+        /* U8: the carousel context line is a caption. TOP 10 keeps its heading. */
+        font-family: var(--font-sans);
+        font-size: var(--t-xs);
+        font-weight: 400;
+        color: var(--ink-meta);
+        line-height: 1.5;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 6px;
         margin-bottom: 14px;
+        /* Direct text is a contextual caption (U8). .m-top10-title keeps the TOP 10 heading. */
       }
       .m-top10-eyebrow {
         font-family: var(--font-sans);
@@ -310,9 +317,6 @@
           align-items: baseline;
           gap: 8px;
           margin-bottom: 10px;
-          font-size: var(--t-sm);
-          color: var(--fg2);
-          font-weight: 600;
         }
         .m-top10-title {
           font-family: var(--font-sans);
@@ -352,9 +356,10 @@
         .home-movers-head a {
           font-size: var(--t-sm);
           font-weight: 700;
-          color: var(--fg2);
+          color: inherit;
           text-decoration: none;
         }
+        .home-movers-head a:hover { color: var(--orange-hot); }
         .home-movers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; }
         .home-movers h3 { margin: 0 0 4px; color: var(--ink); }
         .home-movers ol { list-style: none; margin: 0; padding: 0; }
@@ -363,10 +368,10 @@
            1fr track pushed the second column 192px past a 375px viewport with
            no way to scroll to it (design-1.21). min-width:0 lets the track win. */
         .home-movers-grid .hm-col, .home-movers ol { min-width: 0; }
-        .home-movers li a { color: var(--fg); text-decoration: none; min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .home-movers li a { color: inherit; text-decoration: none; min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .home-movers li a:hover { color: var(--orange-hot); }
         .home-movers li .up, .home-movers li .down { flex: 0 0 auto; }
-        .home-movers .up { color: var(--orange-hot); font-variant-numeric: tabular-nums; font-weight: 700; }
-        .home-movers .down { color: var(--accent-deep); font-variant-numeric: tabular-nums; font-weight: 700; }
+        .home-movers .up, .home-movers .down { font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 400; color: var(--ink); font-variant-numeric: tabular-nums; }
         .home-doors {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -577,17 +582,23 @@
         margin-left: auto;
       }
       .lang-switch button {
-        background: transparent;
+        background: var(--paper);
         border: 1px solid var(--border);
-        color: var(--fg2);
+        color: var(--ink);
         padding: 4px 10px;
-        border-radius: 999px;
+        border-radius: var(--r-pill);
         cursor: pointer;
-        font: inherit;
+        font-family: var(--font-sans);
+        font-size: var(--t-xs);
+        font-weight: 600;
+      }
+      .lang-switch button:hover:not([aria-pressed="true"]) {
+        color: var(--orange-hot);
       }
       .lang-switch button[aria-pressed="true"] {
-        border-color: var(--accent);
-        color: var(--orange-hot);
+        background: var(--orange-soft);
+        border-color: var(--orange);
+        color: var(--ink);
       }
       .page-banner .h1-sub {
         color: var(--fg2);
@@ -603,13 +614,12 @@
         margin-left: 6px;
       }
       .page-banner .byline a {
-        color: var(--orange-hot);
-        text-decoration: none;
-        border-bottom: 1px dotted var(--accent);
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
       }
       .page-banner .byline a:hover {
-        text-decoration: none;
-        border-bottom-style: solid;
+        color: var(--orange-hot);
       }
       .dimension-hint {
         display: flex;
@@ -670,10 +680,11 @@
         color: var(--fg);
       }
       .meta-card a {
-        color: var(--orange-hot);
-        text-decoration: none;
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
       }
-      .meta-card a:hover { text-decoration: underline; }
+      .meta-card a:hover { color: var(--orange-hot); }
       .intro + .intro { margin-top: -4px; }
       .intro {
         color: var(--fg2);
@@ -683,10 +694,12 @@
         max-width: 880px;
       }
       .intro a {
-        color: var(--fg2);
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
       }
       .intro a:hover {
-        color: var(--fg);
+        color: var(--orange-hot);
       }
       .intro strong {
         color: var(--fg);
@@ -789,18 +802,22 @@
       }
       .layer-toggle button {
         padding: 5px 12px;
-        font-size: var(--t-sm);
         border: 1px solid var(--border);
-        background: transparent;
-        color: var(--fg2);
-        border-radius: 4px;
+        background: var(--paper);
+        color: var(--ink);
+        border-radius: var(--r-sm);
         cursor: pointer;
-        font: inherit;
+        font-family: var(--font-sans);
+        font-size: var(--t-xs);
+        font-weight: 600;
+      }
+      .layer-toggle button:hover:not(.active) {
+        color: var(--orange-hot);
       }
       .layer-toggle button.active {
-        background: rgba(255, 184, 77, 0.15);
-        border-color: var(--accent);
-        color: var(--orange-hot);
+        background: var(--orange-soft);
+        border-color: var(--orange);
+        color: var(--ink);
       }
       .gradient-legend {
         display: flex;
@@ -867,13 +884,16 @@
       .error-state button {
         margin-top: 12px;
         padding: 6px 14px;
-        background: transparent;
-        border: 1px solid var(--accent);
-        color: var(--orange-hot);
-        border-radius: 4px;
+        background: var(--paper);
+        border: 1px solid var(--border);
+        color: var(--ink);
+        border-radius: var(--r-sm);
         cursor: pointer;
-        font: inherit;
+        font-family: var(--font-sans);
+        font-size: var(--t-sm);
+        font-weight: 600;
       }
+      .error-state button:hover { color: var(--orange-hot); }
       .search-row {
         display: flex;
         gap: 10px;
@@ -900,19 +920,21 @@
       }
       .palette-toggle {
         padding: 5px 12px;
-        font-size: var(--t-xs);
         border: 1px solid var(--border);
-        background: transparent;
-        color: var(--fg2);
-        border-radius: 4px;
+        background: var(--paper);
+        color: var(--ink);
+        border-radius: var(--r-sm);
         cursor: pointer;
-        font: inherit;
+        font-family: var(--font-sans);
+        font-size: var(--t-xs);
+        font-weight: 600;
         margin-left: 8px;
       }
+      .palette-toggle:hover:not(.active) { color: var(--orange-hot); }
       .palette-toggle.active {
-        background: rgba(255, 184, 77, 0.15);
-        border-color: var(--accent);
-        color: var(--orange-hot);
+        background: var(--orange-soft);
+        border-color: var(--orange);
+        color: var(--ink);
       }
       .stats-panel {
         display: grid;
@@ -1120,24 +1142,23 @@
         display: none;
         margin: 12px 0 0;
         padding: 10px 14px;
-        background: var(--accent);
-        color: #1a1206;
+        background: var(--orange-hot);
+        color: var(--paper);
         text-decoration: none;
-        font-weight: 600;
+        font-family: var(--font-sans);
+        font-weight: 700;
         font-size: var(--t-sm);
+        line-height: var(--lh-dense);
         text-align: center;
-        border-radius: 8px;
-        transition: filter 150ms ease;
-      }
-      :root[data-theme="light"] #tooltip .tt-cta {
-        color: var(--bg2);
+        border-radius: var(--r-sm);
       }
       #tooltip .tt-cta:hover {
-        filter: brightness(1.05);
+        text-decoration: none;
       }
       #tooltip .tt-cta:focus-visible {
-        outline: 2px solid var(--accent);
+        outline: 2px solid var(--orange);
         outline-offset: 2px;
+        border-radius: var(--r-sm);
       }
       #tooltip.touch-mode .tt-cta {
         display: block;
@@ -1198,7 +1219,11 @@
         max-width: var(--content-max);
         margin: 0 auto;
         padding: 14px 0 0;
+        font-family: var(--font-sans);
         font-size: var(--t-xs);
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--ink-meta);
       }
       .desktop-hero-utility .dh-brand {
         color: var(--fg2);
@@ -1260,25 +1285,28 @@
       }
       .desktop-hero-search button {
         padding: 13px 22px;
-        font: inherit;
-        font-weight: 600;
+        font-family: var(--font-sans);
+        font-weight: 700;
         font-size: var(--t-sm);
-        background: var(--accent);
-        color: #1a1206;
+        line-height: var(--lh-dense);
+        background: var(--orange-hot);
+        color: var(--paper);
         border: none;
-        border-radius: 8px;
+        border-radius: var(--r-sm);
         cursor: pointer;
         white-space: nowrap;
-        transition: filter 150ms ease;
       }
-      .desktop-hero-search button:hover { filter: brightness(1.05); }
       .desktop-hero-search button:focus-visible {
-        outline: 2px solid var(--accent);
+        outline: 2px solid var(--orange);
         outline-offset: 2px;
+        border-radius: var(--r-sm);
       }
       .desktop-hero-popular-label {
+        font-family: var(--font-sans);
         font-size: var(--t-xs);
-        color: var(--fg2);
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--ink-meta);
         letter-spacing: 0.06em;
         margin: 0 0 10px;
         text-transform: uppercase;
@@ -1290,23 +1318,26 @@
         justify-content: center;
       }
       .desktop-hero-chips button {
-        background: var(--bg2);
-        color: var(--fg);
+        background: var(--paper);
+        color: var(--ink);
         border: 1px solid var(--border);
-        /* RA-130: 44px tap target (WCAG 2.5.5 / Apple HIG / Material). padding 11px 14px + font-size 0.86rem reaches min-height 44px. */
+        /* RA-130: 44px tap target. min-height holds the target when the chip is --t-xs. */
         padding: 11px 14px;
         min-height: 44px;
-        border-radius: 999px;
-        font: inherit;
-        font-size: var(--t-sm);
+        border-radius: var(--r-pill);
+        font-family: var(--font-sans);
+        font-size: var(--t-xs);
+        font-weight: 600;
         cursor: pointer;
-        transition: border-color 150ms ease, color 150ms ease;
       }
-      .desktop-hero-chips button:hover,
-      .desktop-hero-chips button:focus-visible {
-        border-color: var(--accent);
+      .desktop-hero-chips button:hover {
+        border-color: var(--orange);
         color: var(--orange-hot);
-        outline: none;
+      }
+      .desktop-hero-chips button:focus-visible {
+        outline: 2px solid var(--orange);
+        outline-offset: 2px;
+        border-radius: var(--r-pill);
       }
       /* ============ Homepage diagnostic entry band (VIRALITY-1) ============ */
       .home-entry-band {
@@ -1326,10 +1357,12 @@
       }
       .home-entry-kicker {
         margin: 0 0 6px;
-        color: var(--accent-deep);
+        color: var(--ink-meta);
+        font-family: var(--font-sans);
         font-size: var(--t-xs);
-        font-weight: 700;
-        letter-spacing: 0.08em;
+        font-weight: 400;
+        line-height: 1.5;
+        letter-spacing: 0;
       }
       .home-entry-copy h2 {
         margin: 0 0 7px;
@@ -1493,10 +1526,12 @@
       .mobile-hero { display: none; }
       .mobile-hero-kicker {
         margin: 8px 0 0;
+        font-family: var(--font-sans);
         font-size: var(--t-xs);
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        color: var(--orange-hot);
+        font-weight: 400;
+        line-height: 1.5;
+        letter-spacing: 0;
+        color: var(--ink-meta);
       }
       /* §4.9 — canonical owns heading size / weight / line-height. This is an
          H2 since design-1.9 demoted it (§4.3-1: one H1 per page). */
@@ -1544,25 +1579,29 @@
         top: 50%;
         transform: translateY(-50%);
         background: var(--orange-hot);
-        color: var(--bg2);
+        color: var(--paper);
         border: 0;
         min-height: 44px;
         padding: 7px 16px;
-        border-radius: 999px;
-        font: inherit;
+        border-radius: var(--r-pill);
         font-family: var(--font-sans);
         font-weight: 700;
         font-size: var(--t-sm);
+        line-height: var(--lh-dense);
         cursor: pointer;
         white-space: nowrap;
-        transition: filter 150ms ease, transform 100ms ease;
+        transition: transform var(--dur-fast) var(--ease);
         z-index: 2;
       }
-      .mobile-hero-search .mhs-cta:hover { filter: brightness(1.05); }
       .mobile-hero-search .mhs-cta:active { transform: translateY(calc(-50% + 1px)); }
       .mobile-hero-search .mhs-cta:focus-visible {
-        outline: 2px solid var(--accent);
+        outline: 2px solid var(--orange);
         outline-offset: 2px;
+        border-radius: var(--r-pill);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .mobile-hero-search .mhs-cta { transition: none; }
+        .mobile-hero-search .mhs-cta:active { transform: translateY(-50%); }
       }
       .mobile-hero-search input:focus-visible {
         border-color: var(--accent);
@@ -1575,28 +1614,31 @@
         gap: 6px;
       }
       .mobile-hero-chips button {
-        background: var(--bg2);
+        background: var(--paper);
         border: 1px solid var(--border);
-        color: var(--fg);
-        /* RA-130: 44px tap target (WCAG 2.5.5 / Apple HIG / Material). padding 11px 14px ensures the chip clears the 44px minimum on touch screens. */
+        color: var(--ink);
+        /* RA-130: 44px tap target. min-height holds the target when the chip is --t-xs. */
         padding: 11px 14px;
         min-height: 44px;
-        border-radius: 999px;
-        font: inherit;
-        font-size: var(--t-sm);
+        border-radius: var(--r-pill);
+        font-family: var(--font-sans);
+        font-size: var(--t-xs);
+        font-weight: 600;
         cursor: pointer;
-        transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
       }
-      .mobile-hero-chips button:hover,
-      .mobile-hero-chips button:focus-visible {
-        border-color: var(--accent);
+      .mobile-hero-chips button:hover:not(.active) {
+        border-color: var(--orange);
         color: var(--orange-hot);
-        outline: none;
+      }
+      .mobile-hero-chips button:focus-visible {
+        outline: 2px solid var(--orange);
+        outline-offset: 2px;
+        border-radius: var(--r-pill);
       }
       .mobile-hero-chips button.active {
-        border-color: var(--accent);
-        color: var(--orange-hot);
-        background: rgba(255, 184, 77, 0.08);
+        border-color: var(--orange);
+        color: var(--ink);
+        background: var(--orange-soft);
       }
 
       @media (max-width: 768px) {
@@ -1657,7 +1699,7 @@
         .layer-toggle button {
           flex-shrink: 0;
           padding: 6px 10px;
-          font-size: var(--t-sm);
+          font-size: var(--t-xs);
         }
         .gradient-legend {
           margin-left: 0;
@@ -1779,7 +1821,7 @@
         }
         .layer-toggle button {
           padding: 5px 9px;
-          font-size: var(--t-sm);
+          font-size: var(--t-xs);
         }
         .controls {
           padding: 8px 10px;
@@ -1819,7 +1861,7 @@
         .page-banner { font-size: var(--t-sm); }
         .layer-toggle button {
           padding: 4px 7px;
-          font-size: var(--t-sm);
+          font-size: var(--t-xs);
         }
         .disclaimer { padding: 11px 13px; font-size: var(--t-sm); line-height: 1.6; }
         .usage-notice { padding: 11px 13px; font-size: var(--t-sm); line-height: 1.6; }
@@ -1828,7 +1870,7 @@
         .intro-details-content ul { margin-left: 16px; }
       }
 
-      /* ---- Bottom share buttons (icon-only round, brand-color hover) ---- */
+      /* ---- Bottom share buttons (icon-only round, neutral/primary tokens) ---- */
       .share-row {
         display: flex;
         gap: 10px;
@@ -1841,14 +1883,14 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 38px;
-        height: 38px;
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        border-radius: 50%;
-        color: var(--fg2);
+        width: 44px;
+        height: 44px;
+        background: var(--paper);
+        border: 1px solid var(--line-strong);
+        border-radius: var(--r-pill);
+        color: var(--ink);
         cursor: pointer;
-        transition: background 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+        transition: transform var(--dur-fast) var(--ease);
         text-decoration: none;
         padding: 0;
         -webkit-appearance: none;
@@ -1857,22 +1899,17 @@
       }
       .share-btn:hover {
         transform: translateY(-1px);
-        border-color: transparent;
-        color: var(--bg2);
+        background: var(--orange-hot);
+        border-color: var(--orange-hot);
+        color: var(--paper);
       }
-      .share-btn[data-platform="x"]:hover       { background: #000; }
-      .share-btn[data-platform="line"]:hover    { background: #06C755; }
-      .share-btn[data-platform="hatena"]:hover  { background: #00A4DE; }
-      .share-btn[data-platform="linkedin"]:hover { background: #0A66C2; }
-      .share-btn[data-platform="copy"]:hover,
-      .share-btn[data-platform="native"]:hover  { background: var(--accent); color: #1a1206; }
       .share-btn svg {
         width: 18px;
         height: 18px;
         fill: currentColor;
       }
       .share-btn:focus-visible {
-        outline: 2px solid var(--accent);
+        outline: 2px solid var(--orange);
         outline-offset: 2px;
       }
       .share-toast {
@@ -1880,12 +1917,11 @@
         color: var(--orange-hot);
         margin-left: 6px;
         opacity: 0;
-        transition: opacity 200ms ease;
+        transition: opacity var(--dur-base) var(--ease);
       }
       .share-toast.visible { opacity: 1; }
       @media (max-width: 540px) {
         .share-row { margin: 22px 0; gap: 8px; }
-        .share-btn { width: 36px; height: 36px; }
       }
 
 
@@ -1919,12 +1955,13 @@
       }
       .hub-eyebrow {
         display: inline-block;
-        font-family: var(--font-sans);
+        font-family: var(--font-mono);
         font-size: var(--t-xs);
-        font-weight: 700;
-        letter-spacing: 0.14em;
+        font-weight: 600;
+        line-height: 1.5;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--orange-hot);
+        color: var(--ink-meta);
         margin-bottom: 6px;
       }
       .hub-section-title {
@@ -2016,8 +2053,10 @@
         text-decoration: none;
       }
       .hc-eyebrow {
+        font-family: var(--font-sans);
         font-size: var(--t-xs);
-        font-weight: 700;
+        font-weight: 400;
+        line-height: 1.5;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         /* §2.2 規則 1 — .hub-card は --cream-2 面なので --orange-hot ですら 4.37 で
@@ -2148,19 +2187,27 @@
         align-items: center;
         gap: 14px;
         padding: 14px 26px;
-        background: var(--accent);
-        color: #1a1206;
-        border-radius: 10px;
+        background: var(--orange-hot);
+        color: var(--paper);
+        border-radius: var(--r-md);
         text-decoration: none;
-        font: inherit;
-        transition: filter 150ms ease, transform 100ms ease;
+        font-family: var(--font-sans);
+        font-size: var(--t-sm);
+        font-weight: 700;
+        line-height: var(--lh-dense);
+        transition: transform var(--dur-fast) var(--ease);
         max-width: 100%;
       }
-      .follow-cta:hover { filter: brightness(1.05); text-decoration: none; }
+      .follow-cta:hover { text-decoration: none; }
       .follow-cta:active { transform: translateY(1px); }
       .follow-cta:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 3px;
+        outline: 2px solid var(--orange);
+        outline-offset: 2px;
+        border-radius: var(--r-md);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .follow-cta { transition: none; }
+        .follow-cta:active { transform: none; }
       }
       .follow-cta .follow-icon {
         font-size: var(--t-h2);
@@ -2174,13 +2221,14 @@
         text-align: left;
       }
       .follow-cta .follow-text strong {
-        font-size: var(--t-body);
+        font-size: var(--t-sm);
         font-weight: 700;
-        color: var(--ink);
+        color: inherit;
       }
       .follow-cta .follow-text small {
         font-size: var(--t-xs);
-        font-weight: 600;
+        font-weight: 400;
+        color: inherit;
       }
       .share-divider {
         font-size: var(--t-xs);
@@ -2203,7 +2251,7 @@
       }
       @media (max-width: 480px) {
         .follow-cta { padding: 12px 20px; gap: 10px; }
-        .follow-cta .follow-text strong { font-size: var(--t-body); }
+        .follow-cta .follow-text strong { font-size: var(--t-sm); }
         .follow-cta .follow-text small { font-size: var(--t-xs); }
       }
 
