@@ -1,3 +1,10 @@
+## Signed legacy copy batch 2 — Issue #960
+
+- Apply the owner-signed Pro ranking FAQ edits in items #21–#26 and #28–#30;
+  retain item #27 under R3 and lock all ten items in exact-copy tests.
+- Refresh FAQ JSON-LD baselines for the seven affected Pro ranking pages.
+  Ranking titles, metadata, routes and score data stay unchanged.
+
 ## Signed Findings issue 1 — Issue #938 (preview discovery, not a production publication)
 
 - Treat the signed 2026-10-01 issue as discoverable. Drop page-level noindex

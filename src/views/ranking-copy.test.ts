@@ -76,3 +76,45 @@ describe('FAQS — editorial copy catalog', () => {
     }
   });
 });
+
+describe('owner-signed ranking FAQs (#960)', () => {
+  test('signed legacy batch 2 #21', () => {
+    assert.deepEqual(FAQS['ai-risk-high'][0], ['AIで変わりやすい仕事の特徴は？', 'データ入力・定型処理・パターン認識が中心の業務はAI影響度が高い傾向にあります。反復的なルーティンワークほどスコアが高くなります。']);
+  });
+
+  test('signed legacy batch 2 #22', () => {
+    assert.deepEqual(FAQS['ai-risk-high'][2], ['AIリスクが高い職業から転職するには？', '身体性・対人スキル・創造性を活かせる職種への転換が有効です。同じ業種の中で、AI影響度が低めの職業を探すのも一つの方法です。']);
+  });
+
+  test('signed legacy batch 2 #23', () => {
+    assert.deepEqual(FAQS['ai-risk-low'][0], ['AIで変わりにくい仕事の共通点は？', '身体的な動作、対面での人間関係構築、高度な状況判断が必要な職業はAI代替が難しい傾向にあります。']);
+  });
+
+  test('signed legacy batch 2 #24', () => {
+    assert.deepEqual(FAQS['ai-risk-low'][1], ['AI影響度が低い仕事なら、心配はいりませんか？', 'AI影響度は低めですが、少子高齢化や産業構造の変化など、ほかの要因も考える必要があります。']);
+  });
+
+  test('signed legacy batch 2 #25', () => {
+    assert.deepEqual(FAQS['salary-safe'][0], ['年収が高くて、AIで変わりにくい仕事は？', '医師・法律専門家・建設系技術者などが代表的です。専門性と対人スキルの組み合わせが強みになっています。']);
+  });
+
+  test('signed legacy batch 2 #26', () => {
+    assert.deepEqual(FAQS['aging-workforce'][1], ['平均年齢が高い職業は、これから先が厳しい？', '一概には言えません。継承課題はあるものの、需要側がまだ強い分野では中高年からの参入チャンスでもあります。']);
+  });
+
+  test('signed legacy batch 2 #27 (unchanged under R3)', () => {
+    assert.deepEqual(FAQS['aging-workforce'][2], ['シニア中心の職業は AI 影響度が低い？', '熟練判断や対人信頼を要する分野で平均年齢も AI リスクも低い傾向。ただし業種ごとの個別確認が重要です。']);
+  });
+
+  test('signed legacy batch 2 #28', () => {
+    assert.deepEqual(FAQS['ai-resistant-craft'][1], ['技能職への参入は今からでも遅くない？', '求人が多く人手不足の領域も多く、中途参入のルートが整備されている分野もあります。資格・徒弟制度の有無を確認しましょう。']);
+  });
+
+  test('signed legacy batch 2 #29', () => {
+    assert.deepEqual(FAQS['ai-at-risk-but-paid'][0], ['「AI リスク高だが高年収」とはどういう状態？', 'AI で代替可能性が高い (8+/10) のに現状の年収はまだ高い職業群。いまの年収は高いものの、仕事の中身が大きく変わる可能性がある職業群です。']);
+  });
+
+  test('signed legacy batch 2 #30', () => {
+    assert.deepEqual(FAQS['ai-augmented'][1], ['AI 補強域の職業は、どう変わる？', '完全代替されるリスクは低めですが、AI ツールを使いこなせるかどうかでパフォーマンス差が広がります。学習意欲が継続的に必要です。']);
+  });
+});
