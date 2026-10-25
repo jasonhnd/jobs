@@ -50,6 +50,7 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   ['views/ranking-copy.ts', '完全代替されるリスクは低めですが'],
   ['views/ranking-copy.ts', '影響度自体は高めに出ます'],
   ['views/ranking-copy.ts', '公安系など、低 AI 影響かつ正社員が中心'],
+  ['views/ranking-copy.ts', 'AI 影響度が低めで、求人も多い領域です'],
   ['views/ranking-copy.ts', 'IT 系は AI 影響度が高めの面もありますが'],
   ['views/ranking-copy.ts', '学歴ハードルが低く AI 影響度も低めです'],
   ['views/ranking-copy.ts', '臨床判断を要する分野は AI 影響度が低めですが'],
