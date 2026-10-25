@@ -38,15 +38,16 @@ describe('frozen Findings issue 1', () => {
   });
 
   test('adding a later release cannot change earlier CSV bytes or hashes', () => {
-    const before = buildFindings(issue).downloads.map(file => [file.href, file.text, file.sha256]);
-    const future = { ...issue, issue_id: '2026-11-01-example', issue_number: 2, status: 'draft' as const };
-    const releases = [...FINDINGS, future];
+    const preview = { ...structuredClone(issue), status: 'signed' as const, first_published_on: null };
+    const before = buildFindings(preview).downloads.map(file => [file.href, file.text, file.sha256]);
+    const future = { ...preview, issue_id: '2026-11-01-example', issue_number: 2, status: 'draft' as const };
+    const releases = [preview, future];
     assert.deepEqual(publishedFindings(releases), []);
-    assert.deepEqual(discoverableFindings(), [issue]);
+    assert.deepEqual(discoverableFindings(releases), [preview]);
     // Build a later identity between two independent builds of the old release.
     expect(buildFindings(future).downloads[0]!.href).toContain('2026-11-01-example');
     assert.deepEqual(buildFindings(releases[0]!).downloads.map(file => [file.href, file.text, file.sha256]), before);
-    assert.equal(data.issue.first_published_on, null);
+    assert.equal(loadFindings(preview).issue.first_published_on, null);
     assert.deepEqual(findingsForRun('gpt-6.1-sol', '2026-10-01'), [issue]);
     assert.deepEqual(findingsForRun('grok-4.7', '2026-09-22'), []);
   });

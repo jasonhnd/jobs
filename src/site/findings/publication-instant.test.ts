@@ -9,7 +9,8 @@ import { applyFindingsPublication, atomInstant, writePublishedManifest } from '.
 import { isPublicationInstant } from './publication-instant';
 import { FINDINGS, publishedFindings } from './registry';
 
-const issue = FINDINGS[0]!;
+// Publication tests start from an unpublished copy regardless of the live release state.
+const issue = { ...structuredClone(FINDINGS[0]!), status: 'signed' as const, first_published_on: null };
 const script = resolve('scripts/publish-findings-issue.ts');
 
 const accepted = [
