@@ -447,7 +447,7 @@ export async function collectRenderedFactBlocks(facts: GeoFacts): Promise<Render
   );
   requireBlock(
     `dist-astro/pro/${occupation.id}.html`,
-    `GEO-AではAI影響度が10段階中 ${occupation.aiImpact.toFixed(1)} で`,
+    `本サイトではAI影響度が10段階中 ${occupation.aiImpact.toFixed(1)} で`,
   );
 
   for (const config of GEO_ANSWER_TOPIC_CONFIGS) {
