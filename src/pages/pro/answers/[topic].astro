@@ -49,8 +49,9 @@ const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
   <style slot="head" set:html={CANONICAL_HUB_CSS} />
   <style slot="head">
     .answers-wrap{max-width:var(--content-max);margin:0 auto;padding:32px var(--gutter) 56px}
-    .crumb{font-size:var(--t-sm);margin-bottom:22px;color:var(--fg2)}
+    .crumb{font-size:var(--t-sm);margin-bottom:22px;color:var(--ink-meta)}
     .crumb a{color:inherit}
+    .crumb a:hover{color:var(--orange-hot)}
     h1{line-height:1.15;margin:0 0 14px;color:var(--fg)}
     .answer-lead{font-size:var(--t-h3);line-height:1.9;max-width:70ch;color:var(--fg);margin:0 0 18px}
     .intro{font-size:var(--t-body);line-height:1.85;max-width:74ch;color:var(--fg2);margin:0 0 28px}

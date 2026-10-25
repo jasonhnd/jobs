@@ -187,7 +187,7 @@ a:hover{color:var(--orange-hot)}
 .crumb a:hover{color:var(--orange-hot);text-decoration:underline}
 .crumb span[aria-hidden]{color:var(--fg3)}
 .model-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:28px;align-items:end;padding:18px 0 30px;border-bottom:1px solid var(--border)}
-.eyebrow{margin:0 0 12px;color:var(--accent-deep);font-weight:700;font-size:var(--t-xs)}
+.eyebrow{margin:0 0 12px;color:var(--ink-meta);font-family:var(--font-sans);font-weight:400;font-size:var(--t-xs);line-height:1.5}
 h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break:normal}
 .lead{max-width:720px;margin:18px 0 0;color:var(--fg2);font-size:var(--t-h3);line-height:1.9;overflow-wrap:break-word;word-break:normal}
 .profile-box{border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:18px}
@@ -232,7 +232,8 @@ h1{margin:0;letter-spacing:0;color:var(--fg);overflow-wrap:break-word;word-break
 .mini-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:baseline;border-bottom:1px solid rgba(92,82,60,.16);padding:8px 0}
 .mini-list li:last-child{border-bottom:0}
 .mini-list a{font-weight:700;color:var(--fg);overflow-wrap:anywhere}
-.delta{font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent-deep)}
+.delta-number{font-family:var(--font-mono);font-size:var(--t-sm);font-weight:400;font-variant-numeric:tabular-nums;color:var(--ink)}
+.delta{font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
 .nav-links{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 template{display:none}
 @media(max-width:860px){

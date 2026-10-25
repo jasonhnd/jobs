@@ -17,8 +17,10 @@ export const CANONICAL_STATIC_CSS = `
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.75}
-a{color:var(--orange-hot);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
-a:hover{color:var(--accent-deep)}
+/* U1: ordinary links inherit the surrounding text, stay underlined, and use
+   orange-hot only as a hover on the cream page canvas. */
+a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--orange-hot)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 .theme-toggle{display:none !important}
 

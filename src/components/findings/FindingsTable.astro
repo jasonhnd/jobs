@@ -18,7 +18,7 @@ const band = (value: 'low' | 'mid' | 'high') => copy.labels.bands[['low', 'mid',
   <ol class="findings-cards">{rows.map(row => <li data-occupation={row.id}>
     <article>
       <h4><a href={occupationRoute(row.id, 'pro').pagePath}>{row.title}</a></h4>
-      <p class="findings-card-score"><span>{copy.labels.table[1]}</span> <b>{row.before.toFixed(1)}</b> → <span>{copy.labels.table[2]}</span> <b>{row.after.toFixed(1)}</b> （{signed(row.delta)}）</p>
+      <p class="findings-card-score"><span>{copy.labels.table[1]}</span> <b>{row.before.toFixed(1)}</b> → <span>{copy.labels.table[2]}</span> <b>{row.after.toFixed(1)}</b> （<span class="findings-card-delta">{signed(row.delta)}</span>）</p>
       <p class="findings-card-bands"><span>{copy.labels.table[4]}</span> <span>{band(row.beforeBand)}</span> → <span>{copy.labels.table[5]}</span> <span>{band(row.afterBand)}</span></p>
     </article>
   </li>)}</ol>
