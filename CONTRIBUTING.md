@@ -37,6 +37,8 @@ git diff --exit-code
 
 `bun run test` は clean checkout でも projection fixture を利用できるよう、最初に `build:data` を実行します。`bun run build` は CSP hash などの tracked configuration を更新することがあります。最後の `git diff --exit-code` が失敗した場合は、生成差分が意図した変更か確認し、必要なファイルを同じ PR に含めてください。文書のみの変更でも `bun run check:docs-links` を実行します。Playwright defaults to port 4321. For parallel workspaces, use `PLAYWRIGHT_PORT=<available port>` with a distinct port for each suite; never reuse another workspace's server. An explicit override disables server reuse. SEO baseline が変わる変更は [`docs/SEO_OG_BASELINE.md`](docs/SEO_OG_BASELINE.md) に従ってください。
 
+E2E tests default to 4 Playwright workers to avoid intermittent 30-second timeouts from CPU-based concurrency. Override with `PLAYWRIGHT_WORKERS`, for example `PLAYWRIGHT_WORKERS=2 bun x playwright test`.
+
 ## 変更時の注意
 
 - 公開 UI は日本語を正本とし、repository content は英語または日本語で記述する。
