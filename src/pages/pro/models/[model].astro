@@ -10,6 +10,7 @@ import { knownRuns, loadModelBatchMetas, type ModelBatchMeta } from '../../model
 import { bandLabel, buildModelRunPageModel, scoreText, signedScore } from '@/views/model-run-page';
 import { findingsForRun, findingsPath } from '@/site/findings/registry';
 import { findingsLinkTitle } from '@/site/findings/links';
+import { siteConfig } from '@/site/config';
 
 interface Props {
   readonly modelId: string;
@@ -91,6 +92,7 @@ const {
   keywords="AIモデル,モデル比較,AI職業スコア,AIOIS-10"
   ogTitle={pageTitle}
   ogDescription={pageDescription}
+  ogImage={`${siteConfig.origin}/api/og?model=${encodeURIComponent(requestedSlug)}`}
   ogType="article"
   bodyClass="models-surface"
 >
