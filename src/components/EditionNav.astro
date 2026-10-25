@@ -8,5 +8,6 @@ const { ordinaryPath } = Astro.props;
   <a href={ordinaryPath}>通常版へ</a>
 </nav>
 <style set:html={`.edition-nav{font-size:var(--t-sm);color:var(--ink-meta);margin-bottom:var(--s-4)}
-.edition-nav a{color:var(--ink-meta)}
+.edition-nav a{color:var(--ink)}
+.edition-nav a[aria-current="page"]{color:var(--orange-hot);text-decoration:underline}
 .edition-nav a:focus-visible{outline:var(--s-1) solid var(--accent);outline-offset:var(--s-1)}`} />
