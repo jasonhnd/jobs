@@ -29,8 +29,8 @@ file and a brief disagree, stop and say so in the PR instead of guessing.
 
 ## Hard rules
 
-- Repository records (Issues, PRs, commit messages, `docs/`) are written in
-  English or Japanese only.
+- Issues, PRs and commit messages are written in English. `docs/` is written
+  in English or Japanese.
 - Base PRs on `preview`. Never target `main` directly; `preview → main`
   promotion is owner-approved.
 - Vercel access (MCP `https://mcp.vercel.com` and the authenticated CLI)

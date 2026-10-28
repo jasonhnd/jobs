@@ -1305,7 +1305,7 @@
       "plannedStatus": 301
     }
   ],
-  "legacyWildcardPolicy": "Ordinary occupation aliases retain their existing targets: /occ/404-:slug* -> /occupations/404; /occ/404 -> /occupations/404; /occ/:id(\\d+)-:slug* -> /:id; /occ/:id(\\d+) -> /:id; /ja/404 -> /occupations/404; /ja/404.html -> /occupations/404; /ja/about -> /about; /ja/about/glossary -> /about. Expand language wildcards against valid built routes by the current destination family: Root-retained families stay at root; migrated families go directly to their final Pro URL. No /pro/:path* blanket redirect.",
+  "legacyWildcardPolicy": "Ordinary occupation aliases retain their existing targets: /occ/404-:slug* -> /occupations/404; /occ/404 -> /occupations/404; /occ/:id(\\d+)-:slug* -> /:id; /occ/:id(\\d+) -> /:id; /ja/404 -> /occupations/404; /ja/404.html -> /occupations/404; /ja/about -> /about; /ja/about/glossary -> /about. Expand language wildcards against valid built routes by the current destination family: Root-retained families stay at root; migrated families go directly to their final Pro URL. Finite /ja alternations are generated from that exact inventory and verified by ordered resolution. No /pro/:path* blanket redirect.",
   "infrastructure": [
     "/api/*",
     "/data.*.json",

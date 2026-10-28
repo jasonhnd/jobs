@@ -30,6 +30,7 @@ export const FINDINGS_CSS = `
 .findings-dot.after{border-color:var(--ink);background:var(--ink)}
 .findings-plot-row{display:flex;flex-direction:column;gap:var(--s-2)}
 .findings-plot-name{display:flex;justify-content:space-between;gap:var(--s-3);font-size:var(--t-sm);color:var(--ink)}
+.findings-plot-name>span,.findings-card-delta{font-family:var(--font-mono);font-size:var(--t-sm);font-weight:400;color:var(--ink);font-variant-numeric:tabular-nums}
 .findings-plot{position:relative;height:var(--s-8);margin-inline:var(--s-3);font-variant-numeric:tabular-nums}
 .findings-plot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .findings-plot .axis{stroke:var(--border);stroke-width:1;vector-effect:non-scaling-stroke}
@@ -40,7 +41,7 @@ export const FINDINGS_CSS = `
 .findings-plot-value.after{bottom:0}
 .findings-axis{display:flex;justify-content:space-between;margin-inline:var(--s-3);font-size:var(--t-sm);color:var(--ink);font-variant-numeric:tabular-nums}
 .findings-axis-label{font-size:var(--t-sm);color:var(--ink);text-align:center}
-.findings-table{width:100%;border-collapse:collapse;font-size:var(--t-sm);font-variant-numeric:tabular-nums}
+.findings-table{width:100%;border-collapse:collapse;font-size:var(--t-sm);line-height:1.4;font-variant-numeric:tabular-nums}
 .findings-table th,.findings-table td{text-align:left;padding:var(--s-3);border-bottom:1px solid var(--border);color:var(--ink);vertical-align:top}
 .findings-table thead th{font-family:var(--font-sans);font-weight:600;background:var(--paper)}
 .findings-table tbody th{font-family:var(--font-sans);font-weight:600}
@@ -53,16 +54,16 @@ export const FINDINGS_CSS = `
 .findings-copy-status{font-size:var(--t-sm);color:var(--ink-meta)}
 .findings-downloads{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-4);max-width:none}
 .findings-downloads li{margin:0;display:flex;flex-direction:column;gap:var(--s-1);padding-block:var(--s-3);border-bottom:1px solid var(--border);min-width:0}
-.findings-downloads a{font-family:var(--font-mono);font-size:var(--t-body);color:var(--ink)}
+.findings-downloads a{font-family:var(--font-mono);font-size:var(--t-sm);color:var(--ink)}
 .findings-file-meta{font-family:var(--font-mono);font-size:var(--t-xs);color:var(--ink-meta);overflow-wrap:anywhere}
 .findings-sources{display:flex;flex-direction:column;gap:var(--s-4);font-size:var(--t-sm)}
 .findings-evidence{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);font-size:var(--t-xs);font-family:var(--font-mono)}
 .findings-evidence dd{margin:0;min-width:0}
 .findings-footer-links{display:flex;flex-wrap:wrap;gap:var(--s-4)}
 .findings-pager{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-4)}
-.findings-pager a{padding:var(--s-4);background:var(--paper);border:1px solid var(--border);border-radius:var(--r-sm);font-size:var(--t-sm)}
+.findings-pager a{padding:var(--s-4);background:var(--paper);border:1px solid var(--border);border-radius:var(--r-sm);font-size:var(--t-sm);color:inherit}
 .findings-latest{display:flex;flex-direction:column;gap:var(--s-5);padding:var(--s-6);background:var(--paper);border:1px solid var(--border);border-radius:var(--r-md)}
-.findings-latest>a{align-self:flex-start;min-height:44px;display:inline-flex;align-items:center;padding:var(--s-2) var(--s-5);border:1px solid var(--ink-meta);border-radius:var(--r-sm);color:var(--ink)}
+.findings-latest>a{align-self:flex-start;min-height:44px;display:inline-flex;align-items:center;padding:var(--s-2) var(--s-5);border:1px solid var(--ink-meta);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:var(--t-sm);font-weight:600;background:var(--paper);color:var(--ink)}
 .findings-legal{gap:var(--s-5)}
 @media(max-width:599px){
   .findings{gap:var(--s-6)}

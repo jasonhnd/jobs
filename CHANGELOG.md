@@ -1,3 +1,9 @@
+## Scoring history on models — Issue #966
+
+- Add a static, newest-first list of every scoring run using the existing
+  model roster and Findings registry, with owner-signed heading and lead.
+- Refresh the internal-link baseline for the new `/pro/models` section anchor.
+
 ## Signed Findings issue 1 — Issue #938 (preview discovery, not a production publication)
 
 - Treat the signed 2026-10-01 issue as discoverable. Drop page-level noindex

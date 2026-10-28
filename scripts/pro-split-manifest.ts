@@ -5,6 +5,7 @@ import { join, relative } from 'node:path';
 import { RANKING_META, DEINDEXED_RANKINGS, type RankingSlug } from '../src/views/rankings-meta';
 import { occupationPath } from '../src/lib/urls';
 import { expectedRedirects, loadRedirects, loadScoreRuns } from './check-model-redirects';
+import { redirectResolver } from './lib/redirect-resolution';
 
 const ROOT = join(import.meta.dir, '..');
 const OUTPUT = join(ROOT, 'docs/pro-split/route-manifest.json');
@@ -94,9 +95,15 @@ export function buildManifest() {
     ];
   });
   const legacyAliases = ['/ja/about/methodology', '/ja/about/data-sources'].map(source => ({ source, currentDestination: '/pro/methodology', destination: '/pro/methodology', plannedStatus: 301 }));
-  const retainedLegacyTargets = currentRedirects.filter(r =>
-    r.source.startsWith('/occ/') || ['/ja/404', '/ja/404.html', '/ja/about', '/ja/about/glossary'].includes(r.source),
-  ).map(r => `${r.source} -> ${r.destination}`).join('; ');
+  const resolve = redirectResolver(currentRedirects);
+  const retainedLegacyTargets = [
+    ...currentRedirects.filter(r => r.source.startsWith('/occ/')).map(r => `${r.source} -> ${r.destination}`),
+    ...['/ja/404', '/ja/404.html', '/ja/about', '/ja/about/glossary'].map(source => {
+      const target = resolve(source);
+      if (!target || target.statusCode !== 301) throw new Error(`Missing retained language alias: ${source}`);
+      return `${source} -> ${target.destination}`;
+    }),
+  ].join('; ');
   return {
     schemaVersion: 1, stage: 'stage-1B', redirectAuthorization: 'owner authorization 2026-10-09, decision d1008-214048-1',
     sources: ['src/views/rankings-meta.ts', 'src/pages/**/*.astro', 'src/lib/urls.ts', 'data/scores/*.json', 'vercel.json'],
@@ -108,7 +115,7 @@ export function buildManifest() {
       invalidIdStatus: 404,
     },
     modelAliases, legacyAliases,
-    legacyWildcardPolicy: `Ordinary occupation aliases retain their existing targets: ${retainedLegacyTargets}. Expand language wildcards against valid built routes by the current destination family: Root-retained families stay at root; migrated families go directly to their final Pro URL. No /pro/:path* blanket redirect.`,
+    legacyWildcardPolicy: `Ordinary occupation aliases retain their existing targets: ${retainedLegacyTargets}. Expand language wildcards against valid built routes by the current destination family: Root-retained families stay at root; migrated families go directly to their final Pro URL. Finite /ja alternations are generated from that exact inventory and verified by ordered resolution. No /pro/:path* blanket redirect.`,
     infrastructure: ['/api/*', '/data.*.json', '/sitemap.xml', '/image-sitemap.xml', '/llms.txt', '/llms-full.txt', '/robots.txt', '/404', '/fonts/*', '/_astro/*'],
   };
 }

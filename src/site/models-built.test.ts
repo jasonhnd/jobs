@@ -13,6 +13,7 @@ import {
   isWhitelistedVendor,
   runSlug,
 } from './score-attribution.js';
+import { FINDINGS, findingsPath, isDiscoverable } from './findings/registry.js';
 import { formatJapaneseDate } from '../views/models.js';
 import {
   CONSENSUS_FLAGSHIP_SWITCH_NOTE_LEAD,
@@ -300,6 +301,35 @@ describe('/models built page contract', () => {
     );
   });
 
+  test('scoring history renders every run newest first with matching Findings links', async () => {
+    if (htmlPath == null) return;
+    const html = readFileSync(htmlPath, 'utf-8');
+    const section = html.match(/<section class="feature-section scoring-history"[\s\S]*?<\/section>/)?.[0];
+    assert.ok(section);
+    const rows = [...section.matchAll(/<li>([\s\S]*?)<\/li>/g)].map(match => match[1]!);
+    const runs = [...await occupationRuns()].sort((a, b) => b.runDate.localeCompare(a.runDate) || a.model.localeCompare(b.model));
+    assert.equal(rows.length, runs.length);
+    rows.forEach((row, index) => {
+      const run = runs[index]!;
+      assert.ok(row.includes(`<time datetime="${run.runDate}">${formatJapaneseDate(run.runDate)}</time>`));
+      assert.ok(row.includes(`href="/pro/models/${run.slug}">${run.modelDisplay}</a>`));
+      assert.ok(row.includes(`<dt>対象職業数</dt><dd>${run.coveredCount}</dd>`));
+      const expectedLinks = FINDINGS.filter(issue => isDiscoverable(issue)
+        && issue.incoming_run_date === run.runDate
+        && issue.panels.after.some(panel => panel.model_id === run.model && panel.run_date === run.runDate)).map(findingsPath);
+      const actualLinks = [...row.matchAll(/class="scoring-history-findings" href="([^" ]+)"/g)].map(match => match[1]);
+      assert.deepEqual(actualLinks, expectedLinks);
+    });
+    assert.ok(rows.some(row => row.includes('scoring-history-findings')));
+    const head = section.match(/<div class="scoring-history-head" aria-hidden="true">([\s\S]*?)<\/div>/)?.[1] ?? '';
+    assert.notEqual(head, '');
+    for (const label of ['採点日', 'モデル', '提供元', '対象職業数']) {
+      assert.equal((head.match(new RegExp(`<span>${label}</span>`, 'g')) ?? []).length, 1);
+      assert.equal((section.match(new RegExp(`<dt>${label}</dt>`, 'g')) ?? []).length, runs.length);
+    }
+    assert.match(section, /class="scoring-history-nowrap">変化 — 第\d+号</);
+  });
+
   test('keeps serif headings at the magazine title size', () => {
     if (htmlPath == null) return;
     const html = readFileSync(htmlPath, 'utf-8');
@@ -321,6 +351,9 @@ describe('/models built page contract', () => {
     const display = escapeRegExp(sample.modelDisplay);
 
     assert.match(visible, new RegExp(`<h1>${display} の職業スコア</h1>`));
+    const expectedOgImage = `https://mirai-shigoto.com/api/og?model=${encodeURIComponent(sample.slug)}`;
+    assert.match(html, new RegExp(`<meta property="og:image" content="${escapeRegExp(expectedOgImage)}">`));
+    assert.match(html, new RegExp(`<meta name="twitter:image" content="${escapeRegExp(expectedOgImage)}">`));
     assert.match(visible, /<dt>評価基準<\/dt><dd>AIOIS-10 v1\.0<\/dd>/);
     assert.match(visible, new RegExp(escapeRegExp(formatJapaneseDate(sample.runDate))));
     assert.equal(new RegExp(`プロンプト|AIOIS-10-v1\\.0-${escapeRegExp(sample.model)}`).test(visible), false);
@@ -355,6 +388,18 @@ describe('/models built page contract', () => {
         assert.match(history, new RegExp(escapeRegExp(MODELS_RUN_HISTORY_NOTE)));
         assert.equal(history.includes(MODELS_RUN_IN_PANEL_NOTE), false);
       }
+    }
+  });
+
+  test('sets every generated model run OG and Twitter image to its dated-run card URL', async () => {
+    const runs = await occupationRuns();
+    for (const run of runs) {
+      const path = builtModelDetailPath(run.slug);
+      if (path == null) return;
+      const html = readFileSync(path, 'utf-8');
+      const expected = `https://mirai-shigoto.com/api/og?model=${encodeURIComponent(run.slug)}`;
+      assert.match(html, new RegExp(`<meta property="og:image" content="${escapeRegExp(expected)}">`), run.slug);
+      assert.match(html, new RegExp(`<meta name="twitter:image" content="${escapeRegExp(expected)}">`), run.slug);
     }
   });
 

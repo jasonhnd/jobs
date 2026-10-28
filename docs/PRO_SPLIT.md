@@ -49,7 +49,8 @@ owner authorization. The expanded [generated route inventory](pro-split/generate
 is checked against current built pages by `scripts/pro-migration.ts`. `oldStatus` means the intended final status, not current HTTP.
 Template parameters are valid generated pages only, never blanket redirect
 patterns. Stage 1B must expand them against built valid URLs and verify exact
-old/new sets before deploying configuration.
+old/new sets before deploying configuration. Finite enumerated alternations
+may encode those exact sets; verify literal paths by ordered redirect resolution.
 
 | Family | Ordinary final route | Pro final route | Old address after authorized cutover |
 | --- | --- | --- | --- |
@@ -451,7 +452,12 @@ the new event dimension is unperformed and requires separate owner authorization
 
 The exact redirect inventory is generated, not hand-maintained. Language
 wildcards are expanded against 845 logical legacy HTML routes; unknown language
-paths now retain real 404s. `/en/404` continues to reach the error document while
+paths now retain real 404s. `bun scripts/pro-migration.ts --write` emits the
+`/ja` block as finite enumerated alternations, preserving specific aliases.
+The gate checks strict, case-sensitive, first-match path-to-regexp resolution,
+parameter substitution, exact destinations/statuses, and every enumerated source;
+wildcards, unconstrained parameters, extra paths and redirect chains fail.
+`/en/404` continues to reach the error document while
 `/ja/404` and `/ja/404.html` retain the occupation exception. Configuration keeps
 query strings on same-host redirects. The Vercel configured-route limit is
 2,048 including redirects, headers and rewrites; the gate enforces it.

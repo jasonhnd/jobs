@@ -3,11 +3,24 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildFindings, csv, CSV_HEADERS, loadFindings, sha256 } from './data';
 import { citationForCopy } from './clipboard';
-import { FINDINGS, discoverableFindings, publishedFindings, findingsForRun } from './registry';
+import { FINDINGS, discoverableFindings, publishedFindings, findingsForRun, findingsForIncomingRun } from './registry';
 import { findingsCopy, unexpectedJapanese, renderTemplate, citationForDisplay } from './copy';
 
 const issue = FINDINGS[0]!;
 const data = loadFindings(issue);
+
+test('scoring history links only the incoming run, excluding outgoing and unchanged panel runs', () => {
+  for (const manifest of FINDINGS) {
+    const incoming = manifest.panels.after.find(run => run.run_date === manifest.incoming_run_date)!;
+    expect(findingsForIncomingRun(incoming.model_id, incoming.run_date)).toContain(manifest);
+    for (const run of [...manifest.panels.before, ...manifest.panels.after]) {
+      if (run.model_id === incoming.model_id && run.run_date === incoming.run_date) continue;
+      expect(findingsForIncomingRun(run.model_id, run.run_date)).not.toContain(manifest);
+    }
+    expect(findingsForIncomingRun(incoming.model_id, '1900-01-01')).not.toContain(manifest);
+    expect(findingsForIncomingRun('unrelated-model', incoming.run_date)).not.toContain(manifest);
+  }
+});
 
 describe('frozen Findings issue 1', () => {
   test('matches all sample claims with raw aggregates and deterministic examples', () => {

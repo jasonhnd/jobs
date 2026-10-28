@@ -10,6 +10,7 @@ import { knownRuns, loadModelBatchMetas, type ModelBatchMeta } from '../../model
 import { bandLabel, buildModelRunPageModel, scoreText, signedScore } from '@/views/model-run-page';
 import { findingsForRun, findingsPath } from '@/site/findings/registry';
 import { findingsLinkTitle } from '@/site/findings/links';
+import { siteConfig } from '@/site/config';
 
 interface Props {
   readonly modelId: string;
@@ -91,6 +92,7 @@ const {
   keywords="AIモデル,モデル比較,AI職業スコア,AIOIS-10"
   ogTitle={pageTitle}
   ogDescription={pageDescription}
+  ogImage={`${siteConfig.origin}/api/og?model=${encodeURIComponent(requestedSlug)}`}
   ogType="article"
   bodyClass="models-surface"
 >
@@ -213,7 +215,7 @@ const {
               <h3>動きが大きい職業</h3>
               <ul class="mini-list">
                 {page.drift.movers.map((row) => (
-                  <li><a href={row.href}>{row.title_ja}</a><span class="delta">{signedScore(row.delta_t)}</span></li>
+                  <li><a href={row.href}>{row.title_ja}</a><span class="delta-number">{signedScore(row.delta_t)}</span></li>
                 ))}
               </ul>
             </div>

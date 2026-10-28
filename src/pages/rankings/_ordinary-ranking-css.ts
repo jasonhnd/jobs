@@ -5,7 +5,7 @@ export const ORDINARY_RANKING_CSS = `
 .ordinary-rankings h1{margin-bottom:var(--s-3)}
 .ordinary-lead{font-size:var(--t-h3);color:var(--ink);line-height:1.6;margin-bottom:var(--s-3)}
 .ordinary-score-reading,.ordinary-note{font-size:var(--t-sm);color:var(--ink-2);line-height:1.6;margin-bottom:var(--s-3)}
-.ordinary-search{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:var(--s-3) var(--s-5);border-radius:var(--r-pill);background:var(--orange-hot);color:var(--paper);font-size:var(--t-body);font-weight:600;text-decoration:none}
+.ordinary-search{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:var(--s-3) var(--s-5);border-radius:var(--r-pill);background:var(--orange-hot);color:var(--paper);font-size:var(--t-sm);font-weight:700;text-decoration:none}
 .ordinary-search:hover{background:var(--green-deep);color:var(--paper)}
 .ordinary-search:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .ordinary-rankings .rk-sum{margin:var(--s-3) 0 0;color:var(--ink-2);font-size:var(--t-sm);line-height:1.6}

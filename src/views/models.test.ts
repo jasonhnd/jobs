@@ -268,6 +268,22 @@ describe('models feature view model', () => {
     assert.equal(page.coverageRangeText, '552〜556職業');
   });
 
+  test('scoring history includes every run newest first without changing the roster', () => {
+    const page = buildModelsFeaturePageModel(
+      fourModelProjection,
+      { sentences: { default_neutral: '中庸な既定文です。' } },
+      { editorial_sentences: { default_latest_pair_split: '汎用の編集文です。' } },
+    );
+    assert.deepEqual(page.scoringHistory, [...page.modelRoster].reverse());
+    assert.deepEqual(page.scoringHistory.map(run => [run.date, run.covered_count, run.vendorDisplay]), [
+      ['2026-07-12', 556, 'OpenAI'],
+      ['2026-06-13', 556, 'Anthropic'],
+      ['2026-05-30', 556, 'Anthropic'],
+      ['2026-04-25', 552, 'Anthropic'],
+    ]);
+    assert.equal(page.modelRoster[0]!.date, '2026-04-25');
+  });
+
   test('derives vendor lanes with hrefs, history order, and summaries from the projection', () => {
     const page = buildModelsFeaturePageModel(
       fourModelProjection,
@@ -322,7 +338,8 @@ describe('models feature view model', () => {
     assert.equal(page.consensusSummary.latestModelHref, '/pro/models/fable-5@2026-06-13');
     assert.equal(page.pageLastUpdated, '2026-06-13');
     assert.equal(page.comparedCount, 2);
-    assert.match(page.lead, /これまで2つのAIモデル/);
+    assert.match(page.lead, /これまで2のAIモデル/);
+    assert.equal(/つの/.test(page.lead), false);
     assert.match(page.description, /各回2職業/);
   });
 
