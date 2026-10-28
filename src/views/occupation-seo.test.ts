@@ -79,7 +79,7 @@ describe('buildOccupationSeo', () => {
     });
     assert.equal(
       description,
-      '看護師の年収は544職業中で上位39%（厚生労働省 jobtag 2026年版）。就業者は1,500,000人。看護師のAI影響度は5/10 変化 中くらいです。仕事の中身がAIで変わる度合いであり、失業の確率ではありません。将来性やなり方、必要なスキルを詳しく解説。',
+      '看護師の年収は544職業中で上位39%（厚生労働省 jobtag 2026年版）。就業者は1,500,000人。看護師のAI影響度は5/10 変化 中くらいです。仕事の中身がAIで変わる度合いであり、失業の確率ではありません。AIでの変化やなり方、必要なスキルを詳しく解説。',
     );
   });
 
@@ -119,9 +119,9 @@ describe('buildOccupationSeo', () => {
     assert.ok(!description.includes('就業者'));
   });
 
-  test('description always ends with the 将来性 tail', () => {
+  test('description always ends with the AI-change tail', () => {
     const { description } = buildOccupationSeo({ ...baseInput, aiRisk: 5 });
-    assert.ok(description.endsWith('将来性やなり方、必要なスキルを詳しく解説。'));
+    assert.ok(description.endsWith('AIでの変化やなり方、必要なスキルを詳しく解説。'));
   });
 
   test('ogTitle truncated at 120 chars', () => {
