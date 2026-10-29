@@ -29,6 +29,9 @@
  *  12.  ?id=<digits>             → render-occupation
  *  13.  ?id=<non-digit/overflow> → render-generic (HOME fallback)
  *  14.  (no recognized params)   → render-generic (HOME fallback)
+ *  15.  ?model=<model@date>      → render-model (slug forwarded; existence
+ *                                   is the renderer's job)
+ *  16.  ?model=<bare/malformed>  → render-generic (HOME fallback)
  *
  * Precedence tests verify that the order in the dispatcher matches
  * the documented param-precedence — e.g. `?page=map&id=156` resolves
@@ -366,6 +369,74 @@ describe('decideDispatch — occupation branch', () => {
   });
 });
 
+describe('decideDispatch — model branch', () => {
+  test('?model=<model@date> → render-model with the decoded slug', () => {
+    assert.deepEqual(decideDispatch(url('?model=opus-5@2026-07-26'), STUB_CATALOG), {
+      kind: 'render-model',
+      slug: 'opus-5@2026-07-26',
+    });
+    assert.deepEqual(decideDispatch(url('?model=opus-5%402026-07-26'), STUB_CATALOG), {
+      kind: 'render-model',
+      slug: 'opus-5@2026-07-26',
+    });
+  });
+
+  test('bare, empty, and malformed model slugs → HOME fallback', () => {
+    for (const query of [
+      '?model=opus-5',
+      '?model=',
+      '?model=opus-5@',
+      '?model=@2026-07-26',
+      '?model=opus-5@2026-7-26',
+      '?model=opus-5@2026-07-26-extra',
+      '?model=opus-5@2026-07-26/../../etc',
+      '?model=constructor',
+      '?model=__proto__',
+      '?model=toString',
+    ]) {
+      assertHomeFallback(decideDispatch(url(query), STUB_CATALOG));
+    }
+  });
+
+  test('a dated prototype-shaped slug is still a model slug, not a home card', () => {
+    // `constructor` alone is bare. `constructor@YYYY-MM-DD` is a well-formed
+    // run slug; the renderer must reject it by own-property lookup.
+    assert.deepEqual(decideDispatch(url('?model=constructor@2026-01-01'), STUB_CATALOG), {
+      kind: 'render-model',
+      slug: 'constructor@2026-01-01',
+    });
+    assert.deepEqual(decideDispatch(url('?model=__proto__@2026-01-01'), STUB_CATALOG), {
+      kind: 'render-model',
+      slug: '__proto__@2026-01-01',
+    });
+  });
+
+  test('earlier families keep precedence over a dated model slug', () => {
+    const cases = [
+      ['?page=map&model=opus-5@2026-07-26', 'render-map'],
+      ['?page=about&model=opus-5@2026-07-26', 'render-generic'],
+      ['?ranking=ai-risk-low&model=opus-5@2026-07-26', 'render-generic'],
+      ['?interest=realistic&model=opus-5@2026-07-26', 'render-generic'],
+      ['?skill=programming&model=opus-5@2026-07-26', 'render-generic'],
+      ['?compare=kango-vs-helper&model=opus-5@2026-07-26', 'render-generic'],
+      ['?route=by-industry&model=opus-5@2026-07-26', 'render-generic'],
+      ['?worktype=CDK&variant=hacker&model=opus-5@2026-07-26', 'render-worktype'],
+      ['?sector=iryo&model=opus-5@2026-07-26', 'render-sector'],
+      ['?id=156&model=opus-5@2026-07-26', 'render-occupation'],
+    ] as const;
+    for (const [query, kind] of cases) {
+      assert.equal(decideDispatch(url(query), STUB_CATALOG).kind, kind, query);
+    }
+  });
+
+  test('a dated model slug still renders when an earlier id is not an occupation id', () => {
+    assert.deepEqual(decideDispatch(url('?id=abc&model=opus-5@2026-07-26'), STUB_CATALOG), {
+      kind: 'render-model',
+      slug: 'opus-5@2026-07-26',
+    });
+  });
+});
+
 describe('decideDispatch — safety net (no recognized params)', () => {
   test('empty query → HOME fallback', () => {
     const d = decideDispatch(url(''), STUB_CATALOG);
@@ -479,15 +550,16 @@ describe('decideDispatch — type discipline', () => {
   test('exhaustiveness: every DispatchDecision kind has a runtime test above', () => {
     // Sanity check that the type union and the test suite stay in
     // sync. The `bad-request` kind was removed in the 2026-06-03
-    // safety-net change — 4 render kinds remain.
+    // safety-net change.
     const KNOWN_KINDS: ReadonlyArray<DispatchDecision['kind']> = [
       'render-map',
       'render-generic',
       'render-sector',
       'render-occupation',
       'render-worktype',
+      'render-model',
     ];
-    assert.equal(KNOWN_KINDS.length, 5, 'expected 5 dispatch kinds');
+    assert.equal(KNOWN_KINDS.length, 6, 'expected 6 dispatch kinds');
   });
 });
 

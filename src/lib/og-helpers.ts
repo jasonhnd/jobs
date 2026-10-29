@@ -19,6 +19,7 @@
 
 import {
   DetailFileSchema,
+  ModelsByModelProjectionSchema,
   SectorRecordSchema,
   SectorsProjectionSchema,
   WorktypesProjectionSchema,
@@ -119,11 +120,22 @@ export { SectorRecordSchema, SectorsProjectionSchema };
  */
 export { WorktypesProjectionSchema };
 
+/**
+ * Shape of `/data.models_by_model.json` — the per-run model card reads the
+ * same projection the model page does, rather than a second schema.
+ */
+export { ModelsByModelProjectionSchema };
+
 /** Per-page template config consumed by `renderGenericCard`. */
 export interface GenericCardConfig {
   eyebrow: string;
   title: string;
   subtitle: string;
+  /**
+   * Optional fourth line under the subtitle. The per-run model card uses it
+   * for the signed scoring-date line. Other families leave it unset.
+   */
+  detail?: string;
 }
 
 // ─── Formatters ───────────────────────────────────────────────────────────

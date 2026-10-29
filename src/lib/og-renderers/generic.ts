@@ -27,7 +27,7 @@ import {
 export async function renderGenericOgCard(
   config: GenericCardConfig,
 ): Promise<Response> {
-  const subsetText = `${config.eyebrow} ${config.title} ${config.subtitle} ${FRAME_SUBSET}`;
+  const subsetText = `${config.eyebrow} ${config.title} ${config.subtitle} ${config.detail ?? ''} ${FRAME_SUBSET}`;
 
   const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
     loadGoogleFont('Noto+Serif+JP', 600, subsetText),
@@ -80,6 +80,21 @@ export async function renderGenericOgCard(
           },
           config.subtitle,
         ),
+        config.detail
+          ? h(
+              'div',
+              {
+                style: {
+                  display: 'flex',
+                  fontSize: '32px',
+                  color: COLORS.muted,
+                  fontWeight: 500,
+                  lineHeight: 1.4,
+                },
+              },
+              config.detail,
+            )
+          : null,
       ),
       footer(h('span', { style: { display: 'flex' } }, FOOTER_LEFT)),
     ]),

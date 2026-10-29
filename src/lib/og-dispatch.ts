@@ -43,6 +43,7 @@ import {
   type WorktypeVariantId,
 } from '../site/worktype-copy.js';
 import { parseShindanBaseState } from '../site/shindan-result-state.js';
+import { isDatedRunSlug } from '../site/score-attribution.js';
 
 /**
  * Per-card-family lookup table. Bundled as one record so callers
@@ -79,24 +80,28 @@ export type WorktypeOgShape = 'square' | 'wide';
  *   - `render-sector`     → renderSectorOgCard(url, decision.id)
  *   - `render-occupation` → renderOccupationOgCard(url, decision.id)
  *   - `render-worktype`   → renderWorktypeOgCard(url, decision)
+ *   - `render-model`      → renderModelOgCard(url, decision.slug)
  *
  * There is intentionally NO `bad-request` kind: the endpoint must
  * never hard-fail a social card. Any unrenderable input degrades to
  * the home generic card (see `decideDispatch`'s safety net) so a
  * wiring slip produces a valid-but-generic card, not a 400 that
  * scrapers would cache. (Renderer-level 404s for a genuinely absent
- * occupation / sector still propagate from sector.ts / occupation.ts.)
+ * occupation / sector still propagate from sector.ts / occupation.ts.
+ * An unknown model slug does not: model.ts returns the home card.
+ * Model fetch failures stay retriable and are not rewritten into it.)
  *
- * No I/O happens at the decision layer. All 4 kinds carry just enough
+ * No I/O happens at the decision layer. Each kind carries just enough
  * data for the executor to call the appropriate renderer; the executor
  * still owns the URL (for origin-based upstream fetch in sector /
- * occupation renderers).
+ * occupation / model renderers).
  */
 export type DispatchDecision =
   | { kind: 'render-map' }
   | { kind: 'render-generic'; config: GenericCardConfig }
   | { kind: 'render-sector'; id: string }
   | { kind: 'render-occupation'; id: string }
+  | { kind: 'render-model'; slug: string }
   | {
       kind: 'render-worktype';
       family: FamilyCode;
@@ -126,6 +131,7 @@ export function decideDispatch(
   const compareParam = url.searchParams.get('compare');
   const routeParam = url.searchParams.get('route');
   const worktypeParam = url.searchParams.get('worktype');
+  const modelParam = url.searchParams.get('model');
 
   // Safety net (2026-06-03): the endpoint must never hard-fail a social
   // card. Any input we cannot render — an unknown slug in a known
@@ -229,6 +235,16 @@ export function decideDispatch(
   // empty, or simply absent) falls back to the home card.
   if (idParam && /^\d{1,4}$/.test(idParam)) {
     return { kind: 'render-occupation', id: idParam };
+  }
+
+  // Dated scoring run, e.g. `opus-5@2026-07-26` (score-attribution.ts).
+  // Checked last so every existing family keeps its precedence. Bare and
+  // malformed slugs are the home card here; a well-formed slug the
+  // projection does not contain is the home card in the renderer. Fetch
+  // failures stay there as retriable errors, not this card.
+  if (modelParam) {
+    if (!isDatedRunSlug(modelParam)) return homeCard();
+    return { kind: 'render-model', slug: modelParam };
   }
 
   return homeCard();
