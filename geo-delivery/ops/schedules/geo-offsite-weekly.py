@@ -35,14 +35,20 @@ SYSTEM = ('Use live web search to answer the Japanese question and cite source U
           'Do not use local files, shell commands, browser automation, or MCP services. '
           'Answer in Japanese. If search is unavailable, state that explicitly.')
 TIMEOUT = 300
-AGY_MODEL = 'gemini-3.8-flash-medium'
-# Headless docs confirm stream-json init/step_update/result and result.response.
-# They do not name the web-search tool. No redacted agy event was supplied.
-AGY_SEARCH_EVENT_SHAPE = 'UNVERIFIED'
-AGY_SEARCH_TOOL_NAMES = frozenset()
-# permissions.md and headless.md do not document `agy --settings`, a search-tool
-# allow rule, or a deny that is shown to override workspace auto-allow.
+# Model and search_web are taken from redacted Tech sample HAF-20261029-6560.
+# That sample omits the question, the real answer, tool parameters, and other fields.
+# It is not a live run of this candidate. AGY_SEARCH_EVENT_SHAPE must not be read
+# as a live-CLI verification.
+AGY_MODEL = 'gemini-4-argon-high'
+AGY_SEARCH_EVENT_SHAPE = 'REDACTED_SAMPLE_HAF-20261029-6560'
+AGY_SEARCH_TOOL_NAMES = frozenset({'search_web'})
+# Hard gate. Stay BLOCKED until a separate Tech-approved change. No code path may
+# assign this from a user setting, an existing file, the environment, or parser output.
+# Help text that lists `agy --settings` is not evidence the flag is enforced.
 PERMISSION_ENFORCEMENT = 'BLOCKED'
+GEMINI_BLOCKED_REASON = (
+    'permission enforcement BLOCKED; agy not launched; version not probed; '
+    'permissions have not been verified')
 
 
 def save_json(path, obj):
@@ -155,10 +161,12 @@ def execute(cmd, cwd, env, raw, timeout=TIMEOUT, stdout_path=None):
 
 
 def parse_agy(text):
-    """Fail closed. Count only DONE search-tool steps whose name is confirmed.
+    """Fail closed. Count only search_web steps that end DONE.
 
-    The confirmed set is empty until a redacted agy event supplies the tool name.
-    The answer is result.response only. Tool output and text_delta are ignored.
+    The answer is result.response only. Tool output, search snippets, and text_delta
+    are ignored. The redacted success sample's DONE search_web step has no tool_info;
+    that omission is accepted and is not a claim the field was absent originally.
+    A present tool_info that is malformed or carries an error is rejected.
     """
     if not str(text).strip():
         return '', {}, 0, 'malformed or incomplete agy event stream'
@@ -213,16 +221,21 @@ def parse_agy(text):
         if not isinstance(tool_name, str) or not tool_name:
             return '', {}, 0, 'malformed agy tool step'
         if tool_name not in AGY_SEARCH_TOOL_NAMES:
-            return '', {}, 0, f'disallowed agy tool {tool_name}; search tool name UNVERIFIED'
+            return '', {}, 0, f'disallowed agy tool {tool_name}'
         step_index = step.get('step_index')
+        if type(step_index) is not int:
+            return '', {}, 0, 'malformed agy tool step'
+        # tool_info is optional. When present it must name this tool and have no error.
+        if 'tool_info' in step:
+            info = step['tool_info']
+            if not isinstance(info, dict) or info.get('name') != tool_name:
+                return '', {}, 0, 'malformed agy tool step'
+            if info.get('error'):
+                return '', {}, 0, f'failed agy tool {tool_name}'
         if state == 'ACTIVE':
             pending.add(step_index)
+            completed.discard(step_index)
             continue
-        info = step.get('tool_info')
-        if not isinstance(info, dict) or info.get('name') != tool_name:
-            return '', {}, 0, 'malformed agy tool step'
-        if info.get('error'):
-            return '', {}, 0, f'failed agy tool {tool_name}'
         if step_index in completed:
             return '', {}, 0, 'malformed agy tool step'
         completed.add(step_index)
@@ -270,6 +283,70 @@ def parse(source, text):
     return answer, usage, searches, problem
 
 
+def mention_status(source, problem, answer):
+    if source in REASONS:
+        return 'NOT_RUN'
+    if problem:
+        return 'ERROR'
+    text = answer if isinstance(answer, str) else ''
+    if any(term.lower() in text.lower() for term in ('mirai-shigoto.com', '未来の仕事', 'AIOIS-10')):
+        return 'YES'
+    return 'NO'
+
+
+def gemini_processes_allowed():
+    """True only when the source constant is the open token.
+
+    User settings, environment variables, on-disk files, and parsed events are
+    not consulted. This candidate leaves PERMISSION_ENFORCEMENT as BLOCKED.
+    """
+    return PERMISSION_ENFORCEMENT == 'VERIFIED'
+
+
+def gemini_partial_print_timeout(stderr_text):
+    return re.search(
+        r'print timeout\b.*turn in progress; returning partial output',
+        stderr_text or '',
+        re.DOTALL,
+    ) is not None
+
+
+def gemini_outcome_problem(exit_code, execute_problem, parse_problem, stderr_text):
+    """Classify a finished process. Does not launch one.
+
+    A CLI print-timeout on stderr is ERROR even when exit is 0 and the stream
+    says SUCCESS. Our own process-group kill stays the recorded execute error.
+    """
+    if execute_problem:
+        return execute_problem
+    if gemini_partial_print_timeout(stderr_text):
+        return 'print timeout with turn in progress; returning partial output'
+    if exit_code not in (0, None):
+        return f'nonzero exit {exit_code}'
+    return parse_problem or ''
+
+
+def interpret_gemini_run(exit_code, execute_problem, stdout_text, stderr_text):
+    try:
+        answer, usage, searches, parse_error = parse('gemini', stdout_text)
+    except (OSError, ValueError, TypeError, AttributeError) as exc:
+        answer, usage, searches, parse_error = '', {}, 0, str(exc)
+    problem = gemini_outcome_problem(exit_code, execute_problem, parse_error, stderr_text)
+    return answer, usage, searches, problem
+
+
+def classify_gemini_files(exit_code, execute_problem, stdout_path, stderr_path):
+    stderr_text = ''
+    if stderr_path is not None and Path(stderr_path).exists():
+        stderr_text = Path(stderr_path).read_text(errors='replace')
+    try:
+        stdout_text = Path(stdout_path).read_text(errors='replace')
+    except OSError as exc:
+        stdout_text = ''
+        execute_problem = execute_problem or str(exc)
+    return interpret_gemini_run(exit_code, execute_problem, stdout_text, stderr_text)
+
+
 def observe(source, number, run_date, week, tmp_root):
     family, question = QUESTIONS[number - 1]
     meta_path = week / f'{source}-{number}.meta.json'
@@ -303,33 +380,48 @@ def observe(source, number, run_date, week, tmp_root):
                 meta.update(command=command(source, question, settings_path) if source == 'gemini'
                             else command(source, question),
                             cwd=work, cwd_initially_empty=True)
-                env = clean_env(tmp_root)
-                version_cmd = ['agy', '--version'] if source == 'gemini' else [source, '--version']
-                try:
-                    ver = subprocess.run(version_cmd, cwd=work, env=env,
-                                         capture_output=True, text=True, timeout=15)
-                    meta['cli_version'] = (ver.stdout + ver.stderr).strip()
-                except (OSError, subprocess.TimeoutExpired) as exc:
-                    meta['cli_version'] = str(exc)
-                save_json(meta_path, meta)
-                start = time.monotonic()
-                if source == 'gemini':
-                    stderr_path = raw.parent / (raw.name + '.stderr')
-                    code, problem = execute(meta['command'], work, env, stderr_path, stdout_path=raw)
+                if source == 'gemini' and not gemini_processes_allowed():
+                    # Fail closed before any Gemini process, including agy --version.
+                    # A settings file, a planted stdout, or a parsed event cannot open this.
+                    problem = GEMINI_BLOCKED_REASON
+                    meta.update(launched=False, cli_version=None, exit_code=None,
+                                elapsed_seconds=0, answer='', usage={}, search_calls=0)
+                    save_json(meta_path, meta)
                 else:
-                    code, problem = execute(meta['command'], work, env, raw)
-                meta.update(exit_code=code, elapsed_seconds=round(time.monotonic() - start, 3))
-                try:
-                    answer, usage, searches, parse_error = parse(source, raw.read_text(errors='replace'))
-                except (OSError, ValueError, TypeError, AttributeError) as exc:
-                    answer, usage, searches, parse_error = '', {}, 0, str(exc)
-                meta.update(answer=answer, usage=usage, search_calls=searches)
-                problem = problem or (f'nonzero exit {code}' if code != 0 else parse_error)
+                    env = clean_env(tmp_root)
+                    version_cmd = ['agy', '--version'] if source == 'gemini' else [source, '--version']
+                    try:
+                        ver = subprocess.run(version_cmd, cwd=work, env=env,
+                                             capture_output=True, text=True, timeout=15)
+                        meta['cli_version'] = (ver.stdout + ver.stderr).strip()
+                    except (OSError, subprocess.TimeoutExpired) as exc:
+                        meta['cli_version'] = str(exc)
+                    save_json(meta_path, meta)
+                    start = time.monotonic()
+                    if source == 'gemini':
+                        stderr_path = raw.parent / (raw.name + '.stderr')
+                        code, exec_problem = execute(
+                            meta['command'], work, env, stderr_path, stdout_path=raw)
+                        answer, usage, searches, problem = classify_gemini_files(
+                            code, exec_problem, raw, stderr_path)
+                        meta.update(exit_code=code,
+                                    elapsed_seconds=round(time.monotonic() - start, 3),
+                                    answer=answer, usage=usage, search_calls=searches, launched=True)
+                    else:
+                        code, problem = execute(meta['command'], work, env, raw)
+                        meta.update(exit_code=code, elapsed_seconds=round(time.monotonic() - start, 3))
+                        try:
+                            answer, usage, searches, parse_error = parse(
+                                source, raw.read_text(errors='replace'))
+                        except (OSError, ValueError, TypeError, AttributeError) as exc:
+                            answer, usage, searches, parse_error = '', {}, 0, str(exc)
+                        meta.update(answer=answer, usage=usage, search_calls=searches)
+                        problem = problem or (f'nonzero exit {code}' if code != 0 else parse_error)
     answer = meta.get('answer', '')
     hits = [term for term in ('mirai-shigoto.com', '未来の仕事', 'AIOIS-10') if term.lower() in answer.lower()]
     urls = list(dict.fromkeys(re.findall(r'https?://[^\s<>\)\]"}]+', answer)))
     site_urls = [u for u in urls if re.match(r'https?://(?:www\.)?mirai-shigoto\.com(?:[/:?#]|$)', u, re.I)]
-    status = 'NOT_RUN' if source in REASONS else 'ERROR' if problem else 'YES' if hits else 'NO'
+    status = mention_status(source, problem, answer)
     relevant = [p for p in answer.split('\n\n') if any(h.lower() in p.lower() for h in hits)]
     row = dict(zip(FIELDS, [run_date, meta['start_jst'], source,
                'NOT_RUN' if source in REASONS else 'CLI live web search', family, question,
@@ -420,6 +512,7 @@ def run(run_date, root, csv_path=None):
                                  for s in ('claude', 'codex', 'gemini')}, failures=failures,
                        permission_enforcement=PERMISSION_ENFORCEMENT,
                        agy_search_event_shape=AGY_SEARCH_EVENT_SHAPE,
+                       gemini_processes='not_launched' if not gemini_processes_allowed() else 'allowed',
                        note='Existing date/source/prompt_family keys are never re-run or appended.', alert=alert)
         save_json(week / 'summary.json', summary)
         print(json.dumps(summary, ensure_ascii=False, indent=2))

@@ -2,8 +2,10 @@
 
 SOP and history fixtures are synthetic and live only in the test harness.
 Production runner paths stay pointed at the local paseo-daily files.
-Gemini stream fixtures are fabricated. They are not real agy output.
-The search tool name is UNVERIFIED; success fixtures patch a synthetic name.
+Gemini fixtures are fabricated, or sanitized from redacted Tech sample
+HAF-20261029-6560. They are not a live run of this candidate.
+The sample names search_web. Permission enforcement stays BLOCKED, so
+observe must not launch agy or probe its version.
 """
 import contextlib
 import csv
@@ -22,6 +24,9 @@ from unittest.mock import patch
 spec = importlib.util.spec_from_file_location('runner', Path(__file__).with_name('geo-offsite-weekly.py'))
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
+
+if os.environ.get('KANBAN_TMP'):
+    os.makedirs(os.environ['KANBAN_TMP'], exist_ok=True)
 
 # Captured before setUp redirects the history path at a synthetic file.
 PRODUCTION_HISTORY = m.HISTORY
@@ -45,6 +50,37 @@ SYNTHETIC_SOP = (
 )
 SYNTHETIC_SEARCH_TOOL = 'synthetic_web_search'
 MONITORED = ('mirai-shigoto.com', '未来の仕事', 'AIOIS-10')
+# Sanitized from Tech HAF-20261029-6560. Not a live run of this candidate.
+# Question text, the real answer, tool parameters, and other fields stay removed.
+# The DONE search_web object has no tool_info because the supplied sample omitted it.
+# That is not a claim the original stream lacked the field. "…" marks redacted tool names.
+# The response and usage integers below are dummy substitutes, not measured values.
+REDACTED_SUCCESS_STREAM = (
+    '{"event":"init","init":{"model":"gemini-4-argon-high","tools":["…","search_web","…"]}}\n'
+    '{"event":"step_update","step_update":{"step_index":2,"state":"ACTIVE","step_type":"tool","tool_name":"search_web"}}\n'
+    '{"event":"step_update","step_update":{"step_index":2,"state":"DONE","step_type":"tool","tool_name":"search_web","duration_seconds":4.001473}}\n'
+    '{"event":"step_update","step_update":{"step_index":3,"state":"DONE","step_type":"agent_response","duration_seconds":18.287365}}\n'
+    '{"event":"result","result":{"status":"SUCCESS","response":"ダミーの非空回答です。","duration_seconds":55.123937,"num_turns":1,"usage":{"input_tokens":111,"output_tokens":222,"thinking_tokens":333,"cache_read_tokens":444,"total_tokens":1110}}}\n'
+)
+# Supplied 80-second excerpt. Init and other fields were not in the paste.
+# Response was empty. Usage integers are dummy substitutes.
+REDACTED_PARTIAL_STREAM = (
+    '{"event":"step_update","step_update":{"step_index":2,"state":"DONE","step_type":"tool","tool_name":"search_web"}}\n'
+    '{"event":"step_update","step_update":{"step_index":3,"state":"DONE","step_type":"tool","tool_name":"search_web"}}\n'
+    '{"event":"step_update","step_update":{"step_index":5,"state":"DONE","step_type":"tool","tool_name":"search_web"}}\n'
+    '{"event":"step_update","step_update":{"step_index":6,"state":"ACTIVE","step_type":"tool","tool_name":"search_web"}}\n'
+    '{"event":"result","result":{"status":"SUCCESS","response":"","duration_seconds":76.435474,"num_turns":1,"usage":{"input_tokens":11,"output_tokens":22,"thinking_tokens":33,"cache_read_tokens":44,"total_tokens":110}}}\n'
+)
+PARTIAL_PRINT_TIMEOUT_STDERR = 'print timeout after 1m20s with turn in progress; returning partial output\n'
+DUMMY_ANSWER = 'ダミーの非空回答です。'
+
+
+def jsonl_events(text):
+    return [json.loads(line) for line in text.splitlines() if line.strip()]
+
+
+def jsonl_stream(events):
+    return '\n'.join(json.dumps(event, ensure_ascii=False) for event in events) + '\n'
 
 
 def synthetic_history_rows():
@@ -80,7 +116,7 @@ def write_history(path, rows):
 
 
 def agy_event_stream(response='回答です。', tool=SYNTHETIC_SEARCH_TOOL, status='SUCCESS',
-                     model='gemini-3.8-flash-medium', permission_mode='request-review',
+                     model='gemini-4-argon-high', permission_mode='request-review',
                      tool_error=None, include_tool=True, include_result=True,
                      tool_state='DONE', extra=None, text_delta=None):
     """Fabricated stream-json. Shape follows the public headless document; tool name is synthetic."""
@@ -320,9 +356,10 @@ class RunnerTests(unittest.TestCase):
     def test_gemini_is_not_a_not_run_source(self):
         self.assertNotIn('gemini', m.REASONS)
         self.assertEqual(m.PERMISSION_ENFORCEMENT, 'BLOCKED')
-        self.assertEqual(m.AGY_SEARCH_EVENT_SHAPE, 'UNVERIFIED')
-        self.assertEqual(m.AGY_SEARCH_TOOL_NAMES, frozenset())
-        self.assertEqual(m.AGY_MODEL, 'gemini-3.8-flash-medium')
+        self.assertFalse(m.gemini_processes_allowed())
+        self.assertEqual(m.AGY_SEARCH_EVENT_SHAPE, 'REDACTED_SAMPLE_HAF-20261029-6560')
+        self.assertEqual(m.AGY_SEARCH_TOOL_NAMES, frozenset({'search_web'}))
+        self.assertEqual(m.AGY_MODEL, 'gemini-4-argon-high')
 
     def test_gemini_command_is_agy_model_without_skip_permissions(self):
         with tempfile.TemporaryDirectory(dir=os.environ['KANBAN_TMP']) as work:
@@ -331,7 +368,7 @@ class RunnerTests(unittest.TestCase):
             argv = m.command('gemini', question, settings)
         self.assertEqual(argv[0], 'agy')
         self.assertNotIn('gemini', argv)
-        self.assertEqual(argv[argv.index('--model') + 1], 'gemini-3.8-flash-medium')
+        self.assertEqual(argv[argv.index('--model') + 1], 'gemini-4-argon-high')
         self.assertEqual(argv[argv.index('--output-format') + 1], 'stream-json')
         self.assertEqual(argv[argv.index('--settings') + 1], str(settings))
         self.assertNotIn('--dangerously-skip-permissions', argv)
@@ -377,7 +414,7 @@ class RunnerTests(unittest.TestCase):
             self.assertIn('always-proceed', skipped[3])
             wrong_model = m.parse('gemini', agy_event_stream(model='other-model'))
             self.assertIn('unexpected agy model', wrong_model[3])
-        # Empty production allowlist: a guessed name is not a successful search.
+        # Only search_web is confirmed. A guessed name is not a successful search.
         for name in ('web_search', 'google_search', 'search', 'WebSearch', 'read_url', SYNTHETIC_SEARCH_TOOL):
             parsed = m.parse('gemini', agy_event_stream(tool=name, response='最終回答'))
             self.assertIn('disallowed', parsed[3], name)
@@ -399,63 +436,22 @@ class RunnerTests(unittest.TestCase):
         trailing = agy_event_stream() + json.dumps({'event': 'step_update', 'step_update': {'state': 'DONE', 'step_type': 'checkpoint'}}) + '\n'
         self.assertIn('incomplete', m.parse('gemini', trailing)[3])
 
-    def _observe_gemini(self, week, stream, code=0, execute_problem='', stderr='permission notice\n'):
-        def fake_execute(cmd, cwd, env, raw, timeout=300, stdout_path=None):
-            self.assertEqual(cmd[0], 'agy')
-            self.assertIn('--settings', cmd)
-            target = stdout_path if stdout_path is not None else raw
-            Path(target).write_text(stream)
-            if stdout_path is not None:
-                Path(raw).write_text(stderr)
-            return code, execute_problem
-        def fake_run(cmd, **kwargs):
-            self.assertEqual(cmd[:2], ['agy', '--version'])
-            return SimpleNamespace(stdout='agy 1.4.10\n', stderr='')
-        with patch.object(m, 'execute', side_effect=fake_execute), patch.object(m.subprocess, 'run', side_effect=fake_run), \
-                patch.object(m, 'AGY_SEARCH_TOOL_NAMES', frozenset({SYNTHETIC_SEARCH_TOOL})):
-            return m.observe('gemini', 1, '2026-10-26', week, week)
-
-    def test_gemini_observe_uses_agy_version_and_final_answer_only(self):
-        with tempfile.TemporaryDirectory(dir=os.environ['KANBAN_TMP']) as work:
-            week = Path(work)
-            (week/'raw').mkdir()
-            stream = agy_event_stream(response='本文に https://mirai-shigoto.com/a と未来の仕事がある。')
-            row = self._observe_gemini(week, stream)
-            self.assertEqual(row['mentioned'], 'YES')
-            self.assertEqual(row['mode'], 'CLI live web search')
-            self.assertIn('https://mirai-shigoto.com/a', row['cited_url'])
-            self.assertNotIn('example.test', row['cited_url'])
-            self.assertNotIn('example.test', row['evidence'])
-            meta = json.loads((week/'gemini-1.meta.json').read_text())
-            self.assertEqual(meta['cli_version'], 'agy 1.4.10')
-            self.assertEqual(meta['command'][0], 'agy')
-            self.assertEqual(meta['search_calls'], 1)
-            self.assertEqual(meta['permission_enforcement'], 'BLOCKED')
-            self.assertEqual(meta['agy_search_event_shape'], 'UNVERIFIED')
-            self.assertEqual(meta['model'], 'gemini-3.8-flash-medium')
-            self.assertTrue(str(meta['command'][meta['command'].index('--settings') + 1]).endswith('agy-settings.json'))
-            self.assertNotIn('--dangerously-skip-permissions', meta['command'])
-            for term in MONITORED:
-                self.assertNotIn(term, ' '.join(meta['command']))
-
     def test_gemini_empty_success_timeout_and_malformed_are_errors(self):
+        """These outcomes stay ERROR. While the gate is BLOCKED, observe never reaches them."""
         cases = [
-            (agy_event_stream(response=''), 0, '', 'empty final answer'),
-            (agy_event_stream(response='回答です。'), 124, 'timeout after 300 seconds; process group killed', 'process group killed'),
-            (agy_event_stream(response='回答です。'), 2, '', 'nonzero exit'),
-            ('{', 0, '', 'malformed'),
-            (agy_event_stream(include_tool=False, response='検索という文字だけ'), 0, '', 'no observed live search'),
+            (agy_event_stream(response=''), 0, '', '', 'empty final answer'),
+            (agy_event_stream(response='回答です。'), 124, 'timeout after 300 seconds; process group killed', '', 'process group killed'),
+            (agy_event_stream(response='回答です。'), 2, '', '', 'nonzero exit'),
+            ('{', 0, '', '', 'malformed'),
+            (agy_event_stream(include_tool=False, response='検索という文字だけ'), 0, '', '', 'no observed live search'),
         ]
-        for stream, code, execute_problem, expected in cases:
-            with self.subTest(expected=expected):
-                with tempfile.TemporaryDirectory(dir=os.environ['KANBAN_TMP']) as work:
-                    week = Path(work)
-                    (week/'raw').mkdir()
-                    row = self._observe_gemini(week, stream, code=code, execute_problem=execute_problem)
-                    self.assertEqual(row['mentioned'], 'ERROR')
-                    self.assertEqual(row['mode'], 'CLI live web search')
-                    self.assertIn(expected, row['notes'])
-                    self.assertNotEqual(row['mentioned'], 'NOT_RUN')
+        with patch.object(m, 'AGY_SEARCH_TOOL_NAMES', frozenset({SYNTHETIC_SEARCH_TOOL})):
+            for stream, code, execute_problem, stderr, expected in cases:
+                with self.subTest(expected=expected):
+                    answer, _, _, problem = m.interpret_gemini_run(code, execute_problem, stream, stderr)
+                    self.assertIn(expected, problem)
+                    self.assertEqual(m.mention_status('gemini', problem, answer), 'ERROR')
+                    self.assertNotEqual(m.mention_status('gemini', problem, answer), 'NOT_RUN')
 
     def test_gemini_claim_is_not_retried(self):
         with tempfile.TemporaryDirectory(dir=os.environ['KANBAN_TMP']) as work:
@@ -501,7 +497,11 @@ class RunnerTests(unittest.TestCase):
             for row in rows:
                 by_source.setdefault(row['source'], []).append(row)
             self.assertEqual(len(by_source['gemini']), 4)
-            self.assertTrue(all(row['mentioned'] == 'NO' and row['mode'] == 'CLI live web search' for row in by_source['gemini']))
+            self.assertTrue(all(
+                row['mentioned'] == 'ERROR' and row['mode'] == 'CLI live web search'
+                and 'BLOCKED' in row['notes'] and 'not launched' in row['notes']
+                for row in by_source['gemini']))
+            self.assertTrue(all(row['mentioned'] != 'NOT_RUN' for row in by_source['gemini']))
             self.assertTrue(all(row['mentioned'] == 'NO' for row in by_source['claude'] + by_source['codex']))
             self.assertTrue(all(row['mentioned'] == 'NOT_RUN' for row in by_source['perplexity'] + by_source['google_ai_overview']))
             self.assertEqual(summary['mentions']['gemini'], 0)
@@ -509,16 +509,20 @@ class RunnerTests(unittest.TestCase):
             self.assertEqual(summary['mentions']['codex'], 0)
             self.assertEqual(summary['appended'], 20)
             self.assertEqual(summary['permission_enforcement'], 'BLOCKED')
-            self.assertEqual(summary['agy_search_event_shape'], 'UNVERIFIED')
-            self.assertEqual(sum(cmd[0] == 'agy' for cmd in fake_execute.calls), 4)
+            self.assertEqual(summary['agy_search_event_shape'], 'REDACTED_SAMPLE_HAF-20261029-6560')
+            self.assertEqual(summary['gemini_processes'], 'not_launched')
+            self.assertEqual(sum(cmd[0] == 'agy' for cmd in fake_execute.calls), 0)
             self.assertTrue(all(cmd[0] != 'gemini' for cmd in fake_run.calls))
-            self.assertEqual(sum(cmd[:2] == ['agy', '--version'] for cmd in fake_run.calls), 4)
+            self.assertEqual(sum(cmd[:2] == ['agy', '--version'] for cmd in fake_run.calls), 0)
             self.assertFalse(any(cmd[0] in ('perplexity', 'google_ai_overview') for cmd in fake_execute.calls))
-            historical = [r for r in m.read_rows(root/'geo-log.csv') if r['run_date'] == '2026-10-19' and r['source'] == 'gemini']
-            self.assertEqual(len(historical), 4)
-            self.assertTrue(all(row['mentioned'] == 'NOT_RUN' for row in historical))
+            historical = [r for r in m.read_rows(root/'geo-log.csv') if r['run_date'] == '2026-10-19']
+            self.assertEqual(historical, synthetic_history_rows())
+            gemini_history = [r for r in historical if r['source'] == 'gemini']
+            self.assertEqual(len(gemini_history), 4)
+            self.assertTrue(all(row['mentioned'] == 'NOT_RUN' for row in gemini_history))
             for number in range(1, 5):
-                self.assertTrue((root/'2026-11-02'/'raw'/f'gemini-{number}.txt').exists())
+                self.assertFalse((root/'2026-11-02'/'raw'/f'gemini-{number}.txt').exists())
+                self.assertFalse((root/'2026-11-02'/'raw'/f'gemini-{number}.txt.stderr').exists())
                 self.assertTrue((root/'2026-11-02'/f'gemini-{number}.meta.json').exists())
             # Same date does not call agy again.
             fake_execute.calls.clear()
@@ -561,8 +565,213 @@ class RunnerTests(unittest.TestCase):
             with patch.object(m, 'AGY_SEARCH_TOOL_NAMES', frozenset({SYNTHETIC_SEARCH_TOOL})):
                 answer, _, searches, problem = m.parse('gemini', (root/'stdout.txt').read_text())
             self.assertEqual((answer, searches, problem), ('標準出力の回答', 1, ''))
-            merged = (root/'stdout.txt').read_text() + (root/'stderr.txt').read_text()
+            notice = (root/'stderr.txt').read_text()
+            self.assertIn('soft-denied', notice)
+            self.assertFalse(m.gemini_partial_print_timeout(notice))
+            self.assertEqual(m.gemini_outcome_problem(0, '', '', notice), '')
+            merged = (root/'stdout.txt').read_text() + notice
             self.assertTrue(m.parse('gemini', merged)[3])
+
+    def test_redacted_success_sample_accepts_minimal_done_without_tool_info(self):
+        events = jsonl_events(REDACTED_SUCCESS_STREAM)
+        self.assertEqual([event['event'] for event in events],
+                         ['init', 'step_update', 'step_update', 'step_update', 'result'])
+        self.assertEqual(events[0]['init']['model'], 'gemini-4-argon-high')
+        self.assertIn('search_web', events[0]['init']['tools'])
+        self.assertNotIn('permission_mode', events[0]['init'])
+        done = events[2]['step_update']
+        self.assertEqual((done['state'], done['step_type'], done['tool_name']),
+                         ('DONE', 'tool', 'search_web'))
+        self.assertNotIn('tool_info', done)
+        answer, usage, searches, problem = m.parse('gemini', REDACTED_SUCCESS_STREAM)
+        self.assertEqual((answer, searches, problem), (DUMMY_ANSWER, 1, ''))
+        self.assertEqual(usage['total_tokens'], 1110)
+        for key in ('input_tokens', 'output_tokens', 'thinking_tokens', 'cache_read_tokens', 'total_tokens'):
+            self.assertIsInstance(usage[key], int)
+        self.assertNotIn('search_web', answer)
+        self.assertNotIn('example.test', answer)
+        self.assertEqual(m.mention_status('gemini', problem, answer), 'NO')
+        snippet = 'snippet only https://example.test/only-in-tool and https://mirai-shigoto.com/hidden'
+        events[2]['step_update']['tool_info'] = {'name': 'search_web', 'output': snippet}
+        answer, _, searches, problem = m.parse('gemini', jsonl_stream(events))
+        self.assertEqual((answer, searches, problem), (DUMMY_ANSWER, 1, ''))
+        self.assertNotIn('example.test', answer)
+        self.assertNotIn('mirai-shigoto.com', answer)
+        self.assertEqual(m.PERMISSION_ENFORCEMENT, 'BLOCKED')
+        self.assertFalse(m.gemini_processes_allowed())
+
+    def test_pending_unknown_tools_malformed_tool_info_and_model_mismatch(self):
+        parsed = m.parse('gemini', REDACTED_PARTIAL_STREAM)
+        self.assertNotEqual(parsed[3], '')
+        self.assertEqual(parsed[2], 0)
+        init = jsonl_events(REDACTED_SUCCESS_STREAM)[0]
+        partial = jsonl_events(REDACTED_PARTIAL_STREAM)
+        partial[-1]['result']['response'] = '途中の非空テキスト'
+        pending = m.parse('gemini', jsonl_stream([init] + partial))
+        self.assertIn('incomplete', pending[3])
+        self.assertEqual(m.mention_status('gemini', pending[3], '途中の非空テキスト'), 'ERROR')
+        for name in ('command', 'mcp', 'read_file', 'write_file', 'run_command', 'execute_url'):
+            with self.subTest(tool=name):
+                bad = jsonl_events(REDACTED_SUCCESS_STREAM)
+                bad[1]['step_update']['tool_name'] = name
+                bad[2]['step_update']['tool_name'] = name
+                result = m.parse('gemini', jsonl_stream(bad))
+                self.assertIn('disallowed', result[3])
+                self.assertIn(name, result[3])
+                self.assertEqual(result[2], 0)
+        events = jsonl_events(REDACTED_SUCCESS_STREAM)
+        events[2]['step_update']['tool_info'] = 'not-an-object'
+        self.assertIn('malformed', m.parse('gemini', jsonl_stream(events))[3])
+        events = jsonl_events(REDACTED_SUCCESS_STREAM)
+        events[2]['step_update']['tool_info'] = {'name': 'other'}
+        self.assertIn('malformed', m.parse('gemini', jsonl_stream(events))[3])
+        events = jsonl_events(REDACTED_SUCCESS_STREAM)
+        events[2]['step_update']['tool_info'] = {'output': 'snippet only'}
+        self.assertIn('malformed', m.parse('gemini', jsonl_stream(events))[3])
+        events = jsonl_events(REDACTED_SUCCESS_STREAM)
+        events[2]['step_update']['tool_info'] = None
+        self.assertIn('malformed', m.parse('gemini', jsonl_stream(events))[3])
+        events = jsonl_events(REDACTED_SUCCESS_STREAM)
+        events[2]['step_update']['tool_info'] = {'name': 'search_web', 'error': {'message': 'denied'}}
+        failed = m.parse('gemini', jsonl_stream(events))
+        self.assertIn('failed agy tool search_web', failed[3])
+        self.assertEqual(failed[2], 0)
+        for model in ('gemini-3.8-flash-medium', 'other-model'):
+            events = jsonl_events(REDACTED_SUCCESS_STREAM)
+            events[0]['init']['model'] = model
+            self.assertIn('unexpected agy model', m.parse('gemini', jsonl_stream(events))[3], model)
+        self.assertIn('incomplete', m.parse('gemini', jsonl_stream(jsonl_events(REDACTED_SUCCESS_STREAM)[:-1]))[3])
+        events = jsonl_events(REDACTED_SUCCESS_STREAM)
+        del events[-1]['result']['response']
+        self.assertIn('malformed', m.parse('gemini', jsonl_stream(events))[3])
+        events = jsonl_events(REDACTED_SUCCESS_STREAM)
+        events[-1]['result']['response'] = ''
+        empty = m.parse('gemini', jsonl_stream(events))
+        self.assertEqual(empty[0], '')
+        self.assertIn('empty final answer', empty[3])
+        self.assertIn('malformed', m.parse('gemini', REDACTED_SUCCESS_STREAM + '{not-json\n')[3])
+
+    def test_print_timeout_partial_output_missing_answer_and_process_exit(self):
+        answer, _, searches, problem = m.interpret_gemini_run(0, '', REDACTED_SUCCESS_STREAM, '')
+        self.assertEqual((answer, searches, problem), (DUMMY_ANSWER, 1, ''))
+        answer, _, searches, problem = m.interpret_gemini_run(
+            0, '', REDACTED_SUCCESS_STREAM, PARTIAL_PRINT_TIMEOUT_STDERR)
+        self.assertEqual(answer, DUMMY_ANSWER)
+        self.assertEqual(searches, 1)
+        self.assertIn('print timeout with turn in progress; returning partial output', problem)
+        self.assertEqual(m.mention_status('gemini', problem, answer), 'ERROR')
+        self.assertTrue(m.gemini_partial_print_timeout(
+            'print timeout after 80s with turn in progress; returning partial output'))
+        events = jsonl_events(REDACTED_SUCCESS_STREAM)
+        events[-1]['result']['response'] = ''
+        answer, _, _, problem = m.interpret_gemini_run(0, '', jsonl_stream(events), '')
+        self.assertEqual(answer, '')
+        self.assertIn('empty final answer', problem)
+        self.assertEqual(m.mention_status('gemini', problem, answer), 'ERROR')
+        answer, _, _, problem = m.interpret_gemini_run(
+            0, '', REDACTED_PARTIAL_STREAM, PARTIAL_PRINT_TIMEOUT_STDERR)
+        self.assertIn('print timeout', problem)
+        self.assertEqual(m.mention_status('gemini', problem, answer), 'ERROR')
+        answer, _, _, problem = m.interpret_gemini_run(2, '', REDACTED_SUCCESS_STREAM, '')
+        self.assertIn('nonzero exit 2', problem)
+        self.assertEqual(m.mention_status('gemini', problem, answer), 'ERROR')
+        with tempfile.TemporaryDirectory(dir=os.environ['KANBAN_TMP']) as work:
+            root = Path(work)
+            stdout = root / 'stdout.txt'
+            stderr = root / 'stderr.txt'
+            stdout.write_text(REDACTED_SUCCESS_STREAM)
+            stderr.write_text('noise\n' + PARTIAL_PRINT_TIMEOUT_STDERR)
+            answer, _, _, problem = m.classify_gemini_files(0, '', stdout, stderr)
+            self.assertEqual(answer, DUMMY_ANSWER)
+            self.assertIn('print timeout', problem)
+            self.assertEqual(m.mention_status('gemini', problem, answer), 'ERROR')
+            stderr.write_text('soft-denied command(*) notice\n')
+            answer, _, searches, problem = m.classify_gemini_files(0, '', stdout, stderr)
+            self.assertEqual((answer, searches, problem), (DUMMY_ANSWER, 1, ''))
+
+    def test_blocked_gate_invokes_neither_agy_nor_version(self):
+        self.assertEqual(m.PERMISSION_ENFORCEMENT, 'BLOCKED')
+        self.assertFalse(m.gemini_processes_allowed())
+        planted = REDACTED_SUCCESS_STREAM.replace(
+            DUMMY_ANSWER, '本文に https://mirai-shigoto.com/a と未来の仕事がある。')
+        with tempfile.TemporaryDirectory(dir=os.environ['KANBAN_TMP']) as work:
+            week = Path(work)
+            (week / 'raw').mkdir()
+            (week / 'raw' / 'gemini-1.txt').write_text(planted)
+            with patch.object(m, 'execute', side_effect=AssertionError('agy launched')) as execute, \
+                    patch.object(m.subprocess, 'run', side_effect=AssertionError('version probed')) as version, \
+                    patch.object(m, 'classify_gemini_files', side_effect=AssertionError('classified')) as classify:
+                rows = []
+                for number in range(1, 5):
+                    row = m.observe('gemini', number, '2026-10-26', week, week)
+                    rows.append(row)
+                    self.assertEqual(row['query_or_report'], m.QUESTIONS[number - 1][1])
+                    self.assertEqual(row['mentioned'], 'ERROR')
+                    self.assertNotEqual(row['mentioned'], 'NOT_RUN')
+                    self.assertNotEqual(row['mentioned'], 'YES')
+                    self.assertEqual(row['mode'], 'CLI live web search')
+                    self.assertEqual(row['cited_url'], '')
+                    self.assertEqual(row['evidence'], '')
+                    self.assertIn('BLOCKED', row['notes'])
+                    self.assertIn('not launched', row['notes'])
+                    self.assertIn('not probed', row['notes'])
+                    self.assertIn('not been verified', row['notes'])
+                    meta = json.loads((week / f'gemini-{number}.meta.json').read_text())
+                    self.assertFalse(meta['launched'])
+                    self.assertIsNone(meta['cli_version'])
+                    self.assertIsNone(meta['exit_code'])
+                    self.assertEqual(meta['elapsed_seconds'], 0)
+                    self.assertEqual(meta['search_calls'], 0)
+                    self.assertEqual(meta['answer'], '')
+                    self.assertEqual(meta['permission_enforcement'], 'BLOCKED')
+                    self.assertEqual(meta['agy_search_event_shape'], 'REDACTED_SAMPLE_HAF-20261029-6560')
+                    self.assertEqual(meta['model'], 'gemini-4-argon-high')
+                    self.assertEqual(meta['command'][0], 'agy')
+                    self.assertEqual(meta['command'][meta['command'].index('--model') + 1], 'gemini-4-argon-high')
+                    self.assertNotIn('--dangerously-skip-permissions', meta['command'])
+                    self.assertEqual(meta['agy_settings']['permissions']['allow'], [])
+                    self.assertIn('command(*)', meta['agy_settings']['permissions']['deny'])
+                    for term in MONITORED:
+                        self.assertNotIn(term, ' '.join(meta['command']))
+                execute.assert_not_called()
+                version.assert_not_called()
+                classify.assert_not_called()
+                self.assertIn('https://mirai-shigoto.com/a', (week / 'raw' / 'gemini-1.txt').read_text())
+            with patch.object(m, 'execute', side_effect=AssertionError('retry launch')) as execute, \
+                    patch.object(m.subprocess, 'run', side_effect=AssertionError('retry version')) as version:
+                again = m.observe('gemini', 1, '2026-10-26', week, week)
+            self.assertEqual(again, rows[0])
+            execute.assert_not_called()
+            version.assert_not_called()
+        self.assertEqual(m.PERMISSION_ENFORCEMENT, 'BLOCKED')
+        self.assertFalse(m.gemini_processes_allowed())
+
+    def test_gate_ignores_env_file_and_parser_evidence(self):
+        self.assertFalse(m.gemini_processes_allowed())
+        key = 'PERMISSION_ENFORCEMENT'
+        previous = os.environ.get(key)
+        os.environ[key] = 'VERIFIED'
+        try:
+            self.assertEqual(m.PERMISSION_ENFORCEMENT, 'BLOCKED')
+            self.assertFalse(m.gemini_processes_allowed())
+            with tempfile.TemporaryDirectory(dir=os.environ['KANBAN_TMP']) as work:
+                path = Path(work) / 'agy-settings.json'
+                path.write_text('{"permissions":{"allow":["command(*)"]}}\n')
+                self.assertTrue(path.exists())
+                self.assertFalse(m.gemini_processes_allowed())
+            answer, _, searches, problem = m.parse('gemini', REDACTED_SUCCESS_STREAM)
+            self.assertEqual(problem, '')
+            self.assertEqual(searches, 1)
+            self.assertEqual(answer, DUMMY_ANSWER)
+            self.assertEqual(m.PERMISSION_ENFORCEMENT, 'BLOCKED')
+            self.assertFalse(m.gemini_processes_allowed())
+            self.assertEqual(m.AGY_SEARCH_TOOL_NAMES, frozenset({'search_web'}))
+            self.assertEqual(m.agy_settings_document()['permissions']['allow'], [])
+        finally:
+            if previous is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = previous
 
 
 if __name__ == '__main__':

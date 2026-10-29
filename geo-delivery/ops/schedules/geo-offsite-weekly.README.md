@@ -19,42 +19,66 @@ sequential; at most two families overlap (`max_workers=2`). Questions contain no
 monitored site/brand hints.
 Claude only has WebSearch/WebFetch. Codex disables shell, ignores user config and
 rules, uses ephemeral/read-only mode and receives no jobs repository content.
-Gemini is the local `agy` binary with explicit model `gemini-3.8-flash-medium` and
-`--output-format stream-json`. Version evidence is `agy --version`, not `gemini`.
-The prompt is the same system instruction plus the question. It does not name the
-monitored site. Each question has a 300-second process-group timeout.
-Claude and Codex still merge stdout/stderr into one raw file. Gemini writes stdout
-NDJSON to `raw/gemini-N.txt` and stderr to `raw/gemini-N.txt.stderr` so a permission
-notice cannot break the event stream. There are no retries.
+Gemini is the local `agy` binary with explicit model `gemini-4-argon-high` and
+`--output-format stream-json`. The redacted Tech sample HAF-20261029-6560 names
+the web-search tool `search_web`. That sample is not a live run of this candidate.
+While `PERMISSION_ENFORCEMENT` is BLOCKED the runner does not launch `agy` and does
+not probe `agy --version`. The prompt is the same system instruction plus the
+question. It does not name the monitored site. Any process the runner does start
+still has a 300-second process-group timeout. There are no retries.
 
-A Gemini row is successful only when all of these hold: exit 0, exactly one terminal
-`result` event with status `SUCCESS`, a non-empty `result.response`, and at least one
-successful web-search tool step. An observed pattern of exit 0 plus `SUCCESS` plus an
-empty response (including an about-80-second empty print) is ERROR. Citations and
-mention matching use `result.response` only, never tool output, search snippets, or
-`text_delta`. Missing search, malformed or incomplete events, disallowed or failed
-tools, unexpected models, `permission_mode=always-proceed`, nonzero exit, and timeouts
-are ERROR.
+Claude and Codex still merge stdout/stderr into one raw file. A Gemini process, if
+a later change is allowed to start one, writes stdout NDJSON to `raw/gemini-N.txt`
+and stderr to `raw/gemini-N.txt.stderr`. This candidate starts no Gemini process,
+so those files are absent. Do not invent them.
 
-Search-tool identity is **UNVERIFIED**. Official headless docs show `step_type=tool`
-with `tool_name` and `tool_info`, and they show `result.response`, but they do not
-name the web-search tool. No redacted empirical agy event was supplied.
-`AGY_SEARCH_TOOL_NAMES` is empty, so any real tool step is rejected. Do not guess a
-name. Synthetic tests patch a fake name; that is not evidence about real agy.
+A Gemini measurement can succeed only when the gate is open and all of these hold:
+exit 0, no stderr `print timeout ... turn in progress; returning partial output`,
+exactly one terminal `result` with status `SUCCESS`, a non-empty `result.response`,
+at least one `search_web` step that ends DONE, and no tool step left ACTIVE.
+Empty SUCCESS is ERROR even with no stderr. A nonempty partial response is still
+ERROR when that print-timeout stderr is present. Exit 0, SUCCESS, or a search count
+alone is not success. Pending tools, a missing terminal result, malformed events,
+malformed `tool_info` when that object is present, unknown tools (command, MCP,
+file, and anything other than `search_web`), unexpected models,
+`permission_mode=always-proceed`, nonzero exit, and process-group timeouts are
+ERROR. There is no automatic retry.
 
-Permission enforcement is **BLOCKED**. `permissions.md` and `cli/headless.md` do not
-document `agy --settings`. They put allow/deny/ask rules in the global file
-`~/.gemini/antigravity-cli/settings.json`, which this runner must not modify. They
-say workspace file reads and writes are auto-allowed, headless Ask actions are
-soft-denied with exit 0, and `--dangerously-skip-permissions` is the skip switch.
-This runner does not pass that switch. It does write a per-question settings document
-and passes it as `agy --settings` because that is the requested per-run hook, with
-deny rules `command(*)`, `unsandboxed(*)`, `read_file(*)`, `write_file(*)`, `mcp(*)`,
-and `execute_url(*)`, and an empty allow list. That is not a claim that the installed
-CLI loads the flag, that deny overrides workspace auto-allow, or that a search tool
-is still permitted. Prompt text is not a control. Event inspection after the fact is
-not prevention. Do not describe a Gemini row as a safe measurement while this gate
-is BLOCKED.
+The redacted success sample's DONE `search_web` step has no `tool_info`. The parser
+accepts that minimal shape. It does not treat the omission as Tech's claim that the
+original stream lacked the field. If `tool_info` is present it must be an object
+whose `name` matches the tool and which has no error. Citations and mention matching
+use `result.response` only, never tool output, search snippets, `text_delta`, or
+names listed only in `init.tools`.
+
+`AGY_SEARCH_TOOL_NAMES` is exactly `search_web`, from that redacted sample.
+`AGY_SEARCH_EVENT_SHAPE` is `REDACTED_SAMPLE_HAF-20261029-6560`. Offline fixtures
+replace the removed answer and the `<数字>` usage placeholders with a dummy
+sentence and integers. They are not a live CLI verification. Do not describe the
+sample as acceptance of this candidate.
+
+Permission enforcement is **BLOCKED**. The runner fail-closes before any Gemini
+process, including a version probe, and writes `mentioned=ERROR`. It does not write
+NOT_RUN: Gemini is a configured source, but the measurement did not run. It does
+not write a success. No code path sets the gate to verified because a user setting
+changed, a settings file exists, an environment variable is set, or a parser
+accepted an event. The open token is not assigned in this source file.
+
+`permissions.md` and `cli/headless.md` do not document `agy --settings` and put
+allow/deny/ask rules in `~/.gemini/antigravity-cli/settings.json`, which this
+runner must not modify. They say workspace file reads and writes are auto-allowed,
+headless Ask actions are soft-denied with exit 0, and
+`--dangerously-skip-permissions` is the skip switch. This runner does not pass
+that switch. Local `agy` 1.4.10 `--help` is reported to list per-session
+`--settings`. Official docs may differ. Help text does not prove the flag is
+loaded, that deny rules override workspace auto-allow, or that `search_web` still
+runs under those denies. The runner still records a per-question settings document
+with deny rules `command(*)`, `unsandboxed(*)`, `read_file(*)`, `write_file(*)`,
+`mcp(*)`, and `execute_url(*)`, and an empty allow list. It records the argv it
+refused to execute. Prompt text is not a control. Event inspection after the fact
+is not prevention. The environment owner has to establish actual prevention before
+a separate Tech-approved change opens the gate. Do not describe a Gemini row as a
+safe measurement while this gate is BLOCKED.
 
 Only final answers are matched for `mirai-shigoto.com`, `未来の仕事`, or `AIOIS-10`.
 Perplexity is NOT_RUN (需付费 API). Google AI Overview is NOT_RUN (无接口). Those two
@@ -68,15 +92,18 @@ NOT_RUN. A fresh date still has 20 rows: 12 live rows (Claude, Codex, Gemini) an
 - Results root: `~/AgenticCoder/paseo-daily/reports/geo-offsite/`.
 - `geo-log.csv`: append-only, exact trial 13-column order. Initial 20 historical rows
   are copied byte for byte. Keys are `(run_date, source, prompt_family)`.
-- Live raw files on a fresh date: `YYYY-MM-DD/raw/{claude,codex,gemini}-[1-4].txt`
-  plus `gemini-[1-4].txt.stderr`.
+- Live raw files on a fresh date while Gemini is blocked: `YYYY-MM-DD/raw/{claude,codex}-[1-4].txt`.
+  Gemini raw stdout and stderr are absent because `agy` is not started. Do not invent them.
 - `YYYY-MM-DD/{source}-[1-4].meta.json`: command, CLI version, start JST, monotonic
   elapsed seconds, exit code, usage, final-answer URLs, outcome and row journal.
-  Gemini metadata also stores the per-run settings document, its sha256, model,
-  `permission_enforcement=BLOCKED`, and `agy_search_event_shape=UNVERIFIED`.
+  Gemini metadata stores the per-run settings document, its sha256, model
+  `gemini-4-argon-high`, `launched=false`, null CLI version, null exit, elapsed 0,
+  `permission_enforcement=BLOCKED`, and
+  `agy_search_event_shape=REDACTED_SAMPLE_HAF-20261029-6560`.
   CLI list-price cost telemetry is not a bill; subscription quota is not disclosed.
 - `YYYY-MM-DD/summary.json`: rows, appended count, total, Claude/Codex/Gemini mention
-  counts, failures (ERROR and NOT_RUN), permission gate, and search-shape gate.
+  counts, failures (ERROR and NOT_RUN), permission gate, search-shape gate, and
+  `gemini_processes=not_launched` while the gate is BLOCKED.
 - `status.json`: per-date Claude/Codex status and emitted failure-streak alerts.
   All eight Claude/Codex rows must be ERROR/NOT_RUN for a week to count as failed.
   Gemini does not change that rule. Two consecutive dates seven days apart trigger
@@ -117,7 +144,8 @@ with search, and the 12 excluded-source rows are NOT_RUN. Those 12 include the
 historical Gemini NOT_RUN rows (命令行未登录). This change does not edit them.
 Historical cumulative call durations are Claude 302.304 seconds, ChatGPT 149.158
 seconds; these are not fresh-run timing. The next distinct scheduled date can append
-the next 20 rows, now with Gemini live and Perplexity/Google AI Overview NOT_RUN.
+the next 20 rows. Perplexity and Google AI Overview stay NOT_RUN. Gemini rows on a
+new date are ERROR while the permission gate is BLOCKED; they are not live measurements.
 The leader corrected the 40-row criterion: keep the cumulative table at 20 historical
 rows today and verify eight fresh calls in a separate journal. The isolated command
 already used for that earlier round is:
@@ -135,14 +163,17 @@ verification command was authorized for one round only; do not repeat it.
 
 ## One Gemini acceptance journal
 
-Local Tech owns installation and the single post-install acceptance. Do not run it
-from the weekly schedule, and do not point it at `reports/geo-offsite/geo-log.csv`.
-Use a separate output directory and CSV. Run the runner once. Do not retry, do not
-change the date to manufacture rows, and do not call the feature complete unless
-real agy output shows a confirmed search tool step and a non-empty final response.
-While `AGY_SEARCH_TOOL_NAMES` is empty and `PERMISSION_ENFORCEMENT` is BLOCKED, that
-acceptance cannot succeed; keep the raw stdout, stderr, and metadata for a redacted
-hand-back instead of treating ERROR rows as a measured result.
+Local Tech owns installation and the single post-install acceptance. This change
+does not install `agy`, does not run that acceptance, and does not copy journals
+or make backup copies. Do not run acceptance from the weekly schedule, and do not
+point it at `reports/geo-offsite/geo-log.csv`. While `PERMISSION_ENFORCEMENT` is
+BLOCKED the runner will not start `agy`, so an acceptance run cannot succeed.
+Do not retry, do not change the date to manufacture rows, and do not call the
+feature complete. A later Tech-approved run, after prevention is actually in
+place and the gate is opened in source, uses a separate output directory and CSV,
+once. Real `agy` output on that later run has to show `search_web` ending DONE
+and a non-empty `result.response`, with no print-timeout stderr. ERROR rows are
+not a measured result.
 
 ```sh
 python3 ops/schedules/geo-offsite-weekly.py \
@@ -152,6 +183,29 @@ python3 ops/schedules/geo-offsite-weekly.py \
 ```
 
 Replace `YYYY-MM-DD` with the JST date of that one run. This is not a new schedule.
+Do not run it for this candidate.
+
+## What Tech still has to verify
+
+Offline tests do not verify the control. These items are still open:
+
+1. On the installed `agy` 1.4.10, per-session `--settings` is actually loaded for
+   that process and is not ignored in favor of
+   `~/.gemini/antigravity-cli/settings.json`. Help text that lists the flag is
+   not that proof. Official docs may not mention the flag.
+2. The deny rules block command, unsandboxed execution, `read_file`, `write_file`,
+   MCP, and `execute_url`, including workspace paths the product auto-allows.
+   A prohibited tool must not run.
+3. `search_web` still reaches DONE under that policy. If it does not, the allow
+   rule has to be narrow enough that command, file, MCP, and unsandboxed execution
+   stay denied. This candidate does not guess that allow rule.
+4. A live stream for an unrelated question matches the redacted shape: model
+   `gemini-4-argon-high`, `search_web` ends DONE, and `result.response` is the
+   only answer. Whether `tool_info` appears in the real stream is still unknown.
+5. A real print timeout emits `print timeout ... turn in progress; returning partial output`
+   on stderr and stays ERROR, with the original elapsed time and no second launch.
+6. The environment owner establishes that prevention before any later change sets
+   the source gate to the open token. This candidate does not set it.
 
 ## Stop or resume
 
@@ -178,11 +232,12 @@ default output path stay on the paseo-daily locations. `KANBAN_TMP` must be a
 temporary directory outside the tracked source tree.
 
 `PYTHONDONTWRITEBYTECODE=1 python3 ops/schedules/geo-offsite-weekly.test.py`
-with `KANBAN_TMP` set: 20 offline tests. They cover the original idempotency, lock,
-crash claim, process-group timeout, 13 columns, Claude/Codex parse and alert rules,
-plus Gemini command shape, fail-closed stream parsing, empty SUCCESS, disallowed
-tools, and fresh-date row counts. Passing Gemini parser cases patch a synthetic tool
-name. They are not real agy evidence.
+with `KANBAN_TMP` set. The tests cover the original idempotency, lock, crash claim,
+process-group timeout, 13 columns, four SOP questions, Claude/Codex parse and alert
+rules, plus the redacted `search_web` fixture, print-timeout stderr, and the blocked
+gate. Legacy Claude/Codex, history, lock, and alert meanings stay. The blocked-gate
+test shows `observe` calls neither `agy` nor `agy --version`. Parser cases are not
+a live CLI proof. Do not treat a green run as permission verification.
 AST parsing is the build check for this standalone standard-library Python runner;
 there are no added packages or website changes. No browser is opened.
 
