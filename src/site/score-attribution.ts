@@ -162,6 +162,15 @@ function parseRunSlug(slug: string): { readonly modelSlug: string; readonly runD
 }
 
 /**
+ * True when `slug` has the public run shape `<model-slug>@<YYYY-MM-DD>`.
+ * Does not check that a scoring run exists — `runFromSlug` does that.
+ * Bare model slugs (`opus-5`) and malformed dates are false.
+ */
+export function isDatedRunSlug(slug: string): boolean {
+  return parseRunSlug(slug) !== null;
+}
+
+/**
  * Reverse lookup for run slugs against the known runs. Returns the matching run
  * or null. Unlike `modelIdFromSlug` this cannot be defeated by a model with two
  * runs — that is the whole point of keying on the run.

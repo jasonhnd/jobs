@@ -22,6 +22,7 @@ for (const stall of ['headers', 'body'] as const) for (const fixture of [
   { name: 'sector data', query: '?sector=iryo', path: '/data.sectors.json', deadline: 5_000 },
   { name: 'worktypes data', query: '?worktype=RPK&variant=mediator', path: '/data.worktypes.json', deadline: 5_000 },
   { name: 'worktype job data', query: '?worktype=RPK&variant=mediator&job=156', path: '/data.detail/0156.json', deadline: 5_000 },
+  { name: 'model run data', query: '?model=opus-5@2026-07-26', path: '/data.models_by_model.json', deadline: 5_000 },
   { name: 'font CSS', query: '?page=about', host: 'fonts.googleapis.com', deadline: 8_000 },
   { name: 'font binary', query: '?page=privacy', host: 'fonts.gstatic.com', deadline: 8_000 },
 ]) {
