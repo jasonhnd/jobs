@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import IdPageScript from './_IdPageScript.astro';
+import OccupationScoreCitation from './_OccupationScoreCitation.astro';
 import { CANONICAL_DETAIL_CSS } from '@/lib/canonical/detail';
 import { buildOccupationSummary, renderOccupationSummaryJsonLd, PRO_CHAPTER_LINKS } from '@/views/occupation-summary';
 import { buildOccupationSeo } from '@/views/occupation-seo';
@@ -18,8 +19,9 @@ import type { Rec } from '@/views/occupation-detail';
 interface Props { rec: Rec; related: Rec[]; }
 const { rec, related } = Astro.props;
 const summary = buildOccupationSummary(rec);
+const geoFacts = loadGeoFacts();
 const relatedSummaries = related.map(buildOccupationSummary);
-const seo = buildOrdinaryOccupationSeo(summary, buildOccupationSeo({ nameJa: rec.name_ja, aiRisk: rec.ai_risk, salaryStanding: salaryStanding(loadGeoFacts(), rec.id), workers: rec.workers, aliasesJa: rec.aliases_ja }));
+const seo = buildOrdinaryOccupationSeo(summary, buildOccupationSeo({ nameJa: rec.name_ja, aiRisk: rec.ai_risk, salaryStanding: salaryStanding(geoFacts, rec.id), workers: rec.workers, aliasesJa: rec.aliases_ja }));
 const jsonLd = renderOccupationSummaryJsonLd(summary, { datePublished: '2026-05-30', dateModified: CONTENT_DATE });
 ---
 <BaseLayout title={seo.title} description={seo.description} keywords={seo.keywords} canonical={occupationUrl(rec.id)}
@@ -37,6 +39,7 @@ const jsonLd = renderOccupationSummaryJsonLd(summary, { datePublished: '2026-05-
         <span class="summary-number" data-summary-score={summary.scoreText}>{summary.scoreText}{summary.score !== null && <small>/10</small>}</span>
         {summary.bandWord && <span class="score-band">{summary.bandWord}</span>}
       </div>
+      <OccupationScoreCitation id={rec.id} edition="ordinary" nameJa={summary.nameJa} score={summary.score} scoreText={summary.scoreText} occupationCount={geoFacts.occupationCount} />
       {summary.conclusion && <p class="summary-conclusion">{summary.conclusion}</p>}
       {summary.advice && <p class="summary-advice">{summary.advice}</p>}
       <dl class="summary-stats">

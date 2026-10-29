@@ -1,0 +1,23 @@
+---
+import { occupationScoreCitation } from '@/views/occupation-score-citation';
+import { SCORE_PANEL } from '@/site/score-attribution';
+import { occupationPath } from '@/lib/urls';
+import type { Edition } from '@/site/route-policy';
+
+interface Props {
+  id: number;
+  edition: Edition;
+  nameJa: string;
+  score: number | null | undefined;
+  scoreText: string;
+  occupationCount: number;
+}
+const { id, edition, nameJa, score, scoreText, occupationCount } = Astro.props;
+const text = occupationScoreCitation({ nameJa, score, scoreText, occupationCount, date: SCORE_PANEL.latestRunDate });
+const href = edition === 'pro' ? '#chp-source' : `${occupationPath(id, 'pro')}#chp-source`;
+---
+{text !== null && <p class="occupation-score-citation" data-score-citation>{text}<a href={href}>出典と数字</a></p>}
+
+<style>
+  .occupation-score-citation{font-size:var(--t-sm);color:var(--ink-2);line-height:1.6;overflow-wrap:anywhere}
+</style>

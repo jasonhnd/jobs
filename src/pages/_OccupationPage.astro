@@ -21,6 +21,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import IdPageScript from './_IdPageScript.astro';
 import RiskCard from './_RiskCard.astro';
+import OccupationScoreCitation from './_OccupationScoreCitation.astro';
 import MeEntry from '@/components/MeEntry.astro';
 import StatsGrid from './_StatsGrid.astro';
 import JobtagAnchor from './_JobtagAnchor.astro';
@@ -74,7 +75,7 @@ const bindings = buildIdPageBindings({
   dateModified: DATE_MODIFIED,
 });
 const {
-  id, canonical, nameJa, risk, mhlwUrl,
+  id, canonical, nameJa, risk, aioisTransformation, mhlwUrl,
   rankInUniverse, rankUniverseTotal, aioisModelDisclaimer, worktype, verdict, aiFactHtml,
   title, seoDesc, ogTitle, ogDesc, keywords,
   ctxH2, ctxHtml,
@@ -132,6 +133,10 @@ const CHAPTERS = [
       {riskNumDisp}
       {verdict}
     />
+
+    {edition === 'pro' && <OccupationScoreCitation id={id} {edition} {nameJa}
+      score={risk != null && Number.isFinite(risk) ? aioisTransformation : null}
+      scoreText={verdict.transformationDisp} occupationCount={rankUniverseTotal} />}
 
     <MeEntry source="occupation" occupationId={id}>
       {
