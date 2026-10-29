@@ -129,9 +129,9 @@ export function buildEducationRankings(
       items: noLicenseRequired,
       showSalary: true,
       faqItems: FAQS['no-license-required'],
-      title: '無資格で就ける × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
+      title: '無資格で就ける × AI影響が少ない職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `関連資格不要で AI 影響度も低い職業 TOP${noLicenseRequired.length}。実務経験ベースで勝負できる分野を一覧。`,
-      h1Text: `無資格で就ける × AI 安全 TOP${noLicenseRequired.length}`,
+      h1Text: `無資格で就ける × AI影響が少ない TOP${noLicenseRequired.length}`,
       subText: '関連資格 <strong>なし</strong> × AI 影響 <strong>5 以下</strong>',
       introText: '関連国家資格を要さず、AI 代替リスクも低い職業群。建設技能職・運輸・対人サービスの一部が該当します。',
       statBlocks: [

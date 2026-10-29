@@ -112,12 +112,12 @@ export function buildOccupationFaqs(
       : '';
     faqs.push([
       `${name}はAIでなくなる・AIに代替される仕事ですか？`,
-      `${name}は「AIでなくなる」と断定する職業ではありません。GEO-AではAI影響度が10段階中 ${fmtScore(factAiRisk)} で、${tier}です。${geoRankStr}${displacementStr}${rationaleStr}${CONSENSUS_FAQ_SENTENCE}職業選択の唯一の根拠としては使用しないでください。`,
+      `${name}は「AIでなくなる」と断定する職業ではありません。本サイトではAI影響度が10段階中 ${fmtScore(factAiRisk)} で、${tier}です。${geoRankStr}${displacementStr}${rationaleStr}${CONSENSUS_FAQ_SENTENCE}職業選択の唯一の根拠としては使用しないでください。`,
     ]);
 
     const outlook =
       band === 'low'
-        ? 'AI に代替されにくく、将来性は比較的安定した'
+        ? 'AI で仕事の中身が変わる部分が比較的小さい'
         : band === 'high'
           ? 'AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に入れたい'
           : 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性がある';
@@ -127,7 +127,7 @@ export function buildOccupationFaqs(
         ? `求人倍率 ${factRecruitRatio.toFixed(2)} 倍。`
         : '';
     faqs.push([
-      `${name}の将来性はどうですか？`,
+      `${name}は、AIでどのくらい変わりますか？`,
       `AI影響度 ${fmtScore(factAiRisk)}/10。${outlook}職業です。${workersStr}${recruitStr}個別の状況に応じた判断が重要です。`,
     ]);
   }

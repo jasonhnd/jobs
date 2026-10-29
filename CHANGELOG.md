@@ -1,8 +1,21 @@
+## Batch 2 integration candidate — Issue #1007
+
+- Integrate the signed batch-2 copy with current preview. The existing SEO
+  snapshots combine batch-2 occupation and ranking copy with preview model
+  images and internal links; a combined capture is pending verification.
+
 ## Scoring history on models — Issue #966
 
 - Add a static, newest-first list of every scoring run using the existing
   model roster and Findings registry, with owner-signed heading and lead.
 - Refresh the internal-link baseline for the new `/pro/models` section anchor.
+
+## Signed legacy copy batch 2 — Issue #960
+
+- Apply the owner-signed Pro ranking FAQ edits in items #21–#26 and #28–#30;
+  retain item #27 under R3 and lock all ten items in exact-copy tests.
+- Refresh FAQ JSON-LD baselines for the seven affected Pro ranking pages.
+  Ranking titles, metadata, routes and score data stay unchanged.
 
 ## Signed Findings issue 1 — Issue #938 (preview discovery, not a production publication)
 

@@ -24,9 +24,21 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   // Exact ranking title: Owner signed 2026-10-10, decision d1009-221958-1 (#901); not a band label.
   ['site/ordinary-ranking-copy.ts', 'AIで大きく変わる仕事 TOP30'],
   ['index-source.html', '<strong class="hc-name">AIで大きく変わる仕事 TOP30</strong>'],
+  // Owner-signed legacy-copy batch 2 R1/R2 card names (#1003). Same title, not a band label.
+  ['views/ranking/build.ts', 'AIで大きく変わる仕事 TOP30'],
+  ['views/rankings-meta.ts', 'AIで大きく変わる仕事 TOP30'],
+  // Owner-signed legacy-copy batch 2 R1/R2 Pro titles (#1003). Same title, not a band label.
+  ['views/ranking/rankings/high-risk.ts', 'AIで大きく変わる仕事ランキング TOP30【2026年版】| 未来の仕事'],
+  ['views/ranking/rankings/high-risk.ts', 'AIで大きく変わる仕事 TOP${TOP_N}'],
   // Owner-signed legacy-copy batch 1, 2026-10-21 (#927), rows #3 and #26a.
   ['pages/404.astro', 'AIで大きく変わる仕事 TOP30'],
   ['pages/pro/yearly/2026-report.astro', 'ケアの仕事は AI 影響が低めで、需要も高い'],
+  // Owner-signed legacy-copy batch 2 (#960), rows #22 and #24; prose, not band labels.
+  ['views/ranking-copy.ts', '同じ業種の中で、AI影響度が低めの職業を探すのも一つの方法です。'],
+  ['views/ranking-copy.ts', 'AI影響度は低めですが、少子高齢化や産業構造の変化など、ほかの要因も考える必要があります。'],
+  // Owner-signed legacy-copy batch 2, item 14 (#958): ranking description, not a band label.
+  ['templates/Ranking.ts', '日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要でランキング。AIで大きく変わる仕事、高年収×低AIリスクの職業などを一覧。'],
+  ['pages/rankings/_RankingsIndex.astro', '日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要でランキング。AIで大きく変わる仕事、高年収×低AIリスクの職業などを一覧。'],
   // 仕事が減るリスク (displacement) explanation, not the AI-impact band.
   ['lib/ai-fact-summary.ts', '職そのものが大きく減るリスクは低め'],
   ['lib/ai-fact-summary.ts', '職そのものが縮小するリスクも相対的に高め'],
@@ -34,14 +46,17 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   // Occupation FAQ 将来性 clause (not in the signed set).
   ['views/occupation-faqs.ts', 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性がある'],
   // Ranking intros, hub descriptions and FAQ prose waiting for a rewrite.
-  ['views/ranking/rankings/high-risk.ts', '現場職が低 AI 影響度のまま安定する'],
+  // Owner-signed legacy-copy batch 2 (#956), row #2. 低め is degree, not a score band.
+  ['views/ranking/rankings/high-risk.ts', 'AI 影響度が低めです'],
   ['views/ranking/rankings/employment.ts', '低 AI 影響度かつ正社員比率が高い'],
   ['views/ranking/rankings/employment.ts', 'AI 影響度も低めの傾向です'],
   ['views/ranking/rankings/intent.ts', '求人需要 <strong>高め以上</strong>'],
+  // Owner-signed legacy-copy batch 2 (#957), row #7. The sentence uses 低め as degree, not a score band.
+  ['views/ranking/rankings/intent.ts', 'AI 影響度も低めの職業です'],
   ['views/ranking/build.ts', 'と全セクターで最高'],
-  ['views/ranking/build.ts', '低 AI 影響かつ正社員中心の安定職'],
+  ['views/ranking/build.ts', '低 AI 影響かつ正規雇用率が高い職業'],
   ['views/ranking/build.ts', '短い労働時間 × 低 AI 影響'],
-  ['views/rankings-meta.ts', '低 AI 影響かつ安定雇用率が高い職業'],
+  ['views/rankings-meta.ts', '低 AI 影響かつ正規雇用率が高い職業'],
   ['views/genre-configs/life-balance.ts', '平均年齢が高めで体力負荷が控えめ'],
   ['views/ranking-copy.ts', 'IT系は高め、サービス・建設系は低めと'],
   ['views/ranking-copy.ts', '時給が高く AI 影響度も低めの傾向です'],
@@ -50,6 +65,9 @@ const ALLOW: ReadonlyArray<readonly [string, string]> = [
   ['views/ranking-copy.ts', '完全代替されるリスクは低めですが'],
   ['views/ranking-copy.ts', '影響度自体は高めに出ます'],
   ['views/ranking-copy.ts', '公安系など、低 AI 影響かつ正社員が中心'],
+  // #961 row 32 reuses the signed #957 row 7 prose (degree, not a score band).
+  ['views/ranking-copy.ts', 'AI 影響度も低めの職業です'],
+  ['views/ranking-copy.ts', 'AI 影響度が低めで、求人も多い領域です'],
   ['views/ranking-copy.ts', 'IT 系は AI 影響度が高めの面もありますが'],
   ['views/ranking-copy.ts', '学歴ハードルが低く AI 影響度も低めです'],
   ['views/ranking-copy.ts', '臨床判断を要する分野は AI 影響度が低めですが'],

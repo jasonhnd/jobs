@@ -110,7 +110,7 @@ describe('buildOccupationFaqs', () => {
     });
     assert.equal(out.length, 2);
     assert.equal(out[0][0], 'プログラマーはAIでなくなる・AIに代替される仕事ですか？');
-    assert.equal(out[1][0], 'プログラマーの将来性はどうですか？');
+    assert.equal(out[1][0], 'プログラマーは、AIでどのくらい変わりますか？');
     // Rationale appears inside the risk answer, with trailing 。 stripped.
     assert.ok(out[0][1].includes('「判断業務が多い」'));
     assert.ok(out[0][1].includes(CONSENSUS_FAQ_SENTENCE));
@@ -122,6 +122,7 @@ describe('buildOccupationFaqs', () => {
     const mid = buildOccupationFaqs({ ...baseInput, aiRisk: 5 });
     const high = buildOccupationFaqs({ ...baseInput, aiRisk: 8 });
     assert.ok(low[0][1].includes('変化は小さく、AI に代替されにくい'));
+    assert.ok(low[1][1].includes('AI で仕事の中身が変わる部分が比較的小さい'));
     assert.ok(mid[0][1].includes('変化は中くらいで、業務の一部が'));
     assert.ok(high[0][1].includes('変化は大きく、業務の多くが'));
   });
@@ -137,7 +138,7 @@ describe('buildOccupationFaqs', () => {
       geoFacts,
     });
     assert.equal(out[0][0], 'プログラマーはAIでなくなる・AIに代替される仕事ですか？');
-    assert.ok(out[0][1].includes('GEO-AではAI影響度が10段階中 8.2'));
+    assert.ok(out[0][1].includes('本サイトではAI影響度が10段階中 8.2'));
     assert.ok(out[0][1].includes('全2職業中1位'));
     assert.ok(out[0][1].includes('仕事が減るリスクは6.4/10'));
     assert.ok(out[1][1].includes('AI影響度 8.2/10'));

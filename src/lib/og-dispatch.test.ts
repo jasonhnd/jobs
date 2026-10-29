@@ -498,7 +498,7 @@ test('ordinary ranking sample has edition-specific AI-high and eight-view OG cop
     return decision.config;
   };
   assert.equal(config('ranking=ai-risk-high&edition=ordinary').title, 'AIで大きく変わる仕事 TOP30');
-  assert.equal(config('ranking=ai-risk-high').title, 'AIに奪われる仕事 TOP30');
+  assert.equal(config('ranking=ai-risk-high').title, 'AIで大きく変わる仕事 TOP30');
   assert.deepEqual(config('ranking=ai-risk-high&edition=pro'), config('ranking=ai-risk-high'));
   assert.equal(config('page=rankings&edition=ordinary').eyebrow, 'RANKINGS · 8 視点');
   assert.equal(config('page=rankings').eyebrow, 'RANKINGS · 39 視点');

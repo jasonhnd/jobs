@@ -399,16 +399,22 @@ describe('signed legacy copy batch 1', () => {
     });
   }
 
-  test('#12 preserves both ranking set prefixes and the occupation fact function', () => {
+  test('#12 occupation and ranking-set fact prefixes use 本サイト', () => {
     const source = read('lib/ai-fact-summary.ts');
+    const occupation = functionBody(source, 'buildOccupationGeoFactSummary');
     const set = functionBody(source, 'buildOccupationSetGeoFactSummary');
-    assert.equal(count(set, 'GEO-Aの全${facts.occupationCount}職業データでは、'), 1);
-    assert.equal(count(set, 'GEO-Aの全${facts.occupationCount}職業データから、'), 1);
-    assert.equal(count(source, '本サイトの全${facts.occupationCount}職業データでは、'), 2);
-    assert.equal(createHash('sha256').update(functionBody(source, 'buildOccupationGeoFactSummary')).digest('hex'),
-      'c41cf14d50931250e2b22c48e68f2020168a451887d8740784216357121c99e9');
-    assert.equal(createHash('sha256').update(functionBody(source, 'buildOccupationSetGeoFactSummary')).digest('hex'),
-      '03f97a45647dfe15b2600db62010580d9a4efc8d39c6ec4805be7f0364d5ec52');
+    assert.equal(count(occupation, '本サイトの全${facts.occupationCount}職業データでは、'), 1);
+    assert.equal(count(occupation, 'GEO-Aの全'), 0);
+    assert.equal(count(set, '本サイトの全${facts.occupationCount}職業データでは、'), 1);
+    assert.equal(count(set, '本サイトの全${facts.occupationCount}職業データから、'), 1);
+    assert.equal(count(set, 'GEO-Aの全'), 0);
+    assert.equal(count(source, '本サイトの全${facts.occupationCount}職業データでは、'), 4);
+    assert.equal(count(source, '本サイトの全${facts.occupationCount}職業データから、'), 1);
+    assert.equal(count(source, 'GEO-Aの全'), 0);
+    assert.equal(createHash('sha256').update(occupation).digest('hex'),
+      '775ef91ea068b0b7d6393fe698ecbf463ac9950dd1e1ca7e946ccd7d8d7ea9c4');
+    assert.equal(createHash('sha256').update(set).digest('hex'),
+      'ab58cee24c238b3de6a0b9263331dbe269d4f59b1e39c4d14d3e39ec39d8ab94');
   });
 
   test('#26 retains the historical distribution instead of recalculating it', () => {
@@ -419,5 +425,38 @@ describe('signed legacy copy batch 1', () => {
     const snapshot = source.indexOf('数値は当時のものです:</p>');
     const note = source.indexOf('この年報は 2026-05-30 時点の記録です。');
     assert.ok(snapshot < note && note < source.indexOf('<ul>', snapshot));
+  });
+});
+
+describe('signed legacy copy batch 2 homepage (#962)', () => {
+  const source = read('index-source.html');
+
+  for (const [item, path, oldCopy, newCopy] of [
+    ['44', '/rankings/ai-risk-low', '将来性のある職業',
+      'AIで仕事の中身が変わりにくい順です。点が低いほど、変わる部分が少ない仕事です。'],
+    ['45', '/rankings/salary-safe', '収入と安定を両立',
+      'AIで変わる度合いが5以下の仕事を、年収が高い順に並べました。右の点数は順位とは別です。'],
+  ]) {
+    test(`#${item}: exact signed description on ${path}`, () => {
+      const card = source.split(`class="hub-card" href="${path}">`)[1]!.split('</a>')[0]!;
+      assert.ok(card.includes(`<span class="hc-desc">${newCopy}</span>`));
+      assert.equal(count(source, newCopy!), 1);
+      assert.equal(count(source, oldCopy!), 0);
+    });
+  }
+
+  test('#46: both map layer labels use the signed metric name', () => {
+    assert.match(source, /<button data-mode="ai_risk" class="active">\s*AI変化度\s*<\/button>/);
+    assert.ok(source.includes('<span id="hintLayerJa" class="hint-value">AI変化度</span>'));
+    assert.equal(count(source, 'AI変化度'), 2);
+    assert.equal(count(source, 'AI リスク'), 0);
+    // updateDimensionHint() overwrites #hintLayerJa from this assignment after load.
+    const inline = read('pages/_index-inline.js');
+    assert.equal(count(inline, 'ai_risk: { ja: "AI変化度", en: "AI Risk" }'), 1);
+    assert.equal(count(inline, 'ai_risk: { ja: "AI リスク"'), 0);
+  });
+
+  test('R3: retains the salary-safe title', () => {
+    assert.ok(source.includes('<strong class="hc-name">高年収×低AIリスク TOP30</strong>'));
   });
 });

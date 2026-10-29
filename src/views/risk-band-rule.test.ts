@@ -26,7 +26,7 @@ const FAQ1_WORD: Record<RiskBand, string> = {
   high: '変化は大きく、業務の多くが AI による代替・補助の対象となる可能性',
 };
 const FAQ2_WORD: Record<RiskBand, string> = {
-  low: 'AI に代替されにくく、将来性は比較的安定した',
+  low: 'AI で仕事の中身が変わる部分が比較的小さい',
   mid: 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性がある',
   high: 'AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に入れたい',
 };
